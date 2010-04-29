@@ -28,10 +28,16 @@
 typedef enum {
     AH_URL_INVALID = -1,
     AH_URL_VALID = 0,
+    AH_URL_TENTATIVE,
     AH_MAILTO_VALID,
     AH_FILE_VALID,
     AH_URL_DEGENERATE,
     AH_MAILTO_DEGENERATE
 } AH_URI_VERIFICATION_STATUS;
 
-#define YY_EXTRA_TYPE unsigned int
+typedef struct _AHURLLength {
+	unsigned long urlLength;
+	unsigned long schemeLength;
+} AHURLLength;
+
+#define YY_EXTRA_TYPE AHURLLength

@@ -76,8 +76,9 @@
 
         URLIsValid = [AHHyperlinkScanner isStringValidURI:linkURL
 											  usingStrict:YES
-												fromIndex:nil
-											   withStatus:&validStatus];
+												fromIndex:NULL
+											   withStatus:&validStatus
+											   schemeLength:NULL];
     }
 }
 

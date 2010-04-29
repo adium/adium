@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -68,6 +68,10 @@
 		3496A82007CE69270055BBAB /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AHHyperlinkScanner.m; path = Source/AHHyperlinkScanner.m; sourceTree = "<group>"; };
 		3496A82107CE69270055BBAB /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AHHyperlinkScanner.h; path = Source/AHHyperlinkScanner.h; sourceTree = "<group>"; };
 		3496A82207CE69270055BBAB /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AHMarkedHyperlink.m; path = Source/AHMarkedHyperlink.m; sourceTree = "<group>"; };
+		7E0CF1AF11769E6100EDC305 /* AutoHyperlinks.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AutoHyperlinks.xcconfig; path = xcconfigs/AutoHyperlinks.xcconfig; sourceTree = "<group>"; };
+		7E0CF30C11769F4C00EDC305 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfigs/Debug.xcconfig; sourceTree = "<group>"; };
+		7E0CF31811769FBD00EDC305 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfigs/Release.xcconfig; sourceTree = "<group>"; };
+		7E0CF31B11769FE700EDC305 /* Release-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Release-Debug.xcconfig"; path = "xcconfigs/Release-Debug.xcconfig"; sourceTree = "<group>"; };
 		7E4C24320DD20C0100DF1359 /* NegativeURLTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NegativeURLTest.h; path = UnitTests/NegativeURLTest.h; sourceTree = "<group>"; };
 		7E4C24330DD20C0100DF1359 /* NegativeURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NegativeURLTest.m; path = UnitTests/NegativeURLTest.m; sourceTree = "<group>"; };
 		7E4C24360DD20C9900DF1359 /* HyperlinkContextTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HyperlinkContextTest.h; path = UnitTests/HyperlinkContextTest.h; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				7E0CF1A011769DE400EDC305 /* xcconfigs */,
 			);
 			name = AIHyperlinks.framework;
 			sourceTree = "<group>";
@@ -239,6 +244,17 @@
 				7E78DA140DD133F300B9388F /* AutoHyperlinks.framework_Test_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		7E0CF1A011769DE400EDC305 /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				7E0CF31B11769FE700EDC305 /* Release-Debug.xcconfig */,
+				7E0CF1AF11769E6100EDC305 /* AutoHyperlinks.xcconfig */,
+				7E0CF30C11769F4C00EDC305 /* Debug.xcconfig */,
+				7E0CF31811769FBD00EDC305 /* Release.xcconfig */,
+			);
+			name = xcconfigs;
 			sourceTree = "<group>";
 		};
 		7EA3B03C0DD1150E002A18D1 /* UnitTests */ = {
@@ -381,10 +397,10 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = NO;
+				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* AIHyperlinks.framework */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -520,7 +536,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -529,7 +544,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -548,7 +562,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -558,7 +571,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
@@ -576,7 +588,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -585,13 +596,13 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = "Release-Debug";
 		};
 		34C57363093E5E6E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -603,8 +614,6 @@
 				GCC_PREFIX_HEADER = AutoHyperlinks.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
-				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = AutoHyperlinks;
@@ -616,20 +625,8 @@
 		};
 		34C57364093E5E6E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E0CF31B11769FE700EDC305 /* Release-Debug.xcconfig */;
 			buildSettings = {
-				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = 4.2;
-				INFOPLIST_OUTPUT_FORMAT = binary;
-				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
-				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.5;
-				SYMROOT = ../../build;
 			};
 			name = "Release-Debug";
 		};
@@ -637,7 +634,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -649,7 +645,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INFOPLIST_FILE = "Resources/Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
@@ -666,7 +661,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
@@ -677,7 +671,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INFOPLIST_FILE = "Resources/Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
@@ -694,7 +687,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -703,7 +695,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INFOPLIST_FILE = "Resources/Test-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
@@ -727,7 +718,6 @@
 				GCC_PREFIX_HEADER = LinkDriver/LinkDriver.pch;
 				INFOPLIST_FILE = "LinkDriver/LinkDriver-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -749,7 +739,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "LinkDriver/LinkDriver-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -770,7 +759,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "LinkDriver/LinkDriver-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -800,7 +788,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -809,7 +796,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHThreadedStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -828,7 +814,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -838,7 +823,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHThreadedStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};
@@ -856,7 +840,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "TEST_URIS_FILE_PATHNAME=\"\\\"$(SRCROOT)/TestURIs.txt\\\"\"";
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "$(DEVELOPER_FRAMEWORKS_DIR)";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -865,7 +848,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = AHThreadedStressTester;
-				SDKROOT = macosx10.5;
 			};
 			name = "Release-Debug";
 		};
@@ -883,10 +865,7 @@
 				GCC_PREFIX_HEADER = AutoHyperlinks.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
-				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
-				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRODUCT_NAME = AutoHyperlinks;
 				SKIP_INSTALL = YES;
@@ -898,6 +877,7 @@
 		DA8A8085085549EE00F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -909,8 +889,6 @@
 				GCC_PREFIX_HEADER = AutoHyperlinks.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				LEX = "$(SRCROOT)/Utilities/usr/bin/flex";
-				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				PREBINDING = NO;
 				PRODUCT_NAME = AutoHyperlinks;
@@ -923,33 +901,15 @@
 		};
 		DA8A8088085549EE00F24BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E0CF30C11769F4C00EDC305 /* Debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = 4.2;
-				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.5;
-				SYMROOT = ../../build;
 			};
 			name = Debug;
 		};
 		DA8A8089085549EE00F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E0CF31811769FBD00EDC305 /* Release.xcconfig */;
 			buildSettings = {
-				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = 4.2;
-				INFOPLIST_OUTPUT_FORMAT = binary;
-				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
-				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.5;
-				SYMROOT = ../../build;
 			};
 			name = Release;
 		};
