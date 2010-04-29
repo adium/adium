@@ -236,7 +236,10 @@
 	[self releaseResources];
 	[timeStampFormatter release];
 	
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver: self];
+	
 	[statusIconPathCache release];
+	[timeFormatterCache release];
 
 	self.activeVariant = nil;
 	
@@ -321,6 +324,10 @@
 		[timeStampFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[timeStampFormatter setDateFormat:format];
 	}
+}
+
+- (void) flushTimeFormatterCache:(id)dummy {
+	[timeFormatterCache removeAllObjects];
 }
 
 @synthesize allowTextBackgrounds, customBackgroundType, customBackgroundColor, showIncomingMessageColors=showIncomingColors, showIncomingMessageFonts=showIncomingFonts, customBackgroundPath, nameFormat, useCustomNameFormat, showHeader, showUserIcons;
@@ -815,22 +822,29 @@
 			endRange = [inString rangeOfString:@"}%" options:NSLiteralSearch range:NSMakeRange(NSMaxRange(range), [inString length] - NSMaxRange(range))];
 			if (endRange.location != NSNotFound && endRange.location > NSMaxRange(range)) {
 				if (date) {
+					if (!timeFormatterCache) {
+						timeFormatterCache = [[NSMutableDictionary alloc] init];
+						[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(flushTimeFormatterCache:) name:@"AppleDatePreferencesChangedNotification" object:nil];
+						[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(flushTimeFormatterCache:) name:@"AppleTimePreferencesChangedNotification" object:nil];
+					}
 					NSString *timeFormat = [inString substringWithRange:NSMakeRange(NSMaxRange(range), (endRange.location - NSMaxRange(range)))];
 					
-					NSDateFormatter *dateFormatter;
-					if ([timeFormat rangeOfString:@"%"].location != NSNotFound) {
-						/* Support strftime-style format strings, which old message styles may use */
-						dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
-					} else {
-						dateFormatter = [[NSDateFormatter alloc] init];
-						[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
-						[dateFormatter setDateFormat:timeFormat];
+					NSDateFormatter *dateFormatter = [timeFormatterCache objectForKey:timeFormat];
+					if (!dateFormatter) {
+						if ([timeFormat rangeOfString:@"%"].location != NSNotFound) {
+							/* Support strftime-style format strings, which old message styles may use */
+							dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
+						} else {
+							dateFormatter = [[NSDateFormatter alloc] init];
+							[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
+							[dateFormatter setDateFormat:timeFormat];
+						}
+						[timeFormatterCache setObject:dateFormatter forKey:timeFormat];
+						[dateFormatter release];
 					}
 					
 					[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
 												withString:[dateFormatter stringFromDate:date]];
-					
-					[dateFormatter release];
 					
 				} else
 					[inString deleteCharactersInRange:NSUnionRange(range, endRange)];
