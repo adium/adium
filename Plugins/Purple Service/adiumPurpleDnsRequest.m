@@ -122,9 +122,10 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 - (void)lookupSucceededWithAddresses:(NSArray *)addresses
 {
 	//Success! Build a list of our results and pass it to the resolved callback
-	AILog(@"DNS resolve complete for %s:%d",
+	AILog(@"DNS resolve complete for %s:%d; %d addresses returned",
 		  purple_dnsquery_get_host(query_data),
-		  purple_dnsquery_get_port(query_data));	
+		  purple_dnsquery_get_port(query_data),
+		  [addresses count]);	
 
 	NSData		 *address;
 	GSList		 *returnAddresses = NULL;
