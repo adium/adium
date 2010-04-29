@@ -121,7 +121,7 @@
 
 			if (linkURL) {
 				//Only use the pasteboard if it contains a valid URL; otherwise it most likely is not intended for us.
-				if (![AHHyperlinkScanner isStringValidURI:linkURL usingStrict:NO fromIndex:0U withStatus:nil]) {
+				if (![AHHyperlinkScanner isStringValidURI:linkURL usingStrict:NO fromIndex:0U withStatus:NULL schemeLength:NULL]) {
 					linkURL = nil;
 				}
 			}

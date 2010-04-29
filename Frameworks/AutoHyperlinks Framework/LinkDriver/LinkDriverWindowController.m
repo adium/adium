@@ -11,6 +11,14 @@
 #define VIEW_KEY @"linkView"
 
 @implementation LinkDriverWindowController
+-(void) performLinkification:(NSTextView *)inView
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithAttributedString:[inView textStorage]];
+	[[inView textStorage] setAttributedString:[scanner linkifiedString]];
+	[pool release];
+}
+
 -(IBAction) linkifyTextView:(id)sender {
 	[NSThread	detachNewThreadSelector:@selector(performLinkification:)
 							   toTarget:self
@@ -18,17 +26,5 @@
 	[NSThread	detachNewThreadSelector:@selector(performLinkification:)
 							   toTarget:self
 							 withObject:otherView];
-}
-
--(void) performLinkification:(NSTextView *)inView
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithAttributedString:[inView textStorage]];
-	NSAttributedString *attributedString = [scanner linkifiedString];
-	
-	[[inView textStorage] performSelectorOnMainThread:@selector(setAttributedString:)
-										   withObject:attributedString
-										waitUntilDone:NO];
-	[pool release];
 }
 @end

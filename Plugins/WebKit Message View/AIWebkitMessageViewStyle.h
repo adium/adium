@@ -124,8 +124,8 @@ typedef enum {
 	NSColor			*customBackgroundColor;
 	NSImage			*userIconMask;
 
-	//icon path caches
 	NSMutableDictionary *statusIconPathCache;
+	NSMutableDictionary	*timeFormatterCache;
 }
 
 /*!

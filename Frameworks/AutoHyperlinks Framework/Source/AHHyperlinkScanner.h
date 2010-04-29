@@ -29,11 +29,12 @@
 
 typedef void* yyscan_t;
 
-extern long AHlex( yyscan_t yyscanner );
-extern long AHlex_init( yyscan_t * ptr_yy_globals );
-extern long AHlex_destroy ( yyscan_t yyscanner );
-extern long AHget_leng ( yyscan_t scanner );
-extern void AHset_in ( FILE * in_str , yyscan_t scanner );
+extern long				AHlex( yyscan_t yyscanner );
+extern long				AHlex_init( yyscan_t * ptr_yy_globals );
+extern long				AHlex_destroy ( yyscan_t yyscanner );
+extern long				AHget_leng ( yyscan_t scanner );
+extern void				AHset_in ( FILE * in_str , yyscan_t scanner );
+extern YY_EXTRA_TYPE	AHget_extra ( yyscan_t scanner );
 
 typedef struct AH_buffer_state *AH_BUFFER_STATE;
 extern void AH_switch_to_buffer(AH_BUFFER_STATE, yyscan_t scanner);
@@ -46,8 +47,12 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 {
 	NSDictionary        *m_urlSchemes;
 	NSString            *m_scanString;
+#ifdef TARGET_OS_IPHONE
+	NSString            *m_linkifiedString
+#else
 	NSAttributedString  *m_scanAttrString;
 	NSAttributedString  *m_linkifiedString;
+#endif
 	BOOL                 m_strictChecking;
 	unsigned long        m_scanLocation;
 	unsigned long        m_scanStringLength;
@@ -72,6 +77,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 + (id)strictHyperlinkScannerWithString:(NSString *)inString;
 
+#ifndef TARGET_OS_IPHONE
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given attributed string
  *
@@ -87,6 +93,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @return a new AHHyperlinkScanner
  */
 + (id)strictHyperlinkScannerWithAttributedString:(NSAttributedString *)inString;
+#endif
 
 /*!
  * @brief Determine the validity of a given string with a custom strictness
@@ -96,7 +103,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @param index a pointer to the index the string starts at, for easy incrementing.
  * @return Boolean
  */
-+ (BOOL)isStringValidURI:(NSString *)inString usingStrict:(BOOL)useStrictChecking fromIndex:(unsigned long *)index withStatus:(AH_URI_VERIFICATION_STATUS *)validStatus;
++ (BOOL)isStringValidURI:(NSString *)inString usingStrict:(BOOL)useStrictChecking fromIndex:(unsigned long *)index withStatus:(AH_URI_VERIFICATION_STATUS *)validStatus schemeLength:(unsigned long *)schemeLength;
 
 /*!
  * @brief Init
@@ -109,6 +116,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag;
 
+#ifndef TARGET_OS_IPHONE
 /*!
  * @brief Init
  *
@@ -118,8 +126,8 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @param flag Sets strict checking preference.
  * @return A new AHHyperlinkScanner.
  */
- - (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag;
-
+- (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag;
+#endif
 
 /*!
  * @brief Determine the validity of the scanner's string using the set strictness
@@ -142,11 +150,18 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (NSArray *)allURIs;
 
+#ifdef TARGET_OS_IPHONE
 /*!
- * @brief Scans an attributed string for URIs then adds the link attribs and objects.
- * @param inString The NSAttributedString to be linkified
+ * @brief Scans the stored string for URIs then adds the link attribs and objects.
+ * @return An autoreleased NSString.
+ */
+- (NSString *)linkifiedString;
+#else
+/*!
+ * @brief Scans the stored string for URIs then adds the link attribs and objects.
  * @return An autoreleased NSAttributedString.
  */
 - (NSAttributedString *)linkifiedString;
+#endif
 
 @end
