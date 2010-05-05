@@ -279,8 +279,8 @@
 		AH_URI_VERIFICATION_STATUS	 validStatus;
 		NSString					*_scanString = nil;
 		unsigned long				 schemeLength = 0;
-		if(3 < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
-        if((3 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:&m_scanLocation withStatus:&validStatus schemeLength:&schemeLength]){
+		if(4 < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
+        if((4 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:&m_scanLocation withStatus:&validStatus schemeLength:&schemeLength]){
             AHMarkedHyperlink	*markedLink;
 			BOOL				 makeLink = TRUE;
             //insert typical specifiers if the URL is degenerate
@@ -312,11 +312,11 @@
 				case AH_URL_TENTATIVE:
 				{
 					NSString *scheme = [_scanString substringToIndex:schemeLength];
-					NSString *app = (NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)scheme);
+					NSArray *apps = (NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme);
 
-					if(!app)
+					if(!apps.count)
 						makeLink = FALSE;
-					[app release];
+					[apps release];
 					break;
 				}
                 default:
