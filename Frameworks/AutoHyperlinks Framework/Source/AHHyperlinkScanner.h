@@ -48,7 +48,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 	NSDictionary        *m_urlSchemes;
 	NSString            *m_scanString;
 #ifdef TARGET_OS_IPHONE
-	NSString            *m_linkifiedString
+	NSString            *m_linkifiedString;
 #else
 	NSAttributedString  *m_scanAttrString;
 	NSAttributedString  *m_linkifiedString;
