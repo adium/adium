@@ -113,6 +113,7 @@
 - (NSString *)getUserInformationFor:(NSString *)username;
 - (NSString *)getUserInformationForEmail:(NSString *)email;
 - (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)pageNum;
+- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtCursor:(long long)cursorNum;
 - (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag;
 - (NSString *)getFeaturedUsers;
 

@@ -18,7 +18,7 @@
 #import "MGTwitterMessagesParser.h"
 #import "MGTwitterMiscParser.h"
 
-#define TWITTER_DOMAIN          @"twitter.com"
+#define TWITTER_DOMAIN          @"api.twitter.com/1"
 #define HTTP_POST_METHOD        @"POST"
 #define HTTP_MULTIPART_METHOD	@"MULTIPART" //adium
 #define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96" //adium
@@ -1225,6 +1225,23 @@
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
+    }
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterUserInfoRequest 
+                           responseType:MGTwitterUsers];
+}
+
+- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtCursor:(long long)cursorNum
+{
+    NSString *path = @"statuses/friends.xml";
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (username) {
+        path = [NSString stringWithFormat:@"statuses/friends/%@.xml", username];
+    }
+    if (cursorNum >= -1) {
+        [params setObject:[NSString stringWithFormat:@"%lld", cursorNum] forKey:@"cursor"];
     }
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 

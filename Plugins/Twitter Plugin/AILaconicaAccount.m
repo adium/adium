@@ -16,6 +16,14 @@
 
 #import "AILaconicaAccount.h"
 #import "AITwitterURLParser.h"
+#import <Adium/AIContactObserverManager.h>
+
+@interface AITwitterAccount()
+
+- (BOOL)checkForCursorSupport;
+
+@end
+
 
 @implementation AILaconicaAccount
 
@@ -26,6 +34,7 @@
 												  [NSNumber numberWithBool:YES], LACONICA_PREFERENCE_SSL, nil]
 										forGroup:LACONICA_PREF_GROUP
 										  object:self];
+	supportsCursors = [self checkForCursorSupport];
 }
 
 - (void)connect
@@ -180,6 +189,18 @@
  * XXX When Laconica officially supports a retweet API, remove this method entirely.
  */
 - (BOOL)retweetTweet:(NSString *)tweetID
+{
+	return NO;
+}
+
+/*!
+ * @brief Check if the server supports cursor based userlists.
+ *
+ * @returns YES if the support cursor lists, NO if the account doesn't support it.
+ *
+ * XXX This should probably do some actual checking so we don't have to touch this when it goes live.
+ */
+- (BOOL)checkForCursorSupport
 {
 	return NO;
 }
