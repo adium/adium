@@ -884,8 +884,11 @@
 				  withString:[AIServiceIcons pathForServiceIconForServiceID:content.chat.account.service.serviceID
 																	   type:AIServiceIconLarge]];
 
-	[inString replaceKeyword:@"%variant%"
-				  withString:self.activeVariant];
+	if ([inString rangeOfString:@"%variant%"].location != NSNotFound) {
+		/* Per #12702, don't allow spaces in the variant name, as otherwise it becomes multiple css classes */
+		[inString replaceKeyword:@"%variant%"
+					  withString:[self.activeVariant stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
+	}
 
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
@@ -1310,9 +1313,12 @@
  		}
  	}
 	
-	[inString replaceKeyword:@"%variant%"
-				  withString:self.activeVariant];
-
+	if ([inString rangeOfString:@"%variant%"].location != NSNotFound) {
+		/* Per #12702, don't allow spaces in the variant name, as otherwise it becomes multiple css classes */
+		[inString replaceKeyword:@"%variant%"
+					  withString:[self.activeVariant stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
+	}
+	
 	return inString;
 }
 
