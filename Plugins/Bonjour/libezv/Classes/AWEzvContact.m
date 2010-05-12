@@ -63,6 +63,8 @@
 	self.uniqueID = nil;
 	self.contactImageData = nil;
 	self.idleSinceDate = nil;
+
+	self.stream.delegate = nil;
 	self.stream = nil;
 	self.rendezvous = nil;
 	self.ipAddr = nil;
