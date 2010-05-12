@@ -11,7 +11,7 @@
 #import "MGTwitterStatusesParser.h"
 
 @interface MGTwitterUsersParser : MGTwitterStatusesParser {
-
+	BOOL	supportsCursorPaging;
 }
 
 @end

@@ -134,6 +134,8 @@ typedef enum {
 #define TWITTER_INFO_DISPLAY_NAME			@"name"
 #define TWITTER_INFO_UID					@"screen_name"
 #define TWITTER_INFO_ICON					@"profile_image_url"
+#define TWITTER_INFO_PREVIOUS_CURSOR		@"previous_cursor"
+#define TWITTER_INFO_NEXT_CURSOR			@"next_cursor"
 
 // Rate Limit
 #define TWITTER_RATE_LIMIT_HOURLY_LIMIT		@"hourly-limit"
@@ -152,6 +154,7 @@ typedef enum {
 	
 	BOOL				followedTimelineCompleted;
 	BOOL				repliesCompleted;
+	BOOL				supportsCursors;
 	NSMutableArray		*queuedUpdates;
 	NSMutableArray		*queuedDM;
 	NSMutableArray		*queuedOutgoingDM;
@@ -169,6 +172,7 @@ typedef enum {
 
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
+@property (readonly, nonatomic) BOOL supportsCursors;
 @property (readonly, nonatomic) NSString *consumerKey;
 @property (readonly, nonatomic) NSString *secretKey;
 @property (readonly, nonatomic) NSString *tokenRequestURL;
