@@ -21,7 +21,6 @@ typedef enum {
 	AITinyURL = 0,
 	AIisgd,
 	AIMetamark,
-	AITrim,
 	AIKlam,
 	AINumberOfShortenLinkServices
 } AIShortenLinkService;
