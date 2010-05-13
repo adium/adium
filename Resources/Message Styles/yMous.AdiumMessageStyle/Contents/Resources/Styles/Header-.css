@@ -1,0 +1,54 @@
+﻿@charset "utf-8";
+
+#header
+{
+	cursor: default;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 5;
+	display: none;
+}
+
+#x-header
+{
+	-webkit-transition: opacity .4s linear;
+}
+
+/* @group toggle */
+
+.toggle
+{
+	position: fixed;
+	top: 2px;
+	left: 3px;
+	padding: 2px;
+	z-index: 10;
+	cursor: default;
+	font-size: 10px !important;
+	font-family: AppleGothic;
+	z-index: 999;
+	cursor: pointer;
+	background:	rgba(208, 208, 208, .85);
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .2);
+}
+
+#toggle_hide:before
+{
+	content: "\25BD";
+}
+
+#toggle_hide:hover:before
+{
+	content: "\25BC";
+}
+
+#toggle_show:before
+{
+	content: "\25B3";
+}
+
+#toggle_show:hover:before
+{
+	content: "\25B2";
+}
