@@ -368,9 +368,9 @@ static NSArray *draggedTypes = nil;
 	NSString *activeVariant;
 	activeVariant = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
 														   group:preferenceGroup];
-	if (!activeVariant)
+	if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant])
 		activeVariant = [messageStyle defaultVariant];
-	if (!activeVariant) {
+	if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant]) {
 		/* If the message style doesn't specify a default variant, choose the first one.
 		 * Note: Old styles (styleVersion < 3) will always report a variant for defaultVariant.
 		 */
