@@ -181,7 +181,6 @@
 		11BD73AE0F5A53EA007D438A /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 345D68950F1FD563002F2D01 /* facebook.png */; };
 		11BD73D30F5A54BB007D438A /* twitter-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD73D10F5A54BB007D438A /* twitter-small.png */; };
 		11BD73D40F5A54BB007D438A /* twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD73D20F5A54BB007D438A /* twitter.png */; };
-		11BE289A0FCC7C13000E6A10 /* AIPicImImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE28990FCC7C13000E6A10 /* AIPicImImageUploader.m */; };
 		11BE28DF0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE28DE0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m */; };
 		11BE29640FCCA8DA000E6A10 /* ImageUploaderProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11BE29630FCCA8DA000E6A10 /* ImageUploaderProgress.nib */; };
 		11BE29680FCCA9E3000E6A10 /* AIImageUploaderWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE29670FCCA9E3000E6A10 /* AIImageUploaderWindowController.m */; };
@@ -2033,8 +2032,6 @@
 		11AE5575109CCC950074BDC2 /* irc-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "irc-small.png"; path = "Plugins/Purple Service/irc-small.png"; sourceTree = "<group>"; };
 		11BD73D10F5A54BB007D438A /* twitter-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "twitter-small.png"; path = "Plugins/Twitter Plugin/twitter-small.png"; sourceTree = "<group>"; };
 		11BD73D20F5A54BB007D438A /* twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitter.png; path = "Plugins/Twitter Plugin/twitter.png"; sourceTree = "<group>"; };
-		11BE28980FCC7C13000E6A10 /* AIPicImImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPicImImageUploader.h; path = "Plugins/Image Uploading Plugin/AIPicImImageUploader.h"; sourceTree = "<group>"; };
-		11BE28990FCC7C13000E6A10 /* AIPicImImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPicImImageUploader.m; path = "Plugins/Image Uploading Plugin/AIPicImImageUploader.m"; sourceTree = "<group>"; };
 		11BE28DD0FCC7D2B000E6A10 /* AIImageUploaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageUploaderPlugin.h; path = "Plugins/Image Uploading Plugin/AIImageUploaderPlugin.h"; sourceTree = "<group>"; };
 		11BE28DE0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageUploaderPlugin.m; path = "Plugins/Image Uploading Plugin/AIImageUploaderPlugin.m"; sourceTree = "<group>"; };
 		11BE29630FCCA8DA000E6A10 /* ImageUploaderProgress.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ImageUploaderProgress.nib; path = "Plugins/Image Uploading Plugin/ImageUploaderProgress.nib"; sourceTree = "<group>"; };
@@ -5090,8 +5087,6 @@
 				11BE29670FCCA9E3000E6A10 /* AIImageUploaderWindowController.m */,
 				11BE28DD0FCC7D2B000E6A10 /* AIImageUploaderPlugin.h */,
 				11BE28DE0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m */,
-				11BE28980FCC7C13000E6A10 /* AIPicImImageUploader.h */,
-				11BE28990FCC7C13000E6A10 /* AIPicImImageUploader.m */,
 				11D915570FFC0E9C00B39713 /* AIImageShackImageUploader.h */,
 				11D915580FFC0E9C00B39713 /* AIImageShackImageUploader.m */,
 				11D915700FFC100700B39713 /* AIGenericMultipartImageUploader.h */,
@@ -9573,7 +9568,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = NO;
 			};
-			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
+			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "adium" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -10709,7 +10704,6 @@
 				112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */,
 				11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */,
 				638BC1FC0FC932E000CE7600 /* AIObjectDebug.m in Sources */,
-				11BE289A0FCC7C13000E6A10 /* AIPicImImageUploader.m in Sources */,
 				11BE28DF0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m in Sources */,
 				11BE29680FCCA9E3000E6A10 /* AIImageUploaderWindowController.m in Sources */,
 				1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */,
@@ -12881,7 +12875,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */ = {
+		DADE8E3A085507450062B664 /* Build configuration list for PBXProject "adium" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DADE8E3B085507450062B664 /* Debug */,
