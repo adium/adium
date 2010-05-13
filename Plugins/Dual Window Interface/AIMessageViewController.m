@@ -1062,10 +1062,16 @@
 		completions = [NSMutableArray array];
 		
 		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
-			NSString *displayName = [self.chat aliasForContact:listContact];
+			// For each matching contact: if chatShouldAutoCompleteUID, then return the formattedUID
+			// else return the displayName
+			NSString *displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
 			
-			if (!displayName)
-				displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+			// Check the alias. If it's the same as the UID or displayName except for case, use the alias
+			// (Since it probably is mixed case)
+			NSString *alias = [self.chat aliasForContact:listContact];
+			if ([alias caseInsensitiveCompare:displayName] == NSOrderedSame) {
+				displayName = alias;
+			}
 			
 			[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
 		}
