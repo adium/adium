@@ -1,0 +1,55 @@
+#x-heading
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	margin: 0;
+	padding: 5px;
+	font-weight: regular;
+	background-color: #fbfbed;
+	z-index: 99;
+	width: 100%;
+	height: 45px;
+	line-height: 1.2;
+	border-bottom: 2px solid #d5d5d5;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(251, 251, 251, 1)), to(rgba(244, 244, 244, 1)));
+}
+
+#x-heading .x-conversationIncomingIcon
+{
+	position: absolute;
+	left: 4px;
+	top: 4px;
+}
+
+#x-heading .x-conversationIncomingIcon img
+{
+	width: 48px;
+	height: 48px;
+}
+
+#x-heading .x-conversationWith
+{
+	position: relative;
+	left: 61px;
+	margin: 8px 0 0 0;
+	font-size: 16px;
+	font-weight: bold;
+	overflow: hide;
+}
+
+#x-heading .x-conversationTime
+{
+	position: relative;
+	left: 61px;
+	color: #6d6d6d;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+body
+{
+	margin-top: 65px;
+}
+
