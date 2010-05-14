@@ -23,6 +23,7 @@ astest:
 	osascript unittest\ runner.applescript | tr '\r' '\n'
 
 install:
+	mkdir -p ~/Applications
 	cp -R build/$(BUILDCONFIGURATION)/Adium.app ~/Applications/
 
 clean:
