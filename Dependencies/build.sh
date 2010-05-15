@@ -178,7 +178,6 @@ else
     	build_otr $@
     else
 	   build_meanwhile $@
-    	build_gadugadu $@
 
     	build_intltool $@
     	build_jsonglib $@
