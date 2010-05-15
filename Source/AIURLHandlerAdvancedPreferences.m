@@ -58,6 +58,9 @@
 	[checkBox_enforceDefault setState:[[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
 																			  group:GROUP_URL_HANDLING] boolValue]];
 	
+	[tableView setEnabled:![[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
+																   group:GROUP_URL_HANDLING] boolValue]];
+	
 	[super viewDidLoad];
 }
 
@@ -80,6 +83,8 @@
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 									   forKey:PREF_KEY_ENFORCE_DEFAULT
 										group:GROUP_URL_HANDLING];
+	
+	[tableView setEnabled:![sender state]];
 	
 	if ([sender state]) {
 		[plugin setAdiumAsDefault];
@@ -198,6 +203,12 @@
 }
 
 #pragma mark Table view Delegate
+
+- (void)refreshTable
+{
+	[tableView reloadData];
+}
+
 - (void)configureTableView
 {
 	AIImageTextCell		*imageTextCell = [[AIImageTextCell alloc] init];
