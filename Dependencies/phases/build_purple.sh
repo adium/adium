@@ -90,8 +90,6 @@ build_libpurple() {
 		export ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal"
 		export LIBXML_CFLAGS="-I/usr/include/libxml2"
 		export LIBXML_LIBS="-lxml2"
-		export GADU_CFLAGS="-I$ROOTDIR/build/include"
-		export GADU_LIBS="-lgadu"
 		export MEANWHILE_CFLAGS="-I$ROOTDIR/build/include/meanwhile \
 			-I$ROOTDIR/build/include/glib-2.0 \
 			-I$ROOTDIR/build/lib/glib-2.0/include"

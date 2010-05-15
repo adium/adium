@@ -178,37 +178,6 @@ build_meanwhile() {
 }
 
 ##
-# Gadu-Gadu
-#
-build_gadugadu() {
-	# We used to use 1.7.1, which is pretty outdated. Is there a reason?
-	prereq "gadu-gadu" \
-		"http://toxygen.net/libgadu/files/libgadu-1.8.2.tar.gz"
-	
-	quiet pushd "$ROOTDIR/source/gadu-gadu"
-	
-	if needsconfigure $@; then
-	(
-		status "Configuring Gadu-Gadu"
-		CONFIG_CMD="./configure \
-			--prefix=$ROOTDIR/build \
-			--disable-static \
-			--enable-shared \
-			--disable-dependency-tracking"
-		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
-			"${ROOTDIR}/source/gadu-gadu/config.h" \
-			"${ROOTDIR}/source/gadu-gadu/include/libgadu.h"
-	)
-	fi
-	
-	status "Building and installing Gadu-Gadu"
-	log make -j $NUMBER_OF_CORES
-	log make install
-	
-	quiet popd
-}
-
-##
 # intltool
 #
 INTL_VERSION=8
