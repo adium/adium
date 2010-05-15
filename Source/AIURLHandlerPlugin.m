@@ -198,6 +198,8 @@
 	for (NSString *scheme in [self allSchemesLikeScheme:inScheme]) {
 		LSSetDefaultHandlerForURLScheme((CFStringRef)scheme, (CFStringRef)bundleID);
 	}
+	
+	[preferences refreshTable];
 }
 
 /*!

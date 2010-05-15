@@ -21,4 +21,6 @@
 - (IBAction)setDefault:(id)sender;
 - (IBAction)enforceDefault:(id)sender;
 
+- (void)refreshTable;
+
 @end
