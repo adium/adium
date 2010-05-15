@@ -84,7 +84,6 @@ prep_headers() {
 		quiet rm -rf "${purpleDir}"
 		quiet mkdir "${purpleDir}"
 		log cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
-		log cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
 		status "Completed staging headers"
 	fi
 }
