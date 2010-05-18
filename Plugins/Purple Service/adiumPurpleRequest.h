@@ -15,6 +15,7 @@
  */
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
+#import <Adium/AIPasswordPromptController.h>
 
 PurpleRequestUiOps *adium_purple_request_get_ui_ops();
 
@@ -27,5 +28,5 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops();
 	
 }
 + (void)requestCloseWithHandle:(id)handle;
-
++ (void)returnedPassword:(NSString *)password returnCode:(AIPasswordPromptReturn)returnCode context:(id)context;
 @end
