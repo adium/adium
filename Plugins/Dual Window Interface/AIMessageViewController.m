@@ -1062,18 +1062,20 @@
 		completions = [NSMutableArray array];
 		
 		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
-			// For each matching contact: if chatShouldAutoCompleteUID, then return the formattedUID
-			// else return the displayName
-			NSString *displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+			// For each matching contact: if chatShouldAutoCompleteUID, then use the formattedUID
+			// else use the displayName
+			NSString *completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
 			
-			// Check the alias. If it's the same as the UID or displayName except for case, use the alias
-			// (Since it probably is mixed case)
-			NSString *alias = [self.chat aliasForContact:listContact];
-			if ([alias caseInsensitiveCompare:displayName] == NSOrderedSame) {
-				displayName = alias;
+			// Check the displayNameForContact (either the alias or, if it doesn't exist, the displayName).
+			// If it is the same as the completion except for case, use it (makes it complete in pretty case).
+			// We must check to see if it exists before running a string comparison on it.
+			NSString *aliasOrDisplayName = [self.chat displayNameForContact:listContact];
+			if (aliasOrDisplayName && [aliasOrDisplayName caseInsensitiveCompare:completion] == NSOrderedSame) {
+				completion = aliasOrDisplayName;
 			}
 			
-			[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
+			// Add what we came up with to the completions list (with suffix if at beginning of line)
+			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
 		}
 		
 		if ([self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
