@@ -16,9 +16,6 @@
 
 #import "ESPurpleMSNAccount.h"
 
-#import <libpurple/state.h>
-#import <libpurple/msn.h>
-
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -361,8 +358,14 @@
 			}
 
 			
-			if (friendlyNameUTF8String && friendlyNameUTF8String[0])
-				msn_act_id(purple_account_get_connection(account), friendlyNameUTF8String);
+			PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
+			
+			if (prpl_info && prpl_info->set_public_alias) {
+				(prpl_info->set_public_alias)(purple_account_get_connection(account),
+											  friendlyNameUTF8String,
+											  /* success_cb */ NULL,
+											  /* failure_cb */ NULL);
+			}
 
 			[lastFriendlyNameChange release];
 			lastFriendlyNameChange = [now retain];
