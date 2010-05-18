@@ -271,6 +271,9 @@
 
 	//Connect Host - save first in case the account uses the server name for password storage.
 	NSString *connectHost = [textField_connectHost stringValue];
+	//Remove trailing whitespace from the host string.  This causes connection to fail for IRC.
+	connectHost = [connectHost stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
 	[account setPreference:((connectHost && [connectHost length]) ? connectHost : nil)
 					forKey:KEY_CONNECT_HOST
 					 group:GROUP_ACCOUNT_STATUS];	
