@@ -22,6 +22,7 @@
 #import "AILibpurplePlugin.h"
 #import "AMPurpleRequestFieldsController.h"
 
+#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIListContact.h>
@@ -252,91 +253,61 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
 									void *userData)
 {
-	id					requestController = nil;
-	NSString			*titleString = (title ?  [[NSString stringWithUTF8String:title] lowercaseString] : nil);
+	id requestController = nil;
 
-    if (titleString && 
-		[titleString rangeOfString:@"new jabber"].location != NSNotFound) {
+    if (title && (strcmp(title, _("Register New XMPP Account")) == 0)) {
 		/* Jabber registration request. Instead of displaying a request dialogue, we fill in the information automatically.
 		 * And by that, I mean that we accept all the default empty values, since the username and password are preset for us. */
 		((PurpleRequestFieldsCb)okCb)(userData, fields);
 		
+	} else if (purple_request_fields_get_field(fields, "password") &&
+			   purple_request_fields_get_field(fields, "remember")) {
+		/* Password request dialogue. Handle it with our own password request system, which is much prettier. */
+		
+		AIAccount *adiumAccount = accountLookup(account);
+		
+		[adium.accountController passwordForAccount:adiumAccount
+									   promptOption:AIPromptAlways
+									notifyingTarget:[ESPurpleRequestAdapter class]
+										   selector:@selector(returnedPassword:returnCode:context:)
+											context:[NSDictionary dictionaryWithObjectsAndKeys:
+													 adiumAccount, @"Account", 
+													 [NSValue valueWithPointer:fields], @"fields",
+													 [NSValue valueWithPointer:okCb], @"okCb",
+													 [NSValue valueWithPointer:cancelCb], @"cancelCb",
+													 [NSValue valueWithPointer:userData], @"userData",
+													 nil]];
+		
 	} else {
 		AILog(@"adiumPurpleRequestFields: %s\n%s\n%s ",
-				   (title ? title : ""),
-				   (primary ? primary : ""),
-				   (secondary ? secondary : ""));
+			  (title ? title : ""),
+			  (primary ? primary : ""),
+			  (secondary ? secondary : ""));
         
         id self = (CBPurpleAccount*)account->ui_data; // for AILocalizedString
 		
-        requestController = [[AMPurpleRequestFieldsController alloc] initWithTitle:title?[NSString stringWithUTF8String:title]:nil
-                                                                       primaryText:primary?[NSString stringWithUTF8String:primary]:nil
-                                                                     secondaryText:secondary?[NSString stringWithUTF8String:secondary]:nil
+        requestController = [[AMPurpleRequestFieldsController alloc] initWithTitle:(title ? [NSString stringWithUTF8String:title] : nil)
+                                                                       primaryText:(primary ? [NSString stringWithUTF8String:primary] : nil)
+                                                                     secondaryText:(secondary ? [NSString stringWithUTF8String:secondary] : nil)
                                                                      requestFields:fields
-                                                                            okText:okText?[NSString stringWithUTF8String:okText]:AILocalizedString(@"OK",nil)
+                                                                            okText:(okText ? [NSString stringWithUTF8String:okText] : AILocalizedString(@"OK",nil))
                                                                           callback:okCb
-                                                                        cancelText:cancelText?[NSString stringWithUTF8String:cancelText]:AILocalizedString(@"Cancel",nil)
+                                                                        cancelText:(cancelText ? [NSString stringWithUTF8String:cancelText] : AILocalizedString(@"Cancel",nil))
                                                                           callback:cancelCb
                                                                            account:(CBPurpleAccount*)account->ui_data
-                                                                               who:who?[NSString stringWithUTF8String:who]:nil
+                                                                               who:(who ? [NSString stringWithUTF8String:who] : nil)
                                                                       conversation:conv
                                                                           userData:userData];
-#if 0
-		GList					*gl, *fl, *field_list;
-		PurpleRequestFieldGroup	*group;
-
-		//Look through each group, processing each field
-		for (gl = purple_request_fields_get_groups(fields);
-			 gl != NULL;
-			 gl = gl->next) {
-			
-			group = gl->data;
-			field_list = purple_request_field_group_get_fields(group);
-			
-			for (fl = field_list; fl != NULL; fl = fl->next) {
-				/*
-				typedef enum
-				{
-					PURPLE_REQUEST_FIELD_NONE,
-					PURPLE_REQUEST_FIELD_STRING,
-					PURPLE_REQUEST_FIELD_INTEGER,
-					PURPLE_REQUEST_FIELD_BOOLEAN,
-					PURPLE_REQUEST_FIELD_CHOICE,
-					PURPLE_REQUEST_FIELD_LIST,
-					PURPLE_REQUEST_FIELD_LABEL,
-					PURPLE_REQUEST_FIELD_ACCOUNT
-				} PurpleRequestFieldType;
-				*/
-
-				/*
-				PurpleRequestField		*field;
-				PurpleRequestFieldType	type;
-				
-				field = (PurpleRequestField *)fl->data;
-				type = purple_request_field_get_type(field);
-				if (type == PURPLE_REQUEST_FIELD_STRING) {
-					if (strcasecmp("username", purple_request_field_get_label(field)) == 0) {
-						purple_request_field_string_set_value(field, purple_account_get_username(account));
-					} else if (strcasecmp("password", purple_request_field_get_label(field)) == 0) {
-						purple_request_field_string_set_value(field, purple_account_get_password(account));
-					}
-				}
-				 */
-			}
-			
-		}
-//		((PurpleRequestFieldsCb)okCb)(userData, fields);
-#endif
 	}
-    
+
 	return requestController;
 }
 
 static void *adiumPurpleRequestFile(const char *title, const char *filename,
-								  gboolean savedialog, GCallback ok_cb,
-								  GCallback cancel_cb,
-								  PurpleAccount *account, const char *who, PurpleConversation *conv,
-								  void *user_data)
+									gboolean savedialog, GCallback ok_cb,
+									GCallback cancel_cb,
+									PurpleAccount *account, const char *who, PurpleConversation *conv,
+									void *user_data)
 {	
 	if (title) {
 		NSString *titleString = (title ? [NSString stringWithUTF8String:title] : nil);
@@ -440,6 +411,31 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops()
 {
 	AILogWithSignature(@"%@", handle);
 	purple_request_close_with_handle(handle);
+}
+
++ (void)returnedPassword:(NSString *)password returnCode:(AIPasswordPromptReturn)returnCode context:(id)context
+{
+	NSDictionary *dict = (NSDictionary *)context;
+	PurpleRequestFields *fields = [[dict objectForKey:@"fields"] pointerValue];
+	void *userData = [[dict objectForKey:@"userData"] pointerValue];
+
+	PurpleRequestFieldsCb cb;
+
+	switch (returnCode) {
+		case AIPasswordPromptOKReturn:
+		{
+			cb = [[dict objectForKey:@"okCb"] pointerValue];
+
+			/* Set the password within the fields structure so libpurple can retrieve it */
+			PurpleRequestField *field = purple_request_fields_get_field(fields, "password");
+			purple_request_field_string_set_value(field, [password UTF8String]);
+		}
+		case AIPasswordPromptCancelReturn:
+			cb = [[dict objectForKey:@"cancelCb"] pointerValue];
+			break;
+	}
+	
+	cb(userData, fields);
 }
 
 @end
