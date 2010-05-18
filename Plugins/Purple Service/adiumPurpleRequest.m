@@ -429,6 +429,7 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops()
 			/* Set the password within the fields structure so libpurple can retrieve it */
 			PurpleRequestField *field = purple_request_fields_get_field(fields, "password");
 			purple_request_field_string_set_value(field, [password UTF8String]);
+			break;
 		}
 		case AIPasswordPromptCancelReturn:
 			cb = [[dict objectForKey:@"cancelCb"] pointerValue];
