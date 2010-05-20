@@ -174,8 +174,11 @@ static void ZombieKiller_Signal(int i)
 	setenv("GST_PLUGIN_PATH", 
 				 [[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation],
 				 1);
-	AILog(@"Set GST plugin path to %s",
-				[[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation]);
+	/* Don't let gstreamer load 'system path' plugins - if the user has gstreamer installed elsewhere,
+	 * or if this is a poor, confused developer who has built gstreamer locally, this will lead to very
+	 * bad behavior.
+	 */
+	setenv("GST_PLUGIN_SYSTEM_PATH", " ", 1);
 	
 	GError *error = NULL;
 	if (!gst_init_check(NULL, NULL, &error)) {
