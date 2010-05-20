@@ -99,7 +99,7 @@ prereq() {
 	done
 	
 	if [ "$ext" = "" ]; then
-		error "Couldn't autodetect file type of $0"
+		error "Couldn't autodetect file type of $0 for $1"
 		exit 1
 	fi
 	
