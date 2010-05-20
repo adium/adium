@@ -10,6 +10,12 @@ ADIUM="`dirname $0`/.."
 
 cp -R "$ROOTDIR"/Frameworks/*.subproj/*.framework "$ADIUM/Frameworks/"
 
+# These libgst plugins cause problems in gst_init if present; we shouldn't
+# be building them at all.
+rm "$ADIUM/Frameworks/libgstreamer.framework/PlugIns/libgstwavenc.so"
+rm "$ADIUM/Frameworks/libgstreamer.framework/PlugIns/libgstwavparse.so"
+rm "$ADIUM/Frameworks/libgstreamer.framework/PlugIns/libgsty4menc.so"
+
 pushd "$ADIUM/build" > /dev/null 2>&1
 	rm -rf */AdiumLibpurple.framework 
 	rm -rf */*/Adium.app/Contents/Frameworks/lib*
