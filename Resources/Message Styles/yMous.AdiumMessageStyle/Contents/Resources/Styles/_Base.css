@@ -1,0 +1,244 @@
+﻿@charset "utf-8";
+
+/**
+{
+	font-size: 100% !important;
+	text-decoration: none !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	border-bottom: 1px solid green !important;
+	text-decoration: line-through !important;
+	vertical-align: text-top;
+}*/
+
+body
+{
+	margin: 0px;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	display: table;
+}
+
+
+#insert .x-focus,
+#insert .x-icon,
+#insert .x-sender,
+#insert .x-mark,
+#insert .x-message,
+#insert .x-mention,
+#insert .x-time
+{
+	border-top: 0px !important;
+}
+
+#insert,
+.message,
+.status,
+.event
+{
+	display: table-row;
+	position: relative;
+}
+
+.x-focus,
+.x-icon,
+.x-sender,
+.x-mark,
+.x-message,
+.x-mention,
+.x-time
+{
+	-webkit-transition: background-color .2s linear;
+	display: table-cell;
+}
+
+.x-focus
+{
+	padding-right: 2px;
+}
+
+.x-mention
+{
+	padding-right: .5em;
+}
+
+:not(.mention) > .x-message
+{
+	padding-right: .0em;
+}
+
+.IRC .x-icon img,
+.status .x-icon img,
+.event .x-icon img,
+.consecutive .x-icon img,
+.history .x-icon img
+{
+	display: none;
+}
+
+.x-icon img[src*="buddy_icon.png"]
+{
+	display: none;
+}
+
+.x-icon img
+{
+	max-height: 1.1em;
+	max-width: 1.1em;
+	padding-left: 2px;
+	opacity: .875;
+}
+
+.status .x-sender,
+.event .x-sender
+{
+	color: transparent !important;
+}
+
+.x-sender
+{
+	max-width: 10em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: right;
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+.IRC .x-sender
+{
+	padding-left: 2px;
+}
+
+.consecutive.message:not(.action) .x-sender
+{
+	color: transparent;
+}
+
+.consecutive.message:not(.action) .x-sender:after
+{
+	content: "\21e7";
+	margin-left: -2em;
+}
+
+.actionMessageUserName
+{
+	display: none;
+}
+
+.actionMessageBody:after
+{
+	content: "";
+}
+
+.actionMessageBody:before
+{
+	content: "";
+}
+
+.action *
+{
+	font-style: italic !important;
+}
+
+.x-mark
+{
+	border-width: 1px;
+	border-left-style: solid;
+}
+
+.x-message
+{
+	padding-left: 3px;
+	padding-right: .5em;
+	max-width: 90%;
+	width: 100%;
+	line-height: 1.4em;
+}
+
+.x-mention
+{
+	border-width: 1px;
+	border-right-style: solid;
+}
+
+.emoticon
+{
+	white-space: nowrap;
+	text-wrap: suppress;
+	word-wrap: normal;
+}
+
+.x-message img.emoticon
+{
+	max-height: 1.18em;
+	width: auto;
+	position: relative;
+	top: 0px;
+	vertical-align: top;
+	margin-top: .2em;
+	opacity: .75;
+}
+
+.x-message:hover img.emoticon
+.x-message.x-hover img.emoticon
+{
+	opacity: 1;
+}
+
+.x-time
+{
+	white-space: nowrap;
+	text-align: right;
+	padding-right: 4px;
+	padding-left: 4px;
+	font-size: .5em !important;
+}
+
+xxxinsert
+{
+	display: block;
+}
+
+/*----------*/
+
+a
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px dotted;
+}
+
+a:hover
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid;
+}
+
+a:active
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 2px double;
+}
+
+img.fullSizeImage
+{
+	width: auto;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+	max-height: 1.18em;
+}
+

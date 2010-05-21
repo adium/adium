@@ -1,0 +1,123 @@
+@import url("../Styles/main.css");
+
+/* outgoing */
+
+.x-outgoingItem .x-timeStamp
+{
+	color: #bdb410;
+}
+
+.x-outgoingItem .x-myBubble .x-indicator
+{
+	background: url("../images/yellowIndicator.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tl
+{
+	background: url("../images/yellowCurves.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tr
+{
+	background: url("../images/yellowCurves.png") no-repeat top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-head
+{
+	background: url("../images/yellowCurves.png") no-repeat -10px 0;
+}
+
+.x-outgoingItem .x-tableBubble .x-message
+{
+	background: url("../images/yellowBackground.png") repeat-y top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/yellowBackground.png") repeat-y top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-bl
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom left;
+}
+
+.x-outgoingItem .x-tableBubble .x-br
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom right;
+}
+
+.x-outgoingItem .x-followUp
+{
+	background-color: #f4f0a7;
+	border-bottom: 1px solid #fff;
+}
+
+/*incoming */
+
+.x-incomingItem .x-timeStamp
+{
+	color: #9ecf35;
+}
+
+.x-incomingItem .x-myBubble .x-indicator
+{
+	background: url("../images/greenIndicator.png") no-repeat top left;
+}
+
+.x-incomingItem .x-timeStamp
+{
+	color: #9ecf35;
+}
+
+.x-incomingItem .x-tableBubble .x-tl
+{
+	background: url("../images/greenCurves.png") no-repeat top left;
+}
+
+.x-incomingItem .x-tableBubble .x-tr
+{
+	background: url("../images/greenCurves.png") no-repeat top right;
+}
+
+.x-incomingItem .x-tableBubble .x-head
+{
+	background: url("../images/greenCurves.png") no-repeat -10px 0;
+}
+
+.x-incomingItem .x-tableBubble .x-message
+{
+	background: url("../images/greenBackground.png") repeat-y top left;
+}
+
+.x-incomingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/greenBackground.png") repeat-y top right;
+}
+
+.x-incomingItem .x-tableBubble .x-bl
+{
+	background: url("../images/greenCurves.png") no-repeat bottom left;
+}
+
+.x-incomingItem .x-tableBubble .x-br
+{
+	background: url("../images/greenCurves.png") no-repeat bottom right;
+}
+
+.x-incomingItem .x-followUp
+{
+	background-color: #e2efc4;
+	border-bottom: 1px solid #fff;
+}
+
+.mention,
+.firstFocus .x-timeStamp:before
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(158, 207, 53, 1)), to(rgba(153, 202, 48, 1)));
+}
+
+.mention .x-avatar
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(251, 254, 245, 1)), to(rgba(239, 248, 220, 1)));
+}

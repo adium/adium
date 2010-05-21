@@ -1,0 +1,856 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		D5E003C5073299CB00594182 /* Build All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D50F206B08A01A630073A261 /* Build configuration list for PBXAggregateTarget "Build All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				D5E003C7073299E100594182 /* PBXTargetDependency */,
+				D5E003C9073299E100594182 /* PBXTargetDependency */,
+				D5E003CB073299E100594182 /* PBXTargetDependency */,
+				D5EA8B39074E3D1E00AE807E /* PBXTargetDependency */,
+			);
+			name = "Build All";
+			productName = "Build All";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		8D1AC9670486D14A00FE50C9 /* RBSplitViewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C57EFE90428111CA0C5A /* RBSplitViewInspector.nib */; };
+		8D1AC9680486D14A00FE50C9 /* RBSplitViewPalette.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C580FE90428111CA0C5A /* RBSplitViewPalette.nib */; };
+		8D1AC9690486D14A00FE50C9 /* palette.table in Resources */ = {isa = PBXBuildFile; fileRef = 0259C583FE90428111CA0C5A /* palette.table */; };
+		8D1AC96D0486D14A00FE50C9 /* RBSplitViewPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C578FE90428111CA0C5A /* RBSplitViewPalette.m */; settings = {ATTRIBUTES = (); }; };
+		D51D05F507FF2A55001EE379 /* RBSplitSubview.ibclassdescription in Resources */ = {isa = PBXBuildFile; fileRef = D51D05F407FF2A55001EE379 /* RBSplitSubview.ibclassdescription */; };
+		D51D05FC07FF2B2E001EE379 /* RBSplitView.ibclassdescription in Resources */ = {isa = PBXBuildFile; fileRef = D51D05FB07FF2B2E001EE379 /* RBSplitView.ibclassdescription */; };
+		D53539A6072D6E5500C2C058 /* Thumb8.png in Resources */ = {isa = PBXBuildFile; fileRef = D53539A4072D6E5500C2C058 /* Thumb8.png */; };
+		D53539A7072D6E5500C2C058 /* SplitImage.png in Resources */ = {isa = PBXBuildFile; fileRef = D53539A5072D6E5500C2C058 /* SplitImage.png */; };
+		D53539AE072D6E5F00C2C058 /* RBSplitSubviewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = D53539AC072D6E5F00C2C058 /* RBSplitSubviewInspector.nib */; };
+		D5353A21072DA2C500C2C058 /* RBSplitViewPalette.png in Resources */ = {isa = PBXBuildFile; fileRef = D5353A20072DA2C500C2C058 /* RBSplitViewPalette.png */; };
+		D5AB90AE081330A100734816 /* Drag.png in Resources */ = {isa = PBXBuildFile; fileRef = D5AB90AD081330A100734816 /* Drag.png */; };
+		D5BC459A081BD0D2002BEBBA /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EA8B87074E9C5500AE807E /* RBSplitSubview.m */; };
+		D5BC459B081BD0D3002BEBBA /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* RBSplitView.m */; };
+		D5BC45EB081BD940002BEBBA /* RBSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0259C57AFE90428111CA0C5A /* RBSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D5BC45EC081BD945002BEBBA /* RBSplitSubview.h in Headers */ = {isa = PBXBuildFile; fileRef = D5EA8B86074E9C5500AE807E /* RBSplitSubview.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D5C962B2082D0B1500D90A28 /* Thumb9.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C962B1082D0B1500D90A28 /* Thumb9.png */; };
+		D5CF416F0AA7273600D5D34B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		D5CF418D0AA7276E00D5D34B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		D5CF41910AA7277700D5D34B /* InterfaceBuilder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E58F362FFB2327711CA0CBA /* InterfaceBuilder.framework */; };
+		D5E00376073296EA00594182 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		D5E003BA0732994400594182 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C576FE90428111CA0C5A /* RBSplitView.m */; };
+		D5E1979A0732760700003922 /* RBSplitSubviewSizeInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = D5E197980732760700003922 /* RBSplitSubviewSizeInspector.nib */; };
+		D5EA8A30074CF6DE00AE807E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EA8A2F074CF6DE00AE807E /* main.m */; };
+		D5EA8A38074CF72A00AE807E /* SampleApp.nib in Resources */ = {isa = PBXBuildFile; fileRef = D5EA8A36074CF72A00AE807E /* SampleApp.nib */; };
+		D5EA8B8D074E9C5500AE807E /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EA8B87074E9C5500AE807E /* RBSplitSubview.m */; };
+		D5EEF732081B242500A04CA7 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E003B9073298FC00594182 /* libRBSplitView.a */; };
+		D5EEF737081B244400A04CA7 /* libRBSplitView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E003B9073298FC00594182 /* libRBSplitView.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D5E003C6073299E100594182 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1AC9600486D14A00FE50C9;
+			remoteInfo = Palette;
+		};
+		D5E003C8073299E100594182 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E002A007328E1100594182;
+			remoteInfo = Framework;
+		};
+		D5E003CA073299E100594182 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E003B8073298FC00594182;
+			remoteInfo = Library;
+		};
+		D5EA8B38074E3D1E00AE807E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5EA8A08074CF5AB00AE807E;
+			remoteInfo = SampleApp;
+		};
+		D5EEF738081B246300A04CA7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E003B8073298FC00594182;
+			remoteInfo = Library;
+		};
+		D5EEF73A081B248100A04CA7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0259C573FE90428111CA0C5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E003B8073298FC00594182;
+			remoteInfo = Library;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D5EA8A6F074D0CAE00AE807E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0259C576FE90428111CA0C5A /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RBSplitView.m; path = Source/RBSplitView.m; sourceTree = "<group>"; };
+		0259C578FE90428111CA0C5A /* RBSplitViewPalette.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = RBSplitViewPalette.m; path = Palette/RBSplitViewPalette.m; sourceTree = "<group>"; };
+		0259C57AFE90428111CA0C5A /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = Source/RBSplitView.h; sourceTree = "<group>"; };
+		0259C57CFE90428111CA0C5A /* RBSplitViewPalette.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPalette.h; path = Palette/RBSplitViewPalette.h; sourceTree = "<group>"; };
+		0259C57FFE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RBSplitViewInspector.nib; sourceTree = "<group>"; };
+		0259C581FE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RBSplitViewPalette.nib; sourceTree = "<group>"; };
+		0259C583FE90428111CA0C5A /* palette.table */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = palette.table; path = Palette/palette.table; sourceTree = "<group>"; };
+		2E58F362FFB2327711CA0CBA /* InterfaceBuilder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InterfaceBuilder.framework; path = /System/Library/Frameworks/InterfaceBuilder.framework; sourceTree = "<absolute>"; };
+		32DBCF980370C29C00C91783 /* RBSplitView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitView_Prefix.pch; path = Source/RBSplitView_Prefix.pch; sourceTree = "<group>"; };
+		8D1AC9730486D14A00FE50C9 /* Palette-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Palette-Info.plist"; path = "Palette/Palette-Info.plist"; sourceTree = "<group>"; };
+		8D1AC9740486D14A00FE50C9 /* RBSplitView.palette */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RBSplitView.palette; sourceTree = BUILT_PRODUCTS_DIR; };
+		D500FD5608170D550085E138 /* Programming Topics.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; name = "Programming Topics.rtfd"; path = "Documentation/Programming Topics.rtfd"; sourceTree = "<group>"; };
+		D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = RB.xcconfig; sourceTree = "<group>"; };
+		D51D05F407FF2A55001EE379 /* RBSplitSubview.ibclassdescription */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = RBSplitSubview.ibclassdescription; path = Palette/RBSplitSubview.ibclassdescription; sourceTree = "<group>"; };
+		D51D05FB07FF2B2E001EE379 /* RBSplitView.ibclassdescription */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = RBSplitView.ibclassdescription; path = Palette/RBSplitView.ibclassdescription; sourceTree = "<group>"; };
+		D53539A4072D6E5500C2C058 /* Thumb8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Thumb8.png; path = Palette/Thumb8.png; sourceTree = "<group>"; };
+		D53539A5072D6E5500C2C058 /* SplitImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplitImage.png; path = Palette/SplitImage.png; sourceTree = "<group>"; };
+		D53539AD072D6E5F00C2C058 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RBSplitSubviewInspector.nib; sourceTree = "<group>"; };
+		D5353A20072DA2C500C2C058 /* RBSplitViewPalette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RBSplitViewPalette.png; path = Palette/RBSplitViewPalette.png; sourceTree = "<group>"; };
+		D54EA730074FC529001EDAAC /* RBSplitSubview.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = RBSplitSubview.rtf; path = Documentation/RBSplitSubview.rtf; sourceTree = "<group>"; };
+		D54EA85F0750E978001EDAAC /* RBSplitView.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = RBSplitView.rtf; path = Documentation/RBSplitView.rtf; sourceTree = "<group>"; };
+		D5AB90AD081330A100734816 /* Drag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Drag.png; path = "Sample App/Drag.png"; sourceTree = "<group>"; };
+		D5C962B1082D0B1500D90A28 /* Thumb9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Thumb9.png; path = Palette/Thumb9.png; sourceTree = "<group>"; };
+		D5D769E308290CB1000E7ABB /* Read Me.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = "Read Me.rtfd"; sourceTree = "<group>"; };
+		D5E002A107328E1100594182 /* RBSplitView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RBSplitView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5E002A207328E1100594182 /* Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Framework-Info.plist"; sourceTree = "<group>"; };
+		D5E003B9073298FC00594182 /* libRBSplitView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRBSplitView.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5E197990732760700003922 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/RBSplitSubviewSizeInspector.nib; sourceTree = "<group>"; };
+		D5EA8A09074CF5AB00AE807E /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5EA8A0B074CF5AB00AE807E /* SampleApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "SampleApp-Info.plist"; path = "Sample App/SampleApp-Info.plist"; sourceTree = "<group>"; };
+		D5EA8A2F074CF6DE00AE807E /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Sample App/main.m"; sourceTree = "<group>"; };
+		D5EA8A37074CF72A00AE807E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SampleApp.nib; sourceTree = "<group>"; };
+		D5EA8B86074E9C5500AE807E /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = Source/RBSplitSubview.h; sourceTree = "<group>"; };
+		D5EA8B87074E9C5500AE807E /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitSubview.m; path = Source/RBSplitSubview.m; sourceTree = "<group>"; };
+		D5EA8B94074E9DA100AE807E /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = Source/RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
+		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D1AC96E0486D14A00FE50C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5EEF737081B244400A04CA7 /* libRBSplitView.a in Frameworks */,
+				D5CF418D0AA7276E00D5D34B /* Cocoa.framework in Frameworks */,
+				D5CF41910AA7277700D5D34B /* InterfaceBuilder.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E0029F07328E1100594182 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E00376073296EA00594182 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E003B7073298FC00594182 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5EA8A07074CF5AB00AE807E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5EEF732081B242500A04CA7 /* libRBSplitView.a in Frameworks */,
+				D5CF416F0AA7273600D5D34B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0259C574FE90428111CA0C5A /* RBSplitView */ = {
+			isa = PBXGroup;
+			children = (
+				D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */,
+				D5D769E308290CB1000E7ABB /* Read Me.rtfd */,
+				D54EA7F407504E35001EDAAC /* Documentation */,
+				32DBCF9E0370C38000C91783 /* Source */,
+				32DBCF9F0370C38200C91783 /* Other Files */,
+				D54EA7EE07504D93001EDAAC /* Palette */,
+				D54EA7F107504DCF001EDAAC /* Sample App */,
+				1ED78706FE9D4A0611CA0C5A /* Products */,
+				2E58F364FFB232C311CA0CBA /* Frameworks */,
+			);
+			name = RBSplitView;
+			sourceTree = "<group>";
+		};
+		1ED78706FE9D4A0611CA0C5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5E002A107328E1100594182 /* RBSplitView.framework */,
+				8D1AC9740486D14A00FE50C9 /* RBSplitView.palette */,
+				D5E003B9073298FC00594182 /* libRBSplitView.a */,
+				D5EA8A09074CF5AB00AE807E /* SampleApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2E58F364FFB232C311CA0CBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E58F362FFB2327711CA0CBA /* InterfaceBuilder.framework */,
+				DD92D38A0106425D02CA0E72 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32DBCF9E0370C38000C91783 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D5EA8B86074E9C5500AE807E /* RBSplitSubview.h */,
+				D5EA8B87074E9C5500AE807E /* RBSplitSubview.m */,
+				0259C57AFE90428111CA0C5A /* RBSplitView.h */,
+				0259C576FE90428111CA0C5A /* RBSplitView.m */,
+				D5EA8B94074E9DA100AE807E /* RBSplitViewPrivateDefines.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		32DBCF9F0370C38200C91783 /* Other Files */ = {
+			isa = PBXGroup;
+			children = (
+				D5E002A207328E1100594182 /* Framework-Info.plist */,
+				32DBCF980370C29C00C91783 /* RBSplitView_Prefix.pch */,
+			);
+			name = "Other Files";
+			sourceTree = "<group>";
+		};
+		D54EA7EE07504D93001EDAAC /* Palette */ = {
+			isa = PBXGroup;
+			children = (
+				0259C583FE90428111CA0C5A /* palette.table */,
+				8D1AC9730486D14A00FE50C9 /* Palette-Info.plist */,
+				D51D05F407FF2A55001EE379 /* RBSplitSubview.ibclassdescription */,
+				D53539AC072D6E5F00C2C058 /* RBSplitSubviewInspector.nib */,
+				D5E197980732760700003922 /* RBSplitSubviewSizeInspector.nib */,
+				D51D05FB07FF2B2E001EE379 /* RBSplitView.ibclassdescription */,
+				0259C57CFE90428111CA0C5A /* RBSplitViewPalette.h */,
+				0259C578FE90428111CA0C5A /* RBSplitViewPalette.m */,
+				D5353A20072DA2C500C2C058 /* RBSplitViewPalette.png */,
+				0259C57EFE90428111CA0C5A /* RBSplitViewInspector.nib */,
+				0259C580FE90428111CA0C5A /* RBSplitViewPalette.nib */,
+				D53539A5072D6E5500C2C058 /* SplitImage.png */,
+				D53539A4072D6E5500C2C058 /* Thumb8.png */,
+				D5C962B1082D0B1500D90A28 /* Thumb9.png */,
+			);
+			name = Palette;
+			sourceTree = "<group>";
+		};
+		D54EA7F107504DCF001EDAAC /* Sample App */ = {
+			isa = PBXGroup;
+			children = (
+				D5AB90AD081330A100734816 /* Drag.png */,
+				D5EA8A2F074CF6DE00AE807E /* main.m */,
+				D5EA8A36074CF72A00AE807E /* SampleApp.nib */,
+				D5EA8A0B074CF5AB00AE807E /* SampleApp-Info.plist */,
+			);
+			name = "Sample App";
+			sourceTree = "<group>";
+		};
+		D54EA7F407504E35001EDAAC /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				D500FD5608170D550085E138 /* Programming Topics.rtfd */,
+				D54EA730074FC529001EDAAC /* RBSplitSubview.rtf */,
+				D54EA85F0750E978001EDAAC /* RBSplitView.rtf */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D5E0029C07328E1100594182 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5BC45EC081BD945002BEBBA /* RBSplitSubview.h in Headers */,
+				D5BC45EB081BD940002BEBBA /* RBSplitView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E003B5073298FC00594182 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D1AC9600486D14A00FE50C9 /* Palette */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D50F205F08A01A630073A261 /* Build configuration list for PBXNativeTarget "Palette" */;
+			buildPhases = (
+				8D1AC9660486D14A00FE50C9 /* Resources */,
+				8D1AC96A0486D14A00FE50C9 /* Sources */,
+				8D1AC96E0486D14A00FE50C9 /* Frameworks */,
+				D4823A8E0D72F8AC00163E7D /* Fix Framework Path Shell Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5EEF739081B246300A04CA7 /* PBXTargetDependency */,
+			);
+			name = Palette;
+			productInstallPath = "$(HOME)/Developer/Palettes";
+			productName = RBSplitView;
+			productReference = 8D1AC9740486D14A00FE50C9 /* RBSplitView.palette */;
+			productType = "com.apple.product-type.bundle";
+		};
+		D5E002A007328E1100594182 /* Framework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D50F206308A01A630073A261 /* Build configuration list for PBXNativeTarget "Framework" */;
+			buildPhases = (
+				D5E0029C07328E1100594182 /* Headers */,
+				D5E0029D07328E1100594182 /* Resources */,
+				D5E0029E07328E1100594182 /* Sources */,
+				D5E0029F07328E1100594182 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Framework;
+			productName = Framework;
+			productReference = D5E002A107328E1100594182 /* RBSplitView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D5E003B8073298FC00594182 /* Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D50F205B08A01A630073A261 /* Build configuration list for PBXNativeTarget "Library" */;
+			buildPhases = (
+				D5E003B5073298FC00594182 /* Headers */,
+				D5E003B6073298FC00594182 /* Sources */,
+				D5E003B7073298FC00594182 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Library;
+			productName = Library;
+			productReference = D5E003B9073298FC00594182 /* libRBSplitView.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D5EA8A08074CF5AB00AE807E /* SampleApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D50F206708A01A630073A261 /* Build configuration list for PBXNativeTarget "SampleApp" */;
+			buildPhases = (
+				D5EA8A05074CF5AB00AE807E /* Resources */,
+				D5EA8A06074CF5AB00AE807E /* Sources */,
+				D5EA8A07074CF5AB00AE807E /* Frameworks */,
+				D5EA8A6F074D0CAE00AE807E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5EEF73B081B248100A04CA7 /* PBXTargetDependency */,
+			);
+			name = SampleApp;
+			productName = SampleApp;
+			productReference = D5EA8A09074CF5AB00AE807E /* SampleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0259C573FE90428111CA0C5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = NO;
+			};
+			buildConfigurationList = D50F206F08A01A630073A261 /* Build configuration list for PBXProject "RBSplitView" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0259C574FE90428111CA0C5A /* RBSplitView */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D5E003C5073299CB00594182 /* Build All */,
+				8D1AC9600486D14A00FE50C9 /* Palette */,
+				D5E002A007328E1100594182 /* Framework */,
+				D5E003B8073298FC00594182 /* Library */,
+				D5EA8A08074CF5AB00AE807E /* SampleApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1AC9660486D14A00FE50C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC9670486D14A00FE50C9 /* RBSplitViewInspector.nib in Resources */,
+				8D1AC9680486D14A00FE50C9 /* RBSplitViewPalette.nib in Resources */,
+				8D1AC9690486D14A00FE50C9 /* palette.table in Resources */,
+				D53539A6072D6E5500C2C058 /* Thumb8.png in Resources */,
+				D53539A7072D6E5500C2C058 /* SplitImage.png in Resources */,
+				D53539AE072D6E5F00C2C058 /* RBSplitSubviewInspector.nib in Resources */,
+				D5353A21072DA2C500C2C058 /* RBSplitViewPalette.png in Resources */,
+				D5E1979A0732760700003922 /* RBSplitSubviewSizeInspector.nib in Resources */,
+				D51D05F507FF2A55001EE379 /* RBSplitSubview.ibclassdescription in Resources */,
+				D51D05FC07FF2B2E001EE379 /* RBSplitView.ibclassdescription in Resources */,
+				D5C962B2082D0B1500D90A28 /* Thumb9.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E0029D07328E1100594182 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5EA8A05074CF5AB00AE807E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5EA8A38074CF72A00AE807E /* SampleApp.nib in Resources */,
+				D5AB90AE081330A100734816 /* Drag.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D4823A8E0D72F8AC00163E7D /* Fix Framework Path Shell Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fix Framework Path Shell Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#! /bin/sh\n# There is an issue with Xcode 2.5:\n# The InterfaceBuilder Framework moved from /System/Library/Frameworks to\n# $(DEVELOPER_FRAMEWORKS_DIR); which is /Library/Frameworks relative to the\n# Xcode installation direcotry. This works fine in Xcode 3.0, as it supports\n# @loader_path, but Xcode 2.5 does not. Apple suggested the following fix:\n# http://lists.apple.com/archives/Xcode-users/2007/Nov/msg00398.html\n\n\"${INSTALL_PATH}/usr/bin/install_name_tool\" -change \"${DEVELOPER_LIBRARY_DIR}/Frameworks/InterfaceBuilder.framework/Versions/A/InterfaceBuilder\" /System/Library/FrameworksInterfaceBuilder.framework/Versions/A/InterfaceBuilder \"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D1AC96A0486D14A00FE50C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC96D0486D14A00FE50C9 /* RBSplitViewPalette.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E0029E07328E1100594182 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5BC459A081BD0D2002BEBBA /* RBSplitSubview.m in Sources */,
+				D5BC459B081BD0D3002BEBBA /* RBSplitView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5E003B6073298FC00594182 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E003BA0732994400594182 /* RBSplitView.m in Sources */,
+				D5EA8B8D074E9C5500AE807E /* RBSplitSubview.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5EA8A06074CF5AB00AE807E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5EA8A30074CF6DE00AE807E /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D5E003C7073299E100594182 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1AC9600486D14A00FE50C9 /* Palette */;
+			targetProxy = D5E003C6073299E100594182 /* PBXContainerItemProxy */;
+		};
+		D5E003C9073299E100594182 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5E002A007328E1100594182 /* Framework */;
+			targetProxy = D5E003C8073299E100594182 /* PBXContainerItemProxy */;
+		};
+		D5E003CB073299E100594182 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5E003B8073298FC00594182 /* Library */;
+			targetProxy = D5E003CA073299E100594182 /* PBXContainerItemProxy */;
+		};
+		D5EA8B39074E3D1E00AE807E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5EA8A08074CF5AB00AE807E /* SampleApp */;
+			targetProxy = D5EA8B38074E3D1E00AE807E /* PBXContainerItemProxy */;
+		};
+		D5EEF739081B246300A04CA7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5E003B8073298FC00594182 /* Library */;
+			targetProxy = D5EEF738081B246300A04CA7 /* PBXContainerItemProxy */;
+		};
+		D5EEF73B081B248100A04CA7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5E003B8073298FC00594182 /* Library */;
+			targetProxy = D5EEF73A081B248100A04CA7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0259C57EFE90428111CA0C5A /* RBSplitViewInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0259C57FFE90428111CA0C5A /* English */,
+			);
+			name = RBSplitViewInspector.nib;
+			sourceTree = "<group>";
+		};
+		0259C580FE90428111CA0C5A /* RBSplitViewPalette.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0259C581FE90428111CA0C5A /* English */,
+			);
+			name = RBSplitViewPalette.nib;
+			sourceTree = "<group>";
+		};
+		D53539AC072D6E5F00C2C058 /* RBSplitSubviewInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D53539AD072D6E5F00C2C058 /* English */,
+			);
+			name = RBSplitSubviewInspector.nib;
+			sourceTree = "<group>";
+		};
+		D5E197980732760700003922 /* RBSplitSubviewSizeInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5E197990732760700003922 /* English */,
+			);
+			name = RBSplitSubviewSizeInspector.nib;
+			sourceTree = "<group>";
+		};
+		D5EA8A36074CF72A00AE807E /* SampleApp.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5EA8A37074CF72A00AE807E /* English */,
+			);
+			name = SampleApp.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		34D1AB6E0D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
+				CURRENT_PROJECT_VERSION = 1.1.4;
+				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
+				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
+				PRODUCT_NAME = RBSplitView;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+			};
+			name = "Release-Debug";
+		};
+		34D1AB6F0D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				HEADER_SEARCH_PATHS = Source;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Build All";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = "Release-Debug";
+		};
+		34D1AB700D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Palette/Palette-Info.plist";
+				LIBRARY_STYLE = BUNDLE;
+				WRAPPER_EXTENSION = palette;
+			};
+			name = "Release-Debug";
+		};
+		34D1AB710D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = "Release-Debug";
+		};
+		34D1AB720D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_STYLE = STATIC;
+			};
+			name = "Release-Debug";
+		};
+		34D1AB730D693E2E00470520 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Sample App/SampleApp-Info.plist";
+				PRODUCT_NAME = SampleApp;
+			};
+			name = "Release-Debug";
+		};
+		D50F205C08A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_STYLE = STATIC;
+			};
+			name = Debug;
+		};
+		D50F205D08A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_STYLE = STATIC;
+			};
+			name = Release;
+		};
+		D50F206008A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Palette/Palette-Info.plist";
+				LIBRARY_STYLE = BUNDLE;
+				WRAPPER_EXTENSION = palette;
+			};
+			name = Debug;
+		};
+		D50F206108A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Palette/Palette-Info.plist";
+				LIBRARY_STYLE = BUNDLE;
+				WRAPPER_EXTENSION = palette;
+			};
+			name = Release;
+		};
+		D50F206408A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		D50F206508A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		D50F206808A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Sample App/SampleApp-Info.plist";
+				PRODUCT_NAME = SampleApp;
+			};
+			name = Debug;
+		};
+		D50F206908A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Sample App/SampleApp-Info.plist";
+				PRODUCT_NAME = SampleApp;
+			};
+			name = Release;
+		};
+		D50F206C08A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Build All";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		D50F206D08A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				HEADER_SEARCH_PATHS = Source;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Build All";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		D50F207008A01A630073A261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				CURRENT_PROJECT_VERSION = 1.1.4;
+				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
+				GCC_VERSION = 4.2;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = RBSplitView;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+			};
+			name = Debug;
+		};
+		D50F207108A01A630073A261 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
+				CURRENT_PROJECT_VERSION = 1.1.4;
+				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
+				GCC_VERSION = 4.2;
+				PRODUCT_NAME = RBSplitView;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D50F205B08A01A630073A261 /* Build configuration list for PBXNativeTarget "Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F205C08A01A630073A261 /* Debug */,
+				D50F205D08A01A630073A261 /* Release */,
+				34D1AB720D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D50F205F08A01A630073A261 /* Build configuration list for PBXNativeTarget "Palette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F206008A01A630073A261 /* Debug */,
+				D50F206108A01A630073A261 /* Release */,
+				34D1AB700D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D50F206308A01A630073A261 /* Build configuration list for PBXNativeTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F206408A01A630073A261 /* Debug */,
+				D50F206508A01A630073A261 /* Release */,
+				34D1AB710D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D50F206708A01A630073A261 /* Build configuration list for PBXNativeTarget "SampleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F206808A01A630073A261 /* Debug */,
+				D50F206908A01A630073A261 /* Release */,
+				34D1AB730D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D50F206B08A01A630073A261 /* Build configuration list for PBXAggregateTarget "Build All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F206C08A01A630073A261 /* Debug */,
+				D50F206D08A01A630073A261 /* Release */,
+				34D1AB6F0D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D50F206F08A01A630073A261 /* Build configuration list for PBXProject "RBSplitView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F207008A01A630073A261 /* Debug */,
+				D50F207108A01A630073A261 /* Release */,
+				34D1AB6E0D693E2E00470520 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0259C573FE90428111CA0C5A /* Project object */;
+}

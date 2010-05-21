@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {forgetFingerprint = id; }; 
+            CLASS = ESGaimOTRFingerprintDetailsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_OK" = NSButton; 
+                "button_forgetFingerprint" = NSButton; 
+                "imageView_lock" = NSImageView; 
+                "imageView_service" = NSImageView; 
+                "textField_UID" = NSTextField; 
+                "textField_fingerprint" = NSTextField; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSButton; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

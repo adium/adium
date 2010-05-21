@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+.outgoing,
+.incoming,
+.consecutive.message .x-sender:after
+{
+	color: hsla(0, 0%, 18%, 1);
+}
+
+.outgoing:hover,
+.incoming:hover,
+.consecutive.message:hover .x-sender:after,
+.outgoing.x-hover,
+.incoming.x-hover,
+.consecutive.message.x-hover .x-sender:after
+{
+	color: hsla(0, 0%, 0%, 1);
+}
+
+.status,
+.status .x-message,
+.event,
+.event .x-message
+{
+	color: hsla(0, 0%, 59%, 1);
+}
+
+.outgoing.message:not(.x-hover):not(:hover) .x-mark
+{
+	background-color: hsla(0, 0%, 0%, 1) !important;
+	color: hsla(0, 0%, 0%, 1) !important;
+}
+
+.outgoing.message:hover .x-mark,
+.outgoing.message.x-hover .x-mark
+{
+	color: hsla(0, 0%, 0%, 1) !important;
+}
+
+.status .x-mark,
+.event .x-mark
+{
+	color: hsla(0, 0%, 98%, 1) !important;
+}
+
+.status.history .x-mark,
+.event.history .x-mark
+{
+	color: hsla(0, 0%, 90%, 1) !important;
+}
+
+.status:hover,
+.status:hover .x-mark,
+.status:hover .x-message,
+.event:hover,
+.event:hover .x-mark,
+.event:hover .x-message,
+.status.x-hover,
+.status.x-hover .x-mark,
+.status.x-hover .x-message,
+.event.x-hover,
+.event.x-hover .x-mark,
+.event.x-hover .x-message
+{
+	color: hsla(0, 0%, 30%, 1) !important;
+}
+
+.status.history:hover .x-mark,
+.event.history:hover .x-mark,
+.status.history.x-hover .x-mark,
+.event.history.x-hover .x-mark
+{
+	color: hsla(0, 0%, 45%, 1) !important;
+}
+
+.message:not(.history):not(.consecutive) .x-mark,
+.message.mention:not(.history):not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 98%, 1);
+}
+
+.message.history:not(.consecutive) .x-mark,
+.message.history.mention:not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 90%, 1);
+}
+
+.mention.message.history:not(.consecutive) .x-mark,
+.mention.message.history:not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 94%, 1);
+}
+
+.message:hover:not(.history):not(.consecutive) .x-mark,
+.message:hover.history:not(.consecutive) .x-mark,
+.message.x-hover:not(.history):not(.consecutive) .x-mark,
+.message.x-hover.history:not(.consecutive) .x-mark
+{
+	border-top: 1px solid transparent;
+}
+
+.message.mention:hover:not(.history):not(.consecutive) .x-mention,
+.message.mention:hover.history:not(.consecutive) .x-mention,
+.message.mention.x-hover:not(.history):not(.consecutive) .x-mention,
+.message.mention.x-hover.history:not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 75%, 1);
+}
+
+.mention > .x-mention
+{
+	background: transparent !important;
+}

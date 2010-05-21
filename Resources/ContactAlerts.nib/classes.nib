@@ -1,0 +1,89 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAlternatingRowOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSOutlineView; 
+        }, 
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {CLASS = AIContactInfoPane; LANGUAGE = ObjC; SUPERCLASS = AIModularPane; }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = AIModularPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {plugin = id; view = NSView; }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AIOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {CLASS = AIPlasticButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = AIPlasticMinusButton; LANGUAGE = ObjC; SUPERCLASS = AIPlasticButton; }, 
+        {CLASS = AIPlasticPlusButton; LANGUAGE = ObjC; SUPERCLASS = AIPlasticButton; }, 
+        {
+            CLASS = AIVariableHeightFlexibleColumnsOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIVariableHeightOutlineView; 
+        }, 
+        {
+            CLASS = AIVariableHeightOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIAlternatingRowOutlineView; 
+        }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = ESContactAlertsPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contactAlertsViewController = ESContactAlertsViewController; }; 
+            SUPERCLASS = AIContactInfoPane; 
+        }, 
+        {
+            ACTIONS = {addAlert = id; deleteAlert = id; editAlert = id; }; 
+            CLASS = ESContactAlertsView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_add" = NSButton; 
+                "button_delete" = NSButton; 
+                "button_edit" = NSButton; 
+                "tableView_actions" = AIAlternatingRowTableView; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {addAlert = id; deleteAlert = id; editAlert = id; }; 
+            CLASS = ESContactAlertsViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_add" = NSButton; 
+                "button_delete" = NSButton; 
+                "button_edit" = NSButton; 
+                delegate = id; 
+                "outlineView_summary" = AIVariableHeightFlexibleColumnsOutlineView; 
+                view = NSView; 
+            }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {
+            ACTIONS = {addAlert = id; closeWindow = id; deleteAlert = id; editAlert = id; }; 
+            CLASS = ESContactAlertsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_delete" = NSButton; 
+                "button_edit" = NSButton; 
+                "tableView_actions" = AIAlternatingRowTableView; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

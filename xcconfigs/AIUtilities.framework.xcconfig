@@ -1,0 +1,9 @@
+DYLIB_CURRENT_VERSION = 1
+GCC_PREFIX_HEADER = Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch
+INFOPLIST_FILE = Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist
+PRODUCT_NAME = AIUtilities
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks"
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+DYLIB_COMPATIBILITY_VERSION = 1
+LD_DYLIB_INSTALL_NAME = @rpath/AIUtilities.framework/Versions/A/AIUtilities
+FRAMEWORK_VERSION = A

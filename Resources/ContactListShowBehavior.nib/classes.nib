@@ -1,0 +1,84 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AIActionDetailsPane;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIModularPane;
+        },
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            ACTIONS =             {
+                changePreference = id;
+            };
+            CLASS = AIModularPane;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                plugin = id;
+                view = NSView;
+            };
+            SUPERCLASS = AIObject;
+        },
+                {
+            CLASS = AIObject;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                prefsWindowWillClose = "SS_PrefsController";
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = SMContactListShowDetailsPane;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "label_note" = NSTextField;
+                "label_secondsToShow" = NSTextField;
+                "slider_secondsToShow" = NSSlider;
+            };
+            SUPERCLASS = AIActionDetailsPane;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

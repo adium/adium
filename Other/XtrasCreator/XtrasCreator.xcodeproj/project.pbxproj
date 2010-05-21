@@ -1,0 +1,529 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07484CB8091624B500D1A683 /* NSFileManager+BundleBit.m in Sources */ = {isa = PBXBuildFile; fileRef = 07484CB7091624B500D1A683 /* NSFileManager+BundleBit.m */; };
+		07484CBE0916254100D1A683 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07484CBD0916254100D1A683 /* Carbon.framework */; };
+		07484D0B09162D7700D1A683 /* AXCStartingPointsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07484D0A09162D7700D1A683 /* AXCStartingPointsController.m */; };
+		07484D1909162F8E00D1A683 /* StartingPoints.nib in Resources */ = {isa = PBXBuildFile; fileRef = 07484D1709162F8E00D1A683 /* StartingPoints.nib */; };
+		075618CD0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 075618CC0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.m */; };
+		076D84F10914AD6500D6D22C /* AdiumEmoticonset.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84E70914AD6500D6D22C /* AdiumEmoticonset.icns */; };
+		076D84F20914AD6500D6D22C /* AdiumIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84E80914AD6500D6D22C /* AdiumIcon.icns */; };
+		076D84F30914AD6500D6D22C /* AdiumListLayout.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84E90914AD6500D6D22C /* AdiumListLayout.icns */; };
+		076D84F40914AD6500D6D22C /* AdiumListTheme.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84EA0914AD6500D6D22C /* AdiumListTheme.icns */; };
+		076D84F50914AD6500D6D22C /* AdiumMessageStyle.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84EB0914AD6500D6D22C /* AdiumMessageStyle.icns */; };
+		076D84F60914AD6500D6D22C /* AdiumPlugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84EC0914AD6500D6D22C /* AdiumPlugin.icns */; };
+		076D84F70914AD6500D6D22C /* AdiumScripts.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84ED0914AD6500D6D22C /* AdiumScripts.icns */; };
+		076D84F80914AD6500D6D22C /* AdiumServiceIcons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84EE0914AD6500D6D22C /* AdiumServiceIcons.icns */; };
+		076D84F90914AD6500D6D22C /* AdiumSoundset.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84EF0914AD6500D6D22C /* AdiumSoundset.icns */; };
+		076D84FA0914AD6500D6D22C /* AdiumStatusIcons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 076D84F00914AD6500D6D22C /* AdiumStatusIcons.icns */; };
+		076D85770914D8DA00D6D22C /* AXCFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 076D85760914D8DA00D6D22C /* AXCFileCell.m */; };
+		076D85F40914E56200D6D22C /* AXCStatusIconPackDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 076D85F30914E56200D6D22C /* AXCStatusIconPackDocument.m */; };
+		076D86D209150D2000D6D22C /* AXCServiceIconPackDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 076D86D109150D2000D6D22C /* AXCServiceIconPackDocument.m */; };
+		0774A7FF0920BD1000CE742F /* NSMenu+ImmediatePopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0774A7FE0920BD1000CE742F /* NSMenu+ImmediatePopulation.m */; };
+		07E000E50915700B003FE813 /* AXCIconPackDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E000E40915700B003FE813 /* AXCIconPackDocument.m */; };
+		07E0018A09158940003FE813 /* NSMutableArrayAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E0018909158940003FE813 /* NSMutableArrayAdditions.m */; };
+		07E001B309159255003FE813 /* AXCIconPackEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E001B209159255003FE813 /* AXCIconPackEntry.m */; };
+		07E002780915AE6B003FE813 /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E002770915AE6B003FE813 /* ExceptionHandling.framework */; };
+		07E002870915AF7A003FE813 /* IconPack_IconPlistView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 07E002850915AF7A003FE813 /* IconPack_IconPlistView.nib */; };
+		07EE8605091731A500D6FB38 /* AXCDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07EE8604091731A500D6FB38 /* AXCDocumentController.m */; };
+		6330D78B0918A2F200DCEFDD /* AXCPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6330D78A0918A2F200DCEFDD /* AXCPreferenceController.m */; };
+		6330D82F0918AB6000DCEFDD /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6330D82E0918AB6000DCEFDD /* Preferences.nib */; };
+		635495A30911F19900F1EB0A /* MessageStyleView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 635495A20911F19900F1EB0A /* MessageStyleView.nib */; };
+		63B88C2E0916EFDF00B2803B /* AXCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B88C2D0916EFDF00B2803B /* AXCAppDelegate.m */; };
+		63D96247091616FD0041DF83 /* IconFamily.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D96244091616FD0041DF83 /* IconFamily.m */; };
+		63D96248091616FD0041DF83 /* NSString+CarbonFSSpecCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D96246091616FD0041DF83 /* NSString+CarbonFSSpecCreation.m */; };
+		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
+		8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */; };
+		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		8D15AC310486D014006FF6A4 /* AXCAbstractXtraDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* AXCAbstractXtraDocument.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		07484CB6091624B500D1A683 /* NSFileManager+BundleBit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+BundleBit.h"; sourceTree = "<group>"; };
+		07484CB7091624B500D1A683 /* NSFileManager+BundleBit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+BundleBit.m"; sourceTree = "<group>"; };
+		07484CBD0916254100D1A683 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		07484D0909162D7700D1A683 /* AXCStartingPointsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCStartingPointsController.h; sourceTree = "<group>"; };
+		07484D0A09162D7700D1A683 /* AXCStartingPointsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCStartingPointsController.m; sourceTree = "<group>"; };
+		07484D1809162F8E00D1A683 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/StartingPoints.nib; sourceTree = "<group>"; };
+		075618CB0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCArrayControllerWithDragAndDrop.h; sourceTree = "<group>"; };
+		075618CC0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCArrayControllerWithDragAndDrop.m; sourceTree = "<group>"; };
+		076D84E70914AD6500D6D22C /* AdiumEmoticonset.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumEmoticonset.icns; path = ../../Resources/AdiumEmoticonset.icns; sourceTree = SOURCE_ROOT; };
+		076D84E80914AD6500D6D22C /* AdiumIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumIcon.icns; path = ../../Resources/AdiumIcon.icns; sourceTree = SOURCE_ROOT; };
+		076D84E90914AD6500D6D22C /* AdiumListLayout.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumListLayout.icns; path = ../../Resources/AdiumListLayout.icns; sourceTree = SOURCE_ROOT; };
+		076D84EA0914AD6500D6D22C /* AdiumListTheme.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumListTheme.icns; path = ../../Resources/AdiumListTheme.icns; sourceTree = SOURCE_ROOT; };
+		076D84EB0914AD6500D6D22C /* AdiumMessageStyle.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumMessageStyle.icns; path = ../../Resources/AdiumMessageStyle.icns; sourceTree = SOURCE_ROOT; };
+		076D84EC0914AD6500D6D22C /* AdiumPlugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumPlugin.icns; path = ../../Resources/AdiumPlugin.icns; sourceTree = SOURCE_ROOT; };
+		076D84ED0914AD6500D6D22C /* AdiumScripts.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumScripts.icns; path = ../../Resources/AdiumScripts.icns; sourceTree = SOURCE_ROOT; };
+		076D84EE0914AD6500D6D22C /* AdiumServiceIcons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumServiceIcons.icns; path = ../../Resources/AdiumServiceIcons.icns; sourceTree = SOURCE_ROOT; };
+		076D84EF0914AD6500D6D22C /* AdiumSoundset.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumSoundset.icns; path = ../../Resources/AdiumSoundset.icns; sourceTree = SOURCE_ROOT; };
+		076D84F00914AD6500D6D22C /* AdiumStatusIcons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdiumStatusIcons.icns; path = ../../Resources/AdiumStatusIcons.icns; sourceTree = SOURCE_ROOT; };
+		076D85750914D8DA00D6D22C /* AXCFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCFileCell.h; sourceTree = "<group>"; };
+		076D85760914D8DA00D6D22C /* AXCFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCFileCell.m; sourceTree = "<group>"; };
+		076D85F20914E56200D6D22C /* AXCStatusIconPackDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCStatusIconPackDocument.h; sourceTree = "<group>"; };
+		076D85F30914E56200D6D22C /* AXCStatusIconPackDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCStatusIconPackDocument.m; sourceTree = "<group>"; };
+		076D86D009150D2000D6D22C /* AXCServiceIconPackDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCServiceIconPackDocument.h; sourceTree = "<group>"; };
+		076D86D109150D2000D6D22C /* AXCServiceIconPackDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCServiceIconPackDocument.m; sourceTree = "<group>"; };
+		0774A7FD0920BD1000CE742F /* NSMenu+ImmediatePopulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMenu+ImmediatePopulation.h"; sourceTree = "<group>"; };
+		0774A7FE0920BD1000CE742F /* NSMenu+ImmediatePopulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMenu+ImmediatePopulation.m"; sourceTree = "<group>"; };
+		07E000E30915700B003FE813 /* AXCIconPackDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCIconPackDocument.h; sourceTree = "<group>"; };
+		07E000E40915700B003FE813 /* AXCIconPackDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCIconPackDocument.m; sourceTree = "<group>"; };
+		07E0018809158940003FE813 /* NSMutableArrayAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArrayAdditions.h; sourceTree = "<group>"; };
+		07E0018909158940003FE813 /* NSMutableArrayAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArrayAdditions.m; sourceTree = "<group>"; };
+		07E001B109159255003FE813 /* AXCIconPackEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCIconPackEntry.h; sourceTree = "<group>"; };
+		07E001B209159255003FE813 /* AXCIconPackEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCIconPackEntry.m; sourceTree = "<group>"; };
+		07E002770915AE6B003FE813 /* ExceptionHandling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExceptionHandling.framework; path = /System/Library/Frameworks/ExceptionHandling.framework; sourceTree = "<absolute>"; };
+		07E002860915AF7A003FE813 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/IconPack_IconPlistView.nib; sourceTree = "<group>"; };
+		07EE8603091731A500D6FB38 /* AXCDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCDocumentController.h; sourceTree = "<group>"; };
+		07EE8604091731A500D6FB38 /* AXCDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCDocumentController.m; sourceTree = "<group>"; };
+		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		2A37F4ACFDCFA73011CA2CEA /* AXCAbstractXtraDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCAbstractXtraDocument.m; sourceTree = "<group>"; };
+		2A37F4AEFDCFA73011CA2CEA /* AXCAbstractXtraDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCAbstractXtraDocument.h; sourceTree = "<group>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2A37F4B5FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MyDocument.nib; sourceTree = "<group>"; };
+		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32DBCF750370BD2300C91783 /* XtrasCreator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XtrasCreator_Prefix.pch; sourceTree = "<group>"; };
+		6330D7890918A2F200DCEFDD /* AXCPreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCPreferenceController.h; sourceTree = "<group>"; };
+		6330D78A0918A2F200DCEFDD /* AXCPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCPreferenceController.m; sourceTree = "<group>"; };
+		6330D82E0918AB6000DCEFDD /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
+		635495A20911F19900F1EB0A /* MessageStyleView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MessageStyleView.nib; path = English.lproj/MessageStyleView.nib; sourceTree = "<group>"; };
+		63B88C2C0916EFDF00B2803B /* AXCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AXCAppDelegate.h; sourceTree = "<group>"; };
+		63B88C2D0916EFDF00B2803B /* AXCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AXCAppDelegate.m; sourceTree = "<group>"; };
+		63D96243091616FD0041DF83 /* IconFamily.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IconFamily.h; sourceTree = "<group>"; };
+		63D96244091616FD0041DF83 /* IconFamily.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IconFamily.m; sourceTree = "<group>"; };
+		63D96245091616FD0041DF83 /* NSString+CarbonFSSpecCreation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+CarbonFSSpecCreation.h"; sourceTree = "<group>"; };
+		63D96246091616FD0041DF83 /* NSString+CarbonFSSpecCreation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+CarbonFSSpecCreation.m"; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D15AC370486D014006FF6A4 /* XtrasCreator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XtrasCreator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D15AC330486D014006FF6A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+				07E002780915AE6B003FE813 /* ExceptionHandling.framework in Frameworks */,
+				07484CBE0916254100D1A683 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		076D84E30914AD5500D6D22C /* Xtra icons */ = {
+			isa = PBXGroup;
+			children = (
+				076D84E70914AD6500D6D22C /* AdiumEmoticonset.icns */,
+				076D84E80914AD6500D6D22C /* AdiumIcon.icns */,
+				076D84E90914AD6500D6D22C /* AdiumListLayout.icns */,
+				076D84EA0914AD6500D6D22C /* AdiumListTheme.icns */,
+				076D84EB0914AD6500D6D22C /* AdiumMessageStyle.icns */,
+				076D84EC0914AD6500D6D22C /* AdiumPlugin.icns */,
+				076D84ED0914AD6500D6D22C /* AdiumScripts.icns */,
+				076D84EE0914AD6500D6D22C /* AdiumServiceIcons.icns */,
+				076D84EF0914AD6500D6D22C /* AdiumSoundset.icns */,
+				076D84F00914AD6500D6D22C /* AdiumStatusIcons.icns */,
+			);
+			name = "Xtra icons";
+			sourceTree = "<group>";
+		};
+		076D85B60914E12000D6D22C /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				075618CB0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.h */,
+				075618CC0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.m */,
+				076D85750914D8DA00D6D22C /* AXCFileCell.h */,
+				076D85760914D8DA00D6D22C /* AXCFileCell.m */,
+				07E001B109159255003FE813 /* AXCIconPackEntry.h */,
+				07E001B209159255003FE813 /* AXCIconPackEntry.m */,
+				63D96243091616FD0041DF83 /* IconFamily.h */,
+				63D96244091616FD0041DF83 /* IconFamily.m */,
+			);
+			name = Generic;
+			sourceTree = "<group>";
+		};
+		07E000E209156F99003FE813 /* Service and Status icons */ = {
+			isa = PBXGroup;
+			children = (
+				07E000E30915700B003FE813 /* AXCIconPackDocument.h */,
+				07E000E40915700B003FE813 /* AXCIconPackDocument.m */,
+				076D86D009150D2000D6D22C /* AXCServiceIconPackDocument.h */,
+				076D86D109150D2000D6D22C /* AXCServiceIconPackDocument.m */,
+				076D85F20914E56200D6D22C /* AXCStatusIconPackDocument.h */,
+				076D85F30914E56200D6D22C /* AXCStatusIconPackDocument.m */,
+			);
+			name = "Service and Status icons";
+			sourceTree = "<group>";
+		};
+		07E0017E0915891A003FE813 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				63D96245091616FD0041DF83 /* NSString+CarbonFSSpecCreation.h */,
+				63D96246091616FD0041DF83 /* NSString+CarbonFSSpecCreation.m */,
+				07E0018809158940003FE813 /* NSMutableArrayAdditions.h */,
+				07E0018909158940003FE813 /* NSMutableArrayAdditions.m */,
+				07484CB6091624B500D1A683 /* NSFileManager+BundleBit.h */,
+				07484CB7091624B500D1A683 /* NSFileManager+BundleBit.m */,
+				0774A7FD0920BD1000CE742F /* NSMenu+ImmediatePopulation.h */,
+				0774A7FE0920BD1000CE742F /* NSMenu+ImmediatePopulation.m */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				07484CBD0916254100D1A683 /* Carbon.framework */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+				07E002770915AE6B003FE813 /* ExceptionHandling.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				13E42FBA07B3F13500E4EEF1 /* CoreData.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D15AC370486D014006FF6A4 /* XtrasCreator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* XtrasCreator */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				07E0017E0915891A003FE813 /* Additions */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+			);
+			name = XtrasCreator;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				63B88C2C0916EFDF00B2803B /* AXCAppDelegate.h */,
+				63B88C2D0916EFDF00B2803B /* AXCAppDelegate.m */,
+				07EE8603091731A500D6FB38 /* AXCDocumentController.h */,
+				07EE8604091731A500D6FB38 /* AXCDocumentController.m */,
+				6330D7890918A2F200DCEFDD /* AXCPreferenceController.h */,
+				6330D78A0918A2F200DCEFDD /* AXCPreferenceController.m */,
+				07484D0909162D7700D1A683 /* AXCStartingPointsController.h */,
+				07484D0A09162D7700D1A683 /* AXCStartingPointsController.m */,
+				076D85B60914E12000D6D22C /* Generic */,
+				2A37F4AEFDCFA73011CA2CEA /* AXCAbstractXtraDocument.h */,
+				2A37F4ACFDCFA73011CA2CEA /* AXCAbstractXtraDocument.m */,
+				07E000E209156F99003FE813 /* Service and Status icons */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF750370BD2300C91783 /* XtrasCreator_Prefix.pch */,
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				076D84E30914AD5500D6D22C /* Xtra icons */,
+				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
+				6330D82E0918AB6000DCEFDD /* Preferences.nib */,
+				07484D1709162F8E00D1A683 /* StartingPoints.nib */,
+				2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */,
+				07E002850915AF7A003FE813 /* IconPack_IconPlistView.nib */,
+				635495A20911F19900F1EB0A /* MessageStyleView.nib */,
+				8D15AC360486D014006FF6A4 /* Info.plist */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D15AC270486D014006FF6A4 /* XtrasCreator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 635495440911DD6200F1EB0A /* Build configuration list for PBXNativeTarget "XtrasCreator" */;
+			buildPhases = (
+				8D15AC2B0486D014006FF6A4 /* Resources */,
+				8D15AC300486D014006FF6A4 /* Sources */,
+				8D15AC330486D014006FF6A4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XtrasCreator;
+			productInstallPath = "$(HOME)/Applications";
+			productName = XtrasCreator;
+			productReference = 8D15AC370486D014006FF6A4 /* XtrasCreator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 635495480911DD6200F1EB0A /* Build configuration list for PBXProject "XtrasCreator" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* XtrasCreator */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D15AC270486D014006FF6A4 /* XtrasCreator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D15AC2B0486D014006FF6A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
+				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
+				6330D82F0918AB6000DCEFDD /* Preferences.nib in Resources */,
+				07484D1909162F8E00D1A683 /* StartingPoints.nib in Resources */,
+				8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */,
+				07E002870915AF7A003FE813 /* IconPack_IconPlistView.nib in Resources */,
+				635495A30911F19900F1EB0A /* MessageStyleView.nib in Resources */,
+				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				076D84F10914AD6500D6D22C /* AdiumEmoticonset.icns in Resources */,
+				076D84F20914AD6500D6D22C /* AdiumIcon.icns in Resources */,
+				076D84F30914AD6500D6D22C /* AdiumListLayout.icns in Resources */,
+				076D84F40914AD6500D6D22C /* AdiumListTheme.icns in Resources */,
+				076D84F50914AD6500D6D22C /* AdiumMessageStyle.icns in Resources */,
+				076D84F60914AD6500D6D22C /* AdiumPlugin.icns in Resources */,
+				076D84F70914AD6500D6D22C /* AdiumScripts.icns in Resources */,
+				076D84F80914AD6500D6D22C /* AdiumServiceIcons.icns in Resources */,
+				076D84F90914AD6500D6D22C /* AdiumSoundset.icns in Resources */,
+				076D84FA0914AD6500D6D22C /* AdiumStatusIcons.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D15AC300486D014006FF6A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC320486D014006FF6A4 /* main.m in Sources */,
+				07E0018A09158940003FE813 /* NSMutableArrayAdditions.m in Sources */,
+				63D96248091616FD0041DF83 /* NSString+CarbonFSSpecCreation.m in Sources */,
+				07484CB8091624B500D1A683 /* NSFileManager+BundleBit.m in Sources */,
+				0774A7FF0920BD1000CE742F /* NSMenu+ImmediatePopulation.m in Sources */,
+				63D96247091616FD0041DF83 /* IconFamily.m in Sources */,
+				075618CD0921F0BE00CBD740 /* AXCArrayControllerWithDragAndDrop.m in Sources */,
+				076D85770914D8DA00D6D22C /* AXCFileCell.m in Sources */,
+				63B88C2E0916EFDF00B2803B /* AXCAppDelegate.m in Sources */,
+				07EE8605091731A500D6FB38 /* AXCDocumentController.m in Sources */,
+				6330D78B0918A2F200DCEFDD /* AXCPreferenceController.m in Sources */,
+				07484D0B09162D7700D1A683 /* AXCStartingPointsController.m in Sources */,
+				8D15AC310486D014006FF6A4 /* AXCAbstractXtraDocument.m in Sources */,
+				07E001B309159255003FE813 /* AXCIconPackEntry.m in Sources */,
+				07E000E50915700B003FE813 /* AXCIconPackDocument.m in Sources */,
+				076D86D209150D2000D6D22C /* AXCServiceIconPackDocument.m in Sources */,
+				076D85F40914E56200D6D22C /* AXCStatusIconPackDocument.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		07484D1709162F8E00D1A683 /* StartingPoints.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				07484D1809162F8E00D1A683 /* English */,
+			);
+			name = StartingPoints.nib;
+			sourceTree = "<group>";
+		};
+		07E002850915AF7A003FE813 /* IconPack_IconPlistView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				07E002860915AF7A003FE813 /* English */,
+			);
+			name = IconPack_IconPlistView.nib;
+			sourceTree = "<group>";
+		};
+		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1660FE840EACC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4B5FDCFA73011CA2CEA /* English */,
+			);
+			name = MyDocument.nib;
+			sourceTree = "<group>";
+		};
+		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4B7FDCFA73011CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4BAFDCFA73011CA2CEA /* English */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		635495450911DD6200F1EB0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = XtrasCreator_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = XtrasCreator;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		635495460911DD6200F1EB0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = XtrasCreator_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = XtrasCreator;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		635495470911DD6200F1EB0A /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = XtrasCreator_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = XtrasCreator;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		635495490911DD6200F1EB0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+			};
+			name = Debug;
+		};
+		6354954A0911DD6200F1EB0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+			};
+			name = Release;
+		};
+		6354954B0911DD6200F1EB0A /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		635495440911DD6200F1EB0A /* Build configuration list for PBXNativeTarget "XtrasCreator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				635495450911DD6200F1EB0A /* Debug */,
+				635495460911DD6200F1EB0A /* Release */,
+				635495470911DD6200F1EB0A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		635495480911DD6200F1EB0A /* Build configuration list for PBXProject "XtrasCreator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				635495490911DD6200F1EB0A /* Debug */,
+				6354954A0911DD6200F1EB0A /* Release */,
+				6354954B0911DD6200F1EB0A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}

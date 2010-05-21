@@ -1,0 +1,94 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AIAlternatingRowTableView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            CLASS = AIAutoScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScrollView;
+        },
+                {
+            CLASS = AILocalizationButton;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            ACTIONS =             {
+                sendContent = id;
+            };
+            CLASS = AISendingTextView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                target = id;
+            };
+            SUPERCLASS = NSTextView;
+        },
+                {
+            CLASS = AISmartStepper;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSStepper;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+            };
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            ACTIONS =             {
+                cancel = id;
+                okay = id;
+            };
+            CLASS = ESPresetNameSheetController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "button_cancel" = NSButton;
+                "button_ok" = NSButton;
+                "label_name" = NSTextField;
+                "scrollView_explanatoryText" = NSScrollView;
+                target = id;
+                "textField_name" = NSTextField;
+                "textView_explanatoryText" = NSTextView;
+                userInfo = id;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        }
+    );
+    IBVersion = 1;
+}
