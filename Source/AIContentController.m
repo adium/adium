@@ -564,6 +564,11 @@
 
 	//We are no longer in the process of receiving this object
 	[objectsBeingReceived removeObject:inObject];
+	
+	if (![inObject displayContent] && ![inObject.chat isOpen]) {
+		// chat wasn't open, so close it so it doesn't leak
+		[adium.interfaceController closeChat:inObject.chat];
+	}
 }
 
 #pragma mark -
