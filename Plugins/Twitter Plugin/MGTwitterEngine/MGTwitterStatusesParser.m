@@ -60,7 +60,9 @@
 {
     [super parser:theParser didEndElement:elementName namespaceURI:namespaceURI qualifiedName:qName];
     
-    if ([elementName isEqualToString:@"user"] || [elementName isEqualToString:@"retweeted_status"]) {
+	if ([elementName isEqualToString:@"user"] || [elementName isEqualToString:@"geo"] ||
+		[elementName isEqualToString:@"coordinates"] || [elementName isEqualToString:@"place"] ||
+		[elementName isEqualToString:@"retweeted_status"]) {
         currentNode = [parsedObjects lastObject];
     } else if ([elementName isEqualToString:@"status"]) {
         [self addSource];
