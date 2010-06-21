@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
+		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
@@ -15,18 +15,17 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>740</string>
+				<string>762</string>
 				<string>1</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>net.wafflesoftware.ShortcutRecorder.IB.Leopard</string>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+			<string>net.wafflesoftware.ShortcutRecorder.IB.Leopard</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -49,7 +48,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="854546029">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -75,7 +74,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="131872124">
@@ -211,7 +210,7 @@
 						<object class="NSButtonCell" key="NSCell" id="56466105">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Afficher l'icone de statut dans la barre des menus</string>
+							<string key="NSContents">Afficher le statut d’Adium dans la barre de menus</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="431055635"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -298,7 +297,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="1029603461">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Raccourci :</string>
+							<string key="NSContents">Raccourci global :</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="756094106"/>
 							<reference key="NSBackgroundColor" ref="724846134"/>
@@ -308,7 +307,7 @@
 					<object class="NSTextField" id="582882108">
 						<reference key="NSNextResponder" ref="854546029"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{177, 20}, {229, 28}}</string>
+						<string key="NSFrame">{{177, 20}, {250, 28}}</string>
 						<reference key="NSSuperview" ref="854546029"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="275396460">
@@ -328,7 +327,7 @@
 					<object class="SRRecorderControl" id="816271817">
 						<reference key="NSNextResponder" ref="854546029"/>
 						<int key="NSvFlags">258</int>
-						<string key="NSFrame">{{180, 56}, {223, 22}}</string>
+						<string key="NSFrame">{{180, 56}, {244, 22}}</string>
 						<reference key="NSSuperview" ref="854546029"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="SRRecorderCell" key="NSCell" id="428008652">
@@ -377,7 +376,7 @@
 						<object class="NSButtonCell" key="NSCell" id="1056041568">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Ranger les nouvelles discussions par onglet</string>
+							<string key="NSContents">Ranger les nouvelles conversations par onglet</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="847653286"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -415,7 +414,7 @@
 					<object class="NSPopUpButton" id="63976926">
 						<reference key="NSNextResponder" ref="854546029"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{315, 283}, {147, 26}}</string>
+						<string key="NSFrame">{{315, 284}, {147, 26}}</string>
 						<reference key="NSSuperview" ref="854546029"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="615898173">
@@ -434,7 +433,7 @@
 							<int key="NSPeriodicInterval">75</int>
 							<object class="NSMenuItem" key="NSMenuItem" id="1043226218">
 								<reference key="NSMenu" ref="181094675"/>
-								<string key="NSTitle">A droite</string>
+								<string key="NSTitle">À droite</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
@@ -477,7 +476,7 @@
 									</object>
 									<object class="NSMenuItem" id="781022226">
 										<reference key="NSMenu" ref="181094675"/>
-										<string key="NSTitle">A gauche</string>
+										<string key="NSTitle">À gauche</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
@@ -645,13 +644,13 @@
 					<object class="NSTextField" id="611489549">
 						<reference key="NSNextResponder" ref="854546029"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{303, 347}, {317, 34}}</string>
+						<string key="NSFrame">{{303, 347}, {330, 34}}</string>
 						<reference key="NSSuperview" ref="854546029"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1023550633">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272629760</int>
-							<string key="NSContents">messages récents dans les nouvelles discussions</string>
+							<string key="NSContents">messages récents dans les nouvelles conversations</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="611489549"/>
 							<reference key="NSBackgroundColor" ref="724846134"/>
@@ -682,7 +681,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{637, 425}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -1962,7 +1960,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{302, 253}, {637, 425}}</string>
+					<string>{{329, 253}, {637, 425}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>AILocalizationButton</string>
@@ -2303,6 +2301,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
@@ -2314,5 +2313,20 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../../Adium.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>NSMenuCheckmark</string>
+				<string>NSMenuMixedState</string>
+				<string>NSSwitch</string>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{9, 8}</string>
+				<string>{7, 2}</string>
+				<string>{15, 15}</string>
+			</object>
+		</object>
 	</data>
 </archive>
