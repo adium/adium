@@ -429,7 +429,19 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		return [[categories objectAtIndex:row] objectForKey:@"Name"];
 	} else {
 		NSString * name = [[selectedCategory objectAtIndex:row] name];
-		return (name != nil) ? name : @"";
+		NSString * version = [[selectedCategory objectAtIndex:row] version];
+		NSString * displayString;
+
+		if (name) {
+			if (version)
+				displayString = [NSString stringWithFormat:@"%@ (%@)", name, version];
+			else
+				displayString = [NSString stringWithString:name];
+		} else {
+			displayString = [NSString stringWithString:@""];
+		}
+
+		return displayString;
 	}
 }
 

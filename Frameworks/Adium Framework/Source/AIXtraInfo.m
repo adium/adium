@@ -29,6 +29,11 @@
 	return name;
 }
 
+- (NSString *)version
+{
+	return version;
+}
+
 - (void) setName:(NSString *)inName
 {
 	if(!inName) name = @"Unnamed Xtra";
@@ -56,6 +61,7 @@
 		path = [[url path] retain];
 		type = [[[[url path] pathExtension] lowercaseString] retain];
 		xtraBundle = [[NSBundle alloc] initWithPath:path];
+		version = [[xtraBundle objectForInfoDictionaryKey:@"CFBundleVersion"] retain];
 		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1)) { //This checks for a new-style xtra
 			[self setName:[xtraBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]];
 			resourcePath = [[xtraBundle resourcePath] retain];
@@ -105,6 +111,7 @@
 	[name release];
 	[resourcePath release];
 	[type release];
+	[version release];
 	[readMePath release];
 	[super dealloc];
 }
