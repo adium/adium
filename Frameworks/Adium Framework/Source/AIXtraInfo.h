@@ -18,6 +18,7 @@
 @interface AIXtraInfo : NSObject {
 	NSString		*name;
 	NSString		*path;
+	NSString		*version;
 	NSImage			*icon;
 	NSImage			*previewImage;
 	NSString		*resourcePath;
@@ -34,6 +35,7 @@
 - (NSString *)type;
 - (NSString *)path;
 - (NSString *)name;
+- (NSString *)version;
 - (NSString *)resourcePath;
 - (NSString *)readMePath;
 - (NSImage *)icon;
