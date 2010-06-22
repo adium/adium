@@ -47,7 +47,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 {
 	NSDictionary        *m_urlSchemes;
 	NSString            *m_scanString;
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 	NSString            *m_linkifiedString;
 #else
 	NSAttributedString  *m_scanAttrString;
@@ -77,7 +77,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 + (id)strictHyperlinkScannerWithString:(NSString *)inString;
 
-#ifndef TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given attributed string
  *
@@ -116,7 +116,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag;
 
-#ifndef TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 /*!
  * @brief Init
  *
@@ -150,7 +150,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (NSArray *)allURIs;
 
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 /*!
  * @brief Scans the stored string for URIs then adds the link attribs and objects.
  * @return An autoreleased NSString.

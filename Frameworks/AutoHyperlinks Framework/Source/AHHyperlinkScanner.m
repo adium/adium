@@ -36,7 +36,7 @@
 
 @interface AHHyperlinkScanner (PRIVATE)
 - (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (NSString *)_createLinkifiedString;
 #else
 - (NSAttributedString *)_createLinkifiedString;
@@ -101,7 +101,7 @@
 	return [[[[self class] alloc] initWithString:inString usingStrictChecking:YES] autorelease];
 }
 
-#ifndef TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 + (id)hyperlinkScannerWithAttributedString:(NSAttributedString *)inString
 {
 	return [[[[self class] alloc] initWithAttributedString:inString usingStrictChecking:NO] autorelease];
@@ -119,7 +119,7 @@
 	if((self = [super init])){
 		self.scanLocation = 0;
 		m_linkifiedString = nil;
-#ifndef TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 		m_scanAttrString = nil;
 #endif
 	}
@@ -139,7 +139,7 @@
 	return self;
 }
 
-#ifndef TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 - (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag
 {
 	if((self = [super init])){
@@ -161,7 +161,9 @@
 	[m_linkifiedString release];
 	[m_scanString release];
 	[m_urlSchemes release];
+#if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 	if(m_scanAttrString) [m_scanAttrString release];
+#endif
 	[super dealloc];
 }
 
@@ -364,7 +366,7 @@
 	return rangeArray;
 }
 
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 -(NSString *)_createLinkifiedString
 {
 	NSMutableString       *_linkifiedString;
