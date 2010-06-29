@@ -62,6 +62,12 @@
 #define ADIUM_FORUM_PAGE					AILocalizedString(@"http://forum.adium.im/","Adium forums page. Localized only if a translated version exists.")
 #define ADIUM_FEEDBACK_PAGE					@"mailto:feedback@adium.im"
 
+#if defined(BETA_RELEASE)
+#define ADIUM_VERSION_HISTORY_PAGE			@"http://beta.adium.im"
+#else
+#define ADIUM_VERSION_HISTORY_PAGE			@"http://trac.adium.im/wiki/AdiumVersionHistory"
+#endif
+
 //Portable Adium prefs key
 #define PORTABLE_ADIUM_KEY					@"Preference Folder Location"
 
@@ -394,6 +400,9 @@ static NSString	*prefsCategory;
 
 - (IBAction)reportABug:(id)sender{
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_REPORT_BUG_PAGE]];
+}
+- (IBAction)showVersionHistory:(id)sender{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_VERSION_HISTORY_PAGE]];
 }
 - (IBAction)sendFeedback:(id)sender{
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_FEEDBACK_PAGE]];
