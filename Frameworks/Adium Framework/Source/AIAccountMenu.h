@@ -37,7 +37,7 @@ typedef enum {
 	BOOL			showTitleVerbs;
 	BOOL			includeDisabledAccountsMenu;
 	BOOL			includeAddAccountsMenu;
-	BOOL			includeConnectAllMenuItem;
+	BOOL			delegateRespondsToSpecialMenuItem;
 
 	NSControlSize	controlSize;
 
@@ -77,8 +77,8 @@ typedef enum {
 //Should the account menu include a submenu of services for adding accounts?
 - (BOOL)accountMenuShouldIncludeAddAccountsMenu:(AIAccountMenu *)inAccountMenu;			
 
-//Should the account menu include a "connect all" menu item?
-- (BOOL)accountMenuShouldIncludeConnectAllMenuItem:(AIAccountMenu *)inAccountMenu;			
+//Does the menu require a special topmost item + seperator?
+- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu;			
 
 //Should the account menu include a submenu of 'disabled accounts'?
 - (BOOL)accountMenuShouldIncludeDisabledAccountsMenu:(AIAccountMenu *)inAccountMenu;			

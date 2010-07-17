@@ -25,6 +25,7 @@
 
 @interface AIAccountMenuAccessPlugin ()
 - (void)showGuestAccountWindow:(id)sender;
+- (void)connectAllAccounts:(NSMenuItem *)menuItem;
 @end
 
 /*!
@@ -95,9 +96,25 @@
 	return YES;
 }
 
-- (BOOL)accountMenuShouldIncludeConnectAllMenuItem:(AIAccountMenu *)inAccountMenu
+- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu
 {
-	return YES;
+	NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Connect All Accounts",nil)
+																				target:self
+																				action:@selector(connectAllAccounts:)
+																		 keyEquivalent:@"R"];
+	[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+	return [menuItem autorelease];
+}
+
+/*!
+ * @brief Connects all offline, enabled acounts
+ */
+- (void)connectAllAccounts:(NSMenuItem *)menuItem
+{
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.enabled && !account.online)
+			[account setShouldBeOnline:YES];
+	}
 }
 
 #pragma mark Guest account access
