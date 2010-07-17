@@ -645,14 +645,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		}		
 	}
 
-	//Add the All menu item first if we have more than one account listed
-	if ([menuItems count] > 1) {
-		[menu addItemWithTitle:AILocalizedString(@"All", nll)
-						target:self
-						action:@selector(selectedAllAccountItem:)
-				 keyEquivalent:@""];
-	}
-
 	/*
 	 * As we enumerate, we:
 	 *	1) Determine what state the accounts within the menu are in
@@ -677,6 +669,28 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 
 	[menu release];
+}
+
+//Add the All menu item first if we have more than one account listed
+- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu
+{
+	NSMenuItem	*allItem = nil;
+	int			numberOfOnlineAccounts = 0;
+	
+	for (AIAccount *account in adium.accountController.accounts) {
+		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
+			numberOfOnlineAccounts += 1;
+			if (numberOfOnlineAccounts > 1) {
+				allItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"All", nil)
+													  target:self
+													  action:@selector(selectedAllAccountItem:)
+											   keyEquivalent:@""] autorelease];
+				break;
+			}
+		}
+	}
+	
+	return allItem;
 }
 
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount

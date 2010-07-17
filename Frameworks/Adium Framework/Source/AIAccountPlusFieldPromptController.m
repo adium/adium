@@ -63,23 +63,29 @@
 	AIAccount		*account = [[popUp_service selectedItem] representedObject];
 
 	id impliedValue = [textField_handle impliedValue];
-	if ([impliedValue isKindOfClass:[AIMetaContact class]]) {
+	
+	// It is not on our contact list, create a contact if possible and start a new chat, otherwise, tell the user they should be more specific.
+	if ([impliedValue isKindOfClass:[NSString class]]) {
+		if (account) {
+			UID = [account.service normalizeUID:impliedValue removeIgnoredCharacters:YES];
+			
+			contact = [adium.contactController contactWithService:account.service
+														  account:account 
+															  UID:UID];
+		} else {
+			NSRunAlertPanel(AILocalizedString(@"Contact not found", nil),
+							[NSString stringWithFormat:AILocalizedString(@"%@ is not on any account. Please select a specific account or add this contact first.", nil), impliedValue],
+							AILocalizedString(@"OK", nil),
+							nil,
+							nil);
+			
+			return nil;
+		}
+	} else {
+		// Contact is on our list
 		contact = impliedValue;
-
-	} else if ([impliedValue isKindOfClass:[AIListContact class]]) {
-		UID = [(AIListContact *)impliedValue UID];
-
-	} else  if ([impliedValue isKindOfClass:[NSString class]]) {
-		UID = [account.service normalizeUID:impliedValue removeIgnoredCharacters:YES];
 	}
-
-	if (!contact && UID) {
-		//Find the contact
-		contact = [adium.contactController contactWithService:account.service
-														account:account 
-															UID:UID];		
-	}
-
+	
 	return contact;
 }
 
@@ -90,14 +96,15 @@
 	
 	/* Configure the auto-complete view to autocomplete for contacts matching the selected account's service
 	 * Don't include meta contacts which don't currently contain any valid contacts
+	 * If the account is nil, we show them all
 	 */
 	for (AIListContact *contact in adium.contactController.allContacts) {
-		if ([contact.service.serviceClass isEqualToString:account.service.serviceClass] &&
-		    (![contact isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)contact uniqueContainedObjectsCount])) {
+		if (account == nil || ([contact.service.serviceClass isEqualToString:account.service.serviceClass] &&
+		    (![contact isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)contact uniqueContainedObjectsCount]))) {
 			NSString *UID = contact.UID;
-			[textField_handle addCompletionString:contact.formattedUID withImpliedCompletion:UID];
+			[textField_handle addCompletionString:contact.formattedUID withImpliedCompletion:contact];
+			[textField_handle addCompletionString:UID withImpliedCompletion:contact];
 			[textField_handle addCompletionString:contact.displayName withImpliedCompletion:contact];
-			[textField_handle addCompletionString:UID];
 		}
 	}	
 }
@@ -192,13 +199,33 @@
 #pragma mark Account menu
 //Account menu delegate
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems {
-	[popUp_service setMenu:[inAccountMenu menu]];	
+	[popUp_service setMenu:[inAccountMenu menu]];
 }	
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount {
 	[self _configureTextFieldForAccount:inAccount];
 }
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount {
 	return inAccount.online;
+}
+
+- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu
+{
+	NSMenuItem *anyItem = nil;
+	int numberOfOnlineAccounts = 0;
+	
+	for (AIAccount *account in adium.accountController.accounts) {
+		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
+			numberOfOnlineAccounts += 1;
+			if (numberOfOnlineAccounts > 1) {
+				anyItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Any", nil)
+													  action:nil
+											   keyEquivalent:@""] autorelease];
+				break;
+			}
+		}
+	}
+	
+	return anyItem;
 }
 
 //Select the last used account / Available online account

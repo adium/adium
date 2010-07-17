@@ -47,6 +47,7 @@
 - (void)_updateMenuItem:(NSMenuItem *)menuItem;
 - (NSString *)_titleForAccount:(AIAccount *)account;
 - (NSMenu *)actionsMenuForAccount:(AIAccount *)inAccount;
+- (void)selectAccountMenuItem:(NSMenuItem *)menuItem;
 - (void)menuNeedsUpdate:(NSMenu*)menu;
 - (void)rebuildActionsSubmenu:(NSMenu*)actionsSubmenu withAccount:(AIAccount*)account;
 - (void)toggleAccountEnabled:(id)sender;
@@ -175,8 +176,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	includeDisabledAccountsMenu = ([delegate respondsToSelector:@selector(accountMenuShouldIncludeDisabledAccountsMenu:)] &&
 								   [delegate accountMenuShouldIncludeDisabledAccountsMenu:self]);
 	
-	includeConnectAllMenuItem = ([delegate respondsToSelector:@selector(accountMenuShouldIncludeConnectAllMenuItem:)] &&
-								 [delegate accountMenuShouldIncludeConnectAllMenuItem:self]);
+	delegateRespondsToSpecialMenuItem = [delegate respondsToSelector:@selector(accountMenuSpecialMenuItem:)];
 }
 - (id<AIAccountMenuDelegate>)delegate
 {
@@ -202,18 +202,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	}
 }
 
-/*!
- * @brief Connects all offline, enabled acounts
- */
-- (void)connectAllAccounts:(NSMenuItem *)menuItem
-{
-	for (AIAccount *account in adium.accountController.accounts) {
-		if (account.enabled && !account.online)
-			[account setShouldBeOnline:YES];
-	}
-}
-
-
 //Account Menu ---------------------------------------------------------------------------------------------------------
 #pragma mark Account Menu
 /*!
@@ -224,15 +212,20 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
 	NSArray			*accounts = adium.accountController.accounts;
 	
-	if (includeConnectAllMenuItem) {
-		NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Connect All Accounts",nil)
-																					target:self
-																					action:@selector(connectAllAccounts:)
-																			 keyEquivalent:@"R"];
-		[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-		[menuItemArray addObject:menuItem];
-		[menuItemArray addObject:[NSMenuItem separatorItem]];
-		[menuItem release];
+	if (delegateRespondsToSpecialMenuItem) {
+		
+		NSMenuItem *specialMenuItem = [delegate accountMenuSpecialMenuItem:self];
+		
+		if (specialMenuItem) {
+			// unless overridden to a different action, just send -accountMenu:didSelectAccount: with nil when selected
+			if ([specialMenuItem target] == nil) {
+				[specialMenuItem setTarget:self];
+				[specialMenuItem setAction:@selector(selectAccountMenuItem:)];
+			}
+			
+			[menuItemArray addObject:specialMenuItem];
+			[menuItemArray addObject:[NSMenuItem separatorItem]];
+		}
 	}
 	
 	//Add a menuitem for each enabled account or accounts that the delegate allows
