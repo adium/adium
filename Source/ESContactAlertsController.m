@@ -15,7 +15,7 @@
  */
 
 #import "ESContactAlertsController.h"
-
+#import "AIDoNothingContactAlertPlugin.h"
 #import <Adium/AIListObject.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
@@ -291,8 +291,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSMutableSet	*performedActionIDs = nil;
 	
 	if (alerts && [alerts count]) {
-		NSDictionary		*alert;
-
 		performedActionIDs = (previouslyPerformedActionIDs ?
 							  [[previouslyPerformedActionIDs mutableCopy] autorelease]:
 							  [NSMutableSet set]);
@@ -300,12 +298,9 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		//We go from contact->group->root; a given action will only fire once for this event
 
 		//Process each alert (There may be more than one for an event)
-		for (alert in alerts) {
-			NSString	*actionID;
-			id <AIActionHandler>	actionHandler;			
-			
-			actionID = [alert objectForKey:KEY_ACTION_ID];
-			actionHandler = [actionHandlers objectForKey:actionID];		
+		for (NSDictionary *alert in alerts) {
+			NSString *actionID = [alert objectForKey:KEY_ACTION_ID];
+			id <AIActionHandler> actionHandler = [actionHandlers objectForKey:actionID];
 			
 			if ((![performedActionIDs containsObject:actionID]) || ([actionHandler allowMultipleActionsWithID:actionID])) {
 				if ([actionHandler performActionID:actionID
@@ -341,7 +336,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  * @brief Append events for the passed object to the specified array.
  *
  * @param events The array of events so far. Create the array if passed nil.
- * @param The object for which we'ere retrieving events. If nil, we retrieve the global preferences.
+ * @param The object for which we're retrieving events. If nil, we retrieve the global preferences.
  *
  * This method is intended to be called recursively; it should generate an array which has alerts from:
  * contact->metaContact->group->global preferences (skipping any which don't exist).
@@ -360,6 +355,13 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	if (newEvents && [newEvents count]) {
 		if (!events) events = [NSMutableArray array];
 		[events addObjectsFromArray:newEvents];
+		
+		//Don't add any more events if there's a Do Nothing action
+		for (NSDictionary *event in newEvents){
+			NSString *actionID = [event objectForKey:KEY_ACTION_ID];
+			if ([actionID isEqualToString:DO_NOTHING_ALERT_IDENTIFIER])
+				return events;
+		}
 	}
 
 	//Get all events from the contanining object if we have an object
