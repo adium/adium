@@ -1149,6 +1149,8 @@
 		4F1CB6420D640DA40073A1E6 /* info_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63E0D640DA40073A1E6 /* info_segment.png */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
+		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
+		5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* Stop sign.png */; };
 		63093C2F0892143500F118D3 /* newContentThreeDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2D0892143500F118D3 /* newContentThreeDigits.png */; };
 		63093C300892143500F118D3 /* newContentTwoDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2E0892143500F118D3 /* newContentTwoDigits.png */; };
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4287,6 +4289,9 @@
 		5A7645BB11E0486300E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = "Plugins/Twitter Plugin/sk_SK.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
 		5A76477F11E04B8400E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = "Frameworks/Adium Framework/Resources/sk_SK.lproj/EditStateSheet.nib"; sourceTree = "<group>"; };
 		5A76478911E04B8F00E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDoNothingContactAlertPlugin.h; sourceTree = "<group>"; };
+		5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIDoNothingContactAlertPlugin.m; sourceTree = "<group>"; };
+		5A9A9F8A11F295EB00328DF9 /* Stop sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Stop sign.png"; path = "Resources/Stop sign.png"; sourceTree = SOURCE_ROOT; };
 		63093C2D0892143500F118D3 /* newContentThreeDigits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newContentThreeDigits.png; sourceTree = "<group>"; };
 		63093C2E0892143500F118D3 /* newContentTwoDigits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newContentTwoDigits.png; sourceTree = "<group>"; };
 		6311F46F0E340DD2004234B8 /* AISharedAdium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISharedAdium.h; path = "Frameworks/Adium Framework/Source/AISharedAdium.h"; sourceTree = "<group>"; };
@@ -6073,6 +6078,7 @@
 				343EAB8306EF857F001CDAFF /* Applescript Contact Alert */,
 				4B18A51F0459F89300A8010A /* Contact and Chat Dock Overlays */,
 				4BAA1B3F0632EDDE00D8B92C /* Contact Status Events */,
+				5AF6824311C46E6B005B3AF5 /* Do Nothing Contact Alert */,
 				9EB7C05703D52AFA00415B22 /* Dock Behavior Contact Alert */,
 				346BA3330774C21300628F06 /* Global Events Preferences */,
 				52C623DE06697AFA0006C387 /* Growl */,
@@ -7559,6 +7565,17 @@
 				9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */,
 			);
 			name = Growl;
+			sourceTree = "<group>";
+		};
+		5AF6824311C46E6B005B3AF5 /* Do Nothing Contact Alert */ = {
+			isa = PBXGroup;
+			children = (
+				5A9A9F8A11F295EB00328DF9 /* Stop sign.png */,
+				5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */,
+				5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */,
+			);
+			name = "Do Nothing Contact Alert";
+			path = "Plugins/Do Nothing Contact Alert";
 			sourceTree = "<group>";
 		};
 		6302F7DE0F9D9D4C001E3EC7 /* Linked Frameworks */ = {
@@ -10094,6 +10111,7 @@
 				1130EA9E109B445D00FB3454 /* pref-messagealerts.png in Resources */,
 				11AE5555109CC88C0074BDC2 /* pref-confirmations.png in Resources */,
 				1147FCC810D1CB83004E9E8D /* AIMediaWindow.nib in Resources */,
+				5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10760,6 +10778,7 @@
 				11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */,
 				11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */,
 				1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */,
+				5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
