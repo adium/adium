@@ -23,6 +23,13 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusGroup.h>
 
+typedef enum {
+	AIAwayIdle = (1 << 1),
+	AIAwayScreenSaved = (1 << 2),
+	AIAwayScreenLocked = (1 << 3),
+	AIAwayFastUserSwitched = (1 << 4)
+} AIAwayAutomaticType;
+
 @interface AIAutomaticStatus ()
 - (void)notificationHandler:(NSNotification *)notification;
 - (void)triggerAutoAwayWithStatusID:(NSNumber *)statusID;
@@ -34,7 +41,7 @@
  *
  * Automatically set accounts to certain statuses when events occur. Currently this handles:
  *  - Fast user switching
- *  - Screensaver activation
+ *  - Screen(saver|lock) activation
  *  - Idle time
  */
 @implementation AIAutomaticStatus
@@ -82,6 +89,16 @@
 							   name:AIScreensaverDidStopNotification
 							 object:nil];
 	
+	[notificationCenter addObserver:self
+						   selector:@selector(notificationHandler:)
+							   name:AIScreenLockDidStartNotification
+							 object:nil];
+	
+	[notificationCenter addObserver:self
+						   selector:@selector(notificationHandler:)
+							   name:AIScreenLockDidStopNotification
+							 object:nil];
+	
 	// Idle events are in the Adium notification center, posted by the AdiumIdleManager
 	notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -116,7 +133,7 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	// Revert to our stored statuses
-	if (automaticStatusSet) {
+	if (automaticStatusBitMap != 0) {
 		[self returnFromAutoAway];
 	}
 }
@@ -134,6 +151,8 @@
 	[fastUserSwitchID release];
 	[screenSaverID release];
 	[idleID release];
+	
+	[oldStatusID release];
 	
 	[super dealloc];
 }
@@ -181,76 +200,99 @@
  *
  * When a notification comes in, this checks if it's a start or end event
  *
- * A start event will set the status, and the end will revert to the previous status.
+ * If this event changes one of the automatic statusses, the user is set again
+ * to the highest priority automatic away status, or if none, returns from autoaway.
+ *
+ * Priorities: Fast User Switch'ed > Screen(saver|lock) > Idle.
  */
 - (void)notificationHandler:(NSNotification *)notification
 {
 	NSString	*notificationName = [notification name];
-	NSNumber	*statusID = nil;
-	BOOL		startEvent = NO, endEvent = NO;
+	unsigned	oldBitMap = automaticStatusBitMap;
 	
 	// Start events
 	if ([notificationName isEqualToString:NSWorkspaceSessionDidResignActiveNotification]) {
 		AILogWithSignature(@"Fast user switch (start) detected");
-
-		startEvent = fastUserSwitchEnabled;
-		statusID = fastUserSwitchID;
+		
+		if (fastUserSwitchEnabled) automaticStatusBitMap |= AIAwayFastUserSwitched;
+		
 	} else if ([notificationName isEqualToString:AIScreensaverDidStartNotification]) {
 		AILogWithSignature(@"Screensaver (start) detected.");
 		
-		startEvent = screenSaverEnabled;
-		statusID = screenSaverID;
+		if (screenSaverEnabled) automaticStatusBitMap |= AIAwayScreenSaved;
+		
 	} else if ([notificationName isEqualToString:AIMachineIdleUpdateNotification]) {
 		double duration = [[[notification userInfo] objectForKey:@"Duration"] doubleValue];
 		
-		// Update our idle time
-		if (!automaticIdleSet && reportIdleEnabled && duration >= idleReportInterval) {
-			AILogWithSignature(@"Idle (report) detected.");
-			
-			automaticIdleSet = YES;
-			
-			[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
-											   forKey:@"IdleSince"
-												group:GROUP_ACCOUNT_STATUS];
-		}
-		
-		// Idle events require that we've been idle longer than required
-		startEvent = (idleEnabled && duration >= idleStatusInterval);
-		statusID = idleID;
-
 		// This is very spammy when we're already idle.
-		if (startEvent && !automaticStatusSet) {
+		if (duration >= idleStatusInterval && !(automaticStatusBitMap & AIAwayIdle)) {
 			AILogWithSignature(@"Idle (start) detected.");
+			
+			if (idleEnabled) automaticStatusBitMap |= AIAwayIdle;
+			
+			// Update our idle time
+			if (reportIdleEnabled) {
+				[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
+												   forKey:@"IdleSince"
+													group:GROUP_ACCOUNT_STATUS];
+			}
 		}
+	} if ([notificationName isEqualToString:AIScreenLockDidStartNotification]) {
+		AILogWithSignature(@"Screenlock (start) detected.");
+		
+		if (screenSaverEnabled) automaticStatusBitMap |= AIAwayScreenLocked;
 	}
 	
 	// End events
 	if ([notificationName isEqualToString:NSWorkspaceSessionDidBecomeActiveNotification]) {
 		AILogWithSignature(@"Fast user switch (end) detected.");
 		
-		endEvent = fastUserSwitchEnabled;
+		automaticStatusBitMap &= ~AIAwayFastUserSwitched;
+		
 	} else if ([notificationName isEqualToString:AIScreensaverDidStopNotification]) {
 		AILogWithSignature(@"Screensaver (end) detected.");
+
+		automaticStatusBitMap &= ~AIAwayScreenSaved;
 		
-		endEvent = screenSaverEnabled;
 	} else if ([notificationName isEqualToString:AIMachineIsActiveNotification]) {
-		AILogWithSignature(@"Idle (end) detected.");
 		
-		if (automaticIdleSet) {	
-			automaticIdleSet = NO;
+		if (automaticStatusBitMap & AIAwayIdle) {
+			AILogWithSignature(@"Idle (end) detected.");
 			
-			[adium.preferenceController setPreference:nil
-											   forKey:@"IdleSince"
-											     group:GROUP_ACCOUNT_STATUS];
+			automaticStatusBitMap &= ~AIAwayIdle;
 		}
 		
-		endEvent = idleEnabled;
+		if (reportIdleEnabled) {
+			[adium.preferenceController setPreference:nil
+											   forKey:@"IdleSince"
+												group:GROUP_ACCOUNT_STATUS];
+		}
+		
+	} else if ([notificationName isEqualToString:AIScreenLockDidStopNotification]) {
+		AILogWithSignature(@"Screenlock (end) detected.");
+		
+		automaticStatusBitMap &= ~AIAwayScreenLocked;
 	}
 	
-	if (startEvent && statusID && !automaticStatusSet) {
-		[self triggerAutoAwayWithStatusID:statusID];
-	} else if (endEvent && automaticStatusSet) {
-		[self returnFromAutoAway];
+	// Check if a change in status is required: if so, look for the one with the highest priority
+	if (oldBitMap != automaticStatusBitMap) {
+		NSNumber *statusID = nil;
+		
+		if (automaticStatusBitMap & AIAwayFastUserSwitched)
+			statusID = fastUserSwitchID;
+
+		else if ((automaticStatusBitMap & AIAwayScreenLocked)
+				 || (automaticStatusBitMap & AIAwayScreenSaved))
+			statusID = screenSaverID;
+			
+		else if (automaticStatusBitMap & AIAwayIdle)	
+			statusID = idleID;
+			
+		else
+			[self returnFromAutoAway];
+		
+		if (statusID)
+			[self triggerAutoAwayWithStatusID:statusID];
 	}
 	
 }
@@ -260,33 +302,36 @@
  *
  * @param statusID The status ID to change account status to
  *
- * Sets all available accounts to the status type statusID, while storing the
+ * Sets all available accounts to the status type statusID, while storing the old one if necessary
  */
 - (void)triggerAutoAwayWithStatusID:(NSNumber *)statusID
 {
 	AIStatusItem *targetStatusState = [adium.statusController statusStateWithUniqueStatusID:statusID];
 	
-	// Grab any group memeber if possible
+	// Grab any group member if possible
 	if ([targetStatusState isKindOfClass:[AIStatusGroup class]]) {
 		targetStatusState = [(AIStatusGroup *)targetStatusState anyContainedStatus];
 	}
 	
-	// If we weren't given a valid state, fail.
-	if (!targetStatusState) {
+	// If we weren't given a valid and new state, fail.
+	if (!targetStatusState || [oldStatusID isEqualToNumber:statusID]) {
 		return;
 	}
 	
 	for (AIAccount *account in adium.accountController.accounts) {
 		AIStatus	*currentStatusState = account.statusState;
 		
-		// Don't modify or store the status of non-available accounts
-		if (currentStatusState.statusType != AIAvailableStatusType) {
-			continue;
+		// Store the state of the account if there is no previous one saved
+		if (![previousStatus objectForKey:[NSNumber numberWithUnsignedInteger:[account hash]]]) {
+			
+			// Don't modify or store the status of (originally!) non-available accounts
+			if (currentStatusState.statusType != AIAvailableStatusType) {
+				continue;
+			}
+			
+			[previousStatus setObject:currentStatusState
+							   forKey:[NSNumber numberWithUnsignedInteger:[account hash]]];
 		}
-		
-		// Store the state of the account
-		[previousStatus setObject:currentStatusState
-						   forKey:[NSNumber numberWithUnsignedInteger:[account hash]]];
 		
 		AILogWithSignature(@"Setting %@ to status %@", account, targetStatusState);
 		
@@ -303,7 +348,8 @@
 		}
 	}
 	
-	automaticStatusSet = YES;
+	[oldStatusID release];
+	oldStatusID = [statusID retain];
 }
 
 /*!
@@ -335,7 +381,10 @@
 	[accountsToReconnect removeAllObjects];
 	[previousStatus removeAllObjects];
 	
-	automaticStatusSet = NO;
+	automaticStatusBitMap = 0;
+	
+	[oldStatusID release];
+	oldStatusID = nil;
 }
 
 @end
