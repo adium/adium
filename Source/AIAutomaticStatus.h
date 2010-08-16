@@ -18,10 +18,15 @@
 #define	AIScreensaverDidStartNotification		@"com.apple.screensaver.didstart"
 #define AIScreensaverDidStopNotification		@"com.apple.screensaver.didstop"
 
+#define AIScreenLockDidStartNotification		@"com.apple.screenIsLocked"
+#define AIScreenLockDidStopNotification			@"com.apple.screenIsUnlocked"
+
 @interface AIAutomaticStatus : AIPlugin {
 	NSNumber						*fastUserSwitchID;
 	NSNumber						*screenSaverID;
 	NSNumber						*idleID;
+	
+	NSNumber						*oldStatusID;
 	
 	NSMutableDictionary				*previousStatus;
 	NSMutableSet					*accountsToReconnect;
@@ -34,9 +39,7 @@
 	double							idleReportInterval;
 	double							idleStatusInterval;
 	
-	BOOL							automaticStatusSet;
-	BOOL							automaticIdleSet;
-	BOOL							confirmReturn;
+	unsigned						automaticStatusBitMap;
 }
 
 @end
