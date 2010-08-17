@@ -31,37 +31,98 @@
 #define KEY_WEBKIT_USE_NAME_FORMAT				@"Use Custom Name Format"
 #define KEY_WEBKIT_NAME_FORMAT					@"Name Format"
 
-static void *createStructure(CFXMLParserRef parser, CFXMLNodeRef node, void *context);
-static void addChild(CFXMLParserRef parser, void *parent, void *child, void *context);
-static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
+@interface NSMutableString (XMLMethods)
+- (void)stripInvalidCharacters;
+@end
+
+@implementation NSMutableString (XMLMethods)
+
+//Strip invalid XML characters
+- (void)stripInvalidCharacters
+{
+    static NSCharacterSet *invalidXMLCharacterSet;
+    
+    if (invalidXMLCharacterSet == nil)
+    {
+        // First, create a character set containing all valid UTF8 characters.
+        NSMutableCharacterSet *xmlCharacterSet = [[NSMutableCharacterSet alloc] init];        
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0x9, 1)];       
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0xA, 1)];        
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0xD, 1)];        
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0x20, 0xD7FF - 0x20)];
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0xE000, 0xFFFD - 0xE000)];        
+        [xmlCharacterSet addCharactersInRange:NSMakeRange(0x10000, 0x10FFFF - 0x10000)];        
+        // Then create and retain an inverted set, which will thus contain all invalid XML characters.        
+        invalidXMLCharacterSet = [[xmlCharacterSet invertedSet] retain];        
+        [xmlCharacterSet release];        
+    }
+    
+    // Are there any invalid characters in this string?    
+    NSRange range = [self rangeOfCharacterFromSet:invalidXMLCharacterSet];
+    
+    // Otherwise go through and remove any illegal XML characters from a copy of the string.
+    while (range.length > 0)
+    {        
+        [self deleteCharactersInRange:range];
+        range = [self rangeOfCharacterFromSet:invalidXMLCharacterSet                 
+                                      options:0                 
+                                        range:NSMakeRange(range.location,[self length]-range.location)];        
+    }    
+}
+
+@end
+
+@interface NSXMLElement (AIAttributeDict)
+- (NSDictionary *)AIAttributesAsDictionary;
+@end
+
+@implementation NSXMLElement (AIAttributeDict)
+
+- (NSDictionary *)AIAttributesAsDictionary 
+{
+    NSArray *attrArray = [self attributes];
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    for (NSXMLNode *attr in attrArray) {
+        [attributes setObject:attr forKey:[attr name]];
+    }
+    return attributes;
+}
+
+@end
+
+@interface AIXMLChatlogConverter()
+- (NSAttributedString *)readData:(NSData *)xmlData withOptions:(NSDictionary *)options retrying:(BOOL)reentrancyFlag;
+@end
 
 @implementation AIXMLChatlogConverter
 
 + (NSAttributedString *)readFile:(NSString *)filePath withOptions:(NSDictionary *)options
 {
-	AIXMLChatlogConverter *converter = [[AIXMLChatlogConverter alloc] init];
-	NSAttributedString *ret = [[converter readFile:filePath withOptions:options] retain];
-	[converter release];
-	return [ret autorelease];
+	static AIXMLChatlogConverter *converter;
+    if (!converter) {
+        converter = [[AIXMLChatlogConverter alloc] init];
+	}
+    NSData *xmlData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:filePath]];
+    [converter->htmlDecoder setBaseURL:[filePath stringByDeletingLastPathComponent]];
+    NSAttributedString *result = nil;
+    @try {
+        result = [converter readData:xmlData withOptions:options retrying:NO];
+    } @catch (NSException *e) {
+        NSLog(@"Error \"%@\" parsing log file at %@.", e, filePath);
+        return [[[NSAttributedString alloc] initWithString:@"Sorry, there was an error parsing this transcript. It may be corrupt."] autorelease];
+    }
+    return result;
 }
 
 - (id)init
 {
 	if ((self = [super init])) {
-	
-		state = XML_STATE_NONE;
-		
-		inputFileString = nil;
-		sender = nil;
-		mySN = nil;
-		myDisplayName = nil;
-		date = nil;
-		parser = NULL;
-		status = nil;
-		
+        if (!newlineAttributedString) {
+            newlineAttributedString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
+        }
+        
+        htmlDecoder = [[AIHTMLDecoder alloc] init];
 		dateFormatter = [[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] retain];
-		
-		newlineAttributedString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
 
 		statusLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
 			AILocalizedString(@"Online", nil), @"online",
@@ -80,15 +141,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK], @"notAtMyDesk",
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE], @"notInTheOffice",
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT], @"steppedOut",
-			nil];
-			
-		if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
-													  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
-			nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
-																   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] intValue];
-		} else {
-			nameFormat = AIDefaultName;
-		}
+			nil];			
 	}
 
 	return self;
@@ -97,317 +150,173 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 - (void)dealloc
 {
 	[dateFormatter release];
-	[newlineAttributedString release];
-	[inputFileString release];
-	[eventTranslate release];
-	[sender release];
-	[senderAlias release];
-	[mySN release];
-	[myDisplayName release];
-	[service release];
-	[date release];
-	[status release];
-	[output release];
 	[statusLookup release];
 	[htmlDecoder release];
 	[super dealloc];
 }
 
-- (NSAttributedString *)readFile:(NSString *)filePath withOptions:(NSDictionary *)options
+- (NSAttributedString *)readData:(NSData *)xmlData withOptions:(NSDictionary *)options retrying:(BOOL)reentrancyFlag
 {
-	NSData *inputData = [NSData dataWithContentsOfFile:filePath]; 
-	inputFileString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding]; 
-	NSURL *url = [[NSURL alloc] initFileURLWithPath:filePath];
-	output = [[NSMutableAttributedString alloc] init];
+    if (!xmlData) {
+        return [[[NSAttributedString alloc] initWithString:@""] autorelease];
+    }
+    AINameFormat nameFormat;
+    if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
+                                                group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
+        nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
+                                                             group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] intValue];
+    } else {
+        nameFormat = AIDefaultName;
+    }
+    NSMutableAttributedString *output = [[[NSMutableAttributedString alloc] init] autorelease];
+    
+    NSError *err=nil;
+	NSXMLDocument *xmlDoc = [[[NSXMLDocument alloc] initWithData:xmlData
+                                                         options:NSXMLNodePreserveCDATA
+                                                           error:&err] autorelease];    
 	
-	htmlDecoder = [[AIHTMLDecoder alloc] init];
-	[htmlDecoder setBaseURL:[filePath stringByDeletingLastPathComponent]];
-	
-	showTimestamps = [[options objectForKey:@"showTimestamps"] boolValue];
-	showEmoticons = [[options objectForKey:@"showEmoticons"] boolValue];
-
-	CFXMLParserCallBacks callbacks = {
-		0,
-		createStructure,
-		addChild,
-		endStructure,
-		NULL,
-		NULL
-	};
-	CFXMLParserContext context = {
-		0,
-		self,
-		CFRetain,
-		CFRelease,
-		NULL
-	};
-	parser = CFXMLParserCreate(NULL, (CFDataRef)inputData, NULL, kCFXMLParserSkipMetaData | kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion, &callbacks, &context);
-	if (!CFXMLParserParse(parser)) {
-		NSLog(@"%@: Parser %@ for inputFileString %@ returned false.",
-			  [self class], parser, inputFileString);
-		[output release];
-		output = nil;
-	}
-	CFRelease(parser);
-	parser = nil;
-	[url release];
-	return output;
-}
-
-- (void)startedElement:(NSString *)name info:(const CFXMLElementInfo *)info
-{
-	NSDictionary *attributes = (NSDictionary *)info->attributes;
-	
-	switch(state){
-		case XML_STATE_NONE:
-			if([name isEqualToString:@"chat"])
-			{
-				[mySN release];
-				mySN = [[attributes objectForKey:@"account"] retain];
-				
-				[service release];
-				service = [[attributes objectForKey:@"service"] retain];
-				
-				[myDisplayName release];
-				myDisplayName = nil;
-				
-				for (AIAccount *account in adium.accountController.accounts) {
-					if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
-						[account.service.serviceID isEqualToString:service]) {
-						myDisplayName = [account.displayName retain];
-						break;
-					}
-				}
-
-				state = XML_STATE_CHAT;
-			}
-			break;
-		case XML_STATE_CHAT:
-			if([name isEqualToString:@"message"])
-			{
-				[sender release];
-				[senderAlias release];
-				[date release];
-				
-				NSString *dateStr = [attributes objectForKey:@"time"];
-				if(dateStr != nil)
-					date = [[NSCalendarDate calendarDateWithString:dateStr] retain];
-				else
-					date = nil;
-				sender = [[attributes objectForKey:@"sender"] retain];
-				senderAlias = [[attributes objectForKey:@"alias"] retain];
-				autoResponse = [[attributes objectForKey:@"auto"] isEqualToString:@"true"];
-
-				//Mark the location of the message...  We can copy it directly.  Anyone know why it is off by 1?
-				messageStart = CFXMLParserGetLocation(parser) - 1;
-				
-				state = XML_STATE_MESSAGE;
-			}
-			else if([name isEqualToString:@"event"])
-			{
-				//Mark the location of the message...  We can copy it directly.  Anyone know why it is off by 1?
-				messageStart = CFXMLParserGetLocation(parser) - 1;
-
-				state = XML_STATE_EVENT_MESSAGE;
-			}
-			else if([name isEqualToString:@"status"])
-			{
-				[status release];
-				[date release];
-				
-				NSString *dateStr = [attributes objectForKey:@"time"];
-				if(dateStr != nil)
-					date = [[NSCalendarDate calendarDateWithString:dateStr] retain];
-				else
-					date = nil;
-				
-				status = [[attributes objectForKey:@"type"] retain];
-
-				//Mark the location of the message...  We can copy it directly.  Anyone know why it is off by 1?
-				messageStart = CFXMLParserGetLocation(parser) - 1;
-
-				state = XML_STATE_STATUS_MESSAGE;
-			}
-			break;
-		case XML_STATE_MESSAGE:
-		case XML_STATE_EVENT_MESSAGE:
-		case XML_STATE_STATUS_MESSAGE:
-			break;
-	}
-}
-
-- (void)endedElement:(NSString *)name empty:(BOOL)empty
-{
-	switch(state)
-	{
-		case XML_STATE_EVENT_MESSAGE:
-			state = XML_STATE_CHAT;
-			break;
-
-		case XML_STATE_MESSAGE:
-			if([name isEqualToString:@"message"])
-			{
-				CFIndex end = CFXMLParserGetLocation(parser);
-				NSString *message = nil;
-				if (!empty) {
-					// 11 = 10 for </message> and 1 for the index being off
-					message = [inputFileString substringWithRange:NSMakeRange(messageStart, end - messageStart - 11)];
-				}
-				NSString *shownSender = (senderAlias ? senderAlias : sender);
-				NSString *cssClass;
-				NSString *displayName = nil, *longDisplayName = nil;
-				
-				if ([mySN isEqualToString:sender]) {
-					//Find an account if one exists, and use its name
-					displayName = (myDisplayName ? myDisplayName : sender);
-					cssClass = @"send";
-				} else {
-					AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
-
-					cssClass = @"receive";
-					displayName = listObject.displayName;
-					longDisplayName = [listObject longDisplayName];
-				}
-
-				if (displayName && ![displayName isEqualToString:sender]) {
-					switch (nameFormat) {
-						case AIDefaultName:
-							shownSender = (longDisplayName ? longDisplayName : displayName);
-							break;
-
-						case AIDisplayName:
-							shownSender = displayName;
-							break;
-
-						case AIDisplayName_ScreenName:
-							shownSender = [NSString stringWithFormat:@"%@ (%@)",displayName,sender];
-							break;
-
-						case AIScreenName_DisplayName:
-							shownSender = [NSString stringWithFormat:@"%@ (%@)",sender,displayName];
-							break;
-
-						case AIScreenName:
-							shownSender = sender;
-							break;	
-					}
-				}
-				
-				NSString *timestampStr = [dateFormatter stringFromDate:date];
-				
-				BOOL sentMessage = [mySN isEqualToString:sender];
-				[output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
-										 @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
-										 (sentMessage ? @"send" : @"receive"),
-										 (showTimestamps ? [NSString stringWithFormat:@"<span class=\"timestamp\">%@</span> ", timestampStr] : @""),
-										 shownSender, (autoResponse ? AILocalizedString(@" (Autoreply)", nil) : @"")]]];
-				
-				NSAttributedString *attributedMessage = [htmlDecoder decodeHTML:message];
-				if (showEmoticons) {
-					attributedMessage = [adium.contentController filterAttributedString:attributedMessage
-																		  usingFilterType:AIFilterMessageDisplay
-																				direction:(sentMessage ? AIFilterOutgoing : AIFilterIncoming)
-																				  context:nil];				
-				}
-				[output appendAttributedString:attributedMessage];
-				[output appendAttributedString:newlineAttributedString];
-
-				state = XML_STATE_CHAT;
-			}
-			break;
-		case XML_STATE_STATUS_MESSAGE:
-			if([name isEqualToString:@"status"])
-			{
-				CFIndex end = CFXMLParserGetLocation(parser);
-				NSString *message = nil;
-				if(!empty)
-					message = [inputFileString substringWithRange:NSMakeRange(messageStart, end - messageStart - 10)];  // 9 for </status> and 1 for the index being off
-								
-				NSString *displayMessage = nil;
-				//Note: I am diverging from what the AILoggerPlugin logs in this case.  It can't handle every case we can have here
-				if([message length])
-				{
-					if([statusLookup objectForKey:status])
-						displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@: %@", nil), [statusLookup objectForKey:status], message];
-					else
-						displayMessage = [NSString stringWithFormat:AILocalizedString(@"%@", nil), message];
-				}
-				else if([status length] && [statusLookup objectForKey:status])
-					displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@", nil), [statusLookup objectForKey:status]];
-
-				if([displayMessage length])
-					[output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:@"<div class=\"status\">%@ (%@)</div>\n",
-																			displayMessage,
-																			[dateFormatter stringFromDate:date]]]];
-					state = XML_STATE_CHAT;
-			}			
-		case XML_STATE_CHAT:
-			if([name isEqualToString:@"chat"])
-				state = XML_STATE_NONE;
-			break;
-		case XML_STATE_NONE:
-			break;
-	}
-}
-
-typedef struct{
-	NSString	*name;
-	BOOL		empty;
-} element;
-
-void *createStructure(CFXMLParserRef parser, CFXMLNodeRef node, void *context)
-{
-	element *ret = NULL;
-	
-    // Use the dataTypeID to determine what to print.
-    switch (CFXMLNodeGetTypeCode(node)) {
-        case kCFXMLNodeTypeDocument:
+	if (!xmlDoc)
+	{    
+        goto ohno;
+    }
+    
+    BOOL showTimestamps = [[options objectForKey:@"showTimestamps"] boolValue];
+	BOOL showEmoticons = [[options objectForKey:@"showEmoticons"] boolValue];
+    
+    NSXMLElement *chatElement = [[xmlDoc nodesForXPath:@"//chat" error:&err] lastObject];
+    
+    NSDictionary *chatAttributes = [chatElement AIAttributesAsDictionary];
+    NSString *mySN = [[chatAttributes objectForKey:@"account"] stringValue];
+    NSString *service = [[chatAttributes objectForKey:@"service"] stringValue];
+    
+    NSString *myDisplayName = nil;
+    
+    for (AIAccount *account in adium.accountController.accounts) {
+        if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
+            [account.service.serviceID isEqualToString:service]) {
+            myDisplayName = [account.displayName retain];
             break;
-        case kCFXMLNodeTypeElement:
-		{
-			NSString *name = [NSString stringWithString:(NSString *)CFXMLNodeGetString(node)];
-			const CFXMLElementInfo *info = CFXMLNodeGetInfoPtr(node);
-			[(AIXMLChatlogConverter *)context startedElement:name info:info];
-			ret = (element *)malloc(sizeof(element));
-			ret->name = [name retain];
-			ret->empty = info->isEmpty;
-			break;
-		}
-        case kCFXMLNodeTypeProcessingInstruction:
-        case kCFXMLNodeTypeComment:
-        case kCFXMLNodeTypeText:
-        case kCFXMLNodeTypeCDATASection:
-        case kCFXMLNodeTypeEntityReference:
-        case kCFXMLNodeTypeDocumentType:
-        case kCFXMLNodeTypeWhitespace:
-        default:
-			break;
-	}
-	
-    // Return the data string for use by the addChild and 
-    // endStructure callbacks.
-    return (void *) ret;
-}
+        }
+    }    
+        
+    NSArray *elements = [xmlDoc nodesForXPath:@"//message | //status" error:&err];
+    if (!elements) {
+        goto ohno;
+    }
+    
+    for (NSXMLElement *element in elements) {
+        NSString *type = [element name];
+     
+        NSDictionary *attributes = [element AIAttributesAsDictionary];
+        
+        if ([type isEqualToString:@"message"]) {
+            NSString *senderAlias = [[attributes objectForKey:@"alias"] stringValue];
+            NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
+            NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
+            NSString *sender = [[attributes objectForKey:@"sender"] stringValue];
+            NSString *shownSender = (senderAlias ? senderAlias : sender);
+            BOOL autoResponse = [[[attributes objectForKey:@"auto"] stringValue] isEqualToString:@"true"];
 
-void addChild(CFXMLParserRef parser, void *parent, void *child, void *context)
-{
-}
+            NSMutableString *messageXML = [NSMutableString string];
+            for (NSXMLNode *node in [element children]) {
+                [messageXML appendString:[node XMLString]];
+            }
+    
+            NSString *displayName = nil, *longDisplayName = nil;
+            
+            BOOL sentMessage = [mySN isEqualToString:sender];
 
-void endStructure(CFXMLParserRef parser, void *xmlType, void *context)
-{
-	NSString *name = nil;
-	BOOL empty = NO;
-	if(xmlType != NULL)
-	{
-		name = [NSString stringWithString:((element *)xmlType)->name];
-		empty = ((element *)xmlType)->empty;
-	}
-	[(AIXMLChatlogConverter *)context endedElement:name empty:empty];
-	if(xmlType != NULL)
-	{
-		[((element *)xmlType)->name release];
-		free(xmlType);
-	}
+            
+            if (sentMessage) {
+                //Find an account if one exists, and use its name
+                displayName = (myDisplayName ? myDisplayName : sender);
+            } else {
+                AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+                
+                displayName = listObject.displayName;
+                longDisplayName = [listObject longDisplayName];
+            }
+                
+            if (displayName && !sentMessage) {
+                switch (nameFormat) {
+                    case AIDefaultName:
+                        shownSender = (longDisplayName ? longDisplayName : displayName);
+                        break;
+                        
+                    case AIDisplayName:
+                        shownSender = displayName;
+                        break;
+                        
+                    case AIDisplayName_ScreenName:
+                        shownSender = [NSString stringWithFormat:@"%@ (%@)",displayName,sender];
+                        break;
+                        
+                    case AIScreenName_DisplayName:
+                        shownSender = [NSString stringWithFormat:@"%@ (%@)",sender,displayName];
+                        break;
+                        
+                    case AIScreenName:
+                        shownSender = sender;
+                        break;	
+                }
+            }
+				
+            NSString *timestampStr = [dateFormatter stringFromDate:date];
+				
+            [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
+                                                                    @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
+                                                                    (sentMessage ? @"send" : @"receive"),
+                                                                    (showTimestamps ? [NSString stringWithFormat:@"<span class=\"timestamp\">%@</span> ", timestampStr] : @""),
+                                                                    shownSender, (autoResponse ? AILocalizedString(@" (Autoreply)", nil) : @"")]]];
+				
+            NSAttributedString *attributedMessage = [htmlDecoder decodeHTML:messageXML];
+            if (showEmoticons) {
+                attributedMessage = [adium.contentController filterAttributedString:attributedMessage
+                                                                    usingFilterType:AIFilterMessageDisplay
+                                                                          direction:(sentMessage ? AIFilterOutgoing : AIFilterIncoming)
+                                                                            context:nil];				
+            }
+            [output appendAttributedString:attributedMessage];
+            [output appendAttributedString:newlineAttributedString];
+        } else if ([type isEqualToString:@"status"]) {
+            NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
+            NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
+            NSString *status = [[attributes objectForKey:@"type"] stringValue];
+            
+            NSMutableString *messageXML = [NSMutableString string];
+            for (NSXMLNode *node in [element children]) {
+                [messageXML appendString:[node XMLString]];
+            }            
+            
+            NSString *displayMessage = nil;
+            //Note: I am diverging from what the AILoggerPlugin logs in this case.  It can't handle every case we can have here
+            if([messageXML length]) {
+                if([statusLookup objectForKey:status]) {
+                    displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@: %@", nil), [statusLookup objectForKey:status], messageXML];
+                } else {
+                    displayMessage = [NSString stringWithFormat:AILocalizedString(@"%@", nil), messageXML];
+                }
+            } else if([status length] && [statusLookup objectForKey:status]) {
+                displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@", nil), [statusLookup objectForKey:status]];
+            }
+            
+            if([displayMessage length]) {
+                [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:@"<div class=\"status\">%@ (%@)</div>\n",
+                                                                        displayMessage,
+                                                                        [dateFormatter stringFromDate:date]]]];
+            }
+        }
+    }
+    
+    return output;
+    
+ohno:
+    if (!reentrancyFlag) {
+        NSMutableString *xmlString = [NSMutableString stringWithUTF8String:[xmlData bytes]];
+        [xmlString stripInvalidCharacters];
+        return [self readData:[xmlString dataUsingEncoding:NSUTF8StringEncoding] withOptions:options retrying:YES];
+    }
+    @throw [NSException exceptionWithName:@"Log File Parsing Error" reason:[err description] userInfo:nil];
 }
 
 @end
