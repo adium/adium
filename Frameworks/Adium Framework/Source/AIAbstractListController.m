@@ -940,7 +940,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	AIListObject	*listObject = nil;
 
-	if (showTooltips && (showTooltipsInBackground || [NSApp isActive])) {
+	if (showTooltips && ([NSApp isActive] || (showTooltipsInBackground && ![contactListView.window hidesOnDeactivate]))) {
 		NSRect		contactListFrame = contactListView.frame;
 		NSPoint		viewPoint = [contactListView convertPoint:[contactListView.window convertScreenToBase:screenPoint]
 													 fromView:nil];
