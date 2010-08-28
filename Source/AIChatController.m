@@ -544,6 +544,11 @@
 	return shouldRemove;
 }
 
+- (void)restoreChat:(AIChat *)inChat
+{
+	[openChats addObject:inChat];
+}
+
 /*!
  * @brief Called by an account to notifiy the chat controller that it left a chat
  *

@@ -138,6 +138,8 @@
 		
 		windowMenuArray = nil;
 		
+		recentlyClosedChats = [[NSMutableArray alloc] init];
+		
 #ifdef LOG_RESPONDER_CHAIN
 		[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(reportResponderChain:) userInfo:nil repeats:YES];
 #endif
@@ -273,6 +275,8 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
+	
+	[recentlyClosedChats release]; recentlyClosedChats = nil;
 	
     [super dealloc];
 }
@@ -663,6 +667,31 @@
 {
 	if (inChat) {
 		if ([adium.chatController closeChat:inChat]) {
+			
+			NSMutableDictionary *newRecentlyClosedChat = [NSMutableDictionary dictionary];
+			
+			[newRecentlyClosedChat setObject:inChat.account.internalObjectID forKey:@"AccountID"];
+			
+			if (inChat.isGroupChat) {
+				// -chatCreationDictionary may be nil, so put it last.
+				[newRecentlyClosedChat addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+																 [NSNumber numberWithBool:YES], @"IsGroupChat",
+																 inChat.name, @"Name",
+																 [inChat chatCreationDictionary], @"ChatCreationInfo",nil]];
+			} else {
+				[newRecentlyClosedChat addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+																 inChat.listObject.UID, @"UID",
+																 inChat.account.service.serviceID, @"serviceID",
+																 inChat.account.internalObjectID, @"AccountID",nil]];
+			}
+			
+			[recentlyClosedChats insertObject:newRecentlyClosedChat atIndex:0];
+			
+			// this sounds like a sensible limit: no-one will remember what chat they had in the closed tab beyond these
+			while (recentlyClosedChats.count > 16) {
+				[recentlyClosedChats removeLastObject];
+			}
+			
 			[interfacePlugin closeChat:inChat];
 		}
 	}
@@ -783,6 +812,50 @@
 	[_cachedOpenChats release]; _cachedOpenChats = nil;
 }
 
+- (IBAction)reopenChat:(id)sender
+{
+	if (recentlyClosedChats.count == 0) {
+		AILogWithSignature(@"Can't open recently closed tab: no recently closed tabs!");
+		return;
+	}
+	
+	NSDictionary *chatDict = [[[recentlyClosedChats objectAtIndex:0] retain] autorelease];
+	[recentlyClosedChats removeObjectAtIndex:0];
+	
+	AIChat			*chat = nil;
+	AIService		*service = [adium.accountController firstServiceWithServiceID:[chatDict objectForKey:@"serviceID"]];
+	AIAccount		*account = [adium.accountController accountWithInternalObjectID:[chatDict objectForKey:@"AccountID"]];
+	
+	if ([[chatDict objectForKey:@"IsGroupChat"] boolValue]) {
+		chat = [adium.chatController chatWithName:[chatDict objectForKey:@"Name"]
+									   identifier:nil
+										onAccount:account
+								 chatCreationInfo:[chatDict objectForKey:@"ChatCreationInfo"]];
+	} else {
+		AIListContact *contact = [adium.contactController contactWithService:service
+																	 account:account
+																		 UID:[chatDict objectForKey:@"UID"]];
+		
+		if (contact) chat = [adium.chatController chatWithContact:contact];
+	}
+	
+	if (!chat) {
+		NSRunAlertPanel(AILocalizedString(@"Restoring chat failed", nil),
+						AILocalizedString(@"Restoring the last closed tab failed. Perhaps the account not exist anymore?", nil),
+						AILocalizedString(@"OK", nil),
+						nil,
+						nil);
+		return;
+	}
+	
+	// Tag the chat as restored.
+	[chat setValue:[NSNumber numberWithBool:YES]
+	   forProperty:@"Restored Chat"
+			notify:NotifyNow];
+	
+	[self openChat:chat inContainerWithID:nil atIndex:-1];
+	[self setActiveChat:chat];
+}
 
 
 //Interface plugin callbacks -------------------------------------------------------------------------------------------
@@ -1931,7 +2004,9 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 									  AILocalizedString(@"Show Fonts",nil))];
 		return YES;
 	} else if (menuItem == menuItem_toggleUserlist || menuItem == menuItem_toggleUserlistSide) {
-			return self.activeChat.isGroupChat;
+		return self.activeChat.isGroupChat;
+	} else if (menuItem == menuItem_reopenTab) {
+		return recentlyClosedChats.count > 0;
 	} else {
 		return YES;
 	}

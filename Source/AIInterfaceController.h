@@ -36,6 +36,8 @@
 	IBOutlet    NSMenuItem      *menuItem_customizeToolbar;
 
 	IBOutlet	NSMenuItem		*menuItem_print;
+	
+	IBOutlet NSMenuItem			*menuItem_reopenTab;
 
     NSMutableArray				*contactListViewArray;
     NSMutableArray				*messageViewArray;		
@@ -80,6 +82,8 @@
 
 	IBOutlet NSView				*fontPanelAccessoryView;
 	IBOutlet NSButton			*button_fontPanelSetAsDefault;
+	
+	NSMutableArray				*recentlyClosedChats;
 }
 
 - (IBAction)toggleContactList:(id)sender;
@@ -103,5 +107,7 @@
 - (void)runToolbarCustomizationPalette:(id)sender;
 
 - (IBAction)showPreferenceWindow:(id)sender;
+
+- (IBAction)reopenChat:(id)sender;
 
 @end
