@@ -34,6 +34,7 @@
 
 - (BOOL)closeChat:(AIChat *)inChat;
 - (void)accountDidCloseChat:(AIChat *)inChat;
+- (void)restoreChat:(AIChat *)inChat;
 
 @property (nonatomic, readonly) NSSet *openChats;
 @property (nonatomic, readonly) AIChat *mostRecentUnviewedChat;
