@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 #x-topic #x-wrap
 {
@@ -10,11 +10,18 @@
 	padding-left: 21px;
 	z-index: 99;
 	-webkit-background-size: auto auto;
-	-webkit-transition: opacity .4s linear;
+	-webkit-transition: opacity .2s linear;
+}
+
+#topic[title=""]:not(:hover) #x-wrap
+{
+	opacity: 0;
 }
 
 #topicEdit
 {
+	min-height: 1em;
+	display: block;
 }
 
 .x-toggle

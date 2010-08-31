@@ -63,13 +63,10 @@
 	left: 4px;
 	width: 16px;
 	height: 16px;
-	z-index: 10;
-	cursor: default;
 	font-size: 21px !important;
 	font-family: "Apple Symbols";
 	z-index: 999;
 	cursor: pointer;
-	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .2);
 	opacity: 0;
 	-webkit-transition: opacity .4s linear;
 
@@ -110,7 +107,6 @@ body:hover .x-toggle
 
 #x-hide:active:before
 {
-	content: "\2297";
 	content: "\2299";
 }
 
@@ -129,6 +125,5 @@ body:hover .x-toggle
 
 #x-show:active:before
 {
-	content: "\2297";
 	content: "\2299";
 }

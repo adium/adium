@@ -1,9 +1,13 @@
 body,
-#topic,
+#topic
+{
+	background-color: rgba(248, 240, 240, .8);
+}
+
 .status .x-wrap,
 .event .x-wrap
 {
-	background-color: rgba(248, 240, 240, .8);
+	background-color: rgba(250, 244, 244, .8);
 }
 
 .incoming .x-buddyicon
@@ -11,35 +15,39 @@ body,
 	background: rgba(75, 93, 178, .2);
 }
 
-.incoming .x-sender
+.incoming .x-sender,
+.incoming a:hover
 {
-	background: #4b5db2;
+	background: rgba(75, 93, 178, 1);
 }
 
-.incoming .x-time
+.incoming.history .x-sender,
+.incoming.history a:hover
 {
-	color: #4b5db2;
+	background: rgba(161, 168, 211, 1);
+}
+
+.incoming .x-time,
+.incoming a
+{
+	color: rgba(75, 93, 178, 1);
+}
+
+.incoming.history .x-time
+{
+	color: rgba(161, 168, 211, 1);
 }
 
 .incoming .x-message
 {
 	background: rgba(213, 211, 228, .9);
-	border-top: 1px solid #4b5db2;
+	border-top: 1px solid rgba(75, 93, 178, 1);
 }
 
+.incoming.history .x-message,
 .incoming.consecutive .x-message
 {
-	border-top: 1px solid rgba(75, 93, 178, .4);
-}
-
-.incoming a:hover
-{
-	background: #4b5db2;
-}
-
-.incoming a
-{
-	color: #4b5db2;
+	border-top: 1px solid rgba(161, 168, 211, 1);
 }
 
 .outgoing .x-buddyicon
@@ -47,33 +55,37 @@ body,
 	background: rgba(177, 74, 75, .2);
 }
 
-.outgoing .x-sender
+.outgoing .x-sender,
+.outgoing a:hover
 {
-	background: #b14a4b;
+	background: rgba(177, 74, 75, 1);
 }
 
-.outgoing .x-time
+.outgoing.history .x-sender,
+.outgoing.history a:hover
 {
-	color: #b14a4b;
+	background: rgba(212, 159, 159, 1);
+}
+
+.outgoing .x-time,
+.outgoing a
+{
+	color: rgba(177, 74, 75, 1);
+}
+
+.outgoing.history .x-time
+{
+	color: rgba(212, 159, 159, 1);
 }
 
 .outgoing .x-message
 {
 	background: rgba(233, 207, 207, .9);
-	border-top: 1px solid #b14a4b;
+	border-top: 1px solid rgba(177, 74, 75, 1);
 }
 
+.outgoing.history .x-message,
 .outgoing.consecutive .x-message
 {
-	border-top: 1px solid rgba(177, 74, 75, .4);
-}
-
-.outgoing a
-{
-	color: #b14a4b;
-}
-
-.outgoing a:hover
-{
-	background: #b14a4b;
+	border-top: 1px solid rgba(212, 159, 159, 1);
 }

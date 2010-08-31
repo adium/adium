@@ -213,16 +213,17 @@ body
 {
 	position: absolute;
 	left: 46px;
-	font-family: Lucida Grande;
-	font-size: 11px;
+	font-size: 1.2em;
 	margin-left: -.08em;
 	margin-top: -.1em;
+	margin-right: -2px;
+	letter-spacing: -.2em;
+	font-family: Lucida Grande;
 }
 
 .message .x-mark:before
 {
-	content: "\25B8";
-	margin-right: -2px;;
+	content: "\2023\2023";
 }
 
 .message:not(.history) .x-mark
