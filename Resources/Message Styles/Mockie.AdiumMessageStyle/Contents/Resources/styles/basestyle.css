@@ -29,10 +29,10 @@ body
 
 #topic #topicEdit
 {
-	padding-top: 4px;
-	padding-right: 12px;
-	padding-bottom: 5px;
-	padding-left: 14px;
+	margin-top: 4px;
+	margin-right: 12px;
+	margin-bottom: 5px;
+	margin-left: 14px;
 	display: block;
 
 	word-wrap: break-word;
@@ -100,12 +100,11 @@ body
 	word-wrap: normal;
 }
 
-.x-text
+.x-text,
+.x-time
 {
 	display: block;
-	padding-top: 2px;
 	padding-right: 4px;
-	padding-bottom: 2px;
 	padding-left: 4px;
 }
 
@@ -114,13 +113,23 @@ body
 	font-weight: normal;
 	color: rgba(0, 0, 0, .6);
 	float: right;
+	margin-left: 4px;
+}
+
+.message .x-text,
+.message .x-time
+{
 	padding-top: 2px;
 	padding-bottom: 2px;
-	padding-right: 4px;
-	padding-left: 4px;
-	margin-left: 4px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+}
+
+.status .x-text,
+.event .x-text,
+.status .x-time,
+.event .x-time
+{
+	padding-top: 0px;
+	padding-bottom: 1px;
 }
 
 .status .x-text a:hover,
@@ -175,7 +184,7 @@ img.scaledToFitImage
 .firstFocus.event .x-wrap:before
 {
 	padding-right: 4px;
-	margin-top: -19px;
+	margin-top: -17px;
 }
 
 .firstFocus.message .x-text,
@@ -200,7 +209,8 @@ img.scaledToFitImage
 .firstFocus.event .x-wrap
 {
 	margin-top: 18px;
-	padding-top: 2px;
+	/*margin-top: 20px;*/
+	/*padding-top: 2px;*/
 }
 
 .mention .x-text:before
@@ -287,15 +297,15 @@ img.scaledToFitImage
 	padding-top: 10px;
 }
 
-.consecutive:not(.firstFocus) .x-buddyicon,
-.consecutive:not(.firstFocus) .x-topleft,
-.consecutive:not(.firstFocus) .x-sender,
-.consecutive:not(.firstFocus) .x-service
+.message.consecutive:not(.firstFocus) .x-buddyicon,
+.message.consecutive:not(.firstFocus) .x-topleft,
+.message.consecutive:not(.firstFocus) .x-sender,
+.message.consecutive:not(.firstFocus) .x-service
 {
 	display: none;
 }
 
-.consecutive:not(.firstFocus)
+.message.consecutive:not(.firstFocus)
 {
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -311,8 +321,26 @@ img.scaledToFitImage
 	display: none;
 }
 
-.history .x-buddyicon,
-.history .x-sender
+.history .x-buddyicon
 {
 	opacity: .5;
 }
+
+.history .x-sender
+{
+	color: rgba(255, 255, 255, .9);
+}
+
+.status .x-wrap,
+.event .x-wrap
+{
+	-webkit-border-radius: 3px;
+}
+
+.status.firstFocus .x-wrap,
+.event.firstFocus .x-wrap
+{
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+}
+

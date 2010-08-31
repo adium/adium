@@ -201,9 +201,15 @@ img.scaledToFitImage
 	-webkit-transition: opacity .1s linear;
 }
 
-#x-header:hover
+#x-header[title]:hover
 {
 	opacity: .1;
+}
+
+#x-header:hover #topicEdit
+{
+	min-height: 1em;
+	display: block;
 }
 
 #x-header a

@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 /**
 {
@@ -22,7 +22,6 @@ body
 {
 	display: table;
 }
-
 
 #insert .x-focus,
 #insert .x-icon,
@@ -52,7 +51,7 @@ body
 .x-mention,
 .x-time
 {
-	-webkit-transition: background-color .2s linear;
+	-webkit-transition: all .1s linear;
 	display: table-cell;
 }
 
@@ -124,6 +123,18 @@ body
 {
 	content: "\21e7";
 	margin-left: -2em;
+	-webkit-transition: all .2s linear;
+}
+
+.mention.consecutive:not(.action) .x-sender:after
+{
+	content: "\21e7";
+	margin-left: -2em;
+}
+
+.mention.consecutive.x-hover > .x-sender
+{
+	color: transparent !important;
 }
 
 .actionMessageUserName

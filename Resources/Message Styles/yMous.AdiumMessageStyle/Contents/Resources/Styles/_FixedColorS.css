@@ -1,13 +1,13 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 
 .x-mark
 {
-	background-color: hsla(0, 0%, 12.5%, 1) !important;
+	background-color: hsla(0, 0%, 0%, 1) !important;
 }
 
 .history .x-mark
 {
-	background-color: hsla(0, 0%, 22%, 1) !important;
+	background-color: hsla(0, 0%, 15%, 1) !important;
 }
 
 /*----------*/
@@ -32,7 +32,7 @@
 .outgoing.x-hover .x-message,
 .outgoing.x-hover.consecutive.message:not(.mention) .x-sender:after
 {
-	color: hsla(120, 42%, 56%, 1) !important;
+	color: hsla(120, 42%, 61%, 1) !important;
 }
 
 /*----------*/
@@ -63,7 +63,7 @@
 .incoming:not(.mention).x-hover .x-message,
 .incoming.x-hover.consecutive.message:not(.mention) .x-sender:after
 {
-	color: hsla(240, 92%, 81%, 1) !important;
+	color: hsla(240, 92%, 86%, 1) !important;
 }
 
 .mention > .x-mention
@@ -71,13 +71,13 @@
 	background: hsla(240, 92%, 74%, 1) !important;
 }
 
-/*----------*/
-
-.status,
-.event
+.mention:hover > .x-mention,
+.mention.x-hover > .x-mention
 {
-	color: hsla(0, 0%, 50%, 1) !important;
+	background: hsla(240, 92%, 81%, 1) !important;
 }
+
+/*----------*/
 
 .status .x-mark,
 .event .x-mark
@@ -85,18 +85,8 @@
 	color: hsla(0, 0%, 50%, 1) !important;
 }
 
-.status:hover,
 .status:hover .x-mark,
-.status:hover .x-message,
-.event:hover,
-.event:hover .x-mark,
-.event:hover .x-message,
-.status.x-hover,
-.status.x-hover .x-mark,
-.status.x-hover .x-message,
-.event.x-hover,
-.event.x-hover .x-mark,
-.event.x-hover .x-message
+.event:hover .x-mark
 {
-	color: hsla(0, 0%, 67%, 1) !important;
+	color: hsla(0, 0%, 60%, 1) !important;
 }

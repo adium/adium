@@ -128,10 +128,9 @@ body
 	display: none;
 	position:fixed;
 	top: 8px;
-	right: 24px;
+	right: 18px;
 	width: auto;
 	height: auto;
-	z-index:99;
 	-webkit-user-drag: element;
 	max-width: 125px;
 	max-height: 125px;
@@ -142,8 +141,16 @@ body
 	display: inline;
 	padding: 4px;
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1)));
-	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
 	-webkit-border-radius: 5px;
+	z-index:101;
+	-webkit-transition: all .4s linear;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75);
+}
+
+#topic:hover + #Chat > div:last-of-type.message.showIcons:not(.IRC) img.x-icon
+{
+	z-index: 91;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
 }
 
 #Chat > div:last-of-type.message.showIcons:not(.IRC) .x-color[src*="buddy_icon.png"]
@@ -153,10 +160,16 @@ body
 	-webkit-border-radius: 5px;
 	position:fixed;
 	top: 12px;
-	right: 28px;
-	z-index: 99;
+	right: 22px;
+	z-index: 102;
+	-webkit-transition: all .4s linear;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, .5)));
 	-webkit-mask-box-image: url(../adiumy-mask.png);
+}
+
+#topic:hover + #Chat > div:last-of-type.message.showIcons:not(.IRC) .x-color[src*="buddy_icon.png"]
+{
+	z-index: 92;
 }
 
 .consecutive.message img.x-icon
@@ -207,6 +220,13 @@ body
 	position: absolute;
 	left: 7px;
 	margin-left: -.054em;
+	margin-right: -2px;
+	letter-spacing: -.2em;
+}
+
+.x-mark:before
+{
+	content: "\2023";
 }
 
 .autoreply .x-mark,
@@ -391,6 +411,16 @@ img.scaledToFitImage
 #x-header img.serviceIcon
 {
 	top: -11px !important;
+}
+
+#topic #x-wrap
+{
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1) !important;
+}
+
+#topic:hover #x-wrap
+{
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1) !important;
 }
 
 .actionMessageUserName

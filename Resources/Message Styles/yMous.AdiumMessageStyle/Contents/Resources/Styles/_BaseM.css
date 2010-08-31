@@ -2,21 +2,21 @@
 
 body
 {
-	background-color: hsla(0, 0%, 63%, 1);
+	background-color: hsla(0, 0%, 70%, 1);
 }
 
 #Chat > div:first-of-type .x-mark,
 #Chat > div:first-of-type .x-message,
 #Chat > div:first-of-type .x-mention
 {
-	border-top: 4px solid hsla(0, 0%, 98%, 1);
+	border-top: 4px solid hsla(0, 0%, 100%, 1);
 }
 
 #insert .x-mark,
 #insert .x-message,
 #insert .x-mention
 {
-	border-bottom: 4px solid hsla(0, 0%, 98%, 1);
+	border-bottom: 4px solid hsla(0, 0%, 100%, 1);
 }
 
 #Chat > div:first-of-type .x-focus,
@@ -39,7 +39,7 @@ body
 .history + :not(.history) .x-message,
 .history + :not(.history) .x-mention
 {
-	border-top: 16px solid hsla(0, 0%, 98%, 1) !important;
+	border-top: 16px solid hsla(0, 0%, 100%, 1) !important;
 }
 
 .history + :not(.history) .x-focus,
@@ -50,61 +50,34 @@ body
 	border-top: 16px solid hsla(0, 0%, 90%, 1) !important;
 }
 
-.mention.consecutive:not(.action) .x-sender:after
-{
-	content: "\21e7";
-	margin-left: -2em;
-}
-
-.mention:hover:not(.focus) > .x-focus,
-.mention:hover > .x-icon,
-.mention:not(.consecutive):hover > .x-sender,
-.mention.consecutive:hover > .x-sender:after,
-.mention:hover > .x-message,
-.mention:hover > .x-time,
-.mention.x-hover:not(.focus) > .x-focus,
-.mention.x-hover > .x-icon,
-.mention:not(.consecutive).x-hover > .x-sender,
-.mention.consecutive.x-hover > .x-sender:after,
-.mention.x-hover > .x-message,
-.mention.x-hover > .x-time
-{
-	text-shadow: none;
-}
-
-.mention.consecutive:hover > .x-sender,
-.mention.consecutive.x-hover > .x-sender
-{
-	color: transparent !important;
-	text-shadow: none;
-}
-
-.mention:hover > .x-mark,
-.mention.x-hover > .x-mark
-{
-	text-shadow: none;
-}
-
 .x-focus,
 .x-icon,
 .x-sender,
 .x-time,
 .history .x-message,
-.history .x-mention
+.history .x-mention,
+.history.status .x-mark,
+.history.event .x-mark
 {
-	background-color: hsla(0, 0%, 90%, 1);
+	background-color: hsla(0, 0%, 90%, 1) !important;
+}
+
+.status,
+.event
+{
+	color: hsla(0, 0%, 59%, 1) !important;
+}
+
+.status:hover,
+.event:hover
+{
+	color: hsla(0, 0%, 33%, 1) !important;
 }
 
 .status .x-mark,
 .event .x-mark
 {
-	background-color: hsla(0, 0%, 98%, 1) !important;
-}
-
-.history.status .x-mark,
-.history.event .x-mark
-{
-	background-color: hsla(0, 0%, 90%, 1) !important;
+	background-color: hsla(0, 0%, 100%, 1) !important;
 }
 
 .history .x-focus,
@@ -112,51 +85,66 @@ body
 .history .x-sender,
 .history .x-time
 {
-	background-color: hsla(0, 0%, 80%, 1);
+	background-color: hsla(0, 0%, 80%, 1) !important;
 }
 
-:hover:not(.focus) > .x-focus,
-:hover > .x-icon,
-:hover > .x-sender,
-:hover > .x-mark,
-:hover > .x-message,
-:hover:not(.mention) > .x-mention,
-:hover > .x-time,
-.x-hover:not(.focus) > .x-focus,
-.x-hover > .x-icon,
-.x-hover > .x-sender,
 .x-hover > .x-mark,
 .x-hover > .x-message,
-.x-hover:not(.mention) > .x-mention,
-.x-hover > .x-time
+.x-hover:not(.mention) > .x-mention
 {
-	background-color: hsla(0, 0%, 75%, 1) !important;
+	background-color: hsla(0, 0%, 90%, 1) !important;
 }
 
-.history:hover > .x-mark
+.history.x-hover > .x-mark,
+.history.x-hover > .x-message,
+.history.x-hover:not(.mention) > .x-mention
 {
-	background-color: hsla(0, 0%, 75%, 1) !important;
+	background-color: hsla(0, 0%, 80%, 1) !important;
 }
 
 .focus .x-focus
 {
-	background: hsla(0, 0%, 18%, 1);
+	background: hsla(0, 0%, 18%, 1) !important;
 }
 
 .x-mark
 {
-	border-left-color: hsla(0, 0%, 63%, 1);
+	border-left-color: hsla(0, 0%, 80%, 1);
+}
+
+.history .x-mark
+{
+	border-left-color: hsla(0, 0%, 65%, 1);
 }
 
 .x-message,
 .x-mention
 {
-	background-color: hsla(0, 0%, 98%, 1);
+	background-color: hsla(0, 0%, 100%, 1);
 }
 
 .x-mention
 {
-	border-right-color: hsla(0, 0%, 63%, 1) !important;
+	border-right-color: hsla(0, 0%, 80%, 1) !important;
+}
+
+.history .x-mention
+{
+	border-right-color: hsla(0, 0%, 65%, 1) !important;
+}
+
+.message:not(.history):not(.consecutive) .x-mark,
+.message:not(.history):not(.consecutive) .x-message,
+.message:not(.history):not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 100%, 1);
+}
+
+.message.history:not(.consecutive) .x-mark,
+.message.history:not(.consecutive) .x-message,
+.message.history:not(.consecutive) .x-mention
+{
+	border-top: 1px solid hsla(0, 0%, 90%, 1);
 }
 
 /*----------*/
@@ -168,9 +156,9 @@ body
 
 #x-topic #x-wrap
 {
-	background-color: hsla(0, 0%, 80%, .85);
-	border-bottom: 1px solid hsla(0, 0%, 63%, 1) !important;
-	-webkit-box-shadow: 0px 1px 2px hsl(0, 0%, 0%, .2);
+	background-color: hsla(0, 0%, 85%, .85);
+	border-bottom: 1px solid hsl(0, 0%, 87%) !important;
+	-webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 0%, .2);
 }
 
 #x-topic .x-toggle
