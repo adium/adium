@@ -9,6 +9,7 @@
 #import "AIWebKitMessageViewController.h"
 #import "ESWebView.h"
 #import "AIURLHandlerPlugin.h"
+#import "AIEventAdditions.h"
 
 static AIWebKitDelegate *AISharedWebKitDelegate;
 
@@ -106,7 +107,17 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 		
 		//Ignore file URLs, but open anything else
 		if (![url isFileURL]) {
-			[[NSWorkspace sharedWorkspace] openURL:url];
+			if ([NSEvent cmdKey]) {
+				NSArray *urls = [NSArray arrayWithObject:url]; 
+				
+				[[NSWorkspace sharedWorkspace] openURLs:urls
+								withAppBundleIdentifier:nil
+												options:NSWorkspaceLaunchWithoutActivation
+						 additionalEventParamDescriptor:nil 
+									  launchIdentifiers:nil];
+			} else {
+				[[NSWorkspace sharedWorkspace] openURL:url]; 
+			}
 		}
 		
 		[listener ignore];
