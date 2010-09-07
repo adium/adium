@@ -176,6 +176,48 @@ Version 1.4 (X/X/XXX)
   * Moved dock icon and status menu item controls to a new "Message Alerts" advanced preferences.
   * Updated to Sparkle 1.5
 
+== Version 1.3.10 (01/12/2010) ==
+ * Disabled the Facebook CAPTCHA, updated the Facebook plugin.
+ * Updated libjson-glib, fixing some 64-bit issues.
+
+== Version 1.3.9 (01/11/2010) ==
+ * Updated libpurple to fix a security issue with custom emoticons.
+ * Corrected user icons not updating correctly on Snow Leopard.
+
+== Version 1.3.8 (11/04/2009) ==
+ * Updated pidgin-facebook chat, fixing login.
+ * Corrected the Events preferences not displaying the correct list on Snow Leopard.
+
+== Version 1.3.7 (10/16/2009) ==
+ * Updated libpurple
+   * Fix a crash when some clients send contacts in a format we don't understand on ICQ.
+   * Fix blocking and other privacy lists on AIM/ICQ.
+   * Fixed CAPTCHA not working properly on Facebook.
+ * Fixed iChat emoticons on Snow Leopard.
+
+== Version 1.3.6 (8/20/2009) ==
+ * Updated to libpurple 2.5.9
+   * Fix a crash via a specially crafted MSN message (CVE-2009-2694).
+   * Fix a crash in Bonjour, MSN, and XMPP when trying to transfer files with NULL names.
+   * Numerous fixes from [http://developer.pidgin.im/wiki/ChangeLog libpurple 2.5.8]
+ * Updated to pidgin-facebookchat 1.6.0 from 1.5.1
+   * Fixed issues with dropped & missed messages
+   * Fixed retrieval of profile information
+   * Fixed retrieval of buddy icons
+   * Fixed messaging with Facebook users whose user IDs are very large
+   * Numerous other fixes; see [http://code.google.com/p/pidgin-facebookchat/wiki/Changelog pidgin-facebookchat changelog] for details
+   * Note: Facebook contact group support is currently disabled
+ * Added option to control Facebook mail checking
+ * Merged down the space dust
+
+Version 1.3.5 (6/22/2009)
+ * Updated to libpurple 2.5.7
+   * Fixes for problems connecting to Yahoo.
+   * Only display the AIM “Unable to Retrieve Buddy List” message once per connection.
+   * Blocking MSN users not on your buddy list no longer disconnects you.
+   * MSN fixes for adding/removing and getting disconnected.
+ * Updated to pidgin-facebook 1.5.1, fixing several issues
+
 Version 1.3.4 (5/7/2009)
  * Facebook fixes
    * Updated to pidgin-facebook 1.5.0, fixing a major bug in which massive amounts of data could be continuously sent and received under certain situations as well as several minor bugs
