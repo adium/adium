@@ -15,6 +15,7 @@ Version 1.5 (X/X/XXX)
  * Added a menu item to view release notes in the help menu. (#8569)
  * Miscellaneous improvements to Copyright.txt file.
  
+ 
 Version 1.4 (X/X/XXX)
  * Requires Mac OS X 10.5 or later
  * Added Twitter support
@@ -191,102 +192,111 @@ Version 1.4 (X/X/XXX)
   * Moved dock icon and status menu item controls to a new "Message Alerts" advanced preferences.
   * Updated to Sparkle 1.5
 
+
 Version 1.3.10 (01/12/2010)
  * Disabled the Facebook CAPTCHA, updated the Facebook plugin.
  * Updated libjson-glib, fixing some 64-bit issues.
+
 
 Version 1.3.9 (01/11/2010)
  * Updated libpurple to fix a security issue with custom emoticons.
  * Corrected user icons not updating correctly on Snow Leopard.
 
+
 Version 1.3.8 (11/04/2009)
  * Updated pidgin-facebook chat, fixing login.
  * Corrected the Events preferences not displaying the correct list on Snow Leopard.
 
+
 Version 1.3.7 (10/16/2009)
  * Updated libpurple
-    * Fix a crash when some clients send contacts in a format we don't understand on ICQ.
-    * Fix blocking and other privacy lists on AIM/ICQ.
-    * Fixed CAPTCHA not working properly on Facebook.
+   * Fix a crash when some clients send contacts in a format we don't understand on ICQ.
+   * Fix blocking and other privacy lists on AIM/ICQ.
+   * Fixed CAPTCHA not working properly on Facebook.
  * Fixed iChat emoticons on Snow Leopard.
+
 
 Version 1.3.6 (8/20/2009)
  * Updated to libpurple 2.5.9
-    * Fix a crash via a specially crafted MSN message (CVE-2009-2694).
-    * Fix a crash in Bonjour, MSN, and XMPP when trying to transfer files with NULL names.
-    * Numerous fixes from [http://developer.pidgin.im/wiki/ChangeLog libpurple 2.5.8]
+   * Fix a crash via a specially crafted MSN message (CVE-2009-2694).
+   * Fix a crash in Bonjour, MSN, and XMPP when trying to transfer files with NULL names.
+   * Numerous fixes from [http://developer.pidgin.im/wiki/ChangeLog libpurple 2.5.8]
  * Updated to pidgin-facebookchat 1.6.0 from 1.5.1
-    * Fixed issues with dropped & missed messages
-    * Fixed retrieval of profile information
-    * Fixed retrieval of buddy icons
-    * Fixed messaging with Facebook users whose user IDs are very large
-    * Numerous other fixes; see [http://code.google.com/p/pidgin-facebookchat/wiki/Changelog pidgin-facebookchat changelog] for details
-    * Note: Facebook contact group support is currently disabled
+   * Fixed issues with dropped & missed messages
+   * Fixed retrieval of profile information
+   * Fixed retrieval of buddy icons
+   * Fixed messaging with Facebook users whose user IDs are very large
+   * Numerous other fixes; see [http://code.google.com/p/pidgin-facebookchat/wiki/Changelog pidgin-facebookchat changelog] for details
+   * Note: Facebook contact group support is currently disabled
  * Added option to control Facebook mail checking
  * Merged down the space dust
 
+
 Version 1.3.5 (6/22/2009)
  * Updated to libpurple 2.5.7
-    * Fixes for problems connecting to Yahoo.
-    * Only display the AIM "Unable to Retrieve Buddy List" message once per connection.
-    * Blocking MSN users not on your buddy list no longer disconnects you.
-    * MSN fixes for adding/removing and getting disconnected.
+   * Fixes for problems connecting to Yahoo.
+   * Only display the AIM "Unable to Retrieve Buddy List" message once per connection.
+   * Blocking MSN users not on your buddy list no longer disconnects you.
+   * MSN fixes for adding/removing and getting disconnected.
  * Updated to pidgin-facebook 1.5.1, fixing several issues
+
 
 Version 1.3.4 (5/7/2009)
  * Facebook fixes
-    * Updated to pidgin-facebook 1.5.0, fixing a major bug in which massive amounts of data could be continuously sent and received under certain situations as well as several minor bugs
-    * Fixed a bug in which the Facebook numeric ID rather than name could be shown in the contact list (#11676)
-    * Improved proxy support.
+   * Updated to pidgin-facebook 1.5.0, fixing a major bug in which massive amounts of data could be continuously sent and received under certain situations as well as several minor bugs
+   * Fixed a bug in which the Facebook numeric ID rather than name could be shown in the contact list (#11676)
+   * Improved proxy support.
  * Fixed a crash when loading Jabber/XMPP account preferences when the computer's host name is not set (#11246)
  * Fixed a display issue in message windows when running Safari 4.
  * Updated to libpurple 2.5.6
+
 
 Version 1.3.3 (2/19/2009)
  * Major changes
    * Fixed a crash when using XMPP gateways and removing contacts
    * Switched to the pidgin-facebook plugin for Facebook connectivity, which should resolve several issues with Facebook and improve the interaction between Adium and Safari when both are logged into Facebook.
    * Automatically send messages to offline contact when offline messaging is supported rather than prompting to send now / send later (#11127)
-    * Fixed updating the list of users in a groupchat in many situations (#183, #10727)
-    * Tweaked the behavior of standard contact list type-to-search (#11496)
-    * Fixed ICQ aliases storage on the server (#9890)
-    * Fixed problem of events being recorded with wrong contact (#10436)
-    * Fixed visual glitch that made creating a SameTime account impossible in some localizations (#11675)
-    * Tab completion of names in groupchats is now case-insensitive
-    * Updated from libpurple 2.5.2 to 2.5.5mtn
-      * Fixed several MSN problems introduced by WLM 9:  icons not showing up (#11529, #11532), file transfers failing (#11396)
-      * Fixed publishing of ICQ (available and away) status messages (#3085)
-      * Fixed publishing of ICQ icons (#10597)
-      * Fixed a crash when a Yahoo user messages an MSN contact (#11256)
-      * Fixed a QQ hang/crash (#11290)
-      * Fixed a Sametime crash on login (#11381)
-      * Fixed display of Gadu-Gadu user icons (#4702)
-      * Fixed "Unable to add user - Unknown error (205)"  when connecting to MSN (#11126) 
-      * Fixed duplicated buddies on authorization (#7171)
-      * SASL PLAIN or IQ Auth passwords are no more in debug logs
-      * includes many, many more fixes, especially to MySpace and MSN
+   * Fixed updating the list of users in a groupchat in many situations (#183, #10727)
+   * Tweaked the behavior of standard contact list type-to-search (#11496)
+   * Fixed ICQ aliases storage on the server (#9890)
+   * Fixed problem of events being recorded with wrong contact (#10436)
+   * Fixed visual glitch that made creating a SameTime account impossible in some localizations (#11675)
+   * Tab completion of names in groupchats is now case-insensitive
+   * Updated from libpurple 2.5.2 to 2.5.5mtn
+     * Fixed several MSN problems introduced by WLM 9:  icons not showing up (#11529, #11532), file transfers failing (#11396)
+     * Fixed publishing of ICQ (available and away) status messages (#3085)
+     * Fixed publishing of ICQ icons (#10597)
+     * Fixed a crash when a Yahoo user messages an MSN contact (#11256)
+     * Fixed a QQ hang/crash (#11290)
+     * Fixed a Sametime crash on login (#11381)
+     * Fixed display of Gadu-Gadu user icons (#4702)
+	 * Fixed "Unable to add user - Unknown error (205)"  when connecting to MSN (#11126) 
+	 * Fixed duplicated buddies on authorization (#7171)
+	 * SASL PLAIN or IQ Auth passwords are no more in debug logs
+	 * includes many, many more fixes, especially to MySpace and MSN
  * Chat Transcript fixes
-    * Fixed a crash involving the log viewer (#11309)
-    * Fixed a bug that caused Adium to leave log files open
-    * Reimported all logs into Spotlight, since 10.5.6 fixed importing them (#8320)
+   * Fixed a crash involving the log viewer (#11309)
+   * Fixed a bug that caused Adium to leave log files open
+   * Reimported all logs into Spotlight, since 10.5.6 fixed importing them (#8320)
  * Chat window fixes
-    * Fixed scrolling to the bottom of the chat when it loads for certain message styles (#10541)
-    * Fixed several message styles (#10921)
-    * Fixed alignment of the message display after clicking an emoticon (#11602)
-    * Fixed some internal bugs related to historical and notification messages (#10152, #10174)
-    * Fixed Renkoo's image-click handling and added proper image-click handling to Renkoo Naked (#11561)
+   * Fixed scrolling to the bottom of the chat when it loads for certain message styles (#10541)
+   * Fixed several message styles (#10921)
+   * Fixed alignment of the message display after clicking an emoticon (#11602)
+   * Fixed some internal bugs related to historical and notification messages (#10152, #10174)
+   * Fixed Renkoo's image-click handling and added proper image-click handling to Renkoo Naked (#11561)
  * Other minor bug fixes
-    * Fixed setting XMPP status messages, AIM available, and Gadu-Gadu status messages which contain characters normally escaped in HTML (#11215)
-    * Properly hide iTunes Now playing information when appropriate (#11585)
-    * Fixed referencing chat windows from AppleScript (#11352)
-    * Fixed a code signing error when launching Adium after not changing list layouts since pre-1.0
-    * Fix unpaired external enclosure characters around strings to be linkified. (#11175)
+   * Fixed setting XMPP status messages, AIM available, and Gadu-Gadu status messages which contain characters normally escaped in HTML (#11215)
+   * Properly hide iTunes Now playing information when appropriate (#11585)
+   * Fixed referencing chat windows from AppleScript (#11352)
+   * Fixed a code signing error when launching Adium after not changing list layouts since pre-1.0
+   * Fix unpaired external enclosure characters around strings to be linkified. (#11175)
  * Localization changes
-    * Added a Greek localization thanks to "evripidis" (#11350)
-    * Updated the German localization
-    * Updated the French localization (#11646)
-    * Updated the Russian localization (#11590, #11220)
-    * Updated the Slovenian localization
+   * Added a Greek localization thanks to "evripidis" (#11350)
+   * Updated the German localization
+   * Updated the French localization (#11646)
+   * Updated the Russian localization (#11590, #11220)
+   * Updated the Slovenian localization
+
 
 Version 1.3.2 (10/9/2008)
  * Updated to MSNp15 via libpurple (from MSNp12 via msn-pecan)
@@ -307,6 +317,7 @@ Version 1.3.2 (10/9/2008)
  * Added new Add Group Chat Bookmark and File Transfer icons (#11030)
  * Fixed drop shadow in Stockholm and Gone Dark message styles (#9178, #9480)
  * Fixed visual artifacts in Smooth Operator message style (#10101)
+
 
 Version 1.3.1 (9/7/2008)
  * Fixed import wizard failing during import of inline images (#10912)
@@ -333,6 +344,7 @@ Version 1.3.1 (9/7/2008)
  * Edges between multiple displays no longer trigger showing hidden contact list (#10204)
  * Removed $$ emoticon (#10949)
  * Update Danish, German, and Hungarian localizations
+
 
 Version 1.3 (8/25/2008)
 == Major Changes ==
@@ -567,10 +579,12 @@ Version 1.3 (8/25/2008)
  * Added Italian-localized Dock-icon overlays for Away and Idle (#9975)
  * Updated all localizations
 
+
 Version 1.2.7 (7/4/2008)
  * Fixed sending of invalid XML when asked for our version information in XMPP, which effectively broke XMPP connectivity. (Bug introduced in 1.2.6) (#10324)
  * Improved handling of invalid XML over XMPP (#10347, #10353)
  * Hopefully fixed a bug which caused an XMPP contact to infinitely flip between two groups shortly after authorization (#8834)
+
 
 Version 1.2.6 (7/1/2008)
  * Updated to libpurple 2.4.3
@@ -583,6 +597,7 @@ Version 1.2.6 (7/1/2008)
  * Fixed an ancient bug in which the wrong event would be displayed for a contact status change, such as "Contact Came Back" when the contact disconnected. (#468, #5551)
  * Fixed a crash which could occur when a contact changed status while a new chat window was open with that contact (#9425)
  * Fixed saving/restoring message window positioning on 10.4
+
 
 Version 1.2.5 (4/28/2008)
  * Fixed Yahoo! Japan connectivity
@@ -609,6 +624,7 @@ Version 1.2.5 (4/28/2008)
  * Fixed the Import from iChat button in the first run wizard (#9678)
  * Fixed receiving of empty XMPP message stanzas (#4161)
  * Danish, French, French Canadian, and Brazilian Portuguese translation updates
+
 
 Version 1.2.4 (3/30/2008)
  * Updated to libpurple 2.4.1 (pidgin.im), which includes AIM offline message support, fast Yahoo file transfers, viewing of ICQ status notes, setting Google Talk buddy icons, and a fix for an issue which could make you appear offline to MSN users
@@ -639,6 +655,7 @@ Version 1.2.4 (3/30/2008)
  * Fixed printing from the message window
  * Brazilian Portuguese and French Canadian localization updates
 
+
 Version 1.2.3 (2/25/08)
  * Fixed logging in for certain Yahoo! Messenger accounts
  * Fixed opening chats when using certain message styles (#9224)
@@ -648,7 +665,8 @@ Version 1.2.3 (2/25/08)
  * Fixed enabling of the Add button in the Add Contact window when adding from the Apple Address Book (#9260)
  * We now treat 'Busy' as 'Do Not Disturb' for XMPP accounts (#9051)
  * Catalan and Russian translation updates
- 
+
+
 Version 1.2.2 (2/18/08)
  * Fixed incorrect behavior (including seemingly random changes in selection) in the account/contact selector at the top of chats when multiple sources or destinations are possible (#9013) 
  * XMPP & Google Talk
@@ -680,6 +698,7 @@ Version 1.2.2 (2/18/08)
  * Fixed saving of Status preferences, which previously would fail to save in some situations (#225)
  * Updated Firewall instructions in Adium Help for 10.5
  * Czech, Danish, French Canadian, German, Simplified Chinese, Swedish, and Traditional Chinese localization updates
+
 
 Version 1.2.1 (1/18/2008)
  * Group chats now reconnect automatically when their accounts reconnect after being disconnected (#1880)
@@ -718,16 +737,17 @@ Version 1.2.1 (1/18/2008)
  * Updated the Stockholm message style (#8353)
  * Fixed the "Show the file transfer window automatically" preference
  * Applescript fixes:
-    * Added date opened property (#8859)
-    * Fixed retrieval of account status messages (#8820)
-    * Fixed access and setting of account and contact user icons (#8818)
-    * Allowed access to service images for accounts
-    * Fixed a crash when interacting with message windows (#8821)
-    * Fixed the "Go Online" applescript action
-    * Added a global status property
+   * Added date opened property (#8859)
+   * Fixed retrieval of account status messages (#8820)
+   * Fixed access and setting of account and contact user icons (#8818)
+   * Allowed access to service images for accounts
+   * Fixed a crash when interacting with message windows (#8821)
+   * Fixed the "Go Online" applescript action
+   * Added a global status property
  * Fixed several localization issues
  * Updated Norwegian localization
  * Added Slovenian localization
+
 
 Version 1.2 (1/5/2008)
  * Improved Group Chat interface
@@ -810,6 +830,7 @@ Version 1.2 (1/5/2008)
  * Got David a gerbil (#7278)
  * Major localization updates: Catalan, Czech, Danish, Dutch, Chinese (Simplified), Chinese (Traditional), English (Australian), Finnish, French, French Canadian, German, Italian, Japanese, Norwegian, Polish, Russian, Spanish, Swedish, and Turkish
 
+
 Version 1.1.4 (11/5/2007)
  * Compatibility updates for Mac OS X 10.5:
    * Removed the ability for the contact list to ignore exposé, fixing a number of issues with Spaces (#7862)
@@ -836,6 +857,7 @@ Version 1.1.4 (11/5/2007)
  * Localization updates
  * Updated to Growl 1.1.2 (http://growl.info)
 
+
 Version 1.1.3 (9/30/2007)
  * Fixed a crash when canceling addition of a Bonjour account (#7523)
  * Added support for serverside aliases in Yahoo
@@ -858,6 +880,7 @@ Version 1.1.3 (9/30/2007)
    * Fixed multiple memory leaks
    * Fixed an issue with idle status and time for AIM and ICQ accounts
  * French, Dutch, and Swedish updates
+ 
  
 Version 1.1.2 (9/3/2007)
  * Added preference to turn off the contact list animations (Preferences->Advanced->Contact List)
@@ -892,8 +915,10 @@ Version 1.1.2 (9/3/2007)
  * Fixed display of AdiumLibpurplePlugins as bundles
  * Updated to libpurple 2.1.1
 
+
 Version 1.1.1 (8/13/2007)
  * Fixed a problem with the version checking system (Sparkle) which caused a crash when the minimum system requirements were specified in the appcast.
+
 
 Version 1.1 (8/12/2007)
 Note: Adium now requires Mac OS X 10.4.0 or later.
@@ -1014,6 +1039,7 @@ Version 1.0.5 (7/9/2007)
    * Google Talk accounts will not import buddies from your Gmail address
      book
 
+
 Version 1.0.4 (5/20/2007)
  * Fixed a crash introduced in 1.0.3 which could occur when accounts disconnected or status changed
  * Fixed a crash introduced in 1.0.3 which could occur after a chat is closed
@@ -1118,11 +1144,11 @@ Version 1.0.1 (2/16/2007)
  * Fixed focus-stealing of password prompt windows
  * Removed some unneeded debug logging
  * Fixed memory leaks when:
-    * Sending a message (#6425)
-    * Utilizing encryption (#6424)
-    * Initializing MSN (#6430)
-    * Handling Jabber network traffic (#6429)
-    * Displaying certain menus (#6427)
+   * Sending a message (#6425)
+   * Utilizing encryption (#6424)
+   * Initializing MSN (#6430)
+   * Handling Jabber network traffic (#6429)
+   * Displaying certain menus (#6427)
  * Various localization improvements, including Dutch, French, German, Japanese, Russian, and zh_TW updates. Restored the Brazilian Portuguese localization.
 
 
@@ -1191,7 +1217,7 @@ Version 1.0 (2/2/2007)
  * Added more popcorn to the general preferences.
  * Added a contextual menu for tabs (#1595)
  * Added a contextual menu to make sandwiches tastier. for tabs (#1595)
-  * Clarified naming for Close Chat menu item (#759)
+ * Clarified naming for Close Chat menu item (#759)
  * Showing an encryption fingerprint does not open multiple windows when clicked more than once (#2580)
  * Added global keystroke to activate Adium (#1958, #3727)
  * Added a "Show Offline Group" item to the View menu (#2366)
@@ -1732,14 +1758,14 @@ Version 0.80 (02 May 2005)
  * Added "Contact Last Seen" information tracking
  * Certified OS X 10.4 Tiger compatible
 
-Protocol-specific changes:
-    * (AIM) Added support for setting animating buddy icons (drag an appropriate GIF from the Finder)
-    * (MSN) Added support for initiating MSN multi-user chat
-    * (ICQ, Jabber) Added support for re-requesting authorization
-    * (Sametime) Added support for directory lookup and group conferences
+ Protocol-specific changes:
+  * (AIM) Added support for setting animating buddy icons (drag an appropriate GIF from the Finder)
+  * (MSN) Added support for initiating MSN multi-user chat
+  * (ICQ, Jabber) Added support for re-requesting authorization
+  * (Sametime) Added support for directory lookup and group conferences
 
  * Many, many other bug and leak fixes, performance enchancements, and improvements.
-    * For a full list of changes, see http://www.adiumx.com/Adium0.80-fullchanges.txt
+   * For a full list of changes, see http://www.adiumx.com/Adium0.80-fullchanges.txt
 
 
 Version 0.77 (18 February 2005)
@@ -1768,6 +1794,7 @@ Version 0.76 (30 January 2005)
 
 Version 0.75.1 (24 January 2005)
  * Fixed a crash when joining a group chat
+
 
 Version 0.75
  * Fixed a crash on launch
