@@ -1,8 +1,20 @@
 				Adium Version History
 				-----------------------
 Version 1.5 (X/X/XXX)
- * Clicking on a link whilst holding the Cmd key opens the link in the background. (#12129)
+ * 64bit support
 
+ * Fix a crash related to Cyrillic nicknames in IRC. (#13351)
+ * Add a "Do Nothing" event. (#3590).
+ * Clicking on a link whilst holding the Cmd key opens the link in the background. (#12129)
+ * Improved the logic for the display of tooltips. (#12774)
+ * Added a "Reopen Closed Tab" menu item to the File menu that will restore the most recently closed tab. (#12537)
+ * Regex support for mentions. (#12832)
+ * Added version numbers for Xtras to Xtras Manager. (#11285)
+ * Fix link insertion for NetNewsWire. (#11389)
+ * Add Google Chrome support for link insertion.
+ * Added a menu item to view release notes in the help menu. (#8569)
+ * Miscellaneous improvements to Copyright.txt file.
+ 
 Version 1.4 (X/X/XXX)
  * Requires Mac OS X 10.5 or later
  * Added Twitter
@@ -179,26 +191,26 @@ Version 1.4 (X/X/XXX)
   * Moved dock icon and status menu item controls to a new "Message Alerts" advanced preferences.
   * Updated to Sparkle 1.5
 
-== Version 1.3.10 (01/12/2010) ==
+Version 1.3.10 (01/12/2010)
  * Disabled the Facebook CAPTCHA, updated the Facebook plugin.
  * Updated libjson-glib, fixing some 64-bit issues.
 
-== Version 1.3.9 (01/11/2010) ==
+Version 1.3.9 (01/11/2010)
  * Updated libpurple to fix a security issue with custom emoticons.
  * Corrected user icons not updating correctly on Snow Leopard.
 
-== Version 1.3.8 (11/04/2009) ==
+Version 1.3.8 (11/04/2009)
  * Updated pidgin-facebook chat, fixing login.
  * Corrected the Events preferences not displaying the correct list on Snow Leopard.
 
-== Version 1.3.7 (10/16/2009) ==
+Version 1.3.7 (10/16/2009)
  * Updated libpurple
    * Fix a crash when some clients send contacts in a format we don't understand on ICQ.
    * Fix blocking and other privacy lists on AIM/ICQ.
    * Fixed CAPTCHA not working properly on Facebook.
  * Fixed iChat emoticons on Snow Leopard.
 
-== Version 1.3.6 (8/20/2009) ==
+Version 1.3.6 (8/20/2009)
  * Updated to libpurple 2.5.9
    * Fix a crash via a specially crafted MSN message (CVE-2009-2694).
    * Fix a crash in Bonjour, MSN, and XMPP when trying to transfer files with NULL names.
