@@ -276,7 +276,7 @@
 
 			if ((purple_account_is_connected(account)) &&
 				(od = purple_account_get_connection(account)->proto_data)) {
-				aim_icq_getalias(od, contactUIDUTF8String);
+				aim_icq_getalias(od, contactUIDUTF8String, FALSE, NULL);
 			}
 		}
 
