@@ -83,6 +83,8 @@
 	purple_account_set_bool(account, "use_ssl", [[self preferenceForKey:PREFERENCE_SSL_CONNECTION
 																  group:GROUP_ACCOUNT_STATUS] boolValue]);
 	
+	purple_account_set_bool(account, "allow_multiple_logins", [[self preferenceForKey:PREFERENCE_ALLOW_MULTIPLE_LOGINS
+																				group:GROUP_ACCOUNT_STATUS] boolValue]);
 }
 
 - (BOOL)encrypted
