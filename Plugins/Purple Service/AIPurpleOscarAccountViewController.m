@@ -30,6 +30,7 @@
 	
 	[checkBox_proxyServer setState:[[account preferenceForKey:PREFERENCE_FT_PROXY_SERVER group:GROUP_ACCOUNT_STATUS] boolValue]];
 	[checkBox_SSL setState:[[account preferenceForKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS] boolValue]];
+	[checkbox_multipleLogins setState:[[account preferenceForKey:PREFERENCE_ALLOW_MULTIPLE_LOGINS group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 /*!
@@ -45,7 +46,11 @@
 	
 	[account setPreference:[NSNumber numberWithBool:[checkBox_SSL state]]
 					forKey:PREFERENCE_SSL_CONNECTION
-					 group:GROUP_ACCOUNT_STATUS];	
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkbox_multipleLogins state]]
+					forKey:PREFERENCE_ALLOW_MULTIPLE_LOGINS
+					 group:GROUP_ACCOUNT_STATUS];
 }
 
 @end

@@ -28,6 +28,7 @@
 #define OSCAR_STATUS_ID_FREE4CHAT	"free4chat"
 #define OSCAR_STATUS_ID_CUSTOM		"custom"
 
+#define PREFERENCE_ALLOW_MULTIPLE_LOGINS @"Allow Multiple Logins"
 #define PREFERENCE_FT_PROXY_SERVER	@"Always Use FT Proxy"
 #define PREFERENCE_SSL_CONNECTION	@"Connect Using SSL"
 
