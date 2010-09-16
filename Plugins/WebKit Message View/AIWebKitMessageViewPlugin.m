@@ -140,6 +140,8 @@
 		defaultMessageStyleBundle = [styles objectForKey:@"com.adiumx.gonedark.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.plastic.style"]) {
 		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.renkooNaked.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Renkoo.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.minimal.style"]) {
 		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.minimal_2.0.style"]) {
