@@ -141,7 +141,9 @@
 	} else if ([identifier isEqualToString:@"com.adiumx.plastic.style"]) {
 		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.minimal.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"com.adiumx.minimal_2.0.style"];
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.minimal_2.0.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
 	} 
 
 	if (!defaultMessageStyleBundle) {
