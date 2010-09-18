@@ -316,7 +316,7 @@
 		if (firstTime) {
 			if (saveContainers) {
 				//Restore saved containers
-				[self restoreSavedContainers];	
+				[self performSelector:@selector(restoreSavedContainers) withObject:nil afterDelay:0.0];
 			} else if ([prefDict objectForKey:KEY_CONTAINERS]) {
 				/* We've loaded without wanting to save containers; clear any saved
 				 * from a previous session.
@@ -455,7 +455,7 @@
 
 	for (NSDictionary *dict in [NSKeyedUnarchiver unarchiveObjectWithData:savedData]) {
 		AIMessageWindowController *windowController = [self openContainerWithID:[dict objectForKey:@"ID"]
-																 name:[dict objectForKey:@"Name"]];
+																		   name:[dict objectForKey:@"Name"]];
 		AIChat *containerActiveChat = nil;
 		
 		// Position the container where it was last saved (using -savedFrameFromString: to prevent going offscreen)
