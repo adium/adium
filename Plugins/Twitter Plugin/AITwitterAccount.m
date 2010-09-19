@@ -356,6 +356,22 @@
 }
 
 /*!
+ * @brief Suffix for autocompleted contacts
+ */
+- (NSString *)suffixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange
+{
+	return nil;
+}
+
+/*!
+ * @brief Prefix for autocompleted contacts
+ */
+- (NSString *)prefixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange
+{
+	return @"@";
+}
+
+/*!
  * @brief A chat opened.
  *
  * If this is a group chat which belongs to us, aka a timeline chat, set it up how we want it.

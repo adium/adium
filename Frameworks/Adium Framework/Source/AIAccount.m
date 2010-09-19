@@ -933,6 +933,28 @@ typedef enum
 	return NO;
 }
 
+/*!
+ * @brief Suffix for autocompleted contacts
+ */
+- (NSString *)suffixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange
+{
+	NSString *suffix = nil;
+	if (charRange.location == 0)
+	{
+		suffix = @": ";
+	}
+	return suffix;
+}
+
+/*!
+ * @brief Prefix for autocompleted contacts
+ */
+- (NSString *)prefixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange
+{
+	return nil;
+}
+
+
 -(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
 	return nil;
