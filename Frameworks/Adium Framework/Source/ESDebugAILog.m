@@ -58,6 +58,8 @@ void AIAddDebugMessage(NSString *debugMessage)
 }
 
 void AILog_impl (NSString *format, ...) {
+	if (!AIDebugLoggingEnabled) return;
+
 	va_list		ap; /* Points to each unamed argument in turn */
 	NSString	*debugMessage;
 	
@@ -72,6 +74,8 @@ void AILog_impl (NSString *format, ...) {
 }
 
 void AILogWithPrefix_impl (const char *prefix, NSString *format, ...) {
+	if (!AIDebugLoggingEnabled) return;
+
 	va_list		ap; /* Points to each unamed argument in turn */
 	NSString	*debugMessage, *actualMessage;
 	
