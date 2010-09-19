@@ -1050,13 +1050,28 @@
 	NSMutableArray	*completions = nil;
 	
 	if (self.chat.isGroupChat) {
-		NSString *suffix = nil;
+		NSString *suffix = [self.chat.account suffixForAutocomplete:self.chat forPartialWordRange:charRange];
+		NSString *prefix = [self.chat.account prefixForAutocomplete:self.chat forPartialWordRange:charRange];
 		NSString *partialWord = [textView.textStorage.string substringWithRange:charRange];
 		BOOL autoCompleteUID = [self.chat.account chatShouldAutocompleteUID:self.chat];
 		
-		//At the start of a line, append ": "
-		if (charRange.location == 0) {
-			suffix = @": ";
+		// Check to see if the prefix is already present
+		if (charRange.location != 0 && charRange.location >= prefix.length) {
+			prefix = [[textView.textStorage.string substringWithRange:
+					   NSMakeRange(charRange.location-prefix.length, prefix.length)] isEqualToString:prefix] ? nil : prefix;
+		}
+		
+		// If we need to add a prefix, insert it into the text, then call [textView complete:] again; return early with no completions.
+		if (prefix.length > 0) {
+			[textView.textStorage insertAttributedString:[[NSAttributedString alloc] initWithString:prefix] atIndex:charRange.location];
+			[textView complete:nil];
+			return nil;
+		}
+		
+		// Check to see if the suffix is already present
+		if (charRange.location + charRange.length + suffix.length <= textView.textStorage.string.length ) {
+			suffix = [[textView.textStorage.string substringWithRange:
+					   NSMakeRange(charRange.location + charRange.length, suffix.length)] isEqualToString:suffix] ? nil : suffix;
 		}
 		
 		completions = [NSMutableArray array];
@@ -1074,8 +1089,9 @@
 				completion = aliasOrDisplayName;
 			}
 			
-			// Add what we came up with to the completions list (with suffix if at beginning of line)
-			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
+			// Add what we came up with to the completions list (with suffix and prefix if required)
+			NSString *completionWithSuffix = (suffix ? [completion stringByAppendingString:suffix] : completion);
+			[completions addObject:(prefix ? [prefix stringByAppendingString:completionWithSuffix] : completionWithSuffix)];
 		}
 		
 		if ([self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {

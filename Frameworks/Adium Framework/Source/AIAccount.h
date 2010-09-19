@@ -336,6 +336,16 @@ typedef enum {
 - (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat;
 
 /*!
+ * @brief Suffix for autocompleted contacts
+ */
+- (NSString *)suffixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange;
+
+/*!
+ * @brief Prefix for autocompleted contacts
+ */
+- (NSString *)prefixForAutocomplete:(AIChat *)inChat forPartialWordRange:(NSRange)charRange;
+
+/*!
  * @brief Does the account support sending notifications?
  */
 - (BOOL)supportsSendingNotifications;
