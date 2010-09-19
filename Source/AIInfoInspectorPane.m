@@ -520,10 +520,19 @@
 	
 	
 	if ([inObject isKindOfClass:[AIListContact class]]) {
-		currentAlias = [[(AIListContact *)inObject parentContact] preferenceForKey:@"Alias"
-																			 group:PREF_GROUP_ALIASES];
-		AILogWithSignature(@"inObject is %@; parentContact is %@. Preference is %@.",
-						   inObject, [(AIListContact *)inObject parentContact], currentAlias);
+		AIListContact *parentContact = [(AIListContact *)inObject parentContact];
+	
+		currentAlias = [parentContact preferenceForKey:@"Alias"
+												 group:PREF_GROUP_ALIASES];
+		
+		if (inObject == parentContact) {
+			AILogWithSignature(@"%@: current alias %@.",
+							   inObject, currentAlias);
+			
+		} else {
+			AILogWithSignature(@"updating alias for %@; parent %@ --> current alias %@.",
+							   inObject, [(AIListContact *)inObject parentContact], currentAlias);
+		}
 	} else {
 		currentAlias = [inObject preferenceForKey:@"Alias"
 											group:PREF_GROUP_ALIASES];		
