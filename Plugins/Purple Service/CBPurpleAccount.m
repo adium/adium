@@ -544,7 +544,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)delayedUpdateContactStatus:(AIListContact *)inContact
 {
     //Request profile
-	AILogWithSignature(@"");
 	[purpleAdapter getInfoFor:inContact.UID onAccount:self];
 }
 
