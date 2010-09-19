@@ -24,7 +24,7 @@
 @interface AIAutomaticStatus : AIPlugin {
 	NSNumber						*fastUserSwitchID;
 	NSNumber						*screenSaverID;
-	NSNumber						*idleID;
+	NSNumber						*idleStatusID;
 	
 	NSNumber						*oldStatusID;
 	
@@ -33,7 +33,7 @@
 	
 	BOOL							fastUserSwitchEnabled;
 	BOOL							screenSaverEnabled;
-	BOOL							idleEnabled;
+	BOOL							idleStatusEnabled;
 	BOOL							reportIdleEnabled;
 	
 	double							idleReportInterval;

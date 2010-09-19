@@ -150,7 +150,7 @@ typedef enum {
 	// Stored status IDs
 	[fastUserSwitchID release];
 	[screenSaverID release];
-	[idleID release];
+	[idleStatusID release];
 	
 	[oldStatusID release];
 	
@@ -177,9 +177,9 @@ typedef enum {
 	idleReportInterval = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue];
 	
 	// Idle status change
-	[idleID release];
-	idleID = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID] retain];
-	idleEnabled = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY] boolValue];
+	[idleStatusID release];
+	idleStatusID = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID] retain];
+	idleStatusEnabled = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY] boolValue];
 	idleStatusInterval = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue];
 	
 	// Fast user switch
@@ -226,17 +226,22 @@ typedef enum {
 		
 		// This is very spammy when we're already idle.
 		if (duration >= idleStatusInterval && !(automaticStatusBitMap & AIAwayIdle)) {
-			AILogWithSignature(@"Idle (start) detected.");
+			NSDate *idleSince = [[notification userInfo] objectForKey:@"IdleSince"];
 			
-			if (idleEnabled) automaticStatusBitMap |= AIAwayIdle;
-			
-			// Update our idle time
-			if (reportIdleEnabled) {
-				[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
-												   forKey:@"IdleSince"
-													group:GROUP_ACCOUNT_STATUS];
+			if (![[adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS] isEqualToDate:idleSince]) {
+				AILogWithSignature(@"Idle (start) detected.");
+
+				if (idleStatusEnabled) automaticStatusBitMap |= AIAwayIdle;
+				
+				// Update our idle time
+				if (reportIdleEnabled) {
+					[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
+													   forKey:@"IdleSince"
+														group:GROUP_ACCOUNT_STATUS];
+				}
 			}
 		}
+		
 	} if ([notificationName isEqualToString:AIScreenLockDidStartNotification]) {
 		AILogWithSignature(@"Screenlock (start) detected.");
 		
@@ -286,7 +291,7 @@ typedef enum {
 			statusID = screenSaverID;
 			
 		else if (automaticStatusBitMap & AIAwayIdle)	
-			statusID = idleID;
+			statusID = idleStatusID;
 			
 		else
 			[self returnFromAutoAway];
