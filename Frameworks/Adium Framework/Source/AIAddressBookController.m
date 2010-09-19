@@ -279,54 +279,32 @@ NSString* serviceIDForJabberUID(NSString *UID);
     if (inModifiedKeys == nil) { //Only perform this when updating for all list objects or when a contact is created
         ABPerson *person = [listContact addressBookPerson];
 
-		if (person) {
-			if (enableImport) {
-				//Load the name if appropriate
-				AIMutableOwnerArray *displayNameArray, *phoneticNameArray;
-				NSString			*displayName, *phoneticName = nil;
-				
-				displayNameArray = [listContact displayArrayForKey:@"Display Name"];
-				
-				displayName = [self nameForPerson:person phonetic:&phoneticName];
+		if (person && enableImport) {
+			//Load the name if appropriate
+			AIMutableOwnerArray *displayNameArray, *phoneticNameArray;
+			NSString			*displayName, *phoneticName = nil;
+			
+			displayNameArray = [listContact displayArrayForKey:@"Display Name"];
+			
+			displayName = [self nameForPerson:person phonetic:&phoneticName];
+			
+			//Apply the values 
+			NSString *oldValue = [displayNameArray objectWithOwner:self];
+			if (!oldValue || ![oldValue isEqualToString:displayName]) {
+				[displayNameArray setObject:displayName withOwner:self];
+				modifiedAttributes = [NSSet setWithObject:@"Display Name"];
+			}
+			
+			if (phoneticName) {
+				phoneticNameArray = [listContact displayArrayForKey:@"Phonetic Name"];
 				
 				//Apply the values 
-				NSString *oldValue = [displayNameArray objectWithOwner:self];
-				if (!oldValue || ![oldValue isEqualToString:displayName]) {
-					[displayNameArray setObject:displayName withOwner:self];
-					modifiedAttributes = [NSSet setWithObject:@"Display Name"];
+				oldValue = [phoneticNameArray objectWithOwner:self];
+				if (!oldValue || ![oldValue isEqualToString:phoneticName]) {
+					[phoneticNameArray setObject:phoneticName withOwner:self];
+					modifiedAttributes = [NSSet setWithObjects:@"Display Name", @"Phonetic Name", nil];
 				}
-				
-				if (phoneticName) {
-					phoneticNameArray = [listContact displayArrayForKey:@"Phonetic Name"];
-
-					//Apply the values 
-					oldValue = [phoneticNameArray objectWithOwner:self];
-					if (!oldValue || ![oldValue isEqualToString:phoneticName]) {
-						[phoneticNameArray setObject:phoneticName withOwner:self];
-						modifiedAttributes = [NSSet setWithObjects:@"Display Name", @"Phonetic Name", nil];
-					}
-				} else {
-					phoneticNameArray = [listContact displayArrayForKey:@"Phonetic Name"
-																 create:NO];
-					//Clear any stored value
-					if ([phoneticNameArray objectWithOwner:self]) {
-						[displayNameArray setObject:nil withOwner:self];
-						modifiedAttributes = [NSSet setWithObjects:@"Display Name", @"Phonetic Name", nil];
-					}					
-				}
-
 			} else {
-				AIMutableOwnerArray *displayNameArray, *phoneticNameArray;
-				
-				displayNameArray = [listContact displayArrayForKey:@"Display Name"
-															create:NO];
-
-				//Clear any stored value
-				if ([displayNameArray objectWithOwner:self]) {
-					[displayNameArray setObject:nil withOwner:self];
-					modifiedAttributes = [NSSet setWithObject:@"Display Name"];
-				}
-				
 				phoneticNameArray = [listContact displayArrayForKey:@"Phonetic Name"
 															 create:NO];
 				//Clear any stored value
@@ -334,21 +312,46 @@ NSString* serviceIDForJabberUID(NSString *UID);
 					[displayNameArray setObject:nil withOwner:self];
 					modifiedAttributes = [NSSet setWithObjects:@"Display Name", @"Phonetic Name", nil];
 				}					
-				
 			}
-
-			//If we changed anything, request an update of the alias / long display name
-			if (modifiedAttributes) {
-				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
-														  object:listContact
-														userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:silent]
-																							 forKey:@"Notify"]];
+			
+		} else {
+			AIMutableOwnerArray *displayNameArray, *phoneticNameArray;
+			
+			displayNameArray = [listContact displayArrayForKey:@"Display Name"
+														create:NO];
+			
+			//Clear any stored value
+			if ([displayNameArray objectWithOwner:self]) {
+				[displayNameArray setObject:nil withOwner:self];
+				modifiedAttributes = [NSSet setWithObject:@"Display Name"];
 			}
-
-			//Add this contact to the ABPerson's metacontact if it's not already there.
+			
+			phoneticNameArray = [listContact displayArrayForKey:@"Phonetic Name"
+														 create:NO];
+			//Clear any stored value
+			if ([phoneticNameArray objectWithOwner:self]) {
+				[phoneticNameArray setObject:nil withOwner:self];
+				modifiedAttributes = [NSSet setWithObjects:@"Display Name", @"Phonetic Name", nil];
+			}					
+			
+		}
+		
+		//If we changed anything, request an update of the alias / long display name
+		if (modifiedAttributes) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
+																object:listContact
+															  userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:silent]
+																								   forKey:@"Notify"]];
+		}
+		
+		//Add this contact to the ABPerson's metacontact if it's not already there.
+		if (person) {
 			AIMetaContact *personMetaContact;
 			if ((personMetaContact = [personUniqueIdToMetaContactDict objectForKey:[person uniqueId]]) &&
+				(personMetaContact != listContact) &&
 				![personMetaContact containsObject:listContact]) {
+				AILog(@"AIAddressBookController: personMetaContact = %@; listContact = %@; performing metacontact grouping",
+					  personMetaContact, listContact);
 				[adium.contactController groupContacts:[NSArray arrayWithObjects:personMetaContact, listContact, nil]];
 			}
 		}
