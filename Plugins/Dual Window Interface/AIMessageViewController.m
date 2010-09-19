@@ -1089,9 +1089,8 @@
 				completion = aliasOrDisplayName;
 			}
 			
-			// Add what we came up with to the completions list (with suffix and prefix if required)
-			NSString *completionWithSuffix = (suffix ? [completion stringByAppendingString:suffix] : completion);
-			[completions addObject:(prefix ? [prefix stringByAppendingString:completionWithSuffix] : completionWithSuffix)];
+			// Add what we came up with to the completions list (with suffix if required)
+			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
 		}
 		
 		if ([self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
