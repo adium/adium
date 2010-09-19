@@ -27,7 +27,7 @@ Version 1.5 (X/X/XXX)
  Xtras
   * Added version numbers for Xtras to Xtras Manager. (#11285)
 
- * Add the "On Accounts" table to the nextKeyView in the 'Add Contact' window. (#14269)
+ * Added the "On Accounts" table to the nextKeyView in the 'Add Contact' window. (#14269)
 
  * Added a menu item to view release notes in the help menu. (#8569)
  * Miscellaneous improvements to Copyright.txt file.
@@ -58,18 +58,18 @@ Version 1.4 (X/X/XXX)
  Group Chats
   * When you are mentioned in a group chat, the color of the tab's message count changes to red.
   * Set a shortcut of ⌘⌥/ for the "Toggle User List" menu item.
-  * Added a "Swap User List Side" menu item, defaulting to the user list being on the right. (#8689)
+  * Added a "Toggle User List Side" menu item, defaulting to the user list being on the right. (#8689)
   * Double-clicking a contact in the group chat user list opens a chat with them.
   * When double-clicking the resize widget in the user list, don't show a few pixels of it on the left of the chat.
   * Respect the "show recent messages" preference for group chats.
   * Prevent a duplicate separator item in group chat context menus. (#11674)
-  * Add context menus for group chats, including "Add Bookmark", "Get Info on Bookmark", "Toggle User List", and "View Chat Transcripts".
+  * Added context menus for group chats, including "Add Bookmark", "Get Info on Bookmark", "Toggle User List", and "View Chat Transcripts".
   * Support opening chat transcripts for the group chats like a normal chat.
-  * Add a menu item for group chat user lists to add as a contact.
+  * Added a menu item for group chat user lists to add as a contact.
   * The group chat user list is now sorted by, and displays, operator status in the channels.
   * The user list remembers its open or closed status per room.
   * Messages which mention you are no longer grouped with messages from the same user which do not.
-  * Add support for chat topics. Note that message styles must support the feature for them to show up.
+  * Added support for chat topics. Note that message styles must support the feature for them to show up.
   * Group chats now display online or offline based on their account's status.
   * Growl notifications for group chats are now prefixed by the chat's name.
   * Added an Advanced Status preference to "Only count number of unread mentions for group chats" (for the Status Menu Item and Dock icon)
@@ -84,7 +84,7 @@ Version 1.4 (X/X/XXX)
   * Set appropriate icons and coloring for bookmarks based on their associated chat information, such as the unviewed content background or flashing.
   * Fixed bookmarks appearing in groups when groups are disabled, or disappearing.
   * Bookmarks can now be removed.
-  * Add an option to the Get Info window to auto-join a group chat bookmark when its account connects.
+  * Added an option to the Get Info window to auto-join a group chat bookmark when its account connects.
   * When opening the "Add Contact" window, don't fill in the username with the name of a bookmark if it selected.
   * Stops the "retrieving information" spinner from going off for bookmarks.
   * A group bookmark's status message now reflects how many unread mentions or messages are in the chat.
@@ -100,7 +100,7 @@ Version 1.4 (X/X/XXX)
     * The authorization requests window has add, ignore, and deny toolbar and context menu items.
   * Fixed deleting a group not removing its contents.
   * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
-  * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main menu's Contact menu.
+  * Added account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main menu's Contact menu.
   * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
   * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
   * The tune tooltip is now displayed for any contact in a meta contact which supports it.
@@ -119,9 +119,9 @@ Version 1.4 (X/X/XXX)
   * Corrected a few bugs where contacts were hidden as offline when online, or placed in the offline group incorrectly.
   * Combined contacts now show the information in the contact list for the first available user. (#11007)
   * Improved speed of searching in contact list for larger lists.
-  * Fix a small white line at the top of the contact list when "size to fit vertically" is set. (#11119)
-  * Add "Sort Groups Alphabetically" option to the status sort.
-  * Add "Hide Away Contacts" and "Hide Contacts for Account" to the view options.
+  * Fixed a small white line at the top of the contact list when "size to fit vertically" is set. (#11119)
+  * Added "Sort Groups Alphabetically" option to the status sort.
+  * Added "Hide Away Contacts" and "Hide Contacts for Account" to the view options.
   * Fixed a bug where the view menu would show incorrect settings.
   * Status message is no longer searched when searching the contact list.
   * Fixed a lot of drag and drop bugs, such as being able to drag a group into another group.
@@ -202,7 +202,7 @@ Version 1.4 (X/X/XXX)
   * Fixed support for a proxy auto-config (PAC) file. (#224, #11364)
   * Disabled the "Show # recent messages in new chats" option when "Log messages" is off. (#11359)
   * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
-  * Add "Contact went mobile" and "Contact returns from mobile" events. (#3248)
+  * Added "Contact went mobile" and "Contact returns from mobile" events. (#3248)
   * Fixed AppleScript erroring when creating a new status object. (#8863)
   * Greatly reduced memory usage when receiving lots of messages while Adium is not being interacted with
   * Idle contacts now resort immediately
@@ -1584,6 +1584,7 @@ Version 0.86 (10/27/2005)
  * Resolved some truncating issues in the status menu. #1782
  * Catalan, Russian, Simplified Chinese, Spanish, and Swedish translation updates
 
+
 Version 0.85 (10/12/2005)
  * Added a Google Talk service type #1306
  * Added "contact joined" and "contact left" group chat status messages as well as corresponding Events #654
@@ -1813,7 +1814,6 @@ Version 0.76 (30 January 2005)
 Version 0.75.1 (24 January 2005)
  * Fixed a crash when joining a group chat
 
-
 Version 0.75
  * Fixed a crash on launch
  * Fixed a longstanding crash when accessing stored passwords
@@ -1834,6 +1834,7 @@ Version 0.74 (05 January 2005)
  * (Jabber) Fixed several issues with group chat
  * (Sametime) Fixed issues with preferences for contacts with '/' in their LDAP strings
  * Improved emoticon display in preferences and menus to sort emoticons alphabetically
+
 
 Version 0.73 (26 December 2004)
  * Fixed issues with leading/trailing newlines for contact list Extended Status display
