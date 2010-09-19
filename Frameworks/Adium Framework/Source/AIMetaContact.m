@@ -30,6 +30,10 @@
 
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
 
+/* If META_TYPE_DEBUG is defined, metaContacts and uniqueMetaContacts are given an 
+ * identifying suffix to their formattedUID in the contact list */
+//#define META_TYPE_DEBUG TRUE
+
 @interface AIListContact ()
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
 - (void)setContainingObject:(AIListGroup *)inGroup;
@@ -63,8 +67,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		expanded = [[self preferenceForKey:KEY_EXPANDED group:OBJECT_STATUS_CACHE] boolValue];
 
-		containsOnlyOneUniqueContact = NO;
-		containsOnlyOneService = YES;
+		containsOnlyOneUniqueContact = YES; /* Default to YES, because addObject: will change us to NO when needed */
 		containedObjectsNeedsSort = NO;
 		saveGroupingChanges = YES;
 	}
@@ -276,6 +279,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[self visibleListContacts];
 
 		success = YES;
+	} else {
+		AILogWithSignature(@"%@ (meta=%p) already contained in %@", inObject, ((AIListContact *)inObject).metaContact, self);
 	}
 	
 	return success;
@@ -286,26 +291,32 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  *
  * Should only be called by AIContactController.
  */
-- (void)removeObject:(AIListObject *)inObject
+- (BOOL)removeObject:(AIListObject *)inObject
 {
 	NSParameterAssert([inObject isKindOfClass:[AIListContact class]]);
 	AIListContact *contact = (AIListContact *)inObject;
 	if ([self.containedObjects containsObjectIdenticalTo:inObject]) {
-		BOOL	noteRemoteGroupingChanged = NO;
+		BOOL	needToResetToRemoteGroup = NO;
 
 		[inObject retain];
 
-		BOOL	wasPreferredContact = inObject == self.preferredContact;
+		BOOL	wasPreferredContact = (inObject == self.preferredContact);
 
 		[_containedObjects removeObject:inObject];
 		
-		if (contact.countOfRemoteGroupNames > 0) {
-			//Reset it to its remote group
+		if (contact.metaContact == self) {
+			/* If the contact is being reassigned to another metaContact, this may already have been done; we shouldn't
+			 * mess with it if it's not still ours to order around. The other metaContact will manage it as needed.
+			 */
 			contact.metaContact = nil;
-			noteRemoteGroupingChanged = YES;
-		} else {
-			for (AIListGroup *group in self.groups)
-				[contact addContainingGroup:group];
+			
+			if (contact.countOfRemoteGroupNames > 0) {
+				//Reset it to its remote group
+				needToResetToRemoteGroup = YES;
+			} else {
+				for (AIListGroup *group in self.groups)
+					[contact addContainingGroup:group];
+			}
 		}
 
 		[self containedObjectsOrOrderDidChange];
@@ -326,11 +337,16 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		/* Now that we're done reconfigured ourselves and the recently removed object,
 		 * tell the contactController about the change in the removed object.
 		 */
-		if (noteRemoteGroupingChanged) {
+		if (needToResetToRemoteGroup) {
 			[(AIListContact *)inObject restoreGrouping];
 		}
 
 		[inObject release];
+		
+		return YES;
+	} else {
+		AILogWithSignature(@"%@: Asked to remove %@, but it's not actually contained therein", self, inObject);
+		return NO;
 	}
 }
 
@@ -809,7 +825,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //FormattedUID will return nil if we have multiple different UIDs contained within us
 - (NSString *)formattedUID
 {
+#ifdef META_TYPE_DEBUG
+	return (containsOnlyOneUniqueContact ? 
+			[self.preferredContact.formattedUID stringByAppendingString:@" (uniqueMeta)"] : 
+			@"meta");	
+#else
 	return containsOnlyOneUniqueContact ? self.preferredContact.formattedUID : nil;
+#endif
 }
 
 - (NSString *)longDisplayName
