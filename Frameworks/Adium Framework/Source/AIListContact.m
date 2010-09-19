@@ -257,8 +257,6 @@
 	BOOL changes = NO;
 	BOOL displayNameChanges = NO;
 	
-	AILogWithSignature(@"%@ received alias %@", self, alias);
-	
 	//This is the server display name.  Set it as such.
 	if (![alias isEqualToString:[self valueForProperty:@"Server Display Name"]]) {
 		//Set the server display name property as the full display name
@@ -713,6 +711,8 @@
 - (void) setMetaContact:(AIMetaContact *)meta
 {
 	metaContact = meta;
+	
+	/* Ugly: Subclass accessing superclass's ivar */
 	[m_groups removeAllObjects];
 }
 

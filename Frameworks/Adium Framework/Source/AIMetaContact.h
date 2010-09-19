@@ -26,7 +26,6 @@
 	NSArray				*_listContactsIncludingOfflineAccounts;
 	
 	BOOL								containsOnlyOneUniqueContact;
-	BOOL								containsOnlyOneService;
 
 	NSMutableArray	*_containedObjects;			//Manually ordered array of contents
 	BOOL								containedObjectsNeedsSort;
