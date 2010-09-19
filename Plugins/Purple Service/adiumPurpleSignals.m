@@ -193,11 +193,8 @@ static void buddy_added_cb(PurpleBuddy *buddy)
 		 * Failing that, we will get an alias specified remotely (either by the server or by the buddy).
 		 */
 		const char *alias = purple_buddy_get_alias_only(buddy);
-		
-		AILogWithSignature(@"%@ -> %s", contactLookupFromBuddy(buddy), alias);
 
 		if (alias) {
-			AILogWithSignature(@"%@", listContact);
 			[account updateContact:listContact
 						   toAlias:[NSString stringWithUTF8String:alias]];
 		}
