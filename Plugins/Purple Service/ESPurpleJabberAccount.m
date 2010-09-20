@@ -49,6 +49,13 @@
 
 @implementation ESPurpleJabberAccount
 
+- (void)initAccount
+{
+	[super initAccount];
+
+	adhocServer = [[AMPurpleJabberAdHocServer alloc] initWithAccount:self];
+}
+
 /*!
  * @brief The UID will be changed. The account has a chance to perform modifications
  *
@@ -98,6 +105,8 @@
 {
 	[xmlConsoleController close];
 	[xmlConsoleController release];
+	[adhocServer release];
+	[gateways release];
 
 	[super dealloc];
 }
@@ -731,8 +740,6 @@
 	[gateways release];
 	gateways = [[NSMutableArray alloc] init];
 
-	[adhocServer release];
-	adhocServer = [[AMPurpleJabberAdHocServer alloc] initWithAccount:self];
 	[adhocServer addCommand:@"ping" delegate:(id<AMPurpleJabberAdHocServerDelegate>)[AMPurpleJabberAdHocPing class] name:@"Ping"];
 	
     [super didConnect];
