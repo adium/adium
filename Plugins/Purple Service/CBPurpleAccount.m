@@ -2880,12 +2880,17 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 //Subclasses may override to provide a localized label and/or prevent a specified label from being shown
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
-	/* Remove the underscore 'hints' which libpurple includes for gtk usage */
-	return [[NSString stringWithUTF8String:label] stringByReplacingOccurrencesOfString:@"_" withString:@""];
+	if ((strcmp(label, _("Initiate Chat")) == 0) || (strcmp(label, _("Initiate _Chat")) == 0)) {
+		return [NSString stringWithFormat:AILocalizedString(@"Initiate Multiuser Chat with %@",nil), inContact.formattedUID];
+
+	} else {
+		/* Remove the underscore 'hints' which libpurple includes for gtk usage */
+		return [[NSString stringWithUTF8String:label] stringByReplacingOccurrencesOfString:@"_" withString:@""];
+	}
 }
 
 /*!
-* @brief Menu items for the account's actions
+ * @brief Menu items for the account's actions
  *
  * Returns an array of menu items for account-specific actions.  This is the best place to add protocol-specific
  * actions that aren't otherwise supported by Adium.  It will only be queried if the account is online.
