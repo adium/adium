@@ -44,6 +44,8 @@
 - (id)initForAccount:(AIAccount *)inAccount;
 - (void)clearUniqueChatID;
 - (void)clearListObjectStatuses;
+
+- (AIListContact *)visibleObjectAtIndex:(NSUInteger)idx;
 @end
 
 @implementation AIChat
@@ -632,7 +634,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	return [participatingContacts containsObjectIdenticalTo:inObject];
 }
 
-- (id)visibleObjectAtIndex:(NSUInteger)idx
+- (AIListContact *)visibleObjectAtIndex:(NSUInteger)idx
 {
 	return [participatingContacts objectAtIndex:idx];
 }
