@@ -530,10 +530,7 @@
 #pragma mark Contact List Menu Items
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
-	if ((strcmp(label, _("Initiate Chat")) == 0) || (strcmp(label, _("Initiate _Chat")) == 0)) {
-		return [NSString stringWithFormat:AILocalizedString(@"Initiate Multiuser Chat with %@",nil),inContact.formattedUID];
-
-	} else if (strcmp(label, _("Send to Mobile")) == 0) {
+	if (strcmp(label, _("Send to Mobile")) == 0) {
 		return [NSString stringWithFormat:AILocalizedString(@"Send to %@'s Mobile",nil),inContact.formattedUID];
 	}
 	
