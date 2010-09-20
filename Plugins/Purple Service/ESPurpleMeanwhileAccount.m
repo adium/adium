@@ -191,10 +191,10 @@ extern const char *mwServiceAware_getText(void *, void *);
 #pragma mark Account Action Menu Items
 - (NSString *)titleForAccountActionMenuLabel:(const char *)label
 {
-	if (strcmp(label, "Import Sametime List...") == 0) {
+	if (strcmp(label, _("Import Sametime List...")) == 0) {
 		return AILocalizedString(@"Import Sametime List...",nil);
 
-	} else if (strcmp(label, "Export Sametime List...") == 0) {
+	} else if (strcmp(label, _("Export Sametime List...")) == 0) {
 		return AILocalizedString(@"Export Sametime List...",nil);
 	}
 
