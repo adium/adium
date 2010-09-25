@@ -793,13 +793,18 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 	if (!newMessage && !res) {
 		//Use the original mesage; this was not an OTR-related message
 		decryptedMessage = inString;
+		
+		AILogWithSignature(@"Not OTR-related message for decryption.");
 	} else if (newMessage && !res) {
 		//We decryped an OTR-encrypted message
 		decryptedMessage = [NSString stringWithUTF8String:newMessage];
 
+		AILogWithSignature(@"Decrypted an OTR message.");
 	} else /* (newMessage && res) */{
 		//This was an OTR protocol message
 		decryptedMessage = nil;
+		
+		AILogWithSignature(@"Skipping an OTR protocol message.");
 	}
 
 	if (newMessage)
