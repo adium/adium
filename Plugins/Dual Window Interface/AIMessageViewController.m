@@ -1035,7 +1035,7 @@
 		// Add to the list if it matches: (1) The display name for the chat (alias fallback to default display name), 
 		// (2) The UID, or (3) the display name
 		if ([[self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
-			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
+			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
 			[contacts addObject:listContact];
 			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
