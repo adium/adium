@@ -47,13 +47,13 @@
 			type = fribidi_get_type(fch);
 			
 			// LTR char?
-			if (type == FRIBIDI_TYPE_LTR) {
+			if (!(type & FRIBIDI_MASK_RTL)) {
 				dir = NSWritingDirectionLeftToRight;
 				break;
 			}
 			
 			// RTL char?
-			if (type == FRIBIDI_TYPE_RTL) {
+			if (type & FRIBIDI_MASK_RTL) {
 				dir = NSWritingDirectionRightToLeft;
 				break;
 			}
