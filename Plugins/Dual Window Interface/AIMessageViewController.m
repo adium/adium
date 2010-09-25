@@ -1045,7 +1045,7 @@
 	return contacts;
 }
 
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)idx
 {
 	NSMutableArray	*completions = nil;
 	
@@ -1095,7 +1095,7 @@
 		
 		// Select the first completion by default.
 		if ([completions count]) {			
-			*index = 0;
+			*idx = 0;
 		}
 	}
 
