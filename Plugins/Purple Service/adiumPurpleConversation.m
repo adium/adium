@@ -316,12 +316,11 @@ static void adiumPurpleConvChatAddUsers(PurpleConversation *conv, GList *cbuddie
 		for (GList *l = cbuddies; l; l = l->next) {
 			PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
 			
+			// We use cb->name for the alias field, since libpurple sets the one we're after (the chat name) formatted correctly inside.
 			NSMutableDictionary *user = [NSMutableDictionary dictionary];
 			[user setObject:get_real_name_for_account_conv_buddy(account, conv, cb->name) forKey:@"UID"];
 			[user setObject:[NSNumber numberWithInteger:cb->flags] forKey:@"Flags"];
-			if (cb->alias) {
-				[user setObject:[NSString stringWithUTF8String:cb->alias] forKey:@"Alias"];
-			}
+			[user setObject:[NSString stringWithUTF8String:cb->name] forKey:@"Alias"];
 			
 			[users addObject:user];
 		}
@@ -346,9 +345,11 @@ static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *
 		
 		PurpleAccount *account = purple_conversation_get_account(conv);
 		
+		// Ignore newAlias and set the alias to newName
+		
 		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:get_real_name_for_account_conv_buddy(account, conv, (char *)oldName)
 																		newName:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
-																	   newAlias:[NSString stringWithUTF8String:newAlias]
+																	   newAlias:[NSString stringWithUTF8String:newName]
 																		  flags:cb->flags
 																		 inChat:groupChatLookupFromConv(conv)];
 	}
@@ -392,12 +393,13 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	
 	g_list_free(attribute);
 	
-	NSString *alias = cb->alias ? [NSString stringWithUTF8String:cb->alias] : nil;
+	// We use cb->name for the alias field, since libpurple sets the one we're after (the chat name) formatted correctly inside.
+	NSString *name = cb->name ? [NSString stringWithUTF8String:cb->name] : nil;
 	
 	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
 					   flags:cb->flags
-					   alias:alias
+					   alias:name
 				  attributes:attributes];
 }
 
