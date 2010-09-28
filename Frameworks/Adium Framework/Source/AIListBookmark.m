@@ -353,7 +353,12 @@
 		[self notifyOfChangedPropertiesSilently:YES];
 		
 		if (self.account.online && [[self preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]) {
-			[self openChatWithoutActivating];
+			AIChat* chat = [self openChatWithoutActivating];
+			
+			if ([self stayInChat]) {
+				// close chat will only close it from the interfacePlugin, i.e. remove the message tab
+				[adium.interfaceController closeChat:chat];
+			}
 		}
 	}
 }

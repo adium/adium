@@ -123,6 +123,8 @@
 	
 	[checkBox_autoJoin setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
 	[checkBox_autoJoin setState:[[inObject preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]];
+
+	[checkBox_stayInChat setState:inObject.stayInChat];
 	
 	[popUp_accounts setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[popUp_contact setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
@@ -148,6 +150,11 @@
 	[displayedObject setPreference:[NSNumber numberWithBool:[sender state]] 
 							forKey:KEY_AUTO_JOIN
 							 group:GROUP_LIST_BOOKMARK];
+}
+
+- (IBAction)setStayInChat:(id)sender
+{
+	[displayedObject setStayInChat:[checkBox_stayInChat state]];
 }
 
 #pragma mark Menus
