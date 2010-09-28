@@ -108,6 +108,7 @@ typedef enum {
 
 //Visibility
 @property (readwrite, nonatomic) BOOL alwaysVisible;
+@property (readwrite, nonatomic) BOOL stayInChat;
 
 //Grouping
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
