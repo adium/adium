@@ -506,7 +506,11 @@
 						   (![inObject isOutgoing]));
 		shouldPostContentReceivedEvents = contentReceived && [inObject trackContent];
 		
-		if (![chat isOpen] && !chat.isGroupChat) {
+		AIListObject	*listObject = chat.listObject;
+		if(chat.isGroupChat)
+			listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
+		
+		if (![chat isOpen] && (!chat.isGroupChat || !listObject.stayInChat)) {
 			/* Tell the interface to open the chat
 			 * For incoming messages, we don't open the chat until we're sure that new content is being received.
 			 * For group chats, we only open the chat for an unviewed mention. This is done in AIMentionEventPlugin.m.
@@ -523,11 +527,8 @@
 		
 		if (shouldPostContentReceivedEvents) {
 			NSSet			*previouslyPerformedActionIDs = nil;
-			AIListObject	*listObject = chat.listObject;
 			
 			if(chat.isGroupChat) {
-				listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
-				
 				if ([inObject.displayClasses containsObject:@"mention"]) {
 					previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
 																				  forListObject:listObject
