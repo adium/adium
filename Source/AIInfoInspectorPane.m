@@ -409,7 +409,7 @@
 	// Don't do anything if we have nothing to display.
 	if ([profileArray count] == 0) {
 		AILogWithSignature(@"No profile array items found for %@", inObject);
-		return nil;
+		return [NSAttributedString stringWithString:@""];
 	}
 	
 	[self removeDuplicateEntriesFromProfileArray:profileArray];
