@@ -15,10 +15,16 @@
  */
 
 #import "ESWebView.h"
+#import "AIAdiumURLProtocol.h"
+#import <Adium/AILoginControllerProtocol.h>
 
 @interface WebView ()
 - (void)setDrawsBackground:(BOOL)flag;
 - (void)setBackgroundColor:(NSColor *)color;
+@end
+
+@interface WebPreferences (WebPreferencesPrivate)
+- (void)_setLocalStorageDatabasePath:(NSString *)path;
 @end
 
 @interface NSWindow ()
@@ -38,6 +44,11 @@
 		allowsDragAndDrop = YES;
 		shouldForwardEvents = YES;
 		transparentBackground = NO;
+		
+		[NSURLProtocol registerClass:[AIAdiumURLProtocol class]];
+		[ESWebView registerURLSchemeAsLocal:@"adium"];
+		
+		[[self preferences] _setLocalStorageDatabasePath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"LocalStorage"]];
 	}
 	
 	return self;

@@ -502,7 +502,12 @@ static NSArray *draggedTypes = nil;
 
 	//Hack: this will re-set us for all the delegates, but that shouldn't matter
 	[delegateProxy addDelegate:self forView:webView];
-	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateForChat:chat] baseURL:nil];
+	
+	// We need to pass a local URL to allow LocalStorage from the WebView.
+	// The hostname-part determines the namespace, which we seperate per style.
+	// The path-part may not end in a /, as directories don't get local permissions.
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"adium://%@/adium", [messageStyle.bundle bundleIdentifier]]];
+	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateForChat:chat] baseURL:baseURL];
 
 	if(chat.isGroupChat && chat.supportsTopic) {
 		// Force a topic update, so we set our topic appropriately.
