@@ -15,7 +15,6 @@
  */
 
 #import "ESWebView.h"
-#import "AIAdiumURLProtocol.h"
 #import <Adium/AILoginControllerProtocol.h>
 
 @interface WebView ()
@@ -45,10 +44,9 @@
 		shouldForwardEvents = YES;
 		transparentBackground = NO;
 		
-		[NSURLProtocol registerClass:[AIAdiumURLProtocol class]];
-		[ESWebView registerURLSchemeAsLocal:@"adium"];
-		
-		[[self preferences] _setLocalStorageDatabasePath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"LocalStorage"]];
+		if ([[self preferences] respondsToSelector:@selector(_setLocalStorageDatabasePath:)]) {
+			[[self preferences] _setLocalStorageDatabasePath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"LocalStorage"]];
+		}
 	}
 	
 	return self;

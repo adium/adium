@@ -10,6 +10,7 @@
 #import "ESWebView.h"
 #import "AIURLHandlerPlugin.h"
 #import "AIEventAdditions.h"
+#import "AIAdiumURLProtocol.h"
 
 static AIWebKitDelegate *AISharedWebKitDelegate;
 
@@ -23,6 +24,9 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 {
 	if ((self = [super init]))  {
 		mapping = [[NSMutableDictionary alloc] init];
+		
+		[NSURLProtocol registerClass:[AIAdiumURLProtocol class]];
+		[ESWebView registerURLSchemeAsLocal:@"adium"];
 	}
 	return self;
 }
