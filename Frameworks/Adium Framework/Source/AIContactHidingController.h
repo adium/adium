@@ -44,4 +44,5 @@
 @property (readonly, nonatomic) NSString *contactFilteringSearchString;
 - (BOOL)filterContacts:(NSString *)inSearchString;
 - (BOOL)visibilityOfListObject:(AIListObject *)listObject inContainer:(id<AIContainingObject>)container;
+- (NSPredicate*) createPredicateWithSearchString: (NSString *) inSearchString;
 @end

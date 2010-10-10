@@ -51,7 +51,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		matchedContacts = [[NSMutableDictionary alloc] init];
 		
 		// contains[cd] - c = case insensitive, d = diacritic insensitive
-		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR uid contains[cd] $SEARCH_STRING"] retain];
+		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $KEYWORD OR formattedUID contains[cd] $KEYWORD OR uid contains[cd] $KEYWORD"] retain];
 	}
 	return self;
 }
@@ -200,7 +200,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return YES;
 	
 	if (!filterPredicate)
-		filterPredicate = [[filterPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:inSearchString forKey:@"SEARCH_STRING"]] retain];
+		filterPredicate = [[self createPredicateWithSearchString:inSearchString] retain];
 	
 	// If the given contact is a meta contact, check all of its contained objects.
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
@@ -214,6 +214,39 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	} else {
 		return [filterPredicate evaluateWithObject:listObject];
 	}
+}
+
+/*!
+ * @brief Generate a predicate by splitting the search string into keywords
+ * @param inSearchString The search string to split
+ * @result Returns an NSPredicate to compare a contact to, or if inSearchString is empty, a predicate that matches everything
+ */
+- (NSPredicate*) createPredicateWithSearchString: (NSString *) inSearchString
+{
+	// Special-case the empty search-string
+	if (!inSearchString || ![inSearchString length]) 
+		return [[NSPredicate predicateWithFormat: @"TRUEPREDICATE"] retain];
+
+	NSMutableArray *subpredicates = [[NSMutableArray alloc] init];
+	
+	// Tokenize the string looking for words and iterate over tokens, storing an NSPredicate for each keyword
+	CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(nil, (CFStringRef)inSearchString, CFRangeMake(0, inSearchString.length), kCFStringTokenizerUnitWord, NULL);
+	CFStringTokenizerTokenType tokenType;
+	while ((tokenType = CFStringTokenizerAdvanceToNextToken(tokenizer)) != kCFStringTokenizerTokenNone) {
+		CFRange range = CFStringTokenizerGetCurrentTokenRange(tokenizer);
+		NSRange nsRange = NSMakeRange(range.location, range.length);
+		NSString* keyword = [inSearchString substringWithRange: nsRange];
+		NSPredicate* predicate = [filterPredicateTemplate predicateWithSubstitutionVariables: [NSDictionary dictionaryWithObject:keyword forKey:@"KEYWORD"]];
+		[subpredicates addObject: predicate];
+	}
+	
+	// Build a compound predicate based on the predicate for each token.
+	NSPredicate* retval = [[NSCompoundPredicate andPredicateWithSubpredicates:subpredicates] retain];
+
+	CFRelease(tokenizer);
+	[subpredicates release];
+	
+	return retval;
 }
 
 @end
