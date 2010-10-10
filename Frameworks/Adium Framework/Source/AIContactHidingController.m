@@ -225,11 +225,12 @@ static AIContactHidingController *sharedControllerInstance = nil;
 {
 	// Special-case the empty search-string
 	if (!inSearchString || ![inSearchString length]) 
-		return [[NSPredicate predicateWithFormat: @"TRUEPREDICATE"] retain];
+		return [NSPredicate predicateWithFormat: @"TRUEPREDICATE"];
 
 	NSMutableArray *subpredicates = [[NSMutableArray alloc] init];
 	
 	// Tokenize the string looking for words and iterate over tokens, storing an NSPredicate for each keyword
+	// Use CFStringTokenizer for multi-language support and to handle empty tokens
 	CFStringTokenizerRef tokenizer = CFStringTokenizerCreate(nil, (CFStringRef)inSearchString, CFRangeMake(0, inSearchString.length), kCFStringTokenizerUnitWord, NULL);
 	CFStringTokenizerTokenType tokenType;
 	while ((tokenType = CFStringTokenizerAdvanceToNextToken(tokenizer)) != kCFStringTokenizerTokenNone) {
@@ -241,7 +242,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	}
 	
 	// Build a compound predicate based on the predicate for each token.
-	NSPredicate* retval = [[NSCompoundPredicate andPredicateWithSubpredicates:subpredicates] retain];
+	NSPredicate* retval = [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 
 	CFRelease(tokenizer);
 	[subpredicates release];
