@@ -135,6 +135,8 @@ typedef enum {
 
 /*!
  *	@brief Create a message view style instance by loading the bundle at the passed path
+ *
+ * @param path The path, which will be expanded to be bundle-relative via -[NSString(AIStringAdditions) stringByExpandingBundlePath] as needed
  */
 + (id)messageViewStyleFromPath:(NSString *)path;
 
