@@ -132,7 +132,7 @@
 
 + (id)messageViewStyleFromPath:(NSString *)path
 {
-	NSBundle *styleBundle = [NSBundle bundleWithPath:path];
+	NSBundle *styleBundle = [NSBundle bundleWithPath:[path stringByExpandingBundlePath]];
 	if(styleBundle)
 		return [[[self alloc] initWithBundle:styleBundle] autorelease];
 	return nil;

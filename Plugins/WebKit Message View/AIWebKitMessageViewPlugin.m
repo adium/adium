@@ -23,6 +23,7 @@
 #import <AIUtilities/AIBundleAdditions.h>
 #import "AIWebkitMessageViewStyle.h"
 #import <Adium/AIChat.h>
+#import <AIUtilities/AIStringAdditions.h>
 
 #define NEW_CONTENT_RETRY_DELAY					0.01
 #define MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT @"Message Styles"
@@ -30,6 +31,7 @@
 @interface AIWebKitMessageViewPlugin ()
 - (void) resetStylesForType:(AIWebkitStyleType)styleType;
 - (void) xtrasChanged:(NSNotification *)notification;
+- (void)performAdium14UpgradeIfNeeded;
 @end
 
 @implementation AIWebKitMessageViewPlugin
@@ -41,7 +43,8 @@
 {
 	styleDictionary = nil;
 	[adium createResourcePathForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT];
-
+	[self performAdium14UpgradeIfNeeded];
+	
 	//Setup our preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
@@ -193,12 +196,15 @@
 	
 	if(loadFromGroup && thisStyle) {
 		id<AIPreferenceController> prefs = adium.preferenceController;
+		
+		/* We use the path directly, if possible, to avoid a relatively expensive search through multiple folders */
 		*thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromPath:[prefs preferenceForKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 																							group:loadFromGroup]];
 		if(!*thisStyle) {
+			/* If the path isn't cached yet, load the style and then store the path */
 			*thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromBundle:[self messageStyleBundleWithIdentifier:[prefs preferenceForKey:KEY_WEBKIT_STYLE
 																																		   group:loadFromGroup]]];
-			[prefs setPreference:[[*thisStyle bundle] bundlePath]
+			[prefs setPreference:[[[*thisStyle bundle] bundlePath] stringByCollapsingBundlePath]
 						  forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 						   group:loadFromGroup];
 		}
@@ -222,18 +228,24 @@
 {
 	[styleDictionary release]; styleDictionary = nil;
 	
-	if(styleType == AIWebkitRegularChat) {
-		[currentRegularStyle release]; currentRegularStyle = nil;
-		
-		[adium.preferenceController setPreference:nil
-											 forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
-											  group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
-	} else {	
-		[currentGroupStyle release]; currentGroupStyle = nil;
+	switch (styleType) {
+		case AIWebkitRegularChat:
+		{			
+			[currentRegularStyle release]; currentRegularStyle = nil;
 			
-		[adium.preferenceController setPreference:nil
-										 forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
-										  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
+			[adium.preferenceController setPreference:nil
+											   forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
+												group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+			break;
+		}
+		case AIWebkitGroupChat:
+		{	
+			[currentGroupStyle release]; currentGroupStyle = nil;
+			
+			[adium.preferenceController setPreference:nil
+											   forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
+												group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
+		}
 	}
 }
 
@@ -264,6 +276,22 @@
 - (NSString *)styleSpecificKey:(NSString *)key forStyle:(NSString *)style
 {
 	return [NSString stringWithFormat:@"%@:%@", style, key];
+}
+
+#pragma mark -
+/*!
+ * @brief Clears the cached style bundle path when Adium 1.4 loads for the first time, so it'll be recreated app-bundle-relative
+ */
+- (void)performAdium14UpgradeIfNeeded
+{
+#define KEY_CLEARED_CACHED_BUNDLE_PATH @"Adium 1.4:Cleared cached bundle path"
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_CLEARED_CACHED_BUNDLE_PATH]) {
+		[self resetStylesForType:AIWebkitRegularChat];
+		[self resetStylesForType:AIWebkitGroupChat];
+
+		[[NSUserDefaults standardUserDefaults] setBool:YES
+												forKey:KEY_CLEARED_CACHED_BUNDLE_PATH];
+	}
 }
 
 @end
