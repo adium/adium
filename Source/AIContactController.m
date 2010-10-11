@@ -288,9 +288,8 @@
 	
 	if (listContact.canJoinMetaContacts) {
 		AIListObject *existingObject = [localGroup objectWithService:listContact.service UID:listContact.UID];
-		if (existingObject) {
-			//If an object exists in this group with the same UID and serviceID, create a MetaContact
-			//for the two.
+		if (existingObject && (existingObject != listContact)) {
+			/* If an object exists in this group with the same UID and serviceID, create a MetaContact for the two. */
 			AIMetaContact *metaContact = [self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
 						
 			AILogWithSignature(@"%@ and %@ match; grouped into %@",
@@ -1560,16 +1559,15 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 	
 	if (contact.existsServerside) {
+		/* This is an AIListContact for an online account; just perform the serverside move */
 		if (contact.account.online)
 			[contact.account moveListObjects:[NSArray arrayWithObject:contact] fromGroups:oldGroups toGroups:groups];
 	} else {
 		[self _moveContactLocally:contact fromGroups:oldGroups toGroups:groups];
 		
 		if ([contact conformsToProtocol:@protocol(AIContainingObject)]) {
-			id<AIContainingObject> container = (id<AIContainingObject>)contact;
-			
 			//This is a meta contact, move the objects within it.
-			for (AIListContact *child in container) {
+			for (AIListContact *child in (id<AIContainingObject>)contact) {
 				//Only move the contact if it is actually listed on the account in question
 				if (child.account.online && !child.isStranger)
 					[child.account moveListObjects:[NSArray arrayWithObject:child] fromGroups:oldGroups toGroups:groups];
