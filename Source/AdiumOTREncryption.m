@@ -627,7 +627,7 @@ static void still_secure_cb(void *opdata, ConnContext *context, int is_reply)
 /* Log a message.  The passed message will end in "\n". */
 static void log_message_cb(void *opdata, const char *message)
 {
-    AILog(@"%@", [NSString stringWithFormat:@"otr: %s", (message ? message : "(null)")]);
+    AILog(@"otr: %s", (message ? message : "(null)"));
 }
 
 /*!
