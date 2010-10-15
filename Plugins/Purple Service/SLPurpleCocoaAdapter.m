@@ -1064,6 +1064,35 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 				
 				if ((buddy = purple_find_buddy_in_group(account, [objectUID UTF8String], oldGroup))) {
 					// Perform the add to the new group. This will turn into a move, and will update serverside.
+					AILog(@"Buddy %p (%@) moving serverside to %@", buddy, objectUID, groupName);
+
+    			if (strcmp(purple_account_get_protocol_id(account), "prpl-yahoo") == 0) {
+    				/* XXX File a bug report with the need for this special-case w/ libpurple -evands 10/14/10 */
+
+    				/* Work around a Yahoo! bug in which buddies in multiple groups can't be moved properly.
+    				 *
+    				 * Traverse all buddies on this account.
+    				 * If the buddy is in the old group (it must be, for us to reach this point given the if
+    				 * statement above) and is also in another group, we need to remove it from the old group before
+    				 * this move. Otherwise, it won't work. However, if we remove it from the old group and it *isn't* in 
+    				 * another group already, Yahoo will force reauthorization, which is ugly.  */
+    				GSList	*buddies = purple_find_buddies(account, [objectUID UTF8String]);
+    				
+    				BOOL isInGroupBesidesOldGroup = NO;
+    				for (GSList	*bb = buddies; bb != NULL; bb = bb->next) {
+    					PurpleBuddy *aBuddy = (PurpleBuddy *)bb->data;
+    					if (purple_buddy_get_group(aBuddy) != oldGroup) {
+    						isInGroupBesidesOldGroup = YES;
+    					}
+    				}
+
+    				if (isInGroupBesidesOldGroup) {
+    					purple_account_remove_buddy(account, buddy, oldGroup);
+    					AILog(@"Removed because it met the Yahoo! workaround criteria");
+    				}
+
+    			}
+    			
 					purple_blist_add_buddy(buddy, NULL, group, NULL);
 					// Continue so we avoid the "add to group" code below.
 					continue;
