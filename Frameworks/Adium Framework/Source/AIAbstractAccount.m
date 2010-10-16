@@ -1283,17 +1283,12 @@
 		[self removePropertyValuesFromContact:listContact silently:YES];
 	}
 
-	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
- 
-	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
-
-	//Stop track only afer notifying
 	for (AIListContact *listContact in myContacts) {
 		if (![adium.chatController existingChatWithContact:[listContact parentContact]])
 			[adium.contactController accountDidStopTrackingContact:listContact];
 	}
-
-	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+	
+ 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelaysImmediately];
 }
 
 /*!
