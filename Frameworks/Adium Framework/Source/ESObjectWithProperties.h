@@ -69,5 +69,6 @@ typedef enum {
 - (NSSet *)proxyObjects;
 - (void)noteProxyObject:(id)proxyObject;
 - (void)removeProxyObject:(id)proxyObject;
+- (void)clearProxyObjects;
 
 @end
