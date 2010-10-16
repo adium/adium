@@ -37,6 +37,7 @@
 @interface AIContactObserverManager ()
 - (NSSet *)_informObserversOfObjectStatusChange:(AIListObject *)inObject withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent;
 - (void)_performDelayedUpdates:(NSTimer *)timer;
+@property (nonatomic, retain) NSTimer *delayedUpdateTimer;
 @end
 
 #define UPDATE_CLUMP_INTERVAL			1.0
@@ -72,26 +73,68 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	[contactObservers release]; contactObservers = nil;
 	[delayedModifiedStatusKeys release];
 	[delayedModifiedAttributeKeys release];
+	self.delayedUpdateTimer = nil;
 
 	[super dealloc];
 }
 
 //Status and Display updates -------------------------------------------------------------------------------------------
 #pragma mark Status and Display updates
-//These delay Contact_ListChanged, ListObject_AttributesChanged, Contact_OrderChanged notificationsDelays,
-//sorting and redrawing to prevent redundancy when making a large number of changes
-//Explicit delay.  Call endListObjectNotificationsDelay to end
+
+@synthesize delayedUpdateTimer;
+
+/*!
+ * @brief Delay notifications for listObject changes until a matching endListObjectNotificationsDelay is called.
+ *
+ * This delays Contact_ListChanged, ListObject_AttributesChanged, Contact_OrderChanged notificationsDelays,
+ * sorting and redrawing to prevent redundancy when making a large number of changes.
+ *
+ * Each call must be paired with endListObjectNotificationsDelay. Nested calls are supported; notifications are sent
+ * when all delays have been ended.
+ */
 - (void)delayListObjectNotifications
 {
 	delayedUpdateRequests++;
+
 	updatesAreDelayed = YES;
 }
 
-//End an explicit delay
+/*!
+ * @brief End a delay of notifications for listObject changes.
+ *
+ * This is paired with delayListObjectNotifications. Nested calls are supported; notifications are sent
+ * when all delays have been ended.
+ */
 - (void)endListObjectNotificationsDelay
 {
-	delayedUpdateRequests--;
-	if (delayedUpdateRequests == 0 && !delayedUpdateTimer) {
+	if (delayedUpdateRequests > 0) {
+		delayedUpdateRequests--;
+		if (delayedUpdateRequests == 0) {
+			if (delayedUpdateTimer)
+				[delayedUpdateTimer invalidate]; self.delayedUpdateTimer = nil;
+			
+			[self _performDelayedUpdates:nil];
+		}
+	}
+}
+
+/*!
+ * @brief Immediately end all notifications for listObject changes.
+ *
+ * This ignores nested delayListObjectNotifications / endListObjectNotificationsDelay pairs and cancels
+ * all delays immediately.  Subsequent calls to endListObjectNotificationsDelay (until delayListObjectNotifications is
+ * called) will be ignored.
+ *
+ * This is useful if changes are made that require an immediate update, regardless of what other code might want for
+ * efficiency. Notably, after deallocating AIListProxyObjects, the contact list *must* have reloadData called upon it
+ * (which occurs via its response to Contact_ListChanged sent via -[AIContactObserverManager _performDelayedUpdates:])
+ * or it may crash as it accesses deallocated objects as it does not retain the objects it displays.
+ */
+- (void)endListObjectNotificationsDelaysImmediately
+{
+	if (delayedUpdateRequests) {
+		delayedUpdateRequests = 0;	
+		[self.delayedUpdateTimer invalidate]; self.delayedUpdateTimer = nil;
 		[self _performDelayedUpdates:nil];
 	}
 }
@@ -104,11 +147,11 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
     if (!delayedUpdateTimer) {
 		updatesAreDelayed = YES;
-		delayedUpdateTimer = [[NSTimer scheduledTimerWithTimeInterval:UPDATE_CLUMP_INTERVAL
-															   target:self
-															 selector:@selector(_performDelayedUpdates:)
-															 userInfo:nil
-															  repeats:YES] retain];
+		self.delayedUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_CLUMP_INTERVAL
+																   target:self
+																 selector:@selector(_performDelayedUpdates:)
+																 userInfo:nil
+																  repeats:YES];
     } else {
 		//Reset the timer
 		[delayedUpdateTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:UPDATE_CLUMP_INTERVAL]];
@@ -229,8 +272,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	if (!delayedUpdateTimer || !updatesOccured) {
 		if (delayedUpdateTimer) {
 			[delayedUpdateTimer invalidate];
-			[delayedUpdateTimer release];
-			delayedUpdateTimer = nil;
+			self.delayedUpdateTimer = nil;
 		}
 		if (delayedUpdateRequests == 0) {
 			updatesAreDelayed = NO;
