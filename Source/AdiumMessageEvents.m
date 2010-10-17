@@ -44,6 +44,7 @@
 {
 	//Register the events we generate
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_SENT withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_SENT_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_FIRST withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
@@ -166,6 +167,8 @@
 	
 	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
 		description = AILocalizedString(@"Is sent a message",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
+		description = AILocalizedString(@"Is sent a message in a group chat",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED]) {
 		description = AILocalizedString(@"Sends a message",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST]) {
@@ -191,6 +194,8 @@
 	
 	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
 		description = AILocalizedString(@"Message sent",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
+		description = AILocalizedString(@"Message sent (Group Chat)",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED]) {
 		description = AILocalizedString(@"Message received",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST]) {
@@ -218,6 +223,8 @@
 	
 	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
 		description = @"Message Sent";
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
+		description = @"Message Sent (Group Chat)";
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED]) {
 		description = @"Message Received";
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST]) {
@@ -247,6 +254,8 @@
 		
 		if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
 			format = AILocalizedString(@"When you send %@ a message",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
+			format = AILocalizedString(@"When you send %@ a message in a group chat",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED]) {
 			format = AILocalizedString(@"When %@ sends a message to you",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST]) {
@@ -274,6 +283,8 @@
 	} else {
 		if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
 			description = AILocalizedString(@"When you send a message",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
+			description = AILocalizedString(@"When you send a message in a group chat",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED]) {
 			description = AILocalizedString(@"When you receive any message",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST]) {
@@ -311,7 +322,8 @@
 
 	if (includeSubject) {
 		
-		if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
+		if ([eventID isEqualToString:CONTENT_MESSAGE_SENT] ||
+			[eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
 			displayName = (listObject ? listObject.displayName : contentObject.chat.name);
 		
 			if (messageText && messageText.length) {
@@ -411,7 +423,8 @@
 {
 	NSString *format = nil;
 	
-	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
+	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT] ||
+		[eventID isEqualToString:CONTENT_MESSAGE_SENT_GROUP]) {
 		format = AILocalizedString(@"%u messages sent",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] || 
 			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
