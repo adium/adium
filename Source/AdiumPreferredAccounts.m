@@ -44,7 +44,11 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(didSendContent:)
 										   name:CONTENT_MESSAGE_SENT
-										 object:nil];		
+										 object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(didSendContent:)
+													 name:CONTENT_MESSAGE_SENT_GROUP
+												   object:nil];
 	}
 	
 	return self;

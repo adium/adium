@@ -85,6 +85,11 @@
 									 object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(didExchangeContent:)
+												 name:CONTENT_MESSAGE_SENT_GROUP
+											   object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(adiumWillTerminate:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
