@@ -99,7 +99,6 @@ typedef enum {
 #define TWITTER_PREFERENCE_UPDATE_AFTER_SEND		@"Update After Send"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL			@"Update Global Status"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES	@"Update Global Status Includes Replies"
-#define TWITTER_PREFERENCE_RETWEET_SPAM				@"Retweet Enabled"
 #define TWITTER_PREFERENCE_LOAD_CONTACTS			@"Load Follows as Contacts"
 
 #define TWITTER_PREFERENCE_EVER_LOADED_TIMELINE	@"Ever Loaded Timeline"
