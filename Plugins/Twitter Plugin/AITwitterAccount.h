@@ -145,7 +145,6 @@ typedef enum {
 	MGTwitterEngine		*twitterEngine;
 	NSTimer				*updateTimer;
 	
-	BOOL				retweetLink;
 	BOOL				updateAfterSend;
 	
 	BOOL				timelineErrorMessagePrinted;
