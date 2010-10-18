@@ -1,15 +1,15 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
@@ -44,14 +44,14 @@
 	styleDictionary = nil;
 	[adium createResourcePathForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT];
 	[self clearHardcodedBuiltInStylePaths];
-	
+
 	//Setup our preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
-	
+
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
 										forGroup:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
-	
+
 	preferences = [[ESWebKitMessageViewPreferences preferencePaneForPlugin:self] retain];
 
 	//Observe for installation of new styles
@@ -62,7 +62,7 @@
 
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
-	
+
 	//Register ourself as a message view plugin
 	[adium.interfaceController registerMessageDisplayPlugin:self];
 }
@@ -88,10 +88,10 @@
     return [AIWebKitMessageViewController messageDisplayControllerForChat:inChat withPlugin:self];
 }
 
-- (void)preferencesChangedForGroup:(NSString *)group 
-							   key:(NSString *)key 
+- (void)preferencesChangedForGroup:(NSString *)group
+							   key:(NSString *)key
 							object:(AIListObject *)object
-					preferenceDict:(NSDictionary *)prefDict 
+					preferenceDict:(NSDictionary *)prefDict
 						 firstTime:(BOOL)firstTime
 {
 	if([key isEqualToString:KEY_WEBKIT_STYLE]) {
@@ -101,7 +101,7 @@
 			[self resetStylesForType:AIWebkitGroupChat];
 		}
 	}
-	
+
 	if ([group isEqualToString:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY]) {
 		useRegularForGroupChat = [[prefDict objectForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES] boolValue];
 	}
@@ -110,14 +110,14 @@
 - (NSDictionary *)availableMessageStyles
 {
 	if (!styleDictionary) {
-		NSArray			*stylesArray = [adium allResourcesForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT 
+		NSArray			*stylesArray = [adium allResourcesForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT
 												   withExtensions:@"AdiumMessageStyle"];
 		NSBundle		*style;
 		NSString		*resourcePath;
-		
+
 		//Clear the current dictionary of styles and ready a new mutable dictionary
 		styleDictionary = [[NSMutableDictionary alloc] init];
-		
+
 		//Get all resource paths to search
 		for (resourcePath in stylesArray) {
 			if ((style = [NSBundle bundleWithPath:resourcePath])) {
@@ -127,10 +127,10 @@
 				}
 			}
 		}
-		
+
 		NSAssert([styleDictionary count] > 0, @"No message styles available"); //Abort if we have no message styles
 	}
-	
+
 	return [NSDictionary dictionaryWithDictionary:styleDictionary]; //returning mutable private variables == nuh uh
 }
 
@@ -140,37 +140,51 @@
 	NSBundle	 *defaultMessageStyleBundle = nil;
 
 	if ([identifier isEqualToString:@"com.adiumx.eclipse.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"com.adiumx.gonedark.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.plastic.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.renkooNaked.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Renkoo.style"];
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Gone Dark.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.gonedark.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Gone Dark.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.minimal.style"]) {
 		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
 	} else if ([identifier isEqualToString:@"com.adiumx.minimal_2.0.style"]) {
 		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
-	} 
+	} else if ([identifier isEqualToString:@"com.adiumx.minimal_mod.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.mockie.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Mockie.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.renkooNaked.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Renkoo.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.renkoo.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Renkoo.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.smooth.operator.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Smooth Operator.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.plastic.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
+	} else if ([identifier isEqualToString:@"com.adiumx.stockholm.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
+	} else if ([identifier isEqualToString:@"mathuaerknedam.yMous.style"]) {
+		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.yMous.style"];
+	}
 
 	if (!defaultMessageStyleBundle) {
 		defaultMessageStyleBundle = [styles objectForKey:WEBKIT_DEFAULT_STYLE];
 	}
-	
+
 	if (!defaultMessageStyleBundle) {
 		defaultMessageStyleBundle = [[styles allValues] lastObject];
 	}
-	
+
 	return defaultMessageStyleBundle;
 }
 
 - (NSBundle *)messageStyleBundleWithIdentifier:(NSString *)identifier
-{	
+{
 	NSDictionary	*styles = [self availableMessageStyles];
 	NSBundle		*bundle = [styles objectForKey:identifier];
-	
+
 	//If the style isn't available, use our default.  Or, failing that, any available style
 	if (!bundle) {
 		bundle = [self defaultMessageStyleBundleBasedOnFailedIdentifier:identifier];
-	} 
+	}
 
 	return bundle;
 }
@@ -179,24 +193,24 @@
 {
 	NSString *loadFromGroup = nil;
 	AIWebkitMessageViewStyle **thisStyle = nil;
-	
+
 	if (!chat.isGroupChat || useRegularForGroupChat) {
 		if (!currentRegularStyle) {
 			loadFromGroup = PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY;
 		}
-		
+
 		thisStyle = &currentRegularStyle;
 	} else if (chat.isGroupChat) {
 		if (!currentGroupStyle) {
 			loadFromGroup = PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY;
 		}
-		
+
 		thisStyle = &currentGroupStyle;
 	}
-	
+
 	if(loadFromGroup && thisStyle) {
 		id<AIPreferenceController> prefs = adium.preferenceController;
-		
+
 		/* We use the path directly, if possible, to avoid a relatively expensive search through multiple folders */
 		*thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromPath:[prefs preferenceForKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 																							group:loadFromGroup]];
@@ -220,28 +234,28 @@
 	}
 	[lastStyleLoadDate release];
 	lastStyleLoadDate = [[NSDate date] retain];
-	
+
 	return *thisStyle;
-}	
+}
 
 - (void) resetStylesForType:(AIWebkitStyleType)styleType
 {
 	[styleDictionary release]; styleDictionary = nil;
-	
+
 	switch (styleType) {
 		case AIWebkitRegularChat:
-		{			
+		{
 			[currentRegularStyle release]; currentRegularStyle = nil;
-			
+
 			[adium.preferenceController setPreference:nil
 											   forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 												group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 			break;
 		}
 		case AIWebkitGroupChat:
-		{	
+		{
 			[currentGroupStyle release]; currentGroupStyle = nil;
-			
+
 			[adium.preferenceController setPreference:nil
 											   forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 												group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
@@ -254,7 +268,7 @@
  */
 - (void)xtrasChanged:(NSNotification *)notification
 {
-	if ([[notification object] caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {	
+	if ([[notification object] caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {
 		[self resetStylesForType:AIWebkitRegularChat];
 		[self resetStylesForType:AIWebkitGroupChat];
 		[preferences messageStyleXtrasDidChange];
