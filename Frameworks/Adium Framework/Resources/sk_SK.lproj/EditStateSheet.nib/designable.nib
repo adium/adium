@@ -2,16 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10D573</string>
-		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">460.00</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">762</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="6"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -42,7 +43,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{576, 117}, {403, 521}}</string>
 				<int key="NSWTFlags">1886912512</int>
-				<string key="NSWindowTitle">Vlastný Status</string>
+				<string key="NSWindowTitle">Custom Status</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
@@ -50,7 +51,7 @@
 				<string key="NSWindowContentMaxSize">{403, 527}</string>
 				<string key="NSWindowContentMinSize">{403, 477}</string>
 				<object class="NSView" key="NSWindowView" id="509876344">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -92,7 +93,7 @@
 							<object class="NSButtonCell" key="NSCell" id="732367146">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Zrušiť</string>
+								<string key="NSContents">Cancel</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="454589821"/>
 								<int key="NSButtonFlags">-2038284033</int>
@@ -113,7 +114,7 @@
 							<object class="NSButtonCell" key="NSCell" id="215150478">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Byť preč okamžite</string>
+								<string key="NSContents">Appear Idle Immediately</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="1015368611"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -140,12 +141,11 @@
 							<object class="NSButtonCell" key="NSCell" id="950289041">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Automatická odpoveď</string>
+								<string key="NSContents">Auto-reply</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="762602674"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="970152037"/>
 								<reference key="NSAlternateImage" ref="522635332"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -162,12 +162,11 @@
 							<object class="NSButtonCell" key="NSCell" id="1020350936">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">S vlastnou automatickou odpoveďou:</string>
+								<string key="NSContents">With a custom auto-reply message:</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="873668146"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="970152037"/>
 								<reference key="NSAlternateImage" ref="522635332"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -407,7 +406,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="556586308">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">4194304</int>
-												<string key="NSContents">Minúty</string>
+												<string key="NSContents">Minutes</string>
 												<reference key="NSSupport" ref="321541240"/>
 												<reference key="NSControlView" ref="519940975"/>
 												<object class="NSColor" key="NSBackgroundColor" id="793674802">
@@ -450,7 +449,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="710160508">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">4194304</int>
-												<string key="NSContents">Hodiny</string>
+												<string key="NSContents">Hours</string>
 												<reference key="NSSupport" ref="321541240"/>
 												<reference key="NSControlView" ref="30081493"/>
 												<reference key="NSBackgroundColor" ref="793674802"/>
@@ -485,7 +484,7 @@
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Titul</string>
+								<string key="NSContents">Title</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSBackgroundColor" ref="616743529"/>
 								<object class="NSColor" key="NSTextColor">
@@ -654,7 +653,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="711168837">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">4194304</int>
-												<string key="NSContents">Status správa:</string>
+												<string key="NSContents">Status Message:</string>
 												<reference key="NSSupport" ref="321541240"/>
 												<reference key="NSControlView" ref="611038104"/>
 												<reference key="NSBackgroundColor" ref="793674802"/>
@@ -672,7 +671,7 @@
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Titul</string>
+								<string key="NSContents">Title</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSBackgroundColor" ref="616743529"/>
 								<object class="NSColor" key="NSTextColor">
@@ -695,7 +694,7 @@
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Schránka</string>
+								<string key="NSContents">Box</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSBackgroundColor" ref="616743529"/>
 								<object class="NSColor" key="NSTextColor">
@@ -717,12 +716,11 @@
 							<object class="NSButtonCell" key="NSCell" id="491604206">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Uložiť vlastný status</string>
+								<string key="NSContents">Save Custom Status</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="916540914"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">2</int>
-								<reference key="NSNormalImage" ref="970152037"/>
 								<reference key="NSAlternateImage" ref="522635332"/>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
@@ -766,7 +764,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="577178631">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">4194304</int>
-												<string key="NSContents">Titul:</string>
+												<string key="NSContents">Title:</string>
 												<reference key="NSSupport" ref="321541240"/>
 												<reference key="NSControlView" ref="345202850"/>
 												<reference key="NSBackgroundColor" ref="793674802"/>
@@ -784,7 +782,7 @@
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Titul</string>
+								<string key="NSContents">Title</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSBackgroundColor" ref="616743529"/>
 								<object class="NSColor" key="NSTextColor">
@@ -832,7 +830,7 @@
 												<int key="NSPeriodicInterval">75</int>
 												<object class="NSMenuItem" key="NSMenuItem" id="229194320">
 													<reference key="NSMenu" ref="939222959"/>
-													<string key="NSTitle">Vec1</string>
+													<string key="NSTitle">Item1</string>
 													<string key="NSKeyEquiv"/>
 													<int key="NSKeyEquivModMask">1048576</int>
 													<int key="NSMnemonicLoc">2147483647</int>
@@ -850,13 +848,15 @@
 												</object>
 												<bool key="NSMenuItemRespectAlignment">YES</bool>
 												<object class="NSMenu" key="NSMenu" id="939222959">
-													<string key="NSTitle">InéZobrazenie</string>
+													<object class="NSMutableString" key="NSTitle">
+														<characters key="NS.bytes">OtherViews</characters>
+													</object>
 													<object class="NSMutableArray" key="NSMenuItems">
 														<bool key="EncodedWithXMLCoder">YES</bool>
 														<reference ref="229194320"/>
 														<object class="NSMenuItem" id="606728467">
 															<reference key="NSMenu" ref="939222959"/>
-															<string key="NSTitle">Vec2</string>
+															<string key="NSTitle">Item2</string>
 															<string key="NSKeyEquiv"/>
 															<int key="NSKeyEquivModMask">1048576</int>
 															<int key="NSMnemonicLoc">2147483647</int>
@@ -867,7 +867,7 @@
 														</object>
 														<object class="NSMenuItem" id="623303723">
 															<reference key="NSMenu" ref="939222959"/>
-															<string key="NSTitle">Vec3</string>
+															<string key="NSTitle">Item3</string>
 															<string key="NSKeyEquiv"/>
 															<int key="NSKeyEquivModMask">1048576</int>
 															<int key="NSMnemonicLoc">2147483647</int>
@@ -893,7 +893,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="701667450">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">71303168</int>
-												<string type="base64-UTF8" key="NSContents">U3RhdjoKA</string>
+												<string type="base64-UTF8" key="NSContents">U3RhdGU6Cg</string>
 												<reference key="NSSupport" ref="321541240"/>
 												<reference key="NSControlView" ref="124491817"/>
 												<reference key="NSBackgroundColor" ref="793674802"/>
@@ -911,7 +911,7 @@
 							<object class="NSTextFieldCell" key="NSTitleCell">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Titul</string>
+								<string key="NSContents">Title</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSBackgroundColor" ref="616743529"/>
 								<object class="NSColor" key="NSTextColor">
@@ -934,7 +934,7 @@
 							<object class="NSButtonCell" key="NSCell" id="575166235">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Vypnúť zvuk</string>
+								<string key="NSContents">Mute Sounds</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="225696218"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -956,7 +956,7 @@
 							<object class="NSButtonCell" key="NSCell" id="211386456">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Vypnúť Growl notifikácie</string>
+								<string key="NSContents">Silence Growl</string>
 								<reference key="NSSupport" ref="321541240"/>
 								<reference key="NSControlView" ref="113233166"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -971,6 +971,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{403, 521}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{403, 499}</string>
@@ -3730,7 +3731,6 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
@@ -3746,20 +3746,5 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../../../../Adium.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>NSMenuCheckmark</string>
-				<string>NSMenuMixedState</string>
-				<string>NSSwitch</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{9, 8}</string>
-				<string>{7, 2}</string>
-				<string>{15, 15}</string>
-			</object>
-		</object>
 	</data>
 </archive>
