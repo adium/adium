@@ -205,11 +205,23 @@
 {
 	NSData	*userIconData = nil;
 
-	// If we locally have an icon set, or we're not temporary and a global one is set, use that.
 	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]) {
+		/* If this account is set to use an account-specific icon, load it */
 		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];		
+
+		/* Note that we don't load KEY_DEFAULT_USER_ICON; if the user chooses to have an account-specific icon, then
+		 * deletes that icon, this indicates that no icon at all should be used for the account.
+		 */		
 	} else if (!isTemporary && [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]) {
 		userIconData = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
+		
+		/* If there isn't an icon set manually at the global level, we still need to check for one under KEY_DEFAULT_USER_ICON.
+		 * KEY_DEFAULT_USER_ICON is used by a fallback icon source (e.g. via the Address Book 'me' card via the AB plugin)
+		 * and stored under a separate key so that it can be distinguished from a manually specified icon.
+		 */
+		if (!userIconData)
+			userIconData = [adium.preferenceController preferenceForKey:KEY_DEFAULT_USER_ICON
+																  group:GROUP_ACCOUNT_STATUS];
 	}
 
 	return userIconData;
