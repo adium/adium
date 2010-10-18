@@ -95,7 +95,6 @@
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 												  [NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES], TWITTER_PREFERENCE_UPDATE_INTERVAL,
 												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND,
-												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_RETWEET_SPAM,
 												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_LOAD_CONTACTS, nil]
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
@@ -1452,39 +1451,44 @@
 			
 			if(![self.UID isCaseInsensitivelyEqualToString:userID]) {
 				// A message from someone other than ourselves. RT and @ is permissible.
-				if (retweetLink) {				
-					if(commaNeeded) {
-						[mutableMessage appendString:@", " withAttributes:nil];
-					}
-					
-					linkAddress = [self addressForLinkType:AITwitterLinkRetweet
-													userID:userID
-												  statusID:tweetID
-												   context:nil];
-					
-					// If the account doesn't support retweets, it returns nil.
-					if (linkAddress) {
-						[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
-																				   linkDestination:linkAddress
-																						 linkClass:AITwitterRetweetClassName]];
-						
-						[mutableMessage appendString:@", " withAttributes:nil];
-					}
-					
-					linkAddress = [self addressForLinkType:AITwitterLinkQuote
-													userID:userID
-												  statusID:tweetID
-												   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
-					
-#define PILCROW_SIGN @"\u00B6"
-					
-					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:PILCROW_SIGN
-																			   linkDestination:linkAddress
-																					 linkClass:AITwitterQuoteClassName]];					
-					
-					commaNeeded = YES;
+				
+				/* Add the retweet link, if the account supports retweets */
+				if(commaNeeded) {
+					[mutableMessage appendString:@", " withAttributes:nil];
 				}
 				
+				linkAddress = [self addressForLinkType:AITwitterLinkRetweet
+												userID:userID
+											  statusID:tweetID
+											   context:nil];
+				
+				// If the account doesn't support retweets, it returns nil.
+				if (linkAddress) {
+					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
+																			   linkDestination:linkAddress
+																					 linkClass:AITwitterRetweetClassName]];
+					commaNeeded = YES;
+				}
+
+				/* Next add the quote link */
+				if(commaNeeded) {
+					[mutableMessage appendString:@", " withAttributes:nil];
+				}
+				
+				linkAddress = [self addressForLinkType:AITwitterLinkQuote
+												userID:userID
+											  statusID:tweetID
+											   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
+				
+#define PILCROW_SIGN @"\u00B6"
+				
+				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:PILCROW_SIGN
+																		   linkDestination:linkAddress
+																				 linkClass:AITwitterQuoteClassName]];					
+				
+				commaNeeded = YES;
+				
+				/* Now add the reply link */
 				if (commaNeeded) {
 					[mutableMessage appendString:@", " withAttributes:nil];
 				}			
