@@ -184,9 +184,6 @@
 	
 	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
 
-	BOOL showRetweet = [[account preferenceForKey:TWITTER_PREFERENCE_RETWEET_SPAM group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
-	[checkBox_retweet setState:showRetweet];
-
 	BOOL loadContacts = [[account preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	[checkBox_loadContacts setState:loadContacts];
 	
@@ -234,10 +231,6 @@
 					forKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
-	[account setPreference:[NSNumber numberWithBool:[checkBox_retweet state]]
-					forKey:TWITTER_PREFERENCE_RETWEET_SPAM
-					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
-
 	[account setPreference:[NSNumber numberWithBool:[checkBox_loadContacts state]]
 					forKey:TWITTER_PREFERENCE_LOAD_CONTACTS
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
