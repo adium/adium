@@ -95,6 +95,7 @@
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 												  [NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES], TWITTER_PREFERENCE_UPDATE_INTERVAL,
 												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND,
+												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_RETWEET_SPAM,
 												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_LOAD_CONTACTS, nil]
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
@@ -160,6 +161,12 @@
 	
 	if (self.useOAuth) {
 		if (!self.passwordWhileConnected.length) {
+			/* If we weren't able to retrieve the 'password', we can't proceed with oauth - we stored the oauth
+			 * http response body in the keychain as the password.
+			 *
+			 * Note that this can happen not only if Adium isn't authorized but also if it *is* authorized but the
+			 * keychain was inaccessible - e.g. keychain access wasn't allowed after an upgrade. Hm.
+			 */
 			[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"AIEditAccount"
