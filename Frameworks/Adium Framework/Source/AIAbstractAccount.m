@@ -213,6 +213,9 @@
 		 * deletes that icon, this indicates that no icon at all should be used for the account.
 		 */		
 	} else if (!isTemporary && [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]) {
+		/* For non-temporary accounts, load the global icon if it is to be used. The user may have set a global icon, then selected
+		 * not to send an icon at all, so we must check the boolean preference first.
+		 */
 		userIconData = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
 		/* If there isn't an icon set manually at the global level, we still need to check for one under KEY_DEFAULT_USER_ICON.
