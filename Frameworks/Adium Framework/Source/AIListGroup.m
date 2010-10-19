@@ -54,6 +54,8 @@
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[countText release]; countText = nil;
+	
 	[super dealloc];
 }
 
@@ -114,16 +116,16 @@
 	
 	NSSet *modifiedProperties = nil;
 	if (inModifiedKeys == nil ||
-			[inModifiedKeys containsObject:@"Online"] ||
-			[inModifiedKeys containsObject:@"IsIdle"] ||
-			[inModifiedKeys containsObject:@"Signed Off"] ||
-			[inModifiedKeys containsObject:@"Signed On"] ||
+			[inModifiedKeys containsObject:@"isOnline"] ||
+			[inModifiedKeys containsObject:@"isIdle"] ||
+			[inModifiedKeys containsObject:@"signedOff"] ||
+			[inModifiedKeys containsObject:@"signedOn"] ||
 			[inModifiedKeys containsObject:@"New Object"] ||
 			[inModifiedKeys containsObject:@"VisibleObjectCount"] ||
-			[inModifiedKeys containsObject:@"IsMobile"] ||
+			[inModifiedKeys containsObject:@"isMobile"] ||
 			[inModifiedKeys containsObject:@"IsBlocked"] ||
 			[inModifiedKeys containsObject:@"AlwaysVisible"] ||
-			[inModifiedKeys containsObject:@"StatusType"]) {
+			[inModifiedKeys containsObject:@"listObjectStatusType"]) {
 				
 		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self];
 		BOOL isVisible = [_visibleObjects containsObject:inObject];

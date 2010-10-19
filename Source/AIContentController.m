@@ -811,6 +811,7 @@
 - (BOOL)chatIsReceivingContent:(AIChat *)inChat
 {
 	for (AIContentObject *contentObject in objectsBeingReceived) {
+		NSLog(@"Content object: %@, contentObject.chat: %@", contentObject, contentObject.chat);
 		if (contentObject.chat == inChat)
 			return YES;
 	}

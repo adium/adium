@@ -81,7 +81,7 @@
 
 			//Clear the preference and then set the UID so we don't perform this upgrade again
 			[self setPreference:nil forKey:@"Jabber:Host" group:GROUP_ACCOUNT_STATUS];
-			[self setPreference:correctUID forKey:@"FormattedUID" group:GROUP_ACCOUNT_STATUS];
+			[self setPreference:correctUID forKey:@"formattedUID" group:GROUP_ACCOUNT_STATUS];
 
 		} else {
 			//Append [self serverSuffix] (e.g. @jabber.org) to a Jabber account with no server

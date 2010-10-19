@@ -175,16 +175,16 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]]) {
-		if ([inModifiedKeys containsObject:@"Online"] ||
+		if ([inModifiedKeys containsObject:@"isOnline"] ||
 			[inModifiedKeys containsObject:@"Enabled"] ||
-		   [inModifiedKeys containsObject:@"Connecting"] ||
-		   [inModifiedKeys containsObject:@"Waiting to Reconnect"] ||
-		   [inModifiedKeys containsObject:@"Disconnecting"] ||
-		   [inModifiedKeys containsObject:@"ConnectionProgressString"] ||
-		   [inModifiedKeys containsObject:@"ConnectionProgressPercent"] ||
-		   [inModifiedKeys containsObject:@"Waiting for Network"] ||
-		   [inModifiedKeys containsObject:@"IdleSince"] ||
-		   [inModifiedKeys containsObject:@"StatusState"]) {
+		   [inModifiedKeys containsObject:@"isConnecting"] ||
+		   [inModifiedKeys containsObject:@"waitingToReconnect"] ||
+		   [inModifiedKeys containsObject:@"isDisconnecting"] ||
+		   [inModifiedKeys containsObject:@"connectionProgressString"] ||
+		   [inModifiedKeys containsObject:@"connectionProgressPercent"] ||
+		   [inModifiedKeys containsObject:@"isWaitingForNetwork"] ||
+		   [inModifiedKeys containsObject:@"idleSince"] ||
+		   [inModifiedKeys containsObject:@"accountStatus"]) {
 
 			//Refresh this account in our list
 			NSInteger accountRow = [accountArray indexOfObject:inObject];
@@ -272,11 +272,11 @@
 		[tableView_accountList scrollRowToVisible:[accountArray indexOfObject:inAccount]];
 		
 		//Put new accounts online by default
-		[inAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"Online" group:GROUP_ACCOUNT_STATUS];
+		[inAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"isOnline" group:GROUP_ACCOUNT_STATUS];
 	} else if (existingAccount && successful && [inAccount enabled]) {
 		//If the user edited an account that is "reconnecting" or "connecting", disconnect it and try to reconnect.
-		if ([inAccount boolValueForProperty:@"Connecting"] ||
-			[inAccount boolValueForProperty:@"Waiting to Reconnect"] ||
+		if ([inAccount boolValueForProperty:@"isConnecting"] ||
+			[inAccount valueForProperty:@"waitingToReconnect"] ||
 			[inAccount boolValueForProperty:@"Reconnect After Edit"]) {
 			// Stop connecting or stop waiting to reconnect.
 			[inAccount setShouldBeOnline:NO];
@@ -427,7 +427,7 @@
 		if (!account.enabled)
 			atLeastOneDisabledAccount = YES;
 		
-		if (!account.online && ![account boolValueForProperty:@"Connecting"])
+		if (!account.online && ![account boolValueForProperty:@"isConnecting"])
 			atLeastOneOfflineAccount = YES;
 		
 		if (atLeastOneOfflineAccount && atLeastOneDisabledAccount)
@@ -557,7 +557,7 @@
 		//We can't put the submenu into our menu directly or otherwise modify the accountMenu_status, as we may want to use it again
 		[statusMenuItem setSubmenu:[[[[accountMenu_status menuItemForAccount:account] submenu] copy] autorelease]];
 		
-		if (!account.online && ![account boolValueForProperty:@"Connecting"] && [self statusMessageForAccount:account]) {
+		if (!account.online && ![account boolValueForProperty:@"isConnecting"] && [self statusMessageForAccount:account]) {
 			[optionsMenu addItemWithTitle:AILocalizedString(@"Copy Error Message","Menu Item for the context menu of an account in the accounts list")
 								   target:self
 								   action:@selector(copyStatusMessage:)
@@ -575,7 +575,7 @@
 		
 		//Connect or disconnect the account. Enabling a disabled account will connect it, so this is only valid for non-disabled accounts.
 		//Only online & connecting can be "Disconnected"; those offline or waiting to reconnect can be "Connected"
-		[optionsMenu addItemWithTitle:((account.online || [account boolValueForProperty:@"Connecting"]) ?
+		[optionsMenu addItemWithTitle:((account.online || [account boolValueForProperty:@"isConnecting"]) ?
 									   AILocalizedString(@"Disconnect",nil) :
 									   AILocalizedString(@"Connect",nil))
 							   target:self
@@ -607,7 +607,7 @@
 	BOOL			moreUpdatesNeeded = NO;
 
 	for (accountRow = 0; accountRow < [accountArray count]; accountRow++) {
-		if ([[accountArray objectAtIndex:accountRow] valueForProperty:@"Waiting to Reconnect"] != nil) {
+		if ([[accountArray objectAtIndex:accountRow] valueForProperty:@"waitingToReconnect"] != nil) {
 			[tableView_accountList setNeedsDisplayInRect:[tableView_accountList rectOfRow:accountRow]];
 			moreUpdatesNeeded = YES;
 		}
@@ -696,10 +696,10 @@
 {
 	NSString *statusMessage = nil;
 	
-	if ([account valueForProperty:@"ConnectionProgressString"] && [account boolValueForProperty:@"Connecting"]) {
+	if ([account valueForProperty:@"connectionProgressString"] && [account boolValueForProperty:@"isConnecting"]) {
 		// Connection status if we're currently connecting, with the percent at the end
-		statusMessage = [[account valueForProperty:@"ConnectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"ConnectionProgressPercent"] doubleValue]*100.0];
-	} else if ([account lastDisconnectionError] && ![account boolValueForProperty:@"Online"] && ![account boolValueForProperty:@"Connecting"]) {
+		statusMessage = [[account valueForProperty:@"connectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"connectionProgressPercent"] doubleValue]*100.0];
+	} else if ([account lastDisconnectionError] && ![account boolValueForProperty:@"isOnline"] && ![account boolValueForProperty:@"isConnecting"]) {
 		// If there's an error and we're not online and not connecting
 		NSMutableString *returnedMessage = [[[account lastDisconnectionError] mutableCopy] autorelease];
 		
@@ -835,17 +835,15 @@
 		NSString	*title;
 		
 		if (account.enabled) {
-			if ([account boolValueForProperty:@"Connecting"]) {
+			if ([account boolValueForProperty:@"isConnecting"]) {
 				title = AILocalizedString(@"Connecting",nil);
-			} else if ([account boolValueForProperty:@"Disconnecting"]) {
+			} else if ([account boolValueForProperty:@"isDisconnecting"]) {
 				title = AILocalizedString(@"Disconnecting",nil);
-			} else if ([account boolValueForProperty:@"Online"]) {
+			} else if ([account boolValueForProperty:@"isOnline"]) {
 				title = AILocalizedString(@"Online",nil);
-				
-				//XXX: why is this valueForProperty instead of boolValueForProperty?
-			} else if ([account valueForProperty:@"Waiting to Reconnect"]) {
+			} else if ([account valueForProperty:@"waitingToReconnect"]) {
 				title = AILocalizedString(@"Reconnecting", @"Used when the account will perform an automatic reconnection after a certain period of time.");
-			} else if ([account boolValueForProperty:@"Waiting for Network"]) {
+			} else if ([account boolValueForProperty:@"isWaitingForNetwork"]) {
 				title = AILocalizedString(@"Network Offline", @"Used when the account will connect once the network returns.");
 			} else {
 				title = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE];
@@ -922,8 +920,8 @@
  
 
 	} else if ([identifier isEqualToString:@"status"]) {
-		if (account.enabled && ![account boolValueForProperty:@"Connecting"] && [account valueForProperty:@"Waiting to Reconnect"]) {
-			NSString *format = [NSDateFormatter stringForTimeInterval:[[account valueForProperty:@"Waiting to Reconnect"] timeIntervalSinceNow]
+		if (account.enabled && ![account boolValueForProperty:@"isConnecting"] && [account valueForProperty:@"waitingToReconnect"]) {
+			NSString *format = [NSDateFormatter stringForTimeInterval:[[account valueForProperty:@"waitingToReconnect"] timeIntervalSinceNow]
 													   showingSeconds:YES
 														  abbreviated:YES
 														 approximated:NO];
@@ -933,10 +931,10 @@
 			[cell setSubString:nil];
 		}
 		
-		[cell setEnabled:([account boolValueForProperty:@"Connecting"] ||
-						  [account valueForProperty:@"Waiting to Reconnect"] ||
-						  [account boolValueForProperty:@"Disconnecting"] ||
-						  [account boolValueForProperty:@"Online"])];
+		[cell setEnabled:([account boolValueForProperty:@"isConnecting"] ||
+						  [account valueForProperty:@"waitingToReconnect"] ||
+						  [account boolValueForProperty:@"isDisconnecting"] ||
+						  [account boolValueForProperty:@"isOnline"])];
 
 	} else if ([identifier isEqualToString:@"statusicon"]) {
 		[cell accessibilitySetOverrideValue:@" "

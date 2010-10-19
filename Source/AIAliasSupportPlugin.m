@@ -120,7 +120,7 @@
  */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-    if ((inModifiedKeys == nil) || ([inModifiedKeys containsObject:@"FormattedUID"])) {
+    if ((inModifiedKeys == nil) || ([inModifiedKeys containsObject:@"formattedUID"])) {
 		return [self _applyAlias:[inObject preferenceForKey:@"Alias"
 													  group:PREF_GROUP_ALIASES 
 									 ]

@@ -20,7 +20,7 @@
 /*!
  *	@brief Key used to retrieve the user's icon
  */
-#define KEY_WEBKIT_USER_ICON 				@"WebKitUserIconPath"
+#define KEY_WEBKIT_USER_ICON 				@"webKitUserIconPath"
 
 /*!
  *	@brief Key used to retrieve the default font family

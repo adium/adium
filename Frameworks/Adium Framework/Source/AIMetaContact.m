@@ -49,6 +49,8 @@
 - (void)updateDisplayName;
 - (void)restoreGrouping;
 @property (readonly, nonatomic) NSArray *visibleListContacts;
+
++ (NSArray *)_forwardedProperties;
 @end
 
 @implementation AIMetaContact
@@ -657,24 +659,89 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	/* If the online status of a contained object changed, we should also check if our one-contact-only
 	 * in terms of online contacts has changed
 	 */
-	if ([key isEqualToString:@"Online"]) {
+	if ([key isEqualToString:@"isOnline"]) {
 		_preferredContact = nil;
 		[self determineIfWeShouldAppearToContainOnlyOneContact];
 
-	} else  if ([key isEqualToString:@"StatusType"] ||
-		[key isEqualToString:@"IdleSince"] ||
-		[key isEqualToString:@"IsIdle"] ||
-		[key isEqualToString:@"IsMobile"] ||
-		[key isEqualToString:@"StatusMessage"]) {
+	} else  if ([key isEqualToString:@"listObjectStatusType"] ||
+		[key isEqualToString:@"idleSince"] ||
+		[key isEqualToString:@"isIdle"] ||
+		[key isEqualToString:@"isMobile"] ||
+		[key isEqualToString:@"listObjectStatusMessage"]) {
 		_preferredContact = nil;
 	}
 	
 	[super object:self didChangeValueForProperty:key notify:notify];
 }
 
+/*
+ * @brief The properties that should be relayed to the _preferredContact.
+ *
+ * A bit of a hack. The old way of checking if the metacontact's property is non-nil
+ * doesn't work with primitive types.
+ */
++ (NSArray *)_forwardedProperties
+{
+	static NSArray *properties = nil;
+	
+	if (properties == nil) {
+		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isEvent", @"isBlocked",
+					  @"isIdle", @"notAStranger", @"isMobile", @"signedOff", @"signedOn",
+					  @"alwaysOnline", @"unviewedContent", @"unviewedMention", nil];
+	}
+	return properties;
+}
+
 - (id)valueForProperty:(NSString *)key
 {
-	return [super valueForProperty:key] ?: [self.preferredContact valueForProperty:key];
+	id ret;
+	
+	if ([[[self class] _forwardedProperties] containsObject:key]) {
+		ret = [self.preferredContact valueForProperty:key];
+	} else {
+		ret = [super valueForProperty:key] ?: [self.preferredContact valueForProperty:key];
+	}
+	
+	return ret;
+}
+
+- (NSInteger)integerValueForProperty:(NSString *)key
+{
+	NSInteger ret;
+	
+	if ([[[self class] _forwardedProperties] containsObject:key]) {
+		ret = [self.preferredContact integerValueForProperty:key];
+	} else {
+		ret = [super integerValueForProperty:key] ?: [self.preferredContact integerValueForProperty:key];
+	}
+	
+	return ret;
+}
+
+- (int)intValueForProperty:(NSString *)key
+{
+	int ret;
+	
+	if ([[[self class] _forwardedProperties] containsObject:key]) {
+		ret = [self.preferredContact intValueForProperty:key];
+	} else {
+		ret = [super intValueForProperty:key] ?: [self.preferredContact intValueForProperty:key];
+	}
+	
+	return ret;
+}
+
+- (BOOL)boolValueForProperty:(NSString *)key
+{
+	BOOL ret;
+	
+	if ([[[self class] _forwardedProperties] containsObject:key]) {
+		ret = [self.preferredContact boolValueForProperty:key];
+	} else {
+		ret = [super boolValueForProperty:key] ?: [self.preferredContact boolValueForProperty:key];
+	}
+	
+	return ret;
 }
 
 #pragma mark Attribute arrays

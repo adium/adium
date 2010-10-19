@@ -261,7 +261,7 @@
 	if ([inObject isKindOfClass:[AIAccount class]]) {
 		//When an account signs on or off, force an overlay update as it may have silently changed
 		//contacts' statuses
-		if ([inModifiedKeys containsObject:@"Online"]) {
+		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			BOOL			madeChanges = NO;
 			
 			for (AIListObject *listObject in [[overlayObjectsArray copy] autorelease]) {
@@ -395,7 +395,7 @@
         [path lineToPoint: NSMakePoint(left - arcRadius, top - arcRadius)];
         [path appendBezierPathWithArcWithCenter:NSMakePoint(left, top - arcRadius) radius:arcRadius startAngle:180 endAngle:90 clockwise:YES];
 
-        if ([object valueForProperty:KEY_UNVIEWED_CONTENT]) { //Unviewed
+        if ([object integerValueForProperty:KEY_UNVIEWED_CONTENT]) { //Unviewed
 			if (flash) {
                 backColor = [NSColor whiteColor];
                 textColor = [NSColor blackColor];
@@ -403,11 +403,11 @@
                 backColor = backUnviewedContentColor;
                 textColor = unviewedContentColor;
             }
-        } else if ([object boolValueForProperty:@"Signed On"]) { //Signed on
+        } else if ([object boolValueForProperty:@"signedOn"]) { //Signed on
             backColor = backSignedOnColor;
             textColor = signedOnColor;
 			
-        } else if ([object boolValueForProperty:@"Signed Off"]) { //Signed off
+        } else if ([object boolValueForProperty:@"signedOff"]) { //Signed off
             backColor = backSignedOffColor;
             textColor = signedOffColor;
 			

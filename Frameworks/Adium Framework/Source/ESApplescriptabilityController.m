@@ -60,7 +60,7 @@
 
 - (NSTimeInterval)myIdleTime
 {
-	NSDate  *idleSince = [adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+	NSDate  *idleSince = [adium.preferenceController preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS];
 	return (-[idleSince timeIntervalSinceNow]);
 }
 - (void)setMyIdleTime:(NSTimeInterval)timeInterval

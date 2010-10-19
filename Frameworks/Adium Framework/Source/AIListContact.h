@@ -18,7 +18,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 
-#define KEY_AB_UNIQUE_ID		@"AB Unique ID"
+#define KEY_AB_UNIQUE_ID		@"ABUniqueID"
 
 @class ABPerson, AIListGroup, AIMetaContact;
 
@@ -27,6 +27,33 @@
 	AIMetaContact *metaContact;
 	NSMutableSet *m_remoteGroupNames;
 	NSString		*internalUniqueObjectID;
+	
+	// Former properties
+	NSColor			*textColor;
+	NSColor			*invertedTextColor;
+	NSColor			*labelColor;
+	
+	NSNumber		*imageOpacity;
+	BOOL			isEvent;
+	
+	NSString		*ABUniqueID;
+	
+	NSAttributedString	*textProfile;
+	
+	BOOL			isBlocked;
+	BOOL			isIdle;
+	NSInteger		idle;
+	NSDate			*idleSince;
+	NSString		*idleReadable;
+	
+	BOOL			notAStranger;
+	BOOL			isMobile;
+	
+	NSString		*serverDisplayName;
+	NSString		*formattedUID;
+	
+	BOOL			signedOff;
+	BOOL			signedOn;
 }
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;

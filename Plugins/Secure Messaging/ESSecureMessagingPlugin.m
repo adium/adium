@@ -228,14 +228,13 @@
 //When the IsSecure key of a chat changes, update the @"Encryption" item immediately
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-    if ([inModifiedKeys containsObject:@"SecurityDetails"]) {
+    if ([inModifiedKeys containsObject:@"securityDetails"]) {
 		[self _updateToolbarIconOfChat:inChat
 							  inWindow:[adium.interfaceController windowForChat:inChat]];
 		
 		/* Add a status message to the chat */
-		NSNumber	*lastEncryptedNumber = [inChat valueForProperty:@"secureMessagingLastEncryptedState"];
 		BOOL		chatIsSecure = [inChat isSecure];
-		if (!lastEncryptedNumber || (chatIsSecure != [lastEncryptedNumber boolValue])) {
+		if (chatIsSecure != [inChat boolValueForProperty:@"secureMessagingLastEncryptedState"]) {
 			NSString	*message;
 			NSString	*type;
 

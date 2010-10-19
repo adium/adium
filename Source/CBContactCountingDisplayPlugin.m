@@ -119,7 +119,7 @@
 
 	//We never update for an AIAccount object
 	
-	if ([inObject isKindOfClass:[AIListContact class]] && [inModifiedKeys containsObject:@"Online"]) {
+	if ([inObject isKindOfClass:[AIListContact class]] && [inModifiedKeys containsObject:@"isOnline"]) {
 		// We need to update *all* of this contact's groups for its online change.
 		[groups unionSet:inObject.groups];
 	} else if ([inObject isKindOfClass:[AIListGroup class]]
@@ -161,14 +161,14 @@
 		}
 
 		[inGroup setValue:countString
-			  forProperty:@"Count Text"
+			  forProperty:@"countText"
 				   notify:NotifyNever];
 		[inGroup setValue:[NSNumber numberWithBool:(countOnlineObjects || countAllObjects)]
-			  forProperty:@"Show Count"
+			  forProperty:@"showCount"
 				   notify:NotifyNever];
 
 		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:inGroup
-																 modifiedKeys:[NSSet setWithObject:@"Count Text"]];
+																 modifiedKeys:[NSSet setWithObject:@"countText"]];
 	}
 	
 	return nil;

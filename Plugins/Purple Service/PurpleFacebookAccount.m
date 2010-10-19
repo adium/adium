@@ -70,11 +70,11 @@
 	}
 }
 
-- (void)setSocialNetworkingStatusMessage:(NSAttributedString *)statusMessage
+- (void)setSocialNetworkingStatusMessage:(NSAttributedString *)inStatusMessage
 {
 	NSMutableDictionary *arguments = [NSMutableDictionary dictionary];
-	NSString *encodedStatusMessage = (statusMessage ? 
-									  [self encodedAttributedString:statusMessage
+	NSString *encodedStatusMessage = (inStatusMessage ? 
+									  [self encodedAttributedString:inStatusMessage
 													 forStatusState:nil] :
 									  nil);
 	if (encodedStatusMessage) {

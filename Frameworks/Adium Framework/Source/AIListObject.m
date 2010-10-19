@@ -32,8 +32,8 @@
 #define Key					@"Key"
 #define Group				@"Group"
 #define DisplayServiceID	@"DisplayServiceID"
-#define FormattedUID		@"FormattedUID"
-#define AlwaysVisible		@"AlwaysVisible"
+#define FormattedUID		@"formattedUID"
+#define AlwaysVisible		@"alwaysVisible"
 #define StayInChat			@"StayInChat"
 
 @interface AIListObject ()
@@ -76,6 +76,14 @@
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
 	[m_groups release]; m_groups = nil;
+	
+	[listObjectStatusMessage release]; listObjectStatusMessage = nil;
+	[listStateIcon release]; listStateIcon = nil;
+	[listStatusIcon release]; listStatusIcon = nil;
+	[listObjectStatusType release]; listObjectStatusType = nil;
+	[extendedStatus release]; extendedStatus = nil;
+	[listObjectStatusName release]; listObjectStatusName = nil;
+	[webKitUserIconPath release]; webKitUserIconPath = nil;
 
 	[super dealloc];
 }
@@ -477,7 +485,7 @@
 
 - (NSInteger)idleTime
 {
-	return [self integerValueForProperty:@"Idle"];
+	return [self integerValueForProperty:@"idle"];
 }
 
 //A standard listObject is never a stranger
@@ -523,7 +531,7 @@
  */
 - (NSString *)statusName
 {
-	return [self valueForProperty:@"StatusName"];
+	return [self valueForProperty:@"listObjectStatusName"];
 }
 
 /*!
@@ -534,7 +542,7 @@
 - (AIStatusType)statusType
 {
 	if (self.online) {
-		NSNumber *statusTypeNumber = [self valueForProperty:@"StatusType"];
+		NSNumber *statusTypeNumber = [self valueForProperty:@"listObjectStatusType"];
 		if (statusTypeNumber)
 			return [statusTypeNumber intValue];
 		return AIAvailableStatusType;
@@ -556,11 +564,11 @@
 	NSString		*oldStatusName = self.statusName;
 	
 	if (currentStatusType != statusType) {
-		[self setValue:[NSNumber numberWithInt:statusType] forProperty:@"StatusType" notify:NotifyLater];
+		[self setValue:[NSNumber numberWithInt:statusType] forProperty:@"listObjectStatusType" notify:NotifyLater];
 	}
 	
 	if ((!statusName && oldStatusName) || (statusName && ![statusName isEqualToString:oldStatusName])) {
-		[self setValue:statusName forProperty:@"StatusName" notify:NotifyLater];
+		[self setValue:statusName forProperty:@"listObjectStatusName" notify:NotifyLater];
 	}
 	
 	if (notify) [self notifyOfChangedPropertiesSilently:NO];
@@ -576,7 +584,7 @@
  */
 - (NSAttributedString *)statusMessage
 {
-	return [self valueForProperty:@"StatusMessage"];
+	return [self valueForProperty:@"listObjectStatusMessage"];
 }
 
 /*!
@@ -589,7 +597,7 @@
  */
 - (NSString *)statusMessageString;
 {
-	return [[self valueForProperty:@"StatusMessage"] string];
+	return [[self valueForProperty:@"listObjectStatusMessage"] string];
 }
 
 /*!
@@ -619,11 +627,11 @@
  * @param statusMessage Status message. May be nil.
  * @param notify How to notify of the change. See -[ESObjectWithProperties setValue:forProperty:notify:].
  */
-- (void)setStatusMessage:(NSAttributedString *)statusMessage notify:(NotifyTiming)notify
+- (void)setStatusMessage:(NSAttributedString *)inStatusMessage notify:(NotifyTiming)notify
 {
-	if (!statusMessage ||
-	   ![[self valueForProperty:@"StatusMessage"] isEqualToAttributedString:statusMessage]) {
-		[self setValue:statusMessage forProperty:@"StatusMessage" notify:notify];
+	if (!inStatusMessage ||
+	   ![listObjectStatusMessage isEqualToAttributedString:inStatusMessage]) {
+		[self setValue:inStatusMessage forProperty:@"listObjectStatusMessage" notify:notify];
 	}
 }
 
@@ -640,16 +648,16 @@
 
 - (BOOL)online
 {
-	return [self boolValueForProperty:@"Online"];
+	return [self boolValueForProperty:@"isOnline"];
 }
 
 - (AIStatusSummary)statusSummary
 {
 	if (self.online) {		
 		if (self.statusType == AIAwayStatusType || self.statusType == AIInvisibleStatusType)
-			return [self boolValueForProperty:@"IsIdle"] ? AIAwayAndIdleStatus : AIAwayStatus;
+			return [self boolValueForProperty:@"isIdle"] ? AIAwayAndIdleStatus : AIAwayStatus;
 		
-		if ([self boolValueForProperty:@"IsIdle"])
+		if ([self boolValueForProperty:@"isIdle"])
 			return AIIdleStatus;
 		
 		return AIAvailableStatus;
@@ -812,8 +820,8 @@
 
 - (NSImage *)statusIcon
 {
-	NSImage *statusIcon = [self valueForProperty:@"List State Icon"];
-	if (!statusIcon) statusIcon = [self valueForProperty:@"List Status Icon"];
+	NSImage *statusIcon = [self valueForProperty:@"listStateIcon"];
+	if (!statusIcon) statusIcon = [self valueForProperty:@"listStatusIcon"];
 	if (!statusIcon) statusIcon = [AIStatusIcons statusIconForUnknownStatusWithIconType:AIStatusIconList
 																			 direction:AIIconNormal];
 	return statusIcon;

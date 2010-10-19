@@ -129,7 +129,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	[theAccount setPasswordTemporarily:[textField_password stringValue]];
 
 	//Connect the account
-	[theAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"Online" group:GROUP_ACCOUNT_STATUS];
+	[theAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"isOnline" group:GROUP_ACCOUNT_STATUS];
 	
 	[[self window] performClose:nil];
 }

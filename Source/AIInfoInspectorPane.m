@@ -608,12 +608,12 @@
 	
 	// Update the status icon if it changes.
 	if (inModifiedKeys == nil ||
-		[inModifiedKeys containsObject:@"Online"] ||
-		[inModifiedKeys containsObject:@"IdleSince"] ||
-		[inModifiedKeys containsObject:@"Signed Off"] ||
-		[inModifiedKeys containsObject:@"IsMobile"] ||
+		[inModifiedKeys containsObject:@"isOnline"] ||
+		[inModifiedKeys containsObject:@"idleSince"] ||
+		[inModifiedKeys containsObject:@"signedOff"] ||
+		[inModifiedKeys containsObject:@"isMobile"] ||
 		[inModifiedKeys containsObject:@"IsBlocked"] ||
-		[inModifiedKeys containsObject:@"StatusType"]) {
+		[inModifiedKeys containsObject:@"listObjectStatusType"]) {
 		[self updateStatusIcon:displayedObject];
 	}
 	
@@ -625,8 +625,8 @@
 	}
 	
 	// Cause everything to update if everything's probably changed.
-	if ([inModifiedKeys containsObject:@"NotAStranger"] ||
-		[inModifiedKeys containsObject:@"Server Display Name"]) {
+	if ([inModifiedKeys containsObject:@"notAStranger"] ||
+		[inModifiedKeys containsObject:@"serverDisplayName"]) {
 		[self updateForListObject:displayedObject];
 	}
 	

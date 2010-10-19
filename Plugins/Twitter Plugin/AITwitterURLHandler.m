@@ -132,7 +132,7 @@
 		
 		[adium.interfaceController setActiveChat:timelineChat];
 		
-		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
+		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"messageTabViewItem"]).messageViewController.textEntryView;
 
 		// Insert the @reply text
 		NSString *prefix = treatAsQuote ? [NSString stringWithFormat:@"%@ /via @%@ ", [inMessage stringByDecodingURLEscapes], inUser] : [NSString stringWithFormat:@"@%@ ", inUser];
@@ -197,7 +197,7 @@
 
 	AIChat *chat = textView.chat;
 	
-	if(![chat valueForProperty:@"TweetInReplyToStatusID"] || ![chat valueForProperty:@"TweetInReplyToUserID"]) {
+	if(![chat boolValueForProperty:@"TweetInReplyToStatusID"] || ![chat boolValueForProperty:@"TweetInReplyToUserID"]) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
 		return;
 	}

@@ -80,6 +80,17 @@
 	[m_remoteGroupNames release]; m_remoteGroupNames = nil;
 	[internalUniqueObjectID release]; internalUniqueObjectID = nil;
 	
+	[textColor release]; textColor = nil;
+	[invertedTextColor release]; invertedTextColor = nil;
+	[labelColor release]; labelColor = nil;
+	[imageOpacity release]; imageOpacity = nil;
+	[ABUniqueID release]; ABUniqueID = nil;
+	[textProfile release]; textProfile = nil;
+	[idleSince release]; idleSince = nil;
+	[idleReadable release]; idleReadable = nil;
+	[serverDisplayName release]; serverDisplayName = nil;
+	[formattedUID release]; formattedUID = nil;
+	
 	[super dealloc];
 }
 
@@ -179,7 +190,7 @@
 	
 	if (self.isStranger != (remoteGroupCount == 0)) {
 		[self setValue:[NSNumber numberWithBool:remoteGroupCount > 0]
-		   forProperty:@"NotAStranger"
+		   forProperty:@"notAStranger"
 				notify:NotifyLater];
 		[self notifyOfChangedPropertiesSilently:YES];
 	}
@@ -248,7 +259,7 @@
  */
 - (NSString *)serversideDisplayName
 {
-	return [self valueForProperty:@"Server Display Name"];	
+	return [self valueForProperty:@"serverDisplayName"];	
 }
 
 - (void)setServersideAlias:(NSString *)alias 
@@ -258,10 +269,10 @@
 	BOOL displayNameChanges = NO;
 	
 	//This is the server display name.  Set it as such.
-	if (![alias isEqualToString:[self valueForProperty:@"Server Display Name"]]) {
+	if (![alias isEqualToString:[self valueForProperty:@"serverDisplayName"]]) {
 		//Set the server display name property as the full display name
 		[self setValue:alias
-					   forProperty:@"Server Display Name"
+					   forProperty:@"serverDisplayName"
 					   notify:NotifyLater];
 		
 		changes = YES;
@@ -340,18 +351,18 @@
 {
 	if (online != self.online) {
 		[self setValue:[NSNumber numberWithBool:online]
-					   forProperty:@"Online"
+					   forProperty:@"isOnline"
 					   notify:notify];
 		
 		if (!silent) {
 			[self setValue:[NSNumber numberWithBool:YES] 
-						   forProperty:(online ? @"Signed On" : @"Signed Off")
+						   forProperty:(online ? @"signedOn" : @"signedOff")
 						   notify:notify];
 			[self setValue:nil 
-						   forProperty:(online ? @"Signed Off" : @"Signed On")
+						   forProperty:(online ? @"signedOff" : @"signedOn")
 						   notify:notify];
 			[self setValue:nil
-						   forProperty:(online ? @"Signed On" : @"Signed Off")
+						   forProperty:(online ? @"signedOn" : @"signedOff")
 					   afterDelay:CONTACT_SIGN_ON_OR_OFF_PERSISTENCE_DELAY];
 		}
 		
@@ -392,34 +403,34 @@
  * @param idleSinceDate The date this contact went idle. Only relevant if isIdle is YES
  * @param notify The NotifyTiming
  */
-- (void)setIdle:(BOOL)isIdle sinceDate:(NSDate *)idleSinceDate notify:(NotifyTiming)notify
+- (void)setIdle:(BOOL)inIsIdle sinceDate:(NSDate *)idleSinceDate notify:(NotifyTiming)notify
 {
-	if (isIdle) {
+	if (inIsIdle) {
 		if (idleSinceDate) {
 			[self setValue:idleSinceDate
-						   forProperty:@"IdleSince"
+						   forProperty:@"idleSince"
 						   notify:NotifyLater];
 		} else {
 			//No idleSinceDate means we are Idle but don't know how long, so set to -1
 			[self setValue:[NSNumber numberWithInt:-1]
-						   forProperty:@"Idle"
+						   forProperty:@"idle"
 						   notify:NotifyLater];
 		}
 	} else {
 		[self setValue:nil
-					   forProperty:@"IdleSince"
+					   forProperty:@"idleSince"
 					   notify:NotifyLater];
 		[self setValue:nil
-					   forProperty:@"Idle"
+					   forProperty:@"idle"
 					   notify:NotifyLater];
 	}
 	
-	/* @"Idle", for a contact with an IdleSince date, will be changing every minute.  @"IsIdle" provides observers a way
+	/* @"idle", for a contact with an IdleSince date, will be changing every minute.  @"isIdle" provides observers a way
 	* to perform an action when the contact becomes/comes back from idle, regardless of whether an IdleSince is available,
 	* without having to do that action every minute for other contacts.
 	*/
-	[self setValue:[NSNumber numberWithBool:isIdle]
-				   forProperty:@"IsIdle"
+	[self setValue:[NSNumber numberWithBool:inIsIdle]
+				   forProperty:@"isIdle"
 				   notify:NotifyLater];
 	
 	//Apply any changes
@@ -482,7 +493,7 @@
 - (void)setProfile:(NSAttributedString *)profile notify:(NotifyTiming)notify
 {
 	[self setValue:profile
-				   forProperty:@"TextProfile" 
+				   forProperty:@"textProfile" 
 				   notify:notify];
 }
 
@@ -491,7 +502,7 @@
  */
 - (NSAttributedString *)profile
 {
-	return [self valueForProperty:@"TextProfile"];
+	return [self valueForProperty:@"textProfile"];
 }
 
 /*!
@@ -501,7 +512,7 @@
  */
 - (BOOL)isStranger
 {
-	return ![self boolValueForProperty:@"NotAStranger"];
+	return ![self boolValueForProperty:@"notAStranger"];
 }
 
 /*!
@@ -517,16 +528,16 @@
  */
 - (BOOL)isMobile
 {
-	return [self boolValueForProperty:@"IsMobile"];
+	return [self boolValueForProperty:@"isMobile"];
 }
 
 /*!
  * @brief Set if this contact is mobile
  */
-- (void)setIsMobile:(BOOL)isMobile notify:(NotifyTiming)notify
+- (void)setIsMobile:(BOOL)inIsMobile notify:(NotifyTiming)notify
 {
-	[self setValue:[NSNumber numberWithBool:isMobile]
-				   forProperty:@"IsMobile"
+	[self setValue:[NSNumber numberWithBool:inIsMobile]
+				   forProperty:@"isMobile"
 				   notify:notify];
 }
 
@@ -564,9 +575,9 @@
 		
 		id<AIAccount_Privacy> contactAccount = (id<AIAccount_Privacy>)self.account;
 		
-		BOOL isBlocked = [[contactAccount listObjectsOnPrivacyList:privType] containsObject:self];
+		BOOL contactIsBlocked = [[contactAccount listObjectsOnPrivacyList:privType] containsObject:self];
 		
-		if (shouldBeBlocked == isBlocked)
+		if (shouldBeBlocked == contactIsBlocked)
 			return;
 		
 		BOOL	result = NO;

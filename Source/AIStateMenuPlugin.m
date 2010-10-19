@@ -225,7 +225,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]] && [[(AIAccount *)inObject service] isSocialNetworkingService] &&
-		[inModifiedKeys containsObject:@"Online"]) {
+		[inModifiedKeys containsObject:@"isOnline"]) {
 		[self updateSocialNetworkingMenuItems];
 	}
 	

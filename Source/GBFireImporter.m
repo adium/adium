@@ -294,7 +294,7 @@
 			continue;
 		
 		[newAcct setPreference:[account objectForKey:@"AutoLogin"]
-						forKey:@"Online"
+						forKey:@"isOnline"
 						 group:GROUP_ACCOUNT_STATUS];
 		
 		NSDictionary *properties = [account objectForKey:@"Properties"];
@@ -550,7 +550,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 				continue;
 			
 			[newAcct setPreference:[account objectForKey:@"autoLogin"]
-							forKey:@"Online"
+							forKey:@"isOnline"
 							 group:GROUP_ACCOUNT_STATUS];
 			
 			NSString *connectHost = [account objectForKey:@"server"];

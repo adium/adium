@@ -81,8 +81,8 @@
 	
 		
 	interestedKeysSet = [[NSSet alloc] initWithObjects:
-						 KEY_TYPING, KEY_UNVIEWED_CONTENT,  @"StatusType", @"IsIdle",
-						 @"Online", @"Signed On",  @"Signed Off", @"IsMobile", nil];
+						 KEY_TYPING, KEY_UNVIEWED_CONTENT,  @"listObjectStatusType", @"isIdle",
+						 @"isOnline", @"signedOn",  @"signedOff", @"isMobile", nil];
 
 	id<AIPreferenceController> preferenceController = adium.preferenceController;
 
@@ -120,7 +120,7 @@
 		if (inModifiedKeys == nil || [inModifiedKeys intersectsSet:interestedKeysSet]) {
 			//Update the contact's text color
 			[self _applyColorToContact:(AIListContact *)inObject];
-			modifiedAttributes = [NSSet setWithObjects:@"Text Color", @"Inverted Text Color", @"Label Color", nil];
+			modifiedAttributes = [NSSet setWithObjects:@"textColor", @"invertedTextColor", @"labelColor", nil];
 		}
 		
 		//Update our flash set
@@ -166,25 +166,25 @@
     //Offline, Signed off, signed on, or typing
     if ((!color && !labelColor)) {
 		if (offlineEnabled && (!inContact.online &&
-							  ![inContact boolValueForProperty:@"Signed Off"])) {
+							  ![inContact boolValueForProperty:@"signedOff"])) {
 			color = offlineColor;
 			invertedColor = offlineInvertedColor;
 			labelColor = offlineLabelColor;
 			if (offlineImageFading) opacity = OFFLINE_IMAGE_OPACITY;			
 			
-		} else if (signedOffEnabled && [inContact boolValueForProperty:@"Signed Off"]) {
+		} else if (signedOffEnabled && [inContact boolValueForProperty:@"signedOff"]) {
             color = signedOffColor;
             invertedColor = signedOffInvertedColor;
             labelColor = signedOffLabelColor;
 			isEvent = YES;
 
-        } else if (signedOnEnabled && [inContact boolValueForProperty:@"Signed On"]) {
+        } else if (signedOnEnabled && [inContact boolValueForProperty:@"signedOn"]) {
 			color = signedOnColor;
             invertedColor = signedOnInvertedColor;
             labelColor = signedOnLabelColor;
 			isEvent = YES;
 			
-        } else if (typingEnabled && ([inContact integerValueForProperty:KEY_TYPING] == AITyping)) {
+        } else if (typingEnabled && ([inContact intValueForProperty:KEY_TYPING] == AITyping)) {
             color = typingColor;
             invertedColor = typingInvertedColor;
             labelColor = typingLabelColor;
@@ -227,19 +227,19 @@
 
     //Apply the color and opacity
     [inContact setValue:color
-			forProperty:@"Text Color"
+			forProperty:@"textColor"
 				 notify:NotifyNever];
     [inContact setValue:invertedColor
-			forProperty:@"Inverted Text Color"
+			forProperty:@"invertedTextColor"
 				 notify:NotifyNever];
     [inContact setValue:labelColor
-			forProperty:@"Label Color"
+			forProperty:@"labelColor"
 				 notify:NotifyNever];
 	[inContact setValue:[NSNumber numberWithDouble:opacity]
-			forProperty:@"Image Opacity"
+			forProperty:@"imageOpacity"
 				 notify:NotifyNever];
 	[inContact setValue:[NSNumber numberWithBool:isEvent]
-			forProperty:@"Is Event"
+			forProperty:@"isEvent"
 				 notify:NotifyNever];
 }
 
@@ -254,7 +254,7 @@
         //Force a redraw
         [[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributesChanged 
 												  object:object
-												userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Text Color", @"Label Color", @"Inverted Text Color", nil] forKey:@"Keys"]];
+												userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"textColor", @"labelColor", @"invertedTextColor", nil] forKey:@"Keys"]];
     }
 }
 

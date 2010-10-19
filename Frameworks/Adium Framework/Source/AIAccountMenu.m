@@ -402,9 +402,9 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	
 	if (account.enabled) {
 		if (showTitleVerbs) {
-			if ([account boolValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
+			if ([account boolValueForProperty:@"isConnecting"] || [account valueForProperty:@"waitingToReconnect"]) {
 				titleFormat = ACCOUNT_CONNECTING_ACTION_MENU_TITLE;
-			} else if ([account boolValueForProperty:@"Disconnecting"]) {
+			} else if ([account boolValueForProperty:@"isDisconnecting"]) {
 				titleFormat = ACCOUNT_DISCONNECTING_ACTION_MENU_TITLE;
 			} else {
 				//Display 'connect' or 'disconnect' before the account name
@@ -412,7 +412,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 			
 		} else {
-			if ([account boolValueForProperty:@"Connecting"]) {
+			if ([account boolValueForProperty:@"isConnecting"]) {
 				titleFormat = ACCOUNT_CONNECT_PARENS_MENU_TITLE;
 			}
 		}
@@ -439,12 +439,12 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			[self rebuildMenu];
 			rebuilt = YES;
 
-		} else if ([inModifiedKeys containsObject:@"Online"] ||
-				   [inModifiedKeys containsObject:@"Connecting"] ||
-				   [inModifiedKeys containsObject:@"Waiting to Reconnect"] ||
-				   [inModifiedKeys containsObject:@"Disconnecting"] ||
-				   [inModifiedKeys containsObject:@"IdleSince"] ||
-				   [inModifiedKeys containsObject:@"StatusState"]) {
+		} else if ([inModifiedKeys containsObject:@"isOnline"] ||
+				   [inModifiedKeys containsObject:@"isConnecting"] ||
+				   [inModifiedKeys containsObject:@"waitingToReconnect"] ||
+				   [inModifiedKeys containsObject:@"isDisconnecting"] ||
+				   [inModifiedKeys containsObject:@"idleSince"] ||
+				   [inModifiedKeys containsObject:@"accountStatus"]) {
 			//Update menu items to reflect status changes
 
 			//Update the changed menu item (or rebuild the entire menu if this item should be removed or added)
@@ -463,7 +463,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 		}
 
-		if ((submenuType == AIAccountOptionsSubmenu) && [inModifiedKeys containsObject:@"Online"]) {
+		if ((submenuType == AIAccountOptionsSubmenu) && [inModifiedKeys containsObject:@"isOnline"]) {
 			if (rebuilt) menuItem = [self menuItemForAccount:(AIAccount *)inObject];
 
 			//Append the account actions menu
@@ -472,7 +472,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 		}
 		
-		if ((submenuType == AIAccountStatusSubmenu) && [inObject.service isSocialNetworkingService] && [inModifiedKeys containsObject:@"Online"]) {
+		if ((submenuType == AIAccountStatusSubmenu) && [inObject.service isSocialNetworkingService] && [inModifiedKeys containsObject:@"isOnline"]) {
 			menuItem = [self menuItemForAccount:(AIAccount *)inObject];
 			
 			if (menuItem) {
@@ -504,7 +504,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		[adium.accountController addAccount:inAccount];
         
 		//Put new accounts online by default
-		[inAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"Online" group:GROUP_ACCOUNT_STATUS];
+		[inAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"isOnline" group:GROUP_ACCOUNT_STATUS];
 	}
 }
 

@@ -280,7 +280,7 @@ static BOOL							hideInBackground = NO;
 	NSMutableArray	*awayAccounts = [NSMutableArray array];	
 
 	for (AIAccount *account in adium.accountController.accounts) {
-		if (account.online || [account boolValueForProperty:@"Connecting"]) {
+		if (account.online || [account boolValueForProperty:@"isConnecting"]) {
 			AIStatus	*statusState = account.statusState;
 			if (statusState.statusType != AIAvailableStatusType) {
 				[awayAccounts addObject:account];

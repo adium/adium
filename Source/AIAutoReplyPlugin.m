@@ -92,7 +92,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]] &&
-	   [inModifiedKeys containsObject:@"StatusState"]) {
+	   [inModifiedKeys containsObject:@"accountStatus"]) {
 			
 		//Reset our list of contacts who have already received an auto-reply
 		[receivedAutoReply release]; receivedAutoReply = [[NSMutableSet alloc] init];

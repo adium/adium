@@ -114,8 +114,8 @@
 	width += AIceil(self.displayNameSize.width);
 	
 	// Also account for idle times.
-	if (extendedStatusVisible && idleTimeVisible && !idleTimeIsBelow && [listObject valueForProperty:@"IdleReadable"]) {
-		NSString		*idleTimeString = [listObject valueForProperty:@"IdleReadable"];
+	if (extendedStatusVisible && idleTimeVisible && !idleTimeIsBelow && [listObject valueForProperty:@"idleReadable"]) {
+		NSString		*idleTimeString = [listObject valueForProperty:@"idleReadable"];
 		
 		if (statusMessageVisible && !statusMessageIsBelow && [listObject statusMessageString]) {
 			// Account for the size of the ellipsis if there's a status message.
@@ -217,7 +217,7 @@
 			[self statusFont], NSFontAttributeName,nil] retain];
 	}
 	
-	if (backgroundColorIsEvents && [listObject boolValueForProperty:@"Is Event"]) {
+	if (backgroundColorIsEvents && [listObject boolValueForProperty:@"isEvent"]) {
 		//If we are showing a temporary event with a custom background color, use the standard text color
 		//since it will be appropriate to the current background color.
 		NSMutableDictionary	*mutableStatusAttributes = [_statusAttributes mutableCopy];
@@ -400,7 +400,7 @@
 		rect = [self drawUserExtendedStatusInRect:rect
 									  withMessage:(useStatusMessageAsExtendedStatus ?
 												   [listObject statusMessageString] : 
-												   [listObject valueForProperty:@"ExtendedStatus"])
+												   [listObject valueForProperty:@"extendedStatus"])
 										drawUnder:YES];
 		
 		rect = [self drawDisplayNameWithFrame:rect];
@@ -412,18 +412,18 @@
 		rect = [self drawUserExtendedStatusInRect:rect
 									  withMessage:(useStatusMessageAsExtendedStatus ?
 												   [listObject statusMessageString] : 
-												   [listObject valueForProperty:@"ExtendedStatus"])
+												   [listObject valueForProperty:@"extendedStatus"])
 										drawUnder:NO];	
 	} else {
 		if (statusMessageIsBelow && statusMessageVisible) {
 			rect = [self drawUserExtendedStatusInRect:rect
-										  withMessage:[listObject valueForProperty:@"ExtendedStatus"]
+										  withMessage:[listObject valueForProperty:@"extendedStatus"]
 											drawUnder:YES];	
 		}
 		
 		if (idleTimeIsBelow && idleTimeVisible) {
 			rect = [self drawUserExtendedStatusInRect:rect
-										  withMessage:[listObject valueForProperty:@"IdleReadable"]
+										  withMessage:[listObject valueForProperty:@"idleReadable"]
 											drawUnder:YES];
 		}
 		
@@ -438,7 +438,7 @@
 		
 		if (!idleTimeIsBelow && idleTimeVisible) {
 			rect = [self drawUserExtendedStatusInRect:rect
-										  withMessage:[listObject valueForProperty:@"IdleReadable"]
+										  withMessage:[listObject valueForProperty:@"idleReadable"]
 											drawUnder:NO];
 		}
 	}
@@ -651,10 +651,10 @@
 //Contact label color
 - (NSColor *)labelColor
 {
-	BOOL	isEvent = [listObject boolValueForProperty:@"Is Event"];
+	BOOL	isEvent = [listObject boolValueForProperty:@"isEvent"];
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
-		NSColor		*labelColor = [listObject valueForProperty:@"Label Color"];
+		NSColor		*labelColor = [listObject valueForProperty:@"labelColor"];
 		CGFloat		colorOpacity = [labelColor alphaComponent];
 		CGFloat		targetOpacity = backgroundOpacity * colorOpacity;
 
@@ -669,10 +669,10 @@
 - (NSColor *)textColor
 {
 	NSColor	*theTextColor;
-	//BOOL	isEvent = [listObject boolValueForProperty:@"Is Event"];
+	//BOOL	isEvent = [listObject boolValueForProperty:@"isEvent"];
 	/* XXX If it's an event, we may want to be inheriting from more than just the metacontact's preferred contact...
 	 * this is the only case for that which I've come across */
-	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"Text Color"])) {
+	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"textColor"])) {
 		return theTextColor;
 	} else {
 		return [super textColor];
@@ -703,7 +703,7 @@
 
 - (float)imageOpacityForDrawing
 {
-	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"Image Opacity"];
+	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"imageOpacity"];
 	return (imageOpacityNumber ? [imageOpacityNumber floatValue] : 0.0f);
 }
 

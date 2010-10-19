@@ -103,7 +103,7 @@
 
 	} else if (sender == textView_profile) {
 		[adium.preferenceController setPreference:[[textView_profile textStorage] dataRepresentation] 
-											 forKey:@"TextProfile"
+											 forKey:@"textProfile"
 											  group:GROUP_ACCOUNT_STATUS];
 
 	} else if (sender == matrix_userIcon) {
@@ -167,7 +167,7 @@
 
 	[[NSFontPanel sharedFontPanel] setDelegate:textView_profile];
 
-	NSData				*profileData = [adium.preferenceController preferenceForKey:@"TextProfile"
+	NSData				*profileData = [adium.preferenceController preferenceForKey:@"textProfile"
 																				group:GROUP_ACCOUNT_STATUS];
 	NSAttributedString	*profile = (profileData ? [NSAttributedString stringWithData:profileData] : nil);
 	

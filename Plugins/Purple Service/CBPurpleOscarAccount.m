@@ -731,7 +731,7 @@
 - (void)updateStatusForContact:(AIListContact *)theContact 
 				  toStatusType:(NSNumber *)statusTypeNumber
 					statusName:(NSString *)statusName
-				 statusMessage:(NSAttributedString *)statusMessage
+				 statusMessage:(NSAttributedString *)inStatusMessage
 					  isMobile:(BOOL)isMobile
 {
 	/* XXX - Giant hack!
@@ -748,9 +748,9 @@
 		//Type and name match...
 		NSString *currentStatusMessage = [theContact statusMessageString];
 		if (currentStatusMessage &&
-			([currentStatusMessage length] > [statusMessage length]) &&
-			([statusMessage length] >= 40) &&
-			([currentStatusMessage rangeOfString:[statusMessage string] options:NSAnchoredSearch].location == 0)) {
+			([currentStatusMessage length] > [inStatusMessage length]) &&
+			([inStatusMessage length] >= 40) &&
+			([currentStatusMessage rangeOfString:[inStatusMessage string] options:NSAnchoredSearch].location == 0)) {
 			/* New message is shorter but at least 40 characters, and it matches the start of the current one.
 			 * Do nothing.
 			 */
@@ -758,7 +758,7 @@
 		}
 	}
 	
-	[super updateStatusForContact:theContact toStatusType:statusTypeNumber statusName:statusName statusMessage:statusMessage isMobile:isMobile];
+	[super updateStatusForContact:theContact toStatusType:statusTypeNumber statusName:statusName statusMessage:inStatusMessage isMobile:isMobile];
 }
 
 /*!

@@ -86,8 +86,8 @@
 		id<AIDockController>	dockController = adium.dockController;
 		BOOL					shouldUpdateStatus = NO;
 		
-		if (inObject == nil || [inModifiedKeys containsObject:@"Online"]) {
-			if ([self _accountsWithBoolProperty:@"Online"]) {
+		if (inObject == nil || [inModifiedKeys containsObject:@"isOnline"]) {
+			if ([self _accountsWithBoolProperty:@"isOnline"]) {
 				[dockController setIconStateNamed:@"Online"];
 			} else {
 				[dockController removeIconStateNamed:@"Online"];
@@ -95,8 +95,8 @@
 			shouldUpdateStatus = YES;
 		}
 
-		if (inObject == nil || ([inModifiedKeys containsObject:@"Connecting"] || [inModifiedKeys containsObject:@"Waiting to Reconnect"])) {
-			if ([self _accountsWithBoolProperty:@"Connecting"] || [self _accountsWithProperty:@"Waiting to Reconnect"]) {
+		if (inObject == nil || ([inModifiedKeys containsObject:@"isConnecting"] || [inModifiedKeys containsObject:@"waitingToReconnect"])) {
+			if ([self _accountsWithBoolProperty:@"isConnecting"] || [self _accountsWithProperty:@"waitingToReconnect"]) {
 				[dockController setIconStateNamed:@"Connecting"];
 			} else {
 				[dockController removeIconStateNamed:@"Connecting"];
@@ -104,15 +104,15 @@
 			shouldUpdateStatus = YES;
 		}
 		
-		if (inObject == nil || [inModifiedKeys containsObject:@"IdleSince"]) {
-			if ([self _accountsWithProperty:@"IdleSince"]) {
+		if (inObject == nil || [inModifiedKeys containsObject:@"idleSince"]) {
+			if ([self _accountsWithProperty:@"idleSince"]) {
 				[dockController setIconStateNamed:@"Idle"];
 			} else {
 				[dockController removeIconStateNamed:@"Idle"];
 			}	
 		}
 		
-		if (shouldUpdateStatus || [inModifiedKeys containsObject:@"StatusState"]) {
+		if (shouldUpdateStatus || [inModifiedKeys containsObject:@"accountStatus"]) {
 			BOOL			iconSupportsInvisible = [adium.dockController currentIconSupportsIconStateNamed:@"Invisible"];
 			AIStatusType	activeStatusType = [adium.statusController activeStatusTypeTreatingInvisibleAsAway:!iconSupportsInvisible];
 

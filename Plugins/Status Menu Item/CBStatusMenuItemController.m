@@ -363,7 +363,7 @@
 
 				// Check each account for IdleSince, a StatusState status message, or "Waiting to Reconnect"
 				for (AIAccount *account in adium.accountController.accounts) {
-					if (account.online && [account valueForProperty:@"IdleSince"]) {
+					if (account.online && [account valueForProperty:@"idleSince"]) {
 						if (showBadge) {
 							badge = [AIStatusIcons statusIconForStatusName:@"Idle"
 																statusType:AIAvailableStatusType
@@ -376,13 +376,13 @@
 						// We don't need to check anymore; idle has high precedence than offline or available with a status message.
 						break;
 					} else if (showBadge &&
-							   ([account valueForProperty:@"Waiting to Reconnect"] ||
-								[[account valueForProperty:@"Connecting"] boolValue])) {
+							   ([account valueForProperty:@"waitingToReconnect"] ||
+								[account boolValueForProperty:@"isConnecting"])) {
 						badge = [AIStatusIcons statusIconForStatusName:@"Offline"
 															statusType:AIOfflineStatusType
 															  iconType:AIStatusIconList
 															 direction:AIIconNormal];
-					} else if (account.online && [[account valueForProperty:@"StatusState"] statusMessage]) {
+					} else if (account.online && [[account valueForProperty:@"accountStatus"] statusMessage]) {
 						anyAccountHasStatusMessage = YES;
 					}
 				}
@@ -600,8 +600,8 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]]) {
-		if ([inModifiedKeys containsObject:@"Connecting"] ||
-			[inModifiedKeys containsObject:@"Waiting to Reconnect"]) {
+		if ([inModifiedKeys containsObject:@"isConnecting"] ||
+			[inModifiedKeys containsObject:@"waitingToReconnect"]) {
 			[self updateMenuIcons];
 		}
 	}

@@ -19,6 +19,8 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
+#import "AIMessageTabViewItem.h"
+
 @class AIAccount, AIListObject, AIListContact, AIContentObject, AIEmoticon;
 
 #define Chat_OrderDidChange						@"Chat_OrderDidChange"
@@ -31,9 +33,9 @@
 #define Chat_SourceChanged 						@"Chat_SourceChanged"
 #define Chat_DestinationChanged 				@"Chat_DestinationChanged"
 
-#define KEY_UNVIEWED_CONTENT	@"UnviewedContent"
-#define KEY_UNVIEWED_MENTION	@"UnviewedMention"
-#define KEY_TYPING				@"Typing"
+#define KEY_UNVIEWED_CONTENT	@"unviewedContent"
+#define KEY_UNVIEWED_MENTION	@"unviewedMention"
+#define KEY_TYPING				@"typing"
 
 #define	KEY_CHAT_TIMED_OUT		@"Timed Out"
 #define KEY_CHAT_CLOSED_WINDOW	@"Closed Window"
@@ -125,6 +127,27 @@ typedef enum {
 	BOOL				enableTypingNotifications;
 	
 	NSMutableSet		*customEmoticons;
+	
+	// Former properties
+	NSImage				*tabStateIcon;
+	
+	NSDictionary		*chatCreationInfo;
+	
+	BOOL				accountJoined;
+	
+	NSInteger			unviewedMention;
+	NSInteger			unviewedContent;
+	
+	AIMessageTabViewItem *messageTabViewItem;
+	
+	NSTimer				*enteredTextTimer;
+	
+	NSInteger			ourTypingState;
+	AITypingState		typing;
+	
+	NSDictionary		*securityDetails;
+	
+	BOOL				secureMessagingLastEncryptedState;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;

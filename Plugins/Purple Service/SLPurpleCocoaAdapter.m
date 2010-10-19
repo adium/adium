@@ -475,7 +475,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					 a ChatCreationInfo property with the information we need to ask Purple to
 					 perform the join.
 					 */
-					NSDictionary	*chatCreationInfo = [chat valueForProperty:@"ChatCreationInfo"];
+					NSDictionary	*chatCreationInfo = [chat valueForProperty:@"chatCreationInfo"];
 					chatCreationInfo = [(CBPurpleAccount *)chat.account willJoinChatUsingDictionary:chatCreationInfo];
 
 					if (!chatCreationInfo) {
