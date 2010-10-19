@@ -56,7 +56,7 @@
     NSAttributedString	*entry = nil;
 	
     //Get the server display name
-    serverDisplayName = [inObject valueForProperty:@"Server Display Name"];
+    serverDisplayName = [inObject valueForProperty:@"serverDisplayName"];
     
     //Return the correct string
     if (serverDisplayName && ![serverDisplayName isEqualToString:inObject.displayName]) {

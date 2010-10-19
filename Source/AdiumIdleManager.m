@@ -25,7 +25,7 @@
  * Posts AIMachineIsIdleNotification to adium's notification center when the machine becomes idle.
  * Posts AIMachineIsActiveNotification when the machine is no longer idle
  * Posts AIMachineIdleUpdateNotification periodically while idle with an NSDictionary userInfo
- *		containing an NSNumber double value @"Duration" (a CFTimeInterval) and an NSDate @"IdleSince".
+ *		containing an NSNumber double value @"Duration" (a CFTimeInterval) and an NSDate @"idleSince".
  */
 @implementation AdiumIdleManager
 
@@ -90,7 +90,7 @@
 													  object:nil
 													userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 														[NSNumber numberWithDouble:currentIdle], @"Duration",
-														[NSDate dateWithTimeIntervalSinceNow:-currentIdle], @"IdleSince",
+														[NSDate dateWithTimeIntervalSinceNow:-currentIdle], @"idleSince",
 														nil]];
 		}
 	} else {

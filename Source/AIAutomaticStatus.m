@@ -53,7 +53,7 @@ typedef enum {
 {
 	// Ensure no idle time is set as we load
 	[adium.preferenceController setPreference:nil
-									   forKey:@"IdleSince"
+									   forKey:@"idleSince"
 										group:GROUP_ACCOUNT_STATUS];
 	
 	// Initialize our state information
@@ -226,17 +226,17 @@ typedef enum {
 		
 		// This is very spammy when we're already idle.
 		if (duration >= idleStatusInterval && !(automaticStatusBitMap & AIAwayIdle)) {
-			NSDate *idleSince = [[notification userInfo] objectForKey:@"IdleSince"];
+			NSDate *idleSince = [[notification userInfo] objectForKey:@"idleSince"];
 			
-			if (![[adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS] isEqualToDate:idleSince]) {
+			if (![[adium.preferenceController preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS] isEqualToDate:idleSince]) {
 				AILogWithSignature(@"Idle (start) detected.");
 
 				if (idleStatusEnabled) automaticStatusBitMap |= AIAwayIdle;
 				
 				// Update our idle time
 				if (reportIdleEnabled) {
-					[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
-													   forKey:@"IdleSince"
+					[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"idleSince"]
+													   forKey:@"idleSince"
 														group:GROUP_ACCOUNT_STATUS];
 				}
 			}
@@ -269,7 +269,7 @@ typedef enum {
 		
 		if (reportIdleEnabled) {
 			[adium.preferenceController setPreference:nil
-											   forKey:@"IdleSince"
+											   forKey:@"idleSince"
 												group:GROUP_ACCOUNT_STATUS];
 		}
 		

@@ -143,7 +143,7 @@
 			
 			NSNumber *autoLogin = [currentAccount objectForKey:@"AutoLogin"];
 			[newAcct setPreference:autoLogin
-							forKey:@"Online"
+							forKey:@"isOnline"
 							 group:GROUP_ACCOUNT_STATUS];
 			
 			NSString *serverHost = [currentAccount objectForKey:@"ServerHost"];
@@ -426,7 +426,7 @@
 																		 UID:[bonjourAccountNameField stringValue]];
 	if (newAcct) {								
 		[newAcct setPreference:[NSNumber numberWithBool:bonjourAutoLogin]
-						forKey:@"Online"
+						forKey:@"isOnline"
 						 group:GROUP_ACCOUNT_STATUS];
 		
 		[adium.accountController addAccount:newAcct];		

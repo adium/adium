@@ -81,13 +81,13 @@
     NSSet		*modifiedAttributes = nil;
 	
 	if (inModifiedKeys == nil ||
-	   [inModifiedKeys containsObject:@"Online"] ||
-	   [inModifiedKeys containsObject:@"StatusName"] ||
-	   [inModifiedKeys containsObject:@"StatusType"] ||
-	   [inModifiedKeys containsObject:@"IsIdle"] ||
-	   [inModifiedKeys containsObject:@"NotAStranger"] ||
+	   [inModifiedKeys containsObject:@"isOnline"] ||
+	   [inModifiedKeys containsObject:@"listObjectStatusName"] ||
+	   [inModifiedKeys containsObject:@"listObjectStatusType"] ||
+	   [inModifiedKeys containsObject:@"isIdle"] ||
+	   [inModifiedKeys containsObject:@"notAStranger"] ||
 	   [inModifiedKeys containsObject:KEY_IS_BLOCKED] ||
-	   [inModifiedKeys containsObject:@"IsMobile"]) {
+	   [inModifiedKeys containsObject:@"isMobile"]) {
 		
 		/* Tab: Note in the modifiedAttributes that it would have changed. Other code
 		 * can use AIStatusIcons to get the actual icon.
@@ -98,10 +98,10 @@
 														  type:AIStatusIconList
 													 direction:AIIconNormal];
 		[inObject setValue:icon
-			   forProperty:@"List Status Icon"
+			   forProperty:@"listStatusIcon"
 					notify:NotifyNever];
 
-		modifiedAttributes = [NSSet setWithObjects:@"Tab Status Icon", @"List Status Icon", nil];
+		modifiedAttributes = [NSSet setWithObjects:@"tabStatusIcon", @"listStatusIcon", nil];
 	}
 	
 	return modifiedAttributes;
@@ -125,9 +125,9 @@
 												   type:AIStatusIconTab
 											  direction:AIIconNormal];
 		[inChat setValue:tabStateIcon
-			 forProperty:@"Tab State Icon"
+			 forProperty:@"tabStateIcon"
 				  notify:NotifyNever];
-		modifiedAttributes = [NSSet setWithObject:@"Tab State Icon"];
+		modifiedAttributes = [NSSet setWithObject:@"tabStateIcon"];
 
 		
 		if (inChat.isGroupChat) {
@@ -146,10 +146,10 @@
 														type:AIStatusIconList
 												   direction:AIIconNormal];
 			[listContact setValue:listStateIcon
-					  forProperty:@"List State Icon"
+					  forProperty:@"listStateIcon"
 						   notify:NotifyNever];
 			[[AIContactObserverManager sharedManager] listObjectAttributesChanged:listContact
-													  modifiedKeys:[NSSet setWithObject:@"List State Icon"]];
+													  modifiedKeys:[NSSet setWithObject:@"listStateIcon"]];
 		}		
 	}
 	

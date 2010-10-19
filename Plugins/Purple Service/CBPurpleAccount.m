@@ -156,7 +156,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
 	if (![contactName isEqualToString:theContact.formattedUID] && ![contactName isEqualToString:theContact.UID]) {
 		[theContact setValue:contactName
-							 forProperty:@"FormattedUID"
+							 forProperty:@"formattedUID"
 							 notify:NotifyLater];
 	}
 	
@@ -193,7 +193,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	if ([normalizedUID isEqualToString:theContact.UID]) {
 		[theContact setValue:newUID
-							 forProperty:@"FormattedUID"
+							 forProperty:@"formattedUID"
 							 notify:NotifyLater];		
 	} else {
 		[theContact setUID:newUID];		
@@ -271,7 +271,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurplePresence		*presence = purple_buddy_get_presence(buddy);
 	PurpleStatus		*status = (presence ? purple_presence_get_active_status(presence) : NULL);
 	const char			*message = (status ? purple_status_get_attr_string(status, "message") : NULL);
-	NSString			*statusMessage = nil;
+	NSString			*buddyStatusMessage = nil;
 	
 	// Get the plugin's status message for this buddy if they don't have a status message
 	if (!message) {
@@ -282,27 +282,27 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			
 			// Don't display "Offline" as a status message.
 			if (status_text && strcmp(status_text, _("Offline")) != 0) {
-				statusMessage = [NSString stringWithUTF8String:status_text];				
+				buddyStatusMessage = [NSString stringWithUTF8String:status_text];				
 			}
 			
 			g_free(status_text);
 		}
 	} else {
-		statusMessage = [NSString stringWithUTF8String:message];
+		buddyStatusMessage = [NSString stringWithUTF8String:message];
 	}
 	
-	return statusMessage ? [AIHTMLDecoder decodeHTML:statusMessage] : nil;
+	return buddyStatusMessage ? [AIHTMLDecoder decodeHTML:buddyStatusMessage] : nil;
 }
 
 /*!
  * @brief Update the status message and away state of the contact
  */
-- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
+- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)inStatusMessage isMobile:(BOOL)isMobile
 {
 	[theContact setStatusWithName:statusName
 					   statusType:[statusTypeNumber intValue]
 						   notify:NotifyLater];
-	[theContact setStatusMessage:statusMessage
+	[theContact setStatusMessage:inStatusMessage
 						  notify:NotifyLater];
 	[theContact setIsMobile:isMobile notify:NotifyLater];
 
@@ -802,7 +802,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 							notify:NotifyLater];
 		
 		[contact setValue:nil
-			  forProperty:@"Online"
+			  forProperty:@"isOnline"
 				   notify:NotifyLater];
 		
 		[contact notifyOfChangedPropertiesSilently:NO];
@@ -966,7 +966,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	[adium.interfaceController openChat:chat];
 	
-	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"Account Joined" notify:NotifyNow];
+	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"accountJoined" notify:NotifyNow];
 }
 
 //Open a chat for Adium
@@ -1098,7 +1098,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  */
 - (void)leftChat:(AIChat *)chat
 {
-	[chat setValue:nil forProperty:@"Account Joined" notify:NotifyNow];
+	[chat setValue:nil forProperty:@"accountJoined" notify:NotifyNow];
 }
 
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
@@ -1938,7 +1938,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	purple_account_set_password(account, ([password length] ? [password UTF8String] : NULL));
 
 	//Set our current status state after filtering its statusMessage as appropriate. This will take us online in the process.
-	AIStatus	*statusState = [self valueForProperty:@"StatusState"];
+	AIStatus	*statusState = [self valueForProperty:@"accountStatus"];
 	if (!statusState || (statusState.statusType == AIOfflineStatusType)) {
 		statusState = [adium.statusController defaultInitialStatusState];
 	}
@@ -1946,7 +1946,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	AILog(@"Adium: Connect: %@ initiating connection using status state %@ (%@).",self.UID,statusState,
 			  [statusState statusMessageString]);
 
-	[self autoRefreshingOutgoingContentForStatusKey:@"StatusState"
+	[self autoRefreshingOutgoingContentForStatusKey:@"accountStatus"
 										   selector:@selector(gotFilteredStatusMessage:forStatusState:)
 											context:statusState];
 }
@@ -1967,7 +1967,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//Set the text profile BEFORE beginning the connect process, to avoid problems with setting it while the
 	//connect occurs. Once that's done, contextInvocation will be invoked, continuing the configurePurpleAccount process.
-	[self autoRefreshingOutgoingContentForStatusKey:@"TextProfile" 
+	[self autoRefreshingOutgoingContentForStatusKey:@"textProfile" 
 										   selector:@selector(setAccountProfileTo:configurePurpleAccountContext:)
 											context:contextInvocation];
 }
@@ -2127,10 +2127,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)accountConnectionProgressStep:(NSNumber *)step percentDone:(NSNumber *)connectionProgressPrecent
 {
-	NSString	*connectionProgressString = [self connectionStringForStep:[step integerValue]];
+	NSString	*progressString = [self connectionStringForStep:[step integerValue]];
 
-	[self setValue:connectionProgressString forProperty:@"ConnectionProgressString" notify:NO];
-	[self setValue:connectionProgressPrecent forProperty:@"ConnectionProgressPercent" notify:NO];	
+	[self setValue:progressString forProperty:@"connectionProgressString" notify:NO];
+	[self setValue:connectionProgressPrecent forProperty:@"connectionProgressPercent" notify:NO];	
 
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
@@ -2189,7 +2189,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (void)disconnect
 {
-	if (self.online || [self boolValueForProperty:@"Connecting"]) {
+	if (self.online || [self boolValueForProperty:@"isConnecting"]) {
 		//As per AIAccount's documentation, call super's implementation
 		[super disconnect];
 
@@ -2229,7 +2229,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		[self serverReportedInvalidPassword];
 
 	//We are disconnecting
-    [self setValue:[NSNumber numberWithBool:YES] forProperty:@"Disconnecting" notify:NotifyNow];
+    [self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:NotifyNow];
 	
 	AILog(@"%@ accountConnectionReportDisconnect: %@",self,lastDisconnectionError);
 }
@@ -2243,7 +2243,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)didDisconnect
 {
 	//Clear properties which don't make sense for a disconnected account
-	[self setValue:nil forProperty:@"TextProfile" notify:NO];
+	[self setValue:nil forProperty:@"textProfile" notify:NO];
 	
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
@@ -2315,7 +2315,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	[self purpleAccount];
 	
 	//We are connecting
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Connecting" notify:NotifyNow];
+	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isConnecting" notify:NotifyNow];
 	
 	//Make sure our settings are correct
 	[self configurePurpleAccountNotifyingTarget:self selector:@selector(continueRegisterWithConfiguredPurpleAccount)];
@@ -2361,9 +2361,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	
 	if (!supportedPropertyKeys) {
 		supportedPropertyKeys = [[NSMutableSet alloc] initWithObjects:
-			@"IdleSince",
+			@"idleSince",
 			@"IdleManuallySet",
-			@"TextProfile",
+			@"textProfile",
 			@"DefaultUserIconFilename",
 			KEY_ACCOUNT_CHECK_MAIL,
 			nil];
@@ -2383,16 +2383,16 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	if (account) {
 		AILog(@"%@: Updating status for key: %@",self, key);
 
-		if ([key isEqualToString:@"IdleSince"]) {
-			NSDate	*idleSince = [self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+		if ([key isEqualToString:@"idleSince"]) {
+			NSDate	*idleSince = [self preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS];
 			
 			if (!idleSince) {
-				idleSince = [adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+				idleSince = [adium.preferenceController preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS];
 			}
 			
 			[self setAccountIdleSinceTo:idleSince];
 							
-		} else if ([key isEqualToString:@"TextProfile"]) {
+		} else if ([key isEqualToString:@"textProfile"]) {
 			[self autoRefreshingOutgoingContentForStatusKey:key selector:@selector(setAccountProfileTo:) context:nil];
 
 		} else if ([key isEqualToString:KEY_ACCOUNT_CHECK_MAIL]) {
@@ -2510,7 +2510,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  * @param statusState The state to enter
  * @param statusMessage The filtered status message to use.
  */
-- (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)statusMessage
+- (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)inStatusMessage
 {
 	NSString			*encodedStatusMessage;
 	NSMutableDictionary	*arguments = [[NSMutableDictionary alloc] init];
@@ -2519,7 +2519,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	const char *statusID = [self purpleStatusIDForStatus:statusState
 											 arguments:arguments];
 
-	if (![statusMessage length] &&
+	if (![inStatusMessage length] &&
 		(statusState.statusType == AIAwayStatusType) &&
 		statusState.statusName &&
 		(!statusID || ((strcmp(statusID, "away") == 0) && [self shouldSetStatusMessageForDefaultAwayState]))) {
@@ -2528,23 +2528,23 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		 * description of this away state. This allows, for example, an AIM user to set the "Do Not Disturb" type provided by her ICQ account
 		 * and have the away message be set appropriately.
 		 */
-		statusMessage = [NSAttributedString stringWithString:[adium.statusController descriptionForStateOfStatus:statusState]];
+		inStatusMessage = [NSAttributedString stringWithString:[adium.statusController descriptionForStateOfStatus:statusState]];
 	}
 
 	BOOL isNowPlayingStatus = ([statusState specialStatusType] == AINowPlayingSpecialStatusType);
-	if (isNowPlayingStatus && [statusMessage length]) {
+	if (isNowPlayingStatus && [inStatusMessage length]) {
 		if ([self shouldAddMusicalNoteToNowPlayingStatus]) {
 #define MUSICAL_NOTE_AND_SPACE [NSString stringWithUTF8String:"\xe2\x99\xab "]
 			NSMutableAttributedString *temporaryStatusMessage;
 			temporaryStatusMessage = [[[NSMutableAttributedString alloc] initWithString:MUSICAL_NOTE_AND_SPACE] autorelease];
-			[temporaryStatusMessage appendAttributedString:statusMessage];
+			[temporaryStatusMessage appendAttributedString:listObjectStatusMessage];
 			
-			statusMessage = temporaryStatusMessage;
+			inStatusMessage = temporaryStatusMessage;
 		}
 		
 		if ([self shouldSetITMSLinkForNowPlayingStatus]) {
 			//Grab the message's subtext, which is the song link if we're using the Current iTunes Track status
-			NSString *itmsStoreLink	= [statusMessage attribute:@"AIMessageSubtext" atIndex:0 effectiveRange:NULL];
+			NSString *itmsStoreLink	= [inStatusMessage attribute:@"AIMessageSubtext" atIndex:0 effectiveRange:NULL];
 			if (itmsStoreLink) {
 				[arguments setObject:itmsStoreLink
 							  forKey:@"itmsurl"];
@@ -2557,8 +2557,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	}
 
 	//Encode the status message if we have one
-	encodedStatusMessage = (statusMessage ? 
-							[self encodedAttributedString:statusMessage
+	encodedStatusMessage = (inStatusMessage ? 
+							[self encodedAttributedString:inStatusMessage
 										   forStatusState:statusState]  :
 							nil);
 	if (encodedStatusMessage) {
@@ -2601,7 +2601,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	
 	//We now should update our idle property
 	[self setValue:([idleSince timeIntervalSinceNow] ? idleSince : nil)
-				   forProperty:@"IdleSince"
+				   forProperty:@"idleSince"
 				   notify:NotifyNow];
 }
 
@@ -2617,7 +2617,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 //Set our profile immediately on the purpleAdapter
 - (void)setAccountProfileTo:(NSAttributedString *)profile
 {
-	if (!profile || ![[profile string] isEqualToString:[[self valueForProperty:@"TextProfile"] string]]) {
+	if (!profile || ![[profile string] isEqualToString:[[self valueForProperty:@"textProfile"] string]]) {
 		NSString 	*profileHTML = nil;
 		
 		//Convert the profile to HTML, and pass it to libpurple
@@ -2628,7 +2628,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		[purpleAdapter setInfo:profileHTML onAccount:self];
 		
 		//We now have a profile
-		[self setValue:profile forProperty:@"TextProfile" notify:NotifyNow];
+		[self setValue:profile forProperty:@"textProfile" notify:NotifyNow];
 	}
 }
 
@@ -3230,7 +3230,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)accountEdited
 {
 	// We only need to re-configure if we're online or connecting. If we're offline, our next connect will do this.
-	if (self.online || [self boolValueForProperty:@"Connecting"]) {
+	if (self.online || [self boolValueForProperty:@"isConnecting"]) {
 		AILog(@"Re-configuring purple account due to preference changes.");
 		[self configurePurpleAccount];
 	}
@@ -3246,7 +3246,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	NSAssert(!chat.isGroupChat, @"Chat cannot be a group chat for typing.");
 	
-    AITypingState currentTypingState = (AITypingState)[chat integerValueForProperty:KEY_TYPING];
+    AITypingState currentTypingState = (AITypingState)[chat intValueForProperty:KEY_TYPING];
 	AITypingState newTypingState = [typingStateNumber intValue];
 	
     if (currentTypingState != newTypingState) {
@@ -3261,7 +3261,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			[forceString replaceOccurrencesOfString:@"..."
 										 withString:[NSString ellipsis]
 											options:NSLiteralSearch];
-			AIContentEvent *statusMessage = [AIContentEvent eventInChat:chat
+			AIContentEvent *newStatusMessage = [AIContentEvent eventInChat:chat
 															 withSource:chat.listObject
 															destination:self
 																   date:[NSDate date]
@@ -3269,11 +3269,11 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 															   withType:@"psychic"];
 			
 			// Don't log the psychic message.
-			statusMessage.postProcessContent = NO;
+			newStatusMessage.postProcessContent = NO;
 			
 			[forceString release];
 
-			[adium.contentController receiveContentObject:statusMessage];
+			[adium.contentController receiveContentObject:newStatusMessage];
 		}
 		
 		[chat setValue:(newTypingState ? typingStateNumber : nil)

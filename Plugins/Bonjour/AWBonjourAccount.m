@@ -106,7 +106,7 @@
 	[super disconnect];
 
 	// Say we're disconnecting...
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Disconnecting" notify:YES];
+	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:YES];
 
 	[libezv logout];
 }
@@ -179,8 +179,8 @@
 	                    statusType:(([contact status] == AWEzvAway) ? AIAwayStatusType : AIAvailableStatusType)
 	                        notify:NotifyLater];
 	
-	NSString *statusMessage = contact.statusMessage;
-	[listContact setStatusMessage:(statusMessage ? [[[NSAttributedString alloc] initWithString:statusMessage] autorelease] : nil)
+	NSString *contactStatusMessage = contact.statusMessage;
+	[listContact setStatusMessage:(contactStatusMessage ? [[[NSAttributedString alloc] initWithString:contactStatusMessage] autorelease] : nil)
 	                       notify:NotifyLater];
 	
 	NSDate *idleSinceDate = [contact idleSinceDate];
@@ -191,7 +191,7 @@
 	//Use the contact alias as the serverside display name
 	NSString *contactName = contact.name;
 	
-	if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:contactName]) {
+	if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:contactName]) {
 		[listContact setServersideAlias:contactName
 		                       silently:silentAndDelayed];
 	}
@@ -377,12 +377,12 @@
 - (void)updateStatusForKey:(NSString *)key
 {
 	[super updateStatusForKey:key];
-	BOOL areOnline = [[self valueForProperty:@"Online"] boolValue];
+	BOOL areOnline = [self boolValueForProperty:@"isOnline"];
 
 	//Now look at keys which only make sense while online
 	if (areOnline) {
-		if ([key isEqualToString:@"IdleSince"]) {
-			NSDate	*idleSince = [self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+		if ([key isEqualToString:@"idleSince"]) {
+			NSDate	*idleSince = [self preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS];
 			[libezv setStatus:AWEzvIdle
 			                        withMessage:[self.statusMessage string]];
 			[self setAccountIdleTo:idleSince];
@@ -390,7 +390,7 @@
 	}
 }
 
-- (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)statusMessage
+- (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)inStatusMessage
 {
 	if (statusState.statusType == AIOfflineStatusType) {
 		[self disconnect];
@@ -399,13 +399,13 @@
 			AIStatusType	statusType = statusState.statusType;
 			switch(statusType) {
 				case AIAvailableStatusType:
-					[self setStatus:AWEzvOnline withMessage:statusMessage];
+					[self setStatus:AWEzvOnline withMessage:inStatusMessage];
 					break;
 				case AIAwayStatusType:
-					[self setStatus:AWEzvAway withMessage:statusMessage];
+					[self setStatus:AWEzvAway withMessage:inStatusMessage];
 					break;
 				case AIInvisibleStatusType:
-					[self setStatus:AWEzvAway withMessage:statusMessage];
+					[self setStatus:AWEzvAway withMessage:inStatusMessage];
 					break;
 				default:
 					break;
@@ -419,7 +419,7 @@
 {
 	[libezv setStatus:status withMessage:[message string]];
 
-	[self setValue:message forProperty:@"StatusMessage" notify:YES];
+	[self setValue:message forProperty:@"listObjectStatusMessage" notify:YES];
 	[self setValue:[NSNumber numberWithBool:(status == AWEzvAway)] forProperty:@"Away" notify:YES];
 }
 - (void)setAccountIdleTo:(NSDate *)idle
@@ -427,7 +427,7 @@
 	[libezv setIdleTime:idle];
 
 	//We are now idle
-	[self setValue:idle forProperty:@"IdleSince" notify:YES];
+	[self setValue:idle forProperty:@"idleSince" notify:YES];
 }
 
 /*!
@@ -455,9 +455,9 @@
 
 	if (!supportedPropertyKeys) {
 		supportedPropertyKeys = [[NSMutableSet alloc] initWithObjects:
-			@"Online",
+			@"isOnline",
 			@"Offline",
-			@"IdleSince",
+			@"idleSince",
 			@"IdleManuallySet",
 			@"Away",
 			@"AwayMessage",

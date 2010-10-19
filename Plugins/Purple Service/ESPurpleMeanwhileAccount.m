@@ -79,7 +79,7 @@ extern const char *mwServiceAware_getText(void *, void *);
 - (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)b
 {
 	NSString				*statusMessageString;
-	NSAttributedString		*statusMessage = nil;
+	NSAttributedString		*buddyStatusMessage = nil;
 	const char				*statusMessageText;
 	PurpleConnection			*gc = purple_account_get_connection(purple_buddy_get_account(b));
 	struct mwPurplePluginData	*pd = ((struct mwPurplePluginData *)(gc->proto_data));
@@ -89,11 +89,11 @@ extern const char *mwServiceAware_getText(void *, void *);
 	statusMessageString = (statusMessageText ? [NSString stringWithUTF8String:statusMessageText] : nil);
 
 	if (statusMessageString && [statusMessageString length]) {
-		statusMessage = [[[NSAttributedString alloc] initWithString:statusMessageString
+		buddyStatusMessage = [[[NSAttributedString alloc] initWithString:statusMessageString
 														 attributes:nil] autorelease];
 	}
 
-	return statusMessage;
+	return buddyStatusMessage;
 }
 
 #pragma mark Status

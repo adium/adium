@@ -95,7 +95,7 @@
 		//Add chat to container
 		messageTab = [AIMessageTabViewItem messageTabWithView:messageView];
 		[chat setValue:messageTab
-		   forProperty:@"MessageTabViewItem"
+		   forProperty:@"messageTabViewItem"
 				notify:NotifyNever];
 		[container addTabViewItem:messageTab atIndex:idx silent:NO];
 	}
@@ -127,7 +127,7 @@
 	//Close the chat
 	[container removeTabViewItem:messageTab silent:NO];
 	[chat setValue:nil
-	   forProperty:@"MessageTabViewItem"
+	   forProperty:@"messageTabViewItem"
 			notify:NotifyNever];
 }
 

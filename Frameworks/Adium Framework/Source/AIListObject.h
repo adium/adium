@@ -93,6 +93,25 @@ typedef enum {
 	
 	float				cachedSmallestOrder;
 	float				cachedLargestOrder;
+	
+	// Former properties
+	NSAttributedString	*listObjectStatusMessage;
+	
+	NSImage				*listStateIcon;
+	NSImage				*listStatusIcon;
+	
+	BOOL				isOnline;
+	BOOL				alwaysVisible;
+	
+	NSInteger			unviewedContent;
+	NSInteger			unviewedMention;
+	
+	NSNumber			*listObjectStatusType;
+	
+	NSString			*extendedStatus;
+	NSString			*listObjectStatusName;
+	
+	NSString			*webKitUserIconPath;
 }
 
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;

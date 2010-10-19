@@ -24,6 +24,10 @@
 	NSMutableArray		*_containedObjects;	//Manually ordered array of contents
 	BOOL									expanded;			//Exanded/Collapsed state of this object
 	BOOL									loadedExpanded;
+	
+	NSString			*countText;
+	
+	BOOL				showCount;
 }
 
 - (id)initWithUID:(NSString *)inUID;

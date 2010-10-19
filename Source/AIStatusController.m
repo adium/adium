@@ -156,12 +156,12 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	for (AIAccount *account in adium.accountController.accounts) {
 		/* Store the current status state for use on next launch.
 		 *
-		 * We use the valueForProperty:@"StatusState" accessor rather than account.statusState
+		 * We use the valueForProperty:@"accountStatus" accessor rather than account.statusState
 		 * because we don't want anything besides the account's actual status state.  That is, we don't
 		 * want the default available state if the account doesn't have a state yet, and we want the
 		 * real last-state-which-was-set (not the offline one) if the account is offline.
 		 */
-		AIStatus	*currentStatus = [account valueForProperty:@"StatusState"];
+		AIStatus	*currentStatus = [account valueForProperty:@"accountStatus"];
 		[account setPreference:((currentStatus && (currentStatus != offlineStatusState)) ?
 								[NSKeyedArchiver archivedDataWithRootObject:currentStatus] :
 								nil)
@@ -524,9 +524,9 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]]) {
-		if ([inModifiedKeys containsObject:@"Online"] ||
-			[inModifiedKeys containsObject:@"IdleSince"] ||
-			[inModifiedKeys containsObject:@"StatusState"] ||
+		if ([inModifiedKeys containsObject:@"isOnline"] ||
+			[inModifiedKeys containsObject:@"idleSince"] ||
+			[inModifiedKeys containsObject:@"accountStatus"] ||
 			[inModifiedKeys containsObject:KEY_ENABLED]) {
 			
 			[self _resetActiveStatusState];
@@ -589,7 +589,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 		for (AIAccount *account in accountArray) {
 			// Save the account if we're online or trying to be online.
-			if (account.online || [account valueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"])
+			if (account.online || [account boolValueForProperty:@"isConnecting"] || [account valueForProperty:@"waitingToReconnect"])
 				[accountsToConnect addObject:account];
 		}
 	}
@@ -895,7 +895,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 
 	for (AIAccount *account in adium.accountController.accounts) {
-		if (account.online || [account boolValueForProperty:@"Connecting"]) {
+		if (account.online || [account boolValueForProperty:@"isConnecting"]) {
 			AIStatusType statusType = account.statusState.statusType;
 
 			//If invisibleIsAway, pretend that invisible is away
@@ -961,7 +961,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 	
 	for (AIAccount *account in adium.accountController.accounts) {
-		if (account.online || [account boolValueForProperty:@"Connecting"]) {
+		if (account.online || [account boolValueForProperty:@"isConnecting"]) {
 			AIStatus	*statusState = account.statusState;
 			AIStatusType statusType = statusState.statusType;
 			

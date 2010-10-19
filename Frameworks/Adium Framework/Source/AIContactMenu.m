@@ -312,11 +312,11 @@
 	if ([inObject isKindOfClass:[AIListContact class]]) {
 
 		//Update menu items to reflect status changes
-		if ([inModifiedKeys containsObject:@"Online"] ||
-			[inModifiedKeys containsObject:@"Connecting"] ||
-			[inModifiedKeys containsObject:@"Disconnecting"] ||
-			[inModifiedKeys containsObject:@"IdleSince"] ||
-			[inModifiedKeys containsObject:@"StatusType"]) {
+		if ([inModifiedKeys containsObject:@"isOnline"] ||
+			[inModifiedKeys containsObject:@"isConnecting"] ||
+			[inModifiedKeys containsObject:@"isDisconnecting"] ||
+			[inModifiedKeys containsObject:@"idleSince"] ||
+			[inModifiedKeys containsObject:@"listObjectStatusType"]) {
 
 			//Note that this will return nil if we don't ahve a menu item for inObject
 			NSMenuItem	*menuItem = [self existingMenuItemForContact:(AIListContact *)inObject];

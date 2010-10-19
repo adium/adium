@@ -59,7 +59,7 @@
 	[[NSFontPanel sharedFontPanel] setDelegate: textView_textProfile];
     
     //Profile
-    NSData				*profileData = [account preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS];
+    NSData				*profileData = [account preferenceForKey:@"textProfile" group:GROUP_ACCOUNT_STATUS];
 	NSAttributedString	*profile = (profileData ? [NSAttributedString stringWithData:profileData] : nil);
 	
 	if (profile && [profile length]) {
@@ -69,7 +69,7 @@
 	}
 
 	if ([textView_textProfile isKindOfClass:[AITextViewWithPlaceholder class]]) {
-		NSData				*globalProfileData = [adium.preferenceController preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS];
+		NSData				*globalProfileData = [adium.preferenceController preferenceForKey:@"textProfile" group:GROUP_ACCOUNT_STATUS];
 		NSAttributedString	*globalProfile = (globalProfileData ? [NSAttributedString stringWithData:globalProfileData] : nil);
 		
 		if (globalProfile && [globalProfile length]) {
@@ -90,7 +90,7 @@
 	[account setPreference:([[textView_textProfile textStorage] length] ?
 							[[textView_textProfile textStorage] dataRepresentation] :
 							nil)
-					forKey:@"TextProfile"
+					forKey:@"textProfile"
 					 group:GROUP_ACCOUNT_STATUS];
 }
 

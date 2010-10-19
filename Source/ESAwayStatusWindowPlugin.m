@@ -100,7 +100,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]] &&
-	   (!inModifiedKeys || [inModifiedKeys containsObject:@"StatusState"] || [inModifiedKeys containsObject:@"Online"])) {
+	   (!inModifiedKeys || [inModifiedKeys containsObject:@"accountStatus"] || [inModifiedKeys containsObject:@"isOnline"])) {
 		if (inObject.online && (inObject.statusType != AIAvailableStatusType)) {
 			[awayAccounts addObject:inObject];
 		} else {

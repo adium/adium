@@ -349,7 +349,7 @@
 /*!
  * @brief Perform upgrades for a new version
  *
- * 1.0: KEY_ACCOUNT_DISPLAY_NAME and @"TextProfile" cleared if @"" and moved to global if identical on all accounts
+ * 1.0: KEY_ACCOUNT_DISPLAY_NAME and @"textProfile" cleared if @"" and moved to global if identical on all accounts
  */
 - (void)upgradeAccounts
 {
@@ -364,7 +364,7 @@
 		NSString		*key;
 
 		//Adium 0.8x would store @"" in preferences which we now want to be able to inherit global values if they don't have a value.
-		NSSet	*keysWeNowUseGlobally = [NSSet setWithObjects:KEY_ACCOUNT_DISPLAY_NAME, @"TextProfile", nil];
+		NSSet	*keysWeNowUseGlobally = [NSSet setWithObjects:KEY_ACCOUNT_DISPLAY_NAME, @"textProfile", nil];
 
 		NSCharacterSet	*whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 

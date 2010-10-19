@@ -209,9 +209,9 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]]) { //We only care about accounts
-		if ([inModifiedKeys containsObject:@"Online"]) {
+		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			
-			if ([[inObject numberValueForProperty:@"Online"] boolValue]) {
+			if ([inObject boolValueForProperty:@"isOnline"]) {
 				if (accountConnectionStatusGroupingOnlineTimer) {
 					[accountConnectionStatusGroupingOnlineTimer invalidate]; [accountConnectionStatusGroupingOnlineTimer release];
 				}

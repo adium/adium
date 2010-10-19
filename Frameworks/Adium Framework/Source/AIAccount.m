@@ -120,6 +120,17 @@ typedef enum
 {
 }
 
+- (void)dealloc
+{
+	[formattedUID release]; formattedUID = nil;
+	[accountStatus release]; accountStatus = nil;
+	[waitingToReconnect release]; waitingToReconnect = nil;
+	[connectionProgressString release]; connectionProgressString = nil;
+	[currentDisplayName release]; currentDisplayName = nil;
+	
+	[super dealloc];
+}
+
 /*!
  * @brief Connect
  *
@@ -128,7 +139,7 @@ typedef enum
 - (void)connect
 {
 	//We are connecting
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Connecting" notify:NotifyNow];
+	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isConnecting" notify:NotifyNow];
 }
 
 /*!
@@ -166,7 +177,7 @@ typedef enum
 - (void)disconnect
 {
 	[self cancelAutoReconnect];
-	[self setValue:nil forProperty:@"Connecting" notify:NotifyLater];
+	[self setValue:nil forProperty:@"isConnecting" notify:NotifyLater];
 
 	[self notifyOfChangedPropertiesSilently:NO];
 }
@@ -444,8 +455,8 @@ typedef enum
  *
  * Returns an array of properties supported by this account.  This account will not be informed of changes to keys
  * it does not support.  Available keys are:
- *   @"Display Name", @"Online", @"Offline", @"IdleSince", @"IdleManuallySet", @"User Icon"
- *   @"TextProfile", @"DefaultUserIconFilename", @"StatusState"
+ *   @"Display Name", @"isOnline", @"Offline", @"idleSince", @"IdleManuallySet", @"User Icon"
+ *   @"textProfile", @"DefaultUserIconFilename", @"accountStatus"
  * @return NSSet of supported keys
  */
 - (NSSet *)supportedPropertyKeys
@@ -453,11 +464,11 @@ typedef enum
 	static	NSSet	*supportedPropertyKeys = nil;
 	if (!supportedPropertyKeys) {
 		supportedPropertyKeys = [[NSSet alloc] initWithObjects:
-			@"Online",
-			@"FormattedUID",
+			@"isOnline",
+			@"formattedUID",
 			KEY_ACCOUNT_DISPLAY_NAME,
 			@"Display Name",
-			@"StatusState",
+			@"accountStatus",
 			KEY_USE_USER_ICON, KEY_USER_ICON, KEY_DEFAULT_USER_ICON,
 			@"Enabled",
 			nil];

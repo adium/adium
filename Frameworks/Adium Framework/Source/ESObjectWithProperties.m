@@ -18,6 +18,8 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIProxyListObject.h>
 
+#import <objc/runtime.h>
+
 @interface ESObjectWithProperties (AIPrivate)
 - (void)_applyDelayedProperties:(NSDictionary *)infoDict;
 @end
@@ -35,19 +37,6 @@
  * Display arrays utilize AIMutableOwnerArray.  See its documentation in AIUtilities.framework.
  */
 @implementation ESObjectWithProperties
-
-/*!
- * @brief Initialize
- */
-- (id)init
-{
-	if ((self = [super init])) {
-		propertiesDictionary = [[NSMutableDictionary alloc] init];
-		displayDictionary = [[NSMutableDictionary alloc] init];
-	}
-
-	return self;
-}
 
 - (void)clearProxyObjects
 {
@@ -85,16 +74,74 @@
     NSParameterAssert(key != nil);
     id oldValue = [self valueForProperty:key];
     if ((!oldValue && !value) ||
-        (value && [oldValue isEqual:value])) //No need to do all this work just to stay the same
+        (value && [value isEqual:oldValue])) //No need to do all this work just to stay the same
         return;
 
     [self willChangeValueForKey:key];
-    
-    if (value) {
-        [propertiesDictionary setObject:value forKey:key];
-    } else {
-        [propertiesDictionary removeObjectForKey:key];
-    }
+    	
+	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	// fall back to the dictionary
+	if (ivar == NULL) {
+		
+		if (!propertiesDictionary && value) {
+			// only allocate the dictionary when we're going to actually use it
+			propertiesDictionary = [[NSMutableDictionary alloc] init];
+		}
+		
+		if (value) {
+			[propertiesDictionary setObject:value forKey:key];
+		} else {
+			[propertiesDictionary removeObjectForKey:key];
+		}
+		
+	} else {
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		// check if it's a primitive type, if so, attempt to unwrap value
+		if (ivarType[0] == _C_ID) {
+			
+			[oldValue release];
+			object_setIvar(self, ivar, [value retain]);
+			
+		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
+			
+			BOOL bValue;
+			
+			if (value) {
+				bValue = [value boolValue];
+			} else {
+				bValue = FALSE;
+			}
+			
+			// must cast twice to avoid gcc's warnings..
+			object_setIvar(self, ivar, (void *)(NSInteger)bValue);
+			
+		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
+			
+			NSInteger iValue;
+			
+			if (value) {
+				iValue = [value integerValue];
+			} else {
+				iValue = 0;
+			}
+			
+			object_setIvar(self, ivar, (void *)iValue);
+			
+		} else if (strcmp(ivarType, @encode(int)) == 0) {
+			
+			int iValue;
+			
+			if (value) {
+				iValue = [(NSNumber *)value intValue];
+			} else {
+				iValue = 0;
+			}
+			
+			object_setIvar(self, ivar, (void *)(NSInteger)iValue);
+		}
+	}
     
     [self object:self didChangeValueForProperty:key notify:notify];
     [self didChangeValueForKey:key];
@@ -166,7 +213,41 @@
  */
 - (id)valueForProperty:(NSString *)key
 {
-    return [propertiesDictionary objectForKey:key];
+	id ret = nil;
+	id value = nil;
+	
+	Ivar ivar = object_getInstanceVariable(self, [key UTF8String], (void **)&value);
+	
+	if (ivar == NULL) {
+		
+		// no dictionary -> this property is certainly nil
+		if (propertiesDictionary) {
+			ret = [propertiesDictionary objectForKey:key];
+		}
+		
+	} else {
+		
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		// attempt to wrap it, if we know how
+		if (strcmp(ivarType, @encode(BOOL)) == 0) {
+			ret = [[[NSNumber alloc] initWithBool:(BOOL)(NSInteger)value] autorelease];
+			
+		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
+			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
+			
+		} else if (strcmp(ivarType, @encode(int)) == 0) {
+			ret = [[[NSNumber alloc] initWithInt:(int)(NSInteger)value] autorelease];
+			
+		} else if (ivarType[0] != _C_ID) {
+			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
+			
+		} else {
+			ret = [[value retain] autorelease];
+		}
+	}
+	
+    return ret;
 }
 
 /*!
@@ -176,20 +257,71 @@
  */
 - (NSInteger)integerValueForProperty:(NSString *)key
 {
-	NSNumber *number = [self numberValueForProperty:key];
-	return number ? [number integerValue] : 0;
+	NSInteger ret = 0;
+	
+	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	if (ivar == NULL) {
+		NSNumber *number = [self numberValueForProperty:key];
+		ret = number ? [number integerValue] : 0;
+	} else {
+		
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		if (strcmp(ivarType, @encode(NSInteger)) != 0) {
+			AILogWithSignature(@"%@'s %@ ivar is not an NSInteger but an %s! Will attempt to cast, but should not use -integerValueForProperty: @\"%@\"", self, key, ivarType, key);
+		}
+		
+		ret = (NSInteger)object_getIvar(self, ivar);
+	}
+	
+    return ret;
 }
 
 - (int)intValueForProperty:(NSString *)key
 {
-	NSNumber *number = [self numberValueForProperty:key];
-	return number ? [number intValue] : 0;
+	int ret = 0;
+	
+	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	if (ivar == NULL) {
+		NSNumber *number = [self numberValueForProperty:key];
+		ret = number ? [number intValue] : 0;
+	} else {
+		
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		if (strcmp(ivarType, @encode(int)) != 0) {
+			AILogWithSignature(@"%@'s %@ ivar is not an int but an %s! Will attempt to cast, but should not use -intValueForProperty: @\"%@\"", self, key, ivarType, key);
+		}
+		
+		ret = (int)(NSInteger)object_getIvar(self, ivar);
+	}
+	
+    return ret;
 }
 
 - (BOOL)boolValueForProperty:(NSString *)key
 {
-	NSNumber *number = [self numberValueForProperty:key];
-	return number ? [number boolValue] : NO;
+	BOOL ret = FALSE;
+	
+	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	if (ivar == NULL) {
+		NSNumber *number = [self numberValueForProperty:key];
+		ret = number ? [number boolValue] : NO;
+	} else {
+		
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		if (strcmp(ivarType, @encode(BOOL)) != 0) {
+			AILogWithSignature(@"%@'s %@ ivar is not an BOOL but an %s! Will attempt to cast, but should not use -boolValueForProperty: @\"%@\"", self, key, ivarType, key);
+		}
+		
+		ret = (BOOL)(NSInteger)object_getIvar(self, ivar);
+	}
+	
+    return ret;
 }
 
 /*!
@@ -260,6 +392,10 @@
 //Access to the display arrays for this object.  Will alloc and init an array if none exists.
 - (AIMutableOwnerArray *)displayArrayForKey:(NSString *)inKey
 {
+	if(!displayDictionary) {
+		displayDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	}
+	
     AIMutableOwnerArray	*array = [displayDictionary objectForKey:inKey];
 	
     if (!array) {

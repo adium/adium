@@ -140,9 +140,9 @@
 	//Get the size of our display name
 	width += AIceil(self.displayNameSize.width) + 1;
 	
-	if ([listObject boolValueForProperty:@"Show Count"] && 
-		[listObject valueForProperty:@"Count Text"]) {
-		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"Count Text"]
+	if ([listObject boolValueForProperty:@"showCount"] && 
+		[listObject valueForProperty:@"countText"]) {
+		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"countText"]
 																		attributes:[self labelAttributes]];
 		width += AIceil([countText size].width) + 1;
 		[countText release];
@@ -197,7 +197,7 @@
 		rect.size.width -= rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
 //	}
 	
-	if ([listObject boolValueForProperty:@"Show Count"]) {
+	if ([listObject boolValueForProperty:@"showCount"]) {
 		rect = [self drawGroupCountWithFrame:rect];
 	}
 	rect = [self drawDisplayNameWithFrame:rect];
@@ -205,8 +205,8 @@
 
 - (NSRect)drawGroupCountWithFrame:(NSRect)inRect
 {
-	if ([listObject valueForProperty:@"Count Text"]) {
-		NSAttributedString	*groupCount = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"Count Text"]
+	if ([listObject valueForProperty:@"countText"]) {
+		NSAttributedString	*groupCount = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"countText"]
 																		  attributes:[self labelAttributes]];
 		
 		NSSize				countSize = [groupCount size];

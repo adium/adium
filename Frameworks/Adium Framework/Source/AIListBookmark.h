@@ -19,6 +19,8 @@
 
 	NSString			*password;
 	NSString			*name;
+	
+	NSString			*unreadStatus;
 }
 
 - (id)initWithChat:(AIChat *)inChat;

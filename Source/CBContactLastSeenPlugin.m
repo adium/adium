@@ -46,7 +46,7 @@
 {
 	/* Update only for contacts whose online status has changed */
 	if ([inObject isKindOfClass:[AIListContact class]]) {
-		if ([inModifiedKeys containsObject:@"Online"]) {
+		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			if (inObject.online) {
 				//Either they are online, or we've come online. Either way, update both their status and the time
 				[inObject setPreference:AILocalizedString(@"Online",nil)

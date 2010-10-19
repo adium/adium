@@ -330,7 +330,7 @@
  */
 - (BOOL)openChat:(AIChat *)chat
 {	
-	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"Account Joined" notify:NotifyNow];
+	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"accountJoined" notify:NotifyNow];
 	
 	return YES;
 }
@@ -451,9 +451,9 @@
 /*!
  * @brief Update our status
  */
-- (void)setSocialNetworkingStatusMessage:(NSAttributedString *)statusMessage
+- (void)setSocialNetworkingStatusMessage:(NSAttributedString *)inStatusMessage
 {
-	NSString *requestID = [twitterEngine sendUpdate:[statusMessage string]];
+	NSString *requestID = [twitterEngine sendUpdate:[inStatusMessage string]];
 	
 	if(requestID) {
 		[self setRequestType:AITwitterSendUpdate
@@ -905,7 +905,7 @@
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
 {
 	// If we don't already have an icon for the user...
-	if(![[listContact valueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON] boolValue]) {
+	if(![listContact boolValueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON]) {
 		NSString *fileName = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
 		
 		url = [[url stringByDeletingLastPathComponent] stringByAppendingPathComponent:fileName];
@@ -2312,7 +2312,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 						}
 						
 						// Grab the Twitter display name and set it as the remote alias.
-						if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]]) {
+						if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]]) {
 							[listContact setServersideAlias:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]
 												   silently:silentAndDelayed];
 						}
@@ -2379,7 +2379,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 			AILogWithSignature(@"%@ Pulling additional user info page", self);
 			
-		} else if ([self valueForProperty:@"Connecting"]) {			
+		} else if ([self boolValueForProperty:@"isConnecting"]) {			
 			// Trigger our normal update routine.
 			[self didConnect];
 		}

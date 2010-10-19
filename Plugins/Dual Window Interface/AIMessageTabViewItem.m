@@ -179,10 +179,10 @@
     NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
 
     //If the display name changed, we resize the tabs
-    if (notification == nil || [keys containsObject:@"Display Name"] || [keys containsObject:@"Account Joined"]) {
+    if (notification == nil || [keys containsObject:@"Display Name"] || [keys containsObject:@"accountJoined"]) {
 		[self setLabel:[self label]];
 		[self updateTabStatusIcon];
-    } else if ([keys containsObject:@"UnviewedContent"]) {
+    } else if ([keys containsObject:KEY_UNVIEWED_CONTENT]) {
 		[self setValue:nil forKeyPath:@"objectCount"];
 		[self setValue:nil forKeyPath:@"countColor"];
 	}
@@ -193,7 +193,7 @@
 	NSArray		*keys = [[notification userInfo] objectForKey:@"Keys"];
 	
 	//Redraw if the icon has changed
-	if (keys == nil || [keys containsObject:@"Tab State Icon"]) {
+	if (keys == nil || [keys containsObject:@"tabStateIcon"]) {
 		[self updateTabStatusIcon];
 	}
 	if (keys == nil || [keys containsObject:KEY_USER_ICON]) {
@@ -216,7 +216,7 @@
 		NSSet		 *keys = [[notification userInfo] objectForKey:@"Keys"];
 
 		//Redraw if the icon has changed
-		if (!keys || [keys containsObject:@"Tab Status Icon"]) {
+		if (!keys || [keys containsObject:@"tabStatusIcon"]) {
 			[self updateTabStatusIcon];
 		}
 		if (!keys || [keys containsObject:KEY_USER_ICON]) {
@@ -289,7 +289,7 @@
 	
 	//Multi-user chats won't have status icons
 	if (!image && messageViewController.chat.isGroupChat) {
-		BOOL displayOnline = messageViewController.chat.account.online && [messageViewController.chat boolValueForProperty:@"Account Joined"];
+		BOOL displayOnline = messageViewController.chat.account.online && [messageViewController.chat boolValueForProperty:@"accountJoined"];
 		
 		image = [AIStatusIcons statusIconForStatusName:nil
 											statusType:displayOnline ? AIAvailableStatusType : AIOfflineStatusType
@@ -315,7 +315,7 @@
 //State icon is the state of the contact (Typing, unviewed content)
 - (NSImage *)stateIcon
 {
-	return [messageViewController.chat valueForProperty:@"Tab State Icon"];
+	return [messageViewController.chat valueForProperty:@"tabStateIcon"];
 }
 
 - (NSImage *)image

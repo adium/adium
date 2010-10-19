@@ -32,7 +32,7 @@
  * @brief Manage the 'extended status' shown in the contact list
  *
  * If the contact list layout calls for displaying a status message or idle time (or both), this component manages
- * generating the appropriate string, storing it in the @"ExtendedStatus" property, and updating it as necessary.
+ * generating the appropriate string, storing it in the @"extendedStatus" property, and updating it as necessary.
  */
 @implementation AIExtendedStatusPlugin
 
@@ -96,9 +96,9 @@
 	 * We completely ignore status updates sent for an object which isn't the highest-level up (e.g. is within a metacontact).
 	 */
     if ((inModifiedKeys == nil || 
-		 (showIdle && [inModifiedKeys containsObject:@"Idle"]) ||
-		 (showStatus && ([inModifiedKeys containsObject:@"StatusMessage"] ||
-						 [inModifiedKeys containsObject:@"StatusName"]))) &&
+		 (showIdle && [inModifiedKeys containsObject:@"idle"]) ||
+		 (showStatus && ([inModifiedKeys containsObject:@"listObjectStatusMessage"] ||
+						 [inModifiedKeys containsObject:@"listObjectStatusName"]))) &&
 		[inObject isKindOfClass:[AIListContact class]]){
 		NSMutableString	*statusMessage = nil;
 		NSString		*finalMessage = nil, *finalIdleReadable = nil;
@@ -147,16 +147,16 @@
 		}
 
 		[inObject setValue:finalIdleReadable
-			   forProperty:@"IdleReadable"
+			   forProperty:@"idleReadable"
 					notify:NotifyNever];
 
 		[inObject setValue:finalMessage
-			   forProperty:@"ExtendedStatus"
+			   forProperty:@"extendedStatus"
 					notify:NotifyNever];
-		modifiedAttributes = [NSSet setWithObject:@"ExtendedStatus"];
+		modifiedAttributes = [NSSet setWithObject:@"extendedStatus"];
 	}
 	
-   return modifiedAttributes;
+	return modifiedAttributes;
 }
 
 

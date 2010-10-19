@@ -75,6 +75,8 @@ static int nextChatNumber = 0;
 		hasSentOrReceivedContent = NO;
 		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
+		
+		topic = @"";
 
 		AILog(@"[AIChat: %x initForAccount]",self);
 	}
@@ -100,6 +102,12 @@ static int nextChatNumber = 0;
 	[uniqueChatID release]; uniqueChatID = nil;
 	[customEmoticons release]; customEmoticons = nil;
 	[topic release]; [topicSetter release];
+	
+	[tabStateIcon release]; tabStateIcon = nil;
+    [chatCreationInfo release]; chatCreationInfo = nil;
+    [messageTabViewItem release]; messageTabViewItem = nil;
+    [enteredTextTimer release]; enteredTextTimer = nil;
+    [securityDetails release]; securityDetails = nil;
 	
 	[super dealloc];
 }
@@ -162,13 +170,13 @@ static int nextChatNumber = 0;
  */
 - (NSDictionary *)chatCreationDictionary
 {
-	return [self valueForProperty:@"ChatCreationInfo"];
+	return chatCreationInfo;
 }
 
 - (void)setChatCreationDictionary:(NSDictionary *)inDict
 {
 	[self setValue:inDict
-				   forProperty:@"ChatCreationInfo"
+				   forProperty:@"chatCreationInfo"
 				   notify:NotifyNever];
 }
 
@@ -217,15 +225,15 @@ static int nextChatNumber = 0;
 	
 }
 //Secure chatting ------------------------------------------------------------------------------------------------------
-- (void)setSecurityDetails:(NSDictionary *)securityDetails
+- (void)setSecurityDetails:(NSDictionary *)inSecurityDetails
 {
-	[self setValue:securityDetails
-				   forProperty:@"SecurityDetails"
+	[self setValue:inSecurityDetails
+				   forProperty:@"securityDetails"
 				   notify:NotifyNow];
 }
 - (NSDictionary *)securityDetails
 {
-	return [self valueForProperty:@"SecurityDetails"];
+	return securityDetails;
 }
 
 - (BOOL)isSecure
@@ -236,8 +244,7 @@ static int nextChatNumber = 0;
 - (AIEncryptionStatus)encryptionStatus
 {
 	AIEncryptionStatus	encryptionStatus = EncryptionStatus_None;
-
-	NSDictionary		*securityDetails = self.securityDetails;
+	
 	if (securityDetails) {
 		NSNumber *detailsStatus;
 		if ((detailsStatus = [securityDetails objectForKey:@"EncryptionStatus"])) {
@@ -581,7 +588,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (NSUInteger)unviewedMentionCount
 {
-	return [self integerValueForProperty:KEY_UNVIEWED_MENTION];	
+	return [self integerValueForProperty:KEY_UNVIEWED_MENTION];
 }
 
 - (void)incrementUnviewedContentCount
@@ -925,7 +932,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (id <AIChatContainer>)chatContainer
 {
-	return [self valueForProperty:@"MessageTabViewItem"];
+	return messageTabViewItem;
 }
 
 - (id)handleCloseScriptCommand:(NSCloseCommand *)closeCommand

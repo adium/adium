@@ -200,7 +200,7 @@ void image_register_reply (
 
 /* this causes an actual disconnect */
 - (void) disconnect {
-	AILogWithSignature(@"Disconnecting");
+	AILogWithSignature(@"isDisconnecting");
 
 	[fServiceBrowser release]; fServiceBrowser = nil;
 

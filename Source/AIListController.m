@@ -444,7 +444,7 @@
 	//Resize the contact list horizontally
 	if (self.autoResizeHorizontally) {
 		if ([keys containsObject:@"Display Name"] || [keys containsObject:@"Long Display Name"] ||
-				(self.autoResizeHorizontallyWithIdleTime && [keys containsObject:@"IdleReadable"])) {
+				(self.autoResizeHorizontallyWithIdleTime && [keys containsObject:@"idleReadable"])) {
 			[self contactListDesiredSizeChanged];
 		}
 	}

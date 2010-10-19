@@ -355,11 +355,11 @@
 	if (([inObject isKindOfClass:[AIListContact class]]) &&
 		([(AIListContact *)inObject parentContact] == (AIListContact *)inObject)) {
 		
-		if ([inModifiedKeys containsObject:@"Online"]) {
-			id newValue = [inObject numberValueForProperty:@"Online"];
+		if ([inModifiedKeys containsObject:@"isOnline"]) {
+			NSNumber *newValue = [inObject valueForProperty:@"isOnline"];
 
 			if ([self updateCache:onlineCache
-						   forKey:@"Online"
+						   forKey:@"isOnline"
 						 newValue:newValue
 					   listObject:inObject
 				   performCompare:YES]) {
@@ -380,10 +380,10 @@
 		}
 		
 		// IsMobile can be broadcasted before Online
-		if([inModifiedKeys containsObject:@"IsMobile"]) {
-			id newValue = [inObject numberValueForProperty:@"IsMobile"];
+		if([inModifiedKeys containsObject:@"isMobile"]) {
+			NSNumber *newValue = [inObject valueForProperty:@"isMobile"];
 			if([self updateCache:mobileCache 
-						  forKey:@"IsMobile"
+						  forKey:@"isMobile"
 						newValue:newValue 
 					  listObject:inObject 
 				  performCompare:YES] && !silent) {
@@ -398,8 +398,8 @@
 		/* Events which are irrelevent if the contact is not online - these changes occur when we are
 		 * just doing bookkeeping e.g. an away contact signs off, we clear the away flag, but they didn't actually
 		 * come back from away. */
-		if ([[inObject numberValueForProperty:@"Online"] boolValue]) {
-			if ([inModifiedKeys containsObject:@"StatusMessage"] || [inModifiedKeys containsObject:@"StatusType"]) {
+		if ([inObject boolValueForProperty:@"isOnline"]) {
+			if ([inModifiedKeys containsObject:@"listObjectStatusMessage"] || [inModifiedKeys containsObject:@"listObjectStatusType"]) {
 				NSNumber	*newAwayNumber;
 				NSString	*newStatusMessage;
 				BOOL		awayChanged, statusMessageChanged;
@@ -416,7 +416,7 @@
 				//Update status message
 				newStatusMessage = [inObject.statusMessage string];
 				statusMessageChanged = [self updateCache:statusMessageCache 
-												 forKey:@"StatusMessage"
+												 forKey:@"listObjectStatusMessage"
 											   newValue:newStatusMessage
 											 listObject:inObject
 										 performCompare:YES];
@@ -449,10 +449,10 @@
 				}
 			}
 
-			if ([inModifiedKeys containsObject:@"IsIdle"]) {
-				id newValue = [inObject numberValueForProperty:@"IsIdle"];
+			if ([inModifiedKeys containsObject:@"isIdle"]) {
+				id newValue = [inObject numberValueForProperty:@"isIdle"];
 				if ([self updateCache:idleCache
-							   forKey:@"IsIdle"
+							   forKey:@"isIdle"
 							 newValue:newValue
 						   listObject:inObject
 					   performCompare:YES] && !silent) {
