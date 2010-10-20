@@ -60,5 +60,6 @@
  * Contacts from all accounts, including offline ones, will be included.
  */
 - (NSArray *)listContactsIncludingOfflineAccounts;
+- (BOOL)removeObject:(AIListObject *)inObject;
 
 @end
