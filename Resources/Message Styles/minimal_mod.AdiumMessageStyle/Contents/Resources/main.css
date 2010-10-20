@@ -183,6 +183,17 @@ img.scaledToFitImage
 	color: #999999;
 }
 
+#topic
+{
+	opacity: 1;
+	-webkit-transition: opacity .1s linear;
+}
+
+#topic:hover
+{
+	opacity: .1;
+}
+
 #x-header
 {
 	position: fixed;
@@ -197,13 +208,6 @@ img.scaledToFitImage
 	font-size: 1em;
 	background: rgba(0, 0, 0, .75);
 	z-index: 999;
-	opacity: 1;
-	-webkit-transition: opacity .1s linear;
-}
-
-#x-header[title]:hover
-{
-	opacity: .1;
 }
 
 #x-header:hover #topicEdit
