@@ -11,6 +11,17 @@ body
 	margin-bottom: 0px;
 }
 
+#topic
+{
+	opacity: 1;
+	-webkit-transition: opacity .1s linear;
+}
+
+#topic:hover
+{
+	opacity: .1;
+}
+
 #x-header
 {
 	display: block;
@@ -19,13 +30,6 @@ body
 	top: 0;
 	width: 100%;
 	z-index: 100;
-	opacity: 1;
-	-webkit-transition: opacity .1s linear;
-}
-
-#x-header:hover
-{
-	opacity: .15;
 }
 
 #topic #x-header
