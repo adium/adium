@@ -32,6 +32,7 @@
 - (void) resetStylesForType:(AIWebkitStyleType)styleType;
 - (void) xtrasChanged:(NSNotification *)notification;
 - (void)clearHardcodedBuiltInStylePaths;
+- (void)performAdium14PreferenceUpdates;
 @end
 
 @implementation AIWebKitMessageViewPlugin
@@ -43,7 +44,13 @@
 {
 	styleDictionary = nil;
 	[adium createResourcePathForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT];
+	
+	/* If this isn't done, Bad Things happen, so check it each launch (cheap!) in case the user reverted to a 
+	 * pre-Adium 1.4 version. This check can be removed ~Adium 1.6.
+	 */
 	[self clearHardcodedBuiltInStylePaths];
+	
+	[self performAdium14PreferenceUpdates];
 	
 	//Setup our preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
@@ -138,18 +145,6 @@
 {
 	NSDictionary *styles = [self availableMessageStyles];
 	NSBundle	 *defaultMessageStyleBundle = nil;
-
-	if ([identifier isEqualToString:@"com.adiumx.eclipse.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"com.adiumx.gonedark.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.plastic.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Stockholm.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.renkooNaked.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.Renkoo.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.minimal.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
-	} else if ([identifier isEqualToString:@"com.adiumx.minimal_2.0.style"]) {
-		defaultMessageStyleBundle = [styles objectForKey:@"im.adium.minimal_mod.style"];
-	} 
 
 	if (!defaultMessageStyleBundle) {
 		defaultMessageStyleBundle = [styles objectForKey:WEBKIT_DEFAULT_STYLE];
@@ -291,6 +286,73 @@
 	if ([[adium.preferenceController preferenceForKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 												group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY] rangeOfString:@".app"].location != NSNotFound)
 		[self resetStylesForType:AIWebkitGroupChat];
+}
+
+- (void)performAdium14PreferenceUpdates
+{
+	if (![[adium.preferenceController preferenceForKey:@"Adium 1.4:Updated Preferences"
+												 group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY] boolValue]) {
+		NSDictionary		*dict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		NSMutableDictionary *newDict = [dict mutableCopy];
+		NSMutableSet		*keysToRemove = [NSMutableSet set];
+	
+		NSDictionary *conversionDict = 
+		[NSDictionary dictionaryWithObjectsAndKeys:
+		 /* complete style changes */
+		 @"im.adium.Gone Dark.style",	@"com.adiumx.eclipse.style",
+		 @"im.adium.Stockholm.style",	@"com.adiumx.plastic.style",
+		 @"im.adium.minimal_mod.style", @"com.adiumx.minimal_2.0.style",
+		 @"im.adium.Renkoo.style",		@"com.adiumx.renkooNaked.style",
+		 @"im.adium.minimal_mod.style",	@"com.adiumx.minimal.style",
+		 
+		 /* bundle identifier changes */
+		 @"im.adium.Gone Dark.style",	@"com.adiumx.gonedark.style",
+		 @"im.adium.minimal_mod.style",	@"com.adiumx.minimal_mod.style",
+		 @"im.adium.Mockie.style",		@"com.adiumx.mockie.style",
+		 @"im.adium.Renkoo.style",		@"com.adiumx.renkoo.style",
+		 @"im.adium.Smooth Operator.style",		@"com.adiumx.smooth.operator.style",
+		 @"im.adium.Stockholm.style",	@"com.adiumx.stockholm.style",
+		 @"im.adium.yMous.style",		@"mathuaerknedam.yMous.style",
+		 nil];
+		
+		/* Upgrade the style ID itself (that is, the style that Adium will be displaying) if it changed */
+		NSString *upgradedStyleID = [conversionDict objectForKey:[dict objectForKey:KEY_WEBKIT_STYLE]];
+		if (upgradedStyleID)
+			[newDict setObject:upgradedStyleID
+						forKey:KEY_WEBKIT_STYLE];
+		
+		/* Now update style-specific preferences, whose keys are prefixed with style names, as needed */
+		for (NSString *key in [dict keyEnumerator]) {
+			/* For each changed bundle, check each key */
+			for (NSString *oldBundleID in [conversionDict keyEnumerator]) {
+				if ([key hasPrefix:oldBundleID]) {
+					NSString *newBundleID = [conversionDict objectForKey:oldBundleID];
+					NSString *newKey = [newBundleID stringByAppendingString:[key substringFromIndex:oldBundleID.length]];
+					
+					/* Store with the new bundle ID in the key */
+					[newDict setObject:[dict objectForKey:key]
+								forKey:newKey];
+					
+					/* Remove the obsolete preference; we'll want it not in the newDict but also need to manually
+					 * remove it when we're done, since AIPreferenceController's setPreferences:inGroup: is nondestructive. */
+					[newDict removeObjectForKey:key];
+					[keysToRemove addObject:key];
+				}
+			}
+		}
+
+		[adium.preferenceController setPreferences:newDict
+										   inGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		for (NSString *key in keysToRemove) {
+			[adium.preferenceController setPreference:nil
+											   forKey:key
+												group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		}
+
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
+										   forKey:@"Adium 1.4:Updated Preferences"
+											group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+	}
 }
 
 @end
