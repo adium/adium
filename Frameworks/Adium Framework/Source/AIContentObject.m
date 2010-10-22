@@ -113,7 +113,8 @@
 	if (
 			source == [inContent source] && 
 			[[self type] compare:[inContent type]] == NSOrderedSame &&
-			[[self displayClasses] containsObject:@"mention"] == [[inContent displayClasses] containsObject:@"mention"]
+			[[self displayClasses] containsObject:@"mention"] == [[inContent displayClasses] containsObject:@"mention"] &&
+			[[self displayClasses] containsObject:@"autoreply"] == [[inContent displayClasses] containsObject:@"autoreply"]
 	) {
 		NSTimeInterval	timeInterval = [date timeIntervalSinceDate:[inContent date]];
 		
