@@ -687,9 +687,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if (properties == nil) {
 		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isEvent", @"isBlocked",
 					  @"isIdle", @"notAStranger", @"isMobile", @"signedOff", @"signedOn",
-					  @"alwaysOnline", @"unviewedContent", @"unviewedMention",
-					  @"idleSince", @"idleReadable", @"serverDispalyName", @"formattedUID",
-					  @"textProfile", @"listObjectStatusMessage", nil];
+					  @"alwaysOnline", @"unviewedContent", @"unviewedMention", nil];
 	}
 	return properties;
 }
@@ -701,7 +699,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact valueForProperty:key];
 	} else {
-		ret = [super valueForProperty:key];
+		ret = [super valueForProperty:key] ?: [self.preferredContact valueForProperty:key];
 	}
 	
 	return ret;
@@ -714,7 +712,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact integerValueForProperty:key];
 	} else {
-		ret = [super integerValueForProperty:key];
+		ret = [super integerValueForProperty:key] ?: [self.preferredContact integerValueForProperty:key];
 	}
 	
 	return ret;
@@ -727,7 +725,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact intValueForProperty:key];
 	} else {
-		ret = [super intValueForProperty:key];
+		ret = [super intValueForProperty:key] ?: [self.preferredContact intValueForProperty:key];
 	}
 	
 	return ret;
@@ -740,7 +738,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact boolValueForProperty:key];
 	} else {
-		ret = [super boolValueForProperty:key];
+		ret = [super boolValueForProperty:key] ?: [self.preferredContact boolValueForProperty:key];
 	}
 	
 	return ret;
