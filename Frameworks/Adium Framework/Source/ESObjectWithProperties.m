@@ -243,7 +243,7 @@
 			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 			
 		} else {
-			ret = value;
+			ret = [[value retain] autorelease];
 		}
 	}
 	
