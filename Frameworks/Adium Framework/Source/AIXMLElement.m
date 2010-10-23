@@ -197,8 +197,11 @@
 - (void)addEscapedObject:(id)obj
 {
 	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.
-	if (!obj) NSLog(@"Warning: Attempted to add (null) to %@", obj);
-
+	if (!obj) {
+		NSLog(@"Attempted to add null to AIXMLElement %@, backtrace available in debug mode", obj);
+		AILogWithBacktrace(@"Warning: Attempted to add (null) to AIXMLElement %@", obj);
+		return;
+	}
 	NSAssert2(([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[AIXMLElement class]]), @"%@: addObject: %@ is of incorrect class",self,obj);
 	
 	[contents addObject:obj];
