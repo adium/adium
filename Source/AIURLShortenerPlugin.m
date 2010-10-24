@@ -105,7 +105,6 @@
 	NSDictionary *shorteners = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:AITinyURL], @"tinyurl.com",
 																		  [NSNumber numberWithInteger:AIisgd], @"is.gd",
 																		  [NSNumber numberWithInteger:AIMetamark], @"xrl.us",
-																		  [NSNumber numberWithInteger:AIKlam], @"kl.am",
 																		  nil];
 
 	[menu removeAllItems];
@@ -244,10 +243,6 @@
 			
 		case AIMetamark:
 			request = [NSString stringWithFormat:@"http://metamark.net/api/rest/simple?long_url=%@", [address stringByAddingPercentEscapesForAllCharacters]];
-			break;
-			
-		case AIKlam:
-			request = [NSString stringWithFormat:@"http://kl.am/api/shorten?url=%@&format=text", [address stringByAddingPercentEscapesForAllCharacters]];
 			break;
 			
 		default:
