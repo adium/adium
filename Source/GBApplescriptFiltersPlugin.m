@@ -646,7 +646,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		remainingRange.location = ((i > 0) ? i-1 : 0);
 		remainingRange.length = (inStringComponentsCount - remainingRange.location);
 
-		if (remainingRange.location >= 0) {
+		if (remainingRange.location != NSNotFound) {
 			NSString	*lastArgument;
 
 			//Remove that last, incomplete argument if it was added

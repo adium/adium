@@ -51,7 +51,7 @@
 - (void)selectItemsInArray:(NSArray *)selectedItems usingSourceArray:(NSArray *)sourceArray
 {
 	if ([sourceArray count] != [self numberOfRows]) {
-		NSLog(@"SourceArray is %i; rows is %i",[sourceArray count],[self numberOfRows]);
+		NSLog(@"SourceArray is %lu; rows is %ld",[sourceArray count],[self numberOfRows]);
 	}
 
 	NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];

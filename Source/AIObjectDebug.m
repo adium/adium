@@ -48,7 +48,7 @@ asm(".desc ___crashreporter_info__, 0x10");
 		*((int*)0xdeadbeef) = 42;
 		return;
 	} else {
-		NSLog(@"%@ of class %@ does not respond to selector %s", self, [self class], aSelector);
+		NSLog(@"%@ of class %@ does not respond to selector %@", self, [self class], NSStringFromSelector(aSelector));
 	}
 	__crashreporter_info__ = (char *)[[NSString stringWithFormat:@"Dear crash reporter team: We only put stuff here in debug builds of Adium. Don't Panic, it won't ship in a release unless there's public API for it.\n\n %@ of class %@ does not respond to selector %s", self, [self class], aSelector] cStringUsingEncoding:NSASCIIStringEncoding];
 	*((int*)0xdeadbeef) = 42;

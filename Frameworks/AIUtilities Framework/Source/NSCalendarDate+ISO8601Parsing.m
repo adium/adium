@@ -447,7 +447,7 @@ static BOOL is_leap_year(NSInteger year) {
 							if(*ch == '-') {
 								++ch;
 								month_or_week = read_segment_2digits(ch, &ch);
-								NSLog(@"(%@) month is %u", str, month_or_week);
+								NSLog(@"(%@) month is %lu", str, month_or_week);
 							}
 
 							day = 1U;
