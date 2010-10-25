@@ -376,7 +376,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 	dataSize = sizeof(deviceUID);
 	err = AudioDeviceGetProperty(systemOutputDevice, /*channel*/ 0, /*isInput*/ false, kAudioDevicePropertyDeviceUID, &dataSize, &deviceUID);
 	if (err != noErr) {
-		NSLog(@"%s: Could not get the device UID for device %p: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
+		NSLog(@"%s: Could not get the device UID for device %u: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
 		return NULL;
 	}
 	[(NSString *)deviceUID autorelease];

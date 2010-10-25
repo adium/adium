@@ -330,9 +330,9 @@
  */
 - (void)nextDetachedContactList
 {
-	if (detachedCycle >= [contactLists count] || detachedCycle < 0)
+	if (detachedCycle >= [contactLists count] || detachedCycle == NSNotFound)
 		detachedCycle = 0;
-	if (detachedCycle >= 0 && detachedCycle < [contactLists count])
+	if (detachedCycle != NSNotFound && detachedCycle < [contactLists count])
 		[[contactLists objectAtIndex:detachedCycle++] showWindowInFrontIfAllowed:YES];
 }
 
@@ -340,9 +340,9 @@
  * @brief Attempts to bring the previous detached contact list to the front 
  */
 - (void)previousDetachedContactList {
-	if (detachedCycle<0 || detachedCycle>=[contactLists count])
+	if (detachedCycle == NSNotFound || detachedCycle >= [contactLists count])
 		detachedCycle = [contactLists count]-1;
-	if (detachedCycle>=0 && detachedCycle<[contactLists count])
+	if (detachedCycle != NSNotFound && detachedCycle < [contactLists count])
 		[[contactLists objectAtIndex:detachedCycle--] showWindowInFrontIfAllowed:YES];
 }
 

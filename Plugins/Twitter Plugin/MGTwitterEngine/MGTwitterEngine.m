@@ -665,7 +665,7 @@
     if (NO) {
         // Display headers for debugging.
         NSHTTPURLResponse *noResp = (NSHTTPURLResponse *)response;
-        NSLog(@"(%d) [%@]:\r%@", 
+        NSLog(@"(%ld) [%@]:\r%@", 
               [noResp statusCode], 
               [NSHTTPURLResponse localizedStringForStatusCode:[noResp statusCode]], 
               [noResp allHeaderFields]);
@@ -702,7 +702,7 @@
         if (NO) {
             // Dump data as string for debugging.
             NSString *dataString = [NSString stringWithUTF8String:[receivedData bytes]];
-            NSLog(@"Succeeded! Received %d bytes of data:\r\r%@", [receivedData length], dataString);
+            NSLog(@"Succeeded! Received %lu bytes of data:\r\r%@", [receivedData length], dataString);
         }
         
         if (NO) {

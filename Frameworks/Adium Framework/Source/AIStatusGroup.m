@@ -265,7 +265,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
  */
 - (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(NSUInteger)idx
 {
-	if (idx >= 0 && idx < [containedStatusItems count]) {
+	if (idx != NSNotFound && idx < [containedStatusItems count]) {
 		[containedStatusItems insertObject:inStatusItem atIndex:idx];
 	} else {
 		[containedStatusItems addObject:inStatusItem];		
@@ -347,7 +347,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 	if (oldStatusState != newStatusState) {
 		NSUInteger idx = [containedStatusItems indexOfObject:oldStatusState];
 		
-		if (idx >= 0 && idx < [containedStatusItems count]) {
+		if (idx != NSNotFound && idx < [containedStatusItems count]) {
 			[containedStatusItems replaceObjectAtIndex:idx withObject:newStatusState];
 		}
 

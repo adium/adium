@@ -106,7 +106,7 @@
 
 					if (error) {
 						NSDictionary *userInfo = [error userInfo];
-						NSLog(@"Could not get username and password for proxy: %@ returned %i (%@)",
+						NSLog(@"Could not get username and password for proxy: %@ returned %ld (%@)",
 							  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
 							  [error code],
 							  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
@@ -138,7 +138,7 @@
 						if (error) {
 							CFStringRef description = CFErrorCopyDescription(error);
 							
-							NSLog(@"Tried to get PAC, but got error: %@ %d %@",
+							NSLog(@"Tried to get PAC, but got error: %@ %ld %@",
 								  CFErrorGetDomain(error),
 								  CFErrorGetCode(error),
 								  description);

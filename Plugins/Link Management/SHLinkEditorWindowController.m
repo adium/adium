@@ -95,7 +95,7 @@
 		id   	 	linkURL = nil;
 		
 		//Get the selected link (We have to be careful when the selection is at the very end of our text view)
-		if (selectedRange.location >= 0 && NSMaxRange(selectedRange) < [[textView textStorage] length]) {
+		if (selectedRange.location != NSNotFound && NSMaxRange(selectedRange) < [[textView textStorage] length]) {
 			linkURL = [[textView textStorage] attribute:NSLinkAttributeName
 												atIndex:selectedRange.location
 										 effectiveRange:&rangeOfLinkAttribute];

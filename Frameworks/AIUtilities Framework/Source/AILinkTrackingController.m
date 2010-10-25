@@ -117,7 +117,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
     glyphIndex = [layoutManager glyphIndexForPoint:mouseLoc inTextContainer:textContainer fractionOfDistanceThroughGlyph:nil];
     charIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
 	
-    if (charIndex >= 0 && charIndex < [textStorage length]) {
+    if (charIndex != NSNotFound && charIndex < [textStorage length]) {
         NSString	*linkString;
         NSURL		*linkURL;
         NSRange		linkRange;
