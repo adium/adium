@@ -141,7 +141,14 @@
 
 		NSString		*countString = nil;
 
-		NSUInteger onlineObjects = [[inGroup.visibleContainedObjects valueForKeyPath:@"@sum.isOnline"] integerValue];
+		NSUInteger onlineObjects = 0;
+		
+		for (AIListObject *listObject in inGroup.visibleContainedObjects) {
+			if ([listObject boolValueForProperty:@"isOnline"]) {
+				onlineObjects++;
+			}
+		}
+
 		NSUInteger totalObjects = inGroup.countOfContainedObjects;
 
 		/*
