@@ -322,7 +322,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	NSDictionary	*appendDict;
 	NSString		*lastSet = nil;
 	NSString		*set;
-	NSInteger				indentationLevel;
+	NSInteger		indentationLevel;
 	
 	for (appendDict in scripts) {
 		NSString	*title;
@@ -363,6 +363,8 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		if ([item respondsToSelector:@selector(setIndentationLevel:)]) [item setIndentationLevel:indentationLevel];
 		[menu addItem:item];
 	}
+	
+	[lastSet release];
 }
 
 /*!
