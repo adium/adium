@@ -347,7 +347,7 @@
 - (NSArray *)renamePreset:(NSDictionary *)preset toName:(NSString *)newName inPresets:(NSArray *)presets renamedPreset:(id *)renamedPreset
 {
 	NSString				*oldPresetName = [preset objectForKey:@"Name"];
-	NSMutableDictionary		*newPreset = [preset mutableCopy];
+	NSMutableDictionary		*newPreset = [[preset mutableCopy] autorelease];
 	NSString				*localizedCurrentName = [self _localizedTitle:[adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																												   group:PREF_GROUP_EVENT_PRESETS]];
 	[newPreset setObject:newName
