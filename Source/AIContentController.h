@@ -28,7 +28,6 @@
 	AdiumMessageEvents			*adiumMessageEvents;
 	id<AdiumMessageEncryptor>	adiumEncryptor;
 
-	NSMutableDictionary		*defaultFormattingAttributes;
 	NSMutableSet			*objectsBeingReceived;
 }
 

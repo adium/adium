@@ -17,7 +17,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactObserverManager.h"
 
-@class AISortController, AdiumAuthorization, AIContactHidingController, AIContactObserverManager;
+@class AISortController, AIContactHidingController, AIContactObserverManager;
 
 @interface AIContactController : NSObject <AIContactController, AIListObjectObserver> {
 @private
@@ -33,14 +33,11 @@
 	BOOL					useContactListGroups;
 	NSMenuItem				*menuItem_showGroups;
 	BOOL					useOfflineGroup;
-	NSMenuItem				*menuItem_useOfflineGroup;
 	
 	//Detached Contact Lists
 	NSMutableArray			*contactLists;
 	
-	//Authorization
-	AdiumAuthorization		*adiumAuthorization;
-	
+	//Authorization	
 	AIContactObserverManager *contactPropertiesObserverManager;
 }
 

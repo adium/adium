@@ -54,10 +54,6 @@
     NSMutableAttributedString   *tooltipBody;
     NSMutableAttributedString   *tooltipTitle;
     NSImage                     *tooltipImage;
-
-	
-    NSString					*errorTitle;
-    NSString					*errorDesc;
 	
 	BOOL						closeMenuConfiguredForChat;
 	

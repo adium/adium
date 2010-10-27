@@ -30,8 +30,6 @@
     NSCharacterSet				*_emoticonHintCharacterSet;
     NSCharacterSet				*_emoticonStartCharacterSet;
     NSMutableDictionary         *_emoticonIndexDict;
-	
-	BOOL						serviceAppropriateEmoticons;
 }
 
 @end
