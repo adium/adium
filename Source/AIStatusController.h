@@ -34,7 +34,6 @@
 	NSMutableSet			*builtInStatusTypes[STATUS_TYPES_COUNT];
 
 	NSMutableSet			*accountsToConnect;
-	BOOL					isProcessingGlobalChange;
 
 	//State menu support
 	NSMutableArray			*stateMenuPluginsArray;

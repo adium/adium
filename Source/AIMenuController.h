@@ -160,9 +160,7 @@
 	
     NSMenu					*textViewContextualMenu;
     
-    NSMutableArray			*locationArray;
-    BOOL					isTracking;
-	
+    NSMutableArray			*locationArray;	
 }
 
 @end
