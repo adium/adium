@@ -109,12 +109,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	if (delayedUpdateRequests > 0) {
 		delayedUpdateRequests--;
-		if (delayedUpdateRequests == 0) {
-			if (delayedUpdateTimer)
-				[delayedUpdateTimer invalidate]; self.delayedUpdateTimer = nil;
-			
+		if (delayedUpdateRequests == 0)
 			[self _performDelayedUpdates:nil];
-		}
 	}
 }
 
@@ -132,10 +128,21 @@ static AIContactObserverManager *sharedObserverManager = nil;
  */
 - (void)endListObjectNotificationsDelaysImmediately
 {
+	RPLogWithSignature(@"");
+
 	if (delayedUpdateRequests) {
-		delayedUpdateRequests = 0;	
+		delayedUpdateRequests = 0;
+
+		BOOL restoreDelayUntilInactivity = (self.delayedUpdateTimer != nil);
+		
 		[self.delayedUpdateTimer invalidate]; self.delayedUpdateTimer = nil;
 		[self _performDelayedUpdates:nil];
+		
+		/* After immediately performing updates as requested, go back to delaying until inactivity if that was the
+		 * status quo.
+		 */
+		if (restoreDelayUntilInactivity)
+			[self delayListObjectNotificationsUntilInactivity];
 	}
 }
 
