@@ -99,7 +99,7 @@ static void *adiumPurpleRequestInput(
 	NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
 	
 	//Ignore purple trying to get an account's password; we'll feed it the password and reconnect if it gets here, somehow.
-	if ([primaryString rangeOfString:@"Enter password for "].location != NSNotFound) return [NSNull null];
+	if (primaryString && [primaryString rangeOfString:@"Enter password for "].location != NSNotFound) return [NSNull null];
 	
 	NSMutableDictionary *infoDict;
 	NSString			*okButtonText = processButtonText([NSString stringWithUTF8String:okText]);
@@ -419,7 +419,7 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops()
 	PurpleRequestFields *fields = [[dict objectForKey:@"fields"] pointerValue];
 	void *userData = [[dict objectForKey:@"userData"] pointerValue];
 
-	PurpleRequestFieldsCb cb;
+	PurpleRequestFieldsCb cb = NULL;
 
 	switch (returnCode) {
 		case AIPasswordPromptOKReturn:
@@ -436,7 +436,8 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops()
 			break;
 	}
 	
-	cb(userData, fields);
+	if (cb)
+		cb(userData, fields);
 }
 
 @end
