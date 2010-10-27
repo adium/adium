@@ -128,7 +128,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
  */
 - (void)endListObjectNotificationsDelaysImmediately
 {
-	RPLogWithSignature(@"");
+	AILogWithSignature(@"");
 
 	if (delayedUpdateRequests) {
 		delayedUpdateRequests = 0;
