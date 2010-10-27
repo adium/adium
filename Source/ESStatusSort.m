@@ -621,6 +621,10 @@ NSInteger statusSort(id objA, id objB, BOOL groups, id<AIContainingObject> conta
 			if (groupMobile) {
 				mobile[0] = [objectA isMobile];
 				mobile[1] = [objectB isMobile];
+			} else {
+				/* If mobile appears in the sort list, treat the two items as identical */
+				mobile[0] = FALSE;
+				mobile[1] = FALSE;
 			}
 
 			for (objectCounter = 0; objectCounter < 2; objectCounter++) {
