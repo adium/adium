@@ -473,7 +473,10 @@
  */
 - (void)removeProxyObject:(id)proxyObject
 {
-	[proxyObjects removeObject:proxyObject];
+	if (proxyObject) {
+		[AIProxyListObject releaseProxyObject:proxyObject];
+		[proxyObjects removeObject:proxyObject];
+	}
 }
 
 @end
