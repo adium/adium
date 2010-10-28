@@ -26,6 +26,16 @@ static NSMutableDictionary *proxyDict;
 		proxyDict = [[NSMutableDictionary alloc] init];
 }
 
++ (AIProxyListObject *)existingProxyListObjectForListObject:(ESObjectWithProperties *)inListObject
+											   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
+{
+	NSString *key = (inContainingObject ? 
+					 [NSString stringWithFormat:@"%@-%@", inListObject.internalObjectID, inContainingObject.internalObjectID] :
+					 inListObject.internalObjectID);
+	
+	return [proxyDict objectForKey:key];
+}
+
 + (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
 									   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
 {
@@ -74,9 +84,9 @@ static NSMutableDictionary *proxyDict;
 	[proxyDict removeObjectForKey:proxyObject.key];
 }
 
-
 - (void)dealloc
 {
+	AILogWithSignature(@"%@", self);
 	self.listObject = nil;
 	self.key = nil;
 	self.cachedDisplayName = nil;
