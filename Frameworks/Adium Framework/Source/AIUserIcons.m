@@ -48,6 +48,7 @@ static AICachedUserIconSource		*cachedUserIconSource = nil;
 + (void)updateAllIcons;
 + (void)updateUserIconForObject:(AIListObject *)inObject;
 + (void)flushCacheForObjectOnly:(AIListObject *)inObject;
++ (void)flushCacheForObjectAndParentOnly:(AIListObject *)inObject;
 @end
 
 @implementation AIUserIcons
@@ -171,7 +172,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 		AILogWithSignature(@"%@ provided icon for %@", inSource, inObject);
 #endif
 		[inUserIcon retain];
-		[self flushCacheForObject:inObject];
+		[self flushCacheForObjectAndParentOnly:inObject];
 
 		[iconCache setObject:inUserIcon forKey:internalObjectID];
 		[iconCacheOwners setObject:inSource forKey:internalObjectID];
@@ -179,12 +180,16 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 
 	} else {
 		id <AIUserIconSource> source = [self userIconSourceForObject:inObject];
-		if (source && (!wasAsynchronous || (source == inSource))) {
-			/* We previously had an icon but no longer have one, and either this was a synchronous lookup 
+		if (!wasAsynchronous || (source == inSource)) {
+			/* Either this was a synchronous lookup  (we must take action now to prevent an infinite loop of re-lookup)
 			 *  OR
-			 * this same source is handling the icon for the object.
+			 * this same source is handling the icon for the object, so its new lack an icon is an important change.
 			 */
-			[self flushCacheForObject:inObject];
+			if (source) {
+				/* We previously had an icon but no longer have one; need to flush.
+				 */
+				[self flushCacheForObjectAndParentOnly:inObject];
+			}
 			
 #ifdef AIUSERICON_DEBUG
 			AILogWithSignature(@"Source %@ got nothing for %@; current source is %@", inSource, inObject, [self userIconSourceForObject:inObject]);
@@ -417,7 +422,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 											   proportionally:YES
 											   allowAnimation:YES];
 #ifdef AIUSERICON_DEBUG
-		AILogWithSignature(@"%@ (cache? %i; listIconCache was %@)",inObject, cache, listIconCache);
+		AILogWithSignature(@"%@ regenerated (cache? %i; listIconCache was %@)",inObject, cache, listIconCache);
 #endif
 		
 		if (cache) {
@@ -502,6 +507,15 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	
 	[listIconCache removeObjectForKey:internalObjectID];
 	[menuIconCache removeObjectForKey:internalObjectID];
+}
+
++ (void)flushCacheForObjectAndParentOnly:(AIListObject *)inObject
+{
+	[self flushCacheForObjectOnly:inObject];
+
+	AIListContact *parentContact = [(AIListContact *)inObject parentContact];
+	if (parentContact != inObject)
+		[self flushCacheForObjectOnly:parentContact];
 }
 
 /*!
