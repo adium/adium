@@ -34,6 +34,7 @@
 #import <Adium/AIContactList.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIMenuControllerProtocol.h>
+#import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIColorAdditions.h>
@@ -684,7 +685,18 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(AIProxyListObject *)item
 {
 	/* XXX Should note the combination of item and item's parent for expansion tracking */
-    [(id<AIContainingObject>)(item.listObject) setExpanded:state];
+	id<AIContainingObject> containingObject = item.listObject;
+    [containingObject setExpanded:state];
+
+	if (!state) {
+		/* If the item is collapsed, clear cached data which was being used while it was displayed */
+		for (AIListObject *listObject in (containingObject.containedObjects)) {
+			[AIUserIcons flushCacheForObject:listObject];
+			
+			[listObject removeProxyObject:[AIProxyListObject proxyListObjectForListObject:listObject
+																			 inListObject:containingObject]];
+		}
+	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(AIProxyListObject *)item
