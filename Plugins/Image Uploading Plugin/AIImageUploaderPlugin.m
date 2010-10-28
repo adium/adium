@@ -8,6 +8,7 @@
 
 #import "AIImageUploaderPlugin.h"
 #import "AIImageShackImageUploader.h"
+#import "AIImgurImageUploader.h"
 #import "AIImageUploaderWindowController.h"
 
 #import <Adium/AIContentControllerProtocol.h>
@@ -36,6 +37,7 @@
 	uploadInstances = [[NSMutableDictionary alloc] init];
 	
 	[uploaders addObject:[AIImageShackImageUploader class]];
+	[uploaders addObject:[AIImgurImageUploader class]];
 	
 	NSMenuItem *menuItem;
 	

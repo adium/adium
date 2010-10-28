@@ -1149,6 +1149,7 @@
 		4F1CB6420D640DA40073A1E6 /* info_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63E0D640DA40073A1E6 /* info_segment.png */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
+		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* Stop sign.png */; };
 		63093C2F0892143500F118D3 /* newContentThreeDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2D0892143500F118D3 /* newContentThreeDigits.png */; };
@@ -4335,6 +4336,8 @@
 		5A80CCAC121F5A7B00D0670A /* uk_UA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = uk_UA; path = Resources/uk_UA.lproj/StatusPreferences.nib; sourceTree = "<group>"; };
 		5A80CCAD121F5A7B00D0670A /* uk_UA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = uk_UA; path = Resources/uk_UA.lproj/StatusSortConfiguration.nib; sourceTree = "<group>"; };
 		5A80CCAE121F5A7B00D0670A /* uk_UA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = uk_UA; path = "Plugins/WebKit Message View/uk_UA.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
+		5A9439791279ECB800FDD81D /* AIImgurImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImgurImageUploader.h; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.h"; sourceTree = "<group>"; };
+		5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImgurImageUploader.m; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.m"; sourceTree = "<group>"; };
 		5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDoNothingContactAlertPlugin.h; sourceTree = "<group>"; };
 		5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIDoNothingContactAlertPlugin.m; sourceTree = "<group>"; };
 		5A9A9F8A11F295EB00328DF9 /* Stop sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Stop sign.png"; path = "Resources/Stop sign.png"; sourceTree = SOURCE_ROOT; };
@@ -5190,6 +5193,8 @@
 				11BE28DE0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m */,
 				11D915570FFC0E9C00B39713 /* AIImageShackImageUploader.h */,
 				11D915580FFC0E9C00B39713 /* AIImageShackImageUploader.m */,
+				5A9439791279ECB800FDD81D /* AIImgurImageUploader.h */,
+				5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */,
 				11D915700FFC100700B39713 /* AIGenericMultipartImageUploader.h */,
 				11D915710FFC100700B39713 /* AIGenericMultipartImageUploader.m */,
 			);
@@ -10834,6 +10839,7 @@
 				1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */,
 				5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */,
 				76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */,
+				5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
