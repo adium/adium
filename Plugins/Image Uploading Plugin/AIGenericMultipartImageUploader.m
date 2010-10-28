@@ -50,6 +50,12 @@
 	return nil;	
 }
 
+
+- (NSArray *)additionalFields
+{	
+	return nil;
+}
+
 - (NSUInteger)maximumSize
 {
 	NSAssert1(NO, @"Implementation of %@ lacks maximumSize", self);
@@ -140,6 +146,11 @@
 	[body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", (bestType == NSJPEGFileType) ? @"image/jpeg" : @"image/png"] dataUsingEncoding:NSUTF8StringEncoding]];
 	[body appendData:imageRepresentation];
 	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
+	for (NSDictionary *field in [self additionalFields]) {
+		[body appendData:[[NSString stringWithFormat:@"--%@\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
+		[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name= \"%@\"\r\n\r\n", [field objectForKey:@"name"]] dataUsingEncoding:NSUTF8StringEncoding]];
+		[body appendData:[[NSString stringWithFormat:@"%@", [field objectForKey:@"value"]] dataUsingEncoding:NSUTF8StringEncoding]];
+	}
 	
 	NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY], @"Content-type", nil];
