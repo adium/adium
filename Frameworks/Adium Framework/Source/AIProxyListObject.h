@@ -38,6 +38,9 @@
 + (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
 									   inListObject:(ESObjectWithProperties<AIContainingObject> *)containingObject;
 
++ (AIProxyListObject *)existingProxyListObjectForListObject:(ESObjectWithProperties *)inListObject
+											   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject;
+
 /*!
  * @biref Called by ESObjectWithProperties to release its proxy object.
  *
