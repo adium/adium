@@ -47,6 +47,7 @@ static AICachedUserIconSource		*cachedUserIconSource = nil;
 @interface AIUserIcons ()
 + (void)updateAllIcons;
 + (void)updateUserIconForObject:(AIListObject *)inObject;
++ (void)flushCacheForObjectOnly:(AIListObject *)inObject;
 @end
 
 @implementation AIUserIcons
@@ -169,26 +170,36 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 #ifdef AIUSERICON_DEBUG
 		AILogWithSignature(@"%@ provided icon for %@", inSource, inObject);
 #endif
+		[inUserIcon retain];
 		[self flushCacheForObject:inObject];
 
 		[iconCache setObject:inUserIcon forKey:internalObjectID];
 		[iconCacheOwners setObject:inSource forKey:internalObjectID];
+		[inUserIcon release];
 
-	} else if (!wasAsynchronous || ([self userIconSourceForObject:inObject] == inSource)) {
-		[self flushCacheForObject:inObject];
-
-#ifdef AIUSERICON_DEBUG
-		AILogWithSignature(@"Source %@ got nothing for %@; current source is %@", inSource, inObject, [self userIconSourceForObject:inObject]);
-#endif
-
-		[iconCache setObject:[NSNull null] forKey:internalObjectID];
-		[iconCacheOwners removeObjectForKey:internalObjectID];
 	} else {
+		id <AIUserIconSource> source = [self userIconSourceForObject:inObject];
+		if (source && (!wasAsynchronous || (source == inSource))) {
+			/* We previously had an icon but no longer have one, and either this was a synchronous lookup 
+			 *  OR
+			 * this same source is handling the icon for the object.
+			 */
+			[self flushCacheForObject:inObject];
+			
 #ifdef AIUSERICON_DEBUG
-		AILogWithSignature(@"Source %@: Ignoring information on %@ for %@", inSource, inUserIcon, inObject);
+			AILogWithSignature(@"Source %@ got nothing for %@; current source is %@", inSource, inObject, [self userIconSourceForObject:inObject]);
 #endif
-	}
+			
+			[iconCache setObject:[NSNull null] forKey:internalObjectID];
+			[iconCacheOwners removeObjectForKey:internalObjectID];
 
+		} else {
+#ifdef AIUSERICON_DEBUG
+			AILogWithSignature(@"Source %@: Ignoring information on %@ for %@", inSource, inUserIcon, inObject);
+#endif
+		}
+	}
+		
 	if (!isQueryingIconSources) {
 		/* We determined a user icon when we weren't in the middle of an update;
 		 * this means an asynchronous icon lookup was completed.
@@ -197,7 +208,19 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 		 */
 	}
 	
-	[self notifyOfChangedIconForObject:inObject];
+	/* Wait until the next run loop if this was a synchronous lookup;
+	 * if a metacontact's investigation of its icon by querying contained contacts
+	 * led to a contact's icon being determined, it is necessary to wait for it to receive the return value and
+	 * update the cache (by calling +[AIUserIcons setActualUserIcon:andSource:forObject:]) so that we don't notify
+	 * prematurely.  Notifying now would lead to a potential race condition in which the wrong icon could be flickered
+	 * onto the display or an infinite loop could occur.
+	 */
+	if (wasAsynchronous)
+		[self notifyOfChangedIconForObject:inObject];
+	else
+		[self performSelector:@selector(notifyOfChangedIconForObject:)
+				   withObject:inObject
+				   afterDelay:0];
 }
 
 /*!
@@ -331,6 +354,9 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	if (!userIcon) {
 		[self updateUserIconForObject:inObject];
 		userIcon = [iconCache objectForKey:internalObjectID];
+#ifdef AIUSERICON_DEBUG
+		AILogWithSignature(@"%@ (Got icon? %i)",inObject, (userIcon!=nil));
+#endif		
 		if (!userIcon) {
 			[iconCache setObject:[NSNull null] forKey:internalObjectID];
 			[iconCacheOwners removeObjectForKey:internalObjectID];
@@ -354,7 +380,8 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	if (userIcon && inSource) {
 		NSString	*internalObjectID = inObject.internalObjectID;
 		
-		[self flushCacheForObject:inObject];
+		[userIcon retain];
+		[self flushCacheForObjectOnly:inObject];
 
 #ifdef AIUSERICON_DEBUG
 		AILogWithSignature(@"%@ is using %@", inObject, inSource);
@@ -364,6 +391,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 					  forKey:internalObjectID];
 		[iconCacheOwners setObject:inSource
 							forKey:internalObjectID];
+		[userIcon release];
 	}
 }
 
@@ -388,9 +416,20 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 													flipImage:YES
 											   proportionally:YES
 											   allowAnimation:YES];
-		if (userIcon && cache) [listIconCache setObject:userIcon forKey:inObject.internalObjectID];
+#ifdef AIUSERICON_DEBUG
+		AILogWithSignature(@"%@ (cache? %i; listIconCache was %@)",inObject, cache, listIconCache);
+#endif
+		
+		if (cache) {
+			if (userIcon) 
+				[listIconCache setObject:userIcon forKey:inObject.internalObjectID];
+			else 
+				[listIconCache setObject:[NSNull null] forKey:inObject.internalObjectID];
+		}
 	}
 	
+	if ((id)userIcon == (id)[NSNull null]) userIcon = nil;
+
 	return userIcon;
 }
 
@@ -409,9 +448,18 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	//Render the icon if it's not cached
 	if (!userIcon) {
 		userIcon = [[inObject userIcon] imageByScalingForMenuItem];
-		if (userIcon) [menuIconCache setObject:userIcon
-									   forKey:inObject.internalObjectID];
+		if (userIcon) {
+			[menuIconCache setObject:userIcon
+							  forKey:inObject.internalObjectID];
+		} else {
+			[menuIconCache setObject:[NSNull null] forKey:inObject.internalObjectID];
+		}
+#ifdef AIUSERICON_DEBUG
+		AILogWithSignature(@"%@",inObject);
+#endif
 	}
+
+	if ((id)userIcon == (id)[NSNull null]) userIcon = nil;
 
 	if(!userIcon)
 		userIcon = [AIServiceIcons serviceIconForObject:inObject
@@ -428,6 +476,9 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
  */
 + (void)flushListUserIconCache
 {
+#ifdef AIUSERICON_DEBUG
+	AILogWithSignature(@"");
+#endif
 	[listIconCache removeAllObjects];
 }
 
@@ -443,6 +494,16 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	}	
 }
 
++ (void)flushCacheForObjectOnly:(AIListObject *)inObject
+{
+	NSString *internalObjectID = inObject.internalObjectID;
+	[iconCache removeObjectForKey:internalObjectID];
+	[iconCacheOwners removeObjectForKey:internalObjectID];
+	
+	[listIconCache removeObjectForKey:internalObjectID];
+	[menuIconCache removeObjectForKey:internalObjectID];
+}
+
 /*!
  * @brief Clear the cache for a specific object
  */
@@ -451,19 +512,28 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 #ifdef AIUSERICON_DEBUG
 	AILogWithSignature(@"%@",inObject);
 #endif
+	if ([inObject isKindOfClass:[AIMetaContact class]]) {
+		/* If a metacontact is cleared, the contained contacts should be, too cleared;
+		 * one or more of their icons may no longer be needed depending on what the new preferredContact is
+		 * for the metaContact. */
 
-	NSString *internalObjectID = inObject.internalObjectID;
-	[iconCache removeObjectForKey:internalObjectID];
-	[iconCacheOwners removeObjectForKey:internalObjectID];
+		for (AIListObject *containedObject in [(AIMetaContact *)inObject containedObjects]) {
+			[self flushCacheForObjectOnly:containedObject];
+		}
+		
+		[self flushCacheForObjectOnly:inObject];
 
-	[listIconCache removeObjectForKey:internalObjectID];
-	[menuIconCache removeObjectForKey:internalObjectID];
-
-	/* If a contact within a metacontact is cleared, the metacontact itself should also be cleared. */
-	if ([inObject isKindOfClass:[AIListContact class]]) {
+	} else if ([inObject isKindOfClass:[AIListContact class]]) {
+		/* If a contact within a metacontact is cleared, the metacontact itself should also be cleared, as
+		 * it may be depending upon this contact.This will clear us, too.
+		 *
+		 * If we're not in a metacontact, parentContact returns self. */
+		
 		AIListContact *parentContact = [(AIListContact *)inObject parentContact];
 		if (parentContact != inObject) {
 			[self flushCacheForObject:parentContact];	
+		} else {
+			[self flushCacheForObjectOnly:inObject];
 		}
 	}
 }

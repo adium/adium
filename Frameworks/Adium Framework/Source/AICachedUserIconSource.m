@@ -14,6 +14,14 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 
 @implementation AICachedUserIconSource
 
++ (AICachedUserIconSource  *)sharedCachedUserIconSourceInstance
+{
+	if (!sharedCachedUserIconSourceInstance)
+		sharedCachedUserIconSourceInstance = [[self alloc] init];
+	
+	return sharedCachedUserIconSourceInstance;
+}
+
 /*!
  * @brief Retrieve the path at which to cache an AIListObject's image
  */
@@ -49,7 +57,8 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 																 error:NULL];
 		}
 		
-		[AIUserIcons userIconSource:sharedCachedUserIconSourceInstance didChangeForObject:inObject];
+		[AIUserIcons userIconSource:[self sharedCachedUserIconSourceInstance] 
+				 didChangeForObject:inObject];
 		
 		return success;
 	}
