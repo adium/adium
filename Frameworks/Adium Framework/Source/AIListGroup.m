@@ -21,6 +21,8 @@
 #import <Adium/AIContactList.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContactHidingController.h>
+#import <Adium/AIProxyListObject.h>
+#import <Adium/AIUserIcons.h>
 
 #define PREF_GROUP_CONTACT_LIST_DISPLAY		@"Contact List Display"
 
@@ -101,13 +103,27 @@
 
 - (void) rebuildVisibleCache
 {
-	[_visibleObjects removeAllObjects];
+	NSMutableArray *oldVisibleObjects = _visibleObjects;
+	
+	_visibleObjects = [[NSMutableArray alloc] init];
 	for (AIListObject *obj in self)
 	{
 		if ([[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
 			[_visibleObjects addObject:obj];
 	}
+
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", nil] silent:NO];
+
+	/* Obtain the array of only objects which were previously visible but now are not */
+	[oldVisibleObjects removeObjectsInArray:_visibleObjects];
+	
+	for (AIListObject *obj in oldVisibleObjects) {
+		/* For each object which was previously visible but now is not, it's cache clearing time. */
+		[obj removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:obj inListObject:self]];
+		[AIUserIcons flushCacheForObject:obj];
+	}
+
+	[oldVisibleObjects release];
 }
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
@@ -140,6 +156,11 @@
 			[adium.contactController sortListObject:inObject];
 			
 			modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
+			
+			if (!shouldBeVisible) {
+				[inObject removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:inObject inListObject:self]];
+				[AIUserIcons flushCacheForObject:inObject];
+			}
 		}
 	}
 	
