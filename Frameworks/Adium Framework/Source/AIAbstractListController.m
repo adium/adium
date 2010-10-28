@@ -690,11 +690,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	if (!state) {
 		/* If the item is collapsed, clear cached data which was being used while it was displayed */
-		for (AIListObject *listObject in (containingObject.containedObjects)) {
+		for (AIListObject *listObject in (containingObject.visibleContainedObjects)) {
 			[AIUserIcons flushCacheForObject:listObject];
 			
-			[listObject removeProxyObject:[AIProxyListObject proxyListObjectForListObject:listObject
-																			 inListObject:containingObject]];
+			[listObject removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:listObject
+																					 inListObject:containingObject]];
 		}
 	}
 }
