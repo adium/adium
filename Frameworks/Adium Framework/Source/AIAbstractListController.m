@@ -586,11 +586,6 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
     AIListObject	*object = [notification object];
 
-	static int listObjectAttributesChangedNum = 0;
-	NSLog(@"listObjectAttributeChangesComplete #%i: %@ [%@]",
-		  ++listObjectAttributesChangedNum,
-		  object, [[notification userInfo] objectForKey:@"Keys"]);
-
 	//Redraw the modified object (or the whole list, if object is nil)
 	if (object) {
 		for (AIProxyListObject *proxyObject in [[object.proxyObjects copy] autorelease]) {
