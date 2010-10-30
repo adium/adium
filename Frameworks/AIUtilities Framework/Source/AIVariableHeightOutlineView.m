@@ -235,6 +235,12 @@
 - (void)drawRow:(NSInteger)row clipRect:(NSRect)rect
 {
 	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.
+	
+		/* Most important optimization ever:
+		 * Only draw if some part of this row's rect is in the clip rect */
+		if (NSIntersectsRect([self rectOfRow:row], rect) == FALSE)
+			return;
+
 		NSArray		*tableColumns = [self tableColumns];
 		id			item = [self itemAtRow:row];
 		NSUInteger	tableColumnIndex, count = [tableColumns count];
