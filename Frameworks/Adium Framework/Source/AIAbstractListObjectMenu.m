@@ -64,8 +64,8 @@
 /*!
  * @brief Returns a menu containing our menu items
  *
- * Remember that menu items can only be in one menu at a time, so if you use this functions you cannot do anything
- * manually the menu items
+ * Remember that menu items can only be in one menu at a time, so if you use this function you cannot do anything
+ * manually with the menu items
  */
 - (NSMenu *)menu
 {
