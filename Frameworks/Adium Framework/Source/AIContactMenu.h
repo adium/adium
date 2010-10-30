@@ -25,6 +25,7 @@
 	BOOL					shouldUseUserIcon;
 	BOOL					shouldSetTooltip;
 	BOOL					shouldIncludeContactListMenuItem;
+	BOOL					populateMenuLazily;
 }
 
 + (id)contactMenuWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
@@ -43,6 +44,7 @@
 - (BOOL)contactMenuShouldUseUserIcon:(AIContactMenu *)inContactMenu; 
 - (BOOL)contactMenuShouldSetTooltip:(AIContactMenu *)inContactMenu; 
 - (BOOL)contactMenuShouldIncludeContactListMenuItem:(AIContactMenu *)inContactMenu; 
+- (BOOL)contactMenuShouldPopulateMenuLazily:(AIContactMenu *)inContactMenu; 
 
 // Called on each rebuild:
 - (BOOL)contactMenuShouldDisplayGroupHeaders:(AIContactMenu *)inContactMenu; //only applies to contained groups

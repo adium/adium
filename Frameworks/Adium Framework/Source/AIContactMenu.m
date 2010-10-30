@@ -135,6 +135,8 @@
 	
 	shouldIncludeContactListMenuItem = ([delegate respondsToSelector:@selector(contactMenuShouldIncludeContactListMenuItem:)] &&
 										  [delegate contactMenuShouldIncludeContactListMenuItem:self]);	
+	populateMenuLazily = ([delegate respondsToSelector:@selector(contactMenuShouldPopulateMenuLazily:)] &&
+						  [delegate contactMenuShouldPopulateMenuLazily:self]);
 	
 }
 - (id<AIContactMenuDelegate>	)delegate
@@ -272,14 +274,19 @@
 				// The group isn't clickable.
 				[menuItem setEnabled:NO];
 				
+				if (populateMenuLazily) {
+					/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
+					 * the title, image, etc. */										
+				} else {
+					[self _updateMenuItem:menuItem];
+				}
+
 				// Add the group and contained objects to the array.
 				[menuItemArray addObject:menuItem];
 				[menuItemArray addObjectsFromArray:[self contactMenusForListObjects:containedListObjects]];
-				
+
 				[menuItem release];
-				
-				/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
-				 * the title, image, etc. */
+
 			}
 		} else {
 			// Just add the menu item.
@@ -291,8 +298,12 @@
 			[menuItemArray addObject:menuItem];
 			[menuItem release];
 			
-			/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
-			 * the title, image, etc. */
+			if (populateMenuLazily) {
+				/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
+				 * the title, image, etc. */										
+			} else {
+				[self _updateMenuItem:menuItem];
+			}
 		}
 
 	}
@@ -385,6 +396,20 @@
 					} else {
 						[self rebuildMenu];
 					}
+				} else {
+					if (populateMenuLazily) {
+						/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
+						 * the title, image, etc. */										
+					} else {
+						[self _updateMenuItem:menuItem];
+					}
+				}
+			} else {
+				if (populateMenuLazily) {
+					/* Note that we'll call _updateMenuItem before the item is actually displayed, to set
+					 * the title, image, etc. */										
+				} else {
+					[self _updateMenuItem:menuItem];
 				}
 			}
 		}
