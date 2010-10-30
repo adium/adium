@@ -49,7 +49,7 @@ fi
 # fi
 
 
-@# TextEdit doesn't read the UTF-8 BOM properly; set the encoding manually
+# TextEdit doesn't read the UTF-8 BOM properly; set the encoding manually
 xattr -w com.apple.TextEncoding 'UTF-8;134217984' "/Volumes/${VOLUME_NAME}/Changes.txt"
 
 # make sure it's not world writeable
