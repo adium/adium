@@ -279,8 +279,7 @@
 - (void)drawRect:(NSRect)rect
 {	
 	static int timesDrawn = 0;
-	NSLog(@"-[AIListOUtlineView drawRect:] Drew %i times", ++timesDrawn);
-	
+
 	[super drawRect:rect];
 	
 	/*	#################### Crappy Code ###################
