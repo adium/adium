@@ -167,7 +167,7 @@
 	[self detailsForHeaderChanged];
 }
 
-- (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems
+- (void)contactMenuDidRebuild:(AIContactMenu *)inContactMenu 
 {
 	NSMenu *tempMenu = [inContactMenu menu];
 	[tempMenu addItemWithTitle:@"" action:nil keyEquivalent:@""];

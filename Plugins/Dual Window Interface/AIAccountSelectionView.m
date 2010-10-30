@@ -392,7 +392,7 @@
 /*!
  * @brief Contact menu delegate
  */
-- (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems {
+- (void)contactMenuDidRebuild:(AIContactMenu *)inContactMenu {
 	AILogWithSignature(@"");
 	[popUp_contacts setMenu:[inContactMenu menu]];
 	[self chatDestinationChanged:nil];

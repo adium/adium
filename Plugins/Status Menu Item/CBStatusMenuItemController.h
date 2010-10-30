@@ -36,9 +36,10 @@
 	
 	NSMenu                  *mainMenu;
 	NSMenu					*mainAccountsMenu;
-	NSMenu					*mainContactsMenu;
 	NSMenu					*mainOptionsMenu;
 
+	NSMenuItem				*contactsMenuItem;
+	
 	AIContactMenu			*contactMenu;
 	AIAccountMenu           *accountMenu;
 	AIStatusMenu			*statusMenu;
@@ -46,7 +47,7 @@
 
 	NSMutableArray          *accountMenuItemsArray;
 	NSMutableArray          *stateMenuItemsArray;
-	NSMutableArray			*contactMenuItemsArray;
+	NSInteger				currentContactMenuItemsCount;
 	NSMutableArray          *openChatsArray;
 
 	NSTimer					*unviewedContentFlash;

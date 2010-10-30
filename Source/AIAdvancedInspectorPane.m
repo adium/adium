@@ -218,7 +218,7 @@
 													  nil)];
 }
 
-- (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems
+- (void)contactMenuDidRebuild:(AIContactMenu *)inContactMenu
 {
 	[popUp_contact setMenu:inContactMenu.menu];
 	
