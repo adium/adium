@@ -48,6 +48,10 @@ fi
 #   ./${SHELLSCRIPT} \"${VOLUME_NAME}\"
 # fi
 
+
+@# TextEdit doesn't read the UTF-8 BOM properly; set the encoding manually
+xattr -w com.apple.TextEncoding 'UTF-8;134217984' "/Volumes/${VOLUME_NAME}/Changes.txt"
+
 # make sure it's not world writeable
 echo "Fixing permissions..."
 chmod -Rf go-w "${MOUNT_DIR}" || true
