@@ -121,7 +121,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	if (delayedUpdateRequests > 0) {
 		delayedUpdateRequests--;
-		if ([self shouldDelayUpdates])
+		if (![self shouldDelayUpdates])
 			[self _performDelayedUpdates:nil];
 	}
 }
@@ -148,6 +148,9 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		BOOL restoreDelayUntilInactivity = (self.delayedUpdateTimer != nil);
 		
 		[self.delayedUpdateTimer invalidate]; self.delayedUpdateTimer = nil;
+
+		NSLog(@"endListObjectNotificationsDelaysImmediately");
+
 		[self _performDelayedUpdates:nil];
 		
 		/* After immediately performing updates as requested, go back to delaying until inactivity if that was the
@@ -158,10 +161,13 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	}
 }
 
+#define QUIET_DELAYED_UPDATE_PERIODS 3
+
 //Delay all list object notifications until a period of inactivity occurs.  This is useful for accounts that do not
 //know when they have finished connecting but still want to mute events.
 - (void)delayListObjectNotificationsUntilInactivity
 {
+	NSLog(@"*** Begin grouping delay ***");
     if (!delayedUpdateTimer) {
 		updatesAreDelayedUntilInactivity = YES;
 		self.delayedUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_CLUMP_INTERVAL
@@ -169,9 +175,12 @@ static AIContactObserverManager *sharedObserverManager = nil;
 																 selector:@selector(_performDelayedUpdates:)
 																 userInfo:nil
 																  repeats:YES];
+		quietDelayedUpdatePeriodsRemaining = QUIET_DELAYED_UPDATE_PERIODS; 
+
     } else {
 		//Reset the timer
 		[delayedUpdateTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:UPDATE_CLUMP_INTERVAL]];
+		quietDelayedUpdatePeriodsRemaining = QUIET_DELAYED_UPDATE_PERIODS;
 	}
 }
 
@@ -228,7 +237,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 //(When modifying display attributes in response to a status change, this is not necessary)
 - (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys
 {
-	if ([self shouldDelayUpdates]) {
+	BOOL shouldDelay = [self shouldDelayUpdates];
+	if (shouldDelay) {
 		delayedAttributeChanges++;
 		[delayedModifiedAttributeKeys unionSet:inModifiedKeys];
 	} else {
@@ -240,11 +250,20 @@ static AIContactObserverManager *sharedObserverManager = nil;
 
 	//Post an attributes changed message
 	[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributesChanged
-											  object:inObject
-											userInfo:(inModifiedKeys ?
-													  [NSDictionary dictionaryWithObject:inModifiedKeys
-																				  forKey:@"Keys"] :
-													  nil)];	
+														object:inObject
+													  userInfo:(inModifiedKeys ?
+																[NSDictionary dictionaryWithObject:inModifiedKeys
+																							forKey:@"Keys"] :
+																nil)];
+	 
+	if (!shouldDelay) {
+		NSLog(@"Immediate ListObject_AttributeChangesComplete for %@", inObject);
+		/* Note that we completed 1 or more delayed attribute changes */
+		[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributeChangesComplete
+															object:inObject
+														  userInfo:[NSDictionary dictionaryWithObject:inModifiedKeys
+																							   forKey:@"Keys"]];
+	}
 }
 
 //Performs any delayed list object/handle updates
@@ -253,7 +272,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	BOOL	updatesOccured = (delayedStatusChanges || delayedAttributeChanges || delayedContactChanges);
 	
 	static int updatesDone = 0;
-	
+	NSLog(@"_performDelayedUpdates %p: %i", timer, ++updatesDone);
+
 	//Send out global attribute & status changed notifications (to cover any delayed updates)
 	if (updatesOccured) {
 		BOOL shouldSort = NO;
@@ -276,6 +296,13 @@ static AIContactObserverManager *sharedObserverManager = nil;
 				[[AISortController activeSortController] shouldSortForModifiedAttributeKeys:delayedModifiedAttributeKeys]) {
 				shouldSort = YES;
 			}
+			
+			/* Note that we completed 1 or more delayed attribute changes; the precise object isn't known */
+			[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributeChangesComplete
+																object:nil
+															  userInfo:[NSDictionary dictionaryWithObject:delayedModifiedAttributeKeys
+																								   forKey:@"Keys"]];
+			 
 			[delayedModifiedAttributeKeys removeAllObjects];
 			delayedAttributeChanges = 0;
 		}
@@ -289,10 +316,12 @@ static AIContactObserverManager *sharedObserverManager = nil;
     //If no more updates are left to process, disable the update timer
 	//If there are no delayed update requests, remove the hold
 	if (!delayedUpdateTimer || !updatesOccured) {
-		if (delayedUpdateTimer) {
+		if (delayedUpdateTimer && (quietDelayedUpdatePeriodsRemaining-- <= 0)) {
 			[delayedUpdateTimer invalidate];
 			self.delayedUpdateTimer = nil;
 			updatesAreDelayedUntilInactivity = NO;
+			
+			NSLog(@"The delayedUpdateTimer has EXPIRED");
 		}
     }
 

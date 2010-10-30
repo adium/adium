@@ -26,6 +26,9 @@
 	NSMutableSet			*contactObservers;
 	NSMutableSet			*removedContactObservers;
 	NSTimer					*delayedUpdateTimer;
+	NSInteger				quietDelayedUpdatePeriodsRemaining;
+	
+	
 	NSInteger				delayedStatusChanges;
 	NSMutableSet			*delayedModifiedStatusKeys;
 	NSInteger				delayedAttributeChanges;

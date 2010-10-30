@@ -432,9 +432,9 @@
  *
  * Resize horizontally if desired and the display name changed
  */
-- (void)listObjectAttributesChanged:(NSNotification *)notification
+- (void)listObjectAttributeChangesComplete:(NSNotification *)notification
 {	
-	[super listObjectAttributesChanged:notification];
+	[super listObjectAttributeChangesComplete:notification];
 	
 	if (((AIListObject *)notification.object).isStranger)
 		return;
