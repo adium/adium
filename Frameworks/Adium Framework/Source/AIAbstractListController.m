@@ -679,6 +679,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroup:(AIProxyListObject *)item
 {
+#ifdef DEBUG_BUILD
+	if (NSIsFreedObject(item)) {
+		NSLog(@"Attempting to use a freed listobject proxy in %@", NSStringFromSelector(_cmd));
+	}
+#endif
 	return (!item || ([item.listObject isKindOfClass:[AIListGroup class]]));
 }
 
