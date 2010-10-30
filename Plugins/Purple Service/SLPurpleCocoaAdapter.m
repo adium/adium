@@ -31,6 +31,7 @@
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIImageAdditions.h>
 
@@ -164,6 +165,11 @@ static void ZombieKiller_Signal(int i)
 
 - (void)initLibPurple
 {
+	/* Initializing libpurple may result in loading a ton of buddies if our permit and deny lists are large; that, in
+	 * turn, would create and update a ton of contacts.
+	 */
+	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+
 	// Init the glib type system (used by GObjects)
 	g_type_init();
 	
@@ -245,6 +251,14 @@ static void ZombieKiller_Signal(int i)
 								   selector:@selector(networkDidChange:)
 									   name:AINetworkDidChangeNotification
 									 object:nil];
+
+	/* For any behaviors which occur on the next run loop, provide a buffer time of continued expectation of 
+	 * heavy activity.
+	 */
+	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
+	
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+
 }
 
 #pragma mark Lookup functions
