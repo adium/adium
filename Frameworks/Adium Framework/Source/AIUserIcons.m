@@ -422,7 +422,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 											   proportionally:YES
 											   allowAnimation:YES];
 #ifdef AIUSERICON_DEBUG
-		AILogWithSignature(@"%@ regenerated (cache? %i; listIconCache was %@)",inObject, cache, listIconCache);
+		AILogWithSignature(@"%@ regenerated (cache? %i)",inObject, cache);
 #endif
 		
 		if (cache) {
