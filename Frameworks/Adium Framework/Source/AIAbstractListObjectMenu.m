@@ -71,7 +71,6 @@
 {
 	if(!menu) {
 		menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
-		[menu setDelegate:self];
 
 		[menu setMenuChangedMessagesEnabled:NO];
 		for (NSMenuItem *menuItem in self.menuItems)

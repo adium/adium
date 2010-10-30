@@ -144,6 +144,14 @@
 	return delegate;
 }
 
+- (NSMenu *)menu
+{
+	NSMenu *theMenu = [super menu];
+	if (populateMenuLazily)
+		[theMenu setDelegate:self];
+	return theMenu;
+}
+
 /*!
  * @brief Inform our delegate when the menu is rebuilt
  */
