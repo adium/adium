@@ -31,7 +31,7 @@
 	NSInteger				delayedAttributeChanges;
 	NSMutableSet			*delayedModifiedAttributeKeys;
 
-	BOOL						updatesAreDelayed;
+	BOOL					updatesAreDelayedUntilInactivity;
 	NSMutableSet			*changedObjects;
 	
 	BOOL						informingObservers;
@@ -47,8 +47,8 @@
 - (void)delayListObjectNotifications;
 - (void)endListObjectNotificationsDelay;
 - (void)endListObjectNotificationsDelaysImmediately;
-@property (readonly, nonatomic) BOOL updatesAreDelayed;
 - (void)delayListObjectNotificationsUntilInactivity;
+- (BOOL)shouldDelayUpdates;
 - (void)listObjectStatusChanged:(AIListObject *)inObject modifiedStatusKeys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
 - (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys;
 - (void)updateListContactStatus:(AIListContact *)inContact;

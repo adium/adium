@@ -63,7 +63,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		delayedModifiedAttributeKeys = [[NSMutableSet alloc] init];
 		delayedContactChanges = 0;
 		delayedUpdateRequests = 0;
-		updatesAreDelayed = NO;		
+		updatesAreDelayedUntilInactivity = NO;
 	}
 	
 	return self;
@@ -84,6 +84,20 @@ static AIContactObserverManager *sharedObserverManager = nil;
 @synthesize delayedUpdateTimer;
 
 /*!
+ * @brief Should potentially expensive updates be deferred?
+ *
+ * Returns YES if, for any reason, now is just not the time to speak up.
+ *
+ * This could be YES because delayListObjectNotifications has been called without endListObjectNotificationsDelay being
+ * called yet, or because delayListObjectNotificationsUntilInactivity was called at least once and we haven't had a
+ * period of inactivity yet.
+ */
+- (BOOL)shouldDelayUpdates
+{
+	return ((delayedUpdateRequests > 0) || updatesAreDelayedUntilInactivity);
+}
+
+/*!
  * @brief Delay notifications for listObject changes until a matching endListObjectNotificationsDelay is called.
  *
  * This delays Contact_ListChanged, ListObject_AttributesChanged, Contact_OrderChanged notificationsDelays,
@@ -95,8 +109,6 @@ static AIContactObserverManager *sharedObserverManager = nil;
 - (void)delayListObjectNotifications
 {
 	delayedUpdateRequests++;
-
-	updatesAreDelayed = YES;
 }
 
 /*!
@@ -109,7 +121,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	if (delayedUpdateRequests > 0) {
 		delayedUpdateRequests--;
-		if (delayedUpdateRequests == 0)
+		if ([self shouldDelayUpdates])
 			[self _performDelayedUpdates:nil];
 	}
 }
@@ -130,7 +142,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	AILogWithSignature(@"");
 
-	if (delayedUpdateRequests) {
+	if ([self shouldDelayUpdates]) {
 		delayedUpdateRequests = 0;
 
 		BOOL restoreDelayUntilInactivity = (self.delayedUpdateTimer != nil);
@@ -146,14 +158,12 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	}
 }
 
-@synthesize updatesAreDelayed;
-
 //Delay all list object notifications until a period of inactivity occurs.  This is useful for accounts that do not
 //know when they have finished connecting but still want to mute events.
 - (void)delayListObjectNotificationsUntilInactivity
 {
     if (!delayedUpdateTimer) {
-		updatesAreDelayed = YES;
+		updatesAreDelayedUntilInactivity = YES;
 		self.delayedUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_CLUMP_INTERVAL
 																   target:self
 																 selector:@selector(_performDelayedUpdates:)
@@ -197,7 +207,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	modifiedAttributeKeys = [self _informObserversOfObjectStatusChange:inObject withKeys:inModifiedKeys silent:silent];
 	
     //Resort the contact list
-	if (updatesAreDelayed) {
+	if ([self shouldDelayUpdates]) {
 		delayedStatusChanges++;
 		[delayedModifiedStatusKeys unionSet:inModifiedKeys];
 	} else {
@@ -218,7 +228,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 //(When modifying display attributes in response to a status change, this is not necessary)
 - (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys
 {
-	if (updatesAreDelayed) {
+	if ([self shouldDelayUpdates]) {
 		delayedAttributeChanges++;
 		[delayedModifiedAttributeKeys unionSet:inModifiedKeys];
 	} else {
@@ -241,6 +251,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 - (void)_performDelayedUpdates:(NSTimer *)timer
 {
 	BOOL	updatesOccured = (delayedStatusChanges || delayedAttributeChanges || delayedContactChanges);
+	
+	static int updatesDone = 0;
 	
 	//Send out global attribute & status changed notifications (to cover any delayed updates)
 	if (updatesOccured) {
@@ -280,9 +292,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		if (delayedUpdateTimer) {
 			[delayedUpdateTimer invalidate];
 			self.delayedUpdateTimer = nil;
-		}
-		if (delayedUpdateRequests == 0) {
-			updatesAreDelayed = NO;
+			updatesAreDelayedUntilInactivity = NO;
 		}
     }
 
@@ -450,6 +460,9 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	informingObservers = NO;
 }
 
+/*!
+ * @brief Keep track of a contact who needs to be resorted whenever we're no longer delaying updates.
+ */
 - (void)noteContactChanged:(AIListObject *)inObject;
 {
 	if (!changedObjects)

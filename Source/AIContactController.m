@@ -369,7 +369,7 @@
 //Post a list grouping changed notification for the object and containing object
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object
 {
-	if ([contactPropertiesObserverManager updatesAreDelayed]) {
+	if ([contactPropertiesObserverManager shouldDelayUpdates]) {
 		[contactPropertiesObserverManager noteContactChanged:object];
 
 	} else {
@@ -1071,7 +1071,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Sort an individual object
 - (void)sortListObject:(AIListObject *)inObject
 {
-	if ([contactPropertiesObserverManager updatesAreDelayed]) {
+	if ([contactPropertiesObserverManager shouldDelayUpdates]) {
 		[contactPropertiesObserverManager noteContactChanged:inObject];
 
 	} else {
