@@ -184,6 +184,7 @@
  */
 - (void)dealloc
 {   
+	AILogWithSignature(@"");
 	AIListContact	*contact = chat.listObject;
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
@@ -218,6 +219,9 @@
 	//Release the views for which we are responsible (because we loaded them via -[NSBundle loadNibNamed:owner])
 	[nibrootView_messageView release];
 	[nibrootView_shelfVew release];
+	AILogWithSignature(@"Releasing %@ (%@, %i)", nibrootView_userList, [nibrootView_userList superview], [nibrootView_userList retainCount]);
+		AILogWithSignature(@"scrollView_userList %@ (%@, %i)", scrollView_userList, [scrollView_userList superview], [scrollView_userList retainCount]);
+	
 	[nibrootView_userList release];
 
 	//Release the hidden user list view

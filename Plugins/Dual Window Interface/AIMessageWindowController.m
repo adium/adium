@@ -136,6 +136,8 @@
 //dealloc
 - (void)dealloc
 {
+	AILogWithSignature(@"");
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	/* Ensure our window is quite clear we have no desire to ever hear from it again.  sendEvent: with a flags changed
