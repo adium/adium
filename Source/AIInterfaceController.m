@@ -453,6 +453,8 @@
 	if (!savedData)
 		return;
 
+	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+
 	for (NSDictionary *dict in [NSKeyedUnarchiver unarchiveObjectWithData:savedData]) {
 		AIMessageWindowController *windowController = [self openContainerWithID:[dict objectForKey:@"ID"]
 																		   name:[dict objectForKey:@"Name"]];
@@ -495,6 +497,8 @@
 		if (containerActiveChat)
 			[self setActiveChat:containerActiveChat];
 	}
+	
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 }
 
 /*!
