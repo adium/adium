@@ -1408,7 +1408,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 																			 error:NULL];
 
     for (NSString *fromName in fromNames) {
-		AILogFromGroup *fromGroup = fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
+		AILogFromGroup *fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
 
 		//Walk through every 'to' group
 		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
