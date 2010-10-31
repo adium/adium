@@ -34,6 +34,13 @@
 			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]] autorelease];
 }
 
+- (void)dealloc
+{
+	AILogWithSignature(@"");
+
+	[super dealloc];
+}
+
 - (NSArray *)chats
 {
 	return [(AIMessageWindowController *)[self windowController] containedChats];
