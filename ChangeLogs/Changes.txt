@@ -35,12 +35,13 @@ Version 1.5 (X/X/XXX)
  * Miscellaneous improvements to Copyright.txt file.
  
  
-Version 1.4 (X/X/XXX)
+Version 1.4 (10/31/2010)
  * Requires Mac OS X 10.5 or later
- * Added Twitter support
- * Added IRC support
+ * Added Twitter
+ * Added IRC
  * Greatly improved group chats and group chat bookmarks
- * Updated to libpurple 2.6.6
+ * Updated to libpurple 2.6.6 with added fixes
+ * Mind-bogglingly large number of enhancements and bug fixes
  
  Twitter 
   * Timeline messages appear in a group chat, direct messages as a one-on-one chat with a contact.
@@ -49,7 +50,6 @@ Version 1.4 (X/X/XXX)
   * Settings to customize: Update interval, Adium status updating, retweet links, and contact display in the contact list.
   * Getting info on a Twitter contact displays all of their information and their latest 20 tweets.
   * "Reply to a Tweet" window allows for pasting twitter.com URLs to easily respond to a tweet.
- 
   * Also includes support for StatusNet servers, such as Identi.ca
   
  IRC
@@ -98,7 +98,7 @@ Version 1.4 (X/X/XXX)
     * Hold option when dragging to add a contact to a secondary group.
     * Contact info inspector is now more focused on groups per contact than before.
   * Created a new Authorization Requests window
-    * Authorization requests no longer create one alert panel per request
+    * Authorization requests no longer create one alert panel per request.
     * The authorization requests window has add, ignore, and deny toolbar and context menu items.
   * Fixed deleting a group not removing its contents.
   * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
@@ -131,24 +131,28 @@ Version 1.4 (X/X/XXX)
   * The group count is no longer always displayed for collapsed contacts.
   * "Show Group Visible Count" has been returned to "Show Group Online Count", and counts only online, visible contacts. (#11362)
   * Status icons packs can now specify "Idle and Away" icons for contacts. (#872)
+  * Pressing left-arrow when selecting an item will select its parent item if it's not expanded, like Finder.
+
  
  Message Styles
   * You can now specify a different style for group chats, and customize all of the preferences independently of a regular chat. (#87)
   * Messages containing unordered lists are now displayed using bullets.
-  * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
-  * Corrected sorting of message styles in their popup (#9498)
-  * %message% is now replaced in a loop as we do other keywords. (#9672)
-  * %service% is now replaced in all templates, not just messages. (#11872)
-  * %senderPrefix% now contains a textual representation (., @, %, +, or an empty string) of the user's status in a group chat. (#11882)
-  * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
-  * Added "action" to the %messageClasses% of /me messages. (#11894)
+  * Improved the appearance and function of built-in message styles.
+  * Corrected sorting of message styles in the preferences. (#9498)
+  * Numerous improvements for style developers: 
+    * Styles now fall back to root level files for Status.html and Content.html. (#10868)
+    * %message% is now replaced in a loop as we do other keywords. (#9672)
+    * %service% is now replaced in all templates, not just messages. (#11872)
+    * %senderPrefix% now contains a textual representation (., @, %, +, or an empty string) of the user's status in a group chat. (#11882)
+    * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
+    * Added "action" to the %messageClasses% of /me messages. (#11894)
  
  Messaging
   * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
   * Added marking to the scroll bar like in [http://colloquy.info Colloquy]:
-    * When your name (or what you decide to highlight) is mentioned in a chat, a grey line is added.
-    * When the window or tab loses focus, a red line is added and you can "Jump to Focus Mark" to easily go to it.
-    * You can access the "Jump to Previous Mark", "Jump to Next Mark" and "Jump to Focus Mark" by right-clicking the scroll bar, or from the new Display menu.
+   * When your name (or what you decide to highlight) is mentioned in a chat, a grey line is added.
+   * When the window or tab loses focus, a red line is added and you can "Jump to Focus Mark" to easily go to it.
+   * You can access the "Jump to Previous Mark", "Jump to Next Mark" and "Jump to Focus Mark" by right-clicking the scroll bar, or from the new Display menu.
   * Added "Clear Display" to the new Display menu.
   * When cycling chats (using "Next Chat" and "Previous Chat") stay in the current window. (#6346)
   * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
@@ -156,23 +160,32 @@ Version 1.4 (X/X/XXX)
   * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
   * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
   * Added an image uploader.  Select the image, then either choose “Replace with Uploaded Image” from the Edit menu, right-click the image and choose it from that menu, right-click a link and choose it from that menu, or press ⌥⌘K.
-  * Nudge and buzz messages now appear as events in the window instead of messages from the contact.
   * Added an option to only count mentions for group chats when badging the dock or status menu item. (#11850)
   * Fixed clicking service links with message text when the link appears in the window it would open.
   * When a new file transfer arrives which requires confirmation, the chat's unviewed content count is increased.
   * A new message no longer unminimizes the chat window. (#52)
+  * Added an "only count number of unread mentions" for group chat tabs in the Messages advanced preferences.
+  * Added an optional confirmation when closing a window which has multiple tabs, either always or when at least one has unviewed messages. (#12006)
+  * Message styles can now be updated without relaunching Adium.
+  * Nudge and buzz messages now appear as events in the window instead of messages from the contact.
   * Fixed logging in St. John's Newfoundland's time zone. (#9557)
   * Fixed detecting Right-to-Left status for a number of languages, including Arabic. (#13612) 
+  * Prevent en-dash and em-dash from breaking URL parsing. (#11490)
+  * Fixed clicking on links whose messages contain '[' and a percent-escape such as %20.
+  * Fixed a bug when reading logs. (#8141)
+  * Fixed behavior regarding the substitutions preferences for Snow Leopard (such as "smart quotes", "smart dashes", spelling auto-correction, etc.)
+  * Fixed iChat emoticons not working on Snow Leopard (#12369).
 
  Accounts 
   * Fixed setting a global user icon. Previously, if you didn't have an account icon set but did set a global one, you would have no icon.
   * Changed behavior for account options: a lot were only changing when reconnecting, now all that are able to (i.e., non-connect options) take affect immediately.
-
+  * Fixed using a PAC-specified proxy for the hostname of the account. (#224)
+  
  Bonjour
   * Bonjour accounts now disconnect if we receive an error message.
  
  XMPP (Jabber, Google Talk, etc.)
-  * Updated XMPP server list when registering
+  * Updated XMPP server list when registering.
   * History from persistent group chats is now displayed as such and does not trigger events. (#6787)
   * Group chats which are not anonymous now display the actual contact in the user list. (#11841)
   * Fixed receiving colors and fonts from iChat. (#1323)
@@ -181,24 +194,42 @@ Version 1.4 (X/X/XXX)
   * "Not Authorized" is now displayed as a status message for contacts for whom you need to request authoriation.
   * Contacts are no longer told when you close their chat ("…has left the conversation"). (#8082)
   * Added a preference for file transfer proxies, defaulting to "proxy.eu.jabber.org."
- 
+  * Added a "BOSH Server" option for XMPP accounts. (#12844)
+  * Fixed a security issue where "Require SSL/TLS" for XMPP was being ignored.
+
  MSN
   * Possibly fixed a crash on connect. (#11508)
   * Fixes setting account-specific display names (only the global display name would be set).
   * Enabled server-side storing of contact aliases. (#11802)
   * Fixed displaying what message was unable to be sent when an error occurs. (#11796)
   * Moved the "display custom emoticons" to an account preference from the advanced preferences window.
+  * Updated libpurple to fix a vulnerability in MSN. (http://www.coresecurity.com/content/libpurple-arbitrary-write)
  
  AIM, ICQ, and MobileMe
+  * Added "Connect using SSL" as a default option for AIM and ICQ. (#9553) You can get information on the certificate by right-clicking the account in the Accounts preferences.
   * Added a preference to always use the AOL proxy server for file transfers and direct IM. (#11413)
-  * Added a preference to use SSL for connections. (#9553) You can get information on the certificate by right-clicking the account in the Accounts preferences.
   
  MySpace IM
   * Added support for msim links. (#8036)
  
+ Yahoo
+  * Fixed a wide variety of service errors.
+
+ QQ
+  * Restored connectivity.
+  
+ Zephyr
+  * Disabled Zephyr. As an unsupported protocol, we require patches to maintain it in working order. At this point in time, it just crashes. If you would like to contribute and maintain working Zephyr support, please contact us.
+
+ Chat Transcripts
+  * Added a confirmation before removing logs with the delete key. (#13097)
+  * Fixed incorrectly logging links containing ampersands (&) which caused logs to appear blank in the log viewer.
+
  Miscellaneous
+  * Improved launch time
   * You can now define which applications should be the default for different services in the Advanced preferences. (#158)
   * Updated the look of the file transfer window. Added a keyboard shortcut of CMD+. to stop the selected transfer.
+  * Improved multiple icons throughout Adium
   * The about box credits are now scrollable. (#9967)
   * The unread count is now cleared when clearing the display. (#10605)
   * Error and information display windows no longer exceed their maximum height, and take focus when opening. (#11793).
@@ -207,11 +238,18 @@ Version 1.4 (X/X/XXX)
   * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
   * Added "Contact went mobile" and "Contact returns from mobile" events. (#3248)
   * Fixed AppleScript erroring when creating a new status object. (#8863)
-  * Greatly reduced memory usage when receiving lots of messages while Adium is not being interacted with
-  * Idle contacts now resort immediately
+  * Greatly reduced memory usage when receiving lots of messages while Adium is inactive
+  * Idle contacts now resort immediately.
+  * Fixed the uptime script for single-user logins. (#10747)
   * The Downloads stack now bounces when a file transfer completes.
   * Moved dock icon and status menu item controls to a new "Message Alerts" advanced preferences.
-  * Updated to Sparkle 1.5
+  * Added throttling to Growl messages. Instead of, for example, posting 296 messages, Adium will Growl "296 messages".
+  * Cleaned up the look of the advanced preferences list.
+  * Updated to Sparkle 1.5 for improved notification and installation of future updates
+
+ Localization
+  * Added Ukrainian and Slovakian translations
+  * Updated and improved other translations
 
 
 Version 1.3.10 (01/12/2010)
