@@ -270,8 +270,10 @@ static NSString	*prefsCategory;
 	[connection setRootObject:self];
 	[connection registerName:@"com.adiumX.adiumX"];
 
+	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
 	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 
 	[pool release];
 	
