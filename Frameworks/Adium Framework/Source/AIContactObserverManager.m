@@ -270,7 +270,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	//Send out global attribute & status changed notifications (to cover any delayed updates)
 	if (updatesOccured) {
 		BOOL shouldSort = NO;
-		
+		BOOL postAttributesChangesComplete = NO;
 		//Inform observers of any changes
 		if (delayedContactChanges) {
 			delayedContactChanges = 0;
@@ -290,11 +290,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 				shouldSort = YES;
 			}
 			
-			/* Note that we completed 1 or more delayed attribute changes; the precise object isn't known */
-			[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributeChangesComplete
-																object:nil
-															  userInfo:[NSDictionary dictionaryWithObject:delayedModifiedAttributeKeys
-																								   forKey:@"Keys"]];
+			postAttributesChangesComplete = YES;
 			 
 			[delayedModifiedAttributeKeys removeAllObjects];
 			delayedAttributeChanges = 0;
@@ -304,6 +300,19 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		if (shouldSort) {
 			[adium.contactController sortContactList];
 		}
+		
+		if (postAttributesChangesComplete) {
+			/* Note that we completed 1 or more delayed attribute changes; the precise object isn't known
+			 *
+			 * This MUST be done AFTER we sort the contact list, if that was necessary, or we may trigger a redisplay
+			 * before the contact list does reloadData, leading to bad things as released objects are messaged via
+			 * the contact list delegate.
+			 */
+			[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributeChangesComplete
+																object:nil
+															  userInfo:[NSDictionary dictionaryWithObject:delayedModifiedAttributeKeys
+																								   forKey:@"Keys"]];
+		}		
 	}
 	
     //If no more updates are left to process, disable the update timer
