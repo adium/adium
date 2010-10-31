@@ -213,7 +213,7 @@
 		[voicesMenu addItem:menuItem];
 	}
 	
-	return voicesMenu;
+	return [voicesMenu autorelease];
 }
 
 /*!
