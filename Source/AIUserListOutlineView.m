@@ -19,4 +19,10 @@
 	return NO;
 }
 
+- (void)dealloc
+{
+	AILogWithSignature(@"");
+	[super dealloc];
+}
+
 @end
