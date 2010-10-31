@@ -206,17 +206,22 @@
 		[*thisStyle retain];
 	}
 
-	NSDictionary *fileAttrs = [[NSFileManager defaultManager] fileAttributesAtPath:[[*thisStyle bundle] bundlePath]
-																	  traverseLink:YES];
-	NSDate *modDate = [fileAttrs objectForKey:NSFileModificationDate];
-	if (lastStyleLoadDate && [modDate timeIntervalSinceDate:lastStyleLoadDate] > 0) {
-		[currentGroupStyle reloadStyle];
-		[currentRegularStyle reloadStyle];
+	if (thisStyle) {
+		NSDictionary *fileAttrs = [[NSFileManager defaultManager] fileAttributesAtPath:[[*thisStyle bundle] bundlePath]
+																		  traverseLink:YES];
+		NSDate *modDate = [fileAttrs objectForKey:NSFileModificationDate];
+		if (lastStyleLoadDate && [modDate timeIntervalSinceDate:lastStyleLoadDate] > 0) {
+			[currentGroupStyle reloadStyle];
+			[currentRegularStyle reloadStyle];
+		}
+		[lastStyleLoadDate release];
+		lastStyleLoadDate = [[NSDate date] retain];
+	} else {
+		[lastStyleLoadDate release];
+		lastStyleLoadDate = nil;
 	}
-	[lastStyleLoadDate release];
-	lastStyleLoadDate = [[NSDate date] retain];
 
-	return *thisStyle;
+	return (thisStyle ? *thisStyle : nil);
 }
 
 - (void) resetStylesForType:(AIWebkitStyleType)styleType
