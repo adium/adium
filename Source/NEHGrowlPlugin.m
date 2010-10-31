@@ -739,7 +739,7 @@
 	
 	[growlInfo appendAttributedString:defaultExplanation];
 	
-	return growlInfo;
+	return [growlInfo autorelease];
 }
 
 @end
