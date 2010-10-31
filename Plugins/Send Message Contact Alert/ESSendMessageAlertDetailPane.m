@@ -194,7 +194,7 @@
 		
 		enumerator = [((AIMetaContact *)toContact).uniqueContainedObjects objectEnumerator];
 		while ((listContact = [enumerator nextObject]) && !shouldInclude) {
-			shouldInclude = [accountServiceClass isEqualToString:toContact.service.serviceClass];
+			shouldInclude = [accountServiceClass isEqualToString:listContact.service.serviceClass];
 		}
 
 	} else {
