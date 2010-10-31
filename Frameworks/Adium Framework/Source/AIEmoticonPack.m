@@ -480,8 +480,8 @@
 					
 					//Add to our emoticon plist
 					[emoticonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						emoticonStrings, EMOTICON_EQUIVALENTS,
-						emoticonName, EMOTICON_NAME, nil] 
+											 emoticonStrings, EMOTICON_EQUIVALENTS,
+											 emoticonName, EMOTICON_NAME, nil] 
 									 forKey:newImageName];
 				}
 			}
@@ -528,7 +528,7 @@
 	if (equivString) {		
 		//Convert the text file into an array of strings		
 		equivString = [self _stringWithMacEndlines:equivString];
-		textEquivalents = [[equivString componentsSeparatedByString:@"\r"] retain];
+		textEquivalents = [equivString componentsSeparatedByString:@"\r"];
 	}
 	
 	return textEquivalents;
