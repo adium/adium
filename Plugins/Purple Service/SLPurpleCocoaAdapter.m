@@ -33,6 +33,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIUserIcons.h>
+#import <Adium/AIContactObserverManager.h>
 #import <AIUtilities/AIImageAdditions.h>
 
 #import <CoreFoundation/CoreFoundation.h>
@@ -722,37 +723,41 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 			return NULL;
 		}
 
-	} else if ([primaryString rangeOfString: @"did not get sent"].location != NSNotFound) {
+	} 
+	
+	if ([primaryString rangeOfString: @"did not get sent"].location != NSNotFound) {
 		//Oscar send error
 		//This may not ever occur as of libpurple 2.4.0; I can't find the phrase 'did not get sent' in any of the code. -evands
 		NSString *targetUserName = [[[[primaryString componentsSeparatedByString:@" message to "] objectAtIndex:1] componentsSeparatedByString:@" did not get "] objectAtIndex:0];
 		
 		errorMessage = [NSString stringWithFormat:AILocalizedString(@"Your message to %@ did not get sent",nil),targetUserName];
 		
-		if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Rate")]].location != NSNotFound) {
-			description = AILocalizedString(@"You are sending messages too quickly; wait a moment and try again.",nil);
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Service unavailable")]].location != NSNotFound ||
-				   [secondaryString rangeOfString:[NSString stringWithUTF8String:_("Not logged in")]].location != NSNotFound) {
-			description = AILocalizedString(@"Connection error.",nil);
-
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Refused by client")]].location != NSNotFound) {
-			description = AILocalizedString(@"Your message was refused by the other user.",nil);
-
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Reply too big")]].location != NSNotFound) {
-			description = AILocalizedString(@"Your message was too big.",nil);
-
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("In local permit/deny")]].location != NSNotFound) {
-			description = AILocalizedString(@"The other user is in your deny list.",nil);
-
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Too evil")]].location != NSNotFound) {
-			description = AILocalizedString(@"Warning level is too high.",nil);
-
-		} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("User temporarily unavailable")]].location != NSNotFound) {
-			description = AILocalizedString(@"The other user is temporarily unavailable.",nil);
-
-		} else {
-			description = AILocalizedString(@"No reason was given.",nil);
+		if (secondaryString) {
+			if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Rate")]].location != NSNotFound) {
+				description = AILocalizedString(@"You are sending messages too quickly; wait a moment and try again.",nil);
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Service unavailable")]].location != NSNotFound ||
+					   [secondaryString rangeOfString:[NSString stringWithUTF8String:_("Not logged in")]].location != NSNotFound) {
+				description = AILocalizedString(@"Connection error.",nil);
+				
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Refused by client")]].location != NSNotFound) {
+				description = AILocalizedString(@"Your message was refused by the other user.",nil);
+				
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Reply too big")]].location != NSNotFound) {
+				description = AILocalizedString(@"Your message was too big.",nil);
+				
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("In local permit/deny")]].location != NSNotFound) {
+				description = AILocalizedString(@"The other user is in your deny list.",nil);
+				
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("Too evil")]].location != NSNotFound) {
+				description = AILocalizedString(@"Warning level is too high.",nil);
+				
+			} else if ([secondaryString rangeOfString:[NSString stringWithUTF8String:_("User temporarily unavailable")]].location != NSNotFound) {
+				description = AILocalizedString(@"The other user is temporarily unavailable.",nil);
+			}
 		}
+		
+		if (!description)
+			description = AILocalizedString(@"No reason was given.",nil);
     }
 	
 	//If we didn't grab a translated version, at least display the English version Purple supplied
