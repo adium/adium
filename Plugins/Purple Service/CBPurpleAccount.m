@@ -2489,6 +2489,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	 * if we just have a 'now playing' status, the dynamic stats update will call
 	 * -[self setStatusState:usingStatusMessage:] in a moment.
 	 */	 
+	/* XXX Need to rate limit this on MSN, at least */
 	[purpleAdapter setSongInformation:(shouldIncludeNowPlayingInformationInAllStatuses ? [self purpleSongInfoDictionary] : nil) onAccount:self];
 }
 
