@@ -173,20 +173,35 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 {
 
 	NSString	*encodedString = nil;
-	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
+	NSString	*messageString = inContentMessage.message.string;
+	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:messageString
 																   fromAccount:(AIAccount *)inContentMessage.source
 																	    inChat:inContentMessage.chat];
 	
-	NSRange meRange = [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch];
-
-	if (!didCommand || meRange.location == 0) {
-		if (meRange.location == 0) {
+	BOOL hasSlashMe = ([messageString rangeOfString:@"/me " options:(NSCaseInsensitiveSearch | NSAnchoredSearch)].location == 0);
+	
+	/* /say is a special case; it's not actually a command, but an instruction to display the following text (even if
+	 * that text would normally be a command itself).
+	 */
+	BOOL hasSlashSay = ([messageString rangeOfString:@"/say " options:(NSCaseInsensitiveSearch | NSAnchoredSearch)].location == 0);
+	
+	if (!didCommand || hasSlashMe) {
+		if (hasSlashMe) {
 			inContentMessage.sendContent = NO;
 		}
-		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
-		 * If we're sending a message normally, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
+		/* If we're sending a message on an encrypted direct msg, we can encode the HTML normally, as links will go through fine.
+		 * However, in all other cases, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
 		 */
-		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? inContentMessage.message : [inContentMessage.message attributedStringByConvertingLinksToURLStrings])
+		NSAttributedString *messageAttributedString = inContentMessage.message;
+		
+		/* Remove the "/say" */
+		if (hasSlashSay)
+			messageAttributedString = [messageAttributedString attributedSubstringFromRange:NSMakeRange(@"/say ".length, 
+																										messageAttributedString.length - @"/say ".length)];
+		
+		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? 
+												   messageAttributedString :
+												   [messageAttributedString attributedStringByConvertingLinksToURLStrings])
 										  headers:NO
 										 fontTags:YES
 							   includingColorTags:YES
@@ -203,9 +218,10 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 							  allowJavascriptURLs:YES];
 	}
 	
-	if (!didCommand && [inContentMessage.message.string hasPrefix:@"/"]) {
+	
+	if (!didCommand && !hasSlashSay && [messageString hasPrefix:@"/"]) {
 		// Try to send it to the server, if we don't know what it is; definitely don't display.
-		[self sendRawCommand:[inContentMessage.message.string substringFromIndex:1]];
+		[self sendRawCommand:[messageString substringFromIndex:1]];
 		return nil;
 	} else {
 		return encodedString;
