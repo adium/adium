@@ -31,7 +31,7 @@
 - (void)_openChatToContactWithName:(NSString *)name onService:(NSString *)serviceIdentifier withMessage:(NSString *)body;
 - (void)_openAIMGroupChat:(NSString *)roomname onExchange:(NSInteger)exchange;
 - (void)_openXMPPGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)inPassword;
-- (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)password;
+- (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPort:(NSInteger)port andPassword:(NSString *)password;
 @end
 
 /*!
@@ -403,8 +403,10 @@
 				//TODO: 
 			}
 		} else if ([scheme caseInsensitiveCompare:@"irc"] == NSOrderedSame) {
-			// irc://server/channel?password
+			// irc://server:port/channel?password
 			NSString *channelName = [url fragment];
+			NSNumber *portNumber = [url port];
+			NSInteger port;
 			
 			if (!channelName.length && [url.path.lastPathComponent isEqualToString:@"/"]) {
 				channelName = @"#";
@@ -416,9 +418,15 @@
 				channelName = [@"#" stringByAppendingString:channelName];
 			}
 			
+			if (portNumber == nil) {
+				port = -1;
+			} else {
+				port = [portNumber intValue];
+			}
+			
 			channelName = [channelName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			
-			[self _openIRCGroupChat:channelName onServer:[url host] withPassword:[url query]];
+			[self _openIRCGroupChat:channelName onServer:[url host] withPort:port andPassword:[url query]];
 		} else if ([scheme caseInsensitiveCompare:@"msim"] == NSOrderedSame) {
 			NSString *contactName = [url queryArgumentForKey:@"cID"];
 			
@@ -484,12 +492,12 @@
 	}
 }
 
-- (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)password
+- (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPort:(NSInteger)port andPassword:(NSString *)password
 {
 	AIAccount *ircAccount = nil;
 	
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account.service.serviceClass isEqualToString:@"IRC"] && [account.host isEqualToString:server]) {
+		if ([account.service.serviceClass isEqualToString:@"IRC"] && [account.host isEqualToString:server] && (port == -1 || account.port == port)) {
 			ircAccount = account;
 			break;
 		}
