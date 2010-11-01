@@ -14,14 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#ifdef DEBUG_BUILD
-	//Extensive debug logging is always on for a debug build
-	#define PURPLE_DEBUG  TRUE
-#else
-	//Extensive debug logging may be preferentially turned on for Purple for a non-debug build
-	#define PURPLE_DEBUG FALSE
-#endif
-
 //#define MEANWHILE_NOT_AVAILABLE
 
 //Purple includes
