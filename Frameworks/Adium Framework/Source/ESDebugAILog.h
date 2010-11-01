@@ -22,6 +22,7 @@ extern BOOL AIDebugLoggingEnabled;
 #define AILogBacktrace() do { if(__builtin_expect(AIDebugLoggingEnabled, 0)) AILogBacktrace_impl(); } while(0)
 #define AILogWithSignature(fmt, args...) AILogWithPrefix(__PRETTY_FUNCTION__, fmt, ##args);
 void AIEnableDebugLogging();
+BOOL AIDebugLoggingIsEnabled();
 void AILogWithPrefix_impl (const char *signature, NSString *format, ...) __attribute__((format(__NSString__, 2, 3)));
 void AILog_impl (NSString *format, ...) __attribute__((format(__NSString__, 1, 2)));
 void AILogBacktrace_impl();
