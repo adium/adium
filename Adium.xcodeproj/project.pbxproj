@@ -604,6 +604,7 @@
 		348C47170D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 348C47160D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.m */; };
 		348F57940936F3CC00288E41 /* ESEditStatusGroupWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 348F57920936F3CC00288E41 /* ESEditStatusGroupWindowController.m */; };
 		348F579E0936FA6D00288E41 /* EditStatusGroup.nib in Resources */ = {isa = PBXBuildFile; fileRef = 348F579D0936FA6D00288E41 /* EditStatusGroup.nib */; };
+		349062A2127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349062A1127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m */; };
 		349195660C9662AA00595A04 /* AIListBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 349195640C9662AA00595A04 /* AIListBookmark.m */; };
 		349195670C9662AA00595A04 /* AIListBookmark.h in Headers */ = {isa = PBXBuildFile; fileRef = 349195650C9662AA00595A04 /* AIListBookmark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3496A8C207CE6B880055BBAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3496A8C107CE6B880055BBAB /* InfoPlist.strings */; };
@@ -3293,6 +3294,8 @@
 		348F579D0936FA6D00288E41 /* EditStatusGroup.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = EditStatusGroup.nib; path = Resources/EditStatusGroup.nib; sourceTree = "<group>"; };
 		348FF83E09128BEB00A942A8 /* CBPurpleAccount.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CBPurpleAccount.m; path = "Plugins/Purple Service/CBPurpleAccount.m"; sourceTree = "<group>"; };
 		348FF84909128D6300A942A8 /* AccountDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = AccountDefaults.plist; path = "Frameworks/Adium Framework/AccountDefaults.plist"; sourceTree = "<group>"; };
+		349062A0127F7E6900FC313F /* AITemporaryIRCAccountWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITemporaryIRCAccountWindowController.h; path = Source/AITemporaryIRCAccountWindowController.h; sourceTree = "<group>"; };
+		349062A1127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITemporaryIRCAccountWindowController.m; path = Source/AITemporaryIRCAccountWindowController.m; sourceTree = "<group>"; };
 		349195640C9662AA00595A04 /* AIListBookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIListBookmark.m; path = "Frameworks/Adium Framework/Source/AIListBookmark.m"; sourceTree = "<group>"; };
 		349195650C9662AA00595A04 /* AIListBookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIListBookmark.h; path = "Frameworks/Adium Framework/Source/AIListBookmark.h"; sourceTree = "<group>"; };
 		34943DEE07BAD918000F2A03 /* AccountPrivacy.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AccountPrivacy.nib; path = "Frameworks/Adium Framework/Resources/AccountPrivacy.nib"; sourceTree = "<group>"; };
@@ -6734,6 +6737,9 @@
 				34F1023A073449D500890D3B /* XtrasInstaller.h */,
 				34F10239073449D500890D3B /* XtrasInstaller.m */,
 				34F1022A0734499600890D3B /* XtraProgressWindow.nib */,
+				349062A0127F7E6900FC313F /* AITemporaryIRCAccountWindowController.h */,
+				349062A1127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m */,
+				34333FF2127F6E77007050E8 /* TemporaryIRCAccountWindow.nib */,
 			);
 			name = "URL and Xtras Installation handling";
 			sourceTree = "<group>";
@@ -8829,7 +8835,6 @@
 		F50A325A03B5798301A8010A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				34333FF2127F6E77007050E8 /* TemporaryIRCAccountWindow.nib */,
 				11C97DFC0F7D26C200E8DD37 /* dsa_pub.pem */,
 				34D8326107CBD598006466F2 /* AccountPrefs.plist */,
 				340E9B1F0E34EB900032BEA6 /* Info.plist */,
@@ -10845,6 +10850,7 @@
 				5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */,
 				76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */,
 				5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */,
+				349062A2127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
