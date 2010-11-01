@@ -40,7 +40,6 @@
 
 #pragma mark Debug
 // Debug ------------------------------------------------------------------------------------------------------
-#if (PURPLE_DEBUG)
 static void adiumPurpleDebugPrint(PurpleDebugLevel level, const char *category, const char *debug_msg)
 {
 	//Log error
@@ -65,7 +64,6 @@ PurpleDebugUiOps *adium_purple_debug_get_ui_ops(void)
 {
 	return &adiumPurpleDebugOps;
 }
-#endif
 
 // Core ------------------------------------------------------------------------------------------------------
 
@@ -141,10 +139,10 @@ static void adiumPurplePrefsInit(void)
 
 static void adiumPurpleCoreDebugInit(void)
 {
-#if (PURPLE_DEBUG)
 	AILog(@"adiumPurpleCoreDebugInit()");
     purple_debug_set_ui_ops(adium_purple_debug_get_ui_ops());
-#endif	
+
+	purple_debug_set_enabled(AIDebugLoggingIsEnabled());
 }
 
 static void associateLibpurpleAccounts(void)
