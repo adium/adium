@@ -340,9 +340,10 @@
 
 			/*
 			 * The MSN display name will be URL encoded via purple_url_encode().  The maximum length of the _encoded_ string is
-			 * BUDDY_ALIAS_MAXLEN (387 characters as of purple 2.0.0). We can't simply encode and truncate as we might end up with
+			 * BUDDY_ALIAS_MAXLEN (387 characters as of purple 2.7.5). We can't simply encode and truncate as we might end up with
 			 * part of an encoded character being cut off, so we instead truncate to smaller and smaller strings and encode, until it fits
 			 */
+			#define BUDDY_ALIAS_MAXLEN 387
 			const char *friendlyNameUTF8String = [friendlyName UTF8String];
 			NSInteger currentMaxNumberOfPreEncodedCharacters = BUDDY_ALIAS_MAXLEN;
 
@@ -357,15 +358,7 @@
 				currentMaxNumberOfPreEncodedCharacters -= 10;
 			}
 
-			
-			PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
-			
-			if (prpl_info && prpl_info->set_public_alias) {
-				(prpl_info->set_public_alias)(purple_account_get_connection(account),
-											  friendlyNameUTF8String,
-											  /* success_cb */ NULL,
-											  /* failure_cb */ NULL);
-			}
+			purple_account_set_alias(purple_account_get_connection(account), friendlyNameUTF8String);
 
 			[lastFriendlyNameChange release];
 			lastFriendlyNameChange = [now retain];
