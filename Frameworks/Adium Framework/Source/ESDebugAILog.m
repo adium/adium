@@ -32,6 +32,11 @@ void AIEnableDebugLogging()
 	[[NSNotificationCenter defaultCenter] postNotificationName:AIDebugLoggingEnabledNotification object:nil];
 }
 
+BOOL AIDebugLoggingIsEnabled()
+{
+	return AIDebugLoggingEnabled;	
+}
+
 /*!
  * @brief Adium debug log function
  *

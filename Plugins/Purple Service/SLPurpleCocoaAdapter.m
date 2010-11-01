@@ -164,6 +164,11 @@ static void ZombieKiller_Signal(int i)
 	purple_signal_emit(purple_network_get_handle(), "network-configuration-changed", NULL);
 }
 
+- (void)debugLoggingIsEnabledDidChange:(NSNotification *)inNotification
+{
+	purple_debug_set_enabled(AIDebugLoggingIsEnabled());
+}
+
 - (void)initLibPurple
 {
 	/* Initializing libpurple may result in loading a ton of buddies if our permit and deny lists are large; that, in
@@ -253,6 +258,13 @@ static void ZombieKiller_Signal(int i)
 									   name:AINetworkDidChangeNotification
 									 object:nil];
 
+	/* Be sure to enable debug logging if it is turned on after launch */
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(debugLoggingIsEnabledDidChange:)
+												 name:AIDebugLoggingEnabledNotification
+											   object:nil];
+
+	
 	/* For any behaviors which occur on the next run loop, provide a buffer time of continued expectation of 
 	 * heavy activity.
 	 */
@@ -537,7 +549,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					}
 
 					//In debug mode, verify we didn't miss any required values
-					if (PURPLE_DEBUG) {
+					if (AIDebugLoggingIsEnabled()) {
 						/* Get the chat_info for our desired account.  This will be a GList of proto_chat_entry
 						 * objects, each of which has a label and identifier.  Each may also have is_int, with a minimum
 						 * and a maximum integer value.
