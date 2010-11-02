@@ -196,8 +196,8 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 		
 		/* Remove the "/say" */
 		if (hasSlashSay)
-			messageAttributedString = [messageAttributedString attributedSubstringFromRange:NSMakeRange(@"/say ".length, 
-																										messageAttributedString.length - @"/say ".length)];
+			messageAttributedString = [messageAttributedString attributedSubstringFromRange:NSMakeRange([@"/say " length], 
+																										messageAttributedString.length - [@"/say " length])];
 		
 		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? 
 												   messageAttributedString :
