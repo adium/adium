@@ -36,7 +36,10 @@
 #pragma mark Drawing
 - (void)drawRow:(NSInteger)row clipRect:(NSRect)rect
 {
-	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.
+	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.		
+		if (NSIntersectsRect([self rectOfRow:row], rect) == FALSE)
+			return;
+
 		NSArray		*tableColumns = [self tableColumns];
 		id			item = [self itemAtRow:row];
 		NSUInteger	tableColumnIndex, count = [tableColumns count];
