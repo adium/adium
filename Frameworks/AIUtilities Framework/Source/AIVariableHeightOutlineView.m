@@ -232,14 +232,21 @@
 	}
 }
 
-- (void)drawRow:(NSInteger)row clipRect:(NSRect)rect
+/*!
+ * @brief Our implementation of drawRow:clipRect: which returns whether the row was drawn
+ *
+ * This is very useful if you are iterating rows in sequence. If drawRowIndexes:clipRect: is passed 1000 rows,
+ * but row 61 is outside the clip rect, rows 62 through 1000 will also be outside the clip rect.  Although
+ * -[self rectOfRow:] is reasonable cheap once, it can get quite expensive additively. See for example #14463 (700 Twitter contacts).
+ */
+- (BOOL)_ai_drawRow:(NSInteger)row clipRect:(NSRect)rect
 {
 	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.
 	
 		/* Most important optimization ever:
 		 * Only draw if some part of this row's rect is in the clip rect */
 		if (NSIntersectsRect([self rectOfRow:row], rect) == FALSE)
-			return;
+			return NO;
 
 		NSArray		*tableColumns = [self tableColumns];
 		id			item = [self itemAtRow:row];
@@ -273,6 +280,41 @@
 			[cell drawWithFrame:cellFrame inView:self];
 		}
 	}
+	
+	return YES;
+}
+
+
+- (void)drawRow:(NSInteger)row clipRect:(NSRect)rect
+{
+	(void)[self _ai_drawRow:row clipRect:rect];
+}
+
+/*!
+ * @brief Override drawRowIndexes:clipRect: to stop when we're outside the clipRect.
+ *
+ * When -[NSTableView drawRect:] is called before any table view data is cached, it will pass every row of the table
+ * in indexes - not just those we'll soon know are outside of clipRect, which it does on subsequent calls.
+ *
+ * That's okay for a small table, but if, say, 1000 rows are in the list, it's expensive to check each one to see
+ * if it should be displayed.
+ */
+- (void)drawRowIndexes:(NSIndexSet *)indexes clipRect:(NSRect)clipRect
+{
+	NSUInteger bufSize = indexes.count;
+	NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
+	NSUInteger i;
+	
+	NSRange range = NSMakeRange(indexes.firstIndex, (indexes.lastIndex - indexes.firstIndex) + 1);
+	[indexes getIndexes:buf maxCount:bufSize inIndexRange:&range];
+	
+	for (i = 0; i != bufSize; i++) {
+		/* draw until we're outside the clip rect.... */
+		if (![self _ai_drawRow:buf[i] clipRect:clipRect])
+			break;
+	}
+	
+	free(buf);
 }
 
 - (NSImage *)dragImageForRows:(NSUInteger *)buf count:(NSUInteger)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
