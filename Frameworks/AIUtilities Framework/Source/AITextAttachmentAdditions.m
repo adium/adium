@@ -9,15 +9,23 @@
 
 @implementation NSTextAttachment (AITextAttachmentAdditions)
 
-- (BOOL)wrapsImage
+- (BOOL)consideredImageForHFSType:(OSType)HFSTypeCode
+					pathExtension:(NSString *)pathExtension
 {
-	NSFileWrapper	*fileWrapper = [self fileWrapper];
-	NSArray			*imageFileTypes = [NSImage imageFileTypes];
-	OSType			HFSTypeCode = [[fileWrapper fileAttributes] fileHFSTypeCode];
-	NSString		*pathExtension;
+	NSMutableArray *imageFileTypes = [[NSImage imageFileTypes] mutableCopy];
+	NSArray *removeFileTypes = [NSArray arrayWithObjects:@"pdf", @"PDF", @"psd", @"PSD", @"'PDF '", nil];
+	
+	[imageFileTypes removeObjectsInArray:removeFileTypes];
 	
 	return ([imageFileTypes containsObject:NSFileTypeForHFSTypeCode(HFSTypeCode)] ||
-			((pathExtension = [[fileWrapper filename] pathExtension]) && [imageFileTypes containsObject:pathExtension]));	
+			([imageFileTypes containsObject:pathExtension]));
+}
+
+- (BOOL)wrapsImage
+{
+	NSFileWrapper	*fileWrapper = [self fileWrapper];	
+	return ([self consideredImageForHFSType:[[fileWrapper fileAttributes] fileHFSTypeCode]
+							  pathExtension:[[fileWrapper filename] pathExtension]]);
 }
 
 @end
