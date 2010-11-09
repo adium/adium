@@ -8,7 +8,7 @@
 
 #import "AIGenericMultipartImageUploader.h"
 
-@interface AIImageShackImageUploader : AIGenericMultipartImageUploader {
+@interface AIImageShackImageUploader : AIGenericMultipartImageUploader <NSXMLParserDelegate> {
 	NSData						*resultData;
 	NSXMLParser					*responseParser;
 	

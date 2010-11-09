@@ -10,7 +10,7 @@
 
 @class AILocalizationButton, ABPeoplePickerView, AIService, ABPerson, AIImageViewWithImagePicker;
 
-@interface OWABSearchWindowController : AIWindowController {
+@interface OWABSearchWindowController : AIWindowController <NSWindowDelegate> {
 	//Search View
 	IBOutlet ABPeoplePickerView			*peoplePicker;
 	

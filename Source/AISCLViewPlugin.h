@@ -29,7 +29,7 @@
 
 @protocol AIMultiContactListComponent;
 
-@interface AISCLViewPlugin : AIPlugin <AIMultiContactListComponent> {	
+@interface AISCLViewPlugin : AIPlugin <AIMultiContactListComponent, NSMenuDelegate> {	
 	NSMutableArray							*contactLists;
 
 	ESContactListAdvancedPreferences		*advancedPreferences;

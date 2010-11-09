@@ -24,7 +24,7 @@ typedef enum {
 	AINumberOfShortenLinkServices
 } AIShortenLinkService;
 
-@interface AIURLShortenerPlugin : AIPlugin {	
+@interface AIURLShortenerPlugin : AIPlugin <NSMenuDelegate> {	
 	AIShortenLinkService	shortener;
 }
 

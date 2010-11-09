@@ -14,7 +14,7 @@
  * <p>This class also contains methods for auto-sizing the parent window based on the selected tab.  The delegate is asked for the window size, and this tabview takes care of the animation.</p>
  * @see <tt><a href="category_n_s_object(_a_i_toolbar_tab_view_delegate).html" target="_top">NSObject(AIToolbarTabViewDelegate)</a></tt>
 */
-@interface AIToolbarTabView : NSTabView {
+@interface AIToolbarTabView : NSTabView <NSToolbarDelegate> {
     NSMutableDictionary *toolbarItems;
 	int					oldHeight;
 	

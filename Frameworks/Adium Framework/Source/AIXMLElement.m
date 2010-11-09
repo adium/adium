@@ -25,6 +25,8 @@
 
 #import <AIUtilities/AIStringAdditions.h>
 
+#import <ESDebugAILog.h>
+
 @interface AIXMLElement()
 @property (readwrite, retain, nonatomic) NSMutableArray *attributeNames;
 @property (readwrite, retain, nonatomic) NSMutableArray *attributeValues;
@@ -198,8 +200,8 @@
 {
 	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.
 	if (!obj) {
-		NSLog(@"Attempted to add null to AIXMLElement %@, backtrace available in debug mode", obj);
-		AILogWithBacktrace(@"Warning: Attempted to add (null) to AIXMLElement %@", obj);
+		AILog(@"Attempted to add null to AIXMLElement %@, backtrace available in debug mode", obj);
+		AILogBacktrace();
 		return;
 	}
 	NSAssert2(([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[AIXMLElement class]]), @"%@: addObject: %@ is of incorrect class",self,obj);

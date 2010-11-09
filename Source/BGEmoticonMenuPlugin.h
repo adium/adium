@@ -16,7 +16,7 @@
 
 #import "AIEmoticonPack.h"
 
-@interface BGEmoticonMenuPlugin : AIPlugin
+@interface BGEmoticonMenuPlugin : AIPlugin <NSMenuDelegate>
 {
 	NSMenuItem			*quickMenuItem;
 	NSMenuItem			*quickContextualMenuItem;

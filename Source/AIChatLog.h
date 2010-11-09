@@ -16,7 +16,7 @@
 
 #define ChatLog_WillDelete			@"ChatLog_WillDelete"
 
-@interface AIChatLog : NSObject {
+@interface AIChatLog : NSObject <NSXMLParserDelegate> {
     NSString	    *relativePath;
     NSString	    *from;
     NSString	    *to;

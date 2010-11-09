@@ -18,7 +18,7 @@
 
 @class ESFileTransfer, ESFileTransferProgressRow, AIVariableHeightOutlineView;
 
-@interface ESFileTransferProgressWindowController : AIWindowController {
+@interface ESFileTransferProgressWindowController : AIWindowController <NSOutlineViewDelegate, NSOutlineViewDataSource> {
 	NSMutableArray				*progressRows;
 	ESFileTransferProgressRow	*selectedRow;
 	

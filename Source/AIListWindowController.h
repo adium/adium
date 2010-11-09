@@ -46,7 +46,7 @@ typedef enum {
 
 @protocol AIContactListViewController, AIInterfaceContainer;
 
-@interface AIListWindowController : AIWindowController <AIInterfaceContainer, AIListControllerDelegate, AIRolloverButtonDelegate> {
+@interface AIListWindowController : AIWindowController <AIInterfaceContainer, AIListControllerDelegate, AIRolloverButtonDelegate, NSTextFieldDelegate, NSAnimationDelegate, NSWindowDelegate> {
 	BOOL                                borderless;
 	
 	NSSize								minWindowSize;

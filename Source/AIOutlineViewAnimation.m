@@ -30,7 +30,7 @@
 	return [[[self alloc] initWithDictionary:inDict delegate:inOutlineView] autorelease];
 }
 
-- (id)initWithDictionary:(NSDictionary *)inDict delegate:(AIAnimatingListOutlineView *)inOutlineView
+- (id)initWithDictionary:(NSDictionary *)inDict delegate:(AIAnimatingListOutlineView <NSAnimationDelegate> *)inOutlineView
 {
 	if ((self = [super initWithDuration:LIST_OBJECT_ANIMATION_DURATION animationCurve:NSAnimationEaseInOut])) {
 		dict = [inDict retain];

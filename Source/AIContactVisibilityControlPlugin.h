@@ -17,7 +17,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIAccountMenu.h>
 
-@interface AIContactVisibilityControlPlugin : AIPlugin <AIAccountMenuDelegate> {
+@interface AIContactVisibilityControlPlugin : AIPlugin <AIAccountMenuDelegate, NSMenuDelegate> {
 	NSMenuItem		*menuItem_hideContacts;
 	NSMenuItem		*menuItem_hideOffline;
 	NSMenuItem		*menuItem_hideIdle;

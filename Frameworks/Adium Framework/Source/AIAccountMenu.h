@@ -27,7 +27,7 @@ typedef enum {
 	AIAccountOptionsSubmenu
 } AIAccountSubmenuType;
 
-@interface AIAccountMenu : AIAbstractListObjectMenu <AIListObjectObserver, AIStatusMenuDelegate> {
+@interface AIAccountMenu : AIAbstractListObjectMenu <AIListObjectObserver, AIStatusMenuDelegate, NSMenuDelegate> {
 	id<AIAccountMenuDelegate>				delegate;
 	BOOL			delegateRespondsToDidSelectAccount;
 	BOOL			delegateRespondsToShouldIncludeAccount;	

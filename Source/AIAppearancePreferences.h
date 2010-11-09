@@ -16,7 +16,7 @@
 
 #import <Adium/AIPreferencePane.h>
 
-@interface AIAppearancePreferences : AIPreferencePane {
+@interface AIAppearancePreferences : AIPreferencePane <NSMenuDelegate> {
 	IBOutlet	NSPopUpButton	*popUp_statusIcons;
 	IBOutlet	NSPopUpButton	*popUp_serviceIcons;
 	IBOutlet	NSPopUpButton	*popUp_menuBarIcons;

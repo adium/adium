@@ -30,7 +30,7 @@ typedef enum {
 	ContactListImagePickerHiddenOnRight,
 } ContactListImagePickerPosition;
 
-@interface AIStandardListWindowController : AIListWindowController <AIStatusMenuDelegate> {
+@interface AIStandardListWindowController : AIListWindowController <AIStatusMenuDelegate, NSToolbarDelegate> {
 	IBOutlet	NSView						*view_statusAndImage;
 	
 	IBOutlet	NSView						*view_nameAndStatusMenu;

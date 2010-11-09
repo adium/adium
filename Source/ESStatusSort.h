@@ -18,7 +18,7 @@
 
 @class AILocalizationTextField;
 
-@interface ESStatusSort : AISortController {
+@interface ESStatusSort : AISortController <NSTableViewDelegate, NSTableViewDataSource> {
 	IBOutlet	NSButton		*checkBox_groupAvailable;
 	IBOutlet	NSButton		*checkBox_groupMobileSeparately;
 	

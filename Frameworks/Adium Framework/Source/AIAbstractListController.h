@@ -169,7 +169,7 @@ typedef enum {
 - (BOOL)forwardKeyEventToFindPanel:(NSEvent *)theEvent;
 @end
 
-@interface AIAbstractListController : NSObject <AISmoothTooltipTrackerDelegate> {	
+@interface AIAbstractListController : NSObject <AISmoothTooltipTrackerDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource> {	
 	AIAutoScrollView					*scrollView_contactList;
 	AIListOutlineView				*contactListView;
 	

@@ -33,7 +33,7 @@ typedef enum
 @class AIChat;
 @protocol AIFlexibleToolbarItemDelegate;
 
-@interface AIMessageWindowController : AIWindowController {
+@interface AIMessageWindowController : AIWindowController <NSToolbarDelegate, NSSplitViewDelegate> {
 	IBOutlet	NSTabView			*tabView_messages;
 	IBOutlet	PSMTabBarControl	*tabView_tabBar;
 	PSMAdiumTabStyle				*tabView_tabStyle;

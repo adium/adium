@@ -19,7 +19,7 @@
 
 @class AIAccount;
 
-@interface AIAuthorizationRequestsWindowController : AIWindowController {
+@interface AIAuthorizationRequestsWindowController : AIWindowController <NSToolbarDelegate> {
 	IBOutlet		NSTableView		*tableView;
 	
 	NSMutableArray					*requests;

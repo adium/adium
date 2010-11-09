@@ -7,7 +7,7 @@
 
 #import "AIHoveringPopUpButton.h"
 
-@interface AIContactListNameButton : AIHoveringPopUpButton {
+@interface AIContactListNameButton : AIHoveringPopUpButton <NSTextFieldDelegate> {
 	NSTextField	*textField_editor;
 	id			editTarget;
 	SEL			editSelector;

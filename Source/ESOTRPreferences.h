@@ -17,7 +17,7 @@
 #import "AIAdvancedPreferencePane.h"
 #import "AIAccountMenu.h"
 
-@interface ESOTRPreferences : AIAdvancedPreferencePane <AIAccountMenuDelegate> {
+@interface ESOTRPreferences : AIAdvancedPreferencePane <AIAccountMenuDelegate, NSTableViewDelegate, NSTableViewDataSource> {
 	IBOutlet	NSPopUpButton	*popUp_accounts;
 	IBOutlet	NSButton		*button_generate;
 	IBOutlet	NSTextField		*textField_privateKey;

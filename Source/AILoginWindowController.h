@@ -18,7 +18,7 @@
 
 @class AILoginController;
 
-@interface AILoginWindowController : AIWindowController {
+@interface AILoginWindowController : AIWindowController <NSTableViewDelegate, NSTableViewDataSource> {
 
     IBOutlet		NSTableView	*tableView_userList;
     IBOutlet		NSTableView	*tableView_editableUserList;
