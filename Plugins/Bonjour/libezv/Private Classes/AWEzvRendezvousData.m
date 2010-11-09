@@ -38,11 +38,11 @@
 
 /* subnegotiation that appears at start of rendezvous packet */
 /*                             Reserved version? */
-NSString	*subn = @"subn\x00\x00\x00\x01";
+const char subn[] = "subn\x00\x00\x00\x01";
 
 /* end of subnegotation. significance of value unknown */
 /*                        Reserved unknown       */
-NSString	*endn = @"\x00\x00\x00\x00";
+const char endn[] = "\x00\x00\x00\x00";
 
 /* initialization, create our dictionary */
 -(AWEzvRendezvousData *) init 
@@ -70,7 +70,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
     self = [self init];
     
     /* check that the length is ok */
-    if ([data length] < ([subn length] + 4 + [endn length])) {
+    if ([data length] < (sizeof(subn) + 4 + sizeof(endn))) {
 	AWEzvLog(@"Invalid rendezvous announcement: length %u", [data length]);
 		[self autorelease];
 	return nil;
@@ -100,7 +100,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
     fieldCount = ntohl(fieldCount);
     
     /* read fields from data */
-    for (i = [subn length] + 4 + [endn length] + 4; i < [data length];) {
+    for (i = sizeof(subn) + 4 + sizeof(endn) + 4; i < [data length];) {
 	int binFlag = 0;
 	
 	/* read length of field name */
@@ -361,9 +361,9 @@ NSString	*endn = @"\x00\x00\x00\x00";
     data = [[NSMutableData alloc] init];
     [data autorelease];
     /* add the subnegotiation string */
-    [data appendBytes:[subn UTF8String] length:[subn length]];
+    [data appendBytes:subn length:sizeof(subn)];
     [data appendBytes:&serialBE length:4];
-    [data appendBytes:[endn UTF8String] length:[endn length]];
+    [data appendBytes:endn length:sizeof(subn)];
     /* add a field containing the number of fields for the rest of the data */
     keycount = (UInt32)[keys count] + 1; /* +1 for slumming field */
     keycount = htonl(keycount);
