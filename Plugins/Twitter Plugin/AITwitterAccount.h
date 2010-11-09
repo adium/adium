@@ -164,6 +164,7 @@ typedef enum {
 }
 
 @property (readonly, nonatomic) NSString *timelineChatName;
+@property (readonly, nonatomic) NSString *timelineGroupName;
 @property (readonly, nonatomic) NSString *apiPath;
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;

@@ -226,11 +226,14 @@
 		
 		[newTimelineChat setDisplayName:self.timelineChatName];
 		
-		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat inGroup:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]];
+		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat
+															inGroup:[adium.contactController groupWithUID:self.timelineGroupName]];
 		
 		
 		if(!timelineBookmark) {
-			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@", self.timelineChatName, newTimelineChat, [adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]);
+			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
+				  self.timelineChatName, newTimelineChat,
+				  [adium.contactController groupWithUID:self.timelineGroupName]);
 		}
 	}
 	
@@ -836,6 +839,14 @@
 - (NSString *)timelineChatName
 {
 	return [NSString stringWithFormat:TWITTER_TIMELINE_NAME, self.UID];
+}
+
+/*!
+ * @brief The remote group name we'll stuff the timeline into
+ */
+- (NSString *)timelineGroupName
+{
+	return TWITTER_REMOTE_GROUP_NAME;
 }
 
 /*!
@@ -2308,7 +2319,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 						
 						// If the user isn't in a group, set them in the Twitter group.
 						if (listContact.countOfRemoteGroupNames == 0) {
-							[listContact addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
+							[listContact addRemoteGroupName:self.timelineGroupName];
 						}
 						
 						// Grab the Twitter display name and set it as the remote alias.
