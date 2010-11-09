@@ -16,7 +16,7 @@
 	
 	IBOutlet	AIDelayedTextField			*textField_alias;
 	IBOutlet	AIDelayedTextField			*textField_displayName;
-	IBOutlet	NSTextView					*textView_profile;
+	IBOutlet	NSTextView <NSWindowDelegate>	*textView_profile;
 	
 	IBOutlet	NSTextField					*label_localAlias;
 	IBOutlet	NSTextField					*label_remoteAlias;

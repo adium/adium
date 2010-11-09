@@ -17,7 +17,7 @@
 #import "AIPurpleOscarAccountViewController.h"
 
 @interface AIPurpleAIMAccountViewController : AIPurpleOscarAccountViewController {
-    IBOutlet        NSTextView                      *textView_textProfile;
+    IBOutlet        NSTextView <NSWindowDelegate>                     *textView_textProfile;
 }
 
 @end

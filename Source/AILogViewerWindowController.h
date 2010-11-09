@@ -58,7 +58,7 @@ typedef enum {
 
 @class AIListContact, AISplitView, KNShelfSplitView, AIChat, AIAccount;
 
-@interface AILogViewerWindowController : AIWindowController {
+@interface AILogViewerWindowController : AIWindowController <NSToolbarDelegate> {
 	AILoggerPlugin				*plugin;
 
 	IBOutlet	KNShelfSplitView	*shelf_splitView;

@@ -20,7 +20,7 @@
 
 @class AIEmoticonPack;
 
-@interface AIEmoticonPreferences : AIWindowController
+@interface AIEmoticonPreferences : AIWindowController <NSTableViewDelegate, NSTableViewDataSource>
 {
 	IBOutlet    NSTableView		*table_emoticonPacks;
 	NSMutableArray								*emoticonPackPreviewControllers;

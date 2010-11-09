@@ -27,7 +27,7 @@
 #define AIXtraTypeServiceIcons		@"adiumserviceicons"
 #define AIXtraTypeMenuBarIcons		@"adiummenubaricons"
 
-@interface AIXtrasManager : AIPlugin {
+@interface AIXtrasManager : AIPlugin <NSToolbarDelegate> {
 	NSMutableDictionary						*disabledXtras;
 	NSMutableArray							*categories;
 	NSMutableArray							*selectedCategory;

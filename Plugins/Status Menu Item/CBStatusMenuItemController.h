@@ -29,7 +29,7 @@
  *
  * @brief Manages the Adium NSStatusItem
  */
-@interface CBStatusMenuItemController : NSObject <AIChatObserver, AIListObjectObserver, AIAccountMenuDelegate, AIStatusMenuDelegate, AIContactMenuDelegate>
+@interface CBStatusMenuItemController : NSObject <AIChatObserver, AIListObjectObserver, AIAccountMenuDelegate, AIStatusMenuDelegate, AIContactMenuDelegate, NSMenuDelegate>
 {
 	NSStatusItem            *statusItem;
 	AIStatusItemView		*statusItemView;

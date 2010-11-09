@@ -20,7 +20,7 @@
 @class AIVariableHeightFlexibleColumnsOutlineView, AIListObject, AIAutoScrollView, CSNewContactAlertWindowController;
 @protocol ESContactAlertsViewControllerDelegate;
 
-@interface ESContactAlertsViewController : NSObject {
+@interface ESContactAlertsViewController : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource> {
 	IBOutlet	NSView						*view;
 
 	IBOutlet	AIVariableHeightFlexibleColumnsOutlineView	*outlineView_summary;

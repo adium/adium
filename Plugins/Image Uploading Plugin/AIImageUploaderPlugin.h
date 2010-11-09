@@ -17,7 +17,7 @@ typedef enum {
 
 @class AIImageUploaderWindowController, AIChat;
 
-@interface AIImageUploaderPlugin : AIPlugin {
+@interface AIImageUploaderPlugin : AIPlugin <NSMenuDelegate> {
 	NSMutableArray		*uploaders;
 	NSString			*defaultService;
 	

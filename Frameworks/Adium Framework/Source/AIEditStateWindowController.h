@@ -19,7 +19,7 @@
 
 @class AIAccount, AITextViewWithPlaceholder, AIService, AIAutoScrollView, AISendingTextView;
 
-@interface AIEditStateWindowController : AIWindowController {
+@interface AIEditStateWindowController : AIWindowController <NSTextViewDelegate> {
 	IBOutlet	NSBox				*box_title;
 	IBOutlet	NSTextField			*label_title;
 	IBOutlet	NSTextField			*textField_title;

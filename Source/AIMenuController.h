@@ -18,7 +18,7 @@
 
 @class AIListObject, AIChat;
 
-@interface AIMenuController : NSObject <AIMenuController> {
+@interface AIMenuController : NSObject <AIMenuController, NSMenuDelegate> {
 @private
     IBOutlet	NSObject<AIAdium>	*sharedAdium;
 	NSInteger					menuItemProcessingDelays;
