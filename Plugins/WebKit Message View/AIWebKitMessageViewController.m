@@ -454,6 +454,7 @@ static NSArray *draggedTypes = nil;
 	NSNumber	*minSize = [adium.preferenceController preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
 																 group:preferenceGroup];
 	[[webView preferences] setMinimumFontSize:(minSize ? [minSize intValue] : 1)];
+	[[webView preferences] setMinimumLogicalFontSize:(minSize ? [minSize intValue] : 1)];
 
 	//Update our icons before doing any loading
 	[self sourceOrDestinationChanged:nil];
