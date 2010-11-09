@@ -19,6 +19,8 @@
 #define LACONICA_PREFERENCE_PATH		@"Path"
 #define LACONICA_PREFERENCE_SSL			@"SSL"
 #define LACONICA_PREF_GROUP				@"Laconica Preferences"
+#define LACONICA_TIMELINE_NAME			@"%@ (%@)"
+#define LACONICA_REMOTE_GROUP_NAME		@"StatusNet"
 
 @interface AILaconicaAccount : AITwitterAccount {
 

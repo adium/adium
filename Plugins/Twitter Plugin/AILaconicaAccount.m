@@ -205,4 +205,20 @@
 	return NO;
 }
 
+/*!
+ * @brief The name of our timeline chat
+ */
+- (NSString *)timelineChatName
+{
+	return [NSString stringWithFormat:LACONICA_TIMELINE_NAME, self.host, self.UID];
+}
+
+/*!
+ * @brief The remote group name we'll stuff the timeline into
+ */
+- (NSString *)timelineGroupName
+{
+	return LACONICA_REMOTE_GROUP_NAME;
+}
+
 @end
