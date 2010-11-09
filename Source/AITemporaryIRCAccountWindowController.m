@@ -9,6 +9,7 @@
 
 #import "AIEditAccountWindowController.h"
 #import <Adium/AIAccountControllerProtocol.h>
+#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import "AIServiceMenu.h"

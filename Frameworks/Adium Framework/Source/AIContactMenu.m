@@ -7,13 +7,14 @@
 //
 
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AISortController.h>
 #import <Adium/AIContactMenu.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIContactList.h>
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @interface AIContactMenu ()
@@ -356,7 +357,7 @@
 	return inMenu.numberOfItems;
 }
 	 
-- (BOOL)menu:(NSMenu *)inMenu updateItem:(NSMenuItem *)menuItem atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
+- (BOOL)menu:(NSMenu *)inMenu updateItem:(NSMenuItem *)menuItem atIndex:(NSInteger)anIndex shouldCancel:(BOOL)shouldCancel
 {
 	if (shouldCancel)
 		return NO;
