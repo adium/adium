@@ -38,11 +38,11 @@
 
 /* subnegotiation that appears at start of rendezvous packet */
 /*                             Reserved version? */
-const char subn[] = "subn\x00\x00\x00\x01";
+const char subn[] = { 's', 'u', 'b', 'n', '\x00', '\x00', '\x00', '\x01'};
 
 /* end of subnegotation. significance of value unknown */
 /*                        Reserved unknown       */
-const char endn[] = "\x00\x00\x00\x00";
+const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 
 /* initialization, create our dictionary */
 -(AWEzvRendezvousData *) init 
