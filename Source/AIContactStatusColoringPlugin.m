@@ -248,13 +248,13 @@
 {
     AIListContact	*object;
 
+	NSSet *modifiedKeys = [NSSet setWithObjects:@"Text Color", @"Label Color", @"Inverted Text Color", nil];
+	
     for (object in flashingListObjects) {
         [self _applyColorToContact:object];
         
-        //Force a redraw
-        [[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributesChanged 
-												  object:object
-												userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"textColor", @"labelColor", @"invertedTextColor", nil] forKey:@"Keys"]];
+		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:object
+																 modifiedKeys:modifiedKeys];
     }
 }
 
