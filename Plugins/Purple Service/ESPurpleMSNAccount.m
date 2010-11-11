@@ -358,7 +358,7 @@
 				currentMaxNumberOfPreEncodedCharacters -= 10;
 			}
 
-			purple_account_set_alias(purple_account_get_connection(account), friendlyNameUTF8String);
+			purple_account_set_alias(account, friendlyNameUTF8String);
 
 			[lastFriendlyNameChange release];
 			lastFriendlyNameChange = [now retain];
