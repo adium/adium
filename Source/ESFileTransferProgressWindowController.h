@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIWindowController.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 
 @class ESFileTransfer, ESFileTransferProgressRow, AIVariableHeightOutlineView;
 

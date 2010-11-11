@@ -6,6 +6,7 @@
 //  Copyright (c) 2004-2005 The Adium Team. All rights reserved.
 //
 
+#import <AIUtilities/AILeopardCompatibility.h>
 /*!
  * @class AIToolbarTabView
  * @brief <tt>NSTabView</tt> subclass for creating preference-type windows

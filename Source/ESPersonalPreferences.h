@@ -6,6 +6,7 @@
 //
 
 #import <Adium/AIPreferencePane.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AIImageViewWithImagePicker, AIDelayedTextField;
 

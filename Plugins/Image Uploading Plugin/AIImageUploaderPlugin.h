@@ -5,6 +5,7 @@
 //  Created by Zachary West on 2009-05-26.
 //  Copyright 2009 Adium. All rights reserved.
 //
+#import <AIUtilities/AILeopardCompatibility.h>
 
 #define PREF_KEY_DEFAULT_IMAGE_UPLOADER	@"Default Image Uploader"
 
