@@ -15,6 +15,7 @@
  */
 
 #import "AIEmoticonPack.h"
+#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface BGEmoticonMenuPlugin : AIPlugin <NSMenuDelegate>
 {

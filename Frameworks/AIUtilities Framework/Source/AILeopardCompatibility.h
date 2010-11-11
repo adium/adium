@@ -49,6 +49,33 @@
 - (BOOL)isOnActiveSpace;
 @end
 
+@protocol NSToolbarDelegate
+@end
+@protocol NSSplitViewDelegate
+@end
+@protocol NSTextViewDelegate
+@end
+@protocol NSMenuDelegate
+@end
+@protocol NSOutlineViewDelegate
+@end
+@protocol NSOutlineViewDataSource
+@end
+@protocol NSWindowDelegate
+@end
+@protocol NSXMLParserDelegate
+@end
+@protocol NSTableViewDelegate
+@end
+@protocol NSTableViewDataSource
+@end
+@protocol NSTextFieldDelegate
+@end
+@protocol NSAnimationDelegate
+@end
+@protocol NSSpeechSynthesizerDelegate
+@end
+
 #endif
 
 enum { NSWindowCollectionBehaviorStationary = 1 << 4 };

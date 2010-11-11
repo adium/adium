@@ -7,6 +7,7 @@
 //
 
 #import <Adium/AIWindowController.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 
 #define AUTHORIZATION_REQUESTS		AILocalizedString(@"Authorization Requests", nil)
 #define GET_INFO					AILocalizedString(@"Get Info", nil)

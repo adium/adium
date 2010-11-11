@@ -17,6 +17,7 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIWindowController.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AIEmoticonPack;
 
