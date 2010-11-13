@@ -101,6 +101,9 @@
 																					  andMessage:attributedMessage
 																						  target:self
 																						userInfo:infoDict] retain];
+		if ([infoDict objectForKey:@"Image"])
+			[requestController setImage:[infoDict objectForKey:@"Image"]];
+
 		[requestController setAllowsCloseWithoutResponse:NO];
 	}
 	
