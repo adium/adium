@@ -27,6 +27,18 @@
     return "prpl-icq";
 }
 
+- (void)initAccount
+{
+	if ([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] caseInsensitiveCompare:@"login.oscar.aol.com"] == NSOrderedSame) {
+		/* Reset to the default if we're set to the old AOL login server */
+		[self setPreference:nil
+					 forKey:KEY_CONNECT_HOST
+					  group:GROUP_ACCOUNT_STATUS];
+	}
+	
+	[super initAccount];
+}
+
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
