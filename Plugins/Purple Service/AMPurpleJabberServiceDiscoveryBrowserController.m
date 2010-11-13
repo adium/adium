@@ -83,7 +83,7 @@ static NSImage *det_triangle_closed = nil;
 		
 		for (identity in identities) {
 			if ([[identity objectForKey:@"category"] isEqualToString:@"gateway"])
-#warning This should not be called outside libpurple!
+			/* XXX Using 'extern' declared function from jabber prpl */
 				jabber_register_gateway((JabberStream*)gc->proto_data, [[item jid] UTF8String]);
 			else if ([[identity objectForKey:@"category"] isEqualToString:@"conference"]) {
                 DCJoinChatWindowController *jcwc = [DCJoinChatWindowController showJoinChatWindow];
@@ -97,7 +97,7 @@ static NSImage *det_triangle_closed = nil;
 					[(DCPurpleJabberJoinChatViewController*)[jcwc joinChatViewController] setRoomName:[[item jid] substringToIndex:atsign.location]];
 				}
 			} else if ([[identity objectForKey:@"category"] isEqualToString:@"directory"]) {
-#warning This should not be called outside libpurple!
+				/* XXX Using 'extern' declared function from jabber prpl */
 				jabber_user_search((JabberStream*)gc->proto_data, [[item jid] UTF8String]);
 			} else if ([[identity objectForKey:@"category"] isEqualToString:@"automation"] &&
 					   [[identity objectForKey:@"type"] isEqualToString:@"command-node"]) {
@@ -107,7 +107,7 @@ static NSImage *det_triangle_closed = nil;
 				cmd.node = (char*)[[item node] UTF8String];
 				cmd.name = (char*)[[item name] UTF8String];
 				
-#warning This should not be called outside libpurple!
+				/* XXX Using 'extern' declared function from jabber prpl */
 				jabber_adhoc_execute(gc->proto_data, &cmd);
 			}
 		}
@@ -123,7 +123,7 @@ static NSImage *det_triangle_closed = nil;
 	cmd.node = (char*)[[commandnode node] UTF8String];
 	cmd.name = (char*)[[commandnode name] UTF8String];
 	
-#warning This should not be called outside libpurple!
+	/* XXX Using 'extern' declared function from jabber prpl */
 	jabber_adhoc_execute(gc->proto_data, &cmd);
 }
 
