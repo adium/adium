@@ -142,12 +142,13 @@ static void *adiumPurpleRequestChoice(const char *title, const char *primary,
 	return nil;
 }
 
-//Purple requests the user take an action such as accept or deny a buddy's attempt to add us to her list 
-static void *adiumPurpleRequestAction(const char *title, const char *primary,
-									const char *secondary, gint default_action,
-									PurpleAccount *account, const char *who, PurpleConversation *conv,
-									void *userData,
-									size_t actionCount, va_list actions)
+static void *adiumPurpleRequestActionWithIcon(const char *title, const char *primary,
+											   const char *secondary, int default_action,
+											   PurpleAccount *account, const char *who,
+											   PurpleConversation *conv, 
+											   gconstpointer icon_data, gsize icon_size,
+											   void *user_data,
+											   size_t action_count, va_list actions)
 {
     NSString			*titleString = (title ? [NSString stringWithUTF8String:title] : @"");
 	NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
@@ -240,10 +241,35 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
 			[infoDict setObject:[NSString stringWithUTF8String:who] forKey:@"who"];
 		}
 
+		if (icon_data && (icon_size > 0)) {
+			NSData *imageData = [NSData dataWithBytes:icon_data length:icon_size];
+			NSImage *image = [[[NSImage alloc] initWithData:imageData] autorelease];
+			if (image) 
+				[infoDict setObject:image forKey:@"Image"];
+		}
+
 		requestController = [ESPurpleRequestActionController showActionWindowWithDict:infoDict];
 	}
 
 	return requestController;
+}
+
+//Purple requests the user take an action such as accept or deny a buddy's attempt to add us to her list 
+static void *adiumPurpleRequestAction(const char *title, const char *primary,
+									  const char *secondary, int default_action,
+									  PurpleAccount *account, const char *who,
+									  PurpleConversation *conv,
+									  void *userData,
+									  size_t actionCount, va_list actions)
+{
+	adiumPurpleRequestActionWithIcon(title, primary,
+									 secondary, default_action,
+									 account, who,
+									 conv,
+									 /* iconData */ NULL, /* iconSize */ 0,
+									 userData,
+									 actionCount, actions);
+								 
 }
 
 static void *adiumPurpleRequestFields(const char *title, const char *primary,
@@ -396,8 +422,10 @@ static PurpleRequestUiOps adiumPurpleRequestOps = {
 	adiumPurpleRequestFile,
     adiumPurpleRequestClose,
 	adiumPurpleRequestFolder,
-	/* _purple_reserved 1-4 */
-	NULL, NULL, NULL, NULL
+	adiumPurpleRequestActionWithIcon,
+	NULL, /* reserved */
+ 	NULL, /* reserved */
+ 	NULL /* reserved */
 };
 
 PurpleRequestUiOps *adium_purple_request_get_ui_ops()
