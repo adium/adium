@@ -82,7 +82,6 @@
 	NSMutableArray				*recentlyClosedChats;
 }
 
-- (IBAction)toggleContactList:(id)sender;
 - (IBAction)showContactListAndBringToFront:(id)sender;
 
 - (IBAction)closeMenu:(id)sender;
