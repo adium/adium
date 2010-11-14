@@ -213,12 +213,15 @@
 	//Clear any previous disconnection error
 	[self setLastDisconnectionError:nil];
 	
-	// Creating the fake timeline account.
+	// Creating the timeline chat's bookmark.
 	AIListBookmark *timelineBookmark = [adium.contactController existingBookmarkForChatName:self.timelineChatName
 																				  onAccount:self
 																		   chatCreationInfo:nil];
 	
-	if(!timelineBookmark) {
+	if (timelineBookmark) {
+		[timelineBookmark restoreGrouping];
+
+	} else {
 		AIChat *newTimelineChat = [adium.chatController chatWithName:self.timelineChatName
 														  identifier:nil
 														   onAccount:self 
@@ -951,6 +954,30 @@
 		}	
 	}
 }
+
+/*!
+ * @brief How should deletion of a particular group be handled?
+ *
+ * If the account returns AIAccountGroupDeletionShouldRemoveContacts, then each contact will be removed from the contact list
+ * If instead AIAccountGroupDeletionShouldIgnoreContacts is returned, the group is removed from the contact list's display
+ *   but contacts are not affected.  In this case, the account should take action to avoid redisplaying the group in
+ *   the future. This is used for, for example, the Twitter timeline; a deletion is unlikely to mean the user actually
+ *   wanted to stop following all contained contacts.
+ */
+- (AIAccountGroupDeletionResponse)willDeleteGroup:(AIListGroup *)group
+{
+	if ([group.UID isEqualToString:self.timelineGroupName]) {
+		/* Hide the group by no longer loading Twitter contacts */
+		[self setPreference:[NSNumber numberWithBool:NO]
+					 forKey:TWITTER_PREFERENCE_LOAD_CONTACTS 
+					  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		return AIAccountGroupDeletionShouldIgnoreContacts;
+
+	} else {
+		return AIAccountGroupDeletionShouldRemoveContacts;
+	}
+}
+
 
 /*!
  * @brief Follow the requested contact, trigger an information pull for them.
