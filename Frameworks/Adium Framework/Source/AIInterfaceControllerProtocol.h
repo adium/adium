@@ -106,6 +106,13 @@ typedef enum {
  */
 - (IBAction)closeContactList:(id)sender;
 /*!
+ * @brief Toggle the contact list
+ *
+ * Show the contact list if it's closed, bring it to the front if it's open but not in the front,
+ * or close it if it's active.
+ */
+- (IBAction)toggleContactList:(id)sender;
+/*!
  * @returns YES if contact list is visible and selected, otherwise NO
  */
 @property (nonatomic, readonly) BOOL contactListIsVisibleAndMain;

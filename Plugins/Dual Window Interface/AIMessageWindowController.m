@@ -966,7 +966,7 @@
 //Allow dragging of text
 - (NSArray *)allowedDraggedTypesForTabView:(NSTabView *)aTabView
 {
-	return [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, NSFilenamesPboardType, NSTIFFPboardType, NSPDFPboardType, NSPICTPboardType, nil];
+	return [NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, NSFilenamesPboardType, NSTIFFPboardType, NSPDFPboardType, nil];
 }
 
 //Accept dragged text

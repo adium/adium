@@ -157,7 +157,7 @@ NSString *quotes[] = {
 			NSString *outputFileDir = [[outputBasePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", service, account]] stringByAppendingPathComponent:user];
 			NSString *outputFile = [outputFileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%@).adiumLog", user, [date descriptionWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z" timeZone:nil locale:nil]]];
 			[fm createDirectoryAtPath:outputFileDir withIntermediateDirectories:YES attributes:nil error:NULL];
-			[fm copyPath:fullInputPath toPath:outputFile handler:self];
+			[fm copyItemAtPath:fullInputPath toPath:outputFile error:NULL];
 		}
 		else if([extension isEqualToString:@"session2"])
 		{
@@ -167,7 +167,7 @@ NSString *quotes[] = {
 			NSString *outputFileDir = [[outputBasePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", service, account]] stringByAppendingPathComponent:user];
 			NSString *outputFile = [outputFileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%@).AdiumHTMLLog", user, [date descriptionWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z" timeZone:nil locale:nil]]];
 			[fm createDirectoryAtPath:outputFileDir withIntermediateDirectories:YES attributes:nil error:NULL];
-			[fm copyPath:fullInputPath toPath:outputFile handler:self];
+			[fm copyItemAtPath:fullInputPath toPath:outputFile error:NULL];
 		}
 		else if([extension isEqualToString:@"xhtml"])
 		{
@@ -185,7 +185,7 @@ NSString *quotes[] = {
 				NSString *realOutputFileDir = [[outputBasePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", service, account]] stringByAppendingPathComponent:user];
 				NSString *realOutputFile = [realOutputFileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%@).chatlog", user, [date descriptionWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z" timeZone:nil locale:nil]]];
 				[fm createDirectoryAtPath:realOutputFileDir withIntermediateDirectories:YES attributes:nil error:NULL];
-				[fm movePath:outputFile toPath:realOutputFile handler:self];
+				[fm moveItemAtPath:outputFile toPath:realOutputFile error:NULL];
 			}
 			[xmlLog release];
 		}

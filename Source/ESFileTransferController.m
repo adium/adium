@@ -391,8 +391,8 @@ static ESFileTransferPreferences *preferences;
 			}
 			
 			if (inPath) {
-				long fileSize = [[[defaultManager fileAttributesAtPath:inPath
-														  traverseLink:YES] objectForKey:NSFileSize] longValue];
+				long fileSize = [[[defaultManager attributesOfItemAtPath:inPath
+                                                                   error:NULL] objectForKey:NSFileSize] longValue];
 				if (fileSize > 0) {
 					ESFileTransfer	*fileTransfer;
 

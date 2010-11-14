@@ -270,7 +270,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSMutableArray *children = [NSMutableArray arrayWithCapacity:10];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 
-	for (NSString *file in [fileManager directoryContentsAtPath:basePath]){
+	for (NSString *file in [fileManager contentsOfDirectoryAtPath:basePath error:NULL]){
 		NSString *newPath = [basePath stringByAppendingPathComponent:file];
 		BOOL exists = NO;
 		BOOL directory = NO;
@@ -488,7 +488,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (NSString *)posixFlagsForPath:(NSString *)filePath
 {
 	NSString *posixFlags = nil;
-	NSDictionary *attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:NO];
+	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	if (attributes && [attributes objectForKey:NSFilePosixPermissions]) {
 		NSNumber *posixInfo = [attributes objectForKey:NSFilePosixPermissions];
 		posixFlags = [NSString stringWithFormat:@"%X", [posixInfo longValue]];
@@ -514,7 +514,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (NSString *)sizeForPath:(NSString *)filePath
 {
 	NSString *fileSize = nil;
-	NSDictionary *attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:NO];
+	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	if (attributes && [attributes objectForKey:NSFileSize]) {
 		NSNumber *fileSizeNumber = [attributes objectForKey:NSFileSize];
 		fileSize = [NSString stringWithFormat:@"%qu", [fileSizeNumber unsignedLongLongValue]];
@@ -526,7 +526,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (NSNumber *)sizeNumberForPath:(NSString *)filePath
 {
 	NSNumber *fileSize = nil;
-	NSDictionary *attributes = [[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:NO];
+	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	if (attributes && [attributes objectForKey:NSFileSize]) {
 		fileSize = [attributes objectForKey:NSFileSize];
 	}

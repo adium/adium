@@ -53,6 +53,7 @@
 - (void)updateImagePicker;
 - (void)updateNameView;
 - (void)repositionImagePickerToPosition:(ContactListImagePickerPosition)desiredImagePickerPosition;
+- (void)listObjectAttributesChanged:(NSNotification *)inNotification;
 @end
 
 @implementation AIStandardListWindowController

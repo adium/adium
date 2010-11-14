@@ -471,7 +471,7 @@
 {
 	NSPasteboard	*pb = [NSPasteboard generalPasteboard];
 	NSString		*type = [pb availableTypeFromArray:
-		[NSArray arrayWithObjects:NSTIFFPboardType, NSPDFPboardType, NSPICTPboardType,nil]];
+		[NSArray arrayWithObjects:NSTIFFPboardType, NSPDFPboardType,nil]];
 	BOOL			success = NO;
 
     NSData			*imageData = (type ? [pb dataForType:type] : nil);
