@@ -79,6 +79,11 @@ typedef enum {
 	AIAuthorizationAllowed
 } AIAuthorizationResponse;
 
+typedef enum {
+	AIAccountGroupDeletionShouldRemoveContacts = 0,
+	AIAccountGroupDeletionShouldIgnoreContacts
+} AIAccountGroupDeletionResponse;
+
 //Support for file transfer
 @protocol AIAccount_Files
 	//can the account send entire folders on its own?

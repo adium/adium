@@ -1506,11 +1506,36 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 #pragma mark Contact list editing
 - (void)removeListGroup:(AIListGroup *)group
 {
+	NSMutableSet *accountsToIgnore = nil;
+
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.online) {
+			if ([account willDeleteGroup:group] == AIAccountGroupDeletionShouldIgnoreContacts) {
+				if (!accountsToIgnore)
+					accountsToIgnore = [NSMutableSet set];
+
+				[accountsToIgnore addObject:account];
+			}
+		}
+	}
+
 	AIContactList	*containingObject = group.contactList;
-	
+
 	//Remove all the contacts from this group
 	for (AIListContact *contact in group.containedObjects) {
-		[contact removeFromGroup:group];
+		if ([contact isKindOfClass:[AIMetaContact class]]) {
+			/* Look at each contact within the metaContact */
+			for (AIListContact *containedContact in (AIMetaContact *)contact) {
+				/* Remove it from the group if that contact's account isn't within accountstoIgnore */
+				if (![accountsToIgnore containsObject:containedContact.account])
+					[containedContact removeFromGroup:group];
+			}
+			
+		} else {
+			/* Remove it from the group if the contact's account isn't within accountstoIgnore */
+			if (![accountsToIgnore containsObject:contact.account])
+				[contact removeFromGroup:group];
+		}
 	}
 	
 	//Delete the group from all active accounts

@@ -80,6 +80,7 @@ typedef enum {
 - (void)removeAllContacts;
 - (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent;
 - (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat;
+- (AIAccountGroupDeletionResponse)willDeleteGroup:(AIListGroup *)group;
 
 //Connectivity
 @property (readwrite, nonatomic) BOOL shouldBeOnline;

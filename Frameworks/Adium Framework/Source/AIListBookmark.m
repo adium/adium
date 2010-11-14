@@ -402,7 +402,7 @@
 #pragma mark -
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@>",NSStringFromClass([self class]), self, self.formattedUID, [self chatCreationDictionary], self.account];
+	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@ in %@>",NSStringFromClass([self class]), self, self.formattedUID, [self chatCreationDictionary], self.account, self.remoteGroups];
 }
 
 @end

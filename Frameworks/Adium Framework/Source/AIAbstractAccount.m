@@ -1096,6 +1096,20 @@
 	return nil;
 }
 
+/*!
+ * @brief How should deletion of a particular group be handled?
+ *
+ * If the account returns AIAccountGroupDeletionShouldRemoveContacts, then each contact will be removed from the contact list
+ * If instead AIAccountGroupDeletionShouldIgnoreContacts is returned, the group is removed from the contact list's display
+ *   but contacts are not affected.  In this case, the account should take action to avoid redisplaying the group in
+ *   the future. This is used for, for example, the Twitter timeline; a deletion is unlikely to mean the user actually
+ *   wanted to stop following all contained contacts.
+ */
+- (AIAccountGroupDeletionResponse)willDeleteGroup:(AIListGroup *)group
+{
+	return AIAccountGroupDeletionShouldRemoveContacts;
+}
+
 //Connectivity ---------------------------------------------------------------------------------------------------------
 #pragma mark Connectivity
 
