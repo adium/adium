@@ -33,7 +33,47 @@ Version 1.5 (X/X/XXX)
 
  * Added a menu item to view release notes in the help menu. (#8569)
  * Miscellaneous improvements to Copyright.txt file.
- 
+
+Version 1.4.1 (XX/XX/2010)
+ * Updated to libpurple 2.7.5. Highlights of applicable changes:
+   * MSN
+     * Support for MSN direct connections, enabling faster file transfers and faster retrieval of custom emoticons and buddy icons
+   * AIM and ICQ
+     * A bunch of fixes for ICQ encoding problems
+     * Corrected hostnames (server settings) for ICQ connections; existing accounts will be upgraded automatically
+     * Improved ICQ privacy lists (visible / invisibile lists) support
+     * Fixed handling of certain incoming HTML messages
+     * Fixed sending messages to AIM chat rooms
+   * Yahoo
+     * Fixed sending SMS messages
+     * Some filet transfer improvements
+   * XMPP
+     * Improved connectivity to servers that do not offer Stream ID
+     * Fixed detected file transfer proxies
+     * Improved determination of a contact's destination resource
+   * Fixed a crash when using UPnP networking
+
+ IRC
+  * Added handling of irc:// URIs by creating guest accounts if required. (#12339)
+  * Fixed respecting and setting port number for IRC links. (#13899)
+  * Added support for /say command. (#13649)
+
+ Twitter
+  * Add the "@" sign for Twitter's tabcomplete. (#13987) (Moses Lei)
+  * Deleting a Twitter group will now hide the contacts within Adium rather than unfollowing them (#12148)
+  * Fixed overlapping buttons in "Reply to a Tweet" dialogue. (#14017)
+  * Distinguish StatusNet accounts with same username on different servers. (#13604) (Brion Vibber)
+  
+ Message Styles
+  * Fixed message style "Mockie" being broken on some systems. (#14480)
+
+ Miscellaneous
+  * Fixed a hang caused by large contact lists. (#14463)
+  * Fixed contact status background colors updating in the contact list, including both static and flashing statuses. (#14534, #14493)
+  * Fixed a long-standing bug preventing a minimum text size preferences smaller than 9pt to take effect. (#49) (Tim Horton)
+  * PSD files and PDFs are now sent as files, not as 'images', where appliable.
+  * Fixed alignment and clipping issues in the "About" box. (#13541)
+  * Fixed minor issues in Adium Help documentation.
  
 Version 1.4 (10/31/2010)
  * Requires Mac OS X 10.5 or later
