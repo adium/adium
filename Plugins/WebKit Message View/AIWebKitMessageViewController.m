@@ -336,7 +336,6 @@ static NSArray *draggedTypes = nil;
 			AIiTunesTrackPboardType,
 			NSTIFFPboardType,
 			NSPDFPboardType,
-			NSPICTPboardType,
 			NSHTMLPboardType,
 			NSFileContentsPboardType,
 			NSRTFPboardType,
@@ -1048,7 +1047,7 @@ static NSArray *draggedTypes = nil;
 - (BOOL)shouldHandleDragWithPasteboard:(NSPasteboard *)pasteboard
 {
 	/*
-	return (![pasteboard availableTypeFromArray:[NSArray arrayWithObjects:NSTIFFPboardType,NSPDFPboardType,NSPICTPboardType,nil]] &&
+	return (![pasteboard availableTypeFromArray:[NSArray arrayWithObjects:NSTIFFPboardType,NSPDFPboardType,nil]] &&
 			[pasteboard availableTypeFromArray:[NSArray arrayWithObject:NSFilenamesPboardType]]);
 	 */
 	return NO;

@@ -65,7 +65,7 @@
 #define KEY_MAX_NUMBER_OF_CHARACTERS			@"Maximum Number Of Characters"
 
 #define FILES_AND_IMAGES_TYPES [NSArray arrayWithObjects: \
-	NSFilenamesPboardType, AIiTunesTrackPboardType, NSTIFFPboardType, NSPDFPboardType, NSPICTPboardType, nil]
+	NSFilenamesPboardType, AIiTunesTrackPboardType, NSTIFFPboardType, NSPDFPboardType, nil]
 
 #define PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY [NSArray arrayWithObjects: \
 	NSRTFPboardType, NSStringPboardType, nil]
@@ -567,7 +567,7 @@
 
 	NSArray *supportedTypes =
 		[NSArray arrayWithObjects:NSURLPboardType, NSRTFDPboardType, NSRTFPboardType, NSHTMLPboardType, NSStringPboardType, 
-			NSFilenamesPboardType, NSTIFFPboardType, NSPDFPboardType, NSPICTPboardType, nil];
+			NSFilenamesPboardType, NSTIFFPboardType, NSPDFPboardType, nil];
 
 	type = [[NSPasteboard generalPasteboard] availableTypeFromArray:supportedTypes];
 	

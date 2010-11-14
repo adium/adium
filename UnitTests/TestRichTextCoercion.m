@@ -18,7 +18,7 @@
 #warning 64BIT: Check formatting arguments
 	NSString *scriptSuitesFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"AdiumTest-%u-ScriptSuites", getpid()]];
 	NSLog(@"scriptSuitesFolder: %@", scriptSuitesFolder);
-	if([mgr createDirectoryAtPath:scriptSuitesFolder attributes:nil]) {
+	if([mgr createDirectoryAtPath:scriptSuitesFolder withIntermediateDirectories:YES attributes:nil error:NULL]) {
 		NSArray *args = [NSArray arrayWithObjects:
 			//scriptSuite format.
 			@"-f", @"s",
@@ -54,7 +54,7 @@
 #warning 64BIT: Check formatting arguments
 	NSString *scriptTerminologiesFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"AdiumTest-%u-ScriptTerminologies", getpid()]];
 	NSLog(@"scriptTerminologiesFolder: %@", scriptTerminologiesFolder);
-	if([mgr createDirectoryAtPath:scriptTerminologiesFolder attributes:nil]) {
+	if([mgr createDirectoryAtPath:scriptTerminologiesFolder withIntermediateDirectories:YES attributes:nil error:NULL]) {
 		NSArray *args = [NSArray arrayWithObjects:
 			//scriptTerminology format.
 			@"-f", @"t",

@@ -182,7 +182,7 @@
 	BOOL attachesAnImage = (image != nil);
 	
 	if (!attachesAnImage && path) {
-		OSType			HFSTypeCode = [[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] fileHFSTypeCode];
+		OSType			HFSTypeCode = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileHFSTypeCode];
 		
 		attachesAnImage = [self consideredImageForHFSType:HFSTypeCode
 											pathExtension:[path pathExtension]];

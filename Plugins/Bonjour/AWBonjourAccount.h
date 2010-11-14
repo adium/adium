@@ -25,7 +25,7 @@
 #import <Adium/AIAccount.h>
 #import "AWEzv.h"
 
-@interface AWBonjourAccount : AIAccount <AWEzvClientProtocol, AIAccount_Files, NSTextInputClient> {
+@interface AWBonjourAccount : AIAccount <AWEzvClientProtocol, AIAccount_Files> {
     AWEzv				*libezv;
     NSMutableSet		*libezvContacts;
     NSString			*savedAwayMessage;

@@ -159,7 +159,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 						   [error domain], [error code], [error userInfo]);
 		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
 			while (!data) {
-				AILogWithSignature(@"Preferences file %@'s attributes: %@. Reattempting to read the file...", globalPrefsName, [[NSFileManager defaultManager] fileAttributesAtPath:objectPrefsPath traverseLink:NO]);
+				AILogWithSignature(@"Preferences file %@'s attributes: %@. Reattempting to read the file...", globalPrefsName, [[NSFileManager defaultManager] attributesOfItemAtPath:objectPrefsPath error:NULL]);
 				data = [NSData dataWithContentsOfFile:objectPrefsPath
 											  options:NSUncachedRead
 												error:&error];

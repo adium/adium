@@ -112,7 +112,10 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		}
 	}
 
-	if (![fileManager createDirectoryAtPath:localFilename attributes:[self posixAttributesFromString:posixFlags]]) {
+	if (![fileManager createDirectoryAtPath:localFilename
+                withIntermediateDirectories:YES
+                                 attributes:[self posixAttributesFromString:posixFlags]
+                                      error:NULL]) {
 		[[[[self manager] client] client] reportError:@"There was an error creating the root directory for the file tranfer" ofLevel:AWEzvError];
 		[[[[self manager] client] client] remoteCanceledFileTransfer:self];
 		return;
@@ -200,7 +203,10 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		NSFileManager *defaultManager = [NSFileManager defaultManager];
 		NSString *newPath = [rootPath stringByAppendingPathComponent:name];
 
-		if (![defaultManager createDirectoryAtPath:newPath attributes:[self posixAttributesFromString:posixFlags]]) {
+		if (![defaultManager createDirectoryAtPath:newPath
+                       withIntermediateDirectories:YES
+                                        attributes:[self posixAttributesFromString:posixFlags]
+                                             error:NULL]) {
 			[[[[self manager] client] client] reportError:@"Could not create directory for transfer." ofLevel: AWEzvError];
 			
 			return NO;	
@@ -268,7 +274,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	while ((path = [enumerator nextObject])) {
 		/* code that uses the returned key */
 		attributes = [permissionsToApply valueForKey:path];		
-		if (![defaultManager changeFileAttributes:attributes atPath:path]) {
+		if (![defaultManager setAttributes:attributes ofItemAtPath:path error:NULL]) {
 			[[[manager client] client] reportError:[NSString stringWithFormat:@"Error applying permissions of %@ to file at %@", attributes, path] ofLevel: AWEzvError];
 			[[[manager client] client] remoteCanceledFileTransfer:self];
 			[permissionsToApply release]; permissionsToApply = nil;
