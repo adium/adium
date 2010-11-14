@@ -26,6 +26,15 @@ warning() {
 #
 # Logs the given commands output to $LOG_FILE
 #
+
+stampErr() {
+	while IFS='' read -r line; do echo "[ERROR]: $line" >> ${LOG_FILE}; done
+}
+
+stampLog() {
+	while IFS='' read -r line; do echo "[INFO]: $line" >> ${LOG_FILE}; done
+}
+
 log() {
 	local localPWD=`pwd`
 	echo "
@@ -34,15 +43,9 @@ Running command:
 	${localPWD}/${@:1}
 " >> ${LOG_FILE}
 
-	echo "
-
-Running command:
-	${localPWD}/${@:1}
-" >> ${ERR_FILE}
-
 	(
 		${@:1}
-	) >> ${LOG_FILE} 2>> ${ERR_FILE}
+	) > >(stampLog) 2> >(stampErr)
 }
 
 ##
