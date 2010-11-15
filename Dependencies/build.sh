@@ -144,7 +144,6 @@ LOG_FILE="${ROOTDIR}/build.log"
 ERR_FILE="${ROOTDIR}/error.log"
 
 : > ${LOG_FILE}
-: > ${ERR_FILE}
 
 # set -arch flags now, after the user has had a chance to disable one or more
 set_arch_flags
