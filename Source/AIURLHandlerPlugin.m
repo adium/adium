@@ -407,6 +407,7 @@
 		} else if ([scheme caseInsensitiveCompare:@"irc"] == NSOrderedSame) {
 			// irc://server:port/channel?password
 			NSString *channelName = [url fragment];
+			NSString *hostName = [url host];
 			NSNumber *portNumber = [url port];
 			NSInteger port;
 			
@@ -426,9 +427,13 @@
 				port = [portNumber intValue];
 			}
 			
+			if (!hostName.length) {
+				hostName = @"";
+			}
+			
 			channelName = [channelName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			
-			[self _openIRCGroupChat:channelName onServer:[url host] withPort:port andPassword:[url query]];
+			[self _openIRCGroupChat:channelName onServer:hostName withPort:port andPassword:[url query]];
 		} else if ([scheme caseInsensitiveCompare:@"msim"] == NSOrderedSame) {
 			NSString *contactName = [url queryArgumentForKey:@"cID"];
 			
