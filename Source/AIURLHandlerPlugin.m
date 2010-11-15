@@ -234,7 +234,7 @@
 	
 	//make sure we have the // in ://, as it simplifies later processing.
 	if (![[url resourceSpecifier] hasPrefix:@"//"]) {
-		urlString = [NSString stringWithFormat:@"%@://%@", [url scheme], [url resourceSpecifier]];
+		urlString = [NSString stringWithFormat:@"%@://%@", [url scheme], ([url resourceSpecifier] ?: @"")];
 		url = [NSURL URLWithString:urlString];
 	}
 	
@@ -407,11 +407,10 @@
 		} else if ([scheme caseInsensitiveCompare:@"irc"] == NSOrderedSame) {
 			// irc://server:port/channel?password
 			NSString *channelName = [url fragment];
-			NSString *hostName = [url host];
 			NSNumber *portNumber = [url port];
 			NSInteger port;
 			
-			if (!channelName.length && [url.path.lastPathComponent isEqualToString:@"/"]) {
+			if (!channelName.length && (!url.path.lastPathComponent || [url.path.lastPathComponent isEqualToString:@"/"])) {
 				channelName = @"#";
 			} else if (!channelName.length) {
 				channelName = url.path.lastPathComponent;
@@ -424,16 +423,16 @@
 			if (portNumber == nil) {
 				port = -1;
 			} else {
-				port = [portNumber intValue];
+				port = [portNumber integerValue];
 			}
 			
-			if (!hostName.length) {
-				hostName = @"";
+			if (!host) {
+				host = @"";
 			}
 			
 			channelName = [channelName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			
-			[self _openIRCGroupChat:channelName onServer:hostName withPort:port andPassword:[url query]];
+			[self _openIRCGroupChat:channelName onServer:host withPort:port andPassword:[url query]];
 		} else if ([scheme caseInsensitiveCompare:@"msim"] == NSOrderedSame) {
 			NSString *contactName = [url queryArgumentForKey:@"cID"];
 			
