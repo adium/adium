@@ -29,7 +29,7 @@ build_pkgconfig() {
 #
 build_gettext() {
 	prereq "gettext" \
-		"http://mirrors.kernel.org/gnu/gettext/gettext-0.17.tar.gz"
+		"http://mirrors.kernel.org/gnu/gettext/gettext-0.16.1.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gettext"
 	
