@@ -196,7 +196,7 @@ build_gst_plugins_bad() {
 GST_DEPS=( ${GST_DEPS[@]} "libgstrtp-${GSTREAMER_VERSION}.0.dylib" "libgstsdp-${GSTREAMER_VERSION}.0.dylib" "libgstrtsp-${GSTREAMER_VERSION}.0.dylib" )
 build_gst_plugins_farsight() {
 	prereq "gst-plugins-farsight" \
-		"http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.11.tar.gz"
+		"http://farsight.freedesktop.org/releases/obsolete/gst-plugins-farsight/gst-plugins-farsight-0.12.11.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-farsight"
 	
