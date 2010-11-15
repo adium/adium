@@ -59,7 +59,10 @@ fetch_libpurple() {
 # libpurple
 #
 build_libpurple() {
-	#fetch_libpurple
+	if $DOWNLOAD_LIBPURPLE; then
+	  fetch_libpurple
+	fi
+	
 	prereq "cyrus-sasl" \
 		"ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/OLD-VERSIONS/sasl/cyrus-sasl-2.1.18.tar.gz"
 	
