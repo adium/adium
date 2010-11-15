@@ -109,9 +109,12 @@ for option in ${@:1} ; do
 			MTN_BRANCH=${option##*=}
 			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -b ${MTN_BRANCH}"
 			;;
-        --libpurple-only)
-            STRAIGHT_TO_LIBPURPLE=true
-            ;;
+		--libpurple-only)
+			STRAIGHT_TO_LIBPURPLE=true
+			;;
+		--download-libpurple)
+			DOWNLOAD_LIBPURPLE=true
+			;;
 		-h|-help|--help)
 			echo 'The following options are valid:
 
@@ -127,6 +130,7 @@ for option in ${@:1} ; do
   --libpurple-branch=[branch] : Force a secific libpurple branch
   --libpurple-only            : Assume all dependencies are already built
                                 and start the build with libpurple itself
+  --download-libpurple        : Download the libpurple mtn bootstrap db.
   --help                      : This help text
 	
 Note that explicitly setting any arch flags implies a forced reconfigure.'
