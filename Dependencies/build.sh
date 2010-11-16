@@ -63,7 +63,9 @@ FORCE_CONFIGURE=false
 NATIVE_BUILD=false
 BUILD_OTR=false
 STRAIGHT_TO_LIBPURPLE=false
+DOWNLOAD_LIBPURPLE=false
 MTN_UPDATE_PARAM=""
+DISTCC_HOSTS=""
 for option in ${@:1} ; do
 	case $option in
 		--configure)
@@ -150,7 +152,7 @@ Note that explicitly setting any arch flags implies a forced reconfigure.'
 	esac
 done
 
-if [ "$DISTCC_HOSTS" ]; then
+if [ "$DISTCC_HOSTS" != "" ]; then
 	export DISTCC_HOSTS="--randomize ${DISTCC_HOSTS} localhost/${NUMBER_OF_CORES}"
 	export DISTCC_COMPILER=$(${CC:=/Developer/usr/bin/gcc} --version|head -n1)
 	export CC="/Developer/usr/bin/distcc ${CC:=/Developer/usr/bin/gcc}"
@@ -211,7 +213,7 @@ else
     fi
 fi
 
-if [ "$DISTCC_HOSTS" ]; then
+if [ "$DISTCC_HOSTS" != "" ]; then
 	/Developer/usr/bin/pump --shutdown
 fi
 
