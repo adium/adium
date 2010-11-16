@@ -29,8 +29,11 @@
 
 - (void)initAccount
 {
-	if ([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] caseInsensitiveCompare:@"login.oscar.aol.com"] == NSOrderedSame) {
-		/* Reset to the default if we're set to the old AOL login server */
+	if (([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] caseInsensitiveCompare:@"login.oscar.aol.com"] == NSOrderedSame) ||
+		([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] caseInsensitiveCompare:@"slogin.oscar.aol.com"] == NSOrderedSame) ||
+		([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] caseInsensitiveCompare:@"slogin.icq.com"] == NSOrderedSame) {
+		/* Reset to the default if we're set to the old AOL login server or its ssl variant.
+		 * Reset to the default if we're set to use the ICQ SSL server, as it's currently broken. */
 		[self setPreference:nil
 					 forKey:KEY_CONNECT_HOST
 					  group:GROUP_ACCOUNT_STATUS];
@@ -55,7 +58,11 @@
 	
 	//Defaults to NO - web_aware will cause lots of spam for many users!
 	purple_account_set_bool(account, "web_aware", [[self preferenceForKey:KEY_ICQ_WEB_AWARE group:GROUP_ACCOUNT_STATUS] boolValue]);
+
+#warning Remove when ICQ SSL support is fixed
+	purple_account_set_bool(account, "use_ssl", NO);
 }
+
 
 #pragma mark Contact updates
 
