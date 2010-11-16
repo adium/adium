@@ -32,6 +32,7 @@
 	[popUp_encoding setMenu:[self encodingMenu]];
 }
 
+
 //Configure controls
 - (void)configureForAccount:(AIAccount *)inAccount
 {
@@ -40,6 +41,10 @@
 																		group:GROUP_ACCOUNT_STATUS]];
 	[checkBox_webAware setState:[[account preferenceForKey:KEY_ICQ_WEB_AWARE
 													 group:GROUP_ACCOUNT_STATUS] boolValue]];
+
+#warning Remove when ICQ SSL support is fixed
+	[checkBox_SSL setState:NO];
+	[checkBox_SSL setEnabled:NO];
 }
 
 //Save controls
