@@ -103,7 +103,6 @@
 		![[keyWin windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
 		[SHLinkEditorWindowController showLinkEditorForTextView:earliestTextView
 													   onWindow:keyWin
-												  showFavorites:YES
 												notifyingTarget:nil];
     }
 }

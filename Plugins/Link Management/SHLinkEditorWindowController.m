@@ -23,7 +23,6 @@
 #import <AIUtilities/AIAutoScrollView.h>
 
 #define LINK_EDITOR_NIB_NAME        @"LinkEditor"
-#define FAVS_EDITOR_NIB_NAME        @"FavsEditor"
 
 @interface SHLinkEditorWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
@@ -42,9 +41,9 @@
 
 //Init methods ---------------------------------------------------------------------------------------------------------
 #pragma mark Init methods
-+ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow showFavorites:(BOOL)showFavorites notifyingTarget:(id)inTarget
++ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
 {
-	SHLinkEditorWindowController	*editorWindow = [[self alloc] initWithWindowNibName:(showFavorites ? LINK_EDITOR_NIB_NAME : FAVS_EDITOR_NIB_NAME)
+	SHLinkEditorWindowController	*editorWindow = [[self alloc] initWithWindowNibName:LINK_EDITOR_NIB_NAME
 																			forTextView:inTextView
 																		notifyingTarget:inTarget];
 	
