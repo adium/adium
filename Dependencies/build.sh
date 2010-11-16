@@ -95,6 +95,11 @@ for option in ${@:1} ; do
 			BUILD_OTR=true
 			status "Building libotr"
 			;;
+		--enable-distcchost=*)
+			asserttools "/Developer/usr/bin/distcc"
+			asserttools "/Developer/usr/bin/pump"
+			export DISTCC_HOSTS="${DISTCC_HOSTS:=} ${option##*=},lzo,cpp"
+			;;
 		--enable-llvm)
 			asserttools "/Developer/usr/bin/llvm-gcc"
 			export CC="/Developer/usr/bin/llvm-gcc"
@@ -124,6 +129,8 @@ for option in ${@:1} ; do
                                 (currently breaks liboil on x86_64)
   --build-otr                 : Build libotr and dependancies instead
                                 of libpurple.
+  --enable-distcchost=[host]  : Add a host to the distcc conf. Enables distcc build.
+                                `man distcc` for more information.
   --enable-llvm               : Enable building with llvm-gcc.
                                 WARNING: This is currently broken!
   --libpurple-rev=[rev]       : Force a specific libpurple revision
@@ -142,6 +149,15 @@ Note that explicitly setting any arch flags implies a forced reconfigure.'
 			;;
 	esac
 done
+
+if [ "$DISTCC_HOSTS" ]; then
+	export DISTCC_HOSTS="--randomize ${DISTCC_HOSTS} localhost/${NUMBER_OF_CORES}"
+	export DISTCC_COMPILER=$(${CC:=/Developer/usr/bin/gcc} --version|head -n1)
+	export CC="/Developer/usr/bin/distcc ${CC:=/Developer/usr/bin/gcc}"
+	export CXX="/Developer/usr/bin/distcc ${CXX:=/Developer/usr/bin/g++}"
+	NUMBER_OF_CORES=`/Developer/usr/bin/distcc -j`
+	eval `/Developer/usr/bin/pump --startup`
+fi
 
 # this file contans the stdio and stderr of the most recent build
 LOG_FILE="${ROOTDIR}/build.log"
@@ -193,6 +209,10 @@ else
     	#build_sipe $@
     	#build_gfire $@
     fi
+fi
+
+if [ "$DISTCC_HOSTS" ]; then
+	/Developer/usr/bin/pump --shutdown
 fi
 
 make_framework $@
