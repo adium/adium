@@ -73,10 +73,10 @@
 {
     NSParameterAssert(key != nil);
     id oldValue = [self valueForProperty:key];
-    if ((!oldValue && !value) ||
-        (value && [value isEqual:oldValue])) //No need to do all this work just to stay the same
+    if (value == oldValue) { //No need to do all this work just to stay the same
         return;
-
+    }
+        
     [self willChangeValueForKey:key];
     	
 	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
