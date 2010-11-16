@@ -24,6 +24,7 @@
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 #define ADD_LINK_TITLE			[AILocalizedString(@"Add Link",nil) stringByAppendingEllipsis]
 #define EDIT_LINK_TITLE			[AILocalizedString(@"Edit Link",nil) stringByAppendingEllipsis]
@@ -58,11 +59,13 @@
     [self registerToolbarItem];
 	
     //rm link context
-    menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:RM_LINK_TITLE
-																	 target:self
-																	 action:@selector(removeFormattedLink:)
-															  keyEquivalent:@""] autorelease];
-    [adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
+	if (![NSApp isOnSnowLeopardOrBetter]) {
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:RM_LINK_TITLE
+																		 target:self
+																		 action:@selector(removeFormattedLink:)
+																  keyEquivalent:@""] autorelease];
+		[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
+	}
 }
 
 - (void)uninstallPlugin
