@@ -63,7 +63,7 @@
 	if ([[self preferenceForKey:PREFERENCE_SSL_CONNECTION
 						  group:GROUP_ACCOUNT_STATUS] boolValue]) {
 		NSRunCriticalAlertPanel(@"Secure connection to ICQ disabled",
-								@"Due to recent server changes, SSL connections to ICQ are not yet supported. SSL has automatically been disabled.",
+								@"Due to recent change with the ICQ service, SSL connections to ICQ are not currently supported. SSL has automatically been disabled.",
 								nil, nil, nil);
 		[self setPreference:nil
 					 forKey:PREFERENCE_SSL_CONNECTION
