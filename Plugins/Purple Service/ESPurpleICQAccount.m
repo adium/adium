@@ -60,18 +60,31 @@
 	purple_account_set_bool(account, "web_aware", [[self preferenceForKey:KEY_ICQ_WEB_AWARE group:GROUP_ACCOUNT_STATUS] boolValue]);
 
 #warning Remove when ICQ SSL support is fixed
-	if ([[self preferenceForKey:PREFERENCE_SSL_CONNECTION
-						  group:GROUP_ACCOUNT_STATUS] boolValue]) {
-		NSRunCriticalAlertPanel(@"Secure connection to ICQ disabled",
-								@"Due to recent change with the ICQ service, SSL connections to ICQ are not currently supported. SSL has automatically been disabled.",
-								nil, nil, nil);
-		[self setPreference:nil
-					 forKey:PREFERENCE_SSL_CONNECTION
-					  group:GROUP_ACCOUNT_STATUS];
-	}
 	purple_account_set_bool(account, "use_ssl", NO);
 }
 
+- (void)continueConnectWithConfiguredPurpleAccount
+{
+	if ([[self preferenceForKey:PREFERENCE_SSL_CONNECTION
+						  group:GROUP_ACCOUNT_STATUS] boolValue]) {
+		NSInteger ret = NSRunCriticalAlertPanel(@"Secure Connection to ICQ Not Available",
+												 @"Due to recent changes with the ICQ service, SSL connections to ICQ are not currently supported. Do you want to disable SSL and connect without encryption?",
+												 @"Connect Without Encryption",
+												 @"Disable Account",
+												 nil);
+		
+		if (ret == NSAlertDefaultReturn) {
+			[self setPreference:nil
+						 forKey:PREFERENCE_SSL_CONNECTION
+						  group:GROUP_ACCOUNT_STATUS];
+			[super continueConnectWithConfiguredPurpleAccount];
+		} else {
+			[self setEnabled:NO];
+		}
+	} else {
+		[super continueConnectWithConfiguredPurpleAccount];	
+	}
+}
 
 #pragma mark Contact updates
 
