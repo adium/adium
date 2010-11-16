@@ -42,7 +42,7 @@
     id                                       target;
 }
 
-+ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow showFavorites:(BOOL)showFavorites notifyingTarget:(id)inTarget;
++ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
 
 - (IBAction)cancel:(id)sender;
 
