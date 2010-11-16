@@ -162,10 +162,10 @@
 	forceOldSSL = [[self preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
 	requireTLS = [[self preferenceForKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS] boolValue];
 	
-	if (requireTLS)
-		connectionSecurity = "require_tls";
-	else if (forceOldSSL)
+	if (forceOldSSL)
 		connectionSecurity = "old_ssl";
+	else if (requireTLS)
+		connectionSecurity = "require_tls";
 	else 
 		connectionSecurity = "opportunistic_tls";
 
