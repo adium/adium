@@ -207,10 +207,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (NSString *)encodeLooseHTML:(NSAttributedString *)inMessage imagesPath:(NSString *)imagesSavePath
 {
-	NSFontManager	*fontManager = [NSFontManager sharedFontManager];
-	NSRange			 searchRange;
+	NSFontManager		*fontManager = [NSFontManager sharedFontManager];
+	NSRange			searchRange;
 	NSColor			*pageColor = nil;
-	BOOL			 openFontTag = NO;
+	NSInteger			*openFontTags = 0;
 
 	//Setup the incoming message as a regular string, and get its length
 	NSString		*inMessageString = [inMessage string];
@@ -308,12 +308,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		   changedColor || changedBackColor) {
 
 			//Close any existing font tags, and open a new one
-			if (thingsToInclude.closingFontTags && openFontTag) {
-				[string appendString:@"</FONT>"];
-				openFontTag = NO;
+			if (thingsToInclude.closingFontTags && (openFontTags > 0)) {
+				while (openFontTags > 0) {
+					[string appendString:@"</FONT>"];
+					openFontTags--;
+				}
 			}
 			if (!thingsToInclude.simpleTagsOnly) {
-				openFontTag = YES;
+				openFontTags++;
 				//Leave the <FONT open since we'll add the rest of the font tag on below
 				[string appendString:@"<FONT"];
 			}
@@ -321,7 +323,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Family
 			if (thingsToInclude.fontTags && familyName && (![familyName isEqualToString:currentFamily] || thingsToInclude.closingFontTags)) {
 				if (thingsToInclude.simpleTagsOnly) {
-					openFontTag = YES;
+					openFontTags++;
 					[string appendString:[NSString stringWithFormat:@"<FONT FACE=\"%@\">",familyName]];
 				} else {
 					//(traits | NSNonStandardCharacterSetFontMask) seems to be the proper test... but it is true for all fonts!
@@ -346,7 +348,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Color
 			if (color) {
 				if (thingsToInclude.simpleTagsOnly) {
-					openFontTag = YES;
+					openFontTags++;
 					[string appendString:[NSString stringWithFormat:@"<FONT COLOR=\"#%@\">",color]];	
 				} else {
 					[string appendString:[NSString stringWithFormat:@" COLOR=\"#%@\"",color]];
@@ -676,11 +678,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		oldLink = nil;
 	}
 
-	if (thingsToInclude.closingFontTags && openFontTag) {
+	if (thingsToInclude.closingFontTags && (openFontTags > 0)) {
 		//Close any open font tag
-		[string appendString:@"</FONT>"];
-		openFontTag = NO;
+		while (openFontTags > 0) {
+			[string appendString:@"</FONT>"];
+			openFontTags--;
+		}
 	}
+	
 	if (rightToLeft) {
 		//Close any open div
 		[string appendString:@"</DIV>"];
