@@ -17,3 +17,5 @@
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 
 PurpleCoreUiOps *adium_purple_core_get_ops(void);
+
+void configurePurpleDebugLogging();

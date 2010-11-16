@@ -137,12 +137,17 @@ static void adiumPurplePrefsInit(void)
 	purple_buddy_icons_set_caching(TRUE);	
 }
 
+void configurePurpleDebugLogging()
+{
+	purple_debug_set_ui_ops(AIDebugLoggingIsEnabled() ?
+							adium_purple_debug_get_ui_ops() :
+							NULL);
+}
+
 static void adiumPurpleCoreDebugInit(void)
 {
-	AILog(@"adiumPurpleCoreDebugInit()");
-    purple_debug_set_ui_ops(adium_purple_debug_get_ui_ops());
-
-	purple_debug_set_enabled(AIDebugLoggingIsEnabled());
+	AILogWithSignature(@"");
+	configurePurpleDebugLogging();
 }
 
 static void associateLibpurpleAccounts(void)
