@@ -22,6 +22,7 @@
 
 @interface ESObjectWithProperties (AIPrivate)
 - (void)_applyDelayedProperties:(NSDictionary *)infoDict;
+- (id)_valueForProperty:(NSString *)key;
 @end
 
 /*!
@@ -72,7 +73,7 @@
 - (void)setValue:(id)value forProperty:(NSString *)key notify:(NotifyTiming)notify
 {
     NSParameterAssert(key != nil);
-    id oldValue = [self valueForProperty:key];
+    id oldValue = [self _valueForProperty:key];
     if (value == oldValue) { //No need to do all this work just to stay the same
         return;
     }
@@ -208,10 +209,19 @@
 @synthesize properties = propertiesDictionary;
 
 /*!
+ * @brief Compatibility class
+ * @result A call to the private class here for safety's sake.
+ */
+- (id)valueForProperty:(NSString *)key
+{
+    return [self _valueForProperty:key];
+}
+
+/*!
  * @brief Value for a property
  * @result The value associated with the passed key, or nil if none has been set.
  */
-- (id)valueForProperty:(NSString *)key
+- (id)_valueForProperty:(NSString *)key
 {
 	id ret = nil;
 	id value = nil;
