@@ -51,7 +51,6 @@
 @property (readonly, nonatomic) NSArray *visibleListContacts;
 
 + (NSArray *)_forwardedProperties;
-+ (NSArray *)_notForwardedProperties;
 @end
 
 @implementation AIMetaContact
@@ -688,22 +687,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if (properties == nil) {
 		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isEvent", @"isBlocked",
 					  @"isIdle", @"notAStranger", @"isMobile", @"signedOff", @"signedOn",
-					  @"unviewedContent", @"unviewedMention", @"idle", @"idleSince", @"formattedUID",
-					  @"listObjectStatusMessage", @"textProfile", nil];
-	}
-	return properties;
-}
-
-+ (NSArray *)_notForwardedProperties
-{
-	static NSArray *properties = nil;
-	
-	if (properties == nil) {
-		properties = [[NSArray alloc] initWithObjects:@"serverDisplayName", @"listStatusIcon",
-					  @"listStateIcon", @"imageOpacity", @"textColor", @"invertedTextColor",
-					  @"extendedStatus", @"labelColor", @"ABUniqueID", @"listObjectStatusType",
-					  @"listObjectStatusName", @"alwaysVisible", @"webKitUserIconPath",
-					  @"idleReadable", nil];
+					  @"alwaysOnline", @"unviewedContent", @"unviewedMention", nil];
 	}
 	return properties;
 }
@@ -714,8 +698,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact valueForProperty:key];
-	} else if ([[[self class] _notForwardedProperties] containsObject:key]) {
-		ret = [super valueForProperty:key];
 	} else {
 		ret = [super valueForProperty:key] ?: [self.preferredContact valueForProperty:key];
 	}
@@ -729,8 +711,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact integerValueForProperty:key];
-	} else if ([[[self class] _notForwardedProperties] containsObject:key]) {
-		ret = [super integerValueForProperty:key];
 	} else {
 		ret = [super integerValueForProperty:key] ?: [self.preferredContact integerValueForProperty:key];
 	}
@@ -744,8 +724,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact intValueForProperty:key];
-	} else if ([[[self class] _notForwardedProperties] containsObject:key]) {
-		ret = [super intValueForProperty:key];
 	} else {
 		ret = [super intValueForProperty:key] ?: [self.preferredContact intValueForProperty:key];
 	}
@@ -759,8 +737,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	if ([[[self class] _forwardedProperties] containsObject:key]) {
 		ret = [self.preferredContact boolValueForProperty:key];
-	} else if ([[[self class] _notForwardedProperties] containsObject:key]) {
-		ret = [super boolValueForProperty:key];
 	} else {
 		ret = [super boolValueForProperty:key] ?: [self.preferredContact boolValueForProperty:key];
 	}
