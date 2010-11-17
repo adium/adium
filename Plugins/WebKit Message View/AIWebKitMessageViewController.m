@@ -703,14 +703,16 @@ static NSArray *draggedTypes = nil;
 			if (nextMessageFocus) {
 				[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
 				
-				// Add a class for "first content to lose focus"
-				[content addDisplayClass:@"firstFocus"];
+				// Add a class for "first content to lose focus" if this is a group chat
+				if (content.chat.isGroupChat)
+					[content addDisplayClass:@"firstFocus"];
 				
 				nextMessageFocus = NO;
 			}
 
 			// Add a class for "this content received while out of focus"
-			[content addDisplayClass:@"focus"];
+			if (content.chat.isGroupChat)
+				[content addDisplayClass:@"focus"];
 		}
 		
 		//Add the content object
