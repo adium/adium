@@ -57,6 +57,7 @@ JabberSaslMech **jabber_auth_get_scram_mechs(gint *count);
 #ifdef HAVE_CYRUS_SASL
 JabberSaslMech *jabber_auth_get_cyrus_mech(void);
 #endif
+JabberSaslMech *jabber_auth_get_fb_mech(void);
 
 void jabber_auth_init(void);
 void jabber_auth_uninit(void);
