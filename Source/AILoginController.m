@@ -110,8 +110,14 @@
 			shouldShowWindow = (userRequestedShowWindow = [[loginDict objectForKey:LOGIN_SHOW_WINDOW] boolValue]);
 		if (!shouldShowWindow) {
 #ifdef DEBUG_BUILD
+	#ifndef RELEASE_BUILD
+			/* Support a different default user for 'Debug' builds but not for 'Release-Debug' builds.
+			 * The former are for developers, who may want this behavior.
+			 * The latter are for beta testers, who are more likely to be just confused (as per #14432).
+			 */
 			userName = [loginDict objectForKey:LOGIN_LAST_USER_DEBUG];
 			if (!userName)
+	#endif
 #endif
 				shouldShowWindow = ((userName = [loginDict objectForKey:LOGIN_LAST_USER]) == nil);
 		}
