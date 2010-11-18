@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+#x-topic #x-wrap
+{
+	padding-top: 6px;
+	padding-bottom: 6px;
+	position: fixed;
+	top: 8px;
+	right: 18px;
+	left: 8px;
+	z-index: 100;
+	color: rgba(64, 64, 64, 1);
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240,240, 240, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1);
+	opacity: 1;
+	-webkit-transition: opacity .4s linear;
+	min-width: 7em;
+}
+
+
+#x-topic[title=""]:not(:hover)
+{
+	opacity: 0;
+}
+
+#x-topic #topicEdit
+{
+	padding-left: 8px;
+	padding-right: 8px;
+	display: block;
+	min-height: 1.2em;
+
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#x-topic .x-serviceIcon
+{
+	position: relative;
+	right: 4px;
+	float: right;
+	margin-left: 10px;
+}
+
+#x-topic img.x-serviceIcon
+{
+	height: 1.6em;
+	margin-top: -.2em;
+	margin-right: -.2em;
+	margin-bottom: -.2em;
+}
+
+/* toggle */
+
+.x-toggle
+{
+	position: fixed;
+	top: 4px;
+	left: 4px;
+	width: 16px;
+	height: 16px;
+	font-size: 21px !important;
+	font-family: "Apple Symbols";
+	z-index: 999;
+	cursor: pointer;
+	opacity: 0;
+	-webkit-transition: opacity .4s linear;
+
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) 0px 0px no-repeat;
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .5);
+	color: rgba(64, 64, 64, 1);
+	text-align: center;
+}
+
+.x-toggle:active
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(240, 240, 240, 1)), to(rgba(255, 255, 255, 1))) 0px 0px no-repeat;
+}
+
+body:hover .x-toggle
+{
+	opacity: .5;
+}
+
+#x-topic:hover .x-toggle
+{
+	opacity: 1;
+}
+
+#x-hide:before
+{
+	content: "\2299";
+	position: fixed;
+	top: 3px;
+	left: 4px;
+}
+
+#x-hide:hover:before
+{
+	content: "\2296";
+}
+
+#x-hide:active:before
+{
+	content: "\2299";
+}
+
+#x-show:before
+{
+	position: fixed;
+	top: 3px;
+	left: 4px;
+	content: "\2299";
+}
+
+#x-show:hover:before
+{
+	content: "\2295";
+}
+
+#x-show:active:before
+{
+	content: "\2299";
+}
