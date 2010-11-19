@@ -786,11 +786,13 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 		AIXMLElement *rootElement = [[[AIXMLElement alloc] initWithName:@"chat"] autorelease];
 		
-		[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
+		[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", @"adiumversion", @"buildid", nil]
 								values:[NSArray arrayWithObjects:
 										XML_LOGGING_NAMESPACE,
 										chat.account.UID,
 										chat.account.service.serviceID,
+										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"],
 										nil]];
 		
 		appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
