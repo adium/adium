@@ -14,20 +14,15 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "PurpleAccountViewController.h"
 
-@interface ESPurpleZephyrAccountViewController : PurpleAccountViewController {
-	IBOutlet	NSButton	*checkBox_exportAnyone;
-	IBOutlet	NSButton	*checkBox_exportSubs;
-	IBOutlet	NSButton	*checkBox_launchZhm;
-	IBOutlet	NSTextField	*textField_exposure;
-	IBOutlet	NSTextField	*textField_encoding;
-	IBOutlet	NSTableView	*tableView_servers;
-	IBOutlet	NSSegmentedControl *button_addOrRemoveServer;
+#import <Cocoa/Cocoa.h>
+
+
+@interface AISegmentedControl : NSSegmentedControl {
+
 }
 
-- (IBAction)addOrRemoveRowToServerList:(id)sender;
-- (void)addRowToServerList;
-- (void)removeSelectedRowFromServerList;
+- (void)setMenuIndicatorShown:(BOOL)shown forSegment:(NSInteger)segment;
+- (void)showMenuForSegment:(NSInteger)segment;
 
 @end

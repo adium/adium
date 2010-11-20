@@ -1151,6 +1151,8 @@
 		4F1CB6420D640DA40073A1E6 /* info_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63E0D640DA40073A1E6 /* info_segment.png */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
+		5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F601A12962D06007A2232 /* AISegmentedControl.m */; };
+		5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A5F601912962D06007A2232 /* AISegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* Stop sign.png */; };
@@ -1252,14 +1254,6 @@
 		6334003A0F9C14C2003C77A9 /* AIVariableHeightOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF580F9C14C0003C77A9 /* AIVariableHeightOutlineView.m */; };
 		6334003B0F9C14C2003C77A9 /* AIMultiCellOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF590F9C14C0003C77A9 /* AIMultiCellOutlineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334003C0F9C14C2003C77A9 /* AIMultiCellOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF5A0F9C14C0003C77A9 /* AIMultiCellOutlineView.m */; };
-		6334003D0F9C14C2003C77A9 /* AIPlasticButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF5C0F9C14C0003C77A9 /* AIPlasticButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6334003E0F9C14C2003C77A9 /* AIPlasticButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF5D0F9C14C0003C77A9 /* AIPlasticButton.m */; };
-		6334003F0F9C14C2003C77A9 /* AIPlasticMinusButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF5E0F9C14C0003C77A9 /* AIPlasticMinusButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400400F9C14C2003C77A9 /* AIPlasticMinusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF5F0F9C14C0003C77A9 /* AIPlasticMinusButton.m */; };
-		633400410F9C14C2003C77A9 /* AIPlasticPlusButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF600F9C14C0003C77A9 /* AIPlasticPlusButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400420F9C14C2003C77A9 /* AIPlasticPlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF610F9C14C0003C77A9 /* AIPlasticPlusButton.m */; };
-		633400430F9C14C2003C77A9 /* AIPlasticButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF620F9C14C0003C77A9 /* AIPlasticButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400440F9C14C2003C77A9 /* AIPlasticButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF630F9C14C0003C77A9 /* AIPlasticButtonCell.m */; };
 		6334004D0F9C14C2003C77A9 /* AIToolbarTabView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF6E0F9C14C0003C77A9 /* AIToolbarTabView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334004E0F9C14C2003C77A9 /* AIToolbarTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF6F0F9C14C0003C77A9 /* AIToolbarTabView.m */; };
 		6334004F0F9C14C2003C77A9 /* AISplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF710F9C14C0003C77A9 /* AISplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1396,14 +1390,6 @@
 		633D51500F9D31BE004F491E /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 633D50EF0F9D31BD004F491E /* schema.strings */; };
 		633F175D08F905A800C76383 /* AIXtrasManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F175908F905A700C76383 /* AIXtrasManager.m */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
-		634DC2920F9C3685007B6479 /* PlasticButtonNormal_Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF650F9C14C0003C77A9 /* PlasticButtonNormal_Middle.png */; };
-		634DC2930F9C3685007B6479 /* PlasticButtonDefault_Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF660F9C14C0003C77A9 /* PlasticButtonDefault_Middle.png */; };
-		634DC2940F9C3685007B6479 /* PlasticButtonPressed_Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF670F9C14C0003C77A9 /* PlasticButtonPressed_Middle.png */; };
-		634DC2950F9C3685007B6479 /* PlasticButtonDefault_Caps.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF680F9C14C0003C77A9 /* PlasticButtonDefault_Caps.png */; };
-		634DC2960F9C3685007B6479 /* PlasticButtonNormal_Caps.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF690F9C14C0003C77A9 /* PlasticButtonNormal_Caps.png */; };
-		634DC2970F9C3685007B6479 /* PlasticButtonPressed_Caps.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6A0F9C14C0003C77A9 /* PlasticButtonPressed_Caps.png */; };
-		634DC2980F9C3685007B6479 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6B0F9C14C0003C77A9 /* plus.png */; };
-		634DC2990F9C3685007B6479 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6C0F9C14C0003C77A9 /* minus.png */; };
 		634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		634DC6020F9C43BB007B6479 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
@@ -4253,6 +4239,8 @@
 		4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactInfoInspector.nib; path = Resources/ContactInfoInspector.nib; sourceTree = "<group>"; };
 		5A1781840EC1215D00BA1E04 /* AIAutoScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutoScrollTextView.h; path = Source/AIAutoScrollTextView.h; sourceTree = "<group>"; };
 		5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutoScrollTextView.m; path = Source/AIAutoScrollTextView.m; sourceTree = "<group>"; };
+		5A5F601912962D06007A2232 /* AISegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISegmentedControl.h; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.h"; sourceTree = "<group>"; };
+		5A5F601A12962D06007A2232 /* AISegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISegmentedControl.m; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.m"; sourceTree = "<group>"; };
 		5A7642A811E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = Resources/sk_SK.lproj/AccountProxy.nib; sourceTree = "<group>"; };
 		5A7642A911E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = Resources/sk_SK.lproj/AIAdvancedInspectorPane.nib; sourceTree = "<group>"; };
 		5A7642AA11E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = Resources/sk_SK.lproj/AppearancePrefs.nib; sourceTree = "<group>"; };
@@ -4443,22 +4431,6 @@
 		6334FF580F9C14C0003C77A9 /* AIVariableHeightOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIVariableHeightOutlineView.m; path = "Frameworks/AIUtilities Framework/Source/AIVariableHeightOutlineView.m"; sourceTree = "<group>"; };
 		6334FF590F9C14C0003C77A9 /* AIMultiCellOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMultiCellOutlineView.h; path = "Frameworks/AIUtilities Framework/Source/AIMultiCellOutlineView.h"; sourceTree = "<group>"; };
 		6334FF5A0F9C14C0003C77A9 /* AIMultiCellOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMultiCellOutlineView.m; path = "Frameworks/AIUtilities Framework/Source/AIMultiCellOutlineView.m"; sourceTree = "<group>"; };
-		6334FF5C0F9C14C0003C77A9 /* AIPlasticButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPlasticButton.h; path = "Frameworks/AIUtilities Framework/Source/AIPlasticButton.h"; sourceTree = "<group>"; };
-		6334FF5D0F9C14C0003C77A9 /* AIPlasticButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPlasticButton.m; path = "Frameworks/AIUtilities Framework/Source/AIPlasticButton.m"; sourceTree = "<group>"; };
-		6334FF5E0F9C14C0003C77A9 /* AIPlasticMinusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPlasticMinusButton.h; path = "Frameworks/AIUtilities Framework/Source/AIPlasticMinusButton.h"; sourceTree = "<group>"; };
-		6334FF5F0F9C14C0003C77A9 /* AIPlasticMinusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPlasticMinusButton.m; path = "Frameworks/AIUtilities Framework/Source/AIPlasticMinusButton.m"; sourceTree = "<group>"; };
-		6334FF600F9C14C0003C77A9 /* AIPlasticPlusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPlasticPlusButton.h; path = "Frameworks/AIUtilities Framework/Source/AIPlasticPlusButton.h"; sourceTree = "<group>"; };
-		6334FF610F9C14C0003C77A9 /* AIPlasticPlusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPlasticPlusButton.m; path = "Frameworks/AIUtilities Framework/Source/AIPlasticPlusButton.m"; sourceTree = "<group>"; };
-		6334FF620F9C14C0003C77A9 /* AIPlasticButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPlasticButtonCell.h; path = "Frameworks/AIUtilities Framework/Source/AIPlasticButtonCell.h"; sourceTree = "<group>"; };
-		6334FF630F9C14C0003C77A9 /* AIPlasticButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPlasticButtonCell.m; path = "Frameworks/AIUtilities Framework/Source/AIPlasticButtonCell.m"; sourceTree = "<group>"; };
-		6334FF650F9C14C0003C77A9 /* PlasticButtonNormal_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonNormal_Middle.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonNormal_Middle.png"; sourceTree = "<group>"; };
-		6334FF660F9C14C0003C77A9 /* PlasticButtonDefault_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonDefault_Middle.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonDefault_Middle.png"; sourceTree = "<group>"; };
-		6334FF670F9C14C0003C77A9 /* PlasticButtonPressed_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonPressed_Middle.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonPressed_Middle.png"; sourceTree = "<group>"; };
-		6334FF680F9C14C0003C77A9 /* PlasticButtonDefault_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonDefault_Caps.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonDefault_Caps.png"; sourceTree = "<group>"; };
-		6334FF690F9C14C0003C77A9 /* PlasticButtonNormal_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonNormal_Caps.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonNormal_Caps.png"; sourceTree = "<group>"; };
-		6334FF6A0F9C14C0003C77A9 /* PlasticButtonPressed_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlasticButtonPressed_Caps.png; path = "Frameworks/AIUtilities Framework/Resources/PlasticButtonPressed_Caps.png"; sourceTree = "<group>"; };
-		6334FF6B0F9C14C0003C77A9 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = "Frameworks/AIUtilities Framework/Resources/plus.png"; sourceTree = "<group>"; };
-		6334FF6C0F9C14C0003C77A9 /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minus.png; path = "Frameworks/AIUtilities Framework/Resources/minus.png"; sourceTree = "<group>"; };
 		6334FF6E0F9C14C0003C77A9 /* AIToolbarTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIToolbarTabView.h; path = "Frameworks/AIUtilities Framework/Source/AIToolbarTabView.h"; sourceTree = "<group>"; };
 		6334FF6F0F9C14C0003C77A9 /* AIToolbarTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIToolbarTabView.m; path = "Frameworks/AIUtilities Framework/Source/AIToolbarTabView.m"; sourceTree = "<group>"; };
 		6334FF710F9C14C0003C77A9 /* AISplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISplitView.h; path = "Frameworks/AIUtilities Framework/Source/AISplitView.h"; sourceTree = "<group>"; };
@@ -4665,17 +4637,9 @@
 		63A3A9770F9C35D3006C9CB0 /* is */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A9780F9C35D3006C9CB0 /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A9790F9C35D3006C9CB0 /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		63A3A97A0F9C35D3006C9CB0 /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
 		63A3A97B0F9C35D3006C9CB0 /* nb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A97C0F9C35D3006C9CB0 /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A97D0F9C35D3006C9CB0 /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		63A3A97E0F9C35D3006C9CB0 /* PlasticButtonDefault_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonDefault_Caps.png; sourceTree = "<group>"; };
-		63A3A97F0F9C35D3006C9CB0 /* PlasticButtonDefault_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonDefault_Middle.png; sourceTree = "<group>"; };
-		63A3A9800F9C35D3006C9CB0 /* PlasticButtonNormal_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonNormal_Caps.png; sourceTree = "<group>"; };
-		63A3A9810F9C35D3006C9CB0 /* PlasticButtonNormal_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonNormal_Middle.png; sourceTree = "<group>"; };
-		63A3A9820F9C35D3006C9CB0 /* PlasticButtonPressed_Caps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonPressed_Caps.png; sourceTree = "<group>"; };
-		63A3A9830F9C35D3006C9CB0 /* PlasticButtonPressed_Middle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlasticButtonPressed_Middle.png; sourceTree = "<group>"; };
-		63A3A9840F9C35D3006C9CB0 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		63A3A9850F9C35D3006C9CB0 /* pt_PT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt_PT; path = pt_PT.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A9860F9C35D3006C9CB0 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A9870F9C35D3006C9CB0 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -7631,6 +7595,15 @@
 			name = Growl;
 			sourceTree = "<group>";
 		};
+		5A8A6A46124456B1004965A8 /* Segmented control with menu popup */ = {
+			isa = PBXGroup;
+			children = (
+				5A5F601912962D06007A2232 /* AISegmentedControl.h */,
+				5A5F601A12962D06007A2232 /* AISegmentedControl.m */,
+			);
+			name = "Segmented control with menu popup";
+			sourceTree = "<group>";
+		};
 		5AF6824311C46E6B005B3AF5 /* Do Nothing Contact Alert */ = {
 			isa = PBXGroup;
 			children = (
@@ -7908,7 +7881,7 @@
 				6334FF730F9C14C0003C77A9 /* Table View with several improvements */,
 				6334FF700F9C14C0003C77A9 /* Split View with thickness control */,
 				6334FF6D0F9C14C0003C77A9 /* Resizing preference window */,
-				6334FF5B0F9C14C0003C77A9 /* "Plastic" aqua buttons */,
+				5A8A6A46124456B1004965A8 /* Segmented control with menu popup */,
 				6334FF540F9C14C0003C77A9 /* Outline view with separate group & content cells */,
 				6334FF4D0F9C14BF003C77A9 /* OutlineView with several improvements */,
 				6334FF460F9C14BF003C77A9 /* Link Tracking Text View */,
@@ -8023,37 +7996,6 @@
 				6334FF5A0F9C14C0003C77A9 /* AIMultiCellOutlineView.m */,
 			);
 			name = "Outline view with separate group & content cells";
-			sourceTree = "<group>";
-		};
-		6334FF5B0F9C14C0003C77A9 /* "Plastic" aqua buttons */ = {
-			isa = PBXGroup;
-			children = (
-				6334FF640F9C14C0003C77A9 /* Images */,
-				6334FF5C0F9C14C0003C77A9 /* AIPlasticButton.h */,
-				6334FF5D0F9C14C0003C77A9 /* AIPlasticButton.m */,
-				6334FF5E0F9C14C0003C77A9 /* AIPlasticMinusButton.h */,
-				6334FF5F0F9C14C0003C77A9 /* AIPlasticMinusButton.m */,
-				6334FF600F9C14C0003C77A9 /* AIPlasticPlusButton.h */,
-				6334FF610F9C14C0003C77A9 /* AIPlasticPlusButton.m */,
-				6334FF620F9C14C0003C77A9 /* AIPlasticButtonCell.h */,
-				6334FF630F9C14C0003C77A9 /* AIPlasticButtonCell.m */,
-			);
-			name = "\"Plastic\" aqua buttons";
-			sourceTree = "<group>";
-		};
-		6334FF640F9C14C0003C77A9 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				6334FF650F9C14C0003C77A9 /* PlasticButtonNormal_Middle.png */,
-				6334FF660F9C14C0003C77A9 /* PlasticButtonDefault_Middle.png */,
-				6334FF670F9C14C0003C77A9 /* PlasticButtonPressed_Middle.png */,
-				6334FF680F9C14C0003C77A9 /* PlasticButtonDefault_Caps.png */,
-				6334FF690F9C14C0003C77A9 /* PlasticButtonNormal_Caps.png */,
-				6334FF6A0F9C14C0003C77A9 /* PlasticButtonPressed_Caps.png */,
-				6334FF6B0F9C14C0003C77A9 /* plus.png */,
-				6334FF6C0F9C14C0003C77A9 /* minus.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		6334FF6D0F9C14C0003C77A9 /* Resizing preference window */ = {
@@ -8430,14 +8372,6 @@
 			children = (
 				63A3A9670F9C35D3006C9CB0 /* AIUtilities_Framework.plist */,
 				63A3A9680F9C35D3006C9CB0 /* Localizable.strings */,
-				63A3A97A0F9C35D3006C9CB0 /* minus.png */,
-				63A3A97E0F9C35D3006C9CB0 /* PlasticButtonDefault_Caps.png */,
-				63A3A97F0F9C35D3006C9CB0 /* PlasticButtonDefault_Middle.png */,
-				63A3A9800F9C35D3006C9CB0 /* PlasticButtonNormal_Caps.png */,
-				63A3A9810F9C35D3006C9CB0 /* PlasticButtonNormal_Middle.png */,
-				63A3A9820F9C35D3006C9CB0 /* PlasticButtonPressed_Caps.png */,
-				63A3A9830F9C35D3006C9CB0 /* PlasticButtonPressed_Middle.png */,
-				63A3A9840F9C35D3006C9CB0 /* plus.png */,
 			);
 			name = Resources;
 			path = "Frameworks/AIUtilities Framework/Resources";
@@ -9471,10 +9405,6 @@
 				633400370F9C14C2003C77A9 /* AIVariableHeightFlexibleColumnsOutlineView.h in Headers */,
 				633400390F9C14C2003C77A9 /* AIVariableHeightOutlineView.h in Headers */,
 				6334003B0F9C14C2003C77A9 /* AIMultiCellOutlineView.h in Headers */,
-				6334003D0F9C14C2003C77A9 /* AIPlasticButton.h in Headers */,
-				6334003F0F9C14C2003C77A9 /* AIPlasticMinusButton.h in Headers */,
-				633400410F9C14C2003C77A9 /* AIPlasticPlusButton.h in Headers */,
-				633400430F9C14C2003C77A9 /* AIPlasticButtonCell.h in Headers */,
 				6334004D0F9C14C2003C77A9 /* AIToolbarTabView.h in Headers */,
 				6334004F0F9C14C2003C77A9 /* AISplitView.h in Headers */,
 				633400510F9C14C2003C77A9 /* AIAlternatingRowTableView.h in Headers */,
@@ -9536,6 +9466,7 @@
 				63BB1CB90F9EDD2B00424B80 /* AISharedWriterQueue.h in Headers */,
 				11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */,
 				7E959AD010E3187000C26397 /* AIMathCompatibility.h in Headers */,
+				5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10224,14 +10155,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				634DC2920F9C3685007B6479 /* PlasticButtonNormal_Middle.png in Resources */,
-				634DC2930F9C3685007B6479 /* PlasticButtonDefault_Middle.png in Resources */,
-				634DC2940F9C3685007B6479 /* PlasticButtonPressed_Middle.png in Resources */,
-				634DC2950F9C3685007B6479 /* PlasticButtonDefault_Caps.png in Resources */,
-				634DC2960F9C3685007B6479 /* PlasticButtonNormal_Caps.png in Resources */,
-				634DC2970F9C3685007B6479 /* PlasticButtonPressed_Caps.png in Resources */,
-				634DC2980F9C3685007B6479 /* plus.png in Resources */,
-				634DC2990F9C3685007B6479 /* minus.png in Resources */,
 				63A3A98E0F9C35D3006C9CB0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10999,10 +10922,6 @@
 				633400380F9C14C2003C77A9 /* AIVariableHeightFlexibleColumnsOutlineView.m in Sources */,
 				6334003A0F9C14C2003C77A9 /* AIVariableHeightOutlineView.m in Sources */,
 				6334003C0F9C14C2003C77A9 /* AIMultiCellOutlineView.m in Sources */,
-				6334003E0F9C14C2003C77A9 /* AIPlasticButton.m in Sources */,
-				633400400F9C14C2003C77A9 /* AIPlasticMinusButton.m in Sources */,
-				633400420F9C14C2003C77A9 /* AIPlasticPlusButton.m in Sources */,
-				633400440F9C14C2003C77A9 /* AIPlasticButtonCell.m in Sources */,
 				6334004E0F9C14C2003C77A9 /* AIToolbarTabView.m in Sources */,
 				633400500F9C14C2003C77A9 /* AISplitView.m in Sources */,
 				633400520F9C14C2003C77A9 /* AIAlternatingRowTableView.m in Sources */,
@@ -11060,6 +10979,7 @@
 				633400C80F9C14C2003C77A9 /* AIPasteboardAdditions.m in Sources */,
 				63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */,
 				11AA10140FCE0969003908B6 /* AIProgressDataUploader.m in Sources */,
+				5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

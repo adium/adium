@@ -35,7 +35,8 @@
 @interface AIAdvancedInspectorPane()
 - (void)reloadPopup;
 - (void)configureControlDimming;
-- (void)addNewGroup:(id)sender;
+- (void)addNewGroup;
+- (void)removeGroup;
 - (void)newGroupControllerDidEnd:(NSNotification *)notification;
 @end
 
@@ -94,7 +95,7 @@
 
 - (void)configureControlDimming
 {
-	[button_removeGroup setEnabled:[tableView_groups numberOfSelectedRows]];	
+	[button_addOrRemoveGroup setEnabled:[tableView_groups numberOfSelectedRows] forSegment:1];
 }
 
 -(void)updateForListObject:(AIListObject *)inObject
@@ -129,7 +130,7 @@
 	
 	[popUp_accounts setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[popUp_contact setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
-	[button_addGroup setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
+	[button_addOrRemoveGroup setEnabled:![inObject isKindOfClass:[AIListGroup class]] forSegment:0];
 }
 
 #pragma mark Preference callbacks
@@ -175,7 +176,8 @@
 						 action:@selector(addNewGroup:)
 				  keyEquivalent:@""];
 	
-	[button_addGroup setMenu:groupMenu];
+	[button_addOrRemoveGroup setMenu:groupMenu];
+	[button_addOrRemoveGroup setMenuIndicatorShown:YES forSegment:0];
 	
 	[self configureControlDimming];
 }
@@ -256,7 +258,7 @@
 }
 
 #pragma mark Group control
-- (void)addNewGroup:(id)sender
+- (void)addNewGroup
 {
 	AINewGroupWindowController *newGroupController = [AINewGroupWindowController promptForNewGroupOnWindow:inspectorContentView.window];
 	
@@ -264,6 +266,16 @@
 											 selector:@selector(newGroupControllerDidEnd:)
 												 name:@"NewGroupWindowControllerDidEnd"
 											   object:newGroupController.window];
+}
+
+- (void)removeGroup
+{
+	for (AIListGroup *group in [currentSelectedContact.remoteGroups.allObjects objectsAtIndexes:tableView_groups.selectedRowIndexes]) {
+		[currentSelectedContact removeFromGroup:group];
+	}
+	
+	[tableView_groups deselectAll:nil];
+	[tableView_groups reloadData];
 }
 
 - (void)newGroupControllerDidEnd:(NSNotification *)notification
@@ -295,14 +307,18 @@
 	[tableView_groups reloadData];
 }
 
-- (void)removeSelectedGroups:(id)sender
+- (void)addOrRemoveGroup:(id)sender
 {
-	for (AIListGroup *group in [currentSelectedContact.remoteGroups.allObjects objectsAtIndexes:tableView_groups.selectedRowIndexes]) {
-		[currentSelectedContact removeFromGroup:group];
-	}
+	NSInteger selectedSegment = [sender selectedSegment];
 	
-	[tableView_groups deselectAll:nil];
-	[tableView_groups reloadData];
+	switch (selectedSegment) {
+		case 0:
+			[sender showMenuForSegment:selectedSegment];
+			break;
+		case 1:
+			[self removeGroup];
+			break;
+	}
 }
 
 #pragma mark Accounts Table View Data Sources
@@ -337,7 +353,7 @@
 
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
-	[self removeSelectedGroups:nil];
+	[self removeGroup];
 }
 
 @end

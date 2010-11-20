@@ -13,8 +13,8 @@
 @interface ESStatusPreferences : AIPreferencePane {
 	//Status state tableview
 	IBOutlet	NSButton			*button_editState;
-	IBOutlet	NSButton			*button_deleteState;
 	IBOutlet	NSButton			*button_addGroup;
+	IBOutlet	NSSegmentedControl	*button_addOrRemoveState;
 
 	IBOutlet	AIAlternatingRowOutlineView		*outlineView_stateList;
 	IBOutlet	AIAutoScrollView				*scrollView_stateList;
@@ -45,9 +45,8 @@
 
 - (void)configureStateList;
 
+- (IBAction)addOrRemoveState:(id)sender;
 - (IBAction)editState:(id)sender;
-- (IBAction)deleteState:(id)sender;
-- (IBAction)newState:(id)sender;
 - (IBAction)addGroup:(id)sender;
 
 - (void)stateArrayChanged:(NSNotification *)notification;
