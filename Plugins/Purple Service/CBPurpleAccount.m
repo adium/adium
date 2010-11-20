@@ -1199,8 +1199,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 }
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
-{	
-	PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
+{
+  PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
+  
+  if ((![self shouldDisplayOutgoingMUCMessages] && ((flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) ||
+	  (!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) {
+	
 	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
 	NSString			*source = [messageDict objectForKey:@"Source"];
 	
@@ -1209,6 +1213,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		   fromListContact:[self contactWithUID:source]
 					 flags:flags
 					  date:[messageDict objectForKey:@"Date"]];
+  }
 }
 
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
@@ -1260,6 +1265,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	if ([inContentMessage isAutoreply]) {
 		flags |= PURPLE_MESSAGE_AUTO_RESP;
+	}
+  
+	if (![self shouldDisplayOutgoingMUCMessages]) {
+		inContentMessage.displayContent = NO;
 	}
 
 	[purpleAdapter sendEncodedMessage:[inContentMessage encodedMessage]

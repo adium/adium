@@ -713,6 +713,14 @@ typedef enum
 	return YES;
 }
 
+/*!
+ * @brief Hide outgoing messages (ex: because the server will echo them back to us)
+ */
+- (BOOL)shouldDisplayOutgoingMUCMessages
+{
+	return YES;
+}
+
 //Presence Tracking ----------------------------------------------------------------------------------------------------
 #pragma mark Presence Tracking
 /*!

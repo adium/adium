@@ -311,6 +311,7 @@ typedef enum {
 - (BOOL)rejoinChat:(AIChat*)chat;
 - (BOOL)groupChatsSupportTopic;
 - (void)setTopic:(NSString *)topic forChat:(AIChat *)chat;
+- (BOOL)shouldDisplayOutgoingMUCMessages;
 /*!
  * @brief Should an autoreply be sent to this message?
  *

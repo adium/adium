@@ -621,6 +621,11 @@
 	}
 }
 
+- (BOOL)shouldDisplayOutgoingMUCMessages
+{
+  return NO;
+}
+
 #pragma mark Status
 /*!
  * @brief Return the purple status type to be used for a status
