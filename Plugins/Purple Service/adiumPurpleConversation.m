@@ -61,11 +61,7 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 								   const char *message, PurpleMessageFlags flags,
 								   time_t mtime)
 {
-	/* We only care about this if:
-	 *	1) It does not have the PURPLE_MESSAGE_SEND flag, which is set if Purple is sending a sent message back to us -or-
-	 *  2) It is a delayed (history) message from a chat
-	 */
-	if (!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED)) {
+
 		NSDictionary	*messageDict;
 		NSString		*messageString;
 
@@ -105,7 +101,6 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 
 			[accountLookup(purple_conversation_get_account(conv)) receivedMultiChatMessage:messageDict inChat:groupChatLookupFromConv(conv)];
 		}
-	}
 }
 
 static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,

@@ -78,6 +78,11 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return [super openChat:chat];
 }
 
+- (BOOL)shouldDisplayOutgoingMUCMessages
+{
+  return NO;
+}
+
 /*!
  * @brief Open the info inspector when getting info
  *
