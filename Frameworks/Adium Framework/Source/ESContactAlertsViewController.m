@@ -76,8 +76,8 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	
 	[button_edit setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
 	[button_edit setToolTip:AILocalizedString(@"Configure the selected action", nil)];
-	[(NSSegmentedCell *)button_addOrRemoveAlert setToolTip:AILocalizedString(@"Add an action for the selected event", nil) forSegment:0];
-	[(NSSegmentedCell *)button_addOrRemoveAlert setToolTip:AILocalizedString(@"Remove the selected action(s)", nil) forSegment:1];
+	[[button_addOrRemoveAlert cell] setToolTip:AILocalizedString(@"Add an action for the selected event", nil) forSegment:0];
+	[[button_addOrRemoveAlert cell] setToolTip:AILocalizedString(@"Remove the selected action(s)", nil) forSegment:1];
 
 	[outlineView_summary accessibilitySetOverrideValue:AILocalizedString(@"Events", nil)
 										  forAttribute:NSAccessibilityDescriptionAttribute];
