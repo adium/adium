@@ -25,6 +25,8 @@
 - (NSSet *)contactsFromTextField;
 - (AIPrivacyOption)selectedPrivacyOption;
 - (void)privacySettingsChangedExternally:(NSNotification *)inNotification;
+- (void)runBlockSheet;
+- (void)removeSelection;
 @end
 
 @implementation RAFBlockEditorWindowController
@@ -131,6 +133,21 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 }
 
+
+- (IBAction)addOrRemoveBlock:(id)sender
+{
+	NSInteger selectedSegment = [sender selectedSegment];
+	
+	switch (selectedSegment) {
+		case 0:
+			[self runBlockSheet];
+			break;
+		case 1:
+			[self removeSelection];
+			break;
+	}
+}
+
 #pragma mark Adding a contact to the list
 
 - (void)selectAccountInSheet:(AIAccount *)inAccount
@@ -146,7 +163,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[accountText setAutoresizingMask:NSViewMaxXMargin];
 }
 
-- (IBAction)runBlockSheet:(id)sender
+- (void)runBlockSheet
 {
 	[field setStringValue:@""];
 	
@@ -305,7 +322,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 #pragma mark Removing a contact from the  list
 
-- (IBAction)removeSelection:(id)sender
+- (void)removeSelection
 {
 	NSIndexSet		*selectedItems = [table selectedRowIndexes];
 	
@@ -331,7 +348,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
-	[self removeSelection:tableView];
+	[self removeSelection];
 }
 
 - (void)setAccountColumnsVisible:(BOOL)visible

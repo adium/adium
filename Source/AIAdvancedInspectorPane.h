@@ -10,6 +10,7 @@
 
 #import <Adium/AIAccountMenu.h>
 #import <Adium/AIContactMenu.h>
+#import <AIUtilities/AISegmentedControl.h>
 
 @class AIAccountMenu, AIContactMenu, AIAccount, AIListContact;
 
@@ -23,8 +24,7 @@
 	IBOutlet	NSPopUpButton					*popUp_contact;
 	
 	IBOutlet	NSTableView						*tableView_groups;
-	IBOutlet	NSButton						*button_addGroup;
-	IBOutlet	NSButton						*button_removeGroup;
+	IBOutlet	AISegmentedControl				*button_addOrRemoveGroup;
 	
 	IBOutlet	NSTextField						*label_encryption;
 	IBOutlet	NSPopUpButton					*popUp_encryption;
@@ -53,5 +53,5 @@
 - (IBAction)setAutoJoin:(id)sender;
 - (IBAction)setStayInChat:(id)sender;
 
-- (void)removeSelectedGroups:(id)sender;
+- (IBAction)addOrRemoveGroup:(id)sender;
 @end

@@ -31,9 +31,8 @@
 	NSMutableDictionary			*expandStateDict;
 	NSMutableDictionary			*requiredHeightDict;
 
-	IBOutlet	NSButton		*button_add;
-    IBOutlet	NSButton		*button_delete;
-    IBOutlet	NSButton		*button_edit;
+    IBOutlet NSButton			*button_edit;
+    IBOutlet NSSegmentedControl	*button_addOrRemoveAlert;
     
 	AIListObject				*listObject;
 	
@@ -50,9 +49,8 @@
 - (void)configureForListObject:(AIListObject *)inObject;
 - (void)configureForListObject:(AIListObject *)inObject showingAlertsForEventID:(NSString *)inTargetEventID;
 
-- (IBAction)addAlert:(id)sender;
+- (IBAction)addOrRemoveAlert:(id)sender;
 - (IBAction)editAlert:(id)sender;
-- (IBAction)deleteAlert:(id)sender;
 
 - (void)setDelegate:(id)inDelegate;
 - (id)delegate;

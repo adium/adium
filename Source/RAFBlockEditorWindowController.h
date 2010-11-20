@@ -48,9 +48,7 @@
 
 + (void)showWindow;
 
-- (IBAction)removeSelection:(id)sender;
-
-- (IBAction)runBlockSheet:(id)sender;
+- (IBAction)addOrRemoveBlock:(id)sender;
 - (IBAction)cancelBlockSheet: (id)sender;
 - (IBAction)didBlockSheet: (id)sender;
 - (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;

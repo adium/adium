@@ -47,6 +47,9 @@
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (IBAction)didDoubleClick:(id)sender;
+
+- (void)addAlert;
+- (void)deleteAlert;
 @end
 
 int alertAlphabeticalSort(id objectA, id objectB, void *context);
@@ -71,38 +74,20 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 									   name:NSOutlineViewColumnDidResizeNotification
 									 object:outlineView_summary];
 	
-	//Manually size and position our buttons
-	{
-		NSRect	newFrame, oldFrame;
-
-		//Edit, right justified and far enough away from Remove that it can't conceivably overlap
-		oldFrame = [button_edit frame];
-		
-		/* Note: This is using the "Buttons" table from the main bundle. The string gets into the strings file there from other parts of Adium;
-		 * this is incorrect but not particularly worth fixing.
-		 */
-		[button_edit setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
-		[button_edit sizeToFit];
-		newFrame = [button_edit frame];
-		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
-		newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
-		[button_edit setFrame:newFrame];
-	}
-		
-	[button_add setToolTip:AILocalizedString(@"Add an action for the selected event", nil)];
-	[button_delete setToolTip:AILocalizedString(@"Remove the selected action(s)", nil)];
+	[button_edit setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
 	[button_edit setToolTip:AILocalizedString(@"Configure the selected action", nil)];
-	
+	[button_addOrRemoveAlert setToolTip:AILocalizedString(@"Add an action for the selected event", nil) forSegment:0];
+	[button_addOrRemoveAlert setToolTip:AILocalizedString(@"Remove the selected action(s)", nil) forSegment:1];
+
 	[outlineView_summary accessibilitySetOverrideValue:AILocalizedString(@"Events", nil)
 										  forAttribute:NSAccessibilityDescriptionAttribute];
 
 	//Update enable state of our buttons
 	[self outlineViewSelectionDidChange:nil];
-		
+	
 	configureForGlobal = NO;
 	showEventsInEditSheet = NO;
 
-	//
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_ALERTS];
 }
 
@@ -197,8 +182,22 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 
 //Alert Editing --------------------------------------------------------------------------------------------------------
 #pragma mark Actions
+- (IBAction)addOrRemoveAlert:(id)sender
+{
+	NSInteger selectedSegment = [sender selectedSegment];
+	
+	switch (selectedSegment){
+		case 0:
+			[self addAlert];
+			break;
+		case 1:
+			[self deleteAlert];
+			break;
+	}
+}
+
 //Add new alert
-- (IBAction)addAlert:(id)sender
+- (void)addAlert
 {
 	NSString	*defaultEventID;
 	id			item = [outlineView_summary itemAtRow:[outlineView_summary selectedRow]];
@@ -235,7 +234,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 }
 
 //Delete an alert
-- (IBAction)deleteAlert:(id)sender
+- (void)deleteAlert
 {
 	NSInteger selectedRow = [outlineView_summary selectedRow];
 	if (selectedRow != -1) {
@@ -533,7 +532,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 		
 		if ([contactAlertsActions containsObjectIdenticalTo:item]) {
 			if ([item count] == 0) {
-				[self addAlert:nil];
+				[self addAlert];
 			} else if ([outlineView_summary isItemExpanded:item]) {
 				[outlineView_summary collapseItem:item];
 			} else {
@@ -810,16 +809,16 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 		NSInteger row = [outlineView_summary selectedRow];
 		
 		if (row != -1) {
-			[button_add	setEnabled:YES];
+			[button_addOrRemoveAlert setEnabled:YES forSegment:0];
 			
 			id item = [outlineView_summary itemAtRow:row];
 			if ([contactAlertsActions containsObjectIdenticalTo:item]) {
 				[button_edit setEnabled:NO];
-				[button_delete setEnabled:([(NSArray *)item count] > 0)];
+				[button_addOrRemoveAlert setEnabled:([(NSArray *)item count] > 0) forSegment:1];
 				
 			} else {
 				[button_edit setEnabled:YES];
-				[button_delete setEnabled:YES];
+				[button_addOrRemoveAlert setEnabled:YES forSegment:1];
 				
 				//Preview if possible
 				NSDictionary			*eventDict = (NSDictionary *)item;
@@ -835,8 +834,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 				}				
 			}
 		} else {
-			[button_add setEnabled:NO];
-			[button_delete setEnabled:NO];
+			[button_addOrRemoveAlert setEnabled:NO forSegment:0];
+			[button_addOrRemoveAlert setEnabled:NO forSegment:1];
 			[button_edit setEnabled:NO];
 		
 		}
@@ -864,7 +863,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 
 - (void)outlineViewDeleteSelectedRows:(NSOutlineView *)inOutlineView
 {
-	[self deleteAlert:nil];
+	[self deleteAlert];
 }
 
 #pragma mark Global configuration

@@ -17,6 +17,7 @@
 #import <Adium/AIPreferencePane.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIAccountMenu.h>
+#import <AIUtilities/AISegmentedControl.h>
 
 @class AIAccountController, AIAccount, AIAutoScrollView, AIImageViewWithImagePicker;
 
@@ -24,8 +25,7 @@
 	//Account list
     IBOutlet		NSScrollView			*scrollView_accountList;
     IBOutlet		NSTableView				*tableView_accountList;
-	IBOutlet		NSButton				*button_newAccount;
-    IBOutlet		NSButton				*button_deleteAccount;
+	IBOutlet		AISegmentedControl		*button_addOrRemoveAccount;
 	IBOutlet		NSButton				*button_editAccount;
 	IBOutlet		NSTextField				*textField_overview;
 
@@ -41,7 +41,8 @@
 	NSTimer							*reconnectTimeUpdater;
 }
 
-- (IBAction)deleteAccount:(id)sender;
+- (IBAction)addOrRemoveAccount:(id)sender;
+- (void)deleteAccount;
 - (void)editAccount:(AIAccount *)inAccount;
 - (IBAction)editSelectedAccount:(id)sender;
 - (void)updateAccountOverview;

@@ -30,7 +30,7 @@
 - (void)updateControlAvailability
 {
     BOOL selection = ([tableView_servers selectedRow] != -1);
-	[minus_servers setEnabled:selection];
+	[button_addOrRemoveServer setEnabled:selection forSegment:1];
 }
 
 //Configure our controls
@@ -111,10 +111,23 @@
     return [[account preferenceForKey:KEY_ZEPHYR_SERVERS group:GROUP_ACCOUNT_STATUS] count];
 }
 
+- (IBAction)addOrRemoveRowToServerList:(id)sender {
+	NSInteger selectedSegment = [sender selectedSegment];
+	
+	switch (selectedSegment) {
+		case 0:
+			[self addRowToServerList];
+			break;
+		case 1:
+			[self removeSelectedRowFromServerList];
+			break;
+	}
+}
+
 /*!
  * @brief Add a new server to the list of servers.
  */
-- (IBAction)addRowToServerList:(id)sender {
+- (void)addRowToServerList {
     NSArray *ray = [[account preferenceForKey:KEY_ZEPHYR_SERVERS group:GROUP_ACCOUNT_STATUS] retain];
 
     [account setPreference:[ray arrayByAddingObject:@""]
@@ -131,7 +144,7 @@
 /*!
  * @brief Remove the selected row from the list of servers.
  */
-- (IBAction)removeSelectedRowFromServerList:(id)sender {
+- (void)removeSelectedRowFromServerList {
     NSInteger idx = [tableView_servers selectedRow];
     if (idx != -1) {
         NSMutableArray *ray = [[account preferenceForKey:KEY_ZEPHYR_SERVERS group:GROUP_ACCOUNT_STATUS] mutableCopy];

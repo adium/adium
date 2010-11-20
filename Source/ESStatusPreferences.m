@@ -38,6 +38,9 @@
 - (BOOL)addItemIfNeeded:(NSMenuItem *)menuItem toPopUpButton:(NSPopUpButton *)popUpButton alreadyShowingAnItem:(BOOL)alreadyShowing;
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+
+- (void)newState;
+- (void)deleteState;
 @end
 
 @implementation ESStatusPreferences
@@ -73,31 +76,6 @@
 	[outlineView_stateList setDrawsBackground:NO];
 	[outlineView_stateList setUsesAlternatingRowBackgroundColors:YES];
 	
-	//Manually size and position our buttons
-	{
-		NSRect	newFrame, oldFrame;
-		
-		//Edit, right justified and far enough away from Remove that it can't conceivably overlap
-		oldFrame = [button_editState frame];
-		[button_editState setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
-		[button_editState sizeToFit];
-		newFrame = [button_editState frame];
-		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
-		if (newFrame.size.height < oldFrame.size.height) newFrame.size.height = oldFrame.size.height;
-		newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
-		[button_editState setFrame:newFrame];
-
-		//Add Group
-		oldFrame = [button_addGroup frame];
-		[button_addGroup setTitle:AILocalizedString(@"Add Group",nil)];
-		[button_addGroup sizeToFit];
-		newFrame = [button_addGroup frame];
-		if (newFrame.size.height < oldFrame.size.height) newFrame.size.height = oldFrame.size.height;
-		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
-		if (newFrame.size.width > oldFrame.size.width) newFrame.size.width += 8;
-		[button_addGroup setFrame:newFrame];
-	}
-		
 	[outlineView_stateList accessibilitySetOverrideValue:AILocalizedString(@"Statuses", nil)
 											forAttribute:NSAccessibilityRoleDescriptionAttribute];
 
@@ -171,7 +149,7 @@
 
 	[button_editState setEnabled:(count && 
 								  ([[outlineView_stateList itemAtRow:[selectedIndexes firstIndex]] mutabilityType] == AIEditableStatusState))];
-	[button_deleteState setEnabled:count];
+	[button_addOrRemoveState setEnabled:count forSegment:1];
 }
 
 /*!
@@ -273,7 +251,7 @@
  *
  * Deletes the selected state from Adium's state array.
  */
-- (IBAction)deleteState:(id)sender
+- (void)deleteState
 {
 	NSArray		 *selectedItems = [outlineView_stateList arrayOfSelectedItems];
 	
@@ -328,7 +306,7 @@
  * returns successfully, it will invoke our customStatusState:changedTo: which adds the new state to Adium's state
  * array.
  */
-- (IBAction)newState:(id)sender
+- (void)newState
 {
 	[AIEditStateWindowController editCustomState:nil
 										 forType:AIAwayStatusType
@@ -343,6 +321,20 @@
 	[ESEditStatusGroupWindowController editStatusGroup:nil
 											  onWindow:[[self view] window]
 									   notifyingTarget:self];
+}
+
+- (IBAction)addOrRemoveState:(id)sender
+{
+	NSInteger selectedSegment = [sender selectedSegment];
+	
+	switch (selectedSegment) {
+		case 0:
+			[self newState];
+			break;
+		case 1:
+			[self deleteState];
+			break;
+	}
 }
 
 //State List OutlinView Delegate --------------------------------------------------------------------------------------------
@@ -422,7 +414,7 @@
  */
 - (void)outlineViewDeleteSelectedRows:(NSTableView *)tableView
 {
-    [self deleteState:nil];
+    [self deleteState];
 }
 
 /*!

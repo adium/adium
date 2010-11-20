@@ -13,7 +13,6 @@
 	
 	IBOutlet NSView								*inspectorContentView;
 	IBOutlet ESContactAlertsViewController		*alertsController;
-	//Other IBOutlets here
 }
 
 -(NSString *)nibName;

@@ -113,7 +113,8 @@
 							 atIndex:0];
 	
 	//Assign the menu
-	[button_newAccount setMenu:serviceMenu];
+	[button_addOrRemoveAccount setMenu:serviceMenu];
+	[button_addOrRemoveAccount setMenuIndicatorShown:YES forSegment:0];
 	
 	//Set ourselves up for Account Menus
 	accountMenu_options = [[AIAccountMenu accountMenuWithDelegate:self
@@ -210,6 +211,20 @@
 
 //Actions --------------------------------------------------------------------------------------------------------------
 #pragma mark Actions
+- (IBAction)addOrRemoveAccount:(id)sender
+{
+	NSInteger selectedSegment = [sender selectedSegment];
+	
+	switch (selectedSegment) {
+		case 0:
+			[sender showMenuForSegment:selectedSegment];
+			break;
+		case 1:
+			[self deleteAccount];
+			break;
+	}
+}
+
 /*!
  * @brief Create a new account
  *
@@ -293,11 +308,11 @@
  *
  * Prompts for confirmation first
  */
-- (IBAction)deleteAccount:(id)sender
+- (void)deleteAccount
 {
-    NSInteger idx = [tableView_accountList selectedRow];
-
-    if ([tableView_accountList numberOfSelectedRows] == 1 && idx >= 0 && idx < [accountArray count]) {
+	NSInteger idx = [tableView_accountList selectedRow];
+	
+	if ([tableView_accountList numberOfSelectedRows] == 1 && idx >= 0 && idx < [accountArray count]) {
 		[[(AIAccount *)[accountArray objectAtIndex:idx] confirmationDialogForAccountDeletion] beginSheetModalForWindow:[[self view] window]];
 	}
 }
@@ -339,17 +354,9 @@
 - (void)configureAccountList
 {
     AIImageTextCell		*cell;
-	NSRect				oldFrame, newFrame;
 	
-	//Setup our edit button, keeping its right side in the same location
-	oldFrame = [button_editAccount frame];
 	[button_editAccount setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
-	[button_editAccount sizeToFit];
-	newFrame = [button_editAccount frame];
-	if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
-	newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
-	[button_editAccount setFrame:newFrame];
-
+	
 	//Configure our table view
 	[tableView_accountList setTarget:self];
 	[tableView_accountList setDoubleAction:@selector(doubleClickInTableView:)];
@@ -357,14 +364,6 @@
 
 	//Enable dragging of accounts
 	[tableView_accountList registerForDraggedTypes:[NSArray arrayWithObjects:ACCOUNT_DRAG_TYPE,nil]];
-	
-    //Custom vertically-centered text cell for account names
-	/*
-	cell = [[AIBlankCell alloc] init];
-	[[tableView_accountList tableColumnWithIdentifier:@"blank1"] setDataCell:cell];
-	[[tableView_accountList tableColumnWithIdentifier:@"blank2"] setDataCell:cell];
-	[cell release];
-	*/
 	
     cell = [[AIImageTextCell alloc] init];
     [cell setFont:[NSFont boldSystemFontOfSize:13]];
@@ -684,7 +683,7 @@
 	BOOL	selection = ([tableView_accountList numberOfSelectedRows] == 1 && [tableView_accountList selectedRow] != -1);
 
 	[button_editAccount setEnabled:selection];
-	[button_deleteAccount setEnabled:selection];
+	[button_addOrRemoveAccount setEnabled:selection forSegment:1];
 }
 
 /*!
@@ -797,7 +796,7 @@
  */
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
-    [self deleteAccount:nil];
+    [self deleteAccount];
 }
 
 /*!
