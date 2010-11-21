@@ -1267,7 +1267,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		flags |= PURPLE_MESSAGE_AUTO_RESP;
 	}
   
-	if (![self shouldDisplayOutgoingMUCMessages]) {
+	if (![self shouldDisplayOutgoingMUCMessages] && [inContentMessage.chat isGroupChat]) {
 		inContentMessage.displayContent = NO;
 	}
 
