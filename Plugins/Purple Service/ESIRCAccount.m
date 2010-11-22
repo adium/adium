@@ -193,6 +193,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	if (!didCommand || hasSlashMe) {
 		if (hasSlashMe) {
 			inContentMessage.sendContent = NO;
+			inContentMessage.displayContent = NO;
 		}
 		/* If we're sending a message on an encrypted direct msg, we can encode the HTML normally, as links will go through fine.
 		 * However, in all other cases, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
