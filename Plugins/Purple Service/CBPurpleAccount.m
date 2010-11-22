@@ -85,7 +85,6 @@
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date;
 - (NSNumber *)shouldCheckMail;
 - (void)configurePurpleAccountNotifyingTarget:(id)target selector:(SEL)selector;
-- (void)continueConnectWithConfiguredPurpleAccount;
 - (void)continueConnectWithConfiguredProxy;
 - (void)continueRegisterWithConfiguredPurpleAccount;
 - (void)promptForHostBeforeConnecting;
