@@ -63,7 +63,7 @@
 	speakContactName = [[inDetails objectForKey:KEY_ANNOUNCER_SENDER] boolValue];
 
 	if ((voice = [inDetails objectForKey:KEY_VOICE_STRING])) {
-		[popUp_voices selectItemWithTitle:voice];
+		[popUp_voices selectItemWithRepresentedObject:voice];
 	} else {
 		[popUp_voices selectItemAtIndex:0]; //"Default"
 	}
