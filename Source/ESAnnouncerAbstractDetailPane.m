@@ -18,8 +18,9 @@
 #import "ESAnnouncerAbstractDetailPane.h"
 #import "ESAnnouncerPlugin.h"
 #import <Adium/AIContactAlertsControllerProtocol.h>
-#import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AILocalizationButton.h>
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIPopUpButtonAdditions.h>
 
 @interface ESAnnouncerAbstractDetailPane ()
 - (NSMenu *)voicesMenu;
