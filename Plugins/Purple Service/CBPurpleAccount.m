@@ -1223,7 +1223,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		// Display delayed messages as context.
 
 		AIContentContext *messageObject = [AIContentContext messageInChat:chat
-															   withSource:sourceContact
+															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
 															  destination:self
 																	 date:date
 																  message:attributedMessage
@@ -1235,12 +1235,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		
 	} else {
 		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
-															   withSource:sourceContact
+															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
 															  destination:self
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-		
 		[adium.contentController receiveContentObject:messageObject];	
 	}
 }
