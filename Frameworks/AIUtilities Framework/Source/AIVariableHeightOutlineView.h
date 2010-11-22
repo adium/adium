@@ -77,6 +77,17 @@
 @interface AIVariableHeightOutlineView (AIVariableHeightOutlineViewAndSubclasses)
 - (void)resetRowHeightCache;
 - (void)updateRowHeightCache;
+/*!
+ * @brief Row drawing routine
+ *
+ * Subclasses should implement this rather than drawRow:clipRect: to override drawing.
+ *
+ * AIVariableHeightOutlineView calls this as part of its drawRow:clipRect: implementation, and some drawing operations
+ * may *not* call drawRow:clipRect: at all but rather call this method only.
+ *
+ * @result YES if the row was drawn; NO if the row was not drawn because it is below the clipping rect
+ */
+- (BOOL)_ai_drawRow:(NSInteger)row clipRect:(NSRect)rect;
 @end
 
 @interface NSObject (AIVariableHeightGridSupport)
