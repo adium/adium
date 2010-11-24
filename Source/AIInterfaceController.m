@@ -1306,12 +1306,8 @@
 	//trap prevents us from crashing if they happen to disable all the available message view plugins.
 	//PUT THAT PLUGIN BACK IT WAS IMPORTANT!
 	if ([messageViewArray count] == 0) {
-		NSRunCriticalAlertPanel(@"No Message View Plugin Installed",
-								@"Adium cannot find its message view plugin. Please re-install.  If you've manually disabled Adium's message view plugin, please re-enable it.",
-								@"Quit",
-								nil,
-								nil);
-		[NSApp terminate:nil];
+		AILogWithSignature(@"WARNING: Called for %@ without a mesage display controller.", inChat);
+		return nil;
 	}
 	
 	return [[messageViewArray objectAtIndex:0] messageDisplayControllerForChat:inChat];
