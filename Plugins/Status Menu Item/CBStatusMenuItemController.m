@@ -246,7 +246,7 @@
 	if (!menuIconPath || !menuIconName) {
 		menuIconName = [adium.preferenceController defaultPreferenceForKey:KEY_MENU_BAR_ICONS
 																	   group:PREF_GROUP_APPEARANCE
-																	  object:nil];																	  
+																	  object:nil];
 		menuIconPath = [adium pathOfPackWithName:menuIconName
 									   extension:EXTENSION_MENU_BAR_ICONS
 							  resourceFolderName:RESOURCE_MENU_BAR_ICONS];
@@ -318,7 +318,6 @@
 - (void)updateMenuIcons
 {
 	NSImage			*badge = nil;
-	BOOL			anyAccountHasStatusMessage;
 	NSString		*imageName;
 
 	// If there's content, set our badge to the "content" icon.
@@ -355,15 +354,10 @@
 				break;
 				
 			default:
-				// Online badging order of presence: idle > reconnecting account > status message
-				
 				// Assuming we're using an online image unless proven otherwise
 				imageName = IMAGE_TYPE_ONLINE;
 
 				// Check idle here, since it has less precedence than offline, invisible, or away.
-				anyAccountHasStatusMessage = NO;
-
-				// Check each account for IdleSince, a StatusState status message, or "Waiting to Reconnect"
 				for (AIAccount *account in adium.accountController.accounts) {
 					if (account.online && [account valueForProperty:@"idleSince"]) {
 						if (showBadge) {
@@ -375,24 +369,8 @@
 						
 						imageName = IMAGE_TYPE_IDLE;
 						
-						// We don't need to check anymore; idle has high precedence than offline or available with a status message.
 						break;
-					} else if (showBadge &&
-							   ([account valueForProperty:@"waitingToReconnect"] ||
-								[account boolValueForProperty:@"isConnecting"])) {
-						badge = [AIStatusIcons statusIconForStatusName:@"Offline"
-															statusType:AIOfflineStatusType
-															  iconType:AIStatusIconList
-															 direction:AIIconNormal];
-					} else if (account.online && [[account valueForProperty:@"accountStatus"] statusMessage]) {
-						anyAccountHasStatusMessage = YES;
 					}
-				}
-				
-				// If we already haven't chosen a badge (for example, offline for a reconnecting account)
-				// and we have a status message set on any online account, use an online badge
-				if (showBadge && !badge && anyAccountHasStatusMessage) {
-					badge = [adium.statusController.activeStatusState icon];
 				}
 
 				break;
