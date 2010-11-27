@@ -738,7 +738,7 @@
 	 * Libpurple, as of 2.0.0 but not before so far as we've seen, sometimes feeds us truncated AIM away messages.
 	 * The full message will then follow... followed by the truncated one... and so on. This makes the message
 	 * change in the buddy list and in the message window repeatedly.
-	 * I'm not sure how long the truncted versions are - I've seen 40 to 70 characters.  We'll therefore ignore
+	 * I'm not sure how long the truncated versions are - I've seen 40 to 70 characters.  We'll therefore ignore
 	 * an incoming message which is the same as the first 40 characters of the existing one.  I wonder how long
 	 * before someone will notice this "odd" behavior and file a bug report... -evands
 	 */
