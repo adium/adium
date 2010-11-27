@@ -23,7 +23,6 @@
 #import "SGHotKey.h"
 #import "SRRecorderControl.h"
 #import "SGHotKey.h"
-#import "AIMessageHistoryPreferencesWindowController.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatusIcons.h>
@@ -308,12 +307,6 @@
 	[adium.preferenceController setPreference:[NSNumber	numberWithBool:flag]
 	 forKey:@"Display Message Context"
 	 group:@"Message Context Display"];
-}
-
-#pragma mark Message history
-- (IBAction)configureMessageHistory:(id)sender
-{
-	[AIMessageHistoryPreferencesWindowController configureMessageHistoryPreferencesOnWindow:[[self view] window]];
 }
 
 @end
