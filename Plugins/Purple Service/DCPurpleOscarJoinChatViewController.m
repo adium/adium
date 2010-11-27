@@ -81,7 +81,7 @@
 	room = [textField_roomName stringValue];
 
 	if (room && [room length]) {
-		//XXX we should probaly let the user pick the exchange
+		//XXX we should probably let the user pick the exchange
 		exchange = 4;
 				
 		//The chatCreationInfo has keys corresponding to the GHashTable keys and values to match them.
