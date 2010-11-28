@@ -355,7 +355,16 @@
 {
     AIImageTextCell		*cell;
 	
-	[button_editAccount setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
+	{
+		NSRect newFrame, oldFrame;
+		oldFrame = [button_editAccount frame];
+		[button_editAccount setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
+		[button_editAccount sizeToFit];
+		newFrame = [button_editAccount frame];
+		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
+		newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
+		[button_editAccount setFrame:newFrame];
+	}
 	
 	//Configure our table view
 	[tableView_accountList setTarget:self];
