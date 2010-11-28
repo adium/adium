@@ -73,8 +73,17 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 								   selector:@selector(outlineViewColumnDidResize:)
 									   name:NSOutlineViewColumnDidResizeNotification
 									 object:outlineView_summary];
-	
-	[button_edit setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
+	{
+		NSRect newFrame, oldFrame;
+		oldFrame = [button_edit frame];
+		[button_edit setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
+		[button_edit sizeToFit];
+		newFrame = [button_edit frame];
+		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
+		newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
+		[button_edit setFrame:newFrame];
+	}
+
 	[button_edit setToolTip:AILocalizedString(@"Configure the selected action", nil)];
 	[[button_addOrRemoveAlert cell] setToolTip:AILocalizedString(@"Add an action for the selected event", nil) forSegment:0];
 	[[button_addOrRemoveAlert cell] setToolTip:AILocalizedString(@"Remove the selected action(s)", nil) forSegment:1];
