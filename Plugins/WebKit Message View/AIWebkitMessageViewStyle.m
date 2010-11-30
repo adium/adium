@@ -810,8 +810,10 @@
 				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:self.validSenderColors]];
 	
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
+	BOOL isRTL = ([inString rangeOfString:@"<div dir=\"rtl\">"
+								  options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound);
 	[inString replaceKeyword:@"%messageDirection%"
-				  withString:(([inString rangeOfString:@"<DIV dir=\"rtl\">"].location != NSNotFound) ? @"rtl" : @"ltr")];
+				  withString:(isRTL ? @"rtl" : @"ltr")];
 	
 	//Replaces %time{x}% with a timestamp formatted like x (using NSDateFormatter)
 	do{
