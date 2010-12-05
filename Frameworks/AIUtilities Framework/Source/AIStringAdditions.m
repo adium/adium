@@ -865,6 +865,20 @@ return nil; \
 	return [self caseInsensitiveCompare:other] == NSOrderedSame;
 }
 
+/*
+ * @brief For AICompletingTextField
+ */
+- (NSComparisonResult)compareLength:(NSString *)aText
+{
+	if ([aText length] > [self length]) {
+		return NSOrderedAscending;
+	} else if ([aText length] == [self length]) {
+		return NSOrderedSame;
+	} else {
+		return NSOrderedDescending;
+	}
+}
+
 - (unsigned long long)unsignedLongLongValue
 {
 	return [[NSDecimalNumber decimalNumberWithString:self] unsignedLongLongValue];
