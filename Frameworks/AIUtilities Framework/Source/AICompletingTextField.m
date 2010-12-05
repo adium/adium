@@ -193,10 +193,11 @@
 //Returns the known completion for a string segment
 - (NSString *)completionForString:(NSString *)inString
 {
+	NSMutableArray  *possibleCompletions = [[NSMutableArray alloc] init];
     NSEnumerator	*enumerator;
 	NSString		*compString = inString;
     NSString		*autoString;
-    NSUInteger				length;
+    NSUInteger		length;
     NSRange			range;
 
 	// Find only the last item in the list, if we are to autocomplete only after separators
@@ -210,16 +211,26 @@
     range = NSMakeRange(0, length);
 	
     if (length >= minLength) {
-        //Check each auto-complete string for a match
+        //Check each auto-complete string for a match, add each match to array of possible competions
         enumerator = [stringSet objectEnumerator];
         while ((autoString = [enumerator nextObject])) {
             if (([autoString length] > length) && [autoString compare:compString options:NSCaseInsensitiveSearch range:range] == 0) {
-				return autoString;
+				[possibleCompletions addObject:autoString];
             }
         }
     }
+
+	NSArray *sortedArray = [possibleCompletions sortedArrayUsingSelector:@selector(compareLength:)];
 	
-    return nil;
+	[possibleCompletions release];
+	
+	if ([sortedArray count] > 0){
+		return [sortedArray objectAtIndex:0];
+		//When the AICompletingTextfield is modified to be able to provide multiple choices of completions, the entire array can be used later.
+		//return sortedArray;
+	}
+	
+	return nil;
 }
 
 - (id)impliedValueForString:(NSString *)aString

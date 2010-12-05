@@ -131,6 +131,8 @@
 
 - (BOOL) isCaseInsensitivelyEqualToString:(NSString *)other;
 
+- (NSComparisonResult)compareLength:(NSString *)aString;
+
 - (unsigned long long)unsignedLongLongValue;
 
 @end

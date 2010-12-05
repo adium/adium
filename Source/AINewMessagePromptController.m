@@ -73,6 +73,14 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 }
 
 /*!
+ * @brief Suppress system autocompletion
+ */
+- (NSArray *)control:(NSControl *)control textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)indexa
+{
+	return nil;
+}
+
+/*!
  * @brief Open a chat with the desired contact
  */
 - (IBAction)okay:(id)sender
