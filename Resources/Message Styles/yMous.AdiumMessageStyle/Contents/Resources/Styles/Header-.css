@@ -20,17 +20,22 @@
 .toggle
 {
 	position: fixed;
-	top: 2px;
+	/*top: 2px;
 	left: 3px;
 	padding: 2px;
+	font-size: 10px !important;*/
+	top: .2em;
+	left: .3em;
+	padding: .2em;
+	font-size: 1em !important;
+	font-family: AppleGothic;
 	z-index: 10;
 	cursor: default;
-	font-size: 10px !important;
-	font-family: AppleGothic;
 	z-index: 999;
 	cursor: pointer;
-	background:	rgba(208, 208, 208, .85);
-	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .2);
+	background: rgba(208, 208, 208, .85);
+	/*-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .2);*/
+	-webkit-box-shadow: 0px .1em .2em rgba(0, 0, 0, .2);
 }
 
 #toggle_hide:before
