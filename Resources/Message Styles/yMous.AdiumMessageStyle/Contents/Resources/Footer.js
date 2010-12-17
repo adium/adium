@@ -1,4 +1,4 @@
-﻿	var highlightActive = false;
+	var highlightActive = false;
 
 	function selectSender() {
 		if (highlightActive || event.target.tagName.toLowerCase() == 'a')
@@ -16,9 +16,16 @@
 		}
 		var elms = document.getElementsByClassName(senderName); var elemArray = new Array(elms.length); for (var i=0; i<elms.length; i++) { elemArray[i]=elms[i]; }
 		var len = elemArray.length;
-		for(var i = 0; i < len; i++) { 
-			elemArray[i].className += ' x-hover';
-		} 
+		for(var i = 0; i < len; i++) {
+			var elem = elms[i];
+			if(elem.offsetTop + elem.offsetHeight >= window.pageYOffset) {
+				if(elem.offsetTop > window.pageYOffset + window.innerHeight) {
+					break;
+				}
+				elemArray.push(elem);
+				elem.className += ' x-hover';
+			}
+		}
 	}
 
 	function deselectAll() {
@@ -27,9 +34,9 @@
 		var elms = document.querySelectorAll(".x-hover");
 		var len = elms.length;
 		var elm = null;
-		for(var i = 0; i < len; i++) { 
+		for(var i = 0; i < len; i++) {
 			elm = elms[i];
-			elm.className = elm.className.replace(' x-hover', ''); 
+			elm.className = elm.className.replace(' x-hover', '');
 		}
 		highlightActive = false;
 	}

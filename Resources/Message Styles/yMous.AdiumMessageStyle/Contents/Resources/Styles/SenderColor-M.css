@@ -13,35 +13,31 @@
 .incoming.x-hover,
 .consecutive.message:hover .x-sender:after,
 .consecutive.message.x-hover .x-sender:after,
-.outgoing.message .x-mark
+.outgoing.message .x-color
 {
 	color: hsla(0, 0%, 0%, 1) !important;
 }
 
-.outgoing.message:not(.x-hover) .x-mark
+.outgoing.message .x-color
 {
 	background-color: hsla(0, 0%, 0%, 1) !important;
 }
 
-.outgoing.message:not(.x-hover) .x-mark
-.outgoing.message.x-hover .x-mark
+.outgoing.message:not(.x-hover) .x-color,
+.outgoing.message.x-hover .x-color
 {
 	color: hsla(0, 0%, 0%, 1) !important;
 }
 
-.status .x-mark,
-.event .x-mark
+.status .x-color,
+.event .x-color
 {
 	color: hsla(0, 0%, 100%, 1) !important;
 }
 
-.status.history .x-mark,
-.event.history .x-mark
+.status.history .x-color,
+.event.history .x-color
 {
 	color: hsla(0, 0%, 90%, 1) !important;
 }
 
-.mention > .x-mention
-{
-	background: transparent !important;
-}

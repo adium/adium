@@ -1,11 +1,11 @@
 @charset "utf-8";
 
-.x-mark
+.x-color
 {
 	background-color: hsla(0, 0%, 100%, 1) !important;
 }
 
-.history .x-mark
+.history .x-color
 {
 	background-color: hsla(0, 0%, 90%, 1) !important;
 }
@@ -18,17 +18,17 @@
 	color: hsla(120, 42%, 25%, 1) !important;
 }
 
-.outgoing .x-mark
+.outgoing .x-color
 {
 	color: hsla(120, 42%, 25%, 1) !important;
 }
 
 .outgoing:hover,
-.outgoing:hover .x-mark,
+.outgoing:hover .x-color,
 .outgoing:hover .x-message,
 .outgoing:hover.consecutive.message:not(.mention) .x-sender:after,
 .outgoing.x-hover,
-.outgoing.x-hover .x-mark,
+.outgoing.x-hover .x-color,
 .outgoing.x-hover .x-message,
 .outgoing.x-hover.consecutive.message:not(.mention) .x-sender:after
 {
@@ -43,11 +43,20 @@
 	color: hsla(240, 92%, 56%, 1) !important;
 }
 
-.incoming .x-mark
+.incoming .x-color
 {
 	color: hsla(240, 92%, 56%, 1) !important;
 }
 
+.x-hover > .x-color
+{
+	background-color: hsla(0, 0%, 90%, 1) !important;
+}
+
+.history.x-hover > .x-color
+{
+	background-color: hsla(0, 0%, 80%, 1) !important;
+}
 
 .incoming.mention .x-message
 {
@@ -55,11 +64,11 @@
 }
 
 .incoming:hover,
-.incoming:hover .x-mark,
+.incoming:hover .x-color,
 .incoming:not(.mention):hover .x-message,
 .incoming:hover.consecutive.message:not(.mention) .x-sender:after,
 .incoming.x-hover,
-.incoming.x-hover .x-mark,
+.incoming.x-hover .x-color,
 .incoming:not(.mention).x-hover .x-message,
 .incoming.x-hover.consecutive.message:not(.mention) .x-sender:after
 {
@@ -79,14 +88,14 @@
 
 /*----------*/
 
-.status .x-mark,
-.event .x-mark
+.status .x-color,
+.event .x-color
 {
 	color: hsla(0, 0%, 59%, 1) !important;
 }
 
-.status:hover .x-mark,
-.event:hover .x-mark
+.status:hover .x-color,
+.event:hover .x-color
 {
 	color: hsla(0, 0%, 33%, 1) !important;
 }

@@ -26,7 +26,8 @@ body
 #insert .x-focus,
 #insert .x-icon,
 #insert .x-sender,
-#insert .x-mark,
+#insert .x-line,
+#insert .x-color,
 #insert .x-message,
 #insert .x-mention,
 #insert .x-time
@@ -46,7 +47,8 @@ body
 .x-focus,
 .x-icon,
 .x-sender,
-.x-mark,
+.x-line,
+.x-color,
 .x-message,
 .x-mention,
 .x-time
@@ -57,45 +59,38 @@ body
 
 .x-focus
 {
-	padding-right: 2px;
+	padding-right: .2em;
 }
 
+.x-color,
 .x-mention
 {
-	padding-right: .5em;
+	padding-right: .3em;
 }
 
 :not(.mention) > .x-message
 {
-	padding-right: .0em;
+	padding-right: 0px;
 }
 
 .IRC .x-icon img,
 .status .x-icon img,
 .event .x-icon img,
 .consecutive .x-icon img,
-.history .x-icon img
-{
-	display: none;
-}
-
+.history .x-icon img,
+.hideIcons .x-icon img,
 .x-icon img[src*="buddy_icon.png"]
 {
 	display: none;
 }
 
-.x-icon img
+.showIcons .x-icon img
 {
 	max-height: 1.1em;
 	max-width: 1.1em;
-	padding-left: 2px;
+	/*padding-left: 2px;*/
+	padding-left: .2em;
 	opacity: .875;
-}
-
-.status .x-sender,
-.event .x-sender
-{
-	color: transparent !important;
 }
 
 .x-sender
@@ -105,13 +100,13 @@ body
 	overflow: hidden;
 	white-space: nowrap;
 	text-align: right;
-	padding-right: 4px;
-	padding-left: 4px;
+	padding-right: .3em;
+	padding-left: .3em;
 }
 
 .IRC .x-sender
 {
-	padding-left: 2px;
+	padding-left: .3em;
 }
 
 .consecutive.message:not(.action) .x-sender
@@ -124,6 +119,7 @@ body
 	content: "\21e7";
 	margin-left: -2em;
 	-webkit-transition: all .2s linear;
+	/*font-size: .8em !important;*/
 }
 
 .mention.consecutive:not(.action) .x-sender:after
@@ -157,25 +153,18 @@ body
 	font-style: italic !important;
 }
 
-.x-mark
+.x-line
 {
-	border-width: 1px;
-	border-left-style: solid;
+	padding-right: .1em;
 }
 
 .x-message
 {
-	padding-left: 3px;
-	padding-right: .5em;
+	padding-left: .3em;
+	padding-right: .3em;
 	max-width: 90%;
 	width: 100%;
 	line-height: 1.4em;
-}
-
-.x-mention
-{
-	border-width: 1px;
-	border-right-style: solid;
 }
 
 .emoticon
@@ -196,7 +185,7 @@ body
 	opacity: .75;
 }
 
-.x-message:hover img.emoticon
+.x-message:hover img.emoticon,
 .x-message.x-hover img.emoticon
 {
 	opacity: 1;
@@ -206,8 +195,8 @@ body
 {
 	white-space: nowrap;
 	text-align: right;
-	padding-right: 4px;
-	padding-left: 4px;
+	padding-right: .5em;
+	padding-left: .3em;
 	font-size: .5em !important;
 }
 
@@ -251,5 +240,54 @@ img.scaledToFitImage
 {
 	width: auto;
 	max-height: 1.18em;
+}
+
+.firstFocus > .x-focus,
+.message:not(.history):not(.consecutive) .x-color,
+.message:not(.history):not(.consecutive) .x-message,
+.message:not(.history):not(.consecutive) .x-mention,
+.message.history:not(.consecutive) .x-color,
+.message.history:not(.consecutive) .x-message,
+.message.history:not(.consecutive) .x-mention
+{
+	border-top-width: .1em !important;
+	border-top-style: solid !important;
+}
+
+#Chat > div:first-of-type .x-color,
+#Chat > div:first-of-type .x-message,
+#Chat > div:first-of-type .x-mention,
+#Chat > div:first-of-type .x-focus,
+#Chat > div:first-of-type .x-icon,
+#Chat > div:first-of-type .x-sender,
+#Chat > div:first-of-type .x-time
+{
+	/* This is px because .4em is screwed by the time being smaller */
+	border-top-width: 4px;
+	border-top-style: solid;
+}
+
+#insert .x-color,
+#insert .x-message,
+#insert .x-mention,
+#insert .x-focus,
+#insert .x-icon,
+#insert .x-sender,
+#insert .x-time
+{
+	border-bottom-width: .4em;
+	border-bottom-style: solid;
+}
+
+.history + :not(.history) .x-color,
+.history + :not(.history) .x-message,
+.history + :not(.history) .x-mention,
+.history + :not(.history) .x-focus,
+.history + :not(.history) .x-icon,
+.history + :not(.history) .x-sender,
+.history + :not(.history) .x-time
+{
+	border-top-width: 1.6em !important;
+	border-top-style: solid !important;
 }
 

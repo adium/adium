@@ -5,18 +5,18 @@ body
 	background-color: hsla(0, 0%, 30%, 1);
 }
 
-#Chat > div:first-of-type .x-mark,
+#Chat > div:first-of-type .x-color,
 #Chat > div:first-of-type .x-message,
 #Chat > div:first-of-type .x-mention
 {
-	border-top: 4px solid hsla(0, 0%, 0%, 1);
+	border-top-color: hsla(0, 0%, 0%, 1);
 }
 
-#insert .x-mark,
+#insert .x-color,
 #insert .x-message,
 #insert .x-mention
 {
-	border-bottom: 4px solid hsla(0, 0%, 0%, 1);
+	border-bottom-color: hsla(0, 0%, 0%, 1);
 }
 
 #Chat > div:first-of-type .x-focus,
@@ -24,7 +24,7 @@ body
 #Chat > div:first-of-type .x-sender,
 #Chat > div:first-of-type .x-time
 {
-	border-top: 4px solid hsla(0, 0%, 15%, 1);
+	border-top-color: hsla(0, 0%, 15%, 1);
 }
 
 #insert .x-focus,
@@ -32,14 +32,14 @@ body
 #insert .x-sender,
 #insert .x-time
 {
-	border-bottom: 4px solid hsla(0, 0%, 15%, 1);
+	border-bottom-color: hsla(0, 0%, 15%, 1);
 }
 
-.history + :not(.history) .x-mark,
+.history + :not(.history) .x-color,
 .history + :not(.history) .x-message,
 .history + :not(.history) .x-mention
 {
-	border-top: 16px solid hsla(0, 0%, 0%, 1) !important;
+	border-top-color: hsla(0, 0%, 0%, 1) !important;
 }
 
 .history + :not(.history) .x-focus,
@@ -47,7 +47,7 @@ body
 .history + :not(.history) .x-sender,
 .history + :not(.history) .x-time
 {
-	border-top: 16px solid hsla(0, 0%, 15%, 1) !important;
+	border-top-color: hsla(0, 0%, 15%, 1) !important;
 }
 
 .x-focus,
@@ -56,10 +56,15 @@ body
 .x-time,
 .history .x-message,
 .history .x-mention,
-.history.status .x-mark,
-.history.event .x-mark
+.history.status .x-color,
+.history.event .x-color
 {
 	background-color: hsla(0, 0%, 15%, 1) !important;
+}
+
+.firstFocus > .x-focus
+{
+	border-top-color: hsla(0, 0%, 15%, 1);
 }
 
 .status,
@@ -74,8 +79,8 @@ body
 	color: hsla(0, 0%, 60%, 1) !important;
 }
 
-.status .x-mark,
-.event .x-mark
+.status .x-color,
+.event .x-color
 {
 	background-color: hsla(0, 0%, 0%, 1) !important;
 }
@@ -88,14 +93,12 @@ body
 	background-color: hsla(0, 0%, 20%, 1) !important;
 }
 
-.x-hover > .x-mark,
 .x-hover > .x-message,
 .x-hover:not(.mention) > .x-mention
 {
 	background-color: hsla(0, 0%, 15%, 1) !important;
 }
 
-.history.x-hover > .x-mark,
 .history.x-hover > .x-message,
 .history.x-hover:not(.mention) > .x-mention
 {
@@ -107,14 +110,14 @@ body
 	background: hsla(0, 0%, 83%, 1) !important;
 }
 
-.x-mark
+.x-line
 {
-	border-left-color: hsla(0, 0%, 25%, 1);
+	background-color: hsla(0, 0%, 25%, 1);
 }
 
-.history .x-mark
+.history .x-line
 {
-	border-left-color: hsla(0, 0%, 30%, 1);
+	background-color: hsla(0, 0%, 30%, 1);
 }
 
 .x-message,
@@ -123,28 +126,18 @@ body
 	background-color: hsla(0, 0%, 0%, 1);
 }
 
-.x-mention
-{
-	border-right-color: hsla(0, 0%, 25%, 1) !important;
-}
-
-.history .x-mention
-{
-	border-right-color: hsla(0, 0%, 30%, 1) !important;
-}
-
-.message:not(.history):not(.consecutive) .x-mark,
+.message:not(.history):not(.consecutive) .x-color,
 .message:not(.history):not(.consecutive) .x-message,
 .message:not(.history):not(.consecutive) .x-mention
 {
-	border-top: 1px solid hsla(0, 0%, 0%, 1);
+	border-top-color: hsla(0, 0%, 0%, 1);
 }
 
-.message.history:not(.consecutive) .x-mark,
+.message.history:not(.consecutive) .x-color,
 .message.history:not(.consecutive) .x-message,
 .message.history:not(.consecutive) .x-mention
 {
-	border-top: 1px solid hsla(0, 0%, 15%, 1);
+	border-top-color: hsla(0, 0%, 15%, 1);
 }
 
 /*----------*/
@@ -157,13 +150,16 @@ body
 #x-topic #x-wrap
 {
 	background-color: hsla(0, 0%, 25%, .85);
-	border-bottom: 1px solid hsla(0, 0%, 20%, 1) !important;
-	-webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 100%, .2);
+	/*border-bottom: 1px solid hsla(0, 0%, 20%, 1) !important;
+	-webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 100%, .2);*/
+	border-bottom-color: .1em solid hsla(0, 0%, 20%, 1) !important;
+	-webkit-box-shadow: 0px .1em .2em hsla(0, 0%, 100%, .2);
 }
 
 #x-topic .x-toggle
 {
-	-webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 100%, .2), 0px 0px 2px hsla(0, 0%, 100%, .2);
+	/*-webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 100%, .2), 0px 0px 2px hsla(0, 0%, 100%, .2);*/
+	-webkit-box-shadow: 0px .1em .2em hsla(0, 0%, 100%, .2), 0px 0px .2em hsla(0, 0%, 100%, .2);
 }
 
 #x-topic .x-toggle#x-hide,
