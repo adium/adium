@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/*Input: A string in UTF-8 encoding.
+/*Input: A string in UTF-8 encoding containing an ISO 8601 date within a parenthesis.
  *Output:
  *- Year, month, and date
  *- Whether time was found
