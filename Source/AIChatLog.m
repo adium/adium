@@ -21,6 +21,7 @@
 #import "AICalendarDate.h"
 
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
+#import "scandate.h"
 
 @implementation AIChatLog
 
@@ -305,134 +306,6 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 }
 
 #pragma mark Date utilities
-
-//Scan an Adium date string, supahfast C style
-static BOOL scandate(const char *sample,
-					 unsigned long *outyear, unsigned long *outmonth,  unsigned long *outdate,
-					 BOOL *outHasTime, unsigned long *outhour, unsigned long *outminute, unsigned long *outsecond,
-					 long *outtimezone)
-{
-	BOOL success = YES;
-	unsigned long component;
-
-    //Read a date, followed by a '('.
-	//First, find the '('.
-	while (*sample != '(') {
-    	if (!*sample) {
-    		success = NO;
-    		goto fail;
-		} else {
-			++sample;
-		}
-    }
-	
-	//current character is a '(' now, so skip over it.
-    ++sample; //start with the next character
-	
-    /*get the year*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outyear) *outyear = component;
-    }
-    
-    /*get the month*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outmonth) *outmonth = component;
-    }
-    
-    /*get the date*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outdate) *outdate = component;
-    }
-
-    if (*sample == 'T') {
-		++sample; //start with the next character
-		if (outHasTime) *outHasTime = YES;
-		
-		/*get the hour*/ {
-			while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-			if (!*sample) {
-				success = NO;
-				goto fail;
-			}
-			component = strtoul(sample, (char **)&sample, 10);
-			if (outhour) *outhour = component;
-		}
-
-		/*get the minute*/ {
-			while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-			if (!*sample) {
-				success = NO;
-				goto fail;
-			}
-			component = strtoul(sample, (char **)&sample, 10);
-			if (outminute) *outminute = component;
-		}
-
-		/*get the second*/ {
-			while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-			if (!*sample) {
-				success = NO;
-				goto fail;
-			}
-			component = strtoul(sample, (char **)&sample, 10);
-			if (outsecond) *outsecond = component;
-		}
-
-		/*get the time zone*/ {
-			while (*sample && ((*sample < '0' || *sample > '9') && *sample != '-' && *sample != '+')) ++sample;
-			if (!*sample) {
-				success = NO;
-				goto fail;
-			}
-			long timezone_sign = 1;
-			if(*sample == '+') {
-				++sample;
-			} else if(*sample == '-') {
-				timezone_sign = -1;
-				++sample;
-			} else if (*sample) {
-				//There's something here, but it's not a time zone. Bail.
-				success = NO;
-				goto fail;
-			}
-			long timezone_hr = 0;
-			if (*sample >= '0' || *sample <= '9') {
-				timezone_hr += *(sample++) - '0';
-			}
-			if (*sample >= '0' || *sample <= '9') {
-				timezone_hr *= 10;
-				timezone_hr += *(sample++) - '0';
-			}
-			long timezone_min = 0;
-			if (*sample >= '0' || *sample <= '9') {
-				timezone_min += *(sample++) - '0';
-			}
-			if (*sample >= '0' || *sample <= '9') {
-				timezone_min *= 10;
-				timezone_min += *(sample++) - '0';
-			}
-			if (outtimezone) *outtimezone = (timezone_hr * 60 + timezone_min) * timezone_sign;
-		}
-	}
-	
-fail:
-	return success;
-}
 
 //Given an Adium log file name, return an NSCalendarDate with year, month, and day specified
 static NSCalendarDate *dateFromFileName(NSString *fileName)
