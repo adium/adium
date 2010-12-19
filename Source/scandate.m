@@ -24,7 +24,7 @@ BOOL scandate(const char *sample,
 	BOOL success = YES;
 	unsigned long component;
 
-    //Read a date, followed by a '('.
+    //Read a '(', followed by a date.
 	//First, find the '('.
 	while (*sample != '(') {
     	if (!*sample) {
