@@ -2132,6 +2132,7 @@
 		31DDDA6F12BDD5CE0048F6C0 /* scandate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = scandate.m; path = Source/scandate.m; sourceTree = "<group>"; };
 		31DDDA7812BDD6E90048F6C0 /* TestScandate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestScandate.h; path = UnitTests/TestScandate.h; sourceTree = "<group>"; };
 		31DDDA7912BDD6E90048F6C0 /* TestScandate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestScandate.m; path = UnitTests/TestScandate.m; sourceTree = "<group>"; };
+		31DDDAF112BDE54B0048F6C0 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = "Other/Adium Spotlight Importer/Prefix.pch"; sourceTree = "<group>"; };
 		31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		31E84DF10C7F387800674BCA /* AIUnitTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnitTestUtilities.h; path = UnitTests/AIUnitTestUtilities.h; sourceTree = "<group>"; };
 		31FA7F0F0D4A75D000ABE634 /* TestRichTextCoercion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestRichTextCoercion.h; path = UnitTests/TestRichTextCoercion.h; sourceTree = "<group>"; };
@@ -8236,6 +8237,7 @@
 				633D50550F9D31B8004F491E /* AdiumSpotlightImporter.h */,
 				633D4FB40F9D30E3004F491E /* main.c */,
 				633D4FB50F9D30E3004F491E /* maintest.m */,
+				31DDDAF112BDE54B0048F6C0 /* Prefix.pch */,
 				633D4FAF0F9D30E3004F491E /* Log Importing */,
 				633D4FAC0F9D30E3004F491E /* Additions */,
 			);
@@ -12738,6 +12740,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Other/Adium Spotlight Importer/Prefix.pch";
 			};
 			name = Debug;
 		};
@@ -12795,6 +12799,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Other/Adium Spotlight Importer/Prefix.pch";
 			};
 			name = Release;
 		};
@@ -12806,6 +12812,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/Other/Adium Spotlight Importer/Prefix.pch";
 			};
 			name = "Release-Debug";
 		};
