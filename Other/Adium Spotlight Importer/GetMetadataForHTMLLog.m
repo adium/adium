@@ -10,90 +10,31 @@
 
 #include <sys/stat.h>
 
+#import "scandate.h"
+
 static char *gaim_markup_strip_html(const char *str);
 
-//Scan an Adium date string, supahfast C style
-static BOOL scandate(const char *sample, unsigned long *outyear,
-					 unsigned long *outmonth, unsigned long *outdate)
-{
-	BOOL success = YES;
-	unsigned long component;
-    //read three numbers, starting after:
-	
-	//a space...
-	while (*sample != ' ') {
-    	if (!*sample) {
-    		success = NO;
-    		goto fail;
-		} else {
-			++sample;
-		}
-    }
-	
-	//...followed by a (
-	while (*sample != '(') {
-    	if (!*sample) {
-    		success = NO;
-    		goto fail;
-		} else {
-			++sample;
-		}
-    }
-	
-	//current character is a '(' now, so skip over it.
-    ++sample; //start with the next character
-	
-    /*get the year*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outyear) *outyear = component;
-    }
-    
-    /*get the month*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outmonth) *outmonth = component;
-    }
-    
-    /*get the date*/ {
-		while (*sample && (*sample < '0' || *sample > '9')) ++sample;
-		if (!*sample) {
-			success = NO;
-			goto fail;
-		}
-		component = strtoul(sample, (char **)&sample, 10);
-		if (outdate) *outdate = component;
-    }
-	
-fail:
-		return success;
-}
-
-//Given an Adium log file name, return an NSCalendarDate with year, month, and day specified
+//Given an Adium log file name, return an NSCalendarDate for its creation date
 static NSDate *dateFromHTMLLog(NSString *pathToFile)
 {
 	NSDate *date = nil;
 	unsigned long   year = 0;
 	unsigned long   month = 0;
 	unsigned long   day = 0;
-	
-	if (scandate([pathToFile UTF8String], &year, &month, &day)) {
+	unsigned long   hour = 0;
+	unsigned long   minute = 0;
+	unsigned long   second = 0;
+	long   timeZoneOffset = +0;
+
+	if (scandate([pathToFile UTF8String], &year, &month, &day, /*outHasTime*/ NULL, &hour, &minute, &second, &timeZoneOffset)) {
 		if (year && month && day) {
 			NSCalendarDate *calendarDate = [NSCalendarDate dateWithYear:year
 																  month:month
 																	day:day
-																   hour:0
-																 minute:0
-																 second:0
-															   timeZone:[NSTimeZone defaultTimeZone]];
+																   hour:hour
+																 minute:minute
+																 second:second
+															   timeZone:[NSTimeZone timeZoneForSecondsFromGMT:(NSInteger)timeZoneOffset]];
 			date = [NSDate dateWithTimeIntervalSince1970:[calendarDate timeIntervalSince1970]];
 		}
 	}
