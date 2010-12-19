@@ -17,7 +17,7 @@
 	unsigned long correctYear = 2010, correctMonth = 12, correctDayOfMonth = 18;
 	BOOL correctDidFindTime = YES;
 	unsigned long correctHour = 17, correctMinute = 42, correctSecond = 58;
-	long correctTimeZoneOffsetInMinutes = (5 * 60);
+	long correctTimeZoneOffsetInMinutes = -(5 * 60);
 	BOOL correctDidFindDate = YES;
 
 	unsigned long foundYear, foundMonth, foundDayOfMonth;
