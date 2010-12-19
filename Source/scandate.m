@@ -24,17 +24,22 @@ BOOL scandate(const char *sample,
 	BOOL success = YES;
 	unsigned long component;
 
+	const char *lastOpenParenthesis = NULL;
+
     //Read a '(', followed by a date.
 	//First, find the '('.
-	while (*sample != '(') {
-    	if (!*sample) {
-    		success = NO;
-    		goto fail;
-		} else {
-			++sample;
-		}
+	while (*sample != '\0') {
+		if (*sample == '(')
+			lastOpenParenthesis = sample;
+		++sample;
     }
-	
+
+	if (!lastOpenParenthesis) {
+		success = NO;
+		goto fail;
+	}
+	sample = lastOpenParenthesis;
+
 	//current character is a '(' now, so skip over it.
     ++sample; //start with the next character
 	
