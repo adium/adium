@@ -359,7 +359,7 @@
 	} else {
 		if (messageText && [messageText length]) {
 			if (contentObject.chat.isGroupChat) {
-				description = [NSString stringWithFormat:@"(%@) %@", contentObject.chat.displayName, messageText];
+				description = [NSString stringWithFormat:@"%@", messageText];
 			} else {
 				description = messageText;
 			}
