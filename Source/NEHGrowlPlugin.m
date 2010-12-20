@@ -395,6 +395,10 @@
 			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
 			
+		if (chat && [chat isGroupChat]) {
+			title = [NSString stringWithFormat:@"%@ (%@)", title, [chat displayName]];
+		}
+			
 		} else {
 			if ([userInfo isKindOfClass:[ESFileTransfer class]] &&
 				[eventID isEqualToString:FILE_TRANSFER_COMPLETE]) {
