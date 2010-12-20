@@ -1,6 +1,6 @@
 				Adium Version History
 				-----------------------
-Version 1.5 (X/X/XXX)
+Version 1.5 (X/X/20X)
  Major changes
   * Added 64bit support.
   * Updated to libpurple 2.7.4mtn.
@@ -34,10 +34,19 @@ Version 1.5 (X/X/XXX)
  * Added a menu item to view release notes in the help menu. (#8569)
  * Miscellaneous improvements to Copyright.txt file.
 
-Version 1.4.2 (X/X/XXX)
+
+Version 1.4.2 (X/X/20X)
+ Message Styles
+  * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
+
  Miscellaneous
   * Growl notifications for Group Chats now show the channel on the same line as the nick, instead of before the message. (#14890)
+  * Fixed a bug causing a switching of user profiles following Adium updates. (#14432)
+  * Fixed 1.4.1 regression of arrows not showing up in the Events tables of the Preference pane and the Get Info pane for active events. (#14629)
+  * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (#14454)
+  * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
  
+
 Version 1.4.1 (11/15/2010)
  * Updated to libpurple 2.7.5. Highlights of applicable changes:
    * MSN
@@ -63,7 +72,7 @@ Version 1.4.1 (11/15/2010)
   * Added support for /say command. (#13649)
 
  Twitter
-  * Add the "@" sign for Twitter's tabcomplete. (#13987) (Moses Lei)
+  * Added the "@" sign for Twitter's tabcomplete. (#13987) (Moses Lei)
   * Deleting a Twitter group will now hide the contacts within Adium rather than unfollowing them (#12148)
   * Fixed overlapping buttons in "Reply to a Tweet" dialogue. (#14017)
   * Distinguish StatusNet accounts with same username on different servers. (#13604) (Brion Vibber)
