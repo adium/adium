@@ -935,10 +935,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					                                                  elementContent:nil
 					                             shouldAddElementContentToTopElement:NULL
 																		  imagesPath:imagesSavePath];
-					[[elementStack lastObject] addObject:restoreElement];
-					[elementStack addObject:restoreElement];
+					if (restoreElement) {
+						[[elementStack lastObject] addObject:restoreElement];
+						[elementStack addObject:restoreElement];
 
-					[attributeNamesStack addObject:attributesToRestore];
+						[attributeNamesStack addObject:attributesToRestore];
+					}
 				}
 			}
 
