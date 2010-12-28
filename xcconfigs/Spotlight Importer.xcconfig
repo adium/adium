@@ -1,7 +1,7 @@
-GCC_PREFIX_HEADER = 
 INFOPLIST_FILE = Other/Adium Spotlight Importer/Info.plist
 PRODUCT_NAME = AdiumSpotlightImporter
-GCC_PRECOMPILE_PREFIX_HEADER = NO
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = $(SRCROOT)/Other/Adium Spotlight Importer/Prefix.pch
 WRAPPER_EXTENSION = mdimporter
 GCC_GENERATE_DEBUGGING_SYMBOLS = NO
 INSTALL_PATH = /Library/Spotlight
