@@ -369,11 +369,19 @@
 		} else if ([scheme isEqualToString:@"xmpp"]) {
 			if ([query rangeOfString:@"message"].location == 0) {
 				//xmpp:johndoe@jabber.org?message;subject=Subject;body=Body
+				//xmpp:jabber.org?message;subject=Subject;body=Body
 				NSString *msg = [[url queryArgumentForKey:@"body"] stringByDecodingURLEscapes];
 				
-				[self _openChatToContactWithName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-									   onService:serviceID
-									 withMessage:msg];
+				if ([url user]) {
+					[self _openChatToContactWithName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+										   onService:serviceID
+										 withMessage:msg];
+				} else {
+					[self _openChatToContactWithName:[url host]
+										   onService:serviceID
+										 withMessage:msg];
+					
+				}
 			} else if ([query rangeOfString:@"roster"].location == 0
 					   || [query rangeOfString:@"subscribe"].location == 0) {
 				//xmpp:johndoe@jabber.org?roster;name=John%20Doe;group=Friends
