@@ -67,7 +67,7 @@
 	AIContentMessage *message = (AIContentMessage *)context;
 	AIChat *chat = message.chat;
 	
-	if(!chat.isGroupChat)
+	if(!chat.isGroupChat || message.isOutgoing)
 		return inAttributedString;
 		
 	NSString *messageString = [inAttributedString string];
