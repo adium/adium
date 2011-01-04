@@ -40,7 +40,7 @@
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-personal" forClass:[self class]];
+	return [NSImage imageNamed:@"Personal" forClass:[self class]];
 }
 
 /*!

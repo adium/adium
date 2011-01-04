@@ -192,7 +192,7 @@
 																	   toolTip:TOOLTIP_SHOW_INFO
 																		target:self
 															   settingSelector:@selector(setImage:)
-																   itemContent:[NSImage imageNamed:@"pref-personal" forClass:[self class] loadLazily:YES]
+																   itemContent:[NSImage imageNamed:@"GetInfo" forClass:[self class] loadLazily:YES]
 																		action:@selector(showContactInfo:)
 																		  menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];

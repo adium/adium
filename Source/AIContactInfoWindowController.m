@@ -42,7 +42,7 @@
 #define	CONTACT_INFO_LAYOUT				@"Contact Info List Layout"
 
 //Defines for the image files used by the toolbar segments
-#define INFO_SEGMENT_IMAGE (@"info_segment.png")
+#define INFO_SEGMENT_IMAGE (@"Personal.png")
 #define ADDRESS_BOOK_SEGMENT_IMAGE (@"addressbook_segment.png")
 #define EVENTS_SEGMENT_IMAGE (@"events_segment.png")
 #define ADVANCED_SEGMENT_IMAGE (@"advanced_segment.png")
