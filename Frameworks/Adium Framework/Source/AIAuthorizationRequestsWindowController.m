@@ -151,7 +151,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 										   toolTip:AILocalizedString(@"Get Info",nil)
 											target:self
 								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageNamed:@"GetInfo" forClass:[self class]]
+									   itemContent:[[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"GetInfo.png"]] autorelease]
 											action:@selector(getInfo:)
 											  menu:nil];
 	
