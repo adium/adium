@@ -29,14 +29,6 @@
 	[super dealloc];
 }
 
-- (void)windowDidLoad
-{
-	[super windowDidLoad];
-	
-	[textField_description setLocalizedString:AILocalizedString(@"Only the accounts checked below will have their chats logged.", nil)];
-	[textField_description sizeToFit];
-}
-
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [accounts count];
