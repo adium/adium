@@ -26,6 +26,7 @@
 #import "AIStatusItem.h"
 #import "AIStatus.h"
 #import "AdiumAccounts.h"
+#import "AILoggerPlugin.h"
 
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -1017,7 +1018,14 @@ typedef enum
 #pragma mark Logging
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
-	return ![self isTemporary];
+	BOOL shouldLog = ![self isTemporary];
+	
+	if(shouldLog && [[adium.preferenceController preferenceForKey:KEY_LOGGER_CERTAIN_ACCOUNTS group:PREF_GROUP_LOGGING] boolValue]) {
+		shouldLog = ![[self preferenceForKey:KEY_LOGGER_OBJECT_DISABLE
+									   group:PREF_GROUP_LOGGING] boolValue];
+	}
+	
+	return shouldLog;
 }
 
 #pragma mark AppleScript

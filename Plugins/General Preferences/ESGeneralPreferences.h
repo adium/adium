@@ -39,4 +39,6 @@
     IBOutlet	SRRecorderControl	*shortcutRecorder;		
 }
 
+- (IBAction)configureLogCertainAccounts:(id)sender;
+
 @end

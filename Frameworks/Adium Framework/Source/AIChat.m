@@ -38,6 +38,7 @@
 #import "AIMessageWindow.h"
 #import "AIInterfaceControllerProtocol.h"
 #import "AIWebKitMessageViewController.h"
+#import "AILoggerPlugin.h"
 
 
 @interface AIChat ()
@@ -618,7 +619,14 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (BOOL)shouldLog
 {
-	return [self.account shouldLogChat:self];
+	BOOL shouldLog = [self.account shouldLogChat:self];
+	
+	if(shouldLog && self.isSecure) {
+		shouldLog = [[adium.preferenceController preferenceForKey:KEY_LOGGER_SECURE_CHATS
+															group:PREF_GROUP_LOGGING] boolValue];
+	}
+	
+	return shouldLog;
 }
 
 #pragma mark AIContainingObject protocol

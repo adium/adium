@@ -19,7 +19,10 @@
 #define LOGGING_DEFAULT_PREFS         @"LoggingDefaults"
 
 #define PREF_GROUP_LOGGING            @"Logging"
-#define KEY_LOGGER_ENABLE             @"Enable Logging"
+#define KEY_LOGGER_SECURE_CHATS			@"LogSecureChats"
+#define KEY_LOGGER_CERTAIN_ACCOUNTS		@"LogCertainAccounts"
+#define KEY_LOGGER_ENABLE               @"Enable Logging"
+#define KEY_LOGGER_OBJECT_DISABLE       @"Disable Object Logging"
 
 #define PREF_KEYPATH_LOGGER_ENABLE    PREF_GROUP_LOGGING @"." KEY_LOGGER_ENABLE
 
