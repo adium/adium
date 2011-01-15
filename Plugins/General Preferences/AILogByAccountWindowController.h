@@ -8,9 +8,6 @@
 
 @interface AILogByAccountWindowController : NSWindowController {
 	NSArray *accounts;
-	
-	IBOutlet AILocalizationTextField *textField_description;
-	
 }
 
 - (IBAction)done:(id)sender;
