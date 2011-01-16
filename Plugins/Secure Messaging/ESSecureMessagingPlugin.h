@@ -30,7 +30,6 @@ typedef enum {
 @interface ESSecureMessagingPlugin : AIPlugin <AIChatObserver> {
 	NSImage	*lockImage_Locked;
 	NSImage	*lockImage_Unlocked;
-	NSImage *lockImageAnimation[LOCK_IMAGE_ANIMATION_STEPS];
 	
 	NSMutableSet	*toolbarItems;
 	NSMutableSet	*validatedItems;
