@@ -70,11 +70,6 @@
 	lockImage_Locked = [[NSImage imageNamed:@"Lock_Locked State" forClass:[self class]] retain];
 	lockImage_Unlocked = [[NSImage imageNamed:@"Lock_Unlocked State" forClass:[self class]] retain];
 
-	/*
-	lockImageAnimation[i] = [[NSImage imageNamed:[NSString stringWithFormat:@"Lock_Open Anim %02i",i]
-										forClass:[self class]] retain];
-	 */
-	
 	[self registerToolbarItem];
 	[self configureMenuItems];
 
