@@ -72,20 +72,12 @@
 
 - (void)configureForAccount:(AIAccount *)inAccount
 {
-	NSString	*defaultConferenceServer;
-	
 	[super configureForAccount:inAccount];
 	
-	defaultConferenceServer = [self defaultConferenceServer];
-
 	[delegate setJoinChatEnabled:NO];
 	[[view window] makeFirstResponder:textField_roomName];
 
-	if ([[textField_server cell] respondsToSelector:@selector(setPlaceholderString:)]) {
-		[[textField_server cell] setPlaceholderString:[self defaultConferenceServer]];
-	} else {
-		[textField_server setStringValue:defaultConferenceServer];
-	}
+	[[textField_server cell] setPlaceholderString:[self defaultConferenceServer]];
 		
 	[textField_inviteUsers setMinStringLength:2];
 	[textField_inviteUsers setCompletesOnlyAfterSeparator:YES];
