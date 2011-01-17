@@ -48,7 +48,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 											   type:AIServiceIconLarge
 										  direction:AIIconNormal];
 	} else if([aTableColumn.identifier isEqualToString:@"accountName"]) {
-		return [[accounts objectAtIndex:rowIndex] longDisplayName];
+		return [[accounts objectAtIndex:rowIndex] explicitFormattedUID];
 	}
 	
 	return nil;
