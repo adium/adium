@@ -35,7 +35,7 @@
 @interface AIAdvancedInspectorPane()
 - (void)reloadPopup;
 - (void)configureControlDimming;
-- (void)addNewGroup;
+- (void)addNewGroup:(id)sender;
 - (void)removeGroup;
 - (void)newGroupControllerDidEnd:(NSNotification *)notification;
 @end
@@ -258,7 +258,7 @@
 }
 
 #pragma mark Group control
-- (void)addNewGroup
+- (void)addNewGroup:(id)sender
 {
 	AINewGroupWindowController *newGroupController = [AINewGroupWindowController promptForNewGroupOnWindow:inspectorContentView.window];
 	

@@ -40,6 +40,7 @@
 - (NSMenu *)tabChangeKeysMenu;
 - (NSMenu *)sendKeysMenu;
 - (NSMenu *)tabPositionMenu;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESGeneralPreferences
