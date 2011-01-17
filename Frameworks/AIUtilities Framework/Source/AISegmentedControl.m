@@ -41,8 +41,8 @@
 		[self.menu popUpMenuPositioningItem:nil atLocation:self.frame.origin inView:view];
 	else{
 		NSRect frame = self.frame;
-		frame.origin.x += 10.0;
-		frame.origin.y -= 23.0;
+		frame.origin.x += 10.0f;
+		frame.origin.y -= 23.0f;
 		
 		NSPopUpButtonCell *popUpButtonCell = [[[NSPopUpButtonCell alloc] initTextCell:@"" pullsDown:NO] autorelease];
 		[popUpButtonCell setMenu:self.menu];
