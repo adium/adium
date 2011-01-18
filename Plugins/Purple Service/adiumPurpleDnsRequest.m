@@ -190,7 +190,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 
 	if (!success) {
 		[self lookupFailedWithError:NULL];
-		return FALSE;
+		return TRUE;
 	}
 
 	CFHostScheduleWithRunLoop(host, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
@@ -199,7 +199,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 	if (!success)
 		[self lookupFailedWithError:&streamError];
 	
-	return success;
+	return TRUE;
 }
 
 
