@@ -565,7 +565,16 @@ static BOOL is_leap_year(NSInteger year) {
 								if(negative) tz_minute = -tz_minute;
 							}
 
-							timeZone = [NSTimeZone timeZoneForSecondsFromGMT:(tz_hour * 3600) + (tz_minute * 60)];
+							NSInteger secondsFromGMT = (tz_hour * 3600) + (tz_minute * 60);
+							static NSInteger lastUsedSecondsFromGMT = NSNotFound;
+							static NSTimeZone *lastUsedTimeZone;
+							if (secondsFromGMT == lastUsedSecondsFromGMT)
+								timeZone = [[lastUsedTimeZone retain] autorelease];
+							else
+								timeZone = [NSTimeZone timeZoneForSecondsFromGMT:secondsFromGMT];
+							lastUsedSecondsFromGMT = secondsFromGMT;
+							[lastUsedTimeZone autorelease];
+							lastUsedTimeZone = [timeZone retain];
 						}
 				}
 			}
