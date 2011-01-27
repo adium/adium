@@ -197,11 +197,22 @@
 																							group:loadFromGroup]];
 		if(!*thisStyle) {
 			/* If the path isn't cached yet, load the style and then store the path */
-			*thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromBundle:[self messageStyleBundleWithIdentifier:[prefs preferenceForKey:KEY_WEBKIT_STYLE
-																																		   group:loadFromGroup]]];
-			[prefs setPreference:[[[*thisStyle bundle] bundlePath] stringByCollapsingBundlePath]
-						  forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
-						   group:loadFromGroup];
+			*thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromBundle:
+                          [self messageStyleBundleWithIdentifier:[prefs preferenceForKey:KEY_WEBKIT_STYLE
+                                                                                   group:loadFromGroup]]];
+            if (*thisStyle) {
+                [prefs setPreference:[[[*thisStyle bundle] bundlePath] stringByCollapsingBundlePath]
+                              forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
+                               group:loadFromGroup];
+            } else {
+                /* If the style failed to load, clear our preference to fall back to the default */
+                /* XXX An error message could potentially be displayed here */
+                [prefs setPreference:nil forKey:KEY_WEBKIT_STYLE group:loadFromGroup];
+                
+                *thisStyle = [AIWebkitMessageViewStyle messageViewStyleFromBundle:
+                              [self messageStyleBundleWithIdentifier:[prefs preferenceForKey:KEY_WEBKIT_STYLE
+                                                                                       group:loadFromGroup]]];
+            }
 		}
 		[*thisStyle retain];
 	}

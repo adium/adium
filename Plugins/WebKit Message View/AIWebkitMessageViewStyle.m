@@ -39,9 +39,11 @@
 
 //
 #define LEGACY_VERSION_THRESHOLD		3	//Styles older than this version are considered legacy
+#define MAX_KNOWN_WEBKIT_VERSION        4   //Styles newer than this version are unknown entities
 
 //
 #define KEY_WEBKIT_VERSION				@"MessageViewVersion"
+#define KEY_WEBKIT_VERSION_MIN			@"MessageViewVersion_MinimumCompatible"
 
 //BOM scripts for appending content.
 #define APPEND_MESSAGE_WITH_SCROLL		@"checkIfScrollToBottomIsNeeded(); appendMessage(\"%@\"); scrollToBottomIfNeeded();"
@@ -146,18 +148,19 @@
 	if ((self = [super init])) {
 		styleBundle = [inBundle retain];
 		stylePath = [[styleBundle resourcePath] retain];
-		[self reloadStyle];
+        
+		if ([self reloadStyle] == FALSE) {
+            [self release];
+            return nil;
+        }
 	}
 
 	return self;
 }
 
-- (void) reloadStyle
+- (BOOL) reloadStyle
 {
 	[self releaseResources];
-	
-	//Default behavior
-	allowTextBackgrounds = YES;
 	
 	/* Our styles are versioned so we can change how they work without breaking compatibility.
 	 *
@@ -177,6 +180,17 @@
 	 */
 	styleVersion = [[styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue];
 	
+    /* Refuse to load a version whose minimum compatible version is greater than the latest version we know about; that
+     * indicates this is a style FROM THE FUTURE, and we can't risk corrupting our own timeline.
+     */
+    NSInteger minimumCompatibleVersion = [[styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION_MIN] integerValue];
+    if (minimumCompatibleVersion && (minimumCompatibleVersion > MAX_KNOWN_WEBKIT_VERSION)) {
+        return NO;
+    }
+
+    //Default behavior
+	allowTextBackgrounds = YES;
+
 	//Pre-fetch our templates
 	[self _loadTemplates];
 	
@@ -195,6 +209,8 @@
 	
 	NSNumber *allowsColorsNumber = [styleBundle objectForInfoDictionaryKey:@"AllowTextColors"];
 	allowsColors = (allowsColorsNumber ? [allowsColorsNumber boolValue] : YES);
+    
+    return YES;
 }
 
 /*!
