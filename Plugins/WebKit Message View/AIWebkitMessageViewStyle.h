@@ -147,8 +147,10 @@ typedef enum {
 
 /*!
  *  @brief Reloads the content of the style, useful for style authors and updates
+ *
+ *  @result YES if the style loaded succesfully; NO if an error (such as an incompatible style version) occurred.
  */
-- (void) reloadStyle;
+- (BOOL) reloadStyle;
 
 /*!
  *  @brief The name of the active variant.
