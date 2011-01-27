@@ -826,8 +826,8 @@
 				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:self.validSenderColors]];
 	
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
-	BOOL isRTL = ([inString rangeOfString:@"<div dir=\"rtl\">"
-								  options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound);
+	BOOL isRTL = ([htmlEncodedMessage rangeOfString:@"<div dir=\"rtl\">"
+                                            options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound);
 	[inString replaceKeyword:@"%messageDirection%"
 				  withString:(isRTL ? @"rtl" : @"ltr")];
 	
