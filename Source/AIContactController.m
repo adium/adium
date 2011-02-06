@@ -411,7 +411,7 @@
 	}
 	
 	//Restore the grouping of all list bookmarks
-	for (AIListBookmark *bookmark in [self allBookmarks]) {
+	for (AIListBookmark *bookmark in [self bookmarkEnumerator]) {
 		[bookmark restoreGrouping];
 	}
 
@@ -1655,5 +1655,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (NSEnumerator *)groupEnumerator
 {
 	return [groupDict objectEnumerator];
+}
+- (NSEnumerator *)bookmarkEnumerator
+{
+	return [bookmarkDict objectEnumerator];
 }
 @end
