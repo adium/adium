@@ -22,6 +22,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AISortController.h>
 
 /*
@@ -403,6 +404,12 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	
 	//All contacts
 	[self updateContacts:nil forObserver:inObserver];
+	
+	//All bookmarks
+	for (AIListBookmark *listBookmark in [(AIContactController *)adium.contactController bookmarkEnumerator]) {
+		NSSet	*attributes = [inObserver updateListObject:listBookmark keys:nil silent:YES];
+		if (attributes) [self listObjectAttributesChanged:listBookmark modifiedKeys:attributes];
+	}
 	
     //Reset all groups
 	for (AIListGroup *listGroup in [(AIContactController *)adium.contactController groupEnumerator]) {

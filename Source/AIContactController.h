@@ -49,6 +49,7 @@
 @interface AIContactController (ContactControllerHelperAccess)
 - (NSEnumerator *)contactEnumerator;
 - (NSEnumerator *)groupEnumerator;
+- (NSEnumerator *)bookmarkEnumerator;
 @end
 
 @interface NSObject (AIContactControllerInspector)
