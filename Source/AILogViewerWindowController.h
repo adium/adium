@@ -62,15 +62,10 @@ typedef enum {
 @interface AILogViewerWindowController : AIWindowController <NSToolbarDelegate> {
 	AILoggerPlugin				*plugin;
 
-	IBOutlet	KNShelfSplitView	*shelf_splitView;
-
-	IBOutlet	AISplitView			*splitView_contacts_results;
 	IBOutlet	AIDividedAlternatingRowOutlineView	*outlineView_contacts;
-	IBOutlet	NSView				*containingView_contactsSourceList;
-	CGFloat							desiredContactsSourceListDeltaX;
 
-	IBOutlet	NSView			*containingView_results;
-	IBOutlet	AISplitView		*splitView_results;
+	IBOutlet	NSSplitView		*splitView_contacts;
+	IBOutlet	NSSplitView		*splitView_logs;
 	IBOutlet	NSTableView		*tableView_results;
 	IBOutlet	NSTextView		*textView_content;
 
@@ -80,13 +75,17 @@ typedef enum {
 	IBOutlet	NSView			*view_DatePicker;
 	IBOutlet	NSPopUpButton	*popUp_dateFilter;
 
-	IBOutlet    NSProgressIndicator         *progressIndicator;
-	IBOutlet    NSTextField                 *textField_progress;
+	IBOutlet	NSTextField			*textField_resultCount;
+	IBOutlet	NSProgressIndicator	*progressIndicator;
+	IBOutlet	NSTextField			*textField_progress;
 
 	IBOutlet	NSSearchField	*searchField_logs;
 
 	IBOutlet	NSDatePicker	*datePicker;
 
+	IBOutlet	NSView			*view_FindNavigator;
+	IBOutlet	NSTextField		*textField_findCount;
+	IBOutlet	NSSegmentedControl	*segment_previousNext;
 
 	//Array of selected / displayed logs.  (Locked access)
 	NSMutableArray		*currentSearchResults;	//Array of filtered/resulting logs
@@ -105,6 +104,8 @@ typedef enum {
 	BOOL				suppressSearchRequests;
 	BOOL				isOpeningForContact;
 	NSInteger					indexingUpdatesReceivedWhileSearching; //Number of times indexing has updated during the current search
+	NSMutableArray		*matches;
+	NSInteger			currentMatch;
 
 	BOOL				sortDirection;			//Direction to sort
 
@@ -174,6 +175,7 @@ typedef enum {
 - (void)setSearchString:(NSString *)inString;
 - (IBAction)updateSearch:(id)sender;
 
+- (IBAction)selectNextPreviousOccurrence:(id)sender;
 - (void)searchComplete;
 - (void)startSearchingClearingCurrentResults:(BOOL)clearCurrentResults;
 
