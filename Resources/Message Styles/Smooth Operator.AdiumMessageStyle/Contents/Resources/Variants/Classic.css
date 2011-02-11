@@ -24,7 +24,7 @@ body
 {
 	position: absolute;
 	font-family: AppleGothic;
-	margin-top: -15px;
+	margin-top: -11px;
 	right: 5px;
 	font-size: 9px;
 	content: "\2b07";
@@ -116,6 +116,7 @@ body
 	display: block;
 	padding-top: 0px;
 	padding-bottom: 1px;
+	margin-left: .18em;
 }
 
 .consecutive.message .x-wrap
@@ -164,6 +165,7 @@ body
 	font-weight: bold;
 	display: block;
 	padding-bottom: 3px;
+	margin-left: .18em;
 }
 
 .message.hideIcons .x-sender,
@@ -189,7 +191,7 @@ body
 	color: rgba(184, 184, 184, 1);
 	font-size: .9em;
 	padding-left: 10px;
-	margin-top: .15em;
+	margin-top: .12em;
 }
 
 .message.history .x-rtime
@@ -211,14 +213,12 @@ body
 
 .message .x-mark
 {
-	position: absolute;
-	left: 46px;
 	font-size: 1.2em;
-	margin-left: -.08em;
-	margin-top: -.1em;
-	margin-right: -2px;
+	margin-left: -.74em;
+	margin-top: -.17em;
 	letter-spacing: -.2em;
 	font-family: Lucida Grande;
+	float: left;
 }
 
 .message .x-mark:before
@@ -248,6 +248,12 @@ body
 .IRC .x-mark
 {
 	left: 10px;
+}
+
+.message .x-message
+{
+	display: block;
+	margin-left: .18em;
 }
 
 .status .x-message
