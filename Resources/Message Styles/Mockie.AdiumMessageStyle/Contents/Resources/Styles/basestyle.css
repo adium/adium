@@ -6,7 +6,7 @@ body
 #Chat
 {
 	overflow: hidden;
-	padding: 5px 10px 5px 10px;
+	padding: 5px 10px 5px 1em;
 }
 
 #topic
@@ -39,9 +39,11 @@ body
 	word-break: break-word;
 }
 
-#topic[title=""] #topicEdit:after
+#topic[title=""] #topicEdit
 {
-	content: "< no topic available >";
+	border-top: .2em solid rgba(184, 184, 184, 1);
+	margin-top: .4em;
+	margin-bottom: .4em;
 }
 
 .incoming,
@@ -72,8 +74,6 @@ body
 {
 	color: white;
 	font-weight: bold;
-	font-size: 11px;
-	height: 14px;
 	padding-right: 4px;
 	padding-left: 4px;
 	overflow: hidden;
@@ -89,14 +89,10 @@ body
 {
 	color: rgba(255, 255, 255, .5);
 	font-weight: bold;
-	font-size: 11px;
 	float: right;
-	position: relative;
-	height: 14px;
-	top: -14px;
+	margin-top: -1.18em;
 	padding-right: 4px;
 	right: 0px;
-	margin-bottom: -14px;
 	word-wrap: normal;
 }
 
@@ -159,142 +155,49 @@ img.scaledToFitImage
 	width:auto;
 }
 
-.firstFocus.message .x-text:before,
-.firstFocus.status .x-wrap:before,
-.firstFocus.event .x-wrap:before
+.focus .x-message:before
 {
 	position: absolute;
-	right: 10px;
-	margin-top: -19px;
-	content: "focus lost here";
-	background: rgba(184, 184, 184, 1);
-	color: white;
+	margin-top: 2px;
+	margin-left: -.8em;
+	content: "\25e6";
+	color: rgba(176, 176, 176, .8);
 	font-weight: bold;
-	font-size: 11px;
-	z-index: 99;
-	white-space: nowrap;
-	overflow: hidden;
-	padding: 2px;
-	padding-left: 4px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
 }
 
-.firstFocus.status .x-wrap:before,
-.firstFocus.event .x-wrap:before
-{
-	padding-right: 4px;
-	margin-top: -17px;
-}
-
-.firstFocus.message .x-text,
-.firstFocus.status .x-wrap,
-.firstFocus.event .x-wrap
-{
-	border-top: 4px solid rgba(184, 184, 184, 1);
-}
-
-.firstFocus.message .x-text
-{
-	margin-top: 15px;
-	margin-right: 2px;
-}
-
-.firstFocus.message .x-time
-{
-	margin-top: 19px;
-}
-
-.firstFocus.status .x-wrap,
-.firstFocus.event .x-wrap
-{
-	margin-top: 18px;
-	/*margin-top: 20px;*/
-	/*padding-top: 2px;*/
-}
-
-.mention .x-text:before
+.focus.status .x-wrap:before,
+.focus.event .x-wrap:before
 {
 	position: absolute;
-	margin-top: -19px;
-	margin-left: -2px;
-	content: "mentioned here";
-	background: rgba(184, 184, 184, 1);
-	color: white;
+	margin-top: 1px;
+	margin-left: -.8em;
+	content: "\25e6";
+	color: rgba(176, 176, 176, .8);
 	font-weight: bold;
-	font-size: 11px;
-	z-index: 99;
-	white-space: nowrap;
-	overflow: hidden;
-	padding: 2px;
-	padding-right: 4px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
 }
 
-.mention .x-text
-{
-	border-top: 4px solid rgba(184, 184, 184, 1);
-	padding-left: 2px;
-	padding-right: 4px;
-	margin-bottom: 2px;
-	margin-left: 2px;
-	margin-top: 15px;
-}
-
-.mention .x-time
-{
-	margin-top: 19px;
-}
-
-.mention.firstFocus .x-text:before
-{
-	content: "mentioned here + focus lost here";
-	padding-left: 4px;
-}
-
-.mention.firstFocus .x-text
-{
-	margin-left: 0px;
-}
-
-.history + :not(.history):before
+.mention.focus .x-message:before
 {
 	position: absolute;
-	margin-top: -22px;
-	margin-left: 0px;
-	content: "message history ends here";
-	background: rgba(184, 184, 184, 1);
-	color: white;
+	margin-top: 3px;
+	margin-left: -.8em;
+	content: "\25e6";
 	font-weight: bold;
-	font-size: 11px;
-	z-index: 99;
-	white-space: nowrap;
-	overflow: hidden;
-	padding: 4px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
+}
+
+.mention .x-message:before
+{
+	position: absolute;
+	margin-top: 2px;
+	margin-left: -.8em;
+	content: "\2022";
 }
 
 .history + :not(.history)
 {
-	margin-top: 5px;
-	padding-top: 18px;
-	border-top: 4px solid rgba(184, 184, 184, 1);
-}
-
-.history + :not(.history).status.firstFocus:before,
-.history + :not(.history).event.firstFocus:before
-{
-	margin-top: -14px;
-}
-
-.history + :not(.history).status.firstFocus,
-.history + :not(.history).event.firstFocus
-{
-	padding-top: 10px;
+	border-top: .2em solid rgba(184, 184, 184, 1);
+	margin-top: .4em;
+	padding-top: .4em;
 }
 
 .message.consecutive:not(.firstFocus) .x-buddyicon,
@@ -336,11 +239,3 @@ img.scaledToFitImage
 {
 	-webkit-border-radius: 3px;
 }
-
-.status.firstFocus .x-wrap,
-.event.firstFocus .x-wrap
-{
-	-webkit-border-top-left-radius: 0px;
-	-webkit-border-top-right-radius: 0px;
-}
-

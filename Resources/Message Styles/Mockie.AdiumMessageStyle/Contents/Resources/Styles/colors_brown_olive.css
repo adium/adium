@@ -27,6 +27,8 @@ body,
 	background: rgba(209, 184, 156, 1);
 }
 
+.focus.mention .x-message:before,
+.mention .x-message:before,
 .incoming .x-time,
 .incoming a
 {
@@ -45,7 +47,7 @@ body,
 }
 
 .incoming.history .x-message,
-.incoming.consecutive .x-message
+.incoming.consecutive:not(.firstFocus) .x-message
 {
 	border-top: 1px solid rgba(209, 184, 156, 1);
 }
@@ -85,7 +87,7 @@ body,
 }
 
 .outgoing.history .x-message,
-.outgoing.consecutive .x-message
+.outgoing.consecutive:not(.firstFocus) .x-message
 {
 	border-top: 1px solid rgba(178, 200, 166, 1);
 }
