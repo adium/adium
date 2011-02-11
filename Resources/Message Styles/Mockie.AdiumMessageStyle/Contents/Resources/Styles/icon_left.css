@@ -1,3 +1,8 @@
+#Chat
+{
+	padding: 5px 1em 5px 10px;
+}
+
 .message .x-wrap
 {
 	margin-left: 37px;
@@ -9,13 +14,24 @@
 	left: 10px;
 }
 
-.firstFocus.message .x-text:before
+.focus .x-message:before
 {
-	right: 12px;
+	right: .2em;
 }
 
-.firstFocus.status .x-text:before,
-.firstFocus.event .x-text:before
+.focus.status .x-wrap:before,
+.focus.event .x-wrap:before
 {
-	right: 10px;
+	right: .2em;
 }
+
+.mention .x-message:before
+{
+	right: .2em;
+}
+
+.mention.focus .x-message:before
+{
+	right: .2em;
+}
+
