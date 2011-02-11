@@ -1,4 +1,4 @@
-﻿	var highlightActive = false;
+	var highlightActive = false;
 
 	function selectSender() {
 		if (highlightActive || event.target.tagName.toLowerCase() == 'a')
@@ -17,7 +17,14 @@
 		var elms = document.getElementsByClassName(senderName); var elemArray = new Array(elms.length); for (var i=0; i<elms.length; i++) { elemArray[i]=elms[i]; }
 		var len = elemArray.length;
 		for(var i = 0; i < len; i++) { 
-			elemArray[i].className += ' x-hover';
+			var elem = elms[i];
+			if(elem.offsetTop + elem.offsetHeight >= window.pageYOffset) {
+				if(elem.offsetTop > window.pageYOffset + window.innerHeight) {
+					break;
+				}
+				elemArray.push(elem);
+				elem.className += ' x-hover';
+			}
 		} 
 	}
 
