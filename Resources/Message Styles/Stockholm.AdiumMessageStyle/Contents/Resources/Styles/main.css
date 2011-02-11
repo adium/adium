@@ -239,18 +239,25 @@ body
 	margin-top: 0px;
 }
 
-.message:not(.focus) .x-message .x-time,
-.message .x-message:not(.focus) .x-time
+.message:not(.focus) .x-message.ltr .x-time,
+.message .x-message.ltr:not(.focus) .x-time
 {
 	right: 1px;
 	padding-right: 5px;
 }
 
-.message.focus .x-message .x-time,
-.message .x-message.focus .x-time
+.message.focus .x-message.ltr .x-time,
+.message .x-message.focus.ltr .x-time
 {
 	right: 1px;
 	padding-right: 9px;
+}
+
+.message .x-message.rtl .x-time
+{
+	left: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
 }
 
 .x-message:hover .x-time
