@@ -62,6 +62,10 @@ build_libpurple() {
 	if $DOWNLOAD_LIBPURPLE; then
 	  fetch_libpurple
 	fi
+	if [ ! -d "$ROOTDIR/source/im.pidgin.adium" ]; then
+	  error "libpurple checkout not found; use --download-libpurple"
+	  exit 1;
+	fi
 	
 	prereq "cyrus-sasl" \
 		"ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/OLD-VERSIONS/sasl/cyrus-sasl-2.1.18.tar.gz"
