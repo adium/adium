@@ -27,7 +27,7 @@ cat "$file" \
         </div> \
 		<div id="navcontainer"> \
 			<a class="navtab" href="http://adium.im/">Download</a> \
-			<a class="navtab" href="http://adium.im/screenshots/">Screenshots</a> \
+			<a class="navtab" href="http://adium.im/about">About</a>\
 			<a class="navtab" href="http://adium.im/blog/">Blog</a> \
 			<a class="navtabcurrent" href="http://adium.im/help">Help</a> \
 			<a class="navtab" href="http://trac.adium.im">Development</a> \
@@ -49,10 +49,10 @@ cat "$file" \
 			| sed 's|<a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a>|<a class="navleftsty" href="../">Adium Help</a> <a class="navleftsty" href="http://adium.im/screencasts/">Adium Videos</a> <a class="navleftsty active" href="AdiumDocumentation.html">Adium Documentation</a>|g' \
 			| sed 's|</title>| - Adium Documentation</title>|g' \
 			| sed 's|<div id="pagetitle">|<div id="pagetitle"> <a href="../"> <h3><img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" />Adium Help</a> \&gt; <a href="AdiumDocumentation.html">Adium Documentation</a> \&gt;</h3> |g' \
-			 > "$1/$(basename $file)"
+			 > "$1/pgs/$(basename $file)"
 done
 
 
 for file in ../AdiumHelp/gfx/*; do
-cp "$file" "$1/$(basename file)"
+cp "$file" "$1/gfx/$(basename $file)"
 done
