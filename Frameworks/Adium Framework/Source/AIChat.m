@@ -100,6 +100,7 @@ static int nextChatNumber = 0;
 	[pendingOutgoingContentObjects release];
 	[uniqueChatID release]; uniqueChatID = nil;
 	[customEmoticons release]; customEmoticons = nil;
+	[topic release]; [topicSetter release];
 	
 	[tabStateIcon release]; tabStateIcon = nil;
     [chatCreationInfo release]; chatCreationInfo = nil;
