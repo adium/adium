@@ -40,6 +40,9 @@
 #define	KEY_CHAT_TIMED_OUT		@"Timed Out"
 #define KEY_CHAT_CLOSED_WINDOW	@"Closed Window"
 
+#define KEY_TOPIC @"topic"
+#define KEY_TOPIC_SETTER @"topicSetter"
+
 typedef enum {
 	AIChatTimedOut = 0,
 	AIChatClosedWindow
@@ -104,9 +107,6 @@ typedef enum {
 	BOOL				hasSentOrReceivedContent;
 
 	NSMutableArray		*pendingOutgoingContentObjects;
-
-	NSString			*topic;
-	AIListContact		*topicSetter;
 	
 	BOOL				hideUserIconAndStatus;
 	BOOL				showJoinLeave;
@@ -148,6 +148,9 @@ typedef enum {
 	NSDictionary		*securityDetails;
 	
 	BOOL				secureMessagingLastEncryptedState;
+	
+	NSString			*topic;
+    AIListContact		*topicSetter;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;
@@ -218,8 +221,6 @@ typedef enum {
 
 @property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 @property (readonly, nonatomic) BOOL supportsTopic;
-@property (readwrite, retain, nonatomic) NSString *topic;
-@property (readwrite, retain, nonatomic) AIListContact *topicSetter;
 
 - (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
 

@@ -76,8 +76,6 @@ static int nextChatNumber = 0;
 		hasSentOrReceivedContent = NO;
 		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
-		
-		topic = @"";
 
 		AILog(@"[AIChat: %x initForAccount]",self);
 	}
@@ -102,7 +100,6 @@ static int nextChatNumber = 0;
 	[pendingOutgoingContentObjects release];
 	[uniqueChatID release]; uniqueChatID = nil;
 	[customEmoticons release]; customEmoticons = nil;
-	[topic release]; [topicSetter release];
 	
 	[tabStateIcon release]; tabStateIcon = nil;
     [chatCreationInfo release]; chatCreationInfo = nil;
@@ -807,7 +804,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 #pragma mark Group Chats
 
-@synthesize isGroupChat, showJoinLeave, hideUserIconAndStatus, topic, topicSetter;
+@synthesize isGroupChat, showJoinLeave, hideUserIconAndStatus;
 
 /*!
  * @brief Does this chat support topics?
@@ -822,20 +819,19 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  */
 - (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact
 {
-	[topic release];
-	topic = [inTopic retain];
+	[self setValue:inTopic forProperty:KEY_TOPIC notify:NotifyNow];
 	
-	self.topicSetter = contact;
+	[self setValue:contact forProperty:KEY_TOPIC_SETTER notify:NotifyNow];
 	
 	// Apply the new topic to the message view
 	AIContentTopic *contentTopic = [AIContentTopic topicInChat:self
 													withSource:contact
 												   destination:nil
 														  date:[NSDate date]
-													   message:[NSAttributedString stringWithString:topic ?: @""]];
+													   message:[NSAttributedString stringWithString:[self valueForProperty:KEY_TOPIC] ?: @""]];
 	
 	// The content controller has huge problems with blank messages being let through.
-	if (!topic.length) {
+	if (![[self valueForProperty:KEY_TOPIC] length]) {
 		contentTopic.message = CONTENT_TOPIC_MESSAGE_ACTUALLY_EMPTY;
 		contentTopic.actuallyBlank = YES;
 	}
@@ -850,11 +846,11 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 {
 	if (self.supportsTopic) {
 		// We mess with the topic, replacing nbsp with spaces; make sure we're not setting an identical one other than this.
-		NSString *tempTopic = [topic stringByReplacingOccurrencesOfString:@"\u00A0" withString:@" "];
+		NSString *tempTopic = [[self valueForProperty:KEY_TOPIC] stringByReplacingOccurrencesOfString:@"\u00A0" withString:@" "];
 		if ([tempTopic isEqualToString:inTopic]) {
 			AILogWithSignature(@"Not setting topic for %@, already the same.", self);
 		} else {
-			AILogWithSignature(@"Setting %@ topic to: %@", self, topic);
+			AILogWithSignature(@"Setting %@ topic to: %@", self, [self valueForProperty:KEY_TOPIC]);
 			[account setTopic:inTopic forChat:self];
 		}
 	} else {

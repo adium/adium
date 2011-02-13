@@ -10,6 +10,8 @@
 #import <Adium/AIChatControllerProtocol.h>
 
 #define KEY_AUTO_JOIN			@"Automatically Join"
+#define KEY_UNREAD_STATUS		@"Unread Status"
+
 #define GROUP_LIST_BOOKMARK		@"List Bookmark Settings"
 
 @class AIChat;

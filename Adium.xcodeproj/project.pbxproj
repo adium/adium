@@ -1439,6 +1439,7 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
+		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
 		76889DEB12D3CA17007AEF00 /* GetInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* GetInfo.png */; };
 		76889DEF12D3CA40007AEF00 /* Personal.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.png */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
@@ -4707,6 +4708,8 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
+		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* GetInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GetInfo.png; path = Resources/GetInfo.png; sourceTree = "<group>"; };
 		76889DEE12D3CA40007AEF00 /* Personal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Personal.png; path = Resources/Personal.png; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
@@ -5981,6 +5984,8 @@
 				347E7AA807CAF8EE00350507 /* SAContactOnlineForPlugin.m */,
 				112B49080F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.h */,
 				112B49090F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m */,
+				766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */,
+				766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */,
 			);
 			name = Tooltips;
 			sourceTree = "<group>";
@@ -9609,7 +9614,6 @@
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
 			compatibilityVersion = "Xcode 3.1";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -10755,6 +10759,7 @@
 				349062A2127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m in Sources */,
 				5A80508512BE9F00007CDC1B /* scandate.m in Sources */,
 				1154F50B12E1476900B8CA27 /* AILogByAccountWindowController.m in Sources */,
+				766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,6 +30,8 @@
 - (void)restoreGrouping;
 
 - (void)claimChatIfOurs:(AIChat *)chat;
+
+- (void)_updateUnreadMessagesStatusForChat:(AIChat *)inChat;
 @end
 
 @implementation AIListBookmark
@@ -80,6 +82,12 @@
 					   dictionary:inChat.chatCreationDictionary
 							 name:inChat.name])) {
 		[self setDisplayName:inChat.displayName];
+		
+		if ([inChat valueForProperty:KEY_TOPIC]) {
+			[self setStatusMessage:[NSAttributedString stringWithString:[inChat valueForProperty:KEY_TOPIC]] notify:NotifyNow];
+		}
+		
+		[self _updateUnreadMessagesStatusForChat:inChat];
 	}
 	
 	return self;
@@ -365,38 +373,46 @@
 
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if ([self chatIsOurs:inChat] && ([inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT] || [inModifiedKeys containsObject:KEY_UNVIEWED_MENTION])) {
-		NSString *statusMessage = nil;
+	if ([self chatIsOurs:inChat]) {
 		
-		if (inChat.unviewedMentionCount) {
-			// We contain mentions; display both this and the content count.
-			if (inChat.unviewedMentionCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d mentions, %d messages", "Status message for a bookmark (>1 mention, >1 messages)"),
-								 inChat.unviewedMentionCount, inChat.unviewedContentCount];
-			} else if (inChat.unviewedContentCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"1 mention, %d messages", "Status message for a bookmark (1 mention, >1 messages)"),
-								 inChat.unviewedContentCount];
-			} else {
-				statusMessage = AILocalizedString(@"1 mention, 1 message", "Status message for a bookmark (1 mention, 1 message)");
-			}
-		} else if (inChat.unviewedContentCount) {
-			// We don't contain mentions; display the content count.
-			if (inChat.unviewedContentCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d messages", "Status message for a bookmark (>1 messages)"),
-								 inChat.unviewedContentCount];
-			} else {
-				statusMessage = AILocalizedString(@"1 message", "Status message for a bookmark (1 message)");
-			}
+		if ([inModifiedKeys containsObject:KEY_TOPIC]) {
+			[self setStatusMessage:[NSAttributedString stringWithString:([inChat valueForProperty:KEY_TOPIC] ?: @"")] notify:NotifyNow];
 		}
-
-		if (statusMessage) {
-			[self setStatusMessage:[NSAttributedString stringWithString:statusMessage] notify:NotifyNow];
-		} else {
-			[self setStatusMessage:nil notify:NotifyNow];
+	
+		if ([inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT] || [inModifiedKeys containsObject:KEY_UNVIEWED_MENTION]) {
+			[self _updateUnreadMessagesStatusForChat:inChat];
 		}
 	}
 	
 	return nil;
+}
+
+- (void)_updateUnreadMessagesStatusForChat:(AIChat *)inChat
+{
+	NSString *statusMessage = nil;
+	
+	if (inChat.unviewedMentionCount) {
+		// We contain mentions; display both this and the content count.
+		if (inChat.unviewedMentionCount > 1) {
+			statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d mentions, %d messages", "Status message for a bookmark (>1 mention, >1 messages)"),
+							 inChat.unviewedMentionCount, inChat.unviewedContentCount];
+		} else if (inChat.unviewedContentCount > 1) {
+			statusMessage = [NSString stringWithFormat:AILocalizedString(@"1 mention, %d messages", "Status message for a bookmark (1 mention, >1 messages)"),
+							 inChat.unviewedContentCount];
+		} else {
+			statusMessage = AILocalizedString(@"1 mention, 1 message", "Status message for a bookmark (1 mention, 1 message)");
+		}
+	} else if (inChat.unviewedContentCount) {
+		// We don't contain mentions; display the content count.
+		if (inChat.unviewedContentCount > 1) {
+			statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d messages", "Status message for a bookmark (>1 messages)"),
+							 inChat.unviewedContentCount];
+		} else {
+			statusMessage = AILocalizedString(@"1 message", "Status message for a bookmark (1 message)");
+		}
+	}
+	
+	[self setValue:statusMessage forProperty:KEY_UNREAD_STATUS notify:NotifyNow];
 }
 
 #pragma mark -
