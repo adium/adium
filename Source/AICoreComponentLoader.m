@@ -155,6 +155,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AIGroupChatStatusTooltipPlugin",
 		@"AIRealNameTooltip",
 		@"AIUserHostTooltip",
+		@"AIUnreadMessagesTooltip",
 		@"AIIRCChannelLinker",
 		@"AIURLHandlerPlugin",
 		@"AIJumpControlPlugin",

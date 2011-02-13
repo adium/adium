@@ -19,6 +19,7 @@
 #import "AIStatusController.h"
 #import <Adium/AIListObject.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <Adium/AIListBookmark.h>
 
 #define	AWAY				AILocalizedString(@"Away",nil)
 #define	AWAY_MESSAGE_LABEL	AILocalizedString(@"Away Message",nil)
@@ -78,9 +79,14 @@
     //Get the status message
     statusMessage = inObject.statusMessage;
     
-    //Return the correct string
-    if(statusMessage != nil && [statusMessage length] != 0){
-		if (away) {
+	//Return the correct string
+	if (statusMessage != nil && [statusMessage length] != 0) {
+		if ([inObject isKindOfClass:[AIListBookmark class]]) {
+			/* It's actually a bookmark, show "Topic: " instead */
+			
+			label = AILocalizedString(@"Topic", nil);
+			
+		} else if (away) {
 			/* Away with a status message */
 			
 			//Check to make sure we're not duplicating server display name information

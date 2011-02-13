@@ -746,10 +746,10 @@ static NSArray *draggedTypes = nil;
  */
 - (void)updateTopic
 {
-	NSAttributedString *topic = [NSAttributedString stringWithString:(chat.topic ?: @"")];
+	NSAttributedString *topic = [NSAttributedString stringWithString:([chat valueForProperty:@"Topic"] ?: @"")];
 	
 	AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
-													withSource:chat.topicSetter
+													withSource:[chat valueForProperty:KEY_TOPIC_SETTER]
 												   destination:nil
 														  date:[NSDate date]
 													   message:topic];
