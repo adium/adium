@@ -323,6 +323,7 @@
 {
 	if ([self chatIsOurs:chat]) {
 		chat.displayName = self.displayName;
+		[self setStatusMessage:[NSAttributedString stringWithString:([chat valueForProperty:KEY_TOPIC] ?: @"")] notify:NotifyNow];
 	}
 }
 
