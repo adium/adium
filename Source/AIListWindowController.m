@@ -294,7 +294,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
-//A “stationary” window stays pinned to the desktop during Exposé. A supported API for this was introduced in Snow Leopard.
+//A ‚Äústationary‚Äù window stays pinned to the desktop during Expos√©. A supported API for this was introduced in Snow Leopard.
 - (void)setCollectionBehaviorOfWindow:(NSWindow *)window
 					  showOnAllSpaces:(BOOL)allSpaces
 						 isStationary:(BOOL)stationary
@@ -787,7 +787,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 			
 			/* If we're hiding the window (generally) but now sliding it off screen, set it to kCGBackstopMenuLevel and don't
-			 * let it participate in expose.
+			 * let it participate in expos√©.
 			 */
 			if (overrodeWindowLevel &&
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
