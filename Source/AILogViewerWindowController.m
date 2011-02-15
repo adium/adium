@@ -58,6 +58,7 @@
 #define DELETE							AILocalizedString(@"Delete",nil)
 #define DELETEALL						AILocalizedString(@"Delete All",nil)
 #define SEARCH							AILocalizedString(@"Search",nil)
+#define SEARCH_LOGS						AILocalizedString(@"Search Logs",nil)
 
 #define HIDE_EMOTICONS					AILocalizedString(@"Hide Emoticons",nil)
 #define SHOW_EMOTICONS					AILocalizedString(@"Show Emoticons",nil)
@@ -468,6 +469,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		[self setSearchMode:LOG_SEARCH_TO];
 
     [searchField_logs setStringValue:(activeSearchString ? activeSearchString : @"")];
+	[[searchField_logs cell] setPlaceholderString:SEARCH_LOGS];
 	suppressSearchRequests = NO;
 
 	if (!isOpeningForContact) {
