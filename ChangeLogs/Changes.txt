@@ -35,16 +35,40 @@ Version 1.5 (X/X/20X)
  * Miscellaneous improvements to Copyright.txt file.
 
 
-Version 1.4.2 (X/X/20X)
- Message Styles
+Version 1.4.2 (X/X/201X)
+ * Updated to libpurple 2.x.x. Highlights of applicable changes:
+   * 
+
+ Logging
+  * Added a "Log only certain accounts" setting to Adium's "General" preferences. (#8)
+  * Added a "Log secure chats" setting to Adium's "General" preferences. (#94)
+  * Renamed "Save opened chats when quitting" setting to "Reopen chats from last time on startup" for clarity. (#14651)
+
+ Message View
+  * Only display focus indication for group chats. (#14420)
+  * Mockie: new mention and focus indicators. (#14420)
   * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
+  * Fix Stockholm's breaking with RTL text. (#10403)
+  * Fix iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936)
+
+ ICQ
+  * Fix ICQ disconnections going unnoticed. (#14229)
+  * Fix hang caused by reading badly formatted transcripts from ICQ. (#14627)
+
+ IRC
+  * Fix crash caused by wrongly-encoded characters in IRC. (#13351)
 
  Miscellaneous
   * Growl notifications for Group Chats now show the channel on the same line as the nick, instead of before the message. (#14890)
   * Fixed a bug causing a switching of user profiles following Adium updates. (#14432)
   * Fixed 1.4.1 regression of arrows not showing up in the Events tables of the Preference pane and the Get Info pane for active events. (#14629)
+  * Fix a hang that occurred when required parts of loaded message styles were missing. (#7438)
   * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (#14454)
   * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
+
+ Localisation
+  * Updated the Localizable.strings files, adding missing translatable strings/nibs. (#14588)
+  * Updated Swedish localisation. (#14993)
  
 
 Version 1.4.1 (11/15/2010)
