@@ -92,16 +92,19 @@ a:hover
 	border-bottom: 1px solid;
 }
 
-.x-container:not(.consecutive)
+.x-container:not(.consecutive),
+.message.action + .x-container.consecutive,
+.message.action
 {
 	padding-top: 4px;
 	border-top: 1px dotted rgba(0, 0, 0, .2);
 }
 
-/*.showIcons.x-container.message:not([src*="buddy_icon.png"]):not(.consecutive)
+.showIcons.x-container.message:not([src*="buddy_icon.png"]):not(.consecutive),
+.message.action + .showIcons.x-container.message.consecutive:not([src*="buddy_icon.png"])
 {
-	min-height: 28px;
-}*/
+	min-height: 29px;
+}
 
 .x-container
 {
@@ -110,17 +113,18 @@ a:hover
 	padding-bottom: 2px;
 }
 
-.message:not(.consecutive) .x-message
+.message:not(.consecutive) .x-message,
+.message.action + .message.consecutive .x-message
 {
 	padding-top: 4px;
 }
 
-.message.consecutive .x-message
+.message:not(.action) + .message.consecutive:not(.action) .x-message
 {
 	padding-top: 2px;
 }
 
-.consecutive.message.showIcons img[src*="buddy_icon.png"] + .x-message
+.message:not(.action) + .consecutive.message.showIcons:not(.action) img[src*="buddy_icon.png"] + .x-message
 {
 	margin-left: 30px;
 }
@@ -239,7 +243,8 @@ img.scaledToFitImage
 	background: url("./images/vert.png") repeat;
 }
 
-.focus:not(.consecutive)
+.focus:not(.consecutive),
+.message.action + .focus.consecutive
 {
 	border-top: none !important;
 	margin-top: 1px;
@@ -274,9 +279,9 @@ img.scaledToFitImage
 .status .x-sender,
 .event .x-buddyicon,
 .event .x-sender,
-.consecutive .x-buddyicon,
-.consecutive .x-sender,
-.consecutive .x-time,
+.message:not(.action) + .consecutive:not(.action) .x-buddyicon,
+.message:not(.action) + .consecutive:not(.action) .x-sender,
+.message:not(.action) + .consecutive:not(.action) .x-time,
 img[src*="buddy_icon.png"]
 {
 	display: none;
