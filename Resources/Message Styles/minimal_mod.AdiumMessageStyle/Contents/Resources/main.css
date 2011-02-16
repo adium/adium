@@ -98,6 +98,11 @@ a:hover
 	border-top: 1px dotted rgba(0, 0, 0, .2);
 }
 
+/*.showIcons.x-container.message:not([src*="buddy_icon.png"]):not(.consecutive)
+{
+	min-height: 28px;
+}*/
+
 .x-container
 {
 	padding-left: 16px;
@@ -155,6 +160,7 @@ a:hover
 img.x-buddyicon
 {
 	position: absolute;
+	left: 16px;
 	margin-top: 2px;
 	margin-right: 6px;
 	padding-bottom: 8px;
@@ -279,15 +285,16 @@ img[src*="buddy_icon.png"]
 
 /* ACTION */
 
+.showIcons.x-container.action:not([src*="buddy_icon.png"])
+{
+	padding-left: 46px;
+}
+
 .action .x-sender,
 .action .x-message
 {
 	display: inline;
 	font-style: italic !important;
-}
-
-.action .x-message
-{
 	margin-left: 0px !important;
 }
 
