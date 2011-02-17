@@ -46,6 +46,7 @@ Version 1.4.2 (X/X/201X)
 
  Message View
   * Only display focus indication for group chats. (#14420)
+  * Fix issue where sections of conversations loaded from message history are repeated. (#13362)
   * Mockie: new mention and focus indicators. (#14420)
   * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
   * Fix Stockholm's breaking with RTL text. (#10403)
@@ -57,6 +58,9 @@ Version 1.4.2 (X/X/201X)
 
  IRC
   * Fix crash caused by wrongly-encoded characters in IRC. (#13351)
+
+ XMPP
+  * Fix xmpp:-urls without a user part opening chats with (null)@... (#14908).
 
  Miscellaneous
   * Growl notifications for Group Chats now show the channel on the same line as the nick, instead of before the message. (#14890)
