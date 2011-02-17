@@ -3091,17 +3091,13 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		switch (returnCode) {
 			case NSAlertOtherReturn:
 				// delete & unregister
-				if (NSRunAlertPanel(AILocalizedString(@"Delete Account from Server", nil),
-									AILocalizedString(@"WARNING! This will delete the account %@ from the Jabber server, and can not be undone.\nAre you sure you want to proceed?", nil),
-									AILocalizedString(@"Cancel", nil), AILocalizedString(@"Delete & Unregister", nil), nil, ([self.formattedUID length] ? self.formattedUID : NEW_ACCOUNT_DISPLAY_TEXT))
-					== NSAlertFirstButtonReturn) {	
-					if (self.online){									
-						[self unregister];													
-					}else {
-						unregisterAfterConnecting = YES;
-						[self setShouldBeOnline:YES];
-					}
+				if (self.online)
+					[self unregister];
+				else {
+					unregisterAfterConnecting = YES;
+					[self setShouldBeOnline:YES];
 				}
+			
 				// further progress happens in -unregisteredAccount:
 				break;
 			case NSAlertDefaultReturn:
