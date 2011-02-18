@@ -34,12 +34,12 @@ typedef enum {
 - (void)setIconStateNamed:(NSString *)inName;
 - (void)removeIconStateNamed:(NSString *)inName;
 - (void)setIconState:(AIIconState *)iconState named:(NSString *)inName;
-- (CGFloat)dockIconScale;
 - (NSImage *)baseApplicationIconImage;
+- (void)setOverlay:(NSImage *)image;
 
 //Special access to icon pack loading
 - (NSArray *)availableDockIconPacks;
-- (BOOL)currentIconSupportsIconStateNamed:(NSString *)inName;;
+- (BOOL)currentIconSupportsIconStateNamed:(NSString *)inName;
 - (NSMutableDictionary *)iconPackAtPath:(NSString *)folderPath;
 - (void)getName:(NSString **)outName previewState:(AIIconState **)outIconState forIconPackAtPath:(NSString *)folderPath;
 - (AIIconState *)previewStateForIconPackAtPath:(NSString *)folderPath;
