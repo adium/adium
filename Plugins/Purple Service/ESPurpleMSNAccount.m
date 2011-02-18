@@ -146,6 +146,9 @@
 	
 	BOOL HTTPConnect = [[self preferenceForKey:KEY_MSN_HTTP_CONNECT_METHOD group:GROUP_ACCOUNT_STATUS] boolValue];
 	purple_account_set_bool(account, "http_method", HTTPConnect);
+	
+	BOOL blockDirectConnections = [[self preferenceForKey:KEY_MSN_BLOCK_DIRECT_CONNECTIONS group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(account, "direct_connect", !blockDirectConnections);
 }
 
 - (NSString *)connectionStringForStep:(NSInteger)step
