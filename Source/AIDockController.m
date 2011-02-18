@@ -21,7 +21,10 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIIconState.h>
+#import <Adium/AIChat.h>
+#import <Adium/AIStatusControllerProtocol.h>
 
 #define DOCK_DEFAULT_PREFS			@"DockPrefs"
 #define ICON_DISPLAY_DELAY			0.1
@@ -31,6 +34,9 @@
 #define CONTINUOUS_BOUNCE_INTERVAL  0
 #define SINGLE_BOUNCE_INTERVAL		999
 #define NO_BOUNCE_INTERVAL			1000
+
+#define DOCK_ICON_INTERNAL_PATH		@"../Shared Images/"
+#define DOCK_ICON_SHARED_IMAGES		@"Shared Dock Icon Images"
 
 @interface AIDockController ()
 - (void)_setNeedsDisplay;
@@ -42,6 +48,9 @@
 - (BOOL)_bounceWithInterval:(double)delay;
 - (AIIconState *)iconStateFromStateDict:(NSDictionary *)stateDict folderPath:(NSString *)folderPath;
 - (void)updateAppBundleIcon;
+- (void)updateDockView;
+- (void)updateDockBadge;
+- (void)animateDockIcon;
 
 - (void)appWillChangeActive:(NSNotification *)notification;
 - (void)bounceWithTimer:(NSTimer *)timer;
@@ -61,6 +70,7 @@
 		animationTimer = nil;
 		bounceTimer = nil;
 		needsDisplay = NO;
+		unviewedState = NO;
 	}
 	
 	return self;
@@ -68,18 +78,28 @@
 
 - (void)controllerDidLoad
 {
+	dockTile = [NSApp dockTile];
+	view = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 128, 128)];
+	
+	[dockTile setContentView:view];
+
+	//Register our default preferences
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DOCK_DEFAULT_PREFS
+																	  forClass:[self class]] 
+										forGroup:PREF_GROUP_APPEARANCE];
+	
+	//Observe pref changes
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	// Register as an observer of the status preferences for unread conversation count
+	[adium.preferenceController registerPreferenceObserver:self
+												  forGroup:PREF_GROUP_STATUS_PREFERENCES];
+	
+	[adium.chatController registerChatObserver:self];
+	
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	
-    //Register our default preferences
-    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DOCK_DEFAULT_PREFS
-																		forClass:[self class]] 
-										  forGroup:PREF_GROUP_APPEARANCE];
-    
-    //Observe pref changes
-	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
-	
-    //We always want to stop bouncing when Adium is made active
-    [notificationCenter addObserver:self
+	//We always want to stop bouncing when Adium is made active
+	[notificationCenter addObserver:self
 	                       selector:@selector(appWillChangeActive:) 
 	                           name:NSApplicationWillBecomeActiveNotification 
 	                         object:nil];
@@ -90,7 +110,7 @@
 	                           name:NSApplicationWillResignActiveNotification 
 	                         object:nil];
 	
-	//If Adium has been upgraded since the last time we ran, re-apply the user's custom icon
+	//If Adium has been upgraded since the last time we ran re-apply the user's custom icon
 	NSString	*lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:LAST_ICON_UPDATE_VERSION];
 	if (![[NSApp applicationVersion] isEqualToString:lastVersion]) {
 		[self updateAppBundleIcon];
@@ -101,6 +121,7 @@
 - (void)controllerWillClose
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 
 	//Reset our icon by removing all icon states (except for the base state)
 	NSArray *stateArrayCopy = [[activeIconStateArray copy] autorelease]; //Work with a copy, since this array will change as we remove states
@@ -115,6 +136,7 @@
 }
 
 
+#pragma mark Dock Icon Packs
 /*!
  * @brief Returns an array of available dock icon pack paths
  */
@@ -128,69 +150,6 @@
 		[iconPackPaths addObject:path];
 	}
 	return iconPackPaths;
-}
-
-
-
-- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
-							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
-{
-	if (!key || [key isEqualToString:KEY_ACTIVE_DOCK_ICON]) {		
-		//Load the new icon pack
-		NSString *iconPath = [adium pathOfPackWithName:[prefDict objectForKey:KEY_ACTIVE_DOCK_ICON]
-											 extension:@"AdiumIcon"
-									resourceFolderName:FOLDER_DOCK_ICONS];
-
-		if (iconPath) {
-			NSMutableDictionary	*newAvailableIconStateDict = [self iconPackAtPath:iconPath];
-			if (newAvailableIconStateDict) {
-				[availableIconStateDict autorelease]; 
-				availableIconStateDict = [newAvailableIconStateDict retain];
-			}
-		}
-		
-		//Write the icon to the Adium application bundle so finder will see it
-		//On launch we only need to update the icon file if this is a new version of Adium.  When preferences
-		//change we always want to update it
-		if (!firstTime) {
-			[self updateAppBundleIcon];
-		}
-
-		//Recomposite the icon
-		[self _setNeedsDisplay];
-	}
-}
-
-- (void)updateAppBundleIcon
-{	
-	NSImage *image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"ApplicationIcon"] image];
-	if (!image) 
-		image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"Base"] image];
-
-	if (image) {
-		[[NSWorkspace sharedWorkspace] setIcon:image 
-									   forFile:[[NSBundle mainBundle] bundlePath]
-									   options:0];
-
-		//Finder won't update Adium's icon to match the new one until it is restarted if we don't
-		//tell NSWorkspace to note the change.
-		[[NSWorkspace sharedWorkspace] noteFileSystemChanged:[[NSBundle mainBundle] bundlePath]];
-	}
-}
-
-//Icons ------------------------------------------------------------------------------------
-- (void)_setNeedsDisplay
-{
-	if (!needsDisplay) {
-		needsDisplay = YES;
-
-		//Invoke a display after a short delay
-		[NSTimer scheduledTimerWithTimeInterval:ICON_DISPLAY_DELAY
-										 target:self
-									   selector:@selector(_buildIcon)
-									   userInfo:nil
-										repeats:NO];
-	}
 }
 
 //Load an icon pack
@@ -212,15 +171,24 @@
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:[iconPackDict objectForKey:@"Description"], @"Description", iconStateDict, @"State", nil];
 }
 
+- (AIIconState *)previewStateForIconPackAtPath:(NSString *)folderPath
+{
+	AIIconState	*previewState = nil;
+	
+	[self getName:NULL previewState:&previewState forIconPackAtPath:folderPath];
+	
+	return previewState;
+}
+
 /*!
- * @brief Get the name and preview steate for a dock icon pack
+ * @brief Get the name and preview state for a dock icon pack
  *
  * @param outName Reference to an NSString, or NULL if this information is not needed
  * @param outIconState Reference to an AIIconState, or NULL if this information is not needed
  * @param folderPath The path to the dock icon pack
  */
 - (void)getName:(NSString **)outName previewState:(AIIconState **)outIconState forIconPackAtPath:(NSString *)folderPath
-{	
+{
 	//Load the icon pack
 	NSDictionary *iconPackDict = [NSDictionary dictionaryWithContentsOfFile:[folderPath stringByAppendingPathComponent:@"IconPack.plist"]];
 	
@@ -231,25 +199,16 @@
 	if (outName) *outName = [[iconPackDict objectForKey:@"Description"] objectForKey:@"Title"];
 }
 
-- (AIIconState *)previewStateForIconPackAtPath:(NSString *)folderPath
-{
-	AIIconState	*previewState = nil;
-	
-	[self getName:NULL previewState:&previewState forIconPackAtPath:folderPath];
-	
-	return previewState;
-}
-
 - (AIIconState *)iconStateFromStateDict:(NSDictionary *)stateDict folderPath:(NSString *)folderPath
 {
 	AIIconState		*iconState = nil;
+	//Get the state information
+	BOOL _overlay = [[stateDict objectForKey:@"Overlay"] boolValue];
+	BOOL looping = [[stateDict objectForKey:@"Looping"] boolValue];
 	
 	if ([[stateDict objectForKey:@"Animated"] integerValue]) { //Animated State
 		NSMutableDictionary	*tempIconCache = [NSMutableDictionary dictionary];
 		
-		//Get the state information
-		BOOL overlay = [[stateDict objectForKey:@"Overlay"] boolValue];
-		BOOL looping = [[stateDict objectForKey:@"Looping"] boolValue];
 		CGFloat delay   = (CGFloat)[[stateDict objectForKey:@"Delay"] doubleValue];
 		NSArray *imageNameArray = [stateDict objectForKey:@"Images"];
 
@@ -258,20 +217,18 @@
 		for (NSString *imageName in imageNameArray) {
 			NSString	*imagePath;
 			
-#define DOCK_ICON_INTERNAL_PATH @"../Shared Images/"
 			if ([imageName hasPrefix:DOCK_ICON_INTERNAL_PATH]) {
 				//Special hack for all the incorrectly made icon packs we have floating around out there :P
 				imageName = [imageName substringFromIndex:[DOCK_ICON_INTERNAL_PATH length]];
 				imagePath = [[NSBundle mainBundle] pathForResource:[[[imageName stringByDeletingPathExtension] stringByAppendingString:@"-localized"] stringByAppendingPathExtension:[imageName pathExtension]]
 				                                            ofType:@""
-				                                       inDirectory:@"Shared Dock Icon Images"];
+				                                       inDirectory:DOCK_ICON_SHARED_IMAGES];
 				
 				if (!imagePath) {
 					imagePath = [[NSBundle mainBundle] pathForResource:imageName
 																ofType:@""
-														   inDirectory:@"Shared Dock Icon Images"];
+														   inDirectory:DOCK_ICON_SHARED_IMAGES];
 				}
-
 			} else {
 				imagePath = [folderPath stringByAppendingPathComponent:imageName];
 			}
@@ -279,10 +236,12 @@
 			NSImage *image = [tempIconCache objectForKey:imagePath]; //We re-use the same images for each state if possible to lower memory usage.
 			if (!image && imagePath) {
 				image = [[[NSImage alloc] initByReferencingFile:imagePath] autorelease];
-				if (image) [tempIconCache setObject:image forKey:imagePath];
+				if (image)
+					[tempIconCache setObject:image forKey:imagePath];
 			}
 			
-			if (image) [imageArray addObject:image];
+			if (image)
+				[imageArray addObject:image];
 		}
 		
 		//Create the state
@@ -290,16 +249,14 @@
 			iconState = [[AIIconState alloc] initWithImages:imageArray
 													  delay:delay
 													looping:looping
-													overlay:overlay];
+													overlay:_overlay];
 		} else {
 			NSLog(@"Invalid animated icon state");
 		}
-		
 	} else { //Static State
 		NSString	*imageName;
 		NSString	*imagePath;
 		NSImage		*image;
-		BOOL		overlay;
 		
 		imageName = [stateDict objectForKey:@"Image"];
 		
@@ -308,11 +265,11 @@
 			imageName = [imageName substringFromIndex:[DOCK_ICON_INTERNAL_PATH length]];
 			imagePath = [[NSBundle mainBundle] pathForResource:[[[imageName stringByDeletingPathExtension] stringByAppendingString:@"-localized"] stringByAppendingPathExtension:[imageName pathExtension]]
 														ofType:@""
-												   inDirectory:@"Shared Dock Icon Images"];
+												   inDirectory:DOCK_ICON_SHARED_IMAGES];
 			if (!imagePath) {
 				imagePath = [[NSBundle mainBundle] pathForResource:imageName
-			                                            ofType:@""
-			                                       inDirectory:@"Shared Dock Icon Images"];
+															ofType:@""
+													   inDirectory:DOCK_ICON_SHARED_IMAGES];
 			}
 		} else {
 			imagePath = [folderPath stringByAppendingPathComponent:imageName];
@@ -320,33 +277,13 @@
 
 		//Get the state information
 		image = [[NSImage alloc] initByReferencingFile:imagePath];
-		overlay = [[stateDict objectForKey:@"Overlay"] boolValue];
 		
 		//Create the state
-		iconState = [[AIIconState alloc] initWithImage:image overlay:overlay];		
+		iconState = [[AIIconState alloc] initWithImage:image overlay:_overlay];
 		[image release];
 	}
 
 	return [iconState autorelease];
-}
-
-//Set an icon state from our currently loaded icon pack
-- (void)setIconStateNamed:(NSString *)inName
-{
-	if (![activeIconStateArray containsObject:inName]) {
-		[activeIconStateArray addObject:inName]; 	//Add the name to our array
-		[self _setNeedsDisplay];			//Redisplay our icon
-	}
-}
-
-//Remove an active icon state
-- (void)removeIconStateNamed:(NSString *)inName
-{
-	if ([activeIconStateArray containsObject:inName]) {
-		[activeIconStateArray removeObject:inName]; 	//Remove the name from our array
-		
-		[self _setNeedsDisplay];			//Redisplay our icon
-	}
 }
 
 /*!
@@ -357,11 +294,147 @@
 	return ([[availableIconStateDict objectForKey:@"State"] objectForKey:inName] != nil);
 }
 
+//Set an icon state from our currently loaded icon pack
+- (void)setIconStateNamed:(NSString *)inName
+{
+	if (![activeIconStateArray containsObject:inName]) {
+		[activeIconStateArray addObject:inName];
+		[self _setNeedsDisplay];
+	}
+}
+
+//Remove an active icon state
+- (void)removeIconStateNamed:(NSString *)inName
+{
+	if ([activeIconStateArray containsObject:inName]) {
+		[activeIconStateArray removeObject:inName];
+		[self _setNeedsDisplay];
+	}
+}
+
 //Set a custom icon state
 - (void)setIconState:(AIIconState *)iconState named:(NSString *)inName
 {
-    [availableDynamicIconStateDict setObject:iconState forKey:inName]; 	//Add the new state to our available dict
-    [self setIconStateNamed:inName];					//Set it
+	[availableDynamicIconStateDict setObject:iconState forKey:inName]; //Add the new state to our available dict
+	[self setIconStateNamed:inName]; //Set it
+}
+
+#pragma mark Controller
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
+							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
+		if (!key || [key isEqualToString:KEY_ACTIVE_DOCK_ICON]) {
+			//Load the new icon pack
+			NSString *iconPath = [adium pathOfPackWithName:[prefDict objectForKey:KEY_ACTIVE_DOCK_ICON]
+												 extension:@"AdiumIcon"
+										resourceFolderName:FOLDER_DOCK_ICONS];
+
+			if (iconPath) {
+				NSMutableDictionary	*newAvailableIconStateDict = [self iconPackAtPath:iconPath];
+				if (newAvailableIconStateDict) {
+					[availableIconStateDict autorelease];
+					availableIconStateDict = [newAvailableIconStateDict retain];
+				}
+			}
+			
+			//Write the icon to the Adium application bundle so that Finder will see it.
+			//On launch we only need to update the icon file if this is a new version of Adium.
+			//When preferences change we always want to update it
+			if (!firstTime) {
+				[self updateAppBundleIcon];
+			}
+
+			//Recomposite the icon
+			[self _setNeedsDisplay];
+		}
+		else if (!key || [key isEqualToString:KEY_BADGE_DOCK_ICON]) {
+			BOOL newShouldBadge = [[prefDict objectForKey:KEY_BADGE_DOCK_ICON] boolValue];
+			if (newShouldBadge != shouldBadge) {
+				shouldBadge = newShouldBadge;
+				
+				[self updateDockBadge];
+			}
+		}
+		else if (!key || [key isEqualToString:KEY_ANIMATE_DOCK_ICON]) {
+			BOOL newAnimateDockIcon = [[prefDict objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue];
+			if (newAnimateDockIcon != animateDockIcon) {
+				animateDockIcon = newAnimateDockIcon;
+				
+				[self animateDockIcon];
+			}
+		}
+	}
+	
+	if ([group isEqualToString:PREF_GROUP_STATUS_PREFERENCES]) {
+		if (!key || [key isEqualToString:KEY_STATUS_CONVERSATION_COUNT]) {
+			BOOL newShowConversationCount = [[prefDict objectForKey:KEY_STATUS_CONVERSATION_COUNT] boolValue];
+			if (newShowConversationCount != showConversationCount) {
+				showConversationCount = newShowConversationCount;
+				
+				[self updateDockBadge];
+			}
+		}
+		else if ([key isEqualToString:KEY_STATUS_MENTION_COUNT]) {
+			//Just update as the counting is handled elsewhere
+			[self updateDockBadge];
+		}
+	}
+}
+
+//Icons ------------------------------------------------------------------------------------
+- (void)_setNeedsDisplay
+{
+	if (!needsDisplay) {
+		needsDisplay = YES;
+
+		//Invoke a display after a short delay
+		[NSTimer scheduledTimerWithTimeInterval:ICON_DISPLAY_DELAY
+										 target:self
+									   selector:@selector(_buildIcon)
+									   userInfo:nil
+										repeats:NO];
+	}
+}
+
+- (void)updateAppBundleIcon
+{	
+	NSImage *image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"ApplicationIcon"] image];
+	if (!image)
+		image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"Base"] image];
+	
+	if (image) {
+		[[NSWorkspace sharedWorkspace] setIcon:image
+									   forFile:[[NSBundle mainBundle] bundlePath]
+									   options:0];
+		
+		//Finder won't update Adium's icon to match the new one until it is restarted if we don't
+		//tell NSWorkspace to note the change.
+		[[NSWorkspace sharedWorkspace] noteFileSystemChanged:[[NSBundle mainBundle] bundlePath]];
+	}
+}
+
+/*!
+ * @brief Return the dock icon image without any auxiliary states
+ */
+- (NSImage *)baseApplicationIconImage
+{
+	NSDictionary	*availableIcons = [availableIconStateDict objectForKey:@"State"];
+	AIIconState		*baseState = [availableIcons objectForKey:@"Base"];
+	
+	if (baseState) {
+		AIIconState		*iconState = [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObject:baseState]] autorelease];
+		return [iconState image];
+	}
+	
+	return nil;
+}
+
+- (void)setOverlay:(NSImage *)newImage
+{
+	[overlay release];
+	overlay = [newImage retain];
+	[self updateDockView];
 }
 
 //Build/Pre-render the icon images, start/stop animation
@@ -392,10 +465,7 @@
 		currentIconState = [[AIIconState alloc] initByCompositingStates:iconStates];
 		
 		if (![currentIconState animated]) { //Static icon
-			NSImage *image = [currentIconState image];
-			if (image) {
-				[[NSApplication sharedApplication] setApplicationIconImage:image];
-			}
+			[self updateDockView];
 		} else { //Animated icon
 			//Our dock icon can run its animation at any speed, but we want to try and sync it with the global Adium flashing.  To do this, we delay starting our timer until the next flash occurs.
 			[adium.interfaceController registerFlashObserver:self];
@@ -437,60 +507,8 @@
 	//Move to the next image
 	if (timer) {
 		[currentIconState nextFrame];
+		[self updateDockView];
 	}
-
-	//Set the image
-	NSImage *image = [currentIconState image];
-	if (image) {
-		[[NSApplication sharedApplication] setApplicationIconImage:image];
-	}
-}
-
-//returns the % of the dock icon's full size that it currently is (0.0 - 1.0)
-- (CGFloat)dockIconScale
-{
-	NSScreen *screen = [NSScreen mainScreen];
-	NSSize trueSize = screen.visibleFrame.size;
-	NSSize availableSize = screen.frame.size;
-
-	CGFloat	dHeight = availableSize.height - trueSize.height;
-	CGFloat dWidth = availableSize.width - trueSize.width;
-	CGFloat dockScale = 0;
-
-	if (dHeight != 22) { //dock is on the bottom
-		if (dHeight != 26) { //dock is not hidden
-			dockScale = (dHeight-22)/128;
-		}
-	} else if (dWidth != 0) { //dock is on the side
-		if (dWidth != 4) { //dock is not hidden
-			dockScale = (dWidth)/128;
-		}
-	} else {
-		//multiple monitors?
-		//Add support for multiple monitors
-	}
-
-	if (dockScale <= 0 || dockScale > 1.0f) {
-		dockScale = 0.3f;
-	}
-
-	return dockScale;
-}
-
-/*!
- * @brief Return the dock icon image without any auxiliary states
- */
-- (NSImage *)baseApplicationIconImage
-{
-	NSDictionary	*availableIcons = [availableIconStateDict objectForKey:@"State"];
-	AIIconState		*baseState = [availableIcons objectForKey:@"Base"];
-
-	if (baseState) {
-		AIIconState		*iconState = [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObject:baseState]] autorelease];
-		return [iconState image];
-	}
-	
-	return nil;
 }
 
 //Bouncing -------------------------------------------------------------------------------------------------------------
@@ -605,8 +623,8 @@
 {
 	//Stop any timer
 	if (bounceTimer) {
-		[bounceTimer invalidate]; 
-		[bounceTimer release]; 
+		[bounceTimer invalidate];
+		[bounceTimer release];
 		bounceTimer = nil;
 	}
 
@@ -622,6 +640,70 @@
 - (void)appWillChangeActive:(NSNotification *)notification
 {
     [self _stopBouncing]; //Stop any bouncing
+}
+
+
+#pragma mark Dock Drawing
+- (void)updateDockView
+{
+	NSImage *image = [[[currentIconState image] copy] autorelease];
+	if (overlay) {
+		[image lockFocus];
+		[overlay drawInRect:[view frame] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];
+		[image unlockFocus];
+	}
+	
+	[view setImage:image];
+	[dockTile setContentView:view];
+	[dockTile display];
+}
+
+- (void)updateDockBadge
+{
+	NSInteger contentCount = (showConversationCount ?
+							 [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
+	if (contentCount > 0 && shouldBadge)
+		[dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", contentCount]];
+	else
+		[dockTile setBadgeLabel:nil];
+}
+
+- (void)animateDockIcon
+{
+	[self updateDockBadge];
+	
+	if (adium.chatController.unviewedContentCount && animateDockIcon) {
+		//If this is the first contact with unviewed content, animate the dock
+		if (!unviewedState) {
+			NSString *iconState;
+			if (([adium.statusController.activeStatusState statusType] == AIInvisibleStatusType) &&
+				[self currentIconSupportsIconStateNamed:@"InvisibleAlert"]) {
+				iconState = @"InvisibleAlert";
+			} else {
+				iconState = @"Alert";
+			}
+			
+			[self setIconStateNamed:iconState];
+			unviewedState = YES;
+		}
+	} else if (unviewedState) {
+		//If there are no more contacts with unviewed content, stop animating the dock
+		[self removeIconStateNamed:@"Alert"];
+		[self removeIconStateNamed:@"InvisibleAlert"];
+		unviewedState = NO;
+	}
+}
+
+/*!
+ * @brief When a chat has unviewed content update the badge and maybe start/stop the animation
+ */
+- (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
+{
+	if (inModifiedKeys == nil || [inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT]) {
+		[self animateDockIcon];
+	}
+	
+	return nil;
 }
 
 @end

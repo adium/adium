@@ -16,11 +16,14 @@
 
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/AIChatControllerProtocol.h>
 
-@interface AIDockController: NSObject <AIDockController, AIFlashObserver> {
+
+@interface AIDockController: NSObject <AIDockController, AIFlashObserver, AIChatObserver> {
 @private
     NSTimer 				*animationTimer;
     NSTimer					*bounceTimer;
+    NSTimeInterval			currentBounceInterval;
     
     NSMutableDictionary		*availableIconStateDict;
     NSMutableDictionary		*availableDynamicIconStateDict;
@@ -30,9 +33,16 @@
     NSInteger						currentAttentionRequest;
 	
     BOOL					observingFlash;
-    BOOL					needsDisplay;
+	BOOL					needsDisplay;
 	
-	NSTimeInterval			currentBounceInterval;
+	NSDockTile *dockTile;
+	NSImageView *view;
+	NSImage *overlay;
+	
+	BOOL showConversationCount;
+	BOOL shouldBadge;
+	BOOL unviewedState;
+	BOOL animateDockIcon;
 }
 
 @end
