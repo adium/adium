@@ -3,31 +3,41 @@
 Version 1.5 (X/X/20X)
  Major changes
   * Added 64bit support.
-  * Updated to libpurple 2.7.4mtn.
+  * Updated to libpurple x.x.x.
 
  Contact List
-  * The contact list search now treats whitespace-separated words as keywords. (#14354)
-  * Improved the logic for the display of tooltips. (#12774)
+  * The contact list search now treats whitespace-separated words as keywords. (Paul Vet) (#14354)
+  * Improved the logic for the display of tooltips. (Matthew Plough) (#12774)
+
+ Encryption
+  * Made it easier to delete a fingerprint. (Aleksei Gorny) (#1654)
+  * The "Generate" button is now labelled "Regenerate" when a fingerprint already exists. (Tyler Funnell) (#1128)
 
  Events and Notifications
   * Added a "Do Nothing" event. (#3590).
+  * Added a "Message sent (Group chat)" event. (Will Bowling) (#12316)
   * Added Regex support for mentions. (#12832)
+
+ Get Info window
+  * Various visual refinements. (Paul Wilde) (#14441)
 
  Messaging
   * Added a "Reopen Closed Tab" menu item to the File menu that will restore the most recently closed tab. (#12537)
-  * Clicking on a link whilst holding the Cmd key opens the link in the background. (#12129)
+  * Clicking on a link whilst holding the Cmd key opens the link in the background. (Aarond Dodson) (#12129)
+  * Added Imgur as a supported image uploading service. (Shayne Sweeney) (#13186)
+  * Removed kl.am as a supported url shortener service. (Shawn Khan) (#14412)
   * Fixed link insertion for NetNewsWire. (#11389)
   * Added Google Chrome support for link insertion.
 
  AIM
-  * Added a preference for AIM: allow multiple sign in locations defaulting to true. (#5790)
+  * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
 
  IRC
   * Fixed a crash related to Cyrillic nicknames in IRC. (#13351)
-  * Added a preference to stay in group chats with window closed. (#12068)
+  * Added a preference to stay in group chats with window closed. (Albert Zeyer) (#12068)
 
  Xtras
-  * Added version numbers for Xtras to Xtras Manager. (#11285)
+  * Added version numbers for Xtras to Xtras Manager. (Ariel Chinn) (#11285)
 
  * Added the "On Accounts" table to the nextKeyView in the 'Add Contact' window. (#14269)
 
@@ -50,7 +60,7 @@ Version 1.4.2 (X/X/201X)
   * Mockie: new mention and focus indicators. (#14420)
   * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
   * Fix Stockholm's breaking with RTL text. (#10403)
-  * Fix iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936)
+  * Fix iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936) 
 
  ICQ
   * Fix ICQ disconnections going unnoticed. (#14229)
@@ -60,6 +70,7 @@ Version 1.4.2 (X/X/201X)
   * Fix crash caused by wrongly-encoded characters in IRC. (#13351)
 
  XMPP
+  * Double confirmation is now required to delete and unregister an XMPP account. (#14357)
   * Fix xmpp:-urls without a user part opening chats with (null)@... (#14908).
 
  Miscellaneous
@@ -67,13 +78,13 @@ Version 1.4.2 (X/X/201X)
   * Fixed a bug causing a switching of user profiles following Adium updates. (#14432)
   * Fixed 1.4.1 regression of arrows not showing up in the Events tables of the Preference pane and the Get Info pane for active events. (#14629)
   * Fix a hang that occurred when required parts of loaded message styles were missing. (#7438)
-  * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (#14454)
+  * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (Shawn Khan) (#14454)
   * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
 
  Localisation
   * Updated the Localizable.strings files, adding missing translatable strings/nibs. (#14588)
   * Updated Swedish localisation. (#14993)
- 
+
 
 Version 1.4.1 (11/15/2010)
  * Updated to libpurple 2.7.5. Highlights of applicable changes:
@@ -100,10 +111,10 @@ Version 1.4.1 (11/15/2010)
   * Added support for /say command. (#13649)
 
  Twitter
-  * Added the "@" sign for Twitter's tabcomplete. (#13987) (Moses Lei)
+  * Added the "@" sign for Twitter's tabcomplete. (Moses Lei) (#13987)
   * Deleting a Twitter group will now hide the contacts within Adium rather than unfollowing them (#12148)
   * Fixed overlapping buttons in "Reply to a Tweet" dialogue. (#14017)
-  * Distinguish StatusNet accounts with same username on different servers. (#13604) (Brion Vibber)
+  * Distinguish StatusNet accounts with same username on different servers. (Brion Vibber) (#13604)
   
  Message Styles
   * Fixed message style "Mockie" being broken on some systems. (#14480)
@@ -111,7 +122,7 @@ Version 1.4.1 (11/15/2010)
  Miscellaneous
   * Fixed a hang caused by large contact lists. (#14463)
   * Fixed contact status background colors updating in the contact list, including both static and flashing statuses. (#14534, #14493)
-  * Fixed a long-standing bug preventing a minimum text size preferences smaller than 9pt to take effect. (#49) (Tim Horton)
+  * Fixed a long-standing bug preventing a minimum text size preferences smaller than 9pt to take effect. (Tim Horton) (#49)
   * PSD files and PDFs are now sent as files, not as 'images', where appliable.
   * Fixed alignment and clipping issues in the "About" box. (#13541)
   * Fixed minor issues in Adium Help documentation.
@@ -240,8 +251,8 @@ Version 1.4 (10/31/2010)
   * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
   * Fixed a bug where emoticons would be displayed improperly. (#6440)
   * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
-  * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
-  * Added an image uploader.  Select the image, then either choose “Replace with Uploaded Image” from the Edit menu, right-click the image and choose it from that menu, right-click a link and choose it from that menu, or press ⌥⌘K.
+  * Added a URL shortener.  Select the URL, then either choose "Replace with Shortened URL" from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
+  * Added an image uploader.  Select the image, then either choose "Replace with Uploaded Image" from the Edit menu, right-click the image and choose it from that menu, right-click a link and choose it from that menu, or press ⌥⌘K.
   * Added an option to only count mentions for group chats when badging the dock or status menu item. (#11850)
   * Fixed clicking service links with message text when the link appears in the window it would open.
   * When a new file transfer arrives which requires confirmation, the chat's unviewed content count is increased.
@@ -317,7 +328,7 @@ Version 1.4 (10/31/2010)
   * Error and information display windows no longer exceed their maximum height, and take focus when opening. (#11793).
   * Fixed support for a proxy auto-config (PAC) file. (#224, #11364)
   * Disabled the "Show # recent messages in new chats" option when "Log messages" is off. (#11359)
-  * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
+  * Menu items such as "Show Offline Contacts" now always use the "Show" verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to "Hide". #4740.
   * Added "Contact went mobile" and "Contact returns from mobile" events. (#3248)
   * Fixed AppleScript erroring when creating a new status object. (#8863)
   * Greatly reduced memory usage when receiving lots of messages while Adium is inactive
@@ -466,7 +477,7 @@ Version 1.3.1 (9/7/2008)
  * Fixed show offline contacts not working when groups are disabled (#10420)
  * Fixed messages for multiple MSN group chats showing up in the same chat (#1583)
  * Fixed syslogd consuming resources due to invalid requests via Facebook (#10588)
- * Fixed German Localization of „Eingabetaste“ in General Preferences (#10801)
+ * Fixed German Localization of „Eingabetaste" in General Preferences (#10801)
  * Fixed display issues Appearance Preferences (#10803)
  * Fixed a security vulnerability discovered by the Zero Day Initiative
  * Fixed a crash during DNS resolution when trying to connect to MSN (#10808)
@@ -508,20 +519,20 @@ Version 1.3 (8/25/2008)
 
 == General Changes ==
  * Improved management of contact and account icons:
-   * Fixed setting “Use no icon” in personal preferences not updating with no icon (#7778)
+   * Fixed setting "Use no icon" in personal preferences not updating with no icon (#7778)
    * Fixed images in Image Picker showing up too large (#8911)
    * Fixed Address Book icons not overriding user's icon when set to do so (#8260)
    * Fixed Address Book image being copied/overwriten every time (which caused troubles with Sync Services) (#9122)
    * Significant memory usage and performance improvements related to icons
  * Fixed behavior which determines which contact in a combined contact to message (#9619)
- * Added “Save opened chats when quitting” option to the General preferences (#8360)
- * Added menu item for “Add Group Chat Bookmark” to the Contact menu (#8772)
+ * Added "Save opened chats when quitting" option to the General preferences (#8360)
+ * Added menu item for "Add Group Chat Bookmark" to the Contact menu (#8772)
  * Improved the dialog when sending a message to a contact who appears offline (#9568)
  * Choosing a status from a status menu which is already globally set will now present the state editor window
- * Added option in the Advanced Status Prefs to change “Number of unread messages” to “Number of unread conversations” (for the Dock icon and Status Menu Item) (#8599)
+ * Added option in the Advanced Status Prefs to change "Number of unread messages" to "Number of unread conversations" (for the Dock icon and Status Menu Item) (#8599)
  * Fixed reconnect behavior in certain situations (#9355) (#9309)
  * Fixed combined contacts with Bonjour accounts staying online (#9862)
- * View menu now changes “Show” menu items to “Hide” and back again, instead of using check-marks (#4740)
+ * View menu now changes "Show" menu items to "Hide" and back again, instead of using check-marks (#4740)
  * Fixed checking of account in the Add Contact window with only one account (#9871)
  * Fixed empty space in the Window menu's list of open chats when using tabs (#9621)
  * Fixed issue that could cause sounds to stop working when Adium was upgraded if a default sound set was in use
@@ -560,19 +571,19 @@ Version 1.3 (8/25/2008)
    * Dragging a contact to another group will remove it from the combined contact
    * Dragging a contact into an existing combined contact will add it to that combined contact
  * Removed ability to drag groups to detach them, as many of you did that by accident
-   * You must now right-click on them and choose “Detach from Window”
+   * You must now right-click on them and choose "Detach from Window"
    * You can still drag and drop between detached groups
  * Idle time display improvements
-   * Added an “idle right, status below” option for idle and status message display in list layouts
-   * “Size to Fit Horizontally” no longer ignores idle time when set to display beside the name (#1631)
+   * Added an "idle right, status below" option for idle and status message display in list layouts
+   * "Size to Fit Horizontally" no longer ignores idle time when set to display beside the name (#1631)
  * Group display improvements:
    * Changed Contact List to expand or collapse groups on the first mouse click  
    * Changed group headers to show the number of contacts in the group on the right side when left-aligned, or the left side otherwise
-   * Group bubbles now display at maximum width when using “Contact Bubbles (To Fit)” (#3366)
+   * Group bubbles now display at maximum width when using "Contact Bubbles (To Fit)" (#3366)
    * Groups now break up the alternation of contact row colors in the Contact List (#1127)
  * Changed minimum opacity for the Contact List to 0% from 5% (#5104)
- * Adium is now Psychic: Contacts which are typing a message to you without a chat open are displayed as “typing”
- * Added “Blocked Contacts” to the set of contact list filters (“Hide Certain Contacts”) (#8045)
+ * Adium is now Psychic: Contacts which are typing a message to you without a chat open are displayed as "typing"
+ * Added "Blocked Contacts" to the set of contact list filters ("Hide Certain Contacts") (#8045)
  * Removed the empty white contact list when using the standard contact list window (#9445)
  * Added ability to drag-and-drop URLs onto the Contact List (#8901)
  * Added ability to drag-and-drop songs from iTunes onto the Contact List to send them as file transfers (#5114)
@@ -602,8 +613,8 @@ Version 1.3 (8/25/2008)
  * Multiple consecutive status messages in the message view will now only display the latest update for your account or your contact (#8904) (#8957)
  * Added ⌘⌥⇠/⌘⌥⇢ (Firefox-style) tab switching shortcuts. (#9611)
  * Clearing the message view
-   * Added a “Clear Display” contextual menu item to the message view
-   * Added a “/clear” command (like IRC clients have)
+   * Added a "Clear Display" contextual menu item to the message view
+   * Added a "/clear" command (like IRC clients have)
  * Group chats
    * Added ability for message styles to look different for group chats (#8435) (#87)
    * Fixed group chat userlists not updating after waking from sleep (#9858)
@@ -613,7 +624,7 @@ Version 1.3 (8/25/2008)
  * Fixed message windows losing saved position on Tiger (#9745)
  * The contact information tooltip now hides when you begin typing into a message window (#9803)
  * Added option to scale the message window background image (#7399)
- * Made the “Send File” dialog a sheet, rather than a separate window (#5159)
+ * Made the "Send File" dialog a sheet, rather than a separate window (#5159)
  * Added left/right swipe gestures to change tabs on multi-touch Macs (e.g., MacBook Air) (#9432)
  * Adium now automatically aligns text in inputline based on writing direction (#9079)
  * /me
@@ -622,21 +633,21 @@ Version 1.3 (8/25/2008)
  * Prevent closing tabs that are inactive (#7603)
  * Fixed printing from the message view
  * Fixed incorrect display of status messages (#7401)
- * Fixed Font Panel for “Text Display” in Messages pane of Preferences not allowing changes (#7797)
- * When switching message styles, the “Text display” field is now updated to the default font of the new style (#7766)
+ * Fixed Font Panel for "Text Display" in Messages pane of Preferences not allowing changes (#7797)
+ * When switching message styles, the "Text display" field is now updated to the default font of the new style (#7766)
  * Fixed consecutive message divider lines in Mockie message style (#8966)
  * Fixed repetition of user icons in the Mockie message style (#662)
  
  == Status menu item ==
  * Added controls for the status menu item to the Status section of the Advanced pane in Preferences
- * Added “Options” submenu with some menu items that we removed in 1.2 (#9169)
+ * Added "Options" submenu with some menu items that we removed in 1.2 (#9169)
  * Moved Contacts submenu above Accounts submenu
  * Made right-clicking the status menu item show the Contact List menu, for starting new chats (#8436)
  * Fixed status menu item repositioning improperly when unread count was zero (#9502)
 
 == Events and Notifications ==
- * Added new event type: “Name Mentioned” for when your name is said in a group chat (#1606)
- * Added “Silence Growl” option for custom statuses (#7481)
+ * Added new event type: "Name Mentioned" for when your name is said in a group chat (#1606)
+ * Added "Silence Growl" option for custom statuses (#7481)
  * Fixed Growl notifications to use icons from the Address Book when you've set Adium that way in the Preferences (#9892)
  * Fixed awkward nudge/buzz event text when sending (#9559)
  * Updated Growl to 1.1.4. Adium will prompt you to automatically upgrade as appropriate.
@@ -653,7 +664,7 @@ Version 1.3 (8/25/2008)
 
 == AIM / ICQ ==
  * Fixed redisplay of the away message when an away contact goes idle on AIM (#10056) 
- * AIM DirectConnect now respects the “automatically accept…” option in the File Transfer preferences
+ * AIM DirectConnect now respects the "automatically accept…" option in the File Transfer preferences
  * Fixed an intermittent crash after sending an image via AIM Direct IM
  * Fixed lengthy delay before sending messages after connecting an AIM or ICQ account with a large number of ICQ contacts on its contact list (#10350)
 
@@ -693,7 +704,7 @@ Version 1.3 (8/25/2008)
  * Fixed `%_adiumbuild` in certain situations (#9472)
  
 == URL detection ==
- * “B.Sc.” (Bachelor of Science) is no longer detected as a link (#7910) (#9955)
+ * "B.Sc." (Bachelor of Science) is no longer detected as a link (#7910) (#9955)
  * Fixed actions (/me) that ended with URLs rendering the asterisk (*) as part of the link (#8459)
  * Fixed linkification of enclosed URIs with trailing punctuation (#1031) (#9795)
  * Fixed linkification of URIs with user/password information (#9796)
@@ -702,11 +713,11 @@ Version 1.3 (8/25/2008)
  * [http://spotify.com/ Spotify] URI hyperlink detection (#9200)
 
 == Address Book ==
- * Fixed setting your Bonjour display name to the name on your Address Book “Me” card (#2855)
- * Fixed “Overwrite Address Book images with contacts' icons” feature working sporadically (#4935)
- * Fixed “Search in Address Book” not adding the contact on the correct service (#8256)
+ * Fixed setting your Bonjour display name to the name on your Address Book "Me" card (#2855)
+ * Fixed "Overwrite Address Book images with contacts' icons" feature working sporadically (#4935)
+ * Fixed "Search in Address Book" not adding the contact on the correct service (#8256)
  * Fixed ignorance of email address field when looking up names in Address Book for GTalk and MSN contacts (#9018)
- * Fixed “Add to Address Book” causing Adium to lose the Address Book name information for ''all'' your contacts (#9303)
+ * Fixed "Add to Address Book" causing Adium to lose the Address Book name information for ''all'' your contacts (#9303)
  * We now respect the 'last name first' per-contact setting from the Address Book (#10327)
 
 == Crash fixes ==
@@ -715,8 +726,8 @@ Version 1.3 (8/25/2008)
 
 == Localization ==
  * Added a Commonwealth English localization
- * “Show x recent messages” (in the General pane of the Preferences) was translated as number of ''days'', not number of messages, in Chinese (#9792)
- * Provide separate strings for “Get Info” menu item and “Get Info” button (#8570)
+ * "Show x recent messages" (in the General pane of the Preferences) was translated as number of ''days'', not number of messages, in Chinese (#9792)
+ * Provide separate strings for "Get Info" menu item and "Get Info" button (#8570)
  * Added Italian-localized Dock-icon overlays for Away and Idle (#9975)
  * Updated all localizations
 
@@ -1067,7 +1078,7 @@ Note: Adium now requires Mac OS X 10.4.0 or later.
 == Summer of Code 2006 Changes ==
  * Rewritten tabs using PSMTabBarControl (Kent Sutherland, mentored by David Smith)
    * Tabs can now be oriented vertically or horizontally (#3372)
-   * Tabs handle overflow better, by showing a “chevron” (») pop-up menu (#12)
+   * Tabs handle overflow better, by showing a "chevron" (») pop-up menu (#12)
    * Improved drag & drop behavior with tabs (#2555)
    * Improved tab length calculation (#6775)
    * Tabs can display the number of unread messages
@@ -1415,7 +1426,7 @@ Version 1.0 (2/2/2007)
 
 == Contact List ==
  * Fixed an issue that would cause the contact list to shrink (#296)
- * Group names are now truncated in the middle (e.g. “Adium users”→“Adiu…sers”) rather than the end (e.g. “Adium …”) (#2589)
+ * Group names are now truncated in the middle (e.g. "Adium users"→"Adiu…sers") rather than the end (e.g. "Adium …") (#2589)
  * Add Buddy button in authorization dialog (#2)
  * Added a dock-like autohiding ability for the contact list (many tickets)
  * The highlight color of the contact list is now customizable (#102)
@@ -1458,7 +1469,7 @@ Version 1.0 (2/2/2007)
  * The menu duck now indicates current status with a badge (#1445, #2015)
  * Restored ability to keep the Away Status Window visible when Adium is in background; added other options (#615, #708, #2118)
  * Added ability to enable and disable accounts; disabled accounts won't automatically connect (#1415, #1641)
- * Sound for “You connect” now won't play again after < 5 seconds since the previous time (#2915)
+ * Sound for "You connect" now won't play again after < 5 seconds since the previous time (#2915)
  * Fixed overlapping problem due to Apple Graphics update (#1522)
  * Added the ability to pick a random status (#3336)
  * Automatically set Idle status once the screensaver becomes active (#577)
@@ -1517,7 +1528,7 @@ Version 1.0 (2/2/2007)
  * Similarly named AIM and .Mac accounts now no longer confuse accounts when adding contacts (#3157)
 
 === .Mac ===
- * “@mac.com” suffix is no longer required when creating accounts (#2132, others)
+ * "@mac.com" suffix is no longer required when creating accounts (#2132, others)
  * name@mac.com is no longer displayed as a link in tooltips (#869)
  * Fixed a bug where Adium asked for a password even when it had the correct one (#2319)
 
@@ -1590,7 +1601,7 @@ Version 1.0 (2/2/2007)
  * Don't clobber picture in My Card with some account's buddy icon (#1683)
  * Improved performance of Address Book updating (#1751)
  * Middle names are now imported (#1118)
- * We now set contacts' icons back to their real icons (from AB images) when “Use Address book images as contacts' icons” is unchecked (#91)
+ * We now set contacts' icons back to their real icons (from AB images) when "Use Address book images as contacts' icons" is unchecked (#91)
 
 == AppleScript ==
  * Improved AppleScript support (#574)
@@ -2525,7 +2536,7 @@ Version 0.53 (30 April 2004)
 Version 0.52 (16 April 2004)
  * Message windows now display a customizable number of lines from the previous conversation when opened
  * Added proxy connect options to Yahoo! accounts
- * Added proxy connect, host, port, connect via, resource, and encryption options to Jabber accounts
+ * Added proxy connect, host, port, connect via, resource, and 0ption options to Jabber accounts
  * Added the option to play sounds using the system specified Output Device for System Alerts
  * Fixed Jabber message sending and receiving (formatting is not yet supported)
  * Fixed MSN and Yahoo reconnect behavior to not attempt a reconnect if you sign on from another location
