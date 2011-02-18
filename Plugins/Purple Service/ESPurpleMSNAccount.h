@@ -17,8 +17,9 @@
 #import "CBPurpleAccount.h"
 #import "ESMSNService.h"
 
-#define KEY_MSN_HTTP_CONNECT_METHOD		@"MSN:HTTP Connect Method"
-#define KEY_MSN_DISPLAY_NAMED_CHANGED	@"MSN:Display Name Changed"
+#define KEY_MSN_HTTP_CONNECT_METHOD			@"MSN:HTTP Connect Method"
+#define KEY_MSN_DISPLAY_NAMED_CHANGED		@"MSN:Display Name Changed"
+#define KEY_MSN_BLOCK_DIRECT_CONNECTIONS	@"MSN:Block Direct Connections"
 
 @interface ESPurpleMSNAccount : CBPurpleAccount <AIAccount_Files>{
 	NSDate		*lastFriendlyNameChange;

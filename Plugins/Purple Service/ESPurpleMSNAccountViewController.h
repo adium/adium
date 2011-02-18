@@ -20,6 +20,7 @@
     IBOutlet		NSTextField		*textField_friendlyName;
 	
 	IBOutlet		NSButton		*checkBox_HTTPConnectMethod;
+	IBOutlet		NSButton		*checkbox_allowDirectConnections;
 }
 
 @end

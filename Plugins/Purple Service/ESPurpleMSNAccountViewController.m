@@ -32,6 +32,10 @@
 	
 	[checkBox_HTTPConnectMethod setState:[[account preferenceForKey:KEY_MSN_HTTP_CONNECT_METHOD 
 															  group:GROUP_ACCOUNT_STATUS] boolValue]];
+	
+	// negated preference, default => allowed
+	[checkbox_allowDirectConnections setState:![[account preferenceForKey:KEY_MSN_BLOCK_DIRECT_CONNECTIONS
+																   group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 //Save controls
@@ -40,6 +44,9 @@
 	[account setPreference:[NSNumber numberWithBool:[checkBox_HTTPConnectMethod state]] 
 					forKey:KEY_MSN_HTTP_CONNECT_METHOD group:GROUP_ACCOUNT_STATUS];
 	
+	[account setPreference:[NSNumber numberWithBool:![checkbox_allowDirectConnections state]]
+					forKey:KEY_MSN_BLOCK_DIRECT_CONNECTIONS group:GROUP_ACCOUNT_STATUS];
+	
 	//Alias
 	if (!account.online &&
 		![[textField_alias stringValue] isEqualToString:[[NSAttributedString stringWithData:[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
@@ -47,6 +54,7 @@
 		[account setPreference:[NSNumber numberWithBool:YES]
 						forKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 						 group:GROUP_ACCOUNT_STATUS];
+		
 	}
 
 	[super saveConfiguration];
