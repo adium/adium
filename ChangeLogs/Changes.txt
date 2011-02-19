@@ -9,6 +9,11 @@ Version 1.5 (X/X/20X)
   * The contact list search now treats whitespace-separated words as keywords. (Paul Vet) (#14354)
   * Improved the logic for the display of tooltips. (Matthew Plough) (#12774)
 
+ Dock icon
+  * Moved the dock badge to the top right to be consistent with other Mac OS X applications such as Mail. (#13439)
+  * Fixed dock badge text becoming too large. (#13088)
+  * Removed flashing of the contact name. (#14452)
+
  Encryption
   * Made it easier to delete a fingerprint. (Aleksei Gorny) (#1654)
   * The "Generate" button is now labelled "Regenerate" when a fingerprint already exists. (Tyler Funnell) (#1128)
@@ -23,11 +28,14 @@ Version 1.5 (X/X/20X)
 
  Messaging
   * Added a "Reopen Closed Tab" menu item to the File menu that will restore the most recently closed tab. (#12537)
-  * Clicking on a link whilst holding the Cmd key opens the link in the background. (Aarond Dodson) (#12129)
+  * Clicking on a link whilst holding the Cmd key opens the link in the background. (Aaron Dodson) (#12129)
   * Added Imgur as a supported image uploading service. (Shayne Sweeney) (#13186)
   * Removed kl.am as a supported url shortener service. (Shawn Khan) (#14412)
   * Fixed link insertion for NetNewsWire. (#11389)
   * Added Google Chrome support for link insertion.
+
+ Transcript Viewer
+ * Added next/previous buttons for highlighted search terms within a transcript (similar to Safari).
 
  AIM
   * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
