@@ -348,7 +348,7 @@
 			//Recomposite the icon
 			[self _setNeedsDisplay];
 		}
-		else if (!key || [key isEqualToString:KEY_BADGE_DOCK_ICON]) {
+		if (firstTime || [key isEqualToString:KEY_BADGE_DOCK_ICON]) {
 			BOOL newShouldBadge = [[prefDict objectForKey:KEY_BADGE_DOCK_ICON] boolValue];
 			if (newShouldBadge != shouldBadge) {
 				shouldBadge = newShouldBadge;
@@ -356,7 +356,7 @@
 				[self updateDockBadge];
 			}
 		}
-		else if (!key || [key isEqualToString:KEY_ANIMATE_DOCK_ICON]) {
+		if (firstTime || [key isEqualToString:KEY_ANIMATE_DOCK_ICON]) {
 			BOOL newAnimateDockIcon = [[prefDict objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue];
 			if (newAnimateDockIcon != animateDockIcon) {
 				animateDockIcon = newAnimateDockIcon;
@@ -367,7 +367,7 @@
 	}
 	
 	if ([group isEqualToString:PREF_GROUP_STATUS_PREFERENCES]) {
-		if (!key || [key isEqualToString:KEY_STATUS_CONVERSATION_COUNT]) {
+		if (firstTime || [key isEqualToString:KEY_STATUS_CONVERSATION_COUNT]) {
 			BOOL newShowConversationCount = [[prefDict objectForKey:KEY_STATUS_CONVERSATION_COUNT] boolValue];
 			if (newShowConversationCount != showConversationCount) {
 				showConversationCount = newShowConversationCount;
@@ -375,7 +375,7 @@
 				[self updateDockBadge];
 			}
 		}
-		else if ([key isEqualToString:KEY_STATUS_MENTION_COUNT]) {
+		if ([key isEqualToString:KEY_STATUS_MENTION_COUNT]) {
 			//Just update as the counting is handled elsewhere
 			[self updateDockBadge];
 		}
