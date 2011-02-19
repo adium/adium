@@ -289,16 +289,6 @@
 	if (updateShadowsWhileDrawing) [[self window] invalidateShadow];
 }
 
-- (NSGradient *)selectedControlGradient
-{
-	NSColor		*myHighlightColor = [self highlightColor];
-	NSGradient 	*gradient = (myHighlightColor ?
-							 [[[NSGradient alloc] initWithStartingColor:myHighlightColor endingColor:[myHighlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
-							 [NSGradient selectedControlGradient]);
-	
-	return gradient;
-}
-
 - (void)setUpdateShadowsWhileDrawing:(BOOL)update{
 	updateShadowsWhileDrawing = update;
 }

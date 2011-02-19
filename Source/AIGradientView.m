@@ -14,9 +14,41 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import "AIGradientView.h"
 
-@interface AIFilterBarBackgroundBox : NSBox {
 
+/*!
+ * @class AIGradientView
+ * @brief A view which draws an NSGradient on itself
+ *
+ */
+@implementation AIGradientView
+
+@synthesize startingColor, endingColor, angle;
+
+- (id)initWithFrame:(NSRect)frame
+{
+	if ((self = [super initWithFrame:frame])) {
+		startingColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+		endingColor = nil;
+		angle = 270;
+	}
+	return self;
+}
+
+- (void)drawRect:(NSRect)rect
+{
+	if (endingColor == nil || [startingColor isEqual:endingColor]) {
+		[startingColor set];
+		NSRectFill(rect);
+	} else {
+		NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:startingColor
+															  endingColor:endingColor];
+		[gradient drawInRect:[self bounds] angle:angle];
+		[gradient release];
+	}
+	
+	[super drawRect:rect];
 }
 
 @end

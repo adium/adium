@@ -1143,6 +1143,7 @@
 		4F1CB6410D640DA40073A1E6 /* events_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63D0D640DA40073A1E6 /* events_segment.png */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
+		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
 		5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F601A12962D06007A2232 /* AISegmentedControl.m */; };
 		5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A5F601912962D06007A2232 /* AISegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8BBC12D560E400019727 /* AIDockNameOverlay.m */; };
@@ -1427,7 +1428,6 @@
 		63EA62F0094B8705009C8453 /* AIXtraInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EA62EE094B8705009C8453 /* AIXtraInfoController.m */; };
 		63EA63DD094BB79A009C8453 /* StatusIconPreviewView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 63336B3F094994A800970871 /* StatusIconPreviewView.nib */; };
 		63EA6409094BB9A9009C8453 /* AIStatusIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EA6407094BB9A9009C8453 /* AIStatusIconPreviewController.m */; };
-		6615618B0D84B875004B7946 /* AIFilterBarBackgroundBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 6615618A0D84B874004B7946 /* AIFilterBarBackgroundBox.m */; };
 		6E4D961406B739AC005235E9 /* DCJoinChatPanelPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4D961206B739AC005235E9 /* DCJoinChatPanelPlugin.m */; };
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
@@ -4203,6 +4203,8 @@
 		4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactInfoInspector.nib; path = Resources/ContactInfoInspector.nib; sourceTree = "<group>"; };
 		5A1781840EC1215D00BA1E04 /* AIAutoScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutoScrollTextView.h; path = Source/AIAutoScrollTextView.h; sourceTree = "<group>"; };
 		5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutoScrollTextView.m; path = Source/AIAutoScrollTextView.m; sourceTree = "<group>"; };
+		5A17D65B130F76B4002C852F /* AIGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGradientView.h; path = Source/AIGradientView.h; sourceTree = "<group>"; };
+		5A17D65C130F76B4002C852F /* AIGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGradientView.m; path = Source/AIGradientView.m; sourceTree = "<group>"; };
 		5A5F601912962D06007A2232 /* AISegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISegmentedControl.h; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.h"; sourceTree = "<group>"; };
 		5A5F601A12962D06007A2232 /* AISegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISegmentedControl.m; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.m"; sourceTree = "<group>"; };
 		5A5F8BBB12D560E400019727 /* AIDockNameOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockNameOverlay.h; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.h"; sourceTree = "<group>"; };
@@ -4639,8 +4641,6 @@
 		63EA6407094BB9A9009C8453 /* AIStatusIconPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIStatusIconPreviewController.m; path = Source/AIStatusIconPreviewController.m; sourceTree = "<group>"; };
 		661561630D84AEEC004B7946 /* AIContactHidingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactHidingController.h; path = "Frameworks/Adium Framework/Source/AIContactHidingController.h"; sourceTree = "<group>"; };
 		661561640D84AEEC004B7946 /* AIContactHidingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactHidingController.m; path = "Frameworks/Adium Framework/Source/AIContactHidingController.m"; sourceTree = "<group>"; };
-		661561890D84B874004B7946 /* AIFilterBarBackgroundBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFilterBarBackgroundBox.h; path = Source/AIFilterBarBackgroundBox.h; sourceTree = "<group>"; };
-		6615618A0D84B874004B7946 /* AIFilterBarBackgroundBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFilterBarBackgroundBox.m; path = Source/AIFilterBarBackgroundBox.m; sourceTree = "<group>"; };
 		6CE795BD0A6F9CEE00FF3217 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = Resources/es.lproj/PersonalPreferences.nib; sourceTree = "<group>"; };
 		6CF42677057763E100F27FAA /* ESContactAlertsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESContactAlertsController.h; path = Source/ESContactAlertsController.h; sourceTree = "<group>"; };
 		6CF42678057763E200F27FAA /* ESContactAlertsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESContactAlertsController.m; path = Source/ESContactAlertsController.m; sourceTree = "<group>"; };
@@ -6165,6 +6165,8 @@
 				348B250B0A50A1C900B2B972 /* ESSourceListBackgroundView.m */,
 				340670A60A55A4B4004E22AC /* ESGlassSplitView.h */,
 				340670A70A55A4B4004E22AC /* ESGlassSplitView.m */,
+				5A17D65B130F76B4002C852F /* AIGradientView.h */,
+				5A17D65C130F76B4002C852F /* AIGradientView.m */,
 			);
 			name = "Views and Cells";
 			sourceTree = "<group>";
@@ -7477,8 +7479,6 @@
 				34EBB2C20DCA8DE500B4CB6E /* AISearchFieldCell.m */,
 				34D001E50958868000DCB678 /* AIMenuItemView.h */,
 				34D001E60958868000DCB678 /* AIMenuItemView.m */,
-				661561890D84B874004B7946 /* AIFilterBarBackgroundBox.h */,
-				6615618A0D84B874004B7946 /* AIFilterBarBackgroundBox.m */,
 				34607F0C09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.m */,
 				34607F0D09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.h */,
 				34607F0E09B2296A000DB3D2 /* AIHoveringPopUpButton.m */,
@@ -10651,7 +10651,6 @@
 				4F1CB62E0D640D770073A1E6 /* AIAdvancedInspectorPane.m in Sources */,
 				4F1CB62F0D640D770073A1E6 /* AIAddressBookInspectorPane.m in Sources */,
 				4F1CB6320D640D7F0073A1E6 /* AIEventsInspectorPane.m in Sources */,
-				6615618B0D84B875004B7946 /* AIFilterBarBackgroundBox.m in Sources */,
 				632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */,
 				34EBB2C30DCA8DE500B4CB6E /* AISearchFieldCell.m in Sources */,
 				EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */,
@@ -10711,6 +10710,7 @@
 				1154F50B12E1476900B8CA27 /* AILogByAccountWindowController.m in Sources */,
 				766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */,
 				5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */,
+				5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
