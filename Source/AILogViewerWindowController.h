@@ -57,7 +57,7 @@ typedef enum {
 	AIDateTypeAfter
 } AIDateType;
 
-@class AIListContact, AISplitView, KNShelfSplitView, AIChat, AIAccount;
+@class AIListContact, AIChat, AIAccount, AIGradientView;
 
 @interface AILogViewerWindowController : AIWindowController <NSToolbarDelegate> {
 	AILoggerPlugin				*plugin;
@@ -83,7 +83,7 @@ typedef enum {
 
 	IBOutlet	NSDatePicker	*datePicker;
 
-	IBOutlet	NSView			*view_FindNavigator;
+	IBOutlet	AIGradientView	*view_FindNavigator;
 	IBOutlet	NSTextField		*textField_findCount;
 	IBOutlet	NSSegmentedControl	*segment_previousNext;
 

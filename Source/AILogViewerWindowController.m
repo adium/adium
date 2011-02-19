@@ -13,6 +13,7 @@
 #import "ESRankingCell.h" 
 #import "AIXMLChatlogConverter.h"
 #import "AILogDateFormatter.h"
+#import "AIGradientView.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -448,6 +449,11 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	NSSize contentSize = [textView_content enclosingScrollView].frame.size;
 	contentSize.height += view_FindNavigator.frame.size.height;
 	[[textView_content enclosingScrollView] setFrameSize:contentSize];
+
+	//Set a gradient for the background
+	[view_FindNavigator setStartingColor:[NSColor colorWithCalibratedWhite:0.92 alpha:1.0]];
+	[view_FindNavigator setEndingColor:[NSColor colorWithCalibratedWhite:0.79 alpha:1.0]];
+	[view_FindNavigator setAngle:270];
 
     //Sort by preference, defaulting to sorting by date
 	NSString	*selectedTableColumnPref;

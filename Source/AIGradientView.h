@@ -14,19 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIFilterBarBackgroundBox.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation AIFilterBarBackgroundBox
-- (void)drawRect:(NSRect)rect
-{
-	static NSGradient *gradient;
-	if (!gradient) {
-		//Filter bar color's selflessly borrowed from Safari 3's inline search bar
-		NSColor *topColor = [NSColor colorWithCalibratedRed:0.914f green:0.914f blue:0.914f alpha:1.0f];
-		NSColor *bottomColor = [NSColor colorWithCalibratedRed:0.816f green:0.816f blue:0.816f alpha:1.0f];
-		gradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor]; //intentional one time leak
-	}
-	
-	[gradient drawInRect:[self bounds] angle:270.0f];
+
+@interface AIGradientView : NSView {
+	NSColor *startingColor;
+	NSColor *endingColor;
+	int angle;
 }
+
+@property(nonatomic, retain) NSColor *startingColor;
+@property(nonatomic, retain) NSColor *endingColor;
+@property(assign) int angle;
+
 @end
