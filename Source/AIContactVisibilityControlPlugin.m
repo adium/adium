@@ -37,8 +37,6 @@
 #define HIDE_AWAY_MENU_TITLE			AILocalizedString(@"Hide Away Contacts",nil)
 #define	USE_OFFLINE_GROUP_MENU_TITLE	AILocalizedString(@"Use Offline Group",nil)
 
-#define OFFLINE_CONTACTS_IDENTIFER		@"OfflineContacts"
-
 @interface AIContactVisibilityControlPlugin()
 - (void)updateAccountMenu;
 - (void)toggleHide:(id)sender;

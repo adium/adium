@@ -105,7 +105,6 @@
 - (void)_performChangeOfUseContactListGroups;
 - (void)didSendContent:(NSNotification *)notification;
 - (void)toggleShowGroups:(id)sender;
-- (void)toggleShowGroupsToolbar:(id)sender;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;
@@ -434,23 +433,6 @@
 	[menuItem_showGroups setState:useContactListGroups];
 	
 	[adium.menuController addMenuItem:menuItem_showGroups toLocation:LOC_View_Toggles];
-	
-	//Toolbar
-	NSToolbarItem	*toolbarItem;
-    toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:SHOW_GROUPS_IDENTIFER
-														  label:AILocalizedString(@"Show Groups",nil)
-												   paletteLabel:AILocalizedString(@"Toggle Groups Display",nil)
-														toolTip:AILocalizedString(@"Toggle display of groups",nil)
-														 target:self
-												settingSelector:@selector(setImage:)
-													itemContent:[NSImage imageNamed:(useContactListGroups ?
-																					 @"togglegroups_transparent" :
-																					 @"togglegroups")
-																		   forClass:[self class]
-																		 loadLazily:YES]
-														 action:@selector(toggleShowGroupsToolbar:)
-														   menu:nil];
-    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];
 }
 
 - (IBAction)toggleShowGroups:(id)sender
@@ -463,16 +445,6 @@
 	[self performSelector:@selector(_performChangeOfUseContactListGroups)
 			   withObject:nil
 			   afterDelay:0];
-}
-
-- (IBAction)toggleShowGroupsToolbar:(id)sender
-{
-	[self toggleShowGroups:sender];
-	
-	[sender setImage:[NSImage imageNamed:(useContactListGroups ?
-										  @"togglegroups_transparent" :
-										  @"togglegroups")
-								forClass:[self class]]];
 }
 
 @synthesize useOfflineGroup;

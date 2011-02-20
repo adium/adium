@@ -134,26 +134,7 @@
 													itemContent:[NSImage imageNamed:@"AddContact" forClass:[self class] loadLazily:YES]
 														 action:@selector(addContact:)
 														   menu:nil];
-    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];	
-	
-	//Add Group toolbar item
-    toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:ADD_GROUP_IDENTIFIER
-														  label:ADD_GROUP
-												   paletteLabel:ADD_GROUP
-														toolTip:AILocalizedString(@"Add a new group",nil)
-														 target:self
-												settingSelector:@selector(setImage:)
-													itemContent:[NSImage imageNamed:@"addGroup" forClass:[self class] loadLazily:YES]
-														 action:@selector(addGroup:)
-														   menu:nil];
-    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];	
-	
-	//Rename Group
-	//	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:RENAME_GROUP_ELLIPSIS
-	//																	 target:self
-	//																	 action:@selector(renameGroup:) 
-	//															  keyEquivalent:@""] autorelease];
-	//  [adium.menuController addContextualMenuItem:menuItem toLocation:Context_Group_Manage];	
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 }
 
 /*!
