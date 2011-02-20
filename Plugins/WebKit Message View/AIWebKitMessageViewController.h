@@ -1,4 +1,4 @@
- /* 
+/* 
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
  * 
