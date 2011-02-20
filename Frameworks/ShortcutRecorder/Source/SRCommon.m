@@ -144,7 +144,6 @@ NSUInteger SRCocoaToCarbonFlags( NSUInteger cocoaFlags )
 	if (cocoaFlags & NSControlKeyMask) carbonFlags |= controlKey;
 	if (cocoaFlags & NSShiftKeyMask) carbonFlags |= shiftKey;
 	if (cocoaFlags & NSFunctionKeyMask) carbonFlags |= NSFunctionKeyMask;
-	if (cocoaFlags & NSDeviceIndependentModifierFlagsMask) carbonFlags |= NSDeviceIndependentModifierFlagsMask;
 	
 	return carbonFlags;
 }
