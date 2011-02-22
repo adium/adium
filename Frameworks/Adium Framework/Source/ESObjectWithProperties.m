@@ -105,19 +105,6 @@
 			[oldValue release];
 			object_setIvar(self, ivar, [value retain]);
 			
-		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
-			
-			BOOL bValue;
-			
-			if (value) {
-				bValue = [value boolValue];
-			} else {
-				bValue = FALSE;
-			}
-			
-			// must cast twice to avoid gcc's warnings..
-			object_setIvar(self, ivar, (void *)(NSInteger)bValue);
-			
 		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			
 			NSInteger iValue;
@@ -130,17 +117,6 @@
 			
 			object_setIvar(self, ivar, (void *)iValue);
 			
-		} else if (strcmp(ivarType, @encode(int)) == 0) {
-			
-			int iValue;
-			
-			if (value) {
-				iValue = [(NSNumber *)value intValue];
-			} else {
-				iValue = 0;
-			}
-			
-			object_setIvar(self, ivar, (void *)(NSInteger)iValue);
 		}
 	}
     
@@ -240,18 +216,10 @@
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
 		// attempt to wrap it, if we know how
-		if (strcmp(ivarType, @encode(BOOL)) == 0) {
-			ret = [[[NSNumber alloc] initWithBool:(BOOL)(NSInteger)value] autorelease];
-			
-		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
+		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
-			
-		} else if (strcmp(ivarType, @encode(int)) == 0) {
-			ret = [[[NSNumber alloc] initWithInt:(int)(NSInteger)value] autorelease];
-			
 		} else if (ivarType[0] != _C_ID) {
-			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
-			
+			AILogWithBacktrace(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 		} else {
 			ret = [[value retain] autorelease];
 		}
@@ -292,21 +260,8 @@
 {
 	int ret = 0;
 	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
-	
-	if (ivar == NULL) {
-		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number intValue] : 0;
-	} else {
-		
-		const char *ivarType = ivar_getTypeEncoding(ivar);
-		
-		if (strcmp(ivarType, @encode(int)) != 0) {
-			AILogWithSignature(@"%@'s %@ ivar is not an int but an %s! Will attempt to cast, but should not use -intValueForProperty: @\"%@\"", self, key, ivarType, key);
-		}
-		
-		ret = (int)(NSInteger)object_getIvar(self, ivar);
-	}
+	NSNumber *number = [self numberValueForProperty:key];
+	ret = number ? [number intValue] : 0;
 	
     return ret;
 }
@@ -315,21 +270,8 @@
 {
 	BOOL ret = FALSE;
 	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
-	
-	if (ivar == NULL) {
-		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number boolValue] : NO;
-	} else {
-		
-		const char *ivarType = ivar_getTypeEncoding(ivar);
-		
-		if (strcmp(ivarType, @encode(BOOL)) != 0) {
-			AILogWithSignature(@"%@'s %@ ivar is not an BOOL but an %s! Will attempt to cast, but should not use -boolValueForProperty: @\"%@\"", self, key, ivarType, key);
-		}
-		
-		ret = (BOOL)(NSInteger)object_getIvar(self, ivar);
-	}
+	NSNumber *number = [self numberValueForProperty:key];
+	ret = number ? [number boolValue] : NO;
 	
     return ret;
 }
