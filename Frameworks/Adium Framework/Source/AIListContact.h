@@ -34,26 +34,17 @@
 	NSColor			*labelColor;
 	
 	NSNumber		*imageOpacity;
-	BOOL			isEvent;
 	
 	NSString		*ABUniqueID;
 	
 	NSAttributedString	*textProfile;
 	
-	BOOL			isBlocked;
-	BOOL			isIdle;
 	NSInteger		idle;
 	NSDate			*idleSince;
 	NSString		*idleReadable;
 	
-	BOOL			notAStranger;
-	BOOL			isMobile;
-	
 	NSString		*serverDisplayName;
 	NSString		*formattedUID;
-	
-	BOOL			signedOff;
-	BOOL			signedOn;
 }
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;

@@ -100,9 +100,6 @@ typedef enum {
 	NSImage				*listStateIcon;
 	NSImage				*listStatusIcon;
 	
-	BOOL				isOnline;
-	BOOL				alwaysVisible;
-	
 	NSInteger			unviewedContent;
 	NSInteger			unviewedMention;
 	

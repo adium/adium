@@ -1446,7 +1446,7 @@ static NSArray *draggedTypes = nil;
 		[self updateTopic];
 		
 		// Tell the chat to set the topic.
-		[chat setTopic:topicChange];
+		[chat setValue:topicChange forProperty:@"topic" notify:NotifyNow];
 	}
 }
 
