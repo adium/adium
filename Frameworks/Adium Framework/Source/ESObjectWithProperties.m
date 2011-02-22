@@ -219,7 +219,7 @@
 		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
 		} else if (ivarType[0] != _C_ID) {
-			AILogWithBacktrace(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
+			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 		} else {
 			ret = [[value retain] autorelease];
 		}
