@@ -25,9 +25,8 @@
 	BOOL									expanded;			//Exanded/Collapsed state of this object
 	BOOL									loadedExpanded;
 	
+	// Former properties
 	NSString			*countText;
-	
-	BOOL				showCount;
 }
 
 - (id)initWithUID:(NSString *)inUID;
