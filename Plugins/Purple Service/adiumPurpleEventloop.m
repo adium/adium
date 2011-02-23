@@ -53,7 +53,6 @@ gboolean adium_source_remove(guint tag) {
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
 gboolean adium_timeout_remove(guint tag) {
-	
     return adium_source_remove(tag);
 }
 
@@ -69,7 +68,8 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
     
     src = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, main_q);
 
-    dispatch_source_set_timer(src, 0, ((unsigned long long)interval) * 1000000ull, 100000ull);
+	uint64_t timeout = ((uint64_t)interval) * (NSEC_PER_SEC / 1000);
+    dispatch_source_set_timer(src, dispatch_time(DISPATCH_TIME_NOW, timeout), NSEC_PER_SEC, NSEC_PER_USEC);
 	
     dispatch_source_set_event_handler(src, ^{
         if (function) function(data);
