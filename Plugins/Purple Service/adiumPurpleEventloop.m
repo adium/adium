@@ -21,244 +21,67 @@
 #import <sys/socket.h>
 #import <sys/select.h>
 
+#include <dispatch/dispatch.h>
+
 //#define PURPLE_SOCKET_DEBUG
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing
-static CFRunLoopRef			purpleRunLoop = nil;
 
-static void socketCallback(CFSocketRef s,
-                           CFSocketCallBackType callbackType,
-                           CFDataRef address,
-                           const void *data,
-                           void *infoVoid);
 /*
  * The sources, keyed by integer key id (wrapped in an NSNumber), holding
- * SourceInfo * objects
+ * NSVaue*'s with pointers to dispatch_source_ts.
  */
 static NSMutableDictionary	*sourceInfoDict = nil;
 
-/*!
- * @class SourceInfo
- * @brief Holder for various source/timer information
- *
- * This serves as the context info for source and timer callbacks.  We use it just as a
- * struct (declaring all the class's ivars to be public) but make it an object so we can use
- * reference counting on it easily.
- */
-@interface SourceInfo : NSObject {
-
-@public	CFSocketRef socket;
-@public	gint fd;
-@public	CFRunLoopSourceRef run_loop_source;
-	
-@public	guint timer_tag;
-@public	GSourceFunc timer_function;
-@public	CFRunLoopTimerRef timer;
-@public	gpointer timer_user_data;
-	
-@public	guint read_tag;
-@public	PurpleInputFunction read_ioFunction;
-@public	gpointer read_user_data;
-	
-@public	guint write_tag;
-@public	PurpleInputFunction write_ioFunction;
-@public	gpointer write_user_data;	
-}
-@end
-
-@implementation SourceInfo
-- (NSString *)description
-{
-	return [NSString stringWithFormat:@"<SourceInfo %p: Socket %p: fd %i; timer_tag %i; read_tag %i; write_tag %i>",
-			self, socket, fd, timer_tag, read_tag, write_tag];
-}
-@end
-
-static SourceInfo *createSourceInfo(void)
-{
-	SourceInfo *info = [[SourceInfo alloc] init];
-
-	info->socket = NULL;
-	info->fd = 0;
-	info->run_loop_source = NULL;
-
-	info->timer_tag = 0;
-	info->timer_function = NULL;
-	info->timer = NULL;
-	info->timer_user_data = NULL;
-
-	info->write_tag = 0;
-	info->write_ioFunction = NULL;
-	info->write_user_data = NULL;
-
-	info->read_tag = 0;
-	info->read_ioFunction = NULL;
-	info->read_user_data = NULL;	
-	
-	return info;
-}
-
-#pragma mark Remove
-
-/*!
- * @brief Given a SourceInfo struct for a socket which was for reading *and* writing, recreate its socket to be for just one
- *
- * If the sourceInfo still has a read_tag, the resulting CFSocket will be just for reading.
- * If the sourceInfo still has a write_tag, the resulting CFSocket will be just for writing.
- *
- * This is necessary to prevent the now-unneeded condition from triggerring its callback.
- */
-void updateSocketForSourceInfo(SourceInfo *sourceInfo)
-{
-	CFSocketRef sourceSocket = sourceInfo->socket;
-	
-	if (!sourceSocket) return;
-
-	//Reading
-#ifdef PURPLE_SOCKET_DEBUG
-	AILogWithSignature(@"%@", sourceInfo);
-#endif
-	if (sourceInfo->read_tag)
-		CFSocketEnableCallBacks(sourceSocket, kCFSocketReadCallBack);
-	else
-		CFSocketDisableCallBacks(sourceSocket, kCFSocketReadCallBack);
-
-	//Writing
-	if (sourceInfo->write_tag)
-		CFSocketEnableCallBacks(sourceSocket, kCFSocketWriteCallBack);
-	else
-		CFSocketDisableCallBacks(sourceSocket, kCFSocketWriteCallBack);
-	
-	//Re-enable callbacks automatically and, by starting with 0, _don't_ close the socket on invalidate
-	CFOptionFlags flags = 0;
-	
-	if (sourceInfo->read_tag) flags |= kCFSocketAutomaticallyReenableReadCallBack;
-	if (sourceInfo->write_tag) flags |= kCFSocketAutomaticallyReenableWriteCallBack;
-	
-	CFSocketSetSocketFlags(sourceSocket, flags);
-}
-
 gboolean adium_source_remove(guint tag) {
-	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:tag];
-    SourceInfo *sourceInfo = (SourceInfo *)[sourceInfoDict objectForKey:tagNumber];
-	BOOL didRemove;
-
-    if (sourceInfo) {
-#ifdef PURPLE_SOCKET_DEBUG
-		AILog(@"adium_source_remove(): Removing for fd %i [sourceInfo %x]: tag is %i (timer %i, read %i, write %i)",sourceInfo->fd,
-			  sourceInfo, tag, sourceInfo->timer_tag, sourceInfo->read_tag, sourceInfo->write_tag);
-#endif
-		if (sourceInfo->timer_tag == tag) {
-			sourceInfo->timer_tag = 0;
-
-		} else if (sourceInfo->read_tag == tag) {
-			sourceInfo->read_tag = 0;
-
-		} else if (sourceInfo->write_tag == tag) {
-			sourceInfo->write_tag = 0;
-
-		}
-		
-		if (sourceInfo->timer_tag == 0 && sourceInfo->read_tag == 0 && sourceInfo->write_tag == 0) {
-			//It's done
-			if (sourceInfo->timer) { 
-				CFRunLoopTimerInvalidate(sourceInfo->timer);
-				CFRelease(sourceInfo->timer);
-				sourceInfo->timer = NULL;
-			}
-			
-			if (sourceInfo->socket) {
-#ifdef PURPLE_SOCKET_DEBUG
-				AILog(@"adium_source_remove(): Done with a socket %x, so invalidating it",sourceInfo->socket);
-#endif
-				CFSocketInvalidate(sourceInfo->socket);
-				CFRelease(sourceInfo->socket);
-				sourceInfo->socket = NULL;
-			}
-
-			if (sourceInfo->run_loop_source) {
-				CFRelease(sourceInfo->run_loop_source);
-				sourceInfo->run_loop_source = NULL;
-			}
-		} else {
-			if ((sourceInfo->timer_tag == 0) && (sourceInfo->timer)) {
-				CFRunLoopTimerInvalidate(sourceInfo->timer);
-				CFRelease(sourceInfo->timer);
-				sourceInfo->timer = NULL;
-			}
-			
-			if (sourceInfo->socket && (sourceInfo->read_tag || sourceInfo->write_tag)) {
-#ifdef PURPLE_SOCKET_DEBUG
-				AILog(@"adium_source_remove(): Calling updateSocketForSourceInfo(%x)",sourceInfo);
-#endif				
-				updateSocketForSourceInfo(sourceInfo);
-			}
-		}
-		
-		[sourceInfoDict removeObjectForKey:tagNumber];
-
-		didRemove = TRUE;
-
-	} else {
-		didRemove = FALSE;
+	
+	NSValue *srcPointer = [sourceInfoDict objectForKey:[NSNumber numberWithInt:tag]];
+	
+    if (!srcPointer) {
+		NSLog(@"Source info for %i not found (%@)", tag, sourceInfoDict);
+		return FALSE;
 	}
+	
+	dispatch_source_t src = (dispatch_source_t)[srcPointer pointerValue];
+    dispatch_source_cancel(src);
+    dispatch_release(src);
+	
+    [sourceInfoDict removeObjectForKey:[NSNumber numberWithInt:tag]];
 
-	[tagNumber release];
-
-	return didRemove;
+	return (dispatch_source_testcancel(src) != 0);
 }
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
 gboolean adium_timeout_remove(guint tag) {
-    return (adium_source_remove(tag));
-}
-
-#pragma mark Add
-
-void callTimerFunc(CFRunLoopTimerRef timer, void *info)
-{
-	SourceInfo *sourceInfo = info;
-
-	if (![sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInteger:sourceInfo->timer_tag]])
-		NSLog(@"**** WARNING: %@ has already been removed, but we're calling its timer function!", info);
-
-	if (!sourceInfo->timer_function ||
-		!sourceInfo->timer_function(sourceInfo->timer_user_data)) {
-        adium_source_remove(sourceInfo->timer_tag);
-	}
+	
+    return adium_source_remove(tag);
 }
 
 guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 {
-    SourceInfo *info = createSourceInfo();
+    dispatch_queue_t main_q;
+	dispatch_source_t src;
+	guint tag;
 	
-	NSTimeInterval intervalInSec = (NSTimeInterval)interval/1000;
+    main_q = dispatch_get_main_queue();
 	
-	CFRunLoopTimerContext runLoopTimerContext = { 0, info, CFRetain, CFRelease, /* CFAllocatorCopyDescriptionCallBack */ NULL };
-	CFRunLoopTimerRef runLoopTimer = CFRunLoopTimerCreate(
-														  NULL, /* default allocator */
-														  (CFAbsoluteTimeGetCurrent() + intervalInSec), /* The time at which the timer should first fire */
-														  intervalInSec, /* firing interval */
-														  0, /* flags, currently ignored */
-														  0, /* order, currently ignored */
-														  callTimerFunc, /* CFRunLoopTimerCallBack callout */
-														  &runLoopTimerContext /* context */
-														  );
-	guint timer_tag = ++sourceId;
-	info->timer_function = function;
-	info->timer = runLoopTimer;
-	info->timer_user_data = data;	
-	info->timer_tag = timer_tag;
+    tag = ++sourceId;
+    
+    src = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, main_q);
 
-	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:timer_tag];
-	[sourceInfoDict setObject:info
-					   forKey:tagNumber];
-	[tagNumber release];
+    dispatch_source_set_timer(src, 0, ((unsigned long long)interval) * 1000000ull, 100000ull);
+	
+    dispatch_source_set_event_handler(src, ^{
+        if (function) function(data);
+        adium_timeout_remove(tag);
+    });
+	
+    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
+                       forKey:[NSNumber numberWithUnsignedInt:tag]];
+	
+    dispatch_resume(src);
 
-	CFRunLoopAddTimer(purpleRunLoop, runLoopTimer, kCFRunLoopCommonModes);
-	[info release];
-
-	return timer_tag;
+    return tag;
 }
 
 guint adium_input_add(gint fd, PurpleInputCondition condition,
@@ -269,118 +92,33 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 		return ++sourceId;
 	}
 
-    SourceInfo *info = createSourceInfo();
+	dispatch_queue_t main_q;
+	dispatch_source_t src;
+	guint tag;
+	dispatch_source_type_t type;
 	
-    // And likewise the entire CFSocket
-    CFSocketContext context = { 0, info, CFRetain, CFRelease, /* CFAllocatorCopyDescriptionCallBack */ NULL };
-
-	/*
-	 * From CFSocketCreateWithNative:
-	 * If a socket already exists on this fd, CFSocketCreateWithNative() will return that existing socket, and the other parameters
-	 * will be ignored.
-	 */
-#ifdef PURPLE_SOCKET_DEBUG
-	AILog(@"adium_input_add(): Adding input %i on fd %i", condition, fd);
-#endif
-	CFSocketRef newSocket = CFSocketCreateWithNative(NULL,
-												  fd,
-												  (kCFSocketReadCallBack | kCFSocketWriteCallBack),
-												  socketCallback,
-												  &context);
-
-	/* If we did not create a *new* socket, it is because there is already one for this fd in the run loop.
-	 * See the CFSocketCreateWithNative() documentation), add it to the run loop.
-	 * In that case, the socket's info was not updated.
-	 */
-	CFSocketContext actualSocketContext = { 0, NULL, NULL, NULL, NULL };
-	CFSocketGetContext(newSocket, &actualSocketContext);
-	if (actualSocketContext.info != info) {
-		[info release];
-		CFRelease(newSocket);
-		info = [(SourceInfo *)(actualSocketContext.info) retain];
-	}
-
-	info->fd = fd;
-	info->socket = newSocket;
-
-    if ((condition & PURPLE_INPUT_READ)) {
-		info->read_tag = ++sourceId;
-		info->read_ioFunction = func;
-		info->read_user_data = user_data;
-		
-		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:info->read_tag];
-		[sourceInfoDict setObject:info
-						   forKey:tagNumber];
-		[tagNumber release];
-		
+    main_q = dispatch_get_main_queue();
+	
+    tag = ++sourceId;
+	
+	if (condition == PURPLE_INPUT_READ) {
+		type = DISPATCH_SOURCE_TYPE_READ;
 	} else {
-		info->write_tag = ++sourceId;
-		info->write_ioFunction = func;
-		info->write_user_data = user_data;
+		type = DISPATCH_SOURCE_TYPE_WRITE;
+	}
+	
+    src = dispatch_source_create(type, fd, 0, main_q);
+	
+    dispatch_source_set_event_handler(src, ^{
+        if (func) func(user_data, fd, condition);
+    });
 		
-		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:info->write_tag];
-		[sourceInfoDict setObject:info
-						   forKey:tagNumber];
-		[tagNumber release];
-	}
+    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
+                       forKey:[NSNumber numberWithUnsignedInt:tag]];
+
+	dispatch_resume(src);
 	
-	updateSocketForSourceInfo(info);
-	
-	//Add it to our run loop
-	if (!(info->run_loop_source)) {
-		info->run_loop_source = CFSocketCreateRunLoopSource(NULL, newSocket, 0);
-		if (info->run_loop_source) {
-			CFRunLoopAddSource(purpleRunLoop, info->run_loop_source, kCFRunLoopCommonModes);
-		} else {
-			AILog(@"*** Unable to create run loop source for %p",newSocket);
-		}		
-	}
-
-	[info release];
-
-    return sourceId;
-}
-
-#pragma mark Socket Callback
-static void socketCallback(CFSocketRef s,
-						   CFSocketCallBackType callbackType,
-						   CFDataRef address,
-						   const void *data,
-						   void *infoVoid)
-{
-    SourceInfo *sourceInfo = (SourceInfo *)infoVoid;
-	gpointer user_data;
-    PurpleInputCondition c;
-	PurpleInputFunction ioFunction = NULL;
-	gint	 fd = sourceInfo->fd;
-
-    if ((callbackType & kCFSocketReadCallBack)) {
-		if (sourceInfo->read_tag) {
-			user_data = sourceInfo->read_user_data;
-			c = PURPLE_INPUT_READ;
-			ioFunction = sourceInfo->read_ioFunction;
-		} else {
-			AILog(@"Called read with no read_tag %@", sourceInfo);
-		}
-
-	} else /* if ((callbackType & kCFSocketWriteCallBack)) */ {
-		if (sourceInfo->write_tag) {
-			user_data = sourceInfo->write_user_data;
-			c = PURPLE_INPUT_WRITE;	
-			ioFunction = sourceInfo->write_ioFunction;
-		} else {
-			AILog(@"Called write with no write_tag %@", sourceInfo);
-		}
-	}
-
-	if (ioFunction) {
-#ifdef PURPLE_SOCKET_DEBUG
-		AILog(@"socketCallback(): Calling the ioFunction for %x, callback type %i (%s: tag is %i)",s,callbackType,
-			  ((callbackType & kCFSocketReadCallBack) ? "reading" : "writing"),
-			  ((callbackType & kCFSocketReadCallBack) ? sourceInfo->read_tag : sourceInfo->write_tag));
-#endif
-		ioFunction(user_data, fd, c);
-	}
+    return tag;
 }
 
 int adium_input_get_error(int fd, int *error)
@@ -445,10 +183,6 @@ static PurpleEventLoopUiOps adiumEventLoopUiOps = {
 PurpleEventLoopUiOps *adium_purple_eventloop_get_ui_ops(void)
 {
 	if (!sourceInfoDict) sourceInfoDict = [[NSMutableDictionary alloc] init];
-
-	//Determine our run loop
-	purpleRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
-	CFRetain(purpleRunLoop);
 
 	return &adiumEventLoopUiOps;
 }
