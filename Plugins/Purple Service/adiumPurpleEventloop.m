@@ -56,7 +56,7 @@ gboolean adium_timeout_remove(guint tag) {
     return adium_source_remove(tag);
 }
 
-guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
+guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
     dispatch_queue_t main_q;
 	dispatch_source_t src;
@@ -67,13 +67,12 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
     tag = ++sourceId;
     
     src = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, main_q);
-
-	uint64_t timeout = ((uint64_t)interval) * (NSEC_PER_SEC / 1000);
-    dispatch_source_set_timer(src, dispatch_time(DISPATCH_TIME_NOW, timeout), NSEC_PER_SEC, NSEC_PER_USEC);
+	
+    dispatch_source_set_timer(src, dispatch_time(DISPATCH_TIME_NOW, interval), interval, leeway);
 	
     dispatch_source_set_event_handler(src, ^{
-        if (function) function(data);
-        adium_timeout_remove(tag);
+        if (!function || !function(data))
+			adium_timeout_remove(tag);
     });
 	
     [sourceInfoDict setObject:[NSValue valueWithPointer:src]
@@ -82,6 +81,16 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
     dispatch_resume(src);
 
     return tag;
+}
+
+guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
+{
+	return addTimer(((uint64_t)interval) * (NSEC_PER_SEC / 1000), NSEC_PER_USEC, function, data);
+}
+
+guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
+{
+	return addTimer(((uint64_t)interval) * NSEC_PER_SEC, NSEC_PER_SEC, function, data);
 }
 
 guint adium_input_add(gint fd, PurpleInputCondition condition,
@@ -174,7 +183,7 @@ static PurpleEventLoopUiOps adiumEventLoopUiOps = {
     adium_input_add,
     adium_source_remove,
 	adium_input_get_error,
-	/* timeout_add_seconds */ NULL,
+	adium_timeout_add_seconds,
 	/* _purple_reserved2 */ NULL,
 	/* _purple_reserved3 */ NULL,
 	/* _purple_reserved4 */ NULL
