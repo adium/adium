@@ -104,7 +104,6 @@ static int nextChatNumber = 0;
 	
 	[tabStateIcon release]; tabStateIcon = nil;
     [chatCreationInfo release]; chatCreationInfo = nil;
-    [messageTabViewItem release]; messageTabViewItem = nil;
     [enteredTextTimer release]; enteredTextTimer = nil;
     [securityDetails release]; securityDetails = nil;
 	
@@ -937,7 +936,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (id <AIChatContainer>)chatContainer
 {
-	return messageTabViewItem;
+	return [self valueForProperty:@"messageTabViewItem"];
 }
 
 - (id)handleCloseScriptCommand:(NSCloseCommand *)closeCommand
