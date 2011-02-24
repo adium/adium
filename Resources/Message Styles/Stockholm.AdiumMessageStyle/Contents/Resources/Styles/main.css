@@ -227,37 +227,46 @@ body
 {
 	visibility: hidden;
 	font-weight: bold;
-	position: absolute;
+	//position: absolute;
+	margin-top: 0px;
 	padding-left: 4px;
+	padding-top: 0px;
+	padding-bottom: 1px;
 	-webkit-border-radius: 3px;
 	-webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, .5);
 	background-color: rgba(255, 255, 255, .8);
 	color: rgba(16, 16, 16, .8);
 	font-weight: bold;
-	padding-top: 0px;
-	padding-bottom: 1px;
-	margin-top: 0px;
 }
 
 .message:not(.focus) .x-message.ltr .x-time,
 .message .x-message.ltr:not(.focus) .x-time
 {
-	right: 1px;
+	//right: 1px;
 	padding-right: 5px;
+	float: right;
+	margin-right: -8px;
+	margin-left: 4px;
 }
 
 .message.focus .x-message.ltr .x-time,
 .message .x-message.focus.ltr .x-time
 {
-	right: 1px;
+	//right: 1px;
 	padding-right: 9px;
+	float: right;
+	margin-right: -8px;
+	margin-left: 4px;
 }
 
 .message .x-message.rtl .x-time
 {
-	left: 2px;
+	//left: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
+	float: left;
+	//margin-right: -8px;
+	margin-left: -4px;
 }
 
 .x-message:hover .x-time
