@@ -100,9 +100,9 @@ a:hover
 	border-top: 1px dotted rgba(0, 0, 0, .2);
 }
 
-.showIcons.x-container.message:not([src*="buddy_icon.png"]):not(.consecutive),
-.message.action + .showIcons.x-container.message.consecutive:not([src*="buddy_icon.png"]),
-.message.action
+.x-container.message.showIcons:not([src*="buddy_icon.png"]):not(.consecutive),
+.message.action + .x-container.message.consecutive.showIcons:not([src*="buddy_icon.png"]),
+.message.action.showIcons:not([src*="buddy_icon.png"])
 {
 	min-height: 29px;
 }
