@@ -19,8 +19,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
-#import "AIMessageTabViewItem.h"
-
 @class AIAccount, AIListObject, AIListContact, AIContentObject, AIEmoticon;
 
 #define Chat_OrderDidChange						@"Chat_OrderDidChange"
@@ -135,8 +133,6 @@ typedef enum {
 	
 	NSInteger			unviewedMention;
 	NSInteger			unviewedContent;
-	
-	AIMessageTabViewItem *messageTabViewItem;
 	
 	NSTimer				*enteredTextTimer;
 	
