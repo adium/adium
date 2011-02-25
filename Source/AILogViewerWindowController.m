@@ -1067,6 +1067,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
  */
 - (void)setNavBarHidden:(NSNumber *)hide
 {
+	NSAssert([NSThread isMainThread], @"This needs to be called on the main thread.");
 	NSSize contentSize = [textView_content enclosingScrollView].frame.size;
 
 	//show
