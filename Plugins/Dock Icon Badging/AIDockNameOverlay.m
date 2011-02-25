@@ -337,6 +337,7 @@
 	[image unlockFocus];
 	
 	[adium.dockController setOverlay:image];
+	[image release];
 }
 
 @end
