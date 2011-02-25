@@ -118,6 +118,8 @@
 - (void)openChatOnDoubleAction:(id)sender;
 - (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 NSInteger compareRectLocation(id obj1, id obj2, void *context);
+
+- (void)setNavBarHidden:(NSNumber *)hide;
 @end
 
 @implementation AILogViewerWindowController
@@ -454,10 +456,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 	
 	//hide find navigation bar
-	[view_FindNavigator setHidden:YES];
-	NSSize contentSize = [textView_content enclosingScrollView].frame.size;
-	contentSize.height += view_FindNavigator.frame.size.height;
-	[[textView_content enclosingScrollView] setFrameSize:contentSize];
+	[self performSelectorOnMainThread:@selector(setNavBarHidden:)
+						   withObject:[NSNumber numberWithBool:YES]
+						waitUntilDone:YES];
 
 	//Set a gradient for the background
 	[view_FindNavigator setStartingColor:[NSColor colorWithCalibratedWhite:0.92 alpha:1.0]];
@@ -928,21 +929,13 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 							waitUntilDone:YES];
 
 		if (currentMatch > 0) {
-			//show find navigation bar
-			if ([view_FindNavigator isHidden]) {
-				[view_FindNavigator setHidden:NO];
-				NSSize contentSize = [textView_content enclosingScrollView].frame.size;
-				contentSize.height -= view_FindNavigator.frame.size.height;
-				[[textView_content enclosingScrollView] setFrameSize:contentSize];
-			}
+			[self performSelectorOnMainThread:@selector(setNavBarHidden:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:YES];
 		} else {
-			//hide find navigation bar
-			if (![view_FindNavigator isHidden]) {
-				[view_FindNavigator setHidden:YES];
-				NSSize contentSize = [textView_content enclosingScrollView].frame.size;
-				contentSize.height += view_FindNavigator.frame.size.height;
-				[[textView_content enclosingScrollView] setFrameSize:contentSize];
-			}
+			[self performSelectorOnMainThread:@selector(setNavBarHidden:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:YES];
 		}
 	}
 
@@ -1067,6 +1060,24 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 
         location = NSMaxRange(foundRange);
     }
+}
+
+/* Show or hide the bar that contains the next/previous buttons for navigating search results
+ * This needs to be run on the main thread hence it's not a BOOL
+ */
+- (void)setNavBarHidden:(NSNumber *)hide
+{
+	NSSize contentSize = [textView_content enclosingScrollView].frame.size;
+
+	//show
+	if (![hide boolValue] && [view_FindNavigator isHidden])
+		contentSize.height -= view_FindNavigator.frame.size.height;
+	//hide
+	else if ([hide boolValue] && ![view_FindNavigator isHidden])
+		contentSize.height += view_FindNavigator.frame.size.height;
+
+	[[textView_content enclosingScrollView] setFrameSize:contentSize];
+	[view_FindNavigator setHidden:[hide boolValue]];
 }
 
 - (IBAction)selectNextPreviousOccurrence:(id)sender;
