@@ -52,7 +52,7 @@ cat "$file" \
 			 > "$1/pgs/$(basename $file)"
 done
 
-
-for file in ../AdiumHelp/gfx/*; do
-cp "$file" "$1/gfx/$(basename $file)"
+find ../AdiumHelp/gfx/ -type f|while read file
+do
+cp -v "$file" "$1/gfx/${file##*/}"
 done
