@@ -635,13 +635,14 @@
 		
 		openPanel = [NSOpenPanel openPanel];
 		[openPanel setTitle:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Select Image", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)]];
+        [openPanel setAllowedFileTypes:[NSImage imageFileTypes]];
 		
-		if ([openPanel runModalForDirectory:nil file:nil types:[NSImage imageFileTypes]] == NSOKButton) {
+		if ([openPanel runModal] == NSOKButton) {
 			NSData	*imageData;
 			NSImage *image;
 			NSSize	imageSize;
 
-			imageData = [NSData dataWithContentsOfFile:[openPanel filename]];
+			imageData = [NSData dataWithContentsOfURL:[[openPanel URLs] objectAtIndex:0]];
 			image = (imageData ? [[[NSImage alloc] initWithData:imageData] autorelease] : nil);
 			imageSize = (image ? [image size] : NSZeroSize);
 
