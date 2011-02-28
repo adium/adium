@@ -18,7 +18,7 @@
 
 @class KNShelfSplitView, AIModularPaneCategoryView;
 
-@interface AIAdvancedPreferences : AIPreferencePane {
+@interface AIAdvancedPreferences : AIPreferencePane <NSTableViewDelegate> {
 	IBOutlet KNShelfSplitView			*shelf_splitView;
 	
 	IBOutlet NSTableView	*tableView_categories;
