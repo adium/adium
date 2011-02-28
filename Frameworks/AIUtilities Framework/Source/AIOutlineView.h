@@ -27,7 +27,8 @@
  *
  * Implementation of all methods is optional.
  */
-@protocol AIOutlineViewDelegate
+@protocol AIOutlineViewDelegate <NSOutlineViewDelegate, NSOutlineViewDataSource>
+@optional
 /*!
  * @brief Requests a contextual menu for an event from the delegate
  *
