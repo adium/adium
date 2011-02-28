@@ -21,7 +21,7 @@
 
 @class AIAccountController, AIAccount, AIAutoScrollView, AIImageViewWithImagePicker;
 
-@interface AIAccountListPreferences : AIPreferencePane <AIListObjectObserver, AIAccountMenuDelegate> {
+@interface AIAccountListPreferences : AIPreferencePane <AIListObjectObserver, AIAccountMenuDelegate, NSTableViewDelegate> {
 	//Account list
     IBOutlet		NSScrollView			*scrollView_accountList;
     IBOutlet		NSTableView				*tableView_accountList;
