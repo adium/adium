@@ -55,7 +55,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
     if ([[self delegate] respondsToSelector:@selector(outlineView:menuForEvent:)]) {
-        return [[self delegate] outlineView:self menuForEvent:theEvent];
+        return [(id<AIOutlineViewDelegate>)[self delegate] outlineView:self menuForEvent:theEvent];
     } else {
         return nil;
     }
@@ -84,7 +84,7 @@
 
     	if (pressedChar == NSDeleteFunctionKey || pressedChar == NSBackspaceCharacter || pressedChar == NSDeleteCharacter) { //Delete
 			if ([[self dataSource] respondsToSelector:@selector(outlineViewDeleteSelectedRows:)]) {
-				[[self dataSource] outlineViewDeleteSelectedRows:self];
+				[(id<AIOutlineViewDelegate>)[self dataSource] outlineViewDeleteSelectedRows:self];
 			}
 
 		} else if (pressedChar == NSCarriageReturnCharacter || pressedChar == NSEnterCharacter) { //Enter or return
@@ -143,7 +143,7 @@
 				   !([theEvent modifierFlags] & NSCommandKeyMask) && 
 				   !([theEvent modifierFlags] & NSControlKeyMask)) {
 			//handle any key we have not alredy handled that is a visable character and likely not to be a shortcut key (no command or control key modifiers) by asking the delegate to add it to the search string
-			if (![[self delegate] outlineView:self forwardKeyEventToFindPanel:theEvent]) {
+			if (![(id<AIOutlineViewDelegate>)[self delegate] outlineView:self forwardKeyEventToFindPanel:theEvent]) {
 				//the delegate's find panel could not handle the event, so we just pass it to super
 				[super keyDown:theEvent];
 			}
@@ -159,7 +159,7 @@
 - (void)performFindPanelAction:(id)sender;
 {
 	if ([[self delegate] respondsToSelector:@selector(outlineViewToggleFindPanel:)]) {
-		[[self delegate]outlineViewToggleFindPanel:self];
+		[(id<AIOutlineViewDelegate>)[self delegate] outlineViewToggleFindPanel:self];
 	}
 }
 
@@ -181,7 +181,7 @@
 
 		//Inform our delegate directly
 		if ([[self delegate] respondsToSelector:@selector(outlineView:setExpandState:ofItem:)]) {
-			[[self delegate] outlineView:self setExpandState:YES ofItem:item];
+			[(id<AIOutlineViewDelegate>)[self delegate] outlineView:self setExpandState:YES ofItem:item];
 		}
 	}
 }
@@ -197,7 +197,7 @@
 
 		//Inform our delegate directly
 		if ([[self delegate] respondsToSelector:@selector(outlineView:setExpandState:ofItem:)]) {
-			[[self delegate] outlineView:self setExpandState:NO ofItem:item];
+			[(id<AIOutlineViewDelegate>)[self delegate] outlineView:self setExpandState:NO ofItem:item];
 		}
 	}
 }
@@ -231,7 +231,7 @@
 {
 	//After reloading data, we correctly expand/collapse all groups
 	if ([[self delegate] respondsToSelector:@selector(outlineView:expandStateOfItem:)]) {
-		id		delegate = [self delegate];
+		id<AIOutlineViewDelegate>   delegate = (id<AIOutlineViewDelegate>)[self delegate];
 		NSInteger 	numberOfRows = [delegate outlineView:self numberOfChildrenOfItem:rootItem];
 		NSInteger 	row;
 		
@@ -276,7 +276,7 @@
 - (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {	
 	if ([[self delegate] respondsToSelector:@selector(outlineView:draggedImage:endedAt:operation:)]) {
-		[[self delegate] outlineView:self draggedImage:image endedAt:screenPoint operation:operation];
+		[(id<AIOutlineViewDelegate>)[self delegate] outlineView:self draggedImage:image endedAt:screenPoint operation:operation];
 	}
 	
 	[super draggedImage:image endedAt:screenPoint operation:operation];
