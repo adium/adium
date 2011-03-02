@@ -54,16 +54,17 @@
 
 - (void) changeFont:(id) sender {
 	NSFont *font = [sender convertFont:[self font]];
+	NSObject <NSObject,JVFontPreviewFieldDelegate> *__delegate = (id <NSObject,JVFontPreviewFieldDelegate>)self.delegate;
 
 	if (!font) return;
 
-	if ([self.delegate respondsToSelector:@selector(fontPreviewField:shouldChangeToFont:)])
-		if (![self.delegate fontPreviewField:self shouldChangeToFont:font]) return;
+	if ([__delegate respondsToSelector:@selector(fontPreviewField:shouldChangeToFont:)])
+		if (![__delegate fontPreviewField:self shouldChangeToFont:font]) return;
 
 	[self setFont:font];
 
-	if ([self.delegate respondsToSelector:@selector(fontPreviewField:didChangeToFont:)])
-		[self.delegate fontPreviewField:self didChangeToFont:font];
+	if ([__delegate respondsToSelector:@selector(fontPreviewField:didChangeToFont:)])
+		[__delegate fontPreviewField:self didChangeToFont:font];
 }
 
 - (NSUInteger) validModesForFontPanel:(NSFontPanel *) fontPanel
