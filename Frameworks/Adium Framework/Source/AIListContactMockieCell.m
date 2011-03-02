@@ -68,7 +68,7 @@
 			bezierPath = [NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS];
 		}
 
-	} else if (row >= (numberOfRows-1) || [[controlView delegate] outlineView:controlView isGroup:[controlView itemAtRow:row+1]]) {
+	} else if (row >= (numberOfRows-1) || [(id<AIMultiCellOutlineViewDelegate>)[controlView delegate] outlineView:controlView isGroup:[controlView itemAtRow:row+1]]) {
 		//Draw the bottom corners rounded if this is the last cell in a group
 		bezierPath = [NSBezierPath bezierPathWithRoundedBottomCorners:rect radius:MOCKIE_RADIUS];
 		

@@ -73,7 +73,7 @@
 {
 	[super setCurrentProgress:progress];
 
-	[self.delegate animation:self didSetCurrentValue:[self currentValue] forDict:dict];
+	[(AIAnimatingListOutlineView *)self.delegate animation:self didSetCurrentValue:[self currentValue] forDict:dict];
 }
 
 @end
