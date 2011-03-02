@@ -302,7 +302,11 @@
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "FriBidi" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* FriBidi */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -393,9 +397,10 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
@@ -411,10 +416,11 @@
 					ppc,
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../../build;
 			};
 			name = Release;
@@ -429,10 +435,11 @@
 					ppc,
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.7;
 				SYMROOT = ../../build;
 			};
 			name = "Release-Debug";
