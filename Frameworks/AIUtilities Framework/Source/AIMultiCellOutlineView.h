@@ -64,7 +64,7 @@
 
 @end
 
-@interface NSObject (AIMultiCellOutlineViewDelegate)
+@protocol AIMultiCellOutlineViewDelegate
 /*
  * @brief Is this item a group?
  *
