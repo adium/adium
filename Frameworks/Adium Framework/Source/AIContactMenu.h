@@ -14,6 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import <AIUtilities/AILeopardCompatibility.h>
 #import <Adium/AIAbstractListObjectMenu.h>
 #import <Adium/AIContactObserverManager.h>
 
@@ -21,7 +22,7 @@
 
 @protocol AIContactMenuDelegate;
 
-@interface AIContactMenu : AIAbstractListObjectMenu <AIListObjectObserver> {
+@interface AIContactMenu : AIAbstractListObjectMenu <AIListObjectObserver,NSMenuDelegate> {
 	AIListObject			*containingObject;
 	
 	id<AIContactMenuDelegate>						delegate;
