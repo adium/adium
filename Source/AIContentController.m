@@ -588,7 +588,7 @@
 	if (!inContentMessage.destination ||
 		![inContentMessage.destination isKindOfClass:[AIListContact class]] ||
 		![inContentMessage.chat.account availableForSendingContentType:CONTENT_FILE_TRANSFER_TYPE
-																 toContact:(AIListContact *)inContentMessage.destination]) {
+															 toContact:(AIListContact *)inContentMessage.destination]) {
 		//Simply return if we can't do anything about file sends for this message.
 		return;
 	}
@@ -836,12 +836,6 @@
 
 	//Add the object
 	[self receiveContentObject:content];
-}
-
-//Returns YES if the account/chat is available for sending content
-- (BOOL)availableForSendingContentType:(NSString *)inType toContact:(AIListContact *)inContact onAccount:(AIAccount *)inAccount 
-{
-	return [inAccount availableForSendingContentType:inType toContact:inContact];
 }
 
 /*! 

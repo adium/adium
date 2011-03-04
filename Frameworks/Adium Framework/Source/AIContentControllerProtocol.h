@@ -104,7 +104,6 @@ typedef enum {
 					   content:(AIContentObject*)content;
 
 	//Sending / Receiving content
-- (BOOL)availableForSendingContentType:(NSString *)inType toContact:(AIListContact *)inContact onAccount:(AIAccount *)inAccount;
 - (void)receiveContentObject:(AIContentObject *)inObject;
 - (BOOL)sendContentObject:(AIContentObject *)inObject;
 - (void)sendRawMessage:(NSString *)inString toContact:(AIListContact *)inContact;
