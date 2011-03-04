@@ -123,9 +123,8 @@
 	}
 	
 	//If the desired account is not available for sending, ask Adium for the best available account
-	if (![adium.contentController availableForSendingContentType:CONTENT_MESSAGE_TYPE
-														toContact:contact
-														onAccount:account]) {
+	if (![account availableForSendingContentType:CONTENT_MESSAGE_TYPE
+									   toContact:contact]) {
 		if (useAnotherAccount) {
 			account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																			 toContact:contact];
