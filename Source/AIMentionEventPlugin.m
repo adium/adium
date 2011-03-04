@@ -24,6 +24,7 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
+#import "AIContentTopic.h"
 
 
 /*!
@@ -61,7 +62,7 @@
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context;
 {
-	if(![context isKindOfClass:[AIContentMessage class]])
+	if(![context isKindOfClass:[AIContentMessage class]] || [context isKindOfClass:[AIContentTopic class]])
 		return inAttributedString;
 	
 	AIContentMessage *message = (AIContentMessage *)context;
