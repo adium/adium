@@ -18,7 +18,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import "AIContactListRecentImagesWindowController.h"
+#import "AIContactListUserPictureMenuController.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
@@ -145,12 +145,7 @@
 
 - (void)displayPicturePopUpForEvent:(NSEvent *)theEvent
 {
-	NSRect	myFrame = [self frame];
-	NSPoint	bottomRightPoint = NSMakePoint(NSMaxX(myFrame), NSMinY(myFrame));
-	bottomRightPoint = [[self window] convertBaseToScreen:[[self superview] convertPoint:bottomRightPoint toView:nil]];
-
-	[AIContactListRecentImagesWindowController showWindowFromPoint:bottomRightPoint
-													   imagePicker:self];
+	[AIContactListUserPictureMenuController popUpMenuForImagePicker:self];
 }
 
 //Custom mouse down tracking to display our menu and highlight
