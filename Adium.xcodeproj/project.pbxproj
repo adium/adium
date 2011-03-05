@@ -691,9 +691,6 @@
 		34CA22300A671BEF00B11032 /* PersonalPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34CA222F0A671BEF00B11032 /* PersonalPreferences.nib */; };
 		34CAA3FB0BD3998E00AE92DC /* ESPurpleAIMAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 343EB41C08086D9100E27095 /* ESPurpleAIMAccountView.nib */; };
 		34CF9DF5085B8B7900D87E37 /* ESiTunesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34CF9DF3085B8B7900D87E37 /* ESiTunesPlugin.m */; };
-		34D000C60957918000DCB678 /* ContactListRecentImages.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34D000C50957918000DCB678 /* ContactListRecentImages.nib */; };
-		34D001E80958868000DCB678 /* AIMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D001E60958868000DCB678 /* AIMenuItemView.m */; };
-		34D007DB095966E200DCB678 /* AIContactListRecentImagesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D007D9095966E200DCB678 /* AIContactListRecentImagesWindowController.m */; };
 		34D073CA0B1E1A4400D63DF2 /* ESPurpleDotMacAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B387EB807199FE5004DE713 /* ESPurpleDotMacAccountViewController.m */; };
 		34D073CB0B1E1A4500D63DF2 /* ESPurpleDotMacAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B387EB707199FE5004DE713 /* ESPurpleDotMacAccountViewController.h */; };
 		34D073CC0B1E1A4500D63DF2 /* ESPurpleDotMacAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F101E307342B4D00890D3B /* ESPurpleDotMacAccount.m */; };
@@ -1492,6 +1489,10 @@
 		81DAED520C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */; };
 		81DAED530C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */; };
 		81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E839050583207E00F2AADB /* SystemConfiguration.framework */; };
+		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
+		97AF5CE713191E4800550C41 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 97AF5CE213191E2800550C41 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97AF5CE813191E4800550C41 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CE313191E2800550C41 /* AIImageCollectionView.m */; };
+		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
 		9E124DEC07D34C7300AA91C5 /* CBGrowlAlertDetailPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */; };
 		9E124DEE07D34C7400AA91C5 /* NEHGrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */; };
 		9E124DF107D34C9100AA91C5 /* GrowlAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DEF07D34C9000AA91C5 /* GrowlAlert.nib */; };
@@ -3681,12 +3682,6 @@
 		34CF88AD0A6D5EF1009D9A21 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = Resources/nl.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
 		34CF9DF2085B8B7900D87E37 /* ESiTunesPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESiTunesPlugin.h; path = Source/ESiTunesPlugin.h; sourceTree = "<group>"; };
 		34CF9DF3085B8B7900D87E37 /* ESiTunesPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESiTunesPlugin.m; path = Source/ESiTunesPlugin.m; sourceTree = "<group>"; };
-		34D000C50957918000DCB678 /* ContactListRecentImages.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactListRecentImages.nib; path = Resources/ContactListRecentImages.nib; sourceTree = "<group>"; };
-		34D001E50958868000DCB678 /* AIMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMenuItemView.h; path = Source/AIMenuItemView.h; sourceTree = "<group>"; };
-		34D001E60958868000DCB678 /* AIMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMenuItemView.m; path = Source/AIMenuItemView.m; sourceTree = "<group>"; };
-		34D007B0095964EF00DCB678 /* NSIPRecentPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSIPRecentPicture.h; path = Source/NSIPRecentPicture.h; sourceTree = "<group>"; };
-		34D007D9095966E200DCB678 /* AIContactListRecentImagesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIContactListRecentImagesWindowController.m; path = Source/AIContactListRecentImagesWindowController.m; sourceTree = "<group>"; };
-		34D007DA095966E200DCB678 /* AIContactListRecentImagesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIContactListRecentImagesWindowController.h; path = Source/AIContactListRecentImagesWindowController.h; sourceTree = "<group>"; };
 		34D0F9C80954E70100DCB678 /* AIContactListImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIContactListImagePicker.h; path = Source/AIContactListImagePicker.h; sourceTree = "<group>"; };
 		34D0F9C90954E70100DCB678 /* AIContactListImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIContactListImagePicker.m; path = Source/AIContactListImagePicker.m; sourceTree = "<group>"; };
 		34D0FDCF0956186200DCB678 /* ESPersonalPreferencesPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESPersonalPreferencesPlugin.h; path = Source/ESPersonalPreferencesPlugin.h; sourceTree = "<group>"; };
@@ -4739,6 +4734,11 @@
 		81DAE8710C261E8A00780E4C /* AMPurpleTuneTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleTuneTooltip.m; path = "Plugins/Purple Service/AMPurpleTuneTooltip.m"; sourceTree = "<group>"; };
 		81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleJabberServiceDiscoveryBrowsing.h; path = "Plugins/Purple Service/AMPurpleJabberServiceDiscoveryBrowsing.h"; sourceTree = "<group>"; };
 		81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberServiceDiscoveryBrowsing.m; path = "Plugins/Purple Service/AMPurpleJabberServiceDiscoveryBrowsing.m"; sourceTree = "<group>"; };
+		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
+		97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactListUserPictureMenuController.m; path = Source/AIContactListUserPictureMenuController.m; sourceTree = "<group>"; };
+		97AF5CE213191E2800550C41 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = Source/AIImageCollectionView.h; sourceTree = "<group>"; };
+		97AF5CE313191E2800550C41 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = Source/AIImageCollectionView.m; sourceTree = "<group>"; };
+		97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListChangeUserPictureMenu.xib; path = Resources/ContactListChangeUserPictureMenu.xib; sourceTree = "<group>"; };
 		9C103FAE057127A500F3C158 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		9E124DE707D34C7300AA91C5 /* CBGrowlAlertDetailPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CBGrowlAlertDetailPane.h; path = Source/CBGrowlAlertDetailPane.h; sourceTree = "<group>"; };
 		9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CBGrowlAlertDetailPane.m; path = Source/CBGrowlAlertDetailPane.m; sourceTree = "<group>"; };
@@ -5815,13 +5815,12 @@
 		34607EF209B22933000DB3D2 /* User Icon Changing */ = {
 			isa = PBXGroup;
 			children = (
-				34D007B0095964EF00DCB678 /* NSIPRecentPicture.h */,
 				3489506A0CDE0CC5002FEB4D /* IKRecentPicture.h */,
 				34D0F9C80954E70100DCB678 /* AIContactListImagePicker.h */,
 				34D0F9C90954E70100DCB678 /* AIContactListImagePicker.m */,
-				34D007DA095966E200DCB678 /* AIContactListRecentImagesWindowController.h */,
-				34D007D9095966E200DCB678 /* AIContactListRecentImagesWindowController.m */,
-				34D000C50957918000DCB678 /* ContactListRecentImages.nib */,
+				97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */,
+				97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */,
+				97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */,
 			);
 			name = "User Icon Changing";
 			sourceTree = "<group>";
@@ -7462,8 +7461,6 @@
 				34A48A0B06F64376002C7C5F /* ContactListWindow.nib */,
 				34EBB2C10DCA8DE400B4CB6E /* AISearchFieldCell.h */,
 				34EBB2C20DCA8DE500B4CB6E /* AISearchFieldCell.m */,
-				34D001E50958868000DCB678 /* AIMenuItemView.h */,
-				34D001E60958868000DCB678 /* AIMenuItemView.m */,
 				34607F0C09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.m */,
 				34607F0D09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.h */,
 				34607F0E09B2296A000DB3D2 /* AIHoveringPopUpButton.m */,
@@ -7996,6 +7993,8 @@
 		6334FF7F0F9C14C0003C77A9 /* View that displays images in a grid iPhoto style */ = {
 			isa = PBXGroup;
 			children = (
+				97AF5CE213191E2800550C41 /* AIImageCollectionView.h */,
+				97AF5CE313191E2800550C41 /* AIImageCollectionView.m */,
 				6334FF800F9C14C0003C77A9 /* AIImageGridView.h */,
 				6334FF810F9C14C0003C77A9 /* AIImageGridView.m */,
 			);
@@ -9388,6 +9387,7 @@
 				11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */,
 				7E959AD010E3187000C26397 /* AIMathCompatibility.h in Headers */,
 				5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */,
+				97AF5CE713191E4800550C41 /* AIImageCollectionView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9911,7 +9911,6 @@
 				63EA63DD094BB79A009C8453 /* StatusIconPreviewView.nib in Resources */,
 				34CA22300A671BEF00B11032 /* PersonalPreferences.nib in Resources */,
 				34D0FF8509569FE500DCB678 /* PersonalPreferencesDefaults.plist in Resources */,
-				34D000C60957918000DCB678 /* ContactListRecentImages.nib in Resources */,
 				341BD5700965EC3500CF83F5 /* OTRFingerprintDetailsWindow.nib in Resources */,
 				341BD5710965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.nib in Resources */,
 				341BD57B0965EC4700CF83F5 /* OTRPrefs.nib in Resources */,
@@ -10020,6 +10019,7 @@
 				76889DEB12D3CA17007AEF00 /* GetInfo.png in Resources */,
 				76889DEF12D3CA40007AEF00 /* Personal.png in Resources */,
 				1154F50A12E1476900B8CA27 /* AILogByAccountWindow.nib in Resources */,
+				97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10492,8 +10492,6 @@
 				34D0F9CB0954E70100DCB678 /* AIContactListImagePicker.m in Sources */,
 				34D0FDD20956186200DCB678 /* ESPersonalPreferencesPlugin.m in Sources */,
 				34D0FDD80956187700DCB678 /* ESPersonalPreferences.m in Sources */,
-				34D001E80958868000DCB678 /* AIMenuItemView.m in Sources */,
-				34D007DB095966E200DCB678 /* AIContactListRecentImagesWindowController.m in Sources */,
 				341BCF850961354D00CF83F5 /* AIMessageWindow.m in Sources */,
 				341BCF870961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m in Sources */,
 				341BD55D0965E97F00CF83F5 /* ESOTRPreferences.m in Sources */,
@@ -10683,6 +10681,7 @@
 				766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */,
 				5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */,
 				5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */,
+				97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10889,6 +10888,7 @@
 				63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */,
 				11AA10140FCE0969003908B6 /* AIProgressDataUploader.m in Sources */,
 				5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */,
+				97AF5CE813191E4800550C41 /* AIImageCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
