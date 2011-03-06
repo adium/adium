@@ -48,6 +48,9 @@
 {
 	[adium.interfaceController unregisterContactListTooltipEntry:moodTooltip secondaryEntry:YES];
 	[moodTooltip release]; moodTooltip = nil;
+	[charactersInNode release]; charactersInNode = nil;
+	[charactersInDomain release]; charactersInDomain = nil;
+	[charactersInResource release]; charactersInResource = nil;
 	
 	[super dealloc];
 }
@@ -112,69 +115,71 @@
 	 * [#xE000-#xFFFD] | [#x10000-#x10FFFF]
 	 */
 
-	NSRange x0021;
-	x0021.location			= (unsigned int)'!';
-	x0021.length			= 1;
+	if (!charactersInNode) {
+		NSRange x0021;
+		x0021.location			= (unsigned int)'!';
+		x0021.length			= 1;
 
-	NSRange x0023_0025;
-	x0023_0025.location		= (unsigned int)'#';
-	x0023_0025.length		= 3;
+		NSRange x0023_0025;
+		x0023_0025.location		= (unsigned int)'#';
+		x0023_0025.length		= 3;
 
-	NSRange x0028_002E;
-	x0028_002E.location		= (unsigned int)'(';
-	x0028_002E.length		= 7;
+		NSRange x0028_002E;
+		x0028_002E.location		= (unsigned int)'(';
+		x0028_002E.length		= 7;
 
-	NSRange x0030_0039;
-	x0030_0039.location		= (unsigned int)'0';
-	x0030_0039.length		= 10;
+		NSRange x0030_0039;
+		x0030_0039.location		= (unsigned int)'0';
+		x0030_0039.length		= 10;
 
-	NSRange x003B;
-	x003B.location			= (unsigned int)';';
-	x003B.length			= 1;
+		NSRange x003B;
+		x003B.location			= (unsigned int)';';
+		x003B.length			= 1;
 
-	NSRange x003D;
-	x003D.location			= (unsigned int)'=';
-	x003D.length			= 1;
+		NSRange x003D;
+		x003D.location			= (unsigned int)'=';
+		x003D.length			= 1;
 
-	NSRange x003F;
-	x003F.location			= (unsigned int)'?';
-	x003F.length			= 1;
+		NSRange x003F;
+		x003F.location			= (unsigned int)'?';
+		x003F.length			= 1;
 
-	NSRange x0041_007E;
-	x0041_007E.location		= (unsigned int)'A';
-	x0041_007E.length		= 62;
+		NSRange x0041_007E;
+		x0041_007E.location		= (unsigned int)'A';
+		x0041_007E.length		= 62;
 
-	NSRange x0080_D7FF;
-	x0080_D7FF.location		= (unsigned int)0x0080;
-	x0080_D7FF.length		= 55168;
+		NSRange x0080_D7FF;
+		x0080_D7FF.location		= (unsigned int)0x0080;
+		x0080_D7FF.length		= 55168;
 
-	NSRange xE000_FFFD;
-	xE000_FFFD.location		= (unsigned int)0xe000;
-	xE000_FFFD.length		= 8190;
+		NSRange xE000_FFFD;
+		xE000_FFFD.location		= (unsigned int)0xe000;
+		xE000_FFFD.length		= 8190;
 
-	NSRange x10000_10FFFF;
-	x10000_10FFFF.location	= (unsigned int)0x10000;
-	x10000_10FFFF.length	= 1048576;
-
-
-	NSMutableCharacterSet *allowedCharactersInNode = [[NSMutableCharacterSet alloc] init];
-	[allowedCharactersInNode addCharactersInRange:x0021];
-	[allowedCharactersInNode addCharactersInRange:x0023_0025];
-	[allowedCharactersInNode addCharactersInRange:x0028_002E];
-	[allowedCharactersInNode addCharactersInRange:x0030_0039];
-	[allowedCharactersInNode addCharactersInRange:x003B];
-	[allowedCharactersInNode addCharactersInRange:x003D];
-	[allowedCharactersInNode addCharactersInRange:x003F];
-	[allowedCharactersInNode addCharactersInRange:x0041_007E];
-	[allowedCharactersInNode addCharactersInRange:x0080_D7FF];
-	[allowedCharactersInNode addCharactersInRange:xE000_FFFD];
-	[allowedCharactersInNode addCharactersInRange:x10000_10FFFF];
+		NSRange x10000_10FFFF;
+		x10000_10FFFF.location	= (unsigned int)0x10000;
+		x10000_10FFFF.length	= 1048576;
 
 
-	NSCharacterSet *returnSet = [allowedCharactersInNode immutableCopy];
-	[allowedCharactersInNode release];
+		NSMutableCharacterSet *allowedCharactersInNode = [[NSMutableCharacterSet alloc] init];
+		[allowedCharactersInNode addCharactersInRange:x0021];
+		[allowedCharactersInNode addCharactersInRange:x0023_0025];
+		[allowedCharactersInNode addCharactersInRange:x0028_002E];
+		[allowedCharactersInNode addCharactersInRange:x0030_0039];
+		[allowedCharactersInNode addCharactersInRange:x003B];
+		[allowedCharactersInNode addCharactersInRange:x003D];
+		[allowedCharactersInNode addCharactersInRange:x003F];
+		[allowedCharactersInNode addCharactersInRange:x0041_007E];
+		[allowedCharactersInNode addCharactersInRange:x0080_D7FF];
+		[allowedCharactersInNode addCharactersInRange:xE000_FFFD];
+		[allowedCharactersInNode addCharactersInRange:x10000_10FFFF];
 
-	return [returnSet autorelease];
+
+		charactersInNode = [allowedCharactersInNode immutableCopy];
+		[allowedCharactersInNode release];
+	}
+
+	return charactersInNode;
 }
 
 /*!
@@ -193,23 +198,25 @@
 	 * <dig> ::= [0-9]
 	 */
 
-	NSRange lowerCaseLetters;
-	lowerCaseLetters.location	= (unsigned int)'a';
-	lowerCaseLetters.length		= 26;
+	if (!charactersInDomain) {
+		NSRange lowerCaseLetters;
+		lowerCaseLetters.location	= (unsigned int)'a';
+		lowerCaseLetters.length		= 26;
 
-	NSRange upperCaseLatters;
-	upperCaseLatters.location	= (unsigned int)'A';
-	upperCaseLatters.length		= 26;
+		NSRange upperCaseLatters;
+		upperCaseLatters.location	= (unsigned int)'A';
+		upperCaseLatters.length		= 26;
 
-	NSMutableCharacterSet *allowedCharactersInDomain = [[NSMutableCharacterSet alloc] init];
-	[allowedCharactersInDomain addCharactersInRange:lowerCaseLetters];
-	[allowedCharactersInDomain addCharactersInRange:upperCaseLatters];
-	[allowedCharactersInDomain addCharactersInString:@"-."];
+		NSMutableCharacterSet *allowedCharactersInDomain = [[NSMutableCharacterSet alloc] init];
+		[allowedCharactersInDomain addCharactersInRange:lowerCaseLetters];
+		[allowedCharactersInDomain addCharactersInRange:upperCaseLatters];
+		[allowedCharactersInDomain addCharactersInString:@"-."];
 
-	NSCharacterSet *returnSet = [allowedCharactersInDomain immutableCopy];
-	[allowedCharactersInDomain release];
+		charactersInDomain = [allowedCharactersInDomain immutableCopy];
+		[allowedCharactersInDomain release];
+	}
 
-	return [returnSet autorelease];
+	return charactersInDomain;
 }
 
 /*!
@@ -227,27 +234,29 @@
 	 * [#x10000-#x10FFFF]
 	 */
 
-	NSRange x0020_D7FF;
-	x0020_D7FF.location	= (unsigned int)0x0020;
-	x0020_D7FF.length	= 55264;
+	if (!charactersInResource) {
+		NSRange x0020_D7FF;
+		x0020_D7FF.location	= (unsigned int)0x0020;
+		x0020_D7FF.length	= 55264;
 
-	NSRange xE000_FFFD;
-	xE000_FFFD.location	= (unsigned int)0xe000;
-	xE000_FFFD.length	= 8190;
+		NSRange xE000_FFFD;
+		xE000_FFFD.location	= (unsigned int)0xe000;
+		xE000_FFFD.length	= 8190;
 
-	NSRange x10000_10FFFF;
-	x10000_10FFFF.location	= (unsigned int)0x10000;
-	x10000_10FFFF.length	= 1048576;
+		NSRange x10000_10FFFF;
+		x10000_10FFFF.location	= (unsigned int)0x10000;
+		x10000_10FFFF.length	= 1048576;
 
-	NSMutableCharacterSet *allowedCharactersInResource = [[NSMutableCharacterSet alloc] init];
-	[allowedCharactersInResource addCharactersInRange:x0020_D7FF];
-	[allowedCharactersInResource addCharactersInRange:xE000_FFFD];
-	[allowedCharactersInResource addCharactersInRange:x10000_10FFFF];
+		NSMutableCharacterSet *allowedCharactersInResource = [[NSMutableCharacterSet alloc] init];
+		[allowedCharactersInResource addCharactersInRange:x0020_D7FF];
+		[allowedCharactersInResource addCharactersInRange:xE000_FFFD];
+		[allowedCharactersInResource addCharactersInRange:x10000_10FFFF];
 
-	NSCharacterSet *returnSet = [allowedCharactersInResource immutableCopy];
-	[allowedCharactersInResource release];
+		charactersInResource = [allowedCharactersInResource immutableCopy];
+		[allowedCharactersInResource release];
+	}
 
-	return [returnSet autorelease];
+	return charactersInResource;
 }
 
 /*!
