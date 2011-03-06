@@ -20,6 +20,9 @@
 
 @interface ESJabberService : PurpleService {
 	AMPurpleJabberMoodTooltip *moodTooltip;
+	NSCharacterSet *charactersInNode;
+	NSCharacterSet *charactersInDomain;
+	NSCharacterSet *charactersInResource;
 }
 
 @end
