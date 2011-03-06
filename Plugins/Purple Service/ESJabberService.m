@@ -23,6 +23,15 @@
 #import <AIUtilities/AICharacterSetAdditions.h>
 #import <libpurple/jabber.h>
 
+@interface ESJabberService ()
+
+- (NSCharacterSet *)allowedCharactersInNode;
+- (NSCharacterSet *)allowedCharactersInDomain;
+- (NSCharacterSet *)allowedCharactersInResource;
+
+@end
+
+
 @implementation ESJabberService
 
 - (id)init
@@ -86,6 +95,162 @@
 }
 
 /*!
+ * @brief Allowed characters in node of jid
+ *
+ * Jabber IDs are of the form [<node>"@"]<domain>["/"<resource>]
+ *
+ * This method returns a character set valid for the node part of a jid.
+ */
+- (NSCharacterSet *)allowedCharactersInNode
+{
+	/*
+	 * Valid unicode characters in node
+	 * <node> ::= <conforming-char>[<conforming-char>]*
+	 * <conforming-char> ::= #x21 | [#x23-#x25] | [#x28-#x2E] |
+	 * [#x30-#x39] | #x3B | #x3D | #x3F |
+	 * [#x41-#x7E] | [#x80-#xD7FF] |
+	 * [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+	 */
+
+	NSRange x0021;
+	x0021.location			= (unsigned int)'!';
+	x0021.length			= 1;
+
+	NSRange x0023_0025;
+	x0023_0025.location		= (unsigned int)'#';
+	x0023_0025.length		= 3;
+
+	NSRange x0028_002E;
+	x0028_002E.location		= (unsigned int)'(';
+	x0028_002E.length		= 7;
+
+	NSRange x0030_0039;
+	x0030_0039.location		= (unsigned int)'0';
+	x0030_0039.length		= 10;
+
+	NSRange x003B;
+	x003B.location			= (unsigned int)';';
+	x003B.length			= 1;
+
+	NSRange x003D;
+	x003D.location			= (unsigned int)'=';
+	x003D.length			= 1;
+
+	NSRange x003F;
+	x003F.location			= (unsigned int)'?';
+	x003F.length			= 1;
+
+	NSRange x0041_007E;
+	x0041_007E.location		= (unsigned int)'A';
+	x0041_007E.length		= 62;
+
+	NSRange x0080_D7FF;
+	x0080_D7FF.location		= (unsigned int)0x0080;
+	x0080_D7FF.length		= 55168;
+
+	NSRange xE000_FFFD;
+	xE000_FFFD.location		= (unsigned int)0xe000;
+	xE000_FFFD.length		= 8190;
+
+	NSRange x10000_10FFFF;
+	x10000_10FFFF.location	= (unsigned int)0x10000;
+	x10000_10FFFF.length	= 1048576;
+
+
+	NSMutableCharacterSet *allowedCharactersInNode = [[NSMutableCharacterSet alloc] init];
+	[allowedCharactersInNode addCharactersInRange:x0021];
+	[allowedCharactersInNode addCharactersInRange:x0023_0025];
+	[allowedCharactersInNode addCharactersInRange:x0028_002E];
+	[allowedCharactersInNode addCharactersInRange:x0030_0039];
+	[allowedCharactersInNode addCharactersInRange:x003B];
+	[allowedCharactersInNode addCharactersInRange:x003D];
+	[allowedCharactersInNode addCharactersInRange:x003F];
+	[allowedCharactersInNode addCharactersInRange:x0041_007E];
+	[allowedCharactersInNode addCharactersInRange:x0080_D7FF];
+	[allowedCharactersInNode addCharactersInRange:xE000_FFFD];
+	[allowedCharactersInNode addCharactersInRange:x10000_10FFFF];
+
+
+	NSCharacterSet *returnSet = [allowedCharactersInNode immutableCopy];
+	[allowedCharactersInNode release];
+
+	return [returnSet autorelease];
+}
+
+/*!
+ * @brief Allowed characters in domain of jid
+ *
+ * Jabber IDs are of the form [<node>"@"]<domain>["/"<resource>]
+ *
+ * This method returns a character set valid for the domain part of a jid.
+ */
+- (NSCharacterSet *)allowedCharactersInDomain
+{
+	/*
+	 * <domain> ::= <hname>["."<hname>]*
+	 * <hname> ::= <let>|<dig>[[<let>|<dig>|"-"]*<let>|<dig>]
+	 * <let> ::= [a-z] | [A-Z]
+	 * <dig> ::= [0-9]
+	 */
+
+	NSRange lowerCaseLetters;
+	lowerCaseLetters.location	= (unsigned int)'a';
+	lowerCaseLetters.length		= 26;
+
+	NSRange upperCaseLatters;
+	upperCaseLatters.location	= (unsigned int)'A';
+	upperCaseLatters.length		= 26;
+
+	NSMutableCharacterSet *allowedCharactersInDomain = [[NSMutableCharacterSet alloc] init];
+	[allowedCharactersInDomain addCharactersInRange:lowerCaseLetters];
+	[allowedCharactersInDomain addCharactersInRange:upperCaseLatters];
+	[allowedCharactersInDomain addCharactersInString:@"-."];
+
+	NSCharacterSet *returnSet = [allowedCharactersInDomain immutableCopy];
+	[allowedCharactersInDomain release];
+
+	return [returnSet autorelease];
+}
+
+/*!
+ * @brief Allowed characters in resource of jid
+ *
+ * Jabber IDs are of the form [<node>"@"]<domain>["/"<resource>]
+ *
+ * This method returns a character set valid for the resource part of a jid.
+ */
+- (NSCharacterSet *)allowedCharactersInResource
+{
+	/*
+	 * <resource> ::= <any-char>[<any-char>]*
+	 * <any-char> ::= [#x20-#xD7FF] | [#xE000-#xFFFD] |
+	 * [#x10000-#x10FFFF]
+	 */
+
+	NSRange x0020_D7FF;
+	x0020_D7FF.location	= (unsigned int)0x0020;
+	x0020_D7FF.length	= 55264;
+
+	NSRange xE000_FFFD;
+	xE000_FFFD.location	= (unsigned int)0xe000;
+	xE000_FFFD.length	= 8190;
+
+	NSRange x10000_10FFFF;
+	x10000_10FFFF.location	= (unsigned int)0x10000;
+	x10000_10FFFF.length	= 1048576;
+
+	NSMutableCharacterSet *allowedCharactersInResource = [[NSMutableCharacterSet alloc] init];
+	[allowedCharactersInResource addCharactersInRange:x0020_D7FF];
+	[allowedCharactersInResource addCharactersInRange:xE000_FFFD];
+	[allowedCharactersInResource addCharactersInRange:x10000_10FFFF];
+
+	NSCharacterSet *returnSet = [allowedCharactersInResource immutableCopy];
+	[allowedCharactersInResource release];
+
+	return [returnSet autorelease];
+}
+
+/*!
  * @brief Allowed characters
  * 
  * Jabber IDs are generally of the form username@server.org
@@ -93,11 +258,16 @@
  * Some rare Jabber servers assign actual IDs with %. Allow this for transport names such as
  * username%hotmail.com@msn.blah.jabber.org as well.
  */
-- (NSCharacterSet *)allowedCharacters{
-	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
+- (NSCharacterSet *)allowedCharacters
+{
+	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alloc] init];
+	NSCharacterSet			*nodeSet = [self allowedCharactersInNode];
+	NSCharacterSet			*domainSet = [self allowedCharactersInDomain];
 	NSCharacterSet			*returnSet;
 
-	[allowedCharacters addCharactersInString:@"._@-()[]^%#|\\`="];
+	[allowedCharacters formUnionWithCharacterSet:nodeSet];
+	[allowedCharacters addCharactersInString:@"@"];
+	[allowedCharacters formUnionWithCharacterSet:domainSet];
 	returnSet = [allowedCharacters immutableCopy];
 	[allowedCharacters release];
 
@@ -109,11 +279,14 @@
  *
  * Same as allowedCharacters, but also allow / for specifying a resource.
  */
-- (NSCharacterSet *)allowedCharactersForUIDs{
-	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
+- (NSCharacterSet *)allowedCharactersForUIDs
+{
+	NSMutableCharacterSet	*allowedCharacters = [[self allowedCharacters] mutableCopy];
+	NSCharacterSet			*resourceSet = [self allowedCharactersInResource];
 	NSCharacterSet			*returnSet;
 
-	[allowedCharacters addCharactersInString:@"._@-()[]^%#|\\/+`="];
+	[allowedCharacters addCharactersInString:@"/"];
+	[allowedCharacters formUnionWithCharacterSet:resourceSet];
 	returnSet = [allowedCharacters immutableCopy];
 	[allowedCharacters release];
 	
