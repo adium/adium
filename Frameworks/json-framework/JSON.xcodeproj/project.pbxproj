@@ -1337,6 +1337,151 @@
 			};
 			name = Release;
 		};
+		EF3474E21324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "-Wparentheses";
+				SYMROOT = ../../build;
+			};
+			name = "Release-Debug";
+		};
+		EF3474E31324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 11;
+				DYLIB_COMPATIBILITY_VERSION = 4;
+				DYLIB_CURRENT_VERSION = 11;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "JSON-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = JSON;
+				SDKROOT = "";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = SB;
+			};
+			name = "Release-Debug";
+		};
+		EF3474E41324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(value)",
+					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = required;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Foundation.framework/Headers/Foundation.h";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Tests;
+				SDKROOT = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Release-Debug";
+		};
+		EF3474E51324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+				);
+				PREBINDING = NO;
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include/JSON;
+				PRODUCT_NAME = json;
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/JSON;
+				SDKROOT = "";
+				SKIP_INSTALL = NO;
+			};
+			name = "Release-Debug";
+		};
+		EF3474E61324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "libjsontests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+					"-ljson",
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = libjsontests;
+				SDKROOT = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = "Release-Debug";
+		};
+		EF3474E71324815800CE4177 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Documentation;
+				ZERO_LINK = NO;
+			};
+			name = "Release-Debug";
+		};
 		FE2BBD840D8B0D3900184787 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1464,6 +1609,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D229750C9611FF00276605 /* Debug */,
+				EF3474E21324815800CE4177 /* Release-Debug */,
 				53D229760C9611FF00276605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1473,6 +1619,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D229860C96121700276605 /* Debug */,
+				EF3474E31324815800CE4177 /* Release-Debug */,
 				53D229870C96121700276605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1482,6 +1629,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D229900C96122A00276605 /* Debug */,
+				EF3474E41324815800CE4177 /* Release-Debug */,
 				53D229910C96122A00276605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1491,6 +1639,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCC047170FB651AF00F9F2D3 /* Debug */,
+				EF3474E71324815800CE4177 /* Release-Debug */,
 				BCC047180FB651AF00F9F2D3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1500,6 +1649,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE2BBD840D8B0D3900184787 /* Debug */,
+				EF3474E51324815800CE4177 /* Release-Debug */,
 				FE2BBD850D8B0D3900184787 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1509,6 +1659,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FE2BBDAD0D8B0EE100184787 /* Debug */,
+				EF3474E61324815800CE4177 /* Release-Debug */,
 				FE2BBDAE0D8B0EE100184787 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
