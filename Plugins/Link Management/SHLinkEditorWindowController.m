@@ -87,7 +87,7 @@
 	[label_linkText setLocalizedString:AILocalizedString(@"Link Text:","Label for the text entry area for the name when creating a link")];
 	[label_URL setLocalizedString:AILocalizedString(@"URL:",nil)];
 
-	if (textView) {
+	if (textView && [[textView textStorage] length] > 0) {
 		NSRange 	selectedRange = [textView selectedRange];
 		NSRange		rangeOfLinkAttribute;
 		NSString    *linkText;
