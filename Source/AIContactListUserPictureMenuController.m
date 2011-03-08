@@ -252,7 +252,7 @@
 {
 	NSArray *recentPictures = [self recentPictures];
 	
-	if (index < [recentPictures count]) {
+	if (anIndex < [recentPictures count]) {
 		id recentPicture = [recentPictures objectAtIndex:anIndex];
 		NSData *imageData = nil;
 		

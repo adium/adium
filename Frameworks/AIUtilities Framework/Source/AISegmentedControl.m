@@ -17,6 +17,7 @@
 
 #import "AISegmentedControl.h"
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface NSSegmentedCell (ApplePrivate)
 - (void)setMenuIndicatorShown:(BOOL)shown forSegment:(NSInteger)segment;
