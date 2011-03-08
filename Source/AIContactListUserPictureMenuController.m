@@ -238,22 +238,22 @@
 #pragma mark -
 #pragma mark AIImageCollectionView delegate
 
-- (BOOL)imageCollectionView:(AIImageCollectionView *)collectionView shouldHighlightItemAtIndex:(NSUInteger)index
+- (BOOL)imageCollectionView:(AIImageCollectionView *)collectionView shouldHighlightItemAtIndex:(NSUInteger)anIndex
 {	
-	return (index < [[self recentSmallPictures] count]);
+	return (anIndex < [[self recentSmallPictures] count]);
 }
 
-- (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldSelectItemAtIndex:(NSUInteger)index
+- (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldSelectItemAtIndex:(NSUInteger)anIndex
 {
-	return (index < [[self recentSmallPictures] count]);
+	return (anIndex < [[self recentSmallPictures] count]);
 }
 
-- (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didSelectItemAtIndex:(NSUInteger)index
+- (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didSelectItemAtIndex:(NSUInteger)anIndex
 {
 	NSArray *recentPictures = [self recentPictures];
 	
 	if (index < [recentPictures count]) {
-		id recentPicture = [recentPictures objectAtIndex:index];
+		id recentPicture = [recentPictures objectAtIndex:anIndex];
 		NSData *imageData = nil;
 		
 		if ([recentPicture respondsToSelector:@selector(smallIcon)]) {
