@@ -34,7 +34,7 @@
 @protected
 	NSInteger highlightStyle;
 	CGFloat highlightSize;
-	CGFloat hightlightCornerRadius;
+	CGFloat highlightCornerRadius;
 
 	NSUInteger highlightedIndex;
 }

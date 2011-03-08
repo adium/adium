@@ -461,8 +461,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 						waitUntilDone:YES];
 
 	//Set a gradient for the background
-	[view_FindNavigator setStartingColor:[NSColor colorWithCalibratedWhite:0.92 alpha:1.0]];
-	[view_FindNavigator setEndingColor:[NSColor colorWithCalibratedWhite:0.79 alpha:1.0]];
+	[view_FindNavigator setStartingColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]];
+	[view_FindNavigator setEndingColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]];
 	[view_FindNavigator setAngle:270];
 
     //Sort by preference, defaulting to sorting by date

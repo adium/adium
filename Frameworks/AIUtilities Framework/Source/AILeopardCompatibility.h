@@ -56,6 +56,10 @@
 - (BOOL)isOnActiveSpace;
 @end
 
+@interface NSMenu (NewSnowLeopardMethods)
+- (BOOL)popUpMenuPositioningItem:(NSMenuItem *)item atLocation:(NSPoint)location inView:(NSView *)view;
+@end
+
 @protocol NSToolbarDelegate
 @end
 @protocol NSSplitViewDelegate

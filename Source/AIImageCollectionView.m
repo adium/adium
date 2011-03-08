@@ -137,14 +137,14 @@
  *
  * @return <tt>NSUInteger</tt>
  */
-- (void)selectItemAtIndex:(NSUInteger)index
+- (void)selectItemAtIndex:(NSUInteger)anIndex
 {
 	// Message delegate: Should Select
 	if ([delegate respondsToSelector:@selector(imageCollectionView:shouldSelectItemAtIndex:)]) {
-		if ([delegate imageCollectionView:self shouldSelectItemAtIndex:index]) {
+		if ([delegate imageCollectionView:self shouldSelectItemAtIndex:anIndex]) {
 			// Message delegate : Did Select
 			if ([delegate respondsToSelector:@selector(imageCollectionView:didSelectItemAtIndex:)]) {
-				[delegate imageCollectionView:self didSelectItemAtIndex:index];
+				[delegate imageCollectionView:self didSelectItemAtIndex:anIndex];
 			}
 		}
 	}
@@ -162,8 +162,8 @@
 	CGFloat itemHeight = self.maxItemSize.height;
 	NSUInteger numberOfCols = [self maxNumberOfColumns];
 	
-	NSUInteger indexX = ceil(aPoint.x / itemWidth);
-	NSUInteger indexY = ceil(aPoint.y / itemHeight);
+	NSUInteger indexX = AIceil(aPoint.x / itemWidth);
+	NSUInteger indexY = AIceil(aPoint.y / itemHeight);
 
 	return (((indexY * numberOfCols) - (numberOfCols - indexX)) - 1);
 }

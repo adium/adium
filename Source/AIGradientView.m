@@ -29,7 +29,7 @@
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
-		startingColor = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+		startingColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
 		endingColor = nil;
 		angle = 270;
 	}

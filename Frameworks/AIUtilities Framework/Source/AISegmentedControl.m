@@ -18,10 +18,6 @@
 #import "AISegmentedControl.h"
 #import <AIUtilities/AIApplicationAdditions.h>
 
-@interface NSMenu (NewSnowLeopardMethods)
-- (BOOL)popUpMenuPositioningItem:(NSMenuItem *)item atLocation:(NSPoint)location inView:(NSView *)view;
-@end
-
 @interface NSSegmentedCell (ApplePrivate)
 - (void)setMenuIndicatorShown:(BOOL)shown forSegment:(NSInteger)segment;
 @end
