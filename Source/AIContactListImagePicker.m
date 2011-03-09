@@ -54,6 +54,9 @@
 		imageMenu = nil;
 	}
 	
+	maxSize = NSMakeSize(256.0f, 256.0f);
+	shouldUpdateRecentRepository = YES;
+	
 	return self;
 }
 
@@ -64,6 +67,9 @@
 	}
 
 	[self configureTracking];
+	
+	maxSize = NSMakeSize(256.0f, 256.0f);
+	shouldUpdateRecentRepository = YES;
 }
 
 - (void)dealloc
