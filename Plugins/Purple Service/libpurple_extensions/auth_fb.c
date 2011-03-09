@@ -143,7 +143,7 @@ fb_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
 }
 
 static JabberSaslMech fb_mech = {
-	255, /* priority */
+	127, /* priority; gint8 (-128 to 127). higher will be tried sooner if offerred by the server */
 	"X-FACEBOOK-PLATFORM", /* name */
 	fb_start,
 	fb_handle_challenge, /* handle_challenge */
