@@ -360,7 +360,7 @@
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify
 {
 	[self setValue:inFormattedUID
-				   forProperty:FormattedUID
+				   forProperty:KEY_FORMATTED_UID
 				   notify:notify];
 }
 
@@ -402,7 +402,7 @@
  */
 - (NSString *)formattedUID
 {
-	NSString  *outName = [self valueForProperty:FormattedUID];
+	NSString  *outName = [self valueForProperty:KEY_FORMATTED_UID];
 	return outName ? outName : UID;	
 }
 

@@ -22,6 +22,8 @@
 #define	KEY_ORDER_INDEX		@"Order Index"
 #define KEY_IS_BLOCKED		@"isBlocked"
 
+#define KEY_FORMATTED_UID	@"FormattedUID"
+
 typedef enum {
 	AIAvailableStatus = 'avaL',
 	AIAwayStatus = 'awaY',
