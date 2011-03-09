@@ -17,21 +17,11 @@
 
 @implementation AIFacebookXMPPAccount
 
-- (void)connect
-{
-	AILog(@"trying to connect");
-	[super connect];
-}
+#pragma mark Connectivitiy
 
 - (const char*)protocolPlugin
 {
 	return "prpl-jabber";
-}
-
-- (void)didConnect
-{
-	[super didConnect];
-	NSLog(@"connected");
 }
 
 - (NSString *)serverSuffix
@@ -72,6 +62,13 @@
 	
 	return [completeUserName UTF8String];
 }
+
+- (BOOL)encrypted
+{
+	return NO;
+}
+
+#pragma mark Status
 
 - (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
 							  arguments:(NSMutableDictionary *)arguments
@@ -128,12 +125,7 @@
 	return statusID;
 }
 
-- (BOOL)encrypted
-{
-	return NO;
-}
-
-#pragma mark -
+#pragma mark Account configuration
 
 - (void)setName:(NSString *)name UID:(NSString *)inUID
 {
