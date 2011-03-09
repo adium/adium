@@ -55,8 +55,6 @@ typedef enum {
 
 @property (readonly, nonatomic) NSInteger desiredHeight;
 @property (readonly, nonatomic) NSInteger desiredWidth;
-- (void)setMinimumDesiredWidth:(CGFloat)inMinimumDesiredWidth;
-- (void)setDesiredHeightPadding:(int)inPadding;
 
 //Contact menu
 @property (readonly, nonatomic) AIListObject *listObject;
@@ -72,9 +70,16 @@ typedef enum {
  */
 @property (readonly, nonatomic) int indexOfFirstVisibleListContact;
 
+- (void)setMinimumDesiredWidth:(CGFloat)inMinimumDesiredWidth;
+- (void)setDesiredHeightPadding:(int)inPadding;
+
 @end
 
 @interface AIListOutlineView (AIListOutlineView_Drawing)
+
+@property (readwrite, nonatomic, retain) NSColor *backgroundColor;
+@property (readwrite, nonatomic, retain) NSColor *highlightColor;
+@property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
 
 //Shadows
 - (void)setUpdateShadowsWhileDrawing:(BOOL)update;
@@ -84,8 +89,5 @@ typedef enum {
 - (void)setBackgroundStyle:(AIBackgroundStyle)inBackgroundStyle;
 - (void)setBackgroundOpacity:(CGFloat)opacity forWindowStyle:(AIContactListWindowStyle)windowStyle;
 - (void)setBackgroundFade:(CGFloat)fade;
-@property (readwrite, nonatomic, retain) NSColor *backgroundColor;
-@property (readwrite, nonatomic, retain) NSColor *highlightColor;
-@property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
 
 @end
