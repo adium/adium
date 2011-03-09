@@ -157,4 +157,21 @@
 	}
 }
 
+- (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info forContact:(AIListContact *)contact
+{
+	NSMutableArray *array = [super arrayOfDictionariesFromPurpleNotifyUserInfo:user_info forContact:contact];
+	
+	NSString *displayUID = contact.UID;
+	displayUID = [displayUID stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+	if ([displayUID hasSuffix:@"@chat.facebook.com"])
+		displayUID = [displayUID substringToIndex:displayUID.length - @"@chat.facebook.com".length];
+
+	[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+					  AILocalizedString(@"Facebook ID", nil), KEY_KEY,
+					  displayUID, KEY_VALUE,
+					  nil]];
+
+	return array;
+}
+
 @end
