@@ -12,7 +12,36 @@
 
 #import "AIFacebookXMPPService.h"
 
+#import "AILibpurplePlugin.h"
+#import <Libpurple/auth.h>
+#import "auth_fb.h"
+
 @implementation AIFacebookXMPPService
+
+- (id)init
+{
+	if ((self = [super init])) {
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(libpurpleDidInit:)
+													 name:AILibpurpleDidInitialize
+												   object:nil]; 
+	}
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[super dealloc];
+}
+
+- (void)libpurpleDidInit:(NSNotification *)notification
+{
+	AILog(@"Adding mech for fb");
+	jabber_auth_add_mech(jabber_auth_get_fb_mech());
+}
 
 //Account Creation
 - (Class)accountClass{
