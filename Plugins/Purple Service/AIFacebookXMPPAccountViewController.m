@@ -95,12 +95,17 @@
     NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
     secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes
     
-    [[adium accountController] setPassword:sessionKey forAccount:account];
-    [account setPasswordTemporarily:sessionKey];
-    [(AIFacebookXMPPAccount *)account setSessionSecret:secret];
-    
+	/* Passwords are keyed by UID, so we need to make this change before storing the password */
 	[account filterAndSetUID:uuid];
 	[account setFormattedUID:name notify:NotifyNever];
+
+    [[adium accountController] setPassword:sessionKey forAccount:account];
+    [account setPasswordTemporarily:sessionKey];
+	
+	[account setPreference:secret
+					forKey:@"FBSessionSecret"
+					 group:GROUP_ACCOUNT_STATUS];	
+    
 	NSString *connectHost = @"FBXMPP";
 	
 	[account setPreference:connectHost

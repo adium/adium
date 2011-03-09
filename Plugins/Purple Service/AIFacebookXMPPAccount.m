@@ -44,11 +44,11 @@
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
-	
+
 	purple_account_set_username(account, self.purpleAccountName);
 	purple_account_set_string(account, "connection_security", "");
     purple_account_set_string(account, "fb_api_key", "819fd0b010d15eac1b36648f0126ece3");
-    purple_account_set_string(account, "fb_api_secret", [[self sessionSecret] UTF8String]);
+    purple_account_set_string(account, "fb_api_secret", [[self preferenceForKey:@"FBSessionSecret" group:GROUP_ACCOUNT_STATUS] UTF8String]);
 }
 
 - (const char *)purpleAccountName
