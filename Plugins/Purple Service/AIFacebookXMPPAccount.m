@@ -46,9 +46,6 @@
 	[super configurePurpleAccount];
 	
 	purple_account_set_username(account, self.purpleAccountName);
-	jabber_auth_remove_mech(jabber_auth_get_digest_md5_mech());
-	jabber_auth_remove_mech(jabber_auth_get_cyrus_mech());
-	jabber_auth_add_mech(jabber_auth_get_fb_mech());
 	purple_account_set_string(account, "connection_security", "");
     purple_account_set_string(account, "fb_api_key", "819fd0b010d15eac1b36648f0126ece3");
     purple_account_set_string(account, "fb_api_secret", [[self sessionSecret] UTF8String]);
