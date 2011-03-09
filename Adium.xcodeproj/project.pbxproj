@@ -622,7 +622,6 @@
 		34A489F306F64359002C7C5F /* AISCLViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A489F106F64359002C7C5F /* AISCLViewPlugin.m */; };
 		34A48A0106F6436D002C7C5F /* AIStandardListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A489FB06F6436D002C7C5F /* AIStandardListWindowController.m */; };
 		34A48A0406F6436D002C7C5F /* AIListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A489FE06F6436D002C7C5F /* AIListWindowController.m */; };
-		34A48A0C06F64376002C7C5F /* ContactListWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34A48A0B06F64376002C7C5F /* ContactListWindow.nib */; };
 		34A48A1006F64382002C7C5F /* ContactListWindowBorderless.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34A48A0F06F64381002C7C5F /* ContactListWindowBorderless.nib */; };
 		34A48A1806F6438F002C7C5F /* AIBorderlessListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A48A1406F6438F002C7C5F /* AIBorderlessListWindowController.m */; };
 		34A48A1906F6438F002C7C5F /* AIListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A48A1506F6438F002C7C5F /* AIListController.m */; };
@@ -1489,6 +1488,8 @@
 		81DAED520C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */; };
 		81DAED530C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */; };
 		81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E839050583207E00F2AADB /* SystemConfiguration.framework */; };
+		9722ABC613257D5800CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC513257D5800CAB486 /* ContactListWindow.xib */; };
+		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CE713191E4800550C41 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 97AF5CE213191E2800550C41 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97AF5CE813191E4800550C41 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CE313191E2800550C41 /* AIImageCollectionView.m */; };
@@ -3370,7 +3371,6 @@
 		34A489FC06F6436D002C7C5F /* AIStandardListWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIStandardListWindowController.h; path = Source/AIStandardListWindowController.h; sourceTree = "<group>"; };
 		34A489FE06F6436D002C7C5F /* AIListWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIListWindowController.m; path = Source/AIListWindowController.m; sourceTree = "<group>"; };
 		34A489FF06F6436D002C7C5F /* AIListWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIListWindowController.h; path = Source/AIListWindowController.h; sourceTree = "<group>"; };
-		34A48A0B06F64376002C7C5F /* ContactListWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactListWindow.nib; path = Resources/ContactListWindow.nib; sourceTree = "<group>"; };
 		34A48A0F06F64381002C7C5F /* ContactListWindowBorderless.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactListWindowBorderless.nib; path = Resources/ContactListWindowBorderless.nib; sourceTree = "<group>"; };
 		34A48A1306F6438F002C7C5F /* AIListController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIListController.h; path = Source/AIListController.h; sourceTree = "<group>"; };
 		34A48A1406F6438F002C7C5F /* AIBorderlessListWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIBorderlessListWindowController.m; path = Source/AIBorderlessListWindowController.m; sourceTree = "<group>"; };
@@ -4734,6 +4734,8 @@
 		81DAE8710C261E8A00780E4C /* AMPurpleTuneTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleTuneTooltip.m; path = "Plugins/Purple Service/AMPurpleTuneTooltip.m"; sourceTree = "<group>"; };
 		81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleJabberServiceDiscoveryBrowsing.h; path = "Plugins/Purple Service/AMPurpleJabberServiceDiscoveryBrowsing.h"; sourceTree = "<group>"; };
 		81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberServiceDiscoveryBrowsing.m; path = "Plugins/Purple Service/AMPurpleJabberServiceDiscoveryBrowsing.m"; sourceTree = "<group>"; };
+		9722ABC513257D5800CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
+		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
 		97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactListUserPictureMenuController.m; path = Source/AIContactListUserPictureMenuController.m; sourceTree = "<group>"; };
 		97AF5CE213191E2800550C41 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = Source/AIImageCollectionView.h; sourceTree = "<group>"; };
@@ -5265,6 +5267,7 @@
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				63C7E0280FAF9B7D00B310AC /* xcconfigs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				9722ABC513257D5800CAB486 /* ContactListWindow.xib */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -7458,7 +7461,7 @@
 				34607EF209B22933000DB3D2 /* User Icon Changing */,
 				34A489FC06F6436D002C7C5F /* AIStandardListWindowController.h */,
 				34A489FB06F6436D002C7C5F /* AIStandardListWindowController.m */,
-				34A48A0B06F64376002C7C5F /* ContactListWindow.nib */,
+				9722ABC713257D7F00CAB486 /* ContactListWindow.xib */,
 				34EBB2C10DCA8DE400B4CB6E /* AISearchFieldCell.h */,
 				34EBB2C20DCA8DE500B4CB6E /* AISearchFieldCell.m */,
 				34607F0C09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.m */,
@@ -9829,7 +9832,6 @@
 				4BD6758806001E460049CAF7 /* AlertMessageContactAlert.nib in Resources */,
 				7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */,
 				6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */,
-				34A48A0C06F64376002C7C5F /* ContactListWindow.nib in Resources */,
 				34A48A1006F64382002C7C5F /* ContactListWindowBorderless.nib in Resources */,
 				4BE9FFE8055981AB00359B15 /* Adium.pch in Resources */,
 				4BD6743106001D1E0049CAF7 /* EmoticonDefaults.plist in Resources */,
@@ -10021,6 +10023,8 @@
 				76889DEF12D3CA40007AEF00 /* Personal.png in Resources */,
 				1154F50A12E1476900B8CA27 /* AILogByAccountWindow.nib in Resources */,
 				97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */,
+				9722ABC613257D5800CAB486 /* ContactListWindow.xib in Resources */,
+				9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

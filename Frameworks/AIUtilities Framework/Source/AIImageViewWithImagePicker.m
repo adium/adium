@@ -24,19 +24,26 @@
 #import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
 
+#import "IKRecentPicture.h" //10.5+, private
+
 #define DRAGGING_THRESHOLD 16.0
 
+@class IKPictureTakerRecentPicture;
+
 @interface AIImageViewWithImagePicker ()
+
 - (void)_initImageViewWithImagePicker;
 - (void)showPictureTaker;
 - (void)copy:(id)sender;
 - (void)paste:(id)sender;
 - (void)delete;
+
 @end
 
-@class IKPictureTakerRecentPicture;
 @interface NSObject (IKPictureTaker_SecretsAdiumKnows)
+
 - (void)setRecentPictureAsImageInput:(IKPictureTakerRecentPicture *)picture;
+
 @end
 
 /*
@@ -51,14 +58,15 @@
  *		- Drag and drop into and out of the image well, with delegate notification, 
  *			with support for animated GIFs and transparency
  *		- Notifcation to the delegate of user's attempt to delete the image
- *
- * Note: AIImageViewWithImagePicker requires Panther or better for the Address Book-style
- * image picker to work.
+ *		- Adding image to Recent Picture Repository, for dragged images only
  */
 @implementation AIImageViewWithImagePicker
 
-// Init ------------------------------------------------------------------------------------------
+
+@synthesize delegate, activeRecentPicture, usePictureTaker, presentPictureTakerAsSheet, shouldUpdateRecentRepository, maxSize; 
+
 #pragma mark Init
+
 /*
  * @brief Initialize with coder
  */
@@ -91,6 +99,8 @@
 	delegate = nil;
 	activeRecentPicture = nil;
 	
+	shouldUpdateRecentRepository = NO;
+	
 	lastResp = nil;
 	shouldDrawFocusRing = NO;
 
@@ -109,7 +119,7 @@
 
 	if (pictureTaker) {
 		[pictureTaker close];
-		[pictureTaker release]; pictureTaker = nil;
+		[pictureTaker release], pictureTaker = nil;
 	}
 	
 	delegate = nil;
@@ -118,28 +128,7 @@
 	[super dealloc];
 }
 
-// Getters and Setters ----------------------------------------------------------------
 #pragma mark Getters and Setters
-/*!
- * @brief Set the delegate
- *
- * Set the delegate.  See <tt>AIImageViewWithImagePickerDelegate</tt> protocol discussion for details.
- * @param inDelegate The delegate, which may implement any of the methods described in <tt>AIImageViewWithImagePickerDelegate</tt>.
- */ 
-- (void)setDelegate:(id)inDelegate
-{
-	delegate = inDelegate;
-}
-
-/*!
- * @brief Return the delegate
- *
- * @return The delegate
- */ 
-- (id)delegate
-{
-	return delegate;
-}
 
 /*!
  * @brief Set the image
@@ -155,7 +144,7 @@
 		[pictureTaker setInputImage:inImage];
 	}
 	
-	[activeRecentPicture release]; activeRecentPicture = nil;
+	[activeRecentPicture release], activeRecentPicture = nil;
 }
 
 /*!
@@ -167,7 +156,9 @@
 - (void)setTitle:(NSString *)inTitle
 {
 	if (title != inTitle) {
-		[title release]; title = [inTitle retain];
+		[title release];
+		title = [inTitle retain];
+		
 		if (pictureTaker) {
 			[pictureTaker setTitle:title];
 		}
@@ -182,37 +173,6 @@
 	return (title ? title : AILocalizedStringFromTableInBundle(@"Image Picker", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil));
 }
 
-/*!
- * @brief Should the image view use the address book Image Picker?
- *
- * If NO, a standard Open panel is used instead.
- */
-- (void)setUsePictureTaker:(BOOL)inUsePictureTaker
-{
-	usePictureTaker = inUsePictureTaker;
-}
-
-- (void)setPresentPictureTakerAsSheet:(BOOL)inPresentPictureTakerAsSheet
-{
-	presentPictureTakerAsSheet  = inPresentPictureTakerAsSheet;
-}
-
-- (BOOL)presentPictureTakerAsSheet
-{
-	return presentPictureTakerAsSheet;
-}
-
-- (void)setMaxSize:(NSSize)inMaxSize
-{
-	maxSize = inMaxSize;
-}
-
-- (NSSize)maxSize
-{
-	return maxSize;
-}
-
-// Monitoring user interaction --------------------------------------------------------
 #pragma mark Monitoring user interaction
 
 /*
@@ -282,6 +242,7 @@
 	NSPoint mousePos = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	CGFloat dx = mousePos.x-mouseDownPos.x;
 	CGFloat dy = mousePos.y-mouseDownPos.y;	
+	
 	if ((dx*dx) + (dy*dy) < DRAGGING_THRESHOLD) {
 		return;
 	}
@@ -398,68 +359,70 @@
  * We then want to update our pictureTaker's selection if it is open.
  * Also, if we're dropped a promised file, use its data directly as it may be better than what NSImageView's natural
  * loading retrieves... this way we can get transparency or animation data, for example.
+ * Also we want the image to be added to the recent repository
  */
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
-	BOOL	notified = NO, resized = NO;
-	NSImage *droppedImage;
-	NSSize	droppedImageSize;
-
 	[super concludeDragOperation:sender];
+	
+	NSImage *droppedImage = [self image];
+	NSSize droppedImageSize = [droppedImage size];
+	NSSize mSize = [self maxSize];
+	
+	IKPictureTakerRecentPicture *recentPicture = [IKPictureTakerRecentPicture defaultRecentPictureWithOriginalImage:droppedImage cropSize:CGSizeZero];
+	
+	if (!shouldUpdateRecentRepository &&
+		((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
+		(mSize.height > 0.0f && droppedImageSize.height > mSize.height))) {
 
-	droppedImage = [self image];
-	droppedImageSize = [droppedImage size];
+		droppedImage = [droppedImage imageByScalingToSize:mSize];
 
-	if ((maxSize.width > 0 && droppedImageSize.width > maxSize.width) ||
-		(maxSize.height > 0 && droppedImageSize.height > maxSize.height)) {
-		droppedImage = [droppedImage imageByScalingToSize:maxSize];
-		//This will notify the picker controller that the selection changed, as well
+		// This will notify the picker controller that the selection changed, as well
 		[self setImage:droppedImage];
-		resized = YES;
-
 	} else if (pictureTaker) {
-		[pictureTaker setInputImage:droppedImage];
+		// Notify the picker controller
+		[pictureTaker setRecentPictureAsImageInput:recentPicture];
+	}
+	
+	// Inform the delegate
+	if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
+		[[self delegate] imageViewWithImagePicker:self didChangeToImageData:[droppedImage PNGRepresentation]];
+	} else if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
+		[[self delegate] imageViewWithImagePicker:self didChangeToImage:droppedImage];
 	}
 
-	//Use the file's data if possible and the image wasn't too big
-	if (!resized && [delegate respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
-		NSPasteboard	*pboard = [sender draggingPasteboard];
+	// Update Recent Pictures Repository
+	if (shouldUpdateRecentRepository) {
+		// We need a valid maxSize, >= (32.0f, 32.0f)
+		NSAssert(mSize.width >= 32.0f || mSize.height >= 32.0f, @"Valid maxSize required!");
 
-		if ([[pboard types] containsObject:NSFilenamesPboardType]) {
-			NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		if ((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
+			(mSize.height > 0.0f && droppedImageSize.height > mSize.height)) {
+			
+			droppedImage = [droppedImage imageByScalingToSize:mSize];
+		}
 		
-			if ([files count]) {
-				NSString	*imageFile = [files objectAtIndex:0];
-				NSData		*imageData = [NSData dataWithContentsOfFile:imageFile];
-
-				if (imageData) {
-					[delegate performSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)
-								   withObject:self
-								   withObject:[NSData dataWithContentsOfFile:imageFile]];
-					
-					notified = YES;
-				}
-			}
-		}
-	}
-
-	//Inform the delegate if we haven't informed it yet
-	if (!notified) {
-		if ([delegate respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
-			[delegate performSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)
-						   withObject:self
-						   withObject:[droppedImage PNGRepresentation]];
-
-		} else if ([delegate respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
-			[delegate performSelector:@selector(imageViewWithImagePicker:didChangeToImage:)
-						   withObject:self
-						   withObject:droppedImage];
-		}
+		// Recent picture needs a small icon, of square shape
+		NSImage *smallIcon = [[NSImage alloc] initWithSize:mSize];
+		
+		[smallIcon lockFocus];
+		[droppedImage drawAtPoint:NSMakePoint((mSize.width - droppedImage.size.width) / 2.0f, (mSize.height - droppedImage.size.height) / 2.0f) 
+						 fromRect:NSZeroRect 
+						operation:NSCompositeCopy
+						 fraction:1.0f];
+		[smallIcon unlockFocus];
+		
+		// Update recent picture
+		[recentPicture setCropInfo:nil smallIcon:smallIcon];
+		[smallIcon release];
+		
+		// Add to recent repository
+		[[IKPictureTakerRecentPictureRepository recentRepository] addRecent:recentPicture];
 	}
 }
 
-// Copy / Paste ----------------------------------------------------------------
 #pragma mark Copy / Paste
+
 /*
  * @brief Copy
  */
@@ -542,8 +505,8 @@
 	}	
 }
 
-// NSImagePicker Access and Delegate ----------------------------------------------------------------
 #pragma mark NSImagePicker Access and Delegate
+
 /*!
  * @brief Action to call -[self showPictureTaker]
  */ 
@@ -689,8 +652,8 @@
 	}
 }
 
-// Drawing ------------------------------------------------------------------------
 #pragma mark Drawing
+
 /*
  * @brief Note when the focus ring needs to be displayed
  *
@@ -704,18 +667,19 @@
 	
 	if ([window isKeyWindow]) {
 		resp = [window firstResponder];
+		
 		if (resp == lastResp) {
 			return [super needsDisplay];
 		}
-		
 	} else if (lastResp == nil) {
 		return [super needsDisplay];
-		
 	}
 	
-	shouldDrawFocusRing = (resp != nil &&
+	shouldDrawFocusRing = ([self focusRingType] != NSFocusRingTypeNone &&
+						   resp != nil &&
 						   [resp isKindOfClass:[NSView class]] &&
 						   [(NSView *)resp isDescendantOf:self]); // [sic]
+
 	lastResp = resp;
 	
 	[self setKeyboardFocusRingNeedsDisplayInRect:[self bounds]];
