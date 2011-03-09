@@ -17,8 +17,6 @@
 
 @implementation AIFacebookXMPPAccount
 
-@synthesize sessionSecret;
-
 - (void)connect
 {
 	AILog(@"trying to connect");
@@ -133,6 +131,15 @@
 - (BOOL)encrypted
 {
 	return NO;
+}
+
+#pragma mark -
+
+- (void)setName:(NSString *)name UID:(NSString *)inUID
+{
+	[self filterAndSetUID:inUID];
+	
+	[self setFormattedUID:name notify:NotifyNever];
 }
 
 @end

@@ -96,8 +96,7 @@
     secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes
     
 	/* Passwords are keyed by UID, so we need to make this change before storing the password */
-	[account filterAndSetUID:uuid];
-	[account setFormattedUID:name notify:NotifyNever];
+	[(AIFacebookXMPPAccount *)account setName:name UID:uuid];
 
     [[adium accountController] setPassword:sessionKey forAccount:account];
     [account setPasswordTemporarily:sessionKey];

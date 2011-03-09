@@ -10,9 +10,9 @@
 
 
 @interface AIFacebookXMPPAccount : CBPurpleAccount {
-    NSString *sessionSecret;
+
 }
 
-@property (retain) NSString *sessionSecret;
+- (void)setName:(NSString *)name UID:(NSString *)inUID;
 
 @end
