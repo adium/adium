@@ -154,9 +154,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
 	if (![contactName isEqualToString:theContact.formattedUID] && ![contactName isEqualToString:theContact.UID]) {
-		[theContact setValue:contactName
-							 forProperty:@"formattedUID"
-							 notify:NotifyLater];
+		[theContact setFormattedUID:contactName notify:NotifyLater];
 	}
 	
 	if (groupName && [groupName isEqualToString:@PURPLE_ORPHANS_GROUP_NAME]) {
@@ -191,9 +189,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	NSString	*normalizedUID = [self.service normalizeUID:newUID removeIgnoredCharacters:YES];
 	
 	if ([normalizedUID isEqualToString:theContact.UID]) {
-		[theContact setValue:newUID
-							 forProperty:@"formattedUID"
-							 notify:NotifyLater];		
+		[theContact setFormattedUID:newUID notify:NotifyLater];
 	} else {
 		[theContact setUID:newUID];		
 	}
