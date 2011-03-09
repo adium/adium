@@ -104,13 +104,7 @@
 	
 	[account setPreference:secret
 					forKey:@"FBSessionSecret"
-					 group:GROUP_ACCOUNT_STATUS];	
-    
-	NSString *connectHost = @"FBXMPP";
-	
-	[account setPreference:connectHost
-					forKey:KEY_CONNECT_HOST
-					 group:GROUP_ACCOUNT_STATUS];
+					 group:GROUP_ACCOUNT_STATUS];	    
     NSLog(@"token %@", token);
 	NSLog(@"fUID %@", account.formattedUID);
 	NSLog(@"UID %@", account.UID);

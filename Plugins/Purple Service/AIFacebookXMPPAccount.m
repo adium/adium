@@ -41,6 +41,12 @@
 	return @"@chat.facebook.com";
 }
 
+/* Specify a host for network-reachability-code purposes */
+- (NSString *)host
+{
+	return @"chat.facebook.com";
+}
+
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
