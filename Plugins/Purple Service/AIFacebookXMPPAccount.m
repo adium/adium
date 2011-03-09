@@ -9,6 +9,7 @@
 #import "AIFacebookXMPPAccount.h"
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIListContact.h>
 #import "adiumPurpleCore.h"
 #import <libpurple/jabber.h>
 #import "ESPurpleJabberAccount.h"
@@ -132,6 +133,28 @@
 	[self filterAndSetUID:inUID];
 	
 	[self setFormattedUID:name notify:NotifyNever];
+}
+
+#pragma mark Contacts
+
+/*!
+ * @brief Set an alias for a contact
+ *
+ * Normally, we consider the name a 'serverside alias' unless it matches the UID's characters
+ * However, the UID in facebook should never be presented to the user if possible; it's for internal use
+ * only.  We'll therefore consider any alias a formatted UID such that it will replace the UID when displayed
+ * in Adium.
+ */
+- (void)updateContact:(AIListContact *)theContact toAlias:(NSString *)purpleAlias
+{
+	if (![purpleAlias isEqualToString:theContact.formattedUID] && 
+		![purpleAlias isEqualToString:theContact.UID]) {
+		[theContact setFormattedUID:purpleAlias
+							 notify:NotifyLater];
+		
+		//Apply any changes
+		[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
+	}
 }
 
 @end
