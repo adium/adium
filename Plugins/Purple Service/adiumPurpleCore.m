@@ -239,7 +239,8 @@ static void adiumPurpleCoreUiInit(void)
 	
 	load_external_plugins();
 	
-	jabber_auth_add_mech(jabber_auth_get_fb_mech());
+	[[NSNotificationCenter defaultCenter] postNotificationName:AILibpurpleDidInitialize
+														object:nil];
 }
 
 static void adiumPurpleCoreQuit(void)
