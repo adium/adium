@@ -871,7 +871,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 - (void)displayFileSendError
 {
 	[adium.interfaceController handleMessage:AILocalizedString(@"File Send Error",nil)
-							   withDescription:AILocalizedString(@"An error was encoutered sending the file.",nil)
+							   withDescription:AILocalizedString(@"An error was encountered sending the file.",nil)
 							   withWindowTitle:AILocalizedString(@"File Send Error",nil)];
 }
 
