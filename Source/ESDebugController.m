@@ -26,6 +26,8 @@
 
 #import <objc/objc-runtime.h>
 
+#import <ExceptionHandling/NSExceptionHandler.h>
+
 #define	CACHED_DEBUG_LOGS		100		//Number of logs to keep at any given time
 #define	KEY_DEBUG_WINDOW_OPEN	@"Debug Window Open"
 
@@ -49,10 +51,37 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 		objc_setEnumerationMutationHandler(AIExplodeOnEnumerationMutation);
 #endif
 
-		debugLogArray = [[NSMutableArray alloc] init];		
+		debugLogArray = [[NSMutableArray alloc] init];
+		
+		NSExceptionHandler *exceptionHandler = [NSExceptionHandler defaultExceptionHandler];
+		
+		NSUInteger handlingMask = NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask
+								  | NSLogTopLevelExceptionMask | NSLogOtherExceptionMask;
+
+		[exceptionHandler setExceptionHandlingMask:handlingMask];
+		[exceptionHandler setDelegate:self];
 	}
 	return self;
 }
+
+#pragma mark Exception Handling
+
+/*!
+ * @brief HIToolbox intercepts all exceptions coming from the GUI, even if crashing would be prefered.
+ *
+ * However, logging them with backtrace to the debug log is better than nothing.
+ */
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(NSUInteger)aMask
+{
+	AILogWithSignature(@"Exception raised: %@", exception);
+	AILogBacktrace();
+	
+	NSLog(@"Exception was raised: %@", exception);
+	
+	return NO;
+}
+
+#pragma mark -
 
 - (void)controllerDidLoad
 {
