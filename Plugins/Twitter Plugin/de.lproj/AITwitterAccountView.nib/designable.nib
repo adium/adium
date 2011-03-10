@@ -3,29 +3,15 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10J567</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1278</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">462.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1278</string>
+			<string key="NS.object.0">823</string>
 		</object>
-		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
+		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>NSPopUpButton</string>
-			<string>NSButton</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSMenuItem</string>
-			<string>NSProgressIndicator</string>
-			<string>NSTabView</string>
-			<string>NSCustomView</string>
-			<string>NSTabViewItem</string>
-			<string>NSView</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSTextField</string>
-			<string>NSCustomObject</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -128,7 +114,7 @@
 						<object class="NSButtonCell" key="NSCell" id="370529910">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Encrypt connection using SSL</string>
+							<string key="NSContents">Verbindung mittels SSL verschlüsseln</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="299750509"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -258,7 +244,7 @@
 						<object class="NSButtonCell" key="NSCell" id="74226557">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">After sending a tweet</string>
+							<string key="NSContents">Nach Senden eines Tweets</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="278799254"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -280,7 +266,7 @@
 						<object class="NSButtonCell" key="NSCell" id="155130154">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Update global status when sending a tweet</string>
+							<string key="NSContents">Globalen Status nach Senden eines Tweets aktualisieren</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="120473249"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -302,7 +288,7 @@
 						<object class="NSButtonCell" key="NSCell" id="85058144">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Include @replies</string>
+							<string key="NSContents">@replies einbeziehen</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="101049228"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -387,7 +373,7 @@
 						<object class="NSButtonCell" key="NSCell" id="17114962">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Show people I follow in the contact list</string>
+							<string key="NSContents">Leute, denen ich folge, in der Kontaktliste anzeigen</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="377578690"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -609,7 +595,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="918273829">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">71303168</int>
-												<string key="NSContents">Passwort:</string>
+												<string key="NSContents">Kennwort:</string>
 												<reference key="NSSupport" ref="102052516"/>
 												<reference key="NSControlView" ref="634799331"/>
 												<reference key="NSBackgroundColor" ref="475075482"/>
@@ -692,7 +678,7 @@
 											<object class="NSButtonCell" key="NSCell" id="621934204">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Allow Access</string>
+												<string key="NSContents">Zugriff erlauben</string>
 												<reference key="NSSupport" ref="102052516"/>
 												<reference key="NSControlView" ref="821592780"/>
 												<int key="NSButtonFlags">-2038284033</int>
@@ -1907,13 +1893,17 @@
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
+				<object class="NSMutableArray" key="dict.values">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+				</object>
 			</object>
 			<nil key="activeLocalization"/>
 			<object class="NSMutableDictionary" key="localizations">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
+				<object class="NSMutableArray" key="dict.values">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+				</object>
 			</object>
 			<nil key="sourceID"/>
 			<int key="maxID">665</int>
@@ -2469,6 +2459,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>
