@@ -29,7 +29,7 @@
 /*!
  * @brief Set if links should show a tooltip when hovered
  *
- * Set if links should show a tooltip when hovered if applicable.  A link will only show a tooltip if the displayed text ("Adium") differs from the link itself ("www.adiumx.com").
+ * Set if links should show a tooltip when hovered if applicable.  A link will only show a tooltip if the displayed text ("Adium") differs from the link itself ("www.adium.im").
  * @param inShowTooltip YES if tooltips should be shown.
  */
 - (void)setShowTooltip:(BOOL)inShowTooltip;
