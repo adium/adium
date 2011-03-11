@@ -615,7 +615,13 @@
 - (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat
 {
 	if (contact.isStranger && [contact.UID.lowercaseString rangeOfString:chat.name.lowercaseString].location != NSNotFound) {
-		return [contact.UID substringFromIndex:[contact.UID rangeOfString:@"/"].location + 1];		
+		NSInteger loc = [contact.UID rangeOfString:@"/"].location;
+		
+		if (loc == NSNotFound) {
+			return [super fallbackAliasForContact:contact inChat:chat];
+		}
+		
+		return [contact.UID substringFromIndex:loc + 1];		
 	} else {
 		return [super fallbackAliasForContact:contact inChat:chat];
 	}
