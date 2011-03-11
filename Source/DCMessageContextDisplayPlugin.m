@@ -16,7 +16,6 @@
 
 #import <Adium/AIContentControllerProtocol.h>
 #import "DCMessageContextDisplayPlugin.h"
-#import "DCMessageContextDisplayPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentContext.h>
