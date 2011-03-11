@@ -43,6 +43,8 @@
 
 @interface AIChat ()
 - (id)initForAccount:(AIAccount *)inAccount;
+- (void)contentObjectAdded:(NSNotification *)notification;
+
 - (void)clearUniqueChatID;
 - (void)clearListObjectStatuses;
 
@@ -78,9 +80,21 @@ static int nextChatNumber = 0;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
 
 		AILog(@"[AIChat: %x initForAccount]",self);
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(contentObjectAdded:) 
+													 name:Content_ContentObjectAdded 
+												   object:self];
 	}
 
     return self;
+}
+
+- (void)contentObjectAdded:(NSNotification *)notification
+{
+	AIContentMessage *content = [[notification userInfo] objectForKey:@"AIContentObject"];
+	
+	self.lastMessageDate = [content date];
 }
 
 /*!
@@ -500,6 +514,8 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
+
+@synthesize lastMessageDate;
 
 /*!
  * @brief Informs the chat that the core and the account are ready to begin filtering and sending a content object
