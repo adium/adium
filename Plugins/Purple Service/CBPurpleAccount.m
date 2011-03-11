@@ -2545,8 +2545,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #define MUSICAL_NOTE_AND_SPACE [NSString stringWithUTF8String:"\xe2\x99\xab "]
 			NSMutableAttributedString *temporaryStatusMessage;
 			temporaryStatusMessage = [[[NSMutableAttributedString alloc] initWithString:MUSICAL_NOTE_AND_SPACE] autorelease];
-			[temporaryStatusMessage appendAttributedString:listObjectStatusMessage];
-			
+			[temporaryStatusMessage appendAttributedString:inStatusMessage];
+
 			inStatusMessage = temporaryStatusMessage;
 		}
 		
