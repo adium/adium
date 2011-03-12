@@ -36,7 +36,7 @@
 
 // IKRecentPicture related
 - (NSArray *)recentPictures;
-- (NSArray *)recentSmallPictures;
+- (NSMutableArray *)recentSmallPictures;
 
 // Menu actions
 - (void)selectedAccount:(id)sender;
@@ -80,7 +80,7 @@
 		[imageCollectionView setMaxNumberOfRows:2];
 		[imageCollectionView setMaxItemSize:NSMakeSize(36.0f, 36.0f)];
 		
-		NSMutableArray *pictures = [NSMutableArray arrayWithArray:[self recentSmallPictures]];
+		NSMutableArray *pictures = [self recentSmallPictures];
 		NSSize pictureSize = NSMakeSize(32.0f, 32.0f);
 		
 		// Resize pictures
@@ -137,12 +137,35 @@
 
 - (NSArray *)recentPictures
 {
-	return [(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures];
+	NSArray *recentPictures = [(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures];
+    
+    if (recentPictures.count > 10)
+        return [recentPictures subarrayWithRange:NSMakeRange(0, 10)];
+    else
+        return recentPictures;
 }
 
-- (NSArray *)recentSmallPictures
+/*!
+ * @brief Small icons for recent pictures
+ */
+- (NSMutableArray *)recentSmallPictures
 {
-	return [[self recentPictures] valueForKey:@"smallIcon"];
+    NSArray *recentPictures = [self recentPictures];
+
+    NSMutableArray *array = [[recentPictures valueForKey:@"smallIcon"] mutableCopy];
+    for (NSInteger i = (array.count-1); i >= 0; i--) {
+        id imageOrNull = [array objectAtIndex:i];
+
+        /* Not all icons have a small icon */
+        if (imageOrNull == [NSNull null]) {
+            IKPictureTakerRecentPicture *picture = [recentPictures objectAtIndex:i];
+            
+            [array replaceObjectAtIndex:i
+                             withObject:[picture editedImage]];
+        }
+    }
+    
+    return [array autorelease];
 }
 
 #pragma mark -
@@ -240,12 +263,12 @@
 
 - (BOOL)imageCollectionView:(AIImageCollectionView *)collectionView shouldHighlightItemAtIndex:(NSUInteger)anIndex
 {	
-	return (anIndex < [[self recentSmallPictures] count]);
+	return (anIndex < [[self recentPictures] count]);
 }
 
 - (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldSelectItemAtIndex:(NSUInteger)anIndex
 {
-	return (anIndex < [[self recentSmallPictures] count]);
+	return (anIndex < [[self recentPictures] count]);
 }
 
 - (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didSelectItemAtIndex:(NSUInteger)anIndex
@@ -255,8 +278,9 @@
 	if (anIndex < [recentPictures count]) {
 		id recentPicture = [recentPictures objectAtIndex:anIndex];
 		NSData *imageData = nil;
-		
-		if ([recentPicture respondsToSelector:@selector(smallIcon)]) {
+
+        /* XXX Check for and use the cropped image? */
+		if ([recentPicture respondsToSelector:@selector(smallIcon)] && ([recentPicture smallIcon] != [NSNull null])) {
 			imageData = [[recentPicture smallIcon] PNGRepresentation];
 		} else if ([recentPicture respondsToSelector:@selector(originalImagePath)]) {
 			imageData = [NSData dataWithContentsOfFile:[recentPicture originalImagePath]];
