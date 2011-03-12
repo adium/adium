@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+#x-topic #x-wrap
+{
+	position: fixed;
+	top: 0px !important;
+	right: 0px;
+	left: 0px;
+	/*padding: 4px;
+	padding-left: 21px;*/
+	padding: .4em;
+	padding-left: 2.1em;
+	z-index: 99;
+	-webkit-background-size: auto auto;
+	-webkit-transition: opacity .2s linear;
+}
+
+#topic[title=""]:not(:hover) #x-wrap
+{
+	opacity: 0;
+}
+
+#topicEdit
+{
+	min-height: 1em;
+	display: block;
+}
+
+.x-toggle
+{
+	position: fixed;
+	/*top: 2px;
+	left: 3px;
+	padding: 2px;
+	font-size: 10px !important;*/
+	top: .2em;
+	left: .3em;
+	padding: .2em;
+	font-size: 1em !important;
+	font-family: AppleGothic;
+	cursor: default;
+	z-index: 999;
+	cursor: pointer;
+}
+
+#x-hide:before
+{
+	content: "\25BD";
+}
+
+#x-hide:active:before
+{
+	content: "\25BC";
+}
+
+#x-show:before
+{
+	content: "\25B3";
+}
+
+#x-show:active:before
+{
+	content: "\25B2";
+}

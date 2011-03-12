@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {togglePack = id; }; 
+            CLASS = AIEmoticonPackPreviewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"checkBox_enablePack" = NSButton; previewView = AIEmoticonPackPreviewView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = AIEmoticonPackPreviewView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"view_name" = NSView; "view_preview" = NSView; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

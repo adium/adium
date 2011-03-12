@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {firstAction = id; secondAction = id; }; 
+            CLASS = MyAppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dragView = NSView; 
+                firstSplit = RBSplitSubview; 
+                lowerSplit = RBSplitView; 
+                myButton = NSButton; 
+                mySplitView = RBSplitView; 
+                nestedSplit = RBSplitSubview; 
+                secondSplit = RBSplitView; 
+                thirdSplit = RBSplitSubview; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = RBSplitSubview; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = RBSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = RBSplitSubview; 
+        }
+    ); 
+    IBVersion = 1; 
+}

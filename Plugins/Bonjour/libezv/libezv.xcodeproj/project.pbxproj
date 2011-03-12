@@ -1,0 +1,877 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4913E1E606525B1200E4380D /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = 4913E1E406525B1200E4380D /* sha1.h */; };
+		4913E1E706525B1200E4380D /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4913E1E506525B1200E4380D /* sha1.c */; };
+		4913E1E806525B1200E4380D /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = 4913E1E406525B1200E4380D /* sha1.h */; };
+		4913E1E906525B1200E4380D /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4913E1E506525B1200E4380D /* sha1.c */; };
+		49525C9305C932E9004DFEBB /* AWEzvContactPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525C9105C932E9004DFEBB /* AWEzvContactPrivate.h */; };
+		49525C9405C932E9004DFEBB /* AWEzvContactPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525C9205C932E9004DFEBB /* AWEzvContactPrivate.m */; };
+		49525CFF05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525CFD05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h */; };
+		49525D0005C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525CFE05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m */; };
+		49525D8905C94F90004DFEBB /* AWEzvContactManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525D8705C94F90004DFEBB /* AWEzvContactManagerListener.h */; };
+		49525D8A05C94F90004DFEBB /* AWEzvContactManagerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525D8805C94F90004DFEBB /* AWEzvContactManagerListener.m */; };
+		49525ED805C952B3004DFEBB /* AWEzvSupportRoutines.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525ED605C952B3004DFEBB /* AWEzvSupportRoutines.h */; };
+		49525ED905C952B3004DFEBB /* AWEzvSupportRoutines.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525ED705C952B3004DFEBB /* AWEzvSupportRoutines.m */; };
+		49525F5905C95991004DFEBB /* AWEzvXMLStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525F5705C95991004DFEBB /* AWEzvXMLStream.h */; };
+		49525F5A05C95991004DFEBB /* AWEzvXMLStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525F5805C95991004DFEBB /* AWEzvXMLStream.m */; };
+		495335150683F7CE00FB077F /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D2A86C05C62BC1000207CB /* libexpat.a */; };
+		495335160683F7D300FB077F /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D2A86C05C62BC1000207CB /* libexpat.a */; };
+		496F530205CE007600B6A0F5 /* AWEzvXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F530005CE007600B6A0F5 /* AWEzvXMLNode.h */; };
+		496F530305CE007600B6A0F5 /* AWEzvXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F530105CE007600B6A0F5 /* AWEzvXMLNode.m */; };
+		496F531405CE00ED00B6A0F5 /* AWEzvStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F531205CE00ED00B6A0F5 /* AWEzvStack.h */; };
+		496F531505CE00ED00B6A0F5 /* AWEzvStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F531305CE00ED00B6A0F5 /* AWEzvStack.m */; };
+		496F544305CE155700B6A0F5 /* AWEzvPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F544105CE155700B6A0F5 /* AWEzvPrivate.h */; };
+		496F544405CE155700B6A0F5 /* AWEzvPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F544205CE155700B6A0F5 /* AWEzvPrivate.m */; };
+		496F545305CE18CC00B6A0F5 /* AWEzvRendezvousData.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F545105CE18CC00B6A0F5 /* AWEzvRendezvousData.h */; };
+		496F545405CE18CC00B6A0F5 /* AWEzvRendezvousData.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F545205CE18CC00B6A0F5 /* AWEzvRendezvousData.m */; };
+		496F57B905CE4E6000B6A0F5 /* AWEzv.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A8AB05C62E13000207CB /* AWEzv.h */; };
+		496F57BA05CE4E6000B6A0F5 /* AWEzvContact.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2AFF105C6304B000207CB /* AWEzvContact.h */; };
+		496F57BB05CE4E6000B6A0F5 /* AWEzvContactManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2B2A005C636E6000207CB /* AWEzvContactManager.h */; };
+		496F57BC05CE4E6000B6A0F5 /* AWEzvContactManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525D8705C94F90004DFEBB /* AWEzvContactManagerListener.h */; };
+		496F57BD05CE4E6000B6A0F5 /* AWEzvContactManagerRendezvous.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525CFD05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h */; };
+		496F57BE05CE4E6000B6A0F5 /* AWEzvContactPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525C9105C932E9004DFEBB /* AWEzvContactPrivate.h */; };
+		496F57BF05CE4E6000B6A0F5 /* AWEzvPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F544105CE155700B6A0F5 /* AWEzvPrivate.h */; };
+		496F57C005CE4E6000B6A0F5 /* AWEzvRendezvousData.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F545105CE18CC00B6A0F5 /* AWEzvRendezvousData.h */; };
+		496F57C105CE4E6000B6A0F5 /* AWEzvStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F531205CE00ED00B6A0F5 /* AWEzvStack.h */; };
+		496F57C205CE4E6000B6A0F5 /* AWEzvXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 496F530005CE007600B6A0F5 /* AWEzvXMLNode.h */; };
+		496F57C305CE4E6000B6A0F5 /* AWEzvXMLStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 49525F5705C95991004DFEBB /* AWEzvXMLStream.h */; };
+		496F57C405CE4E6A00B6A0F5 /* AWEzv.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A8AC05C62E13000207CB /* AWEzv.m */; };
+		496F57C505CE4E6A00B6A0F5 /* AWEzvContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2AFF205C6304B000207CB /* AWEzvContact.m */; };
+		496F57C605CE4E6A00B6A0F5 /* AWEzvContactManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2B2A105C636E6000207CB /* AWEzvContactManager.m */; };
+		496F57C705CE4E6A00B6A0F5 /* AWEzvContactManagerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525D8805C94F90004DFEBB /* AWEzvContactManagerListener.m */; };
+		496F57C805CE4E6A00B6A0F5 /* AWEzvContactManagerRendezvous.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525CFE05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m */; };
+		496F57C905CE4E6A00B6A0F5 /* AWEzvContactPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525C9205C932E9004DFEBB /* AWEzvContactPrivate.m */; };
+		496F57CA05CE4E6A00B6A0F5 /* AWEzvPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F544205CE155700B6A0F5 /* AWEzvPrivate.m */; };
+		496F57CB05CE4E6A00B6A0F5 /* AWEzvRendezvousData.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F545205CE18CC00B6A0F5 /* AWEzvRendezvousData.m */; };
+		496F57CC05CE4E6A00B6A0F5 /* AWEzvStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F531305CE00ED00B6A0F5 /* AWEzvStack.m */; };
+		496F57CD05CE4E6A00B6A0F5 /* AWEzvXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F530105CE007600B6A0F5 /* AWEzvXMLNode.m */; };
+		496F57CE05CE4E6A00B6A0F5 /* AWEzvXMLStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 49525F5805C95991004DFEBB /* AWEzvXMLStream.m */; };
+		496F57D305CE4E9B00B6A0F5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D2B14805C63189000207CB /* Cocoa.framework */; };
+		499C9CD8067F4E4000D88CC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499C9CD7067F4E4000D88CC0 /* SystemConfiguration.framework */; };
+		499C9CD9067F4E4000D88CC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499C9CD7067F4E4000D88CC0 /* SystemConfiguration.framework */; };
+		49AD9DBF06B6A3D8005169F7 /* expat_external.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AD9DBE06B6A3D8005169F7 /* expat_external.h */; };
+		49D2A87205C62C23000207CB /* expat_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87105C62C23000207CB /* expat_config.h */; };
+		49D2A88505C62C32000207CB /* ascii.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87405C62C32000207CB /* ascii.h */; };
+		49D2A88605C62C32000207CB /* asciitab.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87505C62C32000207CB /* asciitab.h */; };
+		49D2A88705C62C32000207CB /* expat.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87605C62C32000207CB /* expat.h */; };
+		49D2A88805C62C32000207CB /* iasciitab.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87705C62C32000207CB /* iasciitab.h */; };
+		49D2A88905C62C32000207CB /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87805C62C32000207CB /* internal.h */; };
+		49D2A88A05C62C32000207CB /* latin1tab.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87905C62C32000207CB /* latin1tab.h */; };
+		49D2A88B05C62C32000207CB /* nametab.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87A05C62C32000207CB /* nametab.h */; };
+		49D2A88C05C62C32000207CB /* utf8tab.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87B05C62C32000207CB /* utf8tab.h */; };
+		49D2A88E05C62C32000207CB /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A87D05C62C32000207CB /* xmlparse.c */; };
+		49D2A88F05C62C32000207CB /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A87E05C62C32000207CB /* xmlrole.c */; };
+		49D2A89005C62C32000207CB /* xmlrole.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A87F05C62C32000207CB /* xmlrole.h */; };
+		49D2A89105C62C32000207CB /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A88005C62C32000207CB /* xmltok.c */; };
+		49D2A89205C62C32000207CB /* xmltok.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A88105C62C32000207CB /* xmltok.h */; };
+		49D2A8AD05C62E13000207CB /* AWEzv.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2A8AB05C62E13000207CB /* AWEzv.h */; };
+		49D2A8AE05C62E13000207CB /* AWEzv.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A8AC05C62E13000207CB /* AWEzv.m */; };
+		49D2AFF305C6304B000207CB /* AWEzvContact.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2AFF105C6304B000207CB /* AWEzvContact.h */; };
+		49D2AFF405C6304B000207CB /* AWEzvContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2AFF205C6304B000207CB /* AWEzvContact.m */; };
+		49D2B14A05C63189000207CB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D2B14805C63189000207CB /* Cocoa.framework */; };
+		49D2B2A205C636E6000207CB /* AWEzvContactManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2B2A005C636E6000207CB /* AWEzvContactManager.h */; };
+		49D2B2A305C636E6000207CB /* AWEzvContactManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D2B2A105C636E6000207CB /* AWEzvContactManager.m */; };
+		49D2B48505C64F27000207CB /* AWEzvDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D2B48405C64F27000207CB /* AWEzvDefines.h */; };
+		6F2F293A0C76381F003CD39A /* EKEzvIncomingFileTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F29360C76381F003CD39A /* EKEzvIncomingFileTransfer.h */; };
+		6F2F293B0C76381F003CD39A /* EKEzvIncomingFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F29370C76381F003CD39A /* EKEzvIncomingFileTransfer.m */; };
+		6F2F293C0C76381F003CD39A /* EKEzvOutgoingFileTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F29380C76381F003CD39A /* EKEzvOutgoingFileTransfer.h */; };
+		6F2F293D0C76381F003CD39A /* EKEzvOutgoingFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F29390C76381F003CD39A /* EKEzvOutgoingFileTransfer.m */; };
+		6F2F29400C76382C003CD39A /* EKEzvFileTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F293E0C76382C003CD39A /* EKEzvFileTransfer.h */; };
+		6F2F29410C76382C003CD39A /* EKEzvFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F293F0C76382C003CD39A /* EKEzvFileTransfer.m */; };
+		6F2F29490C76383A003CD39A /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F29420C76383A003CD39A /* AsyncSocket.h */; };
+		6F2F294A0C76383A003CD39A /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F29430C76383A003CD39A /* AsyncSocket.m */; };
+		6F2F294B0C76383A003CD39A /* HTTPAuthenticationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F29440C76383A003CD39A /* HTTPAuthenticationRequest.h */; };
+		6F2F294C0C76383A003CD39A /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F29450C76383A003CD39A /* HTTPAuthenticationRequest.m */; };
+		6F2F294D0C76383A003CD39A /* HTTPServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F2F29460C76383A003CD39A /* HTTPServer.h */; };
+		6F2F294E0C76383A003CD39A /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F29470C76383A003CD39A /* HTTPServer.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		495335170683F7DA00FB077F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49D2A86B05C62BC1000207CB;
+			remoteInfo = expat;
+		};
+		495335190683F7E400FB077F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49D2A86B05C62BC1000207CB;
+			remoteInfo = expat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32DBCF5E0370ADEE00C91783 /* libezv_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libezv_Prefix.h; sourceTree = "<group>"; };
+		4913E1E406525B1200E4380D /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		4913E1E506525B1200E4380D /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
+		4947FA030655F6D500B791E5 /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
+		49525C9105C932E9004DFEBB /* AWEzvContactPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactPrivate.h; sourceTree = "<group>"; };
+		49525C9205C932E9004DFEBB /* AWEzvContactPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContactPrivate.m; sourceTree = "<group>"; };
+		49525CFD05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactManagerRendezvous.h; sourceTree = "<group>"; };
+		49525CFE05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContactManagerRendezvous.m; sourceTree = "<group>"; };
+		49525D8705C94F90004DFEBB /* AWEzvContactManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactManagerListener.h; sourceTree = "<group>"; };
+		49525D8805C94F90004DFEBB /* AWEzvContactManagerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContactManagerListener.m; sourceTree = "<group>"; };
+		49525ED605C952B3004DFEBB /* AWEzvSupportRoutines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvSupportRoutines.h; sourceTree = "<group>"; };
+		49525ED705C952B3004DFEBB /* AWEzvSupportRoutines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvSupportRoutines.m; sourceTree = "<group>"; };
+		49525F5705C95991004DFEBB /* AWEzvXMLStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvXMLStream.h; sourceTree = "<group>"; };
+		49525F5805C95991004DFEBB /* AWEzvXMLStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvXMLStream.m; sourceTree = "<group>"; };
+		496F530005CE007600B6A0F5 /* AWEzvXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvXMLNode.h; sourceTree = "<group>"; };
+		496F530105CE007600B6A0F5 /* AWEzvXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvXMLNode.m; sourceTree = "<group>"; };
+		496F531205CE00ED00B6A0F5 /* AWEzvStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvStack.h; sourceTree = "<group>"; };
+		496F531305CE00ED00B6A0F5 /* AWEzvStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvStack.m; sourceTree = "<group>"; };
+		496F544105CE155700B6A0F5 /* AWEzvPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvPrivate.h; sourceTree = "<group>"; };
+		496F544205CE155700B6A0F5 /* AWEzvPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvPrivate.m; sourceTree = "<group>"; };
+		496F545105CE18CC00B6A0F5 /* AWEzvRendezvousData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvRendezvousData.h; sourceTree = "<group>"; };
+		496F545205CE18CC00B6A0F5 /* AWEzvRendezvousData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvRendezvousData.m; sourceTree = "<group>"; };
+		496F57B805CE4DD800B6A0F5 /* libezv.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libezv.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		499C9CD7067F4E4000D88CC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		49AD9DBE06B6A3D8005169F7 /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
+		49D2A86C05C62BC1000207CB /* libexpat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libexpat.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		49D2A87105C62C23000207CB /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
+		49D2A87405C62C32000207CB /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
+		49D2A87505C62C32000207CB /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
+		49D2A87605C62C32000207CB /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
+		49D2A87705C62C32000207CB /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
+		49D2A87805C62C32000207CB /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		49D2A87905C62C32000207CB /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
+		49D2A87A05C62C32000207CB /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
+		49D2A87B05C62C32000207CB /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
+		49D2A87D05C62C32000207CB /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
+		49D2A87E05C62C32000207CB /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
+		49D2A87F05C62C32000207CB /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
+		49D2A88005C62C32000207CB /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
+		49D2A88105C62C32000207CB /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
+		49D2A88205C62C32000207CB /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
+		49D2A88305C62C32000207CB /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
+		49D2A8A205C62D93000207CB /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		49D2A8AB05C62E13000207CB /* AWEzv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzv.h; sourceTree = "<group>"; };
+		49D2A8AC05C62E13000207CB /* AWEzv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzv.m; sourceTree = "<group>"; };
+		49D2A8B105C62E87000207CB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		49D2AFF105C6304B000207CB /* AWEzvContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContact.h; sourceTree = "<group>"; };
+		49D2AFF205C6304B000207CB /* AWEzvContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContact.m; sourceTree = "<group>"; };
+		49D2B14705C63189000207CB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		49D2B14805C63189000207CB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		49D2B2A005C636E6000207CB /* AWEzvContactManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactManager.h; sourceTree = "<group>"; };
+		49D2B2A105C636E6000207CB /* AWEzvContactManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContactManager.m; sourceTree = "<group>"; };
+		49D2B48405C64F27000207CB /* AWEzvDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWEzvDefines.h; path = "Other Sources/AWEzvDefines.h"; sourceTree = SOURCE_ROOT; };
+		6F2F29360C76381F003CD39A /* EKEzvIncomingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvIncomingFileTransfer.h; path = Classes/EKEzvIncomingFileTransfer.h; sourceTree = SOURCE_ROOT; };
+		6F2F29370C76381F003CD39A /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		6F2F29380C76381F003CD39A /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
+		6F2F29390C76381F003CD39A /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		6F2F293E0C76382C003CD39A /* EKEzvFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EKEzvFileTransfer.h; sourceTree = "<group>"; };
+		6F2F293F0C76382C003CD39A /* EKEzvFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EKEzvFileTransfer.m; sourceTree = "<group>"; };
+		6F2F29420C76383A003CD39A /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = "Simple HTTP Server/AsyncSocket.h"; sourceTree = "<group>"; };
+		6F2F29430C76383A003CD39A /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = "Simple HTTP Server/AsyncSocket.m"; sourceTree = "<group>"; };
+		6F2F29440C76383A003CD39A /* HTTPAuthenticationRequest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HTTPAuthenticationRequest.h; path = "Simple HTTP Server/HTTPAuthenticationRequest.h"; sourceTree = "<group>"; };
+		6F2F29450C76383A003CD39A /* HTTPAuthenticationRequest.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = HTTPAuthenticationRequest.m; path = "Simple HTTP Server/HTTPAuthenticationRequest.m"; sourceTree = "<group>"; };
+		6F2F29460C76383A003CD39A /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HTTPServer.h; path = "Simple HTTP Server/HTTPServer.h"; sourceTree = "<group>"; };
+		6F2F29470C76383A003CD39A /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = HTTPServer.m; path = "Simple HTTP Server/HTTPServer.m"; sourceTree = "<group>"; };
+		6F2F29480C76383A003CD39A /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = LICENSE.txt; path = "Simple HTTP Server/LICENSE.txt"; sourceTree = "<group>"; };
+		D2AAC0C705546C1D00DB518D /* libezv.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libezv.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		496F57D105CE4E7800B6A0F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495335160683F7D300FB077F /* libexpat.a in Frameworks */,
+				496F57D305CE4E9B00B6A0F5 /* Cocoa.framework in Frameworks */,
+				499C9CD9067F4E4000D88CC0 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC0C505546C1D00DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495335150683F7CE00FB077F /* libexpat.a in Frameworks */,
+				49D2B14A05C63189000207CB /* Cocoa.framework in Frameworks */,
+				499C9CD8067F4E4000D88CC0 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC0C705546C1D00DB518D /* libezv.dylib */,
+				49D2A86C05C62BC1000207CB /* libexpat.a */,
+				496F57B805CE4DD800B6A0F5 /* libezv.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* libezv */ = {
+			isa = PBXGroup;
+			children = (
+				49D2A8B105C62E87000207CB /* LICENSE */,
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				49D2B29705C6338C000207CB /* Private Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				49D2A87005C62C19000207CB /* expat */,
+				6F2F29350C7637FF003CD39A /* Simple HTTP Server */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = libezv;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6F2F293E0C76382C003CD39A /* EKEzvFileTransfer.h */,
+				6F2F293F0C76382C003CD39A /* EKEzvFileTransfer.m */,
+				49D2A8AB05C62E13000207CB /* AWEzv.h */,
+				49D2A8AC05C62E13000207CB /* AWEzv.m */,
+				49D2AFF105C6304B000207CB /* AWEzvContact.h */,
+				49D2AFF205C6304B000207CB /* AWEzvContact.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				499C9CD7067F4E4000D88CC0 /* SystemConfiguration.framework */,
+				49D2B14805C63189000207CB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				49D2B14705C63189000207CB /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				49525ED605C952B3004DFEBB /* AWEzvSupportRoutines.h */,
+				49525ED705C952B3004DFEBB /* AWEzvSupportRoutines.m */,
+				49D2B48405C64F27000207CB /* AWEzvDefines.h */,
+				32DBCF5E0370ADEE00C91783 /* libezv_Prefix.h */,
+			);
+			path = "Other Sources";
+			sourceTree = "<group>";
+		};
+		49D2A87005C62C19000207CB /* expat */ = {
+			isa = PBXGroup;
+			children = (
+				49D2A87105C62C23000207CB /* expat_config.h */,
+				49D2A8A205C62D93000207CB /* COPYING */,
+				49D2A87305C62C32000207CB /* lib */,
+			);
+			path = expat;
+			sourceTree = "<group>";
+		};
+		49D2A87305C62C32000207CB /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				49D2A87405C62C32000207CB /* ascii.h */,
+				49D2A87505C62C32000207CB /* asciitab.h */,
+				49D2A87605C62C32000207CB /* expat.h */,
+				49AD9DBE06B6A3D8005169F7 /* expat_external.h */,
+				49D2A87705C62C32000207CB /* iasciitab.h */,
+				49D2A87805C62C32000207CB /* internal.h */,
+				49D2A87905C62C32000207CB /* latin1tab.h */,
+				49D2A87A05C62C32000207CB /* nametab.h */,
+				49D2A87B05C62C32000207CB /* utf8tab.h */,
+				49D2A87D05C62C32000207CB /* xmlparse.c */,
+				49D2A87E05C62C32000207CB /* xmlrole.c */,
+				49D2A87F05C62C32000207CB /* xmlrole.h */,
+				49D2A88005C62C32000207CB /* xmltok.c */,
+				49D2A88105C62C32000207CB /* xmltok.h */,
+				49D2A88205C62C32000207CB /* xmltok_impl.c */,
+				49D2A88305C62C32000207CB /* xmltok_impl.h */,
+				4947FA030655F6D500B791E5 /* xmltok_ns.c */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		49D2B29705C6338C000207CB /* Private Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6F2F29360C76381F003CD39A /* EKEzvIncomingFileTransfer.h */,
+				6F2F29370C76381F003CD39A /* EKEzvIncomingFileTransfer.m */,
+				6F2F29380C76381F003CD39A /* EKEzvOutgoingFileTransfer.h */,
+				6F2F29390C76381F003CD39A /* EKEzvOutgoingFileTransfer.m */,
+				496F544105CE155700B6A0F5 /* AWEzvPrivate.h */,
+				496F544205CE155700B6A0F5 /* AWEzvPrivate.m */,
+				49525C9105C932E9004DFEBB /* AWEzvContactPrivate.h */,
+				49525C9205C932E9004DFEBB /* AWEzvContactPrivate.m */,
+				49D2B2A005C636E6000207CB /* AWEzvContactManager.h */,
+				49D2B2A105C636E6000207CB /* AWEzvContactManager.m */,
+				49525CFD05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h */,
+				49525CFE05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m */,
+				49525D8705C94F90004DFEBB /* AWEzvContactManagerListener.h */,
+				49525D8805C94F90004DFEBB /* AWEzvContactManagerListener.m */,
+				49525F5705C95991004DFEBB /* AWEzvXMLStream.h */,
+				49525F5805C95991004DFEBB /* AWEzvXMLStream.m */,
+				496F530005CE007600B6A0F5 /* AWEzvXMLNode.h */,
+				496F530105CE007600B6A0F5 /* AWEzvXMLNode.m */,
+				496F531205CE00ED00B6A0F5 /* AWEzvStack.h */,
+				496F531305CE00ED00B6A0F5 /* AWEzvStack.m */,
+				496F545105CE18CC00B6A0F5 /* AWEzvRendezvousData.h */,
+				496F545205CE18CC00B6A0F5 /* AWEzvRendezvousData.m */,
+				4913E1E406525B1200E4380D /* sha1.h */,
+				4913E1E506525B1200E4380D /* sha1.c */,
+			);
+			path = "Private Classes";
+			sourceTree = "<group>";
+		};
+		6F2F29350C7637FF003CD39A /* Simple HTTP Server */ = {
+			isa = PBXGroup;
+			children = (
+				6F2F29420C76383A003CD39A /* AsyncSocket.h */,
+				6F2F29430C76383A003CD39A /* AsyncSocket.m */,
+				6F2F29440C76383A003CD39A /* HTTPAuthenticationRequest.h */,
+				6F2F29450C76383A003CD39A /* HTTPAuthenticationRequest.m */,
+				6F2F29460C76383A003CD39A /* HTTPServer.h */,
+				6F2F29470C76383A003CD39A /* HTTPServer.m */,
+				6F2F29480C76383A003CD39A /* LICENSE.txt */,
+			);
+			name = "Simple HTTP Server";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		496F57B505CE4DD800B6A0F5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				496F57B905CE4E6000B6A0F5 /* AWEzv.h in Headers */,
+				496F57BA05CE4E6000B6A0F5 /* AWEzvContact.h in Headers */,
+				496F57BB05CE4E6000B6A0F5 /* AWEzvContactManager.h in Headers */,
+				496F57BC05CE4E6000B6A0F5 /* AWEzvContactManagerListener.h in Headers */,
+				496F57BD05CE4E6000B6A0F5 /* AWEzvContactManagerRendezvous.h in Headers */,
+				496F57BE05CE4E6000B6A0F5 /* AWEzvContactPrivate.h in Headers */,
+				496F57BF05CE4E6000B6A0F5 /* AWEzvPrivate.h in Headers */,
+				496F57C005CE4E6000B6A0F5 /* AWEzvRendezvousData.h in Headers */,
+				496F57C105CE4E6000B6A0F5 /* AWEzvStack.h in Headers */,
+				496F57C205CE4E6000B6A0F5 /* AWEzvXMLNode.h in Headers */,
+				496F57C305CE4E6000B6A0F5 /* AWEzvXMLStream.h in Headers */,
+				4913E1E806525B1200E4380D /* sha1.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49D2A86905C62BC1000207CB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49D2A87205C62C23000207CB /* expat_config.h in Headers */,
+				49D2A88505C62C32000207CB /* ascii.h in Headers */,
+				49D2A88605C62C32000207CB /* asciitab.h in Headers */,
+				49D2A88705C62C32000207CB /* expat.h in Headers */,
+				49D2A88805C62C32000207CB /* iasciitab.h in Headers */,
+				49D2A88905C62C32000207CB /* internal.h in Headers */,
+				49D2A88A05C62C32000207CB /* latin1tab.h in Headers */,
+				49D2A88B05C62C32000207CB /* nametab.h in Headers */,
+				49D2A88C05C62C32000207CB /* utf8tab.h in Headers */,
+				49D2A89005C62C32000207CB /* xmlrole.h in Headers */,
+				49D2A89205C62C32000207CB /* xmltok.h in Headers */,
+				49AD9DBF06B6A3D8005169F7 /* expat_external.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC0C305546C1D00DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49D2A8AD05C62E13000207CB /* AWEzv.h in Headers */,
+				49D2AFF305C6304B000207CB /* AWEzvContact.h in Headers */,
+				49D2B2A205C636E6000207CB /* AWEzvContactManager.h in Headers */,
+				49D2B48505C64F27000207CB /* AWEzvDefines.h in Headers */,
+				49525C9305C932E9004DFEBB /* AWEzvContactPrivate.h in Headers */,
+				49525CFF05C94BD8004DFEBB /* AWEzvContactManagerRendezvous.h in Headers */,
+				49525D8905C94F90004DFEBB /* AWEzvContactManagerListener.h in Headers */,
+				49525ED805C952B3004DFEBB /* AWEzvSupportRoutines.h in Headers */,
+				49525F5905C95991004DFEBB /* AWEzvXMLStream.h in Headers */,
+				496F530205CE007600B6A0F5 /* AWEzvXMLNode.h in Headers */,
+				496F531405CE00ED00B6A0F5 /* AWEzvStack.h in Headers */,
+				496F544305CE155700B6A0F5 /* AWEzvPrivate.h in Headers */,
+				496F545305CE18CC00B6A0F5 /* AWEzvRendezvousData.h in Headers */,
+				4913E1E606525B1200E4380D /* sha1.h in Headers */,
+				6F2F293A0C76381F003CD39A /* EKEzvIncomingFileTransfer.h in Headers */,
+				6F2F293C0C76381F003CD39A /* EKEzvOutgoingFileTransfer.h in Headers */,
+				6F2F29400C76382C003CD39A /* EKEzvFileTransfer.h in Headers */,
+				6F2F29490C76383A003CD39A /* AsyncSocket.h in Headers */,
+				6F2F294B0C76383A003CD39A /* HTTPAuthenticationRequest.h in Headers */,
+				6F2F294D0C76383A003CD39A /* HTTPServer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		496F57B705CE4DD800B6A0F5 /* libezv (Static) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 348FF48F090C819A00A942A8 /* Build configuration list for PBXNativeTarget "libezv (Static)" */;
+			buildPhases = (
+				496F57B505CE4DD800B6A0F5 /* Headers */,
+				496F57B605CE4DD800B6A0F5 /* Sources */,
+				496F57D105CE4E7800B6A0F5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				495335180683F7DA00FB077F /* PBXTargetDependency */,
+			);
+			name = "libezv (Static)";
+			productName = "libezv (Static)";
+			productReference = 496F57B805CE4DD800B6A0F5 /* libezv.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		49D2A86B05C62BC1000207CB /* expat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 348FF487090C819A00A942A8 /* Build configuration list for PBXNativeTarget "expat" */;
+			buildPhases = (
+				49D2A86905C62BC1000207CB /* Headers */,
+				49D2A86A05C62BC1000207CB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = expat;
+			productName = expat;
+			productReference = 49D2A86C05C62BC1000207CB /* libexpat.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D2AAC0C605546C1D00DB518D /* libezv */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 348FF48B090C819A00A942A8 /* Build configuration list for PBXNativeTarget "libezv" */;
+			buildPhases = (
+				D2AAC0C305546C1D00DB518D /* Headers */,
+				D2AAC0C405546C1D00DB518D /* Sources */,
+				D2AAC0C505546C1D00DB518D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4953351A0683F7E400FB077F /* PBXTargetDependency */,
+			);
+			name = libezv;
+			productName = libezv;
+			productReference = D2AAC0C705546C1D00DB518D /* libezv.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 348FF493090C819A00A942A8 /* Build configuration list for PBXProject "libezv" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* libezv */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				D2AAC0C605546C1D00DB518D /* libezv */,
+				49D2A86B05C62BC1000207CB /* expat */,
+				496F57B705CE4DD800B6A0F5 /* libezv (Static) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		496F57B605CE4DD800B6A0F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				496F57C405CE4E6A00B6A0F5 /* AWEzv.m in Sources */,
+				496F57C505CE4E6A00B6A0F5 /* AWEzvContact.m in Sources */,
+				496F57C605CE4E6A00B6A0F5 /* AWEzvContactManager.m in Sources */,
+				496F57C705CE4E6A00B6A0F5 /* AWEzvContactManagerListener.m in Sources */,
+				496F57C805CE4E6A00B6A0F5 /* AWEzvContactManagerRendezvous.m in Sources */,
+				496F57C905CE4E6A00B6A0F5 /* AWEzvContactPrivate.m in Sources */,
+				496F57CA05CE4E6A00B6A0F5 /* AWEzvPrivate.m in Sources */,
+				496F57CB05CE4E6A00B6A0F5 /* AWEzvRendezvousData.m in Sources */,
+				496F57CC05CE4E6A00B6A0F5 /* AWEzvStack.m in Sources */,
+				496F57CD05CE4E6A00B6A0F5 /* AWEzvXMLNode.m in Sources */,
+				496F57CE05CE4E6A00B6A0F5 /* AWEzvXMLStream.m in Sources */,
+				4913E1E906525B1200E4380D /* sha1.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49D2A86A05C62BC1000207CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49D2A88E05C62C32000207CB /* xmlparse.c in Sources */,
+				49D2A88F05C62C32000207CB /* xmlrole.c in Sources */,
+				49D2A89105C62C32000207CB /* xmltok.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC0C405546C1D00DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49D2A8AE05C62E13000207CB /* AWEzv.m in Sources */,
+				49D2AFF405C6304B000207CB /* AWEzvContact.m in Sources */,
+				49D2B2A305C636E6000207CB /* AWEzvContactManager.m in Sources */,
+				49525C9405C932E9004DFEBB /* AWEzvContactPrivate.m in Sources */,
+				49525D0005C94BD8004DFEBB /* AWEzvContactManagerRendezvous.m in Sources */,
+				49525D8A05C94F90004DFEBB /* AWEzvContactManagerListener.m in Sources */,
+				49525ED905C952B3004DFEBB /* AWEzvSupportRoutines.m in Sources */,
+				49525F5A05C95991004DFEBB /* AWEzvXMLStream.m in Sources */,
+				496F530305CE007600B6A0F5 /* AWEzvXMLNode.m in Sources */,
+				496F531505CE00ED00B6A0F5 /* AWEzvStack.m in Sources */,
+				496F544405CE155700B6A0F5 /* AWEzvPrivate.m in Sources */,
+				496F545405CE18CC00B6A0F5 /* AWEzvRendezvousData.m in Sources */,
+				4913E1E706525B1200E4380D /* sha1.c in Sources */,
+				6F2F293B0C76381F003CD39A /* EKEzvIncomingFileTransfer.m in Sources */,
+				6F2F293D0C76381F003CD39A /* EKEzvOutgoingFileTransfer.m in Sources */,
+				6F2F29410C76382C003CD39A /* EKEzvFileTransfer.m in Sources */,
+				6F2F294A0C76383A003CD39A /* AsyncSocket.m in Sources */,
+				6F2F294C0C76383A003CD39A /* HTTPAuthenticationRequest.m in Sources */,
+				6F2F294E0C76383A003CD39A /* HTTPServer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		495335180683F7DA00FB077F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49D2A86B05C62BC1000207CB /* expat */;
+			targetProxy = 495335170683F7DA00FB077F /* PBXContainerItemProxy */;
+		};
+		4953351A0683F7E400FB077F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49D2A86B05C62BC1000207CB /* expat */;
+			targetProxy = 495335190683F7E400FB077F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		348FF488090C819A00A942A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = expat;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		348FF489090C819A00A942A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = expat;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		348FF48A090C819A00A942A8 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = expat;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		348FF48C090C819A00A942A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = libezv;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		348FF48D090C819A00A942A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = libezv;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		348FF48E090C819A00A942A8 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_POSTPROCESSING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = libezv;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		348FF490090C819A00A942A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = "@executable_path";
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ezv;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		348FF491090C819A00A942A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = "@executable_path";
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ezv;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		348FF492090C819A00A942A8 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Other Sources/libezv_Prefix.h";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_1)";
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"Other Sources\"";
+				INSTALL_PATH = "@executable_path";
+				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ezv;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			name = Default;
+		};
+		348FF494090C819A00A942A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			name = Debug;
+		};
+		348FF495090C819A00A942A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			name = Release;
+		};
+		348FF496090C819A00A942A8 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		348FF487090C819A00A942A8 /* Build configuration list for PBXNativeTarget "expat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				348FF488090C819A00A942A8 /* Debug */,
+				348FF489090C819A00A942A8 /* Release */,
+				348FF48A090C819A00A942A8 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		348FF48B090C819A00A942A8 /* Build configuration list for PBXNativeTarget "libezv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				348FF48C090C819A00A942A8 /* Debug */,
+				348FF48D090C819A00A942A8 /* Release */,
+				348FF48E090C819A00A942A8 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		348FF48F090C819A00A942A8 /* Build configuration list for PBXNativeTarget "libezv (Static)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				348FF490090C819A00A942A8 /* Debug */,
+				348FF491090C819A00A942A8 /* Release */,
+				348FF492090C819A00A942A8 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		348FF493090C819A00A942A8 /* Build configuration list for PBXProject "libezv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				348FF494090C819A00A942A8 /* Debug */,
+				348FF495090C819A00A942A8 /* Release */,
+				348FF496090C819A00A942A8 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
