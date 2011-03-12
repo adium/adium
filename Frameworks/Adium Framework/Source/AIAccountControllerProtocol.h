@@ -119,7 +119,7 @@ typedef enum {
  * @brief Retrieve the password of an account, prompting the user if necessary
  *
  * @param inAccount account whose password is desired
- * @param promptOption An AIPromptOption determining whether and how a prompt for the password should be displayed if it is needed. This allows forcing or suppressing of the prompt dialogue.
+ * @param promptOption An AIPromptOption determining whether and how a prompt for the password should be displayed if it is needed. This allows forcing or suppressing of the prompt dialogue. If AIPromptOptionNever is used, the returnCode sent to the target will always be AIPasswordPromptOKReturn.
  * @param inTarget target to notify when password is available
  * @param inSelector selector to notify when password is available. Selector is of the form - (void)returnedPassword:(NSString *)p returnCode:(AIPasswordPromptReturn)returnCode context:(id)context
  * @param inContext context passed to target
