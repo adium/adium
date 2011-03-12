@@ -48,7 +48,6 @@
 #define ACCOUNT_STATUS_UPDATE_COALESCING_KEY	@"Account Status Update"
 
 @interface AIAccount (Abstract_PRIVATE)
-- (void)passwordReturnedForConnect:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext;
 - (void)requestImmediateDynamicContentUpdate:(NSNotification *)notification;
 - (void)adiumDidLoad:(NSNotification *)inNotification;
 - (void)_endSilenceAllUpdates;
