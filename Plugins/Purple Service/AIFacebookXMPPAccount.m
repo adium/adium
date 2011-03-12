@@ -16,7 +16,14 @@
 #import "auth_fb.h"
 #import "auth.h"
 
+#import "AIFacebookXMPPOAuthWebViewWindowController.h"
+
+#import <Adium/AIAccountControllerProtocol.h>
+#import <Adium/AIPasswordPromptController.h>
+
 @implementation AIFacebookXMPPAccount
+
+@synthesize oAuthWC;
 
 #pragma mark Connectivitiy
 
@@ -67,6 +74,40 @@
 - (BOOL)encrypted
 {
 	return NO;
+}
+
+/*!
+ * @brief Password entered callback
+ *
+ * Callback after the user enters her password for connecting; finish the connect process.
+ */
+- (void)passwordReturnedForConnect:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext
+{
+    if ((returnCode == AIPasswordPromptOKReturn) && (inPassword.length == 0)) {
+		/* No password retrieved from the keychain */
+		[self requestFacebookAuthorization];
+
+	} else {
+		[super passwordReturnedForConnect:inPassword returnCode:returnCode context:inContext];
+	}
+}
+
+- (void)retrievePasswordThenConnect
+{
+	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"]) 
+		/* We attempted to connect, but we had incorrect authorization. Display our auth request window. */
+		[self requestFacebookAuthorization];
+
+	else {
+		/* Retrieve the user's password. Never prompt for a password, as we'll implement our own authorization handling
+		 * if the password can't be retrieved.
+		 */
+		[adium.accountController passwordForAccount:self 
+									   promptOption:AIPromptNever
+									notifyingTarget:self
+										   selector:@selector(passwordReturnedForConnect:returnCode:context:)
+											context:nil];	
+	}
 }
 
 #pragma mark Status
@@ -172,6 +213,38 @@
 					  nil]];
 
 	return array;
+}
+
+#pragma mark Authorization
+
+- (void)requestFacebookAuthorization
+{
+	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
+	self.oAuthWC.account = self;
+
+	[self.oAuthWC showWindow:self];
+}
+
+- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc
+				  didSucceedWithName:(NSString *)name
+								 UID:(NSString *)uuid
+						  sessionKey:(NSString *)sessionKey
+							  secret:(NSString *)secret
+{
+	/* Passwords are keyed by UID, so we need to make this change before storing the password */
+	[self setName:name UID:uuid];
+	
+	[[adium accountController] setPassword:sessionKey forAccount:self];
+	[self setPasswordTemporarily:sessionKey];
+	
+	[self setPreference:secret
+				 forKey:@"FBSessionSecret"
+				  group:GROUP_ACCOUNT_STATUS];
+
+	self.oAuthWC = nil;
+
+	/* When we're newly authorized, connect! */
+	[self connect];
 }
 
 @end

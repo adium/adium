@@ -8,11 +8,17 @@
 
 #import "CBPurpleAccount.h"
 
+@class AIFacebookXMPPOAuthWebViewWindowController;
 
 @interface AIFacebookXMPPAccount : CBPurpleAccount {
-
+	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 }
 
-- (void)setName:(NSString *)name UID:(NSString *)inUID;
-
+@property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
+- (void)requestFacebookAuthorization;
+- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc
+			didSucceedWithName:(NSString *)name
+						   UID:(NSString *)uuid
+					sessionKey:(NSString *)sessionKey
+						secret:(NSString *)secret;
 @end
