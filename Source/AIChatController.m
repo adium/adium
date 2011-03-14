@@ -33,6 +33,8 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
+#import "DCMessageContextDisplayPlugin.h"
+
 #define SHOW_JOIN_LEAVE_TITLE		AILocalizedString(@"Show Join/Leave Messages", nil)
 
 @interface AIChatController ()
@@ -433,6 +435,13 @@
 		chat.identifier = identifier;
 		chat.isGroupChat = YES;
 		chat.chatCreationDictionary = chatCreationInfo;
+
+		NSArray *lastActivity = [[DCMessageContextDisplayPlugin sharedInstance] contextForChat:chat lines:1 alsoStatus:TRUE];
+        
+		if (lastActivity.count > 0) {
+			chat.lastMessageDate = [[lastActivity objectAtIndex:0] date];
+		}
+
 		/* Negative preference so (default == NO) -> showing join/leave messages */
 		chat.showJoinLeave = ![[[adium preferenceController] preferenceForKey:[NSString stringWithFormat:@"HideJoinLeave-%@", name]
 																	    group:PREF_GROUP_STATUS_PREFERENCES] boolValue];		
