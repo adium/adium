@@ -340,16 +340,18 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 		if (savedialog) {
 			NSSavePanel *savePanel = [NSSavePanel savePanel];
 			if ([titleString length]) [savePanel setTitle:titleString];
+			[savePanel setAllowedFileTypes:nil];
 
-			if ([savePanel runModalForDirectory:nil file:nil] == NSOKButton) {
-				((PurpleRequestFileCb)ok_cb)(user_data, [[savePanel filename] UTF8String]);
+			if ([savePanel runModal] == NSOKButton) {
+				((PurpleRequestFileCb)ok_cb)(user_data, [[[savePanel URL] path] UTF8String]);
 			}			
 		} else {
 			NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 			if ([titleString length]) [openPanel setTitle:titleString];
+			[openPanel setAllowedFileTypes:nil];
 
-			if ([openPanel runModalForDirectory:nil file:nil types:nil] == NSOKButton) {
-				((PurpleRequestFileCb)ok_cb)(user_data, [[openPanel filename] UTF8String]);
+			if ([openPanel runModal] == NSOKButton) {
+				((PurpleRequestFileCb)ok_cb)(user_data, [[[openPanel URL] path] UTF8String]);
 			}
 		}
 	} else {

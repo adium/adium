@@ -218,8 +218,8 @@
 	}
 
 	if (thisStyle) {
-		NSDictionary *fileAttrs = [[NSFileManager defaultManager] fileAttributesAtPath:[[*thisStyle bundle] bundlePath]
-																		  traverseLink:YES];
+		NSDictionary *fileAttrs = [[NSFileManager defaultManager] attributesOfItemAtPath:[[*thisStyle bundle] bundlePath]
+																		  error:NULL];
 		NSDate *modDate = [fileAttrs objectForKey:NSFileModificationDate];
 		if (lastStyleLoadDate && [modDate timeIntervalSinceDate:lastStyleLoadDate] > 0) {
 			[currentGroupStyle reloadStyle];
