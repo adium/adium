@@ -160,6 +160,7 @@ static BOOL g_ascii_isspace(char character)
 
 /* Find the length of STRING, but scan at most MAXLEN characters.
  If no '\0' terminator is found in that many characters, return MAXLEN.  */
+#if MAC_OS_X_VERSION_10_6 > MAC_OS_X_VERSION_MAX_ALLOWED
 static size_t
 strnlen (const char *string, size_t maxlen)
 {
@@ -178,6 +179,7 @@ static char *strndup (const char *s, size_t n)
 	nouveau[len] = '\0';
 	return (char *) memcpy (nouveau, s, len);
 }
+#endif
 
 static char *gaim_unescape_html(const char *html) {
 	NSString *unescapedString = [[NSString stringWithUTF8String:html] stringByUnescapingFromXMLWithEntities:nil];
