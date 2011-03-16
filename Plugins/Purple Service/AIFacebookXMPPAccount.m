@@ -17,6 +17,7 @@
 #import "auth.h"
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
+#import "JSONKit.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIPasswordPromptController.h>
@@ -225,12 +226,28 @@
 	[self.oAuthWC showWindow:self];
 }
 
-- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc
-				  didSucceedWithName:(NSString *)name
-								 UID:(NSString *)uuid
-						  sessionKey:(NSString *)sessionKey
-							  secret:(NSString *)secret
+- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token
 {
+    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", token];
+    NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLResponse *response;
+    NSError *error;
+    
+    NSData *conn = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSDictionary *resp = [conn objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSString *uuid = [resp objectForKey:@"id"];
+    NSString *name = [resp objectForKey:@"name"];
+    
+    NSString *sessionKey = [[token componentsSeparatedByString:@"|"] objectAtIndex:1];
+    
+    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", token];
+    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
+    NSData *secretData = [NSURLConnection sendSynchronousRequest:secretRequest returningResponse:&response error:&error];
+    NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
+    secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes    
+    
 	/* Passwords are keyed by UID, so we need to make this change before storing the password */
 	[self setName:name UID:uuid];
 	
