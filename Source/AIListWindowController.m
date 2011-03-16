@@ -303,16 +303,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 	if (allSpaces)
 		behavior |= NSWindowCollectionBehaviorCanJoinAllSpaces;
-
-	if ([NSApp isOnSnowLeopardOrBetter]) {
-        if (stationary) {
-            behavior |= NSWindowCollectionBehaviorStationary;
-        } else {
-            behavior |= NSWindowCollectionBehaviorManaged;
-        }
-        
-        behavior |= NSWindowCollectionBehaviorParticipatesInCycle;
-    }
+	if (stationary && [NSApp isOnSnowLeopardOrBetter])
+		behavior |= NSWindowCollectionBehaviorStationary;
 
 	[window setCollectionBehavior:behavior];
 }
@@ -345,7 +337,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[self setCollectionBehaviorOfWindow:[self window]
 							showOnAllSpaces:showOnAllSpaces
-							   isStationary:(windowLevel == AIDesktopWindowLevel)];
+							   isStationary:YES];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -801,9 +793,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 				[self setWindowLevel:kCGBackstopMenuLevel];
 				
-                [self setCollectionBehaviorOfWindow:[self window]
-                                    showOnAllSpaces:YES
-                                       isStationary:YES];
+				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 				
 				overrodeWindowLevel = YES;
 			}
@@ -818,9 +808,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			 */
 			[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 			
-            [self setCollectionBehaviorOfWindow:[self window]
-                                showOnAllSpaces:showOnAllSpaces
-                                   isStationary:(windowLevel == AIDesktopWindowLevel)];			
+			[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
+			
 			overrodeWindowLevel = NO;
 		}
 	}
