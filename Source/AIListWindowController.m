@@ -303,8 +303,16 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 	if (allSpaces)
 		behavior |= NSWindowCollectionBehaviorCanJoinAllSpaces;
-	if (stationary && [NSApp isOnSnowLeopardOrBetter])
-		behavior |= NSWindowCollectionBehaviorStationary;
+
+	if ([NSApp isOnSnowLeopardOrBetter]) {
+        if (stationary) {
+            behavior |= NSWindowCollectionBehaviorStationary;
+        } else {
+            behavior |= NSWindowCollectionBehaviorManaged;
+        }
+        
+        behavior |= NSWindowCollectionBehaviorParticipatesInCycle;
+    }
 
 	[window setCollectionBehavior:behavior];
 }
@@ -337,7 +345,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[self setCollectionBehaviorOfWindow:[self window]
 							showOnAllSpaces:showOnAllSpaces
-							   isStationary:YES];
+							   isStationary:(windowLevel == AIDesktopWindowLevel)];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -793,7 +801,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 				[self setWindowLevel:kCGBackstopMenuLevel];
 				
-				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+                [self setCollectionBehaviorOfWindow:[self window]
+                                    showOnAllSpaces:YES
+                                       isStationary:YES];
 				
 				overrodeWindowLevel = YES;
 			}
@@ -808,8 +818,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			 */
 			[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 			
-			[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
-			
+            [self setCollectionBehaviorOfWindow:[self window]
+                                showOnAllSpaces:showOnAllSpaces
+                                   isStationary:(windowLevel == AIDesktopWindowLevel)];			
 			overrodeWindowLevel = NO;
 		}
 	}
