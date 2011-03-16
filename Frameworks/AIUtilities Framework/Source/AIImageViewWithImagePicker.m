@@ -597,7 +597,7 @@
 		NSOpenPanel *openPanel;
 		
 		openPanel = [NSOpenPanel openPanel];
-		[openPanel setTitle:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Select Image", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)]];
+		[openPanel setTitle:AILocalizedStringFromTableInBundle(@"Select Image", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)];
         [openPanel setAllowedFileTypes:[NSImage imageFileTypes]];
 		
 		if ([openPanel runModal] == NSOKButton) {
