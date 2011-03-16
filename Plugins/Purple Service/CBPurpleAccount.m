@@ -2692,11 +2692,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					char		**prpl_formats =  g_strsplit(prpl_info->icon_spec.format,",",0);
 
 					//Look for gif first if the image is animated
-					NSImageRep	*imageRep = [image bestRepresentationForRect:NSMakeRect(0, 0, image.size.width, image.size.height)
-                                             
-                                             
-                                                                    context:nil
-                                                                      hints:nil];
+					NSImageRep	*imageRep = [image bestRepresentationForDevice:nil] ;
 					if ([imageRep isKindOfClass:[NSBitmapImageRep class]] &&
 						[[(NSBitmapImageRep *)imageRep valueForProperty:NSImageFrameCount] integerValue] > 1) {
 						
@@ -3019,7 +3015,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (NSString *)titleForAccountActionMenuLabel:(const char *)label
 {
 	if ((strcmp(label, _("Change Password...")) == 0) || (strcmp(label, _("Change Password")) == 0)) {
-		return [AILocalizedString(@"Change Password", "Menu item title for changing the password of an account") stringByAppendingEllipsis];
+		return [[NSString stringWithFormat:AILocalizedString(@"Change Password", "Menu item title for changing the password of an account")] stringByAppendingEllipsis];
 	} else {
 		return [NSString stringWithUTF8String:label];
 	}

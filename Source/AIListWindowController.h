@@ -102,12 +102,12 @@ typedef enum {
 }
 
 // Create additional windows
-+ (AIListWindowController *)listWindowControllerForContactList:(AIListObject<AIContainingObject> *)contactList;
++ (AIListWindowController *)listWindowControllerForContactList:(id<AIContainingObject>)contactList;
 
 - (AIListController *)listController;
 - (AIListOutlineView *)contactListView;
-- (AIListObject<AIContainingObject> *) contactList;
-- (void)setContactList:(AIListObject<AIContainingObject> *)contactList;
+- (id<AIContainingObject>) contactList;
+- (void)setContactList:(id<AIContainingObject>)contactList;
 - (void)close:(id)sender;
 
 // Dock-like hiding

@@ -54,7 +54,7 @@
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
 
 @interface AIListWindowController ()
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList;
+- (id)initWithContactList:(id<AIContainingObject>)contactList;
 + (NSString *)nibName;
 + (void)updateScreenSlideBoundaryRect:(id)sender;
 - (BOOL)shouldSlideWindowOffScreen_mousePositionStrategy;
@@ -87,12 +87,12 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	}
 }
 
-+ (AIListWindowController *)listWindowControllerForContactList:(AIListObject<AIContainingObject> *)contactList
++ (AIListWindowController *)listWindowControllerForContactList:(id<AIContainingObject>)contactList
 {
 	return [[[self alloc] initWithContactList:contactList] autorelease];
 }
 
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList
+- (id)initWithContactList:(id<AIContainingObject>)contactList
 {
 	if ((self = [self initWithWindowNibName:[[self class] nibName]])) {
 		preventHiding = NO;
@@ -107,7 +107,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	return self;	
 }
 
-- (AIListObject<AIContainingObject> *)contactList
+- (id<AIContainingObject> )contactList
 {
 	return (contactListRoot ? contactListRoot : [contactListController contactList]);
 }
@@ -122,7 +122,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	return contactListView;
 }
 
-- (void)setContactList:(AIListObject<AIContainingObject> *)inContactList
+- (void)setContactList:(id<AIContainingObject>)inContactList
 {
 	if (inContactList != contactListRoot) {
 		[contactListRoot release];
@@ -303,16 +303,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 	if (allSpaces)
 		behavior |= NSWindowCollectionBehaviorCanJoinAllSpaces;
-
-	if ([NSApp isOnSnowLeopardOrBetter]) {
-        if (stationary) {
-            behavior |= NSWindowCollectionBehaviorStationary;
-        } else {
-            behavior |= NSWindowCollectionBehaviorManaged;
-        }
-        
-        behavior |= NSWindowCollectionBehaviorParticipatesInCycle;
-    }
+	if (stationary && [NSApp isOnSnowLeopardOrBetter])
+		behavior |= NSWindowCollectionBehaviorStationary;
 
 	[window setCollectionBehavior:behavior];
 }
@@ -345,7 +337,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[self setCollectionBehaviorOfWindow:[self window]
 							showOnAllSpaces:showOnAllSpaces
-							   isStationary:(windowLevel == AIDesktopWindowLevel)];
+							   isStationary:YES];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -801,9 +793,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 				[self setWindowLevel:kCGBackstopMenuLevel];
 				
-                [self setCollectionBehaviorOfWindow:[self window]
-                                    showOnAllSpaces:YES
-                                       isStationary:YES];
+				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 				
 				overrodeWindowLevel = YES;
 			}
@@ -818,9 +808,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			 */
 			[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 			
-            [self setCollectionBehaviorOfWindow:[self window]
-                                showOnAllSpaces:showOnAllSpaces
-                                   isStationary:(windowLevel == AIDesktopWindowLevel)];			
+			[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
+			
 			overrodeWindowLevel = NO;
 		}
 	}

@@ -15,10 +15,9 @@
  */
 
 #import <Adium/AIWindowController.h>
+#import <Adium/JVFontPreviewField.h>
 
-@class JVFontPreviewField, JVFontPreviewField;
-
-@interface AIListLayoutWindowController : AIWindowController {
+@interface AIListLayoutWindowController : AIWindowController <JVFontPreviewFieldDelegate> {
 	IBOutlet		NSPopUpButton		*popUp_contactTextAlignment;
 	IBOutlet		NSPopUpButton		*popUp_groupTextAlignment;
 	IBOutlet		NSPopUpButton		*popUp_extendedStatusStyle;

@@ -457,12 +457,14 @@
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	[openPanel setTitle:@"Background Image"];
-	
-	if ([openPanel runModalForDirectory:nil file:nil types:[NSImage imageFileTypes]] == NSOKButton) {
-		[adium.preferenceController setPreference:[openPanel filename]
+	[openPanel setAllowedFileTypes:[NSImage imageFileTypes]];
+	 
+	if ([openPanel runModal] == NSOKButton) {
+		NSString *filename = [[openPanel URL] path];
+		[adium.preferenceController setPreference:filename
 											 forKey:KEY_LIST_THEME_BACKGROUND_IMAGE_PATH
 											  group:PREF_GROUP_LIST_THEME];
-		if ([openPanel filename]) [textField_backgroundImagePath setStringValue:[openPanel filename]];
+		if (filename) [textField_backgroundImagePath setStringValue:filename];
 	}
 }
 

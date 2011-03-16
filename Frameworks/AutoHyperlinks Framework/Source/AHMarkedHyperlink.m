@@ -104,19 +104,6 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 	if(preString) [preString release];
 }
 
-- (void)setValidationStatus:(AH_URI_VERIFICATION_STATUS)status
-{
-	urlStatus = status;
-}
-
-- (void)setParentString:(NSString *)pInString
-{
-	if(pString != pInString){
-		[pString release];
-		pString = [pInString retain];
-	}
-}
-
 #pragma mark NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
