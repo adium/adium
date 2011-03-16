@@ -2692,7 +2692,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					char		**prpl_formats =  g_strsplit(prpl_info->icon_spec.format,",",0);
 
 					//Look for gif first if the image is animated
-					NSImageRep	*imageRep = [image bestRepresentationForDevice:nil] ;
+					NSImageRep	*imageRep = [image bestRepresentationForRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) context:nil hints:nil];
 					if ([imageRep isKindOfClass:[NSBitmapImageRep class]] &&
 						[[(NSBitmapImageRep *)imageRep valueForProperty:NSImageFrameCount] integerValue] > 1) {
 						

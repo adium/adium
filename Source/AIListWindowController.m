@@ -1424,7 +1424,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 
 	// Save window that we could possible attach to
 	if (bottom == 2)
-		attachToBottom = [neighborWindow delegate];
+		attachToBottom = (AIListWindowController *)[neighborWindow delegate];
 	
 	return location;
 }

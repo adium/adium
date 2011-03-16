@@ -315,7 +315,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	// inform the user
 	[[[manager client] client] reportError:[NSString stringWithFormat: @"Download failed! Error - %@ %@",
 	         [error localizedDescription],
-	         [[error userInfo] objectForKey:NSErrorFailingURLStringKey]] ofLevel: AWEzvError];
+	         [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]] ofLevel: AWEzvError];
 	[download release];
 }
 - (void)downloadDidFinish:(NSURLDownload *)download
