@@ -205,7 +205,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	// If the given contact is a meta contact, check all of its contained objects.
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		
-		for (AIListContact *containedContact in (AIListContact<AIContainingObject> *)listObject) {
+		for (AIListContact *containedContact in (id<AIContainingObject>)listObject) {
 			if ([filterPredicate evaluateWithObject:containedContact])
 				return YES;
 		}

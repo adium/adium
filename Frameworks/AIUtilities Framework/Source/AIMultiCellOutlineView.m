@@ -82,7 +82,7 @@
 }
 - (id)cellForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-	return ([[self delegate] outlineView:self isGroup:item] ? groupCell : contentCell);
+	return ([(id<AIMultiCellOutlineViewDelegate>)[self delegate] outlineView:self isGroup:item] ? groupCell : contentCell);
 }
 
 /*!
@@ -108,7 +108,7 @@
 		/* XXX - This is kind of a hack.  We need to check < WidthOfDisclosureTriangle, and are using the fact that 
 		 *       the disclosure width is about the same as the height of the row to fudge it. -ai 
 		 */
-		if ([[self delegate] outlineView:self isGroup:item]) {
+		if ([(id<AIMultiCellOutlineViewDelegate>)[self delegate] outlineView:self isGroup:item]) {
 			/* For a group, perform the expand/collapse */
 			if ([self isItemExpanded:item]) { 
 				[self collapseItem:item]; 

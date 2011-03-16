@@ -614,7 +614,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	AIProxyListObject *proxyListObject;
 
 	if (item) {
-		AIListObject<AIContainingObject> *listObject = item.listObject;
+		id<AIContainingObject>listObject = item.listObject;
 		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:idx]
 															 inListObject:listObject];
 
@@ -633,7 +633,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	NSInteger children;
 
 	if (item) {
-		AIListObject<AIContainingObject> *listObject = item.listObject;
+		id<AIContainingObject>listObject = item.listObject;
 
 		children = listObject.visibleCount;
 	} else if (hideRoot)

@@ -74,7 +74,7 @@
 			NSString		*label = nil;
 			
 			if ([[self delegate] respondsToSelector:@selector(tabView:labelForTabViewItem:)]) {
-				label = [[self delegate] tabView:self labelForTabViewItem:tabViewItem];
+				label = [(id<AIToolbarTabViewDelegate>)[self delegate] tabView:self labelForTabViewItem:tabViewItem];
 			}
 			
 			if (!label) label = [tabViewItem label];
@@ -89,7 +89,7 @@
 													   toolTip:label
 														target:self
 											   settingSelector:@selector(setImage:)
-												   itemContent:[[self delegate] tabView:self
+												   itemContent:[(id<AIToolbarTabViewDelegate>)[self delegate] tabView:self
 																	imageForTabViewItem:tabViewItem]
 														action:@selector(selectCategory:)
 														  menu:NULL];
@@ -157,7 +157,7 @@
 			[super selectTabViewItem:tabViewItem_loading];
 			
 			if (![[self delegate] respondsToSelector:@selector(immediatelyShowLoadingIndicatorForTabView:willSelectTabViewItem:)] ||
-			   [[self delegate] immediatelyShowLoadingIndicatorForTabView:self willSelectTabViewItem:tabViewItem]) {
+			   [(id<AIToolbarTabViewDelegate>)[self delegate] immediatelyShowLoadingIndicatorForTabView:self willSelectTabViewItem:tabViewItem]) {
 				[[self window] display];
 			}
 			
@@ -180,7 +180,7 @@
 	
 	//Resize the window
 	if ([[self delegate] respondsToSelector:@selector(tabView:heightForTabViewItem:)]) {
-		int		height = [[self delegate] tabView:self heightForTabViewItem:tabViewItem];
+		int		height = [(id<AIToolbarTabViewDelegate>)[self delegate] tabView:self heightForTabViewItem:tabViewItem];
 		BOOL	isVisible = [[self window] isVisible];
 		NSRect 	frame = [[self window] frame];
 		
