@@ -20,7 +20,7 @@
 
 @class AIListContact, AIAccount, AIChat;
 
-@protocol AIMessageEntryTextViewDelegate <NSObject>
+@protocol AIMessageEntryTextViewDelegate <NSTextViewDelegate,NSObject>
 @optional
 /*!
  * @brief Should the tab key trigger an autocomplete?

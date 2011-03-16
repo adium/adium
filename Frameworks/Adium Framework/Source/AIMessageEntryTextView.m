@@ -223,7 +223,7 @@
 
 - (id<AIMessageEntryTextViewDelegate>)delegate
 {
-	return super.delegate;
+	return (id<AIMessageEntryTextViewDelegate>)super.delegate;
 }
 
 - (void)keyDown:(NSEvent *)inEvent
