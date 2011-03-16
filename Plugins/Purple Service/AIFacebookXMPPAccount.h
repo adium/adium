@@ -16,9 +16,5 @@
 
 @property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 - (void)requestFacebookAuthorization;
-- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc
-			didSucceedWithName:(NSString *)name
-						   UID:(NSString *)uuid
-					sessionKey:(NSString *)sessionKey
-						secret:(NSString *)secret;
+- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token;
 @end
