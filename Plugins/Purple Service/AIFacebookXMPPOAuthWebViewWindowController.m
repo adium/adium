@@ -8,6 +8,8 @@
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "AIFacebookXMPPAccountViewController.h"
+#import "AIFacebookXMPPAccount.h"
+#import "JSONKit.h"
 
 @interface AIFacebookXMPPOAuthWebViewWindowController ()
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response;
@@ -107,7 +109,7 @@
 			NSError *error;
 			
 			NSData *conn = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-			NSDictionary *resp = [[[[NSString alloc] initWithData:conn encoding:NSUTF8StringEncoding] autorelease] JSONValue];
+			NSDictionary *resp = [conn objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
 			NSString *uuid = [resp objectForKey:@"id"];
 			NSString *name = [resp objectForKey:@"name"];
 			

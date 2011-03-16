@@ -1505,11 +1505,10 @@
 		EE147A800896B33400A21377 /* OWABSearchWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE147A7E0896B33400A21377 /* OWABSearchWindowController.m */; };
 		EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		EEC461B6096D68580028632F /* OWSpellingPerContactPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */; };
-		EF3472611324653700CE4177 /* JSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF3464B61324593800CE4177 /* JSON.framework */; };
-		EF34726B1324654800CE4177 /* JSON.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EF3464B61324593800CE4177 /* JSON.framework */; };
-		EF34740013247E3C00CE4177 /* JSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF3464B61324593800CE4177 /* JSON.framework */; };
 		EFA39C0B1296658B00B36EBB /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA39C051296658B00B36EBB /* AIFacebookXMPPAccountView.xib */; };
 		EFA39CF612966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA39CF512966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib */; };
+		EFB036A413305E9B00CB421E /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB036A313305E8800CB421E /* JSONKit.m */; };
+		EFB036A613305EC500CB421E /* AIFacebookXMPPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = EFA39C031296658B00B36EBB /* AIFacebookXMPPAccount.h */; };
 		EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */; };
 		F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
@@ -1656,41 +1655,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7EA3B0440DD1153F002A18D1;
 			remoteInfo = Test;
-		};
-		EF3464B51324593800CE4177 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF3464AD1324593800CE4177 /* JSON.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 53D229810C96121600276605;
-			remoteInfo = JSON;
-		};
-		EF3464B71324593800CE4177 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF3464AD1324593800CE4177 /* JSON.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 53D2298D0C96122A00276605;
-			remoteInfo = Tests;
-		};
-		EF3464B91324593800CE4177 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF3464AD1324593800CE4177 /* JSON.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FE2BBD800D8B0D3900184787;
-			remoteInfo = libjson;
-		};
-		EF3464BB1324593800CE4177 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF3464AD1324593800CE4177 /* JSON.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FE2BBDAB0D8B0EE000184787;
-			remoteInfo = libjsontests;
-		};
-		EF34659613245CCB00CE4177 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF3464AD1324593800CE4177 /* JSON.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 53D229800C96121600276605;
-			remoteInfo = JSON;
 		};
 		EFB1C3D70DDCA0A900B3973D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -4773,7 +4737,6 @@
 		EE147A7F0896B33400A21377 /* OWABSearchWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OWABSearchWindowController.h; path = Source/OWABSearchWindowController.h; sourceTree = "<group>"; };
 		EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OWSpellingPerContactPlugin.m; path = Source/OWSpellingPerContactPlugin.m; sourceTree = "<group>"; };
 		EEC461B5096D68580028632F /* OWSpellingPerContactPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OWSpellingPerContactPlugin.h; path = Source/OWSpellingPerContactPlugin.h; sourceTree = "<group>"; };
-		EF3464AD1324593800CE4177 /* JSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JSON.xcodeproj; path = "Frameworks/json-framework/JSON.xcodeproj"; sourceTree = "<group>"; };
 		EFA39C031296658B00B36EBB /* AIFacebookXMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccount.h; path = "Plugins/Purple Service/AIFacebookXMPPAccount.h"; sourceTree = "<group>"; };
 		EFA39C041296658B00B36EBB /* AIFacebookXMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccount.m; path = "Plugins/Purple Service/AIFacebookXMPPAccount.m"; sourceTree = "<group>"; };
 		EFA39C051296658B00B36EBB /* AIFacebookXMPPAccountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIFacebookXMPPAccountView.xib; path = "Plugins/Purple Service/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
@@ -4784,6 +4747,8 @@
 		EFA39C2F12966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPOAuthWebViewWindowController.h; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.h"; sourceTree = "<group>"; };
 		EFA39C3012966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
 		EFA39CF512966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIFacebookXMPPOauthWebViewWindow.xib; path = "Plugins/Purple Service/AIFacebookXMPPOauthWebViewWindow.xib"; sourceTree = "<group>"; };
+		EFB036A213305E8800CB421E /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Frameworks/JSONKit/JSONKit.h; sourceTree = SOURCE_ROOT; };
+		EFB036A313305E8800CB421E /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Frameworks/JSONKit/JSONKit.m; sourceTree = SOURCE_ROOT; };
 		EFB1C3120DDBDA3100B3973D /* AITwitterIMPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterIMPlugin.h; path = Source/AITwitterIMPlugin.h; sourceTree = "<group>"; };
 		EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterIMPlugin.m; path = Source/AITwitterIMPlugin.m; sourceTree = "<group>"; };
 		F11B9621051CDB3B0000000E /* AIMessageAliasPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageAliasPlugin.h; path = "Plugins/Message Alias Support/AIMessageAliasPlugin.h"; sourceTree = "<group>"; };
@@ -4865,7 +4830,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF34740013247E3C00CE4177 /* JSON.framework in Frameworks */,
 				811034050CDE216F00EC6038 /* Security.framework in Frameworks */,
 				81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */,
 				3485D8EA09EB446900232CC4 /* Cocoa.framework in Frameworks */,
@@ -4918,7 +4882,6 @@
 				639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */,
 				3448758E06D1EBDF00DA778C /* Cocoa.framework in Frameworks */,
 				3419F7760531512200C68BA3 /* Adium.framework in Frameworks */,
-				EF3472611324653700CE4177 /* JSON.framework in Frameworks */,
 				639DF9150F97E639003C9A32 /* libglib.framework in Frameworks */,
 				639DF9160F97E639003C9A32 /* libgmodule.framework in Frameworks */,
 				639DF9170F97E639003C9A32 /* libgobject.framework in Frameworks */,
@@ -8640,20 +8603,10 @@
 			name = "Spelling Per Contact";
 			sourceTree = "<group>";
 		};
-		EF3464AE1324593800CE4177 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EF3464B61324593800CE4177 /* JSON.framework */,
-				EF3464B81324593800CE4177 /* Tests.octest */,
-				EF3464BA1324593800CE4177 /* libjson.a */,
-				EF3464BC1324593800CE4177 /* libjsontests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		EFA39B5C1294F9FB00B36EBB /* FB XMPP */ = {
 			isa = PBXGroup;
 			children = (
+				EFB036A113305E6500CB421E /* JSONKit */,
 				346CE8091294B59900439BF2 /* auth_fb.c */,
 				346CE80D1294B5B000439BF2 /* auth_fb.h */,
 				346CE8051294B53F00439BF2 /* fbapi.c */,
@@ -8672,6 +8625,15 @@
 				EFA39CF512966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib */,
 			);
 			name = "FB XMPP";
+			sourceTree = "<group>";
+		};
+		EFB036A113305E6500CB421E /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				EFB036A213305E8800CB421E /* JSONKit.h */,
+				EFB036A313305E8800CB421E /* JSONKit.m */,
+			);
+			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		F1D0C631051AC2380000000E /* Message Alias Support */ = {
@@ -9425,7 +9387,6 @@
 			);
 			dependencies = (
 				340BAB4F09EC6FA7000EC441 /* PBXTargetDependency */,
-				EF34659713245CCB00CE4177 /* PBXTargetDependency */,
 			);
 			name = AdiumLibpurple;
 			productName = AdiumLibpurple;
@@ -9648,34 +9609,6 @@
 			fileType = wrapper.cfbundle;
 			path = Test.octest;
 			remoteRef = 7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EF3464B61324593800CE4177 /* JSON.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = JSON.framework;
-			remoteRef = EF3464B51324593800CE4177 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EF3464B81324593800CE4177 /* Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.octest;
-			remoteRef = EF3464B71324593800CE4177 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EF3464BA1324593800CE4177 /* libjson.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjson.a;
-			remoteRef = EF3464B91324593800CE4177 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EF3464BC1324593800CE4177 /* libjsontests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = libjsontests.octest;
-			remoteRef = EF3464BB1324593800CE4177 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		EFB1C3D80DDCA0A900B3973D /* LinkDriver.app */ = {
@@ -10961,11 +10894,6 @@
 			isa = PBXTargetDependency;
 			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
 			targetProxy = 63DE4C520F9C77D50034ED3A /* PBXContainerItemProxy */;
-		};
-		EF34659713245CCB00CE4177 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = JSON;
-			targetProxy = EF34659613245CCB00CE4177 /* PBXContainerItemProxy */;
 		};
 		F5B17CDF0A16C767004AE99E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
