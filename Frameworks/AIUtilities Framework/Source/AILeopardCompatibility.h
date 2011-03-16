@@ -60,8 +60,6 @@
 - (BOOL)popUpMenuPositioningItem:(NSMenuItem *)item atLocation:(NSPoint)location inView:(NSView *)view;
 @end
 
-@protocol NSDraggingDestination
-@end
 @protocol NSToolbarDelegate
 @end
 @protocol NSSplitViewDelegate

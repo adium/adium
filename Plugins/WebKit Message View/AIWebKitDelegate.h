@@ -23,7 +23,7 @@
 
 @class AIWebKitMessageViewController;
 
-@interface AIWebKitDelegate : NSObject <NSDraggingDestination>{
+@interface AIWebKitDelegate : NSObject {
 	NSMutableDictionary *mapping;
 }
 

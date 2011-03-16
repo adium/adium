@@ -23,7 +23,7 @@
  *	@class AIWebKitMessageViewController AIWebKitMessageViewController.h
  *	@brief Main class for the webkit message view. Most of the good stuff happens here
  */
-@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController,NSDraggingDestination> {
+@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController> {
 	AIWebKitDelegate			*delegateProxy;
 	
 	id							plugin;
