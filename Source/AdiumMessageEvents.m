@@ -82,7 +82,7 @@
 			
 			switch (errorType) {
 				case AIChatUnknownError:
-					message = [NSString stringWithFormat:AILocalizedString(@"Unknown conversation error.",nil)];
+					message = AILocalizedString(@"Unknown conversation error.",nil);
 					break;
 					
 				case AIChatMessageSendingUserNotAvailable:
