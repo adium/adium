@@ -103,7 +103,7 @@
 		
 		NSImageRep	*bestRep;
 		if (allowAnimation &&
-			(bestRep = [self bestRepresentationForDevice:nil]) &&
+			(bestRep = [self bestRepresentationForRect:NSMakeRect(0, 0, self.size.width, self.size.height) context:nil hints:nil]) &&
 			[bestRep isKindOfClass:[NSBitmapImageRep class]] && 
 			(delta == 1.0) &&
 			([[(NSBitmapImageRep *)bestRep valueForProperty:NSImageFrameCount] intValue] > 1) ) {
