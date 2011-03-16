@@ -12726,6 +12726,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -12737,6 +12738,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -12748,6 +12750,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = "Release-Debug";
 		};
@@ -12755,6 +12758,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -12762,6 +12767,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02B0FAF9BA800B310AC /* Release.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};
@@ -12769,6 +12776,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.6;
 			};
 			name = "Release-Debug";
 		};
