@@ -128,7 +128,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	PurplePlugin				*prpl;
 	
-	if ((prpl = purple_find_prpl(purple_account_get_protocol_id(account)))) {
+	if ((prpl = purple_find_prpl(purple_account_get_protocol_id(self.purpleAccount)))) {
 		return PURPLE_PLUGIN_PROTOCOL_INFO(prpl);
 	}
 	
@@ -3091,11 +3091,13 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (NSAlert*)alertForAccountDeletion
 {
-	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
+	PurplePluginProtocolInfo *prpl_info;
 
 	//Ensure libpurple has been loaded, since we need to know whether we can unregister this account
 	[self purpleAdapter];
 
+	prpl_info = self.protocolInfo;
+	
 	if (prpl_info && 
 		prpl_info->unregister_user &&
 		[self allowAccountUnregistrationIfSupportedByLibpurple]) {
