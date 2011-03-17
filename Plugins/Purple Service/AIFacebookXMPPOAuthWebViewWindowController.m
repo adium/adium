@@ -105,7 +105,9 @@
     		[self.account oAuthWebViewController:self didSucceedWithToken:token];
 		} else {
 			/* Got a bad token, or the user canceled */
-		}		[self closeWindow:nil];
+		}		
+		
+		[self closeWindow:nil];
 		return nil;
 	}
 	
