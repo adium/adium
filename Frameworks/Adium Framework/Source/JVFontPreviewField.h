@@ -19,6 +19,7 @@
 
 @class NSFont;
 
+
 @interface JVFontPreviewField : NSTextField {
 	NSFont *_actualFont;
 	BOOL _showPointSize;
@@ -32,7 +33,7 @@
 - (void)setShowFontFace:(BOOL)show;
 @end
 
-@interface NSObject (JVFontPreviewFieldDelegate)
+@protocol JVFontPreviewFieldDelegate
 - (BOOL)fontPreviewField:(JVFontPreviewField *)field shouldChangeToFont:(NSFont *)font;
 - (void)fontPreviewField:(JVFontPreviewField *)field didChangeToFont:(NSFont *)font;
 @end

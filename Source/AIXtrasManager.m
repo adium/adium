@@ -428,8 +428,8 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	if (tableView == tableView_categories) {
 		return [[categories objectAtIndex:row] objectForKey:@"Name"];
 	} else {
-		NSString * name = [[selectedCategory objectAtIndex:row] name];
-		NSString * version = [[selectedCategory objectAtIndex:row] version];
+		NSString * name = [(AIXtraInfo *)[selectedCategory objectAtIndex:row] name];
+		NSString * version = [(AIXtraInfo *)[selectedCategory objectAtIndex:row] version];
 		NSString * displayString;
 
 		if (name) {

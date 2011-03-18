@@ -1011,13 +1011,13 @@
 	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[(id <PSMTabStyle>)[[tabView delegate] style] drawBackgroundInRect:tabFrame];
+	[[(PSMTabBarControl *)[tabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
 	[viewImage unlockFocus];
 	
-	id <PSMTabStyle> style = (id <PSMTabStyle>)[[tabView delegate] style];
+	id <PSMTabStyle> style = [(PSMTabBarControl *)[tabView delegate] style];
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
@@ -1048,7 +1048,7 @@
 {
 	id newController = [interface openNewContainer];
 	NSRect frame;
-	id <PSMTabStyle> style = (id <PSMTabStyle>)[[tabView delegate] style];
+	id <PSMTabStyle> style = [(PSMTabBarControl *)[tabView delegate] style];
 	
 	//set the size of the new window
 	//set the size and origin separately so that toolbar visibility and size doesn't mess things up

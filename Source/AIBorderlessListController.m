@@ -21,7 +21,7 @@
 
 @synthesize enableEmptyListHiding;
 
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)aContactList
+- (id)initWithContactList:(id<AIContainingObject>)aContactList
 			inOutlineView:(AIListOutlineView *)inContactListView
 			 inScrollView:(AIAutoScrollView *)inScrollView_contactList
 				 delegate:(id<AIListControllerDelegate>)inDelegate

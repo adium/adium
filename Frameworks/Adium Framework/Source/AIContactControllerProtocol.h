@@ -98,7 +98,7 @@ typedef enum {
  * @brief Returns a flat array of all contacts
  */
 @property (readonly, nonatomic) NSArray *allContacts;
-- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup onAccount:(AIAccount *)inAccount;
+- (NSArray *)allContactsInObject:(id<AIContainingObject>)inGroup onAccount:(AIAccount *)inAccount;
 @property (readonly, nonatomic) NSArray *allBookmarks;
 @property (readonly, nonatomic) NSArray *allMetaContacts;
 - (NSMenu *)groupMenuWithTarget:(id)target;

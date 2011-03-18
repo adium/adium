@@ -34,7 +34,7 @@
 {
 	NSRect frameOfCell = [super frameOfCellAtColumn:column row:row];
 	if ([[self delegate] respondsToSelector:@selector(outlineView:extendToEdgeColumn:ofRow:)] &&
-	   [[self delegate] outlineView:self extendToEdgeColumn:column ofRow:row]) {
+	   [(id<AIVariableHeightFlexibleColumnsOutlineViewDelegate>)[self delegate] outlineView:self extendToEdgeColumn:column ofRow:row]) {
 		frameOfCell.size.width = [self frame].size.width - frameOfCell.origin.x - AIround(([self intercellSpacing].width)/2);
 	}
 	
@@ -129,7 +129,7 @@
 	
 			//Stop drawing if this column extends to the edge
 			if (delegateRespondsToExtendToEdgeColumn &&
-			   [[self delegate] outlineView:self extendToEdgeColumn:tableColumnIndex ofRow:row]) {
+			   [(id<AIVariableHeightFlexibleColumnsOutlineViewDelegate>)[self delegate] outlineView:self extendToEdgeColumn:tableColumnIndex ofRow:row]) {
 				break;
 			}
 		}

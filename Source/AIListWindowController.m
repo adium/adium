@@ -54,7 +54,7 @@
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
 
 @interface AIListWindowController ()
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList;
+- (id)initWithContactList:(id<AIContainingObject>)contactList;
 + (NSString *)nibName;
 + (void)updateScreenSlideBoundaryRect:(id)sender;
 - (BOOL)shouldSlideWindowOffScreen_mousePositionStrategy;
@@ -87,12 +87,12 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	}
 }
 
-+ (AIListWindowController *)listWindowControllerForContactList:(AIListObject<AIContainingObject> *)contactList
++ (AIListWindowController *)listWindowControllerForContactList:(id<AIContainingObject>)contactList
 {
 	return [[[self alloc] initWithContactList:contactList] autorelease];
 }
 
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList
+- (id)initWithContactList:(id<AIContainingObject>)contactList
 {
 	if ((self = [self initWithWindowNibName:[[self class] nibName]])) {
 		preventHiding = NO;
@@ -107,7 +107,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	return self;	
 }
 
-- (AIListObject<AIContainingObject> *)contactList
+- (id<AIContainingObject> )contactList
 {
 	return (contactListRoot ? contactListRoot : [contactListController contactList]);
 }
@@ -122,7 +122,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	return contactListView;
 }
 
-- (void)setContactList:(AIListObject<AIContainingObject> *)inContactList
+- (void)setContactList:(id<AIContainingObject>)inContactList
 {
 	if (inContactList != contactListRoot) {
 		[contactListRoot release];
