@@ -167,7 +167,7 @@ make_po_files() {
 		log make install
 	quiet popd
 	
-	status "Copy po files to frameowrk"
+	status "Copy po files to framework"
 	quiet pushd "${ROOTDIR}/build/share/locale"
 		quiet mkdir "${PURPLE_RSRC_DIR}" || true
 		log cp -v -r * "${PURPLE_RSRC_DIR}"

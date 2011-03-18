@@ -189,7 +189,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	//If we're handed something that can contain other contacts, update the status of the contacts contained within it
 	if ([inContact conformsToProtocol:@protocol(AIContainingObject)]) {
 		
-		for (AIListContact *contact in (AIListObject <AIContainingObject> *)inContact) {
+		for (AIListContact *contact in (id <AIContainingObject>)inContact) {
 			[self updateListContactStatus:contact];
 		}
 		

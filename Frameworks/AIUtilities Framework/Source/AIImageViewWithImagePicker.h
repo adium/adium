@@ -14,9 +14,48 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+@protocol AIImageViewWithImagePickerDelegate;
+
 @class AIImageViewWithImagePicker;
-@class IKPictureTakerRecentPicture; //Private 10.5 class
 @class NSImage, NSString, NSResponder;
+
+@class IKPictureTakerRecentPicture; // Private 10.5+ class
+
+@interface AIImageViewWithImagePicker : NSImageView {
+	IBOutlet id		delegate;
+	
+	NSString		*title;
+	id				pictureTaker;
+	id				activeRecentPicture;
+
+	BOOL			usePictureTaker;
+	BOOL			presentPictureTakerAsSheet;
+	BOOL			shouldUpdateRecentRepository;
+
+	BOOL			shouldDrawFocusRing;
+	NSResponder		*lastResp;
+	
+	NSPoint			mouseDownPos;
+	
+	NSSize			maxSize;
+}
+
+@property (readwrite, assign, nonatomic) IBOutlet id delegate;
+
+@property (retain) NSString *title;
+@property (assign) id activeRecentPicture;
+@property (assign) BOOL usePictureTaker;
+@property (assign) BOOL presentPictureTakerAsSheet;
+@property (assign) BOOL shouldUpdateRecentRepository;
+@property (assign) NSSize maxSize;
+
+- (IBAction)showImagePicker:(id)sender;
+
+- (id)pictureTaker;
+
+- (void)setRecentPictureAsImageInput:(IKPictureTakerRecentPicture *)recentPicture;
+
+@end
 
 /*!
  * @protocol AIImageViewWithImagePickerDelegate
@@ -79,35 +118,5 @@
  * Return nil to have the image picker use a default name.
  */
 - (NSString *)fileNameForImageInImagePicker:(AIImageViewWithImagePicker *)picker;
-@end
-
-@interface AIImageViewWithImagePicker : NSImageView {
-	NSString				*title;
-	id						pictureTaker;
-	id						activeRecentPicture;
-
-	BOOL					usePictureTaker;
-	BOOL					presentPictureTakerAsSheet;
-
-	IBOutlet	id			delegate;
-	
-	BOOL					shouldDrawFocusRing;
-	NSResponder				*lastResp;
-	
-	NSPoint					mouseDownPos;
-	
-	NSSize					maxSize;
-}
-
-- (void)setDelegate:(id)inDelegate;
-- (id)delegate;
-- (void)setTitle:(NSString *)inTitle;
-- (IBAction)showImagePicker:(id)sender;
-- (void)setUsePictureTaker:(BOOL)inUsePictureTaker;
-- (id)pictureTaker;
-- (void)setPresentPictureTakerAsSheet:(BOOL)inPresentPictureTakerAsSheet;
-- (void)setMaxSize:(NSSize)inMaxSize;
-
-- (void)setRecentPictureAsImageInput:(IKPictureTakerRecentPicture *)recentPicture;
 
 @end

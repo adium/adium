@@ -100,7 +100,7 @@
 @property (readwrite, nonatomic) BOOL useOfflineGroup;
 - (void)saveContactList;
 - (void)_loadBookmarks;
-- (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
+- (void)_didChangeContainer:(id <AIContainingObject>)inContainingObject object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)didSendContent:(NSNotification *)notification;
@@ -283,7 +283,7 @@
 
 #pragma mark Contact Grouping
 
-- (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListObject<AIContainingObject> *)localGroup
+- (void)_addContactLocally:(AIListContact *)listContact toGroup:(id<AIContainingObject>)localGroup
 {
 	BOOL			performedGrouping = NO;
 	
@@ -351,12 +351,12 @@
 #endif
 		
 		//Remove this object from any local groups we have it in currently
-		for (AIListObject<AIContainingObject> *group in oldGroups) {
+		for (id<AIContainingObject> group in oldGroups) {
 			[group removeObject:listContact];
 			[self _didChangeContainer:group object:listContact];
 		}
 		
-		for (AIListObject<AIContainingObject> *group in groups)
+		for (id<AIContainingObject> group in groups)
 			[self _addContactLocally:listContact toGroup:group];
 		
 		[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -366,7 +366,7 @@
 }
 
 //Post a list grouping changed notification for the object and containing object
-- (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object
+- (void)_didChangeContainer:(id<AIContainingObject>)inContainingObject object:(AIListObject *)object
 {
 	if ([contactPropertiesObserverManager shouldDelayUpdates]) {
 		[contactPropertiesObserverManager noteContactChanged:object];
@@ -577,8 +577,8 @@
 
 	//If listObject contains other contacts, perform addContact:toMetaContact: recursively
 	if ([inContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		AILogWithSignature(@"Adding recursively (%@)", ((AIListObject<AIContainingObject> *)inContact).containedObjects);
-		for (AIListContact *someObject in ((AIListObject<AIContainingObject> *)inContact).containedObjects) {
+		AILogWithSignature(@"Adding recursively (%@)", ((id<AIContainingObject>)inContact).containedObjects);
+		for (AIListContact *someObject in ((id<AIContainingObject>)inContact).containedObjects) {
 			[self addContact:someObject toMetaContact:metaContact];
 		}
 		
@@ -1102,7 +1102,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Return a flat array of all the objects in a group on an account (and all subgroups, if desired)
-- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup onAccount:(AIAccount *)inAccount
+- (NSArray *)allContactsInObject:(id<AIContainingObject>)inGroup onAccount:(AIAccount *)inAccount
 {
 	NSParameterAssert(inGroup != nil);
 	
@@ -1110,7 +1110,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	for (AIListObject *object in inGroup) {
 		if ([object conformsToProtocol:@protocol(AIContainingObject)]) {
-			[contactArray addObjectsFromArray:[self allContactsInObject:(AIListObject<AIContainingObject> *)object
+			[contactArray addObjectsFromArray:[self allContactsInObject:(id<AIContainingObject>)object
 															  onAccount:inAccount]];
 		} else if ([object isMemberOfClass:[AIListContact class]] && (!inAccount || ([(AIListContact *)object account] == inAccount)))
 			[contactArray addObject:object];
@@ -1241,7 +1241,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	[[inContact retain] autorelease];
 
-	for (AIListObject<AIContainingObject> *container in inContact.containingObjects) {
+	for (id<AIContainingObject> container in inContact.containingObjects) {
 		[container removeObjectAfterAccountStopsTracking:inContact];
 	}
 

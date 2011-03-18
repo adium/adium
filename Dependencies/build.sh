@@ -20,7 +20,26 @@ TARGET_BASE="apple-darwin10"
 ARCHS=( "x86_64" "i386" "ppc" )
 HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" "powerpc-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
-SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
+
+# Also try /Developer-old, just in case XCode 4 is installed
+DEVELOPER="/Developer"
+SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.5.sdk"
+
+if ! [ -d $SDK_ROOT ];
+then
+	warning "10.5 SDK not found in /Developer. You probably have installed XCode4. Trying /Developer-old..."
+	DEVELOPER="/Developer-old"
+	SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.5.sdk"
+	
+	if ! [ -d $SDK_ROOT ];
+	then
+		error "10.5 SDK not found!"
+		exit 1
+	else
+		warning "found!"
+	fi
+fi
+
 MIN_OS_VERSION="10.5"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
 	-mmacosx-version-min=$MIN_OS_VERSION \
@@ -98,14 +117,14 @@ for option in ${@:1} ; do
 			status "Building libotr"
 			;;
 		--enable-distcchost=*)
-			asserttools "/Developer/usr/bin/distcc"
-			asserttools "/Developer/usr/bin/pump"
+			asserttools "$DEVELOPER/usr/bin/distcc"
+			asserttools "$DEVELOPER/usr/bin/pump"
 			export DISTCC_HOSTS="${DISTCC_HOSTS:=} ${option##*=},lzo,cpp"
 			;;
 		--enable-llvm)
-			asserttools "/Developer/usr/bin/llvm-gcc"
-			export CC="/Developer/usr/bin/llvm-gcc"
-			export CXX="/Developer/usr/bin/llvm-g++"
+			asserttools "$DEVELOPER/usr/bin/llvm-gcc"
+			export CC="$DEVELOPER/usr/bin/llvm-gcc"
+			export CXX="$DEVELOPER/usr/bin/llvm-g++"
 			warning "Building with LLVM! This is unsupported and will probably break things!"
 			;;
 		--libpurple-rev=*)
@@ -154,11 +173,17 @@ done
 
 if [ "$DISTCC_HOSTS" != "" ]; then
 	export DISTCC_HOSTS="--randomize ${DISTCC_HOSTS} localhost/${NUMBER_OF_CORES}"
-	export DISTCC_COMPILER=$(${CC:=/Developer/usr/bin/gcc} --version|head -n1)
-	export CC="/Developer/usr/bin/distcc ${CC:=/Developer/usr/bin/gcc}"
-	export CXX="/Developer/usr/bin/distcc ${CXX:=/Developer/usr/bin/g++}"
-	NUMBER_OF_CORES=`/Developer/usr/bin/distcc -j`
-	eval `/Developer/usr/bin/pump --startup`
+	export DISTCC_COMPILER=$(${CC:=$DEVELOPER/usr/bin/gcc} --version|head -n1)
+	export CC="$DEVELOPER/usr/bin/distcc ${CC:=$DEVELOPER/usr/bin/gcc}"
+	export CXX="$DEVELOPER/usr/bin/distcc ${CXX:=$DEVELOPER/usr/bin/g++}"
+	NUMBER_OF_CORES=`$DEVELOPER/usr/bin/distcc -j`
+	eval `$DEVELOPER/usr/bin/pump --startup`
+else
+	# Try to find the right gcc, even when XCode4 is installed
+	export CC="$DEVELOPER/usr/bin/gcc-4.2"
+	export CXX="$DEVELOPER/usr/bin/g++-4.2"
+	export CCAS="$CC"
+	export OBJC="$CC"
 fi
 
 # this file contans the stdio and stderr of the most recent build
@@ -179,7 +204,7 @@ asserttools mtn
 # Getting mtn's path before we export our own (safer?) path will ensure it works,
 # even if it's being managed by MacPorts, Fink, or similar.
 MTN=`which mtn`
-export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Developer/usr/bin:/Developer/usr/sbin
+export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$DEVELOPER/usr/bin:$DEVELOPER/usr/sbin
 export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
 export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 
@@ -214,7 +239,7 @@ else
 fi
 
 if [ "$DISTCC_HOSTS" != "" ]; then
-	/Developer/usr/bin/pump --shutdown
+	$DEVELOPER/usr/bin/pump --shutdown
 fi
 
 make_framework $@
