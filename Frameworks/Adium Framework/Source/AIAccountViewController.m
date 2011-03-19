@@ -288,7 +288,7 @@
 		if (![password isEqualToString:oldPassword]) {
 			[adium.accountController setPassword:password forAccount:account];
 		}
-	} else if (oldPassword && [oldPassword length] != 0) {
+	} else if ((oldPassword && [oldPassword length] != 0) && textField_password) {
 		[adium.accountController forgetPasswordForAccount:account];
 	}
 
