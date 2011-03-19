@@ -77,6 +77,11 @@
 	return NO;
 }
 
+- (BOOL)allowAccountUnregistrationIfSupportedByLibpurple
+{
+	return NO;
+}
+
 /*!
  * @brief Password entered callback
  *
