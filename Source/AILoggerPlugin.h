@@ -30,42 +30,44 @@
 
 @class AIAccount, AIHTMLDecoder, AIChat;
 
-@interface AILoggerPlugin : AIPlugin {	
-	//Current logging settings
-	BOOL                 observingContent;
-	BOOL                 logHTML;
-	
-	NSMutableDictionary *activeAppenders;
-	NSMutableDictionary *appenderCloseTimers;
-	
-	AIHTMLDecoder       *xhtmlDecoder;
-	NSDictionary        *statusTranslation;
-	
-	//Log viewer menu items
-	NSMenuItem          *logViewerMenuItem;
-	NSMenuItem          *viewContactLogsMenuItem;
-	NSMenuItem          *viewContactLogsContextMenuItem;
-	NSMenuItem          *viewGroupLogsContextMenuItem;
-	
-	//Log content search index
-	BOOL                 logIndexingEnabled; //Does this system use log indexing?
-	SKIndexRef           index_Content;	
-	
-	//Dirty all information (First build of the dirty cache)
-	BOOL                 indexingAllowed;    //Set to YES to abort a dirty all or clean
-	BOOL                 suspendDirtySetSaving;  //YES to prevent saving of the dirty index	
-	BOOL                 isFlushingIndex;
-	
-	//Set of dirty logs / Logs that need re-indexing.  (Locked access)
-	NSMutableSet        *dirtyLogSet;
-	NSLock              *dirtyLogLock;
-	
-	NSLock              *createIndexLock;
-	
-	//Indexing progress
-	NSInteger            logsToIndex;
-	NSInteger            logsIndexed;	
+@interface AILoggerPlugin : AIPlugin {
+  
+  //Log viewer menu items
+  NSMenuItem          *logViewerMenuItem;
+  NSMenuItem          *viewContactLogsMenuItem;
+  NSMenuItem          *viewContactLogsContextMenuItem;
+  NSMenuItem          *viewGroupLogsContextMenuItem;
+  
+  // Logging
+  SKIndexRef           logIndex;
+  NSMutableDictionary *activeAppenders;
+  AIHTMLDecoder       *xhtmlDecoder;
+  NSDictionary        *statusTranslation;
+  BOOL                 logHTML;
+  
+  // Log Indexing
+  NSMutableSet        *dirtyLogSet;
+  BOOL                 indexingAllowed;
+  BOOL                 loggingEnabled;
+  BOOL                 canCloseIndex;
+  BOOL                 canSaveDirtyLogSet;
+  UInt64               logsToIndex;
+  UInt64               logsIndexed;
 }
+@property(assign) SKIndexRef           logIndex;
+@property(retain) NSMutableDictionary *activeAppenders;
+@property(retain) AIHTMLDecoder       *xhtmlDecoder;
+@property(retain) NSDictionary        *statusTranslation;
+@property(retain) NSMutableSet        *dirtyLogSet;
+@property(assign) BOOL                 logHTML;
+@property(assign) BOOL                 indexingAllowed;
+@property(assign) BOOL                 loggingEnabled;
+@property(assign) BOOL                 canCloseIndex;
+@property(assign) BOOL                 canSaveDirtyLogSet;
+@property(assign) UInt64               logsToIndex;
+@property(assign) UInt64               logsIndexed;
+
+
 
 //Paths
 + (NSString *)logBasePath;
