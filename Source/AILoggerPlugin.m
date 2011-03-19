@@ -1102,33 +1102,30 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
   
   if (![chat shouldLog]) return;	
   
-  //__block __typeof__(self) bself = self;
-  //dispatch_group_async(logAppendingGroup, ioQueue, blockWithAutoreleasePool(^{
-    //Try reusing the appender object
-    AIXMLAppender *appender = [self _existingAppenderForChat:chat];
+  //Try reusing the appender object
+  AIXMLAppender *appender = [self _existingAppenderForChat:chat];
+  
+  //If there is an appender, add the windowOpened event
+  if (appender) {
+    /* Ensure a timeout isn't set for closing the appender, since we're now using it.
+     * This gives us the desired behavior - if chat #2 opens before the timeout on the
+     * log file, then we want to keep the log continuous until the user has closed the
+     * window. 
+     */
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(finishClosingAppender:) 
+                                               object:[self keyForChat:chat]];
     
-    //If there is an appender, add the windowOpened event
-    if (appender) {
-      /* Ensure a timeout isn't set for closing the appender, since we're now using it.
-       * This gives us the desired behavior - if chat #2 opens before the timeout on the
-       * log file, then we want to keep the log continuous until the user has closed the
-       * window. 
-       */
-      [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                               selector:@selector(finishClosingAppender:) 
-                                                 object:[self keyForChat:chat]];
-      
-      // Print the windowOpened event in the log
-      AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
-      
-      [eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-                               values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
-      
-      [appender appendElement:eventElement];
-      
-      [self _markLogDirtyAtPath:[appender path] forChat:chat];
-    }
- // }));
+    // Print the windowOpened event in the log
+    AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+    
+    [eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+                             values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+    
+    [appender appendElement:eventElement];
+    
+    [self _markLogDirtyAtPath:[appender path] forChat:chat];
+  }
 }
 
 - (void)chatClosed:(NSNotification *)notification
