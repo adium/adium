@@ -17,6 +17,9 @@
     NSMutableSet *cookies;
 	
 	AIFacebookXMPPAccount *account;
+	
+	NSString *autoFillUsername;
+	NSString *autoFillPassword;
 }
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
@@ -24,5 +27,8 @@
 
 @property (nonatomic, retain) NSMutableSet *cookies;
 @property (nonatomic, retain) AIFacebookXMPPAccount *account;
+
+@property (nonatomic, retain) NSString *autoFillUsername;
+@property (nonatomic, retain) NSString *autoFillPassword;
 
 @end
