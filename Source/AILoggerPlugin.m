@@ -154,11 +154,17 @@ static NSString     *logBaseAliasPath = nil;
 
 #pragma mark Dispatch
 //TODO: Create/Destroy dispatch objects!!!!
+static dispatch_queue_t     mainDispatchQueue;
+
 static dispatch_queue_t     dirtyLogSetMutationQueue;
 static dispatch_queue_t     searchIndexFlushingQueue;
 static dispatch_queue_t     activeAppendersMutationQueue;
 static dispatch_group_t     logIndexingGroup;
 static dispatch_group_t     closingIndexGroup;
+static dispatch_group_t     logAppendingGroup;
+
+static dispatch_queue_t     ioQueue;
+static dispatch_semaphore_t jobSemaphore;
 
 @implementation AILoggerPlugin
 @synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation, logIndex;
@@ -177,11 +183,17 @@ static dispatch_group_t     closingIndexGroup;
   self.activeAppenders = [NSMutableDictionary dictionary];
   self.dirtyLogSet = [NSMutableSet set];
   
+  mainDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  
   dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
   searchIndexFlushingQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
   activeAppendersMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.activeAppendersMutationQueue", 0);
   logIndexingGroup = dispatch_group_create();
   closingIndexGroup = dispatch_group_create();
+  logAppendingGroup = dispatch_group_create();
+  
+  ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
+  jobSemaphore = dispatch_semaphore_create([[NSProcessInfo processInfo] processorCount] * 2);
   
   
   self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -268,6 +280,7 @@ static dispatch_group_t     closingIndexGroup;
 {
   dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
   dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
+  dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
   
   self.dirtyLogSet = nil;
   self.activeAppenders = nil;
@@ -278,6 +291,9 @@ static dispatch_group_t     closingIndexGroup;
   dispatch_release(activeAppendersMutationQueue); activeAppendersMutationQueue = nil;
   dispatch_release(logIndexingGroup); logIndexingGroup = nil;
   dispatch_release(closingIndexGroup); closingIndexGroup = nil;
+  dispatch_release(logAppendingGroup); logAppendingGroup = nil;
+  dispatch_release(ioQueue); ioQueue = nil;
+  dispatch_release(jobSemaphore); jobSemaphore = nil;
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
@@ -334,7 +350,7 @@ static dispatch_group_t     closingIndexGroup;
 - (void)prepareLogContentSearching
 {
   __block __typeof__(self) bself = self;
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  dispatch_async(mainDispatchQueue, ^{
     /* Load the index and start indexing to make it current
      * If we're going to need to re-index all our logs from scratch, it will make
      * things faster if we start with a fresh log index as well.
@@ -359,7 +375,7 @@ static dispatch_group_t     closingIndexGroup;
   
   [self cancelIndexing];
   
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  dispatch_async(mainDispatchQueue, ^{
     [bself _closeLogIndex];
   });
 }
@@ -450,7 +466,7 @@ static dispatch_group_t     closingIndexGroup;
   NSLog(@"Canceling..");
   if (logsToIndex) {
     __block __typeof__(self) bself = self;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(mainDispatchQueue, ^{
       bself.indexingAllowed = NO;
       dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
       bself.logsToIndex = 0;
@@ -462,7 +478,7 @@ static dispatch_group_t     closingIndexGroup;
 - (void)removePathsFromIndex:(NSSet *)paths
 {
   __block __typeof__(self) bself = self;
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  dispatch_async(mainDispatchQueue, ^{
     SKIndexRef logSearchIndex = [bself logContentIndex];
 	
 	for (NSString *logPath in paths) {
@@ -959,117 +975,124 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     
     if (![chat shouldLog]) return;	
     
-    BOOL			dirty = NO;
-    NSString		*contentType = [content type];
-    NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
-    
-    if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
-        [contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
-      NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
-      NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:[[content source] UID], date, nil];
-      AIXMLAppender  *appender = [self _appenderForChat:chat];
-      if ([content isAutoreply]) {
-        [attributeKeys addObject:@"auto"];
-        [attributeValues addObject:@"true"];
-      }
+    __block __typeof__(self) bself = self;
+    dispatch_group_async(logAppendingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+      BOOL			dirty = NO;
+      NSString		*contentType = [content type];
+      NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
       
-      NSString *displayName = [chat displayNameForContact:content.source];
+      dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
       
-      if (![[[content source] UID] isEqualToString:displayName]) {
-        [attributeKeys addObject:@"alias"];
-        [attributeValues addObject:displayName];
-      }
-      
-      AIXMLElement *messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
-      
-      [messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
-                                                     imagesPath:[appender.path stringByDeletingLastPathComponent]]];
-      
-      [messageElement setAttributeNames:attributeKeys values:attributeValues];
-      
-      [appender appendElement:messageElement];
-      
-      dirty = YES;
-    } else {
-      //XXX: Yucky hack. This is here because we get status and event updates for metas, not for individual contacts. Or something like that.
-      AIListObject	*retardedMetaObject = [content source];
-      AIListObject	*actualObject = nil;
-      
-      if (content.source) {
-        for(AIListContact *participatingListObject in chat) {
-          if ([participatingListObject parentContact] == retardedMetaObject) {
-            actualObject = participatingListObject;
-            break;
+      if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
+          [contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
+        NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
+        NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:[[content source] UID], date, nil];
+        AIXMLAppender  *appender = [self _appenderForChat:chat];
+        if ([content isAutoreply]) {
+          [attributeKeys addObject:@"auto"];
+          [attributeValues addObject:@"true"];
+        }
+        
+        NSString *displayName = [chat displayNameForContact:content.source];
+        
+        if (![[[content source] UID] isEqualToString:displayName]) {
+          [attributeKeys addObject:@"alias"];
+          [attributeValues addObject:displayName];
+        }
+        
+        AIXMLElement *messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
+        
+        [messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+                                                       imagesPath:[appender.path stringByDeletingLastPathComponent]]];
+        
+        [messageElement setAttributeNames:attributeKeys values:attributeValues];
+        
+        [appender appendElement:messageElement];
+        
+        dirty = YES;
+      } else {
+        //XXX: Yucky hack. This is here because we get status and event updates for metas, not for individual contacts. Or something like that.
+        AIListObject	*retardedMetaObject = [content source];
+        AIListObject	*actualObject = nil;
+        
+        if (content.source) {
+          for(AIListContact *participatingListObject in chat) {
+            if ([participatingListObject parentContact] == retardedMetaObject) {
+              actualObject = participatingListObject;
+              break;
+            }
           }
         }
-      }
-      
-      //If we can't find it for some reason, we probably shouldn't attempt logging, unless source was nil.
-      if ([contentType isEqualToString:CONTENT_STATUS_TYPE] && actualObject) {
-        NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
-        if (translatedStatus == nil) {
-          AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
-        } else {
-          NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
-          NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
-                                             translatedStatus, 
-                                             actualObject.UID, 
-                                             date,
-                                             nil];
+        
+        //If we can't find it for some reason, we probably shouldn't attempt logging, unless source was nil.
+        if ([contentType isEqualToString:CONTENT_STATUS_TYPE] && actualObject) {
+          NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
+          if (translatedStatus == nil) {
+            AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
+          } else {
+            NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
+            NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
+                                               translatedStatus, 
+                                               actualObject.UID, 
+                                               date,
+                                               nil];
+            
+            if (![actualObject.UID isEqualToString:actualObject.displayName]) {
+              [attributeKeys addObject:@"alias"];
+              [attributeValues addObject:actualObject.displayName];				
+            }
+            
+            AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
+            
+            [statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
+                                             [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
+                                             @"")];
+            
+            [statusElement setAttributeNames:attributeKeys values:attributeValues];
+            
+            [[self _appenderForChat:chat] appendElement:statusElement];
+            
+            dirty = YES;
+          }
           
-          if (![actualObject.UID isEqualToString:actualObject.displayName]) {
+        } else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
+                   [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
+          NSMutableArray *attributeKeys = nil, *attributeValues = nil;
+          if (content.source) {
+            attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
+            attributeValues = [NSMutableArray arrayWithObjects:
+                               [(AIContentEvent *)content eventType], [[content source] UID], date, nil];	
+          } else {
+            attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"time", nil];
+            attributeValues = [NSMutableArray arrayWithObjects:
+                               [(AIContentEvent *)content eventType], date, nil];
+          }
+          
+          AIXMLAppender  *appender = [self _appenderForChat:chat];
+          
+          if (content.source && ![[[content source] UID] isEqualToString:[[content source] displayName]]) {
             [attributeKeys addObject:@"alias"];
-            [attributeValues addObject:actualObject.displayName];				
+            [attributeValues addObject:[[content source] displayName]];				
           }
           
           AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
           
-          [statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
-                                           [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
-                                           @"")];
+          [statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+                                                        imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
           
           [statusElement setAttributeNames:attributeKeys values:attributeValues];
           
-          [[self _appenderForChat:chat] appendElement:statusElement];
-          
+          [appender appendElement:statusElement];
           dirty = YES;
         }
-        
-      } else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
-                 [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
-        NSMutableArray *attributeKeys = nil, *attributeValues = nil;
-        if (content.source) {
-          attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
-          attributeValues = [NSMutableArray arrayWithObjects:
-                             [(AIContentEvent *)content eventType], [[content source] UID], date, nil];	
-        } else {
-          attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"time", nil];
-          attributeValues = [NSMutableArray arrayWithObjects:
-                             [(AIContentEvent *)content eventType], date, nil];
-        }
-        
-        AIXMLAppender  *appender = [self _appenderForChat:chat];
-        
-        if (content.source && ![[[content source] UID] isEqualToString:[[content source] displayName]]) {
-          [attributeKeys addObject:@"alias"];
-          [attributeValues addObject:[[content source] displayName]];				
-        }
-        
-        AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
-        
-        [statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
-                                                      imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
-        
-        [statusElement setAttributeNames:attributeKeys values:attributeValues];
-        
-        [appender appendElement:statusElement];
-        dirty = YES;
       }
-    }
-    //Don't create a new one if not needed
-    AIXMLAppender *appender = [self _existingAppenderForChat:chat];
-    if (dirty && appender)
-      [self _markLogDirtyAtPath:[appender path] forChat:chat];
+      //Don't create a new one if not needed
+      AIXMLAppender *appender = [self _existingAppenderForChat:chat];
+      if (dirty && appender)
+        [self _markLogDirtyAtPath:[appender path] forChat:chat];
+      
+      dispatch_semaphore_signal(jobSemaphore);
+    }));
   }
 }
 
@@ -1079,30 +1102,33 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
   
   if (![chat shouldLog]) return;	
   
-  //Try reusing the appender object
-  AIXMLAppender *appender = [self _existingAppenderForChat:chat];
-  
-  //If there is an appender, add the windowOpened event
-  if (appender) {
-    /* Ensure a timeout isn't set for closing the appender, since we're now using it.
-     * This gives us the desired behavior - if chat #2 opens before the timeout on the
-     * log file, then we want to keep the log continuous until the user has closed the
-     * window. 
-     */
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                             selector:@selector(finishClosingAppender:) 
-                                               object:[self keyForChat:chat]];
+  //__block __typeof__(self) bself = self;
+  //dispatch_group_async(logAppendingGroup, ioQueue, blockWithAutoreleasePool(^{
+    //Try reusing the appender object
+    AIXMLAppender *appender = [self _existingAppenderForChat:chat];
     
-    // Print the windowOpened event in the log
-    AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
-    
-    [eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-                             values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
-    
-    [appender appendElement:eventElement];
-    
-    [self _markLogDirtyAtPath:[appender path] forChat:chat];
-  }
+    //If there is an appender, add the windowOpened event
+    if (appender) {
+      /* Ensure a timeout isn't set for closing the appender, since we're now using it.
+       * This gives us the desired behavior - if chat #2 opens before the timeout on the
+       * log file, then we want to keep the log continuous until the user has closed the
+       * window. 
+       */
+      [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                               selector:@selector(finishClosingAppender:) 
+                                                 object:[self keyForChat:chat]];
+      
+      // Print the windowOpened event in the log
+      AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+      
+      [eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+                               values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+      
+      [appender appendElement:eventElement];
+      
+      [self _markLogDirtyAtPath:[appender path] forChat:chat];
+    }
+ // }));
 }
 
 - (void)chatClosed:(NSNotification *)notification
@@ -1282,7 +1308,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
   dispatch_sync(dirtyLogSetMutationQueue, ^{
     [bself.dirtyLogSet removeAllObjects];
   });
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), blockWithAutoreleasePool(^{
+  dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
     bself.canSaveDirtyLogSet = NO;
     
     //Process each from folder
@@ -1357,10 +1383,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     
     AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), blockWithAutoreleasePool(^{
-      dispatch_queue_t  ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.ioQueue", 0);
-      NSUInteger cpuCount = [[NSProcessInfo processInfo] processorCount];
-      dispatch_semaphore_t jobSemaphore = dispatch_semaphore_create(cpuCount * 2);
+    dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
       
       while (bself.indexingAllowed) {
         __block NSString *__logPath;
@@ -1386,7 +1409,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
                */
               __block CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
-              dispatch_group_async(logIndexingGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), blockWithAutoreleasePool(^{
+              dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
                 if (documentText) {
                   SKIndexAddDocumentWithText(searchIndex,
                                              document,
@@ -1484,7 +1507,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
   dispatch_sync(dirtyLogSetMutationQueue, ^{
     if (![bself.dirtyLogSet containsObject:path]) {
       [bself.dirtyLogSet addObject:path];
-      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), blockWithAutoreleasePool(^{
+      dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
         [bself _saveDirtyLogSet];
       }));
     }
