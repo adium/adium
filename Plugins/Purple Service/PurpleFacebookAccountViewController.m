@@ -15,6 +15,7 @@
  */
 
 #import "PurpleFacebookAccountViewController.h"
+#import "PurpleFacebookAccount.h"
 
 @implementation PurpleFacebookAccountViewController
 
@@ -22,5 +23,11 @@
 {
 	return @"PurpleFacebookAccountView";
 }
+
+- (void)configureForAccount:(AIAccount *)inAccount
+{
+	[(PurpleFacebookAccount *)inAccount migrate];
+}
+
 
 @end

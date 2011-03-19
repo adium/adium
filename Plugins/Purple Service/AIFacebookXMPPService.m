@@ -24,7 +24,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(libpurpleDidInit:)
 													 name:AILibpurpleDidInitialize
-												   object:nil]; 
+												   object:nil];
 	}
 	
 	return self;

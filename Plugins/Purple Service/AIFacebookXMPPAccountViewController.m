@@ -11,6 +11,7 @@
 #import <Adium/AIAccount.h>
 
 @implementation AIFacebookXMPPAccountViewController
+@synthesize view_migration, textField_migrationStatus, button_migrationHelp, button_migrationOAuthStart, migrationSpinner;
 @synthesize spinner, textField_OAuthStatus, button_OAuthStart;
 
 - (void)dealloc
@@ -28,6 +29,14 @@
     return nil;
 }
 
+- (NSView *)setupView
+{
+	if ([(AIFacebookXMPPAccount *)account migratingAccount])
+		return view_migration;
+	
+	return view_setup;
+}
+
 - (NSString *)nibName
 {
     return @"AIFacebookXMPPAccountView";
@@ -40,8 +49,10 @@
  */
 - (IBAction)changedPreference:(id)sender
 {
-	if (sender == button_OAuthStart) {
-		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];		
+	if (sender == button_OAuthStart || sender == button_migrationOAuthStart) {
+		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
+	} else if (sender == button_migrationHelp) {
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
 	} else 
 		[super changedPreference:sender];
 }

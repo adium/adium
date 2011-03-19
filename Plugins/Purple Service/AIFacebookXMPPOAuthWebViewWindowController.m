@@ -21,6 +21,7 @@
 @synthesize account;
 @synthesize cookies;
 @synthesize webView, spinner;
+@synthesize autoFillPassword, autoFillUsername;
 
 - (id)init
 {
@@ -65,9 +66,7 @@
 	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
 	for (NSString *pair in pairs) {
 		NSArray *kv = [pair componentsSeparatedByString:@"="];
-		NSString *val =
-		[[kv objectAtIndex:1]
-		 stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		
 		[params setObject:val forKey:[kv objectAtIndex:0]];
 	}
@@ -85,6 +84,13 @@
 	if ([sender mainFrame] == frame) {
 		[spinner stopAnimation:self];
 		[sender display];
+		
+		if ([frame.dataSource.request.URL.host isEqual:@"www.facebook.com"] && [frame.dataSource.request.URL.path isEqual:@"/login.php"]) {
+			//Set email and password
+			DOMDocument *domDoc = [frame DOMDocument];
+			[[domDoc getElementById:@"email"] setValue:self.autoFillUsername];
+			[[domDoc getElementById:@"pass"] setValue:self.autoFillPassword];
+		}
 	}
 }
 

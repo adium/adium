@@ -21,10 +21,18 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIPasswordPromptController.h>
+#import <Adium/AILoginControllerProtocol.h>
+#import <AIUtilities/AIStringAdditions.h>
+#import <Adium/AIService.h>
+
+@interface AIFacebookXMPPAccount ()
+- (void)finishMigration;
+@end
 
 @implementation AIFacebookXMPPAccount
 
 @synthesize oAuthWC;
+@synthesize migratingAccount;
 
 #pragma mark Connectivitiy
 
@@ -227,6 +235,11 @@
 {
 	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
 	self.oAuthWC.account = self;
+	
+	if (self.migratingAccount) {
+		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
+		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self.migratingAccount];
+	}
 
 	[self.oAuthWC showWindow:self];
 }
@@ -267,6 +280,61 @@
 
 	/* When we're newly authorized, connect! */
 	[self connect];
+	
+	if (self.migratingAccount)
+		[self finishMigration];
+}
+
+#pragma mark Migration
+/*
+ * Move logs from the old account's to the new account's log folder, changing the name along the way.
+ * Finally delete the old account.
+ */
+- (void)finishMigration
+{
+	if (!self.migratingAccount)
+		return;
+
+	//Move logs to the new account
+	NSString *logsDir = [[adium.loginController userDirectory] stringByAppendingPathComponent:@"/Logs"];
+	
+	NSString *oldFolder = [NSString stringWithFormat:@"%@.%@", self.migratingAccount.service.serviceID, [self.migratingAccount.UID safeFilenameString]];
+	NSString *newFolder = [NSString stringWithFormat:@"%@.%@", self.service.serviceID, [self.UID safeFilenameString]];
+	NSString *basePath = [[logsDir stringByAppendingPathComponent:oldFolder] stringByExpandingTildeInPath];
+	NSString *newPath = [[logsDir stringByAppendingPathComponent:newFolder] stringByExpandingTildeInPath];
+	
+	NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+	NSInteger errors = 0;
+	
+	for (NSString *file in [fileManager enumeratorAtPath:basePath]) {
+		if ([[file pathExtension] isEqualToString:@"xml"]) {
+			/* turn 'XXXXXXX69 (2009-01-20T19.10.07-0500).xml'
+			 * into '-XXXXXXX69@chat.facebook.com (2009-01-20T19.10.07-0500).xml'
+			 */
+			NSRange UIDrange = [[file lastPathComponent] rangeOfString:@" "];
+			if (UIDrange.location > 0) {
+				NSString *uid = [[file lastPathComponent] substringToIndex:UIDrange.location];
+				NSString *newName = [file stringByReplacingOccurrencesOfString:uid
+																	withString:[NSString stringWithFormat:@"-%@@%@", uid, self.host]];
+				
+				[fileManager createDirectoryAtPath:[newPath stringByAppendingPathComponent:[newName stringByDeletingLastPathComponent]]
+					   withIntermediateDirectories:YES
+										attributes:nil
+											 error:NULL];
+				if (![fileManager moveItemAtPath:[basePath stringByAppendingPathComponent:file]
+										  toPath:[newPath stringByAppendingPathComponent:newName]
+										   error:NULL])
+					errors++;
+			}
+		}
+	}
+	
+	if (!errors)
+		[fileManager removeItemAtPath:basePath error:NULL];
+	
+	//Delete old account
+	[adium.accountController deleteAccount:self.migratingAccount];
+	self.migratingAccount = nil;
 }
 
 @end
