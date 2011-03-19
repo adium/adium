@@ -456,9 +456,11 @@ static dispatch_semaphore_t jobSemaphore;
 - (BOOL)getIndexingProgress:(NSUInteger *)indexNumber outOf:(NSUInteger *)total
 {
   //logsIndexed + 1 is the log we are currently indexing
-  if (indexNumber) *indexNumber = (self.logsIndexed + 1 <= self.logsToIndex) ? self.logsIndexed + 1 : self.logsToIndex;
-  if (total) *total = self.logsToIndex;
-  return (self.logsToIndex > 0);
+  NSUInteger _logsIndexed = self.logsIndexed;
+  NSUInteger _logsToIndex = self.logsToIndex;
+  if (indexNumber) *indexNumber = (_logsIndexed + 1 <= +logsToIndex) ? _logsIndexed + 1 : _logsToIndex;
+  if (total) *total = _logsToIndex;
+  return (_logsToIndex > 0);
 }
 
 - (void)cancelIndexing
@@ -470,6 +472,7 @@ static dispatch_semaphore_t jobSemaphore;
       bself.indexingAllowed = NO;
       dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
       bself.logsToIndex = 0;
+      bself.indexingAllowed = YES;
       AILogWithSignature(@"Canceling indexing operations.");
     });
   }
@@ -1350,7 +1353,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)_cleanDirtyLogs
 {
   //Do nothing if we're paused
-  if (!indexingAllowed) return;
+  if (!self.indexingAllowed) return;
   
   //Reset the cleaning progress
   __block __typeof__(self) bself = self;
@@ -1371,8 +1374,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     return;
   }
   
-  CFRetain(searchIndex);
   self.logsIndexed = 0;
+  OSAtomicCompareAndSwap64Barrier(self.logsIndexed, 0, (int64_t*)&logsIndexed);
   
   if (self.indexingAllowed) {
     __block UInt32  lastUpdate = TickCount();
@@ -1381,7 +1384,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
     
     dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
-      
+      CFRetain(searchIndex);
       while (bself.indexingAllowed) {
         __block NSString *__logPath;
         NSString  *logPath = nil;
@@ -1396,8 +1399,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
         if (logPath) {
           dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
           dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
+            CFRetain(searchIndex);
             SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
-            if (document) {
+            if (document && bself.indexingAllowed) {
               /* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
                * However, this has three problems:
                *	1. Slower, especially to start initial indexing, which is the most common use case since the log viewer
@@ -1405,15 +1409,17 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                *  2. Sometimes logs don't appear to be associated with the right URI type and therefore don't get indexed.
                *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
                */
-              __block CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
+              CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
               dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
-                if (documentText) {
+                CFRetain(searchIndex);
+                if (documentText && bself.indexingAllowed) {
                   SKIndexAddDocumentWithText(searchIndex,
                                              document,
                                              documentText,
                                              YES);
                 }
                 dispatch_semaphore_signal(jobSemaphore);
+                CFRelease(searchIndex);
               }));
               //CFRelease(documentText); documentText = nil;
               //CFRelease(document); document = nil;
@@ -1436,6 +1442,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
               [bself _saveDirtyLogSet];
               OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, &unsavedChanges);
             }
+            CFRelease(searchIndex);
           }));
         } else {
           break;
@@ -1454,10 +1461,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
       dispatch_async(dispatch_get_main_queue(), ^{
         [bself _didCleanDirtyLogs];
       });
+      CFRelease(searchIndex);
     }));
   }
-  
-  CFRelease(searchIndex);
 }
 
 #pragma mark Log Indexing Internals
@@ -1465,7 +1471,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
   __block __typeof__(self) bself = self;
   dispatch_sync(dirtyLogSetMutationQueue, ^{
-    bself.logsToIndex = [bself.dirtyLogSet count];
+    OSAtomicCompareAndSwap64Barrier(bself.logsToIndex, [bself.dirtyLogSet count], (int64_t *)&logsToIndex);
   });
   
   [[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
