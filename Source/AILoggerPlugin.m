@@ -363,7 +363,6 @@ static dispatch_semaphore_t jobSemaphore;
 {
 	__block __typeof__(self) bself = self;
 	dispatch_async(mainDispatchQueue, ^{
-		dispatch_group_enter(loggerPluginGroup);
 		/* Load the index and start indexing to make it current
 		 * If we're going to need to re-index all our logs from scratch, it will make
 		 * things faster if we start with a fresh log index as well.
@@ -380,7 +379,6 @@ static dispatch_semaphore_t jobSemaphore;
 		else
 			[bself _cleanDirtyLogs];
 		
-		dispatch_group_leave(loggerPluginGroup);
 	});
 }
 
@@ -1320,12 +1318,16 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 }
 
 - (void)_dirtyAllLogs
-{
+{	
 	__block __typeof__(self) bself = self;
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		[bself.dirtyLogSet removeAllObjects];
 	});
 	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+		dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
+		dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
+		dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
+
 		bself.canSaveDirtyLogSet = NO;
 		
 		//Process each from folder
@@ -1427,7 +1429,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
 							 */
 							CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
-							dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+							dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{								
 								CFRetain(searchIndex);
 								if (documentText && bself.indexingAllowed) {
 									SKIndexAddDocumentWithText(searchIndex,
