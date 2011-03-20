@@ -159,11 +159,14 @@ static dispatch_queue_t     mainDispatchQueue;
 static dispatch_queue_t     dirtyLogSetMutationQueue;
 static dispatch_queue_t     searchIndexFlushingQueue;
 static dispatch_queue_t     activeAppendersMutationQueue;
+
+static dispatch_queue_t     ioQueue;
+
 static dispatch_group_t     logIndexingGroup;
 static dispatch_group_t     closingIndexGroup;
 static dispatch_group_t     logAppendingGroup;
+static dispatch_group_t		loggerPluginGroup;
 
-static dispatch_queue_t     ioQueue;
 static dispatch_semaphore_t jobSemaphore;
 
 @implementation AILoggerPlugin
@@ -191,9 +194,10 @@ static dispatch_semaphore_t jobSemaphore;
 	logIndexingGroup = dispatch_group_create();
 	closingIndexGroup = dispatch_group_create();
 	logAppendingGroup = dispatch_group_create();
+	loggerPluginGroup = dispatch_group_create();
 	
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
-	jobSemaphore = dispatch_semaphore_create([[NSProcessInfo processInfo] processorCount] * 2);
+	jobSemaphore = dispatch_semaphore_create([[NSProcessInfo processInfo] processorCount] * 3);
 	
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -278,9 +282,18 @@ static dispatch_semaphore_t jobSemaphore;
 
 - (void)uninstallPlugin
 {
+	[self cancelIndexing];
+	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
+}
+
+- (void)dealloc
+{
 	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 	dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
 	dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
+	dispatch_group_wait(loggerPluginGroup, DISPATCH_TIME_FOREVER);
 	
 	self.dirtyLogSet = nil;
 	self.activeAppenders = nil;
@@ -294,11 +307,10 @@ static dispatch_semaphore_t jobSemaphore;
 	dispatch_release(logAppendingGroup); logAppendingGroup = nil;
 	dispatch_release(ioQueue); ioQueue = nil;
 	dispatch_release(jobSemaphore); jobSemaphore = nil;
+	dispatch_release(loggerPluginGroup); loggerPluginGroup = nil;
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
+	[super dealloc];
 }
-
 #pragma mark AILoggerPlugin Plubic Methods
 //Paths
 + (NSString *)logBasePath
@@ -351,6 +363,7 @@ static dispatch_semaphore_t jobSemaphore;
 {
 	__block __typeof__(self) bself = self;
 	dispatch_async(mainDispatchQueue, ^{
+		dispatch_group_enter(loggerPluginGroup);
 		/* Load the index and start indexing to make it current
 		 * If we're going to need to re-index all our logs from scratch, it will make
 		 * things faster if we start with a fresh log index as well.
@@ -366,6 +379,8 @@ static dispatch_semaphore_t jobSemaphore;
 			[bself _dirtyAllLogs];
 		else
 			[bself _cleanDirtyLogs];
+		
+		dispatch_group_leave(loggerPluginGroup);
 	});
 }
 
@@ -375,8 +390,10 @@ static dispatch_semaphore_t jobSemaphore;
 	
 	[self cancelIndexing];
 	
-	dispatch_async(mainDispatchQueue, ^{
+	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
+		dispatch_group_enter(closingIndexGroup);
 		[bself _closeLogIndex];
+		dispatch_group_leave(closingIndexGroup);
 	});
 }
 
@@ -468,7 +485,7 @@ static dispatch_semaphore_t jobSemaphore;
 	NSLog(@"Canceling..");
 	if (logsToIndex) {
 		__block __typeof__(self) bself = self;
-		dispatch_async(mainDispatchQueue, ^{
+		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
 			bself.indexingAllowed = NO;
 			dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 			bself.logsToIndex = 0;
@@ -481,7 +498,7 @@ static dispatch_semaphore_t jobSemaphore;
 - (void)removePathsFromIndex:(NSSet *)paths
 {
 	__block __typeof__(self) bself = self;
-	dispatch_async(mainDispatchQueue, ^{
+	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 		SKIndexRef logSearchIndex = [bself logContentIndex];
 		
 		for (NSString *logPath in paths) {
@@ -491,7 +508,7 @@ static dispatch_semaphore_t jobSemaphore;
 				CFRelease(document);
 			}
 		}
-	});
+	}));
 }
 
 #pragma mark -
@@ -1308,7 +1325,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		[bself.dirtyLogSet removeAllObjects];
 	});
-	dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
+	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 		bself.canSaveDirtyLogSet = NO;
 		
 		//Process each from folder
@@ -1383,7 +1400,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		
 		AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
 		
-		dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 			CFRetain(searchIndex);
 			while (bself.indexingAllowed) {
 				__block NSString *__logPath;
@@ -1458,7 +1475,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 			});
-			dispatch_async(dispatch_get_main_queue(), ^{
+			dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
 				[bself _didCleanDirtyLogs];
 			});
 			CFRelease(searchIndex);
@@ -1510,7 +1527,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		if (![bself.dirtyLogSet containsObject:path]) {
 			[bself.dirtyLogSet addObject:path];
-			dispatch_async(mainDispatchQueue, blockWithAutoreleasePool(^{
+			dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 				[bself _saveDirtyLogSet];
 			}));
 		}
@@ -1521,7 +1538,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)_closeLogIndex
 {
 	__block __typeof__(self) bself = self;
-	dispatch_group_async(closingIndexGroup, searchIndexFlushingQueue, ^{
+	dispatch_sync(searchIndexFlushingQueue, ^{
 		if (bself.logIndex && bself.canCloseIndex) {
 			[bself _flushIndex:bself.logIndex];
 			SKIndexClose(bself.logIndex);
