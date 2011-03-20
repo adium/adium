@@ -456,8 +456,8 @@ static dispatch_semaphore_t jobSemaphore;
 - (BOOL)getIndexingProgress:(NSUInteger *)indexNumber outOf:(NSUInteger *)total
 {
 	//logsIndexed + 1 is the log we are currently indexing
-	NSUInteger _logsIndexed = self.logsIndexed;
-	NSUInteger _logsToIndex = self.logsToIndex;
+	NSUInteger _logsIndexed = (NSUInteger)self.logsIndexed;
+	NSUInteger _logsToIndex = (NSUInteger)self.logsToIndex;
 	if (indexNumber) *indexNumber = (_logsIndexed + 1 <= +logsToIndex) ? _logsIndexed + 1 : _logsToIndex;
 	if (total) *total = _logsToIndex;
 	return (_logsToIndex > 0);
@@ -1437,10 +1437,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
 						}
 						
-						OSAtomicIncrement32Barrier(&unsavedChanges);
+						OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
 						if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
 							[bself _saveDirtyLogSet];
-							OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, &unsavedChanges);
+							OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
 						}
 						CFRelease(searchIndex);
 					}));
