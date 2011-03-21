@@ -31,29 +31,29 @@
 @class AIAccount, AIHTMLDecoder, AIChat;
 
 @interface AILoggerPlugin : AIPlugin {
-  
-  //Log viewer menu items
-  NSMenuItem          *logViewerMenuItem;
-  NSMenuItem          *viewContactLogsMenuItem;
-  NSMenuItem          *viewContactLogsContextMenuItem;
-  NSMenuItem          *viewGroupLogsContextMenuItem;
-  
-  // Logging
-  SKIndexRef           logIndex;
-  NSMutableDictionary *activeAppenders;
-  AIHTMLDecoder       *xhtmlDecoder;
-  NSDictionary        *statusTranslation;
-  BOOL                 logHTML;
-  
-  // Log Indexing
-  NSMutableSet        *dirtyLogSet;
-  BOOL                 indexingAllowed;
-  BOOL                 loggingEnabled;
-  BOOL                 canCloseIndex;
-  BOOL                 canSaveDirtyLogSet;
-  BOOL                 userTriggeredReindex;
-  UInt64               logsToIndex;
-  UInt64               logsIndexed;
+	
+	//Log viewer menu items
+	NSMenuItem          *logViewerMenuItem;
+	NSMenuItem          *viewContactLogsMenuItem;
+	NSMenuItem          *viewContactLogsContextMenuItem;
+	NSMenuItem          *viewGroupLogsContextMenuItem;
+	
+	// Logging
+	SKIndexRef           logIndex;
+	NSMutableDictionary *activeAppenders;
+	AIHTMLDecoder       *xhtmlDecoder;
+	NSDictionary        *statusTranslation;
+	BOOL                 logHTML;
+	
+	// Log Indexing
+	NSMutableSet        *dirtyLogSet;
+	BOOL                 indexingAllowed;
+	BOOL                 loggingEnabled;
+	BOOL                 canCloseIndex;
+	BOOL                 canSaveDirtyLogSet;
+	BOOL                 userTriggeredReindex;
+	UInt64               logsToIndex;
+	UInt64               logsIndexed;
 }
 @property(assign) SKIndexRef           logIndex;
 @property(retain) NSMutableDictionary *activeAppenders;
