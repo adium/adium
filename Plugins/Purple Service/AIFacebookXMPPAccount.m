@@ -239,6 +239,7 @@
 	if (self.migratingAccount) {
 		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
 		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self.migratingAccount];
+		[self.oAuthWC.window setTitle:[NSString stringWithFormat:AILocalizedString(@"Migrating %@", nil), self.migratingAccount.UID]];
 	}
 
 	[self.oAuthWC showWindow:self];
