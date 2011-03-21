@@ -197,7 +197,9 @@ static dispatch_semaphore_t jobSemaphore;
 	loggerPluginGroup = dispatch_group_create();
 	
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
-	jobSemaphore = dispatch_semaphore_create([[NSProcessInfo processInfo] processorCount] * 3);
+
+	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
+	jobSemaphore = dispatch_semaphore_create(cpuCount + AIfloor(cpuCount/2));
 	
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -1377,11 +1379,14 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	//Reset the cleaning progress
 	__block __typeof__(self) bself = self;
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
-		bself.logsToIndex = [bself.dirtyLogSet count];
-	});  
-	logsIndexed = 0;
+		// bself.logsToIndex = [bself.dirtyLogSet count];
+		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
+	});
+
 	if (self.logsToIndex == 0){
-		dispatch_async(dispatch_get_main_queue(), ^{
+		dispatch_async(mainDispatchQueue, ^{
+			// logsIndexed = 0;
+			OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 			[bself _didCleanDirtyLogs];
 		});
 		return;
@@ -1393,8 +1398,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		return;
 	}
 	
-	self.logsIndexed = 0;
-	OSAtomicCompareAndSwap64Barrier(self.logsIndexed, 0, (int64_t*)&logsIndexed);
+	// logsIndexed = 0;
+	OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 	
 	if (self.indexingAllowed) {
 		__block UInt32  lastUpdate = TickCount();
@@ -1417,7 +1422,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				logPath = [[__logPath copy] autorelease];
 				if (logPath) {
 					dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
-					dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
+					dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 						CFRetain(searchIndex);
 						SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 						if (document && bself.indexingAllowed) {
@@ -1439,28 +1444,31 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 								}
 								dispatch_semaphore_signal(jobSemaphore);
 								CFRelease(searchIndex);
+								
+								OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL) {
+									dispatch_async(dispatch_get_main_queue(), ^{
+										[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+									});
+									UInt32 tick = TickCount();
+									OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
+								}
+								
+								OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+								if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
+									[bself _saveDirtyLogSet];
+									OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
+								}
 							}));
 							//CFRelease(documentText); documentText = nil;
 							//CFRelease(document); document = nil;
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
 							dispatch_semaphore_signal(jobSemaphore);
+							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
 						}
 						
-						OSAtomicIncrement64Barrier((int64_t *)&logsIndexed);
-						if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL) {
-							dispatch_async(dispatch_get_main_queue(), ^{
-								[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
-							});
-							UInt32 tick = TickCount();
-							OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
-						}
-						
-						OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
-						if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
-							[bself _saveDirtyLogSet];
-							OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
-						}
 						CFRelease(searchIndex);
 					}));
 				} else {
@@ -1471,13 +1479,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			if (unsavedChanges) {
 				[bself _saveDirtyLogSet];
 			}
-			dispatch_sync(searchIndexFlushingQueue, ^{
+			dispatch_group_notify(logIndexingGroup, mainDispatchQueue, ^{
 				SKIndexFlush(searchIndex);
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
-			});
-			dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
 				[bself _didCleanDirtyLogs];
 			});
 			CFRelease(searchIndex);
@@ -1490,7 +1496,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
-		OSAtomicCompareAndSwap64Barrier(bself.logsToIndex, [bself.dirtyLogSet count], (int64_t *)&logsToIndex);
+		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
 	});
 	
 	[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
@@ -1502,9 +1508,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			NSString *dirtyKey = [@"LogIsDirty_" stringByAppendingString:existingAppenderPath];
 			
 			if ([chat integerValueForProperty:dirtyKey]) {
-				[chat setValue:nil
-				   forProperty:dirtyKey
-						notify:NotifyNever];
+					[chat setValue:nil
+					   forProperty:dirtyKey
+							notify:NotifyNever];
 			}
 		}
 	}
