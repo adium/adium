@@ -16,7 +16,7 @@
 
 #import "AIGenericMultipartImageUploader.h"
 
-@interface AIImgurImageUploader : AIGenericMultipartImageUploader {
+@interface AIImgurImageUploader : AIGenericMultipartImageUploader <NSXMLParserDelegate>{
 	NSData						*resultData;
 	NSXMLParser					*responseParser;
 	

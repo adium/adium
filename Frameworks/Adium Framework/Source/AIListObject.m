@@ -236,7 +236,7 @@
 
 - (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)idx
 {
-	AIListObject<AIContainingObject> *container = (AIListObject<AIContainingObject> *)self;
+	id<AIContainingObject>container = (id<AIContainingObject>)self;
 	
 	// We can't enforce this, since we're asked to set it for objects we don't yet *officially* contain.
 	//NSAssert([container.containedObjects containsObject:listObject], @"Asked to set an index for an object which doesn't exist.");
@@ -759,7 +759,7 @@
 
 	if (!orderIndexForObject) {
 		orderIndexForObject = self.largestOrder + 1;
-		[(AIListObject<AIContainingObject> *)self listObject:listObject didSetOrderIndex: orderIndexForObject];
+		[(id<AIContainingObject>)self listObject:listObject didSetOrderIndex: orderIndexForObject];
 	}
 	
 	return orderIndexForObject;

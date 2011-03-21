@@ -15,6 +15,7 @@
  */
 
 #import "AITooltipUtilities.h"
+#import "AILeopardCompatibility.h"
 #import <libkern/OSAtomic.h>
 
 #define TOOLTIP_MAX_WIDTH			300
@@ -246,7 +247,7 @@ static	AITooltipOrientation	tooltipOrientation;
 		tooltipWindow, NSViewAnimationTargetKey,
 		NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
 	nil]]];
-	[fadeOutAnimation setDelegate:self];
+	[fadeOutAnimation setDelegate:(id<NSAnimationDelegate>)self];
 	[fadeOutAnimation setDuration:0.25f];
 	[fadeOutAnimation setAnimationCurve:NSAnimationLinear];
 	[fadeOutAnimation startAnimation];
