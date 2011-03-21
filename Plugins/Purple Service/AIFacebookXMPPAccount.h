@@ -12,9 +12,14 @@
 
 @interface AIFacebookXMPPAccount : CBPurpleAccount {
 	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-	AIAccount *migratingAccount;
+	AIAccount *migratingAccount; // weak
     
     NSString *oAuthToken;
+    NSUInteger networkState;
+    
+    NSURLConnection *connection; // weak
+    NSURLResponse *connectionResponse;
+    NSMutableData *connectionData;
 }
 
 @property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
