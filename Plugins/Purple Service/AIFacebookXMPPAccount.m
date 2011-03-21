@@ -25,11 +25,22 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIService.h>
 
+enum {
+    AINoNetworkState,
+    AIMeGraphAPINetworkState,
+    AIPromoteSessionNetworkState
+};
+
 @interface AIFacebookXMPPAccount ()
 - (void)finishMigration;
-@property (nonatomic, copy) NSString *oAuthToken;
 
-- (void)meGraphAPIDidFinishLoading:(NSData *)accessTokenData response:(NSURLResponse *)response error:(NSError *)inError;
+@property (nonatomic, copy) NSString *oAuthToken;
+@property (nonatomic, assign) NSUInteger networkState;
+@property (nonatomic, assign) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
+@property (nonatomic, retain) NSURLResponse *connectionResponse;
+@property (nonatomic, retain) NSMutableData *connectionData;
+
+- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
 @end
 
@@ -38,6 +49,19 @@
 @synthesize oAuthWC;
 @synthesize migratingAccount;
 @synthesize oAuthToken;
+@synthesize networkState, connection, connectionResponse, connectionData;
+
+- (void)dealloc
+{
+    [oAuthWC release];
+    [oAuthToken release];
+    
+    [connection cancel];
+    [connectionResponse release];
+    [connectionData release];
+
+    [super dealloc];
+}
 
 #pragma mark Connectivitiy
 
@@ -253,36 +277,54 @@
 {
     [self setOAuthToken:token];
     
-    NSError *error = nil;
-    NSURLResponse *response = nil;
     NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];
     NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSData *meGraphData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [self meGraphAPIDidFinishLoading:meGraphData response:response error:error];
-
-    error = nil;
-    response = nil;
-    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", [self oAuthToken]];
-    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
-    NSData *promoteSessionData = [NSURLConnection sendSynchronousRequest:secretRequest returningResponse:&response error:&error];
-    [self promoteSessionDidFinishLoading:promoteSessionData response:response error:error];    
+    
+    self.networkState = AIMeGraphAPINetworkState;
+    self.connectionData = [NSMutableData data];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
-- (void)meGraphAPIDidFinishLoading:(NSData *)accessTokenData response:(NSURLResponse *)response error:(NSError *)inError
+- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)inResponse error:(NSError *)inError
 {
+    if (inError) {
+        NSLog(@"error loading graph API: %@", inError);
+        // TODO: indicate setup failed 
+        return;
+    }
+    
     NSError *error = nil;
-    NSDictionary *resp = [accessTokenData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSDictionary *resp = [graphAPIData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    if (!resp) {
+        NSLog(@"error decoding graph API response: %@", error);
+        // TODO: indicate setup failed
+        return;
+    }
+    
     NSString *uuid = [resp objectForKey:@"id"];
     NSString *name = [resp objectForKey:@"name"];
     
     /* Passwords are keyed by UID, so we need to make this change before storing the password */
 	[self setName:name UID:uuid];
+        
+    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", [self oAuthToken]];
+    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
+
+    self.networkState = AIPromoteSessionNetworkState;
+    self.connectionData = [NSMutableData data];
+    self.connection = [NSURLConnection connectionWithRequest:secretRequest delegate:self];
 }
 
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError
 {
+    if (inError) {
+        NSLog(@"error promoting session: %@", inError);
+        // TODO: indicate setup failed
+        return;
+    }    
+    
     NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
     secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes    
     NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
@@ -303,6 +345,53 @@
 	if (self.migratingAccount) {
 		[self finishMigration];        
     }
+}
+
+#pragma mark NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveResponse:(NSURLResponse *)response
+{
+    [[self connectionData] setLength:0];
+    [self setConnectionResponse:response];
+}
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveData:(NSData *)data
+{
+    [[self connectionData] appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)inConnection didFailWithError:(NSError *)error
+{
+    NSUInteger state = [self networkState];
+    
+    [self setNetworkState:AINoNetworkState];
+    [self setConnection:nil];
+    [self setConnectionResponse:nil];
+    [self setConnectionData:nil];    
+    
+    if (state == AIMeGraphAPINetworkState) {
+        [self meGraphAPIDidFinishLoading:nil response:nil error:error];
+    } else if (state == AIPromoteSessionNetworkState) {
+        [self promoteSessionDidFinishLoading:nil response:nil error:error];
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection
+{
+    NSURLResponse *response = [[[self connectionResponse] retain] autorelease];
+    NSMutableData *data = [[[self connectionData] retain] autorelease];
+    NSUInteger state = [self networkState]; 
+    
+    [self setNetworkState:AINoNetworkState];
+    [self setConnection:nil];
+    [self setConnectionResponse:nil];
+    [self setConnectionData:nil];
+    
+    if (state == AIMeGraphAPINetworkState) {
+        [self meGraphAPIDidFinishLoading:data response:response error:nil];
+    } else if (state == AIPromoteSessionNetworkState) {
+        [self promoteSessionDidFinishLoading:data response:response error:nil];
+    }    
 }
 
 #pragma mark Migration
