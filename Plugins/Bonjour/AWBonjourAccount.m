@@ -63,7 +63,7 @@
 	[super initAccount];
 
 	libezvContacts = [[NSMutableSet alloc] init];
-	libezv = [[AWEzv alloc] initWithClient:self];	
+	libezv = [(AWEzv *)[AWEzv alloc] initWithClient:self];	
 }
 
 - (void)dealloc

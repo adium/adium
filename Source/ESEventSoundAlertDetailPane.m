@@ -262,7 +262,7 @@
 - (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     if (returnCode == NSOKButton) {
-        NSString *soundPath = [[panel filenames] objectAtIndex:0];
+        NSString *soundPath = [(NSURL *)[[panel URLs] objectAtIndex:0] path];
         
         [adium.soundController playSoundAtPath:soundPath]; //Play the sound
 

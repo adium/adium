@@ -30,7 +30,7 @@
 	//Does the dataSource know what we want to know?
 	if ([[self dataSource] respondsToSelector:@selector(outlineView:dividerPositionForItem:)]) {
 		//Position of the divider
-		dividerPosition = [[self dataSource] outlineView:self dividerPositionForItem:[self itemAtRow:rowIndex]];
+		dividerPosition = [(id<AIDividedAlternatingRowOutlineViewDelegate>)[self dataSource] outlineView:self dividerPositionForItem:[self itemAtRow:rowIndex]];
 	} else {
 		dividerPosition = AIDividerPositionNone;
 	}

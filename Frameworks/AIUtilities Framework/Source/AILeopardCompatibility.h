@@ -88,6 +88,8 @@
 @end
 @protocol NSTableViewDataSource
 @end
+@protocol NSTabViewDelegate
+@end
 @protocol NSTextFieldDelegate
 @end
 @protocol NSAnimationDelegate

@@ -460,7 +460,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 - (AIListContact *)listObject
 {
 	if (self.countOfContainedObjects == 1 && !self.isGroupChat) {
-		return [self visibleObjectAtIndex:0];
+		return (AIListContact *)[self visibleObjectAtIndex:0];
 	}
 
 	return nil;

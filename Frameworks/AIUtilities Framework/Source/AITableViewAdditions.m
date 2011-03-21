@@ -101,7 +101,7 @@
 	//Check if 'delete' was pressed
 	if (pressedChar == NSDeleteFunctionKey || pressedChar == NSBackspaceCharacter || pressedChar == NSDeleteCharacter) { //Delete
 		if ([[self delegate] respondsToSelector:@selector(tableViewDeleteSelectedRows:)])
-			[[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
+			[(id <AITableViewDelegate>)[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
 	} else {
 		//Pass the key event on to the unswizzled impl
 		method_invoke(self, class_getInstanceMethod([AITableView class], @selector(keyDown:)), theEvent);

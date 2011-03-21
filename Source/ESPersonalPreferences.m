@@ -241,6 +241,8 @@
 	}
 
 	[imageView_userIcon setImage:(imageData ? [[[NSImage alloc] initWithData:imageData] autorelease] : nil)];
+	[imageView_userIcon setMaxSize:NSMakeSize(256.0f, 256.0f)];
+	[imageView_userIcon setShouldUpdateRecentRepository:YES];
 }
 
 - (void)configureTooltips

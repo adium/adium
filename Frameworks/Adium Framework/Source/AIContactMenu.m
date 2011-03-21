@@ -216,7 +216,7 @@
 	} else {
 		// We can assume these are already sorted
 		listObjects = [self listObjectsForMenuFromArrayOfListObjects:([containingObject conformsToProtocol:@protocol(AIContainingObject)] ?
-																	  [(AIListObject<AIContainingObject> *)containingObject uniqueContainedObjects] :
+																	  [(id<AIContainingObject>)containingObject uniqueContainedObjects] :
 																	  [NSArray arrayWithObject:containingObject])];
 	}
 	
@@ -277,7 +277,7 @@
 	for (AIListObject *listObject in listObjects) {
 		// Display groups inline
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
-			NSArray			*containedListObjects = [self listObjectsForMenuFromArrayOfListObjects:[(AIListObject<AIContainingObject> *)listObject uniqueContainedObjects]];
+			NSArray			*containedListObjects = [self listObjectsForMenuFromArrayOfListObjects:[(id<AIContainingObject>)listObject uniqueContainedObjects]];
 			
 			// If there's any contained list objects, add ourself as a group and add the contained objects.
 			if ([containedListObjects count] > 0) {

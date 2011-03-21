@@ -62,7 +62,7 @@
 @implementation AIListController
 
 
-- (id)initWithContactList:(AIListObject<AIContainingObject> *)aContactList
+- (id)initWithContactList:(id<AIContainingObject>)aContactList
 			inOutlineView:(AIListOutlineView *)inContactListView
 			 inScrollView:(AIAutoScrollView *)inScrollView_contactList
 				 delegate:(id<AIListControllerDelegate>)inDelegate
@@ -409,9 +409,9 @@
 //Content Updating -----------------------------------------------------------------------------------------------------
 #pragma mark Content Updating
 
-- (AIListObject<AIContainingObject> *)contactList
+- (id<AIContainingObject>)contactList
 {
-	return (AIListObject<AIContainingObject> *)contactList;
+	return (id<AIContainingObject>)contactList;
 }
 
 - (void)reloadListObject:(NSNotification *)notification

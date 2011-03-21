@@ -51,7 +51,7 @@
 - (BOOL)processorFamilyIsG5;
 @end
 
-static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, void *refcon);
+static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void* refcon);
 
 @implementation AdiumSound
 
@@ -92,7 +92,13 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 		 * rather than stutter our audio and eat CPU continuously, we just won't try to update.
 		 */
 		if (![[NSProcessInfo processInfo] processorFamilyIsG5]) {
-			OSStatus err = AudioHardwareAddPropertyListener(kAudioHardwarePropertyDefaultSystemOutputDevice, systemOutputDeviceDidChange, /*refcon*/ self);
+			AudioObjectPropertyAddress audioAddress = {
+				kAudioHardwarePropertyDefaultSystemOutputDevice,
+				kAudioObjectPropertyScopeGlobal,
+				kAudioObjectPropertyElementMaster
+			};
+			OSStatus err = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &audioAddress, systemOutputDeviceDidChange, self);
+
 			if (err != noErr)
 				NSLog(@"%s: Couldn't sign up for system-output-device-changed notification, because AudioHardwareAddPropertyListener returned %i. Adium will not know when the default system audio device changes.", __PRETTY_FUNCTION__, err);			
 		} else {
@@ -364,8 +370,13 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 	
 	//First, obtain the device itself.
 	AudioDeviceID systemOutputDevice = 0;
-	dataSize = sizeof(systemOutputDevice);
-	err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultSystemOutputDevice, &dataSize, &systemOutputDevice);
+	dataSize = sizeof(AudioDeviceID);
+	AudioObjectPropertyAddress theAddress = {
+		kAudioHardwarePropertyDefaultOutputDevice,
+		kAudioObjectPropertyScopeGlobal,
+		kAudioObjectPropertyElementMaster
+	};
+	err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &theAddress, 0, NULL, &dataSize, &systemOutputDevice);
 	if (err != noErr) {
 		NSLog(@"%s: Could not get the system output device: AudioHardwareGetProperty returned error %i", __PRETTY_FUNCTION__, err);
 		return NULL;
@@ -374,7 +385,14 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 	//Now get its UID. We'll need to release this.
 	CFStringRef deviceUID = NULL;
 	dataSize = sizeof(deviceUID);
-	err = AudioDeviceGetProperty(systemOutputDevice, /*channel*/ 0, /*isInput*/ false, kAudioDevicePropertyDeviceUID, &dataSize, &deviceUID);
+
+	AudioObjectPropertyAddress uidAddress = {
+		kAudioDevicePropertyDeviceUID,
+		kAudioDevicePropertyScopeOutput,
+		/*channel*/ 0
+	};
+	
+	err = AudioObjectGetPropertyData(systemOutputDevice, &uidAddress, 0, NULL, &dataSize, &deviceUID);
 	if (err != noErr) {
 		NSLog(@"%s: Could not get the device UID for device %u: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
 		return NULL;
@@ -481,9 +499,12 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 
 @end
 
-static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, void *refcon)
+static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void* refcon)
 {
-#pragma unused(property)
+#pragma unused(inObjectID)
+#pragma unused(inNumberAddresses)
+#pragma unused(inAddresses)
+	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	AdiumSound *self = (id)refcon;

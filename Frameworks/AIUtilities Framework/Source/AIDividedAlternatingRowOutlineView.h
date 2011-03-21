@@ -27,19 +27,20 @@ typedef enum {
 } AIDividerPosition;
 
 /*!
+ * @protocol AIDividedAlternatingRowOutlineView_Delegate
+ * @brief Informal protocol for implementing a message to verify if an item is supposed to have a divider
+ * 
+ */
+@protocol AIDividedAlternatingRowOutlineViewDelegate
+@optional
+- (AIDividerPosition)outlineView:(NSOutlineView*)outlineView dividerPositionForItem:(id)item;
+@end
+
+/*!
  * @class AIDividedAlternatingRowOutlineView
  * @brief An AIAlternatingRowOutlineView subclass supporting a divider below specified elements
  */
 @interface AIDividedAlternatingRowOutlineView : AIAlternatingRowOutlineView {
 
 }
-@end
-
-/*!
- * @protocol AIDividedAlternatingRowOutlineView_Delegate
- * @brief Informal protocol for implementing a message to verify if an item is supposed to have a divider
- * 
- */
-@interface NSObject (AIDividedAlternatingRowOutlineView_Delegate)
-- (AIDividerPosition)outlineView:(NSOutlineView*)outlineView dividerPositionForItem:(id)item;
 @end
