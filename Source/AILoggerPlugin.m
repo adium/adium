@@ -198,7 +198,7 @@ static dispatch_semaphore_t jobSemaphore;
 	loggerPluginGroup = dispatch_group_create();
 	
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
-
+	
 	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
 	jobSemaphore = dispatch_semaphore_create(cpuCount + AIfloor(cpuCount/2));
 	
@@ -1334,7 +1334,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 		dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
 		dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
-
+		
 		bself.canSaveDirtyLogSet = NO;
 		
 		//Process each from folder
@@ -1387,7 +1387,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		// bself.logsToIndex = [bself.dirtyLogSet count];
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
 	});
-
+	
 	if (self.logsToIndex == 0){
 		dispatch_async(mainDispatchQueue, ^{
 			// logsIndexed = 0;
@@ -1517,9 +1517,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			NSString *dirtyKey = [@"LogIsDirty_" stringByAppendingString:existingAppenderPath];
 			
 			if ([chat integerValueForProperty:dirtyKey]) {
-					[chat setValue:nil
-					   forProperty:dirtyKey
-							notify:NotifyNever];
+				[chat setValue:nil
+				   forProperty:dirtyKey
+						notify:NotifyNever];
 			}
 		}
 	}
