@@ -136,45 +136,45 @@
 - (void)addCookiesToRequest:(NSMutableURLRequest *)request
 {
     NSURL *requestURL = [request URL];
-    NSLog(@"requestURL: %@", requestURL);
+    //NSLog(@"requestURL: %@", requestURL);
     NSMutableArray *sentCookies = [NSMutableArray array];
     
     // same origin: domain, port, path.
     for (NSHTTPCookie *cookie in cookies) {
         if ([[cookie expiresDate] timeIntervalSinceNow] < 0) {
-            NSLog(@"****** expired: %@", cookie);
+            //NSLog(@"****** expired: %@", cookie);
             continue;
         }
         
         if ([cookie isSecure] && ![[requestURL scheme] isEqualToString:@"https"]) {
-            NSLog(@"****** secure not https: %@", cookie);
+            //NSLog(@"****** secure not https: %@", cookie);
             continue;
         }
         
         if ([[cookie domain] hasPrefix:@"."]) { // ".example.com" should match "foo.example.com" and "example.com"            
             if (!([[requestURL host] hasSuffix:[cookie domain]] ||
                   [[@"." stringByAppendingString:[requestURL host]] isEqualToString:[cookie domain]])) {
-                NSLog(@"****** dot prefix host mismatch: %@", cookie);
+                //NSLog(@"****** dot prefix host mismatch: %@", cookie);
                 continue;
             }
         } else {
             if (![[requestURL host] isEqualToString:[cookie domain]]) {
-                NSLog(@"****** host mismatch: %@", cookie);
+                //NSLog(@"****** host mismatch: %@", cookie);
                 continue;
             }
         }
         
         if ([cookie portList] && ![[cookie portList] containsObject:[requestURL port]]) {
-            NSLog(@"****** port mismatch: %@", cookie);
+            //NSLog(@"****** port mismatch: %@", cookie);
             continue;
         }
         
         if (![[requestURL path] hasPrefix:[cookie path]]) {
-            NSLog(@"****** path mismatch: %@", cookie);
+            //NSLog(@"****** path mismatch: %@", cookie);
             continue;
         }
         
-        NSLog(@"adding cookie: %@", cookie);
+        //NSLog(@"adding cookie: %@", cookie);
         [sentCookies addObject:cookie];
     }
     
