@@ -279,9 +279,6 @@
 
 	self.oAuthWC = nil;
 
-	/* When we're newly authorized, connect! */
-	[self connect];
-	
 	if (self.migratingAccount)
 		[self finishMigration];
 }
