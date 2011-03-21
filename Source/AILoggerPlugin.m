@@ -153,7 +153,6 @@ static NSString     *logBasePath = nil;
 static NSString     *logBaseAliasPath = nil;
 
 #pragma mark Dispatch
-//TODO: Create/Destroy dispatch objects!!!!
 static dispatch_queue_t     mainDispatchQueue;
 
 static dispatch_queue_t     dirtyLogSetMutationQueue;
