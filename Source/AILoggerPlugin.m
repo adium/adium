@@ -169,7 +169,7 @@ static dispatch_group_t		loggerPluginGroup;
 static dispatch_semaphore_t jobSemaphore;
 
 @implementation AILoggerPlugin
-@synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation, logIndex;
+@synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation;
 
 #pragma mark -
 #pragma mark Public Methods
@@ -182,7 +182,7 @@ static dispatch_semaphore_t jobSemaphore;
 	self.canCloseIndex = YES;
 	self.loggingEnabled = NO;
 	self.canSaveDirtyLogSet = YES;
-	self.logIndex = nil;
+	logIndex = nil;
 	self.activeAppenders = [NSMutableDictionary dictionary];
 	self.dirtyLogSet = [NSMutableSet set];
 	
@@ -401,7 +401,6 @@ static dispatch_semaphore_t jobSemaphore;
 
 - (SKIndexRef)logContentIndex
 {
-	__block __typeof__(self)  bself = self;
 	/* We shouldn't have to lock here except in createLogIndex.  However, a 'window period' exists after an SKIndex has been closed via SKIndexClose()
 	 * in which an attempt to load the index from disk returns NULL (presumably because it's still being written-to asynchronously).  We therefore lock
 	 * around the full access to make the process reliable.  The documentation says that SKIndex is thread-safe, but that seems to assume that you keep
@@ -410,15 +409,16 @@ static dispatch_semaphore_t jobSemaphore;
 	 */
 	[self _cancelClosingLogIndex];
 	
-	if (!self.logIndex) {
-		NSString  *logIndexPath = [bself _logIndexPath];
+	SKIndexRef _index = nil;
+	if (!logIndex) {
+		NSString  *logIndexPath = [self _logIndexPath];
 		NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
-			self.logIndex = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-			AILogWithSignature(@"Opened index %x from %@",self.logIndex,logIndexURL);
+			_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
+			AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
 			
-			if (!self.logIndex) {
+			if (!_index) {
 				//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
 				AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
 								   logIndexPath);
@@ -426,7 +426,7 @@ static dispatch_semaphore_t jobSemaphore;
 			}
 		}
 		
-		if (!self.logIndex) {
+		if (!_index) {
 			NSDictionary *textAnalysisProperties;
 			
 			textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -440,24 +440,26 @@ static dispatch_semaphore_t jobSemaphore;
 			//Create the index if one doesn't exist or it couldn't be opened.
 			[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 			
-			self.logIndex = SKIndexCreateWithURL((CFURLRef)logIndexURL,
+			_index = SKIndexCreateWithURL((CFURLRef)logIndexURL,
 												 (CFStringRef)@"Content", 
 												 kSKIndexInverted,
 												 (CFDictionaryRef)textAnalysisProperties);
 			
-			if (self.logIndex) {
-				AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",self.logIndex,logIndexURL,textAnalysisProperties);
+			if (_index) {
+				AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 				//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
-				[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
+				[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogSetPath] error:NULL];
 				dispatch_sync(dirtyLogSetMutationQueue, ^{
-					[bself.dirtyLogSet removeAllObjects];
+					[self.dirtyLogSet removeAllObjects];
 				});
 			} else {
 				AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
 			}
 		}
+		logIndex = _index;
+		CFRetain(logIndex);
 	}
-	return self.logIndex;
+	return logIndex;
 }
 
 - (void)markLogDirtyAtPath:(NSString *)path
@@ -1396,7 +1398,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		return;
 	}
 	
-	__block SKIndexRef searchIndex = [self logContentIndex];
+	SKIndexRef searchIndex = [self logContentIndex];
 	if (!searchIndex) {
 		AILogWithSignature(@"*** Warning: Could not open searchIndex in -[%@ _cleanDirtyLogs]. That shouldn't happen!", self);
 		return;
@@ -1412,7 +1414,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
 		
 		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
-			CFRetain(searchIndex);
 			while (bself.indexingAllowed) {
 				__block NSString *__logPath;
 				NSString  *logPath = nil;
@@ -1427,8 +1428,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				if (logPath) {
 					dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
 					dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
-						CFRetain(searchIndex);
-						SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
+						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 						if (document && bself.indexingAllowed) {
 							/* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
 							 * However, this has three problems:
@@ -1437,17 +1437,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 *  2. Sometimes logs don't appear to be associated with the right URI type and therefore don't get indexed.
 							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
 							 */
-							CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
+							__block CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
 							dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{								
-								CFRetain(searchIndex);
 								if (documentText && bself.indexingAllowed) {
 									SKIndexAddDocumentWithText(searchIndex,
 															   document,
 															   documentText,
 															   YES);
+									CFRelease(documentText);
+								} else if (documentText) {
+									CFRelease(documentText);
 								}
+
 								dispatch_semaphore_signal(jobSemaphore);
-								CFRelease(searchIndex);
+								CFRelease(document);
 								
 								OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL) {
@@ -1464,16 +1467,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
 								}
 							}));
-							//CFRelease(documentText); documentText = nil;
-							//CFRelease(document); document = nil;
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
+							CFRelease(document);
 							dispatch_semaphore_signal(jobSemaphore);
 							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
 						}
-						
-						CFRelease(searchIndex);
 					}));
 				} else {
 					break;
@@ -1491,9 +1491,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				[bself _didCleanDirtyLogs];
-				CFRelease(searchIndex);
 			});
-			//CFRelease(searchIndex);
 		}));
 	}
 }
@@ -1558,10 +1556,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_async(searchIndexFlushingQueue, ^{
-		if (bself.logIndex && bself.canCloseIndex) {
-			[bself _flushIndex:bself.logIndex];
-			SKIndexClose(bself.logIndex);
-			bself.logIndex = nil;
+		if (bself->logIndex && bself.canCloseIndex) {
+			[bself _flushIndex:bself->logIndex];
+			SKIndexClose(bself->logIndex);
+			bself->logIndex = nil;
 		}
 	});
 }

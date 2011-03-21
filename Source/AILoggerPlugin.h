@@ -55,7 +55,6 @@
 	UInt64               logsToIndex;
 	UInt64               logsIndexed;
 }
-@property(assign) SKIndexRef           logIndex;
 @property(retain) NSMutableDictionary *activeAppenders;
 @property(retain) AIHTMLDecoder       *xhtmlDecoder;
 @property(retain) NSDictionary        *statusTranslation;
