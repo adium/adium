@@ -27,12 +27,17 @@
 
 @interface AIFacebookXMPPAccount ()
 - (void)finishMigration;
+@property (nonatomic, copy) NSString *oAuthToken;
+
+- (void)meGraphAPIDidFinishLoading:(NSData *)accessTokenData response:(NSURLResponse *)response error:(NSError *)inError;
+- (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
 @end
 
 @implementation AIFacebookXMPPAccount
 
 @synthesize oAuthWC;
 @synthesize migratingAccount;
+@synthesize oAuthToken;
 
 #pragma mark Connectivitiy
 
@@ -124,6 +129,63 @@
 	}
 }
 
+#pragma mark Status
+
+- (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
+							  arguments:(NSMutableDictionary *)arguments
+{
+	const char		*statusID = NULL;
+	NSString		*statusName = statusState.statusName;
+	NSString		*statusMessageString = [statusState statusMessageString];
+	NSNumber		*priority = nil;
+	
+	if (!statusMessageString) statusMessageString = @"";
+	
+	switch (statusState.statusType) {
+		case AIAvailableStatusType:
+		{
+			if (([statusName isEqualToString:STATUS_NAME_FREE_FOR_CHAT]) ||
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]] == NSOrderedSame))
+				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_CHAT);
+			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
+			break;
+		}
+			
+		case AIAwayStatusType:
+		{
+			if (([statusName isEqualToString:STATUS_NAME_DND]) ||
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame) ||
+				[statusName isEqualToString:STATUS_NAME_BUSY]) {
+				//Note that Jabber doesn't actually support a 'busy' status; if we have it set because some other service supports it, treat it as DND
+				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_DND);
+				
+			} else if (([statusName isEqualToString:STATUS_NAME_EXTENDED_AWAY]) ||
+					   ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]] == NSOrderedSame))
+				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_XA);
+			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
+			break;
+		}
+			
+		case AIInvisibleStatusType:
+			AILog(@"Warning: Invisibility is not yet supported in libpurple 2.0.0 jabber");
+			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
+			statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_AWAY);
+			break;
+			
+		case AIOfflineStatusType:
+			break;
+	}
+	
+	//Set our priority, which is actually set along with the status...Default is 0.
+	[arguments setObject:(priority ? priority : [NSNumber numberWithInt:0])
+				  forKey:@"priority"];
+	
+	//If we didn't get a purple status ID, request one from super
+	if (statusID == NULL) statusID = [super purpleStatusIDForStatus:statusState arguments:arguments];
+	
+	return statusID;
+}
+
 #pragma mark Account configuration
 
 - (void)setName:(NSString *)name UID:(NSString *)inUID
@@ -182,7 +244,6 @@
 	if (self.migratingAccount) {
 		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
 		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self.migratingAccount];
-		[self.oAuthWC.window setTitle:[NSString stringWithFormat:AILocalizedString(@"Migrating %@", nil), self.migratingAccount.UID]];
 	}
 
 	[self.oAuthWC showWindow:self];
@@ -190,52 +251,58 @@
 
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token
 {
-	//Look up the account's full name so that we have something more useful than their FB ID
-    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", token];
-    NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
-    meConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:url] delegate:self];
+    [self setOAuthToken:token];
     
-	sessionKey = [[[token componentsSeparatedByString:@"|"] objectAtIndex:1] retain];
-	
-	//This is a deprecated api that doesn't have a replacement yet
-	//Need to call this in order to be able to login
-    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", token];
+    NSError *error = nil;
+    NSURLResponse *response = nil;
+    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];
+    NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData *meGraphData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [self meGraphAPIDidFinishLoading:meGraphData response:response error:error];
+
+    error = nil;
+    response = nil;
+    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", [self oAuthToken]];
     NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    secretConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:secretURL] delegate:self];
-	
-	self.oAuthWC = nil;
+    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
+    NSData *promoteSessionData = [NSURLConnection sendSynchronousRequest:secretRequest returningResponse:&response error:&error];
+    [self promoteSessionDidFinishLoading:promoteSessionData response:response error:error];    
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+- (void)meGraphAPIDidFinishLoading:(NSData *)accessTokenData response:(NSURLResponse *)response error:(NSError *)inError
 {
-	if (connection == meConnection) {
-		NSDictionary *resp = [data objectFromJSONDataWithParseOptions:JKParseOptionNone];
-		NSString *uuid = [resp objectForKey:@"id"];
-		NSString *name = [resp objectForKey:@"name"];
-		
-		if (uuid && name) {
-			/* Passwords are keyed by UID, so we need to make this change before storing the password */
-			[self setName:name UID:uuid];
-			
-			[[adium accountController] setPassword:sessionKey forAccount:self];
-			[self setPasswordTemporarily:sessionKey];
-			
-			if (self.migratingAccount)
-				[self finishMigration];
-		}
-		
-		[sessionKey release];
-		meConnection = nil;
-	} else if (connection == secretConnection) {
-		NSString *secret = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-		secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes
-		
-		[self setPreference:secret
-					 forKey:@"FBSessionSecret"
-					  group:GROUP_ACCOUNT_STATUS];
-		
-		secretConnection = nil;
-	}
+    NSError *error = nil;
+    NSDictionary *resp = [accessTokenData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSString *uuid = [resp objectForKey:@"id"];
+    NSString *name = [resp objectForKey:@"name"];
+    
+    /* Passwords are keyed by UID, so we need to make this change before storing the password */
+	[self setName:name UID:uuid];
+}
+
+- (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError
+{
+    NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
+    secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes    
+    NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
+   	
+	[[adium accountController] setPassword:sessionKey forAccount:self];
+	[self setPasswordTemporarily:sessionKey];
+	
+	[self setPreference:secret
+				 forKey:@"FBSessionSecret"
+				  group:GROUP_ACCOUNT_STATUS];
+    
+	self.oAuthWC = nil;
+    self.oAuthToken = nil;
+    
+	/* When we're newly authorized, connect! */
+	[self connect];
+	
+	if (self.migratingAccount) {
+		[self finishMigration];        
+    }
 }
 
 #pragma mark Migration
