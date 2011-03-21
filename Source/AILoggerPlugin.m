@@ -178,6 +178,7 @@ static dispatch_semaphore_t jobSemaphore;
 #pragma mark Overridden AIPlugin Methods
 - (void)installPlugin
 {
+	userTriggeredReindex = NO;
 	self.indexingAllowed = YES;
 	self.canCloseIndex = YES;
 	self.loggingEnabled = NO;
@@ -364,24 +365,26 @@ static dispatch_semaphore_t jobSemaphore;
 - (void)prepareLogContentSearching
 {
 	__block __typeof__(self) bself = self;
-	dispatch_async(mainDispatchQueue, ^{
-		/* Load the index and start indexing to make it current
-		 * If we're going to need to re-index all our logs from scratch, it will make
-		 * things faster if we start with a fresh log index as well.
-		 */
-		BOOL reindex = ![[NSFileManager defaultManager] fileExistsAtPath:[bself _dirtyLogSetPath]];
-		
-		if(reindex)
-			[self _resetLogIndex];
-		
-		[bself logContentIndex];
-		
-		if (reindex)
-			[bself _dirtyAllLogs];
-		else
-			[bself _cleanDirtyLogs];
-		
-	});
+	if (!userTriggeredReindex) {
+		dispatch_async(mainDispatchQueue, ^{
+			/* Load the index and start indexing to make it current
+			 * If we're going to need to re-index all our logs from scratch, it will make
+			 * things faster if we start with a fresh log index as well.
+			 */
+			BOOL reindex = ![[NSFileManager defaultManager] fileExistsAtPath:[bself _dirtyLogSetPath]];
+			
+			if(reindex)
+				[self _resetLogIndex];
+			
+			[bself logContentIndex];
+			
+			if (reindex)
+				[bself _dirtyAllLogs];
+			else
+				[bself _cleanDirtyLogs];
+			
+		});
+	}
 }
 
 - (void)cleanUpLogContentSearching
@@ -971,8 +974,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)showLogViewerAndReindex:(id)sender
 {
+	userTriggeredReindex = YES;
 	[self showLogViewer:nil];
 	[self _dirtyAllLogs];
+	userTriggeredReindex = NO;
 }
 
 - (void)showLogNotification:(NSNotification *)inNotification
@@ -1479,14 +1484,17 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			if (unsavedChanges) {
 				[bself _saveDirtyLogSet];
 			}
-			dispatch_group_notify(logIndexingGroup, mainDispatchQueue, ^{
+			dispatch_group_notify(logIndexingGroup, searchIndexFlushingQueue, ^{
+				NSLog(@"Flushing searchIndex");
 				SKIndexFlush(searchIndex);
+				NSLog(@"searchIndex Flushed");
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				[bself _didCleanDirtyLogs];
+				CFRelease(searchIndex);
 			});
-			CFRelease(searchIndex);
+			//CFRelease(searchIndex);
 		}));
 	}
 }
@@ -1494,6 +1502,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 #pragma mark Log Indexing Internals
 - (void)_didCleanDirtyLogs
 {
+	NSLog(@"_didCleanDirtyLogs");
 	__block __typeof__(self) bself = self;
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
@@ -1519,10 +1528,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)_saveDirtyLogSet
 {
 	__block __typeof__(self) bself = self;
-	dispatch_sync(dirtyLogSetMutationQueue, ^{
+	dispatch_async(dirtyLogSetMutationQueue, ^{
+		NSLog(@"_saveDirtyLogSet");
 		if ([bself.dirtyLogSet count] > 0 && bself.canSaveDirtyLogSet) {
-			[[bself.dirtyLogSet allObjects] writeToFile:[bself _dirtyLogSetPath]
-											 atomically:NO];
+			dispatch_sync(ioQueue, ^{
+				[[bself.dirtyLogSet allObjects] writeToFile:[bself _dirtyLogSetPath]
+												 atomically:NO];
+			});
 		}
 	});
 }
@@ -1532,7 +1544,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	NSParameterAssert(path != nil);
 	NSParameterAssert(chat != nil);
 	__block __typeof__(self) bself = self;
-	dispatch_sync(dirtyLogSetMutationQueue, ^{
+	dispatch_async(dirtyLogSetMutationQueue, ^{
 		if (![bself.dirtyLogSet containsObject:path]) {
 			[bself.dirtyLogSet addObject:path];
 			dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
@@ -1546,7 +1558,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)_closeLogIndex
 {
 	__block __typeof__(self) bself = self;
-	dispatch_sync(searchIndexFlushingQueue, ^{
+	dispatch_async(searchIndexFlushingQueue, ^{
 		if (bself.logIndex && bself.canCloseIndex) {
 			[bself _flushIndex:bself.logIndex];
 			SKIndexClose(bself.logIndex);

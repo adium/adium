@@ -51,6 +51,7 @@
   BOOL                 loggingEnabled;
   BOOL                 canCloseIndex;
   BOOL                 canSaveDirtyLogSet;
+  BOOL                 userTriggeredReindex;
   UInt64               logsToIndex;
   UInt64               logsIndexed;
 }
