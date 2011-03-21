@@ -9,6 +9,7 @@
 #import "AIFacebookXMPPAccount.h"
 #import "AIFacebookXMPPAccountViewController.h"
 #import <Adium/AIAccount.h>
+#import <Adium/AIAccountControllerProtocol.h>
 
 @implementation AIFacebookXMPPAccountViewController
 @synthesize view_migration, textField_migrationStatus, button_migrationHelp, button_migrationOAuthStart, migrationSpinner;
@@ -40,6 +41,19 @@
 - (NSString *)nibName
 {
     return @"AIFacebookXMPPAccountView";
+}
+
+/*!
+ * @brief Configure controls
+ */
+- (void)configureForAccount:(AIAccount *)inAccount
+{
+	[super configureForAccount:inAccount];
+	
+	if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
+		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium currently has access to your account.", nil)];
+		[button_OAuthStart setEnabled:NO];
+	}
 }
 
 /*!
