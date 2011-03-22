@@ -284,14 +284,10 @@ NSString *GetTextContentForXMLLog(NSString *pathToFile)
 	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
 	if (data) {
 		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
+		if (xmlDoc) {
+			contentString = [xmlDoc stringValue];
+			[xmlDoc release];
+		}
 	}
-	
-	if (xmlDoc) {
-		NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()"
-												error:&err];
-		contentString = [contentArray componentsJoinedByString:@" "];
-		[xmlDoc release];
-	}
-	
 	return contentString;
 }
