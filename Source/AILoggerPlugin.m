@@ -406,57 +406,59 @@ static dispatch_semaphore_t jobSemaphore;
 	 * open as long as the transcript viewer window is open.
 	 */
 	[self _cancelClosingLogIndex];
-	
-	SKIndexRef _index = nil;
-	if (!logIndex) {
-		NSString  *logIndexPath = [self _logIndexPath];
-		NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
-			_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-			AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+	__block __typeof__(self) bself = self;
+	dispatch_sync(searchIndexFlushingQueue, blockWithAutoreleasePool(^{
+		SKIndexRef _index = nil;
+		if (!bself->logIndex) {
+			NSString  *logIndexPath = [bself _logIndexPath];
+			NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
+			
+			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
+				_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
+				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+				
+				if (!_index) {
+					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
+					AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
+									   logIndexPath);
+					[[NSFileManager defaultManager] removeItemAtPath:logIndexPath error:NULL];
+				}
+			}
 			
 			if (!_index) {
-				//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
-				AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
-								   logIndexPath);
-				[[NSFileManager defaultManager] removeItemAtPath:logIndexPath error:NULL];
-			}
-		}
-		
-		if (!_index) {
-			NSDictionary *textAnalysisProperties;
-			
-			textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-									  [NSNumber numberWithInteger:0], kSKMaximumTerms,
-									  [NSNumber numberWithInteger:2], kSKMinTermLength,
+				NSDictionary *textAnalysisProperties;
+				
+				textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+										  [NSNumber numberWithInteger:0], kSKMaximumTerms,
+										  [NSNumber numberWithInteger:2], kSKMinTermLength,
 #if ENABLE_PROXIMITY_SEARCH
-									  kCFBooleanTrue, kSKProximityIndexing, 
+										  kCFBooleanTrue, kSKProximityIndexing, 
 #endif
-									  nil];
-			
-			//Create the index if one doesn't exist or it couldn't be opened.
-			[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
-			
-			_index = SKIndexCreateWithURL((CFURLRef)logIndexURL,
-												 (CFStringRef)@"Content", 
-												 kSKIndexInverted,
-												 (CFDictionaryRef)textAnalysisProperties);
-			
-			if (_index) {
-				AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
-				//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
-				[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogSetPath] error:NULL];
-				dispatch_sync(dirtyLogSetMutationQueue, ^{
-					[self.dirtyLogSet removeAllObjects];
-				});
-			} else {
-				AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
+										  nil];
+				
+				//Create the index if one doesn't exist or it couldn't be opened.
+				[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
+				
+				_index = SKIndexCreateWithURL((CFURLRef)logIndexURL,
+											  (CFStringRef)@"Content", 
+											  kSKIndexInverted,
+											  (CFDictionaryRef)textAnalysisProperties);
+				
+				if (_index) {
+					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
+					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
+					dispatch_sync(dirtyLogSetMutationQueue, ^{
+						[bself->dirtyLogSet removeAllObjects];
+					});
+				} else {
+					AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
+				}
 			}
+			bself->logIndex = _index;
 		}
-		logIndex = _index;
-		//CFRetain(logIndex);
-	}
+	}));
+	
 	return logIndex;
 }
 
