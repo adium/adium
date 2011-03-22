@@ -1418,6 +1418,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs && bself.indexingAllowed) {
+				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 				__block NSString *__logPath;
 				NSString  *logPath = nil;
 				
@@ -1459,7 +1460,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 								
 								OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 								OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL) {
+								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
 									dispatch_async(dispatch_get_main_queue(), ^{
 										[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 									});
@@ -1484,6 +1485,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 						CFRelease(searchIndex);
 					}));
 				}
+				[pool release]; pool = nil;
 			}
 			
 			if (unsavedChanges) {
