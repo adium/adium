@@ -136,6 +136,21 @@
 // cleanup
 - (void)_closeLogIndex;
 - (void)_flushIndex:(SKIndexRef)inIndex;
+
+// properties
+@property(retain,readwrite) NSMutableDictionary *activeAppenders;
+@property(retain,readwrite) AIHTMLDecoder       *xhtmlDecoder;
+@property(retain,readwrite) NSDictionary        *statusTranslation;
+@property(retain,readwrite) NSMutableSet        *dirtyLogSet;
+@property(assign,readwrite) BOOL                 logHTML;
+@property(assign,readwrite) BOOL                 indexingAllowed;
+@property(assign,readwrite) BOOL                 loggingEnabled;
+@property(assign,readwrite) BOOL                 canCloseIndex;
+@property(assign,readwrite) BOOL                 canSaveDirtyLogSet;
+@property(assign,readwrite) BOOL                 indexIsFlushing;
+@property(assign,readwrite) BOOL                 isIndexing;
+@property(assign,readwrite) UInt64               logsToIndex;
+@property(assign,readwrite) UInt64               logsIndexed;
 @end
 
 #pragma mark Private Function Prototypes
@@ -169,7 +184,7 @@ static dispatch_group_t		loggerPluginGroup;
 static dispatch_semaphore_t jobSemaphore;
 
 @implementation AILoggerPlugin
-@synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation;
+@synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation, isIndexing, indexIsFlushing;
 
 #pragma mark -
 #pragma mark Public Methods
@@ -182,6 +197,8 @@ static dispatch_semaphore_t jobSemaphore;
 	self.canCloseIndex = YES;
 	self.loggingEnabled = NO;
 	self.canSaveDirtyLogSet = YES;
+	self.isIndexing = NO;
+	self.indexIsFlushing = NO;
 	logIndex = nil;
 	self.activeAppenders = [NSMutableDictionary dictionary];
 	self.dirtyLogSet = [NSMutableSet set];
@@ -472,16 +489,6 @@ static dispatch_semaphore_t jobSemaphore;
 			[bself.dirtyLogSet addObject:path];
 		}
 	});
-}
-
-- (BOOL)getIndexingProgress:(NSUInteger *)indexNumber outOf:(NSUInteger *)total
-{
-	//logsIndexed + 1 is the log we are currently indexing
-	NSUInteger _logsIndexed = (NSUInteger)self.logsIndexed;
-	NSUInteger _logsToIndex = (NSUInteger)self.logsToIndex;
-	if (indexNumber) *indexNumber = (_logsIndexed + 1 <= +logsToIndex) ? _logsIndexed + 1 : _logsToIndex;
-	if (total) *total = _logsToIndex;
-	return (_logsToIndex > 0);
 }
 
 - (void)cancelIndexing
@@ -1410,6 +1417,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 	
 	if (self.indexingAllowed) {
+		self.isIndexing = YES;
 		__block UInt32  lastUpdate = TickCount();
 		__block SInt32  unsavedChanges = 0;
 		
@@ -1493,6 +1501,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 			dispatch_group_leave(logIndexingGroup);
 			dispatch_group_notify(logIndexingGroup, searchIndexFlushingQueue, ^{
+				bself.indexIsFlushing = YES;
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+				});
 				NSLog(@"Flushing searchIndex");
 				SKIndexFlush(searchIndex);
 				NSLog(@"searchIndex Flushed");
@@ -1500,6 +1512,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				[bself _didCleanDirtyLogs];
+				bself.indexIsFlushing = NO;
 			});
 		}));
 	}
@@ -1514,8 +1527,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
 	});
 	
-	[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
-	
 	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
 	for (AIChat *chat in adium.chatController.openChats) {
 		NSString *existingAppenderPath = [[self _existingAppenderForChat:chat] path];
@@ -1529,6 +1540,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 		}
 	}
+	self.isIndexing = NO;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+	});
 }
 
 - (void)_saveDirtyLogSet
