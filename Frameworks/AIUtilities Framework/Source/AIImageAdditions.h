@@ -32,6 +32,7 @@ typedef enum {
     AIJPEG2000FileType = NSJPEG2000FileType
 } AIBitmapImageFileType;
 
+
 @interface NSImage (AIImageAdditions)
 
 + (NSImage *)imageNamed:(NSString *)name forClass:(Class)inClass;
@@ -59,9 +60,20 @@ typedef enum {
 - (NSData *)PNGRepresentation;
 - (NSData *)GIFRepresentation;
 - (NSData *)BMPRepresentation;
+- (NSData *)bestRepresentationByType;
 - (NSBitmapImageRep *)largestBitmapImageRep;
 - (NSData *)representationWithFileType:(NSBitmapImageFileType)fileType
 					   maximumFileSize:(NSUInteger)maximumSize;
+
+/*
+ * Writes Application Extension Block and modifies Graphic Control Block for a GIF image
+ */
+- (void)writeGIFExtensionBlocksInData:(NSMutableData *)data forRepresenation:(NSBitmapImageRep *)bitmap;
+
+/*
+ * Properties for a GIF image
+ */
+- (NSDictionary *)GIFPropertiesForRepresentation:(NSBitmapImageRep *)bitmap;
 
 @end
 

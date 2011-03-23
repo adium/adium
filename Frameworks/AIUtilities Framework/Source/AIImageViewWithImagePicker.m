@@ -346,7 +346,7 @@
 	NSString *fullPath = [[inDropDestination path] stringByAppendingPathComponent:name];
 	fullPath = [[NSFileManager defaultManager] uniquePathForPath:fullPath];
 	
-	[[[self image] PNGRepresentation] writeToFile:fullPath
+	[[[self image] bestRepresentationByType] writeToFile:fullPath
 									   atomically:YES];
 	
 	return [NSArray arrayWithObject:[fullPath lastPathComponent]];
@@ -371,50 +371,39 @@
 	
 	IKPictureTakerRecentPicture *recentPicture = [IKPictureTakerRecentPicture defaultRecentPictureWithOriginalImage:droppedImage cropSize:CGSizeZero];
 	
-	if (!shouldUpdateRecentRepository &&
-		((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
-		(mSize.height > 0.0f && droppedImageSize.height > mSize.height))) {
+	if ((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
+		(mSize.height > 0.0f && droppedImageSize.height > mSize.height)) {
 
 		droppedImage = [droppedImage imageByScalingToSize:mSize];
 
 		// This will notify the picker controller that the selection changed, as well
 		[self setImage:droppedImage];
-	} else if (pictureTaker) {
-		// Notify the picker controller
-		[pictureTaker setRecentPictureAsImageInput:recentPicture];
 	}
 	
 	// Inform the delegate
 	if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
-		[[self delegate] imageViewWithImagePicker:self didChangeToImageData:[droppedImage PNGRepresentation]];
+		[[self delegate] imageViewWithImagePicker:self didChangeToImageData:[[[NSImage alloc] initWithPasteboard:[sender draggingPasteboard]] bestRepresentationByType]];
 	} else if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
 		[[self delegate] imageViewWithImagePicker:self didChangeToImage:droppedImage];
 	}
 
 	// Update Recent Pictures Repository
 	if (shouldUpdateRecentRepository) {
+		// Recent picture needs a small icon, of square shape
 		// We need a valid maxSize, >= (32.0f, 32.0f)
 		NSAssert(mSize.width >= 32.0f || mSize.height >= 32.0f, @"Valid maxSize required!");
 
 		if ((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
 			(mSize.height > 0.0f && droppedImageSize.height > mSize.height)) {
-			
-			droppedImage = [droppedImage imageByScalingToSize:mSize];
+			mSize = NSMakeSize(64.0f, 64.0f);
+		} else {
+			// We don't want to get weird results when the image is smaller
+			CGFloat tmpSize = MAX(droppedImageSize.width, droppedImageSize.height);
+			mSize = NSMakeSize(tmpSize, tmpSize);
 		}
 		
-		// Recent picture needs a small icon, of square shape
-		NSImage *smallIcon = [[NSImage alloc] initWithSize:mSize];
-		
-		[smallIcon lockFocus];
-		[droppedImage drawAtPoint:NSMakePoint((mSize.width - droppedImage.size.width) / 2.0f, (mSize.height - droppedImage.size.height) / 2.0f) 
-						 fromRect:NSZeroRect 
-						operation:NSCompositeCopy
-						 fraction:1.0f];
-		[smallIcon unlockFocus];
-		
 		// Update recent picture
-		[recentPicture setCropInfo:nil smallIcon:smallIcon];
-		[smallIcon release];
+		[recentPicture setCropInfo:nil smallIcon:[droppedImage imageByFittingInSize:mSize]];
 		
 		// Add to recent repository
 		[[IKPictureTakerRecentPictureRepository recentRepository] addRecent:recentPicture];
@@ -454,7 +443,7 @@
 			if ((maxSize.width > 0 && imageSize.width > maxSize.width) ||
 				(maxSize.height > 0 && imageSize.height > maxSize.height)) {
 				image = [image imageByScalingToSize:maxSize];
-				imageData = [image PNGRepresentation];
+				imageData = [image bestRepresentationByType];
 			}
 			
 			[self setImage:image];
@@ -533,7 +522,7 @@
 			if ([delegate respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
 				[delegate performSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)
 							   withObject:self
-							   withObject:[image PNGRepresentation]];
+							   withObject:[image bestRepresentationByType]];
 				
 			} else if ([delegate respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
 				[delegate performSelector:@selector(imageViewWithImagePicker:didChangeToImage:)
@@ -612,7 +601,7 @@
 			if ((maxSize.width > 0 && imageSize.width > maxSize.width) ||
 				(maxSize.height > 0 && imageSize.height > maxSize.height)) {
 				image = [image imageByScalingToSize:maxSize];
-				imageData = [image PNGRepresentation];
+				imageData = [image bestRepresentationByType];
 			}
 			
 			//Update the image view

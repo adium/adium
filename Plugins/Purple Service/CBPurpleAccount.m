@@ -2650,16 +2650,16 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
 {
 	if (account) {
-		NSData		*imageData = originalData;
-		NSSize		imageSize = (image ? [image size] : NSZeroSize);
-		NSData		*buddyIconData = nil;
+		NSData *imageData = originalData;
+		NSSize imageSize = (image ? [image size] : NSZeroSize);
+		NSData *buddyIconData = nil;
 
 		/* Now pass libpurple the new icon. Check to be sure our image doesn't have an NSZeroSize size,
 		 * which would indicate currupt data */
 		if (image && !NSEqualSizes(NSZeroSize, imageSize)) {
 			PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 
-			AILog(@"Original image of size %f %f",imageSize.width,imageSize.height);
+			AILog(@"%@: Original image of size %f %f", self, imageSize.width, imageSize.height);
 
 			if (prpl_info && (prpl_info->icon_spec.format)) {
 				BOOL		smallEnough, prplScales;
@@ -2680,29 +2680,56 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					gint height = (gint)imageSize.height;
 					
 					purple_buddy_icon_get_scale_size(&prpl_info->icon_spec, &width, &height);
-					//Determine the scaled size.  If it's too big, scale to the largest permissable size
+					// Determine the scaled size.  If it's too big, scale to the largest permissable size
 					image = [image imageByScalingToSize:NSMakeSize(width, height)];
 
-					/* Our original data is no longer valid, since we had to scale to a different size */
+					// Our original data is no longer valid, since we had to scale to a different size
 					imageData = nil;
 					AILog(@"%@: Scaled image to size %@", self, NSStringFromSize([image size]));
 				}
 
 				if (!buddyIconData) {
-					char		**prpl_formats =  g_strsplit(prpl_info->icon_spec.format,",",0);
+					char **prpl_formats =  g_strsplit(prpl_info->icon_spec.format,",",0);
 
-					//Look for gif first if the image is animated
-					NSImageRep	*imageRep = [image bestRepresentationForRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) context:nil hints:nil];
+					// Look for gif first if the image is animated
+					NSImageRep *imageRep = [image bestRepresentationForRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) context:nil hints:nil];
+					
 					if ([imageRep isKindOfClass:[NSBitmapImageRep class]] &&
 						[[(NSBitmapImageRep *)imageRep valueForProperty:NSImageFrameCount] integerValue] > 1) {
 						
 						for (i = 0; prpl_formats[i]; i++) {
 							if (strcmp(prpl_formats[i],"gif") == 0) {
 								/* Try to use our original data.  If we had to scale, imageData will have been set
-								* to nil and we'll continue below to convert the image. */
-								AILog(@"l33t script kiddie animated GIF!!111");
-								
+								 * to nil and we'll continue below to convert the image. */
 								buddyIconData = imageData;
+								
+								AILog(@"%@: Trying to use original GIF data, %i bytes", self, [buddyIconData length]);
+								
+								if (!buddyIconData) {
+									AILog(@"%@: Failed to use original GIF", self);
+									
+									buddyIconData = [image GIFRepresentation];
+								}
+								
+								size_t maxFileSize = prpl_info->icon_spec.max_filesize;
+								
+								// GIF's tend to be larger, we will resize or return a still image 
+								NSSize newSize = [image size];
+								
+								while ([buddyIconData length] > maxFileSize && (newSize.width > 42.0f && newSize.height > 42.0f)) {
+									newSize = NSMakeSize(newSize.width - 10.0f,  newSize.height - 10.0f);
+									buddyIconData = [[image imageByScalingToSize:newSize] GIFRepresentation];
+								}
+								
+								// GIF not small enough
+								if ([buddyIconData length] > maxFileSize) {
+									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
+									
+									AILog(@"%@: GIF too large, use a still JPEG of %i bytes", self, [buddyIconData length]);
+								} else {
+									AILog(@"%@: Resized GIF, new file size %i!", self, [buddyIconData length]);
+								}
+								
 								if (buddyIconData)
 									break;
 							}
@@ -2728,6 +2755,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								
 							} else if (strcmp(prpl_formats[i],"gif") == 0) {
 								buddyIconData = [image GIFRepresentation];
+								
+								AILog(@"%@: Using GIF for User Picture", self);
+								
 								if (buddyIconData)
 									break;
 								
@@ -2740,8 +2770,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 						}
 						
 						size_t maxFileSize = prpl_info->icon_spec.max_filesize;
+						
 						if (maxFileSize > 0 && ([buddyIconData length] > maxFileSize)) {
-							AILog(@"Image %i is larger than %i!",[buddyIconData length],maxFileSize);
+							AILog(@"%@: Image %i is larger than %i!", self, [buddyIconData length], maxFileSize);
+							
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
 									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
@@ -2755,7 +2787,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			}
 		}
 
-		AILogWithSignature(@"%@ setting icon data of length %i", self, [buddyIconData length]);
+		AILogWithSignature(@"%@: Setting icon data of length %i", self, [buddyIconData length]);
 		[purpleAdapter setBuddyIcon:buddyIconData onAccount:self];
 	}
 	

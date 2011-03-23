@@ -73,7 +73,7 @@
 		[AI_topLevelObjects makeObjectsPerformSelector:@selector(release)];
 		
 		[self setImagePicker:picker];
-		[imagePicker setMaxSize:NSMakeSize(256.0f, 256.0f)];
+		[imagePicker setMaxSize:NSMakeSize(128.0f, 128.0f)];
 
 		// Set-up collection view
 		[imageCollectionView setMaxNumberOfColumns:5];
@@ -281,7 +281,7 @@
 
         /* XXX Check for and use the cropped image? */
 		if ([recentPicture respondsToSelector:@selector(smallIcon)] && ([recentPicture smallIcon] != [NSNull null])) {
-			imageData = [[recentPicture smallIcon] PNGRepresentation];
+			imageData = [[recentPicture smallIcon] bestRepresentationByType];
 		} else if ([recentPicture respondsToSelector:@selector(originalImagePath)]) {
 			imageData = [NSData dataWithContentsOfFile:[recentPicture originalImagePath]];
 		}

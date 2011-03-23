@@ -30,7 +30,8 @@ typedef enum {
 - (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta;
 - (NSImage *)imageByScalingForMenuItem;
 - (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation;
-//+ (NSImage *)imageFromGWorld:(GWorldPtr)gWorldPtr;
+- (NSImage *)imageByFittingInSize:(NSSize)size;
+- (NSImage *)imageByFittingInSize:(NSSize)size fraction:(CGFloat)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation;
 - (NSRect)drawRoundedInRect:(NSRect)rect radius:(CGFloat)radius;
 - (NSRect)drawRoundedInRect:(NSRect)rect fraction:(CGFloat)inFraction radius:(CGFloat)radius;
 - (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)inFraction radius:(CGFloat)radius;

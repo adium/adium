@@ -15,11 +15,14 @@
  */
 
 #import "AIImageDrawingAdditions.h"
+#import "AIImageAdditions.h"
 #import "AIBezierPathAdditions.h"
+
 
 @implementation NSImage (AIImageDrawingAdditions)
 
-//Draw this image in a rect, tiling if the rect is larger than the image
+
+// Draw this image in a rect, tiling if the rect is larger than the image
 - (void)tileInRect:(NSRect)rect
 {
     NSSize	size = [self size];
@@ -27,24 +30,26 @@
     CGFloat	top = rect.origin.y + rect.size.height;
     CGFloat	right = rect.origin.x + rect.size.width;
     
-    //Tile vertically
+    // Tile vertically
     while (destRect.origin.y < top) {
-		//Tile horizontally
+		// Tile horizontally
 		while (destRect.origin.x < right) {
 			NSRect  sourceRect = NSMakeRect(0, 0, size.width, size.height);
 			
-			//Crop as necessary
+			// Crop as necessary
 			if ((destRect.origin.x + destRect.size.width) > right) {
 				sourceRect.size.width -= (destRect.origin.x + destRect.size.width) - right;
 			}
+			
 			if ((destRect.origin.y + destRect.size.height) > top) {
 				sourceRect.size.height -= (destRect.origin.y + destRect.size.height) - top;
 			}
 			
-			//Draw and shift
+			// Draw and shift
 			[self compositeToPoint:destRect.origin fromRect:sourceRect operation:NSCompositeSourceOver];
 			destRect.origin.x += destRect.size.width;
 		}
+		
 		destRect.origin.y += destRect.size.height;
     }
 }
@@ -75,9 +80,9 @@
 
 - (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation
 {
-	NSSize  originalSize = [self size];
+	NSSize originalSize = [self size];
 	
-	//Proceed only if size or delta are changing
+	// Proceed only if size or delta are changing
 	if ((NSEqualSizes(originalSize, size)) && (delta == 1.0) && !flipImage) {
 		return [[self copy] autorelease];
 		
@@ -85,37 +90,75 @@
 		NSImage *newImage;
 		NSRect	newRect;
 		
-		//Scale proportionally (rather than stretching to fit) if requested and needed
+		// Scale proportionally (rather than stretching to fit) if requested and needed
 		if (proportionally && (originalSize.width != originalSize.height)) {
 			if (originalSize.width > originalSize.height) {
-				//Give width priority: Make the height change by the same proportion as the width will change
+				// Give width priority: Make the height change by the same proportion as the width will change
 				size.height = originalSize.height * (size.width / originalSize.width);
 			} else {
-				//Give height priority: Make the width change by the same proportion as the height will change
+				// Give height priority: Make the width change by the same proportion as the height will change
 				size.width = originalSize.width * (size.height / originalSize.height);
 			}
 		}
 		
-		newRect = NSMakeRect(0,0,size.width,size.height);
+		newRect = NSMakeRect(0.0f, 0.0f, size.width, size.height);
 		newImage = [[NSImage alloc] initWithSize:size];
 		
-		if (flipImage) [newImage setFlipped:YES];		
+		if (flipImage) {
+			[newImage setFlipped:YES];		
+		}
 		
-		NSImageRep	*bestRep;
+		NSImageRep *bestRep;
+		
 		if (allowAnimation &&
 			(bestRep = [self bestRepresentationForRect:NSMakeRect(0, 0, self.size.width, self.size.height) context:nil hints:nil]) &&
 			[bestRep isKindOfClass:[NSBitmapImageRep class]] && 
 			(delta == 1.0) &&
 			([[(NSBitmapImageRep *)bestRep valueForProperty:NSImageFrameCount] intValue] > 1) ) {
-			//We've got an animating file, and the current alpha is fine.  Just copy the representation.
-			[newImage addRepresentation:[[bestRep copy] autorelease]];
 			
+			// We've got an animating file, and the current alpha is fine.  Just copy the representation.
+			NSMutableData *GIFRepresentationData = nil;
+
+			unsigned frameCount = [[(NSBitmapImageRep *)bestRep valueForProperty:NSImageFrameCount] intValue];
+			
+			if (!frameCount) {
+				frameCount = 1;
+			}
+			
+			NSMutableArray *images = [NSMutableArray array];
+			
+			for (unsigned i = 0; i < frameCount; i++) {
+				// Set current frame
+				[(NSBitmapImageRep *)bestRep setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithUnsignedInt:i]];
+				
+				[newImage lockFocus];
+				
+				[self drawInRect:newRect
+						fromRect:NSMakeRect(0.0f, 0.0f, originalSize.width, originalSize.height)
+					   operation:NSCompositeCopy
+						fraction:delta];
+				
+				[newImage unlockFocus];
+				
+				// Add frame representation
+				[images addObject:[NSBitmapImageRep imageRepWithData:[newImage TIFFRepresentation]]];
+			}
+			
+			GIFRepresentationData = [NSMutableData dataWithData:[NSBitmapImageRep representationOfImageRepsInArray:images
+																										 usingType:NSGIFFileType
+																										properties:[self GIFPropertiesForRepresentation:(NSBitmapImageRep *)bestRep]]];
+			
+			// Write GIF Extension Blocks
+			[self writeGIFExtensionBlocksInData:GIFRepresentationData forRepresenation:(NSBitmapImageRep *)bestRep];
+			
+			newImage = [[NSImage alloc] initWithData:GIFRepresentationData];
 		} else {
 			[newImage lockFocus];
-			//Highest quality interpolation
+			// Highest quality interpolation
 			[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+			
 			[self drawInRect:newRect
-					fromRect:NSMakeRect(0,0,originalSize.width,originalSize.height)
+					fromRect:NSMakeRect(0.0f, 0.0f, originalSize.width, originalSize.height)
 				   operation:NSCompositeCopy
 					fraction:delta];
 			
@@ -126,119 +169,176 @@
 	}
 }
 
-/*+ (NSImage *)imageFromGWorld:(GWorldPtr)gworld
- {
- NSParameterAssert(gworld != NULL);
- 
- PixMapHandle pixMapHandle = GetGWorldPixMap( gworld );
- if (LockPixels(pixMapHandle)) {
- Rect 	portRect;
- 
- GetPortBounds( gworld, &portRect );
- 
- int 	pixels_wide = (portRect.right - portRect.left);
- int 	pixels_high = (portRect.bottom - portRect.top);
- int 	bps = 8;
- int 	spp = 4;
- BOOL 	has_alpha = YES;
- 
- NSBitmapImageRep *bitmap_rep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
- pixelsWide:pixels_wide
- pixelsHigh:pixels_high
- bitsPerSample:bps
- samplesPerPixel:spp
- hasAlpha:has_alpha
- isPlanar:NO
- colorSpaceName:NSDeviceRGBColorSpace
- bytesPerRow:0
- bitsPerPixel:0] autorelease];
- CGColorSpaceRef 	dst_colorspaceref = CGColorSpaceCreateDeviceRGB();
- CGImageAlphaInfo 	dst_alphainfo = has_alpha ? kCGImageAlphaPremultipliedLast : kCGImageAlphaNone;
- CGContextRef 		dst_contextref = CGBitmapContextCreate([bitmap_rep bitmapData],
- pixels_wide,
- pixels_high,
- bps,
- [bitmap_rep bytesPerRow],
- dst_colorspaceref,
- dst_alphainfo);
- void *pixBaseAddr = GetPixBaseAddr(pixMapHandle);
- long pixmapRowBytes = GetPixRowBytes(pixMapHandle);
- 
- CGDataProviderRef dataproviderref = CGDataProviderCreateWithData(NULL, pixBaseAddr, pixmapRowBytes * pixels_high, NULL);
- 
- int src_bps = 8;
- int src_spp = 4;
- BOOL src_has_alpha = YES;
- 
- CGColorSpaceRef src_colorspaceref = CGColorSpaceCreateDeviceRGB();
- 
- CGImageAlphaInfo src_alphainfo = src_has_alpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNone;
- 
- CGImageRef src_imageref = CGImageCreate(pixels_wide,
- pixels_high,
- src_bps,
- src_bps * src_spp,
- pixmapRowBytes,
- src_colorspaceref,
- src_alphainfo,
- dataproviderref,
- NULL,
- NO, // shouldInterpolate
- kCGRenderingIntentDefault);
- 
- CGRect rect = CGRectMake(0, 0, pixels_wide, pixels_high);
- 
- CGContextDrawImage(dst_contextref, rect, src_imageref);
- 
- CGImageRelease(src_imageref);
- CGColorSpaceRelease(src_colorspaceref);
- CGDataProviderRelease(dataproviderref);
- CGContextRelease(dst_contextref);
- CGColorSpaceRelease(dst_colorspaceref);
- 
- UnlockPixels(pixMapHandle);
- 
- NSImage *image = [[[NSImage alloc] initWithSize:NSMakeSize(pixels_wide, pixels_high)] autorelease];
- [image addRepresentation:bitmap_rep];
- return image;
- }
- return nil;
- }*/
+- (NSImage *)imageByFittingInSize:(NSSize)size
+{
+	return ([self imageByFittingInSize:size fraction:1.0f flipImage:NO proportionally:YES allowAnimation:YES]);
+}
 
-//Fun drawing toys
-//Draw an image, altering and returning the available destination rect
+- (NSImage *)imageByFittingInSize:(NSSize)size fraction:(CGFloat)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation
+{
+	NSSize originalSize = [self size];
+	NSSize scaleSize = size;
+	NSSize fitSize = size;
+	
+	// Proceed only if size or delta are changing
+	if ((NSEqualSizes(originalSize, size)) && (delta == 1.0) && !flipImage) {
+		return [[self copy] autorelease];
+		
+	} else {
+		// Scale proportionally (rather than stretching to fit) if requested and needed
+		if (proportionally && (originalSize.width != originalSize.height)) {
+			if (originalSize.width > originalSize.height) {
+				// Give width priority: Make the height change by the same proportion as the width will change
+				scaleSize.height = originalSize.height * (size.width / originalSize.width);
+			} else {
+				// Give height priority: Make the width change by the same proportion as the height will change
+				scaleSize.width = originalSize.width * (size.height / originalSize.height);
+			}
+		}
+		
+		// Fit
+		if (proportionally && (originalSize.width != originalSize.height)) {
+			if (originalSize.width > originalSize.height) {
+				// Give width priority: Make the height change by the same proportion as the width will change
+				fitSize.height = originalSize.height * (size.width / originalSize.width);
+			} else {
+				// Give height priority: Make the width change by the same proportion as the height will change
+				fitSize.width = originalSize.width * (size.height / originalSize.height);
+			}
+		}
+		
+		NSRect scaleRect = NSMakeRect(0.0f, 0.0f, scaleSize.width, scaleSize.height);
+		NSPoint fitFromPoint = NSMakePoint((size.width - scaleSize.width) / 2.0f, (size.height - scaleSize.height) / 2.0f);
+		
+		NSImage *newImage = [[NSImage alloc] initWithSize:size];
+		NSImage *scaledImage = [[NSImage alloc] initWithSize:scaleSize];
+		
+		if (flipImage) {
+			[newImage setFlipped:YES];		
+		}
+		
+		NSImageRep *bestRep;
+		
+		if (allowAnimation &&
+			(bestRep = [self bestRepresentationForRect:NSMakeRect(0, 0, self.size.width, self.size.height) context:nil hints:nil]) &&
+			[bestRep isKindOfClass:[NSBitmapImageRep class]] && 
+			(delta == 1.0) &&
+			([[(NSBitmapImageRep *)bestRep valueForProperty:NSImageFrameCount] intValue] > 1) ) {
+			
+			// We've got an animating file, and the current alpha is fine.  Just copy the representation.
+			NSMutableData *GIFRepresentationData = nil;
+
+			unsigned frameCount = [[(NSBitmapImageRep *)bestRep valueForProperty:NSImageFrameCount] intValue];
+			
+			if (!frameCount) {
+				frameCount = 1;
+			}
+			
+			NSMutableArray *images = [NSMutableArray array];
+			
+			for (unsigned i = 0; i < frameCount; i++) {
+				// Set current frame
+				[(NSBitmapImageRep *)bestRep setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithUnsignedInt:i]];
+				
+				[scaledImage lockFocus];
+				
+				// Scale
+				[self drawInRect:scaleRect
+						fromRect:NSMakeRect(0.0f, 0.0f, originalSize.width, originalSize.height)
+					   operation:NSCompositeCopy
+						fraction:delta];
+				
+				[scaledImage unlockFocus];
+				[newImage lockFocus];
+				
+				// Fit
+				[scaledImage drawAtPoint:fitFromPoint
+						 fromRect:NSMakeRect(0.0f, 0.0f, newImage.size.width, newImage.size.height)
+						operation:NSCompositeCopy
+						 fraction:delta];
+				
+				[newImage unlockFocus];
+				
+				// Add frame representation
+				[images addObject:[NSBitmapImageRep imageRepWithData:[newImage TIFFRepresentation]]];
+			}
+			
+			GIFRepresentationData = [NSMutableData dataWithData:[NSBitmapImageRep representationOfImageRepsInArray:images
+																										 usingType:NSGIFFileType
+																										properties:[self GIFPropertiesForRepresentation:(NSBitmapImageRep *)bestRep]]];
+			
+			// Write GIF Extension Blocks
+			[self writeGIFExtensionBlocksInData:GIFRepresentationData forRepresenation:(NSBitmapImageRep *)bestRep];
+			
+			newImage = [[NSImage alloc] initWithData:GIFRepresentationData];
+		} else {
+			[scaledImage lockFocus];
+			// Highest quality interpolation
+			[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+			
+			// Scale
+			[self drawInRect:scaleRect
+					fromRect:NSMakeRect(0.0f, 0.0f, originalSize.width, originalSize.height)
+				   operation:NSCompositeCopy
+					fraction:delta];
+			
+			[scaledImage unlockFocus];
+			[newImage lockFocus];
+			
+			// Fit
+			[scaledImage drawAtPoint:fitFromPoint
+							fromRect:NSMakeRect(0.0f, 0.0f, newImage.size.width, newImage.size.height)
+						   operation:NSCompositeCopy
+							fraction:delta];
+			
+			[newImage unlockFocus];
+		}
+		
+		[scaledImage release];
+		
+		return [newImage autorelease];
+	}
+}
+
+// Fun drawing toys
+// Draw an image, altering and returning the available destination rect
 - (NSRect)drawInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)inFraction
 {
-	//We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
+	// We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
 	NSSize	ownSize = [self size];
 	
-	//If we're passed a 0,0 size, use the image's size for the area taken up by the image 
-	//(which may exceed the actual image dimensions)
-	if (size.width == 0 || size.height == 0) size = ownSize;
+	// If we're passed a 0,0 size, use the image's size for the area taken up by the image 
+	// (which may exceed the actual image dimensions)
+	if (size.width == 0 || size.height == 0) {
+		size = ownSize;
+	}
 	
-	NSRect	drawRect = [self rectForDrawingInRect:rect atSize:size position:position];
+	NSRect drawRect = [self rectForDrawingInRect:rect atSize:size position:position];
 	
-	//If we are drawing in a rect wider than we are, center horizontally
+	// If we are drawing in a rect wider than we are, center horizontally
 	if (drawRect.size.width > ownSize.width) {
 		drawRect.origin.x += (drawRect.size.width - ownSize.width) / 2;
 		drawRect.size.width -= (drawRect.size.width - ownSize.width);
 	}
 	
-	//If we are drawing in a rect higher than we are, center vertically
+	// If we are drawing in a rect higher than we are, center vertically
 	if (drawRect.size.height > ownSize.height) {
 		drawRect.origin.y += (drawRect.size.height - ownSize.height) / 2;
 		drawRect.size.height -= (drawRect.size.height - ownSize.height);
 	}
 	
-	//Draw
+	// Draw
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
 			fraction:inFraction];
 	
-	//Shift the origin if needed, and decrease the available destination rect width, by the passed size
-	//(which may exceed the actual image dimensions)
-	if (position == IMAGE_POSITION_LEFT) rect.origin.x += size.width;
+	// Shift the origin if needed, and decrease the available destination rect width, by the passed size
+	// (which may exceed the actual image dimensions)
+	if (position == IMAGE_POSITION_LEFT) {
+		rect.origin.x += size.width;
+	}
+	
 	rect.size.width -= size.width;
 	
 	return rect;
@@ -248,27 +348,12 @@
 {
 	NSRect	drawRect;
 	
-	//If we're passed a 0,0 size, use the image's size
-	if (size.width == 0 || size.height == 0) size = [self size];
-	
-	/*
-	 if ((NSWidth(rect) < size.width) || (NSHeight(rect) < size.height)) {
-	 //The size is larger than our available rect. Decrease the size.
-	 
-	 //Adjust the width to be our rect's width and the height to be proportionate
-	 if (NSWidth(rect) < size.width) {
-	 size.height = size.height * (NSWidth(rect) / size.width);
-	 size.width = NSWidth(rect);
-	 }
-	 
-	 if (NSHeight(rect) < size.height) {
-	 size.width = size.width * (NSHeight(rect) / size.height);
-	 size.height = NSHeight(rect);
-	 }
-	 }
-	 */
-	
-	//Adjust the positioning
+	// If we're passed a 0,0 size, use the image's size
+	if (size.width == 0 || size.height == 0) {
+		size = [self size];
+	}
+
+	// Adjust the positioning
 	switch (position) {
 		case IMAGE_POSITION_LEFT:
 			drawRect = NSMakeRect(rect.origin.x,
@@ -299,59 +384,65 @@
 	return drawRect;
 }
 
-//General purpose draw image rounded in a NSRect.
+// General purpose draw image rounded in a NSRect.
 - (NSRect)drawRoundedInRect:(NSRect)rect radius:(CGFloat)radius
 {
 	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:1.0f radius:radius];
 }
 
-//Perhaps if you desired to draw it rounded in the tooltip.
+// Perhaps if you desired to draw it rounded in the tooltip.
 - (NSRect)drawRoundedInRect:(NSRect)rect fraction:(CGFloat)inFraction radius:(CGFloat)radius
 {
 	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:inFraction radius:radius];
 }
 
-//Draw an image, round the corner. Meant to replace the method above.
+// Draw an image, round the corner. Meant to replace the method above.
 - (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)inFraction radius:(CGFloat)radius
 {
 	NSRect	drawRect;
 	
-	//We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
+	// We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
 	NSSize	ownSize = [self size];
 	
-	//If we're passed a 0,0 size, use the image's size for the area taken up by the image 
-	//(which may exceed the actual image dimensions)
-	if (size.width == 0 || size.height == 0) size = ownSize;
+	// If we're passed a 0,0 size, use the image's size for the area taken up by the image 
+	// (which may exceed the actual image dimensions)
+	if (size.width == 0 || size.height == 0) {
+		size = ownSize;
+	}
 	
 	drawRect = [self rectForDrawingInRect:rect atSize:size position:position];
 	
-	//If we are drawing in a rect wider than we are, center horizontally
+	// If we are drawing in a rect wider than we are, center horizontally
 	if (drawRect.size.width > ownSize.width) {
 		drawRect.origin.x += (drawRect.size.width - ownSize.width) / 2;
 		drawRect.size.width -= (drawRect.size.width - ownSize.width);
 	}
 	
-	//If we are drawing in a rect higher than we are, center vertically
+	// If we are drawing in a rect higher than we are, center vertically
 	if (drawRect.size.height > ownSize.height) {
 		drawRect.origin.y += (drawRect.size.height - ownSize.height) / 2;
 		drawRect.size.height -= (drawRect.size.height - ownSize.height);
 	}
 	
-	//Create Rounding.
+	// Create Rounding.
 	[NSGraphicsContext saveGraphicsState];
 	NSBezierPath	*clipPath = [NSBezierPath bezierPathWithRoundedRect:drawRect radius:radius];
 	[clipPath addClip];
 	
-	//Draw
+	// Draw
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
 			fraction:inFraction];
 	
 	[NSGraphicsContext restoreGraphicsState];
-	//Shift the origin if needed, and decrease the available destination rect width, by the passed size
-	//(which may exceed the actual image dimensions)
-	if (position == IMAGE_POSITION_LEFT) rect.origin.x += size.width;
+	
+	// Shift the origin if needed, and decrease the available destination rect width, by the passed size
+	// (which may exceed the actual image dimensions)
+	if (position == IMAGE_POSITION_LEFT) {
+		rect.origin.x += size.width;
+	}
+	
 	rect.size.width -= size.width;
 	
 	return rect;
