@@ -52,20 +52,17 @@
 	BOOL                 canCloseIndex;
 	BOOL                 canSaveDirtyLogSet;
 	BOOL                 userTriggeredReindex;
+	
+	// publically accessable iVars
+	BOOL                 indexIsFlushing;
+	BOOL                 isIndexing;
 	UInt64               logsToIndex;
 	UInt64               logsIndexed;
 }
-@property(retain) NSMutableDictionary *activeAppenders;
-@property(retain) AIHTMLDecoder       *xhtmlDecoder;
-@property(retain) NSDictionary        *statusTranslation;
-@property(retain) NSMutableSet        *dirtyLogSet;
-@property(assign) BOOL                 logHTML;
-@property(assign) BOOL                 indexingAllowed;
-@property(assign) BOOL                 loggingEnabled;
-@property(assign) BOOL                 canCloseIndex;
-@property(assign) BOOL                 canSaveDirtyLogSet;
-@property(assign) UInt64               logsToIndex;
-@property(assign) UInt64               logsIndexed;
+@property(assign,readonly) BOOL                 indexIsFlushing;
+@property(assign,readonly) BOOL                 isIndexing;
+@property(assign,readonly) UInt64               logsToIndex;
+@property(assign,readonly) UInt64               logsIndexed;
 
 
 
@@ -81,7 +78,6 @@
 - (void)cleanUpLogContentSearching;
 - (SKIndexRef)logContentIndex;
 - (void)markLogDirtyAtPath:(NSString *)path;
-- (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
 - (void)cancelIndexing;
 
