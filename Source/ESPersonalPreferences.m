@@ -81,7 +81,7 @@
 
 	[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
-	[imageView_userIcon setMaxSize:NSMakeSize(256, 256)];
+	[imageView_userIcon setMaxSize:NSMakeSize(128.0f, 128.0f)];
 
 	[super viewDidLoad];
 }
@@ -241,7 +241,7 @@
 	}
 
 	[imageView_userIcon setImage:(imageData ? [[[NSImage alloc] initWithData:imageData] autorelease] : nil)];
-	[imageView_userIcon setMaxSize:NSMakeSize(256.0f, 256.0f)];
+	[imageView_userIcon setMaxSize:NSMakeSize(128.0f, 128.0f)];
 	[imageView_userIcon setShouldUpdateRecentRepository:YES];
 }
 

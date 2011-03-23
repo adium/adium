@@ -17,27 +17,31 @@
 #import "AIImageAdditions.h"
 
 @interface NSImage (AIImageAdditions_PRIVATE)
+
 - (NSBitmapImageRep *)bitmapRep;
+
 @end
 
 @implementation NSImage (AIImageAdditions)
 
 + (NSImage *)imageNamed:(NSString *)name forClass:(Class)inClass loadLazily:(BOOL)flag
 {
-	NSBundle	*ownerBundle;
-    NSString	*imagePath;
-    NSImage		*image;
+	NSBundle *ownerBundle;
+    NSString *imagePath;
+    NSImage	*image;
 	
-    //Get the bundle
+    // Get the bundle
     ownerBundle = [NSBundle bundleForClass:inClass];
 	
-    //Open the image
+    // Open the image
     imagePath = [ownerBundle pathForImageResource:name];   
-	if(flag)
-		image = [[NSImage alloc] initByReferencingFile:imagePath];
-	else
-		image = [[NSImage alloc] initWithContentsOfFile:imagePath];
 	
+	if(flag) {
+		image = [[NSImage alloc] initByReferencingFile:imagePath];
+	} else {
+		image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+	}
+
     return [image autorelease];	
 }
 
@@ -50,201 +54,26 @@
 + (NSImage *)imageForSSL
 {
 	static NSImage *SSLIcon = nil;
+	
 	if (!SSLIcon) {
 		NSBundle *securityInterfaceFramework = [NSBundle bundleWithIdentifier:@"com.apple.securityinterface"];
-		if (!securityInterfaceFramework) securityInterfaceFramework = [NSBundle bundleWithPath:@"/System/Library/Frameworks/SecurityInterface.framework"];
+		
+		if (!securityInterfaceFramework) {
+			securityInterfaceFramework = [NSBundle bundleWithPath:@"/System/Library/Frameworks/SecurityInterface.framework"];
+		}
 
 		SSLIcon = [[NSImage alloc] initByReferencingFile:[securityInterfaceFramework pathForImageResource:@"CertSmallStd"]];
 	}
+	
 	return SSLIcon;
 }
 
-//Create and return an opaque bitmap image rep, replacing transparency with [NSColor whiteColor]
-- (NSBitmapImageRep *)opaqueBitmapImageRep
-{
-	NSImage				*tempImage = nil;
-	NSBitmapImageRep	*imageRep = nil;
-	NSSize				size = [self size];
-	
-	//Work with a temporary image so we don't modify self
-	tempImage = [[[NSImage allocWithZone:[self zone]] initWithSize:size] autorelease];
-	
-	//Lock before drawing to the temporary image
-	[tempImage lockFocus];
-	
-	//Fill with a white background
-	[[NSColor whiteColor] set];
-	NSRectFill(NSMakeRect(0, 0, size.width, size.height));
-	
-	//Draw the image
-	[self compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
-	
-	//We're done drawing
-	[tempImage unlockFocus];
-	
-	//Find an NSBitmapImageRep from the temporary image
-	for (NSImageRep *rep in tempImage.representations) {
-		if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
-			imageRep = (NSBitmapImageRep *)rep;
-		}
-	}
-	
-	//Make one if necessary
-	if (!imageRep) {
-		imageRep = [NSBitmapImageRep imageRepWithData:[tempImage TIFFRepresentation]];
-    }
-	
-	// 10.6 behavior: Drawing into a new image copies the display's color profile in.
-	// Remove the color profile so we don't bloat the image size.
-	[imageRep setProperty:NSImageColorSyncProfileData withValue:nil];
-	
-	return imageRep;
-}
-
-- (NSBitmapImageRep *)largestBitmapImageRep
-{
-	//Find the biggest image
-	NSEnumerator *repsEnum = [[self representations] objectEnumerator];
-	NSBitmapImageRep *bestRep = nil;
-	NSImageRep *rep;
-	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
-	CGFloat maxWidth = 0;
-	while ((rep = [repsEnum nextObject])) {
-		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			CGFloat thisWidth = [rep size].width;
-			if (thisWidth >= maxWidth) {
-				//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
-				bestRep = (NSBitmapImageRep *)rep;
-				maxWidth = thisWidth;
-			}
-		}
-	}
-	
-	//We don't already have one, so forge one from our TIFF representation.
-	if (!bestRep)
-		bestRep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
-	
-	return bestRep;
-}
-
-- (NSData *)JPEGRepresentation
-{	
-	return [self JPEGRepresentationWithCompressionFactor:1.0f];
-}
-
-- (NSData *)JPEGRepresentationWithCompressionFactor:(float)compressionFactor
-{
-	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
-	* before creating our representation or transparent parts will become black.  White is preferable.
-	*/
-	return ([[self opaqueBitmapImageRep] representationUsingType:NSJPEGFileType 
-													  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:(float)compressionFactor] 
-																							 forKey:NSImageCompressionFactor]]);	
-}
-- (NSData *)JPEGRepresentationWithMaximumByteSize:(NSUInteger)maxByteSize
-{
-	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
-	 * before creating our representation or transparent parts will become black.  White is preferable.
-	 */
-	NSBitmapImageRep *opaqueBitmapImageRep = [self opaqueBitmapImageRep];
-	NSData *data = nil;
-	for (float compressionFactor = 0.99f; compressionFactor > 0.4f; compressionFactor -= 0.01f) {
-		data = [opaqueBitmapImageRep representationUsingType:NSJPEGFileType 
-												  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
-																						 forKey:NSImageCompressionFactor]];
-		if (data && ([data length] <= maxByteSize)) {
-			break;
-		} else {
-			data = nil;
-		}
-	}
-
-	return data;
-}
-
-- (NSData *)PNGRepresentation
-{
-	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
-	NSBitmapImageRep	*bitmapRep =  [self largestBitmapImageRep];
-
-	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
-}
-
-- (NSData *)BMPRepresentation
-{
-	/* BMP does not support transparency, but NSImage does. We need to create a non-transparent NSImage
-	 * before creating our representation or transparent parts will become black.  White is preferable.
-	 */
-
-	return ([[self opaqueBitmapImageRep] representationUsingType:NSBMPFileType properties:nil]);
-}
-
-- (NSBitmapImageRep *)getBitmap
-{
-	[self lockFocus];
-	
-	NSSize size = [self size];
-	NSRect rect = NSMakeRect(0.0f, 0.0f, size.width, size.height);
-	NSBitmapImageRep	*bm = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:rect] autorelease];
-	
-	[self unlockFocus];
-	
-	return bm;
-}
-
-//
-// NOTE: Black & White images fail miserably
-// So we must get their data and blast that into a deeper cache
-// Yucky, so we wrap this all up inside this object...
-- (NSBitmapImageRep *)bitmapRepForGIFRepresentation
-{
-	NSArray *reps = [self representations];
-	NSUInteger i = [reps count];
-	while (i--) {
-		NSBitmapImageRep *rep = (NSBitmapImageRep *)[reps objectAtIndex:i];
-		if ([rep isKindOfClass:[NSBitmapImageRep class]] &&
-			([rep bitsPerPixel] > 2))
-			return rep;
-	}
-	return [self getBitmap];
-}
-
-- (NSData *)GIFRepresentation
-{
-	//This produces ugly output.  Very ugly.
-
-	NSData	*GIFRepresentation = nil;
-	
-	NSBitmapImageRep *bm = [self bitmapRepForGIFRepresentation]; 
-	
-	if (bm) {
-		NSDictionary *properties =  [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithBool:YES], NSImageDitherTransparency,
-			nil];
-		
-		NSSize size = [self size];
-		
-		if (size.width > 0 && size.height > 0) {
-			
-			@try {
-				GIFRepresentation = [bm representationUsingType:NSGIFFileType
-													 properties:properties];
-			}
-			@catch(id exc) {
-				GIFRepresentation = nil;	// must have failed
-			}
-		}
-	}
-
-	return GIFRepresentation;
-}
-	
 + (AIBitmapImageFileType)fileTypeOfData:(NSData *)inData
 {
 	const char *data = [inData bytes];
 	NSUInteger len = [inData length];
 	AIBitmapImageFileType fileType = AIUnknownFileType;
-
+	
 	if (len >= 4) {
 		if (!strncmp((char *)data, "GIF8", 4))
 			fileType = AIGIFFileType;
@@ -265,6 +94,7 @@
 + (NSString *)extensionForBitmapImageFileType:(AIBitmapImageFileType)inFileType
 {
 	NSString *extension = nil;
+	
 	switch (inFileType) {
 		case AIUnknownFileType:
 			break;
@@ -291,6 +121,200 @@
 	return extension;
 }
 
+// Create and return an opaque bitmap image rep, replacing transparency with [NSColor whiteColor]
+- (NSBitmapImageRep *)opaqueBitmapImageRep
+{
+	NSImage				*tempImage = nil;
+	NSBitmapImageRep	*imageRep = nil;
+	NSSize				size = [self size];
+	
+	// Work with a temporary image so we don't modify self
+	tempImage = [[[NSImage allocWithZone:[self zone]] initWithSize:size] autorelease];
+	
+	// Lock before drawing to the temporary image
+	[tempImage lockFocus];
+	
+	// Fill with a white background
+	[[NSColor whiteColor] set];
+	NSRectFill(NSMakeRect(0, 0, size.width, size.height));
+	
+	// Draw the image
+	[self compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
+	
+	// We're done drawing
+	[tempImage unlockFocus];
+	
+	// Find an NSBitmapImageRep from the temporary image
+	for (NSImageRep *rep in tempImage.representations) {
+		if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
+			imageRep = (NSBitmapImageRep *)rep;
+		}
+	}
+	
+	// Make one if necessary
+	if (!imageRep) {
+		imageRep = [NSBitmapImageRep imageRepWithData:[tempImage TIFFRepresentation]];
+    }
+	
+	// 10.6 behavior: Drawing into a new image copies the display's color profile in.
+	// Remove the color profile so we don't bloat the image size.
+	[imageRep setProperty:NSImageColorSyncProfileData withValue:nil];
+	
+	return imageRep;
+}
+
+- (NSBitmapImageRep *)largestBitmapImageRep
+{
+	// Find the biggest image
+	NSBitmapImageRep *bestRep = nil;
+	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
+	CGFloat maxWidth = 0.0f;
+	
+	for (NSImageRep *rep in [self representations]) {
+		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
+			CGFloat thisWidth = [rep size].width;
+			
+			if (thisWidth >= maxWidth) {
+				// Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class.
+				// Fortunately, we have such a check. This cast silences the warning.
+				bestRep = (NSBitmapImageRep *)rep;
+				maxWidth = thisWidth;
+			}
+		}
+	}
+	
+	// We don't already have one, so forge one from our TIFF representation.
+	if (!bestRep) {
+		bestRep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
+	}
+
+	return bestRep;
+}
+
+- (NSData *)JPEGRepresentation
+{	
+	return [self JPEGRepresentationWithCompressionFactor:1.0f];
+}
+
+- (NSData *)JPEGRepresentationWithCompressionFactor:(float)compressionFactor
+{
+	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
+	 * before creating our representation or transparent parts will become black. White is preferable.
+	 */
+	return ([[self opaqueBitmapImageRep] representationUsingType:NSJPEGFileType 
+													  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:(float)compressionFactor] 
+																							 forKey:NSImageCompressionFactor]]);	
+}
+- (NSData *)JPEGRepresentationWithMaximumByteSize:(NSUInteger)maxByteSize
+{
+	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
+	 * before creating our representation or transparent parts will become black. White is preferable.
+	 */
+	NSBitmapImageRep *opaqueBitmapImageRep = [self opaqueBitmapImageRep];
+	NSData *data = nil;
+	
+	for (float compressionFactor = 0.99f; compressionFactor > 0.4f; compressionFactor -= 0.01f) {
+		data = [opaqueBitmapImageRep representationUsingType:NSJPEGFileType 
+												  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
+																						 forKey:NSImageCompressionFactor]];
+		if (data && ([data length] <= maxByteSize)) {
+			break;
+		} else {
+			data = nil;
+		}
+	}
+
+	return data;
+}
+
+- (NSData *)PNGRepresentation
+{
+	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
+	NSBitmapImageRep *bitmapRep =  [self largestBitmapImageRep];
+
+	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
+}
+
+#warning 10.6+ only
+
+- (NSData *)GIFRepresentation
+{
+	// GIF requires special treatment, as Apple doesn't allow you to save animations.
+	
+	NSMutableData *GIFRepresentation = nil;
+	NSBitmapImageRep *bitmap = [[self representations] objectAtIndex:0];
+	
+	if (bitmap && [bitmap isKindOfClass:[NSBitmapImageRep class]]) {
+		unsigned frameCount = [[bitmap valueForProperty:NSImageFrameCount] intValue];
+		
+		if (!frameCount) {
+			frameCount = 1;
+		}
+		
+		NSSize size = [self size];
+		
+		if (size.width > 0 && size.height > 0) {
+			NSMutableArray *images = [NSMutableArray array];
+			
+			for (unsigned i = 0; i < frameCount; i++) {
+				// Set current frame
+				[bitmap setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithUnsignedInt:i]];
+				// Add frame representation
+				[images addObject:[NSBitmapImageRep imageRepWithData:[bitmap representationUsingType:NSGIFFileType properties:nil]]];
+			}
+			
+			GIFRepresentation = [NSMutableData dataWithData:[NSBitmapImageRep representationOfImageRepsInArray:images
+																									 usingType:NSGIFFileType
+																									properties:[self GIFPropertiesForRepresentation:bitmap]]];
+			
+			// Write GIF Extension Blocks
+			[self writeGIFExtensionBlocksInData:GIFRepresentation forRepresenation:bitmap];
+		}
+	}
+	
+	return GIFRepresentation;
+}
+
+- (NSData *)BMPRepresentation
+{
+	/* BMP does not support transparency, but NSImage does. We need to create a non-transparent NSImage
+	 * before creating our representation or transparent parts will become black. White is preferable.
+	 */
+
+	return ([[self opaqueBitmapImageRep] representationUsingType:NSBMPFileType properties:nil]);
+}
+
+/*!
+ * @brief Returns a GIF representation for GIFs, and PNG represenation for all other types
+ */
+- (NSData *)bestRepresentationByType
+{
+	NSData *data = nil;
+	NSBitmapImageRep *bitmap = nil;
+	
+	if ((bitmap = [[self representations] objectAtIndex:0]) &&
+		[bitmap isKindOfClass:[NSBitmapImageRep class]] &&
+		([[bitmap valueForProperty:NSImageFrameCount] intValue] > 1)) {
+		data = [self GIFRepresentation];
+	} else {
+		data = [self PNGRepresentation];
+	}
+	
+	return data;
+}
+
+- (NSBitmapImageRep *)getBitmap
+{
+	[self lockFocus];
+	
+	NSSize size = [self size];
+	NSRect rect = NSMakeRect(0.0f, 0.0f, size.width, size.height);
+	NSBitmapImageRep *bm = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:rect] autorelease];
+	
+	[self unlockFocus];
+	
+	return bm;
+}
 
 /*!
  * @brief Retrieve an image rep with a maximum size
@@ -302,8 +326,7 @@
  *
  * @return the NSData representation using fileType
  */
-- (NSData *)representationWithFileType:(NSBitmapImageFileType)fileType
-					   maximumFileSize:(NSUInteger)maximumSize
+- (NSData *)representationWithFileType:(NSBitmapImageFileType)fileType maximumFileSize:(NSUInteger)maximumSize
 {
 	NSBitmapImageRep *imageRep = [self largestBitmapImageRep];
 	
@@ -352,6 +375,58 @@
 	}
 	
 	return data;
+}
+
+- (void)writeGIFExtensionBlocksInData:(NSMutableData *)data forRepresenation:(NSBitmapImageRep *)bitmap
+{
+	// GIF Application Extension Block - 0x21FF0B
+	const char *GIFApplicationExtensionBlock = "\x21\xFF\x0B\x4E\x45\x54\x53\x43\x41\x50\x45\x32\x2E\x30\x03\x01\x00\x00\x00";
+	// GIF Graphic Control Extension Block - 0x21F904
+	NSData *GIFGraphicControlExtensionBlock = [NSData dataWithBytes:"\x00\x21\xF9\x04" length:4];
+
+	NSRange blockRange;
+    NSUInteger blockLocation = [data length];
+	
+	unsigned frameCount = [[bitmap valueForProperty:NSImageFrameCount] intValue];
+	unsigned frameDuration;
+	unsigned i = 0;
+	
+	while (!NSEqualRanges(blockRange = [data rangeOfData:GIFGraphicControlExtensionBlock options:NSDataSearchBackwards range:NSMakeRange(0, blockLocation)], NSMakeRange(NSNotFound, 0))) {
+		// Set current frame
+		[bitmap setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithUnsignedInt:i++]];
+
+		// Frame Duration flag, 1/100 sec
+		frameDuration = [[bitmap valueForProperty:NSImageCurrentFrameDuration] floatValue] * 100;
+
+        blockLocation = blockRange.location;
+		
+		// Replace bytes in Graphic Extension Block
+		[data replaceBytesInRange:NSMakeRange(NSMaxRange(blockRange) + 1, 2) withBytes:&frameDuration length:2];
+
+		// Write Application Extension Block
+		if (i == frameCount) {
+            [data replaceBytesInRange:NSMakeRange(blockRange.location + 1, 0) withBytes:GIFApplicationExtensionBlock length:strlen(GIFApplicationExtensionBlock) + 3];
+        }
+		
+		frameDuration = 0;
+    }
+}
+
+- (NSDictionary *)GIFPropertiesForRepresentation:(NSBitmapImageRep *)bitmap
+{
+	NSNumber *frameCount = [bitmap valueForProperty:NSImageFrameCount];
+
+	if (!frameCount) {
+		frameCount = [NSNumber numberWithUnsignedInt:1];
+	}
+
+	// Setting NSImageLoopCount & NSImageCurrentFrameDuration through - NSDictionary *properties - is not allowed!
+	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:frameCount,
+																			[NSNumber numberWithUnsignedInt:0],
+																			nil]
+										forKeys:[NSArray arrayWithObjects:NSImageFrameCount,
+																			NSImageCurrentFrame,
+																			nil]];
 }
 
 @end
