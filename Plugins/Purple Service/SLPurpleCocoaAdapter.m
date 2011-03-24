@@ -591,8 +591,8 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					}
 					
 					if (chat.lastMessageDate) {
-
-						NSString *historySince = [[NSDate dateWithTimeInterval:1.0f sinceDate:chat.lastMessageDate]
+						NSTimeInterval lastMessageInterval = [chat.lastMessageDate timeIntervalSince1970];
+						NSString *historySince = [[NSDate dateWithTimeIntervalSince1970:lastMessageInterval + 1]
                                                   descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%SZ"
                                                                        timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]
                                                                          locale:nil];
