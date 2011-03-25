@@ -50,7 +50,7 @@
 {
 	// We can't use [listObject statusIcon] because it will show unknown for strangers.
 	return [AIStatusIcons statusIconForListObject:listObject
-											 type:AIStatusIconList
+											 type:AIStatusIconTab
 										direction:AIIconFlipped];
 }
 
