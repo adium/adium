@@ -167,13 +167,13 @@
 		arrowPath = [[NSBezierPath bezierPath] retain];
 		
 		if (controlSize == NSRegularControlSize) {
-			[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-6, NSHeight(frame)-3)];
-			[arrowPath relativeLineToPoint:NSMakePoint( 6, 0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(-3, 3)];
+			[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-9, NSHeight(frame)-5)];
+			[arrowPath relativeLineToPoint:NSMakePoint( 8, 0)];
+			[arrowPath relativeLineToPoint:NSMakePoint(-4, 5)];
 		} else if (controlSize == NSSmallControlSize) {
-			[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-4, NSHeight(frame)-3)];
-			[arrowPath relativeLineToPoint:NSMakePoint( 4, 0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(-2, 3)];
+			[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-7, NSHeight(frame)-5)];
+			[arrowPath relativeLineToPoint:NSMakePoint( 6, 0)];
+			[arrowPath relativeLineToPoint:NSMakePoint(-3, 4)];
 		}
 		[arrowPath closePath];
 	}

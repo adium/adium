@@ -17,12 +17,12 @@
 #import "AIFloater.h"
 #import "AIEventAdditions.h"
 
-#define WINDOW_FADE_FPS                         24.0f
-#define WINDOW_FADE_STEP                        0.3f
-#define WINDOW_FADE_SLOW_STEP                   0.1f
-#define WINDOW_FADE_MAX                         1.0f
-#define WINDOW_FADE_MIN                         0.0f
-#define WINDOW_FADE_SNAP                        0.05f //How close to min/max we must get before fade is finished
+#define WINDOW_FADE_FPS			24.0f
+#define WINDOW_FADE_STEP		0.3f
+#define WINDOW_FADE_SLOW_STEP	0.1f
+#define WINDOW_FADE_MAX			1.0f
+#define WINDOW_FADE_MIN			0.0f
+#define WINDOW_FADE_SNAP		0.05f // How close to min/max we must get before fade is finished
 
 @interface AIFloater ()
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
@@ -31,7 +31,7 @@
 
 @implementation AIFloater
 
-//Because the floater can control its own display, it retains itself and releases when it closes.
+// Because the floater can control its own display, it retains itself and releases when it closes.
 + (id)floaterWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask
 {
     return [[self alloc] initWithImage:inImage styleMask:styleMask];
@@ -45,8 +45,9 @@
 		fadeAnimation = nil;
 		maxOpacity = WINDOW_FADE_MAX;
 
-		//Set up the panel
-		frame = NSMakeRect(0, 0, [inImage size].width, [inImage size].height);    
+		// Set up the panel
+		frame = NSMakeRect(0, 0, [inImage size].width, [inImage size].height);
+		
 		panel = [[NSPanel alloc] initWithContentRect:frame
 										   styleMask:styleMask
 											 backing:NSBackingStoreBuffered
@@ -55,9 +56,11 @@
 		[panel setIgnoresMouseEvents:YES];
 		[panel setLevel:NSStatusWindowLevel];
 		[panel setHasShadow:YES];
+		[panel setOpaque:NO];
+		[panel setBackgroundColor:[NSColor clearColor]];
 		[self _setWindowOpacity:WINDOW_FADE_MIN];
-
-		//Setup the static view
+			
+		// Setup the static view
 		staticView = [[NSImageView alloc] initWithFrame:frame];
 		[staticView setImage:inImage];
 		[staticView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
@@ -106,8 +109,9 @@
     if (windowIsVisible) [self _setWindowOpacity:maxOpacity];
 }
 
-//Window Visibility --------------------------------------------------------------------------------------------------
-//Update the visibility of this window (Window is visible if there are any tabs present)
+#pragma mark Window Visibility
+
+// Update the visibility of this window (Window is visible if there are any tabs present)
 - (void)setVisible:(BOOL)inVisible animate:(BOOL)animate
 {    
     if (inVisible != windowIsVisible) {
@@ -121,9 +125,9 @@
 					nil];
                 fadeAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:animDict]];
 
-				//1.0f / FPS = duration per step
-				//1.0f / step = number of steps (e.g.: If step = 0.1f, 1.0f / step = 10 steps)
-				//duration per step * number of steps = total duration
+				// 1.0f / FPS = duration per step
+				// 1.0f / step = number of steps (e.g.: If step = 0.1f, 1.0f / step = 10 steps)
+				// duration per step * number of steps = total duration
 				NSTimeInterval step = [[NSApp currentEvent] shiftKey] ? WINDOW_FADE_SLOW_STEP : WINDOW_FADE_STEP;
 				fadeAnimation.duration = (1.0f / step) * (1.0f / WINDOW_FADE_FPS);
 
@@ -140,8 +144,4 @@
     [panel setAlphaValue:opacity];
 }
 
-
 @end
-
-
-
