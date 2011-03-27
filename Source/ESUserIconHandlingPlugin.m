@@ -133,6 +133,7 @@
 											   object:nil];
 
 	button = [[AIImageButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
+	
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:@"UserIcon"
 														  label:AILocalizedString(@"Icon",nil)
 												   paletteLabel:AILocalizedString(@"Contact Icon",nil)
@@ -145,6 +146,8 @@
 
 	[toolbarItem setMinSize:NSMakeSize(32,32)];
 	[toolbarItem setMaxSize:NSMakeSize(32,32)];
+	
+	[button setCornerRadius:3.0f];
 	[button setToolbarItem:toolbarItem];
 	[button setImage:[NSImage imageNamed:@"userIconToolbar" forClass:[self class] loadLazily:YES]];
 	[button release];

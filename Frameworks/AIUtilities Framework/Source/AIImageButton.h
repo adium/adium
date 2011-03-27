@@ -26,7 +26,10 @@
  */
 @interface AIImageButton : MVMenuButton {
 	AIFloater	*imageFloater;
-	BOOL		imageFloaterShouldBeOpen; //Track if the image float should currently be open; useful since the floater is desroyed on a delay.
+	BOOL		imageFloaterShouldBeOpen; // Track if the image float should currently be open; useful since the floater is desroyed on a delay.
+	CGFloat		cornerRadius;
 }
+
+@property (assign) CGFloat cornerRadius;
 
 @end
