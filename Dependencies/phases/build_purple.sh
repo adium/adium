@@ -123,7 +123,7 @@ build_libpurple() {
 				$KERBEROS"
 		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
 			        -DHAVE_OPENSSL -fno-common -DHAVE_ZLIB" \
-			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0 -lz" \
+			"$BASE_LDFLAGS -lsasl2 -lz" \
 			"${CONFIG_CMD}" \
 			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
 			"${ROOTDIR}/source/im.pidgin.adium/config.h"

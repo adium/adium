@@ -17,30 +17,15 @@ fi
 TARGET_BASE="apple-darwin10"
 
 # Arrays for archs and host systems, sometimes an -arch just isnt enough!
-ARCHS=( "x86_64" "i386" "ppc" )
-HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" "powerpc-${TARGET_BASE}" )
+ARCHS=( "x86_64" "i386" )
+HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # Also try /Developer-old, just in case XCode 4 is installed
 DEVELOPER="/Developer"
-SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.5.sdk"
+SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.6.sdk"
 
-if ! [ -d $SDK_ROOT ];
-then
-	warning "10.5 SDK not found in /Developer. You probably have installed XCode4. Trying /Developer-old..."
-	DEVELOPER="/Developer-old"
-	SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.5.sdk"
-	
-	if ! [ -d $SDK_ROOT ];
-	then
-		error "10.5 SDK not found!"
-		exit 1
-	else
-		warning "found!"
-	fi
-fi
-
-MIN_OS_VERSION="10.5"
+MIN_OS_VERSION="10.6"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
 	-mmacosx-version-min=$MIN_OS_VERSION \
 	-I$ROOTDIR/build/include \
@@ -98,10 +83,6 @@ for option in ${@:1} ; do
 		--disable-i386)
 			remove_arch "i386"
 			warning "i386 target removed! libpurple will not be universal!"
-			;;
-		--disable-ppc)
-			remove_arch "ppc"
-			warning "ppc target removed! Libpurple will not be universal!"
 			;;
 		--build-native) 
 			unset ARCHS; ARCHS=""
@@ -226,7 +207,6 @@ else
 	   build_meanwhile $@
 
     	build_intltool $@
-    	build_jsonglib $@
 
     	build_gstreamer $@
     	build_farsight $@
