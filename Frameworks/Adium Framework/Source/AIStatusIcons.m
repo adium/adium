@@ -321,7 +321,7 @@ static NSString *statusNameForChat(AIChat *inChat)
 	iconDict = [NSDictionary dictionaryWithContentsOfFile:[inPath stringByAppendingPathComponent:@"Icons.plist"]];
 	
 	if (iconDict && [[iconDict objectForKey:@"AdiumSetVersion"] intValue] == 1) {
-		NSDictionary	*previewIconNames = [iconDict objectForKey:@"List"];
+		NSDictionary	*previewIconNames = [iconDict objectForKey:@"Tabs"];
 		int				xOrigin = 0;
 
 		[image lockFocus];

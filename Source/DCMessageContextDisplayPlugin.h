@@ -34,4 +34,9 @@
 	NSInteger						linesToDisplay;
 }
 
++ (DCMessageContextDisplayPlugin *)sharedInstance;
+
+- (NSArray *)contextForChat:(AIChat *)chat;
+- (NSArray *)contextForChat:(AIChat *)chat lines:(NSInteger)linesLeftToFind alsoStatus:(BOOL)alsoStatus;
+
 @end

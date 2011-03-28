@@ -235,8 +235,6 @@
 	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
 }
 
-#warning 10.6+ only
-
 - (NSData *)GIFRepresentation
 {
 	// GIF requires special treatment, as Apple doesn't allow you to save animations.

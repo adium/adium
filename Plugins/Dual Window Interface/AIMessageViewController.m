@@ -29,7 +29,6 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
@@ -53,19 +52,19 @@
 #import "RBSplitView.h"
 
 //Heights and Widths
-#define MESSAGE_VIEW_MIN_HEIGHT_RATIO		.50f						//Mininum height ratio of the message view
-#define MESSAGE_VIEW_MIN_WIDTH_RATIO		.50f						//Mininum width ratio of the message view
-#define ENTRY_TEXTVIEW_MIN_HEIGHT			20						//Mininum height of the text entry view
-#define USER_LIST_DEFAULT_WIDTH				120						//Default width of the user list
+#define MESSAGE_VIEW_MIN_HEIGHT_RATIO		0.5f					// Mininum height ratio of the message view
+#define MESSAGE_VIEW_MIN_WIDTH_RATIO		0.5f					// Mininum width ratio of the message view
+#define ENTRY_TEXTVIEW_MIN_HEIGHT			20						// Mininum height of the text entry view
+#define USER_LIST_DEFAULT_WIDTH				120						// Default width of the user list
 
 //Preferences and files
-#define MESSAGE_VIEW_NIB					@"MessageView"			//Filename of the message view nib
-#define	USERLIST_THEME						@"UserList Theme"		//File name of the user list theme
-#define	USERLIST_LAYOUT						@"UserList Layout"		//File name of the user list layout
-#define	KEY_ENTRY_TEXTVIEW_MIN_HEIGHT		@"Minimum Text Height"	//Preference key for text entry height
-#define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Minimum Width"	//Preference key for user list width
-#define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:" //Preference key prefix for user list visibility
-#define KEY_USER_LIST_ON_RIGHT				@"UserList On Right"	// Preference key for user list being on the right
+#define MESSAGE_VIEW_NIB					@"MessageView"				// Filename of the message view nib
+#define	USERLIST_THEME						@"UserList Theme"			// File name of the user list theme
+#define	USERLIST_LAYOUT						@"UserList Layout"			// File name of the user list layout
+#define	KEY_ENTRY_TEXTVIEW_MIN_HEIGHT		@"Minimum Text Height"		// Preference key for text entry height
+#define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Minimum Width"	// Preference key for user list width
+#define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:"	// Preference key prefix for user list visibility
+#define KEY_USER_LIST_ON_RIGHT				@"UserList On Right"		// Preference key for user list being on the right
 
 #define TEXTVIEW_HEIGHT_DEBUG
 

@@ -126,6 +126,8 @@ typedef enum {
 	
 	NSMutableSet		*customEmoticons;
 	
+	NSDate				*lastMessageDate;
+	
 	// Former properties
 	NSImage				*tabStateIcon;
 	
@@ -225,5 +227,7 @@ typedef enum {
 @property (readonly, nonatomic) NSMenu *actionMenu;
 
 @property (readonly, nonatomic) BOOL shouldLog;
+
+@property (readwrite, copy, nonatomic) NSDate *lastMessageDate;
 
 @end
