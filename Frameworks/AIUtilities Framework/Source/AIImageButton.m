@@ -23,6 +23,8 @@
 
 @implementation AIImageButton
 
+@synthesize cornerRadius;
+
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
@@ -34,9 +36,9 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AIImageButton	*newButton = [super copyWithZone:zone];
-
+	AIImageButton *newButton = [super copyWithZone:zone];
 	newButton->imageFloater = [imageFloater retain];
+	[newButton setCornerRadius:[self cornerRadius]];
 
 	return newButton;
 }
@@ -47,6 +49,18 @@
 	[imageFloater release];
 
 	[super dealloc];
+}
+
+#pragma mark Drawing
+
+- (void)drawRect:(NSRect)rect
+{
+	// Rounded corners
+	if (cornerRadius > 0.0f) {
+		[[NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:[self cornerRadius] yRadius:[self cornerRadius]] addClip];
+	}
+	
+	[super drawRect:rect];
 }
 
 //Mouse Tracking -------------------------------------------------------------------------------------------------------
@@ -72,6 +86,25 @@
 			[imageFloater close:nil];
 			[imageFloater release];
 		}
+		
+		// Rounded corners
+		if ([self cornerRadius] > 0.0f) {
+			NSImage *roundedImage = [[NSImage alloc] initWithSize:[bigImage size]];
+			NSRect imageFrame = NSMakeRect(0.0f, 0.0f, [bigImage size].width, [bigImage size].height);
+			
+			[roundedImage lockFocus];
+
+			[[NSBezierPath bezierPathWithRoundedRect:imageFrame
+											 xRadius:[self cornerRadius]
+											 yRadius:[self cornerRadius]] addClip];
+
+			[bigImage drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0f];
+			
+			[roundedImage unlockFocus];
+			
+			[self setImage:roundedImage];
+			[roundedImage release];
+		}
 
 		/* If the image would go off the right side of the screen from its origin, shift the origin left
 		 * so it won't.
@@ -82,9 +115,10 @@
 		}
 
 		imageFloater = [[AIFloater floaterWithImage:bigImage styleMask:NSBorderlessWindowMask] retain];
-		[imageFloater setMaxOpacity:1.00f];
+		[imageFloater setMaxOpacity:1.0f];
 		[imageFloater moveFloaterToPoint:point];
 		[imageFloater setVisible:YES animate:NO];
+		
 		imageFloaterShouldBeOpen = TRUE;
 	}
 }

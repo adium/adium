@@ -19,6 +19,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentContext.h>
+#import <Adium/AIContentStatus.h>
 #import <Adium/AIService.h>
 
 //Old school
@@ -40,6 +41,8 @@
 
 #define RESTORED_CHAT_CONTEXT_LINE_NUMBER 50
 
+static DCMessageContextDisplayPlugin *sharedInstance = nil;
+
 /**
  * @class DCMessageContextDisplayPlugin
  * @brief Component to display in-window message history
@@ -51,9 +54,15 @@
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
 - (NSArray *)contextForChat:(AIChat *)chat;
 - (void)addContextDisplayToWindow:(NSNotification *)notification;
++ (DCMessageContextDisplayPlugin *)sharedInstance;
 @end
 
 @implementation DCMessageContextDisplayPlugin
+
++ (DCMessageContextDisplayPlugin *)sharedInstance
+{
+	return sharedInstance;
+}
 
 /**
  * @brief Install
@@ -69,6 +78,8 @@
 	
 	//Observe preference changes for whether or not to display message history
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTEXT_DISPLAY];
+	
+	sharedInstance = self;
 }
 
 /**
@@ -140,28 +151,34 @@
  */
 - (NSArray *)contextForChat:(AIChat *)chat
 {
-	//If there's no log there, there's no message history. Bail out.
-	NSArray *logPaths = [AILoggerPlugin sortedArrayOfLogFilesForChat:chat];
-	
-	if(!logPaths) return nil;
-	
 	NSInteger linesLeftToFind = 0;
-
-	AIHTMLDecoder *decoder = [AIHTMLDecoder decoder];
-
-	NSString *logObjectUID = chat.name;
-	if (!logObjectUID) logObjectUID = chat.listObject.UID;
-	logObjectUID = [logObjectUID safeFilenameString];
-
-	NSString *baseLogPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:
-		[AILoggerPlugin relativePathForLogWithObject:logObjectUID onAccount:chat.account]];	
 
 	if ([chat boolValueForProperty:@"Restored Chat"] && linesToDisplay < RESTORED_CHAT_CONTEXT_LINE_NUMBER) {
 		linesLeftToFind = MAX(linesLeftToFind, RESTORED_CHAT_CONTEXT_LINE_NUMBER);
 	} else {
 		linesLeftToFind = linesToDisplay;		
 	}
-			
+	
+	return [self contextForChat:chat lines:linesLeftToFind alsoStatus:NO];
+}
+
+- (NSArray *)contextForChat:(AIChat *)chat lines:(NSInteger)linesLeftToFind alsoStatus:(BOOL)alsoStatus
+{
+	//If there's no log there, there's no message history. Bail out.
+	NSArray *logPaths = [AILoggerPlugin sortedArrayOfLogFilesForChat:chat];
+	
+	if(!logPaths || linesLeftToFind == 0) return nil;
+	
+	NSString *logObjectUID = chat.name;
+	if (!logObjectUID) logObjectUID = chat.listObject.UID;
+	logObjectUID = [logObjectUID safeFilenameString];
+	
+	AIHTMLDecoder *decoder = [AIHTMLDecoder decoder];
+	
+	NSString *baseLogPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:
+							 [AILoggerPlugin relativePathForLogWithObject:logObjectUID onAccount:chat.account]];	
+
+	
 	//Initialize a place to store found messages
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
@@ -219,6 +236,7 @@
 						   [NSValue valueWithPointer:&linesLeftToFind], @"LinesLeftToFindValue",
 						   foundMessages, @"FoundMessages",
 						   elementStack, @"ElementStack",
+                           [NSNumber numberWithBool:alsoStatus], @"AlsoAllowStatus",
 						   nil];
 			[parser setContextInfo:(void *)contextInfo];
 		}
@@ -311,7 +329,7 @@
 	NSMutableDictionary *contextInfo = [parser contextInfo];
 	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
 	
-	if ([elementName isEqualToString:@"message"]) {
+	if ([elementName isEqualToString:@"message"] || ([[contextInfo valueForKey:@"AlsoAllowStatus"] boolValue] && [elementName isEqualToString:@"status"])) {
 		[elementStack insertObject:[AIXMLElement elementWithName:elementName] atIndex:0U];
 	}
 	else if ([elementStack count]) {
@@ -395,7 +413,22 @@
 			} else {
 				NSLog(@"Null message context display time for %@",element);
 			}
-		}
+		} else if ([[contextInfo valueForKey:@"AlsoAllowStatus"] boolValue] && [elementName isEqualToString:@"status"]) {
+            
+			AIChat          *chat = [contextInfo objectForKey:@"Chat"];
+			
+			NSDictionary	*attributes = [element attributes];
+			NSString		*timeString = [attributes objectForKey:@"time"];
+			
+			if (timeString) {
+				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
+                
+                AIContentStatus *status = [[AIContentStatus alloc] initWithChat:chat source:nil destination:nil date:timeVal];
+                
+                [foundMessages insertObject:status atIndex:0];
+                [status release];
+            }
+        }
 		
 		[elementStack removeObjectAtIndex:0U];
 		if ([foundMessages count] == *linesLeftToFind) {

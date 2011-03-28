@@ -711,8 +711,24 @@ static NSArray *draggedTypes = nil;
 			}
 
 			// Add a class for "this content received while out of focus"
-			if (content.chat.isGroupChat)
+			if (content.chat.isGroupChat) {
 				[content addDisplayClass:@"focus"];
+				[content addDisplayClass:@"lastFocus"];
+				
+				DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".lastFocus"];
+				DOMHTMLElement *node = nil; NSMutableArray *classes = nil;
+				for (unsigned i = 0; i < nodeList.length; i++)
+				{
+					node = (DOMHTMLElement *)[nodeList item:i];
+					classes = [[node.className componentsSeparatedByString:@" "] mutableCopy];
+					
+					[classes removeObject:@"lastFocus"];
+					
+					node.className = [classes componentsJoinedByString:@" "];
+					
+					[classes release];
+				}
+			}
 		}
 		
 		//Add the content object

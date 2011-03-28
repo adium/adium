@@ -1,8 +1,5 @@
 #import "AIDockNameOverlay.h"
 #import "AIDockController.h"
-#import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIChat.h>
@@ -10,6 +7,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAbstractListController.h>
 #import <AIUtilities/AIColorAdditions.h>
+#import <AIUtilities/AIBezierPathAdditions.h>
 
 
 #define DOCK_OVERLAY_ALERT_SHORT	AILocalizedString(@"Display name in the dock icon",nil)
@@ -248,51 +246,18 @@
 		if (top >= 128)
 			break;
 		
-		CGFloat			left, right, arcRadius, stringInset;
+		CGFloat			arcRadius, stringInset;
 		NSBezierPath	*path;
+		NSRect			pillRect;
 		NSColor			*backColor = nil, *textColor = nil, *borderColor = nil;
 		
 		//Create the pill frame
 		arcRadius = (iconHeight / 2.0f);
 		stringInset = (iconHeight / 4.0f);
-		left = 1 + arcRadius;
-		right = 127 - arcRadius;
+		pillRect = NSMakeRect(0, bottom, 127, iconHeight);
 		
-		path = [NSBezierPath bezierPath];
+		path = [NSBezierPath bezierPathWithRoundedRect:pillRect radius:arcRadius];
 		[path setLineWidth:((iconHeight/2.0f) * 0.13333f)];
-		//Top
-		[path moveToPoint: NSMakePoint(left, top)];
-		[path lineToPoint: NSMakePoint(right, top)];
-		
-		//Right rounded cap
-		[path appendBezierPathWithArcWithCenter:NSMakePoint(right, top - arcRadius)
-										 radius:arcRadius
-									 startAngle:90
-									   endAngle:0
-									  clockwise:YES];
-		[path lineToPoint: NSMakePoint(right + arcRadius, bottom + arcRadius)];
-		[path appendBezierPathWithArcWithCenter:NSMakePoint(right, bottom + arcRadius)
-										 radius:arcRadius
-									 startAngle:0
-									   endAngle:270
-									  clockwise:YES];
-		
-		//Bottom
-		[path moveToPoint: NSMakePoint(right, bottom)];
-		[path lineToPoint: NSMakePoint(left, bottom)];
-		
-		//Left rounded cap
-		[path appendBezierPathWithArcWithCenter:NSMakePoint(left, bottom + arcRadius)
-										 radius:arcRadius
-									 startAngle:270
-									   endAngle:180
-									  clockwise:YES];
-		[path lineToPoint: NSMakePoint(left - arcRadius, top - arcRadius)];
-		[path appendBezierPathWithArcWithCenter:NSMakePoint(left, top - arcRadius)
-										 radius:arcRadius
-									 startAngle:180
-									   endAngle:90
-									  clockwise:YES];
 		
 		if ([object integerValueForProperty:KEY_UNVIEWED_CONTENT]) { //Unviewed
 			backColor = backUnviewedContentColor;

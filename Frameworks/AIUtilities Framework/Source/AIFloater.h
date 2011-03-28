@@ -23,11 +23,11 @@
  * <tt>AIFloater</tt> allows for the display of an <tt>NSImage</tt>, including an animating one, anywhere on the screen.  The image can be easily moved programatically and will fade into and out of view as requested. 
  */
 @interface AIFloater : NSObject {
-    NSImageView			*staticView;
-    NSPanel				*panel;
-    BOOL                windowIsVisible;
-    NSViewAnimation     *fadeAnimation;
-    CGFloat               maxOpacity;
+    NSImageView		*staticView;
+    NSPanel			*panel;
+    BOOL			windowIsVisible;
+    NSViewAnimation	*fadeAnimation;
+    CGFloat			maxOpacity;
 }
 
 /*!
