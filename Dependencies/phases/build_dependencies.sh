@@ -203,3 +203,38 @@ build_intltool() {
 	
 	quiet popd
 }
+
+##
+# json-glib
+#
+JSON_GLIB_VERSION=1.0
+build_jsonglib() {
+	prereq "json-glib-0.9.2" \
+		"http://ftp.gnome.org/pub/GNOME/sources/json-glib/0.9/json-glib-0.9.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/json-glib-0.9.2"
+	
+	if needsconfigure $@; then
+	(
+		status "Configuring json-glib"
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		export GLIB_LIBS="$ROOTDIR/build/lib"
+		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			-I$ROOTDIR/build/lib/glib-2.0/include"
+		log ./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	)
+	fi
+	
+	status "Building and installing json-glib"
+	log make -j $NUMBER_OF_CORES
+	log make install
+	
+	# C'mon, why do you make me do this?
+	log ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+		"$ROOTDIR/build/include/json-glib"
+	
+	quiet popd
+}

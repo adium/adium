@@ -207,6 +207,7 @@ else
 	   build_meanwhile $@
 
     	build_intltool $@
+	build_jsonglib $@
 
     	build_gstreamer $@
     	build_farsight $@
