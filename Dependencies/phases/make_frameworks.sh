@@ -55,13 +55,6 @@ prep_headers() {
 		quiet mkdir "${meanwhileDir}" || true
 		touch "${meanwhileDir}/no_headers_here.txt"
 		
-		#json-glib
-		status "Staging json-glib headers"
-		local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
-		quiet rm -r "${jsonDir}" || true
-		quiet mkdir "${jsonDir}" || true
-		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
-		
 		## VV stuff
 		
 		#gstreamer
