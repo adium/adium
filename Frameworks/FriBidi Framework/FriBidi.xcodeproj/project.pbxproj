@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		9719EEF2134129210030317B /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEEC134129210030317B /* Debug.xcconfig */; };
+		9719EEF3134129210030317B /* Release-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEED134129210030317B /* Release-Debug.xcconfig */; };
+		9719EEF4134129210030317B /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEEE134129210030317B /* Release.xcconfig */; };
+		9719EEF6134129210030317B /* FriBidi.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEF0134129210030317B /* FriBidi.xcconfig */; };
 		EE5B50140A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.h in Headers */ = {isa = PBXBuildFile; fileRef = EE5B4FEC0A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE5B50150A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.c in Sources */ = {isa = PBXBuildFile; fileRef = EE5B4FED0A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.c */; };
 		EE5B50170A9B6C8400B8BC5F /* fribidi_char_sets_cp1255.c in Sources */ = {isa = PBXBuildFile; fileRef = EE5B4FEF0A9B6C8400B8BC5F /* fribidi_char_sets_cp1255.c */; };
@@ -57,6 +61,10 @@
 		32DBCF5E0370ADEE00C91783 /* FriBidi_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriBidi_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* FriBidi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FriBidi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9719EEEC134129210030317B /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		9719EEED134129210030317B /* Release-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Debug.xcconfig"; sourceTree = "<group>"; };
+		9719EEEE134129210030317B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		9719EEF0134129210030317B /* FriBidi.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = FriBidi.xcconfig; sourceTree = "<group>"; };
 		EE5B4FEB0A9B6C8400B8BC5F /* fribidi_benchmark.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = fribidi_benchmark.c; path = "fribidi-0.10.7/fribidi_benchmark.c"; sourceTree = "<group>"; };
 		EE5B4FEC0A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = fribidi_char_sets_cap_rtl.h; path = "fribidi-0.10.7/fribidi_char_sets_cap_rtl.h"; sourceTree = "<group>"; };
 		EE5B4FED0A9B6C8400B8BC5F /* fribidi_char_sets_cap_rtl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = fribidi_char_sets_cap_rtl.c; path = "fribidi-0.10.7/fribidi_char_sets_cap_rtl.c"; sourceTree = "<group>"; };
@@ -133,6 +141,7 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				9719EEE9134128D00030317B /* xcconfigs */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				EE5B50D80A9B757700B8BC5F /* FriBidiTest-Info.plist */,
 			);
@@ -190,6 +199,17 @@
 				32DBCF5E0370ADEE00C91783 /* FriBidi_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		9719EEE9134128D00030317B /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				9719EEF0134129210030317B /* FriBidi.xcconfig */,
+				9719EEEE134129210030317B /* Release.xcconfig */,
+				9719EEED134129210030317B /* Release-Debug.xcconfig */,
+				9719EEEC134129210030317B /* Debug.xcconfig */,
+			);
+			name = xcconfigs;
 			sourceTree = "<group>";
 		};
 		EE5B4FE80A9B6C5200B8BC5F /* fribidi */ = {
@@ -322,6 +342,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9719EEF2134129210030317B /* Debug.xcconfig in Resources */,
+				9719EEF3134129210030317B /* Release-Debug.xcconfig in Resources */,
+				9719EEF4134129210030317B /* Release.xcconfig in Resources */,
+				9719EEF6134129210030317B /* FriBidi.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,10 +393,12 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
 				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -386,6 +412,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
@@ -396,6 +423,7 @@
 		};
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9719EEEC134129210030317B /* Debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
@@ -409,6 +437,7 @@
 		};
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9719EEEE134129210030317B /* Release.xcconfig */;
 			buildSettings = {
 				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = (
@@ -426,6 +455,7 @@
 		};
 		346637AD0D415806006C9034 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9719EEED134129210030317B /* Release-Debug.xcconfig */;
 			buildSettings = {
 				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = (
@@ -450,6 +480,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
