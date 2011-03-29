@@ -139,7 +139,7 @@
 {
 	[super setImage:inImage];
 	
-	//Inform the picker controller of a changed selection if it is open, for live updating
+	// Inform the picker controller of a changed selection if it is open, for live updating
 	if (pictureTaker) {
 		[pictureTaker setInputImage:inImage];
 	}
@@ -355,35 +355,46 @@
 /*
  * @brief Conclude a drag operation
  *
- * A new image was dragged into our view.  -[super concludeDragOperation:] will change [self image] to match it.
+ * A new image was dragged into our view.
+ * We want to edit a dropped image if it doesn't correspond to our needs (too large or not of desired shape).
  * We then want to update our pictureTaker's selection if it is open.
- * Also, if we're dropped a promised file, use its data directly as it may be better than what NSImageView's natural
- * loading retrieves... this way we can get transparency or animation data, for example.
- * Also we want the image to be added to the recent repository
+ * Also we want the image to be added to the recent repository.
  */
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
-	[super concludeDragOperation:sender];
-	
-	NSImage *droppedImage = [self image];
-	NSSize droppedImageSize = [droppedImage size];
+	NSImage *droppedImage = [[[NSImage alloc] initWithPasteboard:[sender draggingPasteboard]] autorelease];
+    
+    if (!droppedImage) {
+        return;
+    }
+    
+    NSSize droppedImageSize = [droppedImage size];
 	NSSize mSize = [self maxSize];
 	
 	IKPictureTakerRecentPicture *recentPicture = [IKPictureTakerRecentPicture defaultRecentPictureWithOriginalImage:droppedImage cropSize:CGSizeZero];
 	
+    // We want to edit a dropped image if it is:
+    // - larger then desired max size
+    // - width/height proportions are ~20% off the squre shape
 	if ((mSize.width > 0.0f && droppedImageSize.width > mSize.width) ||
-		(mSize.height > 0.0f && droppedImageSize.height > mSize.height)) {
+		(mSize.height > 0.0f && droppedImageSize.height > mSize.height) ||
+        (droppedImageSize.width / droppedImageSize.height > 1.2f ||
+         droppedImageSize.width / droppedImageSize.height < 0.8f)) {
 
-		droppedImage = [droppedImage imageByScalingToSize:mSize];
-
-		// This will notify the picker controller that the selection changed, as well
-		[self setImage:droppedImage];
-	}
+        // Set recent picture and open Image Picker
+        [self setRecentPictureAsImageInput:recentPicture];
+        [self showPictureTaker];
+            
+        return;
+    } else if ([self pictureTaker]) {
+        // Update an open Image Picker
+        [self setRecentPictureAsImageInput:recentPicture];
+    }
 	
 	// Inform the delegate
 	if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImageData:)]) {
-		[[self delegate] imageViewWithImagePicker:self didChangeToImageData:[[[NSImage alloc] initWithPasteboard:[sender draggingPasteboard]] bestRepresentationByType]];
-	} else if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
+        [[self delegate] imageViewWithImagePicker:self didChangeToImageData:[droppedImage bestRepresentationByType]];
+    } else if ([[self delegate] respondsToSelector:@selector(imageViewWithImagePicker:didChangeToImage:)]) {
 		[[self delegate] imageViewWithImagePicker:self didChangeToImage:droppedImage];
 	}
 
