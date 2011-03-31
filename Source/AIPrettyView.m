@@ -16,7 +16,8 @@
 
 #import "AIPrettyView.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
-
+#import <WebKit/DOMCSSStyleDeclaration.h>
+#import "ESWebView.h"
 
 @implementation AIPrettyView
 
@@ -30,21 +31,53 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
 	
-	NSRect insetRect = NSMakeRect(self.frame.origin.x + 5, self.frame.origin.y + 5, self.frame.size.width - 10, self.frame.size.height - 10);
+    ESWebView *webView = [[[messageView contentView] subviews] objectAtIndex:0];
+    DOMElement *box = [[webView mainFrameDocument] getElementById:@"inputBox"];
+    
+    if (box) {
+        
+        double width = box.offsetWidth;
+        double height = box.offsetHeight;
+        double originX = 1 + box.offsetLeft;
+        
+        DOMElement *el = box;
+        
+        double originY = 0;
+        
+        while (el) {
+            originY += el.offsetTop;
+            
+            el = [el offsetParent];
+        }
+        
+        originY = (1 + [[webView mainFrame] frameView].frame.size.height - originY) - height;
+        
+        [[self enclosingScrollView] setFrame:NSMakeRect(originX, originY, width, height)];
+        
+        NSLog(@"Setting frame: %@", NSStringFromRect(NSMakeRect(originX, originY, width, height)));
+    }
+    
+    NSBezierPath *bp = [NSBezierPath bezierPath];
+	[bp setLineWidth:2.0];
 	
-	if ([[[[[[[[messageView contentView] subviews] objectAtIndex:0] subviews] objectAtIndex:0] subviews] objectAtIndex:0] hasVerticalScroller]) {
-		insetRect.size.width -= [messageView verticalScroller].frame.size.width;
-	}
+	[bp moveToPoint:NSMakePoint(0, self.frame.size.height)];
+	[bp lineToPoint:NSMakePoint(0, 0)];
+	[bp lineToPoint:NSMakePoint(self.frame.size.width, 0)];
+	[bp lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
 	
-    NSBezierPath *bp = [NSBezierPath bezierPathWithRoundedRect:insetRect radius:5.0];
+	[[NSColor colorWithCalibratedWhite:0.745 alpha:1.0] setStroke];
 	
-	[[NSColor whiteColor] set];
+	[bp stroke];
 	
-	[bp fill];
+	bp = [NSBezierPath bezierPath];
+	[bp setLineWidth:2.0];
 	
-	NSRect entryRect = NSMakeRect(10, 10, insetRect.size.width - 10, insetRect.size.height - 10);
+	[bp moveToPoint:NSMakePoint(0, self.frame.size.height)];
+	[bp lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
 	
-	[entryField enclosingScrollView].frame = entryRect;
+	[[NSColor colorWithCalibratedWhite:0.557 alpha:1.0] setStroke];
+	
+	[bp stroke];
 }
 
 - (void)mouseDown:(NSEvent *)event

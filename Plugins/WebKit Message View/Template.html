@@ -323,7 +323,21 @@
 		img.scaledToFitImage { height: auto; max-width: 100%%; }
 		
 		#Chat {
-			padding-bottom: 50px !important;
+            padding-bottom: 50px !important;
+        }
+		
+		#inputRect {
+            position: fixed;
+			bottom: 0px !important;
+            left: 0px !important;
+            right: 0px !important;
+			padding: 10px 10px 10px 10px;
+		}
+		
+		#inputBox {
+			height: 20px !important;
+			width: 100%;
+			background-color: cyan !important;
 		}
 	</style>
 
@@ -343,5 +357,6 @@
 <div id="Chat">
 </div>
 %@
+<div id="inputRect"><div id="inputBox">This is a box.</div></div>
 </body>
 </html>
