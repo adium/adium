@@ -15,12 +15,15 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <Adium/AIMessageEntryTextView.h>
+#import "AIMessageWindowOutgoingScrollView.h"
 
 /**
  *  @brief The white border around floating text input fields.
  */
 @interface AIPrettyView : NSView {
-
+	IBOutlet AIMessageEntryTextView *entryField;
+	IBOutlet AIMessageWindowOutgoingScrollView *messageView;
 }
 
 @end

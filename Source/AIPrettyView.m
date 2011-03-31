@@ -29,11 +29,28 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    NSBezierPath *bp = [NSBezierPath bezierPathWithRoundedRect:dirtyRect radius:5.0];
+	
+	NSRect insetRect = NSMakeRect(self.frame.origin.x + 5, self.frame.origin.y + 5, self.frame.size.width - 10, self.frame.size.height - 10);
+	
+	if ([[[[[[[[messageView contentView] subviews] objectAtIndex:0] subviews] objectAtIndex:0] subviews] objectAtIndex:0] hasVerticalScroller]) {
+		insetRect.size.width -= [messageView verticalScroller].frame.size.width;
+	}
+	
+    NSBezierPath *bp = [NSBezierPath bezierPathWithRoundedRect:insetRect radius:5.0];
 	
 	[[NSColor whiteColor] set];
 	
 	[bp fill];
+	
+	NSRect entryRect = NSMakeRect(10, 10, insetRect.size.width - 10, insetRect.size.height - 10);
+	
+	[entryField enclosingScrollView].frame = entryRect;
 }
+
+- (void)mouseDown:(NSEvent *)event
+{
+	[[entryField window] makeFirstResponder:entryField];
+}
+
 
 @end
