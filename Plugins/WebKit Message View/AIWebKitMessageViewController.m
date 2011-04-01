@@ -132,6 +132,7 @@ static NSArray *draggedTypes = nil;
 		 * classed as such.
 		 */
 		nextMessageFocus = YES;
+		nextMessageRegainedFocus = YES;
 		
 		//Observe preference changes.
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
@@ -487,6 +488,7 @@ static NSArray *draggedTypes = nil;
 	[previousContent release];
 	previousContent = nil;
 	nextMessageFocus = NO;
+	nextMessageRegainedFocus = NO;
 	[chat clearUnviewedContentCount];
 }
 
@@ -708,6 +710,7 @@ static NSArray *draggedTypes = nil;
 					[content addDisplayClass:@"firstFocus"];
 				
 				nextMessageFocus = NO;
+				nextMessageRegainedFocus = YES;
 			}
 
 			// Add a class for "this content received while out of focus"
@@ -729,6 +732,11 @@ static NSArray *draggedTypes = nil;
 					[classes release];
 				}
 			}
+		}
+		
+		if (content.postProcessContent && adium.interfaceController.activeChat == content.chat && !nextMessageFocus && nextMessageRegainedFocus) {
+			nextMessageRegainedFocus = NO;
+			[content addDisplayClass:@"regainedFocus"];
 		}
 		
 		//Add the content object
@@ -1514,6 +1522,7 @@ static NSArray *draggedTypes = nil;
 	
 	// The next message being inserted needs to add a mark.
 	nextMessageFocus = YES;
+	nextMessageRegainedFocus = NO;
 	
 	DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".focus"];
 	DOMHTMLElement *node = nil; NSMutableArray *classes = nil;
@@ -1524,6 +1533,21 @@ static NSArray *draggedTypes = nil;
 		
 		[classes removeObject:@"focus"];
 		[classes removeObject:@"firstFocus"];
+		
+		node.className = [classes componentsJoinedByString:@" "];
+		
+		[classes release];
+	}
+	
+	// Also remove .regainedFocus. By definition this should _not_ have class .focus too, so make a new list
+	DOMNodeList *nodeListRegained = [webView.mainFrameDocument querySelectorAll:@".regainedFocus"];
+	
+	for (unsigned i = 0; i < nodeListRegained.length; i++)
+	{
+		node = (DOMHTMLElement *)[nodeListRegained item:i];
+		classes = [[node.className componentsSeparatedByString:@" "] mutableCopy];
+		
+		[classes removeObject:@"regainedFocus"];
 		
 		node.className = [classes componentsJoinedByString:@" "];
 		
