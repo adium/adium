@@ -71,13 +71,12 @@
     [super drawRect:dirtyRect];
     
     NSBezierPath *bp = [NSBezierPath bezierPathWithRect:self.bounds];
+	
     [[self backgroundColor] setFill];
-    [bp fill];
     
-    bp = [NSBezierPath bezierPath];
+	[bp fill];
     
     NSShadow *internalShadow = [[NSShadow alloc] init];
-    [internalShadow setShadowColor:[NSColor lightGrayColor]];
     [internalShadow setShadowBlurRadius:2.0];
     [internalShadow setShadowOffset:NSMakeSize(0.0, -1.0)];
     
@@ -85,23 +84,8 @@
     
 	[bp setLineWidth:2.0];
 	
-	[bp moveToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.x + self.bounds.size.height)];
-	[bp lineToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.y)];
-	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y)];
-	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y + self.bounds.size.height)];
-	
 	[[NSColor lightGrayColor] setStroke];
     
-	[bp stroke];
-	
-	bp = [NSBezierPath bezierPath];
-	[bp setLineWidth:2.0];
-	
-	[bp moveToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.y + self.bounds.size.height)];
-	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y + self.bounds.size.height)];
-	
-	[[NSColor lightGrayColor] setStroke];
-	
 	[bp stroke];
 }
 
