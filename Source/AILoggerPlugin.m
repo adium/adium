@@ -168,7 +168,7 @@ static NSString     *logBasePath = nil;
 static NSString     *logBaseAliasPath = nil;
 
 #pragma mark Dispatch
-static dispatch_queue_t     mainDispatchQueue;
+static dispatch_queue_t     defaultDispatchQueue;
 
 static dispatch_queue_t     dirtyLogSetMutationQueue;
 static dispatch_queue_t     searchIndexQueue;
@@ -203,7 +203,7 @@ static dispatch_semaphore_t jobSemaphore;
 	self.activeAppenders = [NSMutableDictionary dictionary];
 	self.dirtyLogSet = [NSMutableSet set];
 	
-	mainDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	defaultDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 	
 	dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
 	searchIndexQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
@@ -381,7 +381,7 @@ static dispatch_semaphore_t jobSemaphore;
 - (void)prepareLogContentSearching
 {
 	__block __typeof__(self) bself = self;
-	dispatch_async(mainDispatchQueue, ^{
+	dispatch_async(defaultDispatchQueue, ^{
 		/* Load the index and start indexing to make it current
 		 * If we're going to need to re-index all our logs from scratch, it will make
 		 * things faster if we start with a fresh log index as well.
@@ -407,7 +407,7 @@ static dispatch_semaphore_t jobSemaphore;
 	
 	[self cancelIndexing];
 	
-	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
+	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
 		dispatch_group_enter(closingIndexGroup);
 		[bself _closeLogIndex];
 		dispatch_group_leave(closingIndexGroup);
@@ -496,7 +496,7 @@ static dispatch_semaphore_t jobSemaphore;
 	NSLog(@"Canceling..");
 	if (logsToIndex) {
 		__block __typeof__(self) bself = self;
-		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, ^{
+		dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
 			bself.indexingAllowed = NO;
 			dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 			bself.logsToIndex = 0;
@@ -509,7 +509,7 @@ static dispatch_semaphore_t jobSemaphore;
 - (void)removePathsFromIndex:(NSSet *)paths
 {
 	__block __typeof__(self) bself = self;
-	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 		SKIndexRef logSearchIndex = [bself logContentIndex];
 		
 		for (NSString *logPath in paths) {
@@ -1009,7 +1009,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (![chat shouldLog]) return;	
 		
 		__block __typeof__(self) bself = self;
-		dispatch_group_async(logAppendingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(logAppendingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 			BOOL			dirty = NO;
 			NSString		*contentType = [content type];
 			NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
@@ -1338,7 +1338,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		[bself.dirtyLogSet removeAllObjects];
 	});
-	dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 		dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 		dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
 		dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
@@ -1399,7 +1399,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	});
 	
 	if (self.logsToIndex == 0){
-		dispatch_async(mainDispatchQueue, ^{
+		dispatch_async(defaultDispatchQueue, ^{
 			// logsIndexed = 0;
 			OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 			[bself _didCleanDirtyLogs];
@@ -1451,7 +1451,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
 							 */
 							__block CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
-							dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+							dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 								CFRetain(searchIndex);
 								if (documentText && bself.indexingAllowed) {
 									SKIndexAddDocumentWithText(searchIndex,
@@ -1566,12 +1566,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	NSParameterAssert(path != nil);
 	NSParameterAssert(chat != nil);
 	__block __typeof__(self) bself = self;
-	dispatch_async(mainDispatchQueue, ^{
+	dispatch_async(defaultDispatchQueue, ^{
 		dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 		dispatch_async(dirtyLogSetMutationQueue, ^{
 			if (path && ![bself.dirtyLogSet containsObject:path]) {
 				[bself.dirtyLogSet addObject:path];
-				dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+				dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 					[bself _saveDirtyLogSet];
 				}));
 			}
