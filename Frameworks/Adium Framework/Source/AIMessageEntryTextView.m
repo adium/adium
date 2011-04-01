@@ -807,7 +807,7 @@
 	_desiredSizeCached = NSMakeSize(0,0);
 
 	//Post notification if size changed
-	if (!NSEqualSizes([self desiredSize], lastPostedSize)) {
+	if ([self desiredSize].height != lastPostedSize.height) {
 		lastPostedSize = [self desiredSize];
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIViewDesiredSizeDidChangeNotification object:self];
 	}
