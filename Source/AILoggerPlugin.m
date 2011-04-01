@@ -1083,7 +1083,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 						
 						[statusElement setAttributeNames:attributeKeys values:attributeValues];
 						
-						[[self _appenderForChat:chat] appendElement:statusElement];
+						[[bself _appenderForChat:chat] appendElement:statusElement];
 						
 						dirty = YES;
 					}
@@ -1122,7 +1122,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			//Don't create a new one if not needed
 			AIXMLAppender *appender = [self _existingAppenderForChat:chat];
 			if (dirty && appender)
-				[self _markLogDirtyAtPath:[appender path] forChat:chat];
+				[bself _markLogDirtyAtPath:[appender path] forChat:chat];
 			
 			dispatch_semaphore_signal(jobSemaphore);
 		}));
