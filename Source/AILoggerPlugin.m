@@ -1423,9 +1423,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		
 		AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
 		
-		dispatch_group_async(loggerPluginGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(loggerPluginGroup, ioQueue, blockWithAutoreleasePool(^{
 			dispatch_group_enter(logIndexingGroup);
-			while (_remainingLogs && bself.indexingAllowed) {
+			while (_remainingLogs > 0 && bself.indexingAllowed) {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 				__block NSString *__logPath;
 				NSString  *logPath = nil;
