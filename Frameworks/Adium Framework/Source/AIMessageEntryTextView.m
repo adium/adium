@@ -137,7 +137,7 @@
 	historyArray = [[NSMutableArray alloc] initWithObjects:@"",nil];
 	pushArray = [[NSMutableArray alloc] init];
 	currentHistoryLocation = 0;
-	[self setDrawsBackground:YES];
+	[self setDrawsBackground:NO];
 	_desiredSizeCached = NSMakeSize(0,0);
 	characterCounter = nil;
 	characterCounterPrefix = nil;

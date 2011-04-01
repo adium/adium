@@ -739,10 +739,10 @@
 			if (userListOnRight) {
 				[view_userList removeFromSuperviewWithoutNeedingDisplay];
 				[splitView_verticalSplit addSubview:view_userList];
-				userListFrame.origin.x = splitView_textEntryHorizontal.frame.size.width;
+				userListFrame.origin.x = view_messages.frame.size.width;
 			} else {
-				[[splitView_textEntryHorizontal superview] removeFromSuperviewWithoutNeedingDisplay];
-				[splitView_verticalSplit addSubview:[splitView_textEntryHorizontal superview]];
+				[view_messages removeFromSuperviewWithoutNeedingDisplay];
+				[splitView_verticalSplit addSubview:view_messages];
 				userListFrame.origin.x = 0.0f;
 			}
 			[view_userList setFrame:userListFrame];
@@ -891,10 +891,9 @@
  */
 - (void)_updateTextEntryViewHeight
 {
+#warning unused.
 	//Store the user's height so that autoresizing isn't messed up
 	CGFloat oldeHeight = entryMinHeight;
-	[splitView_textEntryHorizontal setPosition:[self _textEntryViewProperHeightIgnoringUserMininum:NO]
-							  ofDividerAtIndex:0];
 	entryMinHeight = oldeHeight;
 }
 
@@ -919,11 +918,11 @@
 		desiredHeight = ENTRY_TEXTVIEW_MIN_HEIGHT;
 	
 	//Or above the allowed height
-	if (desiredHeight >= (splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO))
-		return (splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO);
+	if (desiredHeight >= (view_messages.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO))
+		return (view_messages.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO);
 	
-	CGFloat splitViewHeight = NSHeight(splitView_textEntryHorizontal.frame);
-	CGFloat dividerThickness = [splitView_textEntryHorizontal dividerThickness];
+	CGFloat splitViewHeight = NSHeight(view_messages.frame);
+	CGFloat dividerThickness = [view_messages dividerThickness];
 	
 	return splitViewHeight - desiredHeight - dividerThickness;
 }
@@ -1284,8 +1283,6 @@
 	if ([aNotification object] == splitView_verticalSplit) {
 		if (NSWidth(view_userList.frame) > 0)
 			userListMinWidth = NSWidth(view_userList.frame);
-	} else if ([aNotification object] == splitView_textEntryHorizontal) {
-		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
 }
 
@@ -1297,7 +1294,7 @@
 	if ([splitView inLiveResize] || adium.interfaceController.activeChat != chat) {
 		if (splitView == splitView_verticalSplit) {
 			NSRect currentFrame = splitView.frame;
-			NSRect msgFrame = [splitView_textEntryHorizontal superview].frame;
+			NSRect msgFrame = [view_messages superview].frame;
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
 			
@@ -1318,21 +1315,7 @@
 				userFrame.origin.x = msgFrame.size.width + dividerThickness;
 			
 			[view_userList setFrame:userFrame];
-			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
-		} else if (splitView == splitView_textEntryHorizontal) {
-			NSRect currentFrame = splitView.frame;
-			NSRect msgFrame = view_messages.frame;
-			NSRect textFrame = [scrollView_textEntry superview].frame;
-			CGFloat dividerThickness = [splitView dividerThickness];
-			
-			textFrame.size.width = currentFrame.size.width;
-			msgFrame.size.width = currentFrame.size.width;
-			msgFrame.size.height = currentFrame.size.height - textFrame.size.height - dividerThickness;
-			
-			textFrame.origin.y = msgFrame.size.height + dividerThickness;
-			
-			[view_messages setFrame:msgFrame];
-			[[scrollView_textEntry superview] setFrame:textFrame];
+			[[view_messages superview] setFrame:msgFrame];
 		} else {
 			[splitView adjustSubviews];
 		}
@@ -1346,7 +1329,7 @@
  */
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
 {
-	if (subview == view_messages || subview == [splitView_textEntryHorizontal superview])
+	if (subview == view_messages)
 		return NO;
 	else if (subview == [scrollView_textEntry superview])
 		return NO;
@@ -1369,10 +1352,7 @@
  */
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
 {
-	if (splitView == splitView_textEntryHorizontal) {
-		//Min size of text entry view
-		return [self _textEntryViewProperHeightIgnoringUserMininum:YES];
-	} else if (splitView == splitView_verticalSplit) {
+	if (splitView == splitView_verticalSplit) {
 		//On the right: min size of user list
 		//On the left: max size of user list
 		if (chat.isGroupChat) {
@@ -1399,10 +1379,7 @@
  */
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
 {
-	if (splitView == splitView_textEntryHorizontal) {
-		//Max size of text entry view
-		return splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO;
-	}  else if (splitView == splitView_verticalSplit) {
+	if (splitView == splitView_verticalSplit) {
 		//On the right: max size of user list
 		//On the left: min size of the user list
 		if (chat.isGroupChat) {

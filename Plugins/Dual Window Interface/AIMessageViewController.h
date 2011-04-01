@@ -26,7 +26,6 @@
 	IBOutlet	NSView			*view_contents;
 	
 	//Split views
-	IBOutlet	NSSplitView		*splitView_textEntryHorizontal;
 	IBOutlet	NSSplitView		*splitView_verticalSplit;
 	
 	//Message Display
