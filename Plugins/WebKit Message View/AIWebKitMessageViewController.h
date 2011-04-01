@@ -50,6 +50,7 @@
 	
 	//Focus tracking
 	BOOL						nextMessageFocus;
+	BOOL                        nextMessageRegainedFocus;
 }
 
 /*!
