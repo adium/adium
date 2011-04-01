@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10J567</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1305</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">462.00</string>
+		<string key="IBDocument.SystemVersion">11A419</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1530</string>
+		<string key="IBDocument.AppKitVersion">1115.2</string>
+		<string key="IBDocument.HIToolboxVersion">549.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1305</string>
+			<string key="NS.object.0">1530</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -46,13 +46,14 @@
 			<object class="NSWindowTemplate" id="43046457">
 				<int key="NSWindowStyleMask">4111</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{30, 654}, {213, 410}}</string>
+				<string key="NSWindowRect">{{122, 488}, {213, 410}}</string>
 				<int key="NSWTFlags">1881669632</int>
 				<string key="NSWindowTitle"/>
 				<string key="NSWindowClass">AIDockingWindow</string>
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
+				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="263109925">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -74,7 +75,7 @@
 											<string key="NSFrameSize">{213, 410}</string>
 											<reference key="NSSuperview" ref="58758836"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
+											<reference key="NSNextKeyView" ref="374111282"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="_NSCornerView" key="NSCornerView">
 												<nil key="NSNextResponder"/>
@@ -156,6 +157,7 @@
 											<int key="NSDraggingSourceMaskForNonLocal">0</int>
 											<bool key="NSAllowsTypeSelect">YES</bool>
 											<int key="NSTableViewDraggingDestinationStyle">0</int>
+											<int key="NSTableViewGroupRowStyle">1</int>
 										</object>
 									</object>
 									<string key="NSFrameSize">{213, 410}</string>
@@ -202,8 +204,8 @@
 							<string key="NSFrameSize">{213, 410}</string>
 							<reference key="NSSuperview" ref="263109925"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="374111282"/>
-							<int key="NSsFlags">560</int>
+							<reference key="NSNextKeyView" ref="58758836"/>
+							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="593971232"/>
 							<reference key="NSHScroller" ref="374111282"/>
 							<reference key="NSContentView" ref="58758836"/>
@@ -216,10 +218,10 @@
 					<reference key="NSNextKeyView" ref="166732467"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 			</object>
 			<object class="NSCustomView" id="951015401">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -240,7 +242,6 @@
 						</object>
 						<string key="NSFrameSize">{36, 36}</string>
 						<reference key="NSSuperview" ref="951015401"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="673854253">
 							<int key="NSCellFlags">270663168</int>
@@ -262,7 +263,6 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{17, 0}, {113, 18}}</string>
 								<reference key="NSSuperview" ref="128062098"/>
-								<reference key="NSWindow"/>
 								<string key="NSClassName">AIHoveringPopUpButton</string>
 								<string key="NSExtension">NSButton</string>
 							</object>
@@ -271,7 +271,6 @@
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{17, 17}, {113, 18}}</string>
 								<reference key="NSSuperview" ref="128062098"/>
-								<reference key="NSWindow"/>
 								<string key="NSClassName">AIContactListNameButton</string>
 								<string key="NSExtension">NSButton</string>
 							</object>
@@ -292,7 +291,6 @@
 								</object>
 								<string key="NSFrame">{{3, 11}, {16, 16}}</string>
 								<reference key="NSSuperview" ref="128062098"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSImageCell" key="NSCell" id="93881662">
 									<int key="NSCellFlags">130560</int>
@@ -307,14 +305,11 @@
 						</object>
 						<string key="NSFrame">{{36, 1}, {134, 35}}</string>
 						<reference key="NSSuperview" ref="951015401"/>
-						<reference key="NSWindow"/>
 						<string key="NSClassName">NSView</string>
 						<string key="NSExtension">NSResponder</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{170, 36}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">AIWindowDraggingView</string>
 				<string key="NSExtension">NSView</string>
 			</object>
