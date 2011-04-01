@@ -424,9 +424,9 @@ static dispatch_semaphore_t jobSemaphore;
 	 */
 	[self _cancelClosingLogIndex];
 	__block __typeof__(self) bself = self;
-	dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
-		SKIndexRef _index = nil;
-		if (!bself->logIndex) {
+	if (!logIndex) {
+		dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
+			SKIndexRef _index = nil;
 			NSString  *logIndexPath = [bself _logIndexPath];
 			NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
 			
@@ -473,9 +473,8 @@ static dispatch_semaphore_t jobSemaphore;
 				}
 			}
 			bself->logIndex = _index;
-		}
-	}));
-	
+		}));
+	}
 	return logIndex;
 }
 
@@ -1327,9 +1326,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)_cancelClosingLogIndex
 {
-	self.canCloseIndex = NO;
-	dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
-	self.canCloseIndex = YES;
+	__block __typeof__(self) bself = self;
+	dispatch_async(defaultDispatchQueue, ^{
+		bself.canCloseIndex = NO;
+		dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
+		bself.canCloseIndex = YES;
+	});
 }
 
 - (void)_dirtyAllLogs
@@ -1585,9 +1587,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	__block __typeof__(self) bself = self;
 	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
 	dispatch_async(searchIndexQueue, ^{
-		if (bself->logIndex && bself.canCloseIndex) {
+		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
-			SKIndexClose(bself->logIndex);
+			if (bself.canCloseIndex) {
+				SKIndexClose(bself->logIndex);
+			}
 			bself->logIndex = nil;
 		}
 	});
