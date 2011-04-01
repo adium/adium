@@ -1423,7 +1423,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		
 		AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
 		
-		dispatch_group_async(loggerPluginGroup, ioQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(loggerPluginGroup, searchIndexFlushingQueue, blockWithAutoreleasePool(^{
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs > 0 && bself.indexingAllowed) {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -1439,7 +1439,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				logPath = [[__logPath copy] autorelease];
 				if (logPath) {
 					dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
-					dispatch_group_async(logIndexingGroup, mainDispatchQueue, blockWithAutoreleasePool(^{
+					dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
 						CFRetain(searchIndex);
 						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 						if (document && bself.indexingAllowed) {
