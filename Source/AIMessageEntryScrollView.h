@@ -14,16 +14,12 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Adium/AIMessageEntryTextView.h>
+#import <Foundation/Foundation.h>
 #import "AIMessageWindowOutgoingScrollView.h"
 
-/**
- *  @brief The white border around floating text input fields.
- */
-@interface AIPrettyView : NSView {
-	IBOutlet AIMessageEntryTextView *entryField;
-	IBOutlet AIMessageWindowOutgoingScrollView *messageView;
+@interface AIMessageEntryScrollView : NSScrollView {
+@private
+    IBOutlet AIMessageWindowOutgoingScrollView *messageView;
 }
 
 @end

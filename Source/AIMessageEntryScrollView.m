@@ -14,30 +14,36 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIPrettyView.h"
-#import <AIUtilities/AIBezierPathAdditions.h>
-#import <WebKit/DOMCSSStyleDeclaration.h>
+#import "AIMessageEntryScrollView.h"
 #import "ESWebView.h"
 
-@implementation AIPrettyView
+@implementation AIMessageEntryScrollView
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
+- (id)init
+{
+    self = [super init];
     if (self) {
-		
+        [[self contentView] setDrawsBackground:NO];
+        [[self contentView] setBackgroundColor:[NSColor clearColor]];
     }
+    
     return self;
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-	
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+- (void)move
+{
     ESWebView *webView = [[[messageView contentView] subviews] objectAtIndex:0];
     DOMElement *box = [[webView mainFrameDocument] getElementById:@"inputBox"];
     
     if (box) {
         
         double width = box.offsetWidth;
-        double height = box.offsetHeight;
+        double height = (box.offsetHeight < 20 ? 20 : box.offsetHeight);
         double originX = 1 + box.offsetLeft;
         
         DOMElement *el = box;
@@ -52,38 +58,51 @@
         
         originY = (1 + [[webView mainFrame] frameView].frame.size.height - originY) - height;
         
-        [[self enclosingScrollView] setFrame:NSMakeRect(originX, originY, width, height)];
+        [self setFrame:NSMakeRect(originX, originY, width, height)];
         
         NSLog(@"Setting frame: %@", NSStringFromRect(NSMakeRect(originX, originY, width, height)));
     }
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    NSLog(@"drawRect");
+    [self move];
+    [super drawRect:dirtyRect];
     
-    NSBezierPath *bp = [NSBezierPath bezierPath];
+    NSBezierPath *bp = [NSBezierPath bezierPathWithRect:self.bounds];
+    [[self backgroundColor] setFill];
+    [bp fill];
+    
+    bp = [NSBezierPath bezierPath];
+    
+    NSShadow *internalShadow = [[NSShadow alloc] init];
+    [internalShadow setShadowColor:[NSColor lightGrayColor]];
+    [internalShadow setShadowBlurRadius:2.0];
+    [internalShadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+    
+    [internalShadow set];
+    
 	[bp setLineWidth:2.0];
 	
-	[bp moveToPoint:NSMakePoint(0, self.frame.size.height)];
-	[bp lineToPoint:NSMakePoint(0, 0)];
-	[bp lineToPoint:NSMakePoint(self.frame.size.width, 0)];
-	[bp lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
+	[bp moveToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.x + self.bounds.size.height)];
+	[bp lineToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.y)];
+	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y)];
+	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y + self.bounds.size.height)];
 	
-	[[NSColor colorWithCalibratedWhite:0.745 alpha:1.0] setStroke];
-	
+	[[NSColor lightGrayColor] setStroke];
+    
 	[bp stroke];
 	
 	bp = [NSBezierPath bezierPath];
 	[bp setLineWidth:2.0];
 	
-	[bp moveToPoint:NSMakePoint(0, self.frame.size.height)];
-	[bp lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
+	[bp moveToPoint:NSMakePoint(self.bounds.origin.x, self.bounds.origin.y + self.bounds.size.height)];
+	[bp lineToPoint:NSMakePoint(self.bounds.origin.x + self.bounds.size.width, self.bounds.origin.y + self.bounds.size.height)];
 	
-	[[NSColor colorWithCalibratedWhite:0.557 alpha:1.0] setStroke];
+	[[NSColor lightGrayColor] setStroke];
 	
 	[bp stroke];
 }
-
-- (void)mouseDown:(NSEvent *)event
-{
-	[[entryField window] makeFirstResponder:entryField];
-}
-
 
 @end
