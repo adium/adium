@@ -171,7 +171,7 @@ static NSString     *logBaseAliasPath = nil;
 static dispatch_queue_t     mainDispatchQueue;
 
 static dispatch_queue_t     dirtyLogSetMutationQueue;
-static dispatch_queue_t     searchIndexFlushingQueue;
+static dispatch_queue_t     searchIndexQueue;
 static dispatch_queue_t     activeAppendersMutationQueue;
 
 static dispatch_queue_t     ioQueue;
@@ -206,7 +206,7 @@ static dispatch_semaphore_t jobSemaphore;
 	mainDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 	
 	dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
-	searchIndexFlushingQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
+	searchIndexQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
 	activeAppendersMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.activeAppendersMutationQueue", 0);
 	logIndexingGroup = dispatch_group_create();
 	closingIndexGroup = dispatch_group_create();
@@ -319,7 +319,7 @@ static dispatch_semaphore_t jobSemaphore;
 	self.xhtmlDecoder = nil;
 	
 	dispatch_release(dirtyLogSetMutationQueue); dirtyLogSetMutationQueue = nil;
-	dispatch_release(searchIndexFlushingQueue); searchIndexFlushingQueue = nil;
+	dispatch_release(searchIndexQueue); searchIndexQueue = nil;
 	dispatch_release(activeAppendersMutationQueue); activeAppendersMutationQueue = nil;
 	dispatch_release(logIndexingGroup); logIndexingGroup = nil;
 	dispatch_release(closingIndexGroup); closingIndexGroup = nil;
@@ -424,7 +424,7 @@ static dispatch_semaphore_t jobSemaphore;
 	 */
 	[self _cancelClosingLogIndex];
 	__block __typeof__(self) bself = self;
-	dispatch_sync(searchIndexFlushingQueue, blockWithAutoreleasePool(^{
+	dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
 		SKIndexRef _index = nil;
 		if (!bself->logIndex) {
 			NSString  *logIndexPath = [bself _logIndexPath];
@@ -1423,7 +1423,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		
 		AILogWithSignature(@"Cleaning %i dirty logs", [self.dirtyLogSet count]);
 		
-		dispatch_group_async(loggerPluginGroup, searchIndexFlushingQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(loggerPluginGroup, searchIndexQueue, blockWithAutoreleasePool(^{
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs > 0 && bself.indexingAllowed) {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -1500,7 +1500,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				[bself _saveDirtyLogSet];
 			}
 			dispatch_group_leave(logIndexingGroup);
-			dispatch_group_notify(logIndexingGroup, searchIndexFlushingQueue, ^{
+			dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{
 				bself.indexIsFlushing = YES;
 				dispatch_async(dispatch_get_main_queue(), ^{
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
@@ -1584,7 +1584,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
-	dispatch_async(searchIndexFlushingQueue, ^{
+	dispatch_async(searchIndexQueue, ^{
 		if (bself->logIndex && bself.canCloseIndex) {
 			[bself _flushIndex:bself->logIndex];
 			SKIndexClose(bself->logIndex);
