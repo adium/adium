@@ -302,7 +302,8 @@ static dispatch_semaphore_t jobSemaphore;
 - (void)uninstallPlugin
 {
 	[self cancelIndexing];
-	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
+	[self _closeLogIndex];
+	dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
 }
@@ -1498,16 +1499,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 			dispatch_group_leave(logIndexingGroup);
 			dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{
-				bself.indexIsFlushing = YES;
 				dispatch_async(dispatch_get_main_queue(), ^{
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 				});
-				[bself _flushIndex:searchIndex];
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				[bself _didCleanDirtyLogs];
-				bself.indexIsFlushing = NO;
 			});
 		}));
 	}
@@ -1594,11 +1592,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 	if (inIndex) {
+		self.indexIsFlushing = YES;
 		AILogWithSignature(@"**** Flushing index %p",inIndex);
 		CFRetain(inIndex);
 		SKIndexFlush(inIndex);
 		CFRelease(inIndex);
 		AILogWithSignature(@"**** Finished flushing index %p, and released it",inIndex);
+		self.indexIsFlushing = NO;
 	}
 	
 	[pool release];
