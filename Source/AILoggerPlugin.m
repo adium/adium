@@ -149,8 +149,8 @@
 @property(assign,readwrite) BOOL                 canSaveDirtyLogSet;
 @property(assign,readwrite) BOOL                 indexIsFlushing;
 @property(assign,readwrite) BOOL                 isIndexing;
-@property(assign,readwrite) UInt64               logsToIndex;
-@property(assign,readwrite) UInt64               logsIndexed;
+@property(assign,readwrite) SInt64               logsToIndex;
+@property(assign,readwrite) SInt64               logsIndexed;
 @end
 
 #pragma mark Private Function Prototypes
@@ -408,9 +408,7 @@ static dispatch_semaphore_t jobSemaphore;
 	[self cancelIndexing];
 	
 	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
-		dispatch_group_enter(closingIndexGroup);
 		[bself _closeLogIndex];
-		dispatch_group_leave(closingIndexGroup);
 	});
 }
 
@@ -1012,9 +1010,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			BOOL			dirty = NO;
 			NSString		*contentType = [content type];
 			NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
-			
-			dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
-			
+						
 			if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
 				[contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
 				NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
@@ -1122,8 +1118,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			AIXMLAppender *appender = [self _existingAppenderForChat:chat];
 			if (dirty && appender)
 				[bself _markLogDirtyAtPath:[appender path] forChat:chat];
-			
-			dispatch_semaphore_signal(jobSemaphore);
 		}));
 	}
 }
@@ -1388,7 +1382,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
  */
 - (void)_cleanDirtyLogs
 {
-	__block UInt64 _remainingLogs = 0;
+	__block SInt64 _remainingLogs = 0;
 	//Do nothing if we're paused
 	if (!self.indexingAllowed) return;
 	
@@ -1465,7 +1459,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									CFRelease(documentText);
 								}
 
-								dispatch_semaphore_signal(jobSemaphore);
 								CFRelease(document);
 								
 								OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
@@ -1484,13 +1477,14 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
 								}
 								CFRelease(searchIndex);
+								dispatch_semaphore_signal(jobSemaphore);
 							}));
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
 							CFRelease(document);
-							dispatch_semaphore_signal(jobSemaphore);
 							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+							dispatch_semaphore_signal(jobSemaphore);
 						}
 						CFRelease(searchIndex);
 					}));
@@ -1507,9 +1501,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				dispatch_async(dispatch_get_main_queue(), ^{
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 				});
-				NSLog(@"Flushing searchIndex");
-				SKIndexFlush(searchIndex);
-				NSLog(@"searchIndex Flushed");
+				[bself _flushIndex:searchIndex];
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
@@ -1586,13 +1578,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
-	dispatch_async(searchIndexQueue, ^{
+	dispatch_group_async(closingIndexGroup, searchIndexQueue, ^{
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
 				SKIndexClose(bself->logIndex);
+				bself->logIndex = nil;
 			}
-			bself->logIndex = nil;
 		}
 	});
 }

@@ -605,7 +605,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		if (plugin.indexIsFlushing) {
 			[progress appendString:AILocalizedString(@"Saving search index",nil)];
 		} else {
-			[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %lu of %lu transcripts",nil), plugin.logsIndexed, plugin.logsToIndex]];
+			[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %qi of %qi transcripts",nil), plugin.logsIndexed, plugin.logsToIndex]];
 		}
     }
 	
