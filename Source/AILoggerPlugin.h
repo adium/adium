@@ -56,13 +56,13 @@
 	// publically accessable iVars
 	BOOL                 indexIsFlushing;
 	BOOL                 isIndexing;
-	UInt64               logsToIndex;
-	UInt64               logsIndexed;
+	SInt64               logsToIndex;
+	SInt64               logsIndexed;
 }
 @property(assign,readonly) BOOL                 indexIsFlushing;
 @property(assign,readonly) BOOL                 isIndexing;
-@property(assign,readonly) UInt64               logsToIndex;
-@property(assign,readonly) UInt64               logsIndexed;
+@property(assign,readonly) SInt64               logsToIndex;
+@property(assign,readonly) SInt64               logsIndexed;
 
 
 
