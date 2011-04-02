@@ -112,13 +112,7 @@
 													 name:NSWindowWillCloseNotification
 												   object:[picker window]];
 
-		if ([NSApp isOnSnowLeopardOrBetter]) {
-			[menu popUpMenuPositioningItem:[menu itemAtIndex:0] atLocation:NSMakePoint(2.0f, -4.0f) inView:imagePicker];
-		} else {
-			NSPopUpButtonCell *popUpButtonCell = [[[NSPopUpButtonCell alloc] initTextCell:@"" pullsDown:NO] autorelease];
-			[popUpButtonCell setMenu:menu];
-			[popUpButtonCell performClickWithFrame:NSMakeRect(12.0f, -12.0f, 0.0f, 0.0f) inView:imagePicker];
-		}
+		[menu popUpMenuPositioningItem:[menu itemAtIndex:0] atLocation:NSMakePoint(2.0f, -4.0f) inView:imagePicker];
 	}
 	
 	return self;
