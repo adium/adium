@@ -466,6 +466,7 @@ static dispatch_semaphore_t jobSemaphore;
 					dispatch_sync(dirtyLogSetMutationQueue, ^{
 						[bself->dirtyLogSet removeAllObjects];
 					});
+					[bself _flushIndex:_index];
 				} else {
 					AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
 				}
