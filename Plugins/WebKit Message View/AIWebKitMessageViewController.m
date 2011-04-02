@@ -718,6 +718,7 @@ static NSArray *draggedTypes = nil;
 				[content addDisplayClass:@"focus"];
 				[content addDisplayClass:@"lastFocus"];
 				
+				// if there's something else already lastFocus, then unset it
 				DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".lastFocus"];
 				DOMHTMLElement *node = nil; NSMutableArray *classes = nil;
 				for (unsigned i = 0; i < nodeList.length; i++)
@@ -734,7 +735,13 @@ static NSArray *draggedTypes = nil;
 			}
 		}
 		
-		if (content.postProcessContent && adium.interfaceController.activeChat == content.chat && !nextMessageFocus && nextMessageRegainedFocus) {
+		/* Only if the message is a group chat message that should be postprocessed, and it's in the active chat
+		 * with something already focussed (!nextMessageFocus) and nothing already regainedFocussed
+		 * (nextMessageRegainedFocus), _then_ this message will be regainedFocus.
+		 */
+		if (content.postProcessContent && content.chat.isGroupChat && adium.interfaceController.activeChat == content.chat
+			&& !nextMessageFocus && nextMessageRegainedFocus) {
+			
 			nextMessageRegainedFocus = NO;
 			[content addDisplayClass:@"regainedFocus"];
 		}
@@ -1533,6 +1540,7 @@ static NSArray *draggedTypes = nil;
 		
 		[classes removeObject:@"focus"];
 		[classes removeObject:@"firstFocus"];
+		[classes removeObject:@"lastFocus"];
 		
 		node.className = [classes componentsJoinedByString:@" "];
 		
