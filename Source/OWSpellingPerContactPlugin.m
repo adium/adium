@@ -58,11 +58,7 @@
 	
 	//Find the first language the user prefers which the spellchecker knows about, then keep it around for future reference
 	NSArray *preferredLanguages = nil;
-	if ([NSApp isOnSnowLeopardOrBetter]) {
-		preferredLanguages = [[NSSpellChecker sharedSpellChecker] userPreferredLanguages];
-	} else {
-		preferredLanguages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
-	}
+	preferredLanguages = [[NSSpellChecker sharedSpellChecker] userPreferredLanguages];
 	
 	for (NSString *language in preferredLanguages) {
 		if ([[NSSpellChecker sharedSpellChecker] setLanguage:language]) {

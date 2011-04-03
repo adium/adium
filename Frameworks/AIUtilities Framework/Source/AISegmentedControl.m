@@ -34,18 +34,7 @@
 - (void)showMenuForSegment:(NSInteger)segment
 {
 	NSView *view = [self window].contentView;
-	if ([NSApp isOnSnowLeopardOrBetter])
-		[self.menu popUpMenuPositioningItem:nil atLocation:self.frame.origin inView:view];
-	else{
-		NSRect frame = self.frame;
-		frame.origin.x += 10.0f;
-		frame.origin.y -= 23.0f;
-		
-		NSPopUpButtonCell *popUpButtonCell = [[[NSPopUpButtonCell alloc] initTextCell:@"" pullsDown:NO] autorelease];
-		[popUpButtonCell setMenu:self.menu];
-		[popUpButtonCell selectItem:nil];
-		[popUpButtonCell performClickWithFrame:frame inView:view];
-	}
+	[self.menu popUpMenuPositioningItem:nil atLocation:self.frame.origin inView:view];
 }
 
 @end
