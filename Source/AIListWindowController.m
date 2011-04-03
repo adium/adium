@@ -294,16 +294,14 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
-//A “stationary” window stays pinned to the desktop during Exposé. A supported API for this was introduced in Snow Leopard.
-- (void)setCollectionBehaviorOfWindow:(NSWindow *)window
-					  showOnAllSpaces:(BOOL)allSpaces
-						 isStationary:(BOOL)stationary
+// A "stationary" window stays pinned to the desktop during Expos�
+- (void)setCollectionBehaviorOfWindow:(NSWindow *)window showOnAllSpaces:(BOOL)allSpaces isStationary:(BOOL)stationary
 {
 	NSWindowCollectionBehavior behavior = NSWindowCollectionBehaviorDefault;
 
 	if (allSpaces)
 		behavior |= NSWindowCollectionBehaviorCanJoinAllSpaces;
-	if (stationary && [NSApp isOnSnowLeopardOrBetter])
+	if (stationary)
 		behavior |= NSWindowCollectionBehaviorStationary;
 
 	[window setCollectionBehavior:behavior];
