@@ -247,7 +247,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 			[newQueue release];
 		
 		[loggerQueue setMaxConcurrentOperationCount:1];
-		[loggerQueue setName:@"AILoggerPluginOperationQueue"]
+		[loggerQueue setName:@"AILoggerPluginOperationQueue"];
 	}
 	
 	return loggerQueue;
