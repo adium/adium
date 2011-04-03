@@ -685,11 +685,7 @@
 	}
 	
 	//Alphabetize the variants
-	if ([NSApp isOnSnowLeopardOrBetter]) {
-		[availableVariants sortUsingSelector:@selector(localizedStandardCompare:)];
-	} else {
-		[availableVariants sortUsingSelector:@selector(compare:)];
-	}
+	[availableVariants sortUsingSelector:@selector(localizedStandardCompare:)];
 	
 	return availableVariants;
 }

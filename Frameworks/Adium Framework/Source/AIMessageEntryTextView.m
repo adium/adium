@@ -419,22 +419,20 @@
 			[self setContinuousSpellCheckingEnabled:[[prefDict objectForKey:KEY_SPELL_CHECKING] boolValue]];
 		}
 		
-		if ([NSApp isOnSnowLeopardOrBetter]) {
-			if (!key || [key isEqualToString:KEY_SUBSTITUTION_DASH]) {
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_DASH]) {
 				[self setAutomaticDashSubstitutionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_DASH] boolValue]];
-			}
+		}
 		
-			if (!key || [key isEqualToString:KEY_SUBSTITUTION_DATA_DETECTORS]) {
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_DATA_DETECTORS]) {
 				[self setAutomaticDataDetectionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_DATA_DETECTORS] boolValue]];
-			}
+		}
 		
-			if (!key || [key isEqualToString:KEY_SUBSTITUTION_REPLACEMENT]) {
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_REPLACEMENT]) {
 				[self setAutomaticTextReplacementEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_REPLACEMENT] boolValue]];
-			}
+		}
 		
-			if (!key || [key isEqualToString:KEY_SUBSTITUTION_SPELLING]) {
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_SPELLING]) {
 				[self setAutomaticSpellingCorrectionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_SPELLING] boolValue]];
-			}
 		}
 		
 		if (!key || [key isEqualToString:KEY_SUBSTITUTION_COPY_PASTE]) {

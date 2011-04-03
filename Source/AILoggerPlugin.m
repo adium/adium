@@ -247,8 +247,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 			[newQueue release];
 		
 		[loggerQueue setMaxConcurrentOperationCount:1];
-		if([NSApp isOnSnowLeopardOrBetter])
-			[loggerQueue performSelector:@selector(setName:) withObject:@"AILoggerPluginOperationQueue"];
+		[loggerQueue setName:@"AILoggerPluginOperationQueue"]
 	}
 	
 	return loggerQueue;
