@@ -30,16 +30,7 @@
 
 @class AIAccount, AIHTMLDecoder, AIChat;
 
-@interface AILoggerPlugin : AIPlugin {	
-	//Current logging settings
-	BOOL                 observingContent;
-	BOOL                 logHTML;
-	
-	NSMutableDictionary *activeAppenders;
-	NSMutableDictionary *appenderCloseTimers;
-	
-	AIHTMLDecoder       *xhtmlDecoder;
-	NSDictionary        *statusTranslation;
+@interface AILoggerPlugin : AIPlugin {
 	
 	//Log viewer menu items
 	NSMenuItem          *logViewerMenuItem;
@@ -47,25 +38,33 @@
 	NSMenuItem          *viewContactLogsContextMenuItem;
 	NSMenuItem          *viewGroupLogsContextMenuItem;
 	
-	//Log content search index
-	BOOL                 logIndexingEnabled; //Does this system use log indexing?
-	SKIndexRef           index_Content;	
+	// Logging
+	SKIndexRef           logIndex;
+	NSMutableDictionary *activeAppenders;
+	AIHTMLDecoder       *xhtmlDecoder;
+	NSDictionary        *statusTranslation;
+	BOOL                 logHTML;
 	
-	//Dirty all information (First build of the dirty cache)
-	BOOL                 indexingAllowed;    //Set to YES to abort a dirty all or clean
-	BOOL                 suspendDirtySetSaving;  //YES to prevent saving of the dirty index	
-	BOOL                 isFlushingIndex;
-	
-	//Set of dirty logs / Logs that need re-indexing.  (Locked access)
+	// Log Indexing
 	NSMutableSet        *dirtyLogSet;
-	NSLock              *dirtyLogLock;
+	BOOL                 indexingAllowed;
+	BOOL                 loggingEnabled;
+	BOOL                 canCloseIndex;
+	BOOL                 canSaveDirtyLogSet;
+	BOOL                 userTriggeredReindex;
 	
-	NSLock              *createIndexLock;
-	
-	//Indexing progress
-	NSInteger            logsToIndex;
-	NSInteger            logsIndexed;	
+	// publically accessable iVars
+	BOOL                 indexIsFlushing;
+	BOOL                 isIndexing;
+	SInt64               logsToIndex;
+	SInt64               logsIndexed;
 }
+@property(assign,readonly) BOOL                 indexIsFlushing;
+@property(assign,readonly) BOOL                 isIndexing;
+@property(assign,readonly) SInt64               logsToIndex;
+@property(assign,readonly) SInt64               logsIndexed;
+
+
 
 //Paths
 + (NSString *)logBasePath;
@@ -79,7 +78,6 @@
 - (void)cleanUpLogContentSearching;
 - (SKIndexRef)logContentIndex;
 - (void)markLogDirtyAtPath:(NSString *)path;
-- (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
 - (void)cancelIndexing;
 
