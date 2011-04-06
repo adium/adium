@@ -83,6 +83,11 @@
 #pragma mark -
 #pragma mark Private Interface
 #pragma mark -
+
+//GetMetadataForFile.m
+NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile);
+CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToFile, NSData *fileData);
+
 @interface AILoggerPlugin ()
 // class methods
 + (NSString *)pathForLogsLikeChat:(AIChat *)chat;
@@ -155,7 +160,7 @@
 
 #pragma mark Private Function Prototypes
 void runWithAutoreleasePool(dispatch_block_t block);
-dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block);
+static inline dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block);
 NSCalendarDate* getDateFromPath(NSString *path);
 NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context);
 
@@ -173,6 +178,7 @@ static dispatch_queue_t     defaultDispatchQueue;
 static dispatch_queue_t     dirtyLogSetMutationQueue;
 static dispatch_queue_t     searchIndexQueue;
 static dispatch_queue_t     activeAppendersMutationQueue;
+static dispatch_queue_t     addToSearchKitQueue;
 
 static dispatch_queue_t     ioQueue;
 
@@ -182,6 +188,7 @@ static dispatch_group_t     logAppendingGroup;
 static dispatch_group_t		loggerPluginGroup;
 
 static dispatch_semaphore_t jobSemaphore;
+static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log data to N-1 ahead
 
 @implementation AILoggerPlugin
 @synthesize dirtyLogSet, indexingAllowed, loggingEnabled, logsToIndex, logsIndexed, canCloseIndex, canSaveDirtyLogSet, activeAppenders, logHTML, xhtmlDecoder, statusTranslation, isIndexing, indexIsFlushing;
@@ -208,6 +215,8 @@ static dispatch_semaphore_t jobSemaphore;
 	dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
 	searchIndexQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
 	activeAppendersMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.activeAppendersMutationQueue", 0);
+    addToSearchKitQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexAddingQueue", 0);
+    
 	logIndexingGroup = dispatch_group_create();
 	closingIndexGroup = dispatch_group_create();
 	logAppendingGroup = dispatch_group_create();
@@ -217,6 +226,7 @@ static dispatch_semaphore_t jobSemaphore;
 	
 	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
 	jobSemaphore = dispatch_semaphore_create(cpuCount + AIfloor(cpuCount/2));
+    logLoadingPrefetchSemaphore = dispatch_semaphore_create(2); //prefetch one log
 	
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -532,7 +542,7 @@ void runWithAutoreleasePool(dispatch_block_t block)
 	[pool release];
 }
 
-dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block)
+static inline dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block)
 {
 	return [[^{
 		runWithAutoreleasePool(block);
@@ -1436,10 +1446,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				});
 				logPath = [[__logPath copy] autorelease];
 				if (logPath) {
+                    NSURL *logURL = [NSURL fileURLWithPath:logPath];
+                    if (!logURL)
+                        NSLog(@"Uh oh");
 					dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
 					dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
 						CFRetain(searchIndex);
-						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
+						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)logURL);
 						if (document && bself.indexingAllowed) {
 							/* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
 							 * However, this has three problems:
@@ -1448,39 +1461,44 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 *  2. Sometimes logs don't appear to be associated with the right URI type and therefore don't get indexed.
 							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
 							 */
-							__block CFStringRef documentText = CopyTextContentForFile(NULL, (CFStringRef)logPath);
-							dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-								CFRetain(searchIndex);
-								if (documentText && bself.indexingAllowed) {
-									SKIndexAddDocumentWithText(searchIndex,
-															   document,
-															   documentText,
-															   YES);
-									CFRelease(documentText);
-								} else if (documentText) {
-									CFRelease(documentText);
-								}
+                            NSData *documentData = [CopyDataForURL(NULL, logURL) autorelease];
+                            dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
+                                __block CFStringRef documentText = CopyTextContentForFileData(NULL, logURL, documentData);
+								if (documentText)
+									CFRetain(documentText);
+                                dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
+                                    CFRetain(searchIndex);
+                                    if (documentText && bself.indexingAllowed) {
+                                        SKIndexAddDocumentWithText(searchIndex,
+                                                                   document,
+                                                                   documentText,
+                                                                   YES);
+                                        CFRelease(documentText);
+                                    } else if (documentText) {
+                                        CFRelease(documentText);
+                                    }
 
-								CFRelease(document);
-								
-								OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
-								OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
-									dispatch_async(dispatch_get_main_queue(), ^{
-										[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
-									});
-									UInt32 tick = TickCount();
-									OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
-								}
-								
-								OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
-								if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
-									[bself _saveDirtyLogSet];
-									OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
-								}
-								CFRelease(searchIndex);
-								dispatch_semaphore_signal(jobSemaphore);
-							}));
+                                    dispatch_semaphore_signal(jobSemaphore);
+                                    CFRelease(document);
+                                    
+                                    OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+                                    OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
+                                    if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            [[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+                                        });
+                                        UInt32 tick = TickCount();
+                                        OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
+                                    }
+                                    
+                                    OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+                                    if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
+                                        [bself _saveDirtyLogSet];
+                                        OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
+                                    }
+                                    CFRelease(searchIndex);
+                                }));
+                            }));
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
 							CFRelease(document);
@@ -1502,6 +1520,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				dispatch_async(dispatch_get_main_queue(), ^{
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 				});
+				[bself _flushIndex:searchIndex];
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
