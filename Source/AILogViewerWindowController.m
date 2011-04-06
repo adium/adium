@@ -558,7 +558,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 - (void)updateProgressDisplay
 {
     NSMutableString     *progress = nil;
-    NSUInteger					indexNumber, indexTotal;
     BOOL				indexing;
 
     //We always convey the number of logs being displayed
@@ -580,8 +579,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     }
     [resultsLock unlock];
 
-	indexing = [plugin getIndexingProgress:&indexNumber outOf:&indexTotal];
-
     //Append search progress
     if (activeSearchString && [activeSearchString length]) {
 		if (progress) {
@@ -598,14 +595,18 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 
     //Append indexing progress
-    if (indexing) {
+    if (plugin.isIndexing) {
 		if (progress) {
 			[progress appendString:@" - "];
 		} else {
 			progress = [NSMutableString string];
 		}
 		
-		[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %lu of %lu transcripts",nil), indexNumber, indexTotal]];
+		if (plugin.indexIsFlushing) {
+			[progress appendString:AILocalizedString(@"Saving search index",nil)];
+		} else {
+			[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %qi of %qi transcripts",nil), plugin.logsIndexed, plugin.logsToIndex]];
+		}
     }
 	
 	if (progress && (searching || indexing || !(activeSearchString && [activeSearchString length]))) {
