@@ -51,38 +51,20 @@ static NSDate *dateFromHTMLLog(NSString *pathToFile)
 	return date;
 }
 
-NSString *GetTextContentForHTMLLog(NSString *pathToFile)
-{
-	/* Perhaps we want to decode the HTML instead of stripping it so we can process
+NSString *CopyTextContentForHTMLLogData(NSData *logData) {
+    /* Perhaps we want to decode the HTML instead of stripping it so we can process
 	 * the attributed contents to turn links into link (URL) for searching purposes...
 	 */
-	NSString *textContent;
-
-	NSMutableData *UTF8Data = nil;
-	char *UTF8HTMLCString = nil;
-
-	int fd = open([pathToFile fileSystemRepresentation], O_RDONLY);
-	if (fd > -1) {
-		struct stat sb;
-		if (fstat(fd, &sb) == 0) {
-			UTF8Data = [NSMutableData dataWithLength:(NSUInteger)(sb.st_size + 1ULL)];
-			UTF8HTMLCString = [UTF8Data mutableBytes];
-			if (UTF8HTMLCString != NULL)
-				read(fd, UTF8HTMLCString, (size_t)sb.st_size);
-		}
-		close(fd);
-	}
-
-	if (UTF8HTMLCString) {
+	NSString *textContent = nil;
+    const char* UTF8HTMLCString = [logData bytes];
+    if (UTF8HTMLCString) {
 		//Strip the HTML markup
 		char *plainText = gaim_markup_strip_html(UTF8HTMLCString);
-		textContent = [NSString stringWithUTF8String:plainText];
+		textContent = [[NSString alloc] initWithUTF8String:plainText];
 		free((void *)plainText);
-	} else {
-		textContent = nil;
 	}
-
-	return textContent;
+    
+    return textContent;
 }
 
 Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToFile)
@@ -122,11 +104,15 @@ Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToF
 					   forKey:(NSString *)kMDItemLastUsedDate];
 	}
 	
-	NSString *textContent;
-	if ((textContent = GetTextContentForHTMLLog(pathToFile))) {
+    NSData *logData = [[NSData alloc] initWithContentsOfURL:[NSURL fileURLWithPath:pathToFile isDirectory:NO]
+                                                    options:NSDataReadingUncached error:NULL];
+    NSString *textContent = nil;
+	if ((textContent = CopyTextContentForHTMLLogData(logData))) {
 		[attributes setObject:textContent
 					   forKey:(NSString *)kMDItemTextContent];
 	}
+    [logData release];
+    [textContent release];
 	
 	[attributes setObject:serviceClass
 				   forKey:@"com_adiumX_service"];

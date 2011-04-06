@@ -45,7 +45,7 @@ and return it as a dictionary
 ----------------------------------------------------------------------------- */
 
 Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFile);
-NSString *GetTextContentForXMLLog(NSString *pathToFile);
+NSString *CopyTextContentForXMLLogData(NSData *logData);
 
 Boolean GetMetadataForFile(void* thisInterface, 
 						   CFMutableDictionaryRef attributes, 
@@ -73,6 +73,73 @@ Boolean GetMetadataForFile(void* thisInterface,
     return success;
 }
 
+static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
+    //Deteremine the UTI type if we weren't passed one
+    CFStringRef pathExtension = (CFStringRef)[urlToFile pathExtension];
+	if (contentTypeUTI == NULL) {
+		if (CFStringCompare(pathExtension, CFSTR("chatLog"), (kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
+			contentTypeUTI = CFSTR("com.adiumx.xmllog");
+		} else if (CFStringCompare(pathExtension, CFSTR("AdiumXMLLog"), (kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
+			contentTypeUTI = CFSTR("com.adiumx.xmllog");
+		} else {
+			//Treat all other log extensions as HTML logs (plaintext will come out fine this way, too)
+			contentTypeUTI = CFSTR("com.adiumx.htmllog");
+		}
+	}
+    return contentTypeUTI;
+}
+
+NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
+    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+	NSData			*content;
+	contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
+    
+	if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.htmllog"))) {
+		content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSDataReadingUncached error:NULL];
+	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
+		BOOL isDir;
+        NSString *path = [urlToFile path];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+            if (isDir) {
+                /* If we have a chatLog bundle, we want to get the text content for the xml file inside */
+                urlToFile = [NSURL fileURLWithPath:[path stringByAppendingPathComponent:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
+            }
+			
+			content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSUncachedRead error:NULL];
+            
+		} else {
+			content = nil;
+		}
+		
+	} else {
+		content = nil;
+		NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
+	}
+    
+	[pool release];
+	
+	return content;
+}
+
+NSData *CopyDataForFile(CFStringRef contentTypeUTI, CFStringRef pathToFile) {
+    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile]);
+}
+
+CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToFile, NSData *fileData) {
+    if (!fileData) return NULL;
+        
+    contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
+    
+    NSString *result = nil;
+    
+    if (CFEqual(contentTypeUTI,CFSTR("com.adiumx.htmllog"))) {
+        result = CopyTextContentForHTMLLogData(fileData);
+	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
+        result = CopyTextContentForXMLLogData(fileData);
+    }
+    return (CFStringRef)result;
+}
+
 /*!
  * @brief Copy the text content for a file
  *
@@ -86,46 +153,9 @@ Boolean GetMetadataForFile(void* thisInterface,
 CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 								   CFStringRef pathToFile)
 {
-	NSAutoreleasePool	*pool;
-	CFStringRef			textContent;
-	pool = [[NSAutoreleasePool alloc] init];
-	
-	//Deteremine the UTI type if we weren't passed one
-	if (contentTypeUTI == NULL) {
-		if (CFStringCompare((CFStringRef)[(NSString *)pathToFile pathExtension],
-							CFSTR("chatLog"),
-							(kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
-			contentTypeUTI = CFSTR("com.adiumx.xmllog");
-		} else if (CFStringCompare((CFStringRef)[(NSString *)pathToFile pathExtension],
-							CFSTR("AdiumXMLLog"),
-							(kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
-			contentTypeUTI = CFSTR("com.adiumx.xmllog");
-		} else {
-			//Treat all other log extensions as HTML logs (plaintext will come out fine this way, too)
-			contentTypeUTI = CFSTR("com.adiumx.htmllog");
-		}
-	}
-		
-	if (CFStringCompare(contentTypeUTI, CFSTR("com.adiumx.htmllog"), kCFCompareBackwards) == kCFCompareEqualTo) {
-		textContent = (CFStringRef)GetTextContentForHTMLLog((NSString *)pathToFile);
-	} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		BOOL isDir;
-		if ([[NSFileManager defaultManager] fileExistsAtPath:(NSString *)pathToFile isDirectory:&isDir]) {
-			/* If we have a chatLog bundle, we want to get the text content for the xml file inside */
-			if (isDir) pathToFile = (CFStringRef)[(NSString *)pathToFile stringByAppendingPathComponent:
-									 [[[(NSString *)pathToFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]];
-			
-			textContent = (CFStringRef)GetTextContentForXMLLog((NSString *)pathToFile);
-		} else {
-			textContent = nil;
-		}
-		
-	} else {
-		textContent = nil;
-		NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
-	}
-
-	if (textContent) CFRetain(textContent);
+	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+    NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
+	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
 	[pool release];
 	
 	return textContent;
@@ -275,19 +305,13 @@ NSString *killXMLTags(NSString *inString)
     return ret;
 }
 
-NSString *GetTextContentForXMLLog(NSString *pathToFile)
-{
-	NSError *err=nil;
-	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
-	NSString *contentString = nil;
-	NSXMLDocument *xmlDoc = nil;
-	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
-	if (data) {
-		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
-		if (xmlDoc) {
-			contentString = [xmlDoc stringValue];
-			[xmlDoc release];
-		}
-	}
-	return contentString;
+NSString *CopyTextContentForXMLLogData(NSData *data) {
+    NSString *contentString = nil;
+    NSXMLDocument *xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:NULL];
+    if (xmlDoc) {
+        NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()" error:NULL];
+		contentString = [contentArray componentsJoinedByString:@" "];
+        [xmlDoc release];
+    }
+    return contentString;
 }
