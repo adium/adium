@@ -51,6 +51,8 @@
 - (BOOL)processorFamilyIsG5;
 @end
 
+static dispatch_queue_t soundPlayingQueue;
+
 static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void* refcon);
 
 @implementation AdiumSound
@@ -65,6 +67,8 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		soundCacheArray = [[NSMutableArray alloc] init];
 		soundCacheCleanupTimer = nil;
 		soundsAreMuted = NO;
+		
+		soundPlayingQueue = dispatch_queue_create("im.adium.AdiumSound.soundPlayingQueue", 0);
 
 		//Observe workspace activity changes so we can mute sounds as necessary
 		NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
@@ -243,7 +247,9 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		[sound setCurrentTime:0.0];
 		
 		//This only has an effect if the movie is not already playing. It won't stop it, and it won't start it over (the latter is what setCurrentTime: is for).
-		[sound play];
+		dispatch_async(soundPlayingQueue, ^{
+			[sound play];
+		});
     }
 #else
     QTMovie *movie = [soundCacheDict objectForKey:inPath];
@@ -295,7 +301,9 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		[movie setCurrentTime:startOfMovie];
 
 		//This only has an effect if the movie is not already playing. It won't stop it, and it won't start it over (the latter is what setCurrentTime: is for).
-		[movie play];
+		dispatch_async(soundPlayingQueue, ^{
+			[movie play];
+		});
     }
 #endif
 }
