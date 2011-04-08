@@ -119,6 +119,16 @@
 	[[self window] setMinSize:NSMakeSize(135, 60)];
 	
 	[self _configureToolbar];
+	
+	//Add VoiceOver labels
+	[[nameView cell] accessibilitySetOverrideValue:AILocalizedString(@"Change display name", nil)
+									  forAttribute:NSAccessibilityDescriptionAttribute];
+	[[imagePicker cell] accessibilitySetOverrideValue:AILocalizedString(@"User icon", nil)
+										 forAttribute:NSAccessibilityDescriptionAttribute];
+	[[statusMenuView cell] accessibilitySetOverrideValue:AILocalizedString(@"Change status", nil)
+											forAttribute:NSAccessibilityDescriptionAttribute];
+	[[imageView_status cell] accessibilitySetOverrideValue:AILocalizedString(@"Status icon", nil)
+											  forAttribute:NSAccessibilityDescriptionAttribute];
 }
 
 /*!
