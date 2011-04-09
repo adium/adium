@@ -1101,8 +1101,10 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 
 - (void)hilightNextPrevious
 {
-	if (currentMatch < 0 || [matches count] == 0)
+	if (currentMatch < 0 || [matches count] == 0) {
+		[textView_content scrollRangeToVisible:NSMakeRange(0,0)];
 		return;
+	}
 
 	//loop around matches in the displayed log
 	if (currentMatch > [matches count])
