@@ -740,6 +740,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	NSString	 *logBasePath = [AILoggerPlugin logBasePath];
 	AILog(@"Displaying %@",logArray);
 	for (theLog in logArray) {
+		if ([thisOperation isCancelled])
+			break;
+		
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
 		if (displayText) {
@@ -838,7 +841,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[matches release];
 	matches = [[NSMutableArray alloc] init];
 	
-	if (displayText && [displayText length]) {
+	if (displayText && [displayText length] && ![thisOperation isCancelled]) {
 		//Add pretty formatting to links
 		[displayText addFormattingForLinks];
 
