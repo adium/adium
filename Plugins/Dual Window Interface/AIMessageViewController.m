@@ -146,6 +146,7 @@
 		//Configure our views
 		[self _configureMessageDisplay];
 		[self _configureTextEntryView];
+		[self _configureUserList];
 		
 		//Draw background
 		[actionBarView setBackgroundColor:[NSColor colorWithCalibratedWhite:0.98f alpha:1.0f]];
@@ -1128,8 +1129,6 @@
  */
 - (void)_showUserListView
 {
-	//Configure the user list
-	[self _configureUserList];
 	[self updateUserCount];
 
 	[view_userList setHidden:NO];
@@ -1156,7 +1155,7 @@
  */
 - (void)_configureUserList
 {
-	if (!userListController) {
+	if (chat.isGroupChat) {
 		NSDictionary	*themeDict = [NSDictionary dictionaryNamed:USERLIST_THEME forClass:[self class]];
 		NSDictionary	*layoutDict = [NSDictionary dictionaryNamed:USERLIST_LAYOUT forClass:[self class]];
 		
