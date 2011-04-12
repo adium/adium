@@ -19,12 +19,18 @@
 
 @interface AIGradientView : NSView {
 	NSColor *startingColor;
+	NSColor *middleColor;
 	NSColor *endingColor;
+	NSColor *backgroundColor;
+	
 	int angle;
 }
 
 @property(nonatomic, retain) NSColor *startingColor;
+@property(nonatomic, retain) NSColor *middleColor;
 @property(nonatomic, retain) NSColor *endingColor;
+@property(nonatomic, retain) NSColor *backgroundColor;
+
 @property(assign) int angle;
 
 @end

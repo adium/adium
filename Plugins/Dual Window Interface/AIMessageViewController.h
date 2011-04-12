@@ -15,57 +15,52 @@
  */
 
 #import "ESChatUserListController.h"
-#import "AISideSplitView.h"
-#import "KNShelfSplitView.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMessageEntryTextView.h>
 
 @class AIAccount, AIListContact, AIListObject, AIAccountSelectionView, AIMessageTabSplitView;
 @class AIMessageWindowController, AIMessageWindowOutgoingScrollView;
-@class RBSplitView;
+@class AIGradientView;
 
 @interface AIMessageViewController : NSObject <AIListControllerDelegate, AIChatViewController, AIMessageEntryTextViewDelegate> {
-    IBOutlet	NSView			*view_contents;
+	IBOutlet	NSView			*view_contents;
 	
 	//Split views
-	IBOutlet	RBSplitView		*splitView_textEntryHorizontal;
+	IBOutlet	NSSplitView		*splitView_textEntryHorizontal;
+	IBOutlet	NSSplitView		*splitView_verticalSplit;
 	
 	//Message Display
-	NSView											*controllerView_messages;
-	IBOutlet	AIMessageWindowOutgoingScrollView	*scrollView_messages;
-	IBOutlet	NSView								*customView_messages;
+	IBOutlet	AIMessageWindowOutgoingScrollView *scrollView_messages;
+	IBOutlet	NSView					*view_messages;
 	
 	//User List
+	IBOutlet	NSView					*view_userList;
 	IBOutlet	AIAutoScrollView		*scrollView_userList;
-	BOOL								retainingScrollViewUserList;
     IBOutlet	AIListOutlineView		*userListView;
 	ESChatUserListController			*userListController;
+	IBOutlet	NSButton				*performAction;
+	IBOutlet	NSTextField				*label_userCount;
+	IBOutlet	AIGradientView			*actionBarView;
 
 	//Text entry
-	IBOutlet	NSScrollView			*scrollView_outgoing;
 	IBOutlet	AIMessageEntryTextView	*textView_outgoing;
-
-	IBOutlet	NSView					*nibrootView_messageView;
-	IBOutlet	NSView					*nibrootView_shelfVew;
-	IBOutlet	NSView					*nibrootView_userList;
+	IBOutlet	NSScrollView			*scrollView_textEntry;
 
 	//
     NSObject<AIMessageDisplayController>	*messageDisplayController;
-	AIAccountSelectionView					*view_accountSelection;
+	IBOutlet	AIAccountSelectionView		*view_accountSelection;
 	AIMessageWindowController				*messageWindowController;
-
-	//widgetstrip
-	IBOutlet				KNShelfSplitView				*shelfView;
 	
 	//menuitem
 	NSMenuItem				*showHide;
 
     AIChat					*chat;
+	BOOL					accountSelectionVisible;
 	BOOL					suppressSendLaterPrompt;
-	NSInteger				entryMinHeight;
+	CGFloat					entryMinHeight;
 	
 	BOOL					userListOnRight;
-	NSInteger				userListMinWidth;
+	CGFloat					userListMinWidth;
 
 	NSUndoManager			*undoManager;
 	
@@ -90,6 +85,9 @@
 - (IBAction)sendMessage:(id)sender;
 - (IBAction)didSendMessage:(id)sender;
 - (IBAction)sendMessageLater:(id)sender;
+
+//User List
+- (IBAction)showActionMenu:(id)sender;
 
 //Account Selection
 - (void)redisplaySourceAndDestinationSelector:(NSNotification *)notification;

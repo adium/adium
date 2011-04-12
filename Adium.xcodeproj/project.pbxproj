@@ -680,7 +680,6 @@
 		34C68B260778FA1300EB423C /* ESGeneralPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C68B240778FA1300EB423C /* ESGeneralPreferencesPlugin.m */; };
 		34C68B2C0778FA5C00EB423C /* ESGeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C68B2A0778FA5C00EB423C /* ESGeneralPreferences.m */; };
 		34C6A3BC077A8CB500EB423C /* AppearanceDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C6A3BB077A8CB500EB423C /* AppearanceDefaults.plist */; };
-		34C6CFAB0DF4B41300651F70 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34D1AB5C0D693DEB00470520 /* RBSplitView.framework */; };
 		34C7C62809EC4E890060FB4A /* AILibpurplePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B3244309BA003C00029361 /* AILibpurplePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34C846AF101E515900140B4B /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C846AE101E515900140B4B /* QTKit.framework */; };
 		34C899AC07E51B18009357F6 /* BuiltInEventPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C899AB07E51B18009357F6 /* BuiltInEventPresets.plist */; };
@@ -706,7 +705,6 @@
 		34D0FDD20956186200DCB678 /* ESPersonalPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D0FDD00956186200DCB678 /* ESPersonalPreferencesPlugin.m */; };
 		34D0FDD80956187700DCB678 /* ESPersonalPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D0FDD60956187700DCB678 /* ESPersonalPreferences.m */; };
 		34D0FF8509569FE500DCB678 /* PersonalPreferencesDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D0FF8409569FE500DCB678 /* PersonalPreferencesDefaults.plist */; };
-		34D1AC850D69958900470520 /* RBSplitView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D1AB5C0D693DEB00470520 /* RBSplitView.framework */; };
 		34D832A007CBD61A006466F2 /* ContactListDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D8329F07CBD61A006466F2 /* ContactListDefaults.plist */; };
 		34D832AE07CBD62C006466F2 /* AdiumEmoticonset.icns in Resources */ = {isa = PBXBuildFile; fileRef = 34D832A507CBD62B006466F2 /* AdiumEmoticonset.icns */; };
 		34D832AF07CBD62C006466F2 /* AdiumScripts.icns in Resources */ = {isa = PBXBuildFile; fileRef = 34D832A607CBD62B006466F2 /* AdiumScripts.icns */; };
@@ -1098,7 +1096,6 @@
 		4BD6753006001E0D0049CAF7 /* AIDualWindowInterfacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793980033E756E01A8010A /* AIDualWindowInterfacePlugin.m */; };
 		4BD6753606001E0F0049CAF7 /* AIMessageTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BACB70203C8CB5E00A8010A /* AIMessageTabViewItem.m */; };
 		4BD6753806001E100049CAF7 /* AIMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F570A5CE03704D3D01A8010A /* AIMessageViewController.m */; };
-		4BD6753906001E100049CAF7 /* MessageView.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5793984033E756E01A8010A /* MessageView.nib */; };
 		4BD6753A06001E110049CAF7 /* AIMessageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793982033E756E01A8010A /* AIMessageWindowController.m */; };
 		4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F570A60503704E7201A8010A /* MessageWindow.nib */; };
 		4BD6753E06001E140049CAF7 /* AIAccountSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25494703F6A32700A8010A /* AIAccountSelectionView.m */; };
@@ -1136,6 +1133,7 @@
 		5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F601A12962D06007A2232 /* AISegmentedControl.m */; };
 		5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A5F601912962D06007A2232 /* AISegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8BBC12D560E400019727 /* AIDockNameOverlay.m */; };
+		5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1FEA601334549300C14951 /* MessageView.xib */; };
 		5A804FEA12BE9E84007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
 		5A80508512BE9F00007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
 		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
@@ -1601,34 +1599,6 @@
 			remoteGlobalIDString = 349C2EF90867AC97000BF883;
 			remoteInfo = AdiumApplescriptRunner;
 		};
-		34D1AB590D693DEB00470520 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D1AC9740486D14A00FE50C9;
-			remoteInfo = Palette;
-		};
-		34D1AB5B0D693DEB00470520 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D5E002A107328E1100594182;
-			remoteInfo = Framework;
-		};
-		34D1AB5D0D693DEB00470520 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D5E003B9073298FC00594182;
-			remoteInfo = Library;
-		};
-		34D1AB5F0D693DEB00470520 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D5EA8A09074CF5AB00AE807E;
-			remoteInfo = SampleApp;
-		};
 		6329EFB40F9D33A600112489 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1670,13 +1640,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = FriBidi;
-		};
-		639DFB610F981FBD003C9A32 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D5E002A007328E1100594182;
-			remoteInfo = Framework;
 		};
 		639DFB630F981FCB003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1745,7 +1708,6 @@
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
 				11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */,
-				34C6CFAB0DF4B41300651F70 /* RBSplitView.framework in Copy Frameworks */,
 				11EE1CCF0CDD01120097F246 /* libglib.framework in Copy Frameworks */,
 				346637690D415457006C9034 /* FriBidi.framework in Copy Frameworks */,
 				11EE1CD00CDD01120097F246 /* libgmodule.framework in Copy Frameworks */,
@@ -3691,9 +3653,6 @@
 		34D1897D076114C00075A380 /* AILocalizationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILocalizationButton.h; path = "Frameworks/Adium Framework/Source/AILocalizationButton.h"; sourceTree = "<group>"; };
 		34D1897E076114C00075A380 /* AILocalizationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILocalizationButton.m; path = "Frameworks/Adium Framework/Source/AILocalizationButton.m"; sourceTree = "<group>"; };
 		34D189B1076131850075A380 /* AILocalizationAssistance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILocalizationAssistance.h; path = "Frameworks/Adium Framework/Source/AILocalizationAssistance.h"; sourceTree = "<group>"; };
-		34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RBSplitView.xcodeproj; path = Frameworks/RBSplitView/RBSplitView.xcodeproj; sourceTree = "<group>"; };
-		34D1AC5B0D69450200470520 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = Frameworks/RBSplitView/Source/RBSplitSubview.h; sourceTree = "<group>"; };
-		34D1AC5C0D69450200470520 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = Frameworks/RBSplitView/Source/RBSplitView.h; sourceTree = "<group>"; };
 		34D2E8670758BB0B0054C56D /* ESFileTransferPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESFileTransferPreferences.h; path = Source/ESFileTransferPreferences.h; sourceTree = "<group>"; };
 		34D2E8680758BB0B0054C56D /* ESFileTransferPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferPreferences.m; path = Source/ESFileTransferPreferences.m; sourceTree = "<group>"; };
 		34D369ED08E7544D00E15E40 /* AIColorPickerSliders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIColorPickerSliders.h; path = "Frameworks/Adium Framework/Source/AIColorPickerSliders.h"; sourceTree = "<group>"; };
@@ -4184,6 +4143,7 @@
 		5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutoScrollTextView.m; path = Source/AIAutoScrollTextView.m; sourceTree = "<group>"; };
 		5A17D65B130F76B4002C852F /* AIGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGradientView.h; path = Source/AIGradientView.h; sourceTree = "<group>"; };
 		5A17D65C130F76B4002C852F /* AIGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGradientView.m; path = Source/AIGradientView.m; sourceTree = "<group>"; };
+		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A5F601912962D06007A2232 /* AISegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISegmentedControl.h; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.h"; sourceTree = "<group>"; };
 		5A5F601A12962D06007A2232 /* AISegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISegmentedControl.m; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.m"; sourceTree = "<group>"; };
 		5A5F8BBB12D560E400019727 /* AIDockNameOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockNameOverlay.h; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.h"; sourceTree = "<group>"; };
@@ -4846,7 +4806,6 @@
 		F5793980033E756E01A8010A /* AIDualWindowInterfacePlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIDualWindowInterfacePlugin.m; path = "Plugins/Dual Window Interface/AIDualWindowInterfacePlugin.m"; sourceTree = "<group>"; };
 		F5793981033E756E01A8010A /* AIMessageWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageWindowController.h; path = "Plugins/Dual Window Interface/AIMessageWindowController.h"; sourceTree = "<group>"; };
 		F5793982033E756E01A8010A /* AIMessageWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMessageWindowController.m; path = "Plugins/Dual Window Interface/AIMessageWindowController.m"; sourceTree = "<group>"; };
-		F5793984033E756E01A8010A /* MessageView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MessageView.nib; path = "Plugins/Dual Window Interface/MessageView.nib"; sourceTree = "<group>"; };
 		F5819CE9032124CE01A8010A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		F59DB3D6033EA9CD01A8010A /* AIAdium.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAdium.h; path = Source/AIAdium.h; sourceTree = "<group>"; };
 		F59DB3D7033EA9CD01A8010A /* AIAdium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdium.m; path = Source/AIAdium.m; sourceTree = "<group>"; };
@@ -4940,7 +4899,6 @@
 				636D92CD0E4E990500E5F558 /* AddressBook.framework in Frameworks */,
 				346636AC0D415440006C9034 /* FriBidi.framework in Frameworks */,
 				F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */,
-				34D1AC850D69958900470520 /* RBSplitView.framework in Frameworks */,
 				34BD9D5A053146CC000AB133 /* Carbon.framework in Frameworks */,
 				34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */,
 				34C18B0D06CAC95400FF5FF9 /* SystemConfiguration.framework in Frameworks */,
@@ -5281,7 +5239,6 @@
 				9E1E1DFC0A96741500E16DFC /* LMX.framework */,
 				815D37460A765E83009338C2 /* CoreServices.framework */,
 				638392F609D4D67A0067B9B7 /* Sparkle.framework */,
-				34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */,
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
 				346636860D41541A006C9034 /* FriBidi.xcodeproj */,
 				7E6F8A93105611B700C6D80D /* libotr.framework */,
@@ -5343,8 +5300,6 @@
 		340C1A210BD58E7E00D09235 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				34D1AC5B0D69450200470520 /* RBSplitSubview.h */,
-				34D1AC5C0D69450200470520 /* RBSplitView.h */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -6438,17 +6393,6 @@
 				34D1897E076114C00075A380 /* AILocalizationButton.m */,
 			);
 			name = "Localization Assistance";
-			sourceTree = "<group>";
-		};
-		34D1AB520D693DEB00470520 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				34D1AB5A0D693DEB00470520 /* RBSplitView.palette */,
-				34D1AB5C0D693DEB00470520 /* RBSplitView.framework */,
-				34D1AB5E0D693DEB00470520 /* libRBSplitView.a */,
-				34D1AB600D693DEB00470520 /* SampleApp.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		34D8342B07CBE6A4006466F2 /* External Sources */ = {
@@ -8867,7 +8811,6 @@
 				341BCF810961354D00CF83F5 /* AIMessageWindow.m */,
 				341BCF820961354D00CF83F5 /* AIClickThroughThemeDocumentButton.h */,
 				341BCF830961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m */,
-				F5793984033E756E01A8010A /* MessageView.nib */,
 				F5793981033E756E01A8010A /* AIMessageWindowController.h */,
 				F5793982033E756E01A8010A /* AIMessageWindowController.m */,
 				F570A60503704E7201A8010A /* MessageWindow.nib */,
@@ -8881,6 +8824,7 @@
 				34F8D2AD0CF68FEB00F62536 /* AIUserListOutlineView.m */,
 				348C47150D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.h */,
 				348C47160D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.m */,
+				5A1FEA601334549300C14951 /* MessageView.xib */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -9494,7 +9438,6 @@
 				6334045E0F9C1899003C77A9 /* PBXTargetDependency */,
 				639DFB560F981F7A003C9A32 /* PBXTargetDependency */,
 				639DFB600F981FA8003C9A32 /* PBXTargetDependency */,
-				639DFB620F981FBD003C9A32 /* PBXTargetDependency */,
 				639DFB640F981FCB003C9A32 /* PBXTargetDependency */,
 			);
 			name = Adium.Framework;
@@ -9599,10 +9542,6 @@
 					ProductGroup = 346636870D41541A006C9034 /* Products */;
 					ProjectRef = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
 				},
-				{
-					ProductGroup = 34D1AB520D693DEB00470520 /* Products */;
-					ProjectRef = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -9647,34 +9586,6 @@
 			fileType = wrapper.framework;
 			path = AutoHyperlinks.framework;
 			remoteRef = 3496A8ED07CE6CCB0055BBAB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34D1AB5A0D693DEB00470520 /* RBSplitView.palette */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RBSplitView.palette;
-			remoteRef = 34D1AB590D693DEB00470520 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34D1AB5C0D693DEB00470520 /* RBSplitView.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = RBSplitView.framework;
-			remoteRef = 34D1AB5B0D693DEB00470520 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34D1AB5E0D693DEB00470520 /* libRBSplitView.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRBSplitView.a;
-			remoteRef = 34D1AB5D0D693DEB00470520 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34D1AB600D693DEB00470520 /* SampleApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SampleApp.app;
-			remoteRef = 34D1AB5F0D693DEB00470520 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7E78DA9C0DD135DE00B9388F /* Test.octest */ = {
@@ -9820,7 +9731,6 @@
 				34D8337707CBD808006466F2 /* pref-advanced.png in Resources */,
 				4BD6742F06001D1D0049CAF7 /* EmoticonPrefs.nib in Resources */,
 				4BD6746606001D770049CAF7 /* SendMessageContactAlert.nib in Resources */,
-				4BD6753906001E100049CAF7 /* MessageView.nib in Resources */,
 				4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */,
 				4BD6758506001E450049CAF7 /* ErrorWindow.nib in Resources */,
 				4BD6758806001E460049CAF7 /* AlertMessageContactAlert.nib in Resources */,
@@ -10019,6 +9929,7 @@
 				97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */,
 				9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */,
 				5ADFFE5D133846C300069C1B /* keys.png in Resources */,
+				5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10961,11 +10872,6 @@
 			isa = PBXTargetDependency;
 			name = FriBidi;
 			targetProxy = 639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */;
-		};
-		639DFB620F981FBD003C9A32 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Framework;
-			targetProxy = 639DFB610F981FBD003C9A32 /* PBXContainerItemProxy */;
 		};
 		639DFB640F981FCB003C9A32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

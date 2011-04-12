@@ -19,37 +19,21 @@
 #import "AIMessageWindowController.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import "AIDualWindowInterfacePlugin.h"
-#import "AIContactInfoWindowController.h"
-#import "AIMessageTabSplitView.h"
 #import "AIMessageWindowOutgoingScrollView.h"
-#import "KNShelfSplitView.h"
-#import "ESChatUserListController.h"
+#import "AIGradientView.h"
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIServiceIcons.h>
 
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AISplitView.h>
 
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
-
-#import "RBSplitView.h"
 
 //Heights and Widths
 #define MESSAGE_VIEW_MIN_HEIGHT_RATIO		0.5f					// Mininum height ratio of the message view
@@ -66,8 +50,6 @@
 #define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:"	// Preference key prefix for user list visibility
 #define KEY_USER_LIST_ON_RIGHT				@"UserList On Right"		// Preference key for user list being on the right
 
-#define TEXTVIEW_HEIGHT_DEBUG
-
 @interface AIMessageViewController ()
 - (id)initForChat:(AIChat *)inChat;
 - (void)chatStatusChanged:(NSNotification *)notification;
@@ -77,17 +59,15 @@
 - (void)_destroyAccountSelectionView;
 - (void)_configureTextEntryView;
 - (void)_updateTextEntryViewHeight;
-- (NSInteger)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum;
+- (CGFloat)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMinimum;
 - (void)_showUserListView;
 - (void)_hideUserListView;
 - (void)_configureUserList;
-- (void)_updateUserListViewWidth;
-- (NSInteger)_userListViewProperWidth;
+- (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum;
 - (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
 - (BOOL)userListInitiallyVisible;
 - (void)setUserListVisible:(BOOL)inVisible;
-- (void)setupShelfView;
 - (void)updateUserCount;
 
 - (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
@@ -118,10 +98,9 @@
 		//Init
 		chat = [inChat retain];
 		contact = chat.listObject;
-		view_accountSelection = nil;
+		accountSelectionVisible = NO;
 		userListController = nil;
 		suppressSendLaterPrompt = NO;
-		retainingScrollViewUserList = NO;
 		
 		//Load the view containing our controls
 		[NSBundle loadNibNamed:MESSAGE_VIEW_NIB owner:self];
@@ -167,6 +146,11 @@
 		//Configure our views
 		[self _configureMessageDisplay];
 		[self _configureTextEntryView];
+		[self _configureUserList];
+		
+		//Draw background
+		[actionBarView setBackgroundColor:[NSColor colorWithCalibratedWhite:0.98f alpha:1.0f]];
+		[actionBarView setMiddleColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
 
 		//Set our base writing direction
 		if (contact) {
@@ -182,14 +166,14 @@
  * @brief Deallocate
  */
 - (void)dealloc
-{   
+{
 	AILogWithSignature(@"");
 	AIListContact	*contact = chat.listObject;
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	//Store our minimum height for the text entry area, and minimim width for the user list
-	[adium.preferenceController setPreference:[NSNumber numberWithInteger:entryMinHeight]
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:entryMinHeight]
 										 forKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
@@ -212,21 +196,7 @@
 	[messageDisplayController messageViewIsClosing];
     [messageDisplayController release];
 	[userListController release];
-
-	[controllerView_messages release];
 	
-	//Release the views for which we are responsible (because we loaded them via -[NSBundle loadNibNamed:owner])
-	[nibrootView_messageView release];
-	[nibrootView_shelfVew release];
-	AILogWithSignature(@"Releasing %@ (%@, %i)", nibrootView_userList, [nibrootView_userList superview], [nibrootView_userList retainCount]);
-		AILogWithSignature(@"scrollView_userList %@ (%@, %i)", scrollView_userList, [scrollView_userList superview], [scrollView_userList retainCount]);
-	
-	[nibrootView_userList release];
-
-	//Release the hidden user list view
-	if (retainingScrollViewUserList) {
-		[scrollView_userList release];
-	}
 	//release menuItem
 	[showHide release];
 	
@@ -237,7 +207,13 @@
 
 - (void)saveUserListMinimumSize
 {
-	[adium.preferenceController setPreference:[NSNumber numberWithInteger:userListMinWidth]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self userListVisible]]
+									   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
+											   chat.account.internalObjectID,
+											   chat.name]
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -262,8 +238,6 @@
 	}
 
 	[view_accountSelection setLeftColor:leftColor rightColor:rightColor];
-	//XXX
-//	[splitView_textEntryHorizontal setLeftColor:leftColor rightColor:rightColor];
 }
 
 /*!
@@ -324,7 +298,7 @@
  */
 - (AIListObject *)preferredListObject
 {
-	if (userListView) { //[[shelfView subviews] containsObject:scrollView_userList] && ([userListView selectedRow] != -1)
+	if (userListView) {
 		return [userListView itemAtRow:[userListView selectedRow]];
 	}
 	
@@ -356,29 +330,12 @@
 {
 	//Create the message view
 	messageDisplayController = [[adium.interfaceController messageDisplayControllerForChat:chat] retain];
-	//Get the messageView from the controller
-	controllerView_messages = [[messageDisplayController messageView] retain];
 
-	/* customView_messages is really just a placeholder.  It's a subview of scrollView_messages, which exists just
-	 * to draw a box around itself to give the desired border. NSBox could be used for the same purpose.
-	 * We replace customView_messages with the actual message view we want to use, controllerView_messages.
-	 *
-	 * Note that this does -not- change the documentView of scrollView_messages, which remains NULL.
-	 * This is because the controllerView_messages supplies its own scroll view (within the WebView).
-	 * We therefore use -[AIMessageWindowOutgoingScrollView setAccessibilityChild:] to manage the accessibility
-	 * heirarchy.
-	 */
-	[controllerView_messages setFrame:[scrollView_messages documentVisibleRect]];
-	[scrollView_messages setAccessibilityChild:controllerView_messages];
-	[[customView_messages superview] replaceSubview:customView_messages with:controllerView_messages];
-
-	//This is what draws our transparent background
-	//Technically, it could be set in MessageView.nib, too
-	[scrollView_messages setBackgroundColor:[NSColor clearColor]];
-
-	[textView_outgoing setNextResponder:view_contents];
+	[scrollView_messages setDocumentView:[messageDisplayController messageView]];
+	[[scrollView_messages documentView] setFrame:[scrollView_messages visibleRect]];
 	
-	[controllerView_messages setNextResponder:textView_outgoing];
+	[textView_outgoing setNextResponder:view_contents];
+	[[scrollView_messages documentView] setNextResponder:textView_outgoing];
 }
 
 /*!
@@ -518,7 +475,7 @@
 				{
 					[alert setInformativeText:[NSString stringWithFormat:
 											   AILocalizedString(@"Send Later will send the message the next time both you and %@ are online.", "Send Later dialogue explanation text"),
-											   formattedUID, formattedUID, formattedUID]];					
+											   formattedUID, formattedUID, formattedUID]];
 					[alert addButtonWithTitle:AILocalizedString(@"Send Later", nil)];
 					[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"l"];
 					[[[alert buttons] objectAtIndex:0] setKeyEquivalentModifierMask:0];
@@ -583,7 +540,7 @@
 			break;
 
 		case NSAlertThirdButtonReturn: /* Don't Send */
-			break;		
+			break;
 	}
 	
 	//Retained when the alert was created to guard against a crash if the chat tab being closed while we are open
@@ -628,7 +585,7 @@
 		[alertDict setObject:detailsDict forKey:@"ActionDetails"];
 		[alertDict setObject:CONTACT_SEEN_ONLINE_YES forKey:@"EventID"];
 		[alertDict setObject:@"SendMessage" forKey:@"ActionID"];
-		[alertDict setObject:[NSNumber numberWithBool:YES] forKey:@"OneTime"]; 
+		[alertDict setObject:[NSNumber numberWithBool:YES] forKey:@"OneTime"];
 		
 		[alertDict setObject:listContact forKey:@"TEMP-ListContact"];
 		
@@ -706,19 +663,13 @@
  */
 - (void)_createAccountSelectionView
 {
-	if (!view_accountSelection) {
-		NSRect	contentFrame = [splitView_textEntryHorizontal frame];
-
-		//Create the account selection view and insert it into our window
-		view_accountSelection = [[AIAccountSelectionView alloc] initWithFrame:contentFrame];
-
-		[view_accountSelection setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
-		
+	if (!accountSelectionVisible) {
+		//Setup the account selection view
+		[view_accountSelection setChat:chat];
 		[self updateGradientColors];
 		
 		//Insert the account selection view at the top of our view
-		[[shelfView contentView] addSubview:view_accountSelection];
-		[view_accountSelection setChat:chat];
+		accountSelectionVisible = YES;
 
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(accountSelectionViewFrameDidChange:)
@@ -726,9 +677,6 @@
 												   object:view_accountSelection];
 		
 		[self updateFramesForAccountSelectionView];
-			
-		//Redisplay everything
-		[[shelfView contentView] setNeedsDisplay:YES];
 	} else {
 		[view_accountSelection setChat:chat];
 	}
@@ -739,15 +687,13 @@
  */
 - (void)_destroyAccountSelectionView
 {
-	if (view_accountSelection) {
+	if (accountSelectionVisible) {
 		//Remove the observer
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 														name:AIViewFrameDidChangeNotification
 													  object:view_accountSelection];
 
-		//Remove the account selection view from our window, clean it up
-		[view_accountSelection removeFromSuperview];
-		[view_accountSelection release]; view_accountSelection = nil;
+		accountSelectionVisible = NO;
 
 		//Redisplay everything
 		[self updateFramesForAccountSelectionView];
@@ -759,18 +705,17 @@
  */
 - (void)updateFramesForAccountSelectionView
 {
-	NSInteger 	accountSelectionHeight = (view_accountSelection ? [view_accountSelection frame].size.height : 0);
-
-	if (view_accountSelection) {
-		[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX([view_accountSelection frame]), NSHeight([[view_accountSelection superview] frame]) - accountSelectionHeight)];
-		[view_accountSelection setNeedsDisplay:YES];
-	}
-
-	NSRect splitView_textEntryHorizontalFrame = [splitView_textEntryHorizontal frame];
-	splitView_textEntryHorizontalFrame.size.height = NSHeight([[splitView_textEntryHorizontal superview] frame]) - accountSelectionHeight - NSMinY(splitView_textEntryHorizontalFrame);
-	[splitView_textEntryHorizontal setFrame:splitView_textEntryHorizontalFrame];
-
-	[splitView_textEntryHorizontal setNeedsDisplay:YES];
+	CGFloat accountSelectionHeight = (accountSelectionVisible ? NSHeight(view_accountSelection.frame) : 0.0f);
+	
+	NSRect verticalFrame = splitView_verticalSplit.frame;
+	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame);
+	[splitView_verticalSplit setFrame:verticalFrame];
+	
+	[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX(splitView_verticalSplit.frame), NSMaxY(splitView_verticalSplit.frame))];
+	
+	[view_accountSelection setHidden:!accountSelectionVisible];
+	
+	[self _updateTextEntryViewHeight];
 }	
 
 
@@ -787,20 +732,26 @@
 		[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
 	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
 		
-		if (firstTime || [key isEqualToString:KEY_ENTRY_USER_LIST_MIN_WIDTH]) {
-			NSInteger oldWidth = userListMinWidth;
-			
-			userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] integerValue];
-			
-			if (oldWidth != userListMinWidth) {
-				[shelfView setShelfWidth:userListMinWidth];
-			}
-		}
-		
 		if (firstTime || [key isEqualToString:KEY_USER_LIST_ON_RIGHT]) {
 			userListOnRight = [[prefDict objectForKey:KEY_USER_LIST_ON_RIGHT] boolValue];
 
-			[shelfView setShelfOnRight:userListOnRight];
+			NSRect userListFrame = view_userList.frame;
+			//Rearrange the splitviews
+			if (userListOnRight) {
+				[view_userList removeFromSuperviewWithoutNeedingDisplay];
+				[splitView_verticalSplit addSubview:view_userList];
+				userListFrame.origin.x = splitView_textEntryHorizontal.frame.size.width;
+			} else {
+				[[splitView_textEntryHorizontal superview] removeFromSuperviewWithoutNeedingDisplay];
+				[splitView_verticalSplit addSubview:[splitView_textEntryHorizontal superview]];
+				userListFrame.origin.x = 0.0f;
+			}
+			[view_userList setFrame:userListFrame];
+			[splitView_verticalSplit adjustSubviews];
+		}
+		
+		if (firstTime || [key isEqualToString:KEY_ENTRY_USER_LIST_MIN_WIDTH]) {
+			userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] doubleValue];
 		}
 	}
 }
@@ -809,7 +760,7 @@
  * @brief Configure the text entry view
  */
 - (void)_configureTextEntryView
-{	
+{
 	//Configure the text entry view
     [textView_outgoing setTarget:self action:@selector(sendMessage:)];
 
@@ -825,7 +776,7 @@
 	
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
-															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
+															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
 	if (entryMinHeight <= 0) entryMinHeight = [self _textEntryViewProperHeightIgnoringUserMininum:YES];
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
@@ -938,22 +889,14 @@
 
 /* 
  * @brief Update the height of our text entry view
- *
- * This method sets the height of the text entry view to the most ideal value, and adjusts the other views in our
- * window to fill the remaining space.
  */
 - (void)_updateTextEntryViewHeight
 {
-	NSInteger		height = [self _textEntryViewProperHeightIgnoringUserMininum:NO];
-	//Display the vertical scroller if our view is not tall enough to display all the entered text
-	[scrollView_outgoing setHasVerticalScroller:(height < [textView_outgoing desiredSize].height)];
-	
-	//First, set the text entry subview to the exact height we want
-	[[splitView_textEntryHorizontal subviewAtPosition:1] setMinDimension:height andMaxDimension:height];
-	[splitView_textEntryHorizontal adjustSubviews];
-	
-	//Now, allow it to be resized again between the text view's minimum size and the max size which is based on the splitview's height
-	[[splitView_textEntryHorizontal subviewAtPosition:1] setMinDimension:[self _textEntryViewProperHeightIgnoringUserMininum:YES] andMaxDimension:([splitView_textEntryHorizontal frame].size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO)];
+	//Store the user's height so that autoresizing isn't messed up
+	CGFloat oldeHeight = entryMinHeight;
+	[splitView_textEntryHorizontal setPosition:[self _textEntryViewProperHeightIgnoringUserMininum:NO]
+							  ofDividerAtIndex:0];
+	entryMinHeight = oldeHeight;
 }
 
 /*!
@@ -964,22 +907,26 @@
  *
  * @param ignoreUserMininum If YES, the user's preference for mininum height will be ignored
  */
-- (NSInteger)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum
+- (CGFloat)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMinimum
 {
-	NSInteger dividerThickness = [splitView_textEntryHorizontal dividerThickness];
-	NSInteger allowedHeight = ([splitView_textEntryHorizontal frame].size.height / 2.0f) - dividerThickness;
-	NSInteger	height;
+	//Our primary goal is to display all of the entered text
+	CGFloat desiredHeight = [textView_outgoing desiredSize].height;
 	
-	//Our primary goal is to display all the entered text
-	height = [textView_outgoing desiredSize].height;
-
-	//But we must never fall below the user's prefered mininum or above the allowed height
-	if (!ignoreUserMininum && height < entryMinHeight) {
-		height = entryMinHeight;
-	}
-	if (height > allowedHeight) height = allowedHeight;
+	//But we must never fall below the user's prefered minimum
+	if (!ignoreUserMinimum && (desiredHeight < entryMinHeight))
+		desiredHeight = entryMinHeight;
 	
-	return height;
+	if (desiredHeight < ENTRY_TEXTVIEW_MIN_HEIGHT)
+		desiredHeight = ENTRY_TEXTVIEW_MIN_HEIGHT;
+	
+	//Or above the allowed height
+	if (desiredHeight >= (splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO))
+		return (splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO);
+	
+	CGFloat splitViewHeight = NSHeight(splitView_textEntryHorizontal.frame);
+	CGFloat dividerThickness = [splitView_textEntryHorizontal dividerThickness];
+	
+	return splitViewHeight - desiredHeight - dividerThickness;
 }
 
 #pragma mark Autocompletion
@@ -999,7 +946,7 @@
 	if (self.chat.isGroupChat) {
 		NSRange completionRange = inTextView.rangeForUserCompletion;
 		NSString *partialWord = [inTextView.textStorage.string substringWithRange:completionRange];
-		return [self canTabCompleteForPartialWord:partialWord]; 
+		return [self canTabCompleteForPartialWord:partialWord];
 	}
 	
 	return NO;
@@ -1066,7 +1013,7 @@
 		
 		// If we need to add a prefix, insert it into the text, then call [textView complete:] again; return early with no completions.
 		if (prefix.length > 0) {
-			[textView.textStorage insertAttributedString:[[NSAttributedString alloc] initWithString:prefix] atIndex:charRange.location];
+			[textView.textStorage insertAttributedString:[[[NSAttributedString alloc] initWithString:prefix] autorelease] atIndex:charRange.location];
 			[textView complete:nil];
 			return nil;
 		}
@@ -1153,7 +1100,7 @@
  */
 - (BOOL)userListVisible
 {
-	return [shelfView isShelfVisible];
+	return ![view_userList isHidden];
 }
 
 /* @name	toggleUserlist
@@ -1181,44 +1128,23 @@
  * @brief Show the user list
  */
 - (void)_showUserListView
-{	
-	[self setupShelfView];
-	
-	[shelfView setDrawShelfLine:NO];
-
-	//Configure the user list
-	[self _configureUserList];
+{
 	[self updateUserCount];
 
-	//Add the user list back to our window if it's missing
-	if (![self userListVisible]) {
-		[self _updateUserListViewWidth];
-		
-		if (retainingScrollViewUserList) {
-			[scrollView_userList release];
-			retainingScrollViewUserList = NO;
-		}
-	}
+	[view_userList setHidden:NO];
+	//Manually set the divider's position otherwise view_userList will shrink
+	[splitView_verticalSplit setPosition:[self _userListViewDividerPositionIgnoringUserMinimum:NO]
+						ofDividerAtIndex:0];
+	[splitView_verticalSplit adjustSubviews];
 }
 
 /*!
  * @brief Hide the user list.
- *
- * We gain responsibility for releasing scrollView_userList after we hide it
  */
 - (void)_hideUserListView
 {
-	if ([self userListVisible]) {
-		[scrollView_userList retain];
-		[scrollView_userList removeFromSuperview];
-		retainingScrollViewUserList = YES;
-		
-		[userListController release];
-		userListController = nil;
-	
-		//need to collapse the splitview
-		[shelfView setShelfIsVisible:NO];
-	}
+	[view_userList setHidden:YES];
+	[splitView_verticalSplit adjustSubviews];
 }
 
 /*!
@@ -1229,7 +1155,7 @@
  */
 - (void)_configureUserList
 {
-	if (!userListController) {
+	if (chat.isGroupChat) {
 		NSDictionary	*themeDict = [NSDictionary dictionaryNamed:USERLIST_THEME forClass:[self class]];
 		NSDictionary	*layoutDict = [NSDictionary dictionaryNamed:USERLIST_LAYOUT forClass:[self class]];
 		
@@ -1274,7 +1200,7 @@
 		userCount = AILocalizedString(@"%u users", nil);
 	}
 	
-	[shelfView setResizeThumbStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
+	[label_userCount setStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
 }
 
 /*!
@@ -1301,7 +1227,7 @@
 	if ([listObject isKindOfClass:[AIListContact class]]) {
 		// We should default to this contact's account
 		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)listObject
-												  onPreferredAccount:NO]];
+																		onPreferredAccount:NO]];
 	}
 }
 
@@ -1320,111 +1246,181 @@
 	return YES;
 }
 
-/* 
- * @brief Update the width of our user list view
- *
- * This method sets the width of the user list view to the most ideal value, and adjusts the other views in our
- * window to fill the remaining space.
- */
-- (void)_updateUserListViewWidth
-{
-	NSInteger		width = [self _userListViewProperWidth];
-	NSInteger		widthWithDivider = 1 + width;	//resize bar effective width  
-	NSRect	tempFrame;
-
-	//Size the user list view to the desired width
-	tempFrame = [scrollView_userList frame];
-	[scrollView_userList setFrame:NSMakeRect([shelfView frame].size.width - width,
-											 tempFrame.origin.y,
-											 width,
-											 tempFrame.size.height)];
-	
-	//Size the message view to fill the remaining space
-	tempFrame = [scrollView_messages frame];
-	[scrollView_messages setFrame:NSMakeRect(tempFrame.origin.x,
-											 tempFrame.origin.y,
-											 [shelfView frame].size.width - widthWithDivider,
-											 tempFrame.size.height)];
-
-	//Redisplay both views and the divider
-	[shelfView setNeedsDisplay:YES];
-}
-
 /*!
  * @brief Returns the width our user list view should be
  *
  * This method takes into account user preference and the current window size to return a width which is most
  * ideal for the user list view.
  */
-- (NSInteger)_userListViewProperWidth
+- (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum
 {
-	NSInteger dividerThickness = 1;
-	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0f) - dividerThickness;
-	NSInteger width = userListMinWidth;
+	CGFloat splitViewWidth = splitView_verticalSplit.frame.size.width;
+	CGFloat allowedWidth = (splitViewWidth / 2.0f) - [splitView_verticalSplit dividerThickness];
+	CGFloat width = ignoreUserMinimum ? USER_LIST_DEFAULT_WIDTH : userListMinWidth;
 	
-	//We must never fall below the user's prefered mininum or above the allowed width
-	if (width > allowedWidth) width = allowedWidth;
-
-	return width;
+	if (width > allowedWidth)
+		width = allowedWidth;
+	else if (width < USER_LIST_DEFAULT_WIDTH)
+		width = USER_LIST_DEFAULT_WIDTH;
+	
+	if (userListOnRight)
+		return splitViewWidth - width;
+	else
+		return width;
 }
 
--(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth
-{
-	if (userListMinWidth != proposedWidth) {
-		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
-		[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
-	}
-	
-	userListMinWidth = proposedWidth;
-	
-	return userListMinWidth;
+- (IBAction)showActionMenu:(id)sender {
+	[chat.actionMenu popUpMenuPositioningItem:nil atLocation:performAction.frame.origin inView:actionBarView];
 }
 
 //Split Views --------------------------------------------------------------------------------------------------
 #pragma mark Split Views
-
-// This method will be called after a RBSplitView is resized with setFrameSize: but before
-// adjustSubviews is called on it.
-- (void)splitView:(RBSplitView*)sender wasResizedFrom:(CGFloat)oldDimension to:(CGFloat)newDimension
+/* 
+ * @brief Update the sizes of our user splitviews
+ */
+- (void)splitViewWillResizeSubviews:(NSNotification *)aNotification
 {
-	[[sender subviewAtPosition:0] setDimension:[[sender subviewAtPosition:0] dimension] + (newDimension - oldDimension)];
-}
-
-// This method will be called whenever a subview's frame is changed, usually from inside adjustSubviews' final loop.
-// You'd normally use this to move some auxiliary view to keep it aligned with the subview.
-- (void)splitView:(RBSplitView*)sender changedFrameOfSubview:(RBSplitSubview*)subview from:(NSRect)fromRect to:(NSRect)toRect
-{
-	if ([sender subviewAtPosition:1] == subview) {
-		if ([sender isDragging])
-			entryMinHeight = NSHeight(toRect);
+	if ([aNotification object] == splitView_verticalSplit) {
+		if (NSWidth(view_userList.frame) > 0) {
+			userListMinWidth = NSWidth(view_userList.frame);
+			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
+		}
+	} else if ([aNotification object] == splitView_textEntryHorizontal) {
+		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
 }
 
-- (void)splitViewDidHaveResizeDoubleClick:(KNShelfSplitView *)sender
-{
-	[self toggleUserList];
-}
-
-#pragma mark Shelfview
-/* @name	setupShelfView
- * @brief	sets up shelfsplitview containing userlist & contentviews
+/* 
+ * @brief Keep the userlist and text entry view the same size when the window is resized.
  */
- -(void)setupShelfView
+- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-	[shelfView setShelfWidth:userListMinWidth];
-	
-	AILogWithSignature(@"ShelfView %@ (content view is %@) --> superview %@, in window %@; frame %@; content view %@ shelf view %@ in window %@",
-					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),
-					   splitView_textEntryHorizontal,
-					   scrollView_userList, [scrollView_userList window]);
-	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget"]];
-	
-	[shelfView setShelfIsVisible:YES];
+	if ([splitView inLiveResize] || adium.interfaceController.activeChat != chat) {
+		if (splitView == splitView_verticalSplit) {
+			NSRect currentFrame = splitView.frame;
+			NSRect msgFrame = [splitView_textEntryHorizontal superview].frame;
+			NSRect userFrame = view_userList.frame;
+			CGFloat dividerThickness = [splitView dividerThickness];
+			
+			if ([self userListVisible]) {
+				if (userListOnRight)
+					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+				else
+					userFrame.size.width = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+			}
+			else
+				userFrame.size.width = 0.0f;
+			
+			msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
+			msgFrame.size.height = currentFrame.size.height;
+			userFrame.size.height = currentFrame.size.height;
+			
+			if (userListOnRight)
+				userFrame.origin.x = msgFrame.size.width + dividerThickness;
+			
+			[view_userList setFrame:userFrame];
+			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
+		} else if (splitView == splitView_textEntryHorizontal) {
+			NSRect currentFrame = splitView.frame;
+			NSRect msgFrame = view_messages.frame;
+			NSRect textFrame = [scrollView_textEntry superview].frame;
+			CGFloat dividerThickness = [splitView dividerThickness];
+			
+			textFrame.size.width = currentFrame.size.width;
+			msgFrame.size.width = currentFrame.size.width;
+			msgFrame.size.height = currentFrame.size.height - textFrame.size.height - dividerThickness;
+			
+			textFrame.origin.y = msgFrame.size.height + dividerThickness;
+			
+			[view_messages setFrame:msgFrame];
+			[[scrollView_textEntry superview] setFrame:textFrame];
+		} else {
+			[splitView adjustSubviews];
+		}
+	} else {
+		[splitView adjustSubviews];
+	}
 }
 
--(NSMenu *)contextMenuForShelfSplitView:(KNShelfSplitView *)shelfSplitView
+/* 
+ * @brief Don't allow the text entry or message view to be collapsed
+ */
+- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
 {
-	return chat.actionMenu;
+	if (subview == view_messages || subview == [splitView_textEntryHorizontal superview])
+		return NO;
+	else if (subview == [scrollView_textEntry superview])
+		return NO;
+	
+	return YES;
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView shouldCollapseSubview:(NSView *)subview forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
+{
+	if (splitView == splitView_verticalSplit) {
+		if (subview == view_userList)
+			return YES;
+	}
+	
+	return NO;
+}
+
+/* 
+ * @brief Set the min size of the text entry view and the userlist
+ */
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
+{
+	if (splitView == splitView_textEntryHorizontal) {
+		//Min size of text entry view
+		return [self _textEntryViewProperHeightIgnoringUserMininum:YES];
+	} else if (splitView == splitView_verticalSplit) {
+		//On the right: min size of user list
+		//On the left: max size of user list
+		if (chat.isGroupChat) {
+			if (userListOnRight)
+				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
+			else
+				return (splitView_verticalSplit.frame.size.width / 2);
+		} else {
+			if (userListOnRight)
+				return splitView_verticalSplit.frame.size.width;
+			else
+				return 0.0f;
+		}
+	}
+	
+	return proposedMax;
+}
+
+/* 
+ * @brief Set the max size of the text entry view and userlist
+ *
+ * Lock the user list on non-MUCs; this is done here instead of hiding the divider so that there isn't
+ * a visual change of positioning when changing tabs between an MUC and 1v1
+ */
+- (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
+{
+	if (splitView == splitView_textEntryHorizontal) {
+		//Max size of text entry view
+		return splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO;
+	}  else if (splitView == splitView_verticalSplit) {
+		//On the right: max size of user list
+		//On the left: min size of the user list
+		if (chat.isGroupChat) {
+			if (userListOnRight)
+				return (splitView_verticalSplit.frame.size.width / 2);
+			else
+				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
+		} else {
+			if (userListOnRight)
+				return splitView_verticalSplit.frame.size.width;
+			else
+				return 0.0f;
+		}
+	}
+	
+	return proposedMin;
 }
 
 #pragma mark Undo
