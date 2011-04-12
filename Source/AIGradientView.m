@@ -24,30 +24,78 @@
  */
 @implementation AIGradientView
 
-@synthesize startingColor, endingColor, angle;
+@synthesize startingColor, middleColor, endingColor, backgroundColor, angle;
 
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
-		startingColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
+		backgroundColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
+		startingColor = nil;
+		middleColor = nil;
 		endingColor = nil;
+		
 		angle = 270;
 	}
 	return self;
 }
 
+- (void)dealloc
+{
+	startingColor = nil;
+	middleColor = nil;
+	endingColor = nil;
+	backgroundColor = nil;
+}
+
 - (void)drawRect:(NSRect)rect
 {
-	if (endingColor == nil || [startingColor isEqual:endingColor]) {
-		[startingColor set];
-		NSRectFill(rect);
-	} else {
-		NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:startingColor
-															  endingColor:endingColor];
-		[gradient drawInRect:[self bounds] angle:angle];
+	NSRect drawingRect = [self bounds];
+	NSRect halfRect = drawingRect;
+	
+	halfRect.size.height = halfRect.size.height / 2;
+	halfRect.origin.y = halfRect.size.height;
+	
+	[backgroundColor set];
+	NSRectFill(drawingRect);
+	
+	NSGradient *gradient;
+	NSColor *endColor;
+	
+	if (startingColor) {
+		if (middleColor && ![startingColor isEqual:middleColor]) {
+			//Start to Middle
+			endColor = middleColor;
+			drawingRect = halfRect;
+		} else if (endingColor && ![startingColor isEqual:endingColor]) {
+			//Start to End
+			endColor = endingColor;
+		} else {
+			//Start only
+			endColor = startingColor;
+		}
+		
+		gradient = [[NSGradient alloc] initWithStartingColor:startingColor
+												 endingColor:endColor];
+		[gradient drawInRect:drawingRect angle:angle];
 		[gradient release];
 	}
-	
+
+	if (middleColor) {
+		halfRect.origin.y = 0.0f;
+		if (endingColor && ![middleColor isEqual:endingColor]) {
+			//Middle to End
+			endColor = endingColor;
+		} else {
+			//Middle only
+			endColor = middleColor;
+		}
+
+		gradient = [[NSGradient alloc] initWithStartingColor:middleColor
+												 endingColor:endColor];
+		[gradient drawInRect:halfRect angle:angle];
+		[gradient release];
+	}
+
 	[super drawRect:rect];
 }
 
