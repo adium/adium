@@ -1282,8 +1282,11 @@
 - (void)splitViewWillResizeSubviews:(NSNotification *)aNotification
 {
 	if ([aNotification object] == splitView_verticalSplit) {
-		if (NSWidth(view_userList.frame) > 0)
+		if (NSWidth(view_userList.frame) > 0) {
 			userListMinWidth = NSWidth(view_userList.frame);
+			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
+		}
 	} else if ([aNotification object] == splitView_textEntryHorizontal) {
 		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
