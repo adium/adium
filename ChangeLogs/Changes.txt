@@ -48,6 +48,7 @@ Version 1.5 (X/X/20X)
 
  Transcript Viewer
  * Added next/previous buttons for highlighted search terms within a transcript (similar to Safari).
+ * Greatly improved reliability and speed of log indexing and search.
 
  User Picture (Buddy Icons)
  * Ability to resize animated gifs that are too large (#9885)
@@ -72,12 +73,15 @@ Version 1.5 (X/X/20X)
  * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
 
 
-Version 1.4.2 (X/X/201X)
- * Updated to libpurple 2.x.x. Highlights of applicable changes:
-   * 
+Version 1.4.2 (X/X/2011)
+ * Updated to libpurple 2.7.11. Highlights of applicable changes:
+   * MSN: Fixed bug that prevented adding contacts to your contact list in certain circumstances. (#14965)
+   * MSN: Added support for MSNP16 including multiple points of presence (MPOP) which allows multiple simultaneous sign-ins and which should resolve connection problems involving the "Signed in from another location" error. (#13654)
+   * MSN: Fixed crash related to Direct Connections. (#14650)
+   * ICQ: Fixed a bug where some contacts from your contact list might not show up. Affected non-English users the most. (#14901)
 
  Logging
-  * Added a "Log only certain accounts" setting to Adium's "General" preferences. (#8)
+  * Added a "Log only certain accounts" setting to Adium's "General" preferences. (#8, #14522)
   * Added a "Log secure chats" setting to Adium's "General" preferences. (#94)
   * Renamed "Save opened chats when quitting" setting to "Reopen chats from last time on startup" for clarity. (#14651)
 
@@ -87,14 +91,22 @@ Version 1.4.2 (X/X/201X)
   * Mockie: new mention and focus indicators. (#14420)
   * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
   * Fixed Stockholm's breaking with RTL text. (#10403)
-  * Fixed iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936) 
+  * Fixed message time popup intefering with copy and paste (#14361)
+  * Fixed iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936)
+
+ Facebook
+  * Changed Adium's Facebook account option to connect via the official XMPP API.
+    * 
 
  ICQ
   * Fixed ICQ disconnections going unnoticed. (#14229)
   * Fixed hang caused by reading badly formatted transcripts from ICQ. (#14627)
 
  IRC
-  * Fixed crash caused by wrongly-encoded characters in IRC. (#13351)
+  * Fixed a crash related to Cyrillic nicknames in IRC. (#13351)
+
+ MSN
+  * Added a preference to enable/disable MSN Direct Connections. (#14602)
 
  XMPP
   * Double confirmation is now required to delete and unregister an XMPP account. (#14357)
@@ -106,12 +118,17 @@ Version 1.4.2 (X/X/201X)
   * Fixed 1.4.1 regression of arrows not showing up in the Events tables of the Preference pane and the Get Info pane for active events. (#14629)
   * Fixed a hang that occurred when required parts of loaded message styles were missing. (#7438)
   * Fixed bookmark icons not updating when changing icon sets. (#13221)
+  * Fixed two memory leaks. (Adrian Godoroja) (#15047)
   * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (Shawn Khan) (#14454)
   * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
+  * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (Adrian Godoroja) (#9908)
 
  Localisation
-  * Updated the Localizable.strings files, adding missing translatable strings/nibs. (#14588)
+  * Updated the Localizable.strings files, adding missing translatable strings/nibs. (#14588, #14582)
+  * Updated and improved German localisation.
+  * Updated and improved Dutch localisation.
   * Updated Swedish localisation. (#14993)
+  * Updated the British English localisation. (#15116)
   * Fixed an issue in the Czech localisation. (#14586)
 
 

@@ -42,8 +42,7 @@
 			 [newWriterQueue release];
 			 
 		[sharedWriterQueue setMaxConcurrentOperationCount:1];
-		if ([NSApp isOnSnowLeopardOrBetter])
-			[sharedWriterQueue performSelector:@selector(setName:) withObject:@"AISharedWriterQueue"];
+		[sharedWriterQueue setName:@"AISharedWriterQueue"];
 	}
 	
 	return sharedWriterQueue;

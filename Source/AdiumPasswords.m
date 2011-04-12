@@ -66,8 +66,7 @@
 		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&passwordQueue))
 			[newQueue release];
 		
-		if([NSApp isOnSnowLeopardOrBetter])
-			[passwordQueue performSelector:@selector(setName:) withObject:@"AdiumPasswordsOperationQueue"];
+		[passwordQueue setName:@"AdiumPasswordsOperationQueue"];
 	}
 	
 	return passwordQueue;

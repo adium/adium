@@ -558,7 +558,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 - (void)updateProgressDisplay
 {
     NSMutableString     *progress = nil;
-    NSUInteger					indexNumber, indexTotal;
     BOOL				indexing;
 
     //We always convey the number of logs being displayed
@@ -580,8 +579,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     }
     [resultsLock unlock];
 
-	indexing = [plugin getIndexingProgress:&indexNumber outOf:&indexTotal];
-
     //Append search progress
     if (activeSearchString && [activeSearchString length]) {
 		if (progress) {
@@ -598,14 +595,18 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 
     //Append indexing progress
-    if (indexing) {
+    if (plugin.isIndexing) {
 		if (progress) {
 			[progress appendString:@" - "];
 		} else {
 			progress = [NSMutableString string];
 		}
 		
-		[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %lu of %lu transcripts",nil), indexNumber, indexTotal]];
+		if (plugin.indexIsFlushing) {
+			[progress appendString:AILocalizedString(@"Saving search index",nil)];
+		} else {
+			[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %qi of %qi transcripts",nil), plugin.logsIndexed, plugin.logsToIndex]];
+		}
     }
 	
 	if (progress && (searching || indexing || !(activeSearchString && [activeSearchString length]))) {
@@ -739,6 +740,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	NSString	 *logBasePath = [AILoggerPlugin logBasePath];
 	AILog(@"Displaying %@",logArray);
 	for (theLog in logArray) {
+		if ([thisOperation isCancelled])
+			break;
+		
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
 		if (displayText) {
@@ -837,7 +841,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[matches release];
 	matches = [[NSMutableArray alloc] init];
 	
-	if (displayText && [displayText length]) {
+	if (displayText && [displayText length] && ![thisOperation isCancelled]) {
 		//Add pretty formatting to links
 		[displayText addFormattingForLinks];
 
@@ -1097,8 +1101,10 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 
 - (void)hilightNextPrevious
 {
-	if (currentMatch < 0 || [matches count] == 0)
+	if (currentMatch < 0 || [matches count] == 0) {
+		[textView_content scrollRangeToVisible:NSMakeRange(0,0)];
 		return;
+	}
 
 	//loop around matches in the displayed log
 	if (currentMatch > [matches count])

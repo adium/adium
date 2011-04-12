@@ -57,15 +57,6 @@
 															  keyEquivalent:@""] autorelease];
     [adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
     [self registerToolbarItem];
-	
-    //rm link context
-	if (![NSApp isOnSnowLeopardOrBetter]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:RM_LINK_TITLE
-																		 target:self
-																		 action:@selector(removeFormattedLink:)
-																  keyEquivalent:@""] autorelease];
-		[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
-	}
 }
 
 - (void)uninstallPlugin
