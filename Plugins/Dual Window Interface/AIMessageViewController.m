@@ -708,7 +708,7 @@
 	CGFloat accountSelectionHeight = (accountSelectionVisible ? NSHeight(view_accountSelection.frame) : 0.0f);
 	
 	NSRect verticalFrame = splitView_verticalSplit.frame;
-	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame);
+	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame) - 2;
 	[splitView_verticalSplit setFrame:verticalFrame];
 	
 	[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX(splitView_verticalSplit.frame), NSMaxY(splitView_verticalSplit.frame))];
