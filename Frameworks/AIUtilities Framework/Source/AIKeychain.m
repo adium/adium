@@ -792,7 +792,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 			if (item) CFRelease(item);
 
 		} else {
-			NSLog(@"%@: Eror in SecKeychainSearchCopyNext(); err is %i",self,err);	
+			NSLog(@"%@: Error in SecKeychainSearchCopyNext(); err is %i",self,err);	
 		}
 		if (search)	CFRelease(search);
 
