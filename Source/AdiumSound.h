@@ -24,8 +24,6 @@
     float				customVolume;
 	
 	NSUInteger			soundsAreMuted;
-
-	BOOL				reconfigureAudioContextBeforeEachPlay;
 }
 
 /*!
