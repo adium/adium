@@ -334,6 +334,8 @@
 	[scrollView_messages setDocumentView:[messageDisplayController messageView]];
 	[[scrollView_messages documentView] setFrame:[scrollView_messages visibleRect]];
 	
+	[scrollView_messages setAccessibilityChild:[scrollView_messages documentView]];
+	
 	[textView_outgoing setNextResponder:view_contents];
 	[[scrollView_messages documentView] setNextResponder:textView_outgoing];
 }
