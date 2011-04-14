@@ -397,26 +397,22 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 #pragma mark Accessibility
 
-#if ACCESSIBILITY_DEBUG
 - (NSArray *)accessibilityAttributeNames
 {
-	AILogWithSignature(@"names: %@", [super accessibilityAttributeNames]);
-	return [super accessibilityAttributeNames];
+	NSMutableArray *attributeNames = [[super accessibilityAttributeNames] mutableCopy];
+	[attributeNames addObject:NSAccessibilityValueAttribute];
+
+	return [attributeNames autorelease];
 }
-#endif
 
 - (id)accessibilityAttributeValue:(NSString *)attribute
 {
 	id value;
 
-#if ACCESSIBILITY_DEBUG
-	AILogWithSignature(@"Asked %@ for %@", listObject, attribute);
-#endif
-
-	if([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
-		value = NSAccessibilityRowRole;
+	if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
+		value = NSAccessibilityStaticTextRole;
 		
-	} else if([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
+	} else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
 			value = [NSString stringWithFormat:AILocalizedString(@"contact group %@", "%@ will be the name of a group in the contact list"), [listObject longDisplayName]];
 
@@ -430,7 +426,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 			statusDescription = [adium.statusController localizedDescriptionForStatusName:(listObject.statusName ?
 																					  listObject.statusName :
 																					  [adium.statusController defaultStatusNameForType:listObject.statusType])
-																		  statusType:listObject.statusType];
+																			   statusType:listObject.statusType];
 			statusMessage = [listObject statusMessageString];
 			
 			value = [[name mutableCopy] autorelease];
@@ -438,10 +434,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 			if (statusMessage) [value appendFormat:AILocalizedString(@"; status message %@", "please keep the semicolon at the start of the line. %@ will be replaced by a status message. This is used when reading an entry in the contact list aloud, such as 'Evan Schoenberg; status message I am bouncing up and down'"), statusMessage];
 		}
 
-	} else if([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
+	} else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
 		value = [self labelString];
 		
-	} else if([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
+	} else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
 		value = [controlView window];
                 
 	} else {
