@@ -42,11 +42,6 @@ typedef enum {
 #define WEBKIT_DEFAULT_PREFS					@"WebKit Defaults"
 
 /*!
- *	@brief The bundle identifier of the style we revert to if the preferred style isn't available
- */
-#define WEBKIT_DEFAULT_STYLE					@"im.adium.Stockholm.style"
-
-/*!
  *	@brief The path to the currently selected message style
  */
 #define KEY_CURRENT_WEBKIT_STYLE_PATH			@"Current Style Path"

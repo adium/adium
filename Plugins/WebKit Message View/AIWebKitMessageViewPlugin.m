@@ -147,7 +147,7 @@
 	NSBundle	 *defaultMessageStyleBundle = nil;
 
 	if (!defaultMessageStyleBundle) {
-		defaultMessageStyleBundle = [styles objectForKey:WEBKIT_DEFAULT_STYLE];
+		defaultMessageStyleBundle = [styles objectForKey:KEY_WEBKIT_STYLE];
 	}
 
 	if (!defaultMessageStyleBundle) {
