@@ -54,6 +54,18 @@
     return "";
 }
 
+- (void)initAccount
+{
+	// Migrate from SSL/no SSL to the tri-state radio button
+	if (![self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS]) {
+		AILogWithSignature(@"Migrating %@ to new encryption settings", self);
+		[self migrateSSL];
+		[self setPreference:nil forKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS];
+	}
+	
+	[super initAccount];
+}
+
 #pragma mark AIListContact and AIService special cases for OSCAR
 //Override contactWithUID to mark mobile and ICQ users as such via the displayServiceID
 - (AIListContact *)contactWithUID:(NSString *)sourceUID
@@ -88,12 +100,6 @@
 	
 	// Always yes, so SSL on ICQ works again.
 	purple_account_set_bool(account, "use_clientlogin", TRUE);
-	
-	// Migrate from SSL/no SSL to the tri-state popup button 
-	if (![self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS]) {
-		[self migrateSSL];
-		[self setPreference:nil forKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS];
-	}
 	
 	if ([[self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS] isEqualToString:PREFERENCE_ENCRYPTION_TYPE_OPPORTUNISTIC]) {
 		purple_account_set_string(account, "encryption", "opportunistic_encryption");
