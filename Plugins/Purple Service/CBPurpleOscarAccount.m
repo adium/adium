@@ -41,6 +41,9 @@
 
 @interface CBPurpleOscarAccount ()
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who;
+
+// migration from 1.4.1 to 1.4.2
+- (void)migrateSSL;
 @end
 
 @implementation CBPurpleOscarAccount
@@ -79,12 +82,31 @@
 	
 	purple_account_set_bool(account, "always_use_rv_proxy", [[self preferenceForKey:PREFERENCE_FT_PROXY_SERVER
 																			  group:GROUP_ACCOUNT_STATUS] boolValue]);
-
-	purple_account_set_bool(account, "use_ssl", [[self preferenceForKey:PREFERENCE_SSL_CONNECTION
-																  group:GROUP_ACCOUNT_STATUS] boolValue]);
 	
 	purple_account_set_bool(account, "allow_multiple_logins", [[self preferenceForKey:PREFERENCE_ALLOW_MULTIPLE_LOGINS
 																				group:GROUP_ACCOUNT_STATUS] boolValue]);
+	
+	// Always yes, so SSL on ICQ works again.
+	purple_account_set_bool(account, "use_clientlogin", TRUE);
+	
+	// Migrate from SSL/no SSL to the tri-state popup button 
+	if (![self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS]) {
+		[self migrateSSL];
+		[self setPreference:nil forKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS];
+	}
+	
+	if ([[self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS] isEqualToString:PREFERENCE_ENCRYPTION_TYPE_OPPORTUNISTIC]) {
+		purple_account_set_string(account, "encryption", "opportunistic_encryption");
+	} else if ([[self preferenceForKey:PREFERENCE_ENCRYPTION_TYPE group:GROUP_ACCOUNT_STATUS] isEqualToString:PREFERENCE_ENCRYPTION_TYPE_REQUIRED]) {
+		purple_account_set_string(account, "encryption", "require_encryption");
+	} else {
+		purple_account_set_string(account, "encryption", "no_encryption");
+	}
+}
+
+- (void)migrateSSL
+{
+	// ICQ and AIM should override this
 }
 
 - (BOOL)encrypted

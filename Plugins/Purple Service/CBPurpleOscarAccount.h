@@ -30,7 +30,15 @@
 
 #define PREFERENCE_ALLOW_MULTIPLE_LOGINS @"Allow Multiple Logins"
 #define PREFERENCE_FT_PROXY_SERVER	@"Always Use FT Proxy"
+
+// obsolete, migrate to PREFERENCE_ENCRYPTION_TYPE
 #define PREFERENCE_SSL_CONNECTION	@"Connect Using SSL"
+
+#define PREFERENCE_ENCRYPTION_TYPE	@"Encryption Type"
+
+#define PREFERENCE_ENCRYPTION_TYPE_OPPORTUNISTIC @"Opportunistic Encryption"
+#define PREFERENCE_ENCRYPTION_TYPE_REQUIRED @"Require Encryption"
+#define PREFERENCE_ENCRYPTION_TYPE_NO @"No Encryption"
 
 @interface CBPurpleOscarAccount : CBPurpleAccount  <AIAccount_Files> {
 	NSTimer			*delayedSignonUpdateTimer;
