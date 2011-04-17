@@ -58,15 +58,14 @@
 	
 	//Defaults to NO - web_aware will cause lots of spam for many users!
 	purple_account_set_bool(account, "web_aware", [[self preferenceForKey:KEY_ICQ_WEB_AWARE group:GROUP_ACCOUNT_STATUS] boolValue]);
+}
 
-	// Always yes, so SSL works again.
-	purple_account_set_bool(account, "use_clientlogin", TRUE);
-	
-	if ([[self preferenceForKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS] boolValue]) {
-		purple_account_set_string(account, "encryption", "opportunistic_encryption");
-	} else {
-		purple_account_set_string(account, "encryption", "no_encryption");
-	}
+- (void)migrateSSL
+{
+	// SSL was forced off in the 1.4.1 update. Because "require SSL" will fail, migrate everyone to opportunistic encryption
+	[self setPreference:PREFERENCE_ENCRYPTION_TYPE_OPPORTUNISTIC
+				 forKey:PREFERENCE_ENCRYPTION_TYPE
+				  group:GROUP_ACCOUNT_STATUS];
 }
 
 #pragma mark Contact updates

@@ -51,6 +51,19 @@
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_NOTES];
 }
 
+- (void)migrateSSL
+{
+	if ([self preferenceForKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS]) {
+		[self setPreference:PREFERENCE_ENCRYPTION_TYPE_REQUIRED
+					 forKey:PREFERENCE_ENCRYPTION_TYPE
+					  group:GROUP_ACCOUNT_STATUS];
+	} else {
+		[self setPreference:PREFERENCE_ENCRYPTION_TYPE_OPPORTUNISTIC
+					 forKey:PREFERENCE_ENCRYPTION_TYPE
+					  group:GROUP_ACCOUNT_STATUS];
+	}
+}
+
 - (void)dealloc
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];

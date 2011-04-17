@@ -18,7 +18,7 @@
 
 @interface AIPurpleOscarAccountViewController : PurpleAccountViewController {
 	IBOutlet		NSButton						*checkBox_proxyServer;
-	IBOutlet		NSButton						*checkBox_SSL;
+	IBOutlet		NSMatrix						*radio_Encryption;
 	IBOutlet		NSButton						*checkbox_multipleLogins;
 }
 
