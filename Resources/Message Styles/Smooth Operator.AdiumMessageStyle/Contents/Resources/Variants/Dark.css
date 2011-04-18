@@ -19,10 +19,50 @@ body
 {
 	position: absolute;
 	font-family: AppleGothic;
-	margin-top: -7px;
+	margin-top: -4px;
 	right: 5px;
 	font-size: 9px;
 	content: "\2b07";
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, .5);
+}
+
+.regainedFocus:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -15px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, .5);
+}
+
+.regainedFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -6px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, .5);
+}
+
+.lastFocus > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -5px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
 	color: rgba(64, 64, 64, 1);
 	text-shadow: 0px 1px 1px rgba(255, 255, 255, .5);
 }
@@ -213,7 +253,7 @@ body
 	z-index: 99;
 	margin-top: -2px;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25)));
-	-webkit-mask-box-image: url(../adiumy-mask.png);
+	-webkit-mask-box-image: url("../adiumy-mask.png");
 }
 
 .message.showIcons.x-hover:not(.consecutive):not(.history) .x-color[src*="buddy_icon.png"]
