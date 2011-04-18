@@ -24,10 +24,50 @@ body
 {
 	position: absolute;
 	font-family: AppleGothic;
-	margin-top: -7px;
+	margin-top: -4px;
 	right: 5px;
 	font-size: 9px;
 	content: "\2b07";
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -11px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -7px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.lastFocus > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -5px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
 	color: rgba(64, 64, 64, 1);
 	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
 }
@@ -62,6 +102,7 @@ body
 	content: "\2605";
 	color: rgba(64, 64, 64, 1);
 	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+	font-style: normal !important;
 }
 
 .message:not(.mention):not(.autoreply):not(.consecutive):not(.history):not(.x-hover)
@@ -136,7 +177,7 @@ body
 	max-height: 125px;
 }
 
-#Chat > div:last-of-type.message.showIcons:not(.IRC) img.x-icon
+#Chat > div:last-of-type.message.showIcons img.x-icon
 {
 	display: inline;
 	padding: 4px;
@@ -147,13 +188,13 @@ body
 	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75);
 }
 
-#topic:hover + #Chat > div:last-of-type.message.showIcons:not(.IRC) img.x-icon
+#topic:hover + #Chat > div:last-of-type.message.showIcons img.x-icon
 {
 	z-index: 91;
 	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
 }
 
-#Chat > div:last-of-type.message.showIcons:not(.IRC) .x-color[src*="buddy_icon.png"]
+#Chat > div:last-of-type.message.showIcons .x-color[src*="buddy_icon.png"]
 {
 	width: 125px;
 	height: 125px;
@@ -167,11 +208,12 @@ body
 	-webkit-mask-box-image: url(../adiumy-mask.png);
 }
 
-#topic:hover + #Chat > div:last-of-type.message.showIcons:not(.IRC) .x-color[src*="buddy_icon.png"]
+#topic:hover + #Chat > div:last-of-type.message.showIcons .x-color[src*="buddy_icon.png"]
 {
 	z-index: 92;
 }
 
+.consecutive.message .x-color,
 .consecutive.message img.x-icon
 {
 	display: none !important;
