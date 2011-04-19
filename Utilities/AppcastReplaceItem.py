@@ -9,7 +9,7 @@ Example: AppcastReplaceItem appcast-release.xml 1.1.4 1.2 Release/build/Adium_1.
 
 # Configurable variables.
 app_name = 'Adium'
-changelog_fmt = 'http://www.adiumx.com/changelogs/%(version)s.html'
+changelog_fmt = 'http://www.adium.im/changelogs/%(version)s.html'
 enclosure_fmt = '        <enclosure sparkle:md5Sum="%(md5)s" sparkle:version="%(version)s" url="%(url)s" length="%(file_size)s" type="application/octet-stream"/>\n'
 # End of configurable variables.
 
