@@ -45,6 +45,8 @@
 
 @implementation ESGeneralPreferences
 
+@synthesize shortcutRecorder;
+
 // XXX in order to edit the nib, you need the ShortcutReporter palette
 // You can download it at http://evands.penguinmilitia.net/ShortcutRecorder.palette.zip
 // This comes from http://wafflesoftware.net/shortcut/
@@ -112,6 +114,10 @@
 	[popUp_tabPositionMenu selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																								 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
 
+    self.shortcutRecorder = [[[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame] autorelease];
+    shortcutRecorder.delegate = self;
+    [[placeholder_shortcutRecorder superview] addSubview:shortcutRecorder];
+
 	//Global hotkey
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
@@ -132,6 +138,13 @@
 	CFRelease(currentLayout);
 
     [self configureControlDimming];
+}
+
+- (void)dealloc
+{
+    self.shortcutRecorder = nil;
+
+    [super dealloc];
 }
 
 //Called in response to all preference controls, applies new settings
