@@ -36,9 +36,12 @@
 	
 	IBOutlet	NSTextField		*label_shortcutRecorder;
 
-    IBOutlet	SRRecorderControl	*shortcutRecorder;		
+    IBOutlet    NSView          *placeholder_shortcutRecorder;
+    SRRecorderControl           *shortcutRecorder;		
 }
 
 - (IBAction)configureLogCertainAccounts:(id)sender;
+
+@property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
 
 @end
