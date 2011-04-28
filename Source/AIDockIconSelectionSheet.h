@@ -15,25 +15,40 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <AIUtilities/AIImageGridView.h>
+#import <AIUtilities/AIImageCollectionView.h>
 
 @class AIIconState;
 
-@interface AIDockIconSelectionSheet : AIWindowController <AIImageGridViewDelegate> {
-	IBOutlet	AIImageGridView	*imageGridView_icons;
-    NSMutableArray				*iconArray;
-
-	IBOutlet	NSButton		*button_OK;
+@interface AIDockIconSelectionSheet : AIWindowController <AIImageCollectionViewDelegate> {
+@private
+	IBOutlet AIImageCollectionView *imageCollectionView;
+	IBOutlet NSButton *okButton;
+    
+	NSMutableArray *icons;
+	NSMutableArray *iconsData;
 		
-	//Currently animated icon state and its index
-    NSTimer						*animationTimer;
-    AIIconState					*animatedIconState;
-	NSInteger 						animatedIndex;
+	// Currently animated icon state and its index
+    AIIconState *animatedIconState;
+	NSInteger animatedIndex;
+	NSTimer *animationTimer;
+	
+	// Previous selected icon
+	NSUInteger previousIndex;
 }
+
+@property (assign) IBOutlet AIImageCollectionView *imageCollectionView;
+@property (assign) IBOutlet NSButton *okButton;
+@property (copy) NSMutableArray *icons;
+@property (retain) NSMutableArray *iconsData;
+@property (retain) AIIconState *animatedIconState;
+@property (assign) NSInteger animatedIndex;
+@property (retain) NSTimer *animationTimer;
+@property (assign) NSUInteger previousIndex;
 
 + (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow;
 
-//Animation
+#pragma mark - Animations
+
 - (void)setAnimatedDockIconAtIndex:(NSInteger)index;
 - (AIIconState *)animatedStateForDockIconAtPath:(NSString *)path;
 

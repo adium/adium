@@ -17,21 +17,22 @@
 
 @protocol AIImageCollectionViewDelegate;
 
-#pragma mark -
-#pragma mark AIImageCollectionView
+#pragma mark - AIImageCollectionView
 
 /*!
  * @class AIImageCollectionView
  * @brief NSCollectionView subclass
  *
- * Displays images in a grid, optionaly using rounded corners
- * also supports item highlighting and selection
+ * Displays images in a grid
+ * supports item highlighting and selection
  */
 @interface AIImageCollectionView : NSCollectionView {
 
 	id <AIImageCollectionViewDelegate> delegate;
 
 @protected
+	IBOutlet NSArrayController *itemsController;
+	
 	NSInteger highlightStyle;
 	CGFloat highlightSize;
 	CGFloat highlightCornerRadius;
@@ -41,10 +42,22 @@
 
 @property (readwrite, assign, nonatomic) id <AIImageCollectionViewDelegate> delegate;
 
+@property (assign) IBOutlet NSArrayController *itemsController;
+
 @property (assign) NSInteger highlightStyle;
 @property (assign) CGFloat highlightSize;
 @property (assign) CGFloat highlightCornerRadius;
 @property (assign) NSUInteger highlightedIndex;
+
+#pragma mark -
+
+/*!
+ * @brief Set the image for item at index
+ *
+ * @param <tt>NSImage</tt>
+ * @param <tt>NSUInteger</tt>
+ */
+- (void)setImage:(NSImage *)anImage forItemAtIndex:(NSUInteger)anIndex;
 
 @end
 
@@ -74,8 +87,7 @@ enum {
 
 typedef NSInteger AIImageCollectionViewHighlightStyle;
 
-#pragma mark -
-#pragma mark AIImageCollectionViewDelegate
+#pragma mark - AIImageCollectionViewDelegate
 
 /*!
  * @protocol AIImageCollectionViewDelegate
@@ -87,7 +99,9 @@ typedef NSInteger AIImageCollectionViewHighlightStyle;
 
 - (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldSelectItemAtIndex:(NSUInteger)index;
 - (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldHighlightItemAtIndex:(NSUInteger)index;
+- (BOOL)imageCollectionView:(AIImageCollectionView *)imageCollectionView shouldDeleteItemsAtIndexes:(NSIndexSet *)indexes;
 - (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didSelectItemAtIndex:(NSUInteger)index;
 - (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didHighlightItemAtIndex:(NSUInteger)index;
+- (void)imageCollectionView:(AIImageCollectionView *)imageCollectionView didDeleteItemsAtIndexes:(NSIndexSet *)indexes;
 
 @end
