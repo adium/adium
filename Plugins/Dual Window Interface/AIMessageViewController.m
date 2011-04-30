@@ -850,6 +850,7 @@
 
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
 														object:textView_outgoing];
+	[self _updateTextEntryViewHeight];
 }
 
 /*!
@@ -1132,6 +1133,7 @@
 - (void)_showUserListView
 {
 	[self updateUserCount];
+	[userListController reloadData];
 
 	[view_userList setHidden:NO];
 	//Manually set the divider's position otherwise view_userList will shrink
