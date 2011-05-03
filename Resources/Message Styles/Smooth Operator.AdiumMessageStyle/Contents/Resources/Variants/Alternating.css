@@ -598,13 +598,13 @@ img.scaledToFitImage
 
 /* header */
 
-#x-wrap
+#x-header #x-wrap:not(.IRC)
 {
 	right: 82px !important;
 	left: 72px !important;
 }
 
-#x-topic #x-wrap
+#x-topic #x-wrap:not(.IRC)
 {
 	right: 18px !important;
 	left: 8px !important;
@@ -677,4 +677,10 @@ img.scaledToFitImage
 #x-header .x-sender.x-outgoing
 {
 	right: 9px !important;
+}
+
+#x-wrap.IRC img.x-icon,
+#x-wrap.IRC .x-iconmask
+{
+	display: none;
 }
