@@ -222,6 +222,18 @@
 																	userInfo:nil
 																	 repeats:YES] retain];
 	}
+	
+	if (!scrollEventMonitor) {
+		scrollEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSScrollWheelMask handler:^(NSEvent *anEvent) {
+			if ([anEvent window] == [view window]) {
+				mouseIsScrolling = true;	
+			} else {
+				mouseIsScrolling = false;
+			}
+
+			return anEvent;
+		}];
+	}
 }
 
 //Stop tracking mouse movement
@@ -238,6 +250,10 @@
 		
 		[theTimer invalidate];
 		[theTimer release]; theTimer = nil;
+	}
+	
+	if (scrollEventMonitor) {
+		[NSEvent removeMonitor:scrollEventMonitor], scrollEventMonitor = nil;
 	}
 }
 
@@ -280,9 +296,12 @@
 		//the mouse is left still tooltipCount will eventually grow greater than TOOL_TIP_DELAY, and we will begin
 		//displaying the tooltips
 		if (tooltipCount > TOOL_TIP_DELAY) {
-			if (!NSEqualPoints(tooltipLocation, mouseLocation)) {
+			if (!NSEqualPoints(tooltipLocation, mouseLocation) || mouseIsScrolling) {
 				[delegate showTooltipAtPoint:mouseLocation];
 				tooltipLocation = mouseLocation;
+				
+				// Reset scrolling data
+				mouseIsScrolling = false;
 			}
 			
 		} else {
