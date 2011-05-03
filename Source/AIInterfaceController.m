@@ -472,7 +472,7 @@
 				chat = [adium.chatController chatWithName:[chatDict objectForKey:@"Name"]
 												 identifier:nil
 												  onAccount:account
-										   chatCreationInfo:[chatDict objectForKey:@"chatCreationInfo"]];
+										   chatCreationInfo:[chatDict objectForKey:@"ChatCreationInfo"]];
 			} else {
 				AIListContact		*contact = [adium.contactController contactWithService:service
 																					account:account
@@ -539,7 +539,7 @@
 															[NSNumber numberWithBool:YES], @"IsGroupChat",
 															[NSNumber numberWithBool:([dict objectForKey:@"ActiveChat"] == chat)], @"ActiveChat",
 															chat.name, @"Name",
-															[chat chatCreationDictionary], @"chatCreationInfo",nil]];
+															[chat chatCreationDictionary], @"ChatCreationInfo",nil]];
 			} else {
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
 															[NSNumber numberWithBool:([dict objectForKey:@"ActiveChat"] == chat)], @"ActiveChat",
