@@ -7,7 +7,7 @@
 	</title>
 
 	<style type="text/css">
-		@import url( "./Variants/Classic.css" );
+		@import url( "./Variants/dark.css" );
 
 		body
 		{
@@ -34,13 +34,13 @@
 
 	<div id="x-hide" class="x-toggle" onclick="hide_header();"></div>
 	<div id="x-show" class="x-toggle" onclick="show_header();" style="display: none"></div>
-	<div id="x-wrap">
+	<div id="x-wrap" class="IRC">
 		<span class="x-date">Wednesday, June 09, 2004</span>
 		<span class="x-time">12:45:48</span>
 <!--
-		<a onclick="imageSwap(this, true)" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Resources/Service Icons/Aqua.AdiumServiceIcons/jabber.png" isemoticon="true" class="serviceIcon">Jabber</a>
+		<a onclick="imageSwap(this, true)" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Resources/IRC Icons/Aqua.AdiumIRCIcons/jabber.png" isemoticon="true" class="IRCIcon">Jabber</a>
 --!>
-		<img src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Resources/Service Icons/Aqua.AdiumServiceIcons/jabber.png" alt="Jabber" class="serviceIcon" />
+		<img src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Resources/IRC Icons/Aqua.AdiumIRCIcons/jabber.png" alt="Jabber" class="IRCIcon" />
 		<span class="x-sender x-incoming">Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff!</span>
 		<span class="x-sender x-outgoing">EvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvan!</span>
 		<img class="x-icon x-incoming" src="/Users/mneedham/Library/Caches/Adium/Default/TEMP-Jabber.butlerb@illinois.eduVIPQH.png" />
@@ -61,9 +61,9 @@
 
 		<div id="x-hide" class="x-toggle" onclick="hide_header();"></div>
 		<div id="x-show" class="x-toggle" onclick="show_header();" style="display: none"></div>
-		<div id="x-wrap">
-			<a onclick="imageSwap(this, true)" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Frameworks/AdiumLibpurple.framework/Resources/irc.png" isemoticon="true" class="x-serviceIcon">IRC</a>
-			<img class="x-serviceIcon" title="IRC" alt="IRC" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Frameworks/AdiumLibpurple.framework/Resources/irc.png" />
+		<div id="x-wrap" class="IRC">
+			<a onclick="imageSwap(this, true)" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Frameworks/AdiumLibpurple.framework/Resources/irc.png" isemoticon="true" class="x-IRCIcon">IRC</a>
+			<img class="x-IRCIcon" title="IRC" alt="IRC" src="/Users/mneedham/Applications/Adium Latest/Adium.app/Contents/Frameworks/AdiumLibpurple.framework/Resources/irc.png" />
 			<span id="topicEdit" ondblclick="this.setAttribute('contentEditable', true); this.focus();"><a href="irc://irc.freenode.net:6667/#adium-devl" title="irc://irc.freenode.net:6667/#adium-devl">#adium-devl</a>&nbsp;Adium development channel - for user help, go to <a href="irc://irc.freenode.net:6667/#adium" title="irc://irc.freenode.net:6667/#adium">#adium</a>. | 1.5hg nightly: <a href="http://nightly.adium.im" title="http://nightly.adium.im">http://nightly.adium.im</a>&nbsp;| Make this go down: <a href="http://webnumbr.com/adium-1-5-defects" title="http://webnumbr.com/adium-1-5-defects">http://webnumbr.com/adium-1-5-defects</a></span>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 
 <div id="Chat" class="groupchat">
 
-<div class="history date_separator event SERVICE showIcons">
+<div class="history date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -81,7 +81,7 @@
 	</span>
 </div>
 
-<div class="history date_separator event SERVICE showIcons">
+<div class="history date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -90,9 +90,9 @@
 	</span>
 </div>
 
-<div class="history incoming autoreply message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+<div class="history incoming autoreply message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
 	<img class="x-icon" src="incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff (Autoreply) </span>
@@ -101,9 +101,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. </span>
 	</span>
-	<div class="history incoming message consecutive SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<div class="history incoming message consecutive IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
 		<img class="x-icon" src="incoming_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="fetchgreebledonx">Jeff (Autoreply) </span>
@@ -116,7 +116,7 @@
 </div>
 
 
-<div class="history date_separator event SERVICE showIcons">
+<div class="history date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -125,9 +125,9 @@
 	</span>
 </div>
 
-<div class="history outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-	<img class="x-icon" src="./outgoing_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+<div class="history outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+	<img class="x-icon" src="./mockup-outgoing_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 	<span class="x-color" style="background-color: springgreen"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">Evan </span>
@@ -138,9 +138,9 @@
 	</span>
 </div>
 
-<div class="history incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -149,9 +149,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore.I'mprettysureI'veheardthisonebefore. </span>
 	</span>
-	<div class="history consecutive incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-		<img class="x-icon" src="./incoming_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+	<div class="history consecutive incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+		<img class="x-icon" src="./mockup-incoming_icon.png" />
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -163,9 +163,9 @@
 	</div>
 </div>
 
-<div class="history mention incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history mention incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -176,9 +176,9 @@
 	</span>
 </div>
 
-<div class="history mention incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history mention incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -189,7 +189,7 @@
 	</span>
 </div>
 
-<div class="history date_separator event SERVICE showIcons">
+<div class="history date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -198,9 +198,9 @@
 	</span>
 </div>
 
-<div class="history mention incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history mention incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -211,9 +211,9 @@
 	</span>
 </div>
 
-<div class="history outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-	<img class="x-icon" src="./outgoing_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+<div class="history outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+	<img class="x-icon" src="./mockup-outgoing_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 	<span class="x-color" style="background-color: springgreen"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">Evan </span>
@@ -224,9 +224,9 @@
 	</span>
 </div>
 
-<div class="history incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -235,9 +235,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">I'm pretty sure I've heard this one before. </span>
 	</span>
-	<div class="history consecutive incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-		<img class="x-icon" src="./incoming_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+	<div class="history consecutive incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+		<img class="x-icon" src="./mockup-incoming_icon.png" />
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -246,9 +246,9 @@
 			<span class="x-mark"></span>
 			<span class="x-message">So what happens next? </span>
 		</span>
-		<div class="history consecutive incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-			<img class="x-icon" src="./incoming_icon.png" />
-			<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+		<div class="history consecutive incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+			<img class="x-icon" src="./mockup-incoming_icon.png" />
+			<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 			<span class="x-color" style="background-color: paleturquoise"></span>
 			<span class="x-wrap">
 				<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -261,9 +261,9 @@
 	</div>
 </div>
 
-<div class="history incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -274,9 +274,9 @@
 	</span>
 </div>
 
-<div class="history outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-	<img class="x-icon" src="./outgoing_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+<div class="history outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+	<img class="x-icon" src="./mockup-outgoing_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 	<span class="x-color" style="background-color: springgreen"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">Evan </span>
@@ -287,7 +287,7 @@
 	</span>
 </div>
 
-<div class="history date_separator event SERVICE showIcons">
+<div class="history date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -296,9 +296,9 @@
 	</span>
 </div>
 
-<div class="history outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-	<img class="x-icon" src="./outgoing_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+<div class="history outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+	<img class="x-icon" src="./mockup-outgoing_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 	<span class="x-color" style="background-color: springgreen"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">Evan </span>
@@ -309,9 +309,9 @@
 	</span>
 </div>
 
-<div class="history incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="./incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="history incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="./mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">|Jeff </span>
@@ -320,9 +320,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">I'm pretty sure I've heard this one before. </span>
 	</span>
-	<div class="history consecutive incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-		<img class="x-icon" src="./incoming_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+	<div class="history consecutive incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+		<img class="x-icon" src="./mockup-incoming_icon.png" />
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="fetchgreebledonx">Jeff </span>
@@ -335,7 +335,7 @@
 </div>
 
 <!--
-<div class="date_separator event SERVICE showIcons">
+<div class="date_separator event IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:45:48 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:45:48 </span>
@@ -345,9 +345,9 @@
 </div>
 --!>
 
-<div class="outgoing message SERVICE showIcons" user="TekJew" style="background-color: midnightblue;">
-	<img class="x-icon" src="./outgoing_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+<div class="outgoing message IRC showIcons" user="TekJew" style="background-color: midnightblue;">
+	<img class="x-icon" src="./mockup-outgoing_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 	<span class="x-color" style="background-color: midnightblue"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">EvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvanEvan </span>
@@ -356,9 +356,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">|If I remember correctly, they explode outward at the speed of light. </span>
 	</span>
-	<div class="consecutive outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-		<img class="x-icon" src="./outgoing_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+	<div class="consecutive outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+		<img class="x-icon" src="./mockup-outgoing_icon.png" />
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 		<span class="x-color" style="background-color: springgreen"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="TekJew">Evan </span>
@@ -367,9 +367,9 @@
 			<span class="x-mark"></span>
 			<span class="x-message">But that might be if you cross the streams… </span>
 		</span>
-		<div class="consecutive outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-			<img class="x-icon" src="./outgoing_icon.png" />
-			<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon.png);"></span>
+		<div class="consecutive outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+			<img class="x-icon" src="./mockup-outgoing_icon.png" />
+			<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon.png);"></span>
 			<span class="x-color" style="background-color: springgreen"></span>
 			<span class="x-wrap">
 				<span class="x-sender" title="TekJew">Evan </span>
@@ -382,9 +382,9 @@
 	</div>
 </div>
 
-<div class="mention incoming message SERVICE showIcons" user="fetchgreebledonx" style="background-color: red;">
-	<img class="x-icon" src="./incoming_icon_wide.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon_wide.png);"></span>
+<div class="mention incoming message IRC showIcons" user="fetchgreebledonx" style="background-color: red;">
+	<img class="x-icon" src="./mockup-incoming_icon_wide.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon_wide.png);"></span>
 	<span class="x-color" style="background-color: red"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">|Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff Jeff </span>
@@ -395,9 +395,9 @@
 	</span>
 </div>
 
-<div class="outgoing message SERVICE showIcons" user="TekJew" style="background-color: springgreen;">
-	<img class="x-icon" src="./outgoing_icon_tall.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing_icon_tall.png);"></span>
+<div class="outgoing message IRC showIcons" user="TekJew" style="background-color: springgreen;">
+	<img class="x-icon" src="./mockup-outgoing_icon_tall.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-outgoing_icon_tall.png);"></span>
 	<span class="x-color" style="background-color: springgreen"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="TekJew">Evan </span>
@@ -408,7 +408,7 @@
 	</span>
 </div>
 
-<div class="event notification SERVICE showIcons">
+<div class="event notification IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:47:54 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:47:54 </span>
@@ -417,14 +417,14 @@
 	</span>
 </div>
 
-<div class="status away firstFocus SERVICE showIcons">
+<div class="status away firstFocus IRC showIcons">
 	<span class="x-wrap">
 		<span class="x-rtime" title="19 Apr 2004">12:47:54 </span>
 		<span class="x-ltime" title="19 Apr 2004">12:47:54 </span>
 		<span class="x-mark"></span>
 		<span class="x-message">Jeff went away </span>
 	</span>
-	<div class="consecutive status away_message SERVICE showIcons">
+	<div class="consecutive status away_message IRC showIcons">
 		<span class="x-wrap">
 			<span class="x-rtime" title="19 Apr 2004">12:47:55 </span>
 			<span class="x-ltime" title="19 Apr 2004">12:47:55 </span>
@@ -434,9 +434,9 @@
 	</div>
 </div>
 
-<div class="incoming autoreply message firstFocus SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
-	<img class="x-icon" src="incoming_icon.png" />
-	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+<div class="incoming autoreply message firstFocus IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<img class="x-icon" src="mockup-incoming_icon.png" />
+	<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise"></span>
 	<span class="x-wrap">
 		<span class="x-sender" title="fetchgreebledonx">Jeff (Autoreply) </span>
@@ -445,9 +445,9 @@
 		<span class="x-mark"></span>
 		<span class="x-message">Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. Away for the sake of being away. </span>
 	</span>
-	<div class="incoming message firstFocus focus consecutive SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<div class="incoming message firstFocus focus consecutive IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
 		<img class="x-icon" src="incoming_icon.png" />
-		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming_icon.png);"></span>
+		<span class="x-iconmask" style="-webkit-mask-box-image: url(./mockup-incoming_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise"></span>
 		<span class="x-wrap">
 			<span class="x-sender" title="fetchgreebledonx">Jeff (Autoreply) </span>
@@ -459,7 +459,7 @@
 	</div>
 </div>
 
-<div class="outgoing message focus SERVICE showIcons" user="TekJew" style="background-color: red;">
+<div class="outgoing message focus IRC showIcons" user="TekJew" style="background-color: red;">
 	<img class="x-icon" src="./outgoing/buddy_icon.png" />
 	<span class="x-iconmask" style="-webkit-mask-box-image: url(./outgoing/buddy_icon.png);"></span>
 	<span class="x-color" style="background-color: red" src="./outgoing/buddy_icon.png"></span>
@@ -472,7 +472,7 @@
 	</span>
 </div>
 
-<div class="incoming message regainedFocus focus SERVICE showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
+<div class="incoming message regainedFocus focus IRC showIcons" user="fetchgreebledonx" style="background-color: paleturquoise;">
 	<img class="x-icon" src="./incoming/buddy_icon.png" />
 	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming/buddy_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise" src="./incoming/buddy_icon.png"></span>
@@ -483,7 +483,7 @@
 		<span class="x-mark"></span>
 		<span class="x-message">So what happens next? </span>
 	</span>
-	<div class="incoming message regainedFocus focus SERVICE showIcons consecutive" user="fetchgreebledonx" style="background-color: paleturquoise;">
+	<div class="incoming message regainedFocus focus IRC showIcons consecutive" user="fetchgreebledonx" style="background-color: paleturquoise;">
 		<img class="x-icon" src="./incoming/buddy_icon.png" />
 		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming/buddy_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise" src="./incoming/buddy_icon.png"></span>
@@ -497,7 +497,7 @@
 	</div>
 </div>
 
-<div class="incoming message focus SERVICE showIcons" user="xx-fetchgreebledonx" style="background-color: paleturquoise;">
+<div class="incoming message focus IRC showIcons" user="xx-fetchgreebledonx" style="background-color: paleturquoise;">
 	<img class="x-icon" src="./incoming/buddy_icon.png" />
 	<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming/buddy_icon.png);"></span>
 	<span class="x-color" style="background-color: paleturquoise" src="./incoming/buddy_icon.png"></span>
@@ -508,7 +508,7 @@
 		<span class="x-mark"></span>
 		<span class="x-message">So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? So what happens next? </span>
 	</span>
-	<div class="incoming message lastFocus focus SERVICE showIcons consecutive" user="xx-fetchgreebledonx" style="background-color: paleturquoise;">
+	<div class="incoming message lastFocus focus IRC showIcons consecutive" user="xx-fetchgreebledonx" style="background-color: paleturquoise;">
 		<img class="x-icon" src="./incoming/buddy_icon.png" />
 		<span class="x-iconmask" style="-webkit-mask-box-image: url(./incoming/buddy_icon.png);"></span>
 		<span class="x-color" style="background-color: paleturquoise" src="./incoming/buddy_icon.png"></span>

@@ -721,9 +721,11 @@ img.scaledToFitImage
 	left: 8px !important;
 	top: 8px !important;
 	background:
-		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(64, 64, 64, 1))) 0px 0px no-repeat,
-		-webkit-gradient(linear, left top, left bottom, from(rgba(64, 64, 64, 1)), to(rgba(48, 48, 48, 1))) 0px 32px no-repeat !important;
-	-webkit-background-size: 100% 32px, 100% 100% !important;
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .2)), to(rgba(255, 255, 255, .2))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(144, 144, 144, 1)), to(rgba(72, 72, 72, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(72, 72, 72, 1)), to(rgba(32, 32, 32, 1))) 0px 16px no-repeat !important;
+	-webkit-background-size: 100% 1px, 100% 16px, 100% 100% !important;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .8) !important;
 	-webkit-box-shadow: 0px -1px 1px rgba(255, 255, 255, .4), 0px 4px 16px rgba(0, 0, 0, .7), 8px -8px 8px rgba(112, 112, 112, 1), -8px -8px 8px rgba(112, 112, 112, 1), -8px 16px 16px rgba(112, 112, 112, 1), 8px 16px 16px rgba(114, 114, 114, 1) !important;
 	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .8) !important;
 	-webkit-border-top-left-radius: 5px !important;
@@ -749,13 +751,20 @@ img.scaledToFitImage
 	content: ";";
 }
 
-#x-header .x-color,
+#x-header #x-wrap:not(.IRC) .x-color,
 #x-header .x-sender,
 #x-header .x-outgoing,
 #x-header .serviceIcon,
 #x-topic .x-serviceIcon
 {
 	display: none !important;
+}
+
+#x-wrap.IRC .x-icon.x-incoming,
+#x-wrap.IRC .x-iconmask.x-incoming,
+#x-wrap.IRC .x-color.x-incoming
+{
+	display: inherit !important;
 }
 
 .x-toggle
@@ -771,3 +780,18 @@ img.scaledToFitImage
 	background:
 		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, 1)), to(rgba(160, 160, 160, 1))) 0px 0px no-repeat !important;
 }
+
+#x-wrap.IRC .x-color.x-incoming
+{
+	position: fixed;
+	left: 8px;
+	top: 8px;
+	z-index: 101;
+	width: 56px;
+	height: 56px;
+	-webkit-border-top-left-radius: 5px !important;
+	-webkit-border-bottom-left-radius: 5px !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25)));
+	-webkit-mask-box-image: url("../adiumy-mask.png");
+}
+
