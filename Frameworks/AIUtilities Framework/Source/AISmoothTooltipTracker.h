@@ -59,6 +59,9 @@
 	NSPoint				tooltipLocation;				//Last tooltip location we told our delegate about
     NSTrackingRectTag	tooltipTrackingTag;				//Tag for our tracking rect
     int 				tooltipCount;					//Used to determine how long before a tooltip appears
+	
+	id					scrollEventMonitor;				// Used to update a tooltip when mouse is scrolling
+	BOOL				mouseIsScrolling;				//
 }
 
 /*!
