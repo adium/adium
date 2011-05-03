@@ -1241,6 +1241,9 @@
 	
 	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"%@\" alt=\"%@\" title=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [account.service shortDescription], [account.service shortDescription]];
 	
+	[inString replaceKeyword:@"%service%" 
+				  withString:[account.service shortDescription]];
+	
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];
 	
