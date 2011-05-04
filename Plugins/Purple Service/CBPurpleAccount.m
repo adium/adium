@@ -2137,7 +2137,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	NSString	*progressString = [self connectionStringForStep:[step integerValue]];
 
 	[self setValue:progressString forProperty:@"connectionProgressString" notify:NO];
-	[self setValue:connectionProgressPrecent forProperty:@"connectionProgressPercent" notify:NO];	
+	[self setValue:[NSNumber numberWithDouble:[connectionProgressPrecent doubleValue] * 100] forProperty:@"connectionProgressPercent" notify:NO];
 
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
