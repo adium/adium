@@ -179,7 +179,7 @@
 #pragma mark -
 
 /*!
- * We are registered to receive KVO notifiactions for "selectionIndexes"
+ * Handle KVO
  */
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -216,7 +216,7 @@
 - (void)highlightItemAtIndex:(NSUInteger)anIndex
 {
 	// Set highlight
-	if (anIndex != NSNotFound && anIndex < [[self content] count] && [self highlightedIndex] != anIndex) {
+	if (anIndex != NSNotFound && anIndex < [[self content] count] && anIndex != [self highlightedIndex]) {
 		// Message delegate: Should Highlight
 		if ([[self delegate] respondsToSelector:@selector(imageCollectionView:shouldHighlightItemAtIndex:)]) {
 			if ([[self delegate] imageCollectionView:self shouldHighlightItemAtIndex:anIndex]) {
@@ -312,6 +312,15 @@
 {
 	// Reset highlight
 	[self resetHighlight];
+}
+
+- (void)scrollWheel:(NSEvent *)anEvent
+{
+	// Scrolling first
+	[super scrollWheel:anEvent];
+		
+	// Highlight item
+	[self highlightItemAtIndex:[self indexAtPoint:[self convertPoint:[anEvent locationInWindow] fromView:nil]]];
 }
 
 #pragma mark - Key Events
