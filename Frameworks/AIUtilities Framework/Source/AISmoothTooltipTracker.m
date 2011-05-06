@@ -37,6 +37,8 @@
 - (void)_stopTrackingMouse;
 - (void)_hideTooltip;
 - (void)mouseMovementTimer:(NSTimer *)inTimer;
+
+- (void)contentViewBoundsDidChange;
 @end
 
 @interface NSWindow (SpacesDeterminationHackery)
@@ -57,6 +59,7 @@
 		delegate = inDelegate;
 		tooltipTrackingTag = -1;
 		tooltipLocation = NSZeroPoint;
+		mouseIsScrolling = NO;
 
 		//Reset cursor tracking when the view's frame changes
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -68,6 +71,14 @@
 													 name:AIWindowToolbarDidToggleVisibility
 												   object:[view window]];
 
+		// Track contentView bounds changes (useful to detect scrolling)
+		if ([view isKindOfClass:[NSScrollView class]]) {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(contentViewBoundsDidChange)
+														 name:NSViewBoundsDidChangeNotification
+													   object:[(NSScrollView *)view contentView]];
+		}
+		
 		[self installCursorRect];
 	}
 	
@@ -211,6 +222,12 @@
 	[self _stopTrackingMouse];
 }
 
+// Handle Scrolling
+- (void)contentViewBoundsDidChange
+{
+	mouseIsScrolling = YES;
+}
+
 //Start tracking mouse movement
 - (void)_startTrackingMouse
 {
@@ -221,18 +238,6 @@
 																	selector:@selector(mouseMovementTimer:)
 																	userInfo:nil
 																	 repeats:YES] retain];
-	}
-	
-	if (!scrollEventMonitor) {
-		scrollEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSScrollWheelMask handler:^(NSEvent *anEvent) {
-			if ([anEvent window] == [view window]) {
-				mouseIsScrolling = true;	
-			} else {
-				mouseIsScrolling = false;
-			}
-
-			return anEvent;
-		}];
 	}
 }
 
@@ -250,10 +255,6 @@
 		
 		[theTimer invalidate];
 		[theTimer release]; theTimer = nil;
-	}
-	
-	if (scrollEventMonitor) {
-		[NSEvent removeMonitor:scrollEventMonitor], scrollEventMonitor = nil;
 	}
 }
 
@@ -300,8 +301,8 @@
 				[delegate showTooltipAtPoint:mouseLocation];
 				tooltipLocation = mouseLocation;
 				
-				// Reset scrolling data
-				mouseIsScrolling = false;
+				// Reset scrolling info
+				mouseIsScrolling = NO;
 			}
 			
 		} else {
