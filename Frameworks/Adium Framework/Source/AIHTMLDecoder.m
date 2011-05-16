@@ -764,9 +764,18 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			NSString *path = [extension path];
 			if (path) {
 				NSString *destinationPath = [imagesPath stringByAppendingPathComponent:[path lastPathComponent]];
-				if ([[NSFileManager defaultManager] copyItemAtPath:path
-													  toPath:destinationPath
-													 error:NULL]) {
+				NSFileManager *fileManager = [NSFileManager defaultManager];
+				
+				// We must ensure that the imagesPath exists so the image file can be copied into it
+				[fileManager createDirectoryAtPath:imagesPath
+					   withIntermediateDirectories:YES
+										attributes:nil
+											 error:NULL];
+				
+				// If the image file already exists in the destination, just use it; otherwise, copy the file into the destination
+				if ([fileManager fileExistsAtPath:destinationPath] || [fileManager copyItemAtPath:path
+																						   toPath:destinationPath
+																							error:NULL]) {
 					/* Just the file name; the XML should be set to have a base URL of the imagesPath */
 					/* It might be good to make this an optional behavior, with the other choice of an absolute
 					 * file URL (destinationPath).
