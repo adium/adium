@@ -83,6 +83,10 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 									 date:date
 									flags:[NSNumber numberWithInteger:flags]];
 		} else {
+			//Process any purple imgstore references into real HTML tags pointing to real images
+			CBPurpleAccount *adiumAccount = accountLookup(purple_conversation_get_account(conv));
+			messageString = processPurpleImages(messageString, adiumAccount);
+
 			NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
 			NSNumber			*purpleMessageFlags = [NSNumber numberWithInteger:flags];
 			NSString			*normalizedUID = get_real_name_for_account_conv_buddy(purpleAccount, conv, (char *)who);
