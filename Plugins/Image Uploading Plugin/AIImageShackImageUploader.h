@@ -15,7 +15,6 @@
  */
 
 #import "AIGenericMultipartImageUploader.h"
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface AIImageShackImageUploader : AIGenericMultipartImageUploader <NSXMLParserDelegate> {
 	NSData						*resultData;

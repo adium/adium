@@ -15,7 +15,6 @@
  */
 
 #import "AIPurpleOscarAccountViewController.h"
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface AIPurpleAIMAccountViewController : AIPurpleOscarAccountViewController {
     IBOutlet        NSTextView <NSWindowDelegate>                     *textView_textProfile;

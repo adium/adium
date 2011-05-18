@@ -51,7 +51,6 @@
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 
 #import <AIUtilities/AIApplicationAdditions.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 #import <libkern/OSAtomic.h>
 
