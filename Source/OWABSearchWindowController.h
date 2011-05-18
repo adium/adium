@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AILocalizationButton, ABPeoplePickerView, AIService, ABPerson, AIImageViewWithImagePicker;
 

@@ -36,7 +36,6 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>
 #import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIContactHidingController.h>
 

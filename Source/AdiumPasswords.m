@@ -26,7 +26,6 @@
 #import <libkern/OSAtomic.h>
 
 #import <AIUtilities/AIApplicationAdditions.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 #import "AISpecialPasswordPromptController.h"
 #import "ESAccountPasswordPromptController.h"

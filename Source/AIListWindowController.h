@@ -28,7 +28,6 @@
 #import "AIAnimatingListOutlineView.h"
 #import <AIUtilities/AIRolloverButton.h>
 #import "AIFilterBarView.h"
-#import <AIUtilities/AILeopardCompatibility.h>
 
 typedef enum {
 	AIContactListWindowHidingStyleNone = 0,

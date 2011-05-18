@@ -16,7 +16,6 @@
 
 #import <Adium/AIWindowController.h>
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AIChatLog, AILoggerPlugin;
 
