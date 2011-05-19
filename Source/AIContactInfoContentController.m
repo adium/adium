@@ -66,7 +66,7 @@
 -(void)loadContentPanes:(NSArray *)contentPanes
 {
 	NSMutableArray *contentArray = [NSMutableArray array];
-	//Allocate and initalize each class, then stick it in the array.
+	//Allocate and initialize each class, then stick it in the array.
 	id currentPane = nil;
 	
 	for(currentPane in contentPanes) {
