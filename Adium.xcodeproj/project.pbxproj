@@ -9484,6 +9484,7 @@
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -12632,6 +12633,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
 			};
 			name = Release;
 		};
@@ -12642,6 +12644,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RELEASE_BUILD,
+					DEBUG_BUILD,
 				);
 			};
 			name = "Release-Debug";
