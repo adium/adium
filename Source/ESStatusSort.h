@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AISortController.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AILocalizationTextField;
 

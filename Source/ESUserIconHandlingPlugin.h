@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIContactControllerProtocol.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface ESUserIconHandlingPlugin : AIPlugin <NSMenuDelegate> {
 	NSMutableSet	*toolbarItems;

@@ -16,7 +16,6 @@
 
 #import <Adium/AIWindowController.h>
 #import <Adium/AIStatus.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AIAccount, AITextViewWithPlaceholder, AIService, AIAutoScrollView, AISendingTextView;
 

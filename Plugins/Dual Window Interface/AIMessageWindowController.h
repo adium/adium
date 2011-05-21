@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 #define AIMessageWindow_ControllersChanged 		@"AIMessageWindow_ControllersChanged"
 #define AIMessageWindow_ControllerOrderChanged 		@"AIMessageWindow_ControllerOrderChanged"

@@ -16,7 +16,6 @@
 #import "AISharedWriterQueue.h"
 #import <libkern/OSAtomic.h>
 #import "AIApplicationAdditions.h"
-#import "AILeopardCompatibility.h"
 
 @interface AISharedWriterQueue()
 + (NSOperationQueue *)queue;
