@@ -20,7 +20,7 @@
 #define LOGIN_SHOW_WINDOW 			@"Show Login Window"	//Should hide the login window 
 
 #define LOGIN_LAST_USER				@"Last Login Name"		//Last logged in user
-#ifdef DEBUG_BUILD
+#if defined (DEBUG_BUILD) && ! defined (RELEASE_BUILD)
 #	define LOGIN_LAST_USER_DEBUG	@"Last Login Name-Debug"//Last logged in user - debug
 #endif
 
