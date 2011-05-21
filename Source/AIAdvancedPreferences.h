@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIPreferencePane.h>
-#import "AILeopardCompatibility.h"
 
 @class KNShelfSplitView, AIModularPaneCategoryView;
 

@@ -15,7 +15,6 @@
  */
 
 #import "AITooltipUtilities.h"
-#import "AILeopardCompatibility.h"
 #import <libkern/OSAtomic.h>
 
 #define TOOLTIP_MAX_WIDTH			300

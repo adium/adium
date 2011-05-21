@@ -8,7 +8,6 @@
 
 #import "MGTwitterEngineGlobalHeader.h"
 #import "MGTwitterParserDelegate.h"
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface MGTwitterXMLParser : NSObject <NSXMLParserDelegate> {
     __weak NSObject <MGTwitterParserDelegate> *delegate; // weak ref

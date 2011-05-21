@@ -15,7 +15,6 @@
  */
 
 #import "AIHoveringPopUpButton.h"
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface AIContactListNameButton : AIHoveringPopUpButton <NSTextFieldDelegate> {
 	NSTextField	*textField_editor;

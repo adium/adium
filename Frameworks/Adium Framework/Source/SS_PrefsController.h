@@ -1,5 +1,4 @@
 /* SS_PrefsController */
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @interface SS_PrefsController : NSObject <NSWindowDelegate, NSToolbarDelegate>
 {

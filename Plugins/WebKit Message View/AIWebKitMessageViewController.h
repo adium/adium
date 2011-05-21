@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import	<AIUtilities/AILeopardCompatibility.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
 @class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, DOMRange, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;

@@ -306,12 +306,16 @@
 {
 	// Highlight item
 	[self highlightItemAtIndex:[self indexAtPoint:[self convertPoint:[anEvent locationInWindow] fromView:nil]]];
+	
+	[super mouseMoved:anEvent];
 }
 
 - (void)mouseExited:(NSEvent *)anEvent
 {
 	// Reset highlight
 	[self resetHighlight];
+	
+	[super mouseExited:anEvent];
 }
 
 - (void)scrollWheel:(NSEvent *)anEvent

@@ -17,7 +17,6 @@
 #import <Adium/AIAbstractListObjectMenu.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIStatusMenu.h>
-#import <AIUtilities/AILeopardCompatibility.h>
 
 @class AIAccount;
 @protocol AIAccountMenuDelegate;

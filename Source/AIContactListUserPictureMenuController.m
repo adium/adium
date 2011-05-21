@@ -43,9 +43,6 @@
 - (void)choosePicture:(id)sender;
 - (void)clearRecentPictures:(id)sender;
 
-// Notifications
-- (void)parentWindowWillClose:(NSNotification *)aNotification;
-
 @end
 
 
@@ -106,11 +103,6 @@
 		}
 		
 		[self setImages:pictures];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(parentWindowWillClose:)
-													 name:NSWindowWillCloseNotification
-												   object:[picker window]];
 
 		[menu popUpMenuPositioningItem:[menu itemAtIndex:0] atLocation:NSMakePoint(2.0f, -4.0f) inView:imagePicker];
 	}
@@ -162,8 +154,7 @@
     return [array autorelease];
 }
 
-#pragma mark -
-#pragma mark NSMenu delegate
+#pragma mark - NSMenu delegate
 
 - (void)menuNeedsUpdate:(NSMenu *)aMenu
 {
@@ -247,13 +238,7 @@
 	[menuItem release];
 }
 
-- (void)menuDidClose:(NSMenu *)aMenu
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark -
-#pragma mark AIImageCollectionView delegate
+#pragma mark - AIImageCollectionView delegate
 
 - (BOOL)imageCollectionView:(AIImageCollectionView *)collectionView shouldHighlightItemAtIndex:(NSUInteger)anIndex
 {	
@@ -291,8 +276,7 @@
 	[menu cancelTracking];
 }
 
-#pragma mark -
-#pragma mark Menu Actions
+#pragma mark - Menu Actions
 
 - (void)selectedAccount:(id)sender
 {
@@ -312,25 +296,6 @@
 - (void)clearRecentPictures:(id)sender
 {
 	[[IKPictureTakerRecentPictureRepository recentRepository] clearRecents:YES];
-}
-
-#pragma mark -
-#pragma mark Parent Window Notifications
-
-- (void)windowDidResignMain:(NSNotification *)aNotification
-{
-	[menu cancelTracking];
-}
-
-- (void)windowDidResignKey:(NSNotification *)aNotification
-{
-	[menu cancelTracking];		
-}
-
-- (void)parentWindowWillClose:(NSNotification *)aNotification
-{
-	//Close menu, when our parent window closes
-	[menu cancelTracking];
 }
 
 @end
