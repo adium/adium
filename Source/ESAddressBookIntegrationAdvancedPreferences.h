@@ -18,16 +18,14 @@
 
 @class AILocalizationTextField;
 
-@interface ESAddressBookIntegrationAdvancedPreferences : AIAdvancedPreferencePane {
-    IBOutlet	NSPopUpButton           *popUp_formatMenu;
+@interface ESAddressBookIntegrationAdvancedPreferences : AIAdvancedPreferencePane <NSTokenFieldDelegate> {
     IBOutlet    NSButton                *checkBox_syncAutomatic;
     IBOutlet	NSButton                *checkBox_useABImages;
     IBOutlet	NSButton				*checkBox_preferABImages;
-	
-    
+
     IBOutlet	NSButton                *checkBox_enableImport;
+	IBOutlet	NSButton				*checkBox_useFirstName;
 	IBOutlet    NSButton                *checkBox_useNickName;
-	IBOutlet	NSButton				*checkBox_useMiddleName;
 		
     IBOutlet    NSButton                *checkBox_enableNoteSync;
 	
@@ -37,6 +35,19 @@
 	IBOutlet	AILocalizationTextField	*label_names;
 	IBOutlet	AILocalizationTextField	*label_images;
 	IBOutlet	AILocalizationTextField	*label_contacts;
+	
+	IBOutlet	NSBox					*box_nameElements;
+
+	IBOutlet	AILocalizationTextField *label_firstToken;
+	IBOutlet	AILocalizationTextField *label_middleToken;
+	IBOutlet	AILocalizationTextField *label_lastToken;
+	IBOutlet	AILocalizationTextField *label_nickToken;
+	
+	IBOutlet	NSTokenField			*tokenField_format;
+	IBOutlet	NSTokenField			*tokenField_firstToken;
+	IBOutlet	NSTokenField			*tokenField_middleToken;
+	IBOutlet	NSTokenField			*tokenField_lastToken;
+	IBOutlet	NSTokenField			*tokenField_nickToken;
 }
 
 - (IBAction)changePreference:(id)sender;

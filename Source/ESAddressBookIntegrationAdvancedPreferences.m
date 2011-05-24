@@ -22,21 +22,31 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-#define ADDRESS_BOOK_FIRST_OPTION					AILocalizedString(@"First","Address Book Name display style, e.g. Evan")
-#define ADDRESS_BOOK_FIRST_LAST_OPTION				AILocalizedString(@"First Last","Address Book Name display style, e.g. Evan Schoenberg")
-#define ADDRESS_BOOK_LAST_FIRST_OPTION				AILocalizedString(@"Last, First","Address Book Name display style, e.g. Schoenberg, Evan")
-#define ADDRESS_BOOK_LAST_FIRST_NO_COMMA_OPTION		AILocalizedString(@"Last First", "Address Book Name display style, e.g. Schoenberg Evan")
-#define ADDRESS_BOOK_FIRST_MIDDLE_OPTION			AILocalizedString(@"First Middle", "Address Book Name display style, e.g. Evan Dreskin")
-#define ADDRESS_BOOK_FIRST_MIDDLE_LAST_OPTION		AILocalizedString(@"First Middle Last", "Address Book Name display style, e.g. Evan Dreskin Schoenberg")
-#define ADDRESS_BOOK_LAST_FIRST_MIDDLE_OPTION		AILocalizedString(@"Last, First Middle", "Address Book Name display style, e.g. Schoenberg, Evan Dreskin")
-#define ADDRESS_BOOK_LAST_FIRST_MIDDLE_NO_COMMA_OPTION	AILocalizedString(@"Last First Middle", "Address Book Name display style, e.g. Schoenberg Evan Dreskin")
-#define ADDRESS_BOOK_FIRST_LAST_INITIAL				AILocalizedString(@"First Last-Initial", "Address Book Name display style, e.g. Evan S")
-#define ADDRESS_BOOK_FIRST_MIDDLE_LAST_INITIAL		AILocalizedString(@"First Middle Last-Initial", "Address Book Name display style, e.g. Evan Dreskin S")
+@interface NSTokenField (NSTokenFieldAdditions)
+- (void)updateDisplay;
+@end
 
-@interface ESAddressBookIntegrationAdvancedPreferences ()
-- (void)configureFormatMenu;
+@implementation NSTokenField (NSTokenFieldAdditions)
+- (void)updateDisplay
+{
+	NSRange selectionRange = [[[self window] fieldEditor:YES forObject:self] selectedRange];
+	
+	// XXX - Reassign objectValue to let NSTokenField know it has changed.
+	id objectValue = [self objectValue];
+	[self setObjectValue:nil];
+	[self setObjectValue:objectValue];
+	
+	[[[self window] fieldEditor:YES forObject:self] setSelectedRange:selectionRange];
+}
+@end
+
+@interface ESAddressBookIntegrationAdvancedPreferences () {
+}
 - (IBAction)changeFormat:(id)sender;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (NSArray *)separateStringIntoTokens:(NSString *)string;
+- (void)changeFormatToFullName:(id)representedObject;
+- (void)changeFormatToInitialCharacter:(id)representedObject;
 @end
 
 /*!
@@ -69,16 +79,35 @@
  */
 - (void)viewDidLoad
 {
-	[self configureFormatMenu];
-	
-	[label_formatNamesAs setLocalizedString:AILocalizedString(@"Format name as:", "Format name as: [popup menu of choices like 'First, Last']")];
+	[label_formatNamesAs setLocalizedString:AILocalizedString(@"Format name as:", "Format name as: [tokens like 'First', 'Last']")];
 	[label_names setLocalizedString:AILocalizedString(@"Names",nil)];
 	[label_images setLocalizedString:AILocalizedString(@"Images",nil)];
 	[label_contacts setLocalizedString:AILocalizedString(@"Contacts",nil)];
 	
+	[box_nameElements setTitle:AILocalizedString(@"Name elements", "Contains name format tokens")];
+	
+	[label_firstToken setLocalizedString:AILocalizedString(@"First", "First name token")];
+	[label_middleToken setLocalizedString:AILocalizedString(@"Middle", "Middle name token")];
+	[label_lastToken setLocalizedString:AILocalizedString(@"Last", "Last name token")];
+	[label_nickToken setLocalizedString:AILocalizedString(@"Nick", "Nickname token")];
+	
+	NSString *displayFormat = [adium.preferenceController preferenceForKey:KEY_AB_DISPLAYFORMAT group:PREF_GROUP_ADDRESSBOOK];
+	[tokenField_format setDelegate:self];
+	[tokenField_format setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
+	[tokenField_format setObjectValue:[self separateStringIntoTokens:displayFormat]];
+
+	[tokenField_firstToken setDelegate:self];
+	[tokenField_firstToken setStringValue:FORMAT_FIRST_FULL];
+	[tokenField_middleToken setDelegate:self];
+	[tokenField_middleToken setStringValue:FORMAT_MIDDLE_FULL];
+	[tokenField_lastToken setDelegate:self];
+	[tokenField_lastToken setStringValue:FORMAT_LAST_FULL];
+	[tokenField_nickToken setDelegate:self];
+	[tokenField_nickToken setStringValue:FORMAT_NICK_FULL];
+	
 	[checkBox_enableImport setLocalizedString:AILocalizedString(@"Import my contacts' names from the Address Book",nil)];
-	[checkBox_useNickName setLocalizedString:AILocalizedString(@"Use nickname if available",nil)];
-	[checkBox_useMiddleName setLocalizedString:AILocalizedString(@"Use middle name if available",nil)];
+	[checkBox_useFirstName setLocalizedString:AILocalizedString(@"Use First if Nick not available", nil)];
+	[checkBox_useNickName setLocalizedString:AILocalizedString(@"Use Nick if First not available",nil)];
 	[checkBox_useABImages setLocalizedString:AILocalizedString(@"Use Address Book images as contacts' icons",nil)];
 	[checkBox_preferABImages setLocalizedString:AILocalizedString(@"Even if the contact already has a contact icon",nil)];
 	[checkBox_syncAutomatic setLocalizedString:AILocalizedString(@"Overwrite Address Book images with contacts' icons",nil)];
@@ -86,12 +115,10 @@
 
 	[checkBox_enableImport setState:[[adium.preferenceController preferenceForKey:KEY_AB_ENABLE_IMPORT
 																			  group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[popUp_formatMenu selectItemAtIndex:[popUp_formatMenu indexOfItemWithTag:[[adium.preferenceController preferenceForKey:KEY_AB_DISPLAYFORMAT
-																													   group:PREF_GROUP_ADDRESSBOOK] integerValue]]];
+	[checkBox_useFirstName setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_FIRSTNAME
+																			group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	[checkBox_useNickName setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_NICKNAME
 																			 group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_useMiddleName setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_MIDDLE
-																			   group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	[checkBox_syncAutomatic setState:[[adium.preferenceController preferenceForKey:KEY_AB_IMAGE_SYNC
 																			   group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	[checkBox_useABImages setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_IMAGES
@@ -125,9 +152,14 @@
 																		  group:PREF_GROUP_ADDRESSBOOK] boolValue];
 	
 	//Use Nick Name and the format menu are irrelevent if importing of names is not enabled
-	[checkBox_useNickName setEnabled:enableImport];	
-	[popUp_formatMenu setEnabled:enableImport];
-	[checkBox_useMiddleName setEnabled:enableImport];
+	[checkBox_useFirstName setEnabled:enableImport];
+	[checkBox_useNickName setEnabled:enableImport];
+	
+	[tokenField_format setEnabled:enableImport];
+	[tokenField_firstToken setEnabled:enableImport];
+	[tokenField_middleToken setEnabled:enableImport];
+	[tokenField_lastToken setEnabled:enableImport];
+	[tokenField_nickToken setEnabled:enableImport];
 
 	//We will not allow image syncing if AB images are preferred
 	//so disable the control and uncheck the box to indicate this to the user
@@ -141,84 +173,13 @@
 }
 
 /*!
- * @brief Configure the menu of name formats
- */
-- (void)configureFormatMenu
-{
-    NSMenu			*choicesMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
-    NSMenuItem		*menuItem;
-	NSString		*firstTitle, *firstLastTitle, *lastFirstTitle, *lastFirstNoCommaTitle, *firstLastInitial;
-	
-	BOOL			useMiddleName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_MIDDLE
-																			  group:PREF_GROUP_ADDRESSBOOK] boolValue];
-	
-	//If the use middle name preference is set, we use the menu titles that include a middle name
-	if (useMiddleName) {
-		firstTitle = ADDRESS_BOOK_FIRST_MIDDLE_OPTION;
-		firstLastTitle = ADDRESS_BOOK_FIRST_MIDDLE_LAST_OPTION;
-		lastFirstTitle = ADDRESS_BOOK_LAST_FIRST_MIDDLE_OPTION;
-		lastFirstNoCommaTitle = ADDRESS_BOOK_LAST_FIRST_MIDDLE_NO_COMMA_OPTION;
-		firstLastInitial = ADDRESS_BOOK_FIRST_MIDDLE_LAST_INITIAL;
-
-	//Otherwise we use the standard menu titles
-	} else {
-		firstTitle = ADDRESS_BOOK_FIRST_OPTION;
-		firstLastTitle = ADDRESS_BOOK_FIRST_LAST_OPTION;
-		lastFirstTitle = ADDRESS_BOOK_LAST_FIRST_OPTION;
-		lastFirstNoCommaTitle = ADDRESS_BOOK_LAST_FIRST_NO_COMMA_OPTION;
-		firstLastInitial = ADDRESS_BOOK_FIRST_LAST_INITIAL;
-	}
-	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:firstTitle
-																	 target:self
-																	 action:@selector(changeFormat:)
-															  keyEquivalent:@""] autorelease];
-    [menuItem setTag:First];
-    [choicesMenu addItem:menuItem];
-	
-    menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:firstLastTitle
-																	 target:self
-																	 action:@selector(changeFormat:)
-															  keyEquivalent:@""] autorelease];
-    [menuItem setTag:FirstLast];
-    [choicesMenu addItem:menuItem];
-    
-    menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:lastFirstTitle
-																	 target:self
-																	 action:@selector(changeFormat:)
-															  keyEquivalent:@""] autorelease];
-    [menuItem setTag:LastFirst];
-    [choicesMenu addItem:menuItem];
-	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:lastFirstNoCommaTitle
-																	 target:self
-																	 action:@selector(changeFormat:)
-															  keyEquivalent:@""] autorelease];
-	[menuItem setTag:LastFirstNoComma];
-	[choicesMenu addItem:menuItem];
-
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:firstLastInitial
-																	 target:self
-																	 action:@selector(changeFormat:)
-															  keyEquivalent:@""] autorelease];
-	[menuItem setTag:FirstLastInitial];
-	[choicesMenu addItem:menuItem];
-
-    [popUp_formatMenu setMenu:choicesMenu];
-	
-    NSRect oldFrame = [popUp_formatMenu frame];
-    [popUp_formatMenu setFrameOrigin:oldFrame.origin];
-	[[self view] setNeedsDisplay:YES];
-}
-
-/*!
  * @brief Save changed name format preference
  */
 - (IBAction)changeFormat:(id)sender
 {
-        [adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender tag]]
-                                            forKey:KEY_AB_DISPLAYFORMAT
-                                            group:PREF_GROUP_ADDRESSBOOK];
+	[adium.preferenceController setPreference:[[sender objectValue] componentsJoinedByString:@""]
+									   forKey:KEY_AB_DISPLAYFORMAT
+                                        group:PREF_GROUP_ADDRESSBOOK];
 }
 
 /*!
@@ -235,19 +196,14 @@
         [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
                                              forKey:KEY_AB_USE_IMAGES
                                               group:PREF_GROUP_ADDRESSBOOK];
-		
+	} else if (sender == checkBox_useFirstName) {
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
+										   forKey:KEY_AB_USE_FIRSTNAME
+											group:PREF_GROUP_ADDRESSBOOK];
     } else if (sender == checkBox_useNickName) {
         [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
-                                             forKey:KEY_AB_USE_NICKNAME
-                                              group:PREF_GROUP_ADDRESSBOOK];
-		
-	} else if (sender == checkBox_useMiddleName) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
-											 forKey:KEY_AB_USE_MIDDLE
-											  group:PREF_GROUP_ADDRESSBOOK];
-		//Update the format menu to reflect the use of middle names
-		[self configureFormatMenu];
-		
+										   forKey:KEY_AB_USE_NICKNAME
+                                            group:PREF_GROUP_ADDRESSBOOK];
     } else if (sender == checkBox_enableImport) {
         [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
                                              forKey:KEY_AB_ENABLE_IMPORT
@@ -303,6 +259,170 @@
 		//Put the checkbox back
 		[checkBox_metaContacts setState:![checkBox_metaContacts state]];
 	}
+}
+
+
+#pragma mark Token Field Delegate
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
+{
+	NSString *tokenStrings = [tokens componentsJoinedByString:@""];
+	return [self separateStringIntoTokens:tokenStrings];
+}
+
+- (BOOL)tokenField:(NSTokenField *)tokenField writeRepresentedObjects:(NSArray *)objects toPasteboard:(NSPasteboard *)pboard
+{
+	[pboard setString:[objects componentsJoinedByString:@""] forType:NSStringPboardType];
+	return YES;
+}
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField readFromPasteboard:(NSPasteboard *)pboard
+{
+	return [self separateStringIntoTokens:[pboard stringForType:NSStringPboardType]];
+}
+
+- (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject
+{
+	if ([representedObject hasPrefix:@"%["] && [representedObject hasSuffix:@"]"]) {
+		return NSRoundedTokenStyle;
+	} else {
+		return NSPlainTextTokenStyle;
+	}
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
+{
+	if ([representedObject isEqualToString:FORMAT_FIRST_FULL]) {
+		return @"Evan";
+	} else if ([representedObject isEqualToString:FORMAT_FIRST_INITIAL]) {
+		return @"E";
+	} else if ([representedObject isEqualToString:FORMAT_MIDDLE_FULL]) {
+		return @"Dreskin";
+	} else if ([representedObject isEqualToString:FORMAT_MIDDLE_INITIAL]) {
+		return @"D";
+	} else if ([representedObject isEqualToString:FORMAT_LAST_FULL]) {
+		return @"Schoenberg";
+	} else if ([representedObject isEqualToString:FORMAT_LAST_INITIAL]) {
+		return @"S";
+	} else if ([representedObject isEqualToString:FORMAT_NICK_FULL]) {
+		return @"TekJew";
+	} else if ([representedObject isEqualToString:FORMAT_NICK_INITIAL]) {
+		return @"T";
+	} else {
+		return nil;
+	}
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject
+{
+	if ([representedObject hasPrefix:@"%["] && [representedObject hasSuffix:@"]"]) {
+		return nil;
+	} else {
+		return representedObject;
+	}
+}
+
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString
+{
+	if ([editingString hasPrefix:@"%["] && [editingString hasSuffix:@"]"]) {
+		// Return mutable string as formats should be modifiable
+		return [NSMutableString stringWithString:editingString];
+	} else {
+		return editingString;
+	}
+}
+
+- (BOOL)tokenField:(NSTokenField *)tokenField hasMenuForRepresentedObject:(id)representedObject
+{
+	if (tokenField == tokenField_format) {
+		// Only tokens in Format should have menus
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (NSMenu *)tokenField:(NSTokenField *)tokenField menuForRepresentedObject:(id)representedObject
+{
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	
+	if (!representedObject)
+		return nil;
+
+	NSString *fullName = [self tokenField:tokenField 
+		displayStringForRepresentedObject:[representedObject stringByReplacingOccurrencesOfString:@"INITIAL"
+																					   withString:@"FULL"]];
+	[menu addItemWithTitle:fullName
+					target:self
+					action:@selector(changeFormatToFullName:)
+			 keyEquivalent:@"" 
+		 representedObject:representedObject];
+	
+	NSString *initialCharacter = [self tokenField:tokenField
+				displayStringForRepresentedObject:[representedObject stringByReplacingOccurrencesOfString:@"FULL"
+																					   withString:@"INITIAL"]];
+	[menu addItemWithTitle:initialCharacter
+					target:self
+					action:@selector(changeFormatToInitialCharacter:)
+			 keyEquivalent:@""
+		 representedObject:representedObject];
+	
+	return menu;
+}
+
+- (void)changeFormatToInitialCharacter:(id)sender
+{
+	[[sender representedObject] replaceOccurrencesOfString:FORMAT_FULL
+												withString:FORMAT_INITIAL
+												   options:NSLiteralSearch 
+													 range:NSMakeRange(0, [[sender representedObject] length])];
+	
+	[tokenField_format updateDisplay];
+	[self changeFormat:tokenField_format];
+}
+
+- (void)changeFormatToFullName:(id)sender
+{
+	[[sender representedObject] replaceOccurrencesOfString:FORMAT_INITIAL
+												withString:FORMAT_FULL
+												   options:NSLiteralSearch 
+													 range:NSMakeRange(0, [[sender representedObject] length])];
+
+	[tokenField_format updateDisplay];
+	[self changeFormat:tokenField_format];
+}
+
+- (NSArray *)separateStringIntoTokens:(NSString *)string
+{
+	NSMutableArray *tokens = [NSMutableArray array];
+	
+	int i = 0;
+	while (i < [string length]) {
+		unsigned int start = i;
+		
+		// Search for end of current token
+		if ([[string substringFromIndex:i] hasPrefix:@"%["]) {
+			for (; i < [string length]; i++) {
+				if ([[string substringFromIndex:i] hasPrefix:@"]"]) {
+					i++;
+					break;
+				}
+			}
+			
+		// Search for start of next token
+		} else {
+			for (; i < [string length]; i++) {
+				if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%["]) {
+					i++;
+					break;
+				}
+			}
+		}
+		
+		[tokens addObject:[[string substringWithRange:NSMakeRange(start, i - start)] mutableCopy]];
+	}
+	
+	return tokens;
 }
 
 @end
