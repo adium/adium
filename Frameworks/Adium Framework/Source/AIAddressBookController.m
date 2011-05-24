@@ -105,7 +105,50 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		
 		//We want the enableImport preference immediately (without waiting for the preferences observer to be registered in adiumFinishedLaunching:)
 		enableImport = [[adium.preferenceController preferenceForKey:KEY_AB_ENABLE_IMPORT
-									 group:PREF_GROUP_ADDRESSBOOK] boolValue];
+															   group:PREF_GROUP_ADDRESSBOOK] boolValue];
+		
+		//If Address Book integration is enabled, we need those preferences to determine contact's names
+		if (enableImport) {
+			displayFormat = [[adium.preferenceController preferenceForKey:KEY_AB_DISPLAYFORMAT
+																	group:PREF_GROUP_ADDRESSBOOK] retain];
+			useFirstName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_FIRSTNAME
+																   group:PREF_GROUP_ADDRESSBOOK] boolValue];
+			useNickName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_NICKNAME
+																  group:PREF_GROUP_ADDRESSBOOK] boolValue];
+		}
+		
+		//If old format-menu preference is set, perform migration
+		if ([adium.preferenceController preferenceForKey:@"AB Display Format" group:PREF_GROUP_ADDRESSBOOK]) {
+
+			[displayFormat release];
+
+			NSInteger oldPreference = [[adium.preferenceController preferenceForKey:@"AB Display Format" group:PREF_GROUP_ADDRESSBOOK] integerValue];
+			
+			switch (oldPreference) {
+				case 0: //firstlast
+					displayFormat = [[NSString alloc] initWithFormat:@"%@ %@", FORMAT_FIRST_FULL, FORMAT_LAST_FULL];
+					break;
+				case 1: //first
+					displayFormat = [FORMAT_FIRST_FULL retain];
+					break;
+				case 2: //lastfirst
+					displayFormat = [[NSString alloc] initWithFormat:@"%@, %@", FORMAT_LAST_FULL, FORMAT_FIRST_FULL];
+					break;
+				case 3: //lastfirstnocomma
+					displayFormat = [[NSString alloc] initWithFormat:@"%@ %@", FORMAT_LAST_FULL, FORMAT_FIRST_FULL];
+					break;
+				case 4: //firstlastinitial
+					displayFormat = [[NSString alloc] initWithFormat:@"%@ %@", FORMAT_FIRST_FULL, FORMAT_LAST_INITIAL];
+					break;
+				default:
+					displayFormat = [[NSString alloc] initWithFormat:@"%@ %@", FORMAT_FIRST_FULL, FORMAT_LAST_FULL];
+			}
+			
+			[adium.preferenceController setPreference:nil forKey:@"AB Display Format" group:PREF_GROUP_ADDRESSBOOK];
+			[adium.preferenceController setPreference:displayFormat 
+											   forKey:KEY_AB_DISPLAYFORMAT
+												group:PREF_GROUP_ADDRESSBOOK];
+		}
 		
 		//Services dictionary
 		serviceDict = [[NSDictionary dictionaryWithObjectsAndKeys:kABAIMInstantProperty,@"AIM",
@@ -126,7 +169,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 						 object:nil];
 		
 		//Update self immediately so the information is available to plugins and interface elements as they load
-		[self updateSelfIncludingIcon:YES];	
+		[self updateSelfIncludingIcon:YES];
 	}
 	return self;
 }
@@ -196,6 +239,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+	[displayFormat release]; displayFormat = nil;
 
 	[super dealloc];
 }
@@ -400,97 +445,81 @@ NSString* serviceIDForJabberUID(NSString *UID);
  *
  * @param person An <tt>ABPerson</tt>
  * @param phonetic A pointer to an <tt>NSString</tt> which will be filled with the phonetic display name if available
- * @result A string based on the first name, last name, and/or nickname of the person, as specified via preferences.
+ * @result A string based on the first name, middle name, last name, and/or nickname of the person, as specified via preferences.
  */
 - (NSString *)nameForPerson:(ABPerson *)person phonetic:(NSString **)phonetic
 {
-	NSString *firstName, *middleName, *lastName, *phoneticFirstName, *phoneticLastName;	
-	NSString *nickName;
-	NSString *displayName = nil;
-	NSNumber *flags;
-	NameStyle thisDisplayFormat = displayFormat;
+	NSString *firstName = [person valueForProperty:kABFirstNameProperty];
+	NSString *middleName = [person valueForProperty:kABMiddleNameProperty];
+	NSString *lastName = [person valueForProperty:kABLastNameProperty];
+	NSString *nickName = [person valueForProperty:kABNicknameProperty]; 
+	NSString *phoneticFirstName = [person valueForProperty:kABFirstNamePhoneticProperty]; 
+	NSString *phoneticMiddleName = [person valueForProperty:kABMiddleNamePhoneticProperty];
+	NSString *phoneticLastName = [person valueForProperty:kABLastNamePhoneticProperty];
+	
+	NSString *displayName = displayFormat;
+
+	// Fallback if format string is empty or unexpected
+	if (!displayName || ![displayName isKindOfClass:[NSString class]] || [displayName isEqualToString:@""]) {
+		displayName = FORMAT_FIRST_FULL;
+	}
 	
 	// If the record is for a company, return the company name if present
-	if ((flags = [person valueForProperty:kABPersonFlags])) {
-		if (([flags integerValue] & kABShowAsMask) == kABShowAsCompany) {
-			NSString *companyName = [person valueForProperty:kABOrganizationProperty];
-			if (companyName && [companyName length]) {
-				return companyName;
-			}
-		}
-
-		if (([flags integerValue] & kABNameOrderingMask) == kABLastNameFirst) {
-			if (thisDisplayFormat == FirstLast) {
-				thisDisplayFormat = LastFirstNoComma;
-			}
+	if (([[person valueForProperty:kABPersonFlags] integerValue] & kABShowAsMask) == kABShowAsCompany) {
+		NSString *companyName = [person valueForProperty:kABOrganizationProperty];
+		if (companyName && [companyName length]) {
+			return companyName;
 		}
 	}
-		
-	firstName = [person valueForProperty:kABFirstNameProperty];
-	middleName = [person valueForProperty:kABMiddleNameProperty];
-	lastName = [person valueForProperty:kABLastNameProperty];
-	phoneticFirstName = [person valueForProperty:kABFirstNamePhoneticProperty];
-	phoneticLastName = [person valueForProperty:kABLastNamePhoneticProperty];
+
+	BOOL havePhonetic = ((phonetic != NULL) && (phoneticFirstName || phoneticMiddleName || phoneticLastName));
 	
-	//
-	if (useMiddleName && middleName)
-		firstName = [NSString stringWithFormat:@"%@ %@", firstName, middleName];
+	if (useFirstName && (!nickName || [nickName isEqualToString:@""]) && firstName)
+		nickName = firstName;
+	else if (useNickName && (!firstName || [firstName isEqualToString:@""]) && nickName)
+		firstName = nickName;
 
-	if (useNickName &&
-		(nickName = [person valueForProperty:kABNicknameProperty]) &&
-		![nickName isEqualToString:@""]) {
-		displayName = nickName;
 
-	} else if (!lastName || (thisDisplayFormat == First)) {  
-		/* If no last name is available, use the first name */
-		displayName = firstName;
-		if (phonetic != NULL) *phonetic = phoneticFirstName;
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_FIRST_FULL
+														 withString:firstName ? firstName : @""];
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_FIRST_INITIAL
+														 withString:firstName ? [firstName substringToIndex:1] : @""];
+	
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_FULL
+														 withString:middleName ? middleName : @""];
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_INITIAL
+														 withString:middleName ? [middleName substringToIndex:1] : @""];
+	
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_LAST_FULL
+														 withString:lastName ? lastName : @""];
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_LAST_INITIAL
+														 withString:lastName ? [lastName substringToIndex:1] : @""];
 
-	} else if (!firstName) {
-		/* If no first name is available, use the last name */
-		displayName = lastName;
-		if (phonetic != NULL) *phonetic = phoneticLastName;
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_NICK_FULL
+														 withString:nickName ? nickName : @""];
+	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_NICK_INITIAL
+														 withString:nickName ? [nickName substringToIndex:1] : @""];
 
-	} else {
-		BOOL havePhonetic = ((phonetic != NULL) && (phoneticFirstName || phoneticLastName));
-
-		/* Look to the preference setting */
-		switch (thisDisplayFormat) {
-			case FirstLast:
-				displayName = [NSString stringWithFormat:@"%@ %@",firstName,lastName];
-				if (havePhonetic) {
-					*phonetic = [NSString stringWithFormat:@"%@ %@",
-						(phoneticFirstName ? phoneticFirstName : firstName),
-						(phoneticLastName ? phoneticLastName : lastName)];
-				}
-				break;
-			case LastFirst:
-				displayName = [NSString stringWithFormat:@"%@, %@",lastName,firstName]; 
-				if (havePhonetic) {
-					*phonetic = [NSString stringWithFormat:@"%@, %@",
-						(phoneticLastName ? phoneticLastName : lastName),
-						(phoneticFirstName ? phoneticFirstName : firstName)];
-				}
-				break;
-			case LastFirstNoComma:
-				displayName = [NSString stringWithFormat:@"%@ %@",lastName,firstName]; 
-				if (havePhonetic) {
-					*phonetic = [NSString stringWithFormat:@"%@ %@",
-						(phoneticLastName ? phoneticLastName : lastName),
-						(phoneticFirstName ? phoneticFirstName : firstName)];
-				}					
-				break;
-			case FirstLastInitial:
-				displayName = [NSString stringWithFormat:@"%@ %@",firstName,[lastName substringToIndex:1]]; 
-				if (havePhonetic) {
-					*phonetic = [NSString stringWithFormat:@"%@ %@",
-								 (phoneticFirstName ? phoneticFirstName : firstName),
-								 [lastName substringToIndex:1]];
-				}
-			case First:
-				//No action; handled before we reach the switch statement
-				break;
-		}
+	if (havePhonetic) {
+		*phonetic = displayFormat;
+		
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_FIRST_FULL
+														 withString:phoneticFirstName ? phoneticFirstName : @""];
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_FIRST_INITIAL
+														 withString:phoneticFirstName ? [phoneticFirstName substringToIndex:1] : @""];
+		
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_FULL
+														 withString:phoneticMiddleName ? phoneticMiddleName : @""];
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_INITIAL
+														 withString:phoneticMiddleName ? [phoneticMiddleName substringToIndex:1] : @""];
+		
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_LAST_FULL
+														 withString:phoneticLastName ? phoneticLastName : @""];
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_LAST_INITIAL
+														 withString:phoneticLastName ? [phoneticLastName substringToIndex:1] : @""];
+		
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_NICK_FULL withString:@""];
+		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_NICK_INITIAL withString:@""];
 	}
 
 	return displayName;
@@ -519,10 +548,11 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 	//load new displayFormat
 	enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
-	displayFormat = (NameStyle)[[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
 	automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
+	useFirstName = [[prefDict objectForKey:KEY_AB_USE_FIRSTNAME] boolValue];
 	useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
-	useMiddleName = [[prefDict objectForKey:KEY_AB_USE_MIDDLE] boolValue];
+	displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] retain];
+
 
 	createMetaContacts = [[prefDict objectForKey:KEY_AB_CREATE_METACONTACTS] boolValue];
 	
@@ -942,7 +972,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			
 			//Set account display names
 			if (enableImport) {
-				NSString		*myPhonetic = nil;
+				NSString *myPhonetic = nil;
 				NSString *myDisplayName = [self nameForPerson:me phonetic:&myPhonetic];
 				
 				for (AIAccount *account in adium.accountController.accounts) {
@@ -960,8 +990,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				}
 
 				[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:[[NSAttributedString stringWithString:myDisplayName] dataRepresentation]
-																						   forKey:KEY_ACCOUNT_DISPLAY_NAME]
-													  forGroup:GROUP_ACCOUNT_STATUS];
+																						 forKey:KEY_ACCOUNT_DISPLAY_NAME]
+													forGroup:GROUP_ACCOUNT_STATUS];
 			}
         }
 	}

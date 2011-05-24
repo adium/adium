@@ -21,26 +21,28 @@
 
 #define PREF_GROUP_ADDRESSBOOK					@"Address Book"
 #define KEY_AB_ENABLE_IMPORT					@"AB Enable Import"
-#define KEY_AB_DISPLAYFORMAT					@"AB Display Format"
+#define KEY_AB_DISPLAYFORMAT					@"AB Display Format String"
 #define KEY_AB_NOTE_SYNC						@"AB Note Sync"
 #define KEY_AB_USE_IMAGES						@"AB Use AB Images"
 #define KEY_AB_IMAGE_SYNC						@"AB Image Sync"
 #define KEY_AB_PREFER_ADDRESS_BOOK_IMAGES		@"AB Prefer AB Images"
+#define KEY_AB_USE_FIRSTNAME					@"AB Use FirstName"
 #define KEY_AB_USE_NICKNAME						@"AB Use NickName"
-#define KEY_AB_USE_MIDDLE						@"AB Use Middle Name"
 #define KEY_AB_CREATE_METACONTACTS				@"AB Create MetaContacts"
-
 #define AB_DISPLAYFORMAT_DEFAULT_PREFS			@"AB Display Format Defaults"
 
-@class AIService, AIAddressBookUserIconSource;
+#define FORMAT_FULL								@"FULL"
+#define FORMAT_INITIAL							@"INITIAL"
+#define FORMAT_FIRST_INITIAL					@"%[FIRSTINITIAL]"
+#define FORMAT_FIRST_FULL						@"%[FIRSTFULL]"
+#define FORMAT_MIDDLE_INITIAL					@"%[MIDDLEINITIAL]"
+#define FORMAT_MIDDLE_FULL						@"%[MIDDLEFULL]"
+#define FORMAT_LAST_INITIAL						@"%[LASTINITIAL]"
+#define FORMAT_LAST_FULL						@"%[LASTFULL]"
+#define FORMAT_NICK_INITIAL						@"%[NICKINITIAL]"
+#define FORMAT_NICK_FULL						@"%[NICKFULL]"
 
-typedef enum {
-	FirstLast = 0,
-	First,
-	LastFirst,
-	LastFirstNoComma,
-	FirstLastInitial
-} NameStyle;
+@class AIService, AIAddressBookUserIconSource;
 
 typedef enum {
 	AIRequiresAddressBookEntry,
@@ -55,10 +57,10 @@ typedef enum {
 
 	NSInteger			meTag;
     
-	NameStyle			displayFormat;
+	NSString				*displayFormat;
 	BOOL					enableImport;
+	BOOL					useFirstName;
 	BOOL					useNickName;
-	BOOL					useMiddleName;
 	BOOL					automaticUserIconSync;
 	BOOL					createMetaContacts;
 	
