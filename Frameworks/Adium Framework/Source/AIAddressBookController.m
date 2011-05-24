@@ -483,22 +483,22 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_FIRST_FULL
 														 withString:firstName ? firstName : @""];
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_FIRST_INITIAL
-														 withString:firstName ? [firstName substringToIndex:1] : @""];
+														 withString:([firstName length] > 0) ? [firstName substringToIndex:1] : @""];
 	
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_FULL
 														 withString:middleName ? middleName : @""];
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_INITIAL
-														 withString:middleName ? [middleName substringToIndex:1] : @""];
+														 withString:([middleName length] > 0) ? [middleName substringToIndex:1] : @""];
 	
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_LAST_FULL
 														 withString:lastName ? lastName : @""];
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_LAST_INITIAL
-														 withString:lastName ? [lastName substringToIndex:1] : @""];
+														 withString:([lastName length] > 0) ? [lastName substringToIndex:1] : @""];
 
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_NICK_FULL
 														 withString:nickName ? nickName : @""];
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_NICK_INITIAL
-														 withString:nickName ? [nickName substringToIndex:1] : @""];
+														 withString:([nickName length] > 0) ? [nickName substringToIndex:1] : @""];
 
 	if (havePhonetic) {
 		*phonetic = displayFormat;
@@ -506,17 +506,17 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_FIRST_FULL
 														 withString:phoneticFirstName ? phoneticFirstName : @""];
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_FIRST_INITIAL
-														 withString:phoneticFirstName ? [phoneticFirstName substringToIndex:1] : @""];
+														 withString:([phoneticFirstName length] > 0) ? [phoneticFirstName substringToIndex:1] : @""];
 		
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_FULL
 														 withString:phoneticMiddleName ? phoneticMiddleName : @""];
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_MIDDLE_INITIAL
-														 withString:phoneticMiddleName ? [phoneticMiddleName substringToIndex:1] : @""];
+														 withString:([phoneticMiddleName length] > 0) ? [phoneticMiddleName substringToIndex:1] : @""];
 		
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_LAST_FULL
 														 withString:phoneticLastName ? phoneticLastName : @""];
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_LAST_INITIAL
-														 withString:phoneticLastName ? [phoneticLastName substringToIndex:1] : @""];
+														 withString:([phoneticLastName length] > 0) ? [phoneticLastName substringToIndex:1] : @""];
 		
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_NICK_FULL withString:@""];
 		*phonetic = [*phonetic stringByReplacingOccurrencesOfString:FORMAT_NICK_INITIAL withString:@""];
