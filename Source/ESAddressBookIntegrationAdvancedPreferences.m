@@ -40,8 +40,7 @@
 }
 @end
 
-@interface ESAddressBookIntegrationAdvancedPreferences () {
-}
+@interface ESAddressBookIntegrationAdvancedPreferences ()
 - (IBAction)changeFormat:(id)sender;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (NSArray *)separateStringIntoTokens:(NSString *)string;
