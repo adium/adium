@@ -105,8 +105,8 @@
 	[tokenField_nickToken setStringValue:FORMAT_NICK_FULL];
 	
 	[checkBox_enableImport setLocalizedString:AILocalizedString(@"Import my contacts' names from the Address Book",nil)];
-	[checkBox_useFirstName setLocalizedString:AILocalizedString(@"Use First if Nick not available", nil)];
-	[checkBox_useNickName setLocalizedString:AILocalizedString(@"Use Nick if First not available",nil)];
+	[checkBox_useFirstName setLocalizedString:AILocalizedString(@"Replace Nick with First if not available", nil)];
+	[checkBox_useNickName setLocalizedString:AILocalizedString(@"Use Nick exclusively if available",nil)];
 	[checkBox_useABImages setLocalizedString:AILocalizedString(@"Use Address Book images as contacts' icons",nil)];
 	[checkBox_preferABImages setLocalizedString:AILocalizedString(@"Even if the contact already has a contact icon",nil)];
 	[checkBox_syncAutomatic setLocalizedString:AILocalizedString(@"Overwrite Address Book images with contacts' icons",nil)];

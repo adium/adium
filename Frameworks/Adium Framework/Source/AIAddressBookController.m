@@ -113,8 +113,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 																	group:PREF_GROUP_ADDRESSBOOK] retain];
 			useFirstName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_FIRSTNAME
 																   group:PREF_GROUP_ADDRESSBOOK] boolValue];
-			useNickName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_NICKNAME
-																  group:PREF_GROUP_ADDRESSBOOK] boolValue];
+			useNickNameOnly = [[adium.preferenceController preferenceForKey:KEY_AB_USE_NICKNAME
+																	  group:PREF_GROUP_ADDRESSBOOK] boolValue];
 		}
 		
 		//If old format-menu preference is set, perform migration
@@ -474,10 +474,11 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 	BOOL havePhonetic = ((phonetic != NULL) && (phoneticFirstName || phoneticMiddleName || phoneticLastName));
 	
+	if (useNickNameOnly && nickName && [nickName length] != 0)
+		return nickName;
+	
 	if (useFirstName && (!nickName || [nickName isEqualToString:@""]) && firstName)
 		nickName = firstName;
-	else if (useNickName && (!firstName || [firstName isEqualToString:@""]) && nickName)
-		firstName = nickName;
 
 
 	displayName = [displayName stringByReplacingOccurrencesOfString:FORMAT_FIRST_FULL
@@ -550,7 +551,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
 	automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
 	useFirstName = [[prefDict objectForKey:KEY_AB_USE_FIRSTNAME] boolValue];
-	useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
+	useNickNameOnly = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
 	displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] retain];
 
 

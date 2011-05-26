@@ -27,7 +27,7 @@
 #define KEY_AB_IMAGE_SYNC						@"AB Image Sync"
 #define KEY_AB_PREFER_ADDRESS_BOOK_IMAGES		@"AB Prefer AB Images"
 #define KEY_AB_USE_FIRSTNAME					@"AB Use FirstName"
-#define KEY_AB_USE_NICKNAME						@"AB Use NickName"
+#define KEY_AB_USE_NICKNAME						@"AB Use NickName Only"
 #define KEY_AB_CREATE_METACONTACTS				@"AB Create MetaContacts"
 #define AB_DISPLAYFORMAT_DEFAULT_PREFS			@"AB Display Format Defaults"
 
@@ -60,7 +60,7 @@ typedef enum {
 	NSString				*displayFormat;
 	BOOL					enableImport;
 	BOOL					useFirstName;
-	BOOL					useNickName;
+	BOOL					useNickNameOnly;
 	BOOL					automaticUserIconSync;
 	BOOL					createMetaContacts;
 	
