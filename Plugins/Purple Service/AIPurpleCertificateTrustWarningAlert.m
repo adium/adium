@@ -51,21 +51,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 							 resultCallback:(void (*)(gboolean trusted, void *userdata))_query_cert_cb
 								   userData:(void*)ud
 {
-	if ([hostname caseInsensitiveCompare:@"talk.google.com"] == NSOrderedSame) {
-		NSString *UID = account.UID;
-		NSRange startOfDomain = [UID rangeOfString:@"@"];
-		if (startOfDomain.location == NSNotFound ||
-			([[UID substringFromIndex:NSMaxRange(startOfDomain)] caseInsensitiveCompare:@"gmail.com"] == NSOrderedSame)) {
-			/* Google Talk accounts end up with a cert signed using gmail.com as the server.
-			 * However, Google For Domains accounts are signed using talk.google.com.
-			 */
-			hostname = @"gmail.com";
-		} else if ([[UID substringFromIndex:NSMaxRange(startOfDomain)] caseInsensitiveCompare:@"googlemail.com"] == NSOrderedSame) {
-			/* There are three certificates, as far as I (am) know. Maybe we should ask Sean for confirmation. */
-			hostname = @"googlemail.com";
-		}
-	}
-
 	AIPurpleCertificateTrustWarningAlert *alert = [[self alloc] initWithAccount:account hostname:hostname certificates:certs resultCallback:_query_cert_cb userData:ud];
 	[alert showWindow:nil];
 	[alert release];
