@@ -31,7 +31,7 @@
 	
 	IBOutlet	NSButton				*checkBox_metaContacts;
 	
-	IBOutlet	AILocalizationTextField	*label_formatNamesAs;
+	IBOutlet	AILocalizationTextField	*label_instructions;
 	IBOutlet	AILocalizationTextField	*label_names;
 	IBOutlet	AILocalizationTextField	*label_images;
 	IBOutlet	AILocalizationTextField	*label_contacts;
