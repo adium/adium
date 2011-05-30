@@ -78,7 +78,7 @@
  */
 - (void)viewDidLoad
 {
-	[label_formatNamesAs setLocalizedString:AILocalizedString(@"Format name as:", "Format name as: [tokens like 'First', 'Last']")];
+	[label_instructions setLocalizedString:AILocalizedString(@"Type text and drag name elements to create a custom name format.", nil)];
 	[label_names setLocalizedString:AILocalizedString(@"Names",nil)];
 	[label_images setLocalizedString:AILocalizedString(@"Images",nil)];
 	[label_contacts setLocalizedString:AILocalizedString(@"Contacts",nil)];
