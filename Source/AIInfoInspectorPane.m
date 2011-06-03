@@ -838,14 +838,7 @@
 {
 	NSArray *tooltipEntries = [[adium.interfaceController contactListTooltipPrimaryEntries] arrayByAddingObjectsFromArray:[adium.interfaceController contactListTooltipSecondaryEntries]];
 	for (id <AIContactListTooltipEntry> tooltipEntry in tooltipEntries) {
-		/* Note: shouldDisplayInContactInspector is a required part of the AIContactListTooltipEntry protocol. However,
-		 * we are checking for its implementation for compatibility with Adium 1.2 tooltip plugins since Adium 1.3
-		 * provides no decent way to notify the user that a plugin is incompatible.
-		 *
-		 * XXX - Remove me in Adium 1.4
-		 */
-		if (![tooltipEntry respondsToSelector:@selector(shouldDisplayInContactInspector)] ||
-			[tooltipEntry shouldDisplayInContactInspector]) {
+		if ([tooltipEntry shouldDisplayInContactInspector]) {
 			id label, value;
 			if ((label = [tooltipEntry labelForObject:inContact]) &&
 				(value = [tooltipEntry entryForObject:inContact])) {
