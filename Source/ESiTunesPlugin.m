@@ -42,21 +42,9 @@
 #define	KEY_PLAYING					@"Playing"
 #define	KEY_PAUSED					@"Paused"
 #define	KEY_STOPPED					@"Stopped"
-#define CURRENT_TRACK_FORMAT_KEY	@"Current Track Format"
 #define ITMS_SEARCH_URL				@"itms://itunes.com/link?"
 									//itms://phobos.apple.com/WebObjects/MZSearch.woa/wa/search?"
 #pragma mark -
-
-#define ALBUM_TRIGGER				AILocalizedString(@"%_album","Trigger for the album of the currently playing iTunes song")
-#define ARTIST_TRIGGER				AILocalizedString(@"%_artist","Trigger for the artist of the currently playing iTunes song")
-#define COMPOSER_TRIGGER			AILocalizedString(@"%_composer","Trigger for the composer of the currently playing iTunes song")
-#define GENRE_TRIGGER				AILocalizedString(@"%_genre","Trigger for the genre of the currently playing iTunes song")
-#define STATUS_TRIGGER				AILocalizedString(@"%_status","Trigger for the genre of the currently playing iTunes song")
-#define TRACK_TRIGGER				AILocalizedString(@"%_track","Trigger for the name of the currently playing iTunes song")
-#define YEAR_TRIGGER				AILocalizedString(@"%_year","Trigger for the year of the currently playing iTunes song")
-#define	STORE_URL_TRIGGER			AILocalizedString(@"%_iTMS","Trigger for an iTunes Music Store link to the currently playing iTunes song")
-#define MUSIC_TRIGGER				AILocalizedString(@"%_music","Command which triggers *is listening to %_track by %_artist*")
-#define CURRENT_TRACK_TRIGGER		AILocalizedString(@"%_iTunes","Trigger for the song - artist of the currently playing iTunes song")
 
 #define	MUSICAL_NOTE				[NSString stringWithUTF8String:"\342\231\253"]
 #define CURRENT_ITUNES_TRACK		[NSString stringWithFormat:@"%@ iTunes", MUSICAL_NOTE]
@@ -73,6 +61,7 @@
 @interface ESiTunesPlugin ()
 - (NSMenuItem *)menuItemWithTitle:(NSString *)title action:(SEL)action representedObject:(id)representedObject kind:(KGiTunesPluginMenuItemKind)itemKind;
 - (void)createiTunesCurrentTrackStatusState;
+- (void)updateiTunesCurrentTrackFormat;
 - (void)createiTunesToolbarItemWithPath:(NSString *)path;
 - (void)createiTunesToolbarItemMenuItems:(NSMenu *)iTunesMenu;
 - (void)createTriggersMenu;
@@ -83,6 +72,7 @@
 
 - (void)fireUpdateiTunesInfo;
 - (void)iTunesUpdate:(NSNotification *)aNotification;
+- (void)currentTrackFormatDidChange:(NSNotification *)aNotification;
 - (void)insertFilteredString:(id)sender;
 - (void)insertiTMSLink;
 - (void)gatherSelection;
@@ -205,10 +195,6 @@
  */
 - (void)installPlugin
 {
-	NSDictionary	*slashMusicDict = nil;
-	NSDictionary	*conditionalArtistTrackDict = nil;
-	NSString		*currentITunesTrackFormat = nil;
-	NSUserDefaults	*defaults = [NSUserDefaults standardUserDefaults];
 	NSString		*itunesPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.iTunes"];
 
 	iTunesCurrentInfo = nil;
@@ -225,6 +211,10 @@
 															selector:@selector(iTunesUpdate:)
 																name:@"com.apple.iTunes.playerInfo"
 															  object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(currentTrackFormatDidChange:)
+													 name:Adium_CurrentTrackFormatChangedNotification
+												   object:nil];
 		
 		substitutionDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			ITUNES_ALBUM, ALBUM_TRIGGER,
@@ -237,44 +227,8 @@
 			ITUNES_STORE_URL, STORE_URL_TRIGGER,
 			nil];
 		
-		slashMusicDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSString stringWithFormat:AILocalizedString(@"*is listening to %@ by %@*","Phrase sent in response to %_music.  The first %%@ is the track; the second %%@ is the artist."), TRACK_TRIGGER, ARTIST_TRIGGER],
-			KEY_PLAYING,
-			AILocalizedString(@"*is listening to nothing*","Phrase sent in response to %_music when nothing is playing."),
-			KEY_STOPPED,
-			nil];
-		
-		/* Provide flexibility with the %_iTunes substitution. By default, just store @"" for this key
-		 * so the item is present in the plist for the adventurous to find... but still not hardcoded to a particular
-		 * format.  This is done so that a default installation doesn't have its format broken if the locale switches...
-		 * since the format specifiers are themselves localized.
-		 */
-		currentITunesTrackFormat = [defaults objectForKey:CURRENT_TRACK_FORMAT_KEY];
-		if (!currentITunesTrackFormat) {
-			[defaults setObject:@"" forKey:CURRENT_TRACK_FORMAT_KEY];
-			currentITunesTrackFormat = @"";
-		}
-		
-		if (![currentITunesTrackFormat length]) {
-			currentITunesTrackFormat  = [NSString stringWithFormat:@"%@ - %@", TRACK_TRIGGER, ARTIST_TRIGGER];
-		}
-		
-		conditionalArtistTrackDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			currentITunesTrackFormat,
-			KEY_PLAYING,
-			@"",
-			KEY_STOPPED,
-			nil];
-		
-		phraseSubstitutionDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			slashMusicDict,
-			MUSIC_TRIGGER,
-			conditionalArtistTrackDict,
-			CURRENT_TRACK_TRIGGER,
-			nil];
-		
-		[slashMusicDict release];
-		[conditionalArtistTrackDict release];
+		//Update the format for "Current iTunes Track"
+		[self updateiTunesCurrentTrackFormat];
 		
 		//Create the "Current iTunes Track" status item
 		[self createiTunesCurrentTrackStatusState];
@@ -382,6 +336,57 @@
 	//give it to the AIStatusController
 	[adium.statusController addStatusState:currentiTunesStatusState];
 	[currentiTunesStatusState release];
+}
+
+- (void)updateiTunesCurrentTrackFormat
+{
+	NSDictionary	*slashMusicDict = nil;
+	NSDictionary	*conditionalArtistTrackDict = nil;
+	NSString		*currentITunesTrackFormat = nil;
+	
+	slashMusicDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+					  [NSString stringWithFormat:AILocalizedString(@"*is listening to %@ by %@*","Phrase sent in response to %_music.  The first %%@ is the track; the second %%@ is the artist."), TRACK_TRIGGER, ARTIST_TRIGGER],
+					  KEY_PLAYING,
+					  AILocalizedString(@"*is listening to nothing*","Phrase sent in response to %_music when nothing is playing."),
+					  KEY_STOPPED,
+					  nil];
+	
+	/* Provide flexibility with the %_iTunes substitution. By default, just store @"" for this key.
+	 * But still not hardcoded to a particular format. This is done so that a default installation 
+	 * doesn't have its format broken if the locale switches...
+	 * since the format specifiers are themselves localized.
+	 */
+	currentITunesTrackFormat = [adium.preferenceController preferenceForKey:KEY_CURRENT_TRACK_FORMAT
+																	  group:PREF_GROUP_STATUS_PREFERENCES];
+	if (!currentITunesTrackFormat) {
+		[adium.preferenceController setPreference:@""
+										   forKey:KEY_CURRENT_TRACK_FORMAT
+											group:PREF_GROUP_STATUS_PREFERENCES];
+		currentITunesTrackFormat = @"";
+	}
+	
+	if (![currentITunesTrackFormat length]) {
+		currentITunesTrackFormat  = [NSString stringWithFormat:@"%@ - %@", TRACK_TRIGGER, ARTIST_TRIGGER];
+	}
+	
+	conditionalArtistTrackDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+								  currentITunesTrackFormat,
+								  KEY_PLAYING,
+								  @"",
+								  KEY_STOPPED,
+								  nil];
+	
+	phraseSubstitutionDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+							  slashMusicDict,
+							  MUSIC_TRIGGER,
+							  conditionalArtistTrackDict,
+							  CURRENT_TRACK_TRIGGER,
+							  nil];
+
+    [self fireUpdateiTunesInfo];
+
+	[slashMusicDict release];
+	[conditionalArtistTrackDict release];
 }
 
 #pragma mark -
@@ -518,6 +523,15 @@
 	
 	[pool release];
 }
+
+/*!
+ * @brief The CurrentTrack format changed
+ */
+- (void)currentTrackFormatDidChange:(NSNotification *)aNotification
+{
+	[self updateiTunesCurrentTrackFormat];
+}
+
 
 #pragma mark -
 #pragma mark Toolbar Item Methods
