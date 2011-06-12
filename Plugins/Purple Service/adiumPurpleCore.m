@@ -263,7 +263,11 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 		/* This is Adium's clientKey registered under Zachary West's account, fuark.
 		 * Key management occurs at: http://developer.aim.com/manageKeys.jsp */
 		g_hash_table_insert(ui_info, "prpl-aim-clientkey", "fu13Le5Ibonik3Sv");
-		g_hash_table_insert(ui_info, "prpl-icq-clientkey", "fu13Le5Ibonik3Sv");
+		
+		/* As our previous key doesn't work with ICQ anymore, and registering for a
+		 * new one requires signing an agreement which contradicts the GPL on various
+		 * points, we now use the key used by the offical AIR (Mac/Linux) client. */
+		g_hash_table_insert(ui_info, "prpl-icq-clientkey", "ic1-IIcaJnnNV5xA");
 	}
 
 	return ui_info;
