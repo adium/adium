@@ -88,13 +88,19 @@ Version 1.5 (X/X/20X)
   * The contact window's toolbar items now have appropriate labels. (#13010)
 
 
-Version 1.4.2 (X/X/2011)
- * Updated to libpurple 2.7.11. Highlights of applicable changes:
-   * MSN: Fixed bug that prevented adding contacts to your contact list in certain circumstances. (#14965)
-   * MSN: Added support for MSNP16 including multiple points of presence (MPOP) which allows multiple simultaneous sign-ins and which should resolve connection problems involving the "Signed in from another location" error. (#13654)
-   * MSN: Fixed crash related to Direct Connections. (#14650)
-   * ICQ: Fixed a bug where some contacts from your contact list might not show up. Affected non-English users the most. (#14901)
+Version 1.4.2 (06/13/2011)
+ Updated to libpurple 2.7.11. Highlights of applicable changes:
+  * MSN
+    * Fixed bug that prevented adding contacts to your contact list in certain circumstances. (#14965)
+    * Added support for MSNP16 including multiple points of presence (MPOP) which allows multiple simultaneous sign-ins and which should resolve connection problems involving the "Signed in from another location" error. (#13654)
+    * Fixed crash related to Direct Connections. (#14650)
+  * ICQ
+    * Fixed a bug where some contacts from your contact list might not show up. Affected non-English users the most. (#14901)
 
+ Contact List
+  * Fixed tooltips not being updated when scrollwheeling through the contact list. (#3480)
+  * Improved readability of tooltips by making their contents opaque and only the background transparent. (#15050)
+ 
  Logging
   * Added a "Log only certain accounts" setting to Adium's "General" preferences. (#8, #14522)
   * Added a "Log secure chats" setting to Adium's "General" preferences. (#94)
@@ -104,22 +110,32 @@ Version 1.4.2 (X/X/2011)
   * Only display focus indication for group chats. (#14420)
   * Enable %service% keyword in header.
   * Fixed issue where sections of conversations loaded from message history are repeated. (#13362)
-  * Mockie: new mention and focus indicators. (#14420)
-  * Fixed Renkoo to not scroll to bottom on new content regardless of scroll position. (#14331)
-  * Fixed Stockholm's breaking with RTL text. (#10403)
-  * Fixed message time popup intefering with copy and paste (#14361)
   * Fixed iChat emoticons in Snow Leopard on case-sensitive file systems. (#14936)
-
- Facebook
-  * Changed Adium's Facebook account option to connect via the official XMPP API.
-    * 
+  * minimal_mod
+    * Disabled consecutivization of actions to prevent overlapping icons. Fixed erroneous application of a grey dotted top border to a consecutive, unfocused action that follows a non-action. Fixed text wrap alignment issues on actions.
+  * Mockie
+    * New mention and focus indicators, and improved scaling at large font sizes. (#14420)
+  * Renkoo
+    * No longer scrolls to bottom on new content regardless of scroll position. (#14331)
+  * Smooth Operator
+    * Compact: Mentions in actions are no longer italicized. Sendercolor Adiumy is not displayed in IRC too. Fixed progressively increasing saturation of the sendercolor Adiumy on each consecutive message.
+    * Classic: Fixed slight misalignment between sender and message. Lightened the on-click shadow. The per-message marks in the classic variant now grow to the left rather than to the right where it can overlap message text.
+    * Dark: New variant!
+    * all variants: Improved the performance of all-by-sender-on-click javascript. Shifted the built-in buddy icons down a few pixels so they look more centered. Switched to more compact focus indication icons.
+  * Stockholm
+    * Reverted to pre-1.4 layout for per-message timestamps (#14361). Per-message timestamps now display on the left when the message text is RTL (#10403).
+  * yMous
+    * Removed the per-message triangle, slimmed the area between the sender and message, and fixed more elements to scale with font-size. Improved the performance of all-by-sender-on-click javascript.
 
  ICQ
   * Fixed ICQ disconnections going unnoticed. (#14229)
   * Fixed hang caused by reading badly formatted transcripts from ICQ. (#14627)
+  * Switch to clientLogin authentication for ICQ and AIM, allowing SSL to be used if possible again. Change the options for encryption to "Require"/"Opportunistic"/"Disabled." (#15000)
+  * Use the clientLogin key of the official ICQ Mac client instead of the AIM key we had which got banned. (#15244)
 
  IRC
-  * Fixed a crash related to Cyrillic nicknames in IRC. (#13351)
+  * Fixed a crash related to invalid UTF8 in nicknames on IRC. (#13351)
+  * Fixed a crash that occurred when opening irc://-links to new servers on ports other than 6667. (#15093)
 
  MSN
   * Added a preference to enable/disable MSN Direct Connections. (#14602)
@@ -138,13 +154,11 @@ Version 1.4.2 (X/X/2011)
   * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (Shawn Khan) (#14454)
   * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
   * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (Adrian Godoroja) (#9908)
+  * Fixed an issue with adding URLs via copy/paste resulting in an invalid link. (#15229)
 
  Localisation
   * Updated the Localizable.strings files, adding missing translatable strings/nibs. (#14588, #14582)
-  * Updated and improved German localisation.
-  * Updated and improved Dutch localisation.
-  * Updated Swedish localisation. (#14993)
-  * Updated the British English localisation. (#15116)
+  * Updated and improved localisations: British English (#15116), Catalan (#15231), Danish (#15160), Dutch (#15202), Finnish (#15211), French (#15198), German (#15204), Italian (#15224), Polish (#15230), Portuguese (Portugal) (#15223), Russian (#15246), Swedish (#15217).
   * Fixed an issue in the Czech localisation. (#14586)
 
 
