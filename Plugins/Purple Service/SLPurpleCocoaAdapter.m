@@ -1084,14 +1084,17 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	
 	// Find an existing buddy in the group.
 	buddy = purple_find_buddy_in_group(account, buddyUTF8String, group);
-	if (!buddy) buddy = purple_buddy_new(account, buddyUTF8String, aliasUTF8String);
+	if (!buddy) {
+		buddy = purple_buddy_new(account, buddyUTF8String, aliasUTF8String);
+		
+		/* purple_blist_add_buddy() will move an existing contact serverside, but will not add a buddy serverside.
+		 * We're working with a new contact, hopefully, so we want to call serv_add_buddy() after modifying the purple list.
+		 * This is the order done in add_buddy_cb() in gtkblist.c */
+		purple_blist_add_buddy(buddy, NULL, group, NULL);
+	}
 
 	AILog(@"Adding buddy %s to group %s with alias %s",purple_buddy_get_name(buddy), group->name, aliasUTF8String);
 
-	/* purple_blist_add_buddy() will move an existing contact serverside, but will not add a buddy serverside.
-	 * We're working with a new contact, hopefully, so we want to call serv_add_buddy() after modifying the purple list.
-	 * This is the order done in add_buddy_cb() in gtkblist.c */
-	purple_blist_add_buddy(buddy, NULL, group, NULL);
 	purple_account_add_buddy(account, buddy);
 }
 
