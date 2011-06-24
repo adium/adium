@@ -16,7 +16,7 @@
 
 @implementation AIFacebookXMPPAccountViewController
 
-@synthesize spinner, textField_OAuthStatus, button_OAuthStart;
+@synthesize spinner, textField_OAuthStatus, button_OAuthStart, button_help;
 
 - (void)dealloc
 {
