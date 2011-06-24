@@ -12,8 +12,10 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 
+#import "PurpleFacebookAccount.h"
+
 @implementation AIFacebookXMPPAccountViewController
-@synthesize view_migration, textField_migrationStatus, button_migrationHelp, button_migrationOAuthStart, migrationSpinner;
+
 @synthesize spinner, textField_OAuthStatus, button_OAuthStart;
 
 - (void)dealloc
@@ -33,10 +35,7 @@
 }
 
 - (NSView *)setupView
-{
-	if ([(AIFacebookXMPPAccount *)account migratingAccount])
-		return view_migration;
-	
+{	
 	return view_setup;
 }
 
@@ -102,14 +101,18 @@
  */
 - (IBAction)changedPreference:(id)sender
 {
-	if (sender == button_OAuthStart || sender == button_migrationOAuthStart) {
+	if (sender == button_OAuthStart) {
 		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
 		[button_OAuthStart setEnabled:NO];
 
-	} else if (sender == button_migrationHelp) {
-		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
 	} else 
 		[super changedPreference:sender];
+}
+
+/* xxx it'd be better to link to an entry in our docs */
+- (IBAction)showHelp:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
 }
 
 @end

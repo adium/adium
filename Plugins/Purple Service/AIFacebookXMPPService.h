@@ -8,6 +8,8 @@
 
 #import "PurpleService.h"
 
+#define FACEBOOK_XMPP_SERVICE_ID @"FBXMPP"
+
 @interface AIFacebookXMPPService : PurpleService {
 
 }

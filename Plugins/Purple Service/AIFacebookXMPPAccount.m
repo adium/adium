@@ -23,8 +23,6 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIPasswordPromptController.h>
-#import <Adium/AILoginControllerProtocol.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIService.h>
 
 enum {
@@ -34,7 +32,6 @@ enum {
 };
 
 @interface AIFacebookXMPPAccount ()
-- (void)finishMigration;
 
 @property (nonatomic, copy) NSString *oAuthToken;
 @property (nonatomic, assign) NSUInteger networkState;
@@ -49,7 +46,7 @@ enum {
 @implementation AIFacebookXMPPAccount
 
 @synthesize oAuthWC;
-@synthesize migratingAccount;
+@synthesize migrationData;
 @synthesize oAuthToken;
 @synthesize networkState, connection, connectionResponse, connectionData;
 
@@ -191,63 +188,6 @@ enum {
 	}
 }
 
-#pragma mark Status
-
-- (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
-							  arguments:(NSMutableDictionary *)arguments
-{
-	const char		*statusID = NULL;
-	NSString		*statusName = statusState.statusName;
-	NSString		*statusMessageString = [statusState statusMessageString];
-	NSNumber		*priority = nil;
-	
-	if (!statusMessageString) statusMessageString = @"";
-	
-	switch (statusState.statusType) {
-		case AIAvailableStatusType:
-		{
-			if (([statusName isEqualToString:STATUS_NAME_FREE_FOR_CHAT]) ||
-				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]] == NSOrderedSame))
-				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_CHAT);
-			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
-			break;
-		}
-			
-		case AIAwayStatusType:
-		{
-			if (([statusName isEqualToString:STATUS_NAME_DND]) ||
-				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame) ||
-				[statusName isEqualToString:STATUS_NAME_BUSY]) {
-				//Note that Jabber doesn't actually support a 'busy' status; if we have it set because some other service supports it, treat it as DND
-				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_DND);
-				
-			} else if (([statusName isEqualToString:STATUS_NAME_EXTENDED_AWAY]) ||
-					   ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]] == NSOrderedSame))
-				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_XA);
-			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
-			break;
-		}
-			
-		case AIInvisibleStatusType:
-			AILog(@"Warning: Invisibility is not yet supported in libpurple 2.0.0 jabber");
-			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
-			statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_AWAY);
-			break;
-			
-		case AIOfflineStatusType:
-			break;
-	}
-	
-	//Set our priority, which is actually set along with the status...Default is 0.
-	[arguments setObject:(priority ? priority : [NSNumber numberWithInt:0])
-				  forKey:@"priority"];
-	
-	//If we didn't get a purple status ID, request one from super
-	if (statusID == NULL) statusID = [super purpleStatusIDForStatus:statusState arguments:arguments];
-	
-	return statusID;
-}
-
 #pragma mark Account configuration
 
 - (void)setName:(NSString *)name UID:(NSString *)inUID
@@ -302,21 +242,26 @@ enum {
 {
 	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
 	self.oAuthWC.account = self;
-	
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
 														object:self
 													  userInfo:
 	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressPromptingUser]
 								 forKey:KEY_FB_XMPP_AUTH_STEP]];
-	if (self.migratingAccount) {
-    	/* We're migrating from an entirely separate AIAccount (an old, http-based Facebook account) to this one */
-		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
-		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self.migratingAccount];
-	} else if (![[self class] uidIsValidForFacebook:self.UID]) {
-		/* We have a UID which isn't a Facebook numeric username. That can come from the setup wizard, for example. */
+
+	if (![[self class] uidIsValidForFacebook:self.UID]) {
+		/* We have a UID which isn't a Facebook numeric username. That can come from:
+		 *	 1. The setup wizard
+		 *   2. Facebook-HTTP account from Adium <= 1.4.2
+		 */
 		self.oAuthWC.autoFillUsername = self.UID;
 		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self];
-    }
+		
+		self.migrationData = [NSDictionary dictionaryWithObjectsAndKeys:
+							  self.UID, @"originalUID",
+							  self.service.serviceID, @"originalServiceID",
+							  nil];
+	}
 
 	[self.oAuthWC showWindow:self];
 }
@@ -389,6 +334,19 @@ enum {
 								 forKey:KEY_FB_XMPP_AUTH_STEP]];		
 }
 
+- (void)didCompleteFacebookAuthorization
+{
+	/* Restart the connect process; we're currently considered 'connecting', so passwordReturnedForConnect:::
+	 * isn't going to restart it for us. */
+	[self connect];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressSuccess]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
+}
+
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError
 {
     if (inError) {
@@ -397,9 +355,6 @@ enum {
         return;
     }    
     
-    NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
-   	
-	[[adium accountController] setPassword:sessionKey forAccount:self];
 
 	/* Uncomment the below to store the Session Secret in the keychain. It doesn't seem to be used.
 	 
@@ -417,27 +372,19 @@ enum {
 												   keychainItem:NULL
 														  error:NULL];
 	 */
-	self.oAuthWC = nil;
-    self.oAuthToken = nil;
-    
+	
+	NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
+	[[adium accountController] setPassword:sessionKey forAccount:self];
+
 	/* When we're newly authorized, connect! */
 	[self passwordReturnedForConnect:sessionKey
 						  returnCode:AIPasswordPromptOKReturn
 							 context:nil];
-	
-	/* Restart the connect process; we're currently considered 'connecting', so passwordReturnedForConnect:::
-	 * isn't going to restart it for us. */
-	[self connect];
-	
-	if (self.migratingAccount) {
-		[self finishMigration];        
-    }
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
-														object:self
-													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressSuccess]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];
+
+	[self didCompleteFacebookAuthorization];
+
+	self.oAuthWC = nil;
+    self.oAuthToken = nil;
 }
 
 #pragma mark NSURLConnectionDelegate
@@ -485,58 +432,6 @@ enum {
     } else if (state == AIPromoteSessionNetworkState) {
         [self promoteSessionDidFinishLoading:data response:response error:nil];
     }    
-}
-
-#pragma mark Migration
-/*
- * Move logs from the old account's to the new account's log folder, changing the name along the way.
- * Finally delete the old account.
- */
-- (void)finishMigration
-{
-	if (!self.migratingAccount)
-		return;
-
-	//Move logs to the new account
-	NSString *logsDir = [[adium.loginController userDirectory] stringByAppendingPathComponent:@"/Logs"];
-	
-	NSString *oldFolder = [NSString stringWithFormat:@"%@.%@", self.migratingAccount.service.serviceID, [self.migratingAccount.UID safeFilenameString]];
-	NSString *newFolder = [NSString stringWithFormat:@"%@.%@", self.service.serviceID, [self.UID safeFilenameString]];
-	NSString *basePath = [[logsDir stringByAppendingPathComponent:oldFolder] stringByExpandingTildeInPath];
-	NSString *newPath = [[logsDir stringByAppendingPathComponent:newFolder] stringByExpandingTildeInPath];
-	
-	NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
-	NSInteger errors = 0;
-	
-	for (NSString *file in [fileManager enumeratorAtPath:basePath]) {
-		if ([[file pathExtension] isEqualToString:@"xml"]) {
-			/* turn 'XXXXXXX69 (2009-01-20T19.10.07-0500).xml'
-			 * into '-XXXXXXX69@chat.facebook.com (2009-01-20T19.10.07-0500).xml'
-			 */
-			NSRange UIDrange = [[file lastPathComponent] rangeOfString:@" "];
-			if (UIDrange.location > 0) {
-				NSString *uid = [[file lastPathComponent] substringToIndex:UIDrange.location];
-				NSString *newName = [file stringByReplacingOccurrencesOfString:uid
-																	withString:[NSString stringWithFormat:@"-%@@%@", uid, self.host]];
-				
-				[fileManager createDirectoryAtPath:[newPath stringByAppendingPathComponent:[newName stringByDeletingLastPathComponent]]
-					   withIntermediateDirectories:YES
-										attributes:nil
-											 error:NULL];
-				if (![fileManager moveItemAtPath:[basePath stringByAppendingPathComponent:file]
-										  toPath:[newPath stringByAppendingPathComponent:newName]
-										   error:NULL])
-					errors++;
-			}
-		}
-	}
-	
-	if (!errors)
-		[fileManager removeItemAtPath:basePath error:NULL];
-	
-	//Delete old account
-	[adium.accountController deleteAccount:self.migratingAccount];
-	self.migratingAccount = nil;
 }
 
 @end

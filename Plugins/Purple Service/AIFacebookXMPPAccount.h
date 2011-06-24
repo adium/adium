@@ -30,7 +30,6 @@ typedef enum {
 
 @interface AIFacebookXMPPAccount : CBPurpleAccount {
 	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-	AIAccount *migratingAccount; // weak
     
     NSString *oAuthToken;
     NSUInteger networkState;
@@ -38,12 +37,21 @@ typedef enum {
     NSURLConnection *connection; // weak
     NSURLResponse *connectionResponse;
     NSMutableData *connectionData;
+	
+	NSDictionary *migrationData;
 }
 
 + (BOOL)uidIsValidForFacebook:(NSString *)inUID;
 
 @property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-@property (nonatomic, assign) AIAccount *migratingAccount;
 - (void)requestFacebookAuthorization;
+
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token;
+- (void)oAuthWebViewControllerDidFail:(AIFacebookXMPPOAuthWebViewWindowController *)wc;
+
+@property (nonatomic, retain) NSDictionary *migrationData;
+@end
+
+@interface AIFacebookXMPPAccount (ForSubclasses)
+- (void)didCompleteFacebookAuthorization;
 @end

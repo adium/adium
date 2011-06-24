@@ -54,15 +54,15 @@
 }
 
 - (NSString *)serviceCodeUniqueID{
-    return @"FBXMPP";
+    return FACEBOOK_XMPP_SERVICE_ID;
 }
 
 - (NSString *)serviceID{
-    return @"FBXMPP";
+    return FACEBOOK_XMPP_SERVICE_ID;
 }
 
 - (NSString *)serviceClass{
-	return @"FBXMPP";
+	return @"Facebook";
 }
 
 - (NSString *)shortDescription{
@@ -71,6 +71,11 @@
 
 - (NSString *)longDescription{
     return @"Facebook (XMPP)";
+}
+
+- (BOOL)isSocialNetworkingService
+{
+	return YES;
 }
 
 - (NSString *)userNameLabel{
