@@ -77,12 +77,9 @@
     return AILocalizedString(@"Email",nil);
 }
 
+/* Allow any characters; technically this should be the email-acceptable-characters regexp. */
 - (NSCharacterSet *)allowedCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_ "];
-}
-
-- (NSCharacterSet *)allowedCharactersForUIDs{
-	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
+	return nil;
 }
 
 - (AIServiceImportance)serviceImportance
