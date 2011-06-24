@@ -73,9 +73,8 @@
     return @"Facebook (XMPP)";
 }
 
-- (NSString *)userNameLabel
-{
-	return nil;
+- (NSString *)userNameLabel{
+    return AILocalizedString(@"Email",nil);
 }
 
 - (NSCharacterSet *)allowedCharacters{
