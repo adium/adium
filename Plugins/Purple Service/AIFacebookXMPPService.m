@@ -74,12 +74,15 @@
 }
 
 - (NSString *)userNameLabel{
-    return AILocalizedString(@"Email",nil);
+    return AILocalizedString(@"Email", "Used as a label for a username specified by email address");
+}
+- (NSString *)contactUserNameLabel{
+	return AILocalizedString(@"Facebook Email", "Label for the username for a Facebook contact");
 }
 
 /* Allow any characters; technically this should be the email-acceptable-characters regexp. */
 - (NSCharacterSet *)allowedCharacters{
-	return nil;
+	return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
 
 - (AIServiceImportance)serviceImportance
