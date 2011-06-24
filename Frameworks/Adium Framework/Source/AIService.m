@@ -262,7 +262,7 @@
  */
 - (NSCharacterSet *)allowedCharacters
 {
-    return nil;
+    return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
 
 /*!
