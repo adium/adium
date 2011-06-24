@@ -93,6 +93,12 @@
 			DOMDocument *domDoc = [frame DOMDocument];
 			[[domDoc getElementById:@"email"] setValue:self.autoFillUsername];
 			[[domDoc getElementById:@"pass"] setValue:self.autoFillPassword];
+			
+			DOMElement *checkbox = [domDoc getElementById:@"persistent_inputcheckbox"];
+			if ([checkbox isKindOfClass:[NSClassFromString(@"DOMHTMLInputElement") class]] &&
+				[checkbox respondsToSelector:@selector(setChecked:)]) {
+				[((DOMHTMLInputElement *)checkbox) setChecked:YES];
+			}
 		}
 	}
 }
