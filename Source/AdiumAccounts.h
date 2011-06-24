@@ -35,5 +35,6 @@
 - (void)deleteAccount:(AIAccount *)inAccount;
 - (NSUInteger)moveAccount:(AIAccount *)account toIndex:(NSUInteger)destIndex;
 - (void)accountDidChangeUID:(AIAccount *)account;
+- (void)moveAccount:(AIAccount *)account toService:(AIService *)service;
 
 @end
