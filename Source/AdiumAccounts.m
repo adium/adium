@@ -37,6 +37,10 @@
 - (void)upgradeAccounts;
 @end
 
+@interface AIAccount (SekretsIKnow)
+@property (nonatomic, assign) AIService *service;
+@end
+
 /*!
  * @class AdiumAccounts
  * @brief Class to handle AIAccount access and creation
@@ -186,6 +190,12 @@
  */
 - (void)accountDidChangeUID:(AIAccount *)account
 {
+	[self _saveAccounts];
+}
+
+- (void)moveAccount:(AIAccount *)account toService:(AIService *)service
+{
+	account.service = service;
 	[self _saveAccounts];
 }
 

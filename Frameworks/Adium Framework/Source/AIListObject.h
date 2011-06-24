@@ -120,7 +120,7 @@ typedef enum {
 
 //Identifying information
 @property (readonly, nonatomic) NSString *UID;
-@property (readonly, nonatomic) AIService *service;
+@property (readonly, assign, nonatomic) AIService *service;
 @property (readonly, nonatomic) NSString *internalObjectID;
 + (NSString *)internalObjectIDForServiceID:(NSString *)inServiceID UID:(NSString *)inUID;
 

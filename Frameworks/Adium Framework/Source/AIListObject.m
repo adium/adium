@@ -40,6 +40,9 @@
 - (void)setContainingGroup:(AIListGroup *)inGroup;
 - (void)setupObservedValues;
 - (void)updateOrderCache;
+
+@property (nonatomic, assign) AIService *service;
+
 @end
 
 /*!
