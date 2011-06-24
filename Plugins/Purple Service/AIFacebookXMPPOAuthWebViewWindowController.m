@@ -11,6 +11,7 @@
 #import "AIFacebookXMPPAccount.h"
 #import "JSONKit.h"
 
+
 @interface AIFacebookXMPPOAuthWebViewWindowController ()
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response;
 - (void)addCookiesToRequest:(NSMutableURLRequest *)request;
@@ -35,9 +36,10 @@
 {
 	self.account = nil;
 	self.cookies = nil;
+	
+	[self.webView close];
 	self.webView = nil;
 	self.spinner = nil;
-
     
     [super dealloc];
 }
@@ -52,7 +54,7 @@
     [super showWindow:sender];
 
     [webView setMainFrameURL:@"https://graph.facebook.com/oauth/authorize?"
-     @"client_id=176717249009197&"
+     @"client_id=" APP_ID "&"
      @"redirect_uri=http%3A%2F%2Fwww.facebook.com%2Fconnect%2Flogin_success.html&"
 	 @"scope=xmpp_login,offline_access&"
      @"type=user_agent&"
@@ -72,6 +74,7 @@
 	}
 	return params;
 }
+
 
 - (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
 {
@@ -112,13 +115,13 @@
 		} else {
 			/* Got a bad token, or the user canceled */
 		}		
-		
+
 		[self closeWindow:nil];
-		return nil;
 	}
 	
 	return mutableRequest;
 }
+
 
 - (void)webView:(WebView *)sender resource:(id)identifier didReceiveResponse:(NSURLResponse *)response fromDataSource:(WebDataSource *)dataSource;
 {

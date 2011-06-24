@@ -10,6 +10,10 @@
 
 @class AIFacebookXMPPOAuthWebViewWindowController;
 
+#define APP_ID "164063256994618"
+#define API_KEY "add7b04ecedcd84645f3c32e7884682d"
+#define APP_SECRET "bb9d2d9771790e69a0e943771ddf33c8"
+
 @interface AIFacebookXMPPAccount : CBPurpleAccount {
 	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 	AIAccount *migratingAccount; // weak
