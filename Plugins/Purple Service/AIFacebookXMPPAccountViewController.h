@@ -20,6 +20,7 @@
 @property (assign) IBOutlet NSProgressIndicator *spinner;
 @property (assign) IBOutlet NSTextField *textField_OAuthStatus;
 @property (assign) IBOutlet NSButton *button_OAuthStart;
+@property (assign) IBOutlet NSButton *button_help;
 
 - (IBAction)showHelp:(id)sender;
 
