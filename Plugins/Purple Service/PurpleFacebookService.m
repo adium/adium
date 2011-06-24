@@ -46,6 +46,10 @@
 	return @"Facebook";
 }
 
+- (BOOL)isHidden
+{
+	return YES;
+}
 
 /*!
  * @brief Default icon
