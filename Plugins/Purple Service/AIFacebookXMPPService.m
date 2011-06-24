@@ -70,7 +70,7 @@
 }
 
 - (NSString *)longDescription{
-    return @"Facebook (XMPP)";
+    return @"Facebook";
 }
 
 - (BOOL)isSocialNetworkingService
