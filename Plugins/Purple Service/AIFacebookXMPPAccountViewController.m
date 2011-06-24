@@ -18,6 +18,7 @@
 
 - (void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -53,8 +54,44 @@
 	
 	if ([[AIFacebookXMPPAccount class] uidIsValidForFacebook:account.UID] &&
 		[adium.accountController passwordForAccount:account].length) {
-		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium currently has access to your account.", nil)];
+		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
 		[button_OAuthStart setEnabled:NO];
+	} else {
+		[textField_OAuthStatus setStringValue:@""];
+		[button_OAuthStart setEnabled:YES]; 
+	}
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(authProgressDidChange:)
+												 name: AIFacebookXMPPAuthProgressNotification
+											   object:inAccount];
+}
+
+- (void) authProgressDidChange:(NSNotification *)notification
+{
+	AIFacebookXMPPAuthProgressStep step = [[notification.userInfo objectForKey:KEY_FB_XMPP_AUTH_STEP] intValue];
+	
+	switch (step) {
+		case AIFacebookXMPPAuthProgressPromptingUser:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
+			break;
+			
+		case AIFacebookXMPPAuthProgressContactingServer:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Contacting authorization server", nil) stringByAppendingEllipsis]];
+			break;
+
+		case AIFacebookXMPPAuthProgressPromotingForChat:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Promoting authorization for chat", nil) stringByAppendingEllipsis]];
+			break;
+
+		case AIFacebookXMPPAuthProgressSuccess:
+			[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
+			break;
+			
+		case AIFacebookXMPPAuthProgressFailure:
+			[textField_OAuthStatus setStringValue:AILocalizedString(@"Could not complete authorization.", nil)];
+			[button_OAuthStart setEnabled:YES];
+			break;
 	}
 }
 
@@ -67,7 +104,7 @@
 {
 	if (sender == button_OAuthStart || sender == button_migrationOAuthStart) {
 		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
-		[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
+		[button_OAuthStart setEnabled:NO];
 
 	} else if (sender == button_migrationHelp) {
 		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];

@@ -303,6 +303,11 @@ enum {
 	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
 	self.oAuthWC.account = self;
 	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressPromptingUser]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];
 	if (self.migratingAccount) {
     	/* We're migrating from an entirely separate AIAccount (an old, http-based Facebook account) to this one */
 		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
@@ -327,6 +332,24 @@ enum {
     self.networkState = AIMeGraphAPINetworkState;
     self.connectionData = [NSMutableData data];
     self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressContactingServer]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
+}
+
+- (void)oAuthWebViewControllerDidFail:(AIFacebookXMPPOAuthWebViewWindowController *)wc
+{
+	[self setOAuthToken:nil];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressFailure]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
+	
 }
 
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)inResponse error:(NSError *)inError
@@ -358,6 +381,12 @@ enum {
     self.networkState = AIPromoteSessionNetworkState;
     self.connectionData = [NSMutableData data];
     self.connection = [NSURLConnection connectionWithRequest:secretRequest delegate:self];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressPromotingForChat]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];		
 }
 
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError
@@ -403,6 +432,12 @@ enum {
 	if (self.migratingAccount) {
 		[self finishMigration];        
     }
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+														object:self
+													  userInfo:
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressSuccess]
+								 forKey:KEY_FB_XMPP_AUTH_STEP]];
 }
 
 #pragma mark NSURLConnectionDelegate
@@ -505,4 +540,3 @@ enum {
 }
 
 @end
-	
