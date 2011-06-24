@@ -54,7 +54,7 @@
     [super showWindow:sender];
 
     [webView setMainFrameURL:@"https://graph.facebook.com/oauth/authorize?"
-     @"client_id=" APP_ID "&"
+     @"client_id=" ADIUM_APP_ID "&"
      @"redirect_uri=http%3A%2F%2Fwww.facebook.com%2Fconnect%2Flogin_success.html&"
 	 @"scope=xmpp_login,offline_access&"
      @"type=user_agent&"

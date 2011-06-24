@@ -16,6 +16,8 @@
 #import "auth_fb.h"
 #import "auth.h"
 
+#import <AIUtilities/AIKeychain.h>
+
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "JSONKit.h"
 
@@ -51,6 +53,25 @@ enum {
 @synthesize oAuthToken;
 @synthesize networkState, connection, connectionResponse, connectionData;
 
++ (BOOL)uidIsValidForFacebook:(NSString *)inUID
+{
+	return ((inUID.length > 0) &&
+			[inUID stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]].length == 0);
+}
+
+- (id)initWithUID:(NSString *)inUID internalObjectID:(NSString *)inInternalObjectID service:(AIService *)inService
+{
+	if ((self = [super initWithUID:inUID internalObjectID:inInternalObjectID service:inService])) {
+		if (![[self class] uidIsValidForFacebook:self.UID]) {
+			[self setValue:[NSNumber numberWithBool:YES]
+			   forProperty:@"Prompt For Password On Next Connect"
+					notify:NotifyNever];
+		}
+	}
+	
+	return self;
+}
+
 - (void)dealloc
 {
     [oAuthWC release];
@@ -81,16 +102,29 @@ enum {
 	return @"chat.facebook.com";
 }
 
+- (NSString *)apiSecretAccountName
+{
+	return [NSString stringWithFormat:@"Adium.FB.%@", [self internalObjectID]];
+}
+
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
 
 	purple_account_set_username(account, self.purpleAccountName);
 	purple_account_set_string(account, "connection_security", "");
-    purple_account_set_string(account, "fb_api_key", API_KEY);
-    purple_account_set_string(account, "fb_api_secret", APP_SECRET
-							  
-							  /*[[self preferenceForKey:@"FBSessionSecret" group:GROUP_ACCOUNT_STATUS] UTF8String]*/);
+    purple_account_set_string(account, "fb_api_key", ADIUM_API_KEY);
+
+/* 
+ //Uncomment along with storage code in promoteSessionDidFinishLoading::: to use the session secret. 
+	NSString *apiSecret = [[AIKeychain defaultKeychain_error:NULL] findGenericPasswordForService:self.service.serviceID
+																						 account:self.apiSecretAccountName
+																					keychainItem:NULL
+																						   error:NULL];	
+	purple_account_set_string(account, "fb_api_secret", [apiSecret UTF8String]);
+*/	
+
+    purple_account_set_string(account, "fb_api_secret", ADIUM_API_SECRET);
 }
 
 - (const char *)purpleAccountName
@@ -98,7 +132,8 @@ enum {
 	NSString	*userNameWithHost = nil, *completeUserName = nil;
 	BOOL		serverAppendedToUID;
 	
-	serverAppendedToUID = ([UID rangeOfString:@"@"].location != NSNotFound);
+	serverAppendedToUID = ([UID rangeOfString:[self serverSuffix]
+									  options:(NSCaseInsensitiveSearch | NSBackwardsSearch | NSAnchoredSearch)].location != NSNotFound);
 	
 	if (serverAppendedToUID) {
 		userNameWithHost = UID;
@@ -130,6 +165,7 @@ enum {
 {
     if ((returnCode == AIPasswordPromptOKReturn) && (inPassword.length == 0)) {
 		/* No password retrieved from the keychain */
+		AILog(@"No password for %@; requesting auth");
 		[self requestFacebookAuthorization];
 
 	} else {
@@ -268,9 +304,14 @@ enum {
 	self.oAuthWC.account = self;
 	
 	if (self.migratingAccount) {
+    	/* We're migrating from an entirely separate AIAccount (an old, http-based Facebook account) to this one */
 		self.oAuthWC.autoFillUsername = self.migratingAccount.UID;
 		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self.migratingAccount];
-	}
+	} else if (![[self class] uidIsValidForFacebook:self.UID]) {
+		/* We have a UID which isn't a Facebook numeric username. That can come from the setup wizard, for example. */
+		self.oAuthWC.autoFillUsername = self.UID;
+		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self];
+    }
 
 	[self.oAuthWC showWindow:self];
 }
@@ -327,21 +368,36 @@ enum {
         return;
     }    
     
-    NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
-    secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes    
     NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
    	
 	[[adium accountController] setPassword:sessionKey forAccount:self];
-	[self setPasswordTemporarily:sessionKey];
-	
-	[self setPreference:secret
-				 forKey:@"FBSessionSecret"
-				  group:GROUP_ACCOUNT_STATUS];
-    
+
+	/* Uncomment the below to store the Session Secret in the keychain. It doesn't seem to be used.
+	 
+	 NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
+	 secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes    
+	 
+	 
+	//Delete before adding; otherwise we'll just get errSecDuplicateItem
+	[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
+																	 account:self.apiSecretAccountName
+																	   error:NULL];
+	[[AIKeychain defaultKeychain_error:NULL] addGenericPassword:secret
+													 forService:self.service.serviceID
+														account:self.apiSecretAccountName
+												   keychainItem:NULL
+														  error:NULL];
+	 */
 	self.oAuthWC = nil;
     self.oAuthToken = nil;
     
 	/* When we're newly authorized, connect! */
+	[self passwordReturnedForConnect:sessionKey
+						  returnCode:AIPasswordPromptOKReturn
+							 context:nil];
+	
+	/* Restart the connect process; we're currently considered 'connecting', so passwordReturnedForConnect:::
+	 * isn't going to restart it for us. */
 	[self connect];
 	
 	if (self.migratingAccount) {
@@ -449,3 +505,4 @@ enum {
 }
 
 @end
+	

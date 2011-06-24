@@ -10,6 +10,7 @@
 #import "AIFacebookXMPPAccountViewController.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
+#import <AIUtilities/AIStringAdditions.h>
 
 @implementation AIFacebookXMPPAccountViewController
 @synthesize view_migration, textField_migrationStatus, button_migrationHelp, button_migrationOAuthStart, migrationSpinner;
@@ -50,7 +51,8 @@
 {
 	[super configureForAccount:inAccount];
 	
-	if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
+	if ([[AIFacebookXMPPAccount class] uidIsValidForFacebook:account.UID] &&
+		[adium.accountController passwordForAccount:account].length) {
 		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium currently has access to your account.", nil)];
 		[button_OAuthStart setEnabled:NO];
 	}
@@ -65,6 +67,8 @@
 {
 	if (sender == button_OAuthStart || sender == button_migrationOAuthStart) {
 		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
+		[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
+
 	} else if (sender == button_migrationHelp) {
 		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
 	} else 
