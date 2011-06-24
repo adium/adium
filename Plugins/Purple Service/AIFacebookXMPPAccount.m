@@ -162,7 +162,6 @@ enum {
 {
     if ((returnCode == AIPasswordPromptOKReturn) && (inPassword.length == 0)) {
 		/* No password retrieved from the keychain */
-		AILog(@"No password for %@; requesting auth");
 		[self requestFacebookAuthorization];
 
 	} else {
