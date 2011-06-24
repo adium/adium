@@ -9,8 +9,9 @@
 #import "PurpleAccountViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface AIFacebookXMPPAccountViewController : PurpleAccountViewController {	
-	NSButton *button_OAuthStart;
+@interface AIFacebookXMPPAccountViewController : PurpleAccountViewController {
+	AILocalizationTextField *label_instructions;
+	AILocalizationButton *button_OAuthStart;
 	NSTextField *textField_OAuthStatus;
 	NSProgressIndicator *spinner;
 	
