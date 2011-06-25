@@ -53,9 +53,6 @@
 #define KEY_FLAT_METACONTACTS			@"FlatMetaContacts"		//Metacontact objectID storage
 #define KEY_BOOKMARKS					@"Bookmarks"
 
-#define	OBJECT_STATUS_CACHE				@"Object Status Cache"
-
-
 #define TOP_METACONTACT_ID				@"TopMetaContactID"
 #define KEY_IS_METACONTACT				@"isMetaContact"
 #define KEY_OBJECTID					@"objectID"
@@ -1436,12 +1433,13 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		return;
 	
 	NSString	*destinationInternalObjectID = destContact.internalObjectID;
-	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
+	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT 
+                                                                    group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	if (![destinationInternalObjectID isEqualToString:currentPreferredDestination]) {
 		[metaContact setPreference:destinationInternalObjectID
 							forKey:KEY_PREFERRED_DESTINATION_CONTACT
-							 group:OBJECT_STATUS_CACHE];
+							 group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	}
 }
 

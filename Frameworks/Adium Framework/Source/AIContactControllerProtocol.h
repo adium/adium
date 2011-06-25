@@ -63,6 +63,8 @@
 #define	PREF_GROUP_CONTACT_LIST_DISPLAY	@"Contact List Display"
 #define PREF_GROUP_CONTACT_LIST			@"Contact List"
 
+#define	PREF_GROUP_OBJECT_STATUS_CACHE	@"Object Status Cache"
+
 typedef enum {
 	AIUserInfoLabelValuePair = 0 /* default */,
 	AIUserInfoSectionHeader,

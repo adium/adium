@@ -466,7 +466,7 @@ typedef enum
 	if (!supportedPropertyKeys) {
 		supportedPropertyKeys = [[NSSet alloc] initWithObjects:
 			@"isOnline",
-			@"formattedUID",
+			KEY_FORMATTED_UID,
 			KEY_ACCOUNT_DISPLAY_NAME,
 			@"Display Name",
 			@"accountStatus",

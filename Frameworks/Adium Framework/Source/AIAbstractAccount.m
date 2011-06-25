@@ -124,7 +124,7 @@
 		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 		//Update our display name and formattedUID immediately
-		[self updateStatusForKey:@"formattedUID"];
+		[self updateStatusForKey:KEY_FORMATTED_UID];
 		
 		//Init the account
 		[self initFUSDisconnecting];
@@ -540,10 +540,10 @@
 			[self autoRefreshingOutgoingContentForStatusKey:key selector:@selector(gotFilteredDisplayName:) context:nil];
 		}
 
-	} else if ([key isEqualToString:@"formattedUID"]) {
+	} else if ([key isEqualToString:KEY_FORMATTED_UID]) {
 		//Transfer formatted UID from the stored preference to an in-memory property
-		[self setValue:[self preferenceForKey:@"formattedUID" group:GROUP_ACCOUNT_STATUS]
-					   forProperty:@"formattedUID"
+		[self setValue:[self preferenceForKey:KEY_FORMATTED_UID group:GROUP_ACCOUNT_STATUS]
+					   forProperty:KEY_FORMATTED_UID
 					   notify:NotifyNow];
 		
 	} else if ([key isEqualToString:@"Enabled"]) {
