@@ -226,4 +226,5 @@
 
 @interface CBPurpleAccount (ForSubclasses)
 - (void)continueConnectWithConfiguredPurpleAccount;
+- (void)continueConnectWithConfiguredProxy;
 @end
