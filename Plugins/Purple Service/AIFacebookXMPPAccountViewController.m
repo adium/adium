@@ -14,6 +14,10 @@
 
 #import "PurpleFacebookAccount.h"
 
+@interface AIFacebookXMPPAccountViewController ()
+- (void)authProgressDidChange:(NSNotification *)notification;
+@end
+
 @implementation AIFacebookXMPPAccountViewController
 
 @synthesize spinner, textField_OAuthStatus, button_OAuthStart, button_help;
@@ -47,7 +51,6 @@
 - (void)localizeStrings
 {
 	[super localizeStrings];
-
 
 	[label_instructions setLocalizedString:
 	 AILocalizedString(@"To connect to Facebook Chat, you must give Adium permission. A secure Facebook login screen will be shown when you click Allow Access.",
