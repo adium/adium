@@ -96,7 +96,6 @@
 		111E89020F93FE3900A5F18B /* AIUserHostTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 111E89000F93FE3900A5F18B /* AIUserHostTooltip.m */; };
 		1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
-		1125DD3C0FF5A5D600544B92 /* PurpleFacebookAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1125DD3B0FF5A5D600544B92 /* PurpleFacebookAccountView.nib */; };
 		112939020FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112939010FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib */; };
 		112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1129390F0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m */; };
 		112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -698,6 +697,22 @@
 		34D0FDD20956186200DCB678 /* ESPersonalPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D0FDD00956186200DCB678 /* ESPersonalPreferencesPlugin.m */; };
 		34D0FDD80956187700DCB678 /* ESPersonalPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D0FDD60956187700DCB678 /* ESPersonalPreferences.m */; };
 		34D0FF8509569FE500DCB678 /* PersonalPreferencesDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D0FF8409569FE500DCB678 /* PersonalPreferencesDefaults.plist */; };
+		34D8153A13B663650022C8C4 /* AIFacebookXMPPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */; };
+		34D8153B13B663650022C8C4 /* AIFacebookXMPPAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */; };
+		34D8153C13B663650022C8C4 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34D8153213B663650022C8C4 /* AIFacebookXMPPAccountView.xib */; };
+		34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */; };
+		34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */; };
+		34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */; };
+		34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */; };
+		34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */; };
+		34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */; };
+		34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */; };
+		34D8154613B663700022C8C4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
+		34D8154713B663700022C8C4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; };
+		34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154913B663A80022C8C4 /* auth_fb.c */; };
+		34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154A13B663A80022C8C4 /* auth_fb.h */; };
+		34D8154F13B663A80022C8C4 /* fbapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154B13B663A80022C8C4 /* fbapi.c */; };
+		34D8155013B663A80022C8C4 /* fbapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154C13B663A80022C8C4 /* fbapi.h */; };
 		34D832A007CBD61A006466F2 /* ContactListDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D8329F07CBD61A006466F2 /* ContactListDefaults.plist */; };
 		34D832AE07CBD62C006466F2 /* AdiumEmoticonset.icns in Resources */ = {isa = PBXBuildFile; fileRef = 34D832A507CBD62B006466F2 /* AdiumEmoticonset.icns */; };
 		34D832AF07CBD62C006466F2 /* AdiumScripts.icns in Resources */ = {isa = PBXBuildFile; fileRef = 34D832A607CBD62B006466F2 /* AdiumScripts.icns */; };
@@ -1816,32 +1831,6 @@
 		1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactVisibilityControlPlugin.m; path = Source/AIContactVisibilityControlPlugin.m; sourceTree = "<group>"; };
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
 		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
-		1125DD380FF5A58F00544B92 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Plugins/Purple Service/en.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD3D0FF5A5DB00544B92 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = "Plugins/Purple Service/ca.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD3E0FF5A5DD00544B92 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = "Plugins/Purple Service/cs.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD3F0FF5A5DF00544B92 /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = "Plugins/Purple Service/da.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD400FF5A5E100544B92 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = "Plugins/Purple Service/de.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD410FF5A5E300544B92 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = el_GR; path = "Plugins/Purple Service/el_GR.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD420FF5A5E500544B92 /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en_GB; path = "Plugins/Purple Service/en_GB.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD430FF5A5E700544B92 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = "Plugins/Purple Service/es.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD440FF5A5E900544B92 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = "Plugins/Purple Service/fi.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD450FF5A5EC00544B92 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = "Plugins/Purple Service/fr.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD460FF5A5EE00544B92 /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr_CA; path = "Plugins/Purple Service/fr_CA.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD470FF5A5F000544B92 /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = "Plugins/Purple Service/hu.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD480FF5A5F200544B92 /* is */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = is; path = "Plugins/Purple Service/is.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD490FF5A5F400544B92 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4A0FF5A5F600544B92 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Plugins/Purple Service/ja.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4B0FF5A5F800544B92 /* nb */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb; path = "Plugins/Purple Service/nb.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4C0FF5A5FA00544B92 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = "Plugins/Purple Service/nl.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4D0FF5A5FB00544B92 /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = "Plugins/Purple Service/pl.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4E0FF5A5FD00544B92 /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_PT; path = "Plugins/Purple Service/pt_PT.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD4F0FF5A5FF00544B92 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = "Plugins/Purple Service/pt.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD500FF5A60100544B92 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = "Plugins/Purple Service/ru.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD510FF5A60300544B92 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sl; path = "Plugins/Purple Service/sl.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD520FF5A60500544B92 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Plugins/Purple Service/sv.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD530FF5A60700544B92 /* tr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = tr; path = "Plugins/Purple Service/tr.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD540FF5A60900544B92 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = "Plugins/Purple Service/zh_CN.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
-		1125DD550FF5A60B00544B92 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = "Plugins/Purple Service/zh_TW.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
 		112939010FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIConfirmationsAdvancedPreferences.nib; path = Resources/AIConfirmationsAdvancedPreferences.nib; sourceTree = "<group>"; };
 		1129390E0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIConfirmationsAdvancedPreferences.h; path = Source/AIConfirmationsAdvancedPreferences.h; sourceTree = "<group>"; };
 		1129390F0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIConfirmationsAdvancedPreferences.m; path = Source/AIConfirmationsAdvancedPreferences.m; sourceTree = "<group>"; };
@@ -3641,6 +3630,22 @@
 		34D369ED08E7544D00E15E40 /* AIColorPickerSliders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIColorPickerSliders.h; path = "Frameworks/Adium Framework/Source/AIColorPickerSliders.h"; sourceTree = "<group>"; };
 		34D369EE08E7544D00E15E40 /* AIColorPickerSliders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIColorPickerSliders.m; path = "Frameworks/Adium Framework/Source/AIColorPickerSliders.m"; sourceTree = "<group>"; };
 		34D43504051ADC10003B2F21 /* DualWindowDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DualWindowDefaults.plist; path = "Plugins/Dual Window Interface/DualWindowDefaults.plist"; sourceTree = "<group>"; };
+		34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccount.h; path = "Plugins/Purple Service/AIFacebookXMPPAccount.h"; sourceTree = "<group>"; };
+		34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccount.m; path = "Plugins/Purple Service/AIFacebookXMPPAccount.m"; sourceTree = "<group>"; };
+		34D8153213B663650022C8C4 /* AIFacebookXMPPAccountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIFacebookXMPPAccountView.xib; path = "Plugins/Purple Service/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
+		34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccountViewController.h; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.h"; sourceTree = "<group>"; };
+		34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccountViewController.m; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.m"; sourceTree = "<group>"; };
+		34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIFacebookXMPPOauthWebViewWindow.xib; path = "Plugins/Purple Service/AIFacebookXMPPOauthWebViewWindow.xib"; sourceTree = "<group>"; };
+		34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPOAuthWebViewWindowController.h; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.h"; sourceTree = "<group>"; };
+		34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
+		34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPService.h; path = "Plugins/Purple Service/AIFacebookXMPPService.h"; sourceTree = "<group>"; };
+		34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPService.m; path = "Plugins/Purple Service/AIFacebookXMPPService.m"; sourceTree = "<group>"; };
+		34D8154413B663700022C8C4 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Frameworks/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		34D8154513B663700022C8C4 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Frameworks/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		34D8154913B663A80022C8C4 /* auth_fb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth_fb.c; sourceTree = "<group>"; };
+		34D8154A13B663A80022C8C4 /* auth_fb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auth_fb.h; sourceTree = "<group>"; };
+		34D8154B13B663A80022C8C4 /* fbapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fbapi.c; sourceTree = "<group>"; };
+		34D8154C13B663A80022C8C4 /* fbapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fbapi.h; sourceTree = "<group>"; };
 		34D8324807CBD53A006466F2 /* FTProgressRevealRollover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressRevealRollover.tif; path = Resources/FTProgressRevealRollover.tif; sourceTree = "<group>"; };
 		34D8324907CBD53A006466F2 /* FTProgressRevealRollover_Selected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressRevealRollover_Selected.tif; path = Resources/FTProgressRevealRollover_Selected.tif; sourceTree = "<group>"; };
 		34D8324A07CBD53A006466F2 /* FTProgressStopRollover_Selected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressStopRollover_Selected.tif; path = Resources/FTProgressStopRollover_Selected.tif; sourceTree = "<group>"; };
@@ -3937,7 +3942,7 @@
 		4B539C4B05EFD6CD00E5921A /* AIWebKitMessageViewPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWebKitMessageViewPlugin.h; path = "Plugins/WebKit Message View/AIWebKitMessageViewPlugin.h"; sourceTree = "<group>"; };
 		4B539C4C05EFD6CD00E5921A /* AIWebKitMessageViewPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitMessageViewPlugin.m; path = "Plugins/WebKit Message View/AIWebKitMessageViewPlugin.m"; sourceTree = "<group>"; };
 		4B539C5105EFD6FA00E5921A /* AIWebKitMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWebKitMessageViewController.h; path = "Plugins/WebKit Message View/AIWebKitMessageViewController.h"; sourceTree = "<group>"; };
-		4B539C5205EFD6FB00E5921A /* AIWebKitMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitMessageViewController.m; path = "Plugins/WebKit Message View/AIWebKitMessageViewController.m"; sourceTree = "<group>"; };
+		4B539C5205EFD6FB00E5921A /* AIWebKitMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIWebKitMessageViewController.m; path = "Plugins/WebKit Message View/AIWebKitMessageViewController.m"; sourceTree = "<group>"; };
 		4B5827E80613CE9D0004BD25 /* AIMessageEntryTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageEntryTextView.h; path = "Frameworks/Adium Framework/Source/AIMessageEntryTextView.h"; sourceTree = "<group>"; };
 		4B5827E90613CE9D0004BD25 /* AIMessageEntryTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMessageEntryTextView.m; path = "Frameworks/Adium Framework/Source/AIMessageEntryTextView.m"; sourceTree = "<group>"; };
 		4B588C9807AC23A9001832A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Frameworks/Adium Framework/Resources/en.lproj/EditStateSheet.nib"; sourceTree = "<group>"; };
@@ -4721,7 +4726,6 @@
 		C4D29CC70C3C2E49001545A2 /* ICImport.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ICImport.nib; path = Resources/ICImport.nib; sourceTree = SOURCE_ROOT; };
 		D10A3A2A122C61EF003B5A7E /* source-destination.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "source-destination.png"; path = "Resources/source-destination.png"; sourceTree = "<group>"; };
 		D182F1B411DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D182F1B511DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sk_SK; path = "Plugins/Purple Service/sk_SK.lproj/PurpleFacebookAccountView.nib"; sourceTree = "<group>"; };
 		D182F1B611DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/schema.strings; sourceTree = "<group>"; };
 		D3DA2E3E052E65DE00A8010B /* LNAboutBoxController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LNAboutBoxController.m; path = Source/LNAboutBoxController.m; sourceTree = "<group>"; };
 		D3DA2E40052E65E400A8010B /* LNAboutBoxController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LNAboutBoxController.h; path = Source/LNAboutBoxController.h; sourceTree = "<group>"; };
@@ -5103,6 +5107,10 @@
 		11EE1B480CDCFAF40097F246 /* libpurple_extensions */ = {
 			isa = PBXGroup;
 			children = (
+				34D8154913B663A80022C8C4 /* auth_fb.c */,
+				34D8154A13B663A80022C8C4 /* auth_fb.h */,
+				34D8154B13B663A80022C8C4 /* fbapi.c */,
+				34D8154C13B663A80022C8C4 /* fbapi.h */,
 				11EE1B490CDCFAF40097F246 /* oscar-adium.c */,
 				11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */,
 				811033500CDE170B00EC6038 /* ssl-cdsa.c */,
@@ -5736,15 +5744,18 @@
 		345D689D0F1FD575002F2D01 /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
-				1125DD3B0FF5A5D600544B92 /* PurpleFacebookAccountView.nib */,
-				345D68A60F1FD5AA002F2D01 /* PurpleFacebookAccount.h */,
-				345D68A70F1FD5AA002F2D01 /* PurpleFacebookAccount.m */,
-				34064D0E0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m */,
-				34064D0F0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h */,
-				345D68A00F1FD59F002F2D01 /* PurpleFacebookService.h */,
-				345D68A10F1FD59F002F2D01 /* PurpleFacebookService.m */,
-				345D68950F1FD563002F2D01 /* facebook.png */,
-				345D68960F1FD563002F2D01 /* facebook-small.png */,
+				34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */,
+				34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */,
+				34D8153213B663650022C8C4 /* AIFacebookXMPPAccountView.xib */,
+				34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */,
+				34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */,
+				34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */,
+				34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */,
+				34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */,
+				34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */,
+				34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */,
+				34D8154813B663730022C8C4 /* JSON Kit */,
+				34D8152D13B6634A0022C8C4 /* Legacy (Upgrade path) */,
 			);
 			name = Facebook;
 			sourceTree = "<group>";
@@ -6377,6 +6388,30 @@
 				34D1897E076114C00075A380 /* AILocalizationButton.m */,
 			);
 			name = "Localization Assistance";
+			sourceTree = "<group>";
+		};
+		34D8152D13B6634A0022C8C4 /* Legacy (Upgrade path) */ = {
+			isa = PBXGroup;
+			children = (
+				345D68A60F1FD5AA002F2D01 /* PurpleFacebookAccount.h */,
+				345D68A70F1FD5AA002F2D01 /* PurpleFacebookAccount.m */,
+				34064D0E0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m */,
+				34064D0F0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h */,
+				345D68A00F1FD59F002F2D01 /* PurpleFacebookService.h */,
+				345D68A10F1FD59F002F2D01 /* PurpleFacebookService.m */,
+				345D68950F1FD563002F2D01 /* facebook.png */,
+				345D68960F1FD563002F2D01 /* facebook-small.png */,
+			);
+			name = "Legacy (Upgrade path)";
+			sourceTree = "<group>";
+		};
+		34D8154813B663730022C8C4 /* JSON Kit */ = {
+			isa = PBXGroup;
+			children = (
+				34D8154413B663700022C8C4 /* JSONKit.h */,
+				34D8154513B663700022C8C4 /* JSONKit.m */,
+			);
+			name = "JSON Kit";
 			sourceTree = "<group>";
 		};
 		34D8342B07CBE6A4006466F2 /* External Sources */ = {
@@ -9101,6 +9136,13 @@
 				34064D110F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h in Headers */,
 				113E06AF10D0ABE3005D5B9A /* adiumPurpleMedia.h in Headers */,
 				1181981310D0B17C003E8ECA /* adiumPurpleMedia.h in Headers */,
+				34D8153A13B663650022C8C4 /* AIFacebookXMPPAccount.h in Headers */,
+				34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */,
+				34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */,
+				34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */,
+				34D8154613B663700022C8C4 /* JSONKit.h in Headers */,
+				34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */,
+				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9678,7 +9720,8 @@
 				345D68990F1FD56B002F2D01 /* facebook.png in Resources */,
 				345D689A0F1FD56B002F2D01 /* facebook-small.png in Resources */,
 				1150A9960FBE48D600E0BD31 /* ESIRCAccountView.nib in Resources */,
-				1125DD3C0FF5A5D600544B92 /* PurpleFacebookAccountView.nib in Resources */,
+				34D8153C13B663650022C8C4 /* AIFacebookXMPPAccountView.xib in Resources */,
+				34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10226,6 +10269,13 @@
 				345D68A30F1FD59F002F2D01 /* PurpleFacebookService.m in Sources */,
 				345D68A90F1FD5AA002F2D01 /* PurpleFacebookAccount.m in Sources */,
 				34064D100F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m in Sources */,
+				34D8153B13B663650022C8C4 /* AIFacebookXMPPAccount.m in Sources */,
+				34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */,
+				34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */,
+				34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */,
+				34D8154713B663700022C8C4 /* JSONKit.m in Sources */,
+				34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */,
+				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10916,40 +10966,6 @@
 				5A80CCA9121F5A7B00D0670A /* uk_UA */,
 			);
 			name = "Shared Dock Icon Images";
-			sourceTree = "<group>";
-		};
-		1125DD3B0FF5A5D600544B92 /* PurpleFacebookAccountView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1125DD380FF5A58F00544B92 /* English */,
-				1125DD3D0FF5A5DB00544B92 /* ca */,
-				1125DD3E0FF5A5DD00544B92 /* cs */,
-				1125DD3F0FF5A5DF00544B92 /* da */,
-				1125DD400FF5A5E100544B92 /* de */,
-				1125DD410FF5A5E300544B92 /* el_GR */,
-				1125DD420FF5A5E500544B92 /* en_GB */,
-				1125DD430FF5A5E700544B92 /* es */,
-				1125DD440FF5A5E900544B92 /* fi */,
-				1125DD450FF5A5EC00544B92 /* fr */,
-				1125DD460FF5A5EE00544B92 /* fr_CA */,
-				1125DD470FF5A5F000544B92 /* hu */,
-				1125DD480FF5A5F200544B92 /* is */,
-				1125DD490FF5A5F400544B92 /* it */,
-				1125DD4A0FF5A5F600544B92 /* ja */,
-				1125DD4B0FF5A5F800544B92 /* nb */,
-				1125DD4C0FF5A5FA00544B92 /* nl */,
-				1125DD4D0FF5A5FB00544B92 /* pl */,
-				1125DD4E0FF5A5FD00544B92 /* pt_PT */,
-				1125DD4F0FF5A5FF00544B92 /* pt */,
-				1125DD500FF5A60100544B92 /* ru */,
-				1125DD510FF5A60300544B92 /* sl */,
-				1125DD520FF5A60500544B92 /* sv */,
-				1125DD530FF5A60700544B92 /* tr */,
-				1125DD540FF5A60900544B92 /* zh_CN */,
-				1125DD550FF5A60B00544B92 /* zh_TW */,
-				D182F1B511DFF23700E33AE2 /* sk_SK */,
-			);
-			name = PurpleFacebookAccountView.nib;
 			sourceTree = "<group>";
 		};
 		1150A9950FBE48D600E0BD31 /* ESIRCAccountView.nib */ = {
