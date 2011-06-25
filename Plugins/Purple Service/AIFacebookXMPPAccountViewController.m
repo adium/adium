@@ -6,30 +6,25 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AIFacebookXMPPOAuthWebViewWindowController.h"
-
 #import "AIFacebookXMPPAccount.h"
 #import "AIFacebookXMPPAccountViewController.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <JSON/JSON.h>
+#import <Adium/AIAccountControllerProtocol.h>
+#import <AIUtilities/AIStringAdditions.h>
+
+#import "PurpleFacebookAccount.h"
+
+@interface AIFacebookXMPPAccountViewController ()
+- (void)authProgressDidChange:(NSNotification *)notification;
+@end
 
 @implementation AIFacebookXMPPAccountViewController
-@synthesize spinner, textField_OAuthStatus, button_OAuthStart;
 
-- (id)init
-{
-    if ((self = [super init])) {
-        webViewWindowController = [[AIFacebookXMPPOAuthWebViewWindowController alloc] init];
-    }
-	
-    return self;
-}
+@synthesize spinner, textField_OAuthStatus, button_OAuthStart, button_help;
 
 - (void)dealloc
 {
-    [webViewWindowController release];
-    
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -43,9 +38,77 @@
     return nil;
 }
 
+- (NSView *)setupView
+{	
+	return view_setup;
+}
+
 - (NSString *)nibName
 {
     return @"AIFacebookXMPPAccountView";
+}
+
+- (void)localizeStrings
+{
+	[super localizeStrings];
+
+	[label_instructions setLocalizedString:
+	 AILocalizedString(@"To connect to Facebook Chat, you must give Adium permission. A secure Facebook login screen will be shown when you click Allow Access.",
+					   "Instructions in the Facebook account configuration window")];
+
+	[button_OAuthStart setLocalizedString:
+	 AILocalizedString(@"Allow Access",
+					   "Button title in the Facebook account configuration window. Clicking it prompts the user via Facebook's authorization system to allow access to chat.")];
+}
+
+/*!
+ * @brief Configure controls
+ */
+- (void)configureForAccount:(AIAccount *)inAccount
+{
+	[super configureForAccount:inAccount];
+	
+	if ([[AIFacebookXMPPAccount class] uidIsValidForFacebook:account.UID] &&
+		[adium.accountController passwordForAccount:account].length) {
+		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
+		[button_OAuthStart setEnabled:NO];
+	} else {
+		[textField_OAuthStatus setStringValue:@""];
+		[button_OAuthStart setEnabled:YES]; 
+	}
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(authProgressDidChange:)
+												 name: AIFacebookXMPPAuthProgressNotification
+											   object:inAccount];
+}
+
+- (void) authProgressDidChange:(NSNotification *)notification
+{
+	AIFacebookXMPPAuthProgressStep step = [[notification.userInfo objectForKey:KEY_FB_XMPP_AUTH_STEP] intValue];
+	
+	switch (step) {
+		case AIFacebookXMPPAuthProgressPromptingUser:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
+			break;
+			
+		case AIFacebookXMPPAuthProgressContactingServer:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Contacting authorization server", nil) stringByAppendingEllipsis]];
+			break;
+
+		case AIFacebookXMPPAuthProgressPromotingForChat:
+			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Promoting authorization for chat", nil) stringByAppendingEllipsis]];
+			break;
+
+		case AIFacebookXMPPAuthProgressSuccess:
+			[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
+			break;
+			
+		case AIFacebookXMPPAuthProgressFailure:
+			[textField_OAuthStatus setStringValue:AILocalizedString(@"Could not complete authorization.", nil)];
+			[button_OAuthStart setEnabled:YES];
+			break;
+	}
 }
 
 /*!
@@ -55,67 +118,18 @@
  */
 - (IBAction)changedPreference:(id)sender
 {
-	if(sender == button_OAuthStart) {
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(OAuthDidFinish:)
-													 name:FACEBOOK_OAUTH_FINISHED
-												   object:nil];
-		[webViewWindowController showWindow:self];
-	}
+	if (sender == button_OAuthStart) {
+		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
+		[button_OAuthStart setEnabled:NO];
+
+	} else 
+		[super changedPreference:sender];
 }
 
-//Configure our controls
-- (void)configureForAccount:(AIAccount *)inAccount
+/* xxx it'd be better to link to an entry in our docs */
+- (IBAction)showHelp:(id)sender
 {
-    [super configureForAccount:inAccount];
-}
-
-- (void)OAuthDidFinish:(NSNotification *)note
-{
-	NSString *token = [[note object] objectForKey:@"access_token"];
-	NSAssert(token && ![token isEqualToString:@""], @"got bad token!");
-    
-    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", token];
-	NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
-	NSURLRequest *request = [NSURLRequest requestWithURL:url];
-	NSURLResponse *response;
-	NSError *error;
-	
-	NSData *conn = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	NSDictionary *resp = [[[[NSString alloc] initWithData:conn encoding:NSUTF8StringEncoding] autorelease] JSONValue];
-	NSString *uuid = [resp objectForKey:@"id"];
-	NSString *name = [resp objectForKey:@"name"];
-    
-    NSString *sessionKey = [[token componentsSeparatedByString:@"|"] objectAtIndex:1];
-    
-    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", token];
-    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
-    NSData *secretData = [NSURLConnection sendSynchronousRequest:secretRequest returningResponse:&response error:&error];
-    NSString *secret = [[[NSString alloc] initWithData:secretData encoding:NSUTF8StringEncoding] autorelease];
-    secret = [secret substringWithRange:NSMakeRange(1, [secret length] - 2)]; // strip off the quotes
-    
-    [[adium accountController] setPassword:sessionKey forAccount:account];
-    [account setPasswordTemporarily:sessionKey];
-    [(AIFacebookXMPPAccount *)account setSessionSecret:secret];
-    
-	[account filterAndSetUID:uuid];
-	[account setFormattedUID:name notify:NotifyNever];
-	NSString *connectHost = @"FBXMPP";
-	
-	[account setPreference:connectHost
-					forKey:KEY_CONNECT_HOST
-					 group:GROUP_ACCOUNT_STATUS];
-    NSLog(@"token %@", token);
-	NSLog(@"fUID %@", account.formattedUID);
-	NSLog(@"UID %@", account.UID);
-	NSLog(@"service %@", account);
-}
-
-//Save controls
-- (void)saveConfiguration
-{
-	
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
 }
 
 @end

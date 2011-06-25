@@ -1,140 +1,93 @@
-/* 
- * Adium is the legal property of its developers, whose names are listed in the copyright file included
- * with this source distribution.
- * 
- * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License as published by the Free Software Foundation; either version 2 of the License,
- * or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
- * Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License along with this program; if not,
- * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- */
+//
+//  PurpleFacebookAccount.m
+//  Adium
+//
+//  Created by Evan Schoenberg on 1/15/09.
+//  Copyright 2009 Adium X. All rights reserved.
+//
 
 #import "PurpleFacebookAccount.h"
-#import <Adium/AIHTMLDecoder.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIStatus.h>
+#import <Adium/AIAccountControllerProtocol.h>
+#import "AIFacebookXMPPService.h"
+#import "AIFacebookXMPPAccount.h"
+
+#import <Adium/AILoginControllerProtocol.h>
+#import <AIUtilities/AIStringAdditions.h>
+
+
+@interface PurpleFacebookAccount ()
+- (void)finishMigration;
+@end
 
 @implementation PurpleFacebookAccount
 
-- (const char*)protocolPlugin
+- (void)didCompleteFacebookAuthorization
 {
-    return "prpl-bigbrownchunx-facebookim";
-}
-
-- (NSString *)webProfileStringForContact:(AIListContact *)contact
-{
-	return [NSString stringWithFormat:NSLocalizedString(@"View %@'s Facebook profile", nil), 
-			contact.displayName];
-}
-
-- (void)configurePurpleAccount
-{
-	[super configurePurpleAccount];
+	[super didCompleteFacebookAuthorization];
 	
-	/* We could add a pref for this, but not without some enhancements to mail notifications. Currently, this being
-	 * enabled means ugly nasty "You have new mail!" popups continuously, since that's how 'notifications' are passed
-	 * to us.
-	 */
-	purple_account_set_bool(account, "facebook_get_notifications", FALSE);
-	
-	// We do our own history; don't let the server's history get displayed as new messages
-	purple_account_set_bool(account, "facebook_show_history", FALSE);
-	
-	// Use friends list as groups. This also allows moving between groups through libpurple
-	purple_account_set_bool(account, "facebook_use_groups", TRUE);
-	
-	/* Don't prompt for authorization. Don't delete friends from the Facebook friend list,
-	 * as doing so is not a clear way to remove the friend entirely but that's what would
-	 * happen. Adding friends isn't supported, anyways.
-	 */
-	purple_account_set_bool(account, "facebook_manage_friends", FALSE);
-	
-	// Disable the Facebook CAPTCHA since it causes heartache and pain.
-	purple_account_set_bool(account, "ignore-facebook-captcha", TRUE);
+	/* Now that we're authorized, we can perform any needed migration of transcripts, etc. */
+	if (self.migrationData) {
+		[self finishMigration];        
+    }
 }
 
-- (BOOL)contactListEditable
-{
-	return NO;
-}
-
-- (NSString *)host
-{
-	return @"login.facebook.com";
-}
-
-- (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
-							  arguments:(NSMutableDictionary *)arguments
-{
-	if (statusState.statusType == AIOfflineStatusType) {
-		return "offline";
-	} else {
-		return "available";
-	}
-}
-
-- (void)setSocialNetworkingStatusMessage:(NSAttributedString *)inStatusMessage
-{
-	NSMutableDictionary *arguments = [NSMutableDictionary dictionary];
-	NSString *encodedStatusMessage = (inStatusMessage ? 
-									  [self encodedAttributedString:inStatusMessage
-													 forStatusState:nil] :
-									  nil);
-	if (encodedStatusMessage) {
-		[arguments setObject:encodedStatusMessage
-					  forKey:@"message"];
-	}
-
-	purple_account_set_bool(account, "facebook_set_status_through_pidgin", TRUE);
-	[self setStatusState:nil
-				statusID:"available" /* facebook only supports available */
-				isActive:[NSNumber numberWithBool:YES]
-			   arguments:arguments];
-	purple_account_set_bool(account, "facebook_set_status_through_pidgin", FALSE);
-}
-
-- (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
-{
-	return [AIHTMLDecoder encodeHTML:inAttributedString
-							 headers:YES
-							fontTags:YES
-				  includingColorTags:YES
-					   closeFontTags:YES
-						   styleTags:YES
-		  closeStyleTagsOnFontChange:YES
-					  encodeNonASCII:NO
-						encodeSpaces:NO
-						  imagesPath:nil
-				   attachmentsAsText:YES
-		   onlyIncludeOutgoingImages:NO
-					  simpleTagsOnly:NO
-					  bodyBackground:NO
-				 allowJavascriptURLs:YES];
-}
-
-/*!
- * @brief Set an alias for a contact
- *
- * Normally, we consider the name a 'serverside alias' unless it matches the UID's characters
- * However, the UID in facebook should never be presented to the user if possible; it's for internal use
- * only.  We'll therefore consider any alias a formatted UID such that it will replace the UID when displayed
- * in Adium.
+#pragma mark Migration
+/*
+ * Move logs from the old account's to the new account's log folder, changing the name along the way.
+ * Finally delete the old account.
  */
-- (void)updateContact:(AIListContact *)theContact toAlias:(NSString *)purpleAlias
+- (void)finishMigration
 {
-	if (![purpleAlias isEqualToString:theContact.formattedUID] && 
-		![purpleAlias isEqualToString:theContact.UID]) {
-		[theContact setFormattedUID:purpleAlias
-							 notify:NotifyLater];
-		
-		//Apply any changes
-		[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
+	if (!self.migrationData)
+		return;
+	
+	//Move logs to the new account
+	NSString *logsDir = [[adium.loginController userDirectory] stringByAppendingPathComponent:@"Logs"];
+	AIService *newXMPPService = [adium.accountController firstServiceWithServiceID:FACEBOOK_XMPP_SERVICE_ID];
+	
+	NSString *oldFolder = [NSString stringWithFormat:@"%@.%@",
+						   [self.migrationData objectForKey:@"originalServiceID"],
+						   [[self.migrationData objectForKey:@"originalUID"] safeFilenameString]];
+
+	
+	NSString *newFolder = [NSString stringWithFormat:@"%@.%@", 
+						   newXMPPService.serviceID,
+						   [self.UID safeFilenameString]];
+	NSString *basePath = [[logsDir stringByAppendingPathComponent:oldFolder] stringByExpandingTildeInPath];
+	NSString *newPath = [[logsDir stringByAppendingPathComponent:newFolder] stringByExpandingTildeInPath];
+	
+	NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+	NSInteger errors = 0;
+	
+	for (NSString *file in [fileManager enumeratorAtPath:basePath]) {
+		if ([[file pathExtension] isEqualToString:@"xml"]) {
+			/* turn 'XXXXXXX69 (2009-01-20T19.10.07-0500).xml'
+			 * into '-XXXXXXX69@chat.facebook.com (2009-01-20T19.10.07-0500).xml'
+			 */
+			NSRange UIDrange = [[file lastPathComponent] rangeOfString:@" "];
+			if (UIDrange.location > 0) {
+				NSString *uid = [[file lastPathComponent] substringToIndex:UIDrange.location];
+				NSString *newName = [file stringByReplacingOccurrencesOfString:uid
+																	withString:[NSString stringWithFormat:@"-%@@%@", uid, self.host]];
+				
+				[fileManager createDirectoryAtPath:[newPath stringByAppendingPathComponent:[newName stringByDeletingLastPathComponent]]
+					   withIntermediateDirectories:YES
+										attributes:nil
+											 error:NULL];
+				if (![fileManager moveItemAtPath:[basePath stringByAppendingPathComponent:file]
+										  toPath:[newPath stringByAppendingPathComponent:newName]
+										   error:NULL])
+					errors++;
+			}
+		}
 	}
+	
+	if (!errors)
+		[fileManager removeItemAtPath:basePath error:NULL];
+	
+	/* We're done self-identifying as the legacy service; from now on, we are the modern service */
+	[adium.accountController moveAccount:self toService:newXMPPService];
 }
+
 
 @end

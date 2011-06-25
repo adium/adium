@@ -119,7 +119,7 @@ typedef enum {
  * @brief Retrieve the password of an account, prompting the user if necessary
  *
  * @param inAccount account whose password is desired
- * @param promptOption An AIPromptOption determining whether and how a prompt for the password should be displayed if it is needed. This allows forcing or suppressing of the prompt dialogue.
+ * @param promptOption An AIPromptOption determining whether and how a prompt for the password should be displayed if it is needed. This allows forcing or suppressing of the prompt dialogue. If AIPromptOptionNever is used, the returnCode sent to the target will always be AIPasswordPromptOKReturn.
  * @param inTarget target to notify when password is available
  * @param inSelector selector to notify when password is available. Selector is of the form - (void)returnedPassword:(NSString *)p returnCode:(AIPasswordPromptReturn)returnCode context:(id)context
  * @param inContext context passed to target
@@ -172,6 +172,22 @@ typedef enum {
 - (void)deleteAccount:(AIAccount *)inAccount;
 - (NSUInteger)moveAccount:(AIAccount *)account toIndex:(NSUInteger)destIndex;
 - (void)accountDidChangeUID:(AIAccount *)inAccount;
+
+/*!
+ * @brief Change an account's current and future service
+ *
+ * This should only be used by an AIAccount to upgrade itself to a new service, as may happen when 
+ * transitioning from one implementation to another.
+ *
+ * Generally, this is not necessary, as migration can be performed by simply substituting the new service ID
+ * for the old one in -[AdiumAccounts _upgradeServiceID:forAccountDict:]. However, if that is insufficient,
+ * because for example some processing must be done with information from both old and new accounts,
+ * this may be useful for performing a move at runtime.
+ *
+ * It will save the change; account immediately becomes on service, and it will be on service when it is
+ * next loaded.
+ */
+- (void)moveAccount:(AIAccount *)account toService:(AIService *)service;
 
 //Preferred Accounts
 - (AIAccount *)preferredAccountForSendingContentType:(NSString *)inType toContact:(AIListContact *)inContact;

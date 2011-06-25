@@ -45,35 +45,8 @@
 - (NSString *)serviceClass{
 	return @"Facebook";
 }
-- (NSString *)shortDescription{
-	return @"Facebook";
-}
-- (NSString *)longDescription{
-	return @"Facebook";
-}
-- (NSCharacterSet *)allowedCharacters{
-	return [[NSCharacterSet illegalCharacterSet] invertedSet];
-}
-- (NSUInteger)allowedLength{
-	return 999;
-}
-- (AIServiceImportance)serviceImportance{
-	return AIServiceSecondary;
-}
-- (NSString *)userNameLabel{
-    return AILocalizedString(@"Email", "Used as a label for a username specified by email address");
-}
-- (NSString *)contactUserNameLabel{
-	return AILocalizedString(@"Facebook Email", "Label for the username for a Facebook contact");
-}
-- (void)registerStatuses{
-	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
-	 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
-	 ofType:AIAvailableStatusType
-	 forService:self];
-}
 
-- (BOOL)isSocialNetworkingService
+- (BOOL)isHidden
 {
 	return YES;
 }

@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIAccount.h>
+#import <Adium/AIPasswordPromptController.h>
 
 typedef enum {
 	AIReconnectNever = 0,
@@ -115,4 +116,8 @@ typedef enum {
 @interface AIAccount (Abstract_ForSubclasses)
 //Chats
 - (void)displayYouHaveConnectedInChat:(AIChat *)chat;
+
+- (void)passwordReturnedForConnect:(NSString *)inPassword 
+						returnCode:(AIPasswordPromptReturn)returnCode 
+						   context:(id)inContext;
 @end
