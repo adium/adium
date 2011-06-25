@@ -25,6 +25,9 @@
 #import <Adium/AIPasswordPromptController.h>
 #import <Adium/AIService.h>
 
+#import <Libpurple/auth.h>
+#import "auth_fb.h"
+
 enum {
     AINoNetworkState,
     AIMeGraphAPINetworkState,
@@ -122,6 +125,40 @@ enum {
 */	
 
     purple_account_set_string(account, "fb_api_secret", ADIUM_API_SECRET);
+}
+
+
+/* Add the authentication mechanism for X-FACEBOOK-PLATFORM. Note that if the server offers it,
+ * it will be used preferentially over any other mechanism e.g. DIGEST-MD5. */
+- (void)setFacebookMechEnabled:(BOOL)inEnabled
+{
+	static BOOL enabledFacebookMech = NO;
+	if (inEnabled != enabledFacebookMech) {
+		if (inEnabled)
+			jabber_auth_add_mech(jabber_auth_get_fb_mech());
+		else
+			jabber_auth_remove_mech(jabber_auth_get_fb_mech());
+		
+		enabledFacebookMech = inEnabled;
+	}
+}
+
+- (void)connect
+{
+	[self setFacebookMechEnabled:YES];
+	[super connect];
+}
+
+- (void)didConnect
+{
+	[self setFacebookMechEnabled:NO];
+	[super didConnect];	
+}
+
+- (void)didDisconnect
+{
+	[self setFacebookMechEnabled:NO];
+	[super didDisconnect];	
 }
 
 - (const char *)purpleAccountName
@@ -225,7 +262,7 @@ enum {
 	NSString *displayUID = contact.UID;
 	displayUID = [displayUID stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
 	if ([displayUID hasSuffix:@"@chat.facebook.com"])
-		displayUID = [displayUID substringToIndex:displayUID.length - @"@chat.facebook.com".length];
+		displayUID = [displayUID substringToIndex:(displayUID.length - @"@chat.facebook.com".length)];
 
 	[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 					  AILocalizedString(@"Facebook ID", nil), KEY_KEY,
