@@ -28,8 +28,6 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIContactHidingController.h>
 
-#define	OBJECT_STATUS_CACHE			@"Object Status Cache"
-
 /* If META_TYPE_DEBUG is defined, metaContacts and uniqueMetaContacts are given an 
  * identifying suffix to their formattedUID in the contact list */
 //#define META_TYPE_DEBUG TRUE
@@ -67,7 +65,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		_containedObjects = [[NSMutableArray alloc] init];
 		
-		expanded = [[self preferenceForKey:KEY_EXPANDED group:OBJECT_STATUS_CACHE] boolValue];
+		expanded = [[self preferenceForKey:KEY_EXPANDED group:PREF_GROUP_OBJECT_STATUS_CACHE] boolValue];
 
 		containsOnlyOneUniqueContact = YES; /* Default to YES, because addObject: will change us to NO when needed */
 		containedObjectsNeedsSort = NO;
@@ -376,7 +374,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	/* If we've messaged this contact previously, prefer the last contact we sent to 
 	 * if that contact's status is the most-available one the metacontact can offer
 	 */
-	NSString *objID = [self preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
+	NSString *objID = [self preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	if (objID)
 		preferredContact = [adium.contactController existingListObjectWithUniqueID:objID];
@@ -1011,7 +1009,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		[self setPreference:[NSNumber numberWithBool:expanded]
 					 forKey:KEY_EXPANDED
-					  group:OBJECT_STATUS_CACHE];
+					  group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	}
 }

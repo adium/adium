@@ -28,7 +28,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define	KEY_CONTAINING_OBJECT_UID	@"ContainingObjectUID"
-#define	OBJECT_STATUS_CACHE			@"Object Status Cache"
 
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
 
@@ -218,7 +217,7 @@
 {
 	[self setPreference:inGroup.UID
 				 forKey:KEY_CONTAINING_OBJECT_UID
-				  group:OBJECT_STATUS_CACHE];	
+				  group:PREF_GROUP_OBJECT_STATUS_CACHE];	
 }
 
 /*!
@@ -231,7 +230,7 @@
 	[super addContainingGroup:inGroup];
 	
 	NSString *groupUID = inGroup.UID;
-	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:OBJECT_STATUS_CACHE];
+	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	if((!savedGroupUID || ![groupUID isEqualToString:savedGroupUID]) &&
 		(inGroup != adium.contactController.contactList)) {
@@ -239,7 +238,7 @@
 		
 		[self setPreference:groupUID
 					 forKey:KEY_CONTAINING_OBJECT_UID
-					  group:OBJECT_STATUS_CACHE];
+					  group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	}
 }
 
@@ -254,7 +253,7 @@
 {
 	NSSet *targetGroup = nil;
 	// In reality, it's extremely unlikely the saved group would be lost.
-	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:OBJECT_STATUS_CACHE] ?: AILocalizedString(@"Bookmarks", nil);
+	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:PREF_GROUP_OBJECT_STATUS_CACHE] ?: AILocalizedString(@"Bookmarks", nil);
 
 	if (adium.contactController.useContactListGroups) {
 		targetGroup = [NSSet setWithObject:[adium.contactController groupWithUID:savedGroupUID]];

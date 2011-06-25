@@ -26,13 +26,11 @@
 #import <Adium/AIContactHidingController.h>
 #import <Adium/AIStatus.h>
 
-#define ObjectStatusCache	@"Object Status Cache"
 #define DisplayName			@"Display Name"
 #define LongDisplayName		@"Long Display Name"
 #define Key					@"Key"
 #define Group				@"Group"
 #define DisplayServiceID	@"DisplayServiceID"
-#define FormattedUID		@"formattedUID"
 #define AlwaysVisible		@"alwaysVisible"
 #define StayInChat			@"StayInChat"
 
@@ -687,7 +685,7 @@
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)orderIndexForObject
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
-												 group:ObjectStatusCache];
+												 group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
 	
 	// Sanity check - are we trying to assign infinity?
@@ -702,7 +700,7 @@
 		// Update the preference.
 		[self setPreference:newDict
 					 forKey:@"OrderIndexDictionary"
-					  group:ObjectStatusCache];
+					  group:PREF_GROUP_OBJECT_STATUS_CACHE];
 		
 		// Update our largest cache.
 		[self updateOrderCache];
@@ -741,7 +739,7 @@
 	
 	[self setPreference:newDict
 				 forKey:@"OrderIndexDictionary"
-				  group:ObjectStatusCache];
+				  group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	[self updateOrderCache];
 }
@@ -750,8 +748,7 @@
 - (float)orderIndexForObject:(AIListObject *)listObject
 {
 	NSDictionary *dict = [self preferenceForKey:@"OrderIndexDictionary"
-										  group:ObjectStatusCache 
-						 ];
+										  group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	NSNumber *orderIndexForObjectNumber = [dict objectForKey:listObject.internalObjectID];
 	float orderIndexForObject = (orderIndexForObjectNumber ? [orderIndexForObjectNumber floatValue] : 0);
 	
@@ -790,7 +787,7 @@
 {
 	float smallest = INFINITY, largest = 0;
 	
-	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
+	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:PREF_GROUP_OBJECT_STATUS_CACHE];
 	
 	for (NSNumber *idx in orderIndex.allValues) {
 		smallest = MIN(smallest, idx.floatValue);
