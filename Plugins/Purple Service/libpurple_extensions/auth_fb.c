@@ -130,16 +130,34 @@ fb_handle_challenge(JabberStream *js, xmlnode *packet,
 static JabberSaslState
 fb_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
 {
+	PurpleAccount *account;
+	const char *username;
+	gchar **parts;
 
-	/* When connecting with X-FACEBOOK-PLATFORM, the password field must be set to the
-	 * OAUTH 2.0 session key.
-	 */
-	xmlnode *auth = xmlnode_new("auth");
-	xmlnode_set_namespace(auth, "urn:ietf:params:xml:ns:xmpp-sasl");
-	xmlnode_set_attrib(auth, "mechanism", "X-FACEBOOK-PLATFORM");
+	account = purple_connection_get_account(js->gc);
+	username = purple_account_get_username(account);
 
-	*response = auth;
-	return JABBER_SASL_STATE_CONTINUE;
+	purple_debug_error("auth_fb", "account name is %s", username);
+
+	parts = g_strsplit(username, "@", 0);
+	if (parts[0] && strlen(parts[0]) && g_str_has_prefix(parts[0], "-")) {
+		/* When connecting with X-FACEBOOK-PLATFORM, the password field must be set to the
+		 * OAUTH 2.0 session key.
+		 *
+		 * X-FACEBOOK-PLATFORM is only valid for a facebook userID, which is prefixed with '-'
+		 */
+		xmlnode *auth = xmlnode_new("auth");
+		xmlnode_set_namespace(auth, "urn:ietf:params:xml:ns:xmpp-sasl");
+		xmlnode_set_attrib(auth, "mechanism", "X-FACEBOOK-PLATFORM");
+		
+		*response = auth;
+		
+		g_strfreev(parts);
+		return JABBER_SASL_STATE_CONTINUE;		
+	} else {
+		g_strfreev(parts);
+		return JABBER_SASL_STATE_FAIL;		
+	}
 }
 
 static JabberSaslMech fb_mech = {
