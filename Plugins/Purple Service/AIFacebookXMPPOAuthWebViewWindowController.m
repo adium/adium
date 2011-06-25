@@ -1,16 +1,16 @@
-﻿//
+//
 //  AIFacebookXMPPOAuthWebViewWindowController.m
 //  Adium
 //
 //  Created by Colin Barrett on 11/19/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
+//
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "AIFacebookXMPPAccountViewController.h"
 #import "AIFacebookXMPPAccount.h"
 #import "JSONKit.h"
-
 
 @interface AIFacebookXMPPOAuthWebViewWindowController ()
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response;
