@@ -16,6 +16,10 @@
 #import <Libpurple/auth.h>
 #import "auth_fb.h"
 
+@interface AIFacebookXMPPService ()
+- (void)libpurpleDidInit:(NSNotification *)notification;
+@end
+
 @implementation AIFacebookXMPPService
 
 - (id)init
