@@ -99,10 +99,19 @@
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
 	
-	// If we don't have a server set, set our default (if we have one)
-	if (!self.host && self.defaultServer) {
-		[self setPreference:self.defaultServer forKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
-	}
+    /* twitter.com isn't a valid server, but it was stored directly in the past. Clear it. */
+    if ([[self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS] isEqualToString:@"twitter.com"])
+        [self setPreference:nil
+                     forKey:KEY_CONNECT_HOST 
+                      group:GROUP_ACCOUNT_STATUS];
+
+    /* Register the default server if there is one. A subclass may choose to have no default server at all. */
+    if (self.defaultServer) {
+        [adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:self.defaultServer
+                                                                                 forKey:KEY_CONNECT_HOST]
+                                            forGroup:GROUP_ACCOUNT_STATUS
+                                              object:self];        
+    }
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:TWITTER_PREFERENCE_GROUP_UPDATES];
 	[adium.preferenceController informObserversOfChangedKey:nil inGroup:TWITTER_PREFERENCE_GROUP_UPDATES object:self];
@@ -127,7 +136,7 @@
  */
 - (NSString *)defaultServer
 {
-	return @"twitter.com";
+	return @"api.twitter.com";
 }
 
 #pragma mark AIAccount methods
@@ -302,7 +311,7 @@
  */
 - (NSString *)apiPath
 {
-	return nil;
+	return @"/1";
 }
 
 /*!
