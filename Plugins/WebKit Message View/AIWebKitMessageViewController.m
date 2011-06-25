@@ -1371,11 +1371,11 @@ static NSArray *draggedTypes = nil;
 					   withObject:inObject
 					   afterDelay:1];
 		}
-	}
 #else
 	[objectIconPathDict setObject:webKitUserIconPath
 						   forKey:iconSourceObject.internalObjectID];
 #endif
+    }
 }
 
 - (void)updateServiceIcon
@@ -1629,8 +1629,8 @@ static NSArray *draggedTypes = nil;
  * It is your responsibility to ensure that the returned name is unique to the script invoking this method.
  * If this method returns nil or you do not implement it, the default name for the selector will be constructed as follows:
  *
- * Any colon (“:”)in the Objective-C selector is replaced by an underscore (“_”).
- * Any underscore in the Objective-C selector is prefixed with a dollar sign (“$”).
+ * Any colon (:) in the Objective-C selector is replaced by an underscore (_).
+ * Any underscore in the Objective-C selector is prefixed with a dollar sign ($).
  * Any dollar sign in the Objective-C selector is prefixed with another dollar sign.
  */
 + (NSString *)webScriptNameForSelector:(SEL)aSelector
