@@ -9,20 +9,20 @@
 #import "PurpleAccountViewController.h"
 #import <WebKit/WebKit.h>
 
-#define FACEBOOK_OAUTH_FINISHED @"FacebookOAuthFinishedNotification"
-
-@class AIFacebookXMPPOAuthWebViewWindowController;
-
 @interface AIFacebookXMPPAccountViewController : PurpleAccountViewController {
-	AIFacebookXMPPOAuthWebViewWindowController *webViewWindowController;
-	
-	NSButton *button_OAuthStart;
+	AILocalizationTextField *label_instructions;
+	AILocalizationButton *button_OAuthStart;
 	NSTextField *textField_OAuthStatus;
 	NSProgressIndicator *spinner;
+	
+	NSButton *button_help;
 }
 
 @property (assign) IBOutlet NSProgressIndicator *spinner;
 @property (assign) IBOutlet NSTextField *textField_OAuthStatus;
 @property (assign) IBOutlet NSButton *button_OAuthStart;
+@property (assign) IBOutlet NSButton *button_help;
+
+- (IBAction)showHelp:(id)sender;
 
 @end

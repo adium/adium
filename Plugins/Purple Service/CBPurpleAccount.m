@@ -128,7 +128,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	PurplePlugin				*prpl;
 	
-	if ((prpl = purple_find_prpl(purple_account_get_protocol_id(account)))) {
+	if ((prpl = purple_find_prpl(purple_account_get_protocol_id(self.purpleAccount)))) {
 		return PURPLE_PLUGIN_PROTOCOL_INFO(prpl);
 	}
 	
@@ -154,9 +154,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
 	if (![contactName isEqualToString:theContact.formattedUID] && ![contactName isEqualToString:theContact.UID]) {
-		[theContact setValue:contactName
-							 forProperty:@"formattedUID"
-							 notify:NotifyLater];
+		[theContact setFormattedUID:contactName notify:NotifyLater];
 	}
 	
 	if (groupName && [groupName isEqualToString:@PURPLE_ORPHANS_GROUP_NAME]) {
@@ -191,9 +189,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	NSString	*normalizedUID = [self.service normalizeUID:newUID removeIgnoredCharacters:YES];
 	
 	if ([normalizedUID isEqualToString:theContact.UID]) {
-		[theContact setValue:newUID
-							 forProperty:@"formattedUID"
-							 notify:NotifyLater];		
+		[theContact setFormattedUID:newUID notify:NotifyLater];
 	} else {
 		[theContact setUID:newUID];		
 	}
@@ -3095,11 +3091,13 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (NSAlert*)alertForAccountDeletion
 {
-	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
+	PurplePluginProtocolInfo *prpl_info;
 
 	//Ensure libpurple has been loaded, since we need to know whether we can unregister this account
 	[self purpleAdapter];
 
+	prpl_info = self.protocolInfo;
+	
 	if (prpl_info && 
 		prpl_info->unregister_user &&
 		[self allowAccountUnregistrationIfSupportedByLibpurple]) {

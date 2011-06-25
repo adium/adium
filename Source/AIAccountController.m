@@ -176,6 +176,10 @@
 - (void)accountDidChangeUID:(AIAccount *)inAccount {
 	[adiumAccounts accountDidChangeUID:inAccount];
 }
+- (void)moveAccount:(AIAccount *)account toService:(AIService *)service
+{
+	[adiumAccounts moveAccount:account  toService:service];
+}
 
 //Preferred Accounts
 #pragma mark Preferred Accounts

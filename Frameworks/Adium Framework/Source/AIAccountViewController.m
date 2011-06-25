@@ -263,10 +263,12 @@
 - (void)saveConfiguration
 {
 	//UID - account; only set if the account doesn't handle setting its own UID based on a combination of fields.
-	NSString	*newUID = [textField_accountUID stringValue];
-	if (![account.UID isEqualToString:newUID] ||
-	   ![account.formattedUID isEqualToString:newUID]) {
-		[account filterAndSetUID:newUID];
+	if (textField_accountUID) {
+		NSString	*newUID = [textField_accountUID stringValue];
+		if (![account.UID isEqualToString:newUID] ||
+			![account.formattedUID isEqualToString:newUID]) {
+			[account filterAndSetUID:newUID];
+		}
 	}
 
 	//Connect Host - save first in case the account uses the server name for password storage.
@@ -286,7 +288,7 @@
 		if (![password isEqualToString:oldPassword]) {
 			[adium.accountController setPassword:password forAccount:account];
 		}
-	} else if (oldPassword && [oldPassword length] != 0) {
+	} else if ((oldPassword && [oldPassword length] != 0) && textField_password) {
 		[adium.accountController forgetPasswordForAccount:account];
 	}
 

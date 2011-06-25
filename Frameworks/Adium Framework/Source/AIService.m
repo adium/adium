@@ -262,7 +262,7 @@
  */
 - (NSCharacterSet *)allowedCharacters
 {
-    return nil;
+    return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
 
 /*!
@@ -284,7 +284,8 @@
  * Offers further distinction of allowed characters, for situations where certain characters are allowed
  * for our account name only, or characters which are allowed in user names are forbidden in our own account name.
  * If this distinction is not made, do not subclass this methods and instead subclass allowedCharacters.
- * @return NSCharacterSet of allowed characters
+ *
+ * @return NSCharacterSet of allowed characters, or nil if all characters are allowed
  */
 - (NSCharacterSet *)allowedCharactersForUIDs
 {
@@ -297,11 +298,12 @@
  * Ignored characters for user names on this service.  Ignored characters are stripped from account and contact names
  * before they are used, but the user is free to type them and they may be used by the service code.  For instance, 
  * spaces are allowed in AIM usernames, but "ad am" is treated as equal to "adam" because space is an ignored character.
- * @return NSCharacterSet of ignored characters
+ *
+ * @return NSCharacterSet of ignored characters, or nil if no characters are ignored
  */
 - (NSCharacterSet *)ignoredCharacters
 {
-    return [NSCharacterSet characterSetWithCharactersInString:@""];
+    return nil;
 }
 
 /*!
@@ -474,6 +476,11 @@
 	NSString		*workingString = ([self caseSensitive] ? inUID : [inUID lowercaseString]);
 	NSCharacterSet	*allowedCharacters = [self allowedCharactersForUIDs];
 	NSCharacterSet	*ignoredCharacters = [self ignoredCharacters];
+
+	/* If all characters are allowed, and we're either not removing ignored characters OR there are none, no change
+	 * needed. */
+	if (!allowedCharacters && (!removeIgnored || !ignoredCharacters))
+		return [[inUID copy] autorelease];
 
 	//Prepare a little buffer for our filtered UID
 	NSUInteger	destLength = 0;

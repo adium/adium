@@ -12,7 +12,40 @@
 
 #import "AIFacebookXMPPService.h"
 
+#import "AILibpurplePlugin.h"
+#import <Libpurple/auth.h>
+#import "auth_fb.h"
+
+@interface AIFacebookXMPPService ()
+- (void)libpurpleDidInit:(NSNotification *)notification;
+@end
+
 @implementation AIFacebookXMPPService
+
+- (id)init
+{
+	if ((self = [super init])) {
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(libpurpleDidInit:)
+													 name:AILibpurpleDidInitialize
+												   object:nil];
+	}
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[super dealloc];
+}
+
+- (void)libpurpleDidInit:(NSNotification *)notification
+{
+	AILog(@"Adding mech for fb");
+	jabber_auth_add_mech(jabber_auth_get_fb_mech());
+}
 
 //Account Creation
 - (Class)accountClass{
@@ -25,15 +58,15 @@
 }
 
 - (NSString *)serviceCodeUniqueID{
-    return @"FBXMPP";
+    return FACEBOOK_XMPP_SERVICE_ID;
 }
 
 - (NSString *)serviceID{
-    return @"FBXMPP";
+    return FACEBOOK_XMPP_SERVICE_ID;
 }
 
 - (NSString *)serviceClass{
-	return @"FBXMPP";
+	return @"Facebook";
 }
 
 - (NSString *)shortDescription{
@@ -41,20 +74,24 @@
 }
 
 - (NSString *)longDescription{
-    return @"Facebook (XMPP)";
+    return @"Facebook";
 }
 
-- (NSString *)userNameLabel
+- (BOOL)isSocialNetworkingService
 {
-	return nil;
+	return YES;
 }
 
+- (NSString *)userNameLabel{
+    return AILocalizedString(@"Email", "Used as a label for a username specified by email address");
+}
+- (NSString *)contactUserNameLabel{
+	return AILocalizedString(@"Facebook Email", "Label for the username for a Facebook contact");
+}
+
+/* Allow any characters; technically this should be the email-acceptable-characters regexp. */
 - (NSCharacterSet *)allowedCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_ "];
-}
-
-- (NSCharacterSet *)allowedCharactersForUIDs{
-	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
+	return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
 
 - (AIServiceImportance)serviceImportance

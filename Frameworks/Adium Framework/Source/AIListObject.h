@@ -22,6 +22,8 @@
 #define	KEY_ORDER_INDEX		@"Order Index"
 #define KEY_IS_BLOCKED		@"isBlocked"
 
+#define KEY_FORMATTED_UID	@"FormattedUID"
+
 typedef enum {
 	AIAvailableStatus = 'avaL',
 	AIAwayStatus = 'awaY',
@@ -118,7 +120,7 @@ typedef enum {
 
 //Identifying information
 @property (readonly, nonatomic) NSString *UID;
-@property (readonly, nonatomic) AIService *service;
+@property (readonly, assign, nonatomic) AIService *service;
 @property (readonly, nonatomic) NSString *internalObjectID;
 + (NSString *)internalObjectIDForServiceID:(NSString *)inServiceID UID:(NSString *)inUID;
 
