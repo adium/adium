@@ -4737,18 +4737,6 @@
 		EE147A7F0896B33400A21377 /* OWABSearchWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OWABSearchWindowController.h; path = Source/OWABSearchWindowController.h; sourceTree = "<group>"; };
 		EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = OWSpellingPerContactPlugin.m; path = Source/OWSpellingPerContactPlugin.m; sourceTree = "<group>"; };
 		EEC461B5096D68580028632F /* OWSpellingPerContactPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OWSpellingPerContactPlugin.h; path = Source/OWSpellingPerContactPlugin.h; sourceTree = "<group>"; };
-		EFA39C031296658B00B36EBB /* AIFacebookXMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccount.h; path = "Plugins/Purple Service/AIFacebookXMPPAccount.h"; sourceTree = "<group>"; };
-		EFA39C041296658B00B36EBB /* AIFacebookXMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccount.m; path = "Plugins/Purple Service/AIFacebookXMPPAccount.m"; sourceTree = "<group>"; };
-		EFA39C051296658B00B36EBB /* AIFacebookXMPPAccountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIFacebookXMPPAccountView.xib; path = "Plugins/Purple Service/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		EFA39C061296658B00B36EBB /* AIFacebookXMPPAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccountViewController.h; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.h"; sourceTree = "<group>"; };
-		EFA39C071296658B00B36EBB /* AIFacebookXMPPAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccountViewController.m; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.m"; sourceTree = "<group>"; };
-		EFA39C081296658B00B36EBB /* AIFacebookXMPPService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPService.h; path = "Plugins/Purple Service/AIFacebookXMPPService.h"; sourceTree = "<group>"; };
-		EFA39C091296658B00B36EBB /* AIFacebookXMPPService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPService.m; path = "Plugins/Purple Service/AIFacebookXMPPService.m"; sourceTree = "<group>"; };
-		EFA39C2F12966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPOAuthWebViewWindowController.h; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.h"; sourceTree = "<group>"; };
-		EFA39C3012966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
-		EFA39CF512966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIFacebookXMPPOauthWebViewWindow.xib; path = "Plugins/Purple Service/AIFacebookXMPPOauthWebViewWindow.xib"; sourceTree = "<group>"; };
-		EFB036A213305E8800CB421E /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Frameworks/JSONKit/JSONKit.h; sourceTree = SOURCE_ROOT; };
-		EFB036A313305E8800CB421E /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Frameworks/JSONKit/JSONKit.m; sourceTree = SOURCE_ROOT; };
 		EFB1C3120DDBDA3100B3973D /* AITwitterIMPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterIMPlugin.h; path = Source/AITwitterIMPlugin.h; sourceTree = "<group>"; };
 		EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterIMPlugin.m; path = Source/AITwitterIMPlugin.m; sourceTree = "<group>"; };
 		F11B9621051CDB3B0000000E /* AIMessageAliasPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageAliasPlugin.h; path = "Plugins/Message Alias Support/AIMessageAliasPlugin.h"; sourceTree = "<group>"; };
@@ -7309,7 +7297,6 @@
 		4BD672C406001B530049CAF7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EFA39B5C1294F9FB00B36EBB /* FB XMPP */,
 				11F738F40F58D15500B3285B /* Twitter */,
 				4947F5BB0655E7C400B791E5 /* Bonjour */,
 				4B7F278605440C6200CDFC90 /* Libpurple */,
@@ -8632,33 +8619,6 @@
 				EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */,
 			);
 			name = "Spelling Per Contact";
-			sourceTree = "<group>";
-		};
-		EFA39B5C1294F9FB00B36EBB /* FB XMPP */ = {
-			isa = PBXGroup;
-			children = (
-				EFB036A113305E6500CB421E /* JSONKit */,
-				EFA39C031296658B00B36EBB /* AIFacebookXMPPAccount.h */,
-				EFA39C041296658B00B36EBB /* AIFacebookXMPPAccount.m */,
-				EFA39C051296658B00B36EBB /* AIFacebookXMPPAccountView.xib */,
-				EFA39C061296658B00B36EBB /* AIFacebookXMPPAccountViewController.h */,
-				EFA39C071296658B00B36EBB /* AIFacebookXMPPAccountViewController.m */,
-				EFA39C081296658B00B36EBB /* AIFacebookXMPPService.h */,
-				EFA39C091296658B00B36EBB /* AIFacebookXMPPService.m */,
-				EFA39C2F12966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.h */,
-				EFA39C3012966B2600B36EBB /* AIFacebookXMPPOAuthWebViewWindowController.m */,
-				EFA39CF512966F5D00B36EBB /* AIFacebookXMPPOauthWebViewWindow.xib */,
-			);
-			name = "FB XMPP";
-			sourceTree = "<group>";
-		};
-		EFB036A113305E6500CB421E /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				EFB036A213305E8800CB421E /* JSONKit.h */,
-				EFB036A313305E8800CB421E /* JSONKit.m */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		F1D0C631051AC2380000000E /* Message Alias Support */ = {
