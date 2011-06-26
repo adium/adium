@@ -33,6 +33,30 @@
 #define MAXIMUM_ROW_HEIGHT				300.0f
 #define MINIMUM_CELL_SPACING			4
 
+@interface AIValidatingToolbarItem : NSToolbarItem {
+}
+@end
+
+@implementation AIValidatingToolbarItem
+
+- (void)validate {
+	if ([self view]) {
+		BOOL enabled = YES;
+		
+		if ([[self toolbar] delegate]) {
+			if ([[[self toolbar] delegate] respondsToSelector:@selector(validateToolbarItem:)]) {
+				enabled = [(id)[[self toolbar] delegate] validateToolbarItem:self];
+			}
+		}
+		
+		[self setEnabled:enabled];
+	} else {
+		[super validate];
+	}
+}
+
+@end
+
 @interface AIAuthorizationRequestsWindowController()
 - (void)reloadData;
 - (void)rebuildHeights;
@@ -85,6 +109,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	
 	[tableView accessibilitySetOverrideValue:AILocalizedString(@"Authorization Requests", nil)
 								forAttribute:NSAccessibilityRoleDescriptionAttribute];
+	[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self.window setTitle:AUTHORIZATION_REQUESTS];
 }
@@ -131,29 +156,27 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	
 	toolbarItems = [[NSMutableDictionary alloc] init];
 	
+	AIValidatingToolbarItem 	*toolbarItem;
+	MVMenuButton				*button;
+	
 	// Authorize
-	
-	MVMenuButton *button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
-	
+	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
 	[button setImage:[NSImage imageNamed:@"Authorize" forClass:[self class]]];
 	
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"authorize"
-											 label:AUTHORIZE
-									  paletteLabel:AUTHORIZE
-										   toolTip:AILocalizedString(@"Authorize Selected",nil)
-											target:self
-								   settingSelector:@selector(setView:)
-									   itemContent:button
-											action:@selector(authorize:)
-											  menu:nil];
-	
-	NSToolbarItem *toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"authorize"];
-
+	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:AUTHORIZE] autorelease];
+    [toolbarItem setLabel:AUTHORIZE];
+    [toolbarItem setPaletteLabel:AUTHORIZE];
+	[toolbarItem setToolTip:AILocalizedString(@"Authorize Selected",nil)];
+	[toolbarItem setTarget:self];
+	[toolbarItem performSelector:@selector(setView:) withObject:button];
+	[toolbarItem setAction:@selector(authorize:)];
 	[button setToolbarItem:toolbarItem];
 
+	[toolbarItems setObject:toolbarItem forKey:AUTHORIZE];
+	
+	// Get Info
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"getInfo"
+									withIdentifier:GET_INFO
 											 label:GET_INFO
 									  paletteLabel:GET_INFO
 										   toolTip:AILocalizedString(@"Get Info",nil)
@@ -164,45 +187,35 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											  menu:nil];
 	
 	// Deny
-	
 	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
-	
 	[button setImage:[NSImage imageNamed:@"Deny" forClass:[self class]]];
-	
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"deny"
-											 label:DENY
-									  paletteLabel:DENY
-										   toolTip:AILocalizedString(@"Deny Selected",nil)
-											target:self
-								   settingSelector:@selector(setView:)
-									   itemContent:button
-											action:@selector(deny:)
-											  menu:nil];
 
-	toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"deny"];
-	
+	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:DENY] autorelease];
+	[toolbarItem setLabel:DENY];
+    [toolbarItem setPaletteLabel:DENY];
+	[toolbarItem setToolTip:AILocalizedString(@"Deny Selected",nil)];
+	[toolbarItem setTarget:self];
+	[toolbarItem performSelector:@selector(setView:) withObject:button];
+	[toolbarItem setAction:@selector(deny:)];
 	[button setToolbarItem:toolbarItem];
+	
+	[toolbarItems setObject:toolbarItem forKey:DENY];
 	
 	// Ignore
 	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
-	
 	[button setImage:[NSImage imageNamed:@"Ignore" forClass:[self class]]];
-	
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"ignore"
-											 label:IGNORE
-									  paletteLabel:IGNORE
-										   toolTip:AILocalizedString(@"Ignore Selected",nil)
-											target:self
-								   settingSelector:@selector(setView:)
-									   itemContent:button
-											action:@selector(ignore:)
-											  menu:nil];
-	
-	toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"ignore"];
-	
+
+	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:IGNORE] autorelease];
+	[toolbarItem setLabel:IGNORE];
+    [toolbarItem setPaletteLabel:IGNORE];
+	[toolbarItem setToolTip:AILocalizedString(@"Ignore Selected",nil)];
+	[toolbarItem setTarget:self];
+	[toolbarItem performSelector:@selector(setView:) withObject:button];
+	[toolbarItem setAction:@selector(ignore:)];
 	[button setToolbarItem:toolbarItem];
+
+	[toolbarItems setObject:toolbarItem forKey:IGNORE];
+
 	
 	[[self window] setToolbar:toolbar];
 }
@@ -211,7 +224,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 {
 	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
 	
-	if ([[item itemIdentifier] isEqualToString:@"authorize"]) {
+	if ([[item itemIdentifier] isEqualToString:AUTHORIZE]) {
 		NSMenu *menu = [[NSMenu alloc] init];
 		
 		[menu addItemWithTitle:AUTHORIZE
@@ -226,7 +239,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		
 		[[item view] setMenu:menu];
 		[menu release];
-	} else if ([[item itemIdentifier] isEqualToString:@"deny"]) {
+	} else if ([[item itemIdentifier] isEqualToString:DENY]) {
 		NSMenu *menu = [[NSMenu alloc] init];
 		
 		[menu addItemWithTitle:DENY
@@ -241,7 +254,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		
 		[[item view] setMenu:menu];
 		[menu release];	
-	} else if ([[item itemIdentifier] isEqualToString:@"ignore"]) {
+	} else if ([[item itemIdentifier] isEqualToString:IGNORE]) {
 		NSMenu *menu = [[NSMenu alloc] init];
 		
 		[menu addItemWithTitle:IGNORE
@@ -267,11 +280,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:
-			@"authorize",
+			AUTHORIZE,
 			NSToolbarSeparatorItemIdentifier,
-			@"getInfo",
+			GET_INFO,
 			NSToolbarFlexibleSpaceItemIdentifier,
-			@"ignore", @"deny", nil];
+			IGNORE, DENY, nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
