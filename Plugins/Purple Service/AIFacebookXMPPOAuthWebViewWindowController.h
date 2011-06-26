@@ -20,6 +20,9 @@
 	
 	NSString *autoFillUsername;
 	NSString *autoFillPassword;
+    BOOL     isMigrating;
+    
+    BOOL notifiedAccount;
 }
 
 @property (nonatomic, retain) IBOutlet WebView *webView;
@@ -30,5 +33,6 @@
 
 @property (nonatomic, retain) NSString *autoFillUsername;
 @property (nonatomic, retain) NSString *autoFillPassword;
+@property (nonatomic)         BOOL     isMigrating;
 
 @end
