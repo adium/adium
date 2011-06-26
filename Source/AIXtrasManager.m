@@ -78,6 +78,8 @@ static AIXtrasManager *manager;
 	[previewContainerView setBorderType:NSBezelBorder];
 
 	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	
+	[self updateForSelectedCategory];
 }
 
 - (void)showXtras
