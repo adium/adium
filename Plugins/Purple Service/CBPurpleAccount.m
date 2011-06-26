@@ -850,17 +850,17 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 {
     AIGroupChatFlags groupChatFlags = AIGroupChatNone;
     if (flags & PURPLE_CBFLAGS_VOICE)
-        groupChatFlags &= AIGroupChatVoice;
+        groupChatFlags |= AIGroupChatVoice;
     if (flags & PURPLE_CBFLAGS_HALFOP)
-        groupChatFlags &= AIGroupChatHalfOp;
+        groupChatFlags |= AIGroupChatHalfOp;
     if (flags & PURPLE_CBFLAGS_OP)
-        groupChatFlags &= AIGroupChatOp;
+        groupChatFlags |= AIGroupChatOp;
     if (flags & PURPLE_CBFLAGS_FOUNDER)
-        groupChatFlags &= AIGroupChatFounder;
+        groupChatFlags |= AIGroupChatFounder;
     if (flags & PURPLE_CBFLAGS_TYPING)
-        groupChatFlags &= AIGroupChatTyping;
+        groupChatFlags |= AIGroupChatTyping;
     if (flags & PURPLE_CBFLAGS_AWAY)
-        groupChatFlags &= AIGroupChatAway;
+        groupChatFlags |= AIGroupChatAway;
 
     return groupChatFlags;
 }
