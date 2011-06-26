@@ -77,7 +77,7 @@ build_libpurple() {
 	
 	quiet pushd "$ROOTDIR/source/im.pidgin.adium"
 	
-	PROTOCOLS="bonjour,facebook,gg,irc,jabber,msn,myspace,novell,oscar,qq,"
+	PROTOCOLS="bonjour,gg,irc,jabber,msn,myspace,novell,oscar,"
 	PROTOCOLS+="sametime,simple,yahoo,zephyr"
 	
 	# Leopard's 64-bit Kerberos library is missing symbols, as evidenced by
