@@ -7,6 +7,7 @@
 //
 
 #import "AIFacebookXMPPAccount.h"
+#import "AIFacebookXMPPService.h"
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIListContact.h>
@@ -292,7 +293,8 @@ enum {
 		 */
 		self.oAuthWC.autoFillUsername = self.UID;
 		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self];
-		
+		self.oAuthWC.isMigrating = ![self.service.serviceID isEqualToString:FACEBOOK_XMPP_SERVICE_ID];
+
 		self.migrationData = [NSDictionary dictionaryWithObjectsAndKeys:
 							  self.UID, @"originalUID",
 							  self.service.serviceID, @"originalServiceID",

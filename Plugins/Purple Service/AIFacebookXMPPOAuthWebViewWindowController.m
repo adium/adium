@@ -23,6 +23,7 @@
 @synthesize cookies;
 @synthesize webView, spinner;
 @synthesize autoFillPassword, autoFillUsername;
+@synthesize isMigrating;
 
 - (id)init
 {
@@ -61,6 +62,17 @@
      @"display=popup"];
 	
 	[spinner startAnimation:self];
+    
+    [self.window setTitle:AILocalizedString(@"Facebook Account Setup", nil)];
+}
+
+- (void)windowWillClose:(id)sender
+{
+    [super windowWillClose:sender];
+
+    /* The user closed; notify the account of failure */
+    if (!notifiedAccount)
+        [self.account oAuthWebViewControllerDidFail:self];
 }
 
 - (NSDictionary*)parseURLParams:(NSString *)query {
@@ -91,6 +103,15 @@
 		if ([frame.dataSource.request.URL.host isEqual:@"www.facebook.com"] && [frame.dataSource.request.URL.path isEqual:@"/login.php"]) {
 			//Set email and password
 			DOMDocument *domDoc = [frame DOMDocument];
+            
+            if (self.isMigrating) {
+                NSString *text = domDoc.body.innerHTML;
+                text = [text stringByReplacingOccurrencesOfString:@"Log in to use your Facebook account"
+                                                       withString:@"The new version of Adium has a much more reliable Facebook Chat service. Log in to use your Facebook account"];
+                domDoc.body.innerHTML = text;
+            }
+
+            
 			[[domDoc getElementById:@"email"] setValue:self.autoFillUsername];
 			[[domDoc getElementById:@"pass"] setValue:self.autoFillPassword];
 			
@@ -124,6 +145,7 @@
 
 		}		
 
+        notifiedAccount = YES;
 		[self closeWindow:nil];
 	}
 	
