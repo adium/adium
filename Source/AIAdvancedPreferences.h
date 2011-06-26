@@ -25,7 +25,7 @@
 	IBOutlet AIModularPaneCategoryView	*modularPane;
 	
 	NSMutableArray		    *loadedAdvancedPanes;
-	NSMutableArray		    *_advancedCategoryArray;
+	NSArray                 *_advancedCategoryArray;
 }
 
 @end

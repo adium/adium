@@ -169,7 +169,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 									 object:nil];
 
 	//Add the Encryption preferences
-	OTRPrefs = [[ESOTRPreferences preferencePane] retain];
+	OTRPrefs = [(ESOTRPreferences *)[ESOTRPreferences preferencePane] retain];
 }
 
 - (void)dealloc

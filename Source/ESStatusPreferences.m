@@ -124,7 +124,7 @@
  */
 - (void)configureStateList
 {
-    AIImageTextCell			*cell;
+    AIVerticallyCenteredTextCell *cell;
 
 	//Configure the table view
 	[outlineView_stateList setTarget:self];

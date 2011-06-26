@@ -177,7 +177,7 @@
 	while ((statusState = [enumerator nextObject])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		AIStatusType thisStatusType = statusState.statusType;
-		AIStatusType thisStatusMutabilityType = [statusState mutabilityType];
+		AIStatusMutabilityType thisStatusMutabilityType = [statusState mutabilityType];
 		
 		if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
 			(thisStatusMutabilityType == AISecondaryLockedStatusState)) {

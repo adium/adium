@@ -269,7 +269,7 @@
  */
 - (NSCharacterSet *)allowedCharacters
 {
-	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alloc] init];
+	NSMutableCharacterSet	*allowedCharacters = [[NSMutableCharacterSet alloc] init];
 	NSCharacterSet			*nodeSet = [self allowedCharactersInNode];
 	NSCharacterSet			*domainSet = [self allowedCharactersInDomain];
 	NSCharacterSet			*returnSet;

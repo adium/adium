@@ -45,10 +45,10 @@
 	AIStatusMenu			*statusMenu;
 	AIMenuBarIcons			*menuIcons;
 
-	NSMutableArray          *accountMenuItemsArray;
-	NSMutableArray          *stateMenuItemsArray;
+	NSArray                 *accountMenuItemsArray;
+	NSArray                 *stateMenuItemsArray;
 	NSInteger				currentContactMenuItemsCount;
-	NSMutableArray          *openChatsArray;
+	NSArray                 *openChatsArray;
 
 	NSTimer					*unviewedContentFlash;
 	

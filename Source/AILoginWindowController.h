@@ -28,7 +28,7 @@
 	IBOutlet		NSButton	*checkBox_debugMode;
 
     AILoginController	 		*owner;
-    NSMutableArray				*userArray;
+    NSArray                     *userArray;
 	
 	NSTimer						*loginTimer;
 }

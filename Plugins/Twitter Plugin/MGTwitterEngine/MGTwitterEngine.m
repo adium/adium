@@ -72,7 +72,7 @@
 }
 
 
-- (MGTwitterEngine *)initWithDelegate:(NSObject *)newDelegate
+- (MGTwitterEngine *)initWithDelegate:(NSObject <MGTwitterEngineDelegate> *)newDelegate
 {
     if ((self = [super init])) {
         _delegate = newDelegate; // deliberately weak reference

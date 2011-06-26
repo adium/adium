@@ -419,7 +419,7 @@
 	AIListObject *object = notification.object;
 	
 	//Treat a nil object as equivalent to the whole contact list
-	if (!object || (object == contactList)) {
+	if (!object || (object == (AIListObject *)contactList)) {
 		[contactListView reloadData];
 	} else {
 		for (AIProxyListObject *proxyObject in object.proxyObjects)

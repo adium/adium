@@ -793,7 +793,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		// Set their status to unknown.
 		
 		[contact setStatusWithName:nil
-						statusType:AIUnknownStatus
+						statusType:AIOfflineStatusType
 							notify:NotifyLater];
 		
 		[contact setValue:nil
@@ -846,7 +846,26 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 														object:chat];
 }
 
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(AIGroupChatFlags)flags inChat:(AIChat *)chat
+AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyFlags flags)
+{
+    AIGroupChatFlags groupChatFlags = AIGroupChatNone;
+    if (flags & PURPLE_CBFLAGS_VOICE)
+        groupChatFlags &= AIGroupChatVoice;
+    if (flags & PURPLE_CBFLAGS_HALFOP)
+        groupChatFlags &= AIGroupChatHalfOp;
+    if (flags & PURPLE_CBFLAGS_OP)
+        groupChatFlags &= AIGroupChatOp;
+    if (flags & PURPLE_CBFLAGS_FOUNDER)
+        groupChatFlags &= AIGroupChatFounder;
+    if (flags & PURPLE_CBFLAGS_TYPING)
+        groupChatFlags &= AIGroupChatTyping;
+    if (flags & PURPLE_CBFLAGS_AWAY)
+        groupChatFlags &= AIGroupChatAway;
+
+    return groupChatFlags;
+}
+
+- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIChat *)chat
 {
 	[chat removeSavedValuesForContactUID:oldUID];
 	
@@ -858,7 +877,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		contact = [self contactWithUID:newUID];
 	}
 
-	[chat setFlags:flags forContact:contact];
+ 	[chat setFlags:groupChatFlagsFromPurpleConvChatBuddyFlags(flags) forContact:contact];
 	[chat setAlias:newAlias forContact:contact];
 	
 	if (contact.isStranger) {
@@ -891,7 +910,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateUser:(NSString *)user
 		   forChat:(AIChat *)chat
-			 flags:(AIGroupChatFlags)flags
+			 flags:(PurpleConvChatBuddyFlags)flags 
 			 alias:(NSString *)alias
 		attributes:(NSDictionary *)attributes
 {
@@ -900,23 +919,24 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIListContact *contact = [self contactWithUID:user];
 	
 	AIGroupChatFlags oldFlags = [chat flagsForContact:contact];
+    AIGroupChatFlags newFlags = groupChatFlagsFromPurpleConvChatBuddyFlags(flags);
 	NSString *oldAlias = [chat aliasForContact:contact];
 	
 	// Trigger an update if the alias or flags (ignoring away state) changes.
 	if ((alias && !oldAlias)
 		|| (!alias && oldAlias)
 		|| ![[chat aliasForContact:contact] isEqualToString:alias]
-		|| (flags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
+		|| (newFlags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
 		triggerUserlistUpdate = YES;
 	}
 
 	[chat setAlias:alias forContact:contact];
-	[chat setFlags:flags forContact:contact];
+	[chat setFlags:newFlags forContact:contact];
 	
 	// Away changes only come in after the initial one, so we're safe in only updating it here.
 	if (contact.isStranger) {
 		[contact setStatusWithName:nil
-						statusType:((flags & AIGroupChatAway) == AIGroupChatAway) ? AIAwayStatusType : AIAvailableStatusType
+						statusType:((newFlags & AIGroupChatAway) == AIGroupChatAway) ? AIAwayStatusType : AIAvailableStatusType
 							notify:NotifyLater];
 	}
 

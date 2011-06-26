@@ -18,7 +18,7 @@
 
 @interface AIAccountMenuAccessPlugin : AIPlugin <AIAccountMenuDelegate> {
 	AIAccountMenu	*accountMenu;
-	NSMutableArray	*installedMenuItems;
+	NSArray          *installedMenuItems;
 }
 
 @end

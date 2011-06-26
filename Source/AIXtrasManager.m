@@ -219,6 +219,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (void)dealloc
 {
 	[categories release];
+    [selectedCategory release];
 
 	[super dealloc];
 }
@@ -245,7 +246,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (void)updateForSelectedCategory
 {
 	[selectedCategory autorelease];
-	selectedCategory = [[self xtrasForCategoryAtIndex:[tableView_categories selectedRow]] retain];
+	selectedCategory = [[self xtrasForCategoryAtIndex:[tableView_categories selectedRow]] mutableCopy];
 
 	[xtraList reloadData];
 	if ([xtraList numberOfRows]) {

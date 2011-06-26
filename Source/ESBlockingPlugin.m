@@ -178,7 +178,7 @@
 				AIListContact *containedContact = nil;
 				
 				while ((containedContact = [enumerator nextObject])) {
-					AIAccount <AIAccount_Privacy> *account = containedContact.account;
+					AIAccount *account = containedContact.account;
 					if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 						[self _setContact:containedContact isBlocked:shouldBlock];
 					} else {
@@ -187,7 +187,7 @@
 				}
 			} else {
 				AIListContact *singleContact = (AIListContact *)object;
-				AIAccount <AIAccount_Privacy> *account = singleContact.account;
+				AIAccount *account = singleContact.account;
 				if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 					[self _setContact:singleContact isBlocked:shouldBlock];
 				} else {
@@ -238,7 +238,7 @@
 			NSInteger				votesForUnblock = 0;
 
 			while ((contact = [enumerator nextObject])) {
-				AIAccount <AIAccount_Privacy> *account = contact.account;
+				AIAccount<AIAccount_Privacy> *account = (AIAccount<AIAccount_Privacy> *)contact.account;
 				if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 					AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
 					if ([[account listObjectsOnPrivacyList:privType] containsObject:contact]) {
@@ -283,7 +283,7 @@
 
 		} else {
 			AIListContact *contact = (AIListContact *)object;
-			AIAccount <AIAccount_Privacy> *account = contact.account;
+            AIAccount<AIAccount_Privacy> *account = (AIAccount<AIAccount_Privacy> *)contact.account;
 			if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 				AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
 				if ([[account listObjectsOnPrivacyList:privType] containsObject:contact]) {

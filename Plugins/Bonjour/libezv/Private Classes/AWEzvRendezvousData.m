@@ -206,7 +206,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 - (AWEzvRendezvousData *)initWithDictionary:(NSDictionary *)dictionary 
 {
     if ((self = [super init])) {
-		keys = [dictionary retain];
+		keys = [dictionary mutableCopy];
 		serial++;
 	}	
     

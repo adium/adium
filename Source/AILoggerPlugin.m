@@ -1399,7 +1399,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	
 	//Reset the cleaning progress
 	__block __typeof__(self) bself = self;
-	__block NSMutableSet *localLogSet;
+	__block NSMutableSet *localLogSet = nil;
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		localLogSet = [[self.dirtyLogSet mutableCopy] autorelease];
 		// bself.logsToIndex = [bself.dirtyLogSet count];

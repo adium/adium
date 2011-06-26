@@ -47,7 +47,7 @@
 	[adium.preferenceController registerPreferenceObserver:self 
 												  forGroup:PREF_GROUP_GENERAL];
 
-	advancedPreferences = [[AIMentionAdvancedPreferences preferencePaneForPlugin:self] retain];
+	advancedPreferences = [(AIMentionAdvancedPreferences *)[AIMentionAdvancedPreferences preferencePaneForPlugin:self] retain];
 }
 
 - (void)uninstallPlugin

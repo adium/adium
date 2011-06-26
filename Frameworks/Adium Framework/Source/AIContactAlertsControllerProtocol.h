@@ -16,7 +16,7 @@
 
 #import <Adium/AIControllerProtocol.h>
 
-@class AIListObject, AIChat, AIModularPane;
+@class AIListObject, AIChat, AIActionDetailsPane;
 
 @protocol AIEventHandler, AIActionHandler;
 
@@ -382,9 +382,9 @@ typedef enum {
 
 /*!
  * @brief Details pane
- * @result An <tt>AIModularPane</tt> to use for configuring this action, or nil if no configuration is possible.
+ * @result An <tt>AIActionDetailsPane</tt> to use for configuring this action, or nil if no configuration is possible.
  */
-- (AIModularPane *)detailsPaneForActionID:(NSString *)actionID;
+- (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID;
 
 /*!
  * @brief Perform an action

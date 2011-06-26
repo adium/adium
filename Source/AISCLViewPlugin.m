@@ -72,7 +72,7 @@
     [adium.interfaceController registerContactListController:self];
 	
 	//Install our preference view
-	advancedPreferences = [[ESContactListAdvancedPreferences preferencePane] retain];
+	advancedPreferences = [(ESContactListAdvancedPreferences *)[ESContactListAdvancedPreferences preferencePane] retain];
 	
 	attachSubmenu = [[NSMenu alloc] init];
 	[attachSubmenu setDelegate:self];

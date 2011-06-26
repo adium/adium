@@ -18,8 +18,8 @@
 @class AIListObject;
 
 @interface AIAbstractListObjectMenu : NSObject {
-	NSMutableArray	*menuItems;
-	NSMenu			*menu;
+	NSArray     *menuItems;
+	NSMenu		*menu;
 }
 
 - (NSArray *)menuItems;

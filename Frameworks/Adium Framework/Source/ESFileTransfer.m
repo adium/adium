@@ -109,7 +109,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 
 - (AIAccount<AIAccount_Files> *)account
 {
-    return self.chat.account;   
+    return (AIAccount<AIAccount_Files> *)self.chat.account;   
 }
 
 - (void)setRemoteFilename:(NSString *)inRemoteFilename

@@ -63,7 +63,7 @@
 			return windowController;
 	}
 	
-	NSWindowController *windowController = [AIMediaWindowController mediaWindowControllerForMedia:media];
+	AIMediaWindowController *windowController = [AIMediaWindowController mediaWindowControllerForMedia:media];
 	[openMediaControllers addObject:windowController];
 	
 	return windowController;

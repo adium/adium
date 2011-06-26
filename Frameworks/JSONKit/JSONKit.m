@@ -852,7 +852,7 @@ static int jk_parse_string(JKParseState *parseState) {
           break;
 
         case JSONStringStateEscapedNeedEscapeForSurrogate:
-          if((currentChar == '\\')) { stringState = JSONStringStateEscapedNeedEscapedUForSurrogate; }
+          if(currentChar == '\\') { stringState = JSONStringStateEscapedNeedEscapedUForSurrogate; }
           //else                      { stringState = JSONStringStateParsing; atStringCharacter--; if(jk_string_add_unicodeCodePoint(parseState, UNI_REPLACEMENT_CHAR, &tokenBufferIdx, &stringHash)) { /* XXX Add error message */ stringState = JSONStringStateError; goto finishedParsing; } }
           else                   { jk_error(parseState, @"Required a second \\u Unicode escape sequence following a surrogate \\u Unicode escape sequence."); stringState = JSONStringStateError; goto finishedParsing; }
           break;

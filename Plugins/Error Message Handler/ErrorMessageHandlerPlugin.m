@@ -101,7 +101,7 @@
 	return [NSImage imageNamed:@"ErrorAlert" forClass:[self class]];
 }
 
-- (AIModularPane *)detailsPaneForActionID:(NSString *)actionID
+- (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID
 {
 	return [ESPanelAlertDetailPane actionDetailsPane];
 }
