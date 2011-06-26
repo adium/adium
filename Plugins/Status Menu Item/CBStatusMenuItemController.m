@@ -92,11 +92,6 @@
 
 		// Set the main menu as the status item's menu
 		statusItemView.menu = mainMenu;
-		
-		// Create the caches for our menu items
-		accountMenuItemsArray = [[NSMutableArray alloc] init];
-		stateMenuItemsArray = [[NSMutableArray alloc] init];
-		openChatsArray = [[NSMutableArray alloc] init];
 
 		// Flag all the menus as needing updates
 		mainMenuNeedsUpdate = YES;

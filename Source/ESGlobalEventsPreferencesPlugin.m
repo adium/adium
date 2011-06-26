@@ -65,7 +65,7 @@
 										  forGroup:PREF_GROUP_SOUNDS];
 
 	//Install our preference view
-    preferences = [[ESGlobalEventsPreferences preferencePaneForPlugin:self] retain];
+    preferences = [(ESGlobalEventsPreferences *)[ESGlobalEventsPreferences preferencePaneForPlugin:self] retain];
 
 	//Wait for Adium to finish launching before we perform further actions
 	[[NSNotificationCenter defaultCenter] addObserver:self

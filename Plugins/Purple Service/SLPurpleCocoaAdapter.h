@@ -86,7 +86,7 @@
 - (void)OSCARSetFormatTo:(NSString *)inFormattedUID onAccount:(id)adiumAccount;
 
 - (void)displayFileSendError;
-- (void *)handleNotifyMessageOfType:(PurpleNotifyType)type withTitle:(const char *)title primary:(const char *)primary secondary:(const char *)secondary;
+- (void *)handleNotifyMessageOfType:(PurpleNotifyMsgType)type withTitle:(const char *)title primary:(const char *)primary secondary:(const char *)secondary;
 - (void *)handleNotifyFormattedWithTitle:(const char *)title primary:(const char *)primary secondary:(const char *)secondary text:(const char *)text;
 
 - (void)performContactMenuActionFromDict:(NSDictionary *)dict forAccount:(id)adiumAccount;

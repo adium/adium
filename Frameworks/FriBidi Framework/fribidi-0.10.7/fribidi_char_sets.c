@@ -25,6 +25,7 @@
 #ifndef FRIBIDI_NO_CHARSETS
 
 #include "fribidi_char_sets.h"
+#include <ctype.h>
 
 typedef struct
 {

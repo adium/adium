@@ -373,9 +373,9 @@ static BOOL							hideInBackground = NO;
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	AIAccount	*account = [_awayAccounts objectAtIndex:row];
-
+    
 	[cell setImage:[AIStatusIcons statusIconForListObject:account
-													 type:AIServiceIconSmall
+													 type:AIStatusIconTab
 												direction:AIIconNormal]];
 	[cell setSubString:[account.statusState title]];
 }

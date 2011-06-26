@@ -259,7 +259,7 @@
 /*!
  * @brief Returns our details pane, an instance of <tt>CBGrowlAlertDetailPane</tt>
  */
-- (AIModularPane *)detailsPaneForActionID:(NSString *)actionID
+- (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID
 {
     return [CBGrowlAlertDetailPane actionDetailsPane];
 }

@@ -77,9 +77,9 @@
 
 /*!
  * @brief Details pane
- * @result An <tt>AIModularPane</tt> to use for configuring this action, or nil if no configuration is possible.
+ * @result An <tt>AIActionDetailsPane</tt> to use for configuring this action, or nil if no configuration is possible.
  */
-- (AIModularPane *)detailsPaneForActionID:(NSString *)actionID
+- (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID
 {
 	return [ESEventSoundAlertDetailPane actionDetailsPane];
 }

@@ -387,7 +387,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 }
 
 //Insert graphical emoticons into a string
-- (NSMutableAttributedString *)_convertEmoticonsInMessage:(NSAttributedString *)inMessage context:(id)context
+- (NSAttributedString *)_convertEmoticonsInMessage:(NSAttributedString *)inMessage context:(id)context
 {
     NSString                    *messageString = [inMessage string];
     NSMutableAttributedString   *newMessage = nil; //We avoid creating a new string unless necessary

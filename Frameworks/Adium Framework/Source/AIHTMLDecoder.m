@@ -70,7 +70,7 @@ static NSString			*horizontalRule = nil;
 + (void)initialize
 {
 	//Set up the horizontal rule which will be searched-for when encoding and inserted when decoding
-	if ((self == [AIHTMLDecoder class])) {
+	if (self == [AIHTMLDecoder class]) {
 #define HORIZONTAL_BAR			0x2013
 #define HORIZONTAL_RULE_LENGTH	12
 		

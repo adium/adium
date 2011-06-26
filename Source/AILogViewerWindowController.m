@@ -558,7 +558,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 - (void)updateProgressDisplay
 {
     NSMutableString     *progress = nil;
-    BOOL				indexing;
+    BOOL				indexing = plugin.isIndexing;
 
     //We always convey the number of logs being displayed
     [resultsLock lock];
@@ -595,7 +595,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 
     //Append indexing progress
-    if (plugin.isIndexing) {
+    if (indexing) {
 		if (progress) {
 			[progress appendString:@" - "];
 		} else {

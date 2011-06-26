@@ -26,8 +26,8 @@
 	[AIAdvancedPreferences preferencePane];
 	
 	// Generic advanced panes with no specific plugins.
-	messageAlertsPreferences = [[AIMessageAlertsAdvancedPreferences preferencePane] retain];
-	confirmationsPreferences = [[AIConfirmationsAdvancedPreferences preferencePane] retain];
+	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
+	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
 }
 
 @end

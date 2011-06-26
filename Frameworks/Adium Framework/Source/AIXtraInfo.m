@@ -16,6 +16,7 @@
 
 #import "AIXtraInfo.h"
 #import <Adium/AIDockControllerProtocol.h>
+#import "AIIconState.h"
 
 @implementation AIXtraInfo
 
@@ -83,7 +84,8 @@
 			readMePath = [[[NSBundle mainBundle] pathForResource:@"DefaultXtraReadme" ofType:@"rtf"] retain];
 		if (!icon) {
 			if ([[path pathExtension] caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
-				icon = [[[adium.dockController previewStateForIconPackAtPath:path] image] retain];
+                AIIconState *previewState = [adium.dockController previewStateForIconPackAtPath:path];
+				icon = [[previewState image] retain];
 
 			} else {
 				icon = [[[NSWorkspace sharedWorkspace] iconForFileType:[path pathExtension]] retain];

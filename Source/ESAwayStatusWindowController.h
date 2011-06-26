@@ -17,16 +17,16 @@
 #import <Adium/AIWindowController.h>
 
 @interface ESAwayStatusWindowController : AIWindowController {
-	IBOutlet	NSButton					*button_return;
-	IBOutlet	NSTabView					*tabView_configuration;
+	IBOutlet	NSButton        *button_return;
+	IBOutlet	NSTabView       *tabView_configuration;
 	
 	//Single status tab
-	IBOutlet	NSTextView					*textView_singleStatus;
+	IBOutlet	NSTextView      *textView_singleStatus;
 	
 	//Multiple statuses tab
-	IBOutlet NSTableView	*tableView_multiStatus;
+	IBOutlet NSTableView        *tableView_multiStatus;
 	
-	NSMutableArray							*_awayAccounts;
+	NSArray                     *_awayAccounts;
 }
 
 + (void)updateStatusWindowWithVisibility:(BOOL)shouldBeVisibile;

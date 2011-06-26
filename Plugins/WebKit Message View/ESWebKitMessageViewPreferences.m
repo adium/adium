@@ -534,7 +534,7 @@
 	
 	NSDictionary *listObjects;
 	previewChat = [self previewChatWithDictionary:previewDict fromPath:previewPath listObjects:&listObjects];
-	previewController = [[AIWebKitPreviewMessageViewController messageDisplayControllerForChat:previewChat
+	previewController = [(AIWebKitPreviewMessageViewController *)[AIWebKitPreviewMessageViewController messageDisplayControllerForChat:previewChat
 																					withPlugin:plugin] retain];
 
 	//Enable live refreshing of our preview

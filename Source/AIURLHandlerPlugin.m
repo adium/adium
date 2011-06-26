@@ -64,7 +64,7 @@
  */
 - (void)installPlugin
 {
-	preferences = [[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self] retain];
+	preferences = [(AIURLHandlerAdvancedPreferences *)[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self] retain];
 	
 	[self checkHandledSchemes];
 	

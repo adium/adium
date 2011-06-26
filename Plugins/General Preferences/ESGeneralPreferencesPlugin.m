@@ -64,7 +64,7 @@
                                           forGroup:PREF_GROUP_CONFIRMATIONS];
 	
 	//Install our preference view
-	preferences = [[ESGeneralPreferences preferencePaneForPlugin:self] retain];	
+	preferences = [(ESGeneralPreferences *)[ESGeneralPreferences preferencePaneForPlugin:self] retain];	
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 }

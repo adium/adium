@@ -751,7 +751,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 #pragma mark Notify
 // Notify ----------------------------------------------------------------------------------------------------------
 // We handle the notify messages within SLPurpleCocoaAdapter so we can use our localized string macro
-- (void *)handleNotifyMessageOfType:(PurpleNotifyType)type withTitle:(const char *)title primary:(const char *)primary secondary:(const char *)secondary;
+- (void *)handleNotifyMessageOfType:(PurpleNotifyMsgType)type withTitle:(const char *)title primary:(const char *)primary secondary:(const char *)secondary;
 {
 
     NSString *primaryString = [NSString stringWithUTF8String:primary];

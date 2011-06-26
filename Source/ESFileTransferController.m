@@ -121,7 +121,7 @@ static ESFileTransferPreferences *preferences;
     
     //Observe pref changes
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FILE_TRANSFER];
-	preferences = [[ESFileTransferPreferences preferencePane] retain];
+	preferences = [(ESFileTransferPreferences *)[ESFileTransferPreferences preferencePane] retain];
 	
 	//Set up the file transfer progress window
 	[self configureFileTransferProgressWindow];

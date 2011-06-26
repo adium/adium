@@ -16,6 +16,7 @@
 
 #import "AIAddBookmarkPlugin.h"
 #import "AINewBookmarkWindowController.h"
+#import "AIMessageWindowController.h"
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>

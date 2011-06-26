@@ -42,6 +42,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AISortController.h>
+#import "AIMessageWindowController.h"
 #import "AIMessageTabViewItem.h"
 #import "KNShelfSplitview.h"
 #import <Adium/AIContactList.h>
@@ -67,8 +68,8 @@
 @interface AIInterfaceController ()
 - (void)_resetOpenChatsCache;
 - (void)_addItemToMainMenuAndDock:(NSMenuItem *)item;
-- (NSAttributedString *)_tooltipTitleForObject:(AIListObject *)object;
-- (NSAttributedString *)_tooltipBodyForObject:(AIListObject *)object;
+- (NSMutableAttributedString *)_tooltipTitleForObject:(AIListObject *)object;
+- (NSMutableAttributedString *)_tooltipBodyForObject:(AIListObject *)object;
 - (void)_pasteWithPreferredSelector:(SEL)preferredSelector sender:(id)sender;
 - (void)updateCloseMenuKeys;
 
@@ -298,7 +299,7 @@
 }
 
 //Register code to handle the contact list
-- (void)registerContactListController:(id <AIContactListComponent>)inController
+- (void)registerContactListController:(id <AIMultiContactListComponent>)inController
 {
 	if (!contactListPlugin) contactListPlugin = [inController retain];
 }
@@ -1573,7 +1574,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     }
 }
 
-- (NSAttributedString *)_tooltipTitleForObject:(AIListObject *)object
+- (NSMutableAttributedString *)_tooltipTitleForObject:(AIListObject *)object
 {
     NSMutableAttributedString           *titleString = [[NSMutableAttributedString alloc] init];
     
@@ -1702,7 +1703,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     return [titleString autorelease];
 }
 
-- (NSAttributedString *)_tooltipBodyForObject:(AIListObject *)object
+- (NSMutableAttributedString *)_tooltipBodyForObject:(AIListObject *)object
 {
     NSMutableAttributedString       *tipString = [[NSMutableAttributedString alloc] init];
     

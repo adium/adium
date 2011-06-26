@@ -35,7 +35,7 @@
 @synthesize listContact, mediaType, mediaState, account, protocolInfo, sendProgress, receiveProgress;
 
 - (id)initWithContact:(AIListContact *)inListContact
-			  onAccount:(AIAccount *)inAccount
+			  onAccount:(AIAccount<AIAccount_Media> *)inAccount
 {
 	if ((self = [super init])) {
 		self.account = inAccount;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -319,9 +319,10 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = NO;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "FriBidi" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -397,7 +398,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -416,7 +417,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -429,7 +430,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
 				GCC_VERSION = 4.2;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
@@ -448,7 +449,7 @@
 				GCC_VERSION = 4.2;
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SYMROOT = ../../build;
 			};
 			name = Release;
@@ -466,7 +467,7 @@
 				GCC_VERSION = 4.2;
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				PLIST_FILE_OUTPUT_FORMAT = binary;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SYMROOT = ../../build;
 			};
 			name = "Release-Debug";
@@ -484,7 +485,7 @@
 				INFOPLIST_FILE = Info.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = "Release-Debug";

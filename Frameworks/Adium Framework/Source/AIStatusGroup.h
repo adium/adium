@@ -21,7 +21,7 @@
 @interface AIStatusGroup : AIStatusItem {
 	NSMutableArray		*containedStatusItems;
 	NSMutableSet		*_flatStatusSet;
-	NSMutableArray		*_sortedContainedStatusItems;
+	NSArray             *_sortedContainedStatusItems;
 	
 	int					delaySavingAndNotification;
 }
