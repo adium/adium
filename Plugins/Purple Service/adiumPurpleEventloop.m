@@ -23,6 +23,9 @@
 
 #include <dispatch/dispatch.h>
 
+// This one is missing from the headers...
+#define NSEC_PER_MSEC (NSEC_PER_SEC / 1000)
+
 //#define PURPLE_SOCKET_DEBUG
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing
@@ -45,11 +48,14 @@ gboolean adium_source_remove(guint tag) {
 	
 	dispatch_source_t src = (dispatch_source_t)[srcPointer pointerValue];
     dispatch_source_cancel(src);
-    dispatch_release(src);
+    
+	BOOL success = (dispatch_source_testcancel(src) != 0);
+	
+	dispatch_release(src);
 	
     [sourceInfoDict removeObjectForKey:[NSNumber numberWithUnsignedInt:tag]];
 
-	return (dispatch_source_testcancel(src) != 0);
+	return success;
 }
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
@@ -57,6 +63,9 @@ gboolean adium_timeout_remove(guint tag) {
     return adium_source_remove(tag);
 }
 
+/* Extra function to generalize adium_timeout_add and adium_timeout_add_seconds,
+ * making the permitted leeway explicit.
+ */
 guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
 	dispatch_source_t src;
@@ -87,11 +96,13 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
     return tag;
 }
 
+// Add a timer in miliseconds
 guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 {
-	return addTimer(((uint64_t)interval) * (NSEC_PER_SEC / 1000), NSEC_PER_USEC, function, data);
+	return addTimer(((uint64_t)interval) * NSEC_PER_MSEC, NSEC_PER_USEC, function, data);
 }
 
+// Add a timer in seconds (allowing more leeway, therefore allowing the OS to group events and save power)
 guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
 {
 	return addTimer(((uint64_t)interval) * NSEC_PER_SEC, NSEC_PER_SEC, function, data);
