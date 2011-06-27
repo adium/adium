@@ -36,10 +36,10 @@ static NSMutableDictionary	*sourceInfoDict = nil;
 
 gboolean adium_source_remove(guint tag) {
 	
-	NSValue *srcPointer = [sourceInfoDict objectForKey:[NSNumber numberWithInt:tag]];
+	NSValue *srcPointer = [sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:tag]];
 	
     if (!srcPointer) {
-		NSLog(@"Source info for %i not found in %@", tag, sourceInfoDict);
+		AILogWithSignature(@"Source info for %i not found in %@", tag, sourceInfoDict);
 		return FALSE;
 	}
 	
@@ -47,7 +47,7 @@ gboolean adium_source_remove(guint tag) {
     dispatch_source_cancel(src);
     dispatch_release(src);
 	
-    [sourceInfoDict removeObjectForKey:[NSNumber numberWithInt:tag]];
+    [sourceInfoDict removeObjectForKey:[NSNumber numberWithUnsignedInt:tag]];
 
 	return (dispatch_source_testcancel(src) != 0);
 }
@@ -68,13 +68,19 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
 	
     dispatch_source_set_timer(src, dispatch_time(DISPATCH_TIME_NOW, interval), interval, leeway);
 	
+    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
+                       forKey:[NSNumber numberWithUnsignedInt:tag]];
+	
     dispatch_source_set_event_handler(src, ^{
+		
+		if (![sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:tag]]) {
+			AILogWithSignature(@"Timer with tag %i was already canceled!", tag);
+			return;
+		}
+		
         if (!function || !function(data))
 			adium_timeout_remove(tag);
     });
-	
-    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
-                       forKey:[NSNumber numberWithUnsignedInt:tag]];
 	
     dispatch_resume(src);
 
