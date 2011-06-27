@@ -8,7 +8,11 @@ Version 1.5 (X/X/20X)
   * Updated to libpurple x.x.x.
   * Various user interface improvements
 
+ Address Book integration
+  * Use a token field to specify the format to use for names imported from the Address Book. (#7394)
+ 
  Authorization Requests
+  * First entry in the list is now auto-selected.
   * Toolbar items now get disabled when no request is selected.
 
  Contact List
@@ -53,6 +57,9 @@ Version 1.5 (X/X/20X)
   * Smooth Operator replaced Stockholm as the default message style
   * Added the "lastFocus" class for message styles to the latest message received while the chat didn't have focus, and "regainedFocus" for the first message received while the chat has regained focus after having previously lost it.
 
+ Status
+ * Added ability to change which track information the "iTunes" status displays. (#6373)
+ 
  Transcript Viewer
   * Added next/previous buttons for highlighted search terms within a transcript (similar to Safari).
   * Greatly improved reliability and speed of log indexing and search.
@@ -64,7 +71,6 @@ Version 1.5 (X/X/20X)
  
  Preferences
   * Fixed some bad user interface behaviour in the "Customise..." sheet for dock  icon in "Appearance". (#15158)
-  * Use a token field to specify the format to use for names imported from the Address Book. (Patrick Steinhardt) (#7394)
 
  AIM
   * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
