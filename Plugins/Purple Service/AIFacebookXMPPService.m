@@ -29,7 +29,7 @@
 }
 
 - (NSString *)serviceID{
-    return FACEBOOK_XMPP_SERVICE_ID;
+    return @"Facebook";
 }
 
 - (NSString *)serviceClass{

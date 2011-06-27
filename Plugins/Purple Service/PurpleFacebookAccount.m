@@ -43,7 +43,7 @@
 	
 	//Move logs to the new account
 	NSString *logsDir = [[adium.loginController userDirectory] stringByAppendingPathComponent:@"Logs"];
-	AIService *newXMPPService = [adium.accountController firstServiceWithServiceID:FACEBOOK_XMPP_SERVICE_ID];
+	AIService *newXMPPService = [adium.accountController serviceWithUniqueID:FACEBOOK_XMPP_SERVICE_ID];
 	
 	NSString *oldFolder = [NSString stringWithFormat:@"%@.%@",
 						   [self.migrationData objectForKey:@"originalServiceID"],
