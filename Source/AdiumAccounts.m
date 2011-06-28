@@ -33,7 +33,7 @@
 - (void)_loadAccounts;
 - (void)_saveAccounts;
 - (NSString *)_generateUniqueInternalObjectID;
-- (NSString *)_upgradeServiceID:(NSString *)serviceID forAccountDict:(NSDictionary *)accountDict;
+- (NSString *)_upgradeServiceUniqueID:(NSString *)serviceUniqueID forAccountDict:(NSDictionary *)accountDict;
 - (void)upgradeAccounts;
 @end
 
@@ -231,11 +231,12 @@
     //Create an instance of every saved account
 	for (accountDict in accountList) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSString		*serviceID = [self _upgradeServiceID:[accountDict objectForKey:ACCOUNT_TYPE] forAccountDict:accountDict];
+		NSString		*serviceUniqueID = [self _upgradeServiceUniqueID:[accountDict objectForKey:ACCOUNT_TYPE] 
+													forAccountDict:accountDict];
         AIAccount		*newAccount;
 
 		//Fetch the account service, UID, and ID
-		AIService	*service = [adium.accountController serviceWithUniqueID:serviceID];
+		AIService	*service = [adium.accountController serviceWithUniqueID:serviceUniqueID];
 		NSString	*accountUID = [accountDict objectForKey:ACCOUNT_UID];
 		NSString	*internalObjectID = [accountDict objectForKey:ACCOUNT_OBJECT_ID];
 
@@ -250,7 +251,7 @@
         } else {
 			if ([accountUID length]) {
 				NSLog(@"Available services are %@: could not load account %@ on service %@ (service %@)",
-					  adium.accountController.services, accountDict, serviceID, service);
+					  adium.accountController.services, accountDict, serviceUniqueID, service);
 				[unloadableAccounts addObject:accountDict];
 			} else {
 				AILog(@"Ignored an account with a 0 length accountUID: %@", accountDict);
@@ -270,14 +271,14 @@
  * so this code should remain indefinitely to provide an upgrade path to people whose service IDs are in an
  * old style.
  *
- * @param serviceID NSString service ID (old or new)
+ * @param serviceID NSString service unique ID (old or new)
  * @param accountDict Dictionary of the saved account
  * @return NSString service ID (new), or nil if unable to upgrade
  */
-- (NSString *)_upgradeServiceID:(NSString *)serviceID forAccountDict:(NSDictionary *)accountDict
+- (NSString *)_upgradeServiceUniqueID:(NSString *)serviceID forAccountDict:(NSDictionary *)accountDict
 {
 	//Libgaim
-	if ([serviceID rangeOfString:@"libgaim" options:(NSLiteralSearch | NSAnchoredSearch)].location != NSNotFound) {
+	if ([serviceID hasPrefix:@"libgaim"]) {
 		NSMutableString *newServiceID = [serviceID mutableCopy];
 		[newServiceID replaceOccurrencesOfString:@"libgaim"
 									  withString:@"libpurple"
@@ -285,7 +286,7 @@
 										   range:NSMakeRange(0, [newServiceID length])];
 		serviceID = [newServiceID autorelease];
 
-	} else if ([serviceID rangeOfString:@"LIBGAIM" options:(NSLiteralSearch | NSAnchoredSearch | NSBackwardsSearch)].location != NSNotFound) {
+	} else if ([serviceID hasSuffix:@"LIBGAIM"]) {
 		if ([serviceID isEqualToString:@"AIM-LIBGAIM"]) {
 			NSString 	*uid = [accountDict objectForKey:ACCOUNT_UID];
 			if (uid && [uid length]) {
