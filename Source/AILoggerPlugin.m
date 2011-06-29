@@ -1017,7 +1017,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (![chat shouldLog]) return;	
 		
 		__block __typeof__(self) bself = self;
-		dispatch_group_async(logAppendingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
+		dispatch_group_async(logAppendingGroup, dispatch_get_main_queue(), blockWithAutoreleasePool(^{
 			BOOL			dirty = NO;
 			NSString		*contentType = [content type];
 			NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
