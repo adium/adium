@@ -58,8 +58,9 @@ userAndPass     [^:@]+(:[^:@]+)?
 singleDomain    [_[:alnum:]\x80-\xf4-]+
 
 urlPath         \/[^[:space:]]*
-urlSpec         ({singleDomain}\.)+{TLDs}(:[0-9]+)?{urlPath}?
-urlCSpec        {singleDomain}(\.{singleDomain})*(:[0-9]+)?{urlPath}?
+urlQuery        \?.*
+urlSpec         ({singleDomain}\.)+{TLDs}(:[0-9]+)?({urlPath}|{urlQuery})?
+urlCSpec        {singleDomain}(\.{singleDomain})*(:[0-9]+)?({urlPath}|{urlQuery})?
 
 ipv4address     ([0-9]{1,3}\.){3}([0-9]{1,3})
 ipURL           {ipv4address}(:[0-9]+)?{urlPath}?
