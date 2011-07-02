@@ -492,5 +492,6 @@
 	testHyperlink(@"http://example.not.a.tld:8080/");
 	testHyperlink(@"http://example.not.a.tld/stuff");
 	testHyperlink(@"http://example.not.a.tld:8080/stuff");
+	testHyperlink(@"http://example.com?query=yes");
 }
 @end
