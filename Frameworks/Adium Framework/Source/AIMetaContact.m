@@ -683,7 +683,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	static NSArray *properties = nil;
 	
 	if (properties == nil) {
-		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isEvent", @"isBlocked",
+		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isBlocked",
 					  @"isIdle", @"notAStranger", @"isMobile", @"signedOff", @"signedOn",
 					  @"alwaysOnline", @"unviewedContent", @"unviewedMention", nil];
 	}
