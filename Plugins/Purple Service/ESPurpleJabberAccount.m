@@ -32,6 +32,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <libpurple/si.h>
+#import <libpurple/chat.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "AMXMLConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
