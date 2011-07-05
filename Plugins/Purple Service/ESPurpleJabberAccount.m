@@ -371,6 +371,38 @@
 	}
 }
 
+/*!
+ * @brief Re-create the chat's join options.
+ */
+- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
+{
+	NSString *jid = [NSString stringWithUTF8String:purple_conversation_get_title(conv)];
+	NSArray *components = [jid componentsSeparatedByString:@"@"];
+	
+	if ([components count] != 2) return nil;
+	
+	NSString *channel = [components objectAtIndex:0];
+	NSString *host = [components objectAtIndex:1];
+	
+	PurpleConnection *gc = purple_account_get_connection([self purpleAccount]);
+	JabberStream *js = purple_connection_get_protocol_data(gc);
+	
+	// jabber_chat_find_by_conv will fail as chat->id isn't set yet
+	JabberChat *chat = jabber_chat_find(js, [channel UTF8String], [host UTF8String]);
+	
+	if (!chat) {
+		AILogWithSignature(@"Could not find chat: %@@%@", channel, host);
+		return nil;
+	}
+	
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+	[dict setObject:channel forKey:@"room"];
+	[dict setObject:host forKey:@"server"];
+	[dict setObject:[NSString stringWithUTF8String:g_hash_table_lookup(chat->components, "handle")] forKey:@"handle"];
+	
+	return dict;
+}
+
 #pragma mark Status
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject

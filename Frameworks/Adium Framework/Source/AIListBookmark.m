@@ -276,6 +276,10 @@
 {
 	AIChat *chat = [self openChatWithoutActivating];
 	
+	if (!chat) {
+		return nil;
+	}
+	
 	if(!chat.isOpen) {
 		[adium.interfaceController openChat:chat];
 	}
@@ -293,6 +297,13 @@
  */
 - (AIChat *)openChatWithoutActivating
 {
+	if (!self.chatCreationDictionary) {
+		NSRunAlertPanel(AILocalizedString(@"Joining Bookmark Failed!", nil),
+						AILocalizedString(@"There was a problem joining the bookmark %@. Please remove and add the bookmark again.", nil),
+						AILocalizedString(@"OK", nil), nil, nil, [self displayName]);
+		return nil;
+	}
+	
 	AIChat *chat = [adium.chatController existingChatWithName:self.name
 					onAccount:self.account];
 	
