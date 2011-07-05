@@ -301,7 +301,7 @@
 		if (NSRunAlertPanel(AILocalizedString(@"Joining Bookmark Failed!", nil),
 									   AILocalizedString(@"There was a problem joining the bookmark %@, it needs to be recreated.\nWould you like to remove this bookmark?", nil),
 									   AILocalizedStringFromTable(@"Delete", @"Buttons", nil), AILocalizedStringFromTable(@"Cancel", @"Buttons", nil), nil, [self displayName]) == NSAlertDefaultReturn) {
-			NSLog(@"Removing %@", self);
+			AILogWithSignature(@"Removing %@", self);
 			[adium.contactController removeBookmark:self];
 		}
 		return nil;
