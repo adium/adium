@@ -669,9 +669,6 @@
 - (NSColor *)textColor
 {
 	NSColor	*theTextColor;
-	//BOOL	isEvent = [listObject boolValueForProperty:@"isEvent"];
-	/* XXX If it's an event, we may want to be inheriting from more than just the metacontact's preferred contact...
-	 * this is the only case for that which I've come across */
 	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"textColor"])) {
 		return theTextColor;
 	} else {
