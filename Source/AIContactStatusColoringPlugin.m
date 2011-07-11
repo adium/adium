@@ -146,6 +146,8 @@
     NSInteger				unviewedContent;
 	CGFloat			opacity = FULL_IMAGE_OPACITY;
 	BOOL			isEvent = NO;
+	// Only in the case the other contact is typing or has unread contact should we apply it to the meta contact as well
+	BOOL			applyToMetaToo = NO;
 
     //Prefetch the value for unviewed content, we need it multiple times below
     unviewedContent = [inContact integerValueForProperty:KEY_UNVIEWED_CONTENT];
@@ -160,6 +162,7 @@
             invertedColor = unviewedContentInvertedColor;
             labelColor = unviewedContentLabelColor;
 			isEvent = YES;
+			applyToMetaToo = YES;
         }
     }
 
@@ -189,7 +192,7 @@
             invertedColor = typingInvertedColor;
             labelColor = typingLabelColor;
 			isEvent = YES;
-			
+			applyToMetaToo = YES;
         }
     }
 
@@ -241,6 +244,24 @@
 	[inContact setValue:[NSNumber numberWithBool:isEvent]
 			forProperty:@"isEvent"
 				 notify:NotifyNever];
+	
+	if (applyToMetaToo && [inContact metaContact]) {
+		[[inContact metaContact] setValue:color
+							  forProperty:@"textColor"
+								   notify:NotifyNever];
+		[[inContact metaContact] setValue:invertedColor
+							  forProperty:@"invertedTextColor"
+								   notify:NotifyNever];
+		[[inContact metaContact] setValue:labelColor
+							  forProperty:@"labelColor"
+								   notify:NotifyNever];
+		[[inContact metaContact] setValue:[NSNumber numberWithDouble:opacity]
+							  forProperty:@"imageOpacity"
+								   notify:NotifyNever];
+		[[inContact metaContact] setValue:[NSNumber numberWithBool:isEvent]
+							  forProperty:@"isEvent"
+								   notify:NotifyNever];
+	}
 }
 
 //Flash all handles with unviewed content
