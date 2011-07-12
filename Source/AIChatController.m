@@ -530,7 +530,7 @@
  */
 - (BOOL)closeChat:(AIChat *)inChat
 {	
-	BOOL	shouldRemove, stayInChat;
+	BOOL	shouldRemove;
 	
 	/* If we are currently passing a content object for this chat through our content filters, don't remove it from
 	 * our openChats set as it will become needed soon. If we were to remove it, and a second message came in which was
@@ -538,22 +538,7 @@
 	 * chat, generating a duplicate.
 	 */
 	shouldRemove = ![adium.contentController chatIsReceivingContent:inChat];
-	
-	{
-		AIListObject* listObject;
-		
-		if (inChat.isGroupChat)
-			listObject = [adium.contactController existingBookmarkForChat:inChat];
-		else
-			listObject = inChat.listObject;
-		
-		// If we want to stay in the chat keep the AIChat open
-		stayInChat = (listObject != NULL && [listObject stayInChat]);
-		
-		// If we are quitting don't stay in chat
-		stayInChat &= !adium.isQuitting;
-	}
-	
+
 	[inChat retain];
 
 	if (mostRecentChat == inChat) {
@@ -565,7 +550,7 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_WillClose object:inChat userInfo:nil];
 
 	//Remove the chat
-	if (shouldRemove && !stayInChat) {
+	if (shouldRemove) {
 		/* If we didn't remove the chat because we're waiting for it to reopen, don't cause the account
 		 * to close down the chat.
 		 */

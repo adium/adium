@@ -46,7 +46,6 @@
 #define PREF_GROUP_NOTES						@"Notes"			//Preference group to store notes in
 #define PREF_GROUP_ADDRESSBOOK                  @"Address Book"
 #define PREF_GROUP_ALWAYS_VISIBLE				@"Always Visible"
-#define PREF_GROUP_STAY_IN_CHAT					@"Stay in chat"
 
 #define	KEY_EXPANDED							@"IsExpanded"
 
