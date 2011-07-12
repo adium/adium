@@ -32,7 +32,6 @@
 #define Group				@"Group"
 #define DisplayServiceID	@"DisplayServiceID"
 #define AlwaysVisible		@"alwaysVisible"
-#define StayInChat			@"StayInChat"
 
 @interface AIListObject ()
 - (void)setContainingGroup:(AIListGroup *)inGroup;
@@ -165,27 +164,6 @@
 {
 	return [self boolValueForProperty:AlwaysVisible];
 }
-
-/*!
- * @brief Sets if the chat will stay open in the background when it's closed
- */
-- (void)setStayInChat:(BOOL)stay
-{
-	[self setPreference:[NSNumber numberWithBool:stay] 
-				 forKey:StayInChat
-				  group:PREF_GROUP_STAY_IN_CHAT];
-}
-
-/*!
- * @brief Should we keep the chat around when the tab is closed?
- *
- * @returns If chat should stick around
- */
-- (BOOL)stayInChat
-{
-	return [[self preferenceForKey:StayInChat group:PREF_GROUP_STAY_IN_CHAT] boolValue];
-}
-
 
 //Grouping / Ownership -------------------------------------------------------------------------------------------------
 #pragma mark Grouping / Ownership

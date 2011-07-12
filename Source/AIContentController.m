@@ -506,10 +506,9 @@
 						   (![inObject isOutgoing]));
 		shouldPostContentReceivedEvents = contentReceived && [inObject trackContent];
 		
-		if (![chat isOpen] && !chat.isGroupChat) {
+		if (![chat isOpen]) {
 			/* Tell the interface to open the chat
 			 * For incoming messages, we don't open the chat until we're sure that new content is being received.
-			 * For group chats, we only open the chat for an unviewed mention. This is done in AIMentionEventPlugin.m.
 			 */
 			[adium.interfaceController openChat:chat];
 		}

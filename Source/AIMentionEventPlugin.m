@@ -89,13 +89,6 @@
 		if([predicate evaluateWithObject:messageString]) {
 			if(message.trackContent && adium.interfaceController.activeChat != chat) {
 				[chat incrementUnviewedMentionCount];
-				
-				if (![chat isOpen]) {
-					/* See related code at AIContentController.m in finishDisplayContentObject.
-					 * We only want to open group chats if someone mentions us.
-					 */
-					[adium.interfaceController openChat:chat];
-				}				
 			}
 			[message addDisplayClass:@"mention"];
 			break;

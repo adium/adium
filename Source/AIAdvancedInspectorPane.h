@@ -39,7 +39,6 @@
 	
 	IBOutlet	NSButton						*checkBox_alwaysShow;
 	IBOutlet	NSButton						*checkBox_autoJoin;
-	IBOutlet	NSButton						*checkBox_stayInChat;
 	
 	BOOL										switchingContacts;
 	
@@ -59,7 +58,6 @@
 - (IBAction)selectedEncryptionPreference:(id)sender;
 - (IBAction)setVisible:(id)sender;
 - (IBAction)setAutoJoin:(id)sender;
-- (IBAction)setStayInChat:(id)sender;
 
 - (IBAction)addOrRemoveGroup:(id)sender;
 @end
