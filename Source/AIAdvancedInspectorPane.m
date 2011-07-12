@@ -133,7 +133,6 @@
 	[checkBox_autoJoin setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
 	[checkBox_autoJoin setState:[[inObject preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]];
 
-	[checkBox_stayInChat setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
 	[checkBox_stayInChat setState:inObject.stayInChat];
 	
 	[popUp_accounts setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
