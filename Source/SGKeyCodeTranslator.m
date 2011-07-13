@@ -15,7 +15,7 @@
 
 + (id)currentTranslator {
   static SGKeyCodeTranslator *currentTranslator = nil;
-  TISInputSourceRef currentKeyboardLayout = TISCopyCurrentKeyboardInputSource();
+  TISInputSourceRef currentKeyboardLayout = TISCopyCurrentKeyboardLayoutInputSource();
   
   if (currentTranslator == nil) {
     currentTranslator = [[SGKeyCodeTranslator alloc] initWithKeyboardLayout:currentKeyboardLayout];
@@ -28,13 +28,18 @@
 }
 
 - (id)initWithKeyboardLayout:(TISInputSourceRef)theLayout {
-  if ((self = [super init]) != nil) {
-    keyboardLayout = theLayout;
-    CFDataRef uchr = TISGetInputSourceProperty(keyboardLayout, kTISPropertyUnicodeKeyLayoutData);
-    keyboardLayoutData = (const UCKeyboardLayout *)CFDataGetBytePtr(uchr);
-  }  
-  
-  return self;
+	if ((self = [super init]) != nil) {
+		keyboardLayout = theLayout;
+		CFDataRef uchr = TISGetInputSourceProperty(keyboardLayout, kTISPropertyUnicodeKeyLayoutData);
+		
+		if (!uchr) {
+			AILogWithSignature(@"Selected keyboard layout %@ has no UCHR data!", TISGetInputSourceProperty(keyboardLayout, kTISPropertyInputSourceID));
+		} else {
+			keyboardLayoutData = (const UCKeyboardLayout *)CFDataGetBytePtr(uchr);
+		}
+	}
+	
+	return self;
 }
 
 
