@@ -216,6 +216,7 @@ typedef enum {
 @property (readonly, nonatomic) BOOL supportsTopic;
 
 - (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
+- (void)setTopic:(NSString *)inTopic;
 
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
 @property (readonly, nonatomic) NSMutableSet *customEmoticons;
