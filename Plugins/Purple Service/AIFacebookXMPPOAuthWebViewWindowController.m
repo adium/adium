@@ -197,8 +197,8 @@
             }
         }
         
-        if ([cookie portList] && ![[cookie portList] containsObject:[requestURL port]]) {
-            //NSLog(@"****** port mismatch: %@", cookie);
+        if ([[cookie portList] count] && ([requestURL port] != NULL) && ![[cookie portList] containsObject:[requestURL port]]) {
+            //NSLog(@"****** port mismatch: %@ (%@ doesn't have %@)", cookie, cookie.portList, requestURL.port);
             continue;
         }
         
