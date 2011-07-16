@@ -155,9 +155,9 @@ a:hover
 	color: #9F9F9F;
 }
 
-.message:not([src*="buddy_icon.png"]) .x-time,
-.message:not([src*="buddy_icon.png"]) .x-sender,
-.message:not([src*="buddy_icon.png"]) .x-message
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-time,
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-sender,
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-message
 {
 	margin-left: 30px;
 }
@@ -292,13 +292,16 @@ img[src*="buddy_icon.png"]
 
 /* ACTION */
 
-.showIcons.x-container.action:not([src*="buddy_icon.png"])
+.showIcons.x-container.action:not([src*="buddy_icon.png"]),
+.showIcons.x-container.x-filetransfer:not([src*="buddy_icon.png"])
 {
 	padding-left: 46px;
 }
 
 .action .x-sender,
-.action .x-message
+.action .x-message,
+.x-filetransfer .x-sender,
+.x-filetransfer .x-message
 {
 	display: inline;
 	font-style: italic !important;
@@ -325,8 +328,14 @@ img[src*="buddy_icon.png"]
 	content: "";
 }
 
-.action .x-sender,
-.action .x-message
+.x-filetransfer .x-sender,
+.x-filetransfer .x-message
 {
-	font-style: italic !important;
+	display: inline;
 }
+
+.x-filetransfer .x-buttons
+{
+	padding-top: 4px;
+}
+
