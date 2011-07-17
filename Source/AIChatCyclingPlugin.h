@@ -16,8 +16,7 @@
 
 
 @interface AIChatCyclingPlugin : AIPlugin {
-	NSMenuItem					*previousChatMenuItem;
-	NSMenuItem					*nextChatMenuItem;
+
 }
 
 @end
