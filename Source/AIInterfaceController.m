@@ -1618,30 +1618,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		[titleString appendString:[NSString stringWithFormat:@" (%@)", formattedUID] withAttributes:titleDict];
 	}
 	[displayName release];
-    
-    if ([object isKindOfClass:[AIListContact class]]) {
-		if ((![object isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)object containsOnlyOneService]) &&
-			[object userIcon]) {
-			NSImage *serviceIcon = [[AIServiceIcons serviceIconForObject:object type:AIServiceIconSmall direction:AIIconNormal]
-									imageByScalingToSize:NSMakeSize(14,14)];
-			if (serviceIcon) {
-				NSTextAttachment		*attachment;
-				NSTextAttachmentCell	*cell;
-				
-				cell = [[NSTextAttachmentCell alloc] init];
-				[cell setImage:serviceIcon];
-				
-				attachment = [[NSTextAttachment alloc] init];
-				[attachment setAttachmentCell:cell];
-				[cell release];
-	
-				[titleString appendString:@" " withAttributes:nil];
-				[titleString appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-				[attachment release];
-			}
-		}
-	}
-		
+    	
     if ([object isKindOfClass:[AIListGroup class]]) {
         [titleString appendString:[NSString stringWithFormat:@" (%ld/%ld)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object countOfContainedObjects]] 
                    withAttributes:titleDict];

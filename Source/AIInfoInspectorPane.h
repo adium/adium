@@ -26,7 +26,6 @@
 
 	IBOutlet AIContactInfoImageViewWithImagePicker	*userIcon;
 	IBOutlet NSImageView							*statusImage;
-	IBOutlet NSImageView							*serviceImage;
 	
 	IBOutlet NSTextField							*aliasLabel;
 	IBOutlet AIDelayedTextField						*contactAlias;

@@ -18,6 +18,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
@@ -84,7 +85,9 @@
  */
 - (NSString *)labelForObject:(AIListObject *)inObject
 {
-	if ([inObject conformsToProtocol:@protocol(AIContainingObject)]) {
+	if ([inObject conformsToProtocol:@protocol(AIContainingObject)] || 
+		[inObject isKindOfClass:[AIListContact class]] &&
+		![inObject isKindOfClass:[AIListBookmark class]]) {
 		return AILocalizedString(@"Contacts",nil);
 	}
 	
@@ -99,87 +102,86 @@
 - (NSAttributedString *)entryForObject:(AIListObject *)inObject
 {
     NSMutableAttributedString	*entry = nil;
+    NSMutableString				*entryString = nil;
+	NSArray						*listContacts = nil;
+	NSUInteger					count = 0;
+	BOOL						shouldAppendString = NO;
+	id<AIContainingObject>		containingObject = nil;
+	
+	entry = [[NSMutableAttributedString alloc] init];
+	entryString = [entry mutableString];
 	
 	if ([inObject conformsToProtocol:@protocol(AIContainingObject)]) {
-        id<AIContainingObject> containingObject = (id<AIContainingObject>)inObject;
-		NSArray *listContacts = [containingObject uniqueContainedObjects];
+		containingObject = (id<AIContainingObject>)inObject;
 		
-		//Only display the contents of a meta if it has more than one contact within it.
-		if ([inObject isKindOfClass:[AIListGroup class]] || [listContacts count] > 1) {
-			BOOL			shouldAppendString = NO;
-			BOOL			shouldAppendServiceIcon = ([inObject isKindOfClass:[AIMetaContact class]] && ![(AIMetaContact *)inObject containsOnlyOneService]);
-
-			entry = [[NSMutableAttributedString alloc] init];
-            NSMutableString	*entryString = [entry mutableString];
-			
-            NSUInteger count = 0;
-			for (AIListContact *contact in listContacts) {
-                if ([inObject isKindOfClass:[AIListGroup class]] && 
-                    ![[AIContactHidingController sharedController] visibilityOfListObject:contact inContainer:containingObject]) {
-                    continue;
-                }
-                                
-				NSImage	*statusIcon, *serviceIcon;
+		listContacts = [containingObject uniqueContainedObjects];
+	} else  if ([inObject isKindOfClass:[AIListContact class]]) {
+		listContacts = [NSArray arrayWithObject:inObject];
+	}
+		
+	for (AIListContact *contact in listContacts) {
+		NSImage	*statusIcon, *serviceIcon;
+		
+		if (containingObject != nil && [inObject isKindOfClass:[AIListGroup class]] && 
+			![[AIContactHidingController sharedController] visibilityOfListObject:contact inContainer:containingObject]) {
+			continue;
+		}
 				
-				if (shouldAppendString) {
-					[entryString appendString:@"\r"];
-				} else {
-					shouldAppendString = YES;
-				}
+		if (shouldAppendString) {
+			[entryString appendString:@"\r"];
+		} else {
+			shouldAppendString = YES;
+		}
 				
-                // If there are a lot of contacts, just stop.
-                if (++count >= MAX_CONTACTS) {
-                    [entryString appendString:[NSString stringWithFormat:MORE_CONTACTS_STRING, listContacts.count - MAX_CONTACTS]];
-                    break;
-                }                
+		// If there are a lot of contacts, just stop.
+		if (++count >= MAX_CONTACTS) {
+			[entryString appendString:[NSString stringWithFormat:MORE_CONTACTS_STRING, listContacts.count - MAX_CONTACTS]];
+			break;
+		}                
                 
-				statusIcon = [[AIStatusIcons statusIconForListObject:contact
-																type:AIStatusIconTab
-														   direction:AIIconNormal] imageByScalingToSize:META_TOOLTIP_ICON_SIZE];
-				
-				if (statusIcon) {
-					NSTextAttachment		*attachment;
-					NSTextAttachmentCell	*cell;
+		statusIcon = [[AIStatusIcons statusIconForListObject:contact
+														type:AIStatusIconTab
+												   direction:AIIconNormal] imageByScalingToSize:META_TOOLTIP_ICON_SIZE];
+		if (statusIcon) {
+			NSTextAttachment		*attachment;
+			NSTextAttachmentCell	*cell;
 						
-					cell = [[NSTextAttachmentCell alloc] init];
-					[cell setImage:statusIcon];
+			cell = [[NSTextAttachmentCell alloc] init];
+			[cell setImage:statusIcon];
 					
-					attachment = [[NSTextAttachment alloc] init];
-					[attachment setAttachmentCell:cell];
-					[cell release];
+			attachment = [[NSTextAttachment alloc] init];
+			[attachment setAttachmentCell:cell];
+			[cell release];
 
-					[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-					[attachment release];
+			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[attachment release];
 
-					[entryString appendString:@" "];
-				}
+			[entryString appendString:@" "];
+		}
+			
+		if ([inObject isKindOfClass:[AIMetaContact class]]) {
+			[entryString appendString:contact.formattedUID];
+		} else if ([inObject isKindOfClass:[AIListGroup class]] ||
+				   [inObject isKindOfClass:[AIListContact class]]) {
+			[entryString appendString:contact.displayName];
+		}
 				
-                if ([inObject isKindOfClass:[AIMetaContact class]]) {
-                    [entryString appendString:contact.formattedUID];
-                } else if ([inObject isKindOfClass:[AIListGroup class]]) {
-                    [entryString appendString:contact.displayName];
-                }
-				
-				if (shouldAppendServiceIcon) {
-					serviceIcon = [[AIServiceIcons serviceIconForObject:contact type:AIServiceIconSmall direction:AIIconNormal]
-									imageByScalingToSize:META_TOOLTIP_ICON_SIZE];
-					if (serviceIcon) {
-						NSTextAttachment		*attachment;
-						NSTextAttachmentCell	*cell;
-						
-						cell = [[NSTextAttachmentCell alloc] init];
-						[cell setImage:serviceIcon];
-						
-						attachment = [[NSTextAttachment alloc] init];
-						[attachment setAttachmentCell:cell];
-						[cell release];
-
-						[entryString appendString:@" "];
-						[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-						[attachment release];
-					}
-				}
-			}
+		serviceIcon = [[AIServiceIcons serviceIconForObject:contact type:AIServiceIconSmall direction:AIIconNormal]
+						imageByScalingToSize:META_TOOLTIP_ICON_SIZE];
+		if (serviceIcon) {
+			NSTextAttachment		*attachment;
+			NSTextAttachmentCell	*cell;
+					
+			cell = [[NSTextAttachmentCell alloc] init];
+			[cell setImage:serviceIcon];
+					
+			attachment = [[NSTextAttachment alloc] init];
+			[attachment setAttachmentCell:cell];
+			[cell release];
+			
+			[entryString appendString:@" "];
+			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[attachment release];
 		}
 	}
     
