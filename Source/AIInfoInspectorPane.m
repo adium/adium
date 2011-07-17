@@ -41,7 +41,6 @@
 @interface AIInfoInspectorPane ()
 - (void)updateUserIcon:(AIListObject *)inObject;
 - (void)updateAccountName:(AIListObject *)inObject;
-- (void)updateServiceIcon:(AIListObject *)inObject;
 - (void)updateStatusIcon:(AIListObject *)inObject;
 - (void)updateAlias:(AIListObject *)inObject;
 - (void)addAddressBookInfoToProfileArray:(NSMutableArray *)profileArray forContact:(AIListContact *)inContact;
@@ -102,7 +101,6 @@
 	
 	[self updateUserIcon:inObject];
 	[self updateAccountName:inObject];
-	[self updateServiceIcon:inObject];
 	[self updateStatusIcon:inObject];
 	[self updateAlias:inObject];
 	
@@ -170,16 +168,6 @@
 	} else {
 		[statusImage setHidden:NO];
 		[statusImage setImage:[AIStatusIcons statusIconForListObject:inObject type:AIStatusIconList direction:AIIconNormal]];
-	}
-}
-
--(void)updateServiceIcon:(AIListObject *)inObject
-{
-	if([inObject isKindOfClass:[AIListGroup class]]) {
-		[serviceImage setHidden:YES];
-	} else {
-		[serviceImage setHidden:NO];
-		[serviceImage setImage:[AIServiceIcons serviceIconForObject:inObject type:AIServiceIconSmall direction:AIIconNormal]];
 	}
 }
 
