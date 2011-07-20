@@ -31,42 +31,60 @@
 static guint				sourceId = 0;		//The next source key; continuously incrementing
 
 /*
- * The sources, keyed by integer key id (wrapped in an NSNumber), holding
- * NSVaue*'s with pointers to dispatch_source_ts. (The tags are guints (32 bits),
- * so too small to hold an NSValue* or dispatch_source_t on x86.
+ * glib, unfortunately, identifies all sources and timers via unsigned 32 bit tags. We would like to map them to dispatch_source_t objects.
+ * So: we make a CFDictionary with all null callbacks (hash on the value of the integer, cast to a void*, and don't retain/release anything).
+ * That gives us a guint->dispatch_source_t map, but it's a little gross, so three inline wrapper functions are provided to make things nice:
+ * sourceForTag, setSourceForTag, and removeSourceForTag. The names should be self-explanatory. No retains or releases are done by them.
  */
-static NSMutableDictionary	*sourceInfoDict = nil;
+static inline CFMutableDictionaryRef sourceInfoDict() {
+    static CFMutableDictionaryRef _sourceInfoDict;
+    static dispatch_once_t sourceInfoDictToken;
+    dispatch_once(&sourceInfoDictToken, ^{
+        static const CFDictionaryKeyCallBacks keyCallbacks = {0, NULL, NULL, NULL, NULL, NULL};
+        static const CFDictionaryValueCallBacks valueCallbacks = {0, NULL, NULL, NULL, NULL};
+        _sourceInfoDict = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &keyCallbacks, &valueCallbacks);
+    });
+    return _sourceInfoDict;
+}
 
-gboolean adium_source_remove(guint tag) {
-	
-	NSValue *srcPointer = [sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:tag]];
-	
-    if (!srcPointer) {
-		AILogWithSignature(@"Source info for %i not found in %@", tag, sourceInfoDict);
+static inline dispatch_source_t sourceForTag(guint tag) {
+    return (dispatch_source_t)CFDictionaryGetValue(sourceInfoDict(), (void *)tag);
+}
+static inline void setSourceForTag(dispatch_source_t source, guint tag) {
+    CFDictionarySetValue(sourceInfoDict(), (void *)tag, source);
+}
+static inline void removeSourceForTag(guint tag) {
+    CFDictionaryRemoveValue(sourceInfoDict(), (void *)tag);
+}
+
+static gboolean adium_source_remove(guint tag) {
+	dispatch_source_t src = sourceForTag(tag);
+    
+    if (!src) {
+		AILogWithSignature(@"Source info for %i not found");
 		return FALSE;
 	}
 	
-	dispatch_source_t src = (dispatch_source_t)[srcPointer pointerValue];
     dispatch_source_cancel(src);
     
 	BOOL success = (dispatch_source_testcancel(src) != 0);
 	
+    removeSourceForTag(tag);
+
 	dispatch_release(src);
 	
-    [sourceInfoDict removeObjectForKey:[NSNumber numberWithUnsignedInt:tag]];
-
 	return success;
 }
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
-gboolean adium_timeout_remove(guint tag) {
+static gboolean adium_timeout_remove(guint tag) {
     return adium_source_remove(tag);
 }
 
 /* Extra function to generalize adium_timeout_add and adium_timeout_add_seconds,
  * making the permitted leeway explicit.
  */
-guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
+static guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
 	dispatch_source_t src;
 	guint tag;
@@ -77,18 +95,20 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
 	
     dispatch_source_set_timer(src, dispatch_time(DISPATCH_TIME_NOW, interval), interval, leeway);
 	
-    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
-                       forKey:[NSNumber numberWithUnsignedInt:tag]];
+    setSourceForTag(src, tag);
 	
     dispatch_source_set_event_handler(src, ^{
-		
-		if (![sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:tag]]) {
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+		if (sourceForTag(tag)) {
+            if (!function || !function(data)) {
+                adium_timeout_remove(tag);
+            }
+        } else {
 			AILogWithSignature(@"Timer with tag %i was already canceled!", tag);
-			return;
 		}
-		
-        if (!function || !function(data))
-			adium_timeout_remove(tag);
+  
+        [pool drain];
     });
 	
     dispatch_resume(src);
@@ -97,18 +117,18 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
 }
 
 // Add a timer in miliseconds
-guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
+static guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 {
 	return addTimer(((uint64_t)interval) * NSEC_PER_MSEC, NSEC_PER_USEC, function, data);
 }
 
 // Add a timer in seconds (allowing more leeway, therefore allowing the OS to group events and save power)
-guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
+static guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
 {
 	return addTimer(((uint64_t)interval) * NSEC_PER_SEC, NSEC_PER_SEC, function, data);
 }
 
-guint adium_input_add(gint fd, PurpleInputCondition condition,
+static guint adium_input_add(gint fd, PurpleInputCondition condition,
 					  PurpleInputFunction func, gpointer user_data)
 {	
 	if (fd < 0) {
@@ -131,18 +151,19 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
     src = dispatch_source_create(type, fd, 0, dispatch_get_main_queue());
 	
     dispatch_source_set_event_handler(src, ^{
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         if (func) func(user_data, fd, condition);
+        [pool drain];
     });
 		
-    [sourceInfoDict setObject:[NSValue valueWithPointer:src]
-                       forKey:[NSNumber numberWithUnsignedInt:tag]];
+    setSourceForTag(src, tag);
 
 	dispatch_resume(src);
 	
     return tag;
 }
 
-int adium_input_get_error(int fd, int *error)
+static int adium_input_get_error(int fd, int *error)
 {
 	int		  ret;
 	socklen_t len;
@@ -203,7 +224,5 @@ static PurpleEventLoopUiOps adiumEventLoopUiOps = {
 
 PurpleEventLoopUiOps *adium_purple_eventloop_get_ui_ops(void)
 {
-	if (!sourceInfoDict) sourceInfoDict = [[NSMutableDictionary alloc] init];
-
 	return &adiumEventLoopUiOps;
 }

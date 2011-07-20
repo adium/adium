@@ -34,7 +34,7 @@
 #define KEY_PERFORMED_ACCOUNT_PASSWORD_UPGRADE @"Adium 1.3: Account Passwords Upgraded"
 
 @interface AdiumPasswords ()
-+ (NSOperationQueue *)operationQueue;
++ (dispatch_queue_t)queue;
 - (NSString *)_oldStyleAccountNameForAccount:(AIAccount *)inAccount;
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount;
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount;
@@ -57,16 +57,12 @@
 	[self _upgradeAccountPasswordKeychainEntries];
 }
 
-+ (NSOperationQueue *)operationQueue {
-	static NSOperationQueue *passwordQueue = nil;
-	
-	if (!passwordQueue) {
-		NSOperationQueue *newQueue = [[NSOperationQueue alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&passwordQueue))
-			[newQueue release];
-		
-		[passwordQueue setName:@"AdiumPasswordsOperationQueue"];
-	}
++ (dispatch_queue_t)queue {
+	static dispatch_queue_t passwordQueue;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        passwordQueue = dispatch_queue_create("com.adium.Passwords", 0);
+    });
 	
 	return passwordQueue;
 }
@@ -221,17 +217,16 @@
  */
 - (void)passwordForAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)promptOption notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
-	[[AdiumPasswords operationQueue] addOperation:[[[NSInvocationOperation alloc]
-																									initWithTarget:self
-																									      selector:@selector(threadedPasswordRetrieval:)
-																									        object:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-																													        inAccount, @"Account",
-																													        [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
-																													        inTarget, @"Target",
-																													        NSStringFromSelector(inSelector), @"Selector",
-																													        inContext, @"Context" /* may be nil so should be last */,
-																													        nil]]
-																								  autorelease]];
+    dispatch_async([AdiumPasswords queue], ^{
+        NSMutableDictionary *retrievalDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              inAccount, @"Account",
+                                              [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
+                                              inTarget, @"Target",
+                                              NSStringFromSelector(inSelector), @"Selector",
+                                              inContext, @"Context" /* may be nil so should be last */,
+                                              nil];
+        [self threadedPasswordRetrieval:retrievalDict];
+    });
 }
 
 //Proxy Servers --------------------------------------------------------------------------------------------------------

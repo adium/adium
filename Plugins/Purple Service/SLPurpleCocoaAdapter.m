@@ -59,13 +59,6 @@
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
 @end
 
-/*
- * A pointer to the single instance of this class active in the application.
- * The purple callbacks need to be C functions with specific prototypes, so they
- * can't be ObjC methods. The ObjC callbacks do need to be ObjC methods. This
- * allows the C ones to call the ObjC ones.
- **/
-static SLPurpleCocoaAdapter	*sharedInstance = nil;
 
 static NSMutableArray		*libpurplePluginArray = nil;
 
@@ -75,14 +68,19 @@ static NSMutableArray		*libpurplePluginArray = nil;
  * @brief Return the shared instance
  */
 + (SLPurpleCocoaAdapter *)sharedInstance
-{	
-	@synchronized(self) {
-		if (!sharedInstance) {
-			sharedInstance = [[self alloc] init];
-		}
-	}
-
-	return sharedInstance;
+{
+    /*
+     * A pointer to the single instance of this class active in the application.
+     * The purple callbacks need to be C functions with specific prototypes, so they
+     * can't be ObjC methods. The ObjC callbacks do need to be ObjC methods. This
+     * allows the C ones to call the ObjC ones.
+     **/
+    static SLPurpleCocoaAdapter *_sharedInstance;
+    static dispatch_once_t sharedInstanceGuard;
+    dispatch_once(&sharedInstanceGuard, ^{
+        _sharedInstance = [[self alloc] init];
+    });
+    return _sharedInstance;
 }
 
 /*!
@@ -171,13 +169,17 @@ static void ZombieKiller_Signal(int i)
 
 void adium_glib_print(const char *string)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	AILog(@"(GLib): %s", string);
+    [pool drain];
 }
 
 void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *message, gpointer user_data)
 {
 	if (!AIDebugLoggingIsEnabled()) return;
 	
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
 	NSString *level;
 	
 	if (!log_domain) log_domain = "general";
@@ -199,6 +201,7 @@ void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *
 
 	
 	AILog(@"(GLib : %s): %@: %s", log_domain, level, message);
+    [pool drain];
 }
 
 - (void)initLibPurple
@@ -318,7 +321,7 @@ void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *
 
 #pragma mark Lookup functions
 
-NSString* serviceClassForPurpleProtocolID(const char *protocolID)
+static NSString* serviceClassForPurpleProtocolID(const char *protocolID)
 {
 	NSString	*serviceClass = nil;
 	if (protocolID) {
