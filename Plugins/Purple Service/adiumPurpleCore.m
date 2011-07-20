@@ -48,8 +48,10 @@
 static void adiumPurpleDebugPrint(PurpleDebugLevel level, const char *category, const char *debug_msg)
 {
 	//Log error
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	if (!category) category = "general"; //Category can be nil
 	AILog(@"(Libpurple: %s) %s",category, debug_msg);
+    [pool drain];
 }
 
 static int adiumPurpleDebugIsEnabled(PurpleDebugLevel level, const char *category)
@@ -95,7 +97,9 @@ static void init_all_plugins()
 	//Load each plugin
 	for (id <AILibpurplePlugin>	plugin in [SLPurpleCocoaAdapter libpurplePluginArray]) {
 		if ([plugin respondsToSelector:@selector(installLibpurplePlugin)]) {
+            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 			[plugin installLibpurplePlugin];
+            [pool drain];
 		}
 	}
 #ifdef HAVE_CDSA
@@ -114,7 +118,9 @@ static void load_external_plugins(void)
 	//Load each plugin	
 	for (id <AILibpurplePlugin>	plugin in [SLPurpleCocoaAdapter libpurplePluginArray]) {
 		if ([plugin respondsToSelector:@selector(loadLibpurplePlugin)]) {
+            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 			[plugin loadLibpurplePlugin];
+            [pool drain];
 		}
 	}	
 }
@@ -173,6 +179,8 @@ static void associateLibpurpleAccounts(void)
 /* The core is ready... finish configuring libpurple and its plugins */
 static void adiumPurpleCoreUiInit(void)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	bindtextdomain("pidgin", [[[NSBundle bundleWithIdentifier:@"im.pidgin.libpurple"] resourcePath] fileSystemRepresentation]);
 	bind_textdomain_codeset("pidgin", "UTF-8");
 	textdomain("pidgin");
@@ -241,6 +249,7 @@ static void adiumPurpleCoreUiInit(void)
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AILibpurpleDidInitialize
 														object:nil];
+    [pool drain];
 }
 
 static void adiumPurpleCoreQuit(void)

@@ -90,6 +90,8 @@ static void *adiumPurpleRequestInput(
 								   PurpleAccount *account, const char *who, PurpleConversation *conv,
 								   void *userData)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	/*
 	 Multiline should be a paragraph-sized box; otherwise, a single line will suffice.
 	 Masked means we want to use an NSSecureTextField sort of thing.
@@ -124,6 +126,8 @@ static void *adiumPurpleRequestInput(
 	
 	requestController = [ESPurpleRequestWindowController showInputWindowWithDict:infoDict];
 	
+    [pool drain];
+    
 	return requestController;
 }
 
@@ -150,6 +154,8 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 											   void *userData,
 											   size_t actionCount, va_list actions)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
     NSString			*titleString = (title ? [NSString stringWithUTF8String:title] : @"");
 	NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
 	id					requestController = nil;
@@ -250,6 +256,8 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 
 		requestController = [ESPurpleRequestActionController showActionWindowWithDict:infoDict];
 	}
+    
+    [pool drain];
 
 	return requestController;
 }
@@ -279,6 +287,8 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
 									void *userData)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	id requestController = nil;
 
     if (title && (strcmp(title, _("Register New XMPP Account")) == 0)) {
@@ -325,6 +335,7 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
                                                                       conversation:conv
                                                                           userData:userData];
 	}
+    [pool drain];
 
 	return requestController;
 }
@@ -335,6 +346,8 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
 									void *user_data)
 {	
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	if (title) {
 		NSString *titleString = (title ? [NSString stringWithUTF8String:title] : nil);
 		if (savedialog) {
@@ -382,6 +395,7 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 			}
 		}
 	}
+    [pool drain];
 	
 	return NULL;
 }
@@ -397,6 +411,7 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
  */
 static void adiumPurpleRequestClose(PurpleRequestType type, void *uiHandle)
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	id	ourHandle = (id)uiHandle;
 	AILogWithSignature(@"%@ (%i)",uiHandle,[ourHandle respondsToSelector:@selector(purpleRequestClose)]);
 	if ([ourHandle respondsToSelector:@selector(purpleRequestClose)]) {
@@ -405,6 +420,7 @@ static void adiumPurpleRequestClose(PurpleRequestType type, void *uiHandle)
 	} else if ([ourHandle respondsToSelector:@selector(closeWindow:)]) {
 		[ourHandle closeWindow:nil];
 	}
+    [pool drain];
 }
 
 static void *adiumPurpleRequestFolder(const char *title, const char *dirname, GCallback ok_cb, GCallback cancel_cb,

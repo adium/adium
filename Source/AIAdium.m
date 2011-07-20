@@ -82,7 +82,6 @@ static NSString	*prefsCategory;
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)systemTimeZoneDidChange:(NSNotification *)inNotification;
-- (void)kickRunLoop:(NSTimer *)dummy;
 - (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 - (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 - (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
@@ -276,9 +275,6 @@ static NSString	*prefsCategory;
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 
 	[pool release];
-	
-	//When no events are coming in (i.e. the user is away from their computer), the runloop doesn't iterate, and we accumulate autoreleased objects
-	[[NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(kickRunLoop:) userInfo:nil repeats:YES] retain];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -1003,21 +999,6 @@ static NSString	*prefsCategory;
 - (NSApplication *)application
 {
 	return [NSApplication sharedApplication];
-}
-
-- (void) kickRunLoop:(NSTimer *)dummy
-{
-	// Send a fake event to wake the loop up.
-	[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined
-										location:NSMakePoint(0,0)
-								   modifierFlags:0
-									   timestamp:0
-									windowNumber:0
-										 context:NULL
-										 subtype:0
-										   data1:0
-										   data2:0]
-			 atStart:NO];
 }
 
 #pragma mark Scripting
