@@ -61,7 +61,7 @@ static gboolean adium_source_remove(guint tag) {
 	dispatch_source_t src = sourceForTag(tag);
     
     if (!src) {
-		AILogWithSignature(@"Source info for %i not found");
+		AILogWithSignature(@"Source info for %i not found", tag);
 		return FALSE;
 	}
 	
