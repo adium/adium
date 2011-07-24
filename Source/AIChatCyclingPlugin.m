@@ -20,6 +20,9 @@
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
 
+#import "SGHotKey.h"
+#import "SGHotKeyCenter.h"
+
 #define PREVIOUS_MESSAGE_MENU_TITLE		AILocalizedString(@"Select Previous Chat",nil)
 #define NEXT_MESSAGE_MENU_TITLE			AILocalizedString(@"Select Next Chat",nil)
 
@@ -38,7 +41,8 @@
 {
 	id<AIMenuController>	menuController = adium.menuController;
 	NSMenuItem				*nextChatMenuItem, *previousChatMenuItem;
-
+    SGHotKey                *hotKey;
+	
 	//Cycling menu items
 	nextChatMenuItem = [[NSMenuItem alloc] initWithTitle:NEXT_MESSAGE_MENU_TITLE 
 												  target:self
@@ -53,6 +57,35 @@
 											   keyEquivalent:@"\t"];
 	[previousChatMenuItem setKeyEquivalentModifierMask:(NSControlKeyMask | NSShiftKeyMask)];
 	[menuController addMenuItem:previousChatMenuItem toLocation:LOC_Window_Commands];
+    
+    //Cycling key bindings
+    hotKey = [[SGHotKey alloc] initWithIdentifier:@"Next Tab Arrow"
+                                         keyCombo:[[SGKeyCombo alloc] initWithKeyCode:kVK_RightArrow
+                                                                            modifiers:(kCommandUnicode | kShiftUnicode)]
+                                           target:self 
+                                           action:@selector(nextChat:)];
+    [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+    
+    hotKey = [[SGHotKey alloc] initWithIdentifier:@"Previous Tab Arrow"
+                                         keyCombo:[[SGKeyCombo alloc] initWithKeyCode:kVK_LeftArrow
+                                                                            modifiers:(kCommandUnicode | kShiftUnicode)]
+                                           target:self
+                                           action:@selector(previousChat:)];
+    [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+    
+    hotKey = [[SGHotKey alloc] initWithIdentifier:@"Next Tab Bracket"
+                                         keyCombo:[[SGKeyCombo alloc] initWithKeyCode:kVK_ANSI_RightBracket
+                                                                            modifiers:(kCommandUnicode | kShiftUnicode)]
+                                           target:self
+                                           action:@selector(nextChat:)];
+    [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+    
+    hotKey = [[SGHotKey alloc] initWithIdentifier:@"Previous Tab Bracket" 
+                                         keyCombo:[[SGKeyCombo alloc] initWithKeyCode:kVK_ANSI_LeftBracket
+                                                                            modifiers:(kCommandUnicode | kShiftUnicode)]
+                                           target:self
+                                           action:@selector(previousChat:)];
+    [[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
 }
 
 - (void)uninstallPlugin
