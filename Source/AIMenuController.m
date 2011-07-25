@@ -430,7 +430,7 @@
 	[menuItem_quitAdium setTitle:AILocalizedString(@"Quit Adium",nil)];
 
 	//File menu	
-	[menuItem_close setTitle:AILocalizedString(@"Close","Title for the close menu item")];
+	[menuItem_close setTitle:AILocalizedString(@"Close Window","Title for the close window menu item")];
 	[menuItem_closeChat setTitle:AILocalizedString(@"Close Chat","Title for the close chat menu item")];
 	[menuItem_closeAllChats setTitle:AILocalizedString(@"Close All Chats","Title for the close all chats menu item")];
 	[menuItem_saveAs setTitle:[AILocalizedString(@"Save As",nil) stringByAppendingEllipsis]];
