@@ -351,12 +351,12 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 		
 		OSStatus err = FSPathMakeRef((UInt8 *)[logBasePath UTF8String], &ref, &isDir);
 		if (noErr != err) {
-			NSLog(@"Warning: Couldn't obtain FSRef for transcripts folder: %s (%i)", GetMacOSStatusCommentString(err), err);
+			NSLog(@"Warning: Couldn't obtain FSRef for transcripts folder: %s (%ld)", GetMacOSStatusCommentString(err), (long)err);
 		} else if (!isDir) {
 			Boolean wasAliased_nobodyCares;
 			err = FSResolveAliasFile(&ref, /*resolveAliasChains*/ true, &isDir, &wasAliased_nobodyCares);
 			if (noErr != err) {
-				NSLog(@"Warning: Couldn't resolve alias to transcripts folder: %s (%i)", GetMacOSStatusCommentString(err), err);
+				NSLog(@"Warning: Couldn't resolve alias to transcripts folder: %s (%ld)", GetMacOSStatusCommentString(err), (long)err);
 			} else {
 				NSURL *logBaseURL = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorDefault, &ref) autorelease];
 				logBaseAliasPath = logBasePath;

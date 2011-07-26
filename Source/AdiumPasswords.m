@@ -348,11 +348,11 @@
 		 */
 		if (inPassword || (err != errSecItemNotFound)) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not %@ password for special password %@: %@ returned %i (%@)",
+			NSLog(@"could not %@ password for special password %@: %@ returned %ld (%@)",
 			      inPassword ? @"set" : @"remove",
 			      [self _accountNameForSpecialPassword:inType account:inAccount name:inName],
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
-				  err,
+				  (long)err,
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
@@ -373,10 +373,10 @@
 		 */
 		if (err != errSecItemNotFound) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not retrieve password for special password %@: %@ returned %i (%@)",
+			NSLog(@"could not retrieve password for special password %@: %@ returned %ld (%@)",
 				  [self _accountNameForSpecialPassword:inType account:inAccount name:inName],
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
-				  err,
+				  (long)err,
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
@@ -480,7 +480,7 @@
 				OSStatus err = (OSStatus)[error code];
 				if (err != errSecItemNotFound) {
 					NSDictionary *userInfo = [error userInfo];
-					NSLog(@"could not retrieve password for account %@: %@ returned %i (%@)", [self _oldStyleAccountNameForAccount:account], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+					NSLog(@"could not retrieve password for account %@: %@ returned %ld (%@)", [self _oldStyleAccountNameForAccount:account], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], (long)err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 				}
 			} else {
 				[self setPassword:password forAccount:account];
@@ -497,7 +497,7 @@
 					 */
 					if (err != errSecItemNotFound) {
 						NSDictionary *userInfo = [error userInfo];
-						NSLog(@"could not delete password for account %@: %@ returned %i (%@)", [self _oldStyleAccountNameForAccount:account], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+						NSLog(@"could not delete password for account %@: %@ returned %ld (%@)", [self _oldStyleAccountNameForAccount:account], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], (long)err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 					}
 				}
 			}

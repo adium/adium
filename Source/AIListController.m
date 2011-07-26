@@ -588,7 +588,7 @@
 			//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
 			
 			AISortController *sortController = [AISortController activeSortController];
-			AIListObject<AIContainingObject> *container = proposedListObject ? proposedListObject : adium.contactController.contactList;
+			AIListObject<AIContainingObject> *container = proposedListObject ? (AIListObject<AIContainingObject> *)proposedListObject : adium.contactController.contactList;
 
 			if (!sortController.canSortManually && [container containsObject:[dragItems objectAtIndex:0]]) {
 				// We can't sort manually, and the container already has this item. No operation will take place.
