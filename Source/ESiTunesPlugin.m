@@ -301,7 +301,7 @@
 																			nil]]];
 		} else {
 			NSLog(@"iTunesValues was %@ (%lu items), but I was expecting %lu. Perhaps CurrentTunes is not updated to match ESiTunesPlugin?",
-				  iTunesValues, [iTunesValues count], infoCount);
+				  iTunesValues, (unsigned long)[iTunesValues count], (unsigned long)infoCount);
 		}
 		
 	} else {

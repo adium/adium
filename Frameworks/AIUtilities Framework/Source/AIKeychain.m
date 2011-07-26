@@ -792,12 +792,12 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 			if (item) CFRelease(item);
 
 		} else {
-			NSLog(@"%@: Error in SecKeychainSearchCopyNext(); err is %i",self,err);	
+			NSLog(@"%@: Error in SecKeychainSearchCopyNext(); err is %ld", self, (long)err);	
 		}
 		if (search)	CFRelease(search);
 
 	} else {
-		NSLog(@"%@: Could not create search; err is %i",self,err);
+		NSLog(@"%@: Could not create search; err is %ld", self, (long)err);
 	}
 
 	return result;

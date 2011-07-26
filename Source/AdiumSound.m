@@ -85,7 +85,7 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		OSStatus err = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &audioAddress, systemOutputDeviceDidChange, self);
 
 		if (err != noErr)
-			NSLog(@"%s: Couldn't sign up for system-output-device-changed notification, because AudioHardwareAddPropertyListener returned %i. Adium will not know when the default system audio device changes.", __PRETTY_FUNCTION__, err);
+			NSLog(@"%s: Couldn't sign up for system-output-device-changed notification, because AudioHardwareAddPropertyListener returned %ld. Adium will not know when the default system audio device changes.", __PRETTY_FUNCTION__, (long)err);
 	}
 
 	return self;
@@ -247,7 +247,7 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 	};
 	err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &theAddress, 0, NULL, &dataSize, &systemOutputDevice);
 	if (err != noErr) {
-		NSLog(@"%s: Could not get the system output device: AudioHardwareGetProperty returned error %i", __PRETTY_FUNCTION__, err);
+		NSLog(@"%s: Could not get the system output device: AudioHardwareGetProperty returned error %ld", __PRETTY_FUNCTION__, (long)err);
 		return NULL;
 	}
 	
@@ -263,7 +263,7 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 	
 	err = AudioObjectGetPropertyData(systemOutputDevice, &uidAddress, 0, NULL, &dataSize, &deviceUID);
 	if (err != noErr) {
-		NSLog(@"%s: Could not get the device UID for device %u: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
+		NSLog(@"%s: Could not get the device UID for device %ld: AudioDeviceGetProperty returned error %ld", __PRETTY_FUNCTION__, (unsigned long)systemOutputDevice, (long)err);
 		return NULL;
 	}
 	[(NSString *)deviceUID autorelease];

@@ -118,7 +118,7 @@
 						NSDictionary *userInfo = [error userInfo];
 						NSLog(@"Could not get username and password for proxy: %@ returned %ld (%@)",
 							  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
-							  [error code],
+							  (long)[error code],
 							  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 					}
 				}
