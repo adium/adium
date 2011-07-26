@@ -86,8 +86,8 @@
 - (NSString *)labelForObject:(AIListObject *)inObject
 {
 	if ([inObject conformsToProtocol:@protocol(AIContainingObject)] || 
-		[inObject isKindOfClass:[AIListContact class]] &&
-		![inObject isKindOfClass:[AIListBookmark class]]) {
+		([inObject isKindOfClass:[AIListContact class]] &&
+		![inObject isKindOfClass:[AIListBookmark class]])) {
 		return AILocalizedString(@"Contacts",nil);
 	}
 	

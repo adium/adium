@@ -163,7 +163,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	
 	if (error) {
 		NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
-			  [error domain], [error code], [error userInfo]);
+			  [error domain], (long)[error code], [error userInfo]);
 		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
 						   [error domain], [error code], [error userInfo]);
 		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
