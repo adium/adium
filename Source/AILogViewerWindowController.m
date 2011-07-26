@@ -15,50 +15,55 @@
  */
 
 #import "AILogViewerWindowController.h"
-#import "AIChatLog.h"
-#import "AILogFromGroup.h"
-#import "AILogToGroup.h"
-#import "AILoggerPlugin.h"
-#import "ESRankingCell.h" 
-#import "AIXMLChatlogConverter.h"
-#import "AILogDateFormatter.h"
-#import "AIGradientView.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import "AIAccountController.h"
+#import "AIChatLog.h"
+#import "AIChatController.h"
+#import "AIContactController.h"
+#import "AIGradientView.h"
+#import "AILogFromGroup.h"
+#import "AILoggerPlugin.h"
+#import "AILogToGroup.h"
+#import "AILogDateFormatter.h"
+#import "AIXMLChatlogConverter.h"
+#import "ESRankingCell.h" 
+
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/AIMenuControllerProtocol.h>
+
+#import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/KNShelfSplitView.h>
+
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AISplitView.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITableViewAdditions.h>
+
+#import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
 
 #import <libkern/OSAtomic.h>
+
 
 #define KEY_LOG_VIEWER_WINDOW_FRAME		@"Log Viewer Frame"
 #define TOOLBAR_LOG_VIEWER				@"Log Viewer Toolbar"
 
 #define MAX_LOGS_TO_SORT_WHILE_SEARCHING	10000	//Max number of logs we will live sort while searching
-#define LOG_SEARCH_STATUS_INTERVAL			20	//1/60ths of a second to wait before refreshing search status
+#define LOG_SEARCH_STATUS_INTERVAL			20		//1/60ths of a second to wait before refreshing search status
+#define	REFRESH_RESULTS_INTERVAL			1.0		//Interval between results refreshes while searching
+
+#define DATE_ITEM_IDENTIFIER			@"date"
 
 #define SEARCH_MENU						AILocalizedString(@"Search Menu",nil)
 #define FROM							AILocalizedString(@"From",nil)
@@ -66,7 +71,6 @@
 #define DATE							AILocalizedString(@"Date",nil)
 #define CONTENT							AILocalizedString(@"Content",nil)
 #define DELETE							AILocalizedString(@"Delete",nil)
-#define DELETEALL						AILocalizedString(@"Delete All",nil)
 #define SEARCH							AILocalizedString(@"Search",nil)
 #define SEARCH_LOGS						AILocalizedString(@"Search Logs",nil)
 
@@ -80,7 +84,9 @@
 #define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
 #define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
 
-#define	REFRESH_RESULTS_INTERVAL		1.0 //Interval between results refreshes while searching
+#define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
+#define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
+#define KEY_LOG_VIEWER_SELECTED_COLUMN		@"Log Viewer Selected Column Identifier"
 
 @interface AILogViewerWindowController ()
 + (NSOperationQueue *)sharedLogViewerQueue;
@@ -232,15 +238,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		headerDateFormatter = [[NSDateFormatter localizedDateFormatter] retain];
 
 		currentSearchResults = [[NSMutableArray alloc] init];
-		fromArray = [[NSMutableArray alloc] init];
-		fromServiceArray = [[NSMutableArray alloc] init];
 		logFromGroupDict = [[NSMutableDictionary alloc] init];
 		toArray = [[NSMutableArray alloc] init];
-		toServiceArray = [[NSMutableArray alloc] init];
 		logToGroupDict = [[NSMutableDictionary alloc] init];
 		resultsLock = [[NSRecursiveLock alloc] init];
-		searchingLock = [[NSLock alloc] init];
-		[searchingLock setName:@"LogSearchingLock"];
 		contactIDsToFilter = [[NSMutableSet alloc] initWithCapacity:1];
 
 		allContactsIdentifier = [[NSNumber numberWithInteger:-1] retain];
@@ -259,11 +260,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[filterDate release]; filterDate = nil;
 	[currentSearchLock release]; currentSearchLock = nil;
 	[resultsLock release];
-	[searchingLock release];
-	[fromArray release];
-	[fromServiceArray release];
 	[toArray release];
-	[toServiceArray release];
 	[currentSearchResults release];
 	[selectedColumn release];
 	[headerDateFormatter release];
@@ -274,8 +271,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 	[logFromGroupDict release]; logFromGroupDict = nil;
 	[logToGroupDict release]; logToGroupDict = nil;
-
-	[filterForAccountName release]; filterForAccountName = nil;
 
 	[horizontalRule release]; horizontalRule = nil;
 
@@ -499,9 +494,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     //Rebuild the 'global' log indexes
     [logFromGroupDict release]; logFromGroupDict = [[NSMutableDictionary alloc] init];
     [toArray removeAllObjects]; //note: even if there are no logs, the name will remain [bug or feature?]
-    [toServiceArray removeAllObjects];
-    [fromArray removeAllObjects];
-    [fromServiceArray removeAllObjects];
     
     [self initLogFiltering];
     
@@ -997,14 +989,8 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	if (firstIndex != NSNotFound) {
 		[tableView_results scrollRowToVisible:[[tableView_results selectedRowIndexes] firstIndex]];
     } else {
-        if (useSame == YES && sameSelection > 0) {
-            [tableView_results selectRowIndexes:[NSIndexSet indexSetWithIndex:sameSelection] byExtendingSelection:NO];
-        } else {
-            [self selectFirstLog];
-        }
+		[self selectFirstLog];
     }
-
-    useSame = NO;
 }
 
 - (void)selectFirstLog
