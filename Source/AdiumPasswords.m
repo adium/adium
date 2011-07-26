@@ -92,7 +92,7 @@
 		 */
 		if (inPassword || (err != errSecItemNotFound)) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not %@ password for account %@: %@ returned %i (%@)", inPassword ? @"set" : @"remove", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+			NSLog(@"could not %@ password for account %@: %@ returned %ld (%@)", inPassword ? @"set" : @"remove", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], (long)err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
 }
@@ -118,7 +118,7 @@
 		 */
 		if (err != errSecItemNotFound) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not delete password for account %@: %@ returned %i (%@)", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+			NSLog(@"could not delete password for account %@: %@ returned %ld (%@)", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], (long)err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
 }
@@ -145,7 +145,7 @@
 		 */
 		if (err != errSecItemNotFound) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not retrieve password for account %@: %@ returned %i (%@)", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+			NSLog(@"could not retrieve password for account %@: %@ returned %ld (%@)", [self _accountNameForAccount:inAccount], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], (long)err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
 	return password;
@@ -258,12 +258,12 @@
 		 */
 		if (inPassword || (err != errSecItemNotFound)) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not %@ password for proxy server %@: %@ returned %i (%@)",
+			NSLog(@"could not %@ password for proxy server %@: %@ returned %ld (%@)",
 			      inPassword ? @"set" : @"remove",
 			      [self _accountNameForProxyServer:server
 				                          userName:userName],
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
-				  err,
+				  (long)err,
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
@@ -292,11 +292,11 @@
 		 */
 		if (err != errSecItemNotFound) {
 			NSDictionary *userInfo = [error userInfo];
-			NSLog(@"could not retrieve password for proxy server %@: %@ returned %i (%@)",
+			NSLog(@"could not retrieve password for proxy server %@: %@ returned %ld (%@)",
 				  [self _accountNameForProxyServer:server
 				                          userName:userName],
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
-				  err,
+				  (long)err,
 				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
 		}
 	}
