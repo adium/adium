@@ -15,6 +15,6 @@
  */
 
 @interface AISharedWriterQueue : NSObject {}
-+ (void) addOperation:(NSOperation *)op;
++ (void) addOperation:(dispatch_block_t)op;
 + (void) waitUntilAllOperationsAreFinished;
 @end
