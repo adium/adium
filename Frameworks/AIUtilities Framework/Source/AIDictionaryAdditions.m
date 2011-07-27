@@ -22,43 +22,6 @@
 #import "AIFileManagerAdditions.h"
 #import "AISharedWriterQueue.h"
 
-@interface AIWriteDictionaryOperation : NSOperation 
-{
-	NSString *path;
-	NSString *name;
-	NSDictionary *dict;
-}
-
-- (AIWriteDictionaryOperation *)initWithPath:(NSString *)path name:(NSString *)s dictionary:(NSDictionary *)dict;
-
-@end
-
-@implementation AIWriteDictionaryOperation
-- (AIWriteDictionaryOperation *)initWithPath:(NSString *)p name:(NSString *)s dictionary:(NSDictionary *)d
-{
-	if ((self = [super init]))
-	{
-		path = [p retain];
-		dict = [d retain];
-		name = [s retain];
-	}
-	return self;
-}
-
-- (void) dealloc
-{
-	[name release];
-	[dict release];
-	[path release];
-	[super dealloc];
-}
-
-- (void) main
-{
-	[dict writeToPath:path withName:name];
-}
-@end
-
 @implementation NSDictionary (AIDictionaryAdditions)
 
 // Returns a dictionary from the owners bundle with the specified name
@@ -159,8 +122,9 @@ return validated;
 	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
 	NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
-	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:path name:name dictionary:self] autorelease];
-	[AISharedWriterQueue addOperation:op];
+	[AISharedWriterQueue addOperation:^{
+        [self writeToPath:path withName:name];
+    }];
 }
 
 - (NSDictionary *)dictionaryByTranslating:(NSDictionary *)translation adding:(NSDictionary *)addition removing:(NSSet *)removal
