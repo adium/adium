@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# You need to set NIGHTLY_HOST and NIGHTLY_USER in environment, and have your 
+# You need to set NIGHTLY_HOST, NIGHTLY_USER, NIGHTLY_REPO, and NIGHTLY_BRANCH in environment, and have your 
 # public key in the authorized_keys file on the nightly server.
 
 # Set our working directory to be the parent of this script, in case we're run
@@ -9,6 +9,6 @@ PARENT=$(dirname $0)
 cd ${PARENT:-.}
 
 ADIUM_RELEASE_NAME=`head -n 1 build/latest.info | tail -n 1`
-scp build/latest.info build/${ADIUM_RELEASE_NAME}.dmg.md5 build/${ADIUM_RELEASE_NAME}.dmg ${NIGHTLY_USER}@${NIGHTLY_HOST}:
+scp build/latest.info build/${ADIUM_RELEASE_NAME}.dmg.md5 build/${ADIUM_RELEASE_NAME}.dmg ${NIGHTLY_USER}@${NIGHTLY_HOST}:${NIGHTLY_REPO}-${NIGHTLY_BRANCH}
 ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} chmod go+r ${ADIUM_RELEASE_NAME}.dmg latest.info ${ADIUM_RELEASE_NAME}.dmg.md5
 

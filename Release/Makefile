@@ -24,6 +24,8 @@ OFFICIAL_BUILD?=TRUE
 
 # Always builds in debug mode.
 NIGHTLY?=FALSE
+NIGHTLY_REPO?=adium #change to adium-1.4 on the 1.4 branch
+NIGHTLY_BRANCH?=default
 
 ###########
 # To release!
@@ -117,9 +119,13 @@ assertnoconflicts:
 
 version:
 	@# update the plists
-	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright 2001-2011 The Adium Team"
+	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright 2001-$(shell date +"%Y") The Adium Team"
 	defaults write $(ADIUM_PLIST) CFBundleVersion "$(VERSION)"
 	defaults write $(ADIUM_PLIST) CFBundleShortVersionString "$(VERSION)"
+ifeq ($(NIGHTLY),TRUE)
+    defaults write $(ADIUM_PLIST) AINightlyRepo "$(NIGHTLY_REPO)"
+    defaults write $(ADIUM_PLIST) AINightlyBranch "$(NIGHTLY_BRANCH)"
+end
 	plutil -convert xml1 $(ADIUM_PLIST).plist
 
 compile:
@@ -144,10 +150,10 @@ prepare-release-bundle:
 ifeq ($(BUILD_IN_DEBUG_MODE),FALSE)
 	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib -or -name designable.nib \) -type f -delete
 endif
-	
+
 	@# delete backup files
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
-	
+
 	@# delete header files
 	find $(BUILD_DIR) \( -name "*.h" \) -type f -delete
 
@@ -165,14 +171,14 @@ createfolder:
 	mkdir $(BUILD_DIR)
 
 	mkdir $(ADIUM_DIR)
-	
+
 	@# copy the app
 	cp -R "$(ADIUM_BUILD_DIR)/Adium.app" $(ADIUM_DIR)
 
 	@# copy the text files
 	cp $(SRC_DIR)/ChangeLogs/Changes.txt $(ADIUM_DIR)
 	cp $(SRC_DIR)/License.txt $(ADIUM_DIR)
-	
+
 	@# symlink /Applications
 	./mkalias -r /Applications $(ADIUM_DIR)/Applications
 
@@ -184,7 +190,7 @@ diskimage:
 
 	./ensureCustomIconsExtracted $(ART_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
-	
+
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
 endif

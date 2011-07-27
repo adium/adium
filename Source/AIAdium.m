@@ -1059,7 +1059,11 @@ static NSString	*prefsCategory;
 	[profileInfo addObject:UPDATE_TYPE_DICT];
 #ifdef NIGHTLY_RELEASE
 	NSString *buildId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"];
+    NSString *nightlyRepo = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AINightlyRepo"];
+    NSString *nightlyBranch = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AINightlyBranch"];
 	[profileInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"revision", @"key", @"Revision", @"visibleKey", buildId, @"value", buildId, @"visibleValue", nil]];
+    [profileInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"repo", @"key", nightlyRepo, @"value", nil]];
+    [profileInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"branch", @"key", nightlyBranch, @"value", nil]];
 #endif
 
 	if (sendProfileInfo) {		
