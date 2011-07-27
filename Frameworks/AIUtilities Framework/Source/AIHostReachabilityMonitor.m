@@ -20,11 +20,8 @@
 #import <arpa/inet.h>
 #import <netdb.h>
 #import <netinet/in.h>
-#import <libkern/OSAtomic.h>
 
 #define CONNECTIVITY_DEBUG FALSE
-
-static AIHostReachabilityMonitor *sharedMonitor = nil;
 
 @interface AIHostReachabilityMonitor ()
 - (void)scheduleReachabilityMonitoringForHost:(NSString *)nodename observer:(id)observer;
@@ -50,11 +47,11 @@ static AIHostReachabilityMonitor *sharedMonitor = nil;
  */
 + (id)defaultMonitor
 {
-	if (!sharedMonitor) {
-		AIHostReachabilityMonitor *newMonitor = [[AIHostReachabilityMonitor alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newMonitor, (void *)&sharedMonitor))
-			[newMonitor release];
-	}
+    static AIHostReachabilityMonitor *sharedMonitor;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMonitor = [[AIHostReachabilityMonitor alloc] init];
+    });
 
 	return sharedMonitor;
 }

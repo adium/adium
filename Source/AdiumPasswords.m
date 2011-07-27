@@ -23,7 +23,6 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <objc/objc-runtime.h>
-#import <libkern/OSAtomic.h>
 
 #import <AIUtilities/AIApplicationAdditions.h>
 
