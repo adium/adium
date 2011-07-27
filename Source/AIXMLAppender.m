@@ -62,147 +62,7 @@ enum {
 @property (readwrite) BOOL initialized;
 @property (readwrite, copy, nonatomic) AIXMLElement *rootElement;
 @property (readwrite, copy, nonatomic) NSString *path;
-@end
-
-@interface AIAppendXMLOperation : NSOperation
-{
-	NSData *data;
-	NSInteger seekBackLength;
-	AIXMLAppender *appender;
-}
-- (AIAppendXMLOperation *)initWithData:(NSData *)d 
-						seekBackLength:(NSInteger)s 
-							  appender:(AIXMLAppender *)a;
-
 - (void) prepareFileHandle;
-@end
-
-@implementation AIAppendXMLOperation
-- (AIAppendXMLOperation *)initWithData:(NSData *)d 
-						seekBackLength:(NSInteger)s 
-							  appender:(AIXMLAppender *)a
-{
-	if ((self = [super init]))
-	{
-		data = [d retain];
-		seekBackLength = s;
-		appender = [a retain];
-	}
-	
-	return self;
-}
-
-- (void) dealloc
-{
-	[data release];
-	[appender release];
-	[super dealloc];
-}
-
-- (void) main
-{
-	BOOL success = YES;
-	if (!appender.fileHandle)
-		[self prepareFileHandle];
-	
-	@try {
-		[appender.fileHandle writeData:data];
-		
-	} @catch (NSException *writingException) {
-		/* NSFileHandle raises an exception if:
-		 *    * the file descriptor is closed or is not valid - we should reopen the file and try again
-		 *    * if the receiver represents an unconnected pipe or socket endpoint - this should never happen
-		 *    * if no free space is left on the file system - this should be handled gracefully if possible.. but the user is probably in trouble.
-		 *    * if any other writing error occurs - as with lack of free space.
-		 */
-		if (appender.initialized &&
-			[[writingException name] isEqualToString:NSFileHandleOperationException] &&
-			[[writingException reason] rangeOfString:@"Bad file descriptor"].location != NSNotFound) {
-			
-			appender.fileHandle = nil;
-			
-			[self prepareFileHandle];
-			
-			@try {
-				[appender.fileHandle writeData:data];
-				success = YES;
-				
-			} @catch (NSException *secondWritingException) {
-				NSLog(@"Exception while writing %@ log file %@: %@ (%@)",
-					  (appender.initialized ? @"initialized" : @"uninitialized"), appender.path, [secondWritingException name], [secondWritingException reason]);
-				success = NO;
-			}
-			
-		} else {
-			NSLog(@"Exception while writing %@ log file %@: %@ (%@)",
-				  (appender.initialized ? @"initialized" : @"uninitialized"), appender.path, [writingException name], [writingException reason]);
-			success = NO;
-		}
-	}
-	
-	if (success) {
-		[appender.fileHandle synchronizeFile];
-		
-		@try {
-			[appender.fileHandle seekToFileOffset:([appender.fileHandle offsetInFile] - seekBackLength)];	
-			
-		} @catch (NSException *seekException) {
-			/* -[NSFileHandler seekToFileOffset:] raises an exception if
-			 *    * the message is sent to an NSFileHandle object representing a pipe or socket
-			 *    * if the file descriptor is closed
-			 *    * if any other error occurs in seeking.
-			 */
-			NSLog(@"Exception while seeking in %@ log file %@: %@ (%@)",
-				  (appender.initialized ? @"initialized" : @"uninitialized"), appender.path, [seekException name], [seekException reason]);
-			success = NO;
-		}
-	}
-}
-
-- (void)prepareFileHandle
-{	
-	NSFileManager *manager = [NSFileManager defaultManager];
-	
-	//Check if the file already exists
-	if ([manager fileExistsAtPath:appender.path]) {
-		//Get the root element name and set initialized
-		NSString *rootElementName = [appender rootElementNameForFileAtPath:appender.path];
-		if (rootElementName)
-			appender.rootElement = [[[AIXMLElement alloc] initWithName:rootElementName] autorelease];
-		appender.initialized = (rootElementName != nil);				
-		
-	} else {
-		//Create each component of the path, then change into it.
-		NSError *error = nil;
-		if (![manager createDirectoryAtPath:[appender.path stringByDeletingLastPathComponent]
-				withIntermediateDirectories:YES
-								 attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL] forKey:NSFilePosixPermissions]
-									  error:&error]) {
-			AILogWithSignature(@"Error creating directory at %@: %@", 
-							   [appender.path stringByDeletingLastPathComponent],
-							   error);
-		}
-
-		appender.initialized = NO;
-	}
-	
-	//Open our file handle and seek if necessary
-	const char *pathCString = [appender.path fileSystemRepresentation];
-	int fd = open(pathCString, O_CREAT | O_WRONLY, 0600);
-	if(fd == -1) {
-		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
-			  appender.path, pathCString, (pathCString ? strlen(pathCString) : 0));
-	} else {
-		appender.fileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
-		if (appender.initialized) {
-			struct stat sb;
-			fstat(fd, &sb);
-			NSInteger closingTagLength = [appender.rootElement.name length] + 4; //</rootElementName>
-			[appender.fileHandle seekToFileOffset:sb.st_size - closingTagLength];
-		}
-	}
-}
-
 @end
 
 /*!
@@ -280,8 +140,108 @@ enum {
 
 - (void)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength
 {
-	AIAppendXMLOperation *op = [[[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self] autorelease];
-	[AISharedWriterQueue addOperation:op];
+	[AISharedWriterQueue addOperation:^{
+        BOOL success = YES;
+        if (!self.fileHandle)
+            [self prepareFileHandle];
+        
+        @try {
+            [self.fileHandle writeData:data];
+            
+        } @catch (NSException *writingException) {
+            /* NSFileHandle raises an exception if:
+             *    * the file descriptor is closed or is not valid - we should reopen the file and try again
+             *    * if the receiver represents an unconnected pipe or socket endpoint - this should never happen
+             *    * if no free space is left on the file system - this should be handled gracefully if possible.. but the user is probably in trouble.
+             *    * if any other writing error occurs - as with lack of free space.
+             */
+            if (self.initialized &&
+                [[writingException name] isEqualToString:NSFileHandleOperationException] &&
+                [[writingException reason] rangeOfString:@"Bad file descriptor"].location != NSNotFound) {
+                
+                self.fileHandle = nil;
+                
+                [self prepareFileHandle];
+                
+                @try {
+                    [self.fileHandle writeData:data];
+                    success = YES;
+                    
+                } @catch (NSException *secondWritingException) {
+                    NSLog(@"Exception while writing %@ log file %@: %@ (%@)",
+                          (self.initialized ? @"initialized" : @"uninitialized"), self.path, [secondWritingException name], [secondWritingException reason]);
+                    success = NO;
+                }
+                
+            } else {
+                NSLog(@"Exception while writing %@ log file %@: %@ (%@)",
+                      (self.initialized ? @"initialized" : @"uninitialized"), self.path, [writingException name], [writingException reason]);
+                success = NO;
+            }
+        }
+        
+        if (success) {
+            [self.fileHandle synchronizeFile];
+            
+            @try {
+                [self.fileHandle seekToFileOffset:([self.fileHandle offsetInFile] - seekBackLength)];	
+                
+            } @catch (NSException *seekException) {
+                /* -[NSFileHandler seekToFileOffset:] raises an exception if
+                 *    * the message is sent to an NSFileHandle object representing a pipe or socket
+                 *    * if the file descriptor is closed
+                 *    * if any other error occurs in seeking.
+                 */
+                NSLog(@"Exception while seeking in %@ log file %@: %@ (%@)",
+                      (self.initialized ? @"initialized" : @"uninitialized"), self.path, [seekException name], [seekException reason]);
+                success = NO;
+            }
+        }
+    }];
+}
+
+- (void)prepareFileHandle
+{	
+	NSFileManager *manager = [NSFileManager defaultManager];
+	
+	//Check if the file already exists
+	if ([manager fileExistsAtPath:self.path]) {
+		//Get the root element name and set initialized
+		NSString *rootElementName = [self rootElementNameForFileAtPath:self.path];
+		if (rootElementName)
+			self.rootElement = [[[AIXMLElement alloc] initWithName:rootElementName] autorelease];
+		self.initialized = (rootElementName != nil);				
+		
+	} else {
+		//Create each component of the path, then change into it.
+		NSError *error = nil;
+		if (![manager createDirectoryAtPath:[self.path stringByDeletingLastPathComponent]
+				withIntermediateDirectories:YES
+								 attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL] forKey:NSFilePosixPermissions]
+									  error:&error]) {
+			AILogWithSignature(@"Error creating directory at %@: %@", 
+							   [self.path stringByDeletingLastPathComponent],
+							   error);
+		}
+        
+		self.initialized = NO;
+	}
+	
+	//Open our file handle and seek if necessary
+	const char *pathCString = [self.path fileSystemRepresentation];
+	int fd = open(pathCString, O_CREAT | O_WRONLY, 0600);
+	if(fd == -1) {
+		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
+			  self.path, pathCString, (pathCString ? strlen(pathCString) : 0));
+	} else {
+		self.fileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
+		if (self.initialized) {
+			struct stat sb;
+			fstat(fd, &sb);
+			NSInteger closingTagLength = [self.rootElement.name length] + 4; //</rootElementName>
+			[self.fileHandle seekToFileOffset:sb.st_size - closingTagLength];
+		}
+	}
 }
 
 /*!

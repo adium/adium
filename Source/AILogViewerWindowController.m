@@ -136,14 +136,13 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 + (NSOperationQueue *)sharedLogViewerQueue
 {
 	static NSOperationQueue *logViewerQueue = nil;
-	if(!logViewerQueue) {
-		NSOperationQueue *newQueue = [[NSOperationQueue alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&logViewerQueue))
-			[newQueue release];
-		
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		logViewerQueue = [[NSOperationQueue alloc] init];
 		if([logViewerQueue respondsToSelector:@selector(setName:)])
-			[logViewerQueue performSelector:@selector(setName:) withObject:@"sharedLogViewerQueue"];
-	}
+			[logViewerQueue performSelector:@selector(setName:) withObject:@"im.adium.AILogViewerWindowController.logViewerQueue"];
+	});
+	
 	return logViewerQueue;
 }
 

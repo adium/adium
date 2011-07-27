@@ -14,37 +14,25 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "AISharedWriterQueue.h"
-#import <libkern/OSAtomic.h>
-#import "AIApplicationAdditions.h"
-
-@interface AISharedWriterQueue()
-+ (NSOperationQueue *)queue;
-@end
 
 @implementation AISharedWriterQueue
 
-+ (void) addOperation:(NSOperation *)op {
-	[[self queue] addOperation:op];
+static inline dispatch_queue_t queue() {
+    static dispatch_queue_t sharedWriterQueue = nil;
+	static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedWriterQueue = dispatch_queue_create("com.adium.sharedAsyncIOQueue", 0);
+    });
+	
+	return sharedWriterQueue;
+}
+
++ (void) addOperation:(dispatch_block_t)op {
+    dispatch_async(queue(), op);
 }
 
 + (void) waitUntilAllOperationsAreFinished {
-	[[self queue] waitUntilAllOperationsAreFinished];
-}
-
-+ (NSOperationQueue *)queue {
-	static NSOperationQueue *sharedWriterQueue = nil;
-	
-	
-	if (!sharedWriterQueue) {
-		NSOperationQueue *newWriterQueue = [[NSOperationQueue alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newWriterQueue, (void *)&sharedWriterQueue))
-			 [newWriterQueue release];
-			 
-		[sharedWriterQueue setMaxConcurrentOperationCount:1];
-		[sharedWriterQueue setName:@"AISharedWriterQueue"];
-	}
-	
-	return sharedWriterQueue;
+    dispatch_sync(queue(), ^{});
 }
 
 @end
