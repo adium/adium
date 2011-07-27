@@ -125,7 +125,7 @@ version:
 ifeq ($(NIGHTLY),TRUE)
 	defaults write $(ADIUM_PLIST) AINightlyRepo "$(NIGHTLY_REPO)"
 	defaults write $(ADIUM_PLIST) AINightlyBranch "$(NIGHTLY_BRANCH)"
-end
+endif
 	plutil -convert xml1 $(ADIUM_PLIST).plist
 
 compile:
