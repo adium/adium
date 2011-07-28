@@ -19,6 +19,7 @@
 	- Logging enable/disable
 	- Message sending key (enter, return)
 	- Message tabs (create in tabs, organize tabs by group, sort tabs)
+	- Tab switching keys
 	- Sound:
 		- Volume
 	- Status icon packs

@@ -20,8 +20,8 @@
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
 
-#define PREVIOUS_MESSAGE_MENU_TITLE		AILocalizedString(@"Select Previous Chat",nil)
-#define NEXT_MESSAGE_MENU_TITLE			AILocalizedString(@"Select Next Chat",nil)
+#define PREVIOUS_MESSAGE_MENU_TITLE		AILocalizedString(@"Previous Chat",nil)
+#define NEXT_MESSAGE_MENU_TITLE			AILocalizedString(@"Next Chat",nil)
 
 /*!
  * @class AIChatCyclingPlugin
@@ -36,28 +36,79 @@
  */
 - (void)installPlugin
 {
-	id<AIMenuController>	menuController = adium.menuController;
-	NSMenuItem				*nextChatMenuItem, *previousChatMenuItem;
+	id<AIMenuController> menuController = adium.menuController;
 
 	//Cycling menu items
-	nextChatMenuItem = [[NSMenuItem alloc] initWithTitle:NEXT_MESSAGE_MENU_TITLE 
-												  target:self
-												  action:@selector(nextChat:)
-										   keyEquivalent:@"\t"];
-	[nextChatMenuItem setKeyEquivalentModifierMask:NSControlKeyMask];
-	[menuController addMenuItem:nextChatMenuItem toLocation:LOC_Window_Commands];
-	
 	previousChatMenuItem = [[NSMenuItem alloc] initWithTitle:PREVIOUS_MESSAGE_MENU_TITLE
 													  target:self 
 													  action:@selector(previousChat:)
-											   keyEquivalent:@"\t"];
-	[previousChatMenuItem setKeyEquivalentModifierMask:(NSControlKeyMask | NSShiftKeyMask)];
+											   keyEquivalent:@""];
 	[menuController addMenuItem:previousChatMenuItem toLocation:LOC_Window_Commands];
+
+	nextChatMenuItem = [[NSMenuItem alloc] initWithTitle:NEXT_MESSAGE_MENU_TITLE 
+												  target:self
+												  action:@selector(nextChat:)
+										   keyEquivalent:@""];
+	[menuController addMenuItem:nextChatMenuItem toLocation:LOC_Window_Commands];
+
+	//Prefs
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CHAT_CYCLING];
 }
 
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
+}
+
+/*!
+ * @brief Preferences changed
+ *
+ * Update the key equivalents for our previous and next chat menu items
+ */
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
+							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{	
+	//Configure our tab switching hotkeys
+	unichar 		left = NSLeftArrowFunctionKey;
+	unichar 		right = NSRightArrowFunctionKey;
+	NSString		*leftKey, *rightKey;
+	NSUInteger	keyMask = NSCommandKeyMask;
+	
+	switch ([[prefDict objectForKey:KEY_TAB_SWITCH_KEYS] integerValue]) {
+		case AISwitchArrows:
+		default:
+			leftKey = [NSString stringWithCharacters:&left length:1];
+			rightKey = [NSString stringWithCharacters:&right length:1];
+			break;
+		case AISwitchShiftArrows:
+			leftKey = [NSString stringWithCharacters:&left length:1];
+			rightKey = [NSString stringWithCharacters:&right length:1];
+			keyMask = (NSCommandKeyMask | NSShiftKeyMask);
+			break;
+		case AIBrackets:
+			leftKey = @"[";
+			rightKey = @"]";
+			break;
+		case AIBraces:
+			leftKey = @"{";
+			rightKey = @"}";
+			break;
+		case AIOptArrows:
+			leftKey = [NSString stringWithCharacters:&left length:1];
+			rightKey = [NSString stringWithCharacters:&right length:1];
+			keyMask = (NSCommandKeyMask | NSAlternateKeyMask);
+			break;
+	}
+
+	//Previous and nextMessage menuItems are in the same menu, so the setMenuChangedMessagesEnabled applies to both.
+	[[previousChatMenuItem menu] setMenuChangedMessagesEnabled:NO];		
+	[previousChatMenuItem setKeyEquivalent:@""];
+	[previousChatMenuItem setKeyEquivalent:leftKey];
+	[previousChatMenuItem setKeyEquivalentModifierMask:keyMask];
+	[nextChatMenuItem setKeyEquivalent:@""];
+	[nextChatMenuItem setKeyEquivalent:rightKey];
+	[nextChatMenuItem setKeyEquivalentModifierMask:keyMask];
+	[[previousChatMenuItem menu] setMenuChangedMessagesEnabled:YES];
 }
 
 /*!
