@@ -22,7 +22,8 @@ typedef enum {
 	AISwitchShiftArrows,
 	AIBrackets,
 	AIBraces,
-	AIOptArrows
+	AIOptArrows,
+	AICtrlTab
 } AITabKeys;
 
 typedef enum {
