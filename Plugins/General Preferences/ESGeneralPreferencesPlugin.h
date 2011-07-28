@@ -31,6 +31,9 @@ typedef enum {
 	AISendOnBoth
 } AISendKeys;
 
+#define PREF_GROUP_CHAT_CYCLING			@"Chat Cycling"
+#define KEY_TAB_SWITCH_KEYS				@"Tab Switching Keys"
+
 #define	SEND_ON_RETURN					@"Send On Return"
 #define	SEND_ON_ENTER					@"Send On Enter"
 

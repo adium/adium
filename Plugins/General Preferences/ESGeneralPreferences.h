@@ -25,6 +25,7 @@
 	IBOutlet	NSButton		*checkBox_updatesProfileInfo;	
 	IBOutlet	NSButton		*checkBox_updatesIncludeBetas;
 	
+	IBOutlet	NSPopUpButton	*popUp_tabKeys;
 	IBOutlet	NSPopUpButton	*popUp_sendKeys;
 	IBOutlet	NSPopUpButton	*popUp_tabPositionMenu;
 

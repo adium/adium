@@ -37,6 +37,7 @@
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 
 @interface ESGeneralPreferences ()
+- (NSMenu *)tabChangeKeysMenu;
 - (NSMenu *)sendKeysMenu;
 - (NSMenu *)tabPositionMenu;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
@@ -88,6 +89,11 @@
 	[checkBox_updatesAutomatic setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUEnableAutomaticChecks"]];
 	[checkBox_updatesProfileInfo setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUSendProfileInfo"]];
 	[checkBox_updatesIncludeBetas setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"AIAlwaysUpdateToBetas"]];
+
+	//Chat Cycling
+	[popUp_tabKeys setMenu:[self tabChangeKeysMenu]];
+	[popUp_tabKeys selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TAB_SWITCH_KEYS
+																						 group:PREF_GROUP_CHAT_CYCLING] intValue]];
 
 	//General
 	sendOnEnter = [[adium.preferenceController preferenceForKey:SEND_ON_ENTER
@@ -144,7 +150,14 @@
 //Called in response to all preference controls, applies new settings
 - (IBAction)changePreference:(id)sender
 {
-	if (sender == popUp_sendKeys) {
+    if (sender == popUp_tabKeys) {
+		AITabKeys keySelect = (AITabKeys)[[sender selectedItem] tag];
+
+		[adium.preferenceController setPreference:[NSNumber numberWithInt:keySelect]
+											 forKey:KEY_TAB_SWITCH_KEYS
+											  group:PREF_GROUP_CHAT_CYCLING];
+		
+	} else if (sender == popUp_sendKeys) {
 		AISendKeys 	keySelect = (AISendKeys)[[sender selectedItem] tag];
 		BOOL		sendOnEnter = (keySelect == AISendOnEnter || keySelect == AISendOnBoth);
 		BOOL		sendOnReturn = (keySelect == AISendOnReturn || keySelect == AISendOnBoth);
@@ -176,6 +189,52 @@
 #else
 	[checkBox_updatesIncludeBetas setEnabled:[checkBox_updatesAutomatic state]];
 #endif
+}
+
+/*!
+ * @brief Construct our menu by hand for easy localization
+ */
+- (NSMenu *)tabChangeKeysMenu
+{
+	NSMenu		*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+#define PLACE_OF_INTEREST_SIGN	"\u2318"
+#define LEFTWARDS_ARROW			"\u2190"
+#define RIGHTWARDS_ARROW		"\u2192"
+#define SHIFT_ARROW				"\u21E7"
+#define OPTION_KEY				"\u2325"
+
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Arrows (%@ and %@)","Directional arrow keys word"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AISwitchArrows];
+	
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Shift + Arrows (%@ and %@)","Shift key word + Directional arrow keys word"), [NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AISwitchShiftArrows];
+	
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Option + Arrows (%@ and %@)","Option key word + Directional arrow keys word"), [NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AIOptArrows];	
+	
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Brackets (%@ and %@)","Word for [ and ] keys"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "["], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "]"]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AIBrackets];
+	
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Curly braces (%@ and %@)","Word for { and } keys"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "{"], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "}"]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AIBraces];
+	
+	
+	return [menu autorelease];		
 }
 
 - (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
