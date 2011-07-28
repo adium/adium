@@ -72,7 +72,7 @@
 	unichar 		left = NSLeftArrowFunctionKey;
 	unichar 		right = NSRightArrowFunctionKey;
 	NSString		*leftKey, *rightKey;
-	NSUInteger	keyMask = NSCommandKeyMask;
+	NSUInteger		leftKeyMask = NSCommandKeyMask, rightKeyMask = NSCommandKeyMask;
 	
 	switch ([[prefDict objectForKey:KEY_TAB_SWITCH_KEYS] integerValue]) {
 		case AISwitchArrows:
@@ -83,7 +83,7 @@
 		case AISwitchShiftArrows:
 			leftKey = [NSString stringWithCharacters:&left length:1];
 			rightKey = [NSString stringWithCharacters:&right length:1];
-			keyMask = (NSCommandKeyMask | NSShiftKeyMask);
+			leftKeyMask = rightKeyMask = (NSCommandKeyMask | NSShiftKeyMask);
 			break;
 		case AIBrackets:
 			leftKey = @"[";
@@ -96,7 +96,12 @@
 		case AIOptArrows:
 			leftKey = [NSString stringWithCharacters:&left length:1];
 			rightKey = [NSString stringWithCharacters:&right length:1];
-			keyMask = (NSCommandKeyMask | NSAlternateKeyMask);
+			leftKeyMask = rightKeyMask = (NSCommandKeyMask | NSAlternateKeyMask);
+			break;
+		case AICtrlTab:
+			leftKey = rightKey = @"\t";
+			leftKeyMask = (NSControlKeyMask | NSShiftKeyMask);
+			rightKeyMask = NSControlKeyMask;
 			break;
 	}
 
@@ -104,10 +109,10 @@
 	[[previousChatMenuItem menu] setMenuChangedMessagesEnabled:NO];		
 	[previousChatMenuItem setKeyEquivalent:@""];
 	[previousChatMenuItem setKeyEquivalent:leftKey];
-	[previousChatMenuItem setKeyEquivalentModifierMask:keyMask];
+	[previousChatMenuItem setKeyEquivalentModifierMask:leftKeyMask];
 	[nextChatMenuItem setKeyEquivalent:@""];
 	[nextChatMenuItem setKeyEquivalent:rightKey];
-	[nextChatMenuItem setKeyEquivalentModifierMask:keyMask];
+	[nextChatMenuItem setKeyEquivalentModifierMask:rightKeyMask];
 	[[previousChatMenuItem menu] setMenuChangedMessagesEnabled:YES];
 }
 
