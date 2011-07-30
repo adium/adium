@@ -159,7 +159,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AIJumpControlPlugin",
 		@"AIWebKitMessageViewPlugin",
 		@"AWBonjourPlugin",
-		@"CBPurpleServicePlugin",
+//		@"CBPurpleServicePlugin",
 		@"AIImageUploaderPlugin",
 		@"AITwitterStatusFollowup",
 		@"AIDoNothingContactAlertPlugin",
