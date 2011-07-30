@@ -258,6 +258,10 @@ static NSMutableDictionary *fileTransferDict = nil;
 		
 		if (percentDone >= 1.0) {
 			[self setStatus:Complete_FileTransfer];
+			
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"com.apple.DownloadFileFinished"
+																		   object:localFilename];
+			
 		} else if ((percentDone != 0) && (status != In_Progress_FileTransfer)) {
 			[self setStatus:In_Progress_FileTransfer];
 		}
