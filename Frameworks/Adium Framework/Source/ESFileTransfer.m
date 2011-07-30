@@ -262,6 +262,19 @@ static NSMutableDictionary *fileTransferDict = nil;
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"com.apple.DownloadFileFinished"
 																		   object:localFilename];
 			
+			FSRef fsRef;
+			
+			if (FSPathMakeRef((const UInt8 *)[localFilename fileSystemRepresentation], &fsRef, NULL) == noErr) {
+				
+				NSDictionary *quarantineProperties = [NSDictionary dictionaryWithObject:(NSString *)kLSQuarantineTypeInstantMessageAttachment
+																				 forKey:(NSString *)kLSQuarantineTypeKey];
+				
+				LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, quarantineProperties);
+				
+			} else {
+				AILogWithSignature(@"Danger! Could not find file to quarantine: %@!", localFilename);
+			}
+			
 		} else if ((percentDone != 0) && (status != In_Progress_FileTransfer)) {
 			[self setStatus:In_Progress_FileTransfer];
 		}
