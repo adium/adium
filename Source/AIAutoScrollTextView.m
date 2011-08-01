@@ -19,7 +19,7 @@
 #define ABOUT_SCROLL_FPS	30.0f
 #define ABOUT_SCROLL_RATE	1.0f
 
-@interface AIAutoScrollTextView (Private)
+@interface AIAutoScrollTextView ()
 - (void)startScrolling;
 - (void)stopScrolling;
 - (void)scrollTimer:(NSTimer *)scrollTimer;
@@ -27,34 +27,55 @@
 
 @implementation AIAutoScrollTextView
 
+
 - (void)loadText:(NSAttributedString *)textToLoad
 {
+    [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds]
+														options:(NSTrackingMouseEnteredAndExited |
+																 NSTrackingActiveAlways |
+																 NSTrackingInVisibleRect)
+														  owner:self
+													   userInfo:nil] autorelease]];
+
 	[[self textStorage] setAttributedString:textToLoad];
-	[self startScrolling];
+    [self startScrolling];
 }
 
 - (void)dealloc
 {
 	[scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
-	[eventLoopScrollTimer invalidate]; [eventLoopScrollTimer release]; eventLoopScrollTimer = nil;
+
 	[super dealloc];
 }
 
-//When the user scrolls stop the automatic scrolling
+// When the user scrolls stop the automatic scrolling
 - (void)scrollWheel:(NSEvent *)theEvent
 {
-	if (scrollTimer)
+   	if (scrollTimer) {
 		[self stopScrolling];
+    }
 
 	[super scrollWheel:theEvent];
 }
 
 - (void)toggleScrolling
 {
-	if (scrollTimer)
+	if (scrollTimer) {
 		[self stopScrolling];
-	else
+	} else{
 		[self startScrolling];
+
+    }
+}
+
+// Resume scrolling after leaving the bounds
+- (void)mouseExited:(NSEvent *)theEvent
+{
+    if (!scrollTimer) {
+        [self startScrolling];
+    }
+    
+    [super mouseExited:theEvent];
 }
 
 - (void)startScrolling
@@ -64,42 +85,37 @@
 	[[self enclosingScrollView] setVerticalScroller:nil];
 	[[self enclosingScrollView] setHasVerticalScroller:NO];
 	
-	//Start scrolling
+	// Start scrolling
 	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y;
-	maxScroll = [[self textStorage] size].height - [[self enclosingScrollView] documentVisibleRect].size.height;
-	scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0/ABOUT_SCROLL_FPS)
+	maxScroll = [[self textStorage] size].height;
+    
+	scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0f / ABOUT_SCROLL_FPS)
 													target:self
 												  selector:@selector(scrollTimer:)
 												  userInfo:nil
 												   repeats:YES] retain];
-	eventLoopScrollTimer = [[NSTimer timerWithTimeInterval:(1.0/ABOUT_SCROLL_FPS)
-													target:self
-												  selector:@selector(scrollTimer:)
-												  userInfo:nil
-												   repeats:YES] retain];
-	[[NSRunLoop currentRunLoop] addTimer:eventLoopScrollTimer forMode:NSEventTrackingRunLoopMode];
 }
 
 - (void)stopScrolling
 {
 	[scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
-	[eventLoopScrollTimer invalidate]; [eventLoopScrollTimer release]; eventLoopScrollTimer = nil;
 
-	//Enable scrolling and show the scrollbar
+	// Enable scrolling and show the scrollbar
 	[[self enclosingScrollView] setLineScroll:10.0f];
 	[[self enclosingScrollView] setPageScroll:10.0f];
 	[[self enclosingScrollView] setVerticalScroller:[[[NSScroller alloc] init] autorelease]];
-	[[self enclosingScrollView] setHasVerticalScroller:YES];
+    [[self enclosingScrollView] setHasVerticalScroller:YES];
 }
 
-//Scroll the credits
+// Scroll the credits
 - (void)scrollTimer:(NSTimer *)scrollTimer
 {
 	scrollLocation += ABOUT_SCROLL_RATE;
-	
-	if (scrollLocation > maxScroll) scrollLocation = 0;
-	if (scrollLocation < 0) scrollLocation = maxScroll;
-	
+
+	if (scrollLocation > maxScroll || scrollLocation < 0) {
+		scrollLocation = 0;
+    }
+    
 	[self scrollPoint:NSMakePoint(0, scrollLocation)];
 }
 

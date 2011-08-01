@@ -14,8 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-//$Id$
-
 #import "AISoundController.h"
 #import "LNAboutBoxController.h"
 #import <AIUtilities/AIEventAdditions.h>
@@ -28,14 +26,16 @@
 
 @interface LNAboutBoxController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
-- (NSString *)_applicationVersion;
-- (NSString *)_applicationDate;
+
+- (NSString *)AI_applicationVersion:(BOOL)withBuild;
+- (NSString *)AI_applicationDate;
 @end
 
 @implementation LNAboutBoxController
 
-//Returns the shared about box instance
+// Returns the shared about box instance
 LNAboutBoxController *sharedAboutBoxInstance = nil;
+
 + (LNAboutBoxController *)aboutBoxController
 {
     if (!sharedAboutBoxInstance) {
@@ -44,7 +44,7 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     return sharedAboutBoxInstance;
 }
 
-//Init
+// Init
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
     if ((self = [super initWithWindowNibName:windowNibName])) {
@@ -54,28 +54,27 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 	return self;
 }
 
-//Prepare the about box window
+// Prepare the about box window
 - (void)windowDidLoad
 {
-    NSAttributedString		*creditsString;
+    NSAttributedString *creditsString;
     
-    //Credits
+    // Credits
     creditsString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]
 										   documentAttributes:nil] autorelease];
 	[textView_credits loadText:creditsString];
 	
-    //Setup the build date / version
-    [button_buildButton setTitle:[self _applicationDate]];
-    [textField_version setStringValue:[self _applicationVersion]];
+    // Setup the build date / version
+    [textField_version setStringValue:[self AI_applicationVersion:NO]];
     
-	//Set the localized values
+	// Set the localized values
 	[button_homepage setLocalizedString:AILocalizedString(@"Adium Homepage",nil)];
 	[button_license setLocalizedString:AILocalizedString(@"License",nil)];
 
     [[self window] betterCenter];
 }
 
-//Cleanup as the window is closing
+// Cleanup as the window is closing
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
@@ -83,13 +82,13 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     [sharedAboutBoxInstance autorelease]; sharedAboutBoxInstance = nil;
 }
 
-//Visit the Adium homepage
+// Visit the Adium homepage
 - (IBAction)visitHomepage:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.adium.im"]];
 }
 
-//Receive the flags changed event for starting/stopping the automatic scroll via option
+// Receive the flags changed event for starting/stopping the automatic scroll via option
 - (void)flagsChanged:(NSEvent *)theEvent
 {
     if ([theEvent optionKey]) {
@@ -97,38 +96,40 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     }
 }
 
-
-//Build Information ----------------------------------------------------------------------------------------------------
 #pragma mark Build Information
-//Toggle build date/number display
+
+// Toggle build date/number display
 - (IBAction)buildFieldClicked:(id)sender
 {
     if ((++numberOfBuildFieldClicks) % 2 == 0) {
-        [button_buildButton setTitle:[self _applicationDate]];
+        [textField_version setStringValue:[self AI_applicationVersion:NO]];
     } else {
-		[button_buildButton setTitle:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"]];
+        [textField_version setStringValue:[self AI_applicationVersion:YES]];
     }
 }
 
-//Returns the current version of Adium
-- (NSString *)_applicationVersion
+// Returns the current version of Adium
+- (NSString *)AI_applicationVersion:(BOOL)withBuild
 {
-    NSString	*version = [NSApp applicationVersion];
-    return [NSString stringWithFormat:@"Adium %@",(version ? version : @"")];
+    NSString *version = [NSApp applicationVersion];
+
+    return [NSString stringWithFormat:@"%@%@ (%@)", @"Version ",
+                                    	(version ? version : @"X"),
+            							(withBuild ? [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"]
+                                                	: [self AI_applicationDate])];
 }
 
-//Returns the formatted build date of Adium
-- (NSString *)_applicationDate
+// Returns the formatted build date of Adium
+- (NSString *)AI_applicationDate
 {
 	NSTimeInterval date = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildDate"] doubleValue];
 
 	return [[NSDateFormatter localizedShortDateFormatter] stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]];
 }
 
-
-//Software License -----------------------------------------------------------------------------------------------------
 #pragma mark Software License
-//Display the software license sheet
+
+// Display the software license sheet
 - (IBAction)showLicense:(id)sender
 {
 	NSURL	*licenseURL = [NSURL fileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"License" ofType:@"txt"]];
@@ -143,17 +144,16 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 		  contextInfo:nil];
 }
 
-//Close the software license sheet
+// Close the software license sheet
 - (IBAction)hideLicense:(id)sender
 {
     [panel_licenseSheet orderOut:nil];
     [NSApp endSheet:panel_licenseSheet returnCode:0];
 }
 
-
-//Sillyness ----------------------------------------------------------------------------------------------------
 #pragma mark Sillyness
-//Flap the duck when clicked
+
+// Flap the duck when clicked
 - (IBAction)adiumDuckClicked:(id)sender
 {
     numberOfDuckClicks++;

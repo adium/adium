@@ -254,8 +254,6 @@
 		34064D110F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34064D0F0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h */; };
 		340670A90A55A4B4004E22AC /* ESGlassSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 340670A70A55A4B4004E22AC /* ESGlassSplitView.m */; };
 		34082675075B079800703011 /* Dock Icons in Copy Built-in Xtras */ = {isa = PBXBuildFile; fileRef = 3408254D075B078B00703011 /* Dock Icons */; };
-		34082690075B5CB900703011 /* Awake.png in Resources */ = {isa = PBXBuildFile; fileRef = 3408268E075B5CB900703011 /* Awake.png */; };
-		34082691075B5CB900703011 /* Flap.png in Resources */ = {isa = PBXBuildFile; fileRef = 3408268F075B5CB900703011 /* Flap.png */; };
 		340C1ABF0BD58FAB00D09235 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		340C1E770BD59A0500D09235 /* GBImportPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 340C1E750BD59A0500D09235 /* GBImportPlugin.m */; };
 		340D859B0ADC82D100D05B3F /* sourceListBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 340670790A55A044004E22AC /* sourceListBackground.png */; };
@@ -1392,6 +1390,7 @@
 		638BC1FC0FC932E000CE7600 /* AIObjectDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */; };
 		639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
 		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		639DF7710F97E61D003C9A32 /* CBPurpleServicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7F278A05440C8D00CDFC90 /* CBPurpleServicePlugin.m */; };
 		639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; };
 		639DF9150F97E639003C9A32 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		639DF9160F97E639003C9A32 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
@@ -1422,8 +1421,6 @@
 		76889DEB12D3CA17007AEF00 /* GetInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* GetInfo.png */; };
 		76889DEF12D3CA40007AEF00 /* Personal.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.png */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
-		76F507A913E484BA005CF8A1 /* CBPurpleServicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7F278A05440C8D00CDFC90 /* CBPurpleServicePlugin.m */; };
-		76F507AA13E484D2005CF8A1 /* CBPurpleServicePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B7F278905440C8D00CDFC90 /* CBPurpleServicePlugin.h */; };
 		7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E7CF7F11124B982001CFC73 /* libgstsdp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7CF7F01124B982001CFC73 /* libgstsdp.framework */; };
@@ -1489,8 +1486,13 @@
 		9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9718DF43136A2C5200013760 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9718DF44136A2C5200013760 /* AIImageCollectionView.m */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
+		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
+		97E4B4FF13E7490000A8BA53 /* AboutDialog_transp_btm.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */; };
+		97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FC13E7490000A8BA53 /* AboutDialog_transp_top.png */; };
+		97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FD13E7490000A8BA53 /* Flap_192.png */; };
+		97E4B50213E7490000A8BA53 /* Awake_192.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FE13E7490000A8BA53 /* Awake_192.png */; };
 		9E124DEC07D34C7300AA91C5 /* CBGrowlAlertDetailPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */; };
 		9E124DEE07D34C7400AA91C5 /* NEHGrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */; };
 		9E124DF107D34C9100AA91C5 /* GrowlAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DEF07D34C9000AA91C5 /* GrowlAlert.nib */; };
@@ -2114,8 +2116,6 @@
 		340670A70A55A4B4004E22AC /* ESGlassSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESGlassSplitView.m; path = Source/ESGlassSplitView.m; sourceTree = "<group>"; };
 		3407AE870E0452A300DCE4B1 /* da */ = {isa = PBXFileReference; lastKnownFileType = folder; name = da; path = "Resources/da.lproj/Shared Dock Icon Images"; sourceTree = "<group>"; };
 		3408254D075B078B00703011 /* Dock Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Dock Icons"; path = "Resources/Dock Icons"; sourceTree = "<group>"; };
-		3408268E075B5CB900703011 /* Awake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Awake.png; path = "Resources/Dock Icons/Adiumy Green.AdiumIcon/Awake.png"; sourceTree = "<group>"; };
-		3408268F075B5CB900703011 /* Flap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flap.png; path = "Resources/Dock Icons/Adiumy Green.AdiumIcon/Flap.png"; sourceTree = "<group>"; };
 		340833EA075C3A7900703011 /* AILocalizationTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILocalizationTextField.h; path = "Frameworks/Adium Framework/Source/AILocalizationTextField.h"; sourceTree = "<group>"; };
 		340833EB075C3A7900703011 /* AILocalizationTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILocalizationTextField.m; path = "Frameworks/Adium Framework/Source/AILocalizationTextField.m"; sourceTree = "<group>"; };
 		340915F105C0A5DF00CDE3DD /* PurpleCommon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PurpleCommon.h; path = "Plugins/Purple Service/PurpleCommon.h"; sourceTree = "<group>"; };
@@ -4666,9 +4666,14 @@
 		9718DF43136A2C5200013760 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.h"; sourceTree = "<group>"; };
 		9718DF44136A2C5200013760 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.m"; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
+		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
 		97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactListUserPictureMenuController.m; path = Source/AIContactListUserPictureMenuController.m; sourceTree = "<group>"; };
 		97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListChangeUserPictureMenu.xib; path = Resources/ContactListChangeUserPictureMenu.xib; sourceTree = "<group>"; };
+		97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_transp_btm.png; path = Resources/AboutDialog_transp_btm.png; sourceTree = "<group>"; };
+		97E4B4FC13E7490000A8BA53 /* AboutDialog_transp_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_transp_top.png; path = Resources/AboutDialog_transp_top.png; sourceTree = "<group>"; };
+		97E4B4FD13E7490000A8BA53 /* Flap_192.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flap_192.png; path = Resources/Flap_192.png; sourceTree = "<group>"; };
+		97E4B4FE13E7490000A8BA53 /* Awake_192.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Awake_192.png; path = Resources/Awake_192.png; sourceTree = "<group>"; };
 		9C103FAE057127A500F3C158 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		9E124DE707D34C7300AA91C5 /* CBGrowlAlertDetailPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CBGrowlAlertDetailPane.h; path = Source/CBGrowlAlertDetailPane.h; sourceTree = "<group>"; };
 		9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CBGrowlAlertDetailPane.m; path = Source/CBGrowlAlertDetailPane.m; sourceTree = "<group>"; };
@@ -8529,8 +8534,11 @@
 				D3DA2E40052E65E400A8010B /* LNAboutBoxController.h */,
 				D3DA2E3E052E65DE00A8010B /* LNAboutBoxController.m */,
 				3402E02D07CB0DBB0044F818 /* AboutBox.nib */,
-				3408268E075B5CB900703011 /* Awake.png */,
-				3408268F075B5CB900703011 /* Flap.png */,
+				97E4B4FE13E7490000A8BA53 /* Awake_192.png */,
+				97E4B4FD13E7490000A8BA53 /* Flap_192.png */,
+				9760D24513E49A560031FA1A /* AboutDialog_bg.png */,
+				97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */,
+				97E4B4FC13E7490000A8BA53 /* AboutDialog_transp_top.png */,
 				3474DFFC08254F3500BF30F0 /* Copyright.txt */,
 				4B191D880611C10800E8A4E7 /* License.txt */,
 				3474DFFF082550FD00BF30F0 /* Credits.rtf */,
@@ -8975,7 +8983,6 @@
 				3485DBC809EBCE7400232CC4 /* ESPurpleFileReceiveRequestController.h in Headers */,
 				3485DBCA09EBCE7400232CC4 /* ESPurpleRequestActionController.h in Headers */,
 				34C7C62809EC4E890060FB4A /* AILibpurplePlugin.h in Headers */,
-				76F507AA13E484D2005CF8A1 /* CBPurpleServicePlugin.h in Headers */,
 				34E036720A75AA4F00394F11 /* CBOscarService.h in Headers */,
 				34E036740A75AA4F00394F11 /* CBPurpleOscarAccount.h in Headers */,
 				34E036760A75AA4F00394F11 /* DCPurpleOscarJoinChatViewController.h in Headers */,
@@ -9687,8 +9694,6 @@
 				4BF98DCD06D149EE00E8781D /* ContactStatusColoringDefaults.plist in Resources */,
 				3461621406FB482D009181D8 /* UserList Theme.plist in Resources */,
 				3461621706FB482D009181D8 /* UserList Layout.plist in Resources */,
-				34082690075B5CB900703011 /* Awake.png in Resources */,
-				34082691075B5CB900703011 /* Flap.png in Resources */,
 				346BA3640774C35500628F06 /* GlobalEventsPreferences.nib in Resources */,
 				34C6A3BC077A8CB500EB423C /* AppearanceDefaults.plist in Resources */,
 				34C14D5107A8BA00003CC138 /* EmoticonPackPreview.nib in Resources */,
@@ -9867,6 +9872,11 @@
 				9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */,
 				5ADFFE5D133846C300069C1B /* keys.png in Resources */,
 				5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */,
+				9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */,
+				97E4B4FF13E7490000A8BA53 /* AboutDialog_transp_btm.png in Resources */,
+				97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */,
+				97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */,
+				97E4B50213E7490000A8BA53 /* Awake_192.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10049,7 +10059,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76F507A913E484BA005CF8A1 /* CBPurpleServicePlugin.m in Sources */,
 				1181976810D0B0D2003E8ECA /* adiumPurpleMedia.m in Sources */,
 				1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */,
 				117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
@@ -10217,6 +10226,7 @@
 				6318DBBC0F8D940A00C5E584 /* AIWebKitPreviewMessageViewController.m in Sources */,
 				34BD9D4A053146CC000AB133 /* main.m in Sources */,
 				34BD9D54053146CC000AB133 /* AIAdium.m in Sources */,
+				639DF7710F97E61D003C9A32 /* CBPurpleServicePlugin.m in Sources */,
 				34BD9D4C053146CC000AB133 /* AIContactInfoWindowController.m in Sources */,
 				34BD9D56053146CC000AB133 /* LNAboutBoxController.m in Sources */,
 				4BD6737406001BF00049CAF7 /* AIAccountListPreferencesPlugin.m in Sources */,
