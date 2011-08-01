@@ -18,6 +18,8 @@
 #import "AIAutoScrollTextView.h"
 
 @interface LNAboutBoxController : AIWindowController {
+
+@private
 	IBOutlet	NSPanel		*panel_licenseSheet;
 	IBOutlet	NSTextView	*textView_license;
 	
@@ -28,8 +30,8 @@
 	IBOutlet	NSTextField				*textField_version;
 	IBOutlet	AIAutoScrollTextView	*textView_credits;
 
-	//Version and duck clicking
-    NSInteger						numberOfDuckClicks, numberOfBuildFieldClicks;
+	// Version and duck clicking
+    NSInteger numberOfDuckClicks, numberOfBuildFieldClicks;
 }
 
 + (LNAboutBoxController *)aboutBoxController;
