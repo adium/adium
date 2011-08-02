@@ -27,6 +27,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIChat.h>
 
@@ -34,6 +35,10 @@
 #define UNBLOCK						AILocalizedString(@"Unblock","Unblock Contact menu item")
 #define BLOCK_MENUITEM				[BLOCK stringByAppendingEllipsis]
 #define UNBLOCK_MENUITEM			[UNBLOCK stringByAppendingEllipsis]
+#define BLOCK_GROUP					AILocalizedString(@"Block Group","Block Group menu item")
+#define UNBLOCK_GROUP				AILocalizedString(@"Unblock Group","Unblock Group menu item")
+#define BLOCK_GROUP_MENUITEM		[BLOCK_GROUP stringByAppendingEllipsis]
+#define UNBLOCK_GROUP_MENUITEM		[UNBLOCK_GROUP stringByAppendingEllipsis]
 #define TOOLBAR_ITEM_IDENTIFIER		@"BlockParticipants"
 #define TOOLBAR_BLOCK_ICON_KEY		@"Block"
 #define TOOLBAR_UNBLOCK_ICON_KEY	@"Unblock"
@@ -44,6 +49,9 @@
 - (BOOL)areAllGivenContactsBlocked:(NSArray *)contacts;
 - (void)setPrivacy:(BOOL)block forContacts:(NSArray *)contacts;
 - (IBAction)blockOrUnblockParticipants:(NSToolbarItem *)senderItem;
+- (BOOL)blockContactInGroup:(AIListContact *)contact withBlock:(BOOL)isBlock;
+- (BOOL)contactIsBlocked:(AIListContact *)chkContact;
+
 
 //protocols
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
@@ -152,12 +160,36 @@
 			  adium.interfaceController.selectedListObject :
 			  adium.menuController.currentContextMenuObject);
 	
-	//Don't do groups
+	//Handles group block
+	if ([object isKindOfClass:[AIListGroup class]]) {
+		BOOL			shouldBlock;
+		NSString		*format;
+		AIListGroup *group = (AIListGroup *)object;
+		shouldBlock = [[sender title] isEqualToString:BLOCK_GROUP_MENUITEM];
+		format = (shouldBlock ? 
+				  AILocalizedString(@"Are you sure you want to block all contacts in the group %@?",nil) :
+				  AILocalizedString(@"Are you sure you want to unblock all contacts in the group %@?",nil));
+		
+		if (NSRunAlertPanel([NSString stringWithFormat:format, [group displayName]],
+							@"",
+							(shouldBlock ? BLOCK_GROUP : UNBLOCK_GROUP),
+							AILocalizedString(@"Cancel", nil),
+							nil) == NSAlertDefaultReturn) {
+			
+			//iterate over all contacts in the group
+			AIListContact *curContact = nil;
+			for (curContact in [group uniqueContainedObjects]) {
+				[self blockContactInGroup:curContact withBlock:shouldBlock];
+			}
+		}
+	}
+	
+	//Handle single contact group
 	if ([object isKindOfClass:[AIListContact class]]) {
 		AIListContact	*contact = (AIListContact *)object;
 		BOOL			shouldBlock;
 		NSString		*format;
-
+		
 		shouldBlock = [[sender title] isEqualToString:BLOCK_MENUITEM];
 		format = (shouldBlock ? 
 				  AILocalizedString(@"Are you sure you want to block %@?",nil) :
@@ -225,7 +257,39 @@
 		object = adium.menuController.currentContextMenuObject;
 	}
 	
-	//Don't do groups
+	// For handling groups
+	if ([object isKindOfClass:[AIListGroup class]]) {
+		AIListGroup *group = (AIListGroup *)object;
+		
+		//iterate over contacts in group
+		NSInteger	numContactsBlocked = 0;
+		NSInteger	numContactsUnblocked = 0;
+		AIListContact *curContact = nil;
+		
+		for (curContact in [group uniqueContainedObjects]) {
+			if ([self contactIsBlocked:curContact]) {
+				numContactsBlocked++;
+			} else {
+				numContactsUnblocked++;
+			}
+		}
+		
+		if (numContactsBlocked || numContactsUnblocked) {
+			// if there are more blocked in the group, menu says "Unblock..."
+			if (numContactsBlocked > numContactsUnblocked) {
+				[menuItem setTitle:UNBLOCK_GROUP_MENUITEM];
+			} else {
+				[menuItem setTitle:BLOCK_GROUP_MENUITEM];
+			}
+
+			return YES;
+		} else {
+			return NO;
+		}
+
+	}
+	
+	// For handling contacts
 	if ([object isKindOfClass:[AIListContact class]]) {
 		//Handle metas
 		if ([object isKindOfClass:[AIMetaContact class]]) {
@@ -378,6 +442,130 @@
 			[currentContact setIsBlocked:YES updateList:NO];
 		}
 	}
+}
+
+/*!
+ * @brief Used in conjunction with blocking a group, to block every contact in that group
+ *
+ * @param contact The contact to block
+ * @result A flag indicating if the block was succesful
+ */
+- (BOOL)blockContactInGroup:(AIListContact *)contact withBlock:(BOOL)isBlock
+{		
+	//Handle metas
+	if ([contact isKindOfClass:[AIMetaContact class]]) {
+		AIMetaContact *meta = (AIMetaContact *)contact;
+		
+		//Enumerate over the various list contacts contained
+		AIListContact *containedContact = nil;
+		
+		for (containedContact in [meta uniqueContainedObjects]) {
+			AIAccount *acct = containedContact.account;
+			if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+				[self _setContact:containedContact isBlocked:isBlock];
+			} else {
+				NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", acct, containedContact);
+			}
+		}
+	} else {
+		AIAccount *acct = contact.account;
+		if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+			[self _setContact:contact isBlocked:isBlock];
+		} else {
+			NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", acct, contact);
+		}
+	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
+														object:nil];		
+	
+	return YES;
+}
+
+/*!
+ * @brief Checks if a contact is blocked, used in conjunction with group blocking
+ *
+ * @param contact The contact to check
+ * @result A flag indicating if the contact is blocked
+ */
+- (BOOL)contactIsBlocked:(AIListContact *)chkContact
+{
+	//Handle metas
+	if ([chkContact isKindOfClass:[AIMetaContact class]]) {
+		AIMetaContact *meta = (AIMetaContact *)chkContact;
+		
+		//Enumerate over the various list contacts contained
+		AIListContact	*contact = nil;
+		NSInteger				votesForBlocked = 0;
+		NSInteger				votesForUnblocked = 0;
+		
+		for (contact in [meta uniqueContainedObjects]) {
+			AIAccount *acct = contact.account;
+			if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+				AIPrivacyType privType = (([(AIAccount <AIAccount_Privacy> *)acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
+				if ([[(AIAccount <AIAccount_Privacy> *)acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
+					switch (privType) {
+						case AIPrivacyTypePermit:
+							/* He's on a permit list. The action would remove him, blocking him */
+							votesForUnblocked++;
+							break;
+						case AIPrivacyTypeDeny:
+							/* He's on a deny list. The action would remove him, unblocking him */
+							votesForBlocked++;
+							break;
+					}
+					
+				} else {
+					switch (privType) {
+						case AIPrivacyTypePermit:
+							/* He's not on the permit list. The action would add him, unblocking him */
+							votesForBlocked++;
+							break;
+						case AIPrivacyTypeDeny:
+							/* He's not on a deny list. The action would add him, blocking him */
+							votesForUnblocked++;
+							break;
+					}						
+				}
+			}
+		}
+		
+		if (votesForBlocked) {
+			return YES;
+		} else {
+			return NO;
+		}
+		
+	} else {
+		AIListContact *contact = (AIListContact *)chkContact;
+		AIAccount *acct = chkContact.account;
+		if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+			AIPrivacyType privType = (([(AIAccount <AIAccount_Privacy> *)acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
+			if ([[(AIAccount <AIAccount_Privacy> *)acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
+				switch (privType) {
+					case AIPrivacyTypePermit:
+						// He's on a permit list, therefore he is not blocked
+						return NO;
+					case AIPrivacyTypeDeny:
+						// He's on a deny list, therefore he is blocked
+						return YES;
+				}
+				
+			} else {
+				switch (privType) {
+					case AIPrivacyTypePermit:
+						// He's not on the permit list, therefore he is blocked
+						return YES;
+					case AIPrivacyTypeDeny:
+						// He's not on a deny list, therefore he is unblocked
+						return NO;
+				}						
+			}
+			
+			return NO;
+		}
+	}
+	
+	return NO;
 }
 
 /*!
