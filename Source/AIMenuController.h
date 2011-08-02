@@ -107,6 +107,7 @@
 	IBOutlet	NSMenuItem	*menuItem_pasteAndMatchStyle;
 	IBOutlet	NSMenuItem	*menuItem_clear;
 	IBOutlet	NSMenuItem	*menuItem_selectAll;
+	IBOutlet	NSMenuItem	*menuItem_deselectAll;
 	
 	IBOutlet	NSMenuItem	*menuItem_find;
 	IBOutlet	NSMenuItem	*menuItem_findCommand;

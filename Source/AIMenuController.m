@@ -445,6 +445,7 @@
 	[menuItem_pasteAndMatchStyle setTitle:AILocalizedString(@"Paste and Match Style",nil)];
 	[menuItem_clear setTitle:AILocalizedString(@"Clear",nil)];
 	[menuItem_selectAll setTitle:AILocalizedString(@"Select All",nil)];
+    [menuItem_deselectAll setTitle:AILocalizedString(@"Deselect All",nil)];
 
 #define TITLE_FIND AILocalizedString(@"Find",nil)
 	[menuItem_find setTitle:TITLE_FIND];
