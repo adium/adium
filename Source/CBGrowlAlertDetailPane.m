@@ -59,6 +59,7 @@
 	[super viewDidLoad];
 	
 	[checkBox_sticky setLocalizedString:AILocalizedString(@"Sticky","Growl contact alert label")];
+    [checkBox_timestamp setLocalizedString:AILocalizedString(@"Show time stamp", "Growl contact alert label")];
 	[label_priority setLocalizedString:AILocalizedString(@"Priority:", "Priority label for Growl")];
 	
 	[popUp_priority setMenu:[self priorityMenu]];
@@ -117,6 +118,7 @@
 - (void)configureForActionDetails:(NSDictionary *)inDetails listObject:(AIListObject *)inObject
 {
 	[checkBox_sticky setState:([[inDetails objectForKey:KEY_GROWL_ALERT_STICKY] boolValue] ? NSOnState : NSOffState)];
+    [checkBox_timestamp setState:([[inDetails objectForKey:KEY_GROWL_ALERT_TIME_STAMP] boolValue] ? NSOnState : NSOffState)];
 	[popUp_priority selectItemWithTag:[[inDetails objectForKey:KEY_GROWL_PRIORITY] integerValue]];
 }
 
@@ -127,6 +129,7 @@
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithBool:([checkBox_sticky state] == NSOnState)], KEY_GROWL_ALERT_STICKY,
+            [NSNumber numberWithBool:([checkBox_timestamp state] == NSOnState)], KEY_GROWL_ALERT_TIME_STAMP,
 			[NSNumber numberWithInteger:[popUp_priority selectedItem].tag], KEY_GROWL_PRIORITY, nil];
 }
 
