@@ -50,6 +50,8 @@
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_AWAY withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+    [adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTENT_GROUP_CHAT_MENTION withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	
 	//Observe chat changes
@@ -179,6 +181,10 @@
 		description = AILocalizedString(@"Sends a message in a group chat",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
 		description = AILocalizedString(@"Sends a message in a background group chat",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY]) {
+		description = AILocalizedString(@"Sends a message while away",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
+		description = AILocalizedString(@"Sends a message in a group chat while away",nil);
 	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 		description = AILocalizedString(@"Is mentioned in a group chat message", nil);
 	} else {
@@ -206,6 +212,10 @@
 		description = AILocalizedString(@"Message received (Group Chat)",nil);
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
 		description = AILocalizedString(@"Message received (Background Group Chat)",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY]) {
+		description = AILocalizedString(@"Message received (Away)",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
+		description = AILocalizedString(@"Message received (Away Group Chat)",nil);
 	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 		description = AILocalizedString(@"You are mentioned (Group Chat)", nil);
 	} else {
@@ -235,6 +245,10 @@
 		description = @"Message Received (Group Chat)";
 	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
 		description = @"Message Received (Background Group Chat)";
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY]) {
+		description = @"Message Received (Away)";
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
+		description = @"Message Received (Away Group Chat)";
 	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 		description = @"You Are Mentioned (Group Chat)";
 	} else {
@@ -266,6 +280,10 @@
 			format = AILocalizedString(@"When %@ sends a message to you in a group chat",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
 			format = AILocalizedString(@"When %@ sends a message to you in a background group chat",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY]) {
+			format = AILocalizedString(@"When %@ sends a message to you while you are away",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
+			format = AILocalizedString(@"When %@ sends a message to you in a group chat while you are way",nil);
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			format = AILocalizedString(@"When %@ sends a message that mentions your name in a group chat", nil);
 		} else {
@@ -295,6 +313,10 @@
 			description = AILocalizedString(@"When you receive a message in a group chat",nil);
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
 			description = AILocalizedString(@"When you receive a message in a background group chat",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY]) {
+			description = AILocalizedString(@"When you receive a message while away",nil);
+		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
+			description = AILocalizedString(@"When you receive a message in a group chat while away",nil);
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = AILocalizedString(@"When you receive a message that mentions your name in a group chat", nil);
 		} else {
@@ -340,7 +362,9 @@
 			
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] ||
 				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
-				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND]) {
+				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND] ||
+				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY] ||
+                   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
 			displayName = contentObject.source.displayName;
 			
 			if (messageText && [messageText length]) {
@@ -365,6 +389,8 @@
 				[eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND] ||
 				[eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_GROUP] ||
 				[eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP] || 
+				[eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY] ||
+                [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP] ||
 				[eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 				//Use the message received text for all message received events if we don't have a message
 				description = [self globalShortDescriptionForEventID:CONTENT_MESSAGE_RECEIVED];
@@ -426,7 +452,9 @@
 			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
 			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND] ||
 			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_GROUP] ||
-			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP] ||
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY] ||
+               [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_AWAY_GROUP]) {
 		format = AILocalizedString(@"%u messages received", nil);
 	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 		format = AILocalizedString(@"%u mentions received", nil);
