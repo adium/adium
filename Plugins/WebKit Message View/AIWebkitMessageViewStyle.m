@@ -1342,7 +1342,7 @@
 
 - (NSString *)iconPathForFileTransfer:(ESFileTransfer *)inObject
 {
-	NSString	*filename = [NSString stringWithFormat:@"TEMP-%@%@.tiff", [inObject remoteFilename], [NSString randomStringOfLength:5]];
+	NSString	*filename = [NSString stringWithFormat:@"TEMP-%@%@.tiff", [inObject uniqueID], [NSString randomStringOfLength:5]];
 	return [[adium cachesPath] stringByAppendingPathComponent:filename];
 }
 
