@@ -16,6 +16,7 @@
 
 #import "NEHGrowlPlugin.h"
 #import "CBGrowlAlertDetailPane.h"
+#import "AIWebKitMessageViewPlugin.h"
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -41,6 +42,8 @@
 
 #define GROWL_ALERT							AILocalizedString(@"Display a Growl notification",nil)
 #define GROWL_STICKY_ALERT					AILocalizedString(@"Display a sticky Growl notification",nil)
+#define GROWL_STICKY_TIME_STAMP_ALERT       AILocalizedString(@"Display a sticky Growl notification with a time stamp", nil)
+#define GROWL_TIME_STAMP_ALERT              AILocalizedString(@"Display a Growl notification with a time stamp", nil)
 
 #define GROWL_INSTALLATION_WINDOW_TITLE		AILocalizedString(@"Growl Installation Recommended", "Growl installation window title")
 #define GROWL_UPDATE_WINDOW_TITLE			AILocalizedString(@"Growl Update Available", "Growl update window title")
@@ -165,9 +168,13 @@
  */
 - (NSString *)longDescriptionForActionID:(NSString *)actionID withDetails:(NSDictionary *)details
 {
-	if ([[details objectForKey:KEY_GROWL_ALERT_STICKY] boolValue]) {
+    if (([[details objectForKey:KEY_GROWL_ALERT_TIME_STAMP] boolValue]) && ([[details objectForKey:KEY_GROWL_ALERT_STICKY] boolValue])) {
+		return GROWL_STICKY_TIME_STAMP_ALERT;
+	} else if ([[details objectForKey:KEY_GROWL_ALERT_STICKY] boolValue]) {
 		return GROWL_STICKY_ALERT;
-	} else {
+	} else if ([[details objectForKey:KEY_GROWL_ALERT_TIME_STAMP] boolValue]) {
+		return GROWL_TIME_STAMP_ALERT;
+    } else {
 		return GROWL_ALERT;
 	}
 }
@@ -356,6 +363,7 @@
 {
 	NSString			*title, *description;
 	AIChat				*chat = nil;
+    AIContentObject     *contentObject = nil;
 	NSData				*iconData = nil;
 	NSMutableDictionary	*clickContext = [NSMutableDictionary dictionary];
 	NSString			*identifier = nil;
@@ -364,8 +372,8 @@
 	if ([adium.contactAlertsController isMessageEvent:eventID] &&
 		[userInfo respondsToSelector:@selector(objectForKey:)] &&
 		[userInfo objectForKey:@"AIContentObject"]) {
-		AIContentObject	*contentObject = [userInfo objectForKey:@"AIContentObject"];
-		AIListObject	*source = [contentObject source];
+        AIListObject	*source = [contentObject source];
+		contentObject = [userInfo objectForKey:@"AIContentObject"];
 		chat = [userInfo objectForKey:@"AIChat"];
 		
 		if (source) listObject = source;
@@ -428,11 +436,28 @@
 			title = @"Adium";
 		}
 	}
-	
-	description = [adium.contactAlertsController naturalLanguageDescriptionForEventID:eventID
-				   listObject:listObject
-				   userInfo:userInfo
-				   includeSubject:NO];
+    
+	description = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:eventID
+                                                                             listObject:listObject
+                                                                               userInfo:userInfo
+                                                                         includeSubject:NO];
+    
+	// Append event time stamp if preference is set
+	if ([[details objectForKey:KEY_GROWL_ALERT_TIME_STAMP] boolValue]) {
+        NSDateFormatter *timeStampFormatter = [[NSDateFormatter alloc] init];
+        [timeStampFormatter setFormatterBehavior:NSDateFormatterBehaviorDefault];
+		
+        // Set the format to the user's system defined short style
+		[timeStampFormatter setTimeStyle:NSDateFormatterShortStyle];
+
+        // For a message event use the contentObject's date otherwise use the current date
+		NSDate *dateStamp = (contentObject) ? [contentObject date] : [NSDate date];
+		
+        description = [NSString stringWithFormat:AILocalizedString(@"[%@] %@", "A Growl notification with a timestamp. The first %@ is the timestamp, the second is the main string"), [timeStampFormatter stringFromDate:dateStamp], description];
+		
+        [timeStampFormatter release];
+	}
+    
 	
 	if (([eventID isEqualToString:CONTACT_STATUS_ONLINE_YES] ||
 		 [eventID isEqualToString:CONTACT_STATUS_ONLINE_NO] ||

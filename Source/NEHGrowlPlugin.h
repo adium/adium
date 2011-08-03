@@ -17,17 +17,18 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Growl/GrowlApplicationBridge.h>
 
-#define KEY_GROWL_ALERT_STICKY	@"Growl Sticky"
-#define KEY_GROWL_PRIORITY		@"Growl Priority"
+#define KEY_GROWL_ALERT_STICKY		@"Growl Sticky"
+#define KEY_GROWL_PRIORITY			@"Growl Priority"
+#define KEY_GROWL_ALERT_TIME_STAMP	@"Growl Time Stamp"
 #define GROWL_QUEUE_WAIT		0.75 // Seconds to wait before clearing an event type's queue
 #define GROWL_QUEUE_POST_COUNT	5
 
 @protocol GrowlApplicationBridgeDelegate;
 
 @interface NEHGrowlPlugin : AIPlugin <AIActionHandler, GrowlApplicationBridgeDelegate> {
-	BOOL			 showWhileAway;
+	BOOL showWhileAway;
 	
-	NSMutableDictionary		*queuedEvents;
+	NSMutableDictionary	*queuedEvents;
 }
 
 @end

@@ -18,7 +18,7 @@
 
 @interface CBGrowlAlertDetailPane : AIActionDetailsPane {
 	IBOutlet	NSButton		*checkBox_sticky;
-	
+	IBOutlet    NSButton		*checkBox_timestamp;
 	IBOutlet	NSTextField		*label_priority;
 	IBOutlet	NSPopUpButton	*popUp_priority;
 }
