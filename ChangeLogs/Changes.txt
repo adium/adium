@@ -23,6 +23,7 @@ Version 1.5 (X/X/2011)
   * Made the user picture an image well, added drag and drop support.
   * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (#9908)
   * Added support for blocking/unblocking all contacts in a group. (Conor Branagan) (#2177)
+  * Added a "Deselect All" option to the "Edit" menu. (based on a patch by Tyler Funnell). (#10208)
 
  Dock icon
   * Moved the dock badge to the top right to be consistent with other Mac OS X applications such as Mail. (#13439)
@@ -93,16 +94,17 @@ Version 1.5 (X/X/2011)
   * The contact window's toolbar items now have appropriate labels. (#13010)
 
  Miscellaneous
+  * The Downloads stack in the Dock will now bounce when Adium finishes receiving a file.
+  * Added the ability to add timestamps to Growl notifications. (Stuart Connolly) (#9920)
+  * Quarantine received files after downloading, so the Finder will show a warning before opening received applications (similar to Safari).
   * Added the "On Accounts" table to the nextKeyView in the 'Add Contact' window. (#14269)
+  * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for graphics)
   * Updated Adium Help documentation to look native on OS X Lion. (Paul Wilde) (#15357)
   * Added a menu item to view release notes in the help menu. (#8569)
   * Miscellaneous improvements to Copyright.txt file.
   * Rewrote the libpurple eventloop to use libdispatch. (#13932)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
-  * The Downloads stack in the Dock will now bounce when Adium finishes receiving a file.
-  * Quarantine received files after downloading, so the Finder will show a warning before opening received applications (similar to Safari).
-  * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for gfx)
-  * Added "Deselect All" in Main Menu -> Edit (based on Tyler Funnell's patch) (#10208)
+
 
 Version 1.4.2 (06/13/2011)
  Updated to libpurple 2.7.11. Highlights of applicable changes:
