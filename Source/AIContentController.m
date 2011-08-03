@@ -546,6 +546,14 @@
 				}
 				[chat setHasSentOrReceivedContent:YES];
 			}
+
+			if ([chat.account.statusState statusType] != AIAvailableStatusType) {
+				//If the account is not available, generate CONTENT_MESSAGE_RECEIVED_AWAY
+				previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:(chat.isGroupChat ? CONTENT_MESSAGE_RECEIVED_AWAY_GROUP : CONTENT_MESSAGE_RECEIVED_AWAY)
+																				forListObject:listObject
+																					 userInfo:userInfo
+																 previouslyPerformedActionIDs:previouslyPerformedActionIDs];					
+			}
 			
 			if (chat != adium.interfaceController.activeChat) {
 				//If the chat is not currently active, generate CONTENT_MESSAGE_RECEIVED_BACKGROUND
