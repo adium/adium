@@ -401,8 +401,22 @@
 				break;
 
 			case AISecureMessagingMenu_Toggle:
-				//The menu item should indicate what will happen if it is selected.. the opposite of our secure state
-				[menuItem setTitle:([chat isSecure] ? TITLE_MAKE_INSECURE : TITLE_MAKE_SECURE)];
+				// The menu item should indicate what will happen if it is selected.. the opposite of our secure state
+				if ([chat isSecure]) {
+					[menuItem setTitle:TITLE_MAKE_INSECURE];
+				} else {
+					[menuItem setTitle:TITLE_MAKE_SECURE];
+				
+					AIListContact *listContact = chat.listObject.parentContact;
+					AIEncryptedChatPreference userPreference = [[listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
+																						group:GROUP_ENCRYPTION] intValue];
+					
+					// Disable 'Initiate Encrypted OTR Chat' menu item if chat encryption is disabled
+					if (userPreference == EncryptedChat_Never) {
+                    	return NO;
+                    }
+				}
+
 				return YES;
 				break;
 				
