@@ -11,11 +11,15 @@ body {
 
 #banner, #nav {
 	display: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	margin: 0 -22px;
+	padding: 7px 0;
 	font-size: 1.2em;
 	text-align: right;
-	padding: 7px 0;
 	border-bottom: 1px solid #EEE;
-	margin: 0 -22px;
+	background: #fff;
 }
 
 .navleftsty {
@@ -26,8 +30,7 @@ body {
 #caticon {
 	display: block;
 	float: left;
-	position: relative;
-	top: 7px;
+	padding-top: 7px;
 }
 
 #pagetitle {
