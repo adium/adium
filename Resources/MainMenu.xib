@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
+<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
+		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11A511</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
@@ -10,25 +10,16 @@
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1617</string>
 		</object>
-		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
-			<bool key="EncodedWithXMLCoder">YES</bool>
+		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
 			<string>NSCustomObject</string>
-		</object>
-		<object class="NSArray" key="IBDocument.PluginDependencies">
-			<bool key="EncodedWithXMLCoder">YES</bool>
+		</array>
+		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<reference key="dict.values" ref="0"/>
-		</object>
-		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1036508854">
-			<bool key="EncodedWithXMLCoder">YES</bool>
+		</array>
+		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1036508854">
 			<object class="NSCustomObject" id="499278244">
 				<string key="NSClassName">AIApplication</string>
 			</object>
@@ -46,8 +37,7 @@
 			</object>
 			<object class="NSMenu" id="746759550">
 				<string key="NSTitle">menubartest</string>
-				<object class="NSMutableArray" key="NSMenuItems">
-					<bool key="EncodedWithXMLCoder">YES</bool>
+				<array class="NSMutableArray" key="NSMenuItems">
 					<object class="NSMenuItem" id="1050321965">
 						<reference key="NSMenu" ref="746759550"/>
 						<string key="NSTitle">Adium</string>
@@ -65,8 +55,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="123945392">
 							<string key="NSTitle">Adium</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="775734039">
 									<reference key="NSMenu" ref="123945392"/>
 									<string key="NSTitle">About Adium</string>
@@ -170,9 +159,7 @@
 										<object class="NSMutableString" key="NSTitle">
 											<characters key="NS.bytes">Services</characters>
 										</object>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
-										</object>
+										<array class="NSMutableArray" key="NSMenuItems"/>
 										<string key="NSName">_NSServicesMenu</string>
 									</object>
 								</object>
@@ -234,7 +221,7 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 							<string key="NSName">_NSAppleMenu</string>
 						</object>
 					</object>
@@ -249,8 +236,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="580936113">
 							<string key="NSTitle">File</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="443456614">
 									<reference key="NSMenu" ref="580936113"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -319,15 +305,6 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-								<object class="NSMenuItem" id="295262764">
-									<reference key="NSMenu" ref="580936113"/>
-									<string key="NSTitle">Page Setup...</string>
-									<string key="NSKeyEquiv">P</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="145266427"/>
-									<reference key="NSMixedImage" ref="551713053"/>
-								</object>
 								<object class="NSMenuItem" id="946253641">
 									<reference key="NSMenu" ref="580936113"/>
 									<string key="NSTitle">Print...</string>
@@ -337,7 +314,7 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="719486633">
@@ -353,8 +330,7 @@
 							<object class="NSMutableString" key="NSTitle">
 								<characters key="NS.bytes">Edit</characters>
 							</object>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="709355717">
 									<reference key="NSMenu" ref="758315211"/>
 									<string key="NSTitle">Undo</string>
@@ -480,8 +456,7 @@
 										<object class="NSMutableString" key="NSTitle">
 											<characters key="NS.bytes">Find</characters>
 										</object>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
+										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="574276567">
 												<reference key="NSMenu" ref="979759380"/>
 												<string key="NSTitle">Find…</string>
@@ -531,7 +506,7 @@
 												<reference key="NSOnImage" ref="145266427"/>
 												<reference key="NSMixedImage" ref="551713053"/>
 											</object>
-										</object>
+										</array>
 									</object>
 								</object>
 								<object class="NSMenuItem" id="610665999">
@@ -545,8 +520,7 @@
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="845672879">
 										<string key="NSTitle">Spelling</string>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
+										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="763895815">
 												<reference key="NSMenu" ref="845672879"/>
 												<string key="NSTitle">Spelling...</string>
@@ -583,7 +557,7 @@
 												<reference key="NSOnImage" ref="145266427"/>
 												<reference key="NSMixedImage" ref="551713053"/>
 											</object>
-										</object>
+										</array>
 									</object>
 								</object>
 								<object class="NSMenuItem" id="14109997">
@@ -597,8 +571,7 @@
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="995339598">
 										<string key="NSTitle">Speech</string>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
+										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="77807426">
 												<reference key="NSMenu" ref="995339598"/>
 												<string key="NSTitle">Start Speaking</string>
@@ -617,10 +590,10 @@
 												<reference key="NSOnImage" ref="145266427"/>
 												<reference key="NSMixedImage" ref="551713053"/>
 											</object>
-										</object>
+										</array>
 									</object>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="111556204">
@@ -634,8 +607,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="310167997">
 							<string key="NSTitle">View</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="287694887">
 									<reference key="NSMenu" ref="310167997"/>
 									<string key="NSTitle">Show Toolbar</string>
@@ -654,7 +626,7 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="1059428323">
@@ -667,9 +639,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="604000326">
 							<string key="NSTitle">Display</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-							</object>
+							<array class="NSMutableArray" key="NSMenuItems"/>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="1050824354">
@@ -683,9 +653,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="734016853">
 							<string key="NSTitle">Status</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-							</object>
+							<array class="NSMutableArray" key="NSMenuItems"/>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="398735183">
@@ -699,8 +667,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="651876030">
 							<string key="NSTitle">Contact</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="810465810">
 									<reference key="NSMenu" ref="651876030"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -711,7 +678,7 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="334767434">
@@ -727,8 +694,7 @@
 							<object class="NSMutableString" key="NSTitle">
 								<characters key="NS.bytes">Format</characters>
 							</object>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="664604528">
 									<reference key="NSMenu" ref="605367473"/>
 									<string key="NSTitle">Show Fonts</string>
@@ -871,8 +837,7 @@
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="287041248">
 										<string key="NSTitle">Writing Direction</string>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
+										<array class="NSMutableArray" key="NSMenuItems">
 											<object class="NSMenuItem" id="1035467589">
 												<reference key="NSMenu" ref="287041248"/>
 												<string key="NSTitle">Right to Left</string>
@@ -882,10 +847,10 @@
 												<reference key="NSOnImage" ref="145266427"/>
 												<reference key="NSMixedImage" ref="551713053"/>
 											</object>
-										</object>
+										</array>
 									</object>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
 					<object class="NSMenuItem" id="1064933351">
@@ -899,8 +864,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="642111178">
 							<string key="NSTitle">Window</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="231048800">
 									<reference key="NSMenu" ref="642111178"/>
 									<string key="NSTitle">Minimize</string>
@@ -939,7 +903,7 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 							<string key="NSName">_NSWindowsMenu</string>
 						</object>
 					</object>
@@ -954,8 +918,7 @@
 						<string key="NSAction">submenuAction:</string>
 						<object class="NSMenu" key="NSSubmenu" id="814345242">
 							<string key="NSTitle">Help</string>
-							<object class="NSMutableArray" key="NSMenuItems">
-								<bool key="EncodedWithXMLCoder">YES</bool>
+							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="619476471">
 									<reference key="NSMenu" ref="814345242"/>
 									<string key="NSTitle">Adium Help</string>
@@ -1031,10 +994,10 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
-							</object>
+							</array>
 						</object>
 					</object>
-				</object>
+				</array>
 				<string key="NSName">_NSMainMenu</string>
 			</object>
 			<object class="NSCustomObject" id="752992373">
@@ -1045,18 +1008,15 @@
 			</object>
 			<object class="NSMenu" id="360079888">
 				<string key="NSTitle">Menu</string>
-				<object class="NSMutableArray" key="NSMenuItems">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-				</object>
+				<array class="NSMutableArray" key="NSMenuItems"/>
 				<string key="NSName"/>
 			</object>
 			<object class="NSCustomObject" id="126913366">
 				<string key="NSClassName">SUUpdater</string>
 			</object>
-		</object>
+		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<object class="NSMutableArray" key="connectionRecords">
-				<bool key="EncodedWithXMLCoder">YES</bool>
+			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
@@ -1168,14 +1128,6 @@
 						<reference key="destination" ref="262677407"/>
 					</object>
 					<int key="connectionID">6644</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">runPageLayout:</string>
-						<reference key="source" ref="778387637"/>
-						<reference key="destination" ref="295262764"/>
-					</object>
-					<int key="connectionID">6646</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1824,14 +1776,6 @@
 						<reference key="destination" ref="1063159370"/>
 					</object>
 					<int key="connectionID">7163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menuItem_pageSetup</string>
-						<reference key="source" ref="752992373"/>
-						<reference key="destination" ref="295262764"/>
-					</object>
-					<int key="connectionID">7164</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2665,13 +2609,12 @@
 					</object>
 					<int key="connectionID">7388</int>
 				</object>
-			</object>
+			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
-				<object class="NSArray" key="orderedObjects">
-					<bool key="EncodedWithXMLCoder">YES</bool>
+				<array key="orderedObjects">
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<array key="object" id="0"/>
 						<reference key="children" ref="1036508854"/>
 						<nil key="parent"/>
 					</object>
@@ -2708,8 +2651,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6600</int>
 						<reference key="object" ref="746759550"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="719486633"/>
 							<reference ref="1050321965"/>
 							<reference ref="334767434"/>
@@ -2720,24 +2662,22 @@
 							<reference ref="111556204"/>
 							<reference ref="1050824354"/>
 							<reference ref="1059428323"/>
-						</object>
+						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">MainMenu1</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6455</int>
 						<reference key="object" ref="719486633"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="758315211"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6473</int>
 						<reference key="object" ref="758315211"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="820146491"/>
 							<reference ref="709355717"/>
 							<reference ref="407942834"/>
@@ -2753,7 +2693,7 @@
 							<reference ref="136112870"/>
 							<reference ref="36537201"/>
 							<reference ref="768366981"/>
-						</object>
+						</array>
 						<reference key="parent" ref="719486633"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2805,22 +2745,20 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6580</int>
 						<reference key="object" ref="610665999"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="845672879"/>
-						</object>
+						</array>
 						<reference key="parent" ref="758315211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6511</int>
 						<reference key="object" ref="845672879"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="314490690"/>
 							<reference ref="763895815"/>
 							<reference ref="622247037"/>
 							<reference ref="101118191"/>
-						</object>
+						</array>
 						<reference key="parent" ref="610665999"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2846,20 +2784,18 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6595</int>
 						<reference key="object" ref="14109997"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="995339598"/>
-						</object>
+						</array>
 						<reference key="parent" ref="758315211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6594</int>
 						<reference key="object" ref="995339598"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="77807426"/>
 							<reference ref="262677407"/>
-						</object>
+						</array>
 						<reference key="parent" ref="14109997"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2880,23 +2816,21 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6987</int>
 						<reference key="object" ref="136112870"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="979759380"/>
-						</object>
+						</array>
 						<reference key="parent" ref="758315211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6991</int>
 						<reference key="object" ref="979759380"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="424850962"/>
 							<reference ref="574276567"/>
 							<reference ref="259786877"/>
 							<reference ref="295771502"/>
 							<reference ref="545720733"/>
-						</object>
+						</array>
 						<reference key="parent" ref="136112870"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2932,17 +2866,15 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6462</int>
 						<reference key="object" ref="1050321965"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="123945392"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6453</int>
 						<reference key="object" ref="123945392"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="775734039"/>
 							<reference ref="875087261"/>
 							<reference ref="112691012"/>
@@ -2959,7 +2891,7 @@
 							<reference ref="461621623"/>
 							<reference ref="336798830"/>
 							<reference ref="286963117"/>
-						</object>
+						</array>
 						<reference key="parent" ref="1050321965"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2990,10 +2922,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6538</int>
 						<reference key="object" ref="579566486"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="126804161"/>
-						</object>
+						</array>
 						<reference key="parent" ref="123945392"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3054,17 +2985,15 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6475</int>
 						<reference key="object" ref="334767434"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="605367473"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6528</int>
 						<reference key="object" ref="605367473"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="855568741"/>
 							<reference ref="64723702"/>
 							<reference ref="1053646903"/>
@@ -3079,7 +3008,7 @@
 							<reference ref="937953994"/>
 							<reference ref="943727296"/>
 							<reference ref="887014218"/>
-						</object>
+						</array>
 						<reference key="parent" ref="334767434"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3135,19 +3064,17 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7229</int>
 						<reference key="object" ref="257495269"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="287041248"/>
-						</object>
+						</array>
 						<reference key="parent" ref="605367473"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7230</int>
 						<reference key="object" ref="287041248"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="1035467589"/>
-						</object>
+						</array>
 						<reference key="parent" ref="257495269"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3173,17 +3100,15 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6491</int>
 						<reference key="object" ref="388150730"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="814345242"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6521</int>
 						<reference key="object" ref="814345242"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="619476471"/>
 							<reference ref="43524301"/>
 							<reference ref="209888461"/>
@@ -3192,7 +3117,7 @@
 							<reference ref="880094152"/>
 							<reference ref="456208621"/>
 							<reference ref="715555530"/>
-						</object>
+						</array>
 						<reference key="parent" ref="388150730"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3233,22 +3158,20 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6507</int>
 						<reference key="object" ref="1064933351"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="642111178"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6611</int>
 						<reference key="object" ref="642111178"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="952874052"/>
 							<reference ref="231048800"/>
 							<reference ref="80060502"/>
 							<reference ref="71490671"/>
-						</object>
+						</array>
 						<reference key="parent" ref="1064933351"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3274,27 +3197,24 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6534</int>
 						<reference key="object" ref="958311131"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="580936113"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6614</int>
 						<reference key="object" ref="580936113"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="1063159370"/>
 							<reference ref="717375860"/>
-							<reference ref="295262764"/>
 							<reference ref="946253641"/>
 							<reference ref="443456614"/>
 							<reference ref="863669792"/>
 							<reference ref="550369297"/>
 							<reference ref="970744887"/>
 							<reference ref="600191255"/>
-						</object>
+						</array>
 						<reference key="parent" ref="958311131"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3305,11 +3225,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6597</int>
 						<reference key="object" ref="717375860"/>
-						<reference key="parent" ref="580936113"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6609</int>
-						<reference key="object" ref="295262764"/>
 						<reference key="parent" ref="580936113"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3340,19 +3255,17 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6932</int>
 						<reference key="object" ref="398735183"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="651876030"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6933</int>
 						<reference key="object" ref="651876030"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="810465810"/>
-						</object>
+						</array>
 						<reference key="parent" ref="398735183"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3363,20 +3276,18 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7010</int>
 						<reference key="object" ref="111556204"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="310167997"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7011</int>
 						<reference key="object" ref="310167997"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="852785755"/>
 							<reference ref="287694887"/>
-						</object>
+						</array>
 						<reference key="parent" ref="111556204"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3392,10 +3303,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7102</int>
 						<reference key="object" ref="1050824354"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="734016853"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3406,10 +3316,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7341</int>
 						<reference key="object" ref="1059428323"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
+						<array class="NSMutableArray" key="children">
 							<reference ref="604000326"/>
-						</object>
+						</array>
 						<reference key="parent" ref="746759550"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3457,266 +3366,133 @@
 						<reference key="parent" ref="758315211"/>
 						<string key="objectName">Menu Item - Deselect All</string>
 					</object>
-				</object>
+				</array>
 			</object>
-			<object class="NSMutableDictionary" key="flattenedProperties">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="NSArray" key="dict.sortedKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>-1.IBPluginDependency</string>
-					<string>-2.IBPluginDependency</string>
-					<string>-3.IBPluginDependency</string>
-					<string>2512.IBPluginDependency</string>
-					<string>4001.IBPluginDependency</string>
-					<string>6453.IBPluginDependency</string>
-					<string>6455.IBPluginDependency</string>
-					<string>6462.IBPluginDependency</string>
-					<string>6473.IBPluginDependency</string>
-					<string>6474.IBPluginDependency</string>
-					<string>6475.IBPluginDependency</string>
-					<string>6480.IBPluginDependency</string>
-					<string>6481.IBPluginDependency</string>
-					<string>6482.IBPluginDependency</string>
-					<string>6483.IBPluginDependency</string>
-					<string>6486.IBPluginDependency</string>
-					<string>6491.IBPluginDependency</string>
-					<string>6493.IBPluginDependency</string>
-					<string>6494.IBPluginDependency</string>
-					<string>6501.IBPluginDependency</string>
-					<string>6507.IBPluginDependency</string>
-					<string>6508.IBPluginDependency</string>
-					<string>6509.IBPluginDependency</string>
-					<string>6511.IBPluginDependency</string>
-					<string>6516.IBPluginDependency</string>
-					<string>6521.IBPluginDependency</string>
-					<string>6528.IBPluginDependency</string>
-					<string>6532.IBPluginDependency</string>
-					<string>6533.IBPluginDependency</string>
-					<string>6534.IBPluginDependency</string>
-					<string>6538.IBPluginDependency</string>
-					<string>6539.IBPluginDependency</string>
-					<string>6540.IBPluginDependency</string>
-					<string>6542.IBPluginDependency</string>
-					<string>6546.IBPluginDependency</string>
-					<string>6549.IBPluginDependency</string>
-					<string>6550.IBPluginDependency</string>
-					<string>6555.IBPluginDependency</string>
-					<string>6556.IBPluginDependency</string>
-					<string>6565.IBPluginDependency</string>
-					<string>6566.IBPluginDependency</string>
-					<string>6567.IBPluginDependency</string>
-					<string>6572.IBPluginDependency</string>
-					<string>6580.IBPluginDependency</string>
-					<string>6581.IBPluginDependency</string>
-					<string>6584.IBPluginDependency</string>
-					<string>6587.IBPluginDependency</string>
-					<string>6594.IBPluginDependency</string>
-					<string>6595.IBPluginDependency</string>
-					<string>6597.IBPluginDependency</string>
-					<string>6598.IBPluginDependency</string>
-					<string>6600.IBPluginDependency</string>
-					<string>6609.IBPluginDependency</string>
-					<string>6611.IBPluginDependency</string>
-					<string>6612.IBPluginDependency</string>
-					<string>6614.IBPluginDependency</string>
-					<string>6615.IBPluginDependency</string>
-					<string>6616.IBPluginDependency</string>
-					<string>6618.IBPluginDependency</string>
-					<string>6620.IBPluginDependency</string>
-					<string>6623.IBPluginDependency</string>
-					<string>6655.IBPluginDependency</string>
-					<string>6706.IBPluginDependency</string>
-					<string>6932.IBPluginDependency</string>
-					<string>6933.IBPluginDependency</string>
-					<string>6944.IBPluginDependency</string>
-					<string>6946.IBPluginDependency</string>
-					<string>6952.IBPluginDependency</string>
-					<string>6987.IBPluginDependency</string>
-					<string>6988.IBPluginDependency</string>
-					<string>6989.IBPluginDependency</string>
-					<string>6990.IBPluginDependency</string>
-					<string>6991.IBPluginDependency</string>
-					<string>6992.IBPluginDependency</string>
-					<string>6993.IBPluginDependency</string>
-					<string>7010.IBPluginDependency</string>
-					<string>7011.IBPluginDependency</string>
-					<string>7016.IBPluginDependency</string>
-					<string>7017.IBPluginDependency</string>
-					<string>7032.IBPluginDependency</string>
-					<string>7033.IBPluginDependency</string>
-					<string>7034.IBPluginDependency</string>
-					<string>7037.IBPluginDependency</string>
-					<string>7039.IBPluginDependency</string>
-					<string>7054.IBPluginDependency</string>
-					<string>7057.IBPluginDependency</string>
-					<string>7058.IBPluginDependency</string>
-					<string>7102.IBPluginDependency</string>
-					<string>7104.IBPluginDependency</string>
-					<string>7214.IBPluginDependency</string>
-					<string>7224.IBPluginDependency</string>
-					<string>7225.IBPluginDependency</string>
-					<string>7227.IBPluginDependency</string>
-					<string>7228.IBPluginDependency</string>
-					<string>7229.IBPluginDependency</string>
-					<string>7230.IBPluginDependency</string>
-					<string>7231.IBPluginDependency</string>
-					<string>7240.IBPluginDependency</string>
-					<string>7246.IBPluginDependency</string>
-					<string>7251.IBPluginDependency</string>
-					<string>7254.IBPluginDependency</string>
-					<string>7255.IBPluginDependency</string>
-					<string>7256.IBPluginDependency</string>
-					<string>7268.IBPluginDependency</string>
-					<string>7269.IBPluginDependency</string>
-					<string>7272.IBPluginDependency</string>
-					<string>7273.IBPluginDependency</string>
-					<string>7274.IBPluginDependency</string>
-					<string>7291.IBPluginDependency</string>
-					<string>7337.IBPluginDependency</string>
-					<string>7341.IBPluginDependency</string>
-					<string>7348.IBPluginDependency</string>
-					<string>7366.IBPluginDependency</string>
-					<string>7373.IBPluginDependency</string>
-					<string>7380.IBPluginDependency</string>
-					<string>7383.IBPluginDependency</string>
-				</object>
-				<object class="NSMutableArray" key="dict.values">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-				</object>
-			</object>
-			<object class="NSMutableDictionary" key="unlocalizedProperties">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
-			</object>
+			<dictionary class="NSMutableDictionary" key="flattenedProperties">
+				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="2512.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="4001.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6453.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6455.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6462.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6473.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6474.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6475.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6480.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6481.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6482.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6483.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6486.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6491.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6493.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6494.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6501.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6507.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6508.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6509.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6511.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6516.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6521.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6528.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6532.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6533.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6534.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6538.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6539.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6540.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6542.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6546.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6549.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6550.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6555.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6556.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6565.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6566.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6567.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6572.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6580.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6581.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6584.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6587.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6594.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6595.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6597.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6598.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6600.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6611.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6612.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6614.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6615.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6616.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6618.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6620.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6623.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6655.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6706.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6932.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6933.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6944.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6946.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6952.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6987.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6988.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6989.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6990.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6991.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6992.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="6993.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7010.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7011.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7016.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7017.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7032.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7033.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7034.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7037.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7039.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7054.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7057.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7058.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7102.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7104.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7214.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7224.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7225.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7227.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7228.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7229.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7230.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7240.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7246.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7251.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7254.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7255.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7256.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7268.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7269.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7272.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7273.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7274.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7291.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7337.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7341.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7348.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7366.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7373.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7380.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="7383.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+			</dictionary>
+			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
-			<object class="NSMutableDictionary" key="localizations">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<reference key="dict.sortedKeys" ref="0"/>
-				<reference key="dict.values" ref="0"/>
-			</object>
+			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
 			<int key="maxID">7388</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AIAccountViewController</string>
 					<string key="superclassName">NSObject</string>
@@ -3731,178 +3507,120 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkBox_checkMail</string>
-							<string>checkBox_sendTyping</string>
-							<string>label_alias</string>
-							<string>label_encryption</string>
-							<string>label_password</string>
-							<string>label_port</string>
-							<string>label_server</string>
-							<string>label_typing</string>
-							<string>popUp_encryption</string>
-							<string>progressIndicator_registering</string>
-							<string>textField_accountUID</string>
-							<string>textField_accountUIDLabel</string>
-							<string>textField_alias</string>
-							<string>textField_connectHost</string>
-							<string>textField_connectPort</string>
-							<string>textField_password</string>
-							<string>textField_registering</string>
-							<string>view_auxiliaryTabView</string>
-							<string>view_options</string>
-							<string>view_privacy</string>
-							<string>view_profile</string>
-							<string>view_setup</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="checkBox_checkMail">NSButton</string>
+						<string key="checkBox_sendTyping">NSButton</string>
+						<string key="label_alias">NSTextField</string>
+						<string key="label_encryption">NSTextField</string>
+						<string key="label_password">NSTextField</string>
+						<string key="label_port">NSTextField</string>
+						<string key="label_server">NSTextField</string>
+						<string key="label_typing">NSTextField</string>
+						<string key="popUp_encryption">NSPopUpButton</string>
+						<string key="progressIndicator_registering">NSProgressIndicator</string>
+						<string key="textField_accountUID">NSTextField</string>
+						<string key="textField_accountUIDLabel">NSTextField</string>
+						<string key="textField_alias">NSTextField</string>
+						<string key="textField_connectHost">NSTextField</string>
+						<string key="textField_connectPort">NSTextField</string>
+						<string key="textField_password">NSTextField</string>
+						<string key="textField_registering">NSTextField</string>
+						<string key="view_auxiliaryTabView">NSTabView</string>
+						<string key="view_options">NSView</string>
+						<string key="view_privacy">NSView</string>
+						<string key="view_profile">NSView</string>
+						<string key="view_setup">NSView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="checkBox_checkMail">
+							<string key="name">checkBox_checkMail</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSPopUpButton</string>
-							<string>NSProgressIndicator</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTabView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
+						<object class="IBToOneOutletInfo" key="checkBox_sendTyping">
+							<string key="name">checkBox_sendTyping</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkBox_checkMail</string>
-							<string>checkBox_sendTyping</string>
-							<string>label_alias</string>
-							<string>label_encryption</string>
-							<string>label_password</string>
-							<string>label_port</string>
-							<string>label_server</string>
-							<string>label_typing</string>
-							<string>popUp_encryption</string>
-							<string>progressIndicator_registering</string>
-							<string>textField_accountUID</string>
-							<string>textField_accountUIDLabel</string>
-							<string>textField_alias</string>
-							<string>textField_connectHost</string>
-							<string>textField_connectPort</string>
-							<string>textField_password</string>
-							<string>textField_registering</string>
-							<string>view_auxiliaryTabView</string>
-							<string>view_options</string>
-							<string>view_privacy</string>
-							<string>view_profile</string>
-							<string>view_setup</string>
+						<object class="IBToOneOutletInfo" key="label_alias">
+							<string key="name">label_alias</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">checkBox_checkMail</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">checkBox_sendTyping</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_alias</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_encryption</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_password</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_port</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_server</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">label_typing</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">popUp_encryption</string>
-								<string key="candidateClassName">NSPopUpButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">progressIndicator_registering</string>
-								<string key="candidateClassName">NSProgressIndicator</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_accountUID</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_accountUIDLabel</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_alias</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_connectHost</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_connectPort</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_password</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_registering</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">view_auxiliaryTabView</string>
-								<string key="candidateClassName">NSTabView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">view_options</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">view_privacy</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">view_profile</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">view_setup</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
+						<object class="IBToOneOutletInfo" key="label_encryption">
+							<string key="name">label_encryption</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="label_password">
+							<string key="name">label_password</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_port">
+							<string key="name">label_port</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_server">
+							<string key="name">label_server</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_typing">
+							<string key="name">label_typing</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="popUp_encryption">
+							<string key="name">popUp_encryption</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="progressIndicator_registering">
+							<string key="name">progressIndicator_registering</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_accountUID">
+							<string key="name">textField_accountUID</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_accountUIDLabel">
+							<string key="name">textField_accountUIDLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_alias">
+							<string key="name">textField_alias</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_connectHost">
+							<string key="name">textField_connectHost</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_connectPort">
+							<string key="name">textField_connectPort</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_password">
+							<string key="name">textField_password</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_registering">
+							<string key="name">textField_registering</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_auxiliaryTabView">
+							<string key="name">view_auxiliaryTabView</string>
+							<string key="candidateClassName">NSTabView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_options">
+							<string key="name">view_options</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_privacy">
+							<string key="name">view_privacy</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_profile">
+							<string key="name">view_profile</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_setup">
+							<string key="name">view_setup</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIAccountViewController.h</string>
@@ -3911,126 +3629,74 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AIAdium</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>confirmQuit:</string>
-							<string>contibutingToAdium:</string>
-							<string>donate:</string>
-							<string>reportABug:</string>
-							<string>sendFeedback:</string>
-							<string>showAboutBox:</string>
-							<string>showForums:</string>
-							<string>showVersionHistory:</string>
-							<string>showXtras:</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="confirmQuit:">id</string>
+						<string key="contibutingToAdium:">id</string>
+						<string key="donate:">id</string>
+						<string key="reportABug:">id</string>
+						<string key="sendFeedback:">id</string>
+						<string key="showAboutBox:">id</string>
+						<string key="showForums:">id</string>
+						<string key="showVersionHistory:">id</string>
+						<string key="showXtras:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="confirmQuit:">
+							<string key="name">confirmQuit:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
+						<object class="IBActionInfo" key="contibutingToAdium:">
+							<string key="name">contibutingToAdium:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>confirmQuit:</string>
-							<string>contibutingToAdium:</string>
-							<string>donate:</string>
-							<string>reportABug:</string>
-							<string>sendFeedback:</string>
-							<string>showAboutBox:</string>
-							<string>showForums:</string>
-							<string>showVersionHistory:</string>
-							<string>showXtras:</string>
+						<object class="IBActionInfo" key="donate:">
+							<string key="name">donate:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">confirmQuit:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">contibutingToAdium:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">donate:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">reportABug:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">sendFeedback:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showAboutBox:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showForums:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showVersionHistory:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showXtras:</string>
-								<string key="candidateClassName">id</string>
-							</object>
+						<object class="IBActionInfo" key="reportABug:">
+							<string key="name">reportABug:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>interfaceController</string>
-							<string>menuController</string>
-							<string>updater</string>
+						<object class="IBActionInfo" key="sendFeedback:">
+							<string key="name">sendFeedback:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSObject</string>
-							<string>NSObject</string>
-							<string>SUUpdater</string>
+						<object class="IBActionInfo" key="showAboutBox:">
+							<string key="name">showAboutBox:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>interfaceController</string>
-							<string>menuController</string>
-							<string>updater</string>
+						<object class="IBActionInfo" key="showForums:">
+							<string key="name">showForums:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">interfaceController</string>
-								<string key="candidateClassName">NSObject</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuController</string>
-								<string key="candidateClassName">NSObject</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">updater</string>
-								<string key="candidateClassName">SUUpdater</string>
-							</object>
+						<object class="IBActionInfo" key="showVersionHistory:">
+							<string key="name">showVersionHistory:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="showXtras:">
+							<string key="name">showXtras:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="interfaceController">NSObject</string>
+						<string key="menuController">NSObject</string>
+						<string key="updater">SUUpdater</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="interfaceController">
+							<string key="name">interfaceController</string>
+							<string key="candidateClassName">NSObject</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuController">
+							<string key="name">menuController</string>
+							<string key="candidateClassName">NSObject</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="updater">
+							<string key="name">updater</string>
+							<string key="candidateClassName">SUUpdater</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIAdium.h</string>
@@ -4058,52 +3724,30 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>button_OAuthStart</string>
-							<string>button_help</string>
-							<string>spinner</string>
-							<string>textField_OAuthStatus</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button_OAuthStart">NSButton</string>
+						<string key="button_help">NSButton</string>
+						<string key="spinner">NSProgressIndicator</string>
+						<string key="textField_OAuthStatus">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button_OAuthStart">
+							<string key="name">button_OAuthStart</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSProgressIndicator</string>
-							<string>NSTextField</string>
+						<object class="IBToOneOutletInfo" key="button_help">
+							<string key="name">button_help</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>button_OAuthStart</string>
-							<string>button_help</string>
-							<string>spinner</string>
-							<string>textField_OAuthStatus</string>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">button_OAuthStart</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">button_help</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">spinner</string>
-								<string key="candidateClassName">NSProgressIndicator</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">textField_OAuthStatus</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
+						<object class="IBToOneOutletInfo" key="textField_OAuthStatus">
+							<string key="name">textField_OAuthStatus</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIFacebookXMPPAccountViewController.h</string>
@@ -4112,238 +3756,154 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AIInterfaceController</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>adiumPrint:</string>
-							<string>closeAllChats:</string>
-							<string>closeChatMenu:</string>
-							<string>closeMenu:</string>
-							<string>paste:</string>
-							<string>pasteAndMatchStyle:</string>
-							<string>pasteWithImagesAndColors:</string>
-							<string>reopenChat:</string>
-							<string>setFontPanelSettingsAsDefaultFont:</string>
-							<string>showContactListAndBringToFront:</string>
-							<string>showPreferenceWindow:</string>
-							<string>toggleFontPanel:</string>
-							<string>toggleFontTrait:</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="adiumPrint:">id</string>
+						<string key="closeAllChats:">id</string>
+						<string key="closeChatMenu:">id</string>
+						<string key="closeMenu:">id</string>
+						<string key="paste:">id</string>
+						<string key="pasteAndMatchStyle:">id</string>
+						<string key="pasteWithImagesAndColors:">id</string>
+						<string key="reopenChat:">id</string>
+						<string key="setFontPanelSettingsAsDefaultFont:">id</string>
+						<string key="showContactListAndBringToFront:">id</string>
+						<string key="showPreferenceWindow:">id</string>
+						<string key="toggleFontPanel:">id</string>
+						<string key="toggleFontTrait:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="adiumPrint:">
+							<string key="name">adiumPrint:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
+						<object class="IBActionInfo" key="closeAllChats:">
+							<string key="name">closeAllChats:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>adiumPrint:</string>
-							<string>closeAllChats:</string>
-							<string>closeChatMenu:</string>
-							<string>closeMenu:</string>
-							<string>paste:</string>
-							<string>pasteAndMatchStyle:</string>
-							<string>pasteWithImagesAndColors:</string>
-							<string>reopenChat:</string>
-							<string>setFontPanelSettingsAsDefaultFont:</string>
-							<string>showContactListAndBringToFront:</string>
-							<string>showPreferenceWindow:</string>
-							<string>toggleFontPanel:</string>
-							<string>toggleFontTrait:</string>
+						<object class="IBActionInfo" key="closeChatMenu:">
+							<string key="name">closeChatMenu:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">adiumPrint:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">closeAllChats:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">closeChatMenu:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">closeMenu:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">paste:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pasteAndMatchStyle:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pasteWithImagesAndColors:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">reopenChat:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setFontPanelSettingsAsDefaultFont:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showContactListAndBringToFront:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showPreferenceWindow:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">toggleFontPanel:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">toggleFontTrait:</string>
-								<string key="candidateClassName">id</string>
-							</object>
+						<object class="IBActionInfo" key="closeMenu:">
+							<string key="name">closeMenu:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>button_fontPanelSetAsDefault</string>
-							<string>fontPanelAccessoryView</string>
-							<string>menuItem_bold</string>
-							<string>menuItem_close</string>
-							<string>menuItem_closeAllChats</string>
-							<string>menuItem_closeChat</string>
-							<string>menuItem_customizeToolbar</string>
-							<string>menuItem_italic</string>
-							<string>menuItem_paste</string>
-							<string>menuItem_pasteAndMatchStyle</string>
-							<string>menuItem_pasteWithImagesAndColors</string>
-							<string>menuItem_print</string>
-							<string>menuItem_reopenTab</string>
-							<string>menuItem_showFonts</string>
-							<string>menuItem_showToolbar</string>
+						<object class="IBActionInfo" key="paste:">
+							<string key="name">paste:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSView</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
+						<object class="IBActionInfo" key="pasteAndMatchStyle:">
+							<string key="name">pasteAndMatchStyle:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>button_fontPanelSetAsDefault</string>
-							<string>fontPanelAccessoryView</string>
-							<string>menuItem_bold</string>
-							<string>menuItem_close</string>
-							<string>menuItem_closeAllChats</string>
-							<string>menuItem_closeChat</string>
-							<string>menuItem_customizeToolbar</string>
-							<string>menuItem_italic</string>
-							<string>menuItem_paste</string>
-							<string>menuItem_pasteAndMatchStyle</string>
-							<string>menuItem_pasteWithImagesAndColors</string>
-							<string>menuItem_print</string>
-							<string>menuItem_reopenTab</string>
-							<string>menuItem_showFonts</string>
-							<string>menuItem_showToolbar</string>
+						<object class="IBActionInfo" key="pasteWithImagesAndColors:">
+							<string key="name">pasteWithImagesAndColors:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">button_fontPanelSetAsDefault</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">fontPanelAccessoryView</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_bold</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_close</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_closeAllChats</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_closeChat</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_customizeToolbar</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_italic</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_paste</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pasteAndMatchStyle</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pasteWithImagesAndColors</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_print</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_reopenTab</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_showFonts</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_showToolbar</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
+						<object class="IBActionInfo" key="reopenChat:">
+							<string key="name">reopenChat:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="setFontPanelSettingsAsDefaultFont:">
+							<string key="name">setFontPanelSettingsAsDefaultFont:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showContactListAndBringToFront:">
+							<string key="name">showContactListAndBringToFront:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showPreferenceWindow:">
+							<string key="name">showPreferenceWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFontPanel:">
+							<string key="name">toggleFontPanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleFontTrait:">
+							<string key="name">toggleFontTrait:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button_fontPanelSetAsDefault">NSButton</string>
+						<string key="fontPanelAccessoryView">NSView</string>
+						<string key="menuItem_bold">NSMenuItem</string>
+						<string key="menuItem_close">NSMenuItem</string>
+						<string key="menuItem_closeAllChats">NSMenuItem</string>
+						<string key="menuItem_closeChat">NSMenuItem</string>
+						<string key="menuItem_customizeToolbar">NSMenuItem</string>
+						<string key="menuItem_italic">NSMenuItem</string>
+						<string key="menuItem_paste">NSMenuItem</string>
+						<string key="menuItem_pasteAndMatchStyle">NSMenuItem</string>
+						<string key="menuItem_pasteWithImagesAndColors">NSMenuItem</string>
+						<string key="menuItem_print">NSMenuItem</string>
+						<string key="menuItem_reopenTab">NSMenuItem</string>
+						<string key="menuItem_showFonts">NSMenuItem</string>
+						<string key="menuItem_showToolbar">NSMenuItem</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button_fontPanelSetAsDefault">
+							<string key="name">button_fontPanelSetAsDefault</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="fontPanelAccessoryView">
+							<string key="name">fontPanelAccessoryView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_bold">
+							<string key="name">menuItem_bold</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_close">
+							<string key="name">menuItem_close</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_closeAllChats">
+							<string key="name">menuItem_closeAllChats</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_closeChat">
+							<string key="name">menuItem_closeChat</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_customizeToolbar">
+							<string key="name">menuItem_customizeToolbar</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_italic">
+							<string key="name">menuItem_italic</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_paste">
+							<string key="name">menuItem_paste</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_pasteAndMatchStyle">
+							<string key="name">menuItem_pasteAndMatchStyle</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_pasteWithImagesAndColors">
+							<string key="name">menuItem_pasteWithImagesAndColors</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_print">
+							<string key="name">menuItem_print</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_reopenTab">
+							<string key="name">menuItem_reopenTab</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_showFonts">
+							<string key="name">menuItem_showFonts</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_showToolbar">
+							<string key="name">menuItem_showToolbar</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIInterfaceController.h</string>
@@ -4352,808 +3912,565 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AIMenuController</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>menuItem_Format_Italics</string>
-							<string>menuItem_aboutAdium</string>
-							<string>menuItem_adiumForums</string>
-							<string>menuItem_adiumHelp</string>
-							<string>menuItem_adiumXtras</string>
-							<string>menuItem_bigger</string>
-							<string>menuItem_bold</string>
-							<string>menuItem_bringAllToFront</string>
-							<string>menuItem_checkForUpdates</string>
-							<string>menuItem_clear</string>
-							<string>menuItem_close</string>
-							<string>menuItem_closeAllChats</string>
-							<string>menuItem_closeChat</string>
-							<string>menuItem_contact</string>
-							<string>menuItem_contribute</string>
-							<string>menuItem_copy</string>
-							<string>menuItem_copyStyle</string>
-							<string>menuItem_customizeToolbar</string>
-							<string>menuItem_cut</string>
-							<string>menuItem_deselectAll</string>
-							<string>menuItem_display</string>
-							<string>menuItem_donate</string>
-							<string>menuItem_edit</string>
-							<string>menuItem_file</string>
-							<string>menuItem_find</string>
-							<string>menuItem_findCommand</string>
-							<string>menuItem_findJumpToSelection</string>
-							<string>menuItem_findNext</string>
-							<string>menuItem_findPrevious</string>
-							<string>menuItem_findUseSelectionForFind</string>
-							<string>menuItem_format</string>
-							<string>menuItem_help</string>
-							<string>menuItem_helpOut</string>
-							<string>menuItem_hideAdium</string>
-							<string>menuItem_hideOthers</string>
-							<string>menuItem_italic</string>
-							<string>menuItem_minimize</string>
-							<string>menuItem_pageSetup</string>
-							<string>menuItem_paste</string>
-							<string>menuItem_pasteAndMatchStyle</string>
-							<string>menuItem_pasteStyle</string>
-							<string>menuItem_pasteWithImagesAndColors</string>
-							<string>menuItem_preferences</string>
-							<string>menuItem_print</string>
-							<string>menuItem_quitAdium</string>
-							<string>menuItem_reportABug</string>
-							<string>menuItem_rightToLeft</string>
-							<string>menuItem_saveAs</string>
-							<string>menuItem_selectAll</string>
-							<string>menuItem_sendFeedback</string>
-							<string>menuItem_services</string>
-							<string>menuItem_showAll</string>
-							<string>menuItem_showColors</string>
-							<string>menuItem_showFonts</string>
-							<string>menuItem_smaller</string>
-							<string>menuItem_speech</string>
-							<string>menuItem_spelling</string>
-							<string>menuItem_spellingCheckGrammarWithSpelling</string>
-							<string>menuItem_spellingCheckSpelling</string>
-							<string>menuItem_spellingCheckSpellingAsYouType</string>
-							<string>menuItem_spellingCommand</string>
-							<string>menuItem_startSpeaking</string>
-							<string>menuItem_status</string>
-							<string>menuItem_stopSpeaking</string>
-							<string>menuItem_underline</string>
-							<string>menuItem_view</string>
-							<string>menuItem_window</string>
-							<string>menuItem_writingDirection</string>
-							<string>menuItem_zoom</string>
-							<string>menu_Adium_About</string>
-							<string>menu_Adium_Other</string>
-							<string>menu_Adium_Preferences</string>
-							<string>menu_Contact_AccountSpecific</string>
-							<string>menu_Contact_Action</string>
-							<string>menu_Contact_Additions</string>
-							<string>menu_Contact_Info</string>
-							<string>menu_Contact_Manage</string>
-							<string>menu_Contact_NegativeAction</string>
-							<string>menu_Display_General</string>
-							<string>menu_Display_Jump</string>
-							<string>menu_Display_MessageControl</string>
-							<string>menu_Dock_Status</string>
-							<string>menu_Edit_Additions</string>
-							<string>menu_Edit_Bottom</string>
-							<string>menu_Edit_Links</string>
-							<string>menu_File_Accounts</string>
-							<string>menu_File_Additions</string>
-							<string>menu_File_Close</string>
-							<string>menu_File_New</string>
-							<string>menu_File_Save</string>
-							<string>menu_Format_Additions</string>
-							<string>menu_Format_Palettes</string>
-							<string>menu_Format_Styles</string>
-							<string>menu_Help_Additions</string>
-							<string>menu_Help_Local</string>
-							<string>menu_Help_Web</string>
-							<string>menu_Status_Accounts</string>
-							<string>menu_Status_Additions</string>
-							<string>menu_Status_SocialNetworking</string>
-							<string>menu_Status_State</string>
-							<string>menu_View_Additions</string>
-							<string>menu_View_Appearance_Toggles</string>
-							<string>menu_View_Counting_Toggles</string>
-							<string>menu_View_General</string>
-							<string>menu_View_Sorting</string>
-							<string>menu_View_Toggles</string>
-							<string>menu_Window_Auxiliary</string>
-							<string>menu_Window_Commands</string>
-							<string>menu_Window_Fixed</string>
-							<string>menu_Window_Top</string>
-							<string>nilMenuItem</string>
-							<string>sharedAdium</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="menuItem_Format_Italics">id</string>
+						<string key="menuItem_aboutAdium">NSMenuItem</string>
+						<string key="menuItem_adiumForums">NSMenuItem</string>
+						<string key="menuItem_adiumHelp">NSMenuItem</string>
+						<string key="menuItem_adiumXtras">NSMenuItem</string>
+						<string key="menuItem_bigger">NSMenuItem</string>
+						<string key="menuItem_bold">NSMenuItem</string>
+						<string key="menuItem_bringAllToFront">NSMenuItem</string>
+						<string key="menuItem_checkForUpdates">NSMenuItem</string>
+						<string key="menuItem_clear">NSMenuItem</string>
+						<string key="menuItem_close">NSMenuItem</string>
+						<string key="menuItem_closeAllChats">NSMenuItem</string>
+						<string key="menuItem_closeChat">NSMenuItem</string>
+						<string key="menuItem_contact">NSMenuItem</string>
+						<string key="menuItem_contribute">NSMenuItem</string>
+						<string key="menuItem_copy">NSMenuItem</string>
+						<string key="menuItem_copyStyle">NSMenuItem</string>
+						<string key="menuItem_customizeToolbar">NSMenuItem</string>
+						<string key="menuItem_cut">NSMenuItem</string>
+						<string key="menuItem_deselectAll">NSMenuItem</string>
+						<string key="menuItem_display">NSMenuItem</string>
+						<string key="menuItem_donate">NSMenuItem</string>
+						<string key="menuItem_edit">NSMenuItem</string>
+						<string key="menuItem_file">NSMenuItem</string>
+						<string key="menuItem_find">NSMenuItem</string>
+						<string key="menuItem_findCommand">NSMenuItem</string>
+						<string key="menuItem_findJumpToSelection">NSMenuItem</string>
+						<string key="menuItem_findNext">NSMenuItem</string>
+						<string key="menuItem_findPrevious">NSMenuItem</string>
+						<string key="menuItem_findUseSelectionForFind">NSMenuItem</string>
+						<string key="menuItem_format">NSMenuItem</string>
+						<string key="menuItem_help">NSMenuItem</string>
+						<string key="menuItem_helpOut">NSMenuItem</string>
+						<string key="menuItem_hideAdium">NSMenuItem</string>
+						<string key="menuItem_hideOthers">NSMenuItem</string>
+						<string key="menuItem_italic">NSMenuItem</string>
+						<string key="menuItem_minimize">NSMenuItem</string>
+						<string key="menuItem_paste">NSMenuItem</string>
+						<string key="menuItem_pasteAndMatchStyle">NSMenuItem</string>
+						<string key="menuItem_pasteStyle">NSMenuItem</string>
+						<string key="menuItem_pasteWithImagesAndColors">NSMenuItem</string>
+						<string key="menuItem_preferences">NSMenuItem</string>
+						<string key="menuItem_print">NSMenuItem</string>
+						<string key="menuItem_quitAdium">NSMenuItem</string>
+						<string key="menuItem_reportABug">NSMenuItem</string>
+						<string key="menuItem_rightToLeft">NSMenuItem</string>
+						<string key="menuItem_saveAs">NSMenuItem</string>
+						<string key="menuItem_selectAll">NSMenuItem</string>
+						<string key="menuItem_sendFeedback">NSMenuItem</string>
+						<string key="menuItem_services">NSMenuItem</string>
+						<string key="menuItem_showAll">NSMenuItem</string>
+						<string key="menuItem_showColors">NSMenuItem</string>
+						<string key="menuItem_showFonts">NSMenuItem</string>
+						<string key="menuItem_smaller">NSMenuItem</string>
+						<string key="menuItem_speech">NSMenuItem</string>
+						<string key="menuItem_spelling">NSMenuItem</string>
+						<string key="menuItem_spellingCheckGrammarWithSpelling">NSMenuItem</string>
+						<string key="menuItem_spellingCheckSpelling">NSMenuItem</string>
+						<string key="menuItem_spellingCheckSpellingAsYouType">NSMenuItem</string>
+						<string key="menuItem_spellingCommand">NSMenuItem</string>
+						<string key="menuItem_startSpeaking">NSMenuItem</string>
+						<string key="menuItem_status">NSMenuItem</string>
+						<string key="menuItem_stopSpeaking">NSMenuItem</string>
+						<string key="menuItem_underline">NSMenuItem</string>
+						<string key="menuItem_view">NSMenuItem</string>
+						<string key="menuItem_window">NSMenuItem</string>
+						<string key="menuItem_writingDirection">NSMenuItem</string>
+						<string key="menuItem_zoom">NSMenuItem</string>
+						<string key="menu_Adium_About">id</string>
+						<string key="menu_Adium_Other">id</string>
+						<string key="menu_Adium_Preferences">id</string>
+						<string key="menu_Contact_AccountSpecific">id</string>
+						<string key="menu_Contact_Action">id</string>
+						<string key="menu_Contact_Additions">id</string>
+						<string key="menu_Contact_Info">id</string>
+						<string key="menu_Contact_Manage">id</string>
+						<string key="menu_Contact_NegativeAction">id</string>
+						<string key="menu_Display_General">id</string>
+						<string key="menu_Display_Jump">id</string>
+						<string key="menu_Display_MessageControl">id</string>
+						<string key="menu_Dock_Status">id</string>
+						<string key="menu_Edit_Additions">id</string>
+						<string key="menu_Edit_Bottom">id</string>
+						<string key="menu_Edit_Links">id</string>
+						<string key="menu_File_Accounts">id</string>
+						<string key="menu_File_Additions">id</string>
+						<string key="menu_File_Close">id</string>
+						<string key="menu_File_New">id</string>
+						<string key="menu_File_Save">id</string>
+						<string key="menu_Format_Additions">id</string>
+						<string key="menu_Format_Palettes">id</string>
+						<string key="menu_Format_Styles">id</string>
+						<string key="menu_Help_Additions">id</string>
+						<string key="menu_Help_Local">id</string>
+						<string key="menu_Help_Web">id</string>
+						<string key="menu_Status_Accounts">id</string>
+						<string key="menu_Status_Additions">id</string>
+						<string key="menu_Status_SocialNetworking">id</string>
+						<string key="menu_Status_State">id</string>
+						<string key="menu_View_Additions">id</string>
+						<string key="menu_View_Appearance_Toggles">id</string>
+						<string key="menu_View_Counting_Toggles">id</string>
+						<string key="menu_View_General">id</string>
+						<string key="menu_View_Sorting">id</string>
+						<string key="menu_View_Toggles">id</string>
+						<string key="menu_Window_Auxiliary">id</string>
+						<string key="menu_Window_Commands">id</string>
+						<string key="menu_Window_Fixed">id</string>
+						<string key="menu_Window_Top">id</string>
+						<string key="nilMenuItem">id</string>
+						<string key="sharedAdium">NSObject</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="menuItem_Format_Italics">
+							<string key="name">menuItem_Format_Italics</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>NSObject</string>
+						<object class="IBToOneOutletInfo" key="menuItem_aboutAdium">
+							<string key="name">menuItem_aboutAdium</string>
+							<string key="candidateClassName">NSMenuItem</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>menuItem_Format_Italics</string>
-							<string>menuItem_aboutAdium</string>
-							<string>menuItem_adiumForums</string>
-							<string>menuItem_adiumHelp</string>
-							<string>menuItem_adiumXtras</string>
-							<string>menuItem_bigger</string>
-							<string>menuItem_bold</string>
-							<string>menuItem_bringAllToFront</string>
-							<string>menuItem_checkForUpdates</string>
-							<string>menuItem_clear</string>
-							<string>menuItem_close</string>
-							<string>menuItem_closeAllChats</string>
-							<string>menuItem_closeChat</string>
-							<string>menuItem_contact</string>
-							<string>menuItem_contribute</string>
-							<string>menuItem_copy</string>
-							<string>menuItem_copyStyle</string>
-							<string>menuItem_customizeToolbar</string>
-							<string>menuItem_cut</string>
-							<string>menuItem_deselectAll</string>
-							<string>menuItem_display</string>
-							<string>menuItem_donate</string>
-							<string>menuItem_edit</string>
-							<string>menuItem_file</string>
-							<string>menuItem_find</string>
-							<string>menuItem_findCommand</string>
-							<string>menuItem_findJumpToSelection</string>
-							<string>menuItem_findNext</string>
-							<string>menuItem_findPrevious</string>
-							<string>menuItem_findUseSelectionForFind</string>
-							<string>menuItem_format</string>
-							<string>menuItem_help</string>
-							<string>menuItem_helpOut</string>
-							<string>menuItem_hideAdium</string>
-							<string>menuItem_hideOthers</string>
-							<string>menuItem_italic</string>
-							<string>menuItem_minimize</string>
-							<string>menuItem_pageSetup</string>
-							<string>menuItem_paste</string>
-							<string>menuItem_pasteAndMatchStyle</string>
-							<string>menuItem_pasteStyle</string>
-							<string>menuItem_pasteWithImagesAndColors</string>
-							<string>menuItem_preferences</string>
-							<string>menuItem_print</string>
-							<string>menuItem_quitAdium</string>
-							<string>menuItem_reportABug</string>
-							<string>menuItem_rightToLeft</string>
-							<string>menuItem_saveAs</string>
-							<string>menuItem_selectAll</string>
-							<string>menuItem_sendFeedback</string>
-							<string>menuItem_services</string>
-							<string>menuItem_showAll</string>
-							<string>menuItem_showColors</string>
-							<string>menuItem_showFonts</string>
-							<string>menuItem_smaller</string>
-							<string>menuItem_speech</string>
-							<string>menuItem_spelling</string>
-							<string>menuItem_spellingCheckGrammarWithSpelling</string>
-							<string>menuItem_spellingCheckSpelling</string>
-							<string>menuItem_spellingCheckSpellingAsYouType</string>
-							<string>menuItem_spellingCommand</string>
-							<string>menuItem_startSpeaking</string>
-							<string>menuItem_status</string>
-							<string>menuItem_stopSpeaking</string>
-							<string>menuItem_underline</string>
-							<string>menuItem_view</string>
-							<string>menuItem_window</string>
-							<string>menuItem_writingDirection</string>
-							<string>menuItem_zoom</string>
-							<string>menu_Adium_About</string>
-							<string>menu_Adium_Other</string>
-							<string>menu_Adium_Preferences</string>
-							<string>menu_Contact_AccountSpecific</string>
-							<string>menu_Contact_Action</string>
-							<string>menu_Contact_Additions</string>
-							<string>menu_Contact_Info</string>
-							<string>menu_Contact_Manage</string>
-							<string>menu_Contact_NegativeAction</string>
-							<string>menu_Display_General</string>
-							<string>menu_Display_Jump</string>
-							<string>menu_Display_MessageControl</string>
-							<string>menu_Dock_Status</string>
-							<string>menu_Edit_Additions</string>
-							<string>menu_Edit_Bottom</string>
-							<string>menu_Edit_Links</string>
-							<string>menu_File_Accounts</string>
-							<string>menu_File_Additions</string>
-							<string>menu_File_Close</string>
-							<string>menu_File_New</string>
-							<string>menu_File_Save</string>
-							<string>menu_Format_Additions</string>
-							<string>menu_Format_Palettes</string>
-							<string>menu_Format_Styles</string>
-							<string>menu_Help_Additions</string>
-							<string>menu_Help_Local</string>
-							<string>menu_Help_Web</string>
-							<string>menu_Status_Accounts</string>
-							<string>menu_Status_Additions</string>
-							<string>menu_Status_SocialNetworking</string>
-							<string>menu_Status_State</string>
-							<string>menu_View_Additions</string>
-							<string>menu_View_Appearance_Toggles</string>
-							<string>menu_View_Counting_Toggles</string>
-							<string>menu_View_General</string>
-							<string>menu_View_Sorting</string>
-							<string>menu_View_Toggles</string>
-							<string>menu_Window_Auxiliary</string>
-							<string>menu_Window_Commands</string>
-							<string>menu_Window_Fixed</string>
-							<string>menu_Window_Top</string>
-							<string>nilMenuItem</string>
-							<string>sharedAdium</string>
+						<object class="IBToOneOutletInfo" key="menuItem_adiumForums">
+							<string key="name">menuItem_adiumForums</string>
+							<string key="candidateClassName">NSMenuItem</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_Format_Italics</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_aboutAdium</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_adiumForums</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_adiumHelp</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_adiumXtras</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_bigger</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_bold</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_bringAllToFront</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_checkForUpdates</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_clear</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_close</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_closeAllChats</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_closeChat</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_contact</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_contribute</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_copy</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_copyStyle</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_customizeToolbar</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_cut</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_deselectAll</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_display</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_donate</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_edit</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_file</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_find</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_findCommand</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_findJumpToSelection</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_findNext</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_findPrevious</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_findUseSelectionForFind</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_format</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_help</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_helpOut</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_hideAdium</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_hideOthers</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_italic</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_minimize</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pageSetup</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_paste</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pasteAndMatchStyle</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pasteStyle</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_pasteWithImagesAndColors</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_preferences</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_print</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_quitAdium</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_reportABug</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_rightToLeft</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_saveAs</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_selectAll</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_sendFeedback</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_services</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_showAll</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_showColors</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_showFonts</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_smaller</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_speech</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_spelling</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_spellingCheckGrammarWithSpelling</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_spellingCheckSpelling</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_spellingCheckSpellingAsYouType</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_spellingCommand</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_startSpeaking</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_status</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_stopSpeaking</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_underline</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_view</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_window</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_writingDirection</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuItem_zoom</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Adium_About</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Adium_Other</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Adium_Preferences</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_AccountSpecific</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_Action</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_Info</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_Manage</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Contact_NegativeAction</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Display_General</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Display_Jump</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Display_MessageControl</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Dock_Status</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Edit_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Edit_Bottom</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Edit_Links</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_File_Accounts</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_File_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_File_Close</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_File_New</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_File_Save</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Format_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Format_Palettes</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Format_Styles</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Help_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Help_Local</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Help_Web</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Status_Accounts</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Status_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Status_SocialNetworking</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Status_State</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_Additions</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_Appearance_Toggles</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_Counting_Toggles</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_General</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_Sorting</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_View_Toggles</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Window_Auxiliary</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Window_Commands</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Window_Fixed</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menu_Window_Top</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">nilMenuItem</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">sharedAdium</string>
-								<string key="candidateClassName">NSObject</string>
-							</object>
+						<object class="IBToOneOutletInfo" key="menuItem_adiumHelp">
+							<string key="name">menuItem_adiumHelp</string>
+							<string key="candidateClassName">NSMenuItem</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="menuItem_adiumXtras">
+							<string key="name">menuItem_adiumXtras</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_bigger">
+							<string key="name">menuItem_bigger</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_bold">
+							<string key="name">menuItem_bold</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_bringAllToFront">
+							<string key="name">menuItem_bringAllToFront</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_checkForUpdates">
+							<string key="name">menuItem_checkForUpdates</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_clear">
+							<string key="name">menuItem_clear</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_close">
+							<string key="name">menuItem_close</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_closeAllChats">
+							<string key="name">menuItem_closeAllChats</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_closeChat">
+							<string key="name">menuItem_closeChat</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_contact">
+							<string key="name">menuItem_contact</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_contribute">
+							<string key="name">menuItem_contribute</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_copy">
+							<string key="name">menuItem_copy</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_copyStyle">
+							<string key="name">menuItem_copyStyle</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_customizeToolbar">
+							<string key="name">menuItem_customizeToolbar</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_cut">
+							<string key="name">menuItem_cut</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_deselectAll">
+							<string key="name">menuItem_deselectAll</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_display">
+							<string key="name">menuItem_display</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_donate">
+							<string key="name">menuItem_donate</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_edit">
+							<string key="name">menuItem_edit</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_file">
+							<string key="name">menuItem_file</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_find">
+							<string key="name">menuItem_find</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_findCommand">
+							<string key="name">menuItem_findCommand</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_findJumpToSelection">
+							<string key="name">menuItem_findJumpToSelection</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_findNext">
+							<string key="name">menuItem_findNext</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_findPrevious">
+							<string key="name">menuItem_findPrevious</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_findUseSelectionForFind">
+							<string key="name">menuItem_findUseSelectionForFind</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_format">
+							<string key="name">menuItem_format</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_help">
+							<string key="name">menuItem_help</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_helpOut">
+							<string key="name">menuItem_helpOut</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_hideAdium">
+							<string key="name">menuItem_hideAdium</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_hideOthers">
+							<string key="name">menuItem_hideOthers</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_italic">
+							<string key="name">menuItem_italic</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_minimize">
+							<string key="name">menuItem_minimize</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_paste">
+							<string key="name">menuItem_paste</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_pasteAndMatchStyle">
+							<string key="name">menuItem_pasteAndMatchStyle</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_pasteStyle">
+							<string key="name">menuItem_pasteStyle</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_pasteWithImagesAndColors">
+							<string key="name">menuItem_pasteWithImagesAndColors</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_preferences">
+							<string key="name">menuItem_preferences</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_print">
+							<string key="name">menuItem_print</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_quitAdium">
+							<string key="name">menuItem_quitAdium</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_reportABug">
+							<string key="name">menuItem_reportABug</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_rightToLeft">
+							<string key="name">menuItem_rightToLeft</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_saveAs">
+							<string key="name">menuItem_saveAs</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_selectAll">
+							<string key="name">menuItem_selectAll</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_sendFeedback">
+							<string key="name">menuItem_sendFeedback</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_services">
+							<string key="name">menuItem_services</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_showAll">
+							<string key="name">menuItem_showAll</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_showColors">
+							<string key="name">menuItem_showColors</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_showFonts">
+							<string key="name">menuItem_showFonts</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_smaller">
+							<string key="name">menuItem_smaller</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_speech">
+							<string key="name">menuItem_speech</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_spelling">
+							<string key="name">menuItem_spelling</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_spellingCheckGrammarWithSpelling">
+							<string key="name">menuItem_spellingCheckGrammarWithSpelling</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_spellingCheckSpelling">
+							<string key="name">menuItem_spellingCheckSpelling</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_spellingCheckSpellingAsYouType">
+							<string key="name">menuItem_spellingCheckSpellingAsYouType</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_spellingCommand">
+							<string key="name">menuItem_spellingCommand</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_startSpeaking">
+							<string key="name">menuItem_startSpeaking</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_status">
+							<string key="name">menuItem_status</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_stopSpeaking">
+							<string key="name">menuItem_stopSpeaking</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_underline">
+							<string key="name">menuItem_underline</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_view">
+							<string key="name">menuItem_view</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_window">
+							<string key="name">menuItem_window</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_writingDirection">
+							<string key="name">menuItem_writingDirection</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menuItem_zoom">
+							<string key="name">menuItem_zoom</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Adium_About">
+							<string key="name">menu_Adium_About</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Adium_Other">
+							<string key="name">menu_Adium_Other</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Adium_Preferences">
+							<string key="name">menu_Adium_Preferences</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_AccountSpecific">
+							<string key="name">menu_Contact_AccountSpecific</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_Action">
+							<string key="name">menu_Contact_Action</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_Additions">
+							<string key="name">menu_Contact_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_Info">
+							<string key="name">menu_Contact_Info</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_Manage">
+							<string key="name">menu_Contact_Manage</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Contact_NegativeAction">
+							<string key="name">menu_Contact_NegativeAction</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Display_General">
+							<string key="name">menu_Display_General</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Display_Jump">
+							<string key="name">menu_Display_Jump</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Display_MessageControl">
+							<string key="name">menu_Display_MessageControl</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Dock_Status">
+							<string key="name">menu_Dock_Status</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Edit_Additions">
+							<string key="name">menu_Edit_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Edit_Bottom">
+							<string key="name">menu_Edit_Bottom</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Edit_Links">
+							<string key="name">menu_Edit_Links</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_File_Accounts">
+							<string key="name">menu_File_Accounts</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_File_Additions">
+							<string key="name">menu_File_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_File_Close">
+							<string key="name">menu_File_Close</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_File_New">
+							<string key="name">menu_File_New</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_File_Save">
+							<string key="name">menu_File_Save</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Format_Additions">
+							<string key="name">menu_Format_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Format_Palettes">
+							<string key="name">menu_Format_Palettes</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Format_Styles">
+							<string key="name">menu_Format_Styles</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Help_Additions">
+							<string key="name">menu_Help_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Help_Local">
+							<string key="name">menu_Help_Local</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Help_Web">
+							<string key="name">menu_Help_Web</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Status_Accounts">
+							<string key="name">menu_Status_Accounts</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Status_Additions">
+							<string key="name">menu_Status_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Status_SocialNetworking">
+							<string key="name">menu_Status_SocialNetworking</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Status_State">
+							<string key="name">menu_Status_State</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_Additions">
+							<string key="name">menu_View_Additions</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_Appearance_Toggles">
+							<string key="name">menu_View_Appearance_Toggles</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_Counting_Toggles">
+							<string key="name">menu_View_Counting_Toggles</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_General">
+							<string key="name">menu_View_General</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_Sorting">
+							<string key="name">menu_View_Sorting</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_View_Toggles">
+							<string key="name">menu_View_Toggles</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Window_Auxiliary">
+							<string key="name">menu_Window_Auxiliary</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Window_Commands">
+							<string key="name">menu_Window_Commands</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Window_Fixed">
+							<string key="name">menu_Window_Fixed</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="menu_Window_Top">
+							<string key="name">menu_Window_Top</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nilMenuItem">
+							<string key="name">nilMenuItem</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="sharedAdium">
+							<string key="name">sharedAdium</string>
+							<string key="candidateClassName">NSObject</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIMenuController.h</string>
@@ -5161,145 +4478,42 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>runToolbarConfigurationPalette:</string>
-							<string>toggleBaseWritingDirection:</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="runToolbarConfigurationPalette:">id</string>
+						<string key="toggleBaseWritingDirection:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="runToolbarConfigurationPalette:">
+							<string key="name">runToolbarConfigurationPalette:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
+						<object class="IBActionInfo" key="toggleBaseWritingDirection:">
+							<string key="name">toggleBaseWritingDirection:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>runToolbarConfigurationPalette:</string>
-							<string>toggleBaseWritingDirection:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">runToolbarConfigurationPalette:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">toggleBaseWritingDirection:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSDocument</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>printDocument:</string>
-							<string>revertDocumentToSaved:</string>
-							<string>runPageLayout:</string>
-							<string>saveDocument:</string>
-							<string>saveDocumentAs:</string>
-							<string>saveDocumentTo:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>printDocument:</string>
-							<string>revertDocumentToSaved:</string>
-							<string>runPageLayout:</string>
-							<string>saveDocument:</string>
-							<string>saveDocumentAs:</string>
-							<string>saveDocumentTo:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">printDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">revertDocumentToSaved:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">runPageLayout:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">saveDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">saveDocumentAs:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">saveDocumentTo:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSDocument.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">PurpleAccountViewController</string>
 					<string key="superclassName">AIAccountViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkBox_broadcastMusic</string>
-							<string>checkBox_displayCustomEmoticons</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="checkBox_broadcastMusic">NSButton</string>
+						<string key="checkBox_displayCustomEmoticons">NSButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="checkBox_broadcastMusic">
+							<string key="name">checkBox_broadcastMusic</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSButton</string>
+						<object class="IBToOneOutletInfo" key="checkBox_displayCustomEmoticons">
+							<string key="name">checkBox_displayCustomEmoticons</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkBox_broadcastMusic</string>
-							<string>checkBox_displayCustomEmoticons</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">checkBox_broadcastMusic</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">checkBox_displayCustomEmoticons</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/PurpleAccountViewController.h</string>
@@ -5353,13 +4567,13 @@
 						<string key="minorKey">./Classes/WebView.h</string>
 					</object>
 				</object>
-			</object>
+			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1060" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
@@ -5367,22 +4581,13 @@
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<integer value="3000" key="NS.object.0"/>
+			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>NSMenuCheckmark</string>
-				<string>NSMenuMixedState</string>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{9, 8}</string>
-				<string>{7, 2}</string>
-			</object>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NSMenuCheckmark">{9, 8}</string>
+			<string key="NSMenuMixedState">{7, 2}</string>
+		</dictionary>
 	</data>
 </archive>
