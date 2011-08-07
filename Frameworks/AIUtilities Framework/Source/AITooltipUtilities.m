@@ -292,12 +292,10 @@ static	AITooltipOrientation	tooltipOrientation;
     BOOL hasTitle = tooltipTitle && [tooltipTitle length];
     BOOL hasBody = tooltipBody && [tooltipBody length];
 	
-    //init titleAndBodyMarginLineColor only once (Drop 10.5 and use blocks, dispatch_once)
-    if(!titleAndBodyMarginLineColor) {
-        NSColor *newTitleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
-        if(!OSAtomicCompareAndSwapPtrBarrier(nil, newTitleAndBodyMarginLineColor, (void *)&titleAndBodyMarginLineColor))
-            [newTitleAndBodyMarginLineColor release];
-    }
+	static dispatch_once_t setTitleAndBodyMarginLineColor;
+	dispatch_once(&setTitleAndBodyMarginLineColor, ^{
+		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
+	});
 
     if (hasTitle) {
         //Make sure we're not wrapping by default
