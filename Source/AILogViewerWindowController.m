@@ -53,8 +53,6 @@
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
 
-#import <libkern/OSAtomic.h>
-
 
 #define KEY_LOG_VIEWER_WINDOW_FRAME		@"Log Viewer Frame"
 #define TOOLBAR_LOG_VIEWER				@"Log Viewer Toolbar"
