@@ -39,8 +39,6 @@
 
 #import <FriBidi/NSString-FBAdditions.h>
 
-#import <AIUtilities/AILeopardCompatibility.h>
-
 #define MAX_HISTORY					25		//Number of messages to remember in history
 #define ENTRY_TEXTVIEW_PADDING		6		//Padding for auto-sizing
 
