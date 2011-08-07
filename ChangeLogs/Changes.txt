@@ -60,9 +60,11 @@ Version 1.5 (X/X/2011)
   * Fixed link insertion for NetNewsWire. (#11389)
   * Added Google Chrome support for link insertion.
 
- Message Styles
+ Message View
   * Smooth Operator replaced Stockholm as the default message style
   * Added the "lastFocus" class for message styles to the latest message received while the chat didn't have focus, and "regainedFocus" for the first message received while the chat has regained focus after having previously lost it.
+  * Made emoticons between packs more consistent. (#11450)
+  * Fixed the ":^)" emoticon being mistakenly interpreted the same as ":-\". (#13924)
 
  Status
  * Added ability to change which track information the "iTunes" status displays. (#6373)
@@ -104,6 +106,7 @@ Version 1.5 (X/X/2011)
   * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for graphics)
   * Updated Adium Help documentation to look native on OS X Lion. (Paul Wilde) (#15357)
   * Added a menu item to view release notes in the help menu. (#8569)
+  * Converted most AppleScripts from .scpt to .applescript files. (dak180) (#13940)
   * Miscellaneous improvements to Copyright.txt file.
   * Rewrote the libpurple eventloop to use libdispatch. (#13932)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
