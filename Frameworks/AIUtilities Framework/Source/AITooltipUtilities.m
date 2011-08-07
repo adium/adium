@@ -15,7 +15,6 @@
  */
 
 #import "AITooltipUtilities.h"
-#import <libkern/OSAtomic.h>
 
 #define TOOLTIP_MAX_WIDTH			300
 #define TOOLTIP_INSET				4.0f
