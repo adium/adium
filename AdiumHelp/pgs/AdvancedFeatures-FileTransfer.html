@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="file, transfer, ft, cancelled transfer" />
+<meta name="description" content="File Transfer" />
+<title>File transfer</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>File transfer</h1>
+	</div>
+	<p>Adium supports file transfers over AIM, Jabber, MSN, and Yahoo protocols.</p>
+<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Which protocols support file transfer?</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Sending and receiving files is currently supported on:</p>
+				<ul>
+					<li>AIM (hard limit of 4 GB)</li>
+					<li>ICQ (hard limit of 4 GB)</li>
+					<li>IRC</li>
+					<li>MSN</li>
+					<li>SILC (not yet in Adium)</li>
+					<li>Yahoo when not using an HTTP proxy (is relayed via a file transfer server).</li>
+					<li>XMPP (Jabber) when neither side is behind a NAT device.</li>
+					<li>Bonjour</li>
+				</ul>
+		</div>
+	</div>
+<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Initiating a file transfer</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>There are a variety of ways to initiate a file transfer with another user:</p>
+				<ul>
+					<li>Click the <strong>File Transfer icon</strong> (Document with a green arrow icon), located in the message view's toolbar.</li>
+					<li>Select the destination user in the contact list then click <strong>Contact → Send File...</strong></li>
+					<li>Simply drag and drop a file from the Finder onto the contact in your Contact List.</li>
+				</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>AIM/ICQ file transfer ports</h3>
+		</div>
+		<div class="taskboxtext">
+		<p>Users behind a router or a firewall may have better luck with AIM file transfer after forwarding ports <strong>5190 - 5200</strong> to their machine.</p>
+			<ul>
+				<li>Mac OS X 10.5 users: Add Adium to the allowed programs list in the software firewall. Go to <strong>System Preferences → Security → Firewall</strong>. If <strong>Allow all incoming connections</strong> is not selected, choose <strong>Set access for specific services and applications</strong>, click the <strong>+</strong> button, and select <strong>Adium</strong> from your Applications folder.</li>
+				<li>Mac OS X 10.4 users: The OS X software firewall can be controlled via <strong>System Preferences → Sharing → Firewall</strong>. Click on <strong>New</strong>, change Port Name to <strong>Other</strong>, then <strong>enter 5190-5200 for TCP port</strong> and "AIM" for the description.)</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Why does AIM/ICQ file transfer sometimes work better in iChat?</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>When the sender is behind a firewall or router, libpurple's AIM file transfer implementation may fail. See the previous section for more information.</li>
+				<li>libpurple does not support transferring of entire folders yet. Such transfers will fail.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Improving Bonjour file transfer</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>For Bonjour file transfer to work when sending it is required to allow port 5298 TCP and UDP in.</p>
+		</div>
+	</div>
+	</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIDockIconPreviewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = AIDockIconPreviewView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = AIEmoticonPreviewView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = AIImageGridXtraPreviewView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AIScriptPreviewView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = AIXtraInfoView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {browseXtras = id; checkForUpdates = id; deleteXtra = id; setCategory = id; }; 
+            CLASS = AIXtrasManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                infoView = NSTextView; 
+                previewContainerView = NSScrollView; 
+                previewController = id; 
+                readmeView = NSView; 
+                sidebar = NSTableView; 
+                window = NSWindow; 
+                xtraList = NSTableView; 
+            }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

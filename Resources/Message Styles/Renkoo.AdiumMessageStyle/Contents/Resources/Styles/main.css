@@ -1,0 +1,314 @@
+*
+{
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+body
+{
+	background-color: white;
+	color: black;
+}
+
+.x-followUp
+{
+	clear: right;
+	height: 1px;
+	font-size: 1px;
+	line-height: 1px;
+	margin: 4px 0 4px 0;
+}
+
+.x-chatItem
+{
+	opacity: 0.96;
+}
+
+.x-tableBubble
+{
+	width: 100%;
+}
+
+.x-tableBubble .x-tl
+{
+	height: 8px;
+}
+
+.x-tableBubble .x-tr
+{
+	width: 8px;
+	height: 8px;
+}
+
+.x-message
+{
+	padding-top: 2px;
+	padding-right: 1em;
+	padding-bottom: 0px;
+	padding-left: 1.25em;
+	word-wrap: break-word;
+}
+
+.x-tableBubble .x-message img
+{
+	vertical-align: middle;
+}
+
+.x-tableBubble .x-messageRight
+{
+	width: 1px;
+}
+
+.x-tableBubble .x-bl
+{
+	height: 10px;
+}
+
+.x-tableBubble .x-br
+{
+	width: 8px;
+	height: 10px;
+}
+
+.x-tableBubble .x-timeStamp
+{
+	margin-bottom: 2px;
+	margin-left: 7px;
+	text-align: right;
+	float: right;
+}
+
+.x-myBubble .x-indicator
+{
+	position: absolute;
+	margin-top: 8px;
+	left: 0;
+	width: 13px;
+	height: 11px;
+}
+
+.x-myBubble
+{
+	position: relative;
+	padding-left: 10px;
+	margin-left: 33px;
+	margin-right: 10px;
+}
+
+.x-chatItem .x-avatar
+{
+	width: 26px;
+	height: 26px;
+	float: left;
+	margin-top: 2px;
+}
+
+.firstFocus .x-timeStamp:before
+{
+	position: absolute;
+	right: 7px !important;
+	margin-top: -1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	content: "\002b";
+	color: white;
+	-webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, .1);
+	-webkit-border-radius: 2px;
+}
+
+.focus:not(.firstFocus) .x-timeStamp:before
+{
+	position: absolute;
+	margin-top: -1px;
+	right: 8px;
+	content: "\002b";
+}
+
+.mention
+{
+	-webkit-border-radius: 6px;
+	-webkit-box-shadow: -1px 1px 3px rgba(0, 0, 0, .3);
+	margin-top: 4px;
+	margin-bottom: 6px;
+}
+
+.mention + .mention
+{
+	margin-top: 10px;
+}
+
+.mention .x-avatar
+{
+	-webkit-border-radius: 4px;
+	-webkit-box-shadow: -1px 1px 2px rgba(0, 0, 0, .2);
+}
+
+/* status */
+
+.x-statusMessage
+{
+	opacity: 0.8;
+	color: #676767;
+}
+
+.x-statusMessage .x-myBubble .x-indicator
+{
+	background: url("../images/steelIndicator.png") no-repeat top left;
+}
+
+.x-statusMessage .x-tableBubble .x-tl
+{
+	background: url("../images/steelCurves.png") no-repeat top left;
+}
+
+.x-statusMessage .x-tableBubble .x-tr
+{
+	background: url("../images/steelCurves.png") no-repeat top right;
+}
+
+.x-statusMessage .x-tableBubble .x-head
+{
+	background: url("../images/steelCurves.png") no-repeat -10px 0;
+}
+
+.x-statusMessage .x-tableBubble .x-message
+{
+	background: url("../images/steelBackground.png") repeat-y top left;
+}
+
+.x-statusMessage .x-tableBubble .x-messageRight
+{
+	background: url("../images/steelBackground.png") repeat-y top right;
+}
+
+.x-statusMessage .x-tableBubble .x-bl
+{
+	background: url("../images/steelCurves.png") no-repeat bottom left;
+}
+
+.x-statusMessage .x-tableBubble .x-br
+{
+	background: url("../images/steelCurves.png") no-repeat bottom right;
+}
+
+.x-statusMessage .x-followUp
+{
+	background-color: #f4f0a7;
+	border-bottom: 1px solid #fff;
+}
+
+.x-statusMessage .x-timeStamp
+{
+	color: #676767;
+}
+
+.x-statusMessage.firstFocus .x-timeStamp:before
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(103, 103, 103, 1)), to(rgba(98, 98, 98, 1)));
+}
+
+/* incoming */
+
+.x-incomingItem .x-myBubble .x-indicator
+{
+	background: url("../images/yellowIndicator.png") no-repeat top left;
+}
+
+.x-incomingItem .x-tableBubble .x-tl
+{
+	background: url("../images/yellowCurves.png") no-repeat top left;
+}
+
+.x-incomingItem .x-tableBubble .x-tr
+{
+	background: url("../images/yellowCurves.png") no-repeat top right;
+}
+
+.x-incomingItem .x-tableBubble .x-head
+{
+	background: url("../images/yellowCurves.png") no-repeat -10px 0;
+}
+
+.x-incomingItem .x-tableBubble .x-message
+{
+	background: url("../images/yellowBackground.png") repeat-y top left;
+}
+
+.x-incomingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/yellowBackground.png") repeat-y top right;
+}
+
+.x-incomingItem .x-tableBubble .x-bl
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom left;
+}
+
+.x-incomingItem .x-tableBubble .x-br
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom right;
+}
+
+.x-incomingItem .x-followUp
+{
+	background-color: #f4f0a7;
+	border-bottom: 1px solid #fff;
+}
+
+.x-incomingItem .x-timeStamp
+{
+	color: #bdb410;
+}
+
+/* outgoing */
+
+.x-outgoingItem .x-myBubble .x-indicator
+{
+	background: url("../images/greenIndicator.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tl
+{
+	background: url("../images/greenCurves.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tr
+{
+	background: url("../images/greenCurves.png") no-repeat top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-head
+{
+	background: url("../images/greenCurves.png") no-repeat -10px 0;
+}
+
+.x-outgoingItem .x-tableBubble .x-message
+{
+	background: url("../images/greenBackground.png") repeat-y top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/greenBackground.png") repeat-y top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-bl
+{
+	background: url("../images/greenCurves.png") no-repeat bottom left;
+}
+
+.x-outgoingItem .x-tableBubble .x-br
+{
+	background: url("../images/greenCurves.png") no-repeat bottom right;
+}
+
+.x-outgoingItem .x-followUp
+{
+	background-color: #e2efc4;
+	border-bottom: 1px solid #fff;
+}
+
+.x-outgoingItem .x-timeStamp
+{
+	color: #9ecf35;
+}

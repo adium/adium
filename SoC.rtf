@@ -1,0 +1,65 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww17900\viewh16120\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 Adium: Google Summer of Code 2006
+\f1\b0 \
+\
+	This was our first year to participate in the Google Summer of Code.  35 applications were submitted, of which 18 were voted qualified and interesting by one or more of our 8 potential mentors.  6 applications were ultimately accepted.  Here's a look at each of the projects in turn.\
+\
+
+\f0\b Improved Jabber Support via Smack
+\f1\b0 \
+	The Jabber instant messaging protocol is undoubtedly rising as a big player in IM. It's one of the few openly standardized protocols, has unmatched features, and is backed by widely known groups including Apple, Google, and LiveJournal. \
+	Andreas Monitzer, mentored by Augie Fackler, produced twelve thousand lines of code, written in two different languages and involving changes to two distinct codebases -- Adium itself and the Jive Smack Jabber library itself.  The project was a resounding success; some work is still required to prepare the results for a release, but we expect to do so in our next release cycle.  Adium 1.1 will likely be one of the most advanced Jabber clients in the world. This was generally considered to be the highest priority project of the initial SoC ideas, and its completion is a big step forward for open instant messaging on the Mac.\
+	Smack support, about 75% complete, has already been merged into the trunk of Adium's subversion repository for inclusion in Adium 1.1.\
+\
+
+\f0\b Jingle Audio Support via Smack\
+
+\f1\b0 \
+	When Google released their Google Talk instant messaging service, they included an important new technology known as Jingle. Jingle adds the capability to send streaming data across a Jabber network, which can be used for voice chat (Jingle-Audio), video chat (Jingle-Video), and file transfers.\
+	Alvaro Saurin, mentored by Evan Schoenberg, undertook the herculean task of first implementing Jingle support to the Smack Jabber library and then creating an audio-visual Quicktime framework for multimedia in Adium, necessary since Adium previously has had no audio or video support.  The Smack side of the project was wholly successful, and other developers at Jive Software plan to continue development of the results.  This means that Jingle will be available not only to Adium but also to other clients using smack.  The Adium side is still in progress; Alvaro has laid much of the groundwork, and he will be continuing to work on the project as time allows; his work on the Adium multimedia framework should allow future development of audio and video support on other protocols in addition to Jabber.\
+\
+
+\f0\b Improved Disability Support
+\f1\b0 \
+	Adium is translated into 21 languages, but until this summer it was not well prepared to speak the language of disability.  Chirag Shah, mentored by Peter Hosey, rectified this situation, making Adium highly compliant with OS X's accessibility capabilities for text-to-speech throughout the UI via VoiceOver, text zooming for messages, and more.  Besides opening Adium to more users, this should also bring us in line with US Government Section 508 regulations, which could increase the use of Adium in schools and government offices.\
+\
+
+\f0\b Super Menu Duck (aka Improved Status Menu)
+\f1\b0 \
+	A common request we've received is for Adium's "menuling" (the status menu icon that can appear on the right side of the menubar) to be able to stay active even when Adium is not running; Apple's iChat IM application can do this, and it's often considered to be one of its remaining advantages over Adium. Joshua Lock worked with mentor Colin Barrett on rewriting the menuling from scratch.\
+	Sadly, this project was not finished, although Joshua made a tremendous effort to learn Cocoa, Objective-C, and the Adium codebase simultaneously in time to finish the project. This is not to say that the project was not fruitful: progress has been made on the menuling, and Joshua has indicated that he intends to continue working on both his project and the rest of Adium.\
+\
+
+\f0\b New Tabs via PSMTabBarControl
+\f1\b0 \
+	After Apple changed the visual appearance of their NSTabView control in the release of Mac OS X 10.2, the Adium team had to scramble to implement their own custom tabs to continue supporting tabbed messaging. Years later, John Pannel of Positive Spin Media wrote his own tab implementation designed to be easier to use than Adium's and licensed in a more flexible license.\
+	Summer-of-Coder Kent Sutherland (with design input from his mentor, David Smith) updated PSMTabBarControl to match Adium's, and then exceed, the functionality requirements for Adium's tabbed messaging. This included tear off tabs, vertical tabs, and improved tab overflow handling. Because of his work, this highly advanced tab implementation is freely available for any Mac OS X application to use. (As of this writing, at least three other projects using it, including Kent's own program Chax, which made him the ideal developer for this task!)\
+	This project has been merged into the trunk of Adium's subversion repository for inclusion in Adium 1.1.\
+\
+
+\f0\b Contact List Splitting
+\f1\b0 \
+	Another common request we've received is the ability to separate groups into different contact lists so you can have multiple lists on screen at once with a specific set of groups. Due to his familiarity with the contact list code Nicholas Peshek's application to develop this functionality was accepted. \
+	Although he was not fully successful in his efforts Nicholas attempted to integrate this functionality and properly handle it's behavior, ultimately delivering a proof of concept that could separate lists and save them for restoration. Nicholas has indicated that he intends to continue working on both Adium and his branch to complete this functionality for inclusion in a future release.\
+\
+
+\f0\b Conclusion
+\f1\b0 \
+	Google Summer of Code 2006 was a wonderful experience for Adium and our six students. The work listed above has accelerated our timeline on some extremely high priority projects by months. In addition to that, the "spillover" effects from the project will impact many other projects positively. Andreas' improvements to Smack and Alvaro's implementation of Jingle audio support will benefit other projects using Smack, including Jive Software's Spark. Kent's changes to PSMTabBarControl could quite possibly enhance the user interfaces and reduce the code maintenance costs of dozens of Mac applications currently using their own tab classes.  We've also already seen benefits from other projects' Summer of Code students -- Adium 1.0 will have QQ protocol support, a longtime request from Chinese users, which was implemented by Mark Huetsch for the Gaim Summer of Code.\
+	Along with the work that was done, several Adium developers learned a lot about the intricacies of Jabber while discussing things with Andreas, and all of the students came out of the project with more knowledge than they had before (ranging from original research on UI problems to learning new languages and APIs).\
+	Last, but not least, many of our students plan to contribute further to Adium. Developer time and energy is one thing almost any open source project can use more of, so we're delighted to have students continuing to contribute.\
+\
+	If you're a student thinking about participating next year -- and if you're thinking about it, you should! -- there's a few things we learned this year that might help. \
+	First and possibly most important: \
+		Talk to us! Many of the students we had this year participated on our irc channel both before and after submitting their applications. With multiple conversations with them demonstrating that they were competent and easy to get along with, it was much easier for us to commit to voting for their projects.\
+	Second: \
+		Think carefully about what project(s) you want to apply for. Useful and interesting student-submitted projects may actually have a better chance than projects from the "official" idea list: there's less competition, and innovation is exciting. On the other hand, ideas on the official list are ones that we regard as high priority, so it's likely that many projects on the list will have an application accepted. A good example is the "Improve Jabber Support" project this year: we considered this a very important project, and 11 applicants did, as well. We could only accept one no matter how qualified each student was, a maximum 1 in 11 success rate.\
+	Third: \
+		Get the code and have a look around before making time estimates. Parts of Adium are, to be honest, pretty spaghetti-like code. It's also a lot larger than most student projects. Having a feel for these issues will help you plan more accurately.  Summer of Code is intended to be a full-time internship, demanding full-time hours; schedule your summer appropriately, as it will be fun but also hard work.\
+\
+	We're already looking forward to Summer of Code 2007.  Thanks to Google for sponsoring Summer of Code 2006, to all of the Adium development team (mentors and non-mentors) for assisting the students, and most of all to Andreas, Alvaro, Chirag, Joshua, Kent, and Nicholas for their involvement.}

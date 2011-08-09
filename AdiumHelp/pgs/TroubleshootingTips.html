@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="troubleshooting, problem, issue" />
+<meta name="description" content="Troubleshooting" />
+<title>Troubleshooting tips</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner">
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Troubleshooting tips</h1>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>1. Do not delete Adium and reinstall it</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>This almost never works. It only works for certain very specific types of problems (such as if you “slimmed” your Adium, as mentioned later); if you get to the point of asking us for help, we'll tell you if it's appropriate to try a delete and reinstall.</p>
+			<p>Otherwise, don't bother to try it—it won't help.</p>
+			<p>However, troubleshooting Adium's preferences does make sense. Further down, you will find details on that.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>2. Make sure you're using the newest Adium release</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>If you're using an older version, the <a href="http://www.adium.im"><span class="icon">newest release of Adium</span></a> may already include a fix for your problem.
+				<ol>
+					<li>Choose <strong>Check for Updates... </strong>from the <strong>Adium</strong> menu.</li>
+					<li>Click Install and Relaunch</li>
+				</ol>
+				</li>
+				<li>If you are using a beta version or a nightly build, the last stable release from the <a href="http://www.adium.im">Adium Website</a> may be better suited for your use.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>3. Remove any non-standard Xtra</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>If you've installed plug-ins or other Adium Xtras, they may be causing your problem (depending on the problem - a contact list style won't cause message view problems, for example).</p>
+			<p>Try this:</p>
+				<ol>
+					<li>Quit Adium.</li>
+					<li>Remove the Xtras</li>
+					<li>Launch Adium again.</li>
+				</ol>
+			<p>If that works, start moving Xtras back – relaunching Adium after each one – until the problem reoccurs; then you've found the bad one. Please do not create a ticket for a non-standard Xtra. The Adium team isn't responsible for Xtras that aren't bundled with Adium, and creating a ticket is not an effective way to get the Xtra fixed. Instead, please report the problem to the Xtra's author.</p>
+			<p>Information on removing and (re)installing Xtras is available in the <a href="AdvancedFeatures-AdiumXtras.html">Adium Xtras documentation</a>.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>4. Try a fresh set of preferences</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Corrupt or old preferences can be a good source of crashes and other odd behavior. It may also happen that you've managed to configure your Adium in such a way to discover a bug that requires a specific combination of preferences to trigger. It's easy to rule out both of these by trying a fresh set of preferences.</p>
+			<p>Navigate to the following locations:</p>
+			<ul>
+				<li>Home Folder <strong>→</strong> Library <strong>→</strong> Application Support <strong>→</strong> Adium 2.0</li>
+				<li>Home Folder <strong>→</strong> Library <strong>→</strong> Preferences <strong>→</strong> com.adiumX.adiumX.plist</li>
+			</ul>
+			<ol>
+				<li>Quit Adium.</li>
+				<li>Rename the "Adium 2.0" folder to "Adium 2.0-old".</li>
+				<li>Rename the "com.adiumX.adiumX.plist" to "com.adiumX.adiumX-old.plist".</li>
+				<li>Relaunch Adium. Check if your problems persist.</li>
+			</ol>
+			<p><b>This is a very common fix for many issues and therefore is a highly recommended step</b> - please try it even if you don't want to trash your preferences altogether since it can at least help narrow down the problem and may provide alternate solutions. In many cases where this solves the problem we do not have the manpower to discover why the preferences were causing a problem (as this can be a lengthy process), so your only solution may be to lose all or some of your preferences.</p>
+			<p>If that doesn't work, then you may as well revert to your previous preferences</p>
+			<ol>
+				<li>Quit Adium.</li>
+				<li>Delete the new "Adium 2.0" folder and the new "com.adiumX.adiumX.plist" file that Adium created.</li>
+				<li>Rename your "Adium 2.0-old" folder back to "Adium 2.0" and "com.adiumX.adiumX-old.plist" to "com.adiumX.adiumX.plist".</li>
+			</ol>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>5. Try a fresh user account</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Occasionally, an issue in Adium can be caused by a strange setting for your OS X user, or other installed software (especially system mods and hacks). Temporarily creating a new user (in System Preferences → Accounts) is the best way to check against these issues.</p>
+			<p>Create the account, log out of your account (Apple Menu → Log Out), and log into the new one. If the problem doesn't occur on the other user account, then you know it's something in your current account. If you don't know where to go from there, <a href="http://trac.adium.im/wiki/ContactUs">Contact Us</a> and we'll help you narrow the field.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>6. Try another client</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>In some cases the problems encountered in Adium can actually be a result of a server-side problem (i.e. connection problems). These problems can be confirmed by logging in to your account using the equivalent mainline client; for example if the problem is with MSN, login with Microsoft Messenger to see if it occurs using that client as well.</p>
+			<p>If the problem persists across different clients, then there is likely nothing we can do to solve the problem except wait for the server issues to be repaired; please do not open new tickets regarding these kinds of problems.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>If it still doesn't work</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Still have your problem? Please see <a href="http://trac.adium.im/wiki/ReportingBugs">Reporting Bugs</a>, which tells you how to search for existing tickets (in case there already is one) and how to file a new one if one doesn't already exist.</p>
+			<p>Not sure whether the problem lies with Adium? Ask on the <a class="ext_link" href="http://forum.adium.im">Adium forums</a>, in the <a href="irc://irc.freenode.net/#adium">Adium IRC channel</a>, or on <a href="http://getsatisfaction.com/adium">getsatisfaction.com</a>.</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>
