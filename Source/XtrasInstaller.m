@@ -166,7 +166,33 @@
 					 NULL, @selector(sheetDidDismiss:returnCode:contextInfo:), nil, errorMsg);
 }
 
-- (void)downloadDidFinish:(NSURLDownload *)download {
+- (void)setQuarantineProperties:(NSDictionary *)dict forDirectory:(FSRef *)dir
+{
+	FSIterator iterator;
+	
+	if (FSOpenIterator(dir, kFSIterateFlat, &iterator) != noErr) {
+		AILogWithSignature(@"Error quarantining %p", dir);
+	}
+	
+	FSRef ref;
+	ItemCount num;
+	
+	while (FSGetCatalogInfoBulk(iterator, 1, &num, NULL, kFSCatInfoNone, NULL, &ref, NULL, NULL) == noErr)
+	{
+		LSSetItemAttribute(&ref, kLSRolesAll, kLSItemQuarantineProperties, dict);
+		
+		FSCatalogInfo catinfo;
+		FSGetCatalogInfo(&ref, kFSCatInfoNodeFlags, &catinfo, NULL, NULL, NULL);
+		
+		if(catinfo.nodeFlags & kFSNodeIsDirectoryMask) {
+			[self setQuarantineProperties:dict forDirectory:&ref];
+		}
+	}
+	
+	FSCloseIterator(iterator);
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)inDownload {
 	NSString		*lastPathComponent = [dest lastPathComponent];
 	NSString		*pathExtension = [[lastPathComponent pathExtension] lowercaseString];
 	BOOL			decompressionSuccess = YES, success = NO;
@@ -259,6 +285,51 @@
 	
 	dest = [dest stringByDeletingLastPathComponent];
 	
+	FSRef fsRef;
+	OSStatus err;
+	
+	if (FSPathMakeRef((const UInt8 *)[dest fileSystemRepresentation], &fsRef, NULL) == noErr) {
+		
+		NSMutableDictionary *quarantineProperties = nil;
+		CFTypeRef cfOldQuarantineProperties = NULL;
+		
+		err = LSCopyItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, &cfOldQuarantineProperties);
+		
+		if (err == noErr) {
+			
+			if (CFGetTypeID(cfOldQuarantineProperties) == CFDictionaryGetTypeID()) {
+				quarantineProperties = [[(NSDictionary *)cfOldQuarantineProperties mutableCopy] autorelease];
+			} else {
+				AILogWithSignature(@"Getting quarantine data failed for %@ (%@)", self, dest);
+				return;
+			}
+			
+			CFRelease(cfOldQuarantineProperties);
+			
+			if (!quarantineProperties) {
+				return;
+			}
+			
+			AILogWithSignature(@"Old quarantine data: %@", quarantineProperties);
+			
+		} else if (err == kLSAttributeNotFoundErr) {
+			quarantineProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+		}
+		
+		[quarantineProperties setObject:(NSString *)kLSQuarantineTypeWebDownload
+								 forKey:(NSString *)kLSQuarantineTypeKey];
+		
+		[quarantineProperties setObject:[[download request] URL]
+								 forKey:(NSString *)kLSQuarantineDataURLKey];
+		
+		[self setQuarantineProperties:quarantineProperties forDirectory:&fsRef];
+		
+		AILogWithSignature(@"Quarantined %@ with %@", dest, quarantineProperties);
+		
+	} else {
+		AILogWithSignature(@"Danger! Could not find file to quarantine: %@!", dest);
+	}
+	
 	//the remaining files in the directory should be the contents of the xtra
 	fileEnumerator = [fileManager enumeratorAtPath:dest];
 
@@ -266,6 +337,7 @@
 		NSSet			*supportedDocumentExtensions = [[NSBundle mainBundle] supportedDocumentExtensions];
 
 		for (NSString *nextFile in fileEnumerator) {
+			
 			/* Ignore hidden files and the __MACOSX folder which some compression engines stick into the archive but
 			 * /usr/bin/unzip doesn't handle properly.
 			 */
