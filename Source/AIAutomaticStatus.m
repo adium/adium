@@ -225,22 +225,29 @@ typedef enum {
 	} else if ([notificationName isEqualToString:AIMachineIdleUpdateNotification]) {
 		double duration = [[[notification userInfo] objectForKey:@"Duration"] doubleValue];
 		
-		// This is very spammy when we're already idle.
-		if (duration >= idleStatusInterval && !(automaticStatusBitMap & AIAwayIdle)) {
+		if (reportIdleEnabled && duration >= idleReportInterval) {
 			NSDate *idleSince = [[notification userInfo] objectForKey:@"idleSince"];
 			
-			if (![[adium.preferenceController preferenceForKey:@"idleSince" group:GROUP_ACCOUNT_STATUS] isEqualToDate:idleSince]) {
-				AILogWithSignature(@"Idle (start) detected.");
-
-				if (idleStatusEnabled) automaticStatusBitMap |= AIAwayIdle;
+			
+			if ((NSInteger)[[adium.preferenceController preferenceForKey:@"idleSince"
+																   group:GROUP_ACCOUNT_STATUS] timeIntervalSince1970] !=
+				(NSInteger)[idleSince timeIntervalSince1970]) {
+				
+				AILogWithSignature(@"Idle (start) detected. %@ -> %@", [adium.preferenceController preferenceForKey:@"idleSince"
+																											  group:GROUP_ACCOUNT_STATUS], idleSince);
 				
 				// Update our idle time
-				if (reportIdleEnabled) {
-					[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"idleSince"]
-													   forKey:@"idleSince"
-														group:GROUP_ACCOUNT_STATUS];
-				}
+				[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"idleSince"]
+												   forKey:@"idleSince"
+													group:GROUP_ACCOUNT_STATUS];
 			}
+		}
+		
+		if (idleStatusEnabled && duration >= idleStatusInterval && !(automaticStatusBitMap & AIAwayIdle)) {
+			
+			AILogWithSignature(@"Auto-away (start) detected.");
+
+			automaticStatusBitMap |= AIAwayIdle;
 		}
 		
 	} if ([notificationName isEqualToString:AIScreenLockDidStartNotification]) {
@@ -263,12 +270,13 @@ typedef enum {
 	} else if ([notificationName isEqualToString:AIMachineIsActiveNotification]) {
 		
 		if (automaticStatusBitMap & AIAwayIdle) {
-			AILogWithSignature(@"Idle (end) detected.");
+			AILogWithSignature(@"Auto-away (end) detected.");
 			
 			automaticStatusBitMap &= ~AIAwayIdle;
 		}
 		
 		if (reportIdleEnabled) {
+			AILogWithSignature(@"Idle (end) detected.");
 			[adium.preferenceController setPreference:nil
 											   forKey:@"idleSince"
 												group:GROUP_ACCOUNT_STATUS];
