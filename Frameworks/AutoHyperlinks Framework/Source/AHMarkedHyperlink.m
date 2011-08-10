@@ -97,8 +97,29 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 																	 (CFStringRef)@"#[]",
 																	 NULL,
 																	 kCFStringEncodingUTF8);
-	
 	self.URL = [NSURL URLWithString:linkString];
+	// Because -[NSURL URLWithString:(NSString*)inString] fails creating a link with 2 fragment hashes, but we don't want to escape the first one, we esape all '#' to "%23" then unescape the first back to '#'.  rdar://9927055
+	if(!self.URL) {
+		[preString release]; preString = nil;
+		preString = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, 
+																						(CFStringRef)preString, 
+																						CFSTR(""), 
+																						kCFStringEncodingUTF8);
+		[linkString release]; linkString = nil;
+		linkString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+																		 preString? (CFStringRef)preString : (CFStringRef)inString,
+																		 (CFStringRef)@"[]",
+																		 NULL,
+																		 kCFStringEncodingUTF8);
+		NSRange fragmentRange = [linkString rangeOfString:@"%23"];
+		NSMutableString *mutaLinkString = nil;
+		if (fragmentRange.location != NSNotFound) {
+			mutaLinkString = [linkString mutableCopy];
+			[mutaLinkString replaceOccurrencesOfString:@"%23" withString:@"#" options:0 range:fragmentRange];
+		}
+		self.URL = [NSURL URLWithString:mutaLinkString];
+		[mutaLinkString release];
+	}
 	
 	[linkString release];
 	if(preString) [preString release];
