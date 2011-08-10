@@ -1,0 +1,13 @@
+<script type="text/javascript">
+
+	// Hide the header when the user scrolls up (using the same calc as nearBottom).
+	function twiddleHeader() {
+		if ( d_container.scrollTop >= ( d_chat.offsetHeight - ( window.innerHeight * 1.2 ) ) ) {
+			document.getElementById('x-header').style.display = 'block';
+		} else {
+			document.getElementById('x-header').style.display = 'none';
+		}
+	}
+
+	document.getElementById('wrap').addEventListener("scroll", twiddleHeader, false);
+</script>
