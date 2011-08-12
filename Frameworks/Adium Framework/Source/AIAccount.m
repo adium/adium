@@ -128,7 +128,22 @@ typedef enum
 	[waitingToReconnect release]; waitingToReconnect = nil;
 	[connectionProgressString release]; connectionProgressString = nil;
 	[currentDisplayName release]; currentDisplayName = nil;
-	
+
+    [lastDisconnectionError release];
+    [delayedUpdateStatusTargets release];
+    [delayedUpdateStatusTimer invalidate]; [delayedUpdateStatusTimer release];
+
+    /* Our superclass releases internalObjectID in its dealloc, so we should set it to nil when do.
+     * We could just depend upon its implementation, but this is more robust.
+     */
+    [internalObjectID release]; internalObjectID = nil; 
+
+    [self _stopAttributedRefreshTimer];
+    [autoRefreshingKeys release]; autoRefreshingKeys = nil;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [adium.preferenceController unregisterPreferenceObserver:self];
+
 	[super dealloc];
 }
 
