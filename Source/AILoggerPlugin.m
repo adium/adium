@@ -333,6 +333,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_release(activeAppendersMutationQueue); activeAppendersMutationQueue = nil;
 	dispatch_release(logIndexingGroup); logIndexingGroup = nil;
 	dispatch_release(closingIndexGroup); closingIndexGroup = nil;
+	dispatch_release(addToSearchKitQueue); addToSearchKitQueue = nil;
 	dispatch_release(logAppendingGroup); logAppendingGroup = nil;
 	dispatch_release(ioQueue); ioQueue = nil;
 	dispatch_release(jobSemaphore); jobSemaphore = nil;
