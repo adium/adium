@@ -577,7 +577,7 @@
 					/* Dragging a contact into a contact which is already within a metacontact.
 					 * This should retarget to combine the dragged contact with the metacontact.
 					 */
-					[outlineView setDropItem:[AIProxyListObject proxyListObjectForListObject:[(AIListContact *)item parentContact]
+					[outlineView setDropItem:[AIProxyListObject existingProxyListObjectForListObject:[(AIListContact *)item parentContact]
 																				inListObject:[(AIListContact *)item parentContact].containingObjects.anyObject]
 							  dropChildIndex:NSOutlineViewDropOnItemIndex];
 				}
