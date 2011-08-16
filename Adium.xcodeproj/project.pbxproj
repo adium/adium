@@ -624,6 +624,7 @@
 		34A9706F0C965F8E00F46006 /* AIAddBookmarkPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A9706D0C965F8E00F46006 /* AIAddBookmarkPlugin.m */; };
 		34A970740C965FC800F46006 /* AddBookmark.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34A970730C965FC800F46006 /* AddBookmark.nib */; };
 		34A9707E0C96602300F46006 /* sidebarStatusAreaBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A9707D0C96602200F46006 /* sidebarStatusAreaBackground.png */; };
+		34AE249E09BCCFA900A35B51 /* AIWindowDraggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AE249C09BCCFA900A35B51 /* AIWindowDraggingView.m */; };
 		34B1268E0B924E28003B0451 /* adiumPurpleDnsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B1268C0B924E28003B0451 /* adiumPurpleDnsRequest.h */; };
 		34B1268F0B924E28003B0451 /* adiumPurpleDnsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B1268D0B924E28003B0451 /* adiumPurpleDnsRequest.m */; };
 		34B3247A0CE4CCF400158D5F /* PurpleAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B324780CE4CCF400158D5F /* PurpleAccountViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3360,6 +3361,8 @@
 		34AC2FA609352C2400393D7A /* AIStatusGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIStatusGroup.m; path = "Frameworks/Adium Framework/Source/AIStatusGroup.m"; sourceTree = "<group>"; };
 		34AC36B907B5C51400145239 /* AIStatus.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIStatus.h; path = "Frameworks/Adium Framework/Source/AIStatus.h"; sourceTree = "<group>"; };
 		34AC36BA07B5C51400145239 /* AIStatus.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIStatus.m; path = "Frameworks/Adium Framework/Source/AIStatus.m"; sourceTree = "<group>"; };
+		34AE249B09BCCFA900A35B51 /* AIWindowDraggingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWindowDraggingView.h; path = Source/AIWindowDraggingView.h; sourceTree = "<group>"; };
+		34AE249C09BCCFA900A35B51 /* AIWindowDraggingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWindowDraggingView.m; path = Source/AIWindowDraggingView.m; sourceTree = "<group>"; };
 		34AEE7DC08E3546F00AE1C78 /* ESPurpleFileReceiveRequestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESPurpleFileReceiveRequestController.h; path = "Plugins/Purple Service/ESPurpleFileReceiveRequestController.h"; sourceTree = "<group>"; };
 		34AEE7DD08E3546F00AE1C78 /* ESPurpleFileReceiveRequestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESPurpleFileReceiveRequestController.m; path = "Plugins/Purple Service/ESPurpleFileReceiveRequestController.m"; sourceTree = "<group>"; };
 		34AEE7E808E35A5800AE1C78 /* ESPurpleRequestAbstractWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESPurpleRequestAbstractWindowController.h; path = "Plugins/Purple Service/ESPurpleRequestAbstractWindowController.h"; sourceTree = "<group>"; };
@@ -7388,6 +7391,8 @@
 				34607F0F09B2296A000DB3D2 /* AIHoveringPopUpButton.h */,
 				34607EE609B228FE000DB3D2 /* AIContactListNameButton.h */,
 				34607EE709B228FE000DB3D2 /* AIContactListNameButton.m */,
+				34AE249B09BCCFA900A35B51 /* AIWindowDraggingView.h */,
+				34AE249C09BCCFA900A35B51 /* AIWindowDraggingView.m */,
 				34891C120D4B75EE00AEF48C /* AIStandardListScrollView.h */,
 				34891C130D4B75EE00AEF48C /* AIStandardListScrollView.m */,
 			);
@@ -10395,6 +10400,7 @@
 				34607EE909B228FE000DB3D2 /* AIContactListNameButton.m in Sources */,
 				34607F1009B2296A000DB3D2 /* AIHoveringPopUpButtonCell.m in Sources */,
 				34607F1209B2296A000DB3D2 /* AIHoveringPopUpButton.m in Sources */,
+				34AE249E09BCCFA900A35B51 /* AIWindowDraggingView.m in Sources */,
 				342353D709D45726009FF634 /* AILogViewerWindowController.m in Sources */,
 				34107B4C09E9923D001CC042 /* AIGuestAccountWindowController.m in Sources */,
 				9ECB03E709F2A9D900996F44 /* AIDictionaryDebug.m in Sources */,
