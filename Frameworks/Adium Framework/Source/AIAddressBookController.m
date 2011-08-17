@@ -75,8 +75,8 @@
  */
 @implementation AIAddressBookController
 
-static AIAddressBookController *addressBookController = nil;
-static ABAddressBook				*sharedAddressBook;
+static AIAddressBookController	*addressBookController = nil;
+static ABAddressBook			*sharedAddressBook;
 static NSMutableDictionary		*addressBookDict;
 static NSDictionary				*serviceDict;
 
@@ -155,7 +155,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				kABJabberInstantProperty,@"Jabber",
 				kABMSNInstantProperty,@"MSN",
 				kABYahooInstantProperty,@"Yahoo!",
-				kABICQInstantProperty,@"ICQ",nil] retain];
+				kABICQInstantProperty,@"ICQ",
+				kABURLsProperty,@"Facebook", nil] retain];
 		
 		//Shared Address Book
 		[sharedAddressBook release]; sharedAddressBook = [[ABAddressBook sharedAddressBook] retain];
@@ -164,9 +165,9 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		
 		//Wait for Adium to finish launching before we build the address book so the contact list will be ready
 		[[NSNotificationCenter defaultCenter] addObserver:self
-					       selector:@selector(adiumFinishedLaunching:)
-						   name:AIApplicationDidFinishLoadingNotification
-						 object:nil];
+												 selector:@selector(adiumFinishedLaunching:)
+													 name:AIApplicationDidFinishLoadingNotification
+												   object:nil];
 		
 		//Update self immediately so the information is available to plugins and interface elements as they load
 		[self updateSelfIncludingIcon:YES];
@@ -616,6 +617,9 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	
 	else if ([property isEqualToString:kABYahooInstantProperty])
 		serviceID = @"Yahoo!";
+	
+	else if ([property isEqualToString:kABURLsProperty])
+		serviceID = @"Facebook";
 
 	return (serviceID ? [adium.accountController firstServiceWithServiceID:serviceID] : nil);
 }
@@ -720,6 +724,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
  * @param serviceID The serviceID for the contact
  * @result A corresponding <tt>ABPerson</tt>
  */
+
 + (ABPerson *)_searchForUID:(NSString *)UID serviceID:(NSString *)serviceID
 {
 	ABPerson		*person = nil;
@@ -760,7 +765,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	NSString		*serviceID;
 	NSMutableSet	*contactSet = [NSMutableSet set];
 	ABMultiValue	*emails;
-	NSInteger				i, emailsCount;
+	ABMultiValue	*homepages;
+	NSInteger				i, emailsCount, homepagesCount;
 
 	//An ABPerson may have multiple emails; iterate through them looking for @mac.com addresses
 	{
@@ -798,6 +804,28 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				//Retrieve all appropriate contacts
 				NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"MSN"]
 																				UID:email];
+				
+				//Add them to our set
+				[contactSet unionSet:contacts];
+			}
+		}
+	}
+	
+	//An ABPerson may have multiple hompages; iterate through them looking for fb:// addresses
+	{
+		homepages = [person valueForProperty:kABURLsProperty];
+		homepagesCount = [homepages count];
+		
+		for (i = 0; i < homepagesCount ; i++) {
+			NSURL	*homepage = [NSURL URLWithString:(NSString*)[homepages valueAtIndex:i]];
+			if ([[homepage scheme] isEqualToString:@"fb"]) {
+				//Retrieve all appropriate contacts
+				//This will be fb://profile/XXX where XXX is the UID
+				NSString	*facebookNumber = (NSString*)[(NSString*)homepage lastPathComponent];
+				NSString	*facebookUID = [NSString stringWithFormat:@"-%@@chat.facebook.com", facebookNumber];
+
+				NSSet		*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"Facebook"]
+																					UID:facebookUID];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
@@ -1093,7 +1121,8 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		
 		NSMutableDictionary	*dict;
 		ABMultiValue		*emails;
-		NSInteger					i, emailsCount;
+		ABMultiValue		*homepages;
+		NSInteger					i, emailsCount, homepagesCount;
 		
 		//An ABPerson may have multiple emails; iterate through them looking for @mac.com addresses
 		{
@@ -1158,6 +1187,32 @@ NSString* serviceIDForJabberUID(NSString *UID)
 			}
 		}
 		
+		//An ABPerson may have multiple hompages; iterate through them looking for fb:// addresses
+		{
+			homepages = [person valueForProperty:kABURLsProperty];
+			homepagesCount = [homepages count];
+			
+			for (i = 0; i < homepagesCount ; i++) {
+				NSURL	*homepage = [NSURL URLWithString:(NSString*)[homepages valueAtIndex:i]];
+				if ([[homepage scheme] isEqualToString:@"fb"]) {
+					//Retrieve all appropriate contacts
+					//This will be fb://profile/XXX where XXX is the UID
+					NSString	*facebookNumber = (NSString*)[(NSString*)homepage lastPathComponent];
+					NSString	*facebookUID = [NSString stringWithFormat:@"-%@@chat.facebook.com", facebookNumber];
+					if (!(dict = [addressBookDict objectForKey:@"Facebook"])) {
+						dict = [[[NSMutableDictionary alloc] init] autorelease];
+						[addressBookDict setObject:dict forKey:@"Facebook"];
+					}
+												
+					[dict setObject:[person uniqueId] forKey:facebookUID];
+												
+					//Add them to our set
+					[UIDsArray addObject:facebookUID];
+					[servicesArray addObject:@"Facebook"];
+				}
+			}
+		}
+												
 		//Now go through the instant messaging keys
 		for (serviceID in allServiceKeys) {
 			NSString			*addressBookKey = [serviceDict objectForKey:serviceID];
