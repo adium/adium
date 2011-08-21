@@ -221,7 +221,7 @@
 	for (unsigned i = 0; i <numberOfRows ; i++) {
 		AIProxyListObject *item = [self itemAtRow:i];
 		if ([item isKindOfClass:[AIListContact class]]) {
-			return item.listObject;
+			return (AIListContact *)item.listObject;
 		}
 	}
 

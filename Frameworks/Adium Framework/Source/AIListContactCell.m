@@ -21,6 +21,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
+#import "AIProxyListObject.h"
 
 #define NAME_STATUS_PAD			6
 
@@ -109,7 +110,8 @@
 - (CGFloat)cellWidth
 {
 	CGFloat		width = [super cellWidth];
-	
+	AIListObject *listObject = [proxyObject listObject];
+
 	//Name
 	width += AIceil(self.displayNameSize.width);
 	
@@ -206,6 +208,8 @@
 //Cache is flushed when alignment, color, or font is changed
 - (NSDictionary *)statusAttributes
 {
+    AIListObject    *listObject = [proxyObject listObject];
+
 	if (!_statusAttributes) {
 		NSMutableParagraphStyle	*paragraphStyle = [NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
 																				lineBreakMode:NSLineBreakByTruncatingTail];
@@ -358,6 +362,8 @@
 //Draw content of our cell
 - (void)drawContentWithFrame:(NSRect)rect
 {
+    AIListObject    *listObject = [proxyObject listObject];
+
 	//Far Left
 	if (statusIconPosition == LIST_POSITION_FAR_LEFT) rect = [self drawStatusIconInRect:rect position:IMAGE_POSITION_LEFT];
 	if (serviceIconPosition == LIST_POSITION_FAR_LEFT) rect = [self drawServiceIconInRect:rect position:IMAGE_POSITION_LEFT];
@@ -457,7 +463,8 @@
 //User Icon
 - (NSRect)drawUserIconInRect:(NSRect)inRect position:(IMAGE_POSITION)position
 {
-	NSRect	rect = inRect;
+    AIListObject    *listObject = [proxyObject listObject];
+	NSRect          rect = inRect;
 	if (userIconVisible) {
 		NSImageInterpolation savedInterpolation = [[NSGraphicsContext currentContext] imageInterpolation];
 		NSImage *image;
@@ -637,6 +644,7 @@
 
 - (BOOL)shouldShowAlias
 {
+    AIListObject *listObject = [proxyObject listObject];
 	// If we use aliases...
 	if (useAliasesAsRequested) {
 		// If we use aliases on non-parents OR this is a parent...
@@ -651,6 +659,7 @@
 //Contact label color
 - (NSColor *)labelColor
 {
+    AIListObject *listObject = [proxyObject listObject];
 	BOOL	isEvent = [listObject boolValueForProperty:@"isEvent"];
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
@@ -668,6 +677,7 @@
 //Contact text color
 - (NSColor *)textColor
 {
+    AIListObject *listObject = [proxyObject listObject];
 	NSColor	*theTextColor;
 	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"textColor"])) {
 		return theTextColor;
@@ -683,23 +693,27 @@
 //Contact user image - AIUserIcons should already have been informed of our desired size by setUserIconSize: above.
 - (NSImage *)userIconImage
 {
+    AIListObject *listObject = [proxyObject listObject];
 	return [AIUserIcons listUserIconForContact:(AIListContact *)listObject size:userIconSize];
 }
 
 //Contact state or status image
 - (NSImage *)statusImage
 {
+    AIListObject *listObject = [proxyObject listObject];
 	return [listObject statusIcon];
 }
 
 //Contact service image
 - (NSImage *)serviceImage
 {
+    AIListObject *listObject = [proxyObject listObject];
 	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconFlipped];
 }
 
 - (float)imageOpacityForDrawing
 {
+    AIListObject *listObject = [proxyObject listObject];
 	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"imageOpacity"];
 	return (imageOpacityNumber ? [imageOpacityNumber floatValue] : 0.0f);
 }

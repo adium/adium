@@ -17,6 +17,7 @@
 #import "AIProxyListObject.h"
 #import <Adium/ESObjectWithProperties.h>
 #import <Adium/AIListObject.h>
+#import <Adium/MAZeroingWeakRef.h>
 
 @interface NSObject (PublicAPIMissingFromHeadersAndDocsButInTheReleaseNotesGoshDarnit)
 - (id)forwardingTargetForSelector:(SEL)aSelector;
@@ -24,7 +25,7 @@
 
 @implementation AIProxyListObject
 
-@synthesize listObject, containingObject, key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
+@synthesize key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
 
 static NSMutableDictionary *proxyDict;
 
@@ -34,7 +35,7 @@ static NSMutableDictionary *proxyDict;
 		proxyDict = [[NSMutableDictionary alloc] init];
 }
 
-+ (AIProxyListObject *)existingProxyListObjectForListObject:(ESObjectWithProperties *)inListObject
++ (AIProxyListObject *)existingProxyListObjectForListObject:(AIListObject *)inListObject
 											   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
 {
 	NSString *key = (inContainingObject ? 
@@ -44,7 +45,7 @@ static NSMutableDictionary *proxyDict;
 	return [proxyDict objectForKey:key];
 }
 
-+ (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
++ (AIProxyListObject *)proxyListObjectForListObject:(AIListObject *)inListObject
 									   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
 {
 	AIProxyListObject *proxy;
@@ -53,18 +54,14 @@ static NSMutableDictionary *proxyDict;
 					 inListObject.internalObjectID);
 
 	proxy = [proxyDict objectForKey:key];
-	
+
 	if (proxy && proxy.listObject != inListObject) {
-		// If the old list object is for some reason invalid (released in contact controller, but not fully released)
-		// we end up with an old list object as our proxied object. Correct this by getting rid of the old one.
-#ifdef DEBUG_BUILD
+        /* This is a cataclysmic memory management failure and should NEVER happen. I leave the logging in for now. -evands 8/7/11 */
 		NSLog(@"Re-used AIProxyListObject (this should not happen.). Key %@ for inListObject %@ -> %p.listObject=%@", key,inListObject,proxy,proxy.listObject);
-#endif
-		[proxy.listObject removeProxyObject:proxy];
 		[self releaseProxyObject:proxy];
 		proxy = nil;
 	}
-	
+
 	if (!proxy) {
 		proxy = [[AIProxyListObject alloc] init];
 		proxy.listObject = inListObject;
@@ -81,7 +78,7 @@ static NSMutableDictionary *proxyDict;
 }
 
 /*!
- * @brief Release a proxy object
+ * @brief Called when an AIListObject is done with an AIProxyListObject to remove it from the global dictionary
  *
  * This should be called only by AIListObject when it deallocates, for each of its proxy objects
  */
@@ -92,49 +89,79 @@ static NSMutableDictionary *proxyDict;
 	[proxyDict removeObjectForKey:proxyObject.key];
 }
 
-- (void)dealloc
+- (void)flushCache
 {
-	AILogWithSignature(@"%@", self);
-	self.listObject = nil;
-	self.key = nil;
 	self.cachedDisplayName = nil;
 	self.cachedDisplayNameString = nil;
 	self.cachedLabelAttributes = nil;
+}
+
+- (void)dealloc
+{
+	AILogWithSignature(@"%@", self);
+	self.key = nil;
+    [weakRef_listObject release];
+    [weakRef_containingObject release];
+
+    [self flushCache];
 	
 	[super dealloc];
 }
+
+- (AIListObject *)listObject
+{
+    return [weakRef_listObject target];
+}
+
+- (void)setListObject:(AIListObject *)inListObject
+{
+    [weakRef_listObject release];
+    weakRef_listObject = [[MAZeroingWeakRef alloc] initWithTarget: inListObject];
+}
+
+- (ESObjectWithProperties<AIContainingObject> *)containingObject
+{
+    return (ESObjectWithProperties<AIContainingObject> *)[weakRef_listObject target];
+}
+
+- (void)setContainingObject:(ESObjectWithProperties<AIContainingObject> *)inContainingObject
+{
+    [weakRef_containingObject release];
+    weakRef_containingObject = [[MAZeroingWeakRef alloc] initWithTarget:(id)inContainingObject];
+}
+
 
 /* Pretend to be our listObject. I suspect being an NSProxy subclass could do this more cleanly, but my initial attempt
  * failed and this works fine.
  */
 - (Class)class
 {
-	return [listObject class];
+	return [[self listObject] class];
 }
 
 - (BOOL)isKindOfClass:(Class)class
 {
-	return [listObject isKindOfClass:class];
+	return [[self listObject] isKindOfClass:class];
 }
 
 - (BOOL)isMemberOfClass:(Class)class
 {
-	return [listObject isMemberOfClass:class];
+	return [[self listObject] isMemberOfClass:class];
 }
 
 - (BOOL)isEqual:(id)inObject
 {
-	return [listObject isEqual:inObject];
+	return [[self listObject] isEqual:inObject];
 }
 
-- (id)forwardingTargetForSelector:(SEL)aSelector;
+- (id)forwardingTargetForSelector:(SEL)aSelector
 {
-	return listObject;
+	return [self listObject];
 }
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<AIProxyListObject %p -> %@>", self, listObject];
+	return [NSString stringWithFormat:@"<AIProxyListObject %p -> %@>", self, [self listObject]];
 }
 
 @end
