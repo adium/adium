@@ -412,12 +412,29 @@ AIChat* groupChatLookupFromConv(PurpleConversation *conv)
 		NSString *name = [NSString stringWithUTF8String:purple_conversation_get_name(conv)];
 		
 		CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
+        
+        /* 
+         * Need to start a new chat, associating with the PurpleConversation.
+         *
+         * This may call back through to us recursively, via:
+         *   -[CBPurpleAccount chatWithContact:identifier:]
+         *   -[AIChatController chatWithContact:]
+         *   -[CBPurpleAccount openChat:]
+         *   -[SLPurpleCocoaAdaper openChat:onAccount:]
+         *   convLookupFromChat()
+         *   groupChatLookupFromConv()
+         *
+         * That's fine, as we'll get the same lookups the second time through; we just need to be cautious.
+         */
 		chat = [account chatWithName:name identifier:[NSValue valueWithPointer:conv]];
 		if (!chat.chatCreationDictionary) {
 			// If we don't have a chat creation dictionary (i.e., we didn't initiate the join), create one.
 			chat.chatCreationDictionary = [account extractChatCreationDictionaryFromConversation: conv];
 		}
-		conv->ui_data = [chat retain];
+        if (conv->ui_data != chat) {
+            [(AIChat *)(conv->ui_data) release];
+            conv->ui_data = [chat retain];
+        }
 		AILog(@"group chat lookup assigned %@ to %p (%s)",chat,conv, purple_conversation_get_name(conv));
 	}
 
