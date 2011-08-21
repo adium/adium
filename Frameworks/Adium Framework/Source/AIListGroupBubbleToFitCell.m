@@ -27,6 +27,7 @@
 - (NSAttributedString *)displayName
 {
 	NSString *countText;
+	AIListObject *listObject = [proxyObject listObject];
 
 	if ([listObject boolValueForProperty:@"showCount"] &&
 		(countText = [listObject valueForProperty:@"countText"])) {
@@ -45,6 +46,7 @@
  */
 - (CGFloat)cellWidth
 {
+    AIListObject *listObject = [proxyObject listObject];
 	CGFloat width = [super cellWidth];
 
 	if ([listObject boolValueForProperty:@"showCount"] && 

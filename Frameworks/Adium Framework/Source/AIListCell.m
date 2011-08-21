@@ -72,7 +72,6 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	AIListCell *newCell = [super copyWithZone:zone];
 
 	newCell->proxyObject = nil;
-	newCell->listObject = nil;
 	[newCell setProxyListObject:proxyObject];
 
 	[newCell->font retain];
@@ -90,7 +89,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	
 	[font release];
 	
-	[listObject release];
+	[proxyObject release];
 	[labelAttributes release];
 
 	[super dealloc];
@@ -102,12 +101,9 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	if (proxyObject != inProxyObject) {
 		[proxyObject release];
 		proxyObject = [inProxyObject retain];
-		
-		[listObject release];
-		listObject = [proxyObject.listObject retain];
 	}
 
-	isGroup = [listObject isKindOfClass:[AIListGroup class]];
+	isGroup = [[proxyObject listObject] isKindOfClass:[AIListGroup class]];
 }
 
 @synthesize isGroup, controlView;
@@ -174,7 +170,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 }
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)inControlView
 {	
-	if (listObject) {
+	if ([proxyObject listObject]) {
 		//Cell spacing
 		cellFrame.origin.y += [self topSpacing];
 		cellFrame.size.height -= [self bottomSpacing] + [self topSpacing];
@@ -334,10 +330,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (NSString *)labelString
 {
 	NSString *label =  ([self shouldShowAlias] ? 
-						[listObject longDisplayName] :
-						(listObject.formattedUID ? listObject.formattedUID : [listObject longDisplayName]));
+						[[proxyObject listObject] longDisplayName] :
+						([proxyObject listObject].formattedUID ? [proxyObject listObject].formattedUID : [[proxyObject listObject] longDisplayName]));
 	if (!label) {
-		AILog(@"Couldn't get a labelString for contact %@", listObject);
+		AILog(@"Couldn't get a labelString for contact %@", [proxyObject listObject]);
 		return @"";
 	}
 	return label;
@@ -413,21 +409,21 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 		value = NSAccessibilityStaticTextRole;
 		
 	} else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
-		if ([listObject isKindOfClass:[AIListGroup class]]) {
-			value = [NSString stringWithFormat:AILocalizedString(@"contact group %@", "%@ will be the name of a group in the contact list"), [listObject longDisplayName]];
+		if ([[proxyObject listObject] isKindOfClass:[AIListGroup class]]) {
+			value = [NSString stringWithFormat:AILocalizedString(@"contact group %@", "%@ will be the name of a group in the contact list"), [[proxyObject listObject] longDisplayName]];
 
-		} else if ([listObject isKindOfClass:[AIListBookmark class]]) {			
-			value = [NSString stringWithFormat:AILocalizedString(@"group chat bookmark %@", "%@ will be the name of a bookmark"), [listObject longDisplayName]];			
+		} else if ([[proxyObject listObject] isKindOfClass:[AIListBookmark class]]) {			
+			value = [NSString stringWithFormat:AILocalizedString(@"group chat bookmark %@", "%@ will be the name of a bookmark"), [[proxyObject listObject] longDisplayName]];			
 
 		} else {
 			NSString *name, *statusDescription, *statusMessage;
 			
-			name = [listObject longDisplayName];
-			statusDescription = [adium.statusController localizedDescriptionForStatusName:(listObject.statusName ?
-																					  listObject.statusName :
-																					  [adium.statusController defaultStatusNameForType:listObject.statusType])
-																			   statusType:listObject.statusType];
-			statusMessage = [listObject statusMessageString];
+			name = [[proxyObject listObject] longDisplayName];
+			statusDescription = [adium.statusController localizedDescriptionForStatusName:([proxyObject listObject].statusName ?
+																					  [proxyObject listObject].statusName :
+																					  [adium.statusController defaultStatusNameForType:[proxyObject listObject].statusType])
+																			   statusType:[proxyObject listObject].statusType];
+			statusMessage = [[proxyObject listObject] statusMessageString];
 			
 			value = [[name mutableCopy] autorelease];
 			if (statusDescription) [value appendFormat:@"; %@", statusDescription];

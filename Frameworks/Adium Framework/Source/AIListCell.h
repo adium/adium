@@ -14,7 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@class AIListObject, AIListOutlineView, AIAdium, AIProxyListObject;
+#import "AIProxyListObject.h"
+
+@class AIListObject, AIListOutlineView, AIAdium;
 
 #define DROP_HIGHLIGHT_WIDTH_MARGIN 5.0f
 #define DROP_HIGHLIGHT_HEIGHT_MARGIN 1.0f
@@ -22,7 +24,6 @@
 @interface AIListCell : NSCell {
 	AIListOutlineView	*controlView;
     AIProxyListObject	*proxyObject;
-    AIListObject		*listObject;
     BOOL				isGroup;
 	
 	NSTextAlignment		textAlignment;

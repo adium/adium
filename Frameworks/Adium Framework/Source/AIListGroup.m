@@ -123,7 +123,7 @@
 		/* Should be able to remove the proxy object here, but it seemed to cause a crash previously (before fixes
 		 * made to the contactObserverManager. Reenable after 1.4.
 		 */
-		//[obj removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:obj inListObject:self]];
+		[[AIProxyListObject existingProxyListObjectForListObject:obj inListObject:self] flushCache];
 		[AIUserIcons flushCacheForObject:obj];
 	}
 
@@ -162,10 +162,7 @@
 			modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
 			
 			if (!shouldBeVisible) {
-				/* Should be able to remove the proxy object here, but it seemed to cause a crash previously (before fixes
-				 * made to the contactObserverManager. Reenable after 1.4.
-				 */
-				//[inObject removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:inObject inListObject:self]];
+				[[AIProxyListObject existingProxyListObjectForListObject:inObject inListObject:self] flushCache];
 				[AIUserIcons flushCacheForObject:inObject];
 			}
 		}
