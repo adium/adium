@@ -454,7 +454,7 @@ AIChat* imChatLookupFromConv(PurpleConversation *conv)
 		//No chat is associated with the IM conversation
 		AIListContact   *sourceContact;
 		PurpleBuddy		*buddy;
-		PurpleAccount		*account;
+		PurpleAccount	*account;
 		
 		account = purple_conversation_get_account(conv);
 //		AILog(@"%x purple_conversation_get_name(conv) %s; normalizes to %s",account,purple_conversation_get_name(conv),purple_normalize(account,purple_conversation_get_name(conv)));
@@ -462,16 +462,26 @@ AIChat* imChatLookupFromConv(PurpleConversation *conv)
 		//First, find the PurpleBuddy with whom we are conversing
 		buddy = purple_find_buddy(account, purple_conversation_get_name(conv));
 		if (!buddy) {
-			AILog(@"imChatLookupFromConv: Creating %s %s",purple_account_get_username(account),purple_normalize(account,purple_conversation_get_name(conv)));
 			//No purple_buddy corresponding to the purple_conversation_get_name(conv) is on our list, so create one
 			buddy = purple_buddy_new(account, purple_normalize(account, purple_conversation_get_name(conv)), NULL);	//create a PurpleBuddy
 		}
 
 		NSCAssert(buddy != nil, @"buddy was nil");
-		
-		sourceContact = contactLookupFromBuddy(buddy);
 
-		// Need to start a new chat, associating with the PurpleConversation
+		sourceContact = contactLookupFromBuddy(buddy);
+		/* 
+         * Need to start a new chat, associating with the PurpleConversation.
+         *
+         * This may call back through to us recursively, via:
+         *   -[CBPurpleAccount chatWithContact:identifier:]
+         *   -[AIChatController chatWithContact:]
+         *   -[CBPurpleAccount openChat:]
+         *   -[SLPurpleCocoaAdaper openChat:onAccount:]
+         *   convLookupFromChat()
+         *   imChatLookupFromConv()
+         *
+         * That's fine, as we'll get the same lookups the second time through; we just need to be cautious.
+         */
 		chat = [accountLookup(account) chatWithContact:sourceContact identifier:[NSValue valueWithPointer:conv]];
 
 		if (!chat) {
@@ -491,9 +501,12 @@ AIChat* imChatLookupFromConv(PurpleConversation *conv)
 		}
 
 		//Associate the PurpleConversation with the AIChat
-		conv->ui_data = [chat retain];
+        if (conv->ui_data != chat) {
+            [(AIChat *)(conv->ui_data) release];
+            conv->ui_data = [chat retain];
+        }
 	}
-
+    
 	return chat;	
 }
 
@@ -1264,11 +1277,12 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 		/* We retained the chat when setting it as the ui_data; we are releasing here, so be sure to set conv->ui_data
 		 * to nil so we don't try to do it again.
 		 */
+        AILogWithSignature(@"Destroying %p (and releasing chat %p)", conv, conv->ui_data);
+
 		[(AIChat *)conv->ui_data release];
 		conv->ui_data = nil;
 
 		//Tell purple to destroy the conversation.
-		AILogWithSignature(@"Destroying %p", conv);
 		purple_conversation_destroy(conv);
 	}	
 }
