@@ -300,7 +300,7 @@ static int nextChatNumber = 0;
 - (void)setDisplayName:(NSString *)inDisplayName
 {
 	[[self displayArrayForKey:@"Display Name"] setObject:inDisplayName
-											   withOwner:self
+											   withOwner:[NSValue valueWithNonretainedObject:self] /* Don't want a retain loop */
 										   priorityLevel:Highest_Priority];
 
 	//The display array doesn't cause an attribute update; fake it.
@@ -724,6 +724,10 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (void)removeAllParticipatingContactsSilently
 {
+    [participatingContacts removeAllObjects];
+	[participatingContactsFlags removeAllObjects];
+	[participatingContactsAliases removeAllObjects];
+
 	for (AIListContact *listContact in self) {
 		if (listContact.isStranger &&
 			![adium.chatController existingChatWithContact:listContact.parentContact] &&
@@ -731,10 +735,6 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
-
-	[participatingContacts removeAllObjects];
-	[participatingContactsFlags removeAllObjects];
-	[participatingContactsAliases removeAllObjects];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:self];
