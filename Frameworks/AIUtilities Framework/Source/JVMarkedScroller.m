@@ -53,6 +53,10 @@ struct _mark {
 
 #pragma mark -
 
++ (BOOL)isCompatibleWithOverlayScrollers {
+    return self == [JVMarkedScroller class];
+}
+
 - (void) drawRect:(NSRect) rect {
 	[super drawRect:rect];
 	
