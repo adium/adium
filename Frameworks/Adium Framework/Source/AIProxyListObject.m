@@ -17,7 +17,6 @@
 #import "AIProxyListObject.h"
 #import <Adium/ESObjectWithProperties.h>
 #import <Adium/AIListObject.h>
-#import <Adium/MAZeroingWeakRef.h>
 
 @interface NSObject (PublicAPIMissingFromHeadersAndDocsButInTheReleaseNotesGoshDarnit)
 - (id)forwardingTargetForSelector:(SEL)aSelector;
@@ -28,13 +27,17 @@
 @synthesize key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
 @synthesize listObject, containingObject;
 
-static NSMutableDictionary *proxyDict;
 
-+ (void)initialize
-{
-	if (self == [AIProxyListObject class])
-		proxyDict = [[NSMutableDictionary alloc] init];
+static inline NSMutableDictionary *_getProxyDict() {
+    static NSMutableDictionary *proxyDict;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        proxyDict = [[NSMutableDictionary alloc] init];
+    });
+    return proxyDict;
 }
+
+#define proxyDict _getProxyDict()
 
 + (AIProxyListObject *)existingProxyListObjectForListObject:(AIListObject *)inListObject
 											   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
