@@ -325,6 +325,16 @@
 }
 
 /*!
+ * @brief Returns the maximum number of characters available for a post, or 0 if unlimited.
+ *
+ * For Twitter, this is hardcoded to 140.
+ */
+- (int)maxChars
+{
+	return 140;
+}
+
+/*!
  * @brief Returns whether or not to connect to Twitter API over HTTPS.
  */
 - (BOOL)useSSL
@@ -896,7 +906,11 @@
 	// Update the participant list.
 	[timelineChat addParticipatingListObjects:self.contacts notify:NotifyNow];
 	
-	[timelineChat setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:NotifyNow];
+	NSNumber *max = nil;
+	if (self.maxChars > 0) {
+		max = [NSNumber numberWithInt:self.maxChars];
+	}
+	[timelineChat setValue:max forProperty:@"Character Counter Max" notify:NotifyNow];
 }
 
 /*!

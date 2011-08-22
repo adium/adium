@@ -23,7 +23,12 @@
 #define LACONICA_REMOTE_GROUP_NAME		@"StatusNet"
 
 @interface AILaconicaAccount : AITwitterAccount {
-
+    //For servers that allow more than 140 characters to be used as a status.
+	int                 textlimit;
+    NSURLConnection     *textLimitConfigDownload;
+    NSMutableData       *configData;
 }
+
+- (void)queryTextLimit;
 
 @end
