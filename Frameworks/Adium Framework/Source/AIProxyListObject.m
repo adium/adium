@@ -26,6 +26,7 @@
 @implementation AIProxyListObject
 
 @synthesize key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
+@synthesize listObject, containingObject;
 
 static NSMutableDictionary *proxyDict;
 
@@ -100,36 +101,11 @@ static NSMutableDictionary *proxyDict;
 {
 	AILogWithSignature(@"%@", self);
 	self.key = nil;
-    [weakRef_listObject release];
-    [weakRef_containingObject release];
 
     [self flushCache];
 	
 	[super dealloc];
 }
-
-- (AIListObject *)listObject
-{
-    return [weakRef_listObject target];
-}
-
-- (void)setListObject:(AIListObject *)inListObject
-{
-    [weakRef_listObject release];
-    weakRef_listObject = [[MAZeroingWeakRef alloc] initWithTarget: inListObject];
-}
-
-- (ESObjectWithProperties<AIContainingObject> *)containingObject
-{
-    return (ESObjectWithProperties<AIContainingObject> *)[weakRef_listObject target];
-}
-
-- (void)setContainingObject:(ESObjectWithProperties<AIContainingObject> *)inContainingObject
-{
-    [weakRef_containingObject release];
-    weakRef_containingObject = [[MAZeroingWeakRef alloc] initWithTarget:(id)inContainingObject];
-}
-
 
 /* Pretend to be our listObject. I suspect being an NSProxy subclass could do this more cleanly, but my initial attempt
  * failed and this works fine.

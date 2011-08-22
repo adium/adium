@@ -18,8 +18,8 @@
 @protocol AIContainingObject;
 
 @interface AIProxyListObject : NSObject {
-	MAZeroingWeakRef *weakRef_listObject;
-    MAZeroingWeakRef *weakRef_containingObject;
+	AIListObject *listObject;
+    ESObjectWithProperties <AIContainingObject> *containingObject;
 	NSString *key;
 	NSString *cachedDisplayNameString;
 	NSAttributedString *cachedDisplayName;
@@ -33,12 +33,8 @@
 
 @property (nonatomic, retain) NSString *key;
 
-- (AIListObject *)listObject;
-- (void)setListObject:(AIListObject *)inListObject;
-
-- (ESObjectWithProperties <AIContainingObject> *)containingObject;
-- (void)setContainingObject:(ESObjectWithProperties <AIContainingObject> *)containingObject;
-
+@property (nonatomic, assign) AIListObject *listObject;
+@property (nonatomic, assign) ESObjectWithProperties <AIContainingObject> * containingObject;
 
 + (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
 									   inListObject:(ESObjectWithProperties<AIContainingObject> *)containingObject;
