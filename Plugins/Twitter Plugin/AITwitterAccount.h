@@ -169,6 +169,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
 
+@property (readonly, nonatomic) int maxChars;
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) BOOL supportsCursors;
@@ -199,5 +200,7 @@ typedef enum {
 						  userID:(NSString *)userID
 						statusID:(NSString *)statusID
 						 context:(NSString *)context;
+
+- (void)updateTimelineChat:(AIChat *)timelineChat;
 
 @end

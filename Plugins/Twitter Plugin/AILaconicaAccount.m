@@ -17,6 +17,7 @@
 #import "AILaconicaAccount.h"
 #import "AITwitterURLParser.h"
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIChatControllerProtocol.h>
 
 @interface AITwitterAccount()
 
@@ -116,6 +117,97 @@
 - (BOOL)useOAuth
 {
 	return NO;
+}
+
+/*!
+ * @brief Connection successful
+ *
+ * Pull all the usual stuff, but also check for the max notice length,
+ * provided by StatusNet 0.9 and later.
+ */
+- (void)didConnect
+{
+	[super didConnect];
+
+    textLimitConfigDownload = nil;
+	[self queryTextLimit];
+    
+	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+															onAccount:self];
+	if (timelineChat) {
+		[self updateTimelineChat: timelineChat];
+	}
+}
+
+/*!
+ * @brief Query the StatusNet API for the site/textlimit config variable.
+ * Returns the limit if present, or the default of 140.
+ */
+- (void)queryTextLimit
+{
+	// Hardcoded default for older servers that don't report their configured limit.
+	textlimit = 140;
+
+    NSString        *path = [[@"/" stringByAppendingPathComponent:self.apiPath]
+                                   stringByAppendingPathComponent:@"statusnet/config.xml"];
+    
+	NSURL           *url = [[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
+                                                    host:self.host
+                                                    path:path];
+    
+    NSURLRequest    *configRequest = [NSURLRequest requestWithURL:url];
+    
+    if (textLimitConfigDownload) {
+        [textLimitConfigDownload cancel];
+        [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+    }
+    
+    textLimitConfigDownload = [[NSURLConnection alloc] initWithRequest:configRequest delegate:self];
+}
+
+/*!
+ * @brief Downloads the configuration xml file from the server.
+ */
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    if ([connection isEqual:textLimitConfigDownload])
+        [configData appendData:data];
+    
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    if ([connection isEqual:textLimitConfigDownload]) {
+        NSError         *err=nil;
+        NSXMLDocument   *config = [[NSXMLDocument alloc] initWithData:configData
+                                                              options:0
+                                                                error:&err];
+    
+        if (config != nil) {
+            NSArray *nodes = [config nodesForXPath:@"/config/site/textlimit"
+                                             error:&err];
+            if (nodes != nil) {
+                if ([nodes count] > 0)
+                    textlimit = [[(NSXMLNode *)[nodes objectAtIndex: 0] stringValue] intValue];
+            }
+        }
+        
+        if (err != nil)
+            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+    }
+}
+
+/*!
+ * @brief This method is called when there is an error
+ */
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+    
+    [configData release];
+    configData = nil;
+    
+    AILogWithSignature(@"%@",[NSString stringWithFormat:@"Fetch failed: %@", [error localizedDescription]]);
 }
 
 /*!
@@ -219,6 +311,15 @@
 - (NSString *)timelineGroupName
 {
 	return LACONICA_REMOTE_GROUP_NAME;
+}
+
+/*!
+ * @brief Returns the maximum number of characters available for a post, or 0 if unlimited.
+ * For StatusNet servers, this may have been provided via API.
+ */
+- (int)maxChars
+{
+	return textlimit;
 }
 
 @end
