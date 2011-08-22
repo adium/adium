@@ -120,4 +120,12 @@ typedef enum {
 - (void)passwordReturnedForConnect:(NSString *)inPassword 
 						returnCode:(AIPasswordPromptReturn)returnCode 
 						   context:(id)inContext;
+
+/*!
+ * @brief Does joining a group chat require more information than is contained in the name alone?
+ *
+ * Default returns NO. Subclasses should return YES if additional information (via a chatCreationDictionary) is needed.
+ */
+- (BOOL)joiningGroupChatRequiresCreationDictionary;
+
 @end

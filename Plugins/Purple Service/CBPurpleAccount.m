@@ -1095,6 +1095,11 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	return [adium.chatController chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
 }
 
+- (BOOL)joiningGroupChatRequiresCreationDictionary
+{
+    return YES;
+}
+
 //Typing update in an IM
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typingState
 {

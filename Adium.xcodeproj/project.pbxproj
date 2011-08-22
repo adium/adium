@@ -5646,18 +5646,30 @@
 		3448055407AC5203006A7F7B /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				349195650C9662AA00595A04 /* AIListBookmark.h */,
-				349195640C9662AA00595A04 /* AIListBookmark.m */,
-				340BA84409EC593A000EC441 /* AICorePluginLoader.h */,
-				340BA84509EC593B000EC441 /* AICorePluginLoader.m */,
-				3448054F07AC5151006A7F7B /* ESDebugAILog.h */,
-				3448054E07AC5151006A7F7B /* ESDebugAILog.m */,
 				347933F10C861017007ADCAA /* AIColorStringTransformer.h */,
 				347933F20C861017007ADCAA /* AIColorStringTransformer.m */,
+				340BA84409EC593A000EC441 /* AICorePluginLoader.h */,
+				340BA84509EC593B000EC441 /* AICorePluginLoader.m */,
+				34F2E81007C2CD5E007EAAAB /* AIHTMLDecoder.h */,
+				34F2E80F07C2CD5E007EAAAB /* AIHTMLDecoder.m */,
+				3483928505E68B05002BC6C0 /* AIIconState.h */,
+				3483928405E68B05002BC6C0 /* AIIconState.m */,
+				118199C410D0B65A003E8ECA /* AIMedia.h */,
+				118199C510D0B65A003E8ECA /* AIMedia.m */,
+				F5793924033E74C301A8010A /* AIPlugin.h */,
+				F5793912033E748F01A8010A /* AIPlugin.m */,
 				6311F46F0E340DD2004234B8 /* AISharedAdium.h */,
 				6311F4700E340DD2004234B8 /* AISharedAdium.m */,
 				4BD548AE086086B5008DF3CB /* AISoundSet.h */,
 				4BD548AF086086B5008DF3CB /* AISoundSet.m */,
+				34F2E81807C2CD6B007EAAAB /* AITextAttachmentExtension.h */,
+				34F2E81907C2CD6C007EAAAB /* AITextAttachmentExtension.m */,
+				3448054F07AC5151006A7F7B /* ESDebugAILog.h */,
+				3448054E07AC5151006A7F7B /* ESDebugAILog.m */,
+				348862CD05645E94003C9627 /* ESFileTransfer.h */,
+				348862CE05645E95003C9627 /* ESFileTransfer.m */,
+				34F2E83907C2CDBD007EAAAB /* ESFileWrapperExtension.h */,
+				34F2E83807C2CDBD007EAAAB /* ESFileWrapperExtension.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -6891,27 +6903,6 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
-		4B4F5B2F042D647C00A8010A /* Other */ = {
-			isa = PBXGroup;
-			children = (
-				34F2E81007C2CD5E007EAAAB /* AIHTMLDecoder.h */,
-				34F2E80F07C2CD5E007EAAAB /* AIHTMLDecoder.m */,
-				3483928505E68B05002BC6C0 /* AIIconState.h */,
-				3483928405E68B05002BC6C0 /* AIIconState.m */,
-				F5793924033E74C301A8010A /* AIPlugin.h */,
-				F5793912033E748F01A8010A /* AIPlugin.m */,
-				34F2E81807C2CD6B007EAAAB /* AITextAttachmentExtension.h */,
-				34F2E81907C2CD6C007EAAAB /* AITextAttachmentExtension.m */,
-				348862CD05645E94003C9627 /* ESFileTransfer.h */,
-				348862CE05645E95003C9627 /* ESFileTransfer.m */,
-				34F2E83907C2CDBD007EAAAB /* ESFileWrapperExtension.h */,
-				34F2E83807C2CDBD007EAAAB /* ESFileWrapperExtension.m */,
-				118199C410D0B65A003E8ECA /* AIMedia.h */,
-				118199C510D0B65A003E8ECA /* AIMedia.m */,
-			);
-			name = Other;
-			sourceTree = "<group>";
-		};
 		4B587C3707ABFCA8001832A9 /* State & Status */ = {
 			isa = PBXGroup;
 			children = (
@@ -6933,22 +6924,6 @@
 				4BE6175407AC67EE0049C87D /* AIStateMenuPlugin.m */,
 			);
 			name = "Preset State Menu";
-			sourceTree = "<group>";
-		};
-		4B587CA807ABFF02001832A9 /* Sad (Incomplete Docs) */ = {
-			isa = PBXGroup;
-			children = (
-				F5300A2B032F760B01A8010A /* Contacts & Chats */,
-				34B70349076EDB410016E8BA /* Contact Alerts */,
-				340F444F06D87A830072E2FA /* Contact List */,
-				F5300A2C032F761101A8010A /* Content */,
-				34B7033B076EDB240016E8BA /* Group Chat */,
-				4B4F5B2E042D647600A8010A /* Interface */,
-				34D18983076114D20075A380 /* Localization Assistance */,
-				F5B89EFC033CA8CC01A8010A /* Panes */,
-				4B4F5B2F042D647C00A8010A /* Other */,
-			);
-			name = "Sad (Incomplete Docs)";
 			sourceTree = "<group>";
 		};
 		4B587CAB07ABFF18001832A9 /* State & Status */ = {
@@ -8669,24 +8644,26 @@
 		F5300A2B032F760B01A8010A /* Contacts & Chats */ = {
 			isa = PBXGroup;
 			children = (
-				34111A5D06BE1B370005AF5C /* ESObjectWithProperties.h */,
-				34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */,
-				4B82138E049CA6CC00A8010A /* AIChat.h */,
-				4B82138F049CA6CC00A8010A /* AIChat.m */,
-				4BF5BA14042F3CB200A8010A /* AIListObject.h */,
-				4BF5BA15042F3CB200A8010A /* AIListObject.m */,
-				63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */,
-				63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */,
-				4BF5BA12042F3CB200A8010A /* AIListGroup.h */,
-				4BF5BA13042F3CB200A8010A /* AIListGroup.m */,
-				63DF5B210E52D77F00010E99 /* AIContactList.h */,
-				63DF5B200E52D77F00010E99 /* AIContactList.m */,
-				4BF5BA10042F3CB200A8010A /* AIListContact.h */,
-				4BF5BA11042F3CB200A8010A /* AIListContact.m */,
-				4B09D5C005D5265800BC00F0 /* AIMetaContact.h */,
-				4B09D5C105D5265800BC00F0 /* AIMetaContact.m */,
 				3486E8A4097F24A90044C496 /* AdiumAuthorization.h */,
 				3486E8A5097F24A90044C496 /* AdiumAuthorization.m */,
+				4B82138E049CA6CC00A8010A /* AIChat.h */,
+				4B82138F049CA6CC00A8010A /* AIChat.m */,
+				63DF5B210E52D77F00010E99 /* AIContactList.h */,
+				63DF5B200E52D77F00010E99 /* AIContactList.m */,
+				349195650C9662AA00595A04 /* AIListBookmark.h */,
+				349195640C9662AA00595A04 /* AIListBookmark.m */,
+				4BF5BA10042F3CB200A8010A /* AIListContact.h */,
+				4BF5BA11042F3CB200A8010A /* AIListContact.m */,
+				4BF5BA12042F3CB200A8010A /* AIListGroup.h */,
+				4BF5BA13042F3CB200A8010A /* AIListGroup.m */,
+				4BF5BA14042F3CB200A8010A /* AIListObject.h */,
+				4BF5BA15042F3CB200A8010A /* AIListObject.m */,
+				4B09D5C005D5265800BC00F0 /* AIMetaContact.h */,
+				4B09D5C105D5265800BC00F0 /* AIMetaContact.m */,
+				63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */,
+				63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */,
+				34111A5D06BE1B370005AF5C /* ESObjectWithProperties.h */,
+				34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */,
 			);
 			name = "Contacts & Chats";
 			sourceTree = "<group>";
@@ -8727,25 +8704,32 @@
 		F53B9A1302CCEDCA01A8010A /* Adium.Framework */ = {
 			isa = PBXGroup;
 			children = (
-				3419E2DE0A81445800C3FC68 /* Localizable.strings */,
 				3482E0EB0AB5063300471992 /* AIAdiumProtocol.h */,
-				DA9CF854080F9784000C5249 /* AIPathUtilities.h */,
-				DA9CF855080F9784000C5249 /* AIPathUtilities.m */,
-				4B422C0905ACB248005E720B /* AISortController.h */,
-				4B422C0A05ACB248005E720B /* AISortController.m */,
 				34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */,
+				DA9CF854080F9784000C5249 /* AIPathUtilities.h */,
+				4B422C0905ACB248005E720B /* AISortController.h */,
 				34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */,
-				636D930E0E4E9DDD00E5F558 /* Address Book Integration */,
-				34BFD7ED07E6A1FB00AD984D /* Preset Manager */,
+				DA9CF855080F9784000C5249 /* AIPathUtilities.m */,
+				4B422C0A05ACB248005E720B /* AISortController.m */,
 				4B4F5B2D042D645F00A8010A /* Accounts & Services */,
+				636D930E0E4E9DDD00E5F558 /* Address Book Integration */,
+				34B70349076EDB410016E8BA /* Contact Alerts */,
+				340F444F06D87A830072E2FA /* Contact List */,
+				F5300A2B032F760B01A8010A /* Contacts & Chats */,
+				F5300A2C032F761101A8010A /* Content */,
 				34E6CEFC0A793E870076D7F0 /* Emoticons */,
-				4B587CAB07ABFF18001832A9 /* State & Status */,
-				4BE5AC7F07AFD46800422AD5 /* Interface */,
+				34B7033B076EDB240016E8BA /* Group Chat */,
 				3461980C0D3175C700763051 /* Icons */,
+				4B4F5B2E042D647600A8010A /* Interface */,
+				4BE5AC7F07AFD46800422AD5 /* Interface */,
+				3419E2DE0A81445800C3FC68 /* Localizable.strings */,
+				34D18983076114D20075A380 /* Localization Assistance */,
 				3448055407AC5203006A7F7B /* Other */,
-				3444C91607F5235E001279F1 /* Working Around System Bugs */,
+				F5B89EFC033CA8CC01A8010A /* Panes */,
+				34BFD7ED07E6A1FB00AD984D /* Preset Manager */,
+				4B587CAB07ABFF18001832A9 /* State & Status */,
 				38722DB00A9091F4002CC4F4 /* VideoConf */,
-				4B587CA807ABFF02001832A9 /* Sad (Incomplete Docs) */,
+				3444C91607F5235E001279F1 /* Working Around System Bugs */,
 			);
 			name = Adium.Framework;
 			sourceTree = "<group>";

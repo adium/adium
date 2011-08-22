@@ -1103,6 +1103,12 @@
 	return AIAccountGroupDeletionShouldRemoveContacts;
 }
 
+#pragma mark Chats
+- (BOOL)joiningGroupChatRequiresCreationDictionary
+{
+    return NO;
+}
+
 //Connectivity ---------------------------------------------------------------------------------------------------------
 #pragma mark Connectivity
 
