@@ -1242,8 +1242,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[container removeObjectAfterAccountStopsTracking:inContact];
 	}
 
-	[inContact clearProxyObjects];
-
 	[contactDict removeObjectForKey:inContact.internalUniqueObjectID];
 }
 

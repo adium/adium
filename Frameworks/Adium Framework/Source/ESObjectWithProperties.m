@@ -23,6 +23,7 @@
 @interface ESObjectWithProperties (AIPrivate)
 - (void)_applyDelayedProperties:(NSDictionary *)infoDict;
 - (id)_valueForProperty:(NSString *)key;
+- (void)_clearProxyObjects;
 @end
 
 /*!
@@ -39,7 +40,7 @@
  */
 @implementation ESObjectWithProperties
 
-- (void)clearProxyObjects
+- (void)_clearProxyObjects
 {
 	for (AIProxyListObject *proxy in proxyObjects)
 		[AIProxyListObject releaseProxyObject:proxy];
@@ -51,7 +52,7 @@
  */
 - (void)dealloc
 {
-	[self clearProxyObjects];
+	[self _clearProxyObjects];
 
 	[propertiesDictionary release]; propertiesDictionary = nil;
 	[changedProperties release]; changedProperties = nil;
