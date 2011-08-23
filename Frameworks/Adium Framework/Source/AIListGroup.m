@@ -287,6 +287,8 @@
 	if ([self containsObject:inObject]) {		
 		AIListContact *contact = (AIListContact *)inObject;
 		//Remove the object
+        
+        [contact retain];
 		if ([_visibleObjects containsObject:contact])
 			[_visibleObjects removeObject:contact];
 		if ([contact.groups containsObject:self])
@@ -295,17 +297,21 @@
 		
 
 		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
+        [contact release];
 	}
 }
 
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
 {
 	NSParameterAssert([self canContainObject:inObject]);
+
+    [inObject retain];
 	if ([_visibleObjects containsObject:inObject])
 		[_visibleObjects removeObject:inObject];
 	[(AIListContact *)inObject removeContainingGroup:self];
 	[_containedObjects removeObject:inObject];
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
+    [inObject release];
 }
 
 #pragma mark Sorting
