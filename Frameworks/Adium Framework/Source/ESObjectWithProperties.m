@@ -23,7 +23,6 @@
 @interface ESObjectWithProperties (AIPrivate)
 - (void)_applyDelayedProperties:(NSDictionary *)infoDict;
 - (id)_valueForProperty:(NSString *)key;
-- (void)_clearProxyObjects;
 @end
 
 /*!
