@@ -31,6 +31,8 @@
 - (void)initAccount
 {
 	[super initAccount];
+	textLimitConfigDownload = nil;
+	configData = nil;
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 												  [NSNumber numberWithBool:YES], LACONICA_PREFERENCE_SSL, nil]
 										forGroup:LACONICA_PREF_GROUP
@@ -178,7 +180,7 @@
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     if ([connection isEqual:textLimitConfigDownload]) {
-        NSError         *err=nil;
+        NSError         *err = nil;
         NSXMLDocument   *config = [[NSXMLDocument alloc] initWithData:configData
                                                               options:0
                                                                 error:&err];
@@ -194,6 +196,9 @@
         
         if (err != nil)
             AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+	
+		[configData release]; configData = nil;
+		[textLimitConfigDownload release]; textLimitConfigDownload = nil;
     }
 }
 
@@ -204,8 +209,7 @@
 {
     [textLimitConfigDownload release]; textLimitConfigDownload = nil;
     
-    [configData release];
-    configData = nil;
+    [configData release]; configData = nil;
     
     AILogWithSignature(@"%@",[NSString stringWithFormat:@"Fetch failed: %@", [error localizedDescription]]);
 }

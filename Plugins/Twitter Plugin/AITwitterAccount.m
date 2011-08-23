@@ -1136,6 +1136,7 @@
 						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:friendRequestType]];
 				}
 			} else {
+				[[self timelineChat] removeAllParticipatingContactsSilently];
 				[self removeAllContacts];
 			}
 		}
