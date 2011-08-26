@@ -170,6 +170,7 @@ end:
 						  [NSColor colorWithHTMLString:@"#00f"],    @"blue",
 						  [NSColor colorWithHTMLString:@"#008080"], @"teal",
 						  [NSColor colorWithHTMLString:@"#0ff"],    @"aqua",
+						  [NSColor colorWithHTMLString:@"#4b0082"], @"indigo",
 						  nil];
 		NSArray *paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:defaultRGBTxtLocation1 error:NULL];
 		for (NSString *middlePath in paths) {
@@ -534,7 +535,9 @@ static CGFloat hexCharsToFloat(char firstChar, char secondChar)
 		NSDictionary *colorValues = [self colorNamesDictionary];
 		colorValue = [colorValues objectForKey:str];
 		if (!colorValue) colorValue = [colorValues objectForKey:[str lowercaseString]];
-		if (!colorValue) {
+		if (colorValue) {
+			return colorValue;
+		} else {
 #if COLOR_DEBUG
 			NSLog(@"+[NSColor(AIColorAdditions) colorWithHTMLString:] called with unrecognised color name (str is %@); returning %@", str, defaultColor);
 #endif

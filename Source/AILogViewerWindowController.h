@@ -119,6 +119,7 @@ typedef enum {
 	//Old
 	BOOL				showEmoticons;
 	BOOL				showTimestamps;
+	BOOL				showSenderColors;
 
 	SKSearchRef			currentSearch;
 	NSLock				*currentSearchLock;

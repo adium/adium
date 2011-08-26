@@ -26,6 +26,7 @@
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIColorAdditions.h> 
 
 #define PREF_GROUP_WEBKIT_MESSAGE_DISPLAY		@"WebKit Message Display"
 #define KEY_WEBKIT_USE_NAME_FORMAT				@"Use Custom Name Format"
@@ -180,13 +181,14 @@
     
     BOOL showTimestamps = [[options objectForKey:@"showTimestamps"] boolValue];
 	BOOL showEmoticons = [[options objectForKey:@"showEmoticons"] boolValue];
+	BOOL showSendercolors = [[options objectForKey:@"showSenderColors"] boolValue];
     
     NSXMLElement *chatElement = [[xmlDoc nodesForXPath:@"//chat" error:&err] lastObject];
     
     NSDictionary *chatAttributes = [chatElement AIAttributesAsDictionary];
     NSString *mySN = [[chatAttributes objectForKey:@"account"] stringValue];
     NSString *service = [[chatAttributes objectForKey:@"service"] stringValue];
-    
+
     NSString *myDisplayName = nil;
     
     for (AIAccount *account in adium.accountController.accounts) {
@@ -269,11 +271,13 @@
 				timestampStr = [[dateFormatter stringFromDate:date] retain];
 			}];
 			
-				
+			NSString *senderColor = (!sentMessage ? [NSColor representedColorForObject:sender withValidColors:nil] : @"#007F00");
+			
             [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
-                                                                    @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
+                                                                    @"<div class=\"%@\">%@<span class=\"sender\"%@>%@%@:</span></div> ",
                                                                     (sentMessage ? @"send" : @"receive"),
                                                                     (showTimestamps ? [NSString stringWithFormat:@"<span class=\"timestamp\">%@</span> ", timestampStr] : @""),
+																	(showSendercolors ? [NSString stringWithFormat:@" style=\"color: %@\"", senderColor] : @""),
                                                                     shownSender, (autoResponse ? AILocalizedString(@" (Autoreply)", nil) : @"")]]];
 			[timestampStr release];
 			
