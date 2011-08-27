@@ -39,8 +39,8 @@
 #define GET_INFO_MASK					(NSCommandKeyMask | NSShiftKeyMask)
 #define ALTERNATE_GET_INFO_MASK			(NSCommandKeyMask | NSShiftKeyMask | NSControlKeyMask)
 
-#define	TITLE_SHOW_INFO					AILocalizedString(@"Show Info",nil)
-#define	TOOLTIP_SHOW_INFO				AILocalizedString(@"Show information about this contact or group and change settings specific to it","Tooltip for the Show Info toolbar button")
+#define	TITLE_SHOW_INFO					AILocalizedString(@"Get Info",nil)
+#define	TOOLTIP_SHOW_INFO				AILocalizedString(@"Show information about this contact or group and change settings specific to it","Tooltip for the Get Info toolbar button")
 
 @interface AIContactInfoWindowPlugin ()
 - (void)prepareContactInfo;
