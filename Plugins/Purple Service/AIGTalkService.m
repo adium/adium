@@ -48,6 +48,14 @@
 - (NSString *)longDescription{
 	return @"Google Talk";
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://www.google.com/accounts/NewAccount", @"URL for Google signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for Google", @"Text for Google sign up button");
+}
 - (NSCharacterSet *)ignoredCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@" "];
 }

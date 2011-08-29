@@ -20,6 +20,8 @@
 #import <Adium/AIAccountViewController.h>
 #import "AICreateCommand.h"
 
+#define ADIUM_ACCOUNT_CREATION_PAGE @"http://trac.adium.im/wiki/CreatingAnAccount#Sigingupforanaccount"
+
 /*!
  * @class AIService
  * @brief An IM Service
@@ -205,6 +207,39 @@
 - (NSString *)UIDPlaceholder
 {
 	return @"";
+}
+
+/*!
+ * @brief Account creation URL
+ *
+ * URL to a page at which the user can sign up to an account on this service or a page that explains how one can sign up for an account
+ *
+ * This will be used for the button in the account setup pane
+ *
+ * By default, returns a URL to the account signup page on the Adium wiki
+ *
+ * @return NSURL for account creation
+ */
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:ADIUM_ACCOUNT_CREATION_PAGE];
+}
+
+/*!
+ * @brief Label for account setup
+ *
+ * String to use for describing the page that the account creation URL leads to. This value varies according to the nature of the page linked to.
+ * Examples "Get AIM Account", "About Lotus", "Get Google Account"
+ *
+ * This will be used for the button in the account setup pane
+ *
+ * By default, return a localized string for "Sign up for an account"
+ *
+ * @return NSString label for account setup
+ */
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for an account", @"Defualt label for account registration button in account setup pane.");
 }
 
 /*!

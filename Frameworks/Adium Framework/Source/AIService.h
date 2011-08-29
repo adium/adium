@@ -51,6 +51,8 @@ typedef enum {
 @property (readonly, nonatomic) NSString *userNameLabel;
 @property (readonly, nonatomic) NSString *contactUserNameLabel;
 @property (readonly, nonatomic) NSString *UIDPlaceholder;
+@property (readonly, nonatomic) NSURL    *serviceAccountSetupURL;
+@property (readonly, nonatomic) NSString *accountSetupLabel;
 @property (readonly, nonatomic) AIServiceImportance serviceImportance;
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType;
 - (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType;

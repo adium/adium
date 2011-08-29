@@ -59,5 +59,13 @@
 - (AIServiceImportance)serviceImportance{
 	return AIServiceSecondary;
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://account.edit.yahoo.co.jp/registration", @"URL for Yahoo! Japan signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for Yahoo! Japan", @"Text for Yahoo! Japan sign up button");
+}
 
 @end

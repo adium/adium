@@ -52,6 +52,14 @@
 - (NSString *)longDescription{
 	return AILocalizedString(@"IRC (Internet Relay Chat)", nil);
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://en.wikipedia.org/wiki/Internet_Relay_Chat", @"URL for IRC signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"About IRC", @"Text for IRC sign up button");
+}
 - (NSCharacterSet *)allowedCharacters{
 	//Per RFC-2812: http://www.ietf.org/rfc/rfc2812.txt
 	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];

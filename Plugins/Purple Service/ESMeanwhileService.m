@@ -52,6 +52,14 @@
 - (NSString *)longDescription{
 	return @"Lotus Sametime";
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://trac.adium.im/wiki/Sametime", @"URL for Sametime signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"About Sametime", @"Text for Lotus Sametime sign up button");
+}
 - (NSCharacterSet *)allowedCharacters{
 	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
 	NSCharacterSet			*returnSet;

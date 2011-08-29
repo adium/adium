@@ -51,6 +51,14 @@
 - (NSString *)longDescription{
 	return @"Bonjour";
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://en.wikipedia.org/wiki/Bonjour_(software)", @"URL for Bonjour signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"About Bonjour", @"Text for Bonjour sign up button");
+}
 - (NSCharacterSet *)allowedCharacters{
 	return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
