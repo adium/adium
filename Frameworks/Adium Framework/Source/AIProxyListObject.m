@@ -60,10 +60,11 @@ static inline NSMutableDictionary *_getProxyDict() {
 	proxy = [proxyDict objectForKey:key];
 
 	if (proxy && proxy.listObject != inListObject) {
-        /* This is a cataclysmic memory management failure and should NEVER happen. I leave the logging in for now. -evands 8/7/11 */
-		NSLog(@"Re-used AIProxyListObject (this should not happen.). Key %@ for inListObject %@ -> %p.listObject=%@", key,inListObject,proxy,proxy.listObject);
-		[self releaseProxyObject:proxy];
-		proxy = nil;
+        /* This is a memory management failure; AIContactController stopped tracking a list object, but it never deallocated. -evands 8/7/11 */
+		AILogWithSignature(@"%@ was leaked! Meh.", proxy.listObject);
+
+		proxy.listObject = inListObject;
+		proxy.containingObject = inContainingObject;
 	}
 
 	if (!proxy) {
