@@ -1181,15 +1181,12 @@
  */
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification
 {
-    //Update the user list
-	AILogWithSignature(@"%i, so %@ %@",[self userListVisible], ([self userListVisible] ? @"reloading" : @"not reloading"),
-					   userListController);
-	
 	[chat resortParticipants];
-	
+
+	/* Even if we're not viewing the user list, we can't risk it keeping stale information about potentially released objects */
+	[userListController reloadData];
+
     if ([self userListVisible]) {
-        [userListController reloadData];
-		
 		[self updateUserCount];
     }
 }
