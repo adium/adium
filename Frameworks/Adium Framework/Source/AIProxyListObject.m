@@ -60,7 +60,7 @@ static inline NSMutableDictionary *_getProxyDict() {
 	proxy = [proxyDict objectForKey:key];
 
 	if (proxy && proxy.listObject != inListObject) {
-        /* This is a memory management failure; AIContactController stopped tracking a list object, but it never deallocated. -evands 8/7/11 */
+        /* This is a memory management failure; AIContactController stopped tracking a list object, but it never deallocated. -evands 8/28/11 */
 		AILogWithSignature(@"%@ was leaked! Meh.", proxy.listObject);
 
 		proxy.listObject = inListObject;
