@@ -502,7 +502,6 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 
 - (void)cancelIndexing
 {
-	NSLog(@"Canceling..");
 	if (logsToIndex) {
 		__block __typeof__(self) bself = self;
 		dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
