@@ -60,7 +60,12 @@ static inline NSMutableDictionary *_getProxyDict() {
 	proxy = [proxyDict objectForKey:key];
 
 	if (proxy && proxy.listObject != inListObject) {
-        /* This is a memory management failure; AIContactController stopped tracking a list object, but it never deallocated. -evands 8/28/11 */
+        /* This is generally a memory management failure; AIContactController stopped tracking a list object, but it never deallocated and
+		 * so never called [AIProxyListObject releaseProxyObject:].
+		 *
+		 * I've seen one case where proxy.listObject referred to a zombie object. I can't reproduce. If that happens, we'll get a crash here in
+		 * debug mode only.  -evands 8/28/11
+		 */
 		AILogWithSignature(@"%@ was leaked! Meh.", proxy.listObject);
 
 		proxy.listObject = inListObject;
@@ -73,7 +78,6 @@ static inline NSMutableDictionary *_getProxyDict() {
 		proxy.containingObject = inContainingObject;
 		proxy.key = key;
 		[inListObject noteProxyObject:proxy];
-
 		[proxyDict setObject:proxy
 					  forKey:key];
 		[proxy release];
@@ -89,6 +93,7 @@ static inline NSMutableDictionary *_getProxyDict() {
  */
 + (void)releaseProxyObject:(AIProxyListObject *)proxyObject
 {
+	AILogWithSignature(@"%@", proxyObject);
 	[[proxyObject retain] autorelease];
 	proxyObject.listObject = nil;
 	[proxyDict removeObjectForKey:proxyObject.key];
