@@ -61,15 +61,11 @@ static inline NSMutableDictionary *_getProxyDict() {
 
 	if (proxy && proxy.listObject != inListObject) {
         /* This is generally a memory management failure; AIContactController stopped tracking a list object, but it never deallocated and
-		 * so never called [AIProxyListObject releaseProxyObject:].
-		 *
-		 * I've seen one case where proxy.listObject referred to a zombie object. I can't reproduce. If that happens, we'll get a crash here in
-		 * debug mode only.  -evands 8/28/11
+		 * so never called [AIProxyListObject releaseProxyObject:]. -evands 8/28/11
 		 */
-		AILogWithSignature(@"%@ was leaked! Meh.", proxy.listObject);
-
-		proxy.listObject = inListObject;
-		proxy.containingObject = inContainingObject;
+		AILogWithSignature(@"%@ was leaked! Meh. We'll recreate the proxy for %@.", proxy.listObject, proxy.key);
+		[self releaseProxyObject:proxy];
+		proxy = nil;
 	}
 
 	if (!proxy) {
@@ -86,6 +82,13 @@ static inline NSMutableDictionary *_getProxyDict() {
 	return proxy;
 }
 
+- (void)flushCache
+{
+	self.cachedDisplayName = nil;
+	self.cachedDisplayNameString = nil;
+	self.cachedLabelAttributes = nil;
+}
+
 /*!
  * @brief Called when an AIListObject is done with an AIProxyListObject to remove it from the global dictionary
  *
@@ -93,17 +96,10 @@ static inline NSMutableDictionary *_getProxyDict() {
  */
 + (void)releaseProxyObject:(AIProxyListObject *)proxyObject
 {
-	AILogWithSignature(@"%@", proxyObject);
 	[[proxyObject retain] autorelease];
 	proxyObject.listObject = nil;
+	[proxyObject flushCache];
 	[proxyDict removeObjectForKey:proxyObject.key];
-}
-
-- (void)flushCache
-{
-	self.cachedDisplayName = nil;
-	self.cachedDisplayNameString = nil;
-	self.cachedLabelAttributes = nil;
 }
 
 - (void)dealloc
