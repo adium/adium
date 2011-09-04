@@ -1095,7 +1095,7 @@
 		4BD6753606001E0F0049CAF7 /* AIMessageTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BACB70203C8CB5E00A8010A /* AIMessageTabViewItem.m */; };
 		4BD6753806001E100049CAF7 /* AIMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F570A5CE03704D3D01A8010A /* AIMessageViewController.m */; };
 		4BD6753A06001E110049CAF7 /* AIMessageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793982033E756E01A8010A /* AIMessageWindowController.m */; };
-		4BD6753B06001E120049CAF7 /* MessageWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F570A60503704E7201A8010A /* MessageWindow.xib */; };
+		4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F570A60503704E7201A8010A /* MessageWindow.nib */; };
 		4BD6753E06001E140049CAF7 /* AIAccountSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25494703F6A32700A8010A /* AIAccountSelectionView.m */; };
 		4BD6755006001E1D0049CAF7 /* ESDualWindowMessageAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B970BF90535B864002F28F9 /* ESDualWindowMessageAdvancedPreferences.m */; };
 		4BD6755406001E1E0049CAF7 /* DualWindowDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D43504051ADC10003B2F21 /* DualWindowDefaults.plist */; };
@@ -1490,13 +1490,9 @@
 		9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9718DF43136A2C5200013760 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9718DF44136A2C5200013760 /* AIImageCollectionView.m */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
-		973063FD13EC62270035998E /* MessageViewEmoticonsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 973063FC13EC62270035998E /* MessageViewEmoticonsMenu.xib */; };
 		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
-		97C1991E13EEB526009C038D /* emoticons_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 97C1991D13EEB526009C038D /* emoticons_menu.png */; };
-		97C1992113EF05FB009C038D /* AIMessageViewEmoticonsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 973063FA13EC62070035998E /* AIMessageViewEmoticonsController.m */; };
-		97C1992213EF0604009C038D /* AIMessageViewEmoticonsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 973063F913EC62070035998E /* AIMessageViewEmoticonsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97E4B4FF13E7490000A8BA53 /* AboutDialog_transp_btm.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */; };
 		97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FC13E7490000A8BA53 /* AboutDialog_transp_top.png */; };
 		97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FD13E7490000A8BA53 /* Flap_192.png */; };
@@ -4678,14 +4674,10 @@
 		9718DF43136A2C5200013760 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.h"; sourceTree = "<group>"; };
 		9718DF44136A2C5200013760 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.m"; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
-		973063F913EC62070035998E /* AIMessageViewEmoticonsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewEmoticonsController.h; path = Source/AIMessageViewEmoticonsController.h; sourceTree = "<group>"; };
-		973063FA13EC62070035998E /* AIMessageViewEmoticonsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewEmoticonsController.m; path = Source/AIMessageViewEmoticonsController.m; sourceTree = "<group>"; };
-		973063FC13EC62270035998E /* MessageViewEmoticonsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageViewEmoticonsMenu.xib; path = Resources/MessageViewEmoticonsMenu.xib; sourceTree = "<group>"; };
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
 		97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactListUserPictureMenuController.m; path = Source/AIContactListUserPictureMenuController.m; sourceTree = "<group>"; };
 		97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListChangeUserPictureMenu.xib; path = Resources/ContactListChangeUserPictureMenu.xib; sourceTree = "<group>"; };
-		97C1991D13EEB526009C038D /* emoticons_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emoticons_menu.png; path = Resources/emoticons_menu.png; sourceTree = "<group>"; };
 		97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_transp_btm.png; path = Resources/AboutDialog_transp_btm.png; sourceTree = "<group>"; };
 		97E4B4FC13E7490000A8BA53 /* AboutDialog_transp_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_transp_top.png; path = Resources/AboutDialog_transp_top.png; sourceTree = "<group>"; };
 		97E4B4FD13E7490000A8BA53 /* Flap_192.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Flap_192.png; path = Resources/Flap_192.png; sourceTree = "<group>"; };
@@ -4766,7 +4758,7 @@
 		F570A5B603704C6101A8010A /* AIMenuController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMenuController.m; path = Source/AIMenuController.m; sourceTree = "<group>"; };
 		F570A5CD03704D3D01A8010A /* AIMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageViewController.h; path = "Plugins/Dual Window Interface/AIMessageViewController.h"; sourceTree = "<group>"; };
 		F570A5CE03704D3D01A8010A /* AIMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewController.m; path = "Plugins/Dual Window Interface/AIMessageViewController.m"; sourceTree = "<group>"; };
-		F570A60503704E7201A8010A /* MessageWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MessageWindow.xib; path = "Plugins/Dual Window Interface/MessageWindow.xib"; sourceTree = "<group>"; };
+		F570A60503704E7201A8010A /* MessageWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MessageWindow.nib; path = "Plugins/Dual Window Interface/MessageWindow.nib"; sourceTree = "<group>"; };
 		F570A60703704E9701A8010A /* AIToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIToolbarController.h; path = Source/AIToolbarController.h; sourceTree = "<group>"; };
 		F570A60803704E9701A8010A /* AIToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIToolbarController.m; path = Source/AIToolbarController.m; sourceTree = "<group>"; };
 		F57938AA033E737001A8010A /* AIAccountController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAccountController.m; path = Source/AIAccountController.m; sourceTree = "<group>"; };
@@ -5082,11 +5074,6 @@
 		11C157D504A88DE0008E0C76 /* Emoticons */ = {
 			isa = PBXGroup;
 			children = (
-				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
-				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
-				973063F913EC62070035998E /* AIMessageViewEmoticonsController.h */,
-				973063FA13EC62070035998E /* AIMessageViewEmoticonsController.m */,
-				973063FC13EC62270035998E /* MessageViewEmoticonsMenu.xib */,
 				C4243C920638E4EA007AD2D9 /* BGEmoticonMenuPlugin.h */,
 				C4243C930638E4EA007AD2D9 /* BGEmoticonMenuPlugin.m */,
 			);
@@ -5974,6 +5961,8 @@
 				34B82C80085A85D800864531 /* AIChatController.m */,
 				F55B415C03AB8B5601A8010A /* AIContentController.h */,
 				F55B415D03AB8B5601A8010A /* AIContentController.m */,
+				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
+				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
 				34CA15520CAFDFB2009AA5E3 /* sidebarActionWidget.png */,
 				34A9707D0C96602200F46006 /* sidebarStatusAreaBackground.png */,
 				9E4CF9D104AA69B000415B22 /* Action Support */,
@@ -6564,7 +6553,6 @@
 				34D8326607CBD598006466F2 /* ContactPrefs.plist */,
 				34D8326707CBD598006466F2 /* DefaultIcon.png */,
 				34D8326207CBD598006466F2 /* DockPrefs.plist */,
-				97C1991D13EEB526009C038D /* emoticons_menu.png */,
 				3428B33E0815E1FB00C0D3DC /* emoticon32.png */,
 				345F590608199746001F733C /* emoticon32_transparent.png */,
 				34B995D9092A832700E31E91 /* FontPanelAccessoryView.nib */,
@@ -8771,7 +8759,7 @@
 				341BCF830961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m */,
 				F5793981033E756E01A8010A /* AIMessageWindowController.h */,
 				F5793982033E756E01A8010A /* AIMessageWindowController.m */,
-				F570A60503704E7201A8010A /* MessageWindow.xib */,
+				F570A60503704E7201A8010A /* MessageWindow.nib */,
 				3461621006FB482C009181D8 /* UserList Theme.plist */,
 				3461621306FB482D009181D8 /* UserList Layout.plist */,
 				346371050BCA0A5400AD57AD /* AIMessageTabSplitView.h */,
@@ -9187,7 +9175,6 @@
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
 				118199C610D0B65A003E8ECA /* AIMedia.h in Headers */,
-				97C1992213EF0604009C038D /* AIMessageViewEmoticonsController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9691,7 +9678,7 @@
 				34D8337707CBD808006466F2 /* pref-advanced.png in Resources */,
 				4BD6742F06001D1D0049CAF7 /* EmoticonPrefs.nib in Resources */,
 				4BD6746606001D770049CAF7 /* SendMessageContactAlert.nib in Resources */,
-				4BD6753B06001E120049CAF7 /* MessageWindow.xib in Resources */,
+				4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */,
 				4BD6758506001E450049CAF7 /* ErrorWindow.nib in Resources */,
 				4BD6758806001E460049CAF7 /* AlertMessageContactAlert.nib in Resources */,
 				7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */,
@@ -9893,8 +9880,6 @@
 				97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */,
 				97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */,
 				97E4B50213E7490000A8BA53 /* Awake_192.png in Resources */,
-				973063FD13EC62270035998E /* MessageViewEmoticonsMenu.xib in Resources */,
-				97C1991E13EEB526009C038D /* emoticons_menu.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10692,7 +10677,6 @@
 				5A23E0BF13EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript in Sources */,
 				5A23E0C013EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript in Sources */,
 				5A23E0C113EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript in Sources */,
-				97C1992113EF05FB009C038D /* AIMessageViewEmoticonsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
