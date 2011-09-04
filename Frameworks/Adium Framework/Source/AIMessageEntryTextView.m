@@ -27,6 +27,8 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentContext.h>
 
+#import <Adium/AIMessageViewEmoticonsController.h>
+
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
@@ -39,8 +41,9 @@
 
 #import <FriBidi/NSString-FBAdditions.h>
 
-#define MAX_HISTORY					25		//Number of messages to remember in history
-#define ENTRY_TEXTVIEW_PADDING		6		//Padding for auto-sizing
+
+#define MAX_HISTORY					25		// Number of messages to remember in history
+#define ENTRY_TEXTVIEW_PADDING		6		// Padding for auto-sizing
 
 #define KEY_DISABLE_TYPING_NOTIFICATIONS		@"Disable Typing Notifications"
 
@@ -68,6 +71,8 @@
 #define PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY [NSArray arrayWithObjects: \
 	NSRTFPboardType, NSStringPboardType, nil]
 
+#pragma mark -
+
 /**
  * @class AISimpleTextView
  * @brief Just draws an attributed string. That's it.
@@ -79,6 +84,7 @@
 @implementation  AISimpleTextView
 
 @synthesize string;
+
 - (void)dealloc
 {
 	[string release];
@@ -87,11 +93,15 @@
 
 - (void)drawRect:(NSRect)rect 
 {
-	[string drawInRect:self.bounds];
+	[string drawInRect:[self bounds]];
 }
+
 @end
 
+#pragma mark -
+
 @interface AIMessageEntryTextView ()
+
 - (void)_setPushIndicatorVisible:(BOOL)visible;
 - (void)positionPushIndicator;
 - (void)_resetCacheAndPostSizeChanged;
@@ -113,11 +123,18 @@
 - (void)frameDidChange:(NSNotification *)notification;
 - (void)toggleMessageSending:(NSNotification *)not;
 - (void)contentObjectAdded:(NSNotification *)notification;
+
 @end
 
+#pragma mark -
+
 @interface NSMutableAttributedString (AIMessageEntryTextViewAdditions)
+
 - (void)convertForPasteWithTraitsUsingAttributes:(NSDictionary *)inAttributes;
+
 @end
+
+#pragma mark - AIMessageEntryTextView
 
 @implementation AIMessageEntryTextView
 
@@ -132,7 +149,7 @@
 	homeToStartOfLine = YES;
 	resizing = NO;
 	enableTypingNotifications = NO;
-	historyArray = [[NSMutableArray alloc] initWithObjects:@"",nil];
+	historyArray = [[NSMutableArray alloc] initWithObjects:@"", nil];
 	pushArray = [[NSMutableArray alloc] init];
 	currentHistoryLocation = 0;
 	[self setDrawsBackground:YES];
@@ -145,35 +162,40 @@
 	if ([self respondsToSelector:@selector(setAllowsUndo:)]) {
 		[self setAllowsUndo:YES];
 	}
+    
 	if ([self respondsToSelector:@selector(setAllowsDocumentBackgroundColorChange:)]) {
 		[self setAllowsDocumentBackgroundColorChange:YES];
 	}
 	
 	[self setImportsGraphics:YES];
+    [self setHasEmoticonsMenu:NO];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(textDidChange:)
 												 name:NSTextDidChangeNotification 
 											   object:self];
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(frameDidChange:) 
 												 name:NSViewFrameDidChangeNotification 
 											   object:self];
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(toggleMessageSending:)
-																name:@"AIChatDidChangeCanSendMessagesNotification"
-															  object:chat];
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-															selector:@selector(contentObjectAdded:) 
-																name:Content_ContentObjectAdded 
-															  object:nil];
+                                             selector:@selector(toggleMessageSending:)
+                                                 name:@"AIChatDidChangeCanSendMessagesNotification"
+                                               object:chat];
+    
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentObjectAdded:)
+                                                 name:Content_ContentObjectAdded
+                                               object:nil];
 
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];	
 	
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
-//Init the text view
+// Init the text view
 - (id)initWithFrame:(NSRect)frameRect textContainer:(NSTextContainer *)aTextContainer
 {
 	if ((self = [super initWithFrame:frameRect textContainer:aTextContainer])) {
@@ -210,18 +232,37 @@
     [associatedView release];
     [historyArray release]; historyArray = nil;
     [pushArray release]; pushArray = nil;
+    [emoticonsMenuIcon release], emoticonsMenuIcon = nil;
 
     [super dealloc];
 }
 
 - (void) setDelegate:(id<AIMessageEntryTextViewDelegate>)del
 {
-	super.delegate = del;
+    [super setDelegate:del];
 }
 
 - (id<AIMessageEntryTextViewDelegate>)delegate
 {
-	return (id<AIMessageEntryTextViewDelegate>)super.delegate;
+	return (id<AIMessageEntryTextViewDelegate>)[super delegate];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:dirtyRect];
+    
+	// Draw emoticons menu icon
+    if (hasEmoticonsMenu) {
+        // tmp
+        [self updateEmoticonsMenuIconRect];
+        
+    	[emoticonsMenuIcon drawInRect:emoticonsMenuIconRect
+                             fromRect:NSZeroRect
+                            operation:NSCompositeSourceOver
+                             fraction:1.0f
+                       respectFlipped:YES
+                                hints:nil];
+    }
 }
 
 - (void)keyDown:(NSEvent *)inEvent
@@ -232,9 +273,8 @@
 		unichar		 inChar = [charactersIgnoringModifiers characterAtIndex:0];
 		NSUInteger flags = [inEvent modifierFlags];
 		
-		//We have to test ctrl before option, because otherwise we'd miss ctrl-option-* events
-		if (pushPopEnabled &&
-			(flags & NSControlKeyMask) && !(flags & NSShiftKeyMask)) {
+		// We have to test ctrl before option, because otherwise we'd miss ctrl-option-* events
+		if (pushPopEnabled && (flags & NSControlKeyMask) && !(flags & NSShiftKeyMask)) {
 			if (inChar == NSUpArrowFunctionKey) {
 				[self popContent];
 			} else if (inChar == NSDownArrowFunctionKey) {
@@ -244,9 +284,7 @@
 			} else {
 				[super keyDown:inEvent];
 			}
-			
-		} else if (historyEnabled && 
-				   (flags & NSAlternateKeyMask) && !(flags & NSShiftKeyMask)) {
+		} else if (historyEnabled && (flags & NSAlternateKeyMask) && !(flags & NSShiftKeyMask)) {
 			if (inChar == NSUpArrowFunctionKey) {
 				[self historyUp];
 			} else if (inChar == NSDownArrowFunctionKey) {
@@ -254,13 +292,12 @@
 			} else {
 				[super keyDown:inEvent];
 			}
-			
-		} else if (associatedView &&
-				   (flags & NSCommandKeyMask) && !(flags & NSShiftKeyMask)) {
+		} else if (associatedView && (flags & NSCommandKeyMask) && !(flags & NSShiftKeyMask)) {
 			if ((inChar == NSUpArrowFunctionKey || inChar == NSDownArrowFunctionKey) ||
 			   (inChar == NSHomeFunctionKey || inChar == NSEndFunctionKey) ||
 			   (inChar == NSPageUpFunctionKey || inChar == NSPageDownFunctionKey)) {
-				//Pass the associatedView a keyDown event equivalent equal to inEvent except without the modifier flags
+				
+                // Pass the associatedView a keyDown event equivalent equal to inEvent except without the modifier flags
 				[associatedView keyDown:[NSEvent keyEventWithType:[inEvent type]
 														 location:[inEvent locationInWindow]
 													modifierFlags:0
@@ -274,24 +311,21 @@
 			} else {
 				[super keyDown:inEvent];
 			}
-			
-		} else if (associatedView &&
-				   (inChar == NSPageUpFunctionKey || inChar == NSPageDownFunctionKey)) {
-			[associatedView keyDown:inEvent];
-			
+		} else if (associatedView && (inChar == NSPageUpFunctionKey || inChar == NSPageDownFunctionKey)) {
+			[associatedView keyDown:inEvent];	
 		} else if (inChar == NSHomeFunctionKey || inChar == NSEndFunctionKey) {
 			if (homeToStartOfLine) {
 				NSRange	newRange;
 				
 				if (flags & NSShiftKeyMask) {
-					//With shift, select to the beginning/end of the line
+					// With shift, select to the beginning/end of the line
 					NSRange	selectedRange = [self selectedRange];
 					if (inChar == NSHomeFunctionKey) {
-						//Home: from 0 to the current location
+						// Home: from 0 to the current location
 						newRange.location = 0;
 						newRange.length = selectedRange.location;
 					} else {
-						//End: from current location to the end
+						// End: from current location to the end
 						newRange.location = selectedRange.location;
 						newRange.length = [[self string] length] - newRange.location;
 					}
@@ -302,16 +336,14 @@
 				}
 
 				[self setSelectedRange:newRange];
-
-			} else {
-				//If !homeToStartOfLine, pass the keypress to our associated view.
+        } else {
+				// If !homeToStartOfLine, pass the keypress to our associated view.
 				if (associatedView) {
 					[associatedView keyDown:inEvent];
 				} else {
 					[super keyDown:inEvent];					
 				}
 			}
-
 		} else if (inChar == NSTabCharacter) {
 			if ([self.delegate respondsToSelector:@selector(textViewShouldTabComplete:)] &&
 				[self.delegate textViewShouldTabComplete:self]) {
@@ -328,26 +360,51 @@
 	}
 }
 
-- (void)scrollWheel:(NSEvent *)anEvent
+- (void)mouseDown:(NSEvent *)anEvent
 {
-	[self.enclosingScrollView scrollWheel:anEvent];
+    // Open emoticons menu
+    if (NSPointInRect([self convertPoint:[anEvent locationInWindow] fromView:nil], [self emoticonsMenuIconRect])) {
+        [AIMessageViewEmoticonsController popUpMenuForTextView:self];
+    }
 }
 
-//Text changed
+- (void)scrollWheel:(NSEvent *)anEvent
+{
+	[[self enclosingScrollView] scrollWheel:anEvent];
+    
+    // Update emoticons menu icon rect
+    [self updateEmoticonsMenuIconRect];
+}
+
+/*- (void)cursorUpdate:(NSEvent *)anEvent
+{
+    NSLog(@"Update cursor!");
+}
+
+- (void)resetCursorRects
+{
+    NSLog(@"Reset cursors!");
+    // Emoticons
+    [self updateEmoticonsMenuIconRect];
+    [self addCursorRect:[self emoticonsMenuIconRect] cursor:[NSCursor arrowCursor]];
+    [self addCursorRect:[self bounds] cursor:[NSCursor crosshairCursor]];
+}*/
+
+// Text changed
 - (void)textDidChange:(NSNotification *)notification
 {
-	//Update typing status
+	// Update typing status
 	if (enableTypingNotifications) {
 		[adium.contentController userIsTypingContentForChat:chat hasEnteredText:[[self textStorage] length] > 0];
 	}
 
-	//Hide any existing contact list tooltip when we begin typing
+	// Hide any existing contact list tooltip when we begin typing
 	[adium.interfaceController showTooltipForListObject:nil atScreenPoint:NSZeroPoint onWindow:nil];
 
-    //Reset cache and resize
+    // Reset cache and resize
 	[self _resetCacheAndPostSizeChanged]; 
 	
-	//Update the character counter
+	// Update the character counter
 	if (characterCounter) {
 		[self updateCharacterCounter];
 	}
@@ -393,9 +450,8 @@
 	}
 }
 
+#pragma mark - Configure
 
-//Configure ------------------------------------------------------------------------------------------------------------
-#pragma mark Configure
 @synthesize clearOnEscape, homeToStartOfLine, associatedView;
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
@@ -405,7 +461,7 @@
 		[group isEqualToString:GROUP_ACCOUNT_STATUS] &&
 		(!key || [key isEqualToString:KEY_DISABLE_TYPING_NOTIFICATIONS])) {
 		enableTypingNotifications = ![[chat.account preferenceForKey:KEY_DISABLE_TYPING_NOTIFICATIONS
-																 group:GROUP_ACCOUNT_STATUS] boolValue];
+                                                               group:GROUP_ACCOUNT_STATUS] boolValue];
 	}
 	
 	if (!object && [group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
@@ -447,15 +503,15 @@
 	}
 }
 
-//Adium Text Entry -----------------------------------------------------------------------------------------------------
-#pragma mark Adium Text Entry
+#pragma mark - Adium Text Entry
 
 /*!
  * @brief Toggle whether message sending is enabled based on a notification. The notification object is the AIChat of the appropriate message entry view
  */
 - (void)toggleMessageSending:(NSNotification *)not
 {
-	//XXX - We really should query the AIChat about this, but AIChat's "can't send" is really designed for handling offline, not banned. Bringing up the offline messaging dialog when banned would make no sense.
+	// XXX - We really should query the AIChat about this, but AIChat's "can't send" is really designed for handling offline, not banned.
+    // Bringing up the offline messaging dialog when banned would make no sense.
 	[self setSendingEnabled:[[[not userInfo] objectForKey:@"TypingEnabled"] boolValue]];
 }
 
@@ -467,16 +523,16 @@
 	return self.sendingEnabled;
 }
 
-//Set our string, preserving the selected range
+// Set our string, preserving the selected range
 - (void)setAttributedString:(NSAttributedString *)inAttributedString
 {
     NSUInteger			length = [inAttributedString length];
     NSRange 	oldRange = [self selectedRange];
 
-    //Change our string
+    // Change our string
     [[self textStorage] setAttributedString:inAttributedString];
 
-    //Restore the old selected range
+    // Restore the old selected range
     if (oldRange.location < length) {
         if (oldRange.location + oldRange.length <= length) {
             [self setSelectedRange:oldRange];
@@ -485,20 +541,20 @@
         }
     }
 
-    //Notify everyone that our text changed
+    // Notify everyone that our text changed
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification object:self];
 }
 
-//Set our string (plain text)
+// Set our string (plain text)
 - (void)setString:(NSString *)string
 {
     [super setString:string];
 
-    //Notify everyone that our text changed
+    // Notify everyone that our text changed
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification object:self];
 }
 
-//Set our typing format
+// Set our typing format
 - (void)setTypingAttributes:(NSDictionary *)attrs
 {
 	[super setTypingAttributes:attrs];
@@ -506,14 +562,14 @@
 	[self setInsertionPointColor:[[attrs objectForKey:NSBackgroundColorAttributeName] contrastingColor]];
 }
 
-#pragma mark Pasting
+#pragma mark - Pasting
 
 - (BOOL)handlePasteAsRichText
 {
 	NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
 	BOOL		 handledPaste = NO;
 	
-	//Types is ordered by the preference for handling of the data; enumerating it lets us allow the sending application's hints to be followed.
+	// Types is ordered by the preference for handling of the data; enumerating it lets us allow the sending application's hints to be followed.
 	for (NSString *type in generalPasteboard.types) {
 		if ([type isEqualToString:NSRTFDPboardType]) {
 			NSData *data = [generalPasteboard dataForType:NSRTFDPboardType];
@@ -521,7 +577,7 @@
 			handledPaste = YES;
 			
 		} else if ([PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY containsObject:type]) {
-			//When we hit a type we should let the superclass handle, break without doing anything
+			// When we hit a type we should let the superclass handle, break without doing anything
 			break;
 			
 		} else if ([FILES_AND_IMAGES_TYPES containsObject:type]) {
@@ -536,7 +592,7 @@
 	return handledPaste;
 }
 
-//Paste as rich text without altering our typing attributes
+// Paste as rich text without altering our typing attributes
 - (void)pasteAsRichText:(id)sender
 {
 	NSDictionary	*attributes = [[self typingAttributes] copy];
@@ -579,7 +635,7 @@
 			data = nil;
 		}
 		
-		//Failed. Try again with the string type.
+		// Failed. Try again with the string type.
 		if (!data && ![type isEqualToString:NSStringPboardType]) {
 			if ([[[NSPasteboard generalPasteboard] types] containsObject:NSStringPboardType]) {
 				type = NSStringPboardType;
@@ -592,7 +648,7 @@
 		}
 		
 		if (!data) {
-			//We still didn't get valid data... maybe super can handle it
+			// We still didn't get valid data... maybe super can handle it
 			@try {
 				[self paste:sender];
 			} @catch (NSException *localException) {
@@ -622,7 +678,7 @@
 																	documentAttributes:NULL];
 				}
 			} @catch (NSException *localException) {
-				//Error while reading the RTF or HTML data, which can happen. Fall back on plain text
+				// Error while reading the RTF or HTML data, which can happen. Fall back on plain text
 				if ([[[NSPasteboard generalPasteboard] types] containsObject:NSStringPboardType]) {
 					data = [generalPasteboard dataForType:NSStringPboardType];
 					NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -645,20 +701,20 @@
 		NSRange			selectedRange = [self selectedRange];
 		NSTextStorage	*textStorage = [self textStorage];
 		
-		//Prepare the undo operation
+		// Prepare the undo operation
 		NSUndoManager	*undoManager = [self undoManager];
 		[[undoManager prepareWithInvocationTarget:textStorage]
 				replaceCharactersInRange:NSMakeRange(selectedRange.location, [attributedString length])
 					withAttributedString:[textStorage attributedSubstringFromRange:selectedRange]];
 		[undoManager setActionName:AILocalizedString(@"Paste", nil)];
 		
-		//Perform the paste
+		// Perform the paste
 		[textStorage replaceCharactersInRange:selectedRange
 						 withAttributedString:attributedString];
 		// Align our text properly (only need to if the first character was changed)
 		if (selectedRange.location == 0)
 			[self setBaseWritingDirection:[[textStorage string] baseWritingDirection]];
-		//Notify that we changed our text
+		// Notify that we changed our text
 		[[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
 															object:self];
 		[attributedString release];
@@ -670,7 +726,7 @@
 		}
 
 	} else {		
-		//If we didn't handle it yet, let super try to deal with it
+		// If we didn't handle it yet, let super try to deal with it
 		[self paste:sender];
 	}
 
@@ -683,22 +739,22 @@
 	[self scrollRangeToVisible:[self selectedRange]];
 }
 
-#pragma mark Deletion
+#pragma mark - Deletion
 
 - (void)deleteBackward:(id)sender
 {
-	//Perform the delete
+	// Perform the delete
 	[super deleteBackward:sender];
 	
-	//If we are now an empty string, and we still have a link active, clear the link
+	// If we are now an empty string, and we still have a link active, clear the link
 	if ([[self textStorage] length] == 0) {
 		[self clearLinkAttribute];
 	}
 }
 
-//Contact menu ---------------------------------------------------------------------------------------------------------
-#pragma mark Contact menu
-//Set and return the selected chat (to auto-configure the contact menu)
+#pragma mark - Contact menu
+
+// Set and return the selected chat (to auto-configure the contact menu)
 - (void)setChat:(AIChat *)inChat
 {
     if (chat != inChat) {
@@ -723,12 +779,12 @@
 					  context:NULL];
 		}
 		
-		//Observe preferences changes for typing enable/disable
+		// Observe preferences changes for typing enable/disable
 		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
     }
 	
-	//Set up the character counter for this chat's list object.
-	//This is done regardless of a chat changing because destination changes need to trigger this.
+	// Set up the character counter for this chat's list object.
+	// This is done regardless of a chat changing because destination changes need to trigger this.
 	if(!chat.isGroupChat) {
 		[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
 		[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
@@ -741,7 +797,7 @@
     return chat;
 }
 
-//Return the selected list object (to auto-configure the contact menu)
+// Return the selected list object (to auto-configure the contact menu)
 - (AIListContact *)listObject
 {
 	return chat.listObject;
@@ -752,23 +808,22 @@
 	return [chat preferredListObject];
 }
 
-//Auto Sizing ----------------------------------------------------------------------------------------------------------
-#pragma mark Auto-sizing
-//Returns our desired size
+#pragma mark - Auto-sizing
+
+// Returns our desired size
 - (NSSize)desiredSize
 {
     if (_desiredSizeCached.width == 0) {
         CGFloat 		textHeight;
         if ([[self textStorage] length] != 0) {
-            //If there is text in this view, let the container tell us its height
+            // If there is text in this view, let the container tell us its height
 
-			//Force glyph generation.  We must do this or usedRectForTextContainer might only return a rect for a
-			//portion of our text.
+			// Force glyph generation.  We must do this or usedRectForTextContainer might only return a rect for a portion of our text.
             [[self layoutManager] glyphRangeForTextContainer:[self textContainer]];            
 
             textHeight = [[self layoutManager] usedRectForTextContainer:[self textContainer]].size.height;
         } else {
-            //Otherwise, we use the current typing attributes to guess what the height of a line should be
+            // Otherwise, we use the current typing attributes to guess what the height of a line should be
 			textHeight = [NSAttributedString stringHeightForAttributes:[self typingAttributes]];
         }
 
@@ -785,15 +840,18 @@
     return _desiredSizeCached;
 }
 
-//Reset the desired size cache when our frame changes
 - (void)frameDidChange:(NSNotification *)notification
 {
-	//resetCacheAndPostSizeChanged can get us right back to here, resulting in an infinite loop if we're not careful
+    // Reset the desired size cache when our frame changes
+	// resetCacheAndPostSizeChanged can get us right back to here, resulting in an infinite loop if we're not careful
 	if (!resizing) {
 		resizing = YES;
 		[self _resetCacheAndPostSizeChanged];
 		resizing = NO;
 	}
+    
+    // Update emoticons menu icon rect
+    [self updateEmoticonsMenuIconRect];
 }
 
 //Reset the desired size cache and post a size changed notification.  Call after the text's dimensions change
@@ -809,9 +867,9 @@
 	}
 }
 
-//Paging ---------------------------------------------------------------------------------------------------------------
-#pragma mark Paging
-//Page up or down in the message view
+#pragma mark - Paging
+
+// Page up or down in the message view
 - (void)scrollPageUp:(id)sender
 {
     if (associatedView && [associatedView respondsToSelector:@selector(pageUp:)]) {
@@ -820,6 +878,7 @@
 		[super scrollPageUp:sender];
 	}
 }
+
 - (void)scrollPageDown:(id)sender
 {
     if (associatedView && [associatedView respondsToSelector:@selector(pageDown:)]) {
@@ -829,61 +888,60 @@
 	}
 }
 
+#pragma mark - History
 
-//History --------------------------------------------------------------------------------------------------------------
-#pragma mark History
 @synthesize historyEnabled;
 
-//Move up through the history
+// Move up through the history
 - (void)historyUp
 {
     if (currentHistoryLocation == 0) {
-		//Store current message
+		// Store current message
         [historyArray replaceObjectAtIndex:0 withObject:[[[self textStorage] copy] autorelease]];
     }
 	
     if (currentHistoryLocation < [historyArray count]-1) {
-        //Move up
+        // Move up
         currentHistoryLocation++;
 		
-        //Display history
+        // Display history
         [self setAttributedString:[historyArray objectAtIndex:currentHistoryLocation]];
     }
 }
 
-//Move down through history
+// Move down through history
 - (void)historyDown
 {
     if (currentHistoryLocation > 0) {
-        //Move down
+        // Move down
         currentHistoryLocation--;
 		
-        //Display history
+        // Display history
         [self setAttributedString:[historyArray objectAtIndex:currentHistoryLocation]];
 	}
 }
 
-//Update history when content is sent
+// Update history when content is sent
 - (IBAction)sendContent:(id)sender
 {
 	NSAttributedString	*textStorage = [self textStorage];
 	
-	//Add to history if there is text being sent
+	// Add to history if there is text being sent
 	[historyArray insertObject:[[textStorage copy] autorelease] atIndex:1];
 	if ([historyArray count] > MAX_HISTORY) {
 		[historyArray removeLastObject];
 	}
 
-	currentHistoryLocation = 0; //Move back to bottom of history
+	currentHistoryLocation = 0; // Move back to bottom of history
 
-	//Send the content
+	// Send the content
 	[super sendContent:sender];
 	
-	//Clear the undo/redo stack as it makes no sense to carry between sends (the history is for that)
+	// Clear the undo/redo stack as it makes no sense to carry between sends (the history is for that)
 	[[self undoManager] removeAllActions];
 }
 
-//Populate the history with messages from the message history
+// Populate the history with messages from the message history
 - (void)contentObjectAdded:(NSNotification *)notification
 {
 	AIContentObject *content = [notification.userInfo objectForKey:@"AIContentObject"];
@@ -897,15 +955,15 @@
 	}
 }
 
-//Push and Pop ---------------------------------------------------------------------------------------------------------
-#pragma mark Push and Pop
-//Enable/Disable push-pop
+#pragma mark - Push and Pop
+
+// Enable/Disable push-pop
 - (void)setPushPopEnabled:(BOOL)inBool
 {
 	pushPopEnabled = inBool;
 }
 
-//Push out of the message entry field
+// Push out of the message entry field
 - (void)pushContent
 {
 	if ([[self textStorage] length] != 0 && pushPopEnabled) {
@@ -915,20 +973,21 @@
 	}
 }
 
-//Pop into the message entry field
+// Pop into the message entry field
 - (void)popContent
 {
     if ([pushArray count] && pushPopEnabled) {
         [self setAttributedString:[pushArray lastObject]];
-        [self setSelectedRange:NSMakeRange([[self textStorage] length], 0)]; //selection to end
+        [self setSelectedRange:NSMakeRange([[self textStorage] length], 0)]; // selection to end
         [pushArray removeLastObject];
+        
         if ([pushArray count] == 0) {
             [self _setPushIndicatorVisible:NO];
         }
     }
 }
 
-//Swap current content
+// Swap current content
 - (void)swapContent
 {
 	if (pushPopEnabled) {
@@ -947,25 +1006,25 @@
 	}
 }
 
-//Push indicator
+// Push indicator
 - (void)_setPushIndicatorVisible:(BOOL)visible
 {
-	static NSImage	*pushIndicatorImage = nil;
+	static NSImage *pushIndicatorImage = nil;
 	
-	//
-	if (!pushIndicatorImage) pushIndicatorImage = [[NSImage imageNamed:@"stackImage" forClass:[self class]] retain];
+	if (!pushIndicatorImage) {
+    	pushIndicatorImage = [[NSImage imageNamed:@"stackImage" forClass:[self class]] retain];
+    }
 
     if (visible && !pushIndicatorVisible) {
         pushIndicatorVisible = visible;
 		
-        //Push text over to make room for indicator
+        // Push text over to make room for indicator
         NSSize size = [self frame].size;
         size.width -= ([pushIndicatorImage size].width);
         [self setFrameSize:size];
 				
 		// Make the indicator and set its action. It is a button with no border.
-		pushIndicator = [[NSButton alloc] initWithFrame:
-            NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)]; 
+		pushIndicator = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)]; 
 		[pushIndicator setButtonType:NSMomentaryPushButton];
         [pushIndicator setAutoresizingMask:(NSViewMinXMargin)];
         [pushIndicator setImage:pushIndicatorImage];
@@ -979,22 +1038,22 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:) name:NSViewBoundsDidChangeNotification object:[self superview]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:) name:NSViewFrameDidChangeNotification object:[self superview]];
 		
-        [self positionPushIndicator]; //Set the indicators initial position
-		
+        [self positionPushIndicator]; // Set the indicators initial position
     } else if (!visible && pushIndicatorVisible) {
         pushIndicatorVisible = visible;
 
-        //Push text back
+        // Push text back
         NSSize size = [self frame].size;
         size.width += [pushIndicatorImage size].width;
         [self setFrameSize:size];
 
-		//Unsubcribe, if necessary.
+		// Unsubcribe, if necessary.
 		if (!characterCounter) {
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self superview]];
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:[self superview]];
 		}
-		//Remove indicator
+        
+		// Remove indicator
         [pushIndicator removeFromSuperview];
         [pushIndicator release]; pushIndicator = nil;
 		
@@ -1002,7 +1061,7 @@
     }
 }
 
-//Reposition the push indicator into lower right corner
+// Reposition the push indicator into lower right corner
 - (void)positionPushIndicator
 {
     NSRect visRect = [[self superview] bounds];
@@ -1013,7 +1072,7 @@
     [[self enclosingScrollView] setNeedsDisplay:YES];
 }
 
-#pragma mark Indicators Positioning
+#pragma mark - Indicators Positioning
 
 /**
  * @brief Dispatch for both indicators to observe bounds & frame changes of their superview
@@ -1023,13 +1082,16 @@
  */
 - (void)positionIndicators:(NSNotification *)notification
 {
-	if (pushIndicatorVisible)
+	if (pushIndicatorVisible) {
 		[self positionPushIndicator];
-	if (characterCounter)
+    }
+    
+	if (characterCounter) {
 		[self positionCharacterCounter];
+    }
 }
 
-#pragma mark Character Counter
+#pragma mark - Character Counter
 
 /**
  * @brief Makes the character counter for this view visible.
@@ -1054,7 +1116,7 @@
         size.width += NSWidth([characterCounter frame]);
         [self setFrameSize:size];
 
-		//Unsubscribe, if necessary.
+		// Unsubscribe, if necessary.
 		if (!pushIndicatorVisible) {
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self superview]];
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:[self superview]];
@@ -1064,8 +1126,9 @@
 		characterCounter = nil;
 		
 		// Reposition the push indicator, if necessary.
-		if (pushIndicatorVisible)
+		if (pushIndicatorVisible) {
 			[self positionPushIndicator];
+        }
 		
 		[[self enclosingScrollView] setNeedsDisplay:YES];
 	}
@@ -1089,8 +1152,9 @@
 {
 	maxCharacters = inMaxCharacters;
 	
-	if (characterCounter)
+	if (characterCounter) {
 		[self updateCharacterCounter];
+    }
 }
 
 /**
@@ -1137,19 +1201,20 @@
 	[characterCounter setFrameSize:label.size];
 	[label release];
 
-	//Reposition the character counter.
+	// Reposition the character counter.
 	[self positionCharacterCounter];
 	
-	//Shift the text entry view over as necessary.
+	// Shift the text entry view over as necessary.
 	CGFloat indent = 0;
 	if (pushIndicatorVisible || characterCounter) {
 		CGFloat pushIndicatorX = pushIndicator ? NSMinX([pushIndicator frame]) : NSMaxX([self bounds]);
 		CGFloat characterCounterX = characterCounter ? NSMinX([characterCounter frame]) : NSMaxX([self bounds]);
 		indent = NSWidth(visRect) - AIfmin(pushIndicatorX, characterCounterX);
 	}
+
 	[self setFrameSize:NSMakeSize(NSWidth(visRect) - indent, NSHeight([self frame]))];
 	
-	//Reposition the push indicator if necessary.
+	// Reposition the push indicator if necessary.
 	if (pushIndicatorVisible)
 		[self positionPushIndicator];
 		
@@ -1164,14 +1229,14 @@
 	NSRect visRect = [[self superview] bounds];
 	NSSize counterSize = characterCounter.string.size;
 	
-	//NSMaxY([self frame]) is necessary because visRect's height changes after you start typing. No idea why.
+	// NSMaxY([self frame]) is necessary because visRect's height changes after you start typing. No idea why.
 	[characterCounter setFrameOrigin:NSMakePoint(NSMaxX(visRect) - counterSize.width - INDICATOR_RIGHT_PADDING,
 												 NSMidY([self frame]) - (counterSize.height)/2)];
 	[characterCounter setFrameSize:counterSize];
 	[[self enclosingScrollView] setNeedsDisplay:YES];
 }
 
-#pragma mark List Object Observer / Chat KVO
+#pragma mark - List Object Observer / Chat KVO
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
@@ -1198,7 +1263,7 @@
 	}
 }
 
-#pragma mark Contextual Menus
+#pragma mark - Contextual Menus
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
@@ -1211,7 +1276,8 @@
 		contextualMenu = [[contextualMenu copy] autorelease];
 
 		NSMenuItem	*editLinkItem = nil;
-		for (NSMenuItem *menuItem in contextualMenu.itemArray) {
+		
+        for (NSMenuItem *menuItem in contextualMenu.itemArray) {
 			if ([[menuItem title] rangeOfString:AILocalizedString(@"Edit Link", nil)].location != NSNotFound) {
 				editLinkItem = menuItem;
 				break;
@@ -1219,7 +1285,7 @@
 		}
 
 		if (editLinkItem) {
-			//There was an Edit Link item.  Remove it, and add out own link editing items in its place.
+			// There was an Edit Link item.  Remove it, and add out own link editing items in its place.
 			NSInteger editIndex = [contextualMenu indexOfItem:editLinkItem];
 			[contextualMenu removeItem:editLinkItem];
 			
@@ -1236,7 +1302,7 @@
 		contextualMenu = [[[NSMenu alloc] init] autorelease];
 	}
 
-	//Retrieve the items which should be added to the bottom of the default menu
+	// Retrieve the items which should be added to the bottom of the default menu
 	NSArray	*locationArray = (addedOurLinkItems ?
 							  [NSArray arrayWithObject:[NSNumber numberWithInt:Context_TextView_Edit]] :
 							  [NSArray arrayWithObjects:[NSNumber numberWithInt:Context_TextView_LinkEditing], 
@@ -1247,10 +1313,12 @@
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
 		NSInteger i = [(NSMenu *)contextualMenu numberOfItems];
+        
 		for (NSMenuItem *menuItem in itemsArray) {
-			//We're going to be copying; call menu needs update now since it won't be called later.
+			// We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
 			NSMenuItem	*menuItemCopy = [[menuItem copy] autorelease];
+            
 			if (submenu && [submenu respondsToSelector:@selector(delegate)]) {
 				[[menuItemCopy submenu] setDelegate:[submenu delegate]];
 			}
@@ -1262,7 +1330,7 @@
     return contextualMenu;
 }
 
-#pragma mark Drag and drop
+#pragma mark - Drag and drop
 
 /*An NSTextView which has setImportsGraphics:YES as of 10.5 gets the following drag types by default:
  "NeXT RTFD pasteboard type",
@@ -1314,7 +1382,7 @@
 		return [super draggingUpdated:sender];
 }
 
-//We don't need to prepare for the types we are handling in performDragOperation: below
+// We don't need to prepare for the types we are handling in performDragOperation: below
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
 {
 	NSPasteboard	*pasteboard = [sender draggingPasteboard];
@@ -1332,7 +1400,7 @@
 	return (allowDragOperation);
 }
 
-//No conclusion is needed for the types we are handling in performDragOperation: below
+// No conclusion is needed for the types we are handling in performDragOperation: below
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
 	NSPasteboard	*pasteboard = [sender draggingPasteboard];
@@ -1350,8 +1418,9 @@
 {
 	NSString *availableType;
 	if ((availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObjects:NSFilenamesPboardType, AIiTunesTrackPboardType, nil]])) {
-		//The pasteboard points to one or more files on disc.  Use them directly.
-		NSArray			*files = nil;
+		// The pasteboard points to one or more files on disc.  Use them directly.
+		NSArray	*files = nil;
+
 		if ([availableType isEqualToString:NSFilenamesPboardType]) {
 			files = [pasteboard propertyListForType:NSFilenamesPboardType];
 			
@@ -1359,20 +1428,20 @@
 			files = [pasteboard filesFromITunesDragPasteboard];
 		}
 		
-		NSString		*path;
+		NSString *path;
+        
 		for (path in files) {
 			[self addAttachmentOfPath:path];
 		}
-		
 	} else {
-		//The pasteboard contains image data with no corresponding file.
+		// The pasteboard contains image data with no corresponding file.
 		NSImage	*image = [[NSImage alloc] initWithPasteboard:pasteboard];
 		[self addAttachmentOfImage:image];
 		[image release];			
 	}	
 }
 
-//The textView's method of inserting into the view is insufficient; we can do better.
+// The textView's method of inserting into the view is insufficient; we can do better.
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
 	NSPasteboard	*pasteboard = [sender draggingPasteboard];
@@ -1394,7 +1463,7 @@
 	return success;
 }
 
-#pragma mark Spell Checking
+#pragma mark - Spell Checking
 
 /*!
  * @brief Spell checking was toggled
@@ -1406,8 +1475,8 @@
 	[super toggleContinuousSpellChecking:sender];
 
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isContinuousSpellCheckingEnabled]]
-										 forKey:KEY_SPELL_CHECKING
-										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+                                       forKey:KEY_SPELL_CHECKING
+                                        group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
 /*!
@@ -1420,11 +1489,12 @@
 	[super toggleGrammarChecking:sender];
 	
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isGrammarCheckingEnabled]]
-										 forKey:KEY_GRAMMAR_CHECKING
-										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+                                       forKey:KEY_GRAMMAR_CHECKING
+                                        group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
-#pragma mark Substitutions
+#pragma mark - Substitutions
+
 /*!
  * @brief Dash substitution was toggled
  */
@@ -1509,7 +1579,8 @@
 										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
-#pragma mark Autocompleting
+#pragma mark - Autocompleting
+
 - (NSRange)rangeForUserCompletion
 {
 	NSRange completionRange = [super rangeForUserCompletion];
@@ -1521,7 +1592,8 @@
 	return completionRange;
 }
 
-#pragma mark Writing Direction
+#pragma mark - Writing Direction
+
 - (void)toggleBaseWritingDirection:(id)sender
 {
 	if ([self baseWritingDirection] == NSWritingDirectionRightToLeft) {
@@ -1530,12 +1602,13 @@
 		[self setBaseWritingDirection:NSWritingDirectionRightToLeft];			
 	}
 	
-	//Apply it immediately
+	// Apply it immediately
 	[self setBaseWritingDirection:[self baseWritingDirection]
 							range:NSMakeRange(0, [[self textStorage] length])];
 }
 
-#pragma mark Attachments
+#pragma mark - Attachments
+
 /*!
  * @brief Add an attachment of the file at inPath at the current insertion point
  *
@@ -1547,12 +1620,14 @@
 		inPath = [inPath stringByAppendingString:@"/..namedfork/rsrc"];
 
 		NSData *data = [NSData dataWithContentsOfFile:inPath];
-		if (data) {
+		
+        if (data) {
 			data = [data subdataWithRange:NSMakeRange(260, [data length] - 260)];
 			
 			NSAttributedString *clipping = [[[NSAttributedString alloc] initWithRTF:data documentAttributes:nil] autorelease];
-			if (clipping) {
-				NSDictionary	*attributes = [[self typingAttributes] copy];
+			
+            if (clipping) {
+				NSDictionary *attributes = [[self typingAttributes] copy];
 				
 				[self insertText:clipping];
 
@@ -1563,14 +1638,13 @@
 				[attributes release];
 			}
 		}
-
 	} else {
 		AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
 		[attachment setPath:inPath];
 		[attachment setString:[inPath lastPathComponent]];
 		[attachment setShouldSaveImageForLogging:YES];
 		
-		//Insert an attributed string into the text at the current insertion point
+		// Insert an attributed string into the text at the current insertion point
 		[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
 		
 		[attachment release];
@@ -1587,7 +1661,7 @@
 	[attachment setImage:inImage];
 	[attachment setShouldSaveImageForLogging:YES];
 	
-	//Insert an attributed string into the text at the current insertion point
+	// Insert an attributed string into the text at the current insertion point
 	[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
 	
 	[attachment release];
@@ -1620,45 +1694,45 @@
 		
 		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
 		
-		//Find each attachment
+		// Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString
 														   options:0 
 															 range:NSMakeRange(currentLocation,
 																			   [attributedString length] - currentLocation)];
 		while (attachmentRange.length != 0) {
-			//Found an attachment in at attachmentRange.location
+			// Found an attachment in at attachmentRange.location
 			NSTextAttachment	*attachment = [attributedString attribute:NSAttachmentAttributeName
 																  atIndex:attachmentRange.location
 														   effectiveRange:nil];
 
-			//If it's not already an AITextAttachmentExtension, make it into one
+			// If it's not already an AITextAttachmentExtension, make it into one
 			if (![attachment isKindOfClass:[AITextAttachmentExtension class]]) {
 				NSAttributedString	*replacement;
 				NSFileWrapper		*fileWrapper = [attachment fileWrapper];
 				NSString			*destinationPath;
 				NSString			*preferredName = [fileWrapper preferredFilename];
 				
-				//Get a unique folder within our temporary directory
+				// Get a unique folder within our temporary directory
 				destinationPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 				[[NSFileManager defaultManager] createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:NULL];
 				destinationPath = [destinationPath stringByAppendingPathComponent:preferredName];
 				
-				//Write the file out to it
+				// Write the file out to it
 				[fileWrapper writeToFile:destinationPath
 							  atomically:NO
 						 updateFilenames:NO];
 				
-				//Now create an AITextAttachmentExtension pointing to it
+				// Now create an AITextAttachmentExtension pointing to it
 				AITextAttachmentExtension   *textAttachment = [[AITextAttachmentExtension alloc] init];
 				[textAttachment setPath:destinationPath];
 				[textAttachment setString:preferredName];
 				[textAttachment setShouldSaveImageForLogging:YES];
 
-				//Insert an attributed string into the text at the current insertion point
+				// Insert an attributed string into the text at the current insertion point
 				replacement = [self attributedStringWithTextAttachmentExtension:textAttachment];
 				[textAttachment release];
 				
-				//Remove the NSTextAttachment, replacing it the AITextAttachmentExtension
+				// Remove the NSTextAttachment, replacing it the AITextAttachmentExtension
 				[attributedString replaceCharactersInRange:attachmentRange
 									  withAttributedString:replacement];
 				
@@ -1668,7 +1742,7 @@
 			currentLocation = attachmentRange.location + attachmentRange.length;
 			
 			
-			//Find the next attachment
+			// Find the next attachment
 			attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString
 															   options:0
 																 range:NSMakeRange(currentLocation,
@@ -1709,14 +1783,85 @@
 	[self setBaseWritingDirection:[[[self textStorage] string] baseWritingDirection]];
 }
 
+#pragma mark - Emoticons Menu
+
+@synthesize emoticonsMenuIcon, emoticonsMenuIconRect;
+
+- (void)setHasEmoticonsMenu:(BOOL)hasMenu
+{
+    if (hasMenu && emoticonsMenuIcon == nil) {
+        [self setEmoticonsMenuIcon:[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"emoticons_menu" ofType:@"png"]]];
+        [self updateEmoticonsMenuIconRect];
+        //[self addCursorRect:[self emoticonsMenuIconRect] cursor:[NSCursor arrowCursor]];
+        
+        NSButton *emoticonsMenuButton = [[NSButton alloc] initWithFrame:NSMakeRect([self frame].size.width - [emoticonsMenuIcon size].width, 2.0f, 24.0f, 16.0f)];
+        
+
+        [emoticonsMenuButton setButtonType:NSMomentaryPushInButton];
+        [emoticonsMenuButton setBordered:NO];
+        [emoticonsMenuButton setImage:emoticonsMenuIcon];
+        [[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];
+		[[emoticonsMenuButton cell] setHighlightsBy:NSNoCellMask];
+        [[emoticonsMenuButton cell] setShowsStateBy:NSNoCellMask];
+
+        [emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
+        
+        //[emoticonsMenuButton addCursorRect:[emoticonsMenuButton bounds] cursor:[NSCursor arrowCursor]];
+        
+        //[emoticonsIconView setFrameSize:[emoticonsMenuIcon size]];
+
+        [self setFrameSize:NSMakeSize([self frame].size.width - [emoticonsMenuIcon size].width - 100, [self frame].size.height)];
+        
+        
+        NSRect visRect = [[self superview] bounds];
+        NSSize counterSize = emoticonsMenuButton.frame.size;
+        
+        // NSMaxY([self frame]) is necessary because visRect's height changes after you start typing. No idea why.
+        [emoticonsMenuButton setFrameOrigin:NSMakePoint(NSMaxX(visRect) - counterSize.width/* - INDICATOR_RIGHT_PADDING*/, NSMaxY([self frame]) - counterSize.height)];
+
+        [[self enclosingScrollView] addSubview:emoticonsMenuButton];
+        [[self enclosingScrollView] setNeedsDisplay:YES];
+        [self setNeedsDisplay:YES];
+
+        //[[self superview] addSubview:emoticonsMenuButton];
+        //[[self superview] setNeedsDisplay:YES];
+    }
+
+    hasEmoticonsMenu = hasMenu;
+}
+
+- (BOOL)hasEmoticonsMenu
+{
+    return hasEmoticonsMenu;
+}
+
+- (void)updateEmoticonsMenuIconRect
+{
+    NSSize iconSize = [[self emoticonsMenuIcon] size];
+
+	[self setEmoticonsMenuIconRect:NSMakeRect([self frame].size.width - iconSize.width - 2.0f, [[self superview] bounds].origin.y + 2.0f,
+                                              iconSize.width, iconSize.height)];
+}
+
+// Open emoticons menu
+- (void)popUpEmoticonsMenu
+{
+    if ([self hasEmoticonsMenu]) {
+    	[AIMessageViewEmoticonsController popUpMenuForTextView:self];
+    }
+}
+
 @end
 
+#pragma mark -
+
 @implementation NSMutableAttributedString (AIMessageEntryTextViewAdditions)
+
 - (void)convertForPasteWithTraitsUsingAttributes:(NSDictionary *)typingAttributes;
 {
 	NSRange fullRange = NSMakeRange(0, [self length]);
 
-	//Remove non-trait attributes
+	// Remove non-trait attributes
 	if ([typingAttributes objectForKey:NSBackgroundColorAttributeName]) {
 		[self addAttribute:NSBackgroundColorAttributeName
 					 value:[typingAttributes objectForKey:NSBackgroundColorAttributeName]
@@ -1797,11 +1942,8 @@
 		searchRange.length = fullRange.length - searchRange.location;
 	}
 
-	//Replace attachments with nothing! Absolutely nothing!
+	// Replace attachments with nothing! Absolutely nothing!
 	[self convertAttachmentsToStringsUsingPlaceholder:@""];
 }
-
-
-
 
 @end
