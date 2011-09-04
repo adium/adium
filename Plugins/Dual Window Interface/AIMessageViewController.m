@@ -769,9 +769,6 @@
 	//This is necessary for tab completion.
 	[textView_outgoing setDelegate:self];
     
-    // Enable emoticons menu
-    [textView_outgoing setHasEmoticonsMenu:YES];
-    
 	[textView_outgoing setTextContainerInset:NSMakeSize(0,2)];
     if ([textView_outgoing respondsToSelector:@selector(setUsesFindPanel:)]) {
 		[textView_outgoing setUsesFindPanel:YES];
