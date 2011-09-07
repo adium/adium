@@ -718,7 +718,7 @@
 	} else {
 		//Search for a chat with this AIListContact
 		for (AIChat *chat in openChats) {
-			if (chat.isGroupChat && [chat containsObject:inContact]) {
+			if (chat.isGroupChat && [chat containsObject:inContact] && chat.account.shouldBeOnline) {
 				[groupChats addObject:chat];
 			}
 		}

@@ -705,7 +705,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 		[adium.chatController chat:self removedListContact:contact];
 
 		if (contact.isStranger &&
-			([adium.chatController allGroupChatsContainingContact:contact.parentContact].count <= 1) &&
+			![adium.chatController allGroupChatsContainingContact:contact.parentContact].count &&
 			![adium.chatController existingChatWithContact:contact.parentContact]) {
 			
 			[[AIContactObserverManager sharedManager] delayListObjectNotifications];
@@ -728,7 +728,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	for (AIListContact *listContact in self) {
 		if (listContact.isStranger &&
 			![adium.chatController existingChatWithContact:listContact.parentContact] &&
-			([adium.chatController allGroupChatsContainingContact:listContact.parentContact].count <= 1)) {
+			([adium.chatController allGroupChatsContainingContact:listContact.parentContact].count == 0)) {
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
