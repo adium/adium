@@ -787,7 +787,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[chat removeObject:contact];
 	
 	if (contact.isStranger && 
-		([adium.chatController allGroupChatsContainingContact:contact.parentContact].count <= 1) &&
+		![adium.chatController allGroupChatsContainingContact:contact.parentContact].count &&
 		[adium.chatController existingChatWithContact:contact.parentContact]) {
 		// The contact is a stranger, not in any more group chats, but we have a message with them open.
 		// Set their status to unknown.
