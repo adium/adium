@@ -14,28 +14,8 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "CBPurpleAccount.h"
-#import "AIFacebookXMPPOAuthWebViewWindowController.h"
+#import "PurpleService.h"
 
-#define AIOAuth2ProgressNotification @"AIOAuth2ProgressNotification"
-#define KEY_OAUTH2_STEP @"AuthStep"
-
-typedef enum {
-	AIOAuth2ProgressPromptingUser,
-	AIOAuth2ProgressContactingServer,
-	AIOAuth2ProgressPromotingForChat,
-	AIOAuth2ProgressSuccess,
-	AIOAuth2ProgressFailure
-} AIOAuth2ProgressStep;
-
-@interface AIOAuth2XMPPAccount : CBPurpleAccount {
-	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-	NSString *oAuthToken;
-}
-
-- (void)requestAuthorization;
-
-@property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-@property (nonatomic, copy) NSString *oAuthToken;
+@interface AIXMPPMSNService : PurpleService
 
 @end

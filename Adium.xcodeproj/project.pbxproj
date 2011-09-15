@@ -1428,6 +1428,10 @@
 		76EDA7E31421F3080074F456 /* AIOAuth2XMPPAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDA7E21421F3080074F456 /* AIOAuth2XMPPAccount.m */; };
 		76EDA7E41421F3910074F456 /* AIOAuth2XMPPAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDA7E21421F3080074F456 /* AIOAuth2XMPPAccount.m */; };
 		76EDA7E51421F3A30074F456 /* AIOAuth2XMPPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EDA7E11421F3080074F456 /* AIOAuth2XMPPAccount.h */; };
+		76EDA7E81421F8070074F456 /* AIXMPPMSNService.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EDA7E61421F8070074F456 /* AIXMPPMSNService.h */; };
+		76EDA7E91421F8070074F456 /* AIXMPPMSNService.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDA7E71421F8070074F456 /* AIXMPPMSNService.m */; };
+		76EDA7EC1421F8EA0074F456 /* AIXMPPMSNAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EDA7EA1421F8E90074F456 /* AIXMPPMSNAccount.h */; };
+		76EDA7ED1421F8EA0074F456 /* AIXMPPMSNAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EDA7EB1421F8E90074F456 /* AIXMPPMSNAccount.m */; };
 		7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E7CF7F11124B982001CFC73 /* libgstsdp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7CF7F01124B982001CFC73 /* libgstsdp.framework */; };
@@ -4622,6 +4626,10 @@
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
 		76EDA7E11421F3080074F456 /* AIOAuth2XMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOAuth2XMPPAccount.h; path = "Plugins/Purple Service/AIOAuth2XMPPAccount.h"; sourceTree = "<group>"; };
 		76EDA7E21421F3080074F456 /* AIOAuth2XMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOAuth2XMPPAccount.m; path = "Plugins/Purple Service/AIOAuth2XMPPAccount.m"; sourceTree = "<group>"; };
+		76EDA7E61421F8070074F456 /* AIXMPPMSNService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXMPPMSNService.h; path = "Plugins/Purple Service/AIXMPPMSNService.h"; sourceTree = "<group>"; };
+		76EDA7E71421F8070074F456 /* AIXMPPMSNService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXMPPMSNService.m; path = "Plugins/Purple Service/AIXMPPMSNService.m"; sourceTree = "<group>"; };
+		76EDA7EA1421F8E90074F456 /* AIXMPPMSNAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXMPPMSNAccount.h; path = "Plugins/Purple Service/AIXMPPMSNAccount.h"; sourceTree = "<group>"; };
+		76EDA7EB1421F8E90074F456 /* AIXMPPMSNAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXMPPMSNAccount.m; path = "Plugins/Purple Service/AIXMPPMSNAccount.m"; sourceTree = "<group>"; };
 		77D903500B78CF1000B86C42 /* zhm */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = zhm; path = "Plugins/Purple Service/zhm"; sourceTree = "<group>"; };
 		7E1E8176063A3EEC00EB00F7 /* AIContextMenuTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIContextMenuTextView.h; path = "Frameworks/Adium Framework/Source/AIContextMenuTextView.h"; sourceTree = "<group>"; };
 		7E1E8177063A3EEC00EB00F7 /* AIContextMenuTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIContextMenuTextView.m; path = "Frameworks/Adium Framework/Source/AIContextMenuTextView.m"; sourceTree = "<group>"; };
@@ -5533,6 +5541,10 @@
 				343EB40508086D9000E27095 /* ESPurpleMSNAccountView.nib */,
 				4B7644DD07A05E7E0021CCD7 /* PurpleDefaultsMSN.plist */,
 				4B388E080719C351004DE713 /* MSN Service Preferences */,
+				76EDA7E61421F8070074F456 /* AIXMPPMSNService.h */,
+				76EDA7E71421F8070074F456 /* AIXMPPMSNService.m */,
+				76EDA7EA1421F8E90074F456 /* AIXMPPMSNAccount.h */,
+				76EDA7EB1421F8E90074F456 /* AIXMPPMSNAccount.m */,
 			);
 			name = MSN;
 			sourceTree = "<group>";
@@ -9051,6 +9063,8 @@
 				34D8154613B663700022C8C4 /* JSONKit.h in Headers */,
 				34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */,
 				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
+				76EDA7E81421F8070074F456 /* AIXMPPMSNService.h in Headers */,
+				76EDA7EC1421F8EA0074F456 /* AIXMPPMSNAccount.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10202,6 +10216,8 @@
 				34D8154713B663700022C8C4 /* JSONKit.m in Sources */,
 				34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */,
 				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
+				76EDA7E91421F8070074F456 /* AIXMPPMSNService.m in Sources */,
+				76EDA7ED1421F8EA0074F456 /* AIXMPPMSNAccount.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

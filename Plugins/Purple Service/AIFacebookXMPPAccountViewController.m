@@ -119,7 +119,7 @@
 - (IBAction)changedPreference:(id)sender
 {
 	if (sender == button_OAuthStart) {
-		[(AIFacebookXMPPAccount *)account requestAuthorization];
+		[(AIOAuth2XMPPAccount *)account requestAuthorization];
 		[button_OAuthStart setEnabled:NO];
 
 	} else 
