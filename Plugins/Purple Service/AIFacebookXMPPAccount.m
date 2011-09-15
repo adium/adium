@@ -409,4 +409,38 @@ enum {
     }    
 }
 
+- (NSString *)oAuthURL
+{
+	return @"https://graph.facebook.com/oauth/authorize?"
+	@"client_id=" ADIUM_APP_ID "&"
+	@"redirect_uri=http%3A%2F%2Fwww.facebook.com%2Fconnect%2Flogin_success.html&"
+	@"scope=xmpp_login,offline_access&"
+	@"type=user_agent&"
+	@"display=popup";
+}
+
+- (NSDictionary*)parseURLParams:(NSString *)query {
+	NSArray *pairs = [query componentsSeparatedByString:@"&"];
+	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+	for (NSString *pair in pairs) {
+		NSArray *kv = [pair componentsSeparatedByString:@"="];
+		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		
+		[params setObject:val forKey:[kv objectAtIndex:0]];
+	}
+	return params;
+}
+
+- (NSString *)tokenFromURL:(NSURL *)url
+{
+	if ([[url host] isEqual:@"www.facebook.com"] && [[url path] isEqual:@"/connect/login_success.html"]) {
+		NSDictionary *urlParamDict = [self parseURLParams:[url fragment]];
+		NSString *token = [urlParamDict objectForKey:@"access_token"];
+		
+		return token ?: @"";
+	}
+	
+	return nil;
+}
+
 @end

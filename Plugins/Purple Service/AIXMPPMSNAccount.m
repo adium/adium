@@ -16,6 +16,9 @@
 
 #import "AIXMPPMSNAccount.h"
 
+// Should probably be temporary, registered by me (Thijs)
+#define ADIUM_MSN_OAUTH2_APP_ID @"0000000040068F8C"
+
 @implementation AIXMPPMSNAccount
 
 - (id)init
@@ -26,6 +29,40 @@
     }
     
     return self;
+}
+
+- (NSString *)oAuthURL
+{
+	return @"https://oauth.live.com/authorize?client_id=" ADIUM_MSN_OAUTH2_APP_ID
+	@"&scope=wl.messenger"
+	@"&response_type=token"
+	@"&redirect_uri=http://oauth.live.com/desktop";
+}
+
+- (NSDictionary*)parseURLParams:(NSString *)query {
+	NSArray *pairs = [query componentsSeparatedByString:@"&"];
+	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+	for (NSString *pair in pairs) {
+		NSArray *kv = [pair componentsSeparatedByString:@"="];
+		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		
+		[params setObject:val forKey:[kv objectAtIndex:0]];
+	}
+	return params;
+}
+
+- (NSString *)tokenFromURL:(NSURL *)url
+{
+	if ([[url host] isEqual:@"oauth.live.com"] && [[url path] isEqual:@"/desktop"]) {
+		NSDictionary *urlParamDict = [self parseURLParams:[url fragment]];
+		NSString *token = [urlParamDict objectForKey:@"access_token"];
+		
+		AILogWithSignature(@"Got token: %@", token);
+		
+		return token ?: @"";
+	}
+	
+	return nil;
 }
 
 @end

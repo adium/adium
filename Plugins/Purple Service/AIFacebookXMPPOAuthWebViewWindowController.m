@@ -54,12 +54,7 @@
 {
     [super showWindow:sender];
 
-    [webView setMainFrameURL:@"https://graph.facebook.com/oauth/authorize?"
-     @"client_id=" ADIUM_APP_ID "&"
-     @"redirect_uri=http%3A%2F%2Fwww.facebook.com%2Fconnect%2Flogin_success.html&"
-	 @"scope=xmpp_login,offline_access&"
-     @"type=user_agent&"
-     @"display=popup"];
+    [webView setMainFrameURL:[account oAuthURL]];
 	
 	[spinner startAnimation:self];
     
@@ -74,19 +69,6 @@
     if (!notifiedAccount)
         [self.account oAuthWebViewControllerDidFail:self];
 }
-
-- (NSDictionary*)parseURLParams:(NSString *)query {
-	NSArray *pairs = [query componentsSeparatedByString:@"&"];
-	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
-	for (NSString *pair in pairs) {
-		NSArray *kv = [pair componentsSeparatedByString:@"="];
-		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		
-		[params setObject:val forKey:[kv objectAtIndex:0]];
-	}
-	return params;
-}
-
 
 - (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
 {
@@ -133,17 +115,16 @@
     [mutableRequest setHTTPShouldHandleCookies:NO];
     [self addCookiesToRequest:mutableRequest];
 	
-    if ([[[mutableRequest URL] host] isEqual:@"www.facebook.com"] && [[[mutableRequest URL] path] isEqual:@"/connect/login_success.html"]) {
-		NSDictionary *urlParamDict = [self parseURLParams:[[mutableRequest URL] fragment]];
+	NSString *token = [account tokenFromURL:[mutableRequest URL]];
+	
+//    if ([[[mutableRequest URL] host] isEqual:@"www.facebook.com"] && [[[mutableRequest URL] path] isEqual:@"/connect/login_success.html"]) {
+	if (token) {
 		
-		NSString *token = [urlParamDict objectForKey:@"access_token"];
-		if (token && ![token isEqualToString:@""]) {
-    		[self.account oAuthWebViewController:self didSucceedWithToken:token];
-		} else {
-			/* Got a bad token, or the user canceled */
+		if ([token isEqualToString:@""]) {
 			[self.account oAuthWebViewControllerDidFail:self];
-
-		}		
+		} else {
+			[self.account oAuthWebViewController:self didSucceedWithToken:token];
+		}
 
         notifiedAccount = YES;
 		[self closeWindow:nil];

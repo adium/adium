@@ -34,6 +34,8 @@ typedef enum {
 }
 
 - (void)requestAuthorization;
+- (NSString *)oAuthURL;
+- (NSString *)tokenFromURL:(NSURL *)url;
 
 @property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 @property (nonatomic, copy) NSString *oAuthToken;
