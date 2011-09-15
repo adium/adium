@@ -20,7 +20,6 @@
 #import <AIUtilities/AIKeychain.h>
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
-#import "JSONKit.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIPasswordPromptController.h>
@@ -29,27 +28,9 @@
 #import <Libpurple/auth.h>
 #import "auth_fb.h"
 
-enum {
-    AINoNetworkState,
-    AIMeGraphAPINetworkState,
-    AIPromoteSessionNetworkState
-};
-
-@interface AIFacebookXMPPAccount ()
-
-@property (nonatomic, assign) NSUInteger networkState;
-@property (nonatomic, assign) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
-@property (nonatomic, retain) NSURLResponse *connectionResponse;
-@property (nonatomic, retain) NSMutableData *connectionData;
-
-- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
-- (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
-@end
-
 @implementation AIFacebookXMPPAccount
 
 @synthesize migrationData;
-@synthesize networkState, connection, connectionResponse, connectionData;
 
 + (BOOL)uidIsValidForFacebook:(NSString *)inUID
 {
@@ -68,18 +49,6 @@ enum {
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-    [oAuthWC release];
-    [oAuthToken release];
-    
-    [connection cancel];
-    [connectionResponse release];
-    [connectionData release];
-
-    [super dealloc];
 }
 
 #pragma mark Connectivitiy
@@ -128,7 +97,7 @@ enum {
 
 /* Add the authentication mechanism for X-FACEBOOK-PLATFORM. Note that if the server offers it,
  * it will be used preferentially over any other mechanism e.g. DIGEST-MD5. */
-- (void)setFacebookMechEnabled:(BOOL)inEnabled
+- (void)setMechEnabled:(BOOL)inEnabled
 {
 	static BOOL enabledFacebookMech = NO;
 	if (inEnabled != enabledFacebookMech) {
@@ -139,24 +108,6 @@ enum {
 		
 		enabledFacebookMech = inEnabled;
 	}
-}
-
-- (void)connect
-{
-	[self setFacebookMechEnabled:YES];
-	[super connect];
-}
-
-- (void)didConnect
-{
-	[self setFacebookMechEnabled:NO];
-	[super didConnect];	
-}
-
-- (void)didDisconnect
-{
-	[self setFacebookMechEnabled:NO];
-	[super didDisconnect];	
 }
 
 - (const char *)purpleAccountName
@@ -222,15 +173,6 @@ enum {
 	}
 }
 
-#pragma mark Account configuration
-
-- (void)setName:(NSString *)name UID:(NSString *)inUID
-{
-	[self filterAndSetUID:inUID];
-	
-	[self setFormattedUID:name notify:NotifyNever];
-}
-
 #pragma mark Contacts
 
 /*!
@@ -271,43 +213,6 @@ enum {
 }
 
 #pragma mark Authorization
-
-- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)inResponse error:(NSError *)inError
-{
-    if (inError) {
-        NSLog(@"error loading graph API: %@", inError);
-        // TODO: indicate setup failed 
-        return;
-    }
-    
-    NSError *error = nil;
-    NSDictionary *resp = [graphAPIData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
-    if (!resp) {
-        NSLog(@"error decoding graph API response: %@", error);
-        // TODO: indicate setup failed
-        return;
-    }
-    
-    NSString *uuid = [resp objectForKey:@"id"];
-    NSString *name = [resp objectForKey:@"name"];
-    
-    /* Passwords are keyed by UID, so we need to make this change before storing the password */
-	[self setName:name UID:uuid];
-        
-    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", [self oAuthToken]];
-    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
-
-    self.networkState = AIPromoteSessionNetworkState;
-    self.connectionData = [NSMutableData data];
-    self.connection = [NSURLConnection connectionWithRequest:secretRequest delegate:self];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
-														object:self
-													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressPromotingForChat]
-								 forKey:KEY_OAUTH2_STEP]];
-}
 
 - (void)didCompleteFacebookAuthorization
 {
@@ -362,51 +267,9 @@ enum {
     self.oAuthToken = nil;
 }
 
-#pragma mark NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)inConnection didReceiveResponse:(NSURLResponse *)response
+- (NSString *)meURL
 {
-    [[self connectionData] setLength:0];
-    [self setConnectionResponse:response];
-}
-
-- (void)connection:(NSURLConnection *)inConnection didReceiveData:(NSData *)data
-{
-    [[self connectionData] appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)inConnection didFailWithError:(NSError *)error
-{
-    NSUInteger state = [self networkState];
-    
-    [self setNetworkState:AINoNetworkState];
-    [self setConnection:nil];
-    [self setConnectionResponse:nil];
-    [self setConnectionData:nil];    
-    
-    if (state == AIMeGraphAPINetworkState) {
-        [self meGraphAPIDidFinishLoading:nil response:nil error:error];
-    } else if (state == AIPromoteSessionNetworkState) {
-        [self promoteSessionDidFinishLoading:nil response:nil error:error];
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection
-{
-    NSURLResponse *response = [[[self connectionResponse] retain] autorelease];
-    NSMutableData *data = [[[self connectionData] retain] autorelease];
-    NSUInteger state = [self networkState]; 
-    
-    [self setNetworkState:AINoNetworkState];
-    [self setConnection:nil];
-    [self setConnectionResponse:nil];
-    [self setConnectionData:nil];
-    
-    if (state == AIMeGraphAPINetworkState) {
-        [self meGraphAPIDidFinishLoading:data response:response error:nil];
-    } else if (state == AIPromoteSessionNetworkState) {
-        [self promoteSessionDidFinishLoading:data response:response error:nil];
-    }    
+	return @"https://graph.facebook.com/me?access_token=%@";
 }
 
 - (NSString *)oAuthURL

@@ -1422,6 +1422,8 @@
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
+		76723D7014223EF600AB8C30 /* auth_msn.c in Sources */ = {isa = PBXBuildFile; fileRef = 76723D6F14223EF600AB8C30 /* auth_msn.c */; };
+		76723D7214223FA400AB8C30 /* auth_msn.h in Headers */ = {isa = PBXBuildFile; fileRef = 76723D7114223FA400AB8C30 /* auth_msn.h */; };
 		76889DEB12D3CA17007AEF00 /* GetInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* GetInfo.png */; };
 		76889DEF12D3CA40007AEF00 /* Personal.png in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.png */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
@@ -4620,6 +4622,8 @@
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
+		76723D6F14223EF600AB8C30 /* auth_msn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth_msn.c; sourceTree = "<group>"; };
+		76723D7114223FA400AB8C30 /* auth_msn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auth_msn.h; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* GetInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GetInfo.png; path = Resources/GetInfo.png; sourceTree = "<group>"; };
 		76889DEE12D3CA40007AEF00 /* Personal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Personal.png; path = Resources/Personal.png; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
@@ -5116,6 +5120,8 @@
 				811033500CDE170B00EC6038 /* ssl-cdsa.c */,
 				11EE1B4B0CDCFAF40097F246 /* ssl-openssl.c */,
 				11EE1B4C0CDCFAF40097F246 /* ssl.c */,
+				76723D6F14223EF600AB8C30 /* auth_msn.c */,
+				76723D7114223FA400AB8C30 /* auth_msn.h */,
 			);
 			name = libpurple_extensions;
 			path = "Plugins/Purple Service/libpurple_extensions";
@@ -9065,6 +9071,7 @@
 				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
 				76EDA7E81421F8070074F456 /* AIXMPPMSNService.h in Headers */,
 				76EDA7EC1421F8EA0074F456 /* AIXMPPMSNAccount.h in Headers */,
+				76723D7214223FA400AB8C30 /* auth_msn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10218,6 +10225,7 @@
 				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
 				76EDA7E91421F8070074F456 /* AIXMPPMSNService.m in Sources */,
 				76EDA7ED1421F8EA0074F456 /* AIXMPPMSNAccount.m in Sources */,
+				76723D7014223EF600AB8C30 /* auth_msn.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

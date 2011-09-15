@@ -15,6 +15,8 @@
  */
 
 #import "AIXMPPMSNAccount.h"
+#import <libpurple/jabber.h>
+#import "auth_msn.h"
 
 // Should probably be temporary, registered by me (Thijs)
 #define ADIUM_MSN_OAUTH2_APP_ID @"0000000040068F8C"
@@ -29,6 +31,52 @@
     }
     
     return self;
+}
+
+- (const char*)protocolPlugin
+{
+	return "prpl-jabber";
+}
+
+- (NSString *)serverSuffix
+{
+	return @"@messenger.live.com";
+}
+
+- (NSString *)host
+{
+	return @"messenger.live.com";
+}
+
+- (void)configurePurpleAccount
+{
+	[super configurePurpleAccount];
+	
+	purple_account_set_username(account, self.purpleAccountName);
+}
+
+- (const char *)purpleAccountName
+{
+	NSString	*userNameWithHost = nil, *completeUserName = nil;
+	BOOL		serverAppendedToUID;
+	
+	serverAppendedToUID = ([UID rangeOfString:[self serverSuffix]
+									  options:(NSCaseInsensitiveSearch | NSBackwardsSearch | NSAnchoredSearch)].location != NSNotFound);
+	
+	if (serverAppendedToUID) {
+		userNameWithHost = UID;
+	} else {
+		userNameWithHost = [UID stringByAppendingString:[self serverSuffix]];
+	}
+	
+	completeUserName = [NSString stringWithFormat:@"%@/Adium", userNameWithHost];
+	
+	return [completeUserName UTF8String];
+}
+
+- (NSString *)meURL
+{
+	return @"https://apis.live.net/v5.0/me?access_token=%@";
 }
 
 - (NSString *)oAuthURL
@@ -63,6 +111,19 @@
 	}
 	
 	return nil;
+}
+
+- (void)setMechEnabled:(BOOL)inEnabled
+{
+	static BOOL enabledMSNMech = NO;
+	if (inEnabled != enabledMSNMech) {
+		if (inEnabled)
+			jabber_auth_add_mech(jabber_auth_get_msn_mech());
+		else
+			jabber_auth_remove_mech(jabber_auth_get_msn_mech());
+		
+		enabledMSNMech = inEnabled;
+	}
 }
 
 @end

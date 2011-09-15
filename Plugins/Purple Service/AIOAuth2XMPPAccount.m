@@ -15,19 +15,40 @@
  */
 
 #import "AIOAuth2XMPPAccount.h"
+#import "JSONKit.h"
+
+enum {
+    AINoNetworkState,
+    AIMeGraphAPINetworkState,
+    AIPromoteSessionNetworkState
+};
+
+@interface AIOAuth2XMPPAccount ()
+
+@property (nonatomic, assign) NSUInteger networkState;
+@property (nonatomic, assign) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
+@property (nonatomic, retain) NSURLResponse *connectionResponse;
+@property (nonatomic, retain) NSMutableData *connectionData;
+
+- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
+- (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
+@end
 
 @implementation AIOAuth2XMPPAccount
 
 @synthesize oAuthWC, oAuthToken;
+@synthesize networkState, connection, connectionResponse, connectionData;
 
-- (id)init
+- (void)dealloc
 {
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
+    [oAuthWC release];
+    [oAuthToken release];
     
-    return self;
+    [connection cancel];
+    [connectionResponse release];
+    [connectionData release];
+	
+    [super dealloc];
 }
 
 - (void)requestAuthorization
@@ -63,13 +84,13 @@
 {
     [self setOAuthToken:token];
     
-    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];
+    NSString *urlstring = [NSString stringWithFormat:[self meURL], [self oAuthToken]];
     NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-//    self.networkState = AIMeGraphAPINetworkState;
-//    self.connectionData = [NSMutableData data];
-//    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    self.networkState = AIMeGraphAPINetworkState;
+    self.connectionData = [NSMutableData data];
+    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
 														object:self
@@ -88,6 +109,125 @@
 	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressFailure]
 								 forKey:KEY_OAUTH2_STEP]];
 	
+}
+
+#pragma mark Account configuration
+
+- (void)setName:(NSString *)name UID:(NSString *)inUID
+{
+	[self filterAndSetUID:inUID];
+	
+	[self setFormattedUID:name notify:NotifyNever];
+}
+
+- (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)inResponse error:(NSError *)inError
+{
+    if (inError) {
+        NSLog(@"error loading graph API: %@", inError);
+        // TODO: indicate setup failed 
+        return;
+    }
+    
+    NSError *error = nil;
+    NSDictionary *resp = [graphAPIData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    if (!resp) {
+        NSLog(@"error decoding graph API response: %@", error);
+        // TODO: indicate setup failed
+        return;
+    }
+    
+    NSString *uuid = [resp objectForKey:@"id"];
+    NSString *name = [resp objectForKey:@"name"];
+    
+    /* Passwords are keyed by UID, so we need to make this change before storing the password */
+	[self setName:name UID:uuid];
+	
+	[[adium accountController] setPassword:[self oAuthToken] forAccount:self];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
+														object:self
+													  userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressSuccess]
+																						   forKey:KEY_OAUTH2_STEP]];
+//    NSString *secretURLString = [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", [self oAuthToken]];
+//    NSURL *secretURL = [NSURL URLWithString:[secretURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+//    NSURLRequest *secretRequest = [NSURLRequest requestWithURL:secretURL];
+//	
+//    self.networkState = AIPromoteSessionNetworkState;
+//    self.connectionData = [NSMutableData data];
+//    self.connection = [NSURLConnection connectionWithRequest:secretRequest delegate:self];
+//	
+//	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
+//														object:self
+//													  userInfo:
+//	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressPromotingForChat]
+//								 forKey:KEY_OAUTH2_STEP]];
+}
+
+#pragma mark NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveResponse:(NSURLResponse *)response
+{
+    [[self connectionData] setLength:0];
+    [self setConnectionResponse:response];
+}
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveData:(NSData *)data
+{
+    [[self connectionData] appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)inConnection didFailWithError:(NSError *)error
+{
+    NSUInteger state = [self networkState];
+    
+    [self setNetworkState:AINoNetworkState];
+    [self setConnection:nil];
+    [self setConnectionResponse:nil];
+    [self setConnectionData:nil];    
+    
+    if (state == AIMeGraphAPINetworkState) {
+        [self meGraphAPIDidFinishLoading:nil response:nil error:error];
+    } else if (state == AIPromoteSessionNetworkState) {
+        [self promoteSessionDidFinishLoading:nil response:nil error:error];
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection
+{
+    NSURLResponse *response = [[[self connectionResponse] retain] autorelease];
+    NSMutableData *data = [[[self connectionData] retain] autorelease];
+    NSUInteger state = [self networkState]; 
+    
+    [self setNetworkState:AINoNetworkState];
+    [self setConnection:nil];
+    [self setConnectionResponse:nil];
+    [self setConnectionData:nil];
+    
+    if (state == AIMeGraphAPINetworkState) {
+        [self meGraphAPIDidFinishLoading:data response:response error:nil];
+    } else if (state == AIPromoteSessionNetworkState) {
+        [self promoteSessionDidFinishLoading:data response:response error:nil];
+    }    
+}
+
+
+
+- (void)connect
+{
+	[self setMechEnabled:YES];
+	[super connect];
+}
+
+- (void)didConnect
+{
+	[self setMechEnabled:NO];
+	[super didConnect];	
+}
+
+- (void)didDisconnect
+{
+	[self setMechEnabled:NO];
+	[super didDisconnect];	
 }
 
 @end

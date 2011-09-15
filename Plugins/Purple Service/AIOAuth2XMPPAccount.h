@@ -31,11 +31,18 @@ typedef enum {
 @interface AIOAuth2XMPPAccount : CBPurpleAccount {
 	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 	NSString *oAuthToken;
+	
+	NSUInteger networkState;
+    
+    NSURLConnection *connection; // weak
+    NSURLResponse *connectionResponse;
+    NSMutableData *connectionData;
 }
 
 - (void)requestAuthorization;
 - (NSString *)oAuthURL;
 - (NSString *)tokenFromURL:(NSURL *)url;
+- (void)setMechEnabled:(BOOL)enabled;
 
 @property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 @property (nonatomic, copy) NSString *oAuthToken;

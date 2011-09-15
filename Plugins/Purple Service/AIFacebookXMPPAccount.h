@@ -19,12 +19,6 @@
 
 
 @interface AIFacebookXMPPAccount : AIOAuth2XMPPAccount {
-    NSUInteger networkState;
-    
-    NSURLConnection *connection; // weak
-    NSURLResponse *connectionResponse;
-    NSMutableData *connectionData;
-	
 	NSDictionary *migrationData;
 }
 
