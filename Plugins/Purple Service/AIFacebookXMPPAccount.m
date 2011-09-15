@@ -37,7 +37,6 @@ enum {
 
 @interface AIFacebookXMPPAccount ()
 
-@property (nonatomic, copy) NSString *oAuthToken;
 @property (nonatomic, assign) NSUInteger networkState;
 @property (nonatomic, assign) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
 @property (nonatomic, retain) NSURLResponse *connectionResponse;
@@ -49,9 +48,7 @@ enum {
 
 @implementation AIFacebookXMPPAccount
 
-@synthesize oAuthWC;
 @synthesize migrationData;
-@synthesize oAuthToken;
 @synthesize networkState, connection, connectionResponse, connectionData;
 
 + (BOOL)uidIsValidForFacebook:(NSString *)inUID
@@ -275,66 +272,6 @@ enum {
 
 #pragma mark Authorization
 
-- (void)requestFacebookAuthorization
-{
-	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
-	self.oAuthWC.account = self;
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
-														object:self
-													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressPromptingUser]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];
-
-	if (![[self class] uidIsValidForFacebook:self.UID]) {
-		/* We have a UID which isn't a Facebook numeric username. That can come from:
-		 *	 1. The setup wizard
-		 *   2. Facebook-HTTP account from Adium <= 1.4.2
-		 */
-		self.oAuthWC.autoFillUsername = self.UID;
-		self.oAuthWC.autoFillPassword = [adium.accountController passwordForAccount:self];
-		self.oAuthWC.isMigrating = ![self.service.serviceID isEqualToString:FACEBOOK_XMPP_SERVICE_ID];
-
-		self.migrationData = [NSDictionary dictionaryWithObjectsAndKeys:
-							  self.UID, @"originalUID",
-							  self.service.serviceID, @"originalServiceID",
-							  nil];
-	}
-
-	[self.oAuthWC showWindow:self];
-}
-
-- (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token
-{
-    [self setOAuthToken:token];
-    
-    NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];
-    NSURL *url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    self.networkState = AIMeGraphAPINetworkState;
-    self.connectionData = [NSMutableData data];
-    self.connection = [NSURLConnection connectionWithRequest:request delegate:self];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
-														object:self
-													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressContactingServer]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
-}
-
-- (void)oAuthWebViewControllerDidFail:(AIFacebookXMPPOAuthWebViewWindowController *)wc
-{
-	[self setOAuthToken:nil];
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
-														object:self
-													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressFailure]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
-	
-}
-
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)inResponse error:(NSError *)inError
 {
     if (inError) {
@@ -365,11 +302,11 @@ enum {
     self.connectionData = [NSMutableData data];
     self.connection = [NSURLConnection connectionWithRequest:secretRequest delegate:self];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
 														object:self
 													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressPromotingForChat]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];		
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressPromotingForChat]
+								 forKey:KEY_OAUTH2_STEP]];
 }
 
 - (void)didCompleteFacebookAuthorization
@@ -378,11 +315,11 @@ enum {
 	 * isn't going to restart it for us. */
 	[self connect];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIOAuth2ProgressNotification
 														object:self
 													  userInfo:
-	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIFacebookXMPPAuthProgressSuccess]
-								 forKey:KEY_FB_XMPP_AUTH_STEP]];	
+	 [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:AIOAuth2ProgressSuccess]
+								 forKey:KEY_OAUTH2_STEP]];	
 }
 
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError

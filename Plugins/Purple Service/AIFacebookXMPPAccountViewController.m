@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AIFacebookXMPPAccount.h"
+#import "AIOAuth2XMPPAccount.h"
 #import "AIFacebookXMPPAccountViewController.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
@@ -79,32 +79,32 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(authProgressDidChange:)
-												 name: AIFacebookXMPPAuthProgressNotification
+												 name: AIOAuth2ProgressNotification
 											   object:inAccount];
 }
 
 - (void) authProgressDidChange:(NSNotification *)notification
 {
-	AIFacebookXMPPAuthProgressStep step = [[notification.userInfo objectForKey:KEY_FB_XMPP_AUTH_STEP] intValue];
+	AIOAuth2ProgressStep step = [[notification.userInfo objectForKey:KEY_OAUTH2_STEP] intValue];
 	
 	switch (step) {
-		case AIFacebookXMPPAuthProgressPromptingUser:
+		case AIOAuth2ProgressPromptingUser:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
 			break;
 			
-		case AIFacebookXMPPAuthProgressContactingServer:
+		case AIOAuth2ProgressContactingServer:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Contacting authorization server", nil) stringByAppendingEllipsis]];
 			break;
 
-		case AIFacebookXMPPAuthProgressPromotingForChat:
+		case AIOAuth2ProgressPromotingForChat:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Promoting authorization for chat", nil) stringByAppendingEllipsis]];
 			break;
 
-		case AIFacebookXMPPAuthProgressSuccess:
+		case AIOAuth2ProgressSuccess:
 			[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
 			break;
 			
-		case AIFacebookXMPPAuthProgressFailure:
+		case AIOAuth2ProgressFailure:
 			[textField_OAuthStatus setStringValue:AILocalizedString(@"Could not complete authorization.", nil)];
 			[button_OAuthStart setEnabled:YES];
 			break;
@@ -119,7 +119,7 @@
 - (IBAction)changedPreference:(id)sender
 {
 	if (sender == button_OAuthStart) {
-		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
+		[(AIFacebookXMPPAccount *)account requestAuthorization];
 		[button_OAuthStart setEnabled:NO];
 
 	} else 

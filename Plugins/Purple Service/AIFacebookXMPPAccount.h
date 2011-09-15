@@ -7,6 +7,7 @@
 //
 
 #import "CBPurpleAccount.h"
+#import "AIOAuth2XMPPAccount.h"
 
 @class AIFacebookXMPPOAuthWebViewWindowController;
 
@@ -16,22 +17,8 @@
 /* deprecated? This is called the 'App Secret' on Facebook's developer page.  */
 #define ADIUM_API_SECRET "bb9d2d9771790e69a0e943771ddf33c8"
 
-#define AIFacebookXMPPAuthProgressNotification @"AIFacebookXMPPAuthProgressNotification"
-#define KEY_FB_XMPP_AUTH_STEP @"AuthStep"
 
-typedef enum {
-	AIFacebookXMPPAuthProgressPromptingUser,
-	AIFacebookXMPPAuthProgressContactingServer,
-	AIFacebookXMPPAuthProgressPromotingForChat,
-	AIFacebookXMPPAuthProgressSuccess,
-	AIFacebookXMPPAuthProgressFailure
-} AIFacebookXMPPAuthProgressStep;
-
-
-@interface AIFacebookXMPPAccount : CBPurpleAccount {
-	AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-    
-    NSString *oAuthToken;
+@interface AIFacebookXMPPAccount : AIOAuth2XMPPAccount {
     NSUInteger networkState;
     
     NSURLConnection *connection; // weak
@@ -42,9 +29,6 @@ typedef enum {
 }
 
 + (BOOL)uidIsValidForFacebook:(NSString *)inUID;
-
-@property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
-- (void)requestFacebookAuthorization;
 
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token;
 - (void)oAuthWebViewControllerDidFail:(AIFacebookXMPPOAuthWebViewWindowController *)wc;
