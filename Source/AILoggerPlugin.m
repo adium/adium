@@ -1569,8 +1569,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_group_async(loggerPluginGroup, dirtyLogSetMutationQueue, ^{
-		NSLog(@"_saveDirtyLogSet");
 		NSSet *_dirtySet = [[bself.dirtyLogSet copy] autorelease];
+		AILogWithSignature(@"Saving %lu dirty logs", _dirtySet.count);
 		if ([_dirtySet count] > 0 && bself.canSaveDirtyLogSet) {
 			dispatch_async(ioQueue, ^{
 				[[_dirtySet allObjects] writeToFile:[bself _dirtyLogSetPath]
