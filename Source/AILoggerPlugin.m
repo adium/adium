@@ -1473,34 +1473,58 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                                 dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
                                     CFRetain(searchIndex);
                                     if (documentText && bself.indexingAllowed) {
-                                        SKIndexAddDocumentWithText(searchIndex,
-                                                                   document,
-                                                                   documentText,
-                                                                   YES);
+										static dispatch_queue_t skQueue = nil;
+										static dispatch_once_t onceToken;
+										dispatch_once(&onceToken, ^{
+											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDrityLogs.skQueue", 0);
+										});
+										CFRetain(searchIndex);
+										CFRetain(document);
+										CFRetain(documentText);
+										[logURL retain];
+										dispatch_group_async(logIndexingGroup, skQueue, ^{
+											SKIndexAddDocumentWithText(searchIndex,
+																	   document,
+																	   documentText,
+																	   YES);
+											
+											OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+											OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
+											
+											if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
+												dispatch_async(dispatch_get_main_queue(), ^{
+													[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+												});
+												UInt32 tick = TickCount();
+												OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
+											}
+											
+											OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+											if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
+												[bself _saveDirtyLogSet];
+												OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
+											}
+											
+											dispatch_semaphore_signal(jobSemaphore);
+											
+											CFRelease(searchIndex);
+											CFRelease(document);
+											CFRelease(documentText);
+											[logURL release];
+										});
                                         CFRelease(documentText);
                                     } else if (documentText) {
                                         CFRelease(documentText);
-                                    }
+										dispatch_semaphore_signal(jobSemaphore);
+                                    } else {
+										dispatch_semaphore_signal(jobSemaphore);
+									}
 									
-                                    dispatch_semaphore_signal(jobSemaphore);
+                                    
 									dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
                                     CFRelease(document);
                                     
-                                    OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
-                                    OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-                                    if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
-                                        });
-                                        UInt32 tick = TickCount();
-                                        OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
-                                    }
                                     
-                                    OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
-                                    if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
-                                        [bself _saveDirtyLogSet];
-                                        OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
-                                    }
                                     CFRelease(searchIndex);
                                 }));
                             }));
