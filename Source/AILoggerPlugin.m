@@ -1476,7 +1476,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 										static dispatch_queue_t skQueue = nil;
 										static dispatch_once_t onceToken;
 										dispatch_once(&onceToken, ^{
-											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDrityLogs.skQueue", 0);
+											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.skQueue", 0);
 										});
 										CFRetain(searchIndex);
 										CFRetain(document);
