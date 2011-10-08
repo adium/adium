@@ -209,7 +209,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	self.activeAppenders = [NSMutableDictionary dictionary];
 	self.dirtyLogSet = [NSMutableSet set];
 	
-	defaultDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	defaultDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
 	
 	dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
 	searchIndexQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
@@ -224,8 +224,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
 	
 	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
-	jobSemaphore = dispatch_semaphore_create(cpuCount + AIfloor(cpuCount/2));
-    logLoadingPrefetchSemaphore = dispatch_semaphore_create(2); //prefetch one log
+	jobSemaphore = dispatch_semaphore_create(3 * cpuCount);
+    logLoadingPrefetchSemaphore = dispatch_semaphore_create(3 * cpuCount + 1); //prefetch one log
 	
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -469,7 +469,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (CFStringRef)@"Content", 
 											  kSKIndexInverted,
 											  (CFDictionaryRef)textAnalysisProperties);
-				
+
 				if (_index) {
 					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
