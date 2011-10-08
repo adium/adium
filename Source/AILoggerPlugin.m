@@ -1645,6 +1645,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AILogWithSignature(@"**** Flushing index %p",inIndex);
 		CFRetain(inIndex);
 		SKIndexFlush(inIndex);
+		SKIndexCompact(inIndex);
 		CFRelease(inIndex);
 		AILogWithSignature(@"**** Finished flushing index %p, and released it",inIndex);
 		self.indexIsFlushing = NO;
