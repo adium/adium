@@ -249,7 +249,35 @@ void xmlnode_set_namespace(xmlnode *node, const char *xmlns);
  * @param node The node to get the namepsace from
  * @return The namespace of this node
  */
-const char *xmlnode_get_namespace(xmlnode *node);
+const char *xmlnode_get_namespace(const xmlnode *node);
+
+/**
+ * Returns the current default namespace.  The default
+ * namespace is the current namespace which applies to child
+ * elements which are unprefixed and which do not contain their
+ * own namespace.
+ *
+ * For example, given:
+ * <iq type='get' xmlns='jabber:client' xmlns:ns1='http://example.org/ns1'>
+ *     <ns1:element><child1/></ns1:element>
+ * </iq>
+ *
+ * The default namespace of all nodes (including 'child1') is "jabber:client",
+ * though the namespace for 'element' is "http://example.org/ns1".
+ *
+ * @param node The node for which to return the default namespace
+ * @return The default namespace of this node
+ */
+const char *xmlnode_get_default_namespace(const xmlnode *node);
+
+/**
+ * Returns the defined namespace for a prefix.
+ *
+ * @param node The node from which to start the search.
+ * @param prefix The prefix for which to return the associated namespace.
+ * @return The namespace for this prefix.
+ */
+const char *xmlnode_get_prefix_namespace(const xmlnode *node, const char *prefix);
 
 /**
  * Sets the prefix of a node
@@ -266,6 +294,19 @@ void xmlnode_set_prefix(xmlnode *node, const char *prefix);
  * @return The prefix of this node
  */
 const char *xmlnode_get_prefix(const xmlnode *node);
+
+/**
+ * Remove all element prefixes from an xmlnode tree.  The prefix's
+ * namespace is transformed into the default namespace for an element.
+ *
+ * Note that this will not necessarily remove all prefixes in use
+ * (prefixed attributes may still exist), and that this usage may
+ * break some applications (SOAP / XPath apparently often rely on
+ * the prefixes having the same name.
+ *
+ * @param node The node from which to strip prefixes
+ */
+void xmlnode_strip_prefixes(xmlnode *node);
 
 /**
  * Gets the parent node.
