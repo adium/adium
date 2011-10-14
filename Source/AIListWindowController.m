@@ -175,6 +175,13 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 																	  inOutlineView:contactListView
 																	   inScrollView:scrollView_contactList 
 																		   delegate:self];
+	
+	/* Avoid the bouncing effect when scrolling on Lion. This looks very bad when using a borderless window.
+	 * TODO: (10.7+) remove this if
+	 */
+	if ([scrollView_contactList respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+		[scrollView_contactList setVerticalScrollElasticity:1]; // NSScrollElasticityNone
+	}
 
 	//super's windowDidLoad will restore our location, which is based upon the contactListRoot
 	[super windowDidLoad];
