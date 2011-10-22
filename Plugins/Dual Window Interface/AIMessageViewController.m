@@ -1332,7 +1332,7 @@
 			msgFrame.size.width = currentFrame.size.width;
 			msgFrame.size.height = currentFrame.size.height - textFrame.size.height - dividerThickness;
 			
-			textFrame.origin.y = msgFrame.size.height + dividerThickness;
+			textFrame.origin.y = msgFrame.size.height + dividerThickness - 1;
 			
 			[view_messages setFrame:msgFrame];
 			[[scrollView_textEntry superview] setFrame:textFrame];
