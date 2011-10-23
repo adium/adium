@@ -1293,6 +1293,26 @@
 }
 
 /* 
+ * @brief Set the appropriate preference when the user list is dragged open or closed and update user count.
+ */
+- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
+{
+	NSRect userListFrame = view_userList.frame;
+	BOOL isVisible = NO;
+	if (NSWidth(userListFrame) > 0) {
+		//[view_userList setHidden:NO];
+		[self updateUserCount];
+		[userListController reloadData];
+		isVisible = YES;
+	}
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:isVisible]
+									   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
+											   chat.account.internalObjectID,
+											   chat.name]
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/* 
  * @brief Keep the userlist and text entry view the same size when the window is resized.
  */
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
