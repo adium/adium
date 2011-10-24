@@ -411,7 +411,7 @@ enum {
 														  error:NULL];
 	 */
 	
-	NSString *sessionKey = [[[self oAuthToken] componentsSeparatedByString:@"|"] objectAtIndex:1];
+	NSString *sessionKey = [self oAuthToken];
 	[[adium accountController] setPassword:sessionKey forAccount:self];
 
 	/* When we're newly authorized, connect! */
