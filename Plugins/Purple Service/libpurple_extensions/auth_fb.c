@@ -105,7 +105,7 @@ fb_handle_challenge(JabberStream *js, xmlnode *packet,
 	request = purple_fbapi_construct_request(purple_connection_get_account(js->gc),
 											 method,
 											 "v", "1.0",
-											 "session_key", purple_connection_get_password(js->gc),
+											 "access_token", purple_connection_get_password(js->gc),
 											 "nonce", nonce,
 											 NULL);
 	g_free(method);
