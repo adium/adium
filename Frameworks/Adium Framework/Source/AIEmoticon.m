@@ -166,7 +166,7 @@
 	static dispatch_queue_t cacheQueue;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		cacheQueue = dispatch_queue_create("dkfjh", 0);
+		cacheQueue = dispatch_queue_create("im.adium.AIEmoticon.cachedAttributedStringQueue", 0);
 	});
 	__block NSMutableAttributedString   *attributedString;
 	dispatch_sync(cacheQueue, ^{
