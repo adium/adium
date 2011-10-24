@@ -118,6 +118,28 @@ Version 1.5 (10/11/2011)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
 
 
+Version 1.4.3 (09/04/2011)
+ * Fixed a security vulnerability related to file transfers.
+ * libpurple:
+   * Fixed a crash when remote users have certain characters in their nicknames. (Discovered by Djego Ibanez) (#p14341)
+   * MSN: Fixed direct file transfers, user icons, and receiving custom emoticons, while disabling multiple points of presence (MPOP). We determined that this was the better trade-off based on user feedback. (reverted to libpurple's MSNP15 support from MSNP16) (#15256)
+ * MSN: Fixed an issue involving the "Friendly name changes too often" error. (#15364)
+ * GoogleTalk: Worked around an issue where messages contained XML code. (#15419)
+ * Facebook
+   * Fixed connectivity.
+   * Facebook will now connect via the officially-sanctioned mechanism.  You no longer have to provide Adium with your username and password; you will be prompted to authenticate via a facebook.com window when you first log in. Existing accounts are automatically upgraded.
+ * AIM/ICQ: Fixed connecting while using a proxy server.
+ * Twitter: Fixed loading the Following list. (#15239)
+ * Fixed a fairly common crash related to user lists. (#14294)
+ * Activated overlay scrollers on Mac OS X Lion. (#15394)
+ * Fixed an issue where Adium was constantly writing with the computer screen off for a long time. (#15147)
+ * Fixed the "Add Link" function, which was broken in 1.4.2. (#15259)
+ * Fixed instances where contacts weren't being highlighted despite having been set to. (#14493).
+ * Message View: Inserted emoticon will replace the selected text (if any).
+ * Updated localisations: British English, Chinese (Traditional), Danish (#15431), Dutch (#15421), French (#15402), German (#15374), Greek (#15330), Italian (#15395), Norwegian (Bokmål) (#15365), Portuguese (Portugal) (#15371), Swedish (#15384).
+ * Fixed a case of unfavourable wording in the German localisation. (#15393)
+
+
 Version 1.4.2 (06/13/2011)
  Updated to libpurple 2.7.11. Highlights of applicable changes:
   * MSN
