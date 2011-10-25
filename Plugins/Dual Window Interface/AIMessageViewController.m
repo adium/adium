@@ -779,7 +779,7 @@
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
-	if (entryMinHeight <= 0) entryMinHeight = [self _textEntryViewProperHeightIgnoringUserMininum:YES];
+	if (entryMinHeight <= 0) entryMinHeight = AIfloor([self _textEntryViewProperHeightIgnoringUserMininum:YES] + 0.5f);
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
 	//and other special key-presses.
@@ -1287,7 +1287,7 @@
 			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
 			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 		}
-	} else if ([aNotification object] == splitView_textEntryHorizontal) {
+	} else if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
 		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
 }
@@ -1297,19 +1297,21 @@
  */
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
 {
-	NSRect userListFrame = view_userList.frame;
-	BOOL isVisible = NO;
-	if (NSWidth(userListFrame) > 0) {
-		//[view_userList setHidden:NO];
-		[self updateUserCount];
-		[userListController reloadData];
-		isVisible = YES;
+	if ([aNotification object] == splitView_verticalSplit) {
+		NSRect userListFrame = view_userList.frame;
+		BOOL isVisible = NO;
+		if (NSWidth(userListFrame) > 0) {
+			//[view_userList setHidden:NO];
+			[self updateUserCount];
+			[userListController reloadData];
+			isVisible = YES;
+		}
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:isVisible]
+										   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
+												   chat.account.internalObjectID,
+												   chat.name]
+											group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 	}
-	[adium.preferenceController setPreference:[NSNumber numberWithBool:isVisible]
-									   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
-											   chat.account.internalObjectID,
-											   chat.name]
-										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
 /* 
@@ -1337,7 +1339,9 @@
 			}
 			else {
 				userFrame.size.width = AIfloor(0.5f);
-				msgFrame.size.width = AIfloor(currentFrame.size.width - userFrame.size.width + 0.50f);
+				if([view_userList isHidden]) {
+					msgFrame.size.width++;
+				}
 			}
 			
 			[view_userList setFrame:userFrame];
@@ -1402,7 +1406,7 @@
 			if (userListOnRight)
 				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
 			else
-				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5f);
+				return (splitView_verticalSplit.frame.size.width / 2);
 		} else {
 			if (userListOnRight)
 				return splitView_verticalSplit.frame.size.width;
@@ -1424,15 +1428,15 @@
 {
 	if (splitView == splitView_textEntryHorizontal) {
 		//Max size of text entry view
-		return splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO;
+		return AIfloor(splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO + 0.5f);
 	}  else if (splitView == splitView_verticalSplit) {
 		//On the right: max size of user list
 		//On the left: min size of the user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5);
+				return (splitView_verticalSplit.frame.size.width / 2);
 			else
-				return AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:YES] + 0.5f);
+				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
 		} else {
 			if (userListOnRight)
 				return splitView_verticalSplit.frame.size.width;
