@@ -1256,7 +1256,7 @@
 - (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum
 {
 	CGFloat splitViewWidth = splitView_verticalSplit.frame.size.width;
-	CGFloat allowedWidth = (splitViewWidth / 2.0f) - [splitView_verticalSplit dividerThickness];
+	CGFloat allowedWidth = (splitViewWidth / 2) - [splitView_verticalSplit dividerThickness];
 	CGFloat width = ignoreUserMinimum ? USER_LIST_DEFAULT_WIDTH : userListMinWidth;
 	
 	if (width > allowedWidth)
@@ -1299,18 +1299,9 @@
 {
 	if ([aNotification object] == splitView_verticalSplit) {
 		NSRect userListFrame = view_userList.frame;
-		BOOL isVisible = NO;
 		if (NSWidth(userListFrame) > 0) {
-			//[view_userList setHidden:NO];
 			[self updateUserCount];
-			[userListController reloadData];
-			isVisible = YES;
 		}
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:isVisible]
-										   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
-												   chat.account.internalObjectID,
-												   chat.name]
-											group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 	}
 }
 
@@ -1333,16 +1324,17 @@
 			if ([self userListVisible]) {
 				if (userListOnRight) {
 					userFrame.size.width = AIfloor(currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
-					userFrame.origin.x = AIfloor(msgFrame.size.width + dividerThickness + 0.5f);
 				} else
 					userFrame.size.width = AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
-			}
-			else {
-				userFrame.size.width = AIfloor(0.5f);
+			} else {
+				userFrame.size.width = 0;
 				if([view_userList isHidden]) {
-					msgFrame.size.width++;
+					msgFrame.size.width += AIfloor(1 - dividerThickness);
 				}
 			}
+			
+			if (userListOnRight)
+				userFrame.origin.x = AIfloor(msgFrame.size.width + dividerThickness + 0.5f);
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
@@ -1404,12 +1396,12 @@
 		//On the left: max size of user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
+				return AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:YES] + 0.5f);
 			else
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5f);
 		} else {
 			if (userListOnRight)
-				return splitView_verticalSplit.frame.size.width;
+				return AIfloor(splitView_verticalSplit.frame.size.width + 0.5f);
 			else
 				return 0;
 		}
