@@ -151,6 +151,9 @@
 			// Write GIF Extension Blocks
 			[self writeGIFExtensionBlocksInData:GIFRepresentationData forRepresenation:(NSBitmapImageRep *)bestRep];
 			
+			//You must release before you re-allocate. The data is retained in an autorelease loop in the images array.
+			[newImage release];
+			
 			newImage = [[NSImage alloc] initWithData:GIFRepresentationData];
 		} else {
 			[newImage lockFocus];
