@@ -1324,21 +1324,21 @@
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
 			
-			if ([self userListVisible]) {
-				if (userListOnRight)
-					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
-				else
-					userFrame.size.width = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
-			}
-			else
-				userFrame.size.width = 0.0f;
-			
-			msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
+			msgFrame.size.width = AIfloor(currentFrame.size.width - userFrame.size.width - dividerThickness + 0.50f);
 			msgFrame.size.height = currentFrame.size.height;
 			userFrame.size.height = currentFrame.size.height;
 			
-			if (userListOnRight)
-				userFrame.origin.x = msgFrame.size.width + dividerThickness;
+			if ([self userListVisible]) {
+				if (userListOnRight) {
+					userFrame.size.width = AIfloor(currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
+					userFrame.origin.x = AIfloor(msgFrame.size.width + dividerThickness + 0.5f);
+				} else
+					userFrame.size.width = AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
+			}
+			else {
+				userFrame.size.width = AIfloor(0.5f);
+				msgFrame.size.width = AIfloor(currentFrame.size.width - userFrame.size.width + 0.50f);
+			}
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
@@ -1350,9 +1350,9 @@
 			
 			textFrame.size.width = currentFrame.size.width;
 			msgFrame.size.width = currentFrame.size.width;
-			msgFrame.size.height = currentFrame.size.height - textFrame.size.height - dividerThickness;
+			msgFrame.size.height = AIfloor(currentFrame.size.height - textFrame.size.height - dividerThickness + 0.50f);
 			
-			textFrame.origin.y = msgFrame.size.height + dividerThickness - 1;
+			textFrame.origin.y = AIfloor(msgFrame.size.height + dividerThickness);
 			
 			[view_messages setFrame:msgFrame];
 			[[scrollView_textEntry superview] setFrame:textFrame];
@@ -1402,12 +1402,12 @@
 			if (userListOnRight)
 				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
 			else
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5f);
 		} else {
 			if (userListOnRight)
 				return splitView_verticalSplit.frame.size.width;
 			else
-				return 0.0f;
+				return 0;
 		}
 	}
 	
@@ -1430,14 +1430,14 @@
 		//On the left: min size of the user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5);
 			else
-				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
+				return AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:YES] + 0.5f);
 		} else {
 			if (userListOnRight)
 				return splitView_verticalSplit.frame.size.width;
 			else
-				return 0.0f;
+				return 0;
 		}
 	}
 	
