@@ -1348,7 +1348,7 @@
 			msgFrame.size.width = currentFrame.size.width;
 			msgFrame.size.height = AIfloor(currentFrame.size.height - textFrame.size.height - dividerThickness + 0.50f);
 			
-			textFrame.origin.y = AIfloor(msgFrame.size.height + dividerThickness);
+			textFrame.origin.y = AIfloor(msgFrame.size.height + dividerThickness + 0.5f);
 			
 			[view_messages setFrame:msgFrame];
 			[[scrollView_textEntry superview] setFrame:textFrame];
