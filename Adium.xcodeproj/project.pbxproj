@@ -1095,7 +1095,6 @@
 		4BD6753606001E0F0049CAF7 /* AIMessageTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BACB70203C8CB5E00A8010A /* AIMessageTabViewItem.m */; };
 		4BD6753806001E100049CAF7 /* AIMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F570A5CE03704D3D01A8010A /* AIMessageViewController.m */; };
 		4BD6753A06001E110049CAF7 /* AIMessageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793982033E756E01A8010A /* AIMessageWindowController.m */; };
-		4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F570A60503704E7201A8010A /* MessageWindow.nib */; };
 		4BD6753E06001E140049CAF7 /* AIAccountSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25494703F6A32700A8010A /* AIAccountSelectionView.m */; };
 		4BD6755006001E1D0049CAF7 /* ESDualWindowMessageAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B970BF90535B864002F28F9 /* ESDualWindowMessageAdvancedPreferences.m */; };
 		4BD6755406001E1E0049CAF7 /* DualWindowDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D43504051ADC10003B2F21 /* DualWindowDefaults.plist */; };
@@ -1456,6 +1455,7 @@
 		7EA7F05D1124AAA900E0C1F0 /* libgstrtsp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */; };
 		7EA7F05E1124AAA900E0C1F0 /* libgstvideo.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */; };
 		7EA7F05F1124AAA900E0C1F0 /* liboil.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0461124AA8500E0C1F0 /* liboil.framework */; };
+		7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EC033B114590E0700CF24FB /* MessageWindow.xib */; };
 		7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
 		7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
@@ -4642,6 +4642,7 @@
 		7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstrtsp.framework; path = Frameworks/libgstrtsp.framework; sourceTree = "<group>"; };
 		7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstvideo.framework; path = Frameworks/libgstvideo.framework; sourceTree = "<group>"; };
 		7EA7F0461124AA8500E0C1F0 /* liboil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liboil.framework; path = Frameworks/liboil.framework; sourceTree = "<group>"; };
+		7EC033B114590E0700CF24FB /* MessageWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageWindow.xib; path = "Plugins/Dual Window Interface/MessageWindow.xib"; sourceTree = "<group>"; };
 		7EDDBF131130D02400D31F1E /* libgsttag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgsttag.framework; path = Frameworks/libgsttag.framework; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
@@ -4758,7 +4759,6 @@
 		F570A5B603704C6101A8010A /* AIMenuController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMenuController.m; path = Source/AIMenuController.m; sourceTree = "<group>"; };
 		F570A5CD03704D3D01A8010A /* AIMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageViewController.h; path = "Plugins/Dual Window Interface/AIMessageViewController.h"; sourceTree = "<group>"; };
 		F570A5CE03704D3D01A8010A /* AIMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewController.m; path = "Plugins/Dual Window Interface/AIMessageViewController.m"; sourceTree = "<group>"; };
-		F570A60503704E7201A8010A /* MessageWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MessageWindow.nib; path = "Plugins/Dual Window Interface/MessageWindow.nib"; sourceTree = "<group>"; };
 		F570A60703704E9701A8010A /* AIToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIToolbarController.h; path = Source/AIToolbarController.h; sourceTree = "<group>"; };
 		F570A60803704E9701A8010A /* AIToolbarController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIToolbarController.m; path = Source/AIToolbarController.m; sourceTree = "<group>"; };
 		F57938AA033E737001A8010A /* AIAccountController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAccountController.m; path = Source/AIAccountController.m; sourceTree = "<group>"; };
@@ -8759,7 +8759,7 @@
 				341BCF830961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m */,
 				F5793981033E756E01A8010A /* AIMessageWindowController.h */,
 				F5793982033E756E01A8010A /* AIMessageWindowController.m */,
-				F570A60503704E7201A8010A /* MessageWindow.nib */,
+				7EC033B114590E0700CF24FB /* MessageWindow.xib */,
 				3461621006FB482C009181D8 /* UserList Theme.plist */,
 				3461621306FB482D009181D8 /* UserList Layout.plist */,
 				346371050BCA0A5400AD57AD /* AIMessageTabSplitView.h */,
@@ -9678,7 +9678,6 @@
 				34D8337707CBD808006466F2 /* pref-advanced.png in Resources */,
 				4BD6742F06001D1D0049CAF7 /* EmoticonPrefs.nib in Resources */,
 				4BD6746606001D770049CAF7 /* SendMessageContactAlert.nib in Resources */,
-				4BD6753B06001E120049CAF7 /* MessageWindow.nib in Resources */,
 				4BD6758506001E450049CAF7 /* ErrorWindow.nib in Resources */,
 				4BD6758806001E460049CAF7 /* AlertMessageContactAlert.nib in Resources */,
 				7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */,
@@ -9880,6 +9879,7 @@
 				97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */,
 				97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */,
 				97E4B50213E7490000A8BA53 /* Awake_192.png in Resources */,
+				7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
