@@ -431,7 +431,7 @@
 						tabBarFrame.origin.y = NSMinY(contentRect);
 						tabViewMessagesFrame.origin.y = NSHeight(tabBarFrame) + ([tabView_tabBar isTabBarHidden] ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING + 2));
 						tabViewMessagesFrame.size.height = (NSHeight(contentRect) - NSHeight(tabBarFrame) -
-															([tabView_tabBar isTabBarHidden] ? -2 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING)));
+															([tabView_tabBar isTabBarHidden] ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING)));
 						[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
 						
 					} else {
@@ -457,15 +457,15 @@
 				case PSMTabBarVerticalOrientation:
 				{
 					CGFloat width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
-									 (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] floatValue] :
+								   (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
 								   100);
 					lastTabBarWidth = width;
 					
 					tabBarFrame.size.height = [[[self window] contentView] frame].size.height;
 					tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 0 : width;
 					tabBarFrame.origin.y = NSMinY(contentRect);
-					tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-					tabViewMessagesFrame.size.height = NSHeight(contentRect);
+					tabViewMessagesFrame.origin.y = NSMinY(contentRect) - 0;
+					tabViewMessagesFrame.size.height = NSHeight(contentRect) + 2;
 					tabViewMessagesFrame.size.width = NSWidth(contentRect) - NSWidth(tabBarFrame);
 					
 					//set the position of the tab bar (left/right)
@@ -1097,8 +1097,8 @@
 			 * This space is not needed when the tab bar is at the top.
 			 */			
 			if (tabPosition == AdiumTabPositionBottom) {
-				frame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING +3;
-				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING +3;				
+				frame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
 			}
 			break;
 
@@ -1128,8 +1128,8 @@
 			 * This space is not needed when the tab bar is at the top.
 			 */
 			if (tabPosition == AdiumTabPositionBottom) {
-				frame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING +3;
-				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING +3;				
+				frame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
 			}
 			break;
 
