@@ -1311,33 +1311,36 @@
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
 	if ([splitView inLiveResize] || adium.interfaceController.activeChat != chat) {
+		// division between user list and message view
 		if (splitView == splitView_verticalSplit) {
 			NSRect currentFrame = splitView.frame;
 			NSRect msgFrame = [splitView_textEntryHorizontal superview].frame;
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
 			
-			msgFrame.size.width = AIfloor(currentFrame.size.width - userFrame.size.width - dividerThickness + 0.50f);
+			msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 			msgFrame.size.height = currentFrame.size.height;
 			userFrame.size.height = currentFrame.size.height;
 			
 			if ([self userListVisible]) {
 				if (userListOnRight) {
-					userFrame.size.width = AIfloor(currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
+					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
 				} else
-					userFrame.size.width = AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:NO] + 0.50f);
+					userFrame.size.width = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
 			} else {
 				userFrame.size.width = 0;
 				if([view_userList isHidden]) {
-					msgFrame.size.width += AIfloor(1 - dividerThickness);
+					msgFrame.size.width += 1 - dividerThickness;
 				}
 			}
 			
 			if (userListOnRight)
-				userFrame.origin.x = AIfloor(msgFrame.size.width + dividerThickness + 0.5f);
+				userFrame.origin.x = msgFrame.size.width + dividerThickness;
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
+		
+		// divition between text entry and message view
 		} else if (splitView == splitView_textEntryHorizontal) {
 			NSRect currentFrame = splitView.frame;
 			NSRect msgFrame = view_messages.frame;
@@ -1346,9 +1349,9 @@
 			
 			textFrame.size.width = currentFrame.size.width;
 			msgFrame.size.width = currentFrame.size.width;
-			msgFrame.size.height = AIfloor(currentFrame.size.height - textFrame.size.height - dividerThickness + 0.50f);
+			msgFrame.size.height = currentFrame.size.height - textFrame.size.height - dividerThickness;
 			
-			textFrame.origin.y = AIfloor(msgFrame.size.height + dividerThickness + 0.5f);
+			textFrame.origin.y = msgFrame.size.height + dividerThickness;
 			
 			[view_messages setFrame:msgFrame];
 			[[scrollView_textEntry superview] setFrame:textFrame];
@@ -1426,7 +1429,7 @@
 		//On the left: min size of the user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor(splitView_verticalSplit.frame.size.width / 2);
 			else
 				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
 		} else {
