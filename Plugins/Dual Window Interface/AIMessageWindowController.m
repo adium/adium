@@ -66,7 +66,7 @@
 - (void)tabDraggingNotificationReceived:(NSNotification *)notification;
 - (void)tabBarFrameChanged:(NSNotification *)notification;
 - (void)closeAlertDidEnd:(NSAlert *)alert returnCode:(int)result contextInfo:(void *)contextInfo;
-- (void)_relayoutWithPreferences:(NSDictionary *)prefDict;
+- (void)_relayoutWindow;
 @end
 
 //Used to squelch compiler warnings on this private call
@@ -395,7 +395,11 @@
 		
 		//change the frame of the tab bar according to the orientation
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
-			[self _relayoutWithPreferences:prefDict];
+			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] intValue];
+			lastTabBarWidth = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
+							   (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
+							   100);
+			[self _relayoutWindow];
 		}
 		
 		//set tab style drawing attributes
@@ -418,14 +422,11 @@
     }
 }
 
-- (void)_relayoutWithPreferences:(NSDictionary *)prefDict
+- (void)_relayoutWindow
 {
-	PSMTabBarOrientation orientation;
-	
-	tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] intValue];
-	orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
-				   PSMTabBarHorizontalOrientation :
-				   PSMTabBarVerticalOrientation);
+	PSMTabBarOrientation orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
+										PSMTabBarHorizontalOrientation :
+										PSMTabBarVerticalOrientation);
 	
 	NSRect tabBarFrame = [tabView_tabBar frame];
 	NSRect tabViewMessagesFrame = [tabView_messages frame];
@@ -445,19 +446,20 @@
 		[tabView_tabBar release];
 	}
 	[tabView_tabBar setOrientation:orientation];
-	BOOL isTabBarHidden = [tabView_tabBar isTabBarHidden];
+	BOOL isTabBarHidden = [tabView_tabBar isTabBarHidden]; //!alwaysShowTabs && m_containedChats.count <= 1;
 	switch (orientation) {
 		case PSMTabBarHorizontalOrientation:
 		{
-			tabBarFrame.size.height = isTabBarHidden ? 0 : kPSMTabBarControlHeight;
+			tabBarFrame.size.height = isTabBarHidden? 0 : kPSMTabBarControlHeight;
 			tabBarFrame.size.width = contentRect.size.width;
+			tabViewMessagesFrame.size.width = contentRect.size.width;
+			
 			
 			//set the position of the tab bar (top/bottom)
 			if (tabPosition == AdiumTabPositionBottom) {
 				tabBarFrame.origin.y = NSMinY(contentRect);
-				tabViewMessagesFrame.origin.y = NSHeight(tabBarFrame) + (isTabBarHidden ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING));
-				tabViewMessagesFrame.size.height = (NSHeight(contentRect) - NSHeight(tabBarFrame) -
-													(isTabBarHidden ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING)));
+				tabViewMessagesFrame.origin.y = NSHeight(tabBarFrame) + (isTabBarHidden ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING - 1));
+				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) - (isTabBarHidden? 0 : HORIZONTAL_TAB_BAR_TO_VIEW_SPACING) + 3;
 				[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
 				
 			} else {
@@ -466,25 +468,22 @@
 				
 				tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
 				tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame);
+				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) + (isTabBarHidden? 2 : 0);
 				[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
 			}
 			/* If the cell is less than 60, icon + title + unread message count may overlap */
 			[tabView_tabBar setCellMinWidth:60];
 			[tabView_tabBar setCellMaxWidth:250];
 			
-			tabBarFrame.origin.x = 0;			
+			tabBarFrame.origin.x = 0;
+			tabViewMessagesFrame.origin.x = 0;
+			
 			break;
 		}
 		case PSMTabBarVerticalOrientation:
 		{
-			CGFloat width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
-							 (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
-							 100);
-			lastTabBarWidth = width;
-			
 			tabBarFrame.size.height = [[[self window] contentView] frame].size.height;
-			tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 0 : width;
+			tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 0 : lastTabBarWidth;
 			tabBarFrame.origin.y = NSMinY(contentRect);
 			tabViewMessagesFrame.origin.y = NSMinY(contentRect) - 0;
 			tabViewMessagesFrame.size.height = NSHeight(contentRect) + 2;
@@ -539,7 +538,6 @@
 	
 	//update the tab bar and tab view frame
 	[[[self window] contentView] setNeedsDisplay:YES];
-	//[[self window] displayIfNeeded];
 }
 
 - (void)updateOverflowMenuUnviewedContentIcon
