@@ -711,6 +711,7 @@
 	
 	NSRect verticalFrame = splitView_verticalSplit.frame;
 	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame) - 2;
+	verticalFrame.size.width = NSWidth(view_contents.frame);
 	[splitView_verticalSplit setFrame:verticalFrame];
 	
 	[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX(splitView_verticalSplit.frame), NSMaxY(splitView_verticalSplit.frame))];
