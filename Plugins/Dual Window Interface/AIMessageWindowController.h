@@ -36,6 +36,7 @@ typedef enum
 @interface AIMessageWindowController : AIWindowController <NSToolbarDelegate, NSSplitViewDelegate> {
 	IBOutlet	NSTabView			*tabView_messages;
 	IBOutlet	PSMTabBarControl	*tabView_tabBar;
+	NSBox							*tabView_horzLine;
 	PSMAdiumTabStyle				*tabView_tabStyle;
 	AIMessageTabSplitView			*tabView_splitView;
 	AIDualWindowInterfacePlugin 	*interface;
