@@ -1134,7 +1134,7 @@
 - (void)_showUserListView
 {
 	if (chat.isGroupChat && view_userList.superview == nil) {
-		[splitView_verticalSplit addSubview:view_userList];
+		[splitView_verticalSplit addSubview:[view_userList autorelease]];
 	}
 	[self updateUserCount];
 	[userListController reloadData];
