@@ -1133,6 +1133,9 @@
  */
 - (void)_showUserListView
 {
+	if (chat.isGroupChat && view_userList.superview == nil) {
+		[splitView_verticalSplit addSubview:view_userList];
+	}
 	[self updateUserCount];
 	[userListController reloadData];
 
@@ -1148,6 +1151,13 @@
  */
 - (void)_hideUserListView
 {
+	if (!chat.isGroupChat) {
+		CGRect frame = view_userList.frame;
+		frame.size.width = 0;
+		view_userList.frame = frame;
+		[view_userList retain];
+		[view_userList removeFromSuperview];
+	}
 	[view_userList setHidden:YES];
 	[splitView_verticalSplit adjustSubviews];
 }
