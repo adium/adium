@@ -1329,6 +1329,7 @@
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
 			BOOL userListVisible = [self userListVisible];
+			BOOL userListAttached = view_userList.superview != nil;
 			
 			msgFrame.size.height = currentFrame.size.height;
 			userFrame.size.height = currentFrame.size.height;
@@ -1345,12 +1346,15 @@
 				}
 			}
 			
-			if (userListOnRight){
+			if (userListOnRight && userListAttached){
 				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 				userFrame.origin.x = msgFrame.size.width + dividerThickness;
-			} else {
+			} else if (userListAttached) {
 				msgFrame.origin.x = NSMaxX(userFrame) + dividerThickness;
 				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
+			} else {
+				msgFrame.size.width = currentFrame.size.width;
+				userFrame.origin.x = userListOnRight? currentFrame.size.width + dividerThickness : -1;
 			}
 			
 			[view_userList setFrame:userFrame];
