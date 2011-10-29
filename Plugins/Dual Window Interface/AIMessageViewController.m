@@ -1152,7 +1152,7 @@
 - (void)_hideUserListView
 {
 	if (!chat.isGroupChat) {
-		CGRect frame = view_userList.frame;
+		NSRect frame = view_userList.frame;
 		frame.size.width = 0;
 		view_userList.frame = frame;
 		[view_userList retain];
