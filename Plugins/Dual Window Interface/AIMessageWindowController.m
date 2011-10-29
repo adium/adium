@@ -483,7 +483,7 @@
 			
 			if (!isTabBarHidden){
 				NSRect horzLineFrame = NSMakeRect(tabBarFrame.origin.x, (tabPosition == AdiumTabPositionBottom)? NSMinY(tabViewMessagesFrame)-1 : NSMaxY(tabViewMessagesFrame)-2, NSWidth(tabViewMessagesFrame), 1);
-				NSUInteger mask = (tabPosition == AdiumTabPositionBottom)? (NSViewMinYMargin|NSViewWidthSizable) : (NSViewMaxYMargin|NSViewWidthSizable);
+				NSUInteger mask = (tabPosition == AdiumTabPositionBottom)? (NSViewMaxYMargin|NSViewWidthSizable) : (NSViewMinYMargin|NSViewWidthSizable);
 				tabView_horzLine = [[[NSBox alloc] initWithFrame:horzLineFrame] autorelease];
 				[tabView_horzLine setBorderColor:[NSColor windowFrameColor]];
 				[tabView_horzLine setBorderWidth:1];
