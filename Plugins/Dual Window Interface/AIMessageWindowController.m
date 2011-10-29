@@ -439,11 +439,13 @@
 		[tabView_tabBar retain];
 		[tabView_tabBar removeFromSuperview];
 		[tabView_splitView removeFromSuperview];
-		
 		[[[self window] contentView] addSubview:tabView_messages];
 		[[[self window] contentView] addSubview:tabView_tabBar];
 		[tabView_messages release];
 		[tabView_tabBar release];
+	} else {
+		[tabView_horzLine removeFromSuperview];
+		tabView_horzLine = nil;
 	}
 	[tabView_tabBar setOrientation:orientation];
 	BOOL isTabBarHidden = [tabView_tabBar isTabBarHidden]; //!alwaysShowTabs && m_containedChats.count <= 1;
@@ -468,7 +470,8 @@
 				
 				tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
 				tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) + (isTabBarHidden? 2 : 0);
+				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) + (isTabBarHidden? 2 : 1);
+				
 				[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
 			}
 			/* If the cell is less than 60, icon + title + unread message count may overlap */
@@ -477,6 +480,18 @@
 			
 			tabBarFrame.origin.x = 0;
 			tabViewMessagesFrame.origin.x = 0;
+			
+			if (!isTabBarHidden){
+				NSRect horzLineFrame = NSMakeRect(tabBarFrame.origin.x, (tabPosition == AdiumTabPositionBottom)? NSMinY(tabViewMessagesFrame)-1 : NSMaxY(tabViewMessagesFrame)-2, NSWidth(tabViewMessagesFrame), 1);
+				NSUInteger mask = (tabPosition == AdiumTabPositionBottom)? (NSViewMinYMargin|NSViewWidthSizable) : (NSViewMaxYMargin|NSViewWidthSizable);
+				tabView_horzLine = [[[NSBox alloc] initWithFrame:horzLineFrame] autorelease];
+				[tabView_horzLine setBorderColor:[NSColor windowFrameColor]];
+				[tabView_horzLine setBorderWidth:1];
+				[tabView_horzLine setBorderType:NSLineBorder];
+				[tabView_horzLine setBoxType:NSBoxCustom];
+				[tabView_horzLine setAutoresizingMask:mask];
+				[[[self window] contentView] addSubview:tabView_horzLine];
+			}
 			
 			break;
 		}
@@ -518,11 +533,13 @@
 			if (tabPosition == AdiumTabPositionLeft) {
 				[tabView_splitView addSubview:tabView_tabBar];
 				[tabView_splitView addSubview:tabView_messages];
+				[tabView_splitView setTabPosition:AIMessageSplitTabPositionLeft];
 				[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]
 									 rightColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
 			} else {
 				[tabView_splitView addSubview:tabView_messages];
 				[tabView_splitView addSubview:tabView_tabBar];
+				[tabView_splitView setTabPosition:AIMessageSplitTabPositionRight];
 				[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]
 									 rightColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]];
 			}
@@ -1094,8 +1111,16 @@
 			 */			
 			if (tabPosition == AdiumTabPositionBottom) {
 				frame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
-				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
+				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
+			} else {
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
 			}
+			[tabView_horzLine setHidden:YES];
 			break;
 
 		case PSMTabBarVerticalOrientation:
@@ -1125,8 +1150,17 @@
 			 */
 			if (tabPosition == AdiumTabPositionBottom) {
 				frame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
-				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
+				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
+			} else {
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
 			}
+			[tabView_horzLine setHidden:NO];
 			break;
 
 		case PSMTabBarVerticalOrientation:
