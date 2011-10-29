@@ -1318,12 +1318,12 @@
 			NSRect msgFrame = [splitView_textEntryHorizontal superview].frame;
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
+			BOOL userListVisible = [self userListVisible];
 			
-			msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 			msgFrame.size.height = currentFrame.size.height;
 			userFrame.size.height = currentFrame.size.height;
 			
-			if ([self userListVisible]) {
+			if (userListVisible) {
 				if (userListOnRight) {
 					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
 				} else
@@ -1335,8 +1335,13 @@
 				}
 			}
 			
-			if (userListOnRight)
+			if (userListOnRight){
+				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 				userFrame.origin.x = msgFrame.size.width + dividerThickness;
+			} else {
+				msgFrame.origin.x = NSMaxX(userFrame) + dividerThickness;
+				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
+			}
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
