@@ -203,13 +203,17 @@ enum {
 		[self requestFacebookAuthorization];
 
 	} else {
+		[self setValue:nil
+		   forProperty:@"mustPromptForPasswordOnNextConnect"
+				notify:NotifyNever];
 		[super passwordReturnedForConnect:inPassword returnCode:returnCode context:inContext];
 	}
 }
 
 - (void)retrievePasswordThenConnect
 {
-	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"]) 
+	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"] ||
+		[self boolValueForProperty:@"mustPromptForPasswordOnNextConnect"])
 		/* We attempted to connect, but we had incorrect authorization. Display our auth request window. */
 		[self requestFacebookAuthorization];
 
