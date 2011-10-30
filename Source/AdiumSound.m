@@ -241,7 +241,7 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 	AudioDeviceID systemOutputDevice = 0;
 	dataSize = sizeof(AudioDeviceID);
 	AudioObjectPropertyAddress theAddress = {
-		kAudioHardwarePropertyDefaultOutputDevice,
+		kAudioHardwarePropertyDefaultSystemOutputDevice,
 		kAudioObjectPropertyScopeGlobal,
 		kAudioObjectPropertyElementMaster
 	};
