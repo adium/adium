@@ -799,6 +799,11 @@ static NSArray *draggedTypes = nil;
 	[self setupMarkedScroller];
 	[self setIsGroupChat:chat.isGroupChat];
 	[self processQueuedContent];
+	
+	// force the window to redisplay, otherwise the shadow will not draw properly with transparent message views 
+	NSWindow *win = [webView window];
+	[win invalidateShadow];
+	[win display];
 }
 
 - (void)openImage:(id)sender
