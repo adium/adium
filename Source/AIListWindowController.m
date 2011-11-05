@@ -341,7 +341,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[self setCollectionBehaviorOfWindow:[self window]
 							showOnAllSpaces:showOnAllSpaces
-							   isStationary:YES];
+							   isStationary:(windowLevel == AIDesktopWindowLevel)];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
