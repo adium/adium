@@ -17,15 +17,11 @@
 #import "GBImportPlugin.h"
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import "GBFireImporter.h"
-#import "GBFireLogImporter.h"
 #import "BGICImportController.h"
 #import "AILoggerPlugin.h"
 
 @interface GBImportPlugin ()
 - (void)importIChat:(id)sender;
-- (void)importFire:(id)sender;
-- (void)importFireLogs:(id)sender;
 - (void)reindexAdiumLogs:(id)sender;
 @end
 
@@ -45,18 +41,6 @@
 					   target:self
 					   action:@selector(importIChat:)
 				keyEquivalent:@""];
-
-	[subMenu addItem:[NSMenuItem separatorItem]];
-
-	[subMenu addItemWithTitle:AILocalizedString(@"Fire Accounts and Logs", "Menu item title under the 'Import' submenu. Fire is another OS X instant messaging client.")
-					   target:self
-					   action:@selector(importFire:)
-				keyEquivalent:@""];	
-
-	[subMenu addItemWithTitle:AILocalizedString(@"Fire Logs", "Menu item title under the 'Import' submenu. Fire is another OS X instant messaging client.")
-					   target:self
-					   action:@selector(importFireLogs:)
-				keyEquivalent:@""];
 	
 	[subMenu addItem:[NSMenuItem separatorItem]];
 	
@@ -72,16 +56,6 @@
 - (void)uninstallPlugin
 {
 	[importMenuRoot release];
-}
-
-- (void)importFire:(id)sender
-{
-	[GBFireImporter importFireConfiguration];
-}
-
-- (void)importFireLogs:(id)sender
-{
-	[GBFireLogImporter importLogs];
 }
 
 - (void)importIChat:(id)sender
