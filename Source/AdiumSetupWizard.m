@@ -18,7 +18,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import "SetupWizardBackgroundView.h"
-#import "GBFireImporter.h"
 #import "BGICImportController.h"
 #import <AIUtilities/AIImageAdditions.h>
 #import "AIServiceMenu.h"
@@ -29,15 +28,13 @@
 #import "AIHTMLDecoder.h"
 
 #define ACCOUNT_SETUP_IDENTIFIER	@"account_setup"
-#define IMPORT_IDENTIFIER			@"import_client"
 #define WELCOME_IDENTIFIER			@"welcome"
 #define DONE_IDENTIFIER				@"done"
 
 enum{
 	WIZARD_TAB_WELCOME = 0,
-	WIZARD_TAB_FIREIMPORT = 1,
-	WIZARD_TAB_ADD_ACCOUNTS = 2,
-	WIZARD_TAB_DONE = 3
+	WIZARD_TAB_ADD_ACCOUNTS = 1,
+	WIZARD_TAB_DONE = 2
 };
 
 @interface AdiumSetupWizard ()
@@ -96,15 +93,6 @@ enum{
 	tabViewFrame.origin.x -= backgroundViewFrame.origin.x;
 	tabViewFrame.origin.y -= backgroundViewFrame.origin.y;
 	[backgroundView setTransparentRect:tabViewFrame];
-
-	//Check to see if we can import Fire's settings
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSString *fireDir = [[fileManager userApplicationSupportFolder] stringByAppendingPathComponent:@"Fire"];
-	BOOL isDir = NO;
-	if([fileManager fileExistsAtPath:fireDir isDirectory:&isDir] && isDir)
-		canImport = YES;
-	if([progress_processing respondsToSelector:@selector(setHidden:)])
-		[progress_processing setHidden:YES];
 	
 	[self localizeItems];
 	
@@ -116,10 +104,11 @@ enum{
 - (IBAction)promptForMultiples:(id)sender
 {
 	// Since we have multiple dedicated importers in 1.1+ it's better to direct the user as needed
+    
 	NSAlert *multipleImportPrompt = [NSAlert alertWithMessageText:AILocalizedString(@"Have you used other chat clients?", "Title which introduces import assistants during setup")
 													defaultButton:AILocalizedStringFromTable(@"Continue", @"Buttons", nil)
-												  alternateButton:AILocalizedString(@"Import from Fire", "Fire is another OS X instant messaging client; the name probably should not be localized")
-													  otherButton:AILocalizedString(@"Import from iChat", "iChat is the OS X instant messaging client which ships with OS X; the name probably should not be localized")
+												  alternateButton:AILocalizedString(@"Import from iChat", "iChat is the OS X instant messaging client which ships with OS X; the name probably should not be localized")
+													  otherButton:nil
 										informativeTextWithFormat:AILocalizedString(@"Adium includes assistants to import your accounts, settings, and transcripts from other clients. Choose a client below to open its assistant, or press Continue to skip importing.", nil)];
 	[multipleImportPrompt beginSheetModalForWindow:[self window] 
 									 modalDelegate:self 
@@ -129,16 +118,11 @@ enum{
 
 - (void)multipleImportAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	if(returnCode == NSAlertOtherReturn)
-	{
+	if(returnCode == NSAlertAlternateReturn) {
 		[BGICImportController performSelector:@selector(importIChatConfiguration)
 								   withObject:nil
 								   afterDelay:0.5];
 		[[self window] close];
-	}
-	if(returnCode == NSAlertAlternateReturn)
-	{
-		// not yet supported, but should open the manual Fire importer
 	}
 }
 
@@ -152,18 +136,6 @@ enum{
 	[super windowWillClose:sender];
 	
 	[self autorelease];
-}
-
-/*!
- * @brief Start the progress indicator to let the user we are processing
- */
-- (void)activateProgressIndicator
-{
-	[progress_processing setHidden:NO];
-	
-	//start the progress spinner (using multi-threading)
-	[progress_processing setUsesThreadedAnimation:YES];
-	[progress_processing startAnimation:nil];
 }
 
 /*!
@@ -200,12 +172,6 @@ enum{
 			//Successful without having a UID entered if they already added at least one account; unsuccessful otherwise.
 			success = addedAnAccount;
 		}
-	} else if ([identifier isEqualToString:IMPORT_IDENTIFIER]) {
-		[self activateProgressIndicator];
-		success = [GBFireImporter importFireConfiguration];
-		addedAnAccount = [adium.accountController.accounts count] != 0;
-		[progress_processing stopAnimation:nil];
-		[progress_processing setHidden:YES];
 	}
 	
 	return success;
@@ -221,15 +187,6 @@ enum{
 		if ([tabView indexOfTabViewItem:currentTabViewItem] == WIZARD_TAB_DONE) {
 			//Done
 			[self  close];
-			
-		} else if ([[currentTabViewItem identifier] isEqualToString:WELCOME_IDENTIFIER]) {
-			if(canImport)
-				//We can import; go to next tab
-				[tabView selectNextTabViewItem:self];
-			else
-				//No import; skip it
-				[tabView selectTabViewItemAtIndex:WIZARD_TAB_FIREIMPORT + 1];
-			
 		} else {
 			//Go to the next tab view item
 			[tabView selectNextTabViewItem:self];		
@@ -244,11 +201,7 @@ enum{
  */
 - (IBAction)previousTab:(id)sender
 {
-	NSTabViewItem *currentTabViewItem = [tabView selectedTabViewItem];
-	if([[currentTabViewItem identifier] isEqualToString:ACCOUNT_SETUP_IDENTIFIER] && !canImport)
-		[tabView selectTabViewItemAtIndex:WIZARD_TAB_FIREIMPORT - 1];
-	else
-		[tabView selectPreviousTabViewItem:self];
+    [tabView selectPreviousTabViewItem:self];
 }
 
 /*!
@@ -267,9 +220,6 @@ enum{
 		} else {
 			NSBeep();
 		}
-	} else if ([identifier isEqualToString:IMPORT_IDENTIFIER]) {
-		//skip the import
-		[tabView selectNextTabViewItem:self];
 	}
 }
 
@@ -292,11 +242,6 @@ enum{
 	BOOL showPasswordField = ![service supportsPassword];
 	[textField_passwordLabel setHidden:showPasswordField];
 	[textField_password setHidden:showPasswordField];
-}
-
-- (BOOL)showAlternateButtonForIdentifier:(NSString *)identifier
-{
-	return [identifier isEqualToString:ACCOUNT_SETUP_IDENTIFIER] || [identifier isEqualToString:IMPORT_IDENTIFIER];	
 }
 
 /*!
@@ -342,19 +287,6 @@ enum{
 
 		[self configureAccountSetupForService:service];
 
-	} else if ([identifier isEqualToString:IMPORT_IDENTIFIER]) {
-		[textField_import setStringValue:AILocalizedString(@"Import Fire's Settings", nil)];
-		[textView_importMessage setDrawsBackground:NO];
-		[[textView_importMessage enclosingScrollView] setDrawsBackground:NO];
-
-		NSAttributedString *importMessage = [AIHTMLDecoder decodeHTML:
-			AILocalizedString(@"<HTML>Adium has detected that you have previously used Fire.  You may choose to import settings from Fire by pressing continue below.  If you choose to not use these settings, simply skip this step.<HTML>",nil)
-												withDefaultAttributes:[[textView_importMessage textStorage] attributesAtIndex:0
-																											   effectiveRange:NULL]];
-		[[textView_importMessage textStorage] setAttributedString:importMessage];
-		[button_alternate setLocalizedString:AILocalizedString(@"Skip Import","button title for skipping the import of another client in the setup wizard")];
-		[button_alternate setEnabled:YES];
-		
 	} else if ([identifier isEqualToString:WELCOME_IDENTIFIER]) {
 		[textView_welcomeMessage setDrawsBackground:NO];
 		[[textView_welcomeMessage enclosingScrollView] setDrawsBackground:NO];
@@ -382,7 +314,7 @@ enum{
 	//Hide go back on the first tab
 	[button_goBack setEnabled:([tabView indexOfTabViewItem:tabViewItem] != WIZARD_TAB_WELCOME)];
 	
-	[button_alternate setHidden:![self showAlternateButtonForIdentifier:identifier]];
+	[button_alternate setHidden:![identifier isEqualToString:ACCOUNT_SETUP_IDENTIFIER]];
 
 	//Set the done / continue button properly
 	if ([tabView indexOfTabViewItem:tabViewItem] == WIZARD_TAB_DONE) {
