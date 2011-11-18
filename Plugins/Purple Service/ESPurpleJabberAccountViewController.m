@@ -22,6 +22,11 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <tgmath.h>
 
+
+#import <Security/Security.h>
+#import <unistd.h>
+#include <sys/param.h>
+
 #define SERVERFEEDRSSURL @"http://xmpp.org/services/services-full.xml"
 
 @interface ESPurpleJabberAccountViewController ()
@@ -51,6 +56,10 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 {
     [super configureForAccount:inAccount];
+	
+	[popup_authenticationMethod selectItemAtIndex:[[account preferenceForKey:KEY_JABBER_AUTHENTICATION_METHOD group:GROUP_ACCOUNT_STATUS] integerValue]];
+	
+	[self changeAuthenticationType:popup_authenticationMethod];
 	
 	//Connection security
 	[checkBox_forceOldSSL setState:[[account preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue]];
@@ -102,6 +111,9 @@
 {
     [super saveConfiguration];
 	
+	[account setPreference:[NSNumber numberWithInteger:[popup_authenticationMethod indexOfItem:[popup_authenticationMethod selectedItem]]]
+					forKey:KEY_JABBER_AUTHENTICATION_METHOD group:GROUP_ACCOUNT_STATUS];
+	
 	//Connection security
 	[account setPreference:[NSNumber numberWithBool:[checkBox_forceOldSSL state]]
 					forKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS];
@@ -142,6 +154,74 @@
 					 group:GROUP_ACCOUNT_STATUS];
 	[account setPreference:([[comboBox_subscriptionGroup stringValue] length] ? [comboBox_subscriptionGroup stringValue] : nil)
 					forKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
+}
+
+- (IBAction)changeAuthenticationType:(id)sender {
+	// if client-side is used, get all possible certificates, and hide the password field
+	
+	if ([popup_authenticationMethod selectedTag] == 1) {
+		[[textField_password animator] setHidden:TRUE];
+		[[popup_clientSideCertificates animator] setHidden:FALSE];
+		
+		[popup_clientSideCertificates removeAllItems];
+		
+		char kcPath[MAXPATHLEN + 1];
+		UInt32 kcPathLen = MAXPATHLEN + 1;
+		SecKeychainRef kcRef = nil;
+		OSStatus err;
+		
+		err = SecKeychainCopyDefault(&kcRef);
+		if(err) {
+			AILogWithSignature(@"SecKeychainCopyDefault returned %d; aborting.", (int)err);
+			return;
+		}
+		err = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+		if(err) {
+			AILogWithSignature(@"SecKeychainGetPath returned %d; aborting.", (int)err);
+			return;
+		}
+		
+		CFRelease(kcRef);
+		
+		err = SecKeychainOpen(kcPath, &kcRef);
+		if(err) {
+			AILogWithSignature(@"SecKeychainOpen returned %d.", (int)err);
+			AILogWithSignature(@"Cannot open keychain at %s. Aborting.", kcPath);
+			return;
+		}
+		
+		SecIdentitySearchRef srchRef = nil;
+		err = SecIdentitySearchCreate(kcRef, CSSM_KEYUSE_SIGN, &srchRef);
+		if(err) {
+			AILogWithSignature(@"SecIdentitySearchCreate returned %d.", (int)err);
+			AILogWithSignature(@"Cannot find signing key in keychain at %s. Aborting.", kcPath);
+			return;
+		}
+		
+		SecIdentityRef identity = nil;
+		
+		while(1) {
+			err = SecIdentitySearchCopyNext(srchRef, &identity);
+			
+			if(err) {
+				break;
+			}
+			
+			if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+				AILogWithSignature(@"SecIdentitySearchCopyNext CFTypeID failure!");
+				continue;
+			}
+			
+			SecCertificateRef client_cert = nil;
+			SecIdentityCopyCertificate(identity, &client_cert);
+			
+			[popup_clientSideCertificates addItemWithTitle:[(NSString *)SecCertificateCopySubjectSummary(client_cert) autorelease]];
+		}
+		
+	} else {
+		[[textField_password animator] setHidden:FALSE];
+		[[popup_clientSideCertificates animator] setHidden:TRUE];
+	}
 }
 
 - (IBAction)subscriptionModeDidChange:(id)sender {

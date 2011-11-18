@@ -48,7 +48,43 @@
 - (void)removeGateway:(NSMenuItem *)mitem;
 @end
 
+// TODO: move to a seperate file in ./libpurple_extensions
+
+static JabberSaslState
+external_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
+{
+	xmlnode *auth = xmlnode_new("auth");
+	xmlnode_set_namespace(auth, "urn:ietf:params:xml:ns:xmpp-sasl");
+	xmlnode_set_attrib(auth, "mechanism", "EXTERNAL");
+	
+	xmlnode_insert_data(auth, "=", -1);
+		
+	*response = auth;
+		
+	return JABBER_SASL_STATE_OK;		
+}
+
+static JabberSaslMech external_mech = {
+	127, /* priority; gint8 (-128 to 127). higher will be tried sooner if offerred by the server */
+	"EXTERNAL", /* name */
+	external_start,
+	NULL, /* handle_challenge */
+	NULL, /* handle_success */
+	NULL, /* handle_failure */
+	NULL  /* dispose */
+};
+
+JabberSaslMech *jabber_auth_get_external_mech(void)
+{
+	return &external_mech;
+}
+
 @implementation ESPurpleJabberAccount
+
++ (void)initialize
+{
+	jabber_auth_add_mech(jabber_auth_get_external_mech());
+}
 
 - (void)initAccount
 {

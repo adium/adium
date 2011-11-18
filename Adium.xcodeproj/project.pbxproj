@@ -1456,7 +1456,7 @@
 		7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EC033B114590E0700CF24FB /* MessageWindow.xib */; };
 		7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
 		7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
-		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
+		811033510CDE170B00EC6038 /* ssl-cdsa.m in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.m */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
 		811036180CDE8A2500EC6038 /* AIPurpleCertificateViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */; };
@@ -4641,7 +4641,7 @@
 		7EA7F0461124AA8500E0C1F0 /* liboil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liboil.framework; path = Frameworks/liboil.framework; sourceTree = "<group>"; };
 		7EC033B114590E0700CF24FB /* MessageWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageWindow.xib; path = "Plugins/Dual Window Interface/MessageWindow.xib"; sourceTree = "<group>"; };
 		7EDDBF131130D02400D31F1E /* libgsttag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgsttag.framework; path = Frameworks/libgsttag.framework; sourceTree = "<group>"; };
-		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
+		811033500CDE170B00EC6038 /* ssl-cdsa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ssl-cdsa.m"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
 		811036170CDE8A2500EC6038 /* AIPurpleCertificateViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleCertificateViewer.m; path = "Plugins/Purple Service/AIPurpleCertificateViewer.m"; sourceTree = "<group>"; };
@@ -5092,7 +5092,7 @@
 				34D8154C13B663A80022C8C4 /* fbapi.h */,
 				11EE1B490CDCFAF40097F246 /* oscar-adium.c */,
 				11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */,
-				811033500CDE170B00EC6038 /* ssl-cdsa.c */,
+				811033500CDE170B00EC6038 /* ssl-cdsa.m */,
 				11EE1B4B0CDCFAF40097F246 /* ssl-openssl.c */,
 				11EE1B4C0CDCFAF40097F246 /* ssl.c */,
 			);
@@ -10132,7 +10132,7 @@
 				11EE1B4D0CDCFAF40097F246 /* oscar-adium.c in Sources */,
 				11EE1B4F0CDCFAF40097F246 /* ssl-openssl.c in Sources */,
 				11EE1B500CDCFAF40097F246 /* ssl.c in Sources */,
-				811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */,
+				811033510CDE170B00EC6038 /* ssl-cdsa.m in Sources */,
 				811036190CDE8A2500EC6038 /* AIPurpleCertificateViewer.m in Sources */,
 				811036260CDE8C2100EC6038 /* adiumPurpleCertificateTrustWarning.m in Sources */,
 				8110362D0CDE8F5800EC6038 /* AIPurpleCertificateTrustWarningAlert.m in Sources */,

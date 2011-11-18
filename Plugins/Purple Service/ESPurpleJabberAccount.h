@@ -29,6 +29,7 @@
 #define KEY_JABBER_SUBSCRIPTION_GROUP	@"Jabber:Default Subscription Group"
 #define KEY_JABBER_VERIFY_CERTS         @"Jabber:Verify Certificates"
 #define KEY_JABBER_FT_PROXIES			@"Jabber:File Transfer Proxies"
+#define KEY_JABBER_AUTHENTICATION_METHOD @"Jabber:Authentication Method"
 
 @class AMXMLConsoleController, AMPurpleJabberServiceDiscoveryBrowsing, AMPurpleJabberAdHocServer;
 

@@ -32,6 +32,8 @@
 	IBOutlet	NSPopUpButton	*popup_subscriptionBehavior;
 	IBOutlet	NSTextField		*textField_subscriptionModeLabel;
 	IBOutlet	NSComboBox		*comboBox_subscriptionGroup;
+	IBOutlet	NSPopUpButton	*popup_authenticationMethod;
+	IBOutlet	NSPopUpButton	*popup_clientSideCertificates;
 
 	IBOutlet	NSButton		*button_register;
 
@@ -52,5 +54,7 @@
 - (IBAction)subscriptionModeDidChange:(id)sender;
 
 - (IBAction)visitServerHomepage:(id)sender;
+
+- (IBAction)changeAuthenticationType:(id)sender;
 
 @end

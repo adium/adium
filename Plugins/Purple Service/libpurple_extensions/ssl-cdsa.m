@@ -39,6 +39,7 @@ typedef unsigned int NSUInteger;
 
 #import <Security/Security.h>
 #import <unistd.h>
+#include <sys/param.h>
 
 typedef struct
 {
@@ -283,6 +284,97 @@ static OSStatus SocketWrite(
     return ortn;
 }
 
+BOOL OIDsAreEqual(const CSSM_OID *a, const CSSM_OID *b) {
+    if ((NULL != a) && (NULL != b)) {
+        if (a == b) {
+            return YES;
+        } else if (a->Length != b->Length) {
+            return NO;
+        } else {
+            return (memcmp(a->Data, b->Data, a->Length) == 0);
+        }
+    } else {
+        return NO;
+    }
+}
+
+NSData* NSDataFromData(const CSSM_DATA *data) {
+    if (NULL != data) {
+        return [NSData dataWithBytes:data->Data length:data->Length];
+    } else {
+        return nil;
+    }
+}
+
+CFArrayRef
+ssl_cdsa_get_client_certs()
+{
+	char 				kcPath[MAXPATHLEN + 1];
+	UInt32 				kcPathLen = MAXPATHLEN + 1;
+	SecKeychainRef 		kcRef = nil;
+	OSStatus			err;
+	
+	err = SecKeychainCopyDefault(&kcRef);
+	if(err) {
+		purple_debug_error("cdsa", "SecKeychainCopyDefault returned %d; aborting.\n", (int)err);
+		return nil;
+	}
+	err = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+	if(err) {
+		purple_debug_error("cdsa", "SecKeychainGetPath returned %d; aborting.\n", (int)err);
+		return nil;
+	}
+	
+	CFRelease(kcRef);
+	
+	err = SecKeychainOpen(kcPath, &kcRef);
+	if(err) {
+		purple_debug_error("cdsa", "SecKeychainOpen returned %d.\n", (int)err);
+		purple_debug_error("cdsa", "Cannot open keychain at %s. Aborting.\n", kcPath);
+		return nil;
+	}
+	
+	SecIdentitySearchRef srchRef = nil;
+	err = SecIdentitySearchCreate(kcRef, CSSM_KEYUSE_SIGN, &srchRef);
+	if(err) {
+		purple_debug_error("cdsa", "SecIdentitySearchCreate returned %d.\n", (int)err);
+		purple_debug_error("cdsa", "Cannot find signing key in keychain at %s. Aborting.\n", kcPath);
+		return nil;
+	}
+	
+	SecIdentityRef identity = nil;
+	CFArrayRef ca = nil;
+	
+	while(1) {
+		err = SecIdentitySearchCopyNext(srchRef, &identity);
+		if(err) {
+			break;
+		}
+		
+		if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+			purple_debug_error("cdsa", "SecIdentitySearchCopyNext CFTypeID failure!\n");
+			return nil;
+		}
+		
+		SecCertificateRef client_cert = nil;
+		SecIdentityCopyCertificate(identity, &client_cert);
+		
+		if (1) { // TODO: Check if this actually is the certificate that was selected.
+            ca = ca = CFArrayCreate(NULL,
+									(const void **)&identity,
+									1,
+									NULL);
+            break;
+		}
+	}
+	
+	if(ca == nil) {
+		purple_debug_error("cdsa", "CFArrayCreate error\n");
+	}
+
+	return ca;
+}
+
 /*
  * ssl_cdsa_connect
  *
@@ -292,6 +384,7 @@ static void
 ssl_cdsa_connect(PurpleSslConnection *gsc) {
 	PurpleSslCDSAData *cdsa_data;
     OSStatus err;
+	CFArrayRef client_certs;
 
 	/*
 	 * allocate some memory to store variables for the cdsa connection.
@@ -402,6 +495,45 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
             return;
         }
     }
+	
+	client_certs = ssl_cdsa_get_client_certs();
+	
+    if (client_certs) {
+    	purple_debug_info("cdsa", "Found %d client certs\n", (int)CFArrayGetCount(client_certs));
+    } else {
+        purple_debug_info("cdsa", "Found no client certs!\n");
+
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+
+        purple_ssl_close(gsc);
+        return;
+    }
+	
+	err = SSLSetCertificate(cdsa_data->ssl_ctx, client_certs);
+	
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLSetCertificate failed\n");
+		if (gsc->error_cb != NULL)
+			gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+						  gsc->connect_cb_data);
+		
+		purple_ssl_close(gsc);
+		return;
+	}
+	
+	err = SSLSetEncryptionCertificate(cdsa_data->ssl_ctx, client_certs);
+	
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLSetEncryptionCertificate failed\n");
+		if (gsc->error_cb != NULL)
+			gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+						  gsc->connect_cb_data);
+		
+		purple_ssl_close(gsc);
+		return;
+	}
 
 	/*
      * Disable verifying the certificate chain.
