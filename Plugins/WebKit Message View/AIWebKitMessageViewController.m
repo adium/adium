@@ -116,7 +116,7 @@ static NSArray *draggedTypes = nil;
 - (id)initForChat:(AIChat *)inChat withPlugin:(AIWebKitMessageViewPlugin *)inPlugin
 {
     //init
-    if ((self = [super init])) {		
+    if ((self = [super init])) {
 		[self _initWebView];
 		
 		delegateProxy = [AIWebKitDelegate sharedWebKitDelegate];
@@ -352,115 +352,117 @@ static NSArray *draggedTypes = nil;
  */
 - (void)_updateWebViewForCurrentPreferences
 {
-	//Cleanup first
-	[messageStyle autorelease]; messageStyle = nil;
-	[activeStyle release]; activeStyle = nil;
-	
-	//Load the message style
-	messageStyle = [[plugin currentMessageStyleForChat:chat] retain];
-	activeStyle = [[[messageStyle bundle] bundleIdentifier] retain];
-	preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
-
-	[webView setPreferencesIdentifier:[NSString stringWithFormat:@"%@-%@",
-									   activeStyle, preferenceGroup]];
-
-	//Get the prefered variant (or the default if a prefered is not available)
-	NSString *activeVariant;
-	activeVariant = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
-														   group:preferenceGroup];
-	if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant])
-		activeVariant = [messageStyle defaultVariant];
-	if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant]) {
-		/* If the message style doesn't specify a default variant, choose the first one.
-		 * Note: Old styles (styleVersion < 3) will always report a variant for defaultVariant.
-		 */
-		NSArray *availableVariants = [messageStyle availableVariants];
-		if ([availableVariants count]) {
-			activeVariant = [availableVariants objectAtIndex:0];
-		}
-	}
-	messageStyle.activeVariant = activeVariant;
-	
-	NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:preferenceGroup];
-
-	//Update message style behavior: XXX move this somewhere not per-chat
-	[messageStyle setShowUserIcons:[[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue]];
-	[messageStyle setShowHeader:[[prefDict objectForKey:KEY_WEBKIT_SHOW_HEADER] boolValue]];
-	[messageStyle setUseCustomNameFormat:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
-	[messageStyle setNameFormat:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] intValue]];
-	[messageStyle setDateFormat:[prefDict objectForKey:KEY_WEBKIT_TIME_STAMP_FORMAT]];
-	[messageStyle setShowIncomingMessageColors:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS] boolValue]];
-	[messageStyle setShowIncomingMessageFonts:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
-	
-	//Custom background image
-	//Webkit wants to load these from disk, but we have it stuffed in a plist.  So we'll write it out as an image
-	//into the cache and have webkit fetch from there.
-	NSString	*cachePath = nil;
-	if ([[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:activeStyle]
-												  group:preferenceGroup] boolValue]) {
-		cachePath = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
-															 group:preferenceGroup];
-		if (!cachePath || ![[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
-			NSData	*backgroundImage = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:activeStyle]
-																				group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
-			
-			if (backgroundImage) {
-				//Generate a unique cache ID for this image
-				NSInteger	uniqueID = [[adium.preferenceController preferenceForKey:@"BackgroundCacheUniqueID"
-																		 group:preferenceGroup] integerValue] + 1;
-				[adium.preferenceController setPreference:[NSNumber numberWithInteger:uniqueID]
-													 forKey:@"BackgroundCacheUniqueID"
-													  group:preferenceGroup];
-				
-				//Cache the image under that unique ID
-				//Since we prefix the filename with TEMP, Adium will automatically clean it up on quit
-				cachePath = [self _webKitBackgroundImagePathForUniqueID:uniqueID];
-				[backgroundImage writeToFile:cachePath atomically:YES];
-
-				//Remember where we cached it
-				[adium.preferenceController setPreference:cachePath
-													 forKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
-													  group:preferenceGroup];
-			} else {
-				cachePath = @""; //No custom image found
+	dispatch_async(dispatch_get_main_queue(), ^{
+		//Cleanup first
+		[messageStyle autorelease]; messageStyle = nil;
+		[activeStyle release]; activeStyle = nil;
+		
+		//Load the message style
+		messageStyle = [[plugin currentMessageStyleForChat:chat] retain];
+		activeStyle = [[[messageStyle bundle] bundleIdentifier] retain];
+		preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
+		
+		[webView setPreferencesIdentifier:[NSString stringWithFormat:@"%@-%@",
+										   activeStyle, preferenceGroup]];
+		
+		//Get the prefered variant (or the default if a prefered is not available)
+		NSString *activeVariant;
+		activeVariant = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
+															   group:preferenceGroup];
+		if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant])
+			activeVariant = [messageStyle defaultVariant];
+		if (!activeVariant || ![[messageStyle availableVariants] containsObject:activeVariant]) {
+			/* If the message style doesn't specify a default variant, choose the first one.
+			 * Note: Old styles (styleVersion < 3) will always report a variant for defaultVariant.
+			 */
+			NSArray *availableVariants = [messageStyle availableVariants];
+			if ([availableVariants count]) {
+				activeVariant = [availableVariants objectAtIndex:0];
 			}
 		}
+		messageStyle.activeVariant = activeVariant;
 		
-		[messageStyle setCustomBackgroundColor:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundColor" forStyle:activeStyle]
-																						 group:preferenceGroup] representedColor]];
-	} else {
-		[messageStyle setCustomBackgroundColor:nil];
-	}
-
-	[messageStyle setCustomBackgroundPath:cachePath];
-	[messageStyle setCustomBackgroundType:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:activeStyle]
-																					group:preferenceGroup] intValue]];
-	
-	BOOL isBackgroundTransparent = [[self messageStyle] isBackgroundTransparent];
-	[webView setTransparent:isBackgroundTransparent];
-	NSWindow *win = [webView window];
-	if(win)
-		[win setOpaque:!isBackgroundTransparent];
-
-	//Update webview font settings
-	NSString	*fontFamily = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
+		NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:preferenceGroup];
+		
+		//Update message style behavior: XXX move this somewhere not per-chat
+		[messageStyle setShowUserIcons:[[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue]];
+		[messageStyle setShowHeader:[[prefDict objectForKey:KEY_WEBKIT_SHOW_HEADER] boolValue]];
+		[messageStyle setUseCustomNameFormat:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
+		[messageStyle setNameFormat:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] intValue]];
+		[messageStyle setDateFormat:[prefDict objectForKey:KEY_WEBKIT_TIME_STAMP_FORMAT]];
+		[messageStyle setShowIncomingMessageColors:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS] boolValue]];
+		[messageStyle setShowIncomingMessageFonts:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
+		
+		//Custom background image
+		//Webkit wants to load these from disk, but we have it stuffed in a plist.  So we'll write it out as an image
+		//into the cache and have webkit fetch from there.
+		NSString	*cachePath = nil;
+		if ([[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:activeStyle]
+													group:preferenceGroup] boolValue]) {
+			cachePath = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
+															   group:preferenceGroup];
+			if (!cachePath || ![[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
+				NSData	*backgroundImage = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:activeStyle]
+																				 group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
+				
+				if (backgroundImage) {
+					//Generate a unique cache ID for this image
+					NSInteger	uniqueID = [[adium.preferenceController preferenceForKey:@"BackgroundCacheUniqueID"
+																				 group:preferenceGroup] integerValue] + 1;
+					[adium.preferenceController setPreference:[NSNumber numberWithInteger:uniqueID]
+													   forKey:@"BackgroundCacheUniqueID"
+														group:preferenceGroup];
+					
+					//Cache the image under that unique ID
+					//Since we prefix the filename with TEMP, Adium will automatically clean it up on quit
+					cachePath = [self _webKitBackgroundImagePathForUniqueID:uniqueID];
+					[backgroundImage writeToFile:cachePath atomically:YES];
+					
+					//Remember where we cached it
+					[adium.preferenceController setPreference:cachePath
+													   forKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
+														group:preferenceGroup];
+				} else {
+					cachePath = @""; //No custom image found
+				}
+			}
+			
+			[messageStyle setCustomBackgroundColor:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundColor" forStyle:activeStyle]
+																						   group:preferenceGroup] representedColor]];
+		} else {
+			[messageStyle setCustomBackgroundColor:nil];
+		}
+		
+		[messageStyle setCustomBackgroundPath:cachePath];
+		[messageStyle setCustomBackgroundType:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:activeStyle]
+																					  group:preferenceGroup] intValue]];
+		
+		BOOL isBackgroundTransparent = [[self messageStyle] isBackgroundTransparent];
+		[webView setTransparent:isBackgroundTransparent];
+		NSWindow *win = [webView window];
+		if(win)
+			[win setOpaque:!isBackgroundTransparent];
+		
+		//Update webview font settings
+		NSString	*fontFamily = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
+																	  group:preferenceGroup];
+		[webView setFontFamily:(fontFamily ? fontFamily : [messageStyle defaultFontFamily])];
+		
+		NSNumber	*fontSize = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
 																	group:preferenceGroup];
-	[webView setFontFamily:(fontFamily ? fontFamily : [messageStyle defaultFontFamily])];
-	
-	NSNumber	*fontSize = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
-																  group:preferenceGroup];
-	[[webView preferences] setDefaultFontSize:[(fontSize ? fontSize : [messageStyle defaultFontSize]) intValue]];
-	
-	NSNumber	*minSize = [adium.preferenceController preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
-																 group:preferenceGroup];
-	[[webView preferences] setMinimumFontSize:(minSize ? [minSize intValue] : 1)];
-	[[webView preferences] setMinimumLogicalFontSize:(minSize ? [minSize intValue] : 1)];
-
-	//Update our icons before doing any loading
-	[self sourceOrDestinationChanged:nil];
-
-	//Prime the webview with the new style/variant and settings, and re-insert all our content back into the view
-	[self _primeWebViewAndReprocessContent:YES];	
+		[[webView preferences] setDefaultFontSize:[(fontSize ? fontSize : [messageStyle defaultFontSize]) intValue]];
+		
+		NSNumber	*minSize = [adium.preferenceController preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
+																   group:preferenceGroup];
+		[[webView preferences] setMinimumFontSize:(minSize ? [minSize intValue] : 1)];
+		[[webView preferences] setMinimumLogicalFontSize:(minSize ? [minSize intValue] : 1)];
+		
+		//Update our icons before doing any loading
+		[self sourceOrDestinationChanged:nil];
+		
+		//Prime the webview with the new style/variant and settings, and re-insert all our content back into the view
+		[self _primeWebViewAndReprocessContent:YES];	
+	});
 }
 
 /*!
@@ -598,48 +600,56 @@ static NSArray *draggedTypes = nil;
  */
 - (void)processQueuedContent
 {
-	/* If the webview isn't ready, assume we have at least one piece of content left to display */
-	NSUInteger	contentQueueCount = 1;
-	NSUInteger	objectsAdded = 0;
-	
-	if (webViewIsReady) {
-		contentQueueCount = contentQueue.count;
-
-		while (contentQueueCount > 0) {
-			BOOL willAddMoreContent = (contentQueueCount > 1);
-			
-			//Display the content
-			AIContentObject *content = [contentQueue objectAtIndex:0];
-			[self _processContentObject:content 
-			  willAddMoreContentObjects:willAddMoreContent];
-
-			//If we are going to reflect preference changes, store this content object
-			if (shouldReflectPreferenceChanges) {
-				[storedContentObjects addObject:content];
-			}
-
-			//Remove the content we just displayed from the queue
-			[contentQueue removeObjectAtIndex:0];
-			objectsAdded++;
-			contentQueueCount--;
-		}
-	}
-	
-	/* If we added two or more objects, we may want to scroll to the bottom now, having not done it as each object
-	 * was added.
-	 */
-	if (objectsAdded > 1) {
-		NSString	*scrollToBottomScript = [messageStyle scriptForScrollingAfterAddingMultipleContentObjects];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		/* If the webview isn't ready, assume we have at least one piece of content left to display */
+		NSUInteger	contentQueueCount = 1;
+		NSUInteger	objectsAdded = 0;
 		
-		if (scrollToBottomScript) {
-			[webView stringByEvaluatingJavaScriptFromString:scrollToBottomScript];
+		if (webViewIsReady) {
+			contentQueueCount = contentQueue.count;
+			
+			while (contentQueueCount > 0) {
+				BOOL willAddMoreContent = (contentQueueCount > 1);
+				
+				//Display the content
+				AIContentObject *content = [contentQueue objectAtIndex:0];
+				[self _processContentObject:content 
+				  willAddMoreContentObjects:willAddMoreContent];
+				
+				//If we are going to reflect preference changes, store this content object
+				if (shouldReflectPreferenceChanges) {
+					[storedContentObjects addObject:content];
+				}
+				
+				//Remove the content we just displayed from the queue
+				[contentQueue removeObjectAtIndex:0];
+				objectsAdded++;
+				contentQueueCount--;
+			}
 		}
-	}
-	
-	//If there is still content to process (the webview wasn't ready), we'll try again after a brief delay
-	if (contentQueueCount) {
-		[self performSelector:@selector(processQueuedContent) withObject:nil afterDelay:NEW_CONTENT_RETRY_DELAY];
-	}
+		
+		/* If we added two or more objects, we may want to scroll to the bottom now, having not done it as each object
+		 * was added.
+		 */
+		if (objectsAdded > 1) {
+			NSString	*scrollToBottomScript = [messageStyle scriptForScrollingAfterAddingMultipleContentObjects];
+			
+			if (scrollToBottomScript) {
+				[webView stringByEvaluatingJavaScriptFromString:scrollToBottomScript];
+			}
+		}
+		
+		//If there is still content to process (the webview wasn't ready), we'll try again after a brief delay
+		if (contentQueueCount) {
+			double delayInSeconds = NEW_CONTENT_RETRY_DELAY;
+			dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+			dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+				[self processQueuedContent];
+			});
+		}
+		[pool release];
+	});
 }
 
 /*!
