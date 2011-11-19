@@ -58,7 +58,6 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
 #import <Adium/AdiumAuthorization.h>
-#import <Adium/AIMedia.h>
 #import <Adium/AIMediaControllerProtocol.h>
 
 #import "ESiTunesPlugin.h"
