@@ -40,7 +40,6 @@
 #import <libpurple/libpurple.h>
 #import <glib.h>
 #import <stdlib.h>
-#import <gst/gst.h>
 
 #import "ESPurpleAIMAccount.h"
 #import "CBPurpleOscarAccount.h"
@@ -224,27 +223,12 @@ void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *
 	// Init the glib type system (used by GObjects)
 	g_type_init();
 	
-	// Don't fork!
-	gst_registry_fork_set_enabled (FALSE);
-	
-	//Set the gstreamer plugin path
-	setenv("GST_PLUGIN_PATH", 
-				 [[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation],
-				 1);
 	/* Don't let gstreamer load 'system path' plugins - if the user has gstreamer installed elsewhere,
 	 * or if this is a poor, confused developer who has built gstreamer locally, this will lead to very
 	 * bad behavior.
 	 */
 	setenv("GST_PLUGIN_SYSTEM_PATH", " ", 1);
 	
-	GError *error = NULL;
-	if (!gst_init_check(NULL, NULL, &error)) {
-		NSLog(@"Failed to init GStreamer: %s", error ? error->message : "no error message.");
-		if (error) {
-			g_error_free(error);
-			error = NULL;
-		}
-	}
 	
 	//Set the gaim user directory to be within this user's directory
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {

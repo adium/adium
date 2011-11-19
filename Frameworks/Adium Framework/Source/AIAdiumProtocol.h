@@ -29,7 +29,7 @@ typedef enum {
 @protocol AIAccountController, AIChatController, AIContactAlertsController, AIDebugController, AIEmoticonController,
 		AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
 		AIContentController, AIToolbarController, AISoundController, AIDockController,
-		AIFileTransferController, AILoginController, AIInterfaceController, AIContactController, AIMediaController;
+		AIFileTransferController, AILoginController, AIInterfaceController, AIContactController;
 
 @protocol AIAdium <NSObject>
 @property (readonly, nonatomic) NSObject<AIAccountController> *accountController;
@@ -47,7 +47,6 @@ typedef enum {
 @property (readonly, nonatomic) NSObject<AIToolbarController> *toolbarController;
 @property (readonly, nonatomic) NSObject<AIContactAlertsController> *contactAlertsController;
 @property (readonly, nonatomic) NSObject<AIFileTransferController> *fileTransferController;
-@property (readonly, nonatomic) NSObject<AIMediaController> *mediaController;
 @property (readonly, nonatomic) NSObject<AIDebugController> *debugController;
 @property (readonly, nonatomic) NSObject<AIApplescriptabilityController> *applescriptabilityController;
 

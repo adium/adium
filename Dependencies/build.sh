@@ -3,7 +3,7 @@
 source phases/utility.sh
 source phases/build_dependencies.sh
 source phases/build_otr.sh
-source phases/build_vv_dependencies.sh
+#source phases/build_vv_dependencies.sh
 source phases/build_purple.sh
 source phases/make_frameworks.sh
 
@@ -161,8 +161,8 @@ if [ "$DISTCC_HOSTS" != "" ]; then
 	eval `$DEVELOPER/usr/bin/pump --startup`
 else
 	# Try to find the right gcc, even when XCode4 is installed
-	export CC="$DEVELOPER/usr/bin/gcc-4.2"
-	export CXX="$DEVELOPER/usr/bin/g++-4.2"
+	export CC="$DEVELOPER/usr/bin/gcc"
+	export CXX="$DEVELOPER/usr/bin/g++"
 	export CCAS="$CC"
 	export OBJC="$CC"
 fi
@@ -207,10 +207,10 @@ else
 	   build_meanwhile $@
 
     	build_intltool $@
-	build_jsonglib $@
+    	build_jsonglib $@
 
-    	build_gstreamer $@
-    	build_farsight $@
+    	#build_gstreamer $@
+    	#build_farsight $@
 
     	build_libpurple $@	
 
