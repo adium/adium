@@ -62,22 +62,7 @@ prep_headers() {
 		quiet mkdir "${jsonDir}" || true
 		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
 		
-		## VV stuff
-		
-		#gstreamer
-		status "Staging gstreamer and plugins headers"
-		local gstDir="${ROOTDIR}/build/lib/include/libgstreamer-${GSTREAMER_VERSION}.0"
-		quiet mkdir "${gstDir}" || true
-		log cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
-		
-		local non_includes=( "libgstbase-${GSTREAMER_VERSION}.0" \
-							 "libgstfarsight-${GSTREAMER_VERSION}.0" \
-							 "libgstinterfaces-${GSTREAMER_VERSION}.0" )
-		for no_include_lib in ${non_includes[@]} ; do
-			quiet mkdir "${ROOTDIR}/build/lib/include/${no_include_lib}" || true
-			touch "${ROOTDIR}/build/lib/include/${no_include_lib}/no_headers_here.txt"
-		done
-		
+
 		#libpurple
 		status "Staging libpurple headers"
 		local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
@@ -126,13 +111,6 @@ make_framework() {
 		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 			"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
 			"${FRAMEWORK_DIR}"
-		
-		status "Adding gst support frameworks..."
-		for (( i=0; i<${#GST_DEPS[@]}; i++ )) ; do
-			log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-				"${ROOTDIR}/build/lib/${GST_DEPS[i]}" \
-				"${FRAMEWORK_DIR}"
-		done
 
 		status "Adding the Adium framework header..."
 		log cp "${ROOTDIR}/libpurple-full.h" \
@@ -140,16 +118,6 @@ make_framework() {
 
 		log cp "${ROOTDIR}/Libpurple-Info.plist" \
 			"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
-		
-		status "Adding gst plugins..."
-		GST_PLUGINS_DIR="${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
-		quiet mkdir "${GST_PLUGINS_DIR}"
-		
-		log python "${ROOTDIR}/framework_maker/pluginize.py" "${ROOTDIR}/build/lib/gstreamer-0.10" "${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
-		
-		pushd "${ROOTDIR}/build/lib/gstreamer-0.10/"
-		log cp *.so "${GST_PLUGINS_DIR}"
-		popd
 	fi
 	
 	status "Done making framework!"

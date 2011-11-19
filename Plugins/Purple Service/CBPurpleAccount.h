@@ -71,14 +71,6 @@
 	//Instructs the account to cancel a file transfer in progress
 - (void)cancelFileTransfer:(ESFileTransfer *)fileTransfer;
 
-- (void)media:(AIMedia *)media setHold:(BOOL)hold;
-- (void)media:(AIMedia *)media setMute:(BOOL)mute;
-- (void)media:(AIMedia *)media setPause:(BOOL)pause;
-- (void)media:(AIMedia *)media setInputVolume:(CGFloat)inputVolume;
-- (void)media:(AIMedia *)media setOutputVolume:(CGFloat)outputVolume;
-- (void)closeMedia:(AIMedia *)media;
-- (void)destroyMedia:(AIMedia *)media;
-- (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept;
 #pragma mark -
 
 	//Private (for subclasses only) file transfer methods
