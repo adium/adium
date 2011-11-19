@@ -120,7 +120,10 @@
 		113900B40F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 113900B30F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m */; };
 		1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */; };
 		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
+		113E06AF10D0ABE3005D5B9A /* adiumPurpleMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 113E06AE10D0ABE3005D5B9A /* adiumPurpleMedia.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
+		1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147FCC310D1CB4C004E9E8D /* AIMediaWindowController.m */; };
+		1147FCC810D1CB83004E9E8D /* AIMediaWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1147FCC710D1CB83004E9E8D /* AIMediaWindow.nib */; };
 		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
 		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */; };
@@ -149,6 +152,10 @@
 		117866E20EC759B9003E9B97 /* FTProgressResendRollover_Selected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866DC0EC759B9003E9B97 /* FTProgressResendRollover_Selected.tif */; };
 		117866E30EC759B9003E9B97 /* FTProgressResendRollover.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866DD0EC759B9003E9B97 /* FTProgressResendRollover.tif */; };
 		117D6DC00BC5F0C40080D02B /* notify.png in Resources */ = {isa = PBXBuildFile; fileRef = 117D6DBF0BC5F0C40080D02B /* notify.png */; };
+		1181976810D0B0D2003E8ECA /* adiumPurpleMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 113E06A910D0ABA0005D5B9A /* adiumPurpleMedia.m */; };
+		118199C610D0B65A003E8ECA /* AIMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 118199C410D0B65A003E8ECA /* AIMedia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		118199C710D0B65A003E8ECA /* AIMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 118199C510D0B65A003E8ECA /* AIMedia.m */; };
+		11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11819A0310D0B8BE003E8ECA /* AIMediaController.m */; };
 		11819A1B10D0B95D003E8ECA /* AIMediaControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */; };
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
@@ -623,6 +630,14 @@
 		34B4B5A40708B049002C4C6D /* ESDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B4B5A20708B049002C4C6D /* ESDebugController.m */; };
 		34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B588A0058D833A00E7EF0D /* ExceptionHandling.framework */; };
 		34B5E2600A7C94D3005186E6 /* AILogDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B5E25E0A7C94D3005186E6 /* AILogDateFormatter.m */; };
+		34B8936C102BCDAB000ABB8E /* libgstreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89367102BCDAB000ABB8E /* libgstreamer.framework */; };
+		34B8936D102BCDAB000ABB8E /* libgstinterfaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */; };
+		34B8936E102BCDAB000ABB8E /* libgstfarsight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89369102BCDAB000ABB8E /* libgstfarsight.framework */; };
+		34B8936F102BCDAB000ABB8E /* libgstbase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B8936A102BCDAB000ABB8E /* libgstbase.framework */; };
+		34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89367102BCDAB000ABB8E /* libgstreamer.framework */; };
+		34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */; };
+		34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89369102BCDAB000ABB8E /* libgstfarsight.framework */; };
+		34B8947B102BCDB4000ABB8E /* libgstbase.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B8936A102BCDAB000ABB8E /* libgstbase.framework */; };
 		34B9C7920A255DCE00CEA8AE /* LogViewerDateFilter.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34B9C7910A255DCE00CEA8AE /* LogViewerDateFilter.nib */; };
 		34BC8F7B0ACA3AAC00562745 /* AIScannerDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BC8F790ACA3AAC00562745 /* AIScannerDebug.m */; };
 		34BD9D4A053146CC000AB133 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F59DB6AD033EB74801A8010A /* main.m */; };
@@ -1409,12 +1424,38 @@
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
 		7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
+		7E7CF7F11124B982001CFC73 /* libgstsdp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7CF7F01124B982001CFC73 /* libgstsdp.framework */; };
+		7E7CF7F51124B9A8001CFC73 /* libgstsdp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7CF7F01124B982001CFC73 /* libgstsdp.framework */; };
 		7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E824CCE06387FAF00813072 /* LinkEditor.nib */; };
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
 		7E824CEB06387FAF00813072 /* SHLinkManagementPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */; };
+		7E884AB81124A2920082963F /* libgstapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884AB71124A2920082963F /* libgstapp.framework */; };
+		7E884ABA1124A2930082963F /* libgstnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884AB91124A2930082963F /* libgstnet.framework */; };
+		7E884ABC1124A2930082963F /* libgstnetbuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABB1124A2930082963F /* libgstnetbuffer.framework */; };
+		7E884ABE1124A2930082963F /* libgstrtp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABD1124A2930082963F /* libgstrtp.framework */; };
+		7E884AC01124A2930082963F /* libnice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABF1124A2930082963F /* libnice.framework */; };
+		7E884AE61124A45F0082963F /* libgstapp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884AB71124A2920082963F /* libgstapp.framework */; };
+		7E884AE71124A45F0082963F /* libgstnet.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884AB91124A2930082963F /* libgstnet.framework */; };
+		7E884AE81124A45F0082963F /* libgstnetbuffer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABB1124A2930082963F /* libgstnetbuffer.framework */; };
+		7E884AE91124A45F0082963F /* libgstrtp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABD1124A2930082963F /* libgstrtp.framework */; };
+		7E884AEA1124A45F0082963F /* libnice.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E884ABF1124A2930082963F /* libnice.framework */; };
 		7E959AD010E3187000C26397 /* AIMathCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E959ACF10E3187000C26397 /* AIMathCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7EA7F03D1124AA8500E0C1F0 /* libgstaudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F03C1124AA8500E0C1F0 /* libgstaudio.framework */; };
+		7EA7F03F1124AA8500E0C1F0 /* libgstcontroller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F03E1124AA8500E0C1F0 /* libgstcontroller.framework */; };
+		7EA7F0411124AA8500E0C1F0 /* libgstdataprotocol.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0401124AA8500E0C1F0 /* libgstdataprotocol.framework */; };
+		7EA7F0431124AA8500E0C1F0 /* libgstrtsp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */; };
+		7EA7F0451124AA8500E0C1F0 /* libgstvideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */; };
+		7EA7F0471124AA8500E0C1F0 /* liboil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0461124AA8500E0C1F0 /* liboil.framework */; };
+		7EA7F05A1124AAA900E0C1F0 /* libgstaudio.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F03C1124AA8500E0C1F0 /* libgstaudio.framework */; };
+		7EA7F05B1124AAA900E0C1F0 /* libgstcontroller.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F03E1124AA8500E0C1F0 /* libgstcontroller.framework */; };
+		7EA7F05C1124AAA900E0C1F0 /* libgstdataprotocol.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0401124AA8500E0C1F0 /* libgstdataprotocol.framework */; };
+		7EA7F05D1124AAA900E0C1F0 /* libgstrtsp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */; };
+		7EA7F05E1124AAA900E0C1F0 /* libgstvideo.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */; };
+		7EA7F05F1124AAA900E0C1F0 /* liboil.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0461124AA8500E0C1F0 /* liboil.framework */; };
 		7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EC033B114590E0700CF24FB /* MessageWindow.xib */; };
+		7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
+		7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1648,7 +1689,24 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */,
+				7E7CF7F51124B9A8001CFC73 /* libgstsdp.framework in Copy Frameworks */,
+				7EA7F05A1124AAA900E0C1F0 /* libgstaudio.framework in Copy Frameworks */,
+				7EA7F05B1124AAA900E0C1F0 /* libgstcontroller.framework in Copy Frameworks */,
+				7EA7F05C1124AAA900E0C1F0 /* libgstdataprotocol.framework in Copy Frameworks */,
+				7EA7F05D1124AAA900E0C1F0 /* libgstrtsp.framework in Copy Frameworks */,
+				7EA7F05E1124AAA900E0C1F0 /* libgstvideo.framework in Copy Frameworks */,
+				7EA7F05F1124AAA900E0C1F0 /* liboil.framework in Copy Frameworks */,
+				7E884AE61124A45F0082963F /* libgstapp.framework in Copy Frameworks */,
+				7E884AE71124A45F0082963F /* libgstnet.framework in Copy Frameworks */,
+				7E884AE81124A45F0082963F /* libgstnetbuffer.framework in Copy Frameworks */,
+				7E884AE91124A45F0082963F /* libgstrtp.framework in Copy Frameworks */,
+				7E884AEA1124A45F0082963F /* libnice.framework in Copy Frameworks */,
 				116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */,
+				34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */,
+				34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */,
+				34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */,
+				34B8947B102BCDB4000ABB8E /* libgstbase.framework in Copy Frameworks */,
 				118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */,
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
@@ -4765,6 +4823,23 @@
 				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
 				118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
+				34B8936C102BCDAB000ABB8E /* libgstreamer.framework in Frameworks */,
+				34B8936D102BCDAB000ABB8E /* libgstinterfaces.framework in Frameworks */,
+				34B8936E102BCDAB000ABB8E /* libgstfarsight.framework in Frameworks */,
+				34B8936F102BCDAB000ABB8E /* libgstbase.framework in Frameworks */,
+				7E884AB81124A2920082963F /* libgstapp.framework in Frameworks */,
+				7E884ABA1124A2930082963F /* libgstnet.framework in Frameworks */,
+				7E884ABC1124A2930082963F /* libgstnetbuffer.framework in Frameworks */,
+				7E884ABE1124A2930082963F /* libgstrtp.framework in Frameworks */,
+				7E884AC01124A2930082963F /* libnice.framework in Frameworks */,
+				7EA7F03D1124AA8500E0C1F0 /* libgstaudio.framework in Frameworks */,
+				7EA7F03F1124AA8500E0C1F0 /* libgstcontroller.framework in Frameworks */,
+				7EA7F0411124AA8500E0C1F0 /* libgstdataprotocol.framework in Frameworks */,
+				7EA7F0431124AA8500E0C1F0 /* libgstrtsp.framework in Frameworks */,
+				7EA7F0451124AA8500E0C1F0 /* libgstvideo.framework in Frameworks */,
+				7EA7F0471124AA8500E0C1F0 /* liboil.framework in Frameworks */,
+				7E7CF7F11124B982001CFC73 /* libgstsdp.framework in Frameworks */,
+				7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8923,6 +8998,7 @@
 				345D68A20F1FD59F002F2D01 /* PurpleFacebookService.h in Headers */,
 				345D68A80F1FD5AA002F2D01 /* PurpleFacebookAccount.h in Headers */,
 				34064D110F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h in Headers */,
+				113E06AF10D0ABE3005D5B9A /* adiumPurpleMedia.h in Headers */,
 				34D8153A13B663650022C8C4 /* AIFacebookXMPPAccount.h in Headers */,
 				34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */,
 				34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */,
@@ -9061,6 +9137,7 @@
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
+				118199C610D0B65A003E8ECA /* AIMedia.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9748,6 +9825,7 @@
 				1130EA9D109B445D00FB3454 /* pref-mention.png in Resources */,
 				1130EA9E109B445D00FB3454 /* pref-messagealerts.png in Resources */,
 				11AE5555109CC88C0074BDC2 /* pref-confirmations.png in Resources */,
+				1147FCC810D1CB83004E9E8D /* AIMediaWindow.nib in Resources */,
 				5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */,
 				D10A3A2B122C61EF003B5A7E /* source-destination.png in Resources */,
 				34333FF3127F6E77007050E8 /* TemporaryIRCAccountWindow.nib in Resources */,
@@ -9960,6 +10038,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1181976810D0B0D2003E8ECA /* adiumPurpleMedia.m in Sources */,
 				1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */,
 				117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
 				3485DB1909EBCE6500232CC4 /* SLPurpleCocoaAdapter.m in Sources */,
@@ -10424,6 +10503,8 @@
 				112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */,
 				11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */,
 				11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */,
+				11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */,
+				1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */,
 				5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */,
 				76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */,
 				5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */,
@@ -10549,6 +10630,7 @@
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
+				118199C710D0B65A003E8ECA /* AIMedia.m in Sources */,
 				5A23E0BC13EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript in Sources */,
 				5A23E0BD13EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript in Sources */,
 				5A23E0BE13EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript in Sources */,

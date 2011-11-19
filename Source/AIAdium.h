@@ -52,6 +52,7 @@
 	NSObject <AIContactAlertsController>			*contactAlertsController;
 	NSObject <AIFileTransferController>				*fileTransferController;
 	NSObject <AIApplescriptabilityController>		*applescriptabilityController;
+	NSObject <AIMediaController>					*mediaController;
 	NSObject <AIDebugController>						*debugController;
 
 	AICoreComponentLoader		*componentLoader;

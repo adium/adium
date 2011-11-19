@@ -30,6 +30,7 @@
 #import "adiumPurpleSignals.h"
 #import "adiumPurpleWebcam.h"
 #import "adiumPurpleCertificateTrustWarning.h"
+#import "adiumPurpleMedia.h"
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AILibpurplePlugin.h"
@@ -241,6 +242,8 @@ static void adiumPurpleCoreUiInit(void)
 	purple_dnsquery_set_ui_ops(adium_purple_dns_request_get_ui_ops());
 	
 	adiumPurpleConversation_init();
+
+	adiumPurpleMedia_init();
 	
 	load_external_plugins();
 	
