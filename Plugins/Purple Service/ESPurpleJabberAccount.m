@@ -53,11 +53,18 @@
 static JabberSaslState
 external_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
 {
+	PurpleAccount *account = purple_connection_get_account(js->gc);
+	const char *username = purple_account_get_username(account);
+	char *pos = strchr(username, '/');
+	char *encoded_username = purple_base64_encode(username, (pos ? pos - username : strlen(username)));
+
 	xmlnode *auth = xmlnode_new("auth");
 	xmlnode_set_namespace(auth, "urn:ietf:params:xml:ns:xmpp-sasl");
 	xmlnode_set_attrib(auth, "mechanism", "EXTERNAL");
 	
-	xmlnode_insert_data(auth, "=", -1);
+	xmlnode_insert_data(auth, encoded_username, -1);
+
+	g_free(encoded_username);
 		
 	*response = auth;
 		
