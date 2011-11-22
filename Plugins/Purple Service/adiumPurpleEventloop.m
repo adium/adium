@@ -57,7 +57,7 @@ static inline void removeSourceForTag(guint tag) {
     CFDictionaryRemoveValue(sourceInfoDict(), (void *)tag);
 }
 
-static gboolean adium_source_remove(guint tag) {
+gboolean adium_source_remove(guint tag) {
 	dispatch_source_t src = sourceForTag(tag);
     
     if (!src) {
@@ -77,14 +77,14 @@ static gboolean adium_source_remove(guint tag) {
 }
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
-static gboolean adium_timeout_remove(guint tag) {
+gboolean adium_timeout_remove(guint tag) {
     return adium_source_remove(tag);
 }
 
 /* Extra function to generalize adium_timeout_add and adium_timeout_add_seconds,
  * making the permitted leeway explicit.
  */
-static guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
+guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
 	dispatch_source_t src;
 	guint tag;
@@ -117,18 +117,18 @@ static guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, 
 }
 
 // Add a timer in miliseconds
-static guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
+guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 {
 	return addTimer(((uint64_t)interval) * NSEC_PER_MSEC, NSEC_PER_USEC, function, data);
 }
 
 // Add a timer in seconds (allowing more leeway, therefore allowing the OS to group events and save power)
-static guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
+guint adium_timeout_add_seconds(guint interval, GSourceFunc function, gpointer data)
 {
 	return addTimer(((uint64_t)interval) * NSEC_PER_SEC, NSEC_PER_SEC, function, data);
 }
 
-static guint adium_input_add(gint fd, PurpleInputCondition condition,
+guint adium_input_add(gint fd, PurpleInputCondition condition,
 					  PurpleInputFunction func, gpointer user_data)
 {	
 	if (fd < 0) {
@@ -163,7 +163,7 @@ static guint adium_input_add(gint fd, PurpleInputCondition condition,
     return tag;
 }
 
-static int adium_input_get_error(int fd, int *error)
+int adium_input_get_error(int fd, int *error)
 {
 	int		  ret;
 	socklen_t len;
