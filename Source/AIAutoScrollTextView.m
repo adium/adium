@@ -83,8 +83,11 @@
 	[[self enclosingScrollView] setLineScroll:0.0f];
 	[[self enclosingScrollView] setPageScroll:0.0f];
 
-	// Start scrolling
-	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y;
+	/*
+	 * Xxx Somehow there are 7 pixels missing after re-starting to scroll - add
+	 * them by hand until we find the cause.
+	 */
+	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y + 7;
 	maxScroll = [[self textStorage] size].height;
     
 	scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0f / ABOUT_SCROLL_FPS)
