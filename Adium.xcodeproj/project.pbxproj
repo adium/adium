@@ -382,6 +382,7 @@
 		346BA33F0774C27400628F06 /* ESGlobalEventsPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 346BA33D0774C27400628F06 /* ESGlobalEventsPreferencesPlugin.m */; };
 		346BA3450774C2D200628F06 /* ESGlobalEventsPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 346BA3430774C2D200628F06 /* ESGlobalEventsPreferences.m */; };
 		346BA3640774C35500628F06 /* GlobalEventsPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 346BA3630774C35400628F06 /* GlobalEventsPreferences.nib */; };
+		346F5D3208A43E7B0055C610 /* CurrentTunes.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 346F5CB308A418FB0055C610 /* CurrentTunes.scpt */; };
 		347374BD0AA9206B00AD18E3 /* ShortcutRecorder.strings in Resources */ = {isa = PBXBuildFile; fileRef = 347374BB0AA9206B00AD18E3 /* ShortcutRecorder.strings */; };
 		3474E000082550FD00BF30F0 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3474DFFF082550FD00BF30F0 /* Credits.rtf */; };
 		3474E0910825634300BF30F0 /* StatusPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3474E0900825634300BF30F0 /* StatusPreferences.nib */; };
@@ -1110,18 +1111,6 @@
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
 		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
-		5A23E0B513EDB9950032EF52 /* CurrentTunes.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0B413EDB9950032EF52 /* CurrentTunes.applescript */; };
-		5A23E0BC13EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0B613EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript */; };
-		5A23E0BD13EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0B713EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript */; };
-		5A23E0BE13EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0B813EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript */; };
-		5A23E0BF13EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0B913EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript */; };
-		5A23E0C013EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0BA13EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript */; };
-		5A23E0C113EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0BB13EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript */; };
-		5A23E0CB13EDC2E50032EF52 /* ActiveApplication.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C613EDC2E50032EF52 /* ActiveApplication.applescript */; };
-		5A23E0CC13EDC2E50032EF52 /* AdiumBuild.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C713EDC2E50032EF52 /* AdiumBuild.applescript */; };
-		5A23E0CD13EDC2E50032EF52 /* AdiumVersion.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C813EDC2E50032EF52 /* AdiumVersion.applescript */; };
-		5A23E0CE13EDC2E50032EF52 /* StatusMessage.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C913EDC2E50032EF52 /* StatusMessage.applescript */; };
-		5A23E0CF13EDC2E50032EF52 /* Uptime.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0CA13EDC2E50032EF52 /* Uptime.applescript */; };
 		5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F601A12962D06007A2232 /* AISegmentedControl.m */; };
 		5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A5F601912962D06007A2232 /* AISegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8BBC12D560E400019727 /* AIDockNameOverlay.m */; };
@@ -1369,6 +1358,12 @@
 		636D92BE0E4E97AA00E5F558 /* AIAddressBookUserIconSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3403F4310D2EF01D006B08FB /* AIAddressBookUserIconSource.m */; };
 		636D92CD0E4E990500E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
 		636D93400E4E9ED600E5F558 /* AB Display Format Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BCAC4E207B59B65006641B9 /* AB Display Format Defaults.plist */; };
+		636D93890E4EA23F00E5F558 /* AdiumAddressBookAction_Yahoo.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93660E4E9FD300E5F558 /* AdiumAddressBookAction_Yahoo.scpt */; };
+		636D938A0E4EA23F00E5F558 /* AdiumAddressBookAction_SMS.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93670E4E9FD300E5F558 /* AdiumAddressBookAction_SMS.scpt */; };
+		636D938B0E4EA23F00E5F558 /* AdiumAddressBookAction_MSN.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93680E4E9FD300E5F558 /* AdiumAddressBookAction_MSN.scpt */; };
+		636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93690E4E9FD300E5F558 /* AdiumAddressBookAction_Jabber.scpt */; };
+		636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */; };
+		636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */; };
 		636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */; };
 		637864550F9BE1AB0040DEDA /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
@@ -2962,6 +2957,7 @@
 		346C9C200E70E1F8002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = "Plugins/WebKit Message View/hu.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		346CFDC4087B7836009711C8 /* AdiumIdleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumIdleManager.h; path = Source/AdiumIdleManager.h; sourceTree = "<group>"; };
 		346CFDC5087B7836009711C8 /* AdiumIdleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumIdleManager.m; path = Source/AdiumIdleManager.m; sourceTree = "<group>"; };
+		346F5CB308A418FB0055C610 /* CurrentTunes.scpt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.scpt; name = CurrentTunes.scpt; path = Resources/CurrentTunes.scpt; sourceTree = "<group>"; };
 		347065E406015DC5004F0D20 /* WebKit Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = "WebKit Defaults.plist"; path = "Plugins/WebKit Message View/WebKit Defaults.plist"; sourceTree = "<group>"; };
 		347374BC0AA9206B00AD18E3 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/ShortcutRecorder.strings; sourceTree = "<group>"; };
 		347374F00AA920F300AD18E3 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = Resources/ca.lproj/ShortcutRecorder.strings; sourceTree = "<group>"; };
@@ -4059,18 +4055,6 @@
 		5A17D65B130F76B4002C852F /* AIGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGradientView.h; path = Source/AIGradientView.h; sourceTree = "<group>"; };
 		5A17D65C130F76B4002C852F /* AIGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGradientView.m; path = Source/AIGradientView.m; sourceTree = "<group>"; };
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
-		5A23E0B413EDB9950032EF52 /* CurrentTunes.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = CurrentTunes.applescript; path = Resources/CurrentTunes.applescript; sourceTree = "<group>"; };
-		5A23E0B613EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_AIM.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_AIM.applescript"; sourceTree = "<group>"; };
-		5A23E0B713EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_ICQ.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_ICQ.applescript"; sourceTree = "<group>"; };
-		5A23E0B813EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_Jabber.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Jabber.applescript"; sourceTree = "<group>"; };
-		5A23E0B913EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_MSN.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_MSN.applescript"; sourceTree = "<group>"; };
-		5A23E0BA13EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_SMS.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_SMS.applescript"; sourceTree = "<group>"; };
-		5A23E0BB13EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumAddressBookAction_Yahoo.applescript; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Yahoo.applescript"; sourceTree = "<group>"; };
-		5A23E0C613EDC2E50032EF52 /* ActiveApplication.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = ActiveApplication.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/ActiveApplication.applescript"; sourceTree = "<group>"; };
-		5A23E0C713EDC2E50032EF52 /* AdiumBuild.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumBuild.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/AdiumBuild.applescript"; sourceTree = "<group>"; };
-		5A23E0C813EDC2E50032EF52 /* AdiumVersion.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumVersion.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/AdiumVersion.applescript"; sourceTree = "<group>"; };
-		5A23E0C913EDC2E50032EF52 /* StatusMessage.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = StatusMessage.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/StatusMessage.applescript"; sourceTree = "<group>"; };
-		5A23E0CA13EDC2E50032EF52 /* Uptime.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = Uptime.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/Uptime.applescript"; sourceTree = "<group>"; };
 		5A5F601912962D06007A2232 /* AISegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISegmentedControl.h; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.h"; sourceTree = "<group>"; };
 		5A5F601A12962D06007A2232 /* AISegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISegmentedControl.m; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.m"; sourceTree = "<group>"; };
 		5A5F8BBB12D560E400019727 /* AIDockNameOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockNameOverlay.h; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.h"; sourceTree = "<group>"; };
@@ -4435,6 +4419,12 @@
 		6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitDelegate.m; path = "Plugins/WebKit Message View/AIWebKitDelegate.m"; sourceTree = "<group>"; };
 		636C6E5D0ED56D0100E0E528 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		636D8C970E4E95A500E5F558 /* AIAddressBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAddressBookController.m; path = "Frameworks/Adium Framework/Source/AIAddressBookController.m"; sourceTree = "<group>"; };
+		636D93660E4E9FD300E5F558 /* AdiumAddressBookAction_Yahoo.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_Yahoo.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Yahoo.scpt"; sourceTree = "<group>"; };
+		636D93670E4E9FD300E5F558 /* AdiumAddressBookAction_SMS.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_SMS.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_SMS.scpt"; sourceTree = "<group>"; };
+		636D93680E4E9FD300E5F558 /* AdiumAddressBookAction_MSN.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_MSN.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_MSN.scpt"; sourceTree = "<group>"; };
+		636D93690E4E9FD300E5F558 /* AdiumAddressBookAction_Jabber.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_Jabber.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Jabber.scpt"; sourceTree = "<group>"; };
+		636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_ICQ.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_ICQ.scpt"; sourceTree = "<group>"; };
+		636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_AIM.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_AIM.scpt"; sourceTree = "<group>"; };
 		638392F609D4D67A0067B9B7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		638BC1FA0FC932E000CE7600 /* AIObjectDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIObjectDebug.h; path = Source/AIObjectDebug.h; sourceTree = "<group>"; };
 		638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIObjectDebug.m; path = Source/AIObjectDebug.m; sourceTree = "<group>"; };
@@ -6241,7 +6231,7 @@
 		34CF9DEF085B8B3D00D87E37 /* iTunes Now Playing */ = {
 			isa = PBXGroup;
 			children = (
-				5A23E0B413EDB9950032EF52 /* CurrentTunes.applescript */,
+				346F5CB308A418FB0055C610 /* CurrentTunes.scpt */,
 				34CF9DF2085B8B7900D87E37 /* ESiTunesPlugin.h */,
 				34CF9DF3085B8B7900D87E37 /* ESiTunesPlugin.m */,
 			);
@@ -7216,7 +7206,6 @@
 		4BF2E6BE067CB72400743318 /* Xtras (Built In) */ = {
 			isa = PBXGroup;
 			children = (
-				5A23E0C513EDC2C40032EF52 /* System Statistics */,
 				112B483E0F82E91200690E84 /* Group Chat Status Icons */,
 				34A29D9406ED68BF00E1366C /* Contact List */,
 				3408254D075B078B00703011 /* Dock Icons */,
@@ -7331,18 +7320,6 @@
 				9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */,
 			);
 			name = Growl;
-			sourceTree = "<group>";
-		};
-		5A23E0C513EDC2C40032EF52 /* System Statistics */ = {
-			isa = PBXGroup;
-			children = (
-				5A23E0C613EDC2E50032EF52 /* ActiveApplication.applescript */,
-				5A23E0C713EDC2E50032EF52 /* AdiumBuild.applescript */,
-				5A23E0C813EDC2E50032EF52 /* AdiumVersion.applescript */,
-				5A23E0C913EDC2E50032EF52 /* StatusMessage.applescript */,
-				5A23E0CA13EDC2E50032EF52 /* Uptime.applescript */,
-			);
-			name = "System Statistics";
 			sourceTree = "<group>";
 		};
 		5A8A6A46124456B1004965A8 /* Segmented control with menu popup */ = {
@@ -8065,12 +8042,12 @@
 		636D930E0E4E9DDD00E5F558 /* Address Book Integration */ = {
 			isa = PBXGroup;
 			children = (
-				5A23E0B613EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript */,
-				5A23E0B713EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript */,
-				5A23E0B813EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript */,
-				5A23E0B913EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript */,
-				5A23E0BA13EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript */,
-				5A23E0BB13EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript */,
+				636D93660E4E9FD300E5F558 /* AdiumAddressBookAction_Yahoo.scpt */,
+				636D93670E4E9FD300E5F558 /* AdiumAddressBookAction_SMS.scpt */,
+				636D93680E4E9FD300E5F558 /* AdiumAddressBookAction_MSN.scpt */,
+				636D93690E4E9FD300E5F558 /* AdiumAddressBookAction_Jabber.scpt */,
+				636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */,
+				636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */,
 				34E2A2EE07B018B1006735BC /* AIAddressBookController.h */,
 				636D8C970E4E95A500E5F558 /* AIAddressBookController.m */,
 				3403F4300D2EF01D006B08FB /* AIAddressBookUserIconSource.h */,
@@ -9236,7 +9213,6 @@
 				4BF2E91F067CB76300743318 /* Copy Built-in Xtras */,
 				34BD9D6A053146CC000AB133 /* Copy AdiumPlugins */,
 				345DFF4A05564DB200CEE7B3 /* Run Generate Buildnum File Script */,
-				5A23E0D513EDC4E60032EF52 /* Move System Statistics Scripts */,
 			);
 			buildRules = (
 				81F9D1DF0A7F81A5004A35BD /* PBXBuildRule */,
@@ -9525,6 +9501,7 @@
 				6318DBA60F8D93F200C5E584 /* Template.html in Resources */,
 				9EF0DBFA09D944C200FBCC1E /* Resources/block.png in Resources */,
 				9EF0DBFB09D944C200FBCC1E /* Resources/unblock.png in Resources */,
+				346F5D3208A43E7B0055C610 /* CurrentTunes.scpt in Resources */,
 				349C30790867ADA3000BF883 /* AdiumApplescriptRunner in Resources */,
 				349C7C7A07C9AE1B005EB896 /* ContactListAdvancedPrefs.nib in Resources */,
 				34E0EA0807CC53ED00A82198 /* NewMessagePrompt.nib in Resources */,
@@ -9772,6 +9749,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				636D93400E4E9ED600E5F558 /* AB Display Format Defaults.plist in Resources */,
+				636D93890E4EA23F00E5F558 /* AdiumAddressBookAction_Yahoo.scpt in Resources */,
+				636D938A0E4EA23F00E5F558 /* AdiumAddressBookAction_SMS.scpt in Resources */,
+				636D938B0E4EA23F00E5F558 /* AdiumAddressBookAction_MSN.scpt in Resources */,
+				636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */,
+				636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */,
+				636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */,
 				34DC8A590A7EEEF7003E1636 /* PresetManagement.nib in Resources */,
 				34DC8A5C0A7EEEF7003E1636 /* PresetNameSheet.nib in Resources */,
 				34DC8A650A7EEEF7003E1636 /* AccountSetup.nib in Resources */,
@@ -9887,26 +9870,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
-		};
-		5A23E0D513EDC4E60032EF52 /* Move System Statistics Scripts */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/ActiveApplication.scpt",
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/AdiumBuild.scpt",
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/AdiumVersion.scpt",
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/StatusMessage.scpt",
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/Uptime.scpt",
-			);
-			name = "Move System Statistics Scripts";
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/Scripts/System Statistics.AdiumScripts//",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mv \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"\nmv \"$SCRIPT_INPUT_FILE_1\" \"$SCRIPT_OUTPUT_FILE_0\"\nmv \"$SCRIPT_INPUT_FILE_2\" \"$SCRIPT_OUTPUT_FILE_0\"\nmv \"$SCRIPT_INPUT_FILE_3\" \"$SCRIPT_OUTPUT_FILE_0\"\nmv \"$SCRIPT_INPUT_FILE_4\" \"$SCRIPT_OUTPUT_FILE_0\"";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -10434,12 +10397,6 @@
 				5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */,
 				5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */,
 				97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */,
-				5A23E0B513EDB9950032EF52 /* CurrentTunes.applescript in Sources */,
-				5A23E0CB13EDC2E50032EF52 /* ActiveApplication.applescript in Sources */,
-				5A23E0CC13EDC2E50032EF52 /* AdiumBuild.applescript in Sources */,
-				5A23E0CD13EDC2E50032EF52 /* AdiumVersion.applescript in Sources */,
-				5A23E0CE13EDC2E50032EF52 /* StatusMessage.applescript in Sources */,
-				5A23E0CF13EDC2E50032EF52 /* Uptime.applescript in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10549,12 +10506,6 @@
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
-				5A23E0BC13EDB9CD0032EF52 /* AdiumAddressBookAction_AIM.applescript in Sources */,
-				5A23E0BD13EDB9CD0032EF52 /* AdiumAddressBookAction_ICQ.applescript in Sources */,
-				5A23E0BE13EDB9CD0032EF52 /* AdiumAddressBookAction_Jabber.applescript in Sources */,
-				5A23E0BF13EDB9CD0032EF52 /* AdiumAddressBookAction_MSN.applescript in Sources */,
-				5A23E0C013EDB9CD0032EF52 /* AdiumAddressBookAction_SMS.applescript in Sources */,
-				5A23E0C113EDB9CD0032EF52 /* AdiumAddressBookAction_Yahoo.applescript in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
