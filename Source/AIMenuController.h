@@ -92,6 +92,7 @@
 	IBOutlet	NSMenuItem	*menuItem_quitAdium;
 	
 	//File menu
+	IBOutlet	NSMenuItem	*menuItem_reopenTab;
 	IBOutlet	NSMenuItem	*menuItem_close;
 	IBOutlet	NSMenuItem	*menuItem_closeChat;
 	IBOutlet	NSMenuItem  *menuItem_closeAllChats;
