@@ -48,19 +48,6 @@
     return @"AIFacebookXMPPAccountView";
 }
 
-- (void)localizeStrings
-{
-	[super localizeStrings];
-
-	[label_instructions setLocalizedString:
-	 AILocalizedString(@"To connect to Facebook Chat, you must give Adium permission. A secure Facebook login screen will be shown when you click Allow Access.",
-					   "Instructions in the Facebook account configuration window")];
-
-	[button_OAuthStart setLocalizedString:
-	 AILocalizedString(@"Allow Access",
-					   "Button title in the Facebook account configuration window. Clicking it prompts the user via Facebook's authorization system to allow access to chat.")];
-}
-
 /*!
  * @brief Configure controls
  */
