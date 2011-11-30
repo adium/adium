@@ -51,6 +51,9 @@
 
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
 
+@interface NSScrollView (AIListWindowController_LionCompatability)
+- (void)setVerticalScrollElasticity:(NSInteger)elasticity;
+@end
 
 @interface AIListWindowController ()
 - (id)initWithContactList:(id<AIContainingObject>)contactList;
@@ -175,13 +178,6 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 																	  inOutlineView:contactListView
 																	   inScrollView:scrollView_contactList 
 																		   delegate:self];
-	
-	/* Avoid the bouncing effect when scrolling on Lion. This looks very bad when using a borderless window.
-	 * TODO: (10.7+) remove this if
-	 */
-	if ([scrollView_contactList respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
-		[scrollView_contactList setVerticalScrollElasticity:1]; // NSScrollElasticityNone
-	}
 
 	//super's windowDidLoad will restore our location, which is based upon the contactListRoot
 	[super windowDidLoad];
@@ -381,7 +377,14 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			case AIContactListWindowStyleContactBubbles_Fitted:
 				//The bubbles styles don't show a window; force them to autosize by leaving autoResizeVertically == YES
 				break;
-		}			
+		}
+		
+		/* Avoid the bouncing effect when scrolling on Lion. This looks very bad when using a borderless window.
+		 * TODO: (10.7+) remove this if
+		 */
+		if (windowStyle != AIContactListWindowStyleStandard && [scrollView_contactList respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+			[scrollView_contactList setVerticalScrollElasticity:1]; // NSScrollElasticityNone
+		}
 
 		if (autoResizeHorizontally) {
 			//If autosizing, KEY_LIST_LAYOUT_HORIZONTAL_WIDTH determines the maximum width; no forced width.
