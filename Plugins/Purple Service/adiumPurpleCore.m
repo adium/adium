@@ -33,10 +33,9 @@
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AILibpurplePlugin.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
-
+#import <AIUtilities/AIApplicationAdditions.h>
 
 #warning This include and the jabber_auth_add_mech() will be part of the FacebookXMPP account's initialization
 #import "auth.h"

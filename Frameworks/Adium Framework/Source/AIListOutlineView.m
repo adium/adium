@@ -21,7 +21,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIProxyListObject.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>

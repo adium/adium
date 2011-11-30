@@ -43,7 +43,6 @@
 #import "AIAppearancePreferences.h"
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AISharedWriterQueue.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>

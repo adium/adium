@@ -20,7 +20,6 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import "ESUserIconHandlingPlugin.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIToolbarUtilities.h>

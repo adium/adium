@@ -15,7 +15,6 @@
  */
 
 #import "ErrorMessageWindowController.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 
 #define MAX_ERRORS			80				//The max # of errors to display
 #define MAX_ERROR_FRAME_HEIGHT	300

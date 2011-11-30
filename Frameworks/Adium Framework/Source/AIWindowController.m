@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIWindowControllerAdditions.h>
 

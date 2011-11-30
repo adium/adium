@@ -20,11 +20,11 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIIconState.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 #define DOCK_DEFAULT_PREFS			@"DockPrefs"
 #define ICON_DISPLAY_DELAY			0.1

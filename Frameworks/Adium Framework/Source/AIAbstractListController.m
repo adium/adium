@@ -40,7 +40,6 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import "AIMessageWindowController.h"

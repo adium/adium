@@ -23,7 +23,6 @@
 #import "AIDockController.h"
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

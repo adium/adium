@@ -15,7 +15,6 @@
  */
 
 #import "adiumPurpleEventloop.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <poll.h>
 #import <unistd.h>
 #import <sys/socket.h>

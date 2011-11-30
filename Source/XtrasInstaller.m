@@ -15,7 +15,6 @@
  */
 
 #import "XtrasInstaller.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIBundleAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 

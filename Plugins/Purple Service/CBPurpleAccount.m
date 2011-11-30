@@ -51,7 +51,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>

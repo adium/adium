@@ -44,13 +44,10 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
-
-#import <AIUtilities/AIApplicationAdditions.h>
 
 #import <libkern/OSAtomic.h>
 
