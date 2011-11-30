@@ -453,7 +453,12 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[contactListController setForcedWindowWidth:forcedWindowWidth];
 		[contactListController setMaxWindowWidth:maxWindowWidth];
 		
-		[contactListController contactListDesiredSizeChanged];
+		// let this happen at the beginning of the next runloop. The View needs to configure itself before we start forcing it to a size.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+			[contactListController contactListDesiredSizeChanged];
+			[pool release];
+		});
 		
 		if (!firstTime) {
 			shouldRevealWindowAndDelaySliding = YES;
