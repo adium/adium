@@ -21,7 +21,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -40,6 +39,7 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIContentEvent.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;

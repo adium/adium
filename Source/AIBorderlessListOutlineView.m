@@ -16,7 +16,6 @@
 
 #import "AIBorderlessListOutlineView.h"
 #import <AIUtilities/AIEventAdditions.h>
-#import "AIApplicationAdditions.h"
 
 #define FORCED_MINIMUM_HEIGHT 20
 

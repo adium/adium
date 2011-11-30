@@ -21,7 +21,6 @@
 #import "AIStandardListWindowController.h"
 #import "AIContactListImagePicker.h"
 #import <Adium/AIAccount.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

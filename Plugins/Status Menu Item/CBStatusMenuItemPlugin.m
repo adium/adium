@@ -16,7 +16,6 @@
 
 #import "CBStatusMenuItemPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 @interface CBStatusMenuItemPlugin()
 - (void)adiumFinishedLaunching:(NSNotification *)notification;

@@ -25,7 +25,6 @@
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIWindowControllerAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <Adium/AIListBookmark.h>
@@ -51,6 +50,7 @@
 #define WINDOW_SLIDING_MOUSE_DISTANCE_TOLERANCE 3.0f /* Distance the mouse must be from the window's frame to be considered outside it */
 
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
+
 
 @interface AIListWindowController ()
 - (id)initWithContactList:(id<AIContainingObject>)contactList;

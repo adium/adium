@@ -20,7 +20,6 @@
 
 #import <Adium/AIHTMLDecoder.h>
 
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>

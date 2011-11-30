@@ -19,7 +19,6 @@
 #import <Adium/ESObjectWithProperties.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIGradientAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 
 #define FLIPPY_TEXT_PADDING		4

@@ -16,7 +16,6 @@
 
 #import "AISearchFieldCell.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 @implementation AISearchFieldCell
 

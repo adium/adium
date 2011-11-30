@@ -16,7 +16,6 @@
 
 #import "AIAnimatingListOutlineView.h"
 #import "AIOutlineViewAnimation.h"
-#import "AIApplicationAdditions.h"
 
 #define DISABLE_ALL_ANIMATION				FALSE
 #define DISABLE_ANIMATE_EXPAND_AND_COLLAPSE	TRUE
