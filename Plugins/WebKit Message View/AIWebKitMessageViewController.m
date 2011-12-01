@@ -296,9 +296,7 @@ static NSArray *draggedTypes = nil;
 			    ![key isEqualToString:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]] &&
 				(![key isEqualToString:KEY_CURRENT_WEBKIT_STYLE_PATH] || shouldReflectPreferenceChanges)) {
 				if (!isUpdatingWebViewForCurrentPreferences) {
-					isUpdatingWebViewForCurrentPreferences = YES;
 					[self _updateWebViewForCurrentPreferences];
-					isUpdatingWebViewForCurrentPreferences = NO;
 				}
 			}
 		}
@@ -311,9 +309,7 @@ static NSArray *draggedTypes = nil;
 											 forKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
 											  group:preferenceGroup];	
 		if (!isUpdatingWebViewForCurrentPreferences) {
-			isUpdatingWebViewForCurrentPreferences = YES;
 			[self _updateWebViewForCurrentPreferences];
-			isUpdatingWebViewForCurrentPreferences = NO;
 		}
 	}	
 }
@@ -358,6 +354,7 @@ static NSArray *draggedTypes = nil;
 		webViewUpdateQueue = dispatch_queue_create("im.adium.AIWebKitMessageViewController.webViewUpdateQueue", 0);
 	});
 	
+	isUpdatingWebViewForCurrentPreferences = YES;
 	dispatch_sync(webViewUpdateQueue, ^{
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		//Cleanup first
@@ -470,6 +467,7 @@ static NSArray *draggedTypes = nil;
 		//Prime the webview with the new style/variant and settings, and re-insert all our content back into the view
 		[self _primeWebViewAndReprocessContent:YES];
 		[pool release];
+		isUpdatingWebViewForCurrentPreferences = NO;
 	});
 }
 
