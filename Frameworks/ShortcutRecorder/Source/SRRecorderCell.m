@@ -1067,6 +1067,7 @@
 		
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	[notificationCenter addObserver:self selector:@selector(_createGradient) name:NSSystemColorsDidChangeNotification object:nil]; // recreate gradient if needed
+	[self setAutosaveName:@"RecorderCell"];
 	[self _createGradient];
 
 	[self _loadKeyCombo];
