@@ -129,6 +129,9 @@
 			<responds-to name="send">
 				<cocoa method="sendScriptCommand:"/>
 			</responds-to>
+			<responds-to command="become active">
+			    <cocoa method="goActiveScriptCommand:"/>
+			</responds-to>
 		</class>
 		<enumeration name="status types" code="Esta">
 			<enumerator name="offline" code="Soff" description="Account is offline."/>
@@ -339,6 +342,9 @@
 			<parameter name="new chat window" code="Pncw" description="If this is true, then a new chat window will be created when creating a chat." type="boolean" optional="yes">
 				<cocoa key="newChatWindow"/>
 			</parameter>
+			<parameter name="in window" code="Piwd" description="If set, will create the new chat within the passed chat window" type="chat window" optional="yes">
+			    <cocoa key="inWindow"/>
+			</parameter>
 			<result description="to the new object" type="specifier"/>
 		</command>
 		
@@ -360,6 +366,11 @@
 			<parameter name="with file" code="Sfil" description="A file to attach" type="file" optional="yes">
 				<cocoa key="withFile"/>
 			</parameter>
+		</command>
+		
+		<command name="become active" code="Adumactv" description="Set a chat to active.">
+			<cocoa class="NSScriptCommand"/>
+			<direct-parameter type="chat" description="The chat that should become active."/>
 		</command>
 	</suite>
 	

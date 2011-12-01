@@ -82,7 +82,7 @@
 {
 	for (NSWindow *window in [self orderedWindows])
 		if ([window isKindOfClass:[AIMessageWindow class]])
-			if ([window hash] == [uniqueID unsignedIntValue])
+			if ([uniqueID isEqualToNumber:[NSNumber numberWithInteger:[window windowNumber]]])
 				return (AIMessageWindow *)window;
 	return nil;
 }

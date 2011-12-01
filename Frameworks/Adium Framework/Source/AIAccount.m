@@ -1152,7 +1152,8 @@ typedef enum
 		[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create a chat without a contact!"];
 		return nil;
 	}
-	if (![resolvedKeyDictionary objectForKey:@"newChatWindow"] && ![resolvedKeyDictionary objectForKey:@"Location"]) {
+	if (![resolvedKeyDictionary objectForKey:@"newChatWindow"] && ![resolvedKeyDictionary objectForKey:@"Location"] 
+	    && ![resolvedKeyDictionary objectForKey:@"inWindow"]) {
 		[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 		[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create a chat without specifying its containing window."];
 		return nil;
@@ -1166,16 +1167,19 @@ typedef enum
 			return nil;
 		}
 		AIMessageWindowController *chatWindowController = nil;
-		NSInteger idx = -1; //at end by default
+		NSInteger index = -1; //at end by default
 		if ([resolvedKeyDictionary objectForKey:@"newChatWindow"]) {
 			//I need to put this in a new chat window
 			chatWindowController = [adium.interfaceController openContainerWithID:nil name:nil];
+		} else if ([resolvedKeyDictionary objectForKey:@"inWindow"]) {
+			AIMessageWindow *chatWindow = [resolvedKeyDictionary objectForKey:@"inWindow"];
+            index = [[chatWindow chats] count];
+			chatWindowController = (AIMessageWindowController *)[chatWindow windowController];
 		} else {
-			//I need to figure out to which chat window the location specifier is referring.
-			//NSLog(@"Here is the info about the location specifier: %@",[resolvedKeyDictionary objectForKey:@"Location"]);
+			//I need to figure out to which chat window the location specifier is referring.			
 			NSPositionalSpecifier *location = [resolvedKeyDictionary objectForKey:@"Location"];
 			AIMessageWindow *chatWindow = [location insertionContainer];
-			idx = [location insertionIndex];
+            index = [location insertionIndex];
 			chatWindowController = (AIMessageWindowController *)[chatWindow windowController];
 		}
 		
@@ -1186,8 +1190,8 @@ typedef enum
 		}
 		
 		AIChat *newChat = [adium.chatController chatWithContact:contact];
-//		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
-		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:idx];
+		//		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
+		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
 	} else {
 		if (![self.service canCreateGroupChats]) {

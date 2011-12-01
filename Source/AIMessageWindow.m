@@ -39,7 +39,7 @@
 	return [[[NSUniqueIDSpecifier alloc]
 			initWithContainerClassDescription:containerClassDesc
 			containerSpecifier:nil key:@"chatWindows"
-			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]] autorelease];
+			uniqueID:[NSNumber numberWithInteger:[self windowNumber]]] autorelease];
 }
 
 - (void)dealloc
