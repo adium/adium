@@ -912,12 +912,19 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
-	//the chat may not be in a window! Just reference it from the application...
-	//get my window
-	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+	AIMessageWindowController *windowController = self.chatContainer.windowController;	
+	NSScriptClassDescription *containerClassDesc;
+	NSScriptObjectSpecifier *containerRef;
+	if (windowController) {
+		containerRef = [[windowController window] objectSpecifier];
+		containerClassDesc = [containerRef keyClassDescription];
+	} else {
+		containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+	}
+	
 	return [[[NSUniqueIDSpecifier allocWithZone:[self zone]]
 		initWithContainerClassDescription:containerClassDesc
-		containerSpecifier:nil key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
+		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
 }
 
 - (unsigned int)index
@@ -1036,6 +1043,16 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	
 	return nil;
 }
+
+/*!
+ * @brief Applescript command to make this chat active
+ */
+- (id)goActiveScriptCommand:(NSScriptCommand *)command 
+{
+	[adium.interfaceController setActiveChat:self];
+	return nil;
+}
+
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
