@@ -62,6 +62,7 @@ Version 1.5 (10/11/2011)
   * Added Google Chrome support for link insertion.
 
  Message View
+  * Fixed message history only showing in the first tab/window on startup under certain circumstances. (#15377)
   * Fixed "Recent messages" still showing with logging. (#12577)
   * Smooth Operator replaced Stockholm as the default message style
   * Added the "lastFocus" class for message styles to the latest message received while the chat didn't have focus, and "regainedFocus" for the first message received while the chat has regained focus after having previously lost it.
@@ -86,6 +87,7 @@ Version 1.5 (10/11/2011)
 
  AIM
   * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
+  * Fixed crash when sending certain group chat requests. (#15674)
   
  StatusNet
   * Allow overriding the 140 character limit for StatusNet. (brion) (#13485)
@@ -112,6 +114,7 @@ Version 1.5 (10/11/2011)
   * Removed import from Fire. (#15366)
   * Updated Adium Help documentation to look native on OS X Lion. (Paul Wilde) (#15357)
   * Added a menu item to view release notes in the help menu. (#8569)
+  * Fixed some issues with AppleScript. (Peter Schmitt) (#15234)
   * Converted most AppleScripts from .scpt to .applescript files. (dak180) (#13940)
   * Miscellaneous improvements to Copyright.txt file.
   * Rewrote the libpurple eventloop to use libdispatch. (#13932)
