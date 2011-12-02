@@ -137,6 +137,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		logViewerQueue = [[NSOperationQueue alloc] init];
+		[logViewerQueue setMaxConcurrentOperationCount:1];
 		if([logViewerQueue respondsToSelector:@selector(setName:)])
 			[logViewerQueue performSelector:@selector(setName:) withObject:@"im.adium.AILogViewerWindowController.logViewerQueue"];
 	});
