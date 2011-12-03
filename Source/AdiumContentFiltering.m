@@ -230,7 +230,12 @@
 																								   context:filterContext
 																								  uniqueID:uniqueID];
 			} else {
-				*attributedString = [(id <AIContentFilter>)filter filterAttributedString:*attributedString context:filterContext];
+				@try {
+					*attributedString = [(id <AIContentFilter>)filter filterAttributedString:*attributedString context:filterContext];
+				}
+				@catch (NSException *exception) {
+					AILogWithSignature(@"Caught exception in content %@: %@", filter, exception);
+				}
 			}
 		}
 		
