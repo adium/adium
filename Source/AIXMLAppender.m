@@ -242,6 +242,20 @@ enum {
 			[self.fileHandle seekToFileOffset:sb.st_size - closingTagLength];
 		}
 	}
+	
+	// Make sure the log file is *not* quarantined. We created it ourself.
+	// Trust me, it's safe. (Really.)
+	FSRef fsRef;
+	
+	// The properties have to be unset on the .chatlog itself, not the .xml in it
+	if (FSPathMakeRef((UInt8 const *)[[self.path stringByDeletingLastPathComponent] fileSystemRepresentation], &fsRef, NULL) == noErr) {
+		if (LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, NULL) != noErr) {
+			AILogWithSignature(@"Un-quarantining file %@ failed!", [self.path stringByDeletingLastPathComponent]);
+		}
+		AILogWithSignature(@"Un-quarantining file %@ succeeded!", [self.path stringByDeletingLastPathComponent]);
+	} else {
+		AILogWithSignature(@"Could not find file to quarantine: %@!", [self.path stringByDeletingLastPathComponent]);
+	}
 }
 
 /*!
