@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10J567</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1278</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">462.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1278</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -128,7 +128,7 @@
 						<object class="NSButtonCell" key="NSCell" id="370529910">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Encrypt connection using SSL</string>
+							<string key="NSContents">Zabezpečení pomocí SSL</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="299750509"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -258,7 +258,7 @@
 						<object class="NSButtonCell" key="NSCell" id="74226557">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">After sending a tweet</string>
+							<string key="NSContents">Po odeslání Tweetu</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="278799254"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -280,7 +280,7 @@
 						<object class="NSButtonCell" key="NSCell" id="155130154">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Update global status when sending a tweet</string>
+							<string key="NSContents">Změnit globální stav po odeslání Tweetu</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="120473249"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -302,7 +302,7 @@
 						<object class="NSButtonCell" key="NSCell" id="85058144">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Include @replies</string>
+							<string key="NSContents">Včetně @replies</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="101049228"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -381,13 +381,13 @@
 					<object class="NSButton" id="377578690">
 						<reference key="NSNextResponder" ref="928353753"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{140, 31}, {266, 18}}</string>
+						<string key="NSFrame">{{140, 31}, {185, 18}}</string>
 						<reference key="NSSuperview" ref="928353753"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="17114962">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Show people I follow in the contact list</string>
+							<string key="NSContents">Zobrazit lidi, které sleduji</string>
 							<reference key="NSSupport" ref="102052516"/>
 							<reference key="NSControlView" ref="377578690"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -593,7 +593,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="733439917">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">71303168</int>
-												<string key="NSContents">User Name:</string>
+												<string key="NSContents">Jméno:</string>
 												<reference key="NSSupport" ref="102052516"/>
 												<reference key="NSControlView" ref="481002428"/>
 												<reference key="NSBackgroundColor" ref="475075482"/>
@@ -609,7 +609,7 @@
 											<object class="NSTextFieldCell" key="NSCell" id="918273829">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">71303168</int>
-												<string key="NSContents">Password:</string>
+												<string key="NSContents">Heslo:</string>
 												<reference key="NSSupport" ref="102052516"/>
 												<reference key="NSControlView" ref="634799331"/>
 												<reference key="NSBackgroundColor" ref="475075482"/>
@@ -636,7 +636,7 @@
 									</object>
 									<string key="NSFrameSize">{391, 230}</string>
 								</object>
-								<string key="NSLabel">Basic Authentication</string>
+								<string key="NSLabel">Základní autentifikace</string>
 								<reference key="NSColor" ref="475075482"/>
 								<reference key="NSTabView" ref="183466937"/>
 							</object>
@@ -692,7 +692,7 @@
 											<object class="NSButtonCell" key="NSCell" id="621934204">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Allow Access</string>
+												<string key="NSContents">Povolit přístup</string>
 												<reference key="NSSupport" ref="102052516"/>
 												<reference key="NSControlView" ref="821592780"/>
 												<int key="NSButtonFlags">-2038284033</int>
@@ -911,22 +911,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="634799331"/>
-						<reference key="destination" ref="919800797"/>
-					</object>
-					<int key="connectionID">467</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="481002428"/>
-						<reference key="destination" ref="162653078"/>
-					</object>
-					<int key="connectionID">468</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">textField_accountUID</string>
 						<reference key="source" ref="577370903"/>
 						<reference key="destination" ref="162653078"/>
@@ -980,14 +964,6 @@
 						<reference key="destination" ref="375767636"/>
 					</object>
 					<int key="connectionID">486</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textField_OAuthStatus</string>
-						<reference key="source" ref="577370903"/>
-						<reference key="destination" ref="1034069835"/>
-					</object>
-					<int key="connectionID">487</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1052,6 +1028,30 @@
 						<reference key="destination" ref="299750509"/>
 					</object>
 					<int key="connectionID">665</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textField_OAuthStatus</string>
+						<reference key="source" ref="577370903"/>
+						<reference key="destination" ref="1034069835"/>
+					</object>
+					<int key="connectionID">487</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="481002428"/>
+						<reference key="destination" ref="162653078"/>
+					</object>
+					<int key="connectionID">468</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="634799331"/>
+						<reference key="destination" ref="919800797"/>
+					</object>
+					<int key="connectionID">467</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1412,15 +1412,6 @@
 						<reference key="parent" ref="913597586"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">475</int>
-						<reference key="object" ref="1034069835"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="421900909"/>
-						</object>
-						<reference key="parent" ref="913597586"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">477</int>
 						<reference key="object" ref="821592780"/>
 						<object class="NSMutableArray" key="children">
@@ -1573,11 +1564,6 @@
 						<reference key="parent" ref="720544552"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">652</int>
-						<reference key="object" ref="421900909"/>
-						<reference key="parent" ref="1034069835"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">653</int>
 						<reference key="object" ref="621934204"/>
 						<reference key="parent" ref="821592780"/>
@@ -1641,103 +1627,73 @@
 						<reference key="object" ref="370529910"/>
 						<reference key="parent" ref="299750509"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">475</int>
+						<reference key="object" ref="1034069835"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="421900909"/>
+						</object>
+						<reference key="parent" ref="913597586"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">652</int>
+						<reference key="object" ref="421900909"/>
+						<reference key="parent" ref="1034069835"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="NSArray" key="dict.sortedKeys">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<string>-1.IBPluginDependency</string>
+					<string>-2.IBPluginDependency</string>
 					<string>-3.IBPluginDependency</string>
-					<string>-3.ImportedFromIB2</string>
-					<string>281.IBEditorWindowLastContentRect</string>
 					<string>281.IBPluginDependency</string>
-					<string>281.ImportedFromIB2</string>
 					<string>286.IBPluginDependency</string>
-					<string>286.ImportedFromIB2</string>
 					<string>299.IBPluginDependency</string>
-					<string>299.ImportedFromIB2</string>
-					<string>301.IBEditorWindowLastContentRect</string>
 					<string>301.IBPluginDependency</string>
-					<string>301.ImportedFromIB2</string>
 					<string>302.IBPluginDependency</string>
-					<string>302.ImportedFromIB2</string>
 					<string>303.IBPluginDependency</string>
-					<string>303.ImportedFromIB2</string>
 					<string>304.IBPluginDependency</string>
-					<string>304.ImportedFromIB2</string>
 					<string>311.IBPluginDependency</string>
-					<string>311.ImportedFromIB2</string>
 					<string>320.IBPluginDependency</string>
-					<string>320.ImportedFromIB2</string>
 					<string>321.IBPluginDependency</string>
-					<string>321.ImportedFromIB2</string>
 					<string>327.IBPluginDependency</string>
-					<string>327.ImportedFromIB2</string>
 					<string>329.IBPluginDependency</string>
-					<string>329.ImportedFromIB2</string>
 					<string>331.IBPluginDependency</string>
-					<string>331.ImportedFromIB2</string>
 					<string>333.IBPluginDependency</string>
-					<string>333.ImportedFromIB2</string>
 					<string>337.IBPluginDependency</string>
-					<string>337.ImportedFromIB2</string>
 					<string>339.IBPluginDependency</string>
-					<string>339.ImportedFromIB2</string>
 					<string>343.IBPluginDependency</string>
-					<string>343.ImportedFromIB2</string>
 					<string>366.IBPluginDependency</string>
-					<string>366.ImportedFromIB2</string>
 					<string>368.IBPluginDependency</string>
-					<string>368.ImportedFromIB2</string>
 					<string>370.IBPluginDependency</string>
-					<string>370.ImportedFromIB2</string>
 					<string>392.IBPluginDependency</string>
-					<string>392.ImportedFromIB2</string>
 					<string>394.IBPluginDependency</string>
-					<string>394.ImportedFromIB2</string>
 					<string>396.IBPluginDependency</string>
-					<string>396.ImportedFromIB2</string>
 					<string>397.IBPluginDependency</string>
-					<string>397.ImportedFromIB2</string>
-					<string>445.IBEditorWindowLastContentRect</string>
 					<string>445.IBPluginDependency</string>
-					<string>445.ImportedFromIB2</string>
 					<string>446.IBPluginDependency</string>
-					<string>446.ImportedFromIB2</string>
 					<string>447.IBPluginDependency</string>
-					<string>447.ImportedFromIB2</string>
 					<string>448.IBPluginDependency</string>
-					<string>448.ImportedFromIB2</string>
 					<string>449.IBPluginDependency</string>
-					<string>449.ImportedFromIB2</string>
 					<string>450.IBPluginDependency</string>
-					<string>450.ImportedFromIB2</string>
 					<string>453.IBPluginDependency</string>
-					<string>453.ImportedFromIB2</string>
 					<string>459.IBPluginDependency</string>
-					<string>459.ImportedFromIB2</string>
 					<string>460.CustomClassName</string>
 					<string>460.IBPluginDependency</string>
-					<string>460.ImportedFromIB2</string>
 					<string>461.CustomClassName</string>
 					<string>461.IBPluginDependency</string>
-					<string>461.ImportedFromIB2</string>
 					<string>462.CustomClassName</string>
 					<string>462.IBPluginDependency</string>
-					<string>462.ImportedFromIB2</string>
 					<string>475.IBPluginDependency</string>
-					<string>475.ImportedFromIB2</string>
 					<string>477.IBPluginDependency</string>
-					<string>477.ImportedFromIB2</string>
 					<string>518.IBPluginDependency</string>
-					<string>518.ImportedFromIB2</string>
 					<string>549.IBPluginDependency</string>
-					<string>549.ImportedFromIB2</string>
 					<string>583.IBPluginDependency</string>
-					<string>583.IBViewBoundsToFrameTransform</string>
-					<string>583.ImportedFromIB2</string>
 					<string>617.IBPluginDependency</string>
-					<string>617.ImportedFromIB2</string>
 					<string>626.IBPluginDependency</string>
 					<string>627.IBPluginDependency</string>
 					<string>628.IBPluginDependency</string>
@@ -1767,107 +1723,53 @@
 					<string>653.IBPluginDependency</string>
 					<string>654.IBPluginDependency</string>
 					<string>660.IBPluginDependency</string>
-					<string>660.ImportedFromIB2</string>
 					<string>661.IBPluginDependency</string>
-					<string>661.ImportedFromIB2</string>
 					<string>662.IBPluginDependency</string>
 					<string>663.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>{{105, 503}, {432, 220}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>{{128, 615}, {227, 63}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>{{157, 348}, {375, 214}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>AILocalizationTextField</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>AILocalizationTextField</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>NSSecureTextField</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDDAAAwbAAAA</bytes>
-					</object>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1897,9 +1799,13 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -2457,10 +2363,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
 		</object>
