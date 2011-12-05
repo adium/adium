@@ -15,7 +15,6 @@
  */
 
 #import "AIStandardListScrollView.h"
-#import "AIApplicationAdditions.h"
 #import <AIUtilities/AIApplicationAdditions.h>
 
 @implementation AIStandardListScrollView
