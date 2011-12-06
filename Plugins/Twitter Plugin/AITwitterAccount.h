@@ -118,6 +118,7 @@ typedef enum {
 #define TWITTER_STATUS_USER					@"user"
 #define TWITTER_STATUS_UID					@"screen_name"
 #define TWITTER_STATUS_TEXT					@"text"
+#define TWITTER_STATUS_RETWEET				@"retweeted_status"
 
 // Direct Messages
 #define TWITTER_DM_ID						@"id"
