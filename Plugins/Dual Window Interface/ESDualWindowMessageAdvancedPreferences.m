@@ -201,22 +201,44 @@
 	NSMenu	*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
 	
 	//Generate all the available time stamp formats
-    NSDateFormatter	*noSecondsNoAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO];
-    NSDateFormatter	*noSecondsAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:YES];
-    NSDateFormatter	*secondsNoAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:NO];
-    NSDateFormatter	*secondsAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES];
+//    NSDateFormatter	*noSecondsNoAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO];
+//    NSDateFormatter	*noSecondsAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:YES];
+//    NSDateFormatter	*secondsNoAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:NO];
+//    NSDateFormatter	*secondsAMPM = [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES];
 	
 	//If there is no difference between the time stamp with AM/PM and the one without, the localized time stamp must
 	//not include AM/PM.  Since these menu items would appear as duplicates we exclude them.
-    NSString	*sampleStampA = [noSecondsAMPM stringForObjectValue:[NSDate date]];
-	NSString	*sampleStampB = [noSecondsNoAMPM stringForObjectValue:[NSDate date]];
+	
+    __block NSString	*sampleStampA, *sampleStampB;
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *noSecondsAMPM){
+		sampleStampA = [[noSecondsAMPM stringForObjectValue:[NSDate date]] retain];
+	}];
+	[sampleStampA autorelease];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *noSecondsNoAMPM){
+		sampleStampB = [[noSecondsNoAMPM stringForObjectValue:[NSDate date]] retain];
+	}];
+	[sampleStampB autorelease];
+	
 	BOOL		noAMPM = [sampleStampA isEqualToString:sampleStampB];
 	
 	//Build the menu from the available formats
-	[self _addTimeStampChoice:noSecondsNoAMPM toMenu:menu];
-	if (!noAMPM) [self _addTimeStampChoice:noSecondsAMPM toMenu:menu];
-	[self _addTimeStampChoice:secondsNoAMPM toMenu:menu];
-	if (!noAMPM) [self _addTimeStampChoice:secondsAMPM toMenu:menu];
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *noSecondsNoAMPM){
+		[self _addTimeStampChoice:noSecondsNoAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *noSecondsAMPM){
+		if (!noAMPM) [self _addTimeStampChoice:noSecondsAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *secondsNoAMPM){
+		[self _addTimeStampChoice:secondsNoAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *secondsAMPM){
+		if (!noAMPM) [self _addTimeStampChoice:secondsAMPM toMenu:menu];
+	}];
 	
 	return menu;
 }

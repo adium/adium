@@ -51,16 +51,21 @@
         NSDate	*signonDate;
 	
         if ([inObject isKindOfClass:[AIListContact class]] &&
-			(signonDate = [(AIListContact *)inObject signonDate])) {            
-            //Create the formatters
-            NSDateFormatter *dayFormatter = [NSDateFormatter localizedShortDateFormatter];
-			
-								NSDateFormatter *timeFormatter = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:YES];
+			(signonDate = [(AIListContact *)inObject signonDate])) {
 
             //Get day & time strings
-            NSString *currentDay = [dayFormatter stringForObjectValue:[NSDate date]];
-            NSString *signonDay = [dayFormatter stringForObjectValue:signonDate];
-            NSString *signonTime = [timeFormatter stringForObjectValue:signonDate];
+			__block NSString *currentDay, *signonDay, *signonTime;
+			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dayFormatter){
+				currentDay = [[dayFormatter stringForObjectValue:[NSDate date]] retain];
+				signonDay = [[dayFormatter stringForObjectValue:signonDate] retain];
+			}];
+			[currentDay autorelease];
+			[signonDay autorelease];
+			
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *timeFormatter){
+				signonTime = [[timeFormatter stringForObjectValue:signonDate] retain];
+			}];
+			[signonTime autorelease];
             
             if ([currentDay isEqualToString:signonDay]) { //Show time
                 entry = [[NSAttributedString alloc] initWithString:signonTime];

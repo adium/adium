@@ -261,9 +261,10 @@
 				
             __block NSString *timestampStr = nil;
 			
-			dispatch_sync(dispatch_get_main_queue(), ^{
-				timestampStr = [[[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] stringFromDate:date] retain];
-			});
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *dateFormatter){
+				timestampStr = [[dateFormatter stringFromDate:date] retain];
+			}];
+			
 				
             [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
                                                                     @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
@@ -305,9 +306,9 @@
             
 			__block NSString *timestampStr = nil;
 			
-			dispatch_sync(dispatch_get_main_queue(), ^{
-				timestampStr = [[[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] stringFromDate:date] retain];
-			});
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *dateFormatter){
+				timestampStr = [[dateFormatter stringFromDate:date] retain];
+			}];
 			
             if([displayMessage length]) {
                 [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:@"<div class=\"status\">%@ (%@)</div>\n",

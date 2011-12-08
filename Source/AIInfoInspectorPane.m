@@ -702,10 +702,12 @@
 				break;				
 			case kABMultiDateProperty:
 				if (innerValue) {
-					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-											 [NSString stringWithFormat:@"%@ (%@)", ABLocalizedPropertyOrLabel(property), label], KEY_KEY,
-											 [[NSDateFormatter localizedDateFormatter] stringFromDate:(NSDate *)innerValue], KEY_VALUE,
-											 nil]];
+					[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+						[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+												 [NSString stringWithFormat:@"%@ (%@)", ABLocalizedPropertyOrLabel(property), label], KEY_KEY,
+												 [dateFormatter stringFromDate:(NSDate *)innerValue], KEY_VALUE,
+												 nil]];
+					}];
 				}
 				break;
 			case kABMultiArrayProperty:
@@ -798,10 +800,12 @@
 					}
 				case kABDateProperty:
 					if (value) {
-						[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-												 ABLocalizedPropertyOrLabel(property), KEY_KEY,
-												 [[NSDateFormatter localizedDateFormatter] stringFromDate:(NSDate *)value], KEY_VALUE,
-												 nil]];
+						[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+							[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+													 ABLocalizedPropertyOrLabel(property), KEY_KEY,
+													 [dateFormatter stringFromDate:(NSDate *)value], KEY_VALUE,
+													 nil]];
+						}];
 					}
 				case kABArrayProperty:
 				case kABDictionaryProperty:

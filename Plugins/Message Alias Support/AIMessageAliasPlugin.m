@@ -172,8 +172,11 @@
 	//Current Date
 	if ([self string:str containsValidKeyword:@"%d"]) {
 		NSCalendarDate	*currentDate = [NSCalendarDate calendarDate];
-		NSDateFormatter *dateFormatter = [NSDateFormatter localizedShortDateFormatter];
-		NSString *calendarFormat = [dateFormatter dateFormat];
+		__block NSString *calendarFormat;
+		[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+			calendarFormat = [[dateFormatter dateFormat] retain];
+		}];
+		[calendarFormat autorelease];
 
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
 		
@@ -186,15 +189,15 @@
 	//Current Time
 	if ([self string:str containsValidKeyword:@"%t"]) {
 		NSCalendarDate 	*currentDate = [NSCalendarDate calendarDate];
-		NSDateFormatter		*localDateFormatter = [NSDateFormatter localizedDateFormatterShowingSeconds:YES
-																						  showingAMorPM:YES];
 		
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
 
-		[newAttributedString replaceOccurrencesOfString:@"%t"
-											 withString:[localDateFormatter stringFromDate:currentDate]
-												options:NSLiteralSearch
-												  range:NSMakeRange(0, [newAttributedString length])];
+		[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *localDateFormatter){
+			[newAttributedString replaceOccurrencesOfString:@"%t"
+												 withString:[localDateFormatter stringFromDate:currentDate]
+													options:NSLiteralSearch
+													  range:NSMakeRange(0, [newAttributedString length])];
+		}];
 	}
 	
 	return newAttributedString;
