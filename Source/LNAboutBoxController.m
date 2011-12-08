@@ -123,8 +123,13 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 - (NSString *)AI_applicationDate
 {
 	NSTimeInterval date = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildDate"] doubleValue];
-
-	return [[NSDateFormatter localizedShortDateFormatter] stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]];
+	__block NSString *ret;
+	
+	[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *shortDateFormatter){
+		ret = [[shortDateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]] retain];
+	}];
+	
+	return [ret autorelease];
 }
 
 #pragma mark Software License

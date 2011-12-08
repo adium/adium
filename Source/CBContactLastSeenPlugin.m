@@ -125,9 +125,11 @@
 			
 			sinceDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 			[sinceDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-			[sinceDateFormatter setDateFormat:[NSString stringWithFormat:@"%@, %@",
-											   [[NSDateFormatter localizedShortDateFormatter] dateFormat],
-											   [NSDateFormatter localizedDateFormatStringShowingSeconds:NO showingAMorPM:YES]]];
+			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+				[sinceDateFormatter setDateFormat:[NSString stringWithFormat:@"%@, %@",
+												   [dateFormatter dateFormat],
+												   [NSDateFormatter localizedDateFormatStringShowingSeconds:NO showingAMorPM:YES]]];
+			}];
 			
 			//stringForTimeIntervalSinceDate may return @"" if it's too short of an interval.
 			timeElapsed = [NSDateFormatter stringForTimeIntervalSinceDate:lastSeenDate showingSeconds:NO abbreviated:NO];

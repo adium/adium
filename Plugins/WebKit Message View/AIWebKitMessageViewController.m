@@ -673,7 +673,11 @@ static NSArray *draggedTypes = nil;
 	if ((!previousContent && [content isKindOfClass:[AIContentContext class]]) ||
 	   (![content isFromSameDayAsContent:previousContent])) {
 		
-		NSString *dateMessage = [[NSDateFormatter localizedDateFormatter] stringFromDate:content.date];
+		__block NSString *dateMessage;
+		[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+			dateMessage = [[dateFormatter stringFromDate:content.date] retain];
+		}];
+		[dateMessage autorelease];
 		
 		dateSeparator = [AIContentEvent statusInChat:content.chat
 										  withSource:content.chat.listObject

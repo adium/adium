@@ -112,10 +112,57 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 }
 @end
 
+@interface NSDateFormatter (PRIVATE)
++ (NSDateFormatter *)localizedDateFormatter;
++ (NSDateFormatter *)localizedShortDateFormatter;
++ (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
+@end
+
 @implementation NSDateFormatter (AIDateFormatterAdditions)
+
++ (dispatch_queue_t)localizedFormatterQueue
+{
+	static dispatch_once_t onceToken;
+	static dispatch_queue_t localizedFormatterQueue;
+	dispatch_once(&onceToken, ^{
+		localizedFormatterQueue = dispatch_queue_create("im.adium.LocalizedDateFormatterQueue", NULL);
+	});
+	
+	return localizedFormatterQueue;
+}
+
++ (void)withLocalizedDateFormatterPerform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedDateFormatter]);
+	});
+}
+
++ (void)withLocalizedShortDateFormatterPerform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedShortDateFormatter]);
+	});
+}
+
++ (void)withLocalizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm perform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedDateFormatterShowingSeconds:seconds showingAMorPM:showAmPm]);
+	});
+}
+
 
 + (NSDateFormatter *)localizedDateFormatter
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	// Thursday, July 31, 2008
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatter];
 	
@@ -131,6 +178,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSDateFormatter *)localizedShortDateFormatter
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	// 7/31/08
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] shortFormatter];
 	
@@ -146,6 +195,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
 
 	if (!(*cachePointer)) {
@@ -157,6 +208,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSString *)localizedDateFormatStringShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	NSString *formatString;
 	
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];

@@ -243,8 +243,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		sortDirection = YES;
 		searchMode = LOG_SEARCH_CONTENT;
 
-		headerDateFormatter = [[NSDateFormatter localizedDateFormatter] retain];
-
 		currentSearchResults = [[NSMutableArray alloc] init];
 		logFromGroupDict = [[NSMutableDictionary alloc] init];
 		toArray = [[NSMutableArray alloc] init];
@@ -271,7 +269,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[toArray release];
 	[currentSearchResults release];
 	[selectedColumn release];
-	[headerDateFormatter release];
 	[displayedLogArray release];
 	[blankImage release];
 	[activeSearchString release];
@@ -758,13 +755,15 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 				horizontalRule = [[NSString alloc] initWithCharacters:separatorUTF16 length:HORIZONTAL_RULE_LENGTH];
 			}	
 			
-			[displayText appendString:[NSString stringWithFormat:@"%@%@\n%@ - %@\n%@\n\n",
-				(appendedFirstLog ? @"\n" : @""),
-				horizontalRule,
-				[headerDateFormatter stringFromDate:[theLog date]],
-				[theLog to],
-				horizontalRule]
-					   withAttributes:[[AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:NSBoldFontMask size:12] dictionary]];
+			[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *headerDateFormatter){
+				[displayText appendString:[NSString stringWithFormat:@"%@%@\n%@ - %@\n%@\n\n",
+										   (appendedFirstLog ? @"\n" : @""),
+										   horizontalRule,
+										   [headerDateFormatter stringFromDate:[theLog date]],
+										   [theLog to],
+										   horizontalRule]
+						   withAttributes:[[AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:NSBoldFontMask size:12] dictionary]];
+			}];
 		}
 		
 		if ([[theLog relativePath] hasSuffix:@".AdiumHTMLLog"] || [[theLog relativePath] hasSuffix:@".html"] || [[theLog relativePath] hasSuffix:@".html.bak"]) {
