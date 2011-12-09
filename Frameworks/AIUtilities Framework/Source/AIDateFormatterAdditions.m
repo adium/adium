@@ -30,6 +30,13 @@
 #define ONE_SECOND AILocalizedStringFromTableInBundle(@"1 second", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)
 #define MULTIPLE_SECONDS AILocalizedStringFromTableInBundle(@"%1.0lf seconds", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)
 
+@interface NSDateFormatter (PRIVATE)
++ (NSDateFormatter *)localizedDateFormatter;
++ (NSDateFormatter *)localizedShortDateFormatter;
++ (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
++ (dispatch_queue_t)localizedFormatterQueue;
+@end
+
 typedef enum {
     NONE,
     SECONDS,
@@ -72,6 +79,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (AIDateFormatterCache *)sharedInstance
 {
+	NSAssert(dispatch_get_current_queue() == [NSDateFormatter localizedFormatterQueue], @"Wrong queue");
+	
 	if (!sharedFormatterCache)
 		sharedFormatterCache = [[AIDateFormatterCache alloc] init];
 	return sharedFormatterCache;
@@ -110,12 +119,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	[localizedDateFormatterShowingNoSecondsOrAMPM release];
 	[super dealloc];
 }
-@end
-
-@interface NSDateFormatter (PRIVATE)
-+ (NSDateFormatter *)localizedDateFormatter;
-+ (NSDateFormatter *)localizedShortDateFormatter;
-+ (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
 @end
 
 @implementation NSDateFormatter (AIDateFormatterAdditions)
@@ -211,43 +214,43 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
 	__block NSString *formatString;
 	
-	dispatch_sync(localizedFormatterQueue, ^{
-		
-		NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
-		
-		BOOL setFormat = NO;
-		
-		if (!(*cachePointer)) {
-			// Get the current time format string
-			*cachePointer = [[NSDateFormatter alloc] init];
-			[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
-			[*cachePointer setDateStyle:NSDateFormatterNoStyle];
-			[*cachePointer setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
-			
-			setFormat = YES;
-		}
-		
-		if(!showAmPm) {
-			NSMutableString *newFormat = [[NSMutableString alloc] initWithString:[*cachePointer dateFormat]];
-			[newFormat replaceOccurrencesOfString:@"a"
-									   withString:@""
-										  options:NSBackwardsSearch | NSLiteralSearch
-											range:NSMakeRange(0,[newFormat length])];
-			
-			formatString = [newFormat autorelease];
-		} else {
-			formatString = [*cachePointer dateFormat];
-		}
-		
-		formatString = [formatString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-		
-		if (setFormat)
-			[*cachePointer setDateFormat:formatString];
-		
-		[formatString retain];
-	});
+	if (dispatch_get_current_queue() != localizedFormatterQueue) {
+		dispatch_sync(localizedFormatterQueue, ^{
+			formatString = [[self localizedDateFormatStringShowingSeconds:YES showingAMorPM:NO] retain];
+		});
+		return [formatString autorelease];
+	}
 	
-	[formatString autorelease];
+	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
+	
+	BOOL setFormat = NO;
+	
+	if (!(*cachePointer)) {
+		// Get the current time format string
+		*cachePointer = [[NSDateFormatter alloc] init];
+		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[*cachePointer setDateStyle:NSDateFormatterNoStyle];
+		[*cachePointer setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
+		
+		setFormat = YES;
+	}
+	
+	if(!showAmPm) {
+		NSMutableString *newFormat = [[NSMutableString alloc] initWithString:[*cachePointer dateFormat]];
+		[newFormat replaceOccurrencesOfString:@"a"
+								   withString:@""
+									  options:NSBackwardsSearch | NSLiteralSearch
+										range:NSMakeRange(0,[newFormat length])];
+		
+		formatString = [newFormat autorelease];
+	} else {
+		formatString = [*cachePointer dateFormat];
+	}
+	
+	formatString = [formatString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	if (setFormat)
+		[*cachePointer setDateFormat:formatString];
 		
 	return formatString;
 }
