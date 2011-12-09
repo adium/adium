@@ -924,7 +924,6 @@
 		34DC8ADC0A7EEEF7003E1636 /* AIContextMenuTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1E8176063A3EEC00EB00F7 /* AIContextMenuTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8ADD0A7EEEF7003E1636 /* AIContextMenuTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1E8177063A3EEC00EB00F7 /* AIContextMenuTextView.m */; };
 		34DC8AE00A7EEEF7003E1636 /* AIMessageEntryTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B5827E80613CE9D0004BD25 /* AIMessageEntryTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34DC8AE10A7EEEF7003E1636 /* AIMessageEntryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5827E90613CE9D0004BD25 /* AIMessageEntryTextView.m */; };
 		34DC8AE40A7EEEF7003E1636 /* stackImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 349DDD5206406A7D00542726 /* stackImage.png */; };
 		34DC8AE50A7EEEF7003E1636 /* AILocalizationAssistance.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D189B1076131850075A380 /* AILocalizationAssistance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8AE70A7EEEF7003E1636 /* AILocalizationButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 078C5CD0079EFF87004C75A4 /* AILocalizationButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1442,6 +1441,11 @@
 		9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9718DF43136A2C5200013760 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9718DF44136A2C5200013760 /* AIImageCollectionView.m */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
+		97483A011486DD87002D1FA8 /* AIMessageEntryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5827E90613CE9D0004BD25 /* AIMessageEntryTextView.m */; };
+		97483A051486E92C002D1FA8 /* AIMessageViewEmoticonsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97483A061486E93E002D1FA8 /* AIMessageViewEmoticonsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */; };
+		974ECFA614896D900026659E /* emoticons_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 974C7524148570E2000686BA /* emoticons_menu.png */; };
+		974ECFA714896D9E0026659E /* MessageViewEmoticonsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */; };
 		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
@@ -4604,6 +4608,10 @@
 		9718DF43136A2C5200013760 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.h"; sourceTree = "<group>"; };
 		9718DF44136A2C5200013760 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.m"; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
+		974C7524148570E2000686BA /* emoticons_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emoticons_menu.png; path = Resources/emoticons_menu.png; sourceTree = "<group>"; };
+		974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageViewEmoticonsMenu.xib; path = Resources/MessageViewEmoticonsMenu.xib; sourceTree = "<group>"; };
+		974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewEmoticonsController.h; path = Source/AIMessageViewEmoticonsController.h; sourceTree = "<group>"; };
+		974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewEmoticonsController.m; path = Source/AIMessageViewEmoticonsController.m; sourceTree = "<group>"; };
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
 		97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactListUserPictureMenuController.m; path = Source/AIContactListUserPictureMenuController.m; sourceTree = "<group>"; };
@@ -4981,6 +4989,12 @@
 		11C157D504A88DE0008E0C76 /* Emoticons */ = {
 			isa = PBXGroup;
 			children = (
+				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
+				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
+				974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */,
+				974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */,
+				974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */,
+				974C7524148570E2000686BA /* emoticons_menu.png */,
 				C4243C920638E4EA007AD2D9 /* BGEmoticonMenuPlugin.h */,
 				C4243C930638E4EA007AD2D9 /* BGEmoticonMenuPlugin.m */,
 			);
@@ -5859,8 +5873,6 @@
 				34B82C80085A85D800864531 /* AIChatController.m */,
 				F55B415C03AB8B5601A8010A /* AIContentController.h */,
 				F55B415D03AB8B5601A8010A /* AIContentController.m */,
-				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
-				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
 				34CA15520CAFDFB2009AA5E3 /* sidebarActionWidget.png */,
 				34A9707D0C96602200F46006 /* sidebarStatusAreaBackground.png */,
 				9E4CF9D104AA69B000415B22 /* Action Support */,
@@ -9038,6 +9050,7 @@
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
+				97483A051486E92C002D1FA8 /* AIMessageViewEmoticonsController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9777,6 +9790,8 @@
 				1199AB0610BE13E600646322 /* Authorize.tiff in Resources */,
 				1199AB0710BE13E600646322 /* Deny.tiff in Resources */,
 				1199AB0810BE13E600646322 /* Ignore.tiff in Resources */,
+				974ECFA614896D900026659E /* emoticons_menu.png in Resources */,
+				974ECFA714896D9E0026659E /* MessageViewEmoticonsMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10469,7 +10484,6 @@
 				34DC8AD80A7EEEF7003E1636 /* DCJoinChatWindowController.m in Sources */,
 				34DC8ADB0A7EEEF7003E1636 /* AIAccountPlusFieldPromptController.m in Sources */,
 				34DC8ADD0A7EEEF7003E1636 /* AIContextMenuTextView.m in Sources */,
-				34DC8AE10A7EEEF7003E1636 /* AIMessageEntryTextView.m in Sources */,
 				34DC8AE80A7EEEF7003E1636 /* AILocalizationButtonCell.m in Sources */,
 				34DC8AEA0A7EEEF7003E1636 /* AILocalizationTextField.m in Sources */,
 				34DC8AEC0A7EEEF7003E1636 /* AILocalizationButton.m in Sources */,
@@ -10506,6 +10520,8 @@
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
+				97483A011486DD87002D1FA8 /* AIMessageEntryTextView.m in Sources */,
+				97483A061486E93E002D1FA8 /* AIMessageViewEmoticonsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
