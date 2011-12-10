@@ -1791,7 +1791,7 @@
 		
 		// Adjust image for On/Alternate state
 		[emoticonsMenuIcon lockFocus];		
-		[emoticonsMenuIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositePlusDarker fraction:1.0f];
+		[emoticonsMenuIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositePlusDarker fraction:0.5f];
 		[emoticonsMenuIcon unlockFocus];
 		
 		[emoticonsMenuButton setAlternateImage:emoticonsMenuIcon];
