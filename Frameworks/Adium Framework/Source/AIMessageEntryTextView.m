@@ -1782,14 +1782,21 @@
 		
 		[emoticonsMenuButton setFrameSize:[emoticonsMenuIcon size]];
 		[emoticonsMenuButton setAutoresizingMask:NSViewMinXMargin];
-        [emoticonsMenuButton setButtonType:NSMomentaryPushInButton];
+        [emoticonsMenuButton setButtonType:NSMomentaryChangeButton];
         [emoticonsMenuButton setBordered:NO];
-        [emoticonsMenuButton setImage:emoticonsMenuIcon], [emoticonsMenuIcon release];
-        [[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];
-		[[emoticonsMenuButton cell] setHighlightsBy:NSNoCellMask];
-        [[emoticonsMenuButton cell] setShowsStateBy:NSNoCellMask];
+		[emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
+		[[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];
+
+		[emoticonsMenuButton setImage:[emoticonsMenuIcon copy]];
 		
-        [emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
+		// Adjust image for On/Alternate state
+		[emoticonsMenuIcon lockFocus];		
+		[emoticonsMenuIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositePlusDarker fraction:1.0f];
+		[emoticonsMenuIcon unlockFocus];
+		
+		[emoticonsMenuButton setAlternateImage:emoticonsMenuIcon];
+		
+		[emoticonsMenuIcon release];
 
 		// Register for notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:)
