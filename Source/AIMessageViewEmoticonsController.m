@@ -187,12 +187,13 @@
 		/*[menu popUpMenuPositioningItem:[menu itemAtIndex:0]
 							atLocation:NSMakePoint([aView frame].size.width - [menu size].width - 5.0f, -[menu size].height)
 								inView:[aView superview]];*/
-		//[aView bounds].size.width - [menu size].width - 5.0f, [aView bounds].size.height - [menu size].height
+		//[aView bounds].size.width - [menu size].width - 5.0f, [aView bounds].size.height - [menu size].height		
+		//([menu numberOfItems] - 1)
 		
 		// Adjust opening position
 		aPoint.x -= [menu size].width;
-		
-		[menu popUpMenuPositioningItem:[menu itemAtIndex:([menu numberOfItems] - 1)]
+
+		[menu popUpMenuPositioningItem:[menu itemAtIndex:0]
 							atLocation:aPoint
 								inView:[aView superview]];
 	}

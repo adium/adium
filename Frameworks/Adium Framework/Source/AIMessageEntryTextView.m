@@ -1873,7 +1873,7 @@
     if ([self hasEmoticonsMenu]) {
 		NSRect menuButtonRect = [[self emoticonsMenuButton] frame];
 
-    	[AIMessageViewEmoticonsController popUpMenuForTextView:self atPoint:NSMakePoint(menuButtonRect.origin.x + menuButtonRect.size.width - INDICATOR_RIGHT_PADDING, menuButtonRect.origin.y - menuButtonRect.size.height + 2.0f)];
+    	[AIMessageViewEmoticonsController popUpMenuForTextView:self atPoint:NSMakePoint(menuButtonRect.origin.x + menuButtonRect.size.width - INDICATOR_RIGHT_PADDING, menuButtonRect.origin.y + menuButtonRect.size.height)];
     }
 }
 
