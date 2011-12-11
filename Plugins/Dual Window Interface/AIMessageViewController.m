@@ -797,6 +797,13 @@
 											   object:textView_outgoing];
 
 	[self _updateTextEntryViewHeight];
+	
+	// Disable elastic scroll
+	// Remove the check on 10.7+
+	// Not sure why it won't work in AIMessageEntryTextView
+	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
+	}
 }
 
 /*!
