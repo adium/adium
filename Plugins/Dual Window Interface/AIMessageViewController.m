@@ -800,6 +800,13 @@
 
 	[self _updateTextEntryViewHeight];
 	
+	// Disable elastic scroll
+	// Remove the check on 10.7+
+	// Not sure why it won't work in AIMessageEntryTextView
+	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
+	}
+	
 	// Enable emoticons menu
 	// This should be after all frame/bounds setups, or it will fail to display correctly
 	[textView_outgoing setHasEmoticonsMenu:YES];
