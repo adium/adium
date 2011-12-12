@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1050</int>
+		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1138.23</string>
@@ -324,7 +324,6 @@
 										<string key="NSFrame">{{92, 14}, {100, 17}}</string>
 										<reference key="NSSuperview" ref="898224987"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTokenFieldCell" key="NSCell" id="514257890">
 											<int key="NSCellFlags">69336641</int>
@@ -1022,6 +1021,14 @@
 					<int key="connectionID">458</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">label_itunesStatusFormat</string>
+						<reference key="source" ref="87627225"/>
+						<reference key="destination" ref="69975343"/>
+					</object>
+					<int key="connectionID">459</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: adium.preferenceController.Status Preferences.Status Window Always On Top</string>
 						<reference key="source" ref="407981218"/>
@@ -1468,7 +1475,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">458</int>
+			<int key="maxID">459</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1597,6 +1604,7 @@
 						<string key="label_composer">AILocalizationTextField</string>
 						<string key="label_genre">AILocalizationTextField</string>
 						<string key="label_instructions">AILocalizationTextField</string>
+						<string key="label_itunesStatusFormat">NSTextField</string>
 						<string key="label_status">AILocalizationTextField</string>
 						<string key="label_statusWindow">NSTextField</string>
 						<string key="label_title">AILocalizationTextField</string>
@@ -1642,6 +1650,10 @@
 						<object class="IBToOneOutletInfo" key="label_instructions">
 							<string key="name">label_instructions</string>
 							<string key="candidateClassName">AILocalizationTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_itunesStatusFormat">
+							<string key="name">label_itunesStatusFormat</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="label_status">
 							<string key="name">label_status</string>
@@ -1703,11 +1715,15 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1060" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
+			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
