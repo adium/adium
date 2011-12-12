@@ -25,6 +25,7 @@
 
 	IBOutlet	NSBox						*box_itunesElements;
 
+	IBOutlet	NSTextField *label_itunesStatusFormat;
 	IBOutlet	AILocalizationTextField		*label_instructions;
 	IBOutlet	AILocalizationTextField		*label_album;
 	IBOutlet	AILocalizationTextField		*label_artist;

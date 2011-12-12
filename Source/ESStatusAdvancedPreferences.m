@@ -50,9 +50,10 @@
 	[label_statusWindow setLocalizedString:AILocalizedString(@"Away Status Window", nil)];
 	[checkBox_statusWindowHideInBackground setLocalizedString:AILocalizedString(@"Hide the status window when Adium is not active", nil)];
 	[checkBox_statusWindowAlwaysOnTop setLocalizedString:AILocalizedString(@"Show the status window above other windows", nil)];
-	
+
+	[label_itunesStatusFormat setLocalizedString:AILocalizedString(@"iTunes Status Format", nil)];
 	[box_itunesElements setTitle:AILocalizedString(@"iTunes Elements", nil)];
-	
+
 	[label_instructions setLocalizedString:AILocalizedString(@"Type text and drag iTunes elements to create a custom format.", nil)];
 	[label_album setLocalizedString:AILocalizedString(@"Album", nil)];
 	[label_artist setLocalizedString:AILocalizedString(@"Artist", nil)];
@@ -129,19 +130,19 @@
 - (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
 {
 	if ([representedObject isEqualToString:ALBUM_TRIGGER]) {
-		return @"Let It Be";
+		return AILocalizedString(@"Let It Be", @"Example for album title");
 	} else if ([representedObject isEqualToString:ARTIST_TRIGGER]) {
-		return @"The Beatles";
+		return AILocalizedString(@"The Beatles", @"Example for song artist");
 	} else if ([representedObject isEqualToString:COMPOSER_TRIGGER]) {
-		return @"Harrison";
+		return AILocalizedString(@"Harrison", @"Example for song composer");
 	} else if ([representedObject isEqualToString:GENRE_TRIGGER]) {
-		return @"Rock";
+		return AILocalizedString(@"Rock", @"Example for song genre");
 	} else if ([representedObject isEqualToString:STATUS_TRIGGER]) {
-		return AILocalizedString(@"Paused", nil);
+		return AILocalizedString(@"Paused", @"Example for music players' status (e.g. playing, paused)");
 	} else if ([representedObject isEqualToString:TRACK_TRIGGER]) {
-		return @"I Me Mine";
+		return AILocalizedString(@"I Me Mine", @"Example for song title");
 	} else if ([representedObject isEqualToString:YEAR_TRIGGER]) {
-		return @"1970";
+		return AILocalizedString(@"1970", @"Example for a songs debut-year");
 	} else {
 		return nil;
 	}
