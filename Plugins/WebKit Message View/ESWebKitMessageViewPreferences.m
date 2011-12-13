@@ -121,6 +121,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[previewListObjectsDict release]; previewListObjectsDict = nil;
 
+	[previewController messageViewIsClosing];
 	[previewController release]; previewController = nil;
 	[view_previewLocation setFrame:[preview frame]];
 	[[preview superview] replaceSubview:preview with:view_previewLocation];	
