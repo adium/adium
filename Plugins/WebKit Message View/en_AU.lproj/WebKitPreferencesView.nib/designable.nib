@@ -3,14 +3,31 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSMenu</string>
+			<string>NSImageView</string>
+			<string>NSColorWell</string>
+			<string>NSTextField</string>
+			<string>NSTabView</string>
+			<string>NSTabViewItem</string>
+			<string>NSPopUpButton</string>
+			<string>NSCustomObject</string>
+			<string>NSMenuItem</string>
+			<string>NSCustomView</string>
+			<string>NSButton</string>
+			<string>NSView</string>
+			<string>NSButtonCell</string>
+			<string>NSImageCell</string>
+			<string>NSTextFieldCell</string>
+			<string>NSPopUpButtonCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -105,7 +122,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="536414845">
@@ -315,7 +332,7 @@
 						<object class="NSButtonCell" key="NSCell" id="995001305">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Show received message colors</string>
+							<string key="NSContents">Show received message colours</string>
 							<reference key="NSSupport" ref="1056328391"/>
 							<reference key="NSControlView" ref="975194271"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -481,7 +498,7 @@
 							<reference key="NSBackgroundColor" ref="1045097648"/>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MC4yNTQwMzIyNQA</bytes>
+								<bytes key="NSWhite">MC4yNTQwMzIyNTQyAA</bytes>
 							</object>
 						</object>
 					</object>
@@ -494,13 +511,13 @@
 						<object class="NSTextFieldCell" key="NSCell" id="481087974">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Message background colors are not supported by all styles</string>
+							<string key="NSContents">Message background colours are not supported by all styles</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="731704259"/>
 							<reference key="NSBackgroundColor" ref="1045097648"/>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MC4yNTQwMzIyNQA</bytes>
+								<bytes key="NSWhite">MC4yNTQwMzIyNTQyAA</bytes>
 							</object>
 						</object>
 					</object>
@@ -518,7 +535,7 @@
 						<bool key="NSIsBordered">YES</bool>
 						<object class="NSColor" key="NSColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4wNTgxMzA0OTkgMC4wNTU1NDE4OTkgMQA</bytes>
+							<bytes key="NSRGB">MC4wNTgxMzA0OTg5OCAwLjA1NTU0MTg5OTA2IDEAA</bytes>
 						</object>
 					</object>
 					<object class="NSTextField" id="857269868">
@@ -530,7 +547,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="916691600">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Color:</string>
+							<string key="NSContents">Colour:</string>
 							<reference key="NSSupport" ref="1056328391"/>
 							<reference key="NSControlView" ref="857269868"/>
 							<reference key="NSBackgroundColor" ref="1045097648"/>
@@ -647,38 +664,6 @@
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">chooseFontWithFontPanel:</string>
-						<reference key="source" ref="5205339"/>
-						<reference key="destination" ref="222855123"/>
-					</object>
-					<int key="connectionID">89</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="5205339"/>
-						<reference key="destination" ref="731023236"/>
-					</object>
-					<int key="connectionID">90</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="659843652"/>
-						<reference key="destination" ref="222855123"/>
-					</object>
-					<int key="connectionID">124</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="141566371"/>
-						<reference key="destination" ref="731023236"/>
-					</object>
-					<int key="connectionID">241</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
@@ -889,14 +874,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="1040236836"/>
-						<reference key="destination" ref="731023236"/>
-					</object>
-					<int key="connectionID">310</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">checkBox_useRegularChatForGroup</string>
 						<reference key="source" ref="731023236"/>
 						<reference key="destination" ref="1032587190"/>
@@ -926,6 +903,46 @@
 						<reference key="destination" ref="738814341"/>
 					</object>
 					<int key="connectionID">370</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">chooseFontWithFontPanel:</string>
+						<reference key="source" ref="5205339"/>
+						<reference key="destination" ref="222855123"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="5205339"/>
+						<reference key="destination" ref="731023236"/>
+					</object>
+					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="659843652"/>
+						<reference key="destination" ref="222855123"/>
+					</object>
+					<int key="connectionID">124</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="141566371"/>
+						<reference key="destination" ref="731023236"/>
+					</object>
+					<int key="connectionID">241</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1040236836"/>
+						<reference key="destination" ref="731023236"/>
+					</object>
+					<int key="connectionID">310</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1644,7 +1661,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

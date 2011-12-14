@@ -3,14 +3,29 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSMenu</string>
+			<string>NSTextField</string>
+			<string>NSCustomObject</string>
+			<string>NSPopUpButton</string>
+			<string>NSBox</string>
+			<string>NSMenuItem</string>
+			<string>NSCustomView</string>
+			<string>NSButton</string>
+			<string>NSButtonCell</string>
+			<string>NSSliderCell</string>
+			<string>NSView</string>
+			<string>NSTextFieldCell</string>
+			<string>NSSlider</string>
+			<string>NSPopUpButtonCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -54,7 +69,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="922661835">
@@ -303,7 +318,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="641630185">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Color Theme:</string>
+							<string key="NSContents">Colour Theme:</string>
 							<reference key="NSSupport" ref="980707257"/>
 							<reference key="NSControlView" ref="1067305667"/>
 							<reference key="NSBackgroundColor" ref="990996322"/>
@@ -403,6 +418,10 @@
 							<reference key="NSControlView" ref="663923407"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
+							<object class="NSCustomResource" key="NSNormalImage" id="500606309">
+								<string key="NSClassName">NSImage</string>
+								<string key="NSResourceName">NSSwitch</string>
+							</object>
 							<object class="NSButtonImageSource" key="NSAlternateImage" id="32008203">
 								<string key="NSImageName">NSSwitch</string>
 							</object>
@@ -426,10 +445,7 @@
 							<reference key="NSControlView" ref="823224372"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
-							<object class="NSCustomResource" key="NSNormalImage">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">NSSwitch</string>
-							</object>
+							<reference key="NSNormalImage" ref="500606309"/>
 							<reference key="NSAlternateImage" ref="32008203"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
@@ -523,7 +539,7 @@
 							</object>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MCAwLjgwMDAwMDAxAA</bytes>
+								<bytes key="NSWhite">MCAwLjgwMDAwMDAxMTkAA</bytes>
 							</object>
 						</object>
 						<int key="NSBorderType">3</int>
@@ -546,7 +562,7 @@
 							<reference key="NSBackgroundColor" ref="990996322"/>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MC4yNTQwMzIyNQA</bytes>
+								<bytes key="NSWhite">MC4yNTQwMzIyNTQyAA</bytes>
 							</object>
 						</object>
 					</object>
@@ -559,7 +575,7 @@
 						<object class="NSButtonCell" key="NSCell" id="718113411">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Customize…</string>
+							<string key="NSContents">Customise...</string>
 							<reference key="NSSupport" ref="980707257"/>
 							<reference key="NSControlView" ref="353172684"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -582,7 +598,7 @@
 						<object class="NSButtonCell" key="NSCell" id="487642296">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Customize…</string>
+							<string key="NSContents">Customise...</string>
 							<reference key="NSSupport" ref="980707257"/>
 							<reference key="NSControlView" ref="482889997"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -691,7 +707,7 @@
 						<object class="NSButtonCell" key="NSCell" id="380838903">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Customize…</string>
+							<string key="NSContents">Customise...</string>
 							<reference key="NSSupport" ref="980707257"/>
 							<reference key="NSControlView" ref="828682514"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -1903,7 +1919,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

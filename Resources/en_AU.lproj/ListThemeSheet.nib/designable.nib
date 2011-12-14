@@ -3,14 +3,32 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1038.36</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSMenu</string>
+			<string>NSWindowTemplate</string>
+			<string>NSTabView</string>
+			<string>NSColorWell</string>
+			<string>NSTabViewItem</string>
+			<string>NSPopUpButton</string>
+			<string>NSCustomObject</string>
+			<string>NSTextField</string>
+			<string>NSCustomView</string>
+			<string>NSButton</string>
+			<string>NSView</string>
+			<string>NSButtonCell</string>
+			<string>NSSliderCell</string>
+			<string>NSMenuItem</string>
+			<string>NSSlider</string>
+			<string>NSTextFieldCell</string>
+			<string>NSPopUpButtonCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -38,7 +56,6 @@
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
-				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{213, 107}</string>
 				<object class="NSView" key="NSWindowView" id="853064382">
 					<nil key="NSNextResponder"/>
@@ -175,6 +192,10 @@
 													<reference key="NSControlView" ref="241142910"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<object class="NSCustomResource" key="NSNormalImage" id="938425274">
+														<string key="NSClassName">NSImage</string>
+														<string key="NSResourceName">NSSwitch</string>
+													</object>
 													<object class="NSButtonImageSource" key="NSAlternateImage" id="981577385">
 														<string key="NSImageName">NSSwitch</string>
 													</object>
@@ -202,7 +223,7 @@
 														<string key="NSColorName">controlColor</string>
 														<object class="NSColor" key="NSColor">
 															<int key="NSColorSpace">3</int>
-															<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+															<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
 														</object>
 													</object>
 													<object class="NSColor" key="NSTextColor" id="520302849">
@@ -307,6 +328,7 @@
 													<reference key="NSControlView" ref="131446658"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -446,6 +468,7 @@
 													<reference key="NSControlView" ref="157745254"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -480,6 +503,7 @@
 													<reference key="NSControlView" ref="363943113"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -501,6 +525,7 @@
 													<reference key="NSControlView" ref="1017225766"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -522,6 +547,7 @@
 													<reference key="NSControlView" ref="920155826"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -613,6 +639,7 @@
 													<reference key="NSControlView" ref="526537120"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -704,6 +731,7 @@
 													<reference key="NSControlView" ref="343694670"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -760,11 +788,12 @@
 												<object class="NSButtonCell" key="NSCell" id="153991530">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">Color backgrounds</string>
+													<string key="NSContents">Colour backgrounds</string>
 													<reference key="NSSupport" ref="194249990"/>
 													<reference key="NSControlView" ref="797349692"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -816,6 +845,7 @@
 													<reference key="NSControlView" ref="440697775"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -889,6 +919,7 @@
 													<reference key="NSControlView" ref="1047560519"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -936,6 +967,7 @@
 													<reference key="NSControlView" ref="364912495"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -971,6 +1003,7 @@
 													<reference key="NSControlView" ref="672994462"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1020,6 +1053,7 @@
 													<reference key="NSControlView" ref="893298209"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1069,6 +1103,7 @@
 													<reference key="NSControlView" ref="606052407"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1145,11 +1180,12 @@
 												<object class="NSButtonCell" key="NSCell" id="176080380">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">Color backgrounds</string>
+													<string key="NSContents">Colour backgrounds</string>
 													<reference key="NSSupport" ref="194249990"/>
 													<reference key="NSControlView" ref="200173955"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1220,7 +1256,7 @@
 												<object class="NSTextFieldCell" key="NSCell" id="1069705975">
 													<int key="NSCellFlags">67239424</int>
 													<int key="NSCellFlags2">4194304</int>
-													<string key="NSContents">Text color</string>
+													<string key="NSContents">Text colour</string>
 													<reference key="NSSupport" ref="194249990"/>
 													<reference key="NSControlView" ref="703248477"/>
 													<reference key="NSBackgroundColor" ref="847333983"/>
@@ -1249,6 +1285,7 @@
 													<reference key="NSControlView" ref="1047506938"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1270,6 +1307,7 @@
 													<reference key="NSControlView" ref="363144328"/>
 													<int key="NSButtonFlags">1211912703</int>
 													<int key="NSButtonFlags2">2</int>
+													<reference key="NSNormalImage" ref="938425274"/>
 													<reference key="NSAlternateImage" ref="981577385"/>
 													<string key="NSAlternateContents"/>
 													<string key="NSKeyEquivalent"/>
@@ -1333,42 +1371,42 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1400, 1050}}</string>
 				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
+				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_online</string>
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="920155826"/>
+						<reference key="destination" ref="129056316"/>
 					</object>
-					<int key="connectionID">74</int>
+					<int key="connectionID">497</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_offline</string>
+						<string key="label">checkBox_groupShadow</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1017225766"/>
+						<reference key="destination" ref="1047506938"/>
 					</object>
-					<int key="connectionID">75</int>
+					<int key="connectionID">521</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_idle</string>
+						<string key="label">checkBox_groupGradient</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="526537120"/>
+						<reference key="destination" ref="363144328"/>
 					</object>
-					<int key="connectionID">78</int>
+					<int key="connectionID">474</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_away</string>
+						<string key="label">checkBox_signedOn</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="363943113"/>
+						<reference key="destination" ref="364912495"/>
 					</object>
-					<int key="connectionID">79</int>
+					<int key="connectionID">476</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1380,99 +1418,51 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_online</string>
+						<string key="label">colorWell_customHighlight</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="229768713"/>
+						<reference key="destination" ref="3815466"/>
 					</object>
-					<int key="connectionID">84</int>
+					<int key="connectionID">536</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_onlineLabel</string>
+						<string key="label">preview_typing</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="24352631"/>
+						<reference key="destination" ref="343854934"/>
 					</object>
-					<int key="connectionID">85</int>
+					<int key="connectionID">494</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="66225081"/>
+					</object>
+					<int key="connectionID">498</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="131446658"/>
+					</object>
+					<int key="connectionID">499</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="200173955"/>
+					</object>
+					<int key="connectionID">512</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_offline</string>
+						<string key="label">checkBox_offline</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="809088815"/>
+						<reference key="destination" ref="1017225766"/>
 					</object>
-					<int key="connectionID">86</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_offlineLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="330209310"/>
-					</object>
-					<int key="connectionID">87</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_idle</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="910265687"/>
-					</object>
-					<int key="connectionID">92</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_idleLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="651930294"/>
-					</object>
-					<int key="connectionID">93</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_away</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="714615049"/>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_awayLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="574703756"/>
-					</object>
-					<int key="connectionID">95</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_idleAndAway</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="144721629"/>
-					</object>
-					<int key="connectionID">96</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_idleAndAwayLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="223969336"/>
-					</object>
-					<int key="connectionID">97</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="987389940"/>
-					</object>
-					<int key="connectionID">102</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="987389940"/>
-						<reference key="destination" ref="494589986"/>
-					</object>
-					<int key="connectionID">103</int>
+					<int key="connectionID">75</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1483,92 +1473,124 @@
 					<int key="connectionID">128</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">cancel:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_signedOff</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="97004105"/>
+						<reference key="destination" ref="299575962"/>
 					</object>
-					<int key="connectionID">129</int>
+					<int key="connectionID">493</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="920155826"/>
+						<reference key="destination" ref="797349692"/>
 					</object>
-					<int key="connectionID">182</int>
+					<int key="connectionID">376</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_signedOffLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="207619219"/>
+					</object>
+					<int key="connectionID">485</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_idleAndAwayLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="223969336"/>
+					</object>
+					<int key="connectionID">97</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1017225766"/>
+						<reference key="destination" ref="574703756"/>
 					</object>
-					<int key="connectionID">183</int>
+					<int key="connectionID">314</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_signedOff</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="571559334"/>
+					</object>
+					<int key="connectionID">484</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_idle</string>
 						<reference key="source" ref="494589986"/>
 						<reference key="destination" ref="526537120"/>
 					</object>
-					<int key="connectionID">186</int>
+					<int key="connectionID">78</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="363943113"/>
+						<reference key="destination" ref="672994462"/>
 					</object>
-					<int key="connectionID">187</int>
+					<int key="connectionID">503</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="343694670"/>
+						<reference key="destination" ref="591716102"/>
 					</object>
-					<int key="connectionID">188</int>
+					<int key="connectionID">211</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_useBackgroundImage</string>
+						<string key="label">checkBox_online</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="241142910"/>
+						<reference key="destination" ref="920155826"/>
 					</object>
-					<int key="connectionID">195</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">button_setBackgroundImage</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="699177765"/>
-					</object>
-					<int key="connectionID">196</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textField_backgroundImagePath</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="855605506"/>
-					</object>
-					<int key="connectionID">197</int>
+					<int key="connectionID">74</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="241142910"/>
+						<reference key="destination" ref="167451279"/>
 					</object>
-					<int key="connectionID">198</int>
+					<int key="connectionID">367</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">selectBackgroundImage:</string>
+						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="699177765"/>
+						<reference key="destination" ref="571559334"/>
 					</object>
-					<int key="connectionID">200</int>
+					<int key="connectionID">506</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_grid</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="421115760"/>
+					</object>
+					<int key="connectionID">491</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_drawCustomHighlight</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="157745254"/>
+					</object>
+					<int key="connectionID">535</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_backgroundAsEvents</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="200173955"/>
+					</object>
+					<int key="connectionID">496</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1582,17 +1604,193 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">preferenceChanged:</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="591716102"/>
+						<reference key="destination" ref="24352631"/>
 					</object>
-					<int key="connectionID">211</int>
+					<int key="connectionID">304</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">textField_backgroundFade</string>
+						<string key="label">colorWell_background</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="600921318"/>
+						<reference key="destination" ref="129056316"/>
 					</object>
-					<int key="connectionID">215</int>
+					<int key="connectionID">479</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_groupBackgroundGradient</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="511142952"/>
+					</object>
+					<int key="connectionID">219</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="144721629"/>
+					</object>
+					<int key="connectionID">315</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_offlineLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="330209310"/>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_signedOn</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="951839727"/>
+					</object>
+					<int key="connectionID">492</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="62576489"/>
+					</object>
+					<int key="connectionID">509</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_away</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="304028004"/>
+					</object>
+					<int key="connectionID">327</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_unviewedContent</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="989532430"/>
+					</object>
+					<int key="connectionID">495</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="207619219"/>
+					</object>
+					<int key="connectionID">507</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_idleAndAway</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="427487984"/>
+					</object>
+					<int key="connectionID">334</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_unviewedContentLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="977021466"/>
+					</object>
+					<int key="connectionID">489</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textField_backgroundImagePath</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="855605506"/>
+					</object>
+					<int key="connectionID">197</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="977021466"/>
+					</object>
+					<int key="connectionID">511</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_awayLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="574703756"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_unviewedContent</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="672994462"/>
+					</object>
+					<int key="connectionID">478</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="364912495"/>
+					</object>
+					<int key="connectionID">500</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_groupText</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="167451279"/>
+					</object>
+					<int key="connectionID">365</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_offline</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="809088815"/>
+					</object>
+					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_idleAndAway</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="144721629"/>
+					</object>
+					<int key="connectionID">96</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_backgroundAsStatus</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="797349692"/>
+					</object>
+					<int key="connectionID">375</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1033539391"/>
+					</object>
+					<int key="connectionID">505</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_signedOff</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="893298209"/>
+					</object>
+					<int key="connectionID">475</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">button_setBackgroundImage</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="699177765"/>
+					</object>
+					<int key="connectionID">196</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1604,19 +1802,467 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_groupBackgroundGradient</string>
+						<string key="label">colorWell_idleLabel</string>
 						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="511142952"/>
+						<reference key="destination" ref="651930294"/>
 					</object>
-					<int key="connectionID">219</int>
+					<int key="connectionID">93</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColor</string>
-						<reference key="source" ref="663044045"/>
+						<string key="label">preview_online</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="663044045"/>
+					</object>
+					<int key="connectionID">329</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="103451598"/>
+					</object>
+					<int key="connectionID">321</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_offline</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="77214714"/>
+					</object>
+					<int key="connectionID">330</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="440697775"/>
+					</object>
+					<int key="connectionID">387</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_signedOn</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1015073622"/>
+					</object>
+					<int key="connectionID">482</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="884265800"/>
+					</object>
+					<int key="connectionID">513</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="920155826"/>
+					</object>
+					<int key="connectionID">182</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_idle</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="910265687"/>
+					</object>
+					<int key="connectionID">92</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="3815466"/>
+					</object>
+					<int key="connectionID">539</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1017225766"/>
+					</object>
+					<int key="connectionID">183</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="343694670"/>
+					</object>
+					<int key="connectionID">188</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_onlineLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="24352631"/>
+					</object>
+					<int key="connectionID">85</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_typingLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="62576489"/>
+					</object>
+					<int key="connectionID">487</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="923008770"/>
+					</object>
+					<int key="connectionID">529</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="893298209"/>
+					</object>
+					<int key="connectionID">501</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_signedOnLabel</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1033539391"/>
+					</object>
+					<int key="connectionID">483</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="809088815"/>
+					</object>
+					<int key="connectionID">305</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_customHighlight</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="435919785"/>
+					</object>
+					<int key="connectionID">537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_fadeOfflineImages</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="440697775"/>
+					</object>
+					<int key="connectionID">386</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_statusText</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1013319118"/>
+					</object>
+					<int key="connectionID">383</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_useBackgroundImage</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="241142910"/>
+					</object>
+					<int key="connectionID">195</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="223969336"/>
+					</object>
+					<int key="connectionID">316</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1013319118"/>
+					</object>
+					<int key="connectionID">384</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_drawGrid</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="131446658"/>
+					</object>
+					<int key="connectionID">473</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="651930294"/>
+					</object>
+					<int key="connectionID">312</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="330209310"/>
+					</object>
+					<int key="connectionID">306</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">popUp_displayImageStyle</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="923008770"/>
+					</object>
+					<int key="connectionID">528</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="914078155"/>
+					</object>
+					<int key="connectionID">510</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_idle</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="779773719"/>
+					</object>
+					<int key="connectionID">333</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1015073622"/>
+					</object>
+					<int key="connectionID">504</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_group</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="5802375"/>
+					</object>
+					<int key="connectionID">368</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="363144328"/>
+					</object>
+					<int key="connectionID">515</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_typing</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="139912293"/>
+					</object>
+					<int key="connectionID">486</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">window</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="987389940"/>
+					</object>
+					<int key="connectionID">102</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_groupShadow</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="884265800"/>
+					</object>
+					<int key="connectionID">481</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="526537120"/>
+					</object>
+					<int key="connectionID">186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="511142952"/>
+					</object>
+					<int key="connectionID">322</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_grid</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="66225081"/>
+					</object>
+					<int key="connectionID">480</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="910265687"/>
+					</object>
+					<int key="connectionID">311</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textField_backgroundFade</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="600921318"/>
+					</object>
+					<int key="connectionID">215</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="157745254"/>
+					</object>
+					<int key="connectionID">538</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="363943113"/>
+					</object>
+					<int key="connectionID">187</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
 						<reference key="destination" ref="229768713"/>
 					</object>
-					<int key="connectionID">227</int>
+					<int key="connectionID">303</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="241142910"/>
+					</object>
+					<int key="connectionID">198</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="714615049"/>
+					</object>
+					<int key="connectionID">313</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="139912293"/>
+					</object>
+					<int key="connectionID">508</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">preview_background</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="485207449"/>
+					</object>
+					<int key="connectionID">490</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="606052407"/>
+					</object>
+					<int key="connectionID">502</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_online</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="229768713"/>
+					</object>
+					<int key="connectionID">84</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">preferenceChanged:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="1047506938"/>
+					</object>
+					<int key="connectionID">514</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_unviewedContent</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="914078155"/>
+					</object>
+					<int key="connectionID">488</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_typing</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="606052407"/>
+					</object>
+					<int key="connectionID">477</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">checkBox_away</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="363943113"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">colorWell_away</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="714615049"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">cancel:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="97004105"/>
+					</object>
+					<int key="connectionID">129</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">selectBackgroundImage:</string>
+						<reference key="source" ref="494589986"/>
+						<reference key="destination" ref="699177765"/>
+					</object>
+					<int key="connectionID">200</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="987389940"/>
+						<reference key="destination" ref="494589986"/>
+					</object>
+					<int key="connectionID">103</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1629,10 +2275,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">textColor</string>
-						<reference key="source" ref="77214714"/>
-						<reference key="destination" ref="809088815"/>
+						<reference key="source" ref="663044045"/>
+						<reference key="destination" ref="229768713"/>
 					</object>
-					<int key="connectionID">231</int>
+					<int key="connectionID">227</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1641,6 +2287,14 @@
 						<reference key="destination" ref="330209310"/>
 					</object>
 					<int key="connectionID">232</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColor</string>
+						<reference key="source" ref="77214714"/>
+						<reference key="destination" ref="809088815"/>
+					</object>
+					<int key="connectionID">231</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1660,19 +2314,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColor</string>
-						<reference key="source" ref="304028004"/>
-						<reference key="destination" ref="714615049"/>
-					</object>
-					<int key="connectionID">252</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">backgroundColor</string>
 						<reference key="source" ref="304028004"/>
 						<reference key="destination" ref="574703756"/>
 					</object>
 					<int key="connectionID">253</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColor</string>
+						<reference key="source" ref="304028004"/>
+						<reference key="destination" ref="714615049"/>
+					</object>
+					<int key="connectionID">252</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1691,164 +2345,20 @@
 					<int key="connectionID">255</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="229768713"/>
-					</object>
-					<int key="connectionID">303</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="24352631"/>
-					</object>
-					<int key="connectionID">304</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="809088815"/>
-					</object>
-					<int key="connectionID">305</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="330209310"/>
-					</object>
-					<int key="connectionID">306</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="910265687"/>
-					</object>
-					<int key="connectionID">311</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="651930294"/>
-					</object>
-					<int key="connectionID">312</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="714615049"/>
-					</object>
-					<int key="connectionID">313</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="574703756"/>
-					</object>
-					<int key="connectionID">314</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="144721629"/>
-					</object>
-					<int key="connectionID">315</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="223969336"/>
-					</object>
-					<int key="connectionID">316</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">backgroundColor</string>
+						<reference key="source" ref="5802375"/>
 						<reference key="destination" ref="103451598"/>
 					</object>
-					<int key="connectionID">321</int>
+					<int key="connectionID">518</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">backgroundGradientColor</string>
+						<reference key="source" ref="5802375"/>
 						<reference key="destination" ref="511142952"/>
 					</object>
-					<int key="connectionID">322</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_away</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="304028004"/>
-					</object>
-					<int key="connectionID">327</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_online</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="663044045"/>
-					</object>
-					<int key="connectionID">329</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_offline</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="77214714"/>
-					</object>
-					<int key="connectionID">330</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_idle</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="779773719"/>
-					</object>
-					<int key="connectionID">333</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_idleAndAway</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="427487984"/>
-					</object>
-					<int key="connectionID">334</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_groupText</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="167451279"/>
-					</object>
-					<int key="connectionID">365</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="167451279"/>
-					</object>
-					<int key="connectionID">367</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_group</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="5802375"/>
-					</object>
-					<int key="connectionID">368</int>
+					<int key="connectionID">519</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1860,59 +2370,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_backgroundAsStatus</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="797349692"/>
+						<string key="label">textShadowColorEnabled</string>
+						<reference key="source" ref="5802375"/>
+						<reference key="destination" ref="1047506938"/>
 					</object>
-					<int key="connectionID">375</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="797349692"/>
-					</object>
-					<int key="connectionID">376</int>
+					<int key="connectionID">540</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_statusText</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1013319118"/>
+						<string key="label">textShadowColor</string>
+						<reference key="source" ref="5802375"/>
+						<reference key="destination" ref="884265800"/>
 					</object>
-					<int key="connectionID">383</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1013319118"/>
-					</object>
-					<int key="connectionID">384</int>
+					<int key="connectionID">520</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_fadeOfflineImages</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="440697775"/>
+						<string key="label">backgroundEnabled</string>
+						<reference key="source" ref="5802375"/>
+						<reference key="destination" ref="363144328"/>
 					</object>
-					<int key="connectionID">386</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="440697775"/>
-					</object>
-					<int key="connectionID">387</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">backgroundColor</string>
-						<reference key="source" ref="299575962"/>
-						<reference key="destination" ref="207619219"/>
-					</object>
-					<int key="connectionID">440</int>
+					<int key="connectionID">541</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1949,10 +2427,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">backgroundColor</string>
-						<reference key="source" ref="989532430"/>
-						<reference key="destination" ref="977021466"/>
+						<reference key="source" ref="299575962"/>
+						<reference key="destination" ref="207619219"/>
 					</object>
-					<int key="connectionID">452</int>
+					<int key="connectionID">440</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1972,355 +2450,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_drawGrid</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="131446658"/>
-					</object>
-					<int key="connectionID">473</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_groupGradient</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="363144328"/>
-					</object>
-					<int key="connectionID">474</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_signedOff</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="893298209"/>
-					</object>
-					<int key="connectionID">475</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_signedOn</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="364912495"/>
-					</object>
-					<int key="connectionID">476</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_typing</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="606052407"/>
-					</object>
-					<int key="connectionID">477</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_unviewedContent</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="672994462"/>
-					</object>
-					<int key="connectionID">478</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_background</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="129056316"/>
-					</object>
-					<int key="connectionID">479</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_grid</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="66225081"/>
-					</object>
-					<int key="connectionID">480</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_groupShadow</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="884265800"/>
-					</object>
-					<int key="connectionID">481</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_signedOn</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1015073622"/>
-					</object>
-					<int key="connectionID">482</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_signedOnLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1033539391"/>
-					</object>
-					<int key="connectionID">483</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_signedOff</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="571559334"/>
-					</object>
-					<int key="connectionID">484</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_signedOffLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="207619219"/>
-					</object>
-					<int key="connectionID">485</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_typing</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="139912293"/>
-					</object>
-					<int key="connectionID">486</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_typingLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="62576489"/>
-					</object>
-					<int key="connectionID">487</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_unviewedContent</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="914078155"/>
-					</object>
-					<int key="connectionID">488</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_unviewedContentLabel</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="977021466"/>
-					</object>
-					<int key="connectionID">489</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_background</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="485207449"/>
-					</object>
-					<int key="connectionID">490</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_grid</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="421115760"/>
-					</object>
-					<int key="connectionID">491</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_signedOn</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="951839727"/>
-					</object>
-					<int key="connectionID">492</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_signedOff</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="299575962"/>
-					</object>
-					<int key="connectionID">493</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_typing</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="343854934"/>
-					</object>
-					<int key="connectionID">494</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_unviewedContent</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="989532430"/>
-					</object>
-					<int key="connectionID">495</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_backgroundAsEvents</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="200173955"/>
-					</object>
-					<int key="connectionID">496</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="129056316"/>
-					</object>
-					<int key="connectionID">497</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="66225081"/>
-					</object>
-					<int key="connectionID">498</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="131446658"/>
-					</object>
-					<int key="connectionID">499</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="364912495"/>
-					</object>
-					<int key="connectionID">500</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="893298209"/>
-					</object>
-					<int key="connectionID">501</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="606052407"/>
-					</object>
-					<int key="connectionID">502</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="672994462"/>
-					</object>
-					<int key="connectionID">503</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1015073622"/>
-					</object>
-					<int key="connectionID">504</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1033539391"/>
-					</object>
-					<int key="connectionID">505</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="571559334"/>
-					</object>
-					<int key="connectionID">506</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="207619219"/>
-					</object>
-					<int key="connectionID">507</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="139912293"/>
-					</object>
-					<int key="connectionID">508</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="62576489"/>
-					</object>
-					<int key="connectionID">509</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="914078155"/>
-					</object>
-					<int key="connectionID">510</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="977021466"/>
-					</object>
-					<int key="connectionID">511</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="200173955"/>
-					</object>
-					<int key="connectionID">512</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="884265800"/>
-					</object>
-					<int key="connectionID">513</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1047506938"/>
-					</object>
-					<int key="connectionID">514</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="363144328"/>
-					</object>
-					<int key="connectionID">515</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">backgroundColor</string>
-						<reference key="source" ref="485207449"/>
-						<reference key="destination" ref="129056316"/>
+						<reference key="source" ref="989532430"/>
+						<reference key="destination" ref="977021466"/>
 					</object>
-					<int key="connectionID">516</int>
+					<int key="connectionID">452</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColor</string>
+						<reference key="source" ref="421115760"/>
+						<reference key="destination" ref="229768713"/>
+					</object>
+					<int key="connectionID">558</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColorEnabled</string>
+						<reference key="source" ref="421115760"/>
+						<reference key="destination" ref="920155826"/>
+					</object>
+					<int key="connectionID">561</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2332,51 +2482,35 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColor</string>
+						<reference key="source" ref="485207449"/>
+						<reference key="destination" ref="229768713"/>
+					</object>
+					<int key="connectionID">556</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">backgroundColor</string>
-						<reference key="source" ref="5802375"/>
-						<reference key="destination" ref="103451598"/>
+						<reference key="source" ref="485207449"/>
+						<reference key="destination" ref="129056316"/>
 					</object>
-					<int key="connectionID">518</int>
+					<int key="connectionID">516</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">backgroundGradientColor</string>
-						<reference key="source" ref="5802375"/>
-						<reference key="destination" ref="511142952"/>
+						<string key="label">textColorEnabled</string>
+						<reference key="source" ref="485207449"/>
+						<reference key="destination" ref="920155826"/>
 					</object>
-					<int key="connectionID">519</int>
+					<int key="connectionID">559</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">textShadowColor</string>
-						<reference key="source" ref="5802375"/>
-						<reference key="destination" ref="884265800"/>
+						<string key="label">textColorEnabled</string>
+						<reference key="source" ref="435919785"/>
+						<reference key="destination" ref="920155826"/>
 					</object>
-					<int key="connectionID">520</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_groupShadow</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="1047506938"/>
-					</object>
-					<int key="connectionID">521</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">popUp_displayImageStyle</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="923008770"/>
-					</object>
-					<int key="connectionID">528</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="923008770"/>
-					</object>
-					<int key="connectionID">529</int>
+					<int key="connectionID">560</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2388,67 +2522,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_drawCustomHighlight</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="157745254"/>
-					</object>
-					<int key="connectionID">535</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">colorWell_customHighlight</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="3815466"/>
-					</object>
-					<int key="connectionID">536</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">preview_customHighlight</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="435919785"/>
-					</object>
-					<int key="connectionID">537</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="157745254"/>
-					</object>
-					<int key="connectionID">538</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">preferenceChanged:</string>
-						<reference key="source" ref="494589986"/>
-						<reference key="destination" ref="3815466"/>
-					</object>
-					<int key="connectionID">539</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textShadowColorEnabled</string>
-						<reference key="source" ref="5802375"/>
-						<reference key="destination" ref="1047506938"/>
-					</object>
-					<int key="connectionID">540</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">backgroundEnabled</string>
-						<reference key="source" ref="5802375"/>
-						<reference key="destination" ref="363144328"/>
-					</object>
-					<int key="connectionID">541</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">textColor</string>
-						<reference key="source" ref="397218992"/>
-						<reference key="destination" ref="509559080"/>
+						<reference key="source" ref="435919785"/>
+						<reference key="destination" ref="229768713"/>
 					</object>
-					<int key="connectionID">546</int>
+					<int key="connectionID">557</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2459,72 +2537,12 @@
 					<int key="connectionID">547</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.List Theme.Mobile Enabled</string>
-						<reference key="source" ref="1047560519"/>
-						<reference key="destination" ref="494589986"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1047560519"/>
-							<reference key="NSDestination" ref="494589986"/>
-							<string key="NSLabel">value: adium.preferenceController.List Theme.Mobile Enabled</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Enabled</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">textColor</string>
+						<reference key="source" ref="397218992"/>
+						<reference key="destination" ref="509559080"/>
 					</object>
-					<int key="connectionID">548</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.List Theme.Mobile Color</string>
-						<reference key="source" ref="509559080"/>
-						<reference key="destination" ref="494589986"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="509559080"/>
-							<reference key="NSDestination" ref="494589986"/>
-							<string key="NSLabel">value: adium.preferenceController.List Theme.Mobile Color</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Color</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">AIColorStringTransformer</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">550</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: adium.preferenceController.List Theme.Mobile Enabled</string>
-						<reference key="source" ref="509559080"/>
-						<reference key="destination" ref="494589986"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="509559080"/>
-							<reference key="NSDestination" ref="494589986"/>
-							<string key="NSLabel">enabled: adium.preferenceController.List Theme.Mobile Enabled</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Enabled</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">551</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: adium.preferenceController.List Theme.Background As Status</string>
-						<reference key="source" ref="61986986"/>
-						<reference key="destination" ref="494589986"/>
-						<object class="NSNibBindingConnector" key="connector" id="908360944">
-							<reference key="NSSource" ref="61986986"/>
-							<reference key="NSDestination" ref="494589986"/>
-							<string key="NSLabel">enabled: adium.preferenceController.List Theme.Background As Status</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">adium.preferenceController.List Theme.Background As Status</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">552</int>
+					<int key="connectionID">546</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2545,6 +2563,22 @@
 						</object>
 					</object>
 					<int key="connectionID">554</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.List Theme.Background As Status</string>
+						<reference key="source" ref="61986986"/>
+						<reference key="destination" ref="494589986"/>
+						<object class="NSNibBindingConnector" key="connector" id="908360944">
+							<reference key="NSSource" ref="61986986"/>
+							<reference key="NSDestination" ref="494589986"/>
+							<string key="NSLabel">enabled: adium.preferenceController.List Theme.Background As Status</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.List Theme.Background As Status</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">552</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2570,52 +2604,56 @@
 					<int key="connectionID">555</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColor</string>
-						<reference key="source" ref="485207449"/>
-						<reference key="destination" ref="229768713"/>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.List Theme.Mobile Enabled</string>
+						<reference key="source" ref="509559080"/>
+						<reference key="destination" ref="494589986"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="509559080"/>
+							<reference key="NSDestination" ref="494589986"/>
+							<string key="NSLabel">enabled: adium.preferenceController.List Theme.Mobile Enabled</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Enabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">556</int>
+					<int key="connectionID">551</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColor</string>
-						<reference key="source" ref="435919785"/>
-						<reference key="destination" ref="229768713"/>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.List Theme.Mobile Color</string>
+						<reference key="source" ref="509559080"/>
+						<reference key="destination" ref="494589986"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="509559080"/>
+							<reference key="NSDestination" ref="494589986"/>
+							<string key="NSLabel">value: adium.preferenceController.List Theme.Mobile Color</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Color</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">AIColorStringTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">557</int>
+					<int key="connectionID">550</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColor</string>
-						<reference key="source" ref="421115760"/>
-						<reference key="destination" ref="229768713"/>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.List Theme.Mobile Enabled</string>
+						<reference key="source" ref="1047560519"/>
+						<reference key="destination" ref="494589986"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1047560519"/>
+							<reference key="NSDestination" ref="494589986"/>
+							<string key="NSLabel">value: adium.preferenceController.List Theme.Mobile Enabled</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.List Theme.Mobile Enabled</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">558</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColorEnabled</string>
-						<reference key="source" ref="485207449"/>
-						<reference key="destination" ref="920155826"/>
-					</object>
-					<int key="connectionID">559</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColorEnabled</string>
-						<reference key="source" ref="435919785"/>
-						<reference key="destination" ref="920155826"/>
-					</object>
-					<int key="connectionID">560</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColorEnabled</string>
-						<reference key="source" ref="421115760"/>
-						<reference key="destination" ref="920155826"/>
-					</object>
-					<int key="connectionID">561</int>
+					<int key="connectionID">548</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3569,8 +3607,6 @@
 				<string key="593.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="594.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="6.windowTemplate.hasMinSize"/>
-				<string key="6.windowTemplate.minSize">{213, 107}</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3598,11 +3634,11 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>
 			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSSwitch">{15, 15}</string>
 		</dictionary>
 	</data>
 </archive>
