@@ -2,22 +2,22 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSTextFieldCell</string>
-			<string>NSCustomObject</string>
-			<string>NSView</string>
-			<string>NSButton</string>
 			<string>NSTextField</string>
+			<string>NSView</string>
 			<string>NSProgressIndicator</string>
+			<string>NSTextFieldCell</string>
 			<string>NSButtonCell</string>
+			<string>NSButton</string>
+			<string>NSCustomObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -37,7 +37,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="610496814">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="511623407">
@@ -45,6 +45,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{8, 147}, {378, 51}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="12458334">
 							<int key="NSCellFlags">67239424</int>
@@ -62,7 +63,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="240581497">
@@ -81,6 +82,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{8, 22}, {347, 17}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1047490784">
 							<int key="NSCellFlags">67239424</int>
@@ -97,6 +99,7 @@
 						<int key="NSvFlags">269</int>
 						<string key="NSFrame">{{119, 99}, {157, 32}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="119278707">
 							<int key="NSCellFlags">67239424</int>
@@ -122,6 +125,7 @@
 						<object class="NSPSMatrix" key="NSDrawMatrix"/>
 						<string key="NSFrame">{{189, 71}, {16, 16}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
 						<int key="NSpiFlags">20746</int>
 						<double key="NSMinValue">16</double>
 						<double key="NSMaxValue">100</double>
@@ -131,6 +135,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{361, 16}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="691241873">
 							<int key="NSCellFlags">67239424</int>
@@ -148,6 +153,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{394, 201}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
