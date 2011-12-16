@@ -2,19 +2,37 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSScroller</string>
+			<string>NSButton</string>
+			<string>NSScrollView</string>
+			<string>NSButtonCell</string>
+			<string>NSImageView</string>
+			<string>NSBox</string>
+			<string>NSImageCell</string>
+			<string>NSTextFieldCell</string>
+			<string>NSMatrix</string>
+			<string>NSCustomView</string>
+			<string>NSTextView</string>
+			<string>NSCustomObject</string>
+			<string>NSView</string>
+			<string>NSTextField</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="407343280">
 			<object class="NSCustomObject" id="858105179">
 				<string key="NSClassName">ESPersonalPreferences</string>
@@ -62,7 +80,7 @@
 						<object class="NSButtonCell" key="NSCell" id="1062592610">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Choose Icon...</string>
+							<string key="NSContents">Escolher ícone…</string>
 							<object class="NSFont" key="NSSupport" id="485325570">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -97,7 +115,7 @@
 								<reference key="NSControlView" ref="723824318"/>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">0</int>
-								<object class="NSCustomResource" key="NSNormalImage" id="133359078">
+								<object class="NSCustomResource" key="NSNormalImage" id="943784989">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">NSRadioButton</string>
 								</object>
@@ -120,7 +138,7 @@
 								<int key="NSTag">1</int>
 								<int key="NSButtonFlags">1211912703</int>
 								<int key="NSButtonFlags2">0</int>
-								<reference key="NSNormalImage" ref="133359078"/>
+								<reference key="NSNormalImage" ref="943784989"/>
 								<reference key="NSAlternateImage" ref="655764744"/>
 								<string key="NSAlternateContents"/>
 								<reference key="NSKeyEquivalent" ref="388673090"/>
@@ -139,7 +157,9 @@
 							<reference key="NSSupport" ref="485325570"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">0</int>
+							<reference key="NSNormalImage" ref="943784989"/>
 							<reference key="NSAlternateImage" ref="655764744"/>
+							<string key="NSAlternateContents"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
@@ -169,7 +189,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="132595847">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Profile:</string>
+							<string key="NSContents">Perfil:</string>
 							<reference key="NSSupport" ref="485325570"/>
 							<reference key="NSControlView" ref="906401707"/>
 							<reference key="NSBackgroundColor" ref="1037639369"/>
@@ -235,7 +255,7 @@
 											<int key="NSTCFlags">1</int>
 										</object>
 										<object class="NSTextViewSharedData" key="NSSharedData">
-											<int key="NSFlags">67121127</int>
+											<int key="NSFlags">100675559</int>
 											<int key="NSTextCheckingTypes">0</int>
 											<nil key="NSMarkedAttributes"/>
 											<reference key="NSBackgroundColor" ref="296247606"/>
@@ -266,9 +286,11 @@
 												<integer value="1" key="NSUnderline"/>
 											</dictionary>
 											<nil key="NSDefaultParagraphStyle"/>
+											<nil key="NSTextFinder"/>
+											<int key="NSPreferredTextFinderStyle">1</int>
 										</object>
 										<int key="NSTVFlags">6</int>
-										<string key="NSMaxSize">{353, 1e+07}</string>
+										<string key="NSMaxSize">{353, 10000000}</string>
 										<string key="NSMinize">{237, 14}</string>
 										<nil key="NSDelegate"/>
 									</object>
@@ -328,7 +350,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="NSFrame">{{243, 20}, {277, 167}}</string>
 						<reference key="NSSuperview" ref="116640955"/>
 						<reference key="NSNextKeyView" ref="192489308"/>
-						<int key="NSsFlags">530</int>
+						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="788908579"/>
 						<reference key="NSHScroller" ref="226686736"/>
 						<reference key="NSContentView" ref="192489308"/>
@@ -369,7 +391,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="266010005">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Name:</string>
+							<string key="NSContents">Nome:</string>
 							<reference key="NSSupport" ref="485325570"/>
 							<reference key="NSControlView" ref="335522952"/>
 							<reference key="NSBackgroundColor" ref="1037639369"/>
@@ -408,7 +430,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<object class="NSView" id="414443014">
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
-				<string key="NSFrame">{{2, 2}, {1, 111}}</string>
+				<string key="NSFrameSize">{1, 111}</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -420,14 +442,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="116640955"/>
 					</object>
 					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showImagePicker:</string>
-						<reference key="source" ref="916737237"/>
-						<reference key="destination" ref="210032694"/>
-					</object>
-					<int key="connectionID">614</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -470,14 +484,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">637</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="255399918"/>
-						<reference key="destination" ref="858105179"/>
-					</object>
-					<int key="connectionID">640</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">changePreference:</string>
 						<reference key="source" ref="858105179"/>
@@ -495,14 +501,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="916737237"/>
-						<reference key="destination" ref="858105179"/>
-					</object>
-					<int key="connectionID">645</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">label_remoteAlias</string>
 						<reference key="source" ref="858105179"/>
 						<reference key="destination" ref="335522952"/>
@@ -516,6 +514,30 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="906401707"/>
 					</object>
 					<int key="connectionID">650</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showImagePicker:</string>
+						<reference key="source" ref="916737237"/>
+						<reference key="destination" ref="210032694"/>
+					</object>
+					<int key="connectionID">614</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="916737237"/>
+						<reference key="destination" ref="858105179"/>
+					</object>
+					<int key="connectionID">645</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="255399918"/>
+						<reference key="destination" ref="858105179"/>
+					</object>
+					<int key="connectionID">640</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -953,7 +975,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">NSRadioButton</string>
