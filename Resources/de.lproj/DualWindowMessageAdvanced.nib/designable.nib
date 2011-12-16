@@ -82,7 +82,7 @@
 					<object class="NSBox" id="742431494">
 						<reference key="NSNextResponder" ref="367355463"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{5, 155}, {325, 5}}</string>
+						<string key="NSFrame">{{5, 155}, {414, 5}}</string>
 						<reference key="NSSuperview" ref="367355463"/>
 						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
@@ -154,7 +154,7 @@
 					<object class="NSBox" id="345965100">
 						<reference key="NSNextResponder" ref="367355463"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{5, 112}, {325, 5}}</string>
+						<string key="NSFrame">{{5, 112}, {414, 5}}</string>
 						<reference key="NSSuperview" ref="367355463"/>
 						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
@@ -574,16 +574,20 @@
 					<object class="NSTabView" id="717359446">
 						<reference key="NSNextResponder" ref="367355463"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{-2, 169}, {413, 153}}</string>
+						<string key="NSFrame">{{-2, 169}, {428, 153}}</string>
 						<reference key="NSSuperview" ref="367355463"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="878444878"/>
 						<array class="NSMutableArray" key="NSTabViewItems">
 							<object class="NSTabViewItem" id="426829095">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="878444878">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="717359446"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{10, 33}, {393, 107}}</string>
+									<string key="NSFrame">{{10, 33}, {408, 107}}</string>
+									<reference key="NSSuperview" ref="717359446"/>
+									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="717359446"/>
 								</object>
 								<string key="NSLabel">Einzel-Chat</string>
 								<reference key="NSColor" ref="1045315795"/>
@@ -592,7 +596,7 @@
 							<object class="NSTabViewItem" id="592512895">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="885232887">
-									<reference key="NSNextResponder" ref="717359446"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<array class="NSMutableArray" key="NSSubviews">
 										<object class="NSButton" id="513492326">
@@ -600,7 +604,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{14, 2}, {283, 18}}</string>
 											<reference key="NSSuperview" ref="885232887"/>
-											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="717359446"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="259288654">
 												<int key="NSCellFlags">67239424</int>
@@ -619,22 +623,21 @@
 											</object>
 										</object>
 									</array>
-									<string key="NSFrame">{{10, 33}, {393, 107}}</string>
-									<reference key="NSSuperview" ref="717359446"/>
-									<reference key="NSWindow"/>
+									<string key="NSFrame">{{10, 33}, {408, 107}}</string>
+									<reference key="NSNextKeyView" ref="513492326"/>
 								</object>
 								<string key="NSLabel">Gruppenchat</string>
 								<reference key="NSColor" ref="1045315795"/>
 								<reference key="NSTabView" ref="717359446"/>
 							</object>
 						</array>
-						<reference key="NSSelectedTabViewItem" ref="592512895"/>
+						<reference key="NSSelectedTabViewItem" ref="426829095"/>
 						<reference key="NSFont" ref="792403313"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<array class="NSMutableArray" key="NSSubviews">
-							<reference ref="885232887"/>
+							<reference ref="878444878"/>
 						</array>
 					</object>
 				</array>
@@ -1517,10 +1520,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
