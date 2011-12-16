@@ -2,15 +2,30 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSPopUpButton</string>
+			<string>NSButton</string>
+			<string>NSMenu</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSMenuItem</string>
+			<string>NSBox</string>
+			<string>NSTabView</string>
+			<string>NSCustomObject</string>
+			<string>NSTabViewItem</string>
+			<string>NSView</string>
+			<string>NSCustomView</string>
+			<string>NSTextField</string>
+			<string>NSPopUpButtonCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -41,7 +56,7 @@
 						<object class="NSButtonCell" key="NSCell" id="177553946">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Always show tab bar</string>
+							<string key="NSContents">Mostrar sempre a barra de separadores</string>
 							<object class="NSFont" key="NSSupport" id="26">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -106,7 +121,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="437081824">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Tabs</string>
+							<string key="NSContents">Separadores</string>
 							<object class="NSFont" key="NSSupport" id="27">
 								<string key="NSName">LucidaGrande-Bold</string>
 								<double key="NSSize">11</double>
@@ -164,7 +179,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="156353708">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Window Handling</string>
+							<string key="NSContents">Gestão de janelas</string>
 							<reference key="NSSupport" ref="27"/>
 							<reference key="NSControlView" ref="937057524"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -178,7 +193,7 @@
 						<reference key="NSSuperview" ref="97777641"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="648432122">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">132096</int>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="812282787"/>
@@ -234,7 +249,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="1026948912">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Order message windows:</string>
+							<string key="NSContents">Ordenar janelas de mensagens:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="519092718"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -250,7 +265,7 @@
 						<object class="NSButtonCell" key="NSCell" id="210582402">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Hide while Adium is in the background</string>
+							<string key="NSContents">Ocultar enquanto o Adium estiver em segundo plano</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="811914299"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -272,7 +287,7 @@
 						<object class="NSButtonCell" key="NSCell" id="406880685">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Show unread message count in tabs</string>
+							<string key="NSContents">Mostrar número de mensagens não lidas nos separadores</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="545611735"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -294,7 +309,7 @@
 						<object class="NSButtonCell" key="NSCell" id="793625101">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Open chats as soon as contacts begin typing</string>
+							<string key="NSContents">Abrir conversas assim que o contacto começar a escrever</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="363404699"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -316,7 +331,7 @@
 						<object class="NSButtonCell" key="NSCell" id="164059459">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Use custom name format:</string>
+							<string key="NSContents">Utilizar nome personalizado:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="193879381"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -336,7 +351,7 @@
 						<reference key="NSSuperview" ref="97777641"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="250529975">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">132096</int>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="509222322"/>
@@ -421,7 +436,7 @@
 						<reference key="NSSuperview" ref="97777641"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="444178181">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">132096</int>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="462443943"/>
@@ -468,7 +483,7 @@
 						<reference key="NSSuperview" ref="97777641"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="379633026">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">132096</int>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="690569069"/>
@@ -517,7 +532,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="954880730">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Time stamp format:</string>
+							<string key="NSContents">Formato da hora:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="413102437"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -533,7 +548,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="637054921">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Minimum Font Size:</string>
+							<string key="NSContents">Tamanho de letra mínimo:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="241853139"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -549,9 +564,11 @@
 							<object class="NSTabViewItem" id="967513559">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="673023347">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="253734282"/>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {402, 107}}</string>
+									<reference key="NSSuperview" ref="253734282"/>
+									<reference key="NSNextKeyView" ref="253734282"/>
 								</object>
 								<string key="NSLabel">Conversas simples</string>
 								<reference key="NSColor" ref="643806959"/>
@@ -560,7 +577,7 @@
 							<object class="NSTabViewItem" id="319082437">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="276418137">
-									<reference key="NSNextResponder" ref="253734282"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<array class="NSMutableArray" key="NSSubviews">
 										<object class="NSButton" id="885657101">
@@ -572,7 +589,7 @@
 											<object class="NSButtonCell" key="NSCell" id="1020229675">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">131072</int>
-												<string key="NSContents">…only count number of unread mentions</string>
+												<string key="NSContents">…contar apenas menções não lidas</string>
 												<reference key="NSSupport" ref="26"/>
 												<reference key="NSControlView" ref="885657101"/>
 												<int key="NSButtonFlags">1211912703</int>
@@ -587,20 +604,19 @@
 										</object>
 									</array>
 									<string key="NSFrame">{{10, 33}, {354, 107}}</string>
-									<reference key="NSSuperview" ref="253734282"/>
 								</object>
 								<string key="NSLabel">Conversas de grupo</string>
 								<reference key="NSColor" ref="643806959"/>
 								<reference key="NSTabView" ref="253734282"/>
 							</object>
 						</array>
-						<reference key="NSSelectedTabViewItem" ref="319082437"/>
+						<reference key="NSSelectedTabViewItem" ref="967513559"/>
 						<reference key="NSFont" ref="935961938"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<array class="NSMutableArray" key="NSSubviews">
-							<reference ref="276418137"/>
+							<reference ref="673023347"/>
 						</array>
 					</object>
 				</array>
@@ -662,26 +678,6 @@
 					<int key="connectionID">83</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
-						<reference key="source" ref="578316540"/>
-						<reference key="destination" ref="1009106485"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="578316540"/>
-							<reference key="NSDestination" ref="1009106485"/>
-							<string key="NSLabel">value: adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">97</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">checkBox_psychicOpen</string>
 						<reference key="source" ref="1009106485"/>
@@ -736,14 +732,6 @@
 						<reference key="destination" ref="253734282"/>
 					</object>
 					<int key="connectionID">191</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="253734282"/>
-						<reference key="destination" ref="1009106485"/>
-					</object>
-					<int key="connectionID">192</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -832,6 +820,34 @@
 						<reference key="destination" ref="885657101"/>
 					</object>
 					<int key="connectionID">210</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
+						<reference key="source" ref="578316540"/>
+						<reference key="destination" ref="1009106485"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="578316540"/>
+							<reference key="NSDestination" ref="1009106485"/>
+							<string key="NSLabel">value: adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Autohide Tab Bar</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">97</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="253734282"/>
+						<reference key="destination" ref="1009106485"/>
+					</object>
+					<int key="connectionID">192</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1306,7 +1322,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

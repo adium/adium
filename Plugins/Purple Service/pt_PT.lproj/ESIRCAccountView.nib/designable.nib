@@ -2,19 +2,38 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSPopUpButton</string>
+			<string>NSScroller</string>
+			<string>NSButton</string>
+			<string>NSMenu</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSMenuItem</string>
+			<string>NSBox</string>
+			<string>NSScrollView</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSUserDefaultsController</string>
+			<string>NSTextField</string>
+			<string>NSTextView</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="686595709">
 			<object class="NSCustomObject" id="595730279">
 				<string key="NSClassName">ESIRCAccountViewController</string>
@@ -38,7 +57,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="168366984">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Password:</string>
+							<string key="NSContents">Palavra-passe:</string>
 							<object class="NSFont" key="NSSupport" id="519844858">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -123,7 +142,7 @@
 							<int key="NSCellFlags2">4195328</int>
 							<string key="NSContents"/>
 							<reference key="NSSupport" ref="519844858"/>
-							<string key="NSPlaceholderString">(optional)</string>
+							<string key="NSPlaceholderString">(opcional)</string>
 							<reference key="NSControlView" ref="1056291757"/>
 							<bool key="NSDrawsBackground">YES</bool>
 							<reference key="NSBackgroundColor" ref="908035941"/>
@@ -184,7 +203,7 @@
 						<object class="NSButtonCell" key="NSCell" id="800272095">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Encrypt connection using SSL</string>
+							<string key="NSContents">Cifrar ligação utilizando SSL</string>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="555515098"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -228,7 +247,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="959263435">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Port:</string>
+							<string key="NSContents">Porta:</string>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="126637142"/>
 							<reference key="NSBackgroundColor" ref="362650998"/>
@@ -252,7 +271,7 @@
 										<object class="NSTextFieldCell" key="NSCell" id="998603586">
 											<int key="NSCellFlags">68288064</int>
 											<int key="NSCellFlags2">272761856</int>
-											<string key="NSContents">One per line, / is optional. $me will be replaced with your current nickname.</string>
+											<string key="NSContents">Um por linha, / é opcional. $me será substituído pelo seu nick actual.</string>
 											<object class="NSFont" key="NSSupport" id="26">
 												<string key="NSName">LucidaGrande</string>
 												<double key="NSSize">11</double>
@@ -294,7 +313,7 @@
 															<string>WebURLsWithTitlesPboardType</string>
 															<string>public.url</string>
 														</set>
-														<string key="NSFrameSize">{409, 54}</string>
+														<string key="NSFrameSize">{424, 14}</string>
 														<reference key="NSSuperview" ref="177143147"/>
 														<object class="NSTextContainer" key="NSTextContainer" id="492114278">
 															<object class="NSLayoutManager" key="NSLayoutManager">
@@ -311,11 +330,11 @@
 																<nil key="NSDelegate"/>
 															</object>
 															<reference key="NSTextView" ref="675070719"/>
-															<double key="NSWidth">409</double>
+															<double key="NSWidth">424</double>
 															<int key="NSTCFlags">1</int>
 														</object>
 														<object class="NSTextViewSharedData" key="NSSharedData">
-															<int key="NSFlags">67120899</int>
+															<int key="NSFlags">100675331</int>
 															<int key="NSTextCheckingTypes">0</int>
 															<nil key="NSMarkedAttributes"/>
 															<reference key="NSBackgroundColor" ref="728071217"/>
@@ -342,14 +361,16 @@
 																<integer value="1" key="NSUnderline"/>
 															</dictionary>
 															<nil key="NSDefaultParagraphStyle"/>
+															<nil key="NSTextFinder"/>
+															<int key="NSPreferredTextFinderStyle">1</int>
 														</object>
 														<int key="NSTVFlags">6</int>
-														<string key="NSMaxSize">{463, 1e+07}</string>
-														<string key="NSMinize">{223, 54}</string>
+														<string key="NSMaxSize">{463, 10000000}</string>
+														<string key="NSMinize">{223, 14}</string>
 														<nil key="NSDelegate"/>
 													</object>
 												</array>
-												<string key="NSFrame">{{1, 1}, {394, 131}}</string>
+												<string key="NSFrame">{{1, 1}, {409, 131}}</string>
 												<reference key="NSSuperview" ref="631954034"/>
 												<reference key="NSNextKeyView" ref="675070719"/>
 												<reference key="NSDocView" ref="675070719"/>
@@ -383,7 +404,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<object class="NSScroller" id="80775918">
 												<reference key="NSNextResponder" ref="631954034"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{395, 1}, {15, 128}}</string>
+												<string key="NSFrame">{{395, 1}, {15, 131}}</string>
 												<reference key="NSSuperview" ref="631954034"/>
 												<reference key="NSTarget" ref="631954034"/>
 												<string key="NSAction">_doScroller:</string>
@@ -405,7 +426,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<string key="NSFrame">{{18, 14}, {411, 133}}</string>
 										<reference key="NSSuperview" ref="415314997"/>
 										<reference key="NSNextKeyView" ref="177143147"/>
-										<int key="NSsFlags">146</int>
+										<int key="NSsFlags">133266</int>
 										<reference key="NSVScroller" ref="80775918"/>
 										<reference key="NSHScroller" ref="730671956"/>
 										<reference key="NSContentView" ref="177143147"/>
@@ -444,7 +465,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="401598992">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Encoding:</string>
+							<string key="NSContents">Codificação:</string>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="222268803"/>
 							<reference key="NSBackgroundColor" ref="362650998"/>
@@ -458,7 +479,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="NSSuperview" ref="452063308"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="742110663">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">1024</int>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="516232674"/>
@@ -543,7 +564,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="506000866">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Realname:</string>
+							<string key="NSContents">Nome real:</string>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="624208036"/>
 							<reference key="NSBackgroundColor" ref="362650998"/>
@@ -576,7 +597,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSTextFieldCell" key="NSCell" id="433076903">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Username (Ident):</string>
+							<string key="NSContents">Nome de utilizador:</string>
 							<reference key="NSSupport" ref="519844858"/>
 							<reference key="NSControlView" ref="783628705"/>
 							<reference key="NSBackgroundColor" ref="362650998"/>
@@ -1342,7 +1363,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

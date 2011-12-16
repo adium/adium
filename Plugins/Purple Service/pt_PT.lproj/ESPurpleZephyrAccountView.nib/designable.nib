@@ -2,15 +2,28 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSSegmentedControl</string>
+			<string>NSScroller</string>
+			<string>NSButton</string>
+			<string>NSScrollView</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSTableView</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
+			<string>NSTableColumn</string>
+			<string>NSSegmentedCell</string>
+			<string>NSTextField</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -41,7 +54,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="318792854">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">User Name:</string>
+							<string key="NSContents">Nome de utilizador:</string>
 							<object class="NSFont" key="NSSupport" id="885486577">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -107,7 +120,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="651315541">
 							<int key="NSCellFlags">71433728</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Zephyr requires a proper Kerberos configuration.  Zephyr uses your UNIX UID or your Kerberos name; the user name above is solely for internal Adium use.  Only one simultaneous Zephyr connection is recommended.  Using the internal host manager will conflict with any other 'zhm' instances running on this machine.</string>
+							<string key="NSContents">O Zephyr requer uma configuração Kerberos apropriada. O Zephyr utiliza a sua UNIX UID ou o nome do seu Kerberos; o nome de utilizador acima é apenas para uso interno do Adium. É recomendada apenas uma ligação do Zephyr de cada vez. A utilização do gestor de host interno irá entrar em conflito com qualquer outra instância 'zhm' em execução nesta máquina.</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">12</double>
@@ -185,7 +198,7 @@
 						<object class="NSButtonCell" key="NSCell" id="48093714">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Export to .zephyr.subs</string>
+							<string key="NSContents">Exportar para .zephyr.subs</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="470521996"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -213,7 +226,7 @@
 						<object class="NSButtonCell" key="NSCell" id="54546477">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Export to .anyone</string>
+							<string key="NSContents">Exportar para .anyone</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="204141606"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -254,7 +267,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="335208202">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Exposure:</string>
+							<string key="NSContents">Exposição:</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="427681656"/>
 							<reference key="NSBackgroundColor" ref="895772765"/>
@@ -289,7 +302,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="892046832">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Encoding:</string>
+							<string key="NSContents">Codificação:</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="352699024"/>
 							<reference key="NSBackgroundColor" ref="895772765"/>
@@ -306,7 +319,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="539348808">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Export:</string>
+							<string key="NSContents">Exportar:</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="314267581"/>
 							<reference key="NSBackgroundColor" ref="895772765"/>
@@ -396,6 +409,7 @@
 										<int key="NSDraggingSourceMaskForNonLocal">0</int>
 										<bool key="NSAllowsTypeSelect">YES</bool>
 										<int key="NSTableViewDraggingDestinationStyle">0</int>
+										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</array>
 								<string key="NSFrame">{{1, 1}, {238, 58}}</string>
@@ -430,7 +444,7 @@
 						<string key="NSFrame">{{142, 0}, {240, 60}}</string>
 						<reference key="NSSuperview" ref="940953429"/>
 						<reference key="NSNextKeyView" ref="429789133"/>
-						<int key="NSsFlags">530</int>
+						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="12785095"/>
 						<reference key="NSHScroller" ref="25400835"/>
 						<reference key="NSContentView" ref="429789133"/>
@@ -446,7 +460,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="212928296">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Servers:</string>
+							<string key="NSContents">Servidores:</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="491769680"/>
 							<reference key="NSBackgroundColor" ref="895772765"/>
@@ -463,7 +477,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="522643230">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Host Manager:</string>
+							<string key="NSContents">Gestão de host:</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="1042089376"/>
 							<reference key="NSBackgroundColor" ref="895772765"/>
@@ -480,7 +494,7 @@
 						<object class="NSButtonCell" key="NSCell" id="640134933">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Use internal host manager</string>
+							<string key="NSContents">Utilizar gestor de host interno</string>
 							<reference key="NSSupport" ref="885486577"/>
 							<reference key="NSControlView" ref="944057853"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -608,14 +622,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="388007840"/>
-						<reference key="destination" ref="341441569"/>
-					</object>
-					<int key="connectionID">242</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">tableView_servers</string>
 						<reference key="source" ref="341441569"/>
 						<reference key="destination" ref="388007840"/>
@@ -640,14 +646,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="388007840"/>
-						<reference key="destination" ref="341441569"/>
-					</object>
-					<int key="connectionID">253</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">button_addRemoveServers</string>
 						<reference key="source" ref="341441569"/>
 						<reference key="destination" ref="126558026"/>
@@ -669,6 +667,22 @@
 						<reference key="destination" ref="126558026"/>
 					</object>
 					<int key="connectionID">276</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="388007840"/>
+						<reference key="destination" ref="341441569"/>
+					</object>
+					<int key="connectionID">242</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="388007840"/>
+						<reference key="destination" ref="341441569"/>
+					</object>
+					<int key="connectionID">253</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1250,7 +1264,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSAddTemplate">{8, 8}</string>

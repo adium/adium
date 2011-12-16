@@ -2,15 +2,26 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSTextField</string>
+			<string>NSCustomObject</string>
+			<string>NSMenu</string>
+			<string>NSMenuItem</string>
+			<string>NSPopUpButton</string>
+			<string>NSCustomView</string>
+			<string>NSButtonCell</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSButton</string>
+			<string>NSTextFieldCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -29,7 +40,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1069159079">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="116260820">
@@ -37,11 +48,12 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{0, 116}, {186, 18}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="45079276">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Connect using proxy</string>
+							<string key="NSContents">Ligar utilizando um proxy</string>
 							<object class="NSFont" key="NSSupport" id="882489506">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -68,11 +80,12 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{66, 60}, {91, 17}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="881760927">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Server:</string>
+							<string key="NSContents">Servidor:</string>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="340077111"/>
 							<object class="NSColor" key="NSBackgroundColor" id="43682240">
@@ -100,11 +113,12 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{-2, 30}, {159, 17}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="877176183">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Username:</string>
+							<string key="NSContents">Nome de utilizador:</string>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="315874923"/>
 							<reference key="NSBackgroundColor" ref="43682240"/>
@@ -116,11 +130,12 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{-2, 0}, {159, 17}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="472558476">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Password:</string>
+							<string key="NSContents">Palavra-passe:</string>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="407337950"/>
 							<reference key="NSBackgroundColor" ref="43682240"/>
@@ -132,6 +147,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{162, 58}, {257, 22}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="127245855">
 							<int key="NSCellFlags">-1804468671</int>
@@ -162,6 +178,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{162, 28}, {257, 22}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="953397153">
 							<int key="NSCellFlags">-1804468671</int>
@@ -179,6 +196,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{162, -2}, {257, 22}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="70910645">
 							<int key="NSCellFlags">-1804468671</int>
@@ -196,9 +214,10 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{159, 86}, {263, 26}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="715757892">
-							<int key="NSCellFlags">-2076049856</int>
+							<int key="NSCellFlags">-2080244160</int>
 							<int key="NSCellFlags2">1024</int>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="902238757"/>
@@ -251,13 +270,14 @@
 					<object class="NSTextField" id="671897407">
 						<reference key="NSNextResponder" ref="1069159079"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{424, 62}, {40, 17}}</string>
+						<string key="NSFrame">{{424, 62}, {47, 17}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="974058364">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Port:</string>
+							<string key="NSContents">Porta:</string>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="671897407"/>
 							<reference key="NSBackgroundColor" ref="43682240"/>
@@ -267,8 +287,9 @@
 					<object class="NSTextField" id="715054728">
 						<reference key="NSNextResponder" ref="1069159079"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{469, 60}, {64, 22}}</string>
+						<string key="NSFrame">{{476, 60}, {64, 22}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="243505675">
 							<int key="NSCellFlags">-1804468671</int>
@@ -286,11 +307,12 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{66, 92}, {91, 17}}</string>
 						<reference key="NSSuperview" ref="1069159079"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="143509471">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Type:</string>
+							<string key="NSContents">Tipo:</string>
 							<reference key="NSSupport" ref="882489506"/>
 							<reference key="NSControlView" ref="97265431"/>
 							<reference key="NSBackgroundColor" ref="43682240"/>
@@ -299,6 +321,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{647, 134}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -322,38 +346,6 @@
 					<int key="connectionID">33</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="99284110"/>
-						<reference key="destination" ref="389558197"/>
-					</object>
-					<int key="connectionID">41</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="715054728"/>
-						<reference key="destination" ref="389558197"/>
-					</object>
-					<int key="connectionID">42</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="511091208"/>
-						<reference key="destination" ref="389558197"/>
-					</object>
-					<int key="connectionID">43</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="533303328"/>
-						<reference key="destination" ref="389558197"/>
-					</object>
-					<int key="connectionID">44</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleProxy:</string>
 						<reference key="source" ref="389558197"/>
@@ -368,54 +360,6 @@
 						<reference key="destination" ref="902238757"/>
 					</object>
 					<int key="connectionID">46</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="116260820"/>
-						<reference key="destination" ref="902238757"/>
-					</object>
-					<int key="connectionID">47</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="902238757"/>
-						<reference key="destination" ref="99284110"/>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="99284110"/>
-						<reference key="destination" ref="715054728"/>
-					</object>
-					<int key="connectionID">49</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="715054728"/>
-						<reference key="destination" ref="511091208"/>
-					</object>
-					<int key="connectionID">50</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="511091208"/>
-						<reference key="destination" ref="533303328"/>
-					</object>
-					<int key="connectionID">51</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="1069159079"/>
-						<reference key="destination" ref="116260820"/>
-					</object>
-					<int key="connectionID">52</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -452,46 +396,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: showProxyDetailsControls</string>
-						<reference key="source" ref="340077111"/>
-						<reference key="destination" ref="389558197"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="340077111"/>
-							<reference key="NSDestination" ref="389558197"/>
-							<string key="NSLabel">hidden: showProxyDetailsControls</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">showProxyDetailsControls</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: showProxyDetailsControls</string>
-						<reference key="source" ref="99284110"/>
-						<reference key="destination" ref="389558197"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="99284110"/>
-							<reference key="NSDestination" ref="389558197"/>
-							<string key="NSLabel">hidden: showProxyDetailsControls</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">showProxyDetailsControls</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">62</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: showProxyDetailsControls</string>
 						<reference key="source" ref="671897407"/>
 						<reference key="destination" ref="389558197"/>
 						<object class="NSNibBindingConnector" key="connector">
@@ -508,66 +412,6 @@
 						</object>
 					</object>
 					<int key="connectionID">66</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: showProxyDetailsControls</string>
-						<reference key="source" ref="715054728"/>
-						<reference key="destination" ref="389558197"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="715054728"/>
-							<reference key="NSDestination" ref="389558197"/>
-							<string key="NSLabel">hidden: showProxyDetailsControls</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">showProxyDetailsControls</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">68</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: showProxyDetailsControls</string>
-						<reference key="source" ref="315874923"/>
-						<reference key="destination" ref="389558197"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="315874923"/>
-							<reference key="NSDestination" ref="389558197"/>
-							<string key="NSLabel">hidden: showProxyDetailsControls</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">showProxyDetailsControls</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">70</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: showProxyDetailsControls</string>
-						<reference key="source" ref="511091208"/>
-						<reference key="destination" ref="389558197"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="511091208"/>
-							<reference key="NSDestination" ref="389558197"/>
-							<string key="NSLabel">hidden: showProxyDetailsControls</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">showProxyDetailsControls</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">72</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -590,6 +434,86 @@
 					<int key="connectionID">74</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="116260820"/>
+						<reference key="destination" ref="902238757"/>
+					</object>
+					<int key="connectionID">47</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1069159079"/>
+						<reference key="destination" ref="116260820"/>
+					</object>
+					<int key="connectionID">52</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: showProxyDetailsControls</string>
+						<reference key="source" ref="340077111"/>
+						<reference key="destination" ref="389558197"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="340077111"/>
+							<reference key="NSDestination" ref="389558197"/>
+							<string key="NSLabel">hidden: showProxyDetailsControls</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">showProxyDetailsControls</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">58</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="99284110"/>
+						<reference key="destination" ref="389558197"/>
+					</object>
+					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="99284110"/>
+						<reference key="destination" ref="715054728"/>
+					</object>
+					<int key="connectionID">49</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: showProxyDetailsControls</string>
+						<reference key="source" ref="99284110"/>
+						<reference key="destination" ref="389558197"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="99284110"/>
+							<reference key="NSDestination" ref="389558197"/>
+							<string key="NSLabel">hidden: showProxyDetailsControls</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">showProxyDetailsControls</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">62</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="533303328"/>
+						<reference key="destination" ref="389558197"/>
+					</object>
+					<int key="connectionID">44</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: showProxyDetailsControls</string>
 						<reference key="source" ref="533303328"/>
@@ -608,6 +532,106 @@
 						</object>
 					</object>
 					<int key="connectionID">76</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: showProxyDetailsControls</string>
+						<reference key="source" ref="315874923"/>
+						<reference key="destination" ref="389558197"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="315874923"/>
+							<reference key="NSDestination" ref="389558197"/>
+							<string key="NSLabel">hidden: showProxyDetailsControls</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">showProxyDetailsControls</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">70</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="715054728"/>
+						<reference key="destination" ref="389558197"/>
+					</object>
+					<int key="connectionID">42</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="715054728"/>
+						<reference key="destination" ref="511091208"/>
+					</object>
+					<int key="connectionID">50</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: showProxyDetailsControls</string>
+						<reference key="source" ref="715054728"/>
+						<reference key="destination" ref="389558197"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="715054728"/>
+							<reference key="NSDestination" ref="389558197"/>
+							<string key="NSLabel">hidden: showProxyDetailsControls</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">showProxyDetailsControls</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">68</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="511091208"/>
+						<reference key="destination" ref="389558197"/>
+					</object>
+					<int key="connectionID">43</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="511091208"/>
+						<reference key="destination" ref="533303328"/>
+					</object>
+					<int key="connectionID">51</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: showProxyDetailsControls</string>
+						<reference key="source" ref="511091208"/>
+						<reference key="destination" ref="389558197"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="511091208"/>
+							<reference key="NSDestination" ref="389558197"/>
+							<string key="NSLabel">hidden: showProxyDetailsControls</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">showProxyDetailsControls</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="902238757"/>
+						<reference key="destination" ref="99284110"/>
+					</object>
+					<int key="connectionID">48</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -934,7 +958,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSMenuCheckmark">{9, 8}</string>

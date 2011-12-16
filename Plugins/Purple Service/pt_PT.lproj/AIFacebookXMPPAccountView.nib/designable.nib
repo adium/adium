@@ -2,15 +2,23 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSTextField</string>
+			<string>NSView</string>
+			<string>NSProgressIndicator</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSButton</string>
+			<string>NSCustomObject</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -41,7 +49,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="12458334">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
-							<string key="NSContents">To connect to Facebook Chat, you must give Adium permission. A secure Facebook login screen will be shown when you click Allow Access.</string>
+							<string key="NSContents">É necessário dar autorização ao Adium para poder utilizar o chat do Facebook. Será apresentado um ecrã para iniciar a sessão de forma segura ao clicar em Permitir acesso.</string>
 							<object class="NSFont" key="NSSupport" id="568567493">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -77,7 +85,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="1047490784">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
-							<string key="NSContents">Current status information will go here.</string>
+							<string key="NSContents">Informações do estado actual ficarão aqui.</string>
 							<reference key="NSSupport" ref="568567493"/>
 							<reference key="NSControlView" ref="444720455"/>
 							<reference key="NSBackgroundColor" ref="43977286"/>
@@ -93,7 +101,7 @@
 						<object class="NSButtonCell" key="NSCell" id="119278707">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Allow Access</string>
+							<string key="NSContents">Permitir acesso</string>
 							<object class="NSFont" key="NSSupport" id="25279989">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -599,7 +607,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>

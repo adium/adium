@@ -2,15 +2,20 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSCustomView</string>
+			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
+			<string>NSCustomObject</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -41,7 +46,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="360431114">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Chat Room Name:</string>
+							<string key="NSContents">Nome da sala:</string>
 							<object class="NSFont" key="NSSupport" id="758469569">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -124,7 +129,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="196512217">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">With Message:</string>
+							<string key="NSContents">Com a mensagem:</string>
 							<reference key="NSSupport" ref="758469569"/>
 							<reference key="NSControlView" ref="663481618"/>
 							<reference key="NSBackgroundColor" ref="908827500"/>
@@ -140,7 +145,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="853154671">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Separate contacts‘ names with commas.</string>
+							<string key="NSContents">Separar contactos por vírgulas.</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -177,7 +182,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="418271092">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Invite Contacts:</string>
+							<string key="NSContents">Convidar contactos:</string>
 							<reference key="NSSupport" ref="758469569"/>
 							<reference key="NSControlView" ref="359067617"/>
 							<reference key="NSBackgroundColor" ref="908827500"/>
@@ -234,11 +239,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="1069348334"/>
-						<reference key="destination" ref="1023219296"/>
+						<string key="label">delegate</string>
+						<reference key="source" ref="751419940"/>
+						<reference key="destination" ref="715994129"/>
 					</object>
-					<int key="connectionID">44</int>
+					<int key="connectionID">47</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -250,11 +255,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="751419940"/>
-						<reference key="destination" ref="715994129"/>
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1069348334"/>
+						<reference key="destination" ref="1023219296"/>
 					</object>
-					<int key="connectionID">47</int>
+					<int key="connectionID">44</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -434,7 +439,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>
