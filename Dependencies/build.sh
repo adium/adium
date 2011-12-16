@@ -22,7 +22,7 @@ HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # Also try /Developer-old, just in case XCode 4 is installed
-DEVELOPER="/Developer"
+DEVELOPER="/Developer-old"
 SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.6.sdk"
 
 MIN_OS_VERSION="10.6"

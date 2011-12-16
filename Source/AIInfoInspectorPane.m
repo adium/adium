@@ -702,7 +702,7 @@
 				break;				
 			case kABMultiDateProperty:
 				if (innerValue) {
-					[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+					[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 						[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 												 [NSString stringWithFormat:@"%@ (%@)", ABLocalizedPropertyOrLabel(property), label], KEY_KEY,
 												 [dateFormatter stringFromDate:(NSDate *)innerValue], KEY_VALUE,

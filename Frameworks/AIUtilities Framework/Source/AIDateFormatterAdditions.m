@@ -216,7 +216,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (dispatch_get_current_queue() != localizedFormatterQueue) {
 		dispatch_sync(localizedFormatterQueue, ^{
-			formatString = [[self localizedDateFormatStringShowingSeconds:YES showingAMorPM:NO] retain];
+			formatString = [[self localizedDateFormatStringShowingSeconds:seconds showingAMorPM:showAmPm] retain];
 		});
 		return [formatString autorelease];
 	}
