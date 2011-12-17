@@ -5,8 +5,10 @@ Version 1.5 (10/11/2011)
   * Requires Mac OS X 10.6.0 or later
   * Requires an Intel Mac
   * Added 64bit support.
-  * Updated to libpurple 2.10.0mtn
+  * Updated to libpurple 2.10.0
     * Removed defunct QQ support.
+    * Fix double mail notifications on MSN. (#13920)
+    * Make disconnecting due to flooding on IRC less likely to occur. (#11199)
   * Various user interface improvements
 
  Address Book integration
@@ -16,6 +18,9 @@ Version 1.5 (10/11/2011)
  Authorization Requests
   * First entry in the list is now auto-selected.
   * Toolbar items now get disabled when no request is selected.
+
+ Chat Window
+  * Rounded user icon in the chat window toolbar. (#3757)
 
  Contact List
   * The contact list search now treats whitespace-separated words as keywords. (Paul Vet) (#14354)
@@ -50,8 +55,10 @@ Version 1.5 (10/11/2011)
  Group Chats
   * Added support for purple images (custom emoticons etc.). (Peter Fung) (#15183)
 
- Chat Window
-  * Rounded user icon in the chat window toolbar. (#3757)
+ iTunesIntegration
+  * Use same menu in menu bar, context menu and toolbar.
+  * Fix bug when replacing tokens with empty strings.
+  * Make tokens un-localizable.
 
  Messaging
   * Added a "Reopen Closed Tab" menu item to the File menu that will restore the most recently closed tab. (#12537)
@@ -93,6 +100,9 @@ Version 1.5 (10/11/2011)
  StatusNet
   * Allow overriding the 140 character limit for StatusNet. (brion) (#13485)
 
+ Twitter
+  * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
+
  XMPP
   * Added support for supported characters in Jabber IDs. (Marc Kalmes) (#13099)
 
@@ -121,8 +131,8 @@ Version 1.5 (10/11/2011)
   * Rewrote the libpurple eventloop to use libdispatch. (#13932)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
   
-  Localisation
-   * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
+ Localisation
+  * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
 
 
 Version 1.4.4 (12/5/2011)
