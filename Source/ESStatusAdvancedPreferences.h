@@ -19,13 +19,13 @@
 @class AILocalizationTextField;
 
 @interface ESStatusAdvancedPreferences : AIAdvancedPreferencePane <NSTokenFieldDelegate> {	
-	IBOutlet	NSTextField	*label_statusWindow;
-	IBOutlet	NSButton	*checkBox_statusWindowHideInBackground;
-	IBOutlet	NSButton	*checkBox_statusWindowAlwaysOnTop;	
+	IBOutlet	AILocalizationTextField		*label_statusWindow;
+	IBOutlet	NSButton					*checkBox_statusWindowHideInBackground;
+	IBOutlet	NSButton					*checkBox_statusWindowAlwaysOnTop;	
 
 	IBOutlet	NSBox						*box_itunesElements;
 
-	IBOutlet	NSTextField *label_itunesStatusFormat;
+	IBOutlet	AILocalizationTextField		*label_itunesStatusFormat;
 	IBOutlet	AILocalizationTextField		*label_instructions;
 	IBOutlet	AILocalizationTextField		*label_album;
 	IBOutlet	AILocalizationTextField		*label_artist;
