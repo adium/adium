@@ -17,6 +17,7 @@
 #import "AIAdvancedPreferencesPlugin.h"
 #import "AIMessageAlertsAdvancedPreferences.h"
 #import "AIConfirmationsAdvancedPreferences.h"
+#import "AIWindowHandlingPreferences.h"
 
 @implementation AIAdvancedPreferencesPlugin
 
@@ -25,6 +26,7 @@
 	// Generic advanced panes with no specific plugins.
 	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
 	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
+	windowHandlingPreferences = [(AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane] retain];
 }
 
 @end
