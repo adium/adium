@@ -16,26 +16,37 @@
 
 #import <Adium/AIPreferencePane.h>
 
-#define PREF_GROUP_STATUS_MENU_ITEM     @"Status Menu Item"
-#define KEY_STATUS_MENU_ITEM_ENABLED    @"Status Menu Item Enabled"
-#define	KEY_STATUS_MENU_ITEM_COUNT		@"Status Menu Item Unread Count"
-#define	KEY_STATUS_MENU_ITEM_BADGE		@"Status Menu Item Badge"
-#define KEY_STATUS_MENU_ITEM_FLASH		@"Status Menu Item Flash Unviewed"
-
 @interface AIMessageAlertsAdvancedPreferences : AIPreferencePane {
-	IBOutlet	NSTextField	*label_dockMenuBarIconCounts;
-	IBOutlet	NSButton	*checkBox_unreadConversations;
-	IBOutlet	NSButton	*checkBox_unreadContentMention;
-	
-	IBOutlet	NSTextField *label_statusMenuItem;
-	IBOutlet	NSButton	*checkBox_statusMenuItemBadge;
-	IBOutlet	NSButton	*checkBox_statusMenuItemFlash;
-	IBOutlet	NSButton	*checkBox_statusMenuItemCount;
-	
-	IBOutlet	NSTextField	*label_dockIcon;
-	IBOutlet	NSTextField	*label_dockIconWhenUnread;
-    IBOutlet	NSButton	*checkBox_animateDockIcon;
-    IBOutlet    NSButton	*checkBox_badgeDockIcon;
+	NSTextField *label_unreadMessages;
+	NSTextField *label_actions;
+	NSTextField *label_counts;
+	NSTextField *label_statusMenu;
+	AILocalizationButton *checkbox_statusMenuItemFlash;
+	AILocalizationButton *checkbox_statusMenuItemCount;
+	AILocalizationButton *checkbox_statusMenuItemBadge;
+	AILocalizationButton *checkbox_animateDockIcon;
+	AILocalizationButton *checkbox_badgeDockIcon;
+	AILocalizationButton *checkbox_unreadConversations;
+	AILocalizationButton *checkbox_unreadContentMention;
+	AILocalizationButton *checkbox_unreadMentionCount;
+	AILocalizationButton *checkbox_showTabCountSingle;
+	AILocalizationButton *checkbox_showTabCountGroup;
 }
+
+@property (assign) IBOutlet NSTextField *label_unreadMessages;
+@property (assign) IBOutlet NSTextField *label_actions;
+@property (assign) IBOutlet NSTextField *label_counts;
+@property (assign) IBOutlet NSTextField *label_statusMenu;
+
+@property (assign) IBOutlet AILocalizationButton *checkbox_statusMenuItemFlash;
+@property (assign) IBOutlet AILocalizationButton *checkbox_statusMenuItemCount;
+@property (assign) IBOutlet AILocalizationButton *checkbox_statusMenuItemBadge;
+@property (assign) IBOutlet AILocalizationButton *checkbox_animateDockIcon;
+@property (assign) IBOutlet AILocalizationButton *checkbox_badgeDockIcon;
+@property (assign) IBOutlet AILocalizationButton *checkbox_unreadConversations;
+@property (assign) IBOutlet AILocalizationButton *checkbox_unreadContentMention;
+@property (assign) IBOutlet AILocalizationButton *checkbox_unreadMentionCount;
+@property (assign) IBOutlet AILocalizationButton *checkbox_showTabCountSingle;
+@property (assign) IBOutlet AILocalizationButton *checkbox_showTabCountGroup;
 
 @end
