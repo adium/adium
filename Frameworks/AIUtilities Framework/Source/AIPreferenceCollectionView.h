@@ -14,17 +14,25 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIAdvancedPreferencesPlugin.h"
-#import "AIMessageAlertsAdvancedPreferences.h"
-#import "AIConfirmationsAdvancedPreferences.h"
+@protocol AIPreferenceCollectionViewDelegate;
 
-@implementation AIAdvancedPreferencesPlugin
-
-- (void)installPlugin
-{
-	// Generic advanced panes with no specific plugins.
-	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
-	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
+/*!
+ * @class AIPreferenceCollectionView
+ * @brief NSCollectionView subclass
+ *
+ * Draw an outline on an item when it is clicked or when it is highlighted.
+ */
+@interface AIPreferenceCollectionView : NSCollectionView {
+	NSUInteger highlightedIndex;
+	id <AIPreferenceCollectionViewDelegate> delegate;
 }
 
+@property (assign, nonatomic) NSUInteger highlightedIndex;
+@property (assign, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
+
+@end
+
+@protocol AIPreferenceCollectionViewDelegate <NSObject>
+@optional
+- (void)preferenceCollectionView:(AIPreferenceCollectionView *)aCollectionView didSelectItem:(NSCollectionViewItem *)anItem;
 @end

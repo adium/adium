@@ -14,17 +14,23 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIAdvancedPreferencesPlugin.h"
-#import "AIMessageAlertsAdvancedPreferences.h"
-#import "AIConfirmationsAdvancedPreferences.h"
+@class AIPreferencePane;
 
-@implementation AIAdvancedPreferencesPlugin
-
-- (void)installPlugin
+/*!
+ * @class AIHighlightingTextField
+ * @brief An uneditable NSTextField that will draw the selected menu item colour as its background.
+ *
+ * This is used by AIPreferenceWindowController's suggestions window to highlight the suggestions.
+ */
+@interface AIHighlightingTextField : NSTextField
 {
-	// Generic advanced panes with no specific plugins.
-	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
-	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
+	BOOL selected;
+	AIPreferencePane *pane;
 }
+
+@property (assign, nonatomic) BOOL selected;
+@property (assign) AIPreferencePane *pane;
+
+- (void)setString:(NSString *)aString withPane:(AIPreferencePane *)aPane;
 
 @end
