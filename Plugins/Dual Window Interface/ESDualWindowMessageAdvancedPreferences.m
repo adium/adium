@@ -35,13 +35,16 @@
 
 @implementation ESDualWindowMessageAdvancedPreferences
 
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"DualWindowMessagesAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Messages",nil);
 }
 - (NSString *)nibName{
     return @"DualWindowMessageAdvanced";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-messages" forClass:[AIPreferenceWindowController class]];
 }
 

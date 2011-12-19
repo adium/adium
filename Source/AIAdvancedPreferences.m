@@ -92,7 +92,7 @@
 - (NSArray *)advancedCategoryArray
 {
     if (!_advancedCategoryArray) {
-        _advancedCategoryArray = [[[adium.preferenceController advancedPaneArray] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+        _advancedCategoryArray = [[[adium.preferenceController paneArrayOfType:@"Advanced"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
     }
     
     return _advancedCategoryArray;

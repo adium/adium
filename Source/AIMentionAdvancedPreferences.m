@@ -31,13 +31,16 @@
 {
     return AIPref_Advanced;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"MentionAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Mention",nil);
 }
 - (NSString *)nibName{
     return @"AIMentionAdvancedPreferences";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-mention" forClass:[AIPreferenceWindowController class]];
 }
 

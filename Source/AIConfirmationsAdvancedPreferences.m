@@ -29,13 +29,16 @@
 {
     return AIPref_Advanced;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"ConfirmationsAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Confirmations",nil);
 }
 - (NSString *)nibName{
     return @"AIConfirmationsAdvancedPreferences";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-confirmations" forClass:[AIPreferenceWindowController class]];
 }
 

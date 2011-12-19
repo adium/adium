@@ -42,13 +42,16 @@
 {
     return AIPref_Advanced;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"URLHandlerAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Default Client",nil);
 }
 - (NSString *)nibName{
     return @"AIURLHandlerPreferences";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-defaultclient" forClass:[AIPreferenceWindowController class]];
 }
 

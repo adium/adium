@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 
 #define PREF_GROUP_STATUS_MENU_ITEM     @"Status Menu Item"
 #define KEY_STATUS_MENU_ITEM_ENABLED    @"Status Menu Item Enabled"
@@ -22,7 +22,7 @@
 #define	KEY_STATUS_MENU_ITEM_BADGE		@"Status Menu Item Badge"
 #define KEY_STATUS_MENU_ITEM_FLASH		@"Status Menu Item Flash Unviewed"
 
-@interface AIMessageAlertsAdvancedPreferences : AIAdvancedPreferencePane {
+@interface AIMessageAlertsAdvancedPreferences : AIPreferencePane {
 	IBOutlet	NSTextField	*label_dockMenuBarIconCounts;
 	IBOutlet	NSButton	*checkBox_unreadConversations;
 	IBOutlet	NSButton	*checkBox_unreadContentMention;
