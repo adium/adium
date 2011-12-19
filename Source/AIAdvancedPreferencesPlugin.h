@@ -14,11 +14,12 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@class AIMessageAlertsAdvancedPreferences, AIConfirmationsAdvancedPreferences;
+@class AIMessageAlertsAdvancedPreferences, AIConfirmationsAdvancedPreferences, AIWindowHandlingPreferences;
 
 @interface AIAdvancedPreferencesPlugin : AIPlugin {
 	AIMessageAlertsAdvancedPreferences *messageAlertsPreferences;
 	AIConfirmationsAdvancedPreferences *confirmationsPreferences;
+	AIWindowHandlingPreferences *windowHandlingPreferences;
 }
 
 @end
