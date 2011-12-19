@@ -18,6 +18,7 @@
 #import "AIMessageAlertsAdvancedPreferences.h"
 #import "AIConfirmationsAdvancedPreferences.h"
 #import "AIWindowHandlingPreferences.h"
+#import "AIMessagePreferences.h"
 
 @implementation AIAdvancedPreferencesPlugin
 
@@ -27,6 +28,7 @@
 	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
 	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
 	windowHandlingPreferences = [(AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane] retain];
+	messagePreferences = [(AIMessagePreferences *)[AIMessagePreferences preferencePane] retain];
 }
 
 @end
