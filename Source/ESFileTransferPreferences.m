@@ -32,6 +32,9 @@
 
 @implementation ESFileTransferPreferences
 //Preference pane properties
+- (AIPreferenceCategory)category{
+	return AIPref_Advanced;
+}
 - (NSString *)paneIdentifier
 {
 	return @"File Transfer";

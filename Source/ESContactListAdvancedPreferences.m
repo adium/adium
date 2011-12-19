@@ -31,6 +31,9 @@
  * @brief Advanced contact list preferences
  */
 @implementation ESContactListAdvancedPreferences
+- (AIPreferenceCategory)category{
+	return AIPref_Appearance;
+}
 - (NSString *)paneIdentifier{
 	return @"Contact List";
 }
