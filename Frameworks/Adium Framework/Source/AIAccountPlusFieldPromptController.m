@@ -72,10 +72,20 @@
 			contact = [adium.contactController contactWithService:account.service
 														  account:account 
 															  UID:UID];
-		} else {
-			NSRunAlertPanel(AILocalizedString(@"Contact not found", nil),
-							[NSString stringWithFormat:AILocalizedString(@"%@ is not on any account. Please select a specific account or add this contact first.", nil), impliedValue],
-							AILocalizedString(@"OK", nil),
+		} else {			
+			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Contact not found",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil),
+							[NSString stringWithFormat:
+							 AILocalizedStringFromTableInBundle(@"%@ is not on any account. Please select a specific account or add this contact first.",
+																nil,
+																[NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+																nil), impliedValue],
+							AILocalizedStringFromTableInBundle(@"OK",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil),
 							nil,
 							nil);
 			
@@ -161,7 +171,11 @@
 - (void)windowDidLoad
 {
 	//Controls
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel", nil)];
+	[button_cancel setLocalizedString:
+	 AILocalizedStringFromTableInBundle(@"Cancel",
+										nil,
+										[NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+										nil)];
 	[textField_handle setMinStringLength:2];
 	
 	//Account menu
@@ -217,11 +231,10 @@
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				// XXX [NSBundle bundleForClass:[self class]] does not return Adium.framework
 				anyItem = [[[NSMenuItem alloc] initWithTitle:
 							AILocalizedStringFromTableInBundle(@"Any",
 															   nil,
-															   [NSBundle bundleForClass:[AIAccountMenu class]],
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
 															   nil)
 													  action:nil
 											   keyEquivalent:@""] autorelease];
