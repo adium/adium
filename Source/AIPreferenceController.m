@@ -31,7 +31,6 @@
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
 #import "AIPreferencePane.h"
-#import "AIAdvancedPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)

@@ -1140,6 +1140,8 @@
 		5A23E0CD13EDC2E50032EF52 /* AdiumVersion.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C813EDC2E50032EF52 /* AdiumVersion.applescript */; };
 		5A23E0CE13EDC2E50032EF52 /* StatusMessage.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0C913EDC2E50032EF52 /* StatusMessage.applescript */; };
 		5A23E0CF13EDC2E50032EF52 /* Uptime.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 5A23E0CA13EDC2E50032EF52 /* Uptime.applescript */; };
+		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
+		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F601A12962D06007A2232 /* AISegmentedControl.m */; };
 		5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A5F601912962D06007A2232 /* AISegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8BBC12D560E400019727 /* AIDockNameOverlay.m */; };
@@ -1149,6 +1151,10 @@
 		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* Stop sign.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* Stop sign.png */; };
+		5ACF27391392C74A004B6AEF /* AIHighlightingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */; };
+		5ACF273A1392C74A004B6AEF /* AIHighlightingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */; };
+		5ACF273B1392C74A004B6AEF /* AIPreferenceCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27371392C74A004B6AEF /* AIPreferenceCollectionView.h */; };
+		5ACF273C1392C74A004B6AEF /* AIPreferenceCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF27381392C74A004B6AEF /* AIPreferenceCollectionView.m */; };
 		5ADFFE5D133846C300069C1B /* keys.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ADFFE5C133846C300069C1B /* keys.png */; };
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6311F4720E340DD2004234B8 /* AISharedAdium.m in Sources */ = {isa = PBXBuildFile; fileRef = 6311F4700E340DD2004234B8 /* AISharedAdium.m */; };
@@ -4132,6 +4138,7 @@
 		5A23E0C813EDC2E50032EF52 /* AdiumVersion.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = AdiumVersion.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/AdiumVersion.applescript"; sourceTree = "<group>"; };
 		5A23E0C913EDC2E50032EF52 /* StatusMessage.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = StatusMessage.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/StatusMessage.applescript"; sourceTree = "<group>"; };
 		5A23E0CA13EDC2E50032EF52 /* Uptime.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = Uptime.applescript; path = "Resources/Scripts/System Statistics.AdiumScripts/Uptime.applescript"; sourceTree = "<group>"; };
+		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A5F601912962D06007A2232 /* AISegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISegmentedControl.h; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.h"; sourceTree = "<group>"; };
 		5A5F601A12962D06007A2232 /* AISegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISegmentedControl.m; path = "Frameworks/AIUtilities Framework/Source/AISegmentedControl.m"; sourceTree = "<group>"; };
 		5A5F8BBB12D560E400019727 /* AIDockNameOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockNameOverlay.h; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.h"; sourceTree = "<group>"; };
@@ -4227,6 +4234,11 @@
 		5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDoNothingContactAlertPlugin.h; sourceTree = "<group>"; };
 		5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIDoNothingContactAlertPlugin.m; sourceTree = "<group>"; };
 		5A9A9F8A11F295EB00328DF9 /* Stop sign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Stop sign.png"; path = "Resources/Stop sign.png"; sourceTree = SOURCE_ROOT; };
+		5ACF27331392C585004B6AEF /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = Resources/Preferences.xib; sourceTree = "<group>"; };
+		5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIHighlightingTextField.h; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.h"; sourceTree = "<group>"; };
+		5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIHighlightingTextField.m; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.m"; sourceTree = "<group>"; };
+		5ACF27371392C74A004B6AEF /* AIPreferenceCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIPreferenceCollectionView.h"; sourceTree = "<group>"; };
+		5ACF27381392C74A004B6AEF /* AIPreferenceCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIPreferenceCollectionView.m"; sourceTree = "<group>"; };
 		5ADFFE5C133846C300069C1B /* keys.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = keys.png; path = Resources/keys.png; sourceTree = "<group>"; };
 		6311F46F0E340DD2004234B8 /* AISharedAdium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISharedAdium.h; path = "Frameworks/Adium Framework/Source/AISharedAdium.h"; sourceTree = "<group>"; };
 		6311F4700E340DD2004234B8 /* AISharedAdium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISharedAdium.m; path = "Frameworks/Adium Framework/Source/AISharedAdium.m"; sourceTree = "<group>"; };
@@ -6558,6 +6570,12 @@
 		34E6CB330A7938C60076D7F0 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */,
+				5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */,
+				5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */,
+				5ACF27371392C74A004B6AEF /* AIPreferenceCollectionView.h */,
+				5ACF27381392C74A004B6AEF /* AIPreferenceCollectionView.m */,
+				5ACF27331392C585004B6AEF /* Preferences.xib */,
 				F57938F0033E745F01A8010A /* AIPreferenceWindowController.h */,
 				F57938BB033E739101A8010A /* AIPreferenceWindowController.m */,
 				344839970BC8644C0083723B /* AIAdvancedPreferencesPlugin.h */,
@@ -9290,6 +9308,8 @@
 				7E959AD010E3187000C26397 /* AIMathCompatibility.h in Headers */,
 				5A5F601E12962ECE007A2232 /* AISegmentedControl.h in Headers */,
 				9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */,
+				5ACF27391392C74A004B6AEF /* AIHighlightingTextField.h in Headers */,
+				5ACF273B1392C74A004B6AEF /* AIPreferenceCollectionView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9896,6 +9916,8 @@
 				97E4B50013E7490000A8BA53 /* AboutDialog_transp_top.png in Resources */,
 				97E4B50113E7490000A8BA53 /* Flap_192.png in Resources */,
 				97E4B50213E7490000A8BA53 /* Awake_192.png in Resources */,
+				5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */,
+				5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10789,6 +10811,8 @@
 				11AA10140FCE0969003908B6 /* AIProgressDataUploader.m in Sources */,
 				5A5F601D12962EC0007A2232 /* AISegmentedControl.m in Sources */,
 				9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */,
+				5ACF273A1392C74A004B6AEF /* AIHighlightingTextField.m in Sources */,
+				5ACF273C1392C74A004B6AEF /* AIPreferenceCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12321,6 +12345,14 @@
 				5A80CC8F121F5A7A00D0670A /* uk_UA */,
 			);
 			name = EmoticonNames.strings;
+			sourceTree = "<group>";
+		};
+		5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A4BD41C13F855B000A4D3F7 /* en */,
+			);
+			name = SearchTerms.plist;
 			sourceTree = "<group>";
 		};
 		633D50ED0F9D31BD004F491E /* InfoPlist.strings */ = {
