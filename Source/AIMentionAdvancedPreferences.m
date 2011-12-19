@@ -89,11 +89,14 @@
  */
 - (void)viewDidLoad
 {
-	[label_explanation setStringValue:AILocalizedString(@"Messages are highlighted when the following terms are spoken. Your username is always highlighted.", nil)];
-	
 	mentionTerms = [[NSMutableArray alloc] initWithArray:[adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL]];
 	
 	[super viewDidLoad];
+}
+
+- (void)localizePane
+{
+	[label_explanation setStringValue:AILocalizedString(@"Messages are highlighted when the following terms are spoken. Your username is always highlighted.", nil)];
 }
 
 - (void)viewWillClose
