@@ -17,23 +17,42 @@
 #import <Adium/AIPreferencePane.h>
 
 @interface ESContactListAdvancedPreferences : AIPreferencePane {
-	IBOutlet	NSPopUpButton   *popUp_windowPosition;
+	IBOutlet	NSPopUpButton	*popUp_listLayout;
+	IBOutlet	NSPopUpButton	*popUp_colorTheme;
+	IBOutlet	NSPopUpButton	*popUp_windowStyle;
 	
-	IBOutlet	NSMatrix		*matrix_hiding;
-    IBOutlet	NSButton		*checkBox_hideOnScreenEdgesOnlyInBackground;
+	IBOutlet	NSButton		*button_colorTheme;
+	IBOutlet	NSButton		*button_listLayout;
+	IBOutlet	NSButton		*checkBox_verticalAutosizing;
+	IBOutlet	NSButton		*checkBox_horizontalAutosizing;
 	
 	IBOutlet	NSButton		*checkBox_flash;
 	IBOutlet	NSButton		*checkBox_animateChanges;
 	IBOutlet	NSButton		*checkBox_showTooltips;
 	IBOutlet	NSButton		*checkBox_showTooltipsInBackground;
 	IBOutlet	NSButton		*checkBox_windowHasShadow;
-	IBOutlet	NSButton		*checkBox_showOnAllSpaces;
 
-	IBOutlet	NSTextField		*label_appearance;
-	IBOutlet	NSTextField		*label_tooltips;
-	IBOutlet	NSTextField		*label_windowHandling;
-	IBOutlet	NSTextField		*label_hide;
-	IBOutlet	NSTextField		*label_orderTheContactList;	
+	IBOutlet	AILocalizationTextField		*label_colorTheme;
+	IBOutlet	AILocalizationTextField		*label_listLayout;
+	IBOutlet	AILocalizationTextField		*label_windowStyle;
+	IBOutlet	AILocalizationTextField		*label_opacity;
+	IBOutlet	AILocalizationTextField		*label_automaticSizing;
+	IBOutlet	AILocalizationTextField		*label_horizontalWidth;
+	IBOutlet	AILocalizationTextField		*label_animation;
+	IBOutlet	AILocalizationTextField		*label_tooltips;
+	
+	IBOutlet	NSSlider		*slider_windowOpacity;
+	IBOutlet	NSTextField		*textField_windowOpacity;
+	
+	IBOutlet	NSSlider		*slider_horizontalWidth;
+	IBOutlet	NSTextField		*textField_horizontalWidth;
+	
+	//
+	NSArray		*_listLayouts;	//Will NOT always be a valid reference.  Do not use as one!
+	NSArray		*_listThemes;	//Will NOT always be a valid reference.  Do not use as one!
 }
+
+- (IBAction)customizeListLayout:(id)sender;
+- (IBAction)customizeListTheme:(id)sender;
 
 @end
