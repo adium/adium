@@ -29,7 +29,7 @@
 #pragma mark Preference pane settings
 - (AIPreferenceCategory)category
 {
-    return AIPref_Advanced;
+    return AIPref_Events;
 }
 - (NSString *)paneIdentifier{
 	return @"MentionAdvanced";

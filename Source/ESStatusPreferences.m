@@ -52,7 +52,9 @@
 @end
 
 @implementation ESStatusPreferences
-
+- (AIPreferenceCategory)category{
+	return AIPref_General;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Status";

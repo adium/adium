@@ -67,7 +67,9 @@
 @class AIPreviewChat;
 
 @implementation ESWebKitMessageViewPreferences
-
+- (AIPreferenceCategory)category{
+	return AIPref_Appearance;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Messages";

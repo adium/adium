@@ -24,7 +24,7 @@
 #pragma mark Preference Pane
 - (AIPreferenceCategory)category
 {
-    return AIPref_Advanced;
+    return AIPref_Events;
 }
 - (NSString *)paneIdentifier{
 	return @"MessageAlertsAdvanced";

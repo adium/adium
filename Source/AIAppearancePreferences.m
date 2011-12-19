@@ -64,6 +64,9 @@ typedef enum {
 /*!
  * @brief Preference pane properties
  */
+- (AIPreferenceCategory)category{
+	return AIPref_Appearance;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Appearance";

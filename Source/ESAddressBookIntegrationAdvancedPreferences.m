@@ -53,7 +53,9 @@
  * @brief Provide advanced preferences for the address book integration
  */
 @implementation ESAddressBookIntegrationAdvancedPreferences
-
+- (AIPreferenceCategory)category{
+	return AIPref_Advanced;
+}
 - (NSString *)paneIdentifier{
 	return @"AddressBookAdvanced";
 }

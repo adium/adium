@@ -216,10 +216,10 @@
     return paneArray;
 }
 
-- (NSArray *)paneArrayOfType:(NSString *)paneType
+- (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory
 {
 	return [paneArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-		return [[evaluatedObject paneName] isEqualToString:paneType];
+		return ([evaluatedObject category] == paneCategory);
 	}]];
 }
 
