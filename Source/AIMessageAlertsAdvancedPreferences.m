@@ -22,16 +22,20 @@
 
 @implementation AIMessageAlertsAdvancedPreferences
 #pragma mark Preference Pane
-- (AIPreferenceCategory)category{
+- (AIPreferenceCategory)category
+{
     return AIPref_Advanced;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"MessageAlertsAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Message Alerts",nil);
 }
 - (NSString *)nibName{
     return @"AIMessageAlertsAdvancedPreferences";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-messagealerts" forClass:[self class]];
 }
 

@@ -14,9 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 
-@interface ESContactListAdvancedPreferences : AIAdvancedPreferencePane {
+@interface ESContactListAdvancedPreferences : AIPreferencePane {
 	IBOutlet	NSPopUpButton   *popUp_windowPosition;
 	
 	IBOutlet	NSMatrix		*matrix_hiding;

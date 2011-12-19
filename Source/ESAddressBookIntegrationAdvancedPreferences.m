@@ -54,22 +54,16 @@
  */
 @implementation ESAddressBookIntegrationAdvancedPreferences
 
-/*!
- * @brief Label
- */
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"AddressBookAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Address Book",nil);
 }
-/*!
- * @brief Nib name
- */
 - (NSString *)nibName{
     return @"AddressBookPrefs";
 }
-/*!
- * @brief Image for advanced preferences
- */
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"AddressBook" forClass:[self class]];
 }
 

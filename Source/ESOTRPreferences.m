@@ -35,16 +35,16 @@
 @implementation ESOTRPreferences
 
 //Preference pane properties
-- (NSString *)label
-{
+- (NSString *)paneIdentifier{
+	return @"OTRAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Encryption",nil);
 }
-- (NSString *)nibName
-{
+- (NSString *)nibName{
     return @"OTRPrefs";
 }
-- (NSImage *)image
-{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"Lock_Locked State" forClass:[adium class]];
 }
 

@@ -216,17 +216,11 @@
     return paneArray;
 }
 
-/*!
-* @brief Add a view to the preferences
- */
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane
+- (NSArray *)paneArrayOfType:(NSString *)paneType
 {
-    [advancedPaneArray addObject:inPane];
-}
-
-- (NSArray *)advancedPaneArray
-{
-	return advancedPaneArray;
+	return [paneArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		return [[evaluatedObject paneName] isEqualToString:paneType];
+	}]];
 }
 
 //Observing ------------------------------------------------------------------------------------------------------------

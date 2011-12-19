@@ -14,10 +14,10 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 #import "AIWebKitMessageViewPlugin.h"
 
-@interface ESDualWindowMessageAdvancedPreferences : AIAdvancedPreferencePane {
+@interface ESDualWindowMessageAdvancedPreferences : AIPreferencePane {
 	IBOutlet	NSTabView		*tabView_messageType;
 	IBOutlet	NSTabViewItem	*tabViewItem_regular;
 	IBOutlet	NSTabViewItem	*tabViewItem_group;

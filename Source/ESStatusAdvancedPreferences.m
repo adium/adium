@@ -34,13 +34,16 @@
 - (AIPreferenceCategory)category{
     return AIPref_Advanced;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"StatusAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Status",nil);
 }
 - (NSString *)nibName{
     return @"StatusPreferencesAdvanced";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-status" forClass:[AIPreferenceWindowController class]];
 }
 

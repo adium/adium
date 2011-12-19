@@ -31,24 +31,16 @@
  * @brief Advanced contact list preferences
  */
 @implementation ESContactListAdvancedPreferences
-/*!
- * @brief Label
- */
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"Contact List";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Contact List","Name of the window which lists contacts");
 }
-
-/*!
- * @brief Nib name
- */
 - (NSString *)nibName{
     return @"ContactListAdvancedPrefs";
 }
-
-/*!
- * @brief Image
- */
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-contactList" forClass:[AIPreferenceWindowController class]];
 }
 
