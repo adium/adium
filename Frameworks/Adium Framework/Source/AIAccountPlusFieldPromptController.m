@@ -217,7 +217,12 @@
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				anyItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Any", nil)
+				// XXX [NSBundle bundleForClass:[self class]] does not return Adium.framework
+				anyItem = [[[NSMenuItem alloc] initWithTitle:
+							AILocalizedStringFromTableInBundle(@"Any",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountMenu class]],
+															   nil)
 													  action:nil
 											   keyEquivalent:@""] autorelease];
 				break;
