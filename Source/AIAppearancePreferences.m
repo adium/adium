@@ -44,7 +44,6 @@ typedef enum {
 @interface AIAppearancePreferences ()
 - (NSMenu *)_emoticonPackMenu;
 - (void)_rebuildEmoticonMenuAndSelectActivePack;
-- (void)xtrasChanged:(NSNotification *)notification;
 
 - (void)configureDockIconMenu;
 - (void)configureStatusIconsMenu;
