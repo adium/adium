@@ -41,12 +41,24 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (void)setTabPosition:(AIMessageSplitTabPosition)inPosition
+{
+	position = inPosition;
+}
+
 -(void)drawDividerInRect:(NSRect)aRect
 {	
 	if (rightColor && leftColor) {
 		NSBezierPath *path = [NSBezierPath bezierPathWithRect:aRect];
 		[path linearVerticalGradientFillWithStartColor:leftColor 
 											  endColor:rightColor];
+		NSBezierPath *line = nil;
+		
+		if (position == AIMessageSplitTabPositionLeft) {
+			line = [NSBezierPath bezierPathWithRect:NSMakeRect(NSMaxX(aRect) - 1, aRect.origin.y, 1, aRect.size.height)];
+		}
+		[[NSColor windowFrameColor] set];
+		[line fill];
 	} else {
 		[super drawDividerInRect:aRect];
 	}

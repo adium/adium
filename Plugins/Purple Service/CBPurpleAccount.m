@@ -51,14 +51,12 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
 #import <Adium/AdiumAuthorization.h>
-#import <Adium/AIMedia.h>
 #import <Adium/AIMediaControllerProtocol.h>
 
 #import "ESiTunesPlugin.h"
@@ -1095,6 +1093,11 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	return [adium.chatController chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
 }
 
+- (BOOL)joiningGroupChatRequiresCreationDictionary
+{
+    return YES;
+}
+
 //Typing update in an IM
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typingState
 {
@@ -1792,98 +1795,6 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	}	
 }
 
-#pragma mark Media
-/*!
- * @brief Set the hold state for media.
- *
- * @param hold If the media's state should be hold
- */
-- (void)media:(AIMedia *)media setHold:(BOOL)hold
-{
-	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 hold ? PURPLE_MEDIA_INFO_HOLD : PURPLE_MEDIA_INFO_UNHOLD,
-							 NULL, NULL, TRUE);
-}
-
-/*!
- * @brief Set the mute state for media.
- *
- * @param mute If the media's state should be mute
- */
-- (void)media:(AIMedia *)media setMute:(BOOL)mute
-{
-	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 mute ? PURPLE_MEDIA_INFO_MUTE : PURPLE_MEDIA_INFO_UNMUTE,
-							 NULL, NULL, TRUE);
-}
-
-/*!
- * @brief Set the pause state for media.
- *
- * @param pause If the media's state should be pause
- */
-- (void)media:(AIMedia *)media setPause:(BOOL)willPause
-{
-	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 willPause ? PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
-							 NULL, NULL, TRUE);	
-}
-
-/*!
- * @brief Set the input volume for media.
- *
- * @param inputVolume The input volume between 0 and 1.0
- */
-- (void)media:(AIMedia *)media setInputVolume:(CGFloat)inputVolume
-{
-	purple_media_set_input_volume((PurpleMedia *)media.protocolInfo, NULL, (double)inputVolume);
-}
-
-/*!
- * @brief Set the output volume for media.
- *
- * @param outputVolume The output volume between 0 and 1.0
- */
-- (void)media:(AIMedia *)media setOutputVolume:(CGFloat)outputVolume
-{
-	purple_media_set_output_volume((PurpleMedia *)media.protocolInfo, NULL, NULL, (double)outputVolume);
-}
-
-/*!
- * @brief Close a media
- *
- * @param media The AIMedia to close
- */
-- (void)closeMedia:(AIMedia *)media
-{
-	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 PURPLE_MEDIA_INFO_HANGUP,
-							 NULL, NULL, TRUE);
-}
-
-/*!
- * @brief Destroy a media
- *
- * @param media The media to be destroyed
- *
- * Gives the account an opportunity to teardown.
- */
-- (void)destroyMedia:(AIMedia *)media
-{
-	adium_media_remove(media);
-}
-
-/*!
- * @brief Accept a pending media
- */
-- (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept
-{
-	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 accept ? PURPLE_MEDIA_INFO_ACCEPT : PURPLE_MEDIA_INFO_REJECT,
-							 NULL, NULL, TRUE);
-	
-}
-
 //Account Connectivity -------------------------------------------------------------------------------------------------
 #pragma mark Connect
 //Connect this account (Our password should be in the instance variable 'password' all ready for us)
@@ -2483,19 +2394,19 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	NSMutableDictionary *arguments = nil;
 
-	if (tuneinfo && [[tuneinfo objectForKey:ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
+	if (tuneinfo && [[tuneinfo objectForKey:KEY_ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
 		arguments = [NSMutableDictionary dictionary];
 		
-		NSString *artist = [tuneinfo objectForKey:ITUNES_ARTIST];
-		NSString *name = [tuneinfo objectForKey:ITUNES_NAME];
+		NSString *artist = [tuneinfo objectForKey:KEY_ITUNES_ARTIST];
+		NSString *name = [tuneinfo objectForKey:KEY_ITUNES_NAME];
 		
 		[arguments setObject:(artist ? artist : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ARTIST]];
 		[arguments setObject:(name ? name : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_ALBUM] ? [tuneinfo objectForKey:ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_GENRE] ? [tuneinfo objectForKey:ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_STORE_URL] ? [tuneinfo objectForKey:ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_ALBUM] ? [tuneinfo objectForKey:KEY_ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_GENRE] ? [tuneinfo objectForKey:KEY_ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:KEY_ITUNES_TOTAL_TIME]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_YEAR] ? [tuneinfo objectForKey:KEY_ITUNES_YEAR]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_STORE_URL] ? [tuneinfo objectForKey:KEY_ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
 		
 		[arguments setObject:[NSString stringWithFormat:@"%@%@%@", (name ? name : @""), (name && artist ? @" - " : @""), (artist ? artist : @"")]
 					  forKey:[NSString stringWithUTF8String:PURPLE_TUNE_FULL]];

@@ -16,7 +16,6 @@
 
 #import "AIMessageWindow.h"
 #import "AIClickThroughThemeDocumentButton.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import "AIMessageWindowController.h"
 #import "AIInterfaceControllerProtocol.h"
 
@@ -40,7 +39,7 @@
 	return [[[NSUniqueIDSpecifier alloc]
 			initWithContainerClassDescription:containerClassDesc
 			containerSpecifier:nil key:@"chatWindows"
-			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]] autorelease];
+			uniqueID:[NSNumber numberWithInteger:[self windowNumber]]] autorelease];
 }
 
 - (void)dealloc

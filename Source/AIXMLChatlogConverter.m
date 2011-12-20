@@ -122,7 +122,6 @@
         }
         
         htmlDecoder = [[AIHTMLDecoder alloc] init];
-		dateFormatter = [[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] retain];
 
 		statusLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
 			AILocalizedString(@"Online", nil), @"online",
@@ -149,7 +148,6 @@
 
 - (void)dealloc
 {
-	[dateFormatter release];
 	[statusLookup release];
 	[htmlDecoder release];
 	[super dealloc];
@@ -261,14 +259,20 @@
                 }
             }
 				
-            NSString *timestampStr = [dateFormatter stringFromDate:date];
+            __block NSString *timestampStr = nil;
+			
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *dateFormatter){
+				timestampStr = [[dateFormatter stringFromDate:date] retain];
+			}];
+			
 				
             [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
                                                                     @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
                                                                     (sentMessage ? @"send" : @"receive"),
                                                                     (showTimestamps ? [NSString stringWithFormat:@"<span class=\"timestamp\">%@</span> ", timestampStr] : @""),
                                                                     shownSender, (autoResponse ? AILocalizedString(@" (Autoreply)", nil) : @"")]]];
-				
+			[timestampStr release];
+			
             NSAttributedString *attributedMessage = [htmlDecoder decodeHTML:messageXML];
             if (showEmoticons) {
                 attributedMessage = [adium.contentController filterAttributedString:attributedMessage
@@ -300,11 +304,18 @@
                 displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@", nil), [statusLookup objectForKey:status]];
             }
             
+			__block NSString *timestampStr = nil;
+			
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *dateFormatter){
+				timestampStr = [[dateFormatter stringFromDate:date] retain];
+			}];
+			
             if([displayMessage length]) {
                 [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:@"<div class=\"status\">%@ (%@)</div>\n",
                                                                         displayMessage,
-                                                                        [dateFormatter stringFromDate:date]]]];
+                                                                        timestampStr]]];
             }
+			[timestampStr release];
         }
     }
     

@@ -75,7 +75,7 @@
 
 - (NSInteger)totalHeight
 {
-	return [super totalHeight] + 2;
+	return [super totalHeight];
 }
 
 @end

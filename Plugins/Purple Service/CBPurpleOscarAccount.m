@@ -819,12 +819,10 @@
 - (NSString *)localizedDateAndTimeFromString:(NSString *)inDateAndTime includeTimeWithDay:(BOOL)includeTimeWithDay
 {
 	NSString		*replacementString = nil;
-	NSDateFormatter	*dayFormatter = [NSDateFormatter localizedDateFormatter];
-	NSDateFormatter *timeFormatter = [NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:YES];
 	struct tm tm;
 
 	if (inDateAndTime && (strptime([inDateAndTime UTF8String], "%c", &tm) != NULL)) {
-		NSString	*valueDay, *valueTime;
+		__block NSString	*valueDay, *valueTime;
 		NSDate		*date;
 		/* Not set by strptime(); tells mktime()
 		 * to determine whether daylight saving time
@@ -834,16 +832,29 @@
 		date = [NSDate dateWithTimeIntervalSince1970:mktime(&tm)];
 
 		//Get day & time strings
-		valueDay = [dayFormatter stringForObjectValue:date];
-		valueTime = [timeFormatter stringForObjectValue:date];
+		[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dayFormatter){
+			valueDay = [[dayFormatter stringForObjectValue:date] retain];
+		}];
+		[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *timeFormatter) {
+			valueTime = [[timeFormatter stringForObjectValue:date] retain];
+		}];
 
 		if (valueDay && valueTime) {
-			if ([[dayFormatter stringForObjectValue:[NSDate date]] isEqualToString:valueDay])
+			__block BOOL cond;
+			
+			[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dayFormatter){
+				cond = [[dayFormatter stringForObjectValue:[NSDate date]] isEqualToString:valueDay];
+			}];
+			
+			if (cond)
 				//Show time
 				replacementString = valueTime;
 			else
 				replacementString = (includeTimeWithDay ? [NSString stringWithFormat:@"%@, %@", valueDay, valueTime] : valueDay);
 		}
+		
+		[valueDay release];
+		[valueTime release];
 	}
 
 	return replacementString;

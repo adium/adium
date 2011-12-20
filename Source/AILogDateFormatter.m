@@ -16,7 +16,6 @@
 
 #import "AILogDateFormatter.h"
 #import "AICalendarDate.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 
 @implementation AILogDateFormatter
 

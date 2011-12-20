@@ -24,7 +24,6 @@
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIVariableHeightFlexibleColumnsOutlineView.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIScaledImageCell.h>
 #import <AIUtilities/AIVerticallyCenteredTextCell.h>

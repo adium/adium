@@ -118,7 +118,8 @@ build_libpurple() {
 				--disable-dbus \
 				--enable-gnutls=no \
 				--enable-nss=no \
-				--enable-vv=yes \
+				--enable-vv=no \
+				--disable-gstreamer \
 				--disable-idn \
 				$KERBEROS"
 		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \

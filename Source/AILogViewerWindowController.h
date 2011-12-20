@@ -109,7 +109,6 @@ typedef enum {
 	NSImage				*adiumIconHighlighted;
 
 	NSMutableArray		*toArray;				//Array of contacts
-	NSDateFormatter		*headerDateFormatter;	//Format for dates displayed in the content text view
 
 	NSInteger			cachedSelectionIndex;
 	BOOL				deleteOccurred;			// YES only if a delete occurs, allowing the table to preserve selection after a search begins

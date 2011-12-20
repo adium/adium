@@ -15,6 +15,7 @@
  */
 
 #import "AIStandardListScrollView.h"
+#import <AIUtilities/AIApplicationAdditions.h>
 
 @implementation AIStandardListScrollView
 
@@ -30,9 +31,12 @@
 {
 	[super reflectScrolledClipView:aClipView];
 	
-	NSRect myBounds = [self bounds];
-	NSRect bottomRect = NSMakeRect(NSMaxX(myBounds) - 20, NSMinY(myBounds), 20, NSMaxY(myBounds));
-	[self setNeedsDisplayInRect:bottomRect];
+	// we don't need this on Lion.
+	if ([NSApp isOnLionOrNewer]) {
+		NSRect myBounds = [self bounds];
+		NSRect bottomRect = NSMakeRect(NSMaxX(myBounds) - 20, NSMinY(myBounds), 20, NSMaxY(myBounds));
+		[self setNeedsDisplayInRect:bottomRect];
+	}
 }
 
 @end

@@ -118,6 +118,7 @@ typedef enum {
 #define TWITTER_STATUS_USER					@"user"
 #define TWITTER_STATUS_UID					@"screen_name"
 #define TWITTER_STATUS_TEXT					@"text"
+#define TWITTER_STATUS_RETWEET				@"retweeted_status"
 
 // Direct Messages
 #define TWITTER_DM_ID						@"id"
@@ -169,6 +170,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
 
+@property (readonly, nonatomic) int maxChars;
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) BOOL supportsCursors;
@@ -199,5 +201,7 @@ typedef enum {
 						  userID:(NSString *)userID
 						statusID:(NSString *)statusID
 						 context:(NSString *)context;
+
+- (void)updateTimelineChat:(AIChat *)timelineChat;
 
 @end

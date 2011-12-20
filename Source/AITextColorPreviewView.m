@@ -16,7 +16,6 @@
 
 #import "AITextColorPreviewView.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 @interface AITextColorPreviewView ()
 - (void)_initTextColorPreviewView;

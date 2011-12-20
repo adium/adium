@@ -23,7 +23,6 @@
 #import "AIDockController.h"
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -66,6 +65,7 @@
 - (void)tabDraggingNotificationReceived:(NSNotification *)notification;
 - (void)tabBarFrameChanged:(NSNotification *)notification;
 - (void)closeAlertDidEnd:(NSAlert *)alert returnCode:(int)result contextInfo:(void *)contextInfo;
+- (void)_relayoutWindow;
 @end
 
 //Used to squelch compiler warnings on this private call
@@ -123,13 +123,14 @@
 												 selector:@selector(windowWillMiniaturize:)
 													 name:NSWindowWillMiniaturizeNotification
 												   object:myWindow];
-		//Prefs
-		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 		
 		//Register as a tab drag observer so we know when tabs are dragged over our window and can show our tab bar
 		[myWindow registerForDraggedTypes:[NSArray arrayWithObject:@"PSMTabBarControlItemPBType"]];
 	}
 
+	//Prefs
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	
     return self;
 }
 
@@ -393,124 +394,11 @@
 		
 		//change the frame of the tab bar according to the orientation
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
-			PSMTabBarOrientation orientation;
-			
 			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] intValue];
-			orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
-						   PSMTabBarHorizontalOrientation :
-						   PSMTabBarVerticalOrientation);
-
-			NSRect tabBarFrame = [tabView_tabBar frame], tabViewMessagesFrame = [tabView_messages frame];
-			NSRect contentRect = [[[self window] contentView] frame];
-			
-			//remove the split view if the last orientation was vertical
-			if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
-				[tabView_messages retain];
-				[tabView_messages removeFromSuperview];
-				[tabView_tabBar retain];
-				[tabView_tabBar removeFromSuperview];
-				[tabView_splitView removeFromSuperview];
-				
-				[[[self window] contentView] addSubview:tabView_messages];
-				[[[self window] contentView] addSubview:tabView_tabBar];
-				[tabView_messages release];
-				[tabView_tabBar release];
-			}
-			
-			[tabView_tabBar setOrientation:orientation];
-			
-			switch (orientation) {
-				case PSMTabBarHorizontalOrientation:
-				{
-					tabBarFrame.size.height = [tabView_tabBar isTabBarHidden] ? 1 : kPSMTabBarControlHeight;
-					tabBarFrame.size.width = contentRect.size.width + 1;
-					
-					//set the position of the tab bar (top/bottom)
-					if (tabPosition == AdiumTabPositionBottom) {
-						tabBarFrame.origin.y = NSMinY(contentRect);
-						tabViewMessagesFrame.origin.y = NSHeight(tabBarFrame) + ([tabView_tabBar isTabBarHidden] ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING - 1));
-						tabViewMessagesFrame.size.height = (NSHeight(contentRect) - NSHeight(tabBarFrame) -
-															([tabView_tabBar isTabBarHidden] ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING - 2)));
-						[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
-						
-					} else {
-						// This arbitrary sizedown is so that top tabs look visually connected to their content below.
-						tabBarFrame.size.height -= 3;
-						
-						tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
-						tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-						tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame);
-						[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
-					}
-					/* If the cell is less than 60, icon + title + unread message count may overlap */
-					[tabView_tabBar setCellMinWidth:60];
-					[tabView_tabBar setCellMaxWidth:250];
-					
-					tabBarFrame.origin.x = 0;
-					
-					//Items within the tabview draw frames, so be sure to clip the left and right edges.
-					tabViewMessagesFrame.origin.x = -1;
-					tabViewMessagesFrame.size.width = NSWidth(contentRect) + 2;
-					break;
-				}
-				case PSMTabBarVerticalOrientation:
-				{
-					CGFloat width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
-								   (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
-								   100);
-					lastTabBarWidth = width;
-					
-					tabBarFrame.size.height = [[[self window] contentView] frame].size.height;
-					tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 1 : width;
-					tabBarFrame.origin.y = NSMinY(contentRect);
-					tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-					tabViewMessagesFrame.size.height = NSHeight(contentRect) + 1;
-					tabViewMessagesFrame.size.width = NSWidth(contentRect) - NSWidth(tabBarFrame) - 5;
-					
-					//set the position of the tab bar (left/right)
-					if (tabPosition == AdiumTabPositionLeft) {
-						tabBarFrame.origin.x = NSMinX(contentRect);
-						tabViewMessagesFrame.origin.x = NSMaxX(tabBarFrame);
-						[tabView_tabBar setAutoresizingMask:NSViewHeightSizable];
-					} else {
-						tabViewMessagesFrame.origin.x = NSMinX(contentRect);
-						tabBarFrame.origin.x = NSWidth(contentRect) - NSWidth(tabBarFrame) + 1;
-						[tabView_tabBar setAutoresizingMask:NSViewHeightSizable | NSViewMinXMargin];
-					}
-					[tabView_tabBar setCellMinWidth:50];
-					[tabView_tabBar setCellMaxWidth:200];
-					
-					//put the subviews into a split view
-					NSRect splitViewRect = [[[self window] contentView] frame];
-					splitViewRect.size.width++;
-					splitViewRect.size.height++;
-					tabView_splitView = [[[AIMessageTabSplitView alloc] initWithFrame:splitViewRect] autorelease];
-					[tabView_splitView setDividerThickness:([tabView_tabBar isTabBarHidden] ? 0 : VERTICAL_DIVIDER_THICKNESS)];
-					[tabView_splitView setVertical:YES];
-					[tabView_splitView setDelegate:self];
-					if (tabPosition == AdiumTabPositionLeft) {
-						[tabView_splitView addSubview:tabView_tabBar];
-						[tabView_splitView addSubview:tabView_messages];
-						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]
-											 rightColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
-					} else {
-						[tabView_splitView addSubview:tabView_messages];
-						[tabView_splitView addSubview:tabView_tabBar];
-						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]
-											 rightColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]];
-					}
-					[tabView_splitView adjustSubviews];
-					[tabView_splitView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-					[[[self window] contentView] addSubview:tabView_splitView];
-					break;
-				}
-			}
-			
-			[tabView_messages setFrame:tabViewMessagesFrame];
-			[tabView_tabBar setFrame:tabBarFrame];
-			
-			//update the tab bar and tab view frame
-			[[self window] display];
+			lastTabBarWidth = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
+							   (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
+							   100);
+			[self _relayoutWindow];
 		}
 		
 		//set tab style drawing attributes
@@ -531,6 +419,141 @@
 		[window setLevel:level];
 		[window setHidesOnDeactivate:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
     }
+}
+
+- (void)_relayoutWindow
+{
+	PSMTabBarOrientation orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
+										PSMTabBarHorizontalOrientation :
+										PSMTabBarVerticalOrientation);
+	
+	NSRect tabBarFrame = [tabView_tabBar frame];
+	NSRect tabViewMessagesFrame = [tabView_messages frame];
+	NSRect contentRect = [[[self window] contentView] frame];
+	
+	//remove the split view if the last orientation was vertical
+	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
+		[tabView_messages retain];
+		[tabView_messages removeFromSuperview];
+		[tabView_tabBar retain];
+		[tabView_tabBar removeFromSuperview];
+		[tabView_splitView removeFromSuperview];
+		[[[self window] contentView] addSubview:tabView_messages];
+		[[[self window] contentView] addSubview:tabView_tabBar];
+		[tabView_messages release];
+		[tabView_tabBar release];
+	} else {
+		[tabView_horzLine removeFromSuperview];
+		tabView_horzLine = nil;
+	}
+	[tabView_tabBar setOrientation:orientation];
+	BOOL isTabBarHidden = [tabView_tabBar isTabBarHidden]; //!alwaysShowTabs && m_containedChats.count <= 1;
+	switch (orientation) {
+		case PSMTabBarHorizontalOrientation:
+		{
+			tabBarFrame.size.height = isTabBarHidden? 0 : kPSMTabBarControlHeight;
+			tabBarFrame.size.width = contentRect.size.width;
+			tabViewMessagesFrame.size.width = contentRect.size.width;
+			
+			
+			//set the position of the tab bar (top/bottom)
+			if (tabPosition == AdiumTabPositionBottom) {
+				tabBarFrame.origin.y = NSMinY(contentRect);
+				tabViewMessagesFrame.origin.y = NSHeight(tabBarFrame) + (isTabBarHidden ? 0 : (HORIZONTAL_TAB_BAR_TO_VIEW_SPACING - 1));
+				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) - (isTabBarHidden? 0 : HORIZONTAL_TAB_BAR_TO_VIEW_SPACING) + 3;
+				[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
+				
+			} else {
+				// This arbitrary sizedown is so that top tabs look visually connected to their content below.
+				tabBarFrame.size.height -= 3;
+				
+				tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
+				tabViewMessagesFrame.origin.y = NSMinY(contentRect);
+				tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) + (isTabBarHidden? 2 : 1);
+				
+				[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+			}
+			/* If the cell is less than 60, icon + title + unread message count may overlap */
+			[tabView_tabBar setCellMinWidth:60];
+			[tabView_tabBar setCellMaxWidth:250];
+			
+			tabBarFrame.origin.x = 0;
+			tabViewMessagesFrame.origin.x = 0;
+			
+			if (!isTabBarHidden){
+				NSRect horzLineFrame = NSMakeRect(tabBarFrame.origin.x, (tabPosition == AdiumTabPositionBottom)? NSMinY(tabViewMessagesFrame)-1 : NSMaxY(tabViewMessagesFrame)-2, NSWidth(tabViewMessagesFrame), 1);
+				NSUInteger mask = (tabPosition == AdiumTabPositionBottom)? (NSViewMaxYMargin|NSViewWidthSizable) : (NSViewMinYMargin|NSViewWidthSizable);
+				tabView_horzLine = [[[NSBox alloc] initWithFrame:horzLineFrame] autorelease];
+				[tabView_horzLine setBorderColor:[NSColor windowFrameColor]];
+				[tabView_horzLine setBorderWidth:1];
+				[tabView_horzLine setBorderType:NSLineBorder];
+				[tabView_horzLine setBoxType:NSBoxCustom];
+				[tabView_horzLine setAutoresizingMask:mask];
+				[[[self window] contentView] addSubview:tabView_horzLine];
+			}
+			
+			break;
+		}
+		case PSMTabBarVerticalOrientation:
+		{
+			tabBarFrame.size.height = [[[self window] contentView] frame].size.height;
+			tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 0 : lastTabBarWidth;
+			tabBarFrame.origin.y = NSMinY(contentRect);
+			tabViewMessagesFrame.origin.y = NSMinY(contentRect) - 0;
+			tabViewMessagesFrame.size.height = NSHeight(contentRect) + 2;
+			tabViewMessagesFrame.size.width = NSWidth(contentRect) - NSWidth(tabBarFrame);
+			
+			//set the position of the tab bar (left/right)
+			if (tabPosition == AdiumTabPositionLeft) {
+				tabBarFrame.origin.x = NSMinX(contentRect);
+				tabViewMessagesFrame.origin.x = NSMaxX(tabBarFrame);
+				[tabView_tabBar setAutoresizingMask:NSViewHeightSizable];
+			} else {
+				tabViewMessagesFrame.origin.x = NSMinX(contentRect);
+				tabBarFrame.origin.x = NSWidth(contentRect) - NSWidth(tabBarFrame);
+				[tabView_tabBar setAutoresizingMask:NSViewHeightSizable | NSViewMinXMargin];
+			}
+			[tabView_tabBar setCellMinWidth:50];
+			[tabView_tabBar setCellMaxWidth:200];
+			
+			//put the subviews into a split view
+			NSRect splitViewRect = [[[self window] contentView] frame];
+			splitViewRect.size.height += 2;
+			if (tabPosition == AdiumTabPositionLeft) {
+				splitViewRect.origin.x -= [tabView_tabBar isTabBarHidden] ? 0 : 1;
+				splitViewRect.size.width += [tabView_tabBar isTabBarHidden] ? 0 : 1;
+			} else {
+				splitViewRect.size.width += [tabView_tabBar isTabBarHidden] ? 0 : 1;
+			}
+			tabView_splitView = [[[AIMessageTabSplitView alloc] initWithFrame:splitViewRect] autorelease];
+			[tabView_splitView setDividerThickness:([tabView_tabBar isTabBarHidden] ? 0 : VERTICAL_DIVIDER_THICKNESS)];
+			[tabView_splitView setVertical:YES];
+			[tabView_splitView setDelegate:self];
+			if (tabPosition == AdiumTabPositionLeft) {
+				[tabView_splitView addSubview:tabView_tabBar];
+				[tabView_splitView addSubview:tabView_messages];
+				[tabView_splitView setTabPosition:AIMessageSplitTabPositionLeft];
+				[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]
+									 rightColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
+			} else {
+				[tabView_splitView addSubview:tabView_messages];
+				[tabView_splitView addSubview:tabView_tabBar];
+				[tabView_splitView setTabPosition:AIMessageSplitTabPositionRight];
+				[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]
+									 rightColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]];
+			}
+			[tabView_splitView adjustSubviews];
+			[tabView_splitView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+			[[[self window] contentView] addSubview:tabView_splitView];
+			break;
+		}
+	}
+	
+	[tabView_messages setFrame:tabViewMessagesFrame];
+	[tabView_tabBar setFrame:tabBarFrame];
+	
+	//update the tab bar and tab view frame
+	[[[self window] contentView] setNeedsDisplay:YES];
 }
 
 - (void)updateOverflowMenuUnviewedContentIcon
@@ -950,11 +973,6 @@
     [self _updateWindowTitleAndIcon];
 	[self _reloadContainedChats];
 	[adium.interfaceController chatOrderDidChange];
-	
-	//Remaining disabled until the last crasher I know of is removed
-	/*if ([tabView numberOfTabViewItems] > 0) {
-		[tabView_tabBar setAutomaticallyAnimates:YES];
-	}*/
 }
 
 //Tabs reordered
@@ -1092,8 +1110,16 @@
 			 */			
 			if (tabPosition == AdiumTabPositionBottom) {
 				frame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
-				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
+				frame.size.height += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
+			} else {
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
 			}
+			[tabView_horzLine setHidden:YES];
 			break;
 
 		case PSMTabBarVerticalOrientation:
@@ -1123,8 +1149,17 @@
 			 */
 			if (tabPosition == AdiumTabPositionBottom) {
 				frame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
-				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;				
+				frame.size.height -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y += HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
+			} else {
+				NSRect lineFrame = tabView_horzLine.frame;
+				lineFrame.origin.y -= HORIZONTAL_TAB_BAR_TO_VIEW_SPACING;
+				[tabView_horzLine setFrame:lineFrame];
 			}
+			[tabView_horzLine setHidden:NO];
 			break;
 
 		case PSMTabBarVerticalOrientation:

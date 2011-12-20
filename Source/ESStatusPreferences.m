@@ -89,28 +89,28 @@
 - (void)viewDidLoad
 {
 	//Setup iTunes format
-	NSString *displayFormat = [adium.preferenceController preferenceForKey:KEY_CURRENT_TRACK_FORMAT
+	NSString *displayFormat = [adium.preferenceController preferenceForKey:KEY_ITUNES_TRACK_FORMAT
 																	 group:PREF_GROUP_STATUS_PREFERENCES];
 	if (!displayFormat || ![displayFormat length]) {
-		displayFormat  = [NSString stringWithFormat:@"%@ - %@", TRACK_TRIGGER, ARTIST_TRIGGER];
+		displayFormat  = [NSString stringWithFormat:@"%@ - %@", TRIGGER_TRACK, TRIGGER_ARTIST];
 	}
 	[tokenField_format setObjectValue:[self separateStringIntoTokens:displayFormat]];
 	[tokenField_format setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
 	[tokenField_format setDelegate:self];
 	
-	[tokenField_album setStringValue:ALBUM_TRIGGER];
+	[tokenField_album setStringValue:TRIGGER_ALBUM];
 	[tokenField_album setDelegate:self];
-	[tokenField_artist setStringValue:ARTIST_TRIGGER];
+	[tokenField_artist setStringValue:TRIGGER_ARTIST];
 	[tokenField_artist setDelegate:self];
-	[tokenField_composer setStringValue:COMPOSER_TRIGGER];
+	[tokenField_composer setStringValue:TRIGGER_COMPOSER];
 	[tokenField_composer setDelegate:self];
-	[tokenField_genre setStringValue:GENRE_TRIGGER];
+	[tokenField_genre setStringValue:TRIGGER_GENRE];
 	[tokenField_genre setDelegate:self];
-	[tokenField_status setStringValue:STATUS_TRIGGER];
+	[tokenField_status setStringValue:TRIGGER_STATUS];
 	[tokenField_status setDelegate:self];
-	[tokenField_title setStringValue:TRACK_TRIGGER];
+	[tokenField_title setStringValue:TRIGGER_TRACK];
 	[tokenField_title setDelegate:self];
-	[tokenField_year setStringValue:YEAR_TRIGGER];
+	[tokenField_year setStringValue:TRIGGER_YEAR];
 	[tokenField_year setDelegate:self];
 	
 	//Configure the controls
@@ -879,7 +879,7 @@
 - (IBAction)changeFormat:(id)sender
 {
 	[adium.preferenceController setPreference:[[sender objectValue] componentsJoinedByString:@""]
-									   forKey:KEY_CURRENT_TRACK_FORMAT
+									   forKey:KEY_ITUNES_TRACK_FORMAT
 										group:PREF_GROUP_STATUS_PREFERENCES];
 	[[NSNotificationCenter defaultCenter] postNotificationName:Adium_CurrentTrackFormatChangedNotification 
 														object:[[sender objectValue] componentsJoinedByString:@""]];
@@ -915,20 +915,20 @@
 
 - (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
 {
-	if ([representedObject isEqualToString:ALBUM_TRIGGER]) {
-		return @"Let It Be";
-	} else if ([representedObject isEqualToString:ARTIST_TRIGGER]) {
-		return @"The Beatles";
-	} else if ([representedObject isEqualToString:COMPOSER_TRIGGER]) {
-		return @"Harrison";
-	} else if ([representedObject isEqualToString:GENRE_TRIGGER]) {
-		return @"Rock";
-	} else if ([representedObject isEqualToString:STATUS_TRIGGER]) {
-		return AILocalizedString(@"Paused", nil);
-	} else if ([representedObject isEqualToString:TRACK_TRIGGER]) {
-		return @"I Me Mine";
-	} else if ([representedObject isEqualToString:YEAR_TRIGGER]) {
-		return @"1970";
+	if ([representedObject isEqualToString:TRIGGER_ALBUM]) {
+		return AILocalizedString(@"Let It Be", @"Example for album title");
+	} else if ([representedObject isEqualToString:TRIGGER_ARTIST]) {
+		return AILocalizedString(@"The Beatles", @"Example for song artist");
+	} else if ([representedObject isEqualToString:TRIGGER_COMPOSER]) {
+		return AILocalizedString(@"Harrison", @"Example for song composer");
+	} else if ([representedObject isEqualToString:TRIGGER_GENRE]) {
+		return AILocalizedString(@"Rock", @"Example for song genre");
+	} else if ([representedObject isEqualToString:TRIGGER_STATUS]) {
+		return AILocalizedString(@"Paused", @"Example for music players' status (e.g. playing, paused)");
+	} else if ([representedObject isEqualToString:TRIGGER_TRACK]) {
+		return AILocalizedString(@"I Me Mine", @"Example for song title");
+	} else if ([representedObject isEqualToString:TRIGGER_YEAR]) {
+		return AILocalizedString(@"1970", @"Example for a songs debut-year");
 	} else {
 		return nil;
 	}
@@ -956,20 +956,20 @@
 		// Evaluate if it known token
 		if ([[string substringFromIndex:i] hasPrefix:@"%_"]) {
 			NSString *substringFromIndex = [string substringFromIndex:i];
-			if ([substringFromIndex hasPrefix:ALBUM_TRIGGER]) {
-				i += [ALBUM_TRIGGER length];
-			} else if ([substringFromIndex hasPrefix:ARTIST_TRIGGER]) {
-				i += [ARTIST_TRIGGER length];
-			} else if ([substringFromIndex hasPrefix:COMPOSER_TRIGGER]) {
-				i += [COMPOSER_TRIGGER length];
-			} else if ([substringFromIndex hasPrefix:GENRE_TRIGGER]) {
-				i += [GENRE_TRIGGER length];
-			} else if ([substringFromIndex hasPrefix:STATUS_TRIGGER]) {
-				i += [STATUS_TRIGGER length];
-			} else if ([substringFromIndex hasPrefix:TRACK_TRIGGER]) {
-				i += [TRACK_TRIGGER length];			
-			} else if ([substringFromIndex hasPrefix:YEAR_TRIGGER]) {
-				i += [YEAR_TRIGGER length];
+			if ([substringFromIndex hasPrefix:TRIGGER_ALBUM]) {
+				i += [TRIGGER_ALBUM length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_ARTIST]) {
+				i += [TRIGGER_ARTIST length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_COMPOSER]) {
+				i += [TRIGGER_COMPOSER length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_GENRE]) {
+				i += [TRIGGER_GENRE length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_STATUS]) {
+				i += [TRIGGER_STATUS length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_TRACK]) {
+				i += [TRIGGER_TRACK length];			
+			} else if ([substringFromIndex hasPrefix:TRIGGER_YEAR]) {
+				i += [TRIGGER_YEAR length];
 			} else {
 				for (; i < [string length]; i++) {
 					if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {

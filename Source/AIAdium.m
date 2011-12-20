@@ -33,7 +33,6 @@
 #import "AISoundController.h"
 #import "AIStatusController.h"
 #import "AIToolbarController.h"
-#import "AIMediaController.h"
 #import "ESApplescriptabilityController.h"
 #import "ESContactAlertsController.h"
 #import "ESFileTransferController.h"
@@ -44,7 +43,6 @@
 #import "AIAppearancePreferences.h"
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AISharedWriterQueue.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
@@ -100,7 +98,7 @@ static NSString	*prefsCategory;
 }
 
 #pragma mark Core Controllers
-@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, mediaController, applescriptabilityController, debugController;
+@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController, debugController;
 
 #pragma mark Loaders
 
@@ -194,8 +192,7 @@ static NSString	*prefsCategory;
 	fileTransferController = [[ESFileTransferController alloc] init];
 	applescriptabilityController = [[ESApplescriptabilityController alloc] init];
 	statusController = [[AIStatusController alloc] init];
-	mediaController = [[AIMediaController alloc] init];
-
+	
 	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
 	[preferenceController controllerDidLoad];
 	[debugController controllerDidLoad];
@@ -307,15 +304,15 @@ static NSString	*prefsCategory;
 			
 		case AIQuitConfirmSelective:
 			if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
-				questionToAsk = AILocalizedString(@"You have unread messages.",@"Quit Confirmation");
+				questionToAsk = (([chatController unviewedContentCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d unread messages.",@"Quit Confirmation"), [chatController unviewedContentCount]] : AILocalizedString(@"You have an unread message.",@"Quit Confirmation"));
 				questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
-				questionToAsk = AILocalizedString(@"You have file transfers in progress.",@"Quit Confirmation");
+				questionToAsk = (([fileTransferController activeTransferCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d file transfers in progress.",@"Quit Confirmation"), [fileTransferController activeTransferCount]] : AILocalizedString(@"You have a file transfer in progress.",@"Quit Confirmation"));
 				questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			} else if ([[chatController openChats] count] > 0 && confirmOpenChats) {
-				questionToAsk = AILocalizedString(@"You have open chats.",@"Quit Confirmation");
+				questionToAsk = (([[chatController openChats] count] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d open chats.",@"Quit Confirmation"), [[chatController openChats] count]] : AILocalizedString(@"You have an open chat.",@"Quit Confirmation"));
 				questionSelector = @selector(openChatQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			}

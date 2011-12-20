@@ -27,8 +27,7 @@
 	IBOutlet		AILocalizationButton		*button_joinChat;
 	IBOutlet		AILocalizationButton		*button_cancel;
 
-	DCJoinChatViewController		*controller;				//Current view controller
-	NSView							*currentView;				//
+	DCJoinChatViewController		*joinChatViewController;				//Current view controller
 	
 	AIAccountMenu 					*accountMenu;
 	
@@ -37,7 +36,8 @@
 
 + (DCJoinChatWindowController *)showJoinChatWindow;
 
-- (DCJoinChatViewController*)joinChatViewController;
+@property (nonatomic, retain) DCJoinChatViewController *joinChatViewController;
+
 - (void)configureForAccount:(AIAccount *)inAccount;
 - (IBAction)joinChat:(id)sender;
 

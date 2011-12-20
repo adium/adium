@@ -15,7 +15,6 @@
  */
 
 #import "XtrasInstaller.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIBundleAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
@@ -33,6 +32,8 @@
  */
 @implementation XtrasInstaller
 
+@synthesize dest, download, xtraName;
+
 //XtrasInstaller does not autorelease because it will release itself when closed
 + (XtrasInstaller *)installer
 {
@@ -42,7 +43,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		download = nil;
+		self.download = nil;
 		window = nil;
 	}
 
@@ -52,13 +53,15 @@
 - (void)dealloc
 {
 	[download release];
+	[xtraName release];
+	[dest release];
 
 	[super dealloc];
 }
 
 - (IBAction)cancel:(id)sender;
 {
-	if (download) [download cancel];
+	if (self.download) [self.download cancel];
 	[self closeInstaller];
 }
 
@@ -100,7 +103,7 @@
 		AILogWithSignature(@"Downloading %@", urlToDownload);
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToDownload];
 		[request setHTTPShouldHandleCookies:NO];
-		download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+		self.download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
 //		[download setDestination:dest allowOverwrite:YES];
 
 		[urlToDownload release];
@@ -117,14 +120,14 @@
 - (void)updateInfoText
 {
 	NSInteger				percentComplete = (downloadSize > 0 ? (NSUInteger)(((double)amountDownloaded / (double)downloadSize) * 100.0) : 0);
-	NSString		*installText = [NSString stringWithFormat:AILocalizedString(@"Downloading %@", @"Install an Xtra; %@ is the name of the Xtra."), (xtraName ? xtraName : @"")];
+	NSString		*installText = [NSString stringWithFormat:AILocalizedString(@"Downloading %@", @"Install an Xtra; %@ is the name of the Xtra."), (self.xtraName ? self.xtraName : @"")];
 	
 	[infoText setStringValue:[NSString stringWithFormat:@"%@ (%lu%%)", installText, percentComplete]];
 }
 
 - (void)download:(NSURLDownload *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {	
-	xtraName = [[response allHeaderFields] objectForKey:@"X-Xtraname"];
+	self.xtraName = [[response allHeaderFields] objectForKey:@"X-Xtraname"];
 	amountDownloaded = 0;
 	downloadSize = [response expectedContentLength];
 	[progressBar setMaxValue:(long long)downloadSize];
@@ -137,9 +140,9 @@
 {
 	NSString * downloadDir = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString uuid]];
 	[[NSFileManager defaultManager] createDirectoryAtPath:downloadDir withIntermediateDirectories:YES attributes:nil error:NULL];
-	dest = [downloadDir stringByAppendingPathComponent:filename];
-	AILogWithSignature(@"Downloading to is %@", dest);
-	[download setDestination:dest allowOverwrite:YES];
+	self.dest = [downloadDir stringByAppendingPathComponent:filename];
+	AILogWithSignature(@"Downloading to is %@", self.dest);
+	[self.download setDestination:self.dest allowOverwrite:YES];
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
@@ -166,8 +169,34 @@
 					 NULL, @selector(sheetDidDismiss:returnCode:contextInfo:), nil, errorMsg);
 }
 
-- (void)downloadDidFinish:(NSURLDownload *)download {
-	NSString		*lastPathComponent = [dest lastPathComponent];
+- (void)setQuarantineProperties:(NSDictionary *)dict forDirectory:(FSRef *)dir
+{
+	FSIterator iterator;
+	
+	if (FSOpenIterator(dir, kFSIterateFlat, &iterator) != noErr) {
+		AILogWithSignature(@"Error quarantining %p", dir);
+	}
+	
+	FSRef ref;
+	ItemCount num;
+	
+	while (FSGetCatalogInfoBulk(iterator, 1, &num, NULL, kFSCatInfoNone, NULL, &ref, NULL, NULL) == noErr)
+	{
+		LSSetItemAttribute(&ref, kLSRolesAll, kLSItemQuarantineProperties, dict);
+		
+		FSCatalogInfo catinfo;
+		FSGetCatalogInfo(&ref, kFSCatInfoNodeFlags, &catinfo, NULL, NULL, NULL);
+		
+		if(catinfo.nodeFlags & kFSNodeIsDirectoryMask) {
+			[self setQuarantineProperties:dict forDirectory:&ref];
+		}
+	}
+	
+	FSCloseIterator(iterator);
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)inDownload {
+	NSString		*lastPathComponent = [self.dest lastPathComponent];
 	NSString		*pathExtension = [[lastPathComponent pathExtension] lowercaseString];
 	BOOL			decompressionSuccess = YES, success = NO;
 	
@@ -176,8 +205,8 @@
 
 		uncompress = [[NSTask alloc] init];
 		[uncompress setLaunchPath:@"/usr/bin/gunzip"];
-		[uncompress setArguments:[NSArray arrayWithObjects:@"-df" , [dest lastPathComponent] ,  nil]];
-		[uncompress setCurrentDirectoryPath:[dest stringByDeletingLastPathComponent]];
+		[uncompress setArguments:[NSArray arrayWithObjects:@"-df" , [self.dest lastPathComponent] ,  nil]];
+		[uncompress setCurrentDirectoryPath:[self.dest stringByDeletingLastPathComponent]];
 		
 		@try
 		{
@@ -193,16 +222,16 @@
 		
 		if (decompressionSuccess) {
 			if ([pathExtension isEqualToString:@"tgz"]) {
-				dest = [[dest stringByDeletingPathExtension] stringByAppendingPathExtension:@"tar"];
+				self.dest = [[self.dest stringByDeletingPathExtension] stringByAppendingPathExtension:@"tar"];
 			} else {
 				//hasSuffix .tar.gz
-				dest = [dest substringToIndex:[dest length] - 3];//remove the .gz, leaving us with .tar
+				self.dest = [self.dest substringToIndex:[self.dest length] - 3];//remove the .gz, leaving us with .tar
 			}
 			
 			untar = [[NSTask alloc] init];
 			[untar setLaunchPath:@"/usr/bin/tar"];
-			[untar setArguments:[NSArray arrayWithObjects:@"-xvf", [dest lastPathComponent], nil]];
-			[untar setCurrentDirectoryPath:[dest stringByDeletingLastPathComponent]];
+			[untar setArguments:[NSArray arrayWithObjects:@"-xvf", [self.dest lastPathComponent], nil]];
+			[untar setCurrentDirectoryPath:[self.dest stringByDeletingLastPathComponent]];
 			
 			@try
 			{
@@ -225,11 +254,11 @@
 		[unzip setArguments:[NSArray arrayWithObjects:
 			@"-o",  /* overwrite */
 			@"-q", /* quiet! */
-			dest, /* source zip file */
-			@"-d", [dest stringByDeletingLastPathComponent], /*destination folder*/
+			self.dest, /* source zip file */
+			@"-d", [self.dest stringByDeletingLastPathComponent], /*destination folder*/
 			nil]];
 
-		[unzip setCurrentDirectoryPath:[dest stringByDeletingLastPathComponent]];
+		[unzip setCurrentDirectoryPath:[self.dest stringByDeletingLastPathComponent]];
 
 		@try
 		{
@@ -252,20 +281,66 @@
 	//Delete the compressed xtra, now that we've decompressed it
 #ifdef DEBUG_BUILD
 	if (decompressionSuccess)
-		[fileManager removeItemAtPath:dest error:NULL];
+		[fileManager removeItemAtPath:self.dest error:NULL];
 #else
-	[fileManager removeItemAtPath:dest error:NULL];
+	[fileManager removeItemAtPath:self.dest error:NULL];
 #endif
 	
-	dest = [dest stringByDeletingLastPathComponent];
+	self.dest = [self.dest stringByDeletingLastPathComponent];
+	
+	FSRef fsRef;
+	OSStatus err;
+	
+	if (FSPathMakeRef((const UInt8 *)[self.dest fileSystemRepresentation], &fsRef, NULL) == noErr) {
+		
+		NSMutableDictionary *quarantineProperties = nil;
+		CFTypeRef cfOldQuarantineProperties = NULL;
+		
+		err = LSCopyItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, &cfOldQuarantineProperties);
+		
+		if (err == noErr) {
+			
+			if (CFGetTypeID(cfOldQuarantineProperties) == CFDictionaryGetTypeID()) {
+				quarantineProperties = [[(NSDictionary *)cfOldQuarantineProperties mutableCopy] autorelease];
+			} else {
+				AILogWithSignature(@"Getting quarantine data failed for %@ (%@)", self, self.dest);
+				return;
+			}
+			
+			CFRelease(cfOldQuarantineProperties);
+			
+			if (!quarantineProperties) {
+				return;
+			}
+			
+			AILogWithSignature(@"Old quarantine data: %@", quarantineProperties);
+			
+		} else if (err == kLSAttributeNotFoundErr) {
+			quarantineProperties = [NSMutableDictionary dictionaryWithCapacity:2];
+		}
+		
+		[quarantineProperties setObject:(NSString *)kLSQuarantineTypeWebDownload
+								 forKey:(NSString *)kLSQuarantineTypeKey];
+		
+		[quarantineProperties setObject:[[self.download request] URL]
+								 forKey:(NSString *)kLSQuarantineDataURLKey];
+		
+		[self setQuarantineProperties:quarantineProperties forDirectory:&fsRef];
+		
+		AILogWithSignature(@"Quarantined %@ with %@", self.dest, quarantineProperties);
+		
+	} else {
+		AILogWithSignature(@"Danger! Could not find file to quarantine: %@!", self.dest);
+	}
 	
 	//the remaining files in the directory should be the contents of the xtra
-	fileEnumerator = [fileManager enumeratorAtPath:dest];
+	fileEnumerator = [fileManager enumeratorAtPath:self.dest];
 
 	if (decompressionSuccess && fileEnumerator) {
 		NSSet			*supportedDocumentExtensions = [[NSBundle mainBundle] supportedDocumentExtensions];
 
 		for (NSString *nextFile in fileEnumerator) {
+			
 			/* Ignore hidden files and the __MACOSX folder which some compression engines stick into the archive but
 			 * /usr/bin/unzip doesn't handle properly.
 			 */
@@ -284,7 +359,7 @@
 				}
 
 				if (isSupported) {
-					NSString *xtraPath = [dest stringByAppendingPathComponent:nextFile];
+					NSString *xtraPath = [self.dest stringByAppendingPathComponent:nextFile];
 
 					//Open the file directly
 					AILogWithSignature(@"Installing %@",xtraPath);
@@ -299,15 +374,15 @@
 		}
 		
 	} else {
-		NSLog(@"Installation Error: %@ (%@)",dest, (decompressionSuccess ? @"Decompressed succesfully" : @"Failed to decompress"));
+		NSLog(@"Installation Error: %@ (%@)",self.dest, (decompressionSuccess ? @"Decompressed succesfully" : @"Failed to decompress"));
 	}
 	
 	//delete our temporary directory, and any files remaining in it
 #ifdef DEBUG_BUILD
 	if (success)
-		[fileManager removeItemAtPath:dest error:NULL];
+		[fileManager removeItemAtPath:self.dest error:NULL];
 #else
-	[fileManager removeItemAtPath:dest error:NULL];
+	[fileManager removeItemAtPath:self.dest error:NULL];
 #endif
 
 	[self closeInstaller];

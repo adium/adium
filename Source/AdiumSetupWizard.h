@@ -24,7 +24,6 @@
 	IBOutlet NSButton	*button_continue;
 	IBOutlet NSButton	*button_goBack;
 	IBOutlet NSButton	*button_alternate;
-	IBOutlet NSProgressIndicator	*progress_processing;
 	
 	IBOutlet NSTabView	*tabView;
 
@@ -33,10 +32,7 @@
 	IBOutlet NSTextView	 *textView_welcomeMessage;
 	
 	//Import
-	IBOutlet NSTextField	*textField_import;
-	IBOutlet NSTextView		*textView_importMessage;
 	IBOutlet NSButton		*button_informationAboutImporting;
-	BOOL					canImport;
 	
 	//Account Setup
 	IBOutlet NSTextField	*textField_addAccount;

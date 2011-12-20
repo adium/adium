@@ -20,7 +20,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactListUserPictureMenuController.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 #define ARROW_WIDTH		8
 #define ARROW_HEIGHT	(ARROW_WIDTH/2.0)

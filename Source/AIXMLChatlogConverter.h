@@ -28,7 +28,6 @@ typedef enum {
 @class AIHTMLDecoder;
 
 @interface AIXMLChatlogConverter : NSObject {
-	NSDateFormatter *dateFormatter;	
 	NSDictionary	*statusLookup;
     NSAttributedString *newlineAttributedString;
 	AIHTMLDecoder	*htmlDecoder;

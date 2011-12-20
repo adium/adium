@@ -250,7 +250,7 @@ msg_error_helper(MsnCmdProc *cmdproc, MsnMessage *msg, MsnMsgErrorType error);
 gboolean msn_switchboard_chat_leave(MsnSwitchBoard *swboard);
 gboolean msn_switchboard_chat_invite(MsnSwitchBoard *swboard, const char *who);
 
-void msn_switchboard_request(MsnSwitchBoard *swboard);
+gboolean msn_switchboard_request(MsnSwitchBoard *swboard);
 void msn_switchboard_request_add_user(MsnSwitchBoard *swboard, const char *user);
 
 /**

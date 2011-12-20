@@ -30,6 +30,13 @@
 #define ONE_SECOND AILocalizedStringFromTableInBundle(@"1 second", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)
 #define MULTIPLE_SECONDS AILocalizedStringFromTableInBundle(@"%1.0lf seconds", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)
 
+@interface NSDateFormatter (PRIVATE)
++ (NSDateFormatter *)localizedDateFormatter;
++ (NSDateFormatter *)localizedShortDateFormatter;
++ (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
++ (dispatch_queue_t)localizedFormatterQueue;
+@end
+
 typedef enum {
     NONE,
     SECONDS,
@@ -72,6 +79,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (AIDateFormatterCache *)sharedInstance
 {
+	NSAssert(dispatch_get_current_queue() == [NSDateFormatter localizedFormatterQueue], @"Wrong queue");
+	
 	if (!sharedFormatterCache)
 		sharedFormatterCache = [[AIDateFormatterCache alloc] init];
 	return sharedFormatterCache;
@@ -114,8 +123,49 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 @implementation NSDateFormatter (AIDateFormatterAdditions)
 
++ (dispatch_queue_t)localizedFormatterQueue
+{
+	static dispatch_once_t onceToken;
+	static dispatch_queue_t localizedFormatterQueue;
+	dispatch_once(&onceToken, ^{
+		localizedFormatterQueue = dispatch_queue_create("im.adium.LocalizedDateFormatterQueue", NULL);
+	});
+	
+	return localizedFormatterQueue;
+}
+
++ (void)withLocalizedDateFormatterPerform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedDateFormatter]);
+	});
+}
+
++ (void)withLocalizedShortDateFormatterPerform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedShortDateFormatter]);
+	});
+}
+
++ (void)withLocalizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm perform:(void (^)(NSDateFormatter *))block
+{
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	
+	dispatch_sync(localizedFormatterQueue, ^{
+		block([self localizedDateFormatterShowingSeconds:seconds showingAMorPM:showAmPm]);
+	});
+}
+
+
 + (NSDateFormatter *)localizedDateFormatter
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	// Thursday, July 31, 2008
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatter];
 	
@@ -131,6 +181,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSDateFormatter *)localizedShortDateFormatter
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	// 7/31/08
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] shortFormatter];
 	
@@ -146,6 +198,8 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
+	NSAssert(dispatch_get_current_queue() == [self localizedFormatterQueue], @"Wrong queue");
+	
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
 
 	if (!(*cachePointer)) {
@@ -157,7 +211,15 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSString *)localizedDateFormatStringShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
-	NSString *formatString;
+	dispatch_queue_t localizedFormatterQueue = [self localizedFormatterQueue];
+	__block NSString *formatString;
+	
+	if (dispatch_get_current_queue() != localizedFormatterQueue) {
+		dispatch_sync(localizedFormatterQueue, ^{
+			formatString = [[self localizedDateFormatStringShowingSeconds:seconds showingAMorPM:showAmPm] retain];
+		});
+		return [formatString autorelease];
+	}
 	
 	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
 	
@@ -172,7 +234,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 		
 		setFormat = YES;
 	}
-
+	
 	if(!showAmPm) {
 		NSMutableString *newFormat = [[NSMutableString alloc] initWithString:[*cachePointer dateFormat]];
 		[newFormat replaceOccurrencesOfString:@"a"
@@ -189,7 +251,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (setFormat)
 		[*cachePointer setDateFormat:formatString];
-	
+		
 	return formatString;
 }
 

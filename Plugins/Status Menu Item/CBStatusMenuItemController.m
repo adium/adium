@@ -23,7 +23,6 @@
 #import "CBStatusMenuItemPlugin.h"
 #import "CBStatusMenuItemController.h"
 #import "AIMenuBarIcons.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>

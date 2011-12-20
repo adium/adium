@@ -21,7 +21,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIProxyListObject.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
@@ -221,7 +220,7 @@
 	for (unsigned i = 0; i <numberOfRows ; i++) {
 		AIProxyListObject *item = [self itemAtRow:i];
 		if ([item isKindOfClass:[AIListContact class]]) {
-			return item.listObject;
+			return (AIListContact *)item.listObject;
 		}
 	}
 

@@ -148,13 +148,13 @@
 			
 		}
 		
-		if ([userText rangeOfString:@"%t"].location != NSNotFound) {
-			NSDateFormatter	*timeFormatter = [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:NO];
-			
-			[userText replaceOccurrencesOfString:@"%t"
-									  withString:[timeFormatter stringFromDate:[NSDate date]]
-										 options:NSLiteralSearch 
-										   range:NSMakeRange(0,[userText length])];
+		if ([userText rangeOfString:@"%t"].location != NSNotFound) {			
+			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *timeFormatter){
+				[userText replaceOccurrencesOfString:@"%t"
+										  withString:[timeFormatter stringFromDate:[NSDate date]]
+											 options:NSLiteralSearch 
+											   range:NSMakeRange(0,[userText length])];
+			}];
 			
 		}
 		
@@ -188,11 +188,6 @@
 	} else { /*Speak Event*/	
 		BOOL			speakSender = [[details objectForKey:KEY_ANNOUNCER_SENDER] boolValue];
 		BOOL			speakTime = [[details objectForKey:KEY_ANNOUNCER_TIME] boolValue];
-		NSDateFormatter		*timeFormatter;
-
-		timeFormatter = (speakTime ?
-					     [NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:NO] :
-						 nil);
 		
 		//Handle messages in a custom manner
 		if ([adium.contactAlertsController isMessageEvent:eventID] &&
@@ -233,8 +228,10 @@
 			}
 			
 			//Append the date if desired, after the sender name if that was added
-			if (timeFormatter) {
-				[theMessage appendFormat:@" %@...", [timeFormatter stringFromDate:[content date]]];
+			if (speakTime) {
+				[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *timeFormatter){
+					[theMessage appendFormat:@" %@...", [timeFormatter stringFromDate:[content date]]];
+				}];
 			}
 			
 			if (newParagraph) [theMessage appendFormat:@" [[pmod +1; pbas +1]]"];
@@ -255,10 +252,13 @@
 																							userInfo:userInfo
 																					  includeSubject:YES];
 			
-			if (timeFormatter) {
-				NSString	*timeString;
+			if (speakTime) {
+				__block NSString	*timeString;
 				
-				timeString = [NSString stringWithFormat:@"%@... ", [timeFormatter stringFromDate:[NSDate date]]];
+				[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *timeFormatter){
+					timeString = [[NSString stringWithFormat:@"%@... ", [timeFormatter stringFromDate:[NSDate date]]] retain];
+				}];
+				[timeString autorelease];
 				
 				textToSpeak = [timeString stringByAppendingString:eventDescription];
 			} else {

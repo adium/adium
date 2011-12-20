@@ -73,11 +73,12 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	
 	//Setup our preferences
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTEXT_DISPLAY_DEFAULTS
-																		forClass:[self class]] 
-										  forGroup:PREF_GROUP_CONTEXT_DISPLAY];
+																	  forClass:[self class]] 
+										forGroup:PREF_GROUP_CONTEXT_DISPLAY];
 	
 	//Observe preference changes for whether or not to display message history
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTEXT_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LOGGING];
 	
 	sharedInstance = self;
 }
@@ -94,17 +95,25 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 								object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	if (!object) {		
-		shouldDisplay = [[prefDict objectForKey:KEY_DISPLAY_CONTEXT] boolValue];
-		linesToDisplay = [[prefDict objectForKey:KEY_DISPLAY_LINES] integerValue];
-
+	if (!object) {
+		if ([group isEqualToString:PREF_GROUP_LOGGING]) {
+			shouldDisplay = [[prefDict objectForKey:KEY_LOGGER_ENABLE] boolValue]
+				&& [[adium.preferenceController preferenceForKey:KEY_DISPLAY_CONTEXT
+														   group:PREF_GROUP_CONTEXT_DISPLAY] boolValue];
+		} else if ([group isEqualToString:PREF_GROUP_CONTEXT_DISPLAY]) {
+			shouldDisplay = [[prefDict objectForKey:KEY_DISPLAY_CONTEXT] boolValue]
+				&& [[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE
+														  group:PREF_GROUP_LOGGING] boolValue];
+			linesToDisplay = [[prefDict objectForKey:KEY_DISPLAY_LINES] integerValue];
+		}
+		
 		if (shouldDisplay && linesToDisplay > 0 && !isObserving) {
 			//Observe new message windows only if we aren't already observing them
 			isObserving = YES;
 			[[NSNotificationCenter defaultCenter] addObserver:self
-										   selector:@selector(addContextDisplayToWindow:)
-											   name:Chat_DidOpen 
-											 object:nil];
+													 selector:@selector(addContextDisplayToWindow:)
+														 name:Chat_DidOpen 
+													   object:nil];
 			
 		} else if (isObserving && (!shouldDisplay || linesToDisplay <= 0)) {
 			//Remove observer

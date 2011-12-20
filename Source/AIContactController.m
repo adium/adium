@@ -31,7 +31,6 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
@@ -1241,8 +1240,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	for (id<AIContainingObject> container in inContact.containingObjects) {
 		[container removeObjectAfterAccountStopsTracking:inContact];
 	}
-
-	[inContact clearProxyObjects];
 
 	[contactDict removeObjectForKey:inContact.internalUniqueObjectID];
 }

@@ -16,11 +16,18 @@
 
 #import <AIUtilities/AISplitView.h>
 
+typedef enum
+{
+	AIMessageSplitTabPositionLeft = 0,
+	AIMessageSplitTabPositionRight,
+} AIMessageSplitTabPosition;
+
 @interface AIMessageTabSplitView : AISplitView {
 	NSColor *leftColor;
 	NSColor *rightColor;
+	AIMessageSplitTabPosition position;
 }
 
 - (void)setLeftColor:(NSColor *)inLeftColor rightColor:(NSColor *)inRightColor;
-
+- (void)setTabPosition:(AIMessageSplitTabPosition)inPosition;
 @end

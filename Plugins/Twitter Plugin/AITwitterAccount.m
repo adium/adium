@@ -21,7 +21,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -40,6 +39,7 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIContentEvent.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
@@ -322,6 +322,16 @@
 - (NSString *)sourceToken
 {
 	return @"adiumofficial";
+}
+
+/*!
+ * @brief Returns the maximum number of characters available for a post, or 0 if unlimited.
+ *
+ * For Twitter, this is hardcoded to 140.
+ */
+- (int)maxChars
+{
+	return 140;
 }
 
 /*!
@@ -896,7 +906,11 @@
 	// Update the participant list.
 	[timelineChat addParticipatingListObjects:self.contacts notify:NotifyNow];
 	
-	[timelineChat setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:NotifyNow];
+	NSNumber *max = nil;
+	if (self.maxChars > 0) {
+		max = [NSNumber numberWithInt:self.maxChars];
+	}
+	[timelineChat setValue:max forProperty:@"Character Counter Max" notify:NotifyNow];
 }
 
 /*!
@@ -1122,6 +1136,7 @@
 						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:friendRequestType]];
 				}
 			} else {
+				[[self timelineChat] removeAllParticipatingContactsSilently];
 				[self removeAllContacts];
 			}
 		}
@@ -1709,8 +1724,16 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		for (NSDictionary *status in sortedQueuedUpdates) {
-			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
+			NSDictionary    *retweet = [status objectForKey:TWITTER_STATUS_RETWEET];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
+			
+			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+				text = [NSString stringWithFormat:@"RT @%@: %@",
+						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+						[retweet objectForKey:TWITTER_STATUS_TEXT]];
+			}
+			
+			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			
 			NSString *contactUID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
@@ -2168,11 +2191,21 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, listContact);
 		
 		for (NSDictionary *update in statuses) {
-			NSAttributedString *message = [self parseMessage:[update objectForKey:TWITTER_STATUS_TEXT]
-													 tweetID:[update objectForKey:TWITTER_STATUS_ID]
-													  userID:listContact.UID
-											   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
-											inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
+			NSAttributedString *message;
+			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
+			NSString *text = [update objectForKey:TWITTER_STATUS_TEXT];
+			
+			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+				text = [NSString stringWithFormat:@"RT @%@: %@",
+						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+						[retweet objectForKey:TWITTER_STATUS_TEXT]];
+			}
+			
+			message = [self parseMessage:text
+								 tweetID:[update objectForKey:TWITTER_STATUS_ID]
+								  userID:listContact.UID
+						   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
+						inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
 		}
@@ -2194,7 +2227,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 																object:update
 															  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
 			
-			NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
+			NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByEscapingForXMLWithEntities:nil];
+			
+			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+				text = [[NSString stringWithFormat:@"RT @%@: %@",
+						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+						[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByEscapingForXMLWithEntities:nil];
+			}
 			
 			if([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
 			   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {

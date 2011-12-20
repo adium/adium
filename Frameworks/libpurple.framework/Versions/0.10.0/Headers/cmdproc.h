@@ -79,7 +79,7 @@ void msn_cmdproc_process_queue(MsnCmdProc *cmdproc);
  * @param cmdproc 	The MsnCmdProc to be used.
  * @param trans 	The MsnTransaction to be sent.
  */
-void msn_cmdproc_send_trans(MsnCmdProc *cmdproc, MsnTransaction *trans);
+gboolean msn_cmdproc_send_trans(MsnCmdProc *cmdproc, MsnTransaction *trans);
 
 /**
  * Add a transaction to the queue to be processed latter.

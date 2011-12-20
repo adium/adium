@@ -27,7 +27,6 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentContext.h>
 
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
