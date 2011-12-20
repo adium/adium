@@ -203,7 +203,7 @@
 		//Add each pane to the index
 		id _skPaneNames = ^(id obj, NSUInteger idx, BOOL *stop) {
 			NSString *paneName = [obj paneName];
-			NSString *paneURL = [NSString stringWithFormat:@"%@", paneName];
+			NSString *paneURL = [NSString stringWithFormat:@"%@/", paneName];
 			SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
 												 NULL,
 												 (CFStringRef)paneURL);
