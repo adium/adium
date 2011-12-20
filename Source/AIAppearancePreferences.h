@@ -35,5 +35,6 @@
 
 - (IBAction)showAllDockIcons:(id)sender;
 - (IBAction)customizeEmoticons:(id)sender;
+- (void)xtrasChanged:(NSNotification *)notification;
 
 @end

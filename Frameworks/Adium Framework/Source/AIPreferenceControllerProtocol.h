@@ -37,7 +37,6 @@
 - (void)addPreferencePane:(AIPreferencePane *)inPane;
 - (void)removePreferencePane:(AIPreferencePane *)inPane;
 - (NSArray *)paneArray;
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane;
 - (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory;
 
 //Observing
