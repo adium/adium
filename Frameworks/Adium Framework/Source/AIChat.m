@@ -300,7 +300,7 @@ static int nextChatNumber = 0;
 - (void)setDisplayName:(NSString *)inDisplayName
 {
 	[[self displayArrayForKey:@"Display Name"] setObject:inDisplayName
-											   withOwner:self
+											   withOwner:[NSValue valueWithNonretainedObject:self] /* Don't want a retain loop */
 										   priorityLevel:Highest_Priority];
 
 	//The display array doesn't cause an attribute update; fake it.
@@ -429,7 +429,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify
 {
-	NSMutableArray *contacts = [[inObjects mutableCopy] autorelease];
+	NSMutableArray *contacts = [inObjects mutableCopy];
 
 	for (AIListObject *obj in inObjects) {
 		if ([self containsObject:obj] || ![self canContainObject:obj])
@@ -438,6 +438,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	
 	[participatingContacts addObjectsFromArray:contacts];
 	[adium.chatController chat:self addedListContacts:contacts notify:notify];
+	[contacts release];
 }
 
 - (BOOL)addObject:(AIListObject *)inObject
@@ -643,14 +644,13 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 }
 
 #pragma mark AIContainingObject protocol
-//AIContainingObject protocol
 - (NSArray *)visibleContainedObjects
 {
 	return self.containedObjects;
 }
 - (NSArray *)containedObjects
 {
-	return [[participatingContacts copy] autorelease];
+	return participatingContacts;
 }
 - (NSUInteger)countOfContainedObjects
 {
@@ -724,10 +724,11 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (void)removeAllParticipatingContactsSilently
 {
+	/* Note that allGroupChatsContainingContact won't count this chat if it's already marked as not open */
 	for (AIListContact *listContact in self) {
 		if (listContact.isStranger &&
 			![adium.chatController existingChatWithContact:listContact.parentContact] &&
-			![adium.chatController allGroupChatsContainingContact:listContact.parentContact].count) {
+			([adium.chatController allGroupChatsContainingContact:listContact.parentContact].count == 0)) {
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
@@ -911,12 +912,19 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
-	//the chat may not be in a window! Just reference it from the application...
-	//get my window
-	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+	AIMessageWindowController *windowController = self.chatContainer.windowController;	
+	NSScriptClassDescription *containerClassDesc;
+	NSScriptObjectSpecifier *containerRef;
+	if (windowController) {
+		containerRef = [[windowController window] objectSpecifier];
+		containerClassDesc = [containerRef keyClassDescription];
+	} else {
+		containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
+	}
+	
 	return [[[NSUniqueIDSpecifier allocWithZone:[self zone]]
 		initWithContainerClassDescription:containerClassDesc
-		containerSpecifier:nil key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
+		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
 }
 
 - (unsigned int)index
@@ -1035,6 +1043,16 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	
 	return nil;
 }
+
+/*!
+ * @brief Applescript command to make this chat active
+ */
+- (id)goActiveScriptCommand:(NSScriptCommand *)command 
+{
+	[adium.interfaceController setActiveChat:self];
+	return nil;
+}
+
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {

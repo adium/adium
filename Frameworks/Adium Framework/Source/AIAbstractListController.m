@@ -40,7 +40,6 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import "AIMessageWindowController.h"
@@ -614,7 +613,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	AIProxyListObject *proxyListObject;
 
 	if (item) {
-		id<AIContainingObject>listObject = item.listObject;
+		id<AIContainingObject> listObject = (id<AIContainingObject>)(item.listObject);
 		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:idx]
 															 inListObject:listObject];
 
@@ -633,7 +632,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	NSInteger children;
 
 	if (item) {
-		id<AIContainingObject>listObject = item.listObject;
+		id<AIContainingObject> listObject = (id<AIContainingObject>)(item.listObject);
 
 		children = listObject.visibleCount;
 	} else if (hideRoot)
@@ -690,16 +689,15 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(AIProxyListObject *)item
 {
 	/* XXX Should note the combination of item and item's parent for expansion tracking */
-	id<AIContainingObject> containingObject = item.listObject;
-    [containingObject setExpanded:state];
+    id<AIContainingObject> listObject = (id<AIContainingObject>)(item.listObject);
+    [listObject setExpanded:state];
 
 	if (!state) {
 		/* If the item is collapsed, clear cached data which was being used while it was displayed */
-		for (AIListObject *listObject in (containingObject.visibleContainedObjects)) {
-			[AIUserIcons flushCacheForObject:listObject];
-			
-			[listObject removeProxyObject:[AIProxyListObject existingProxyListObjectForListObject:listObject
-																					 inListObject:containingObject]];
+		for (AIListObject *containedListObject in (listObject.visibleContainedObjects)) {
+			[AIUserIcons flushCacheForObject:containedListObject];
+            [[AIProxyListObject existingProxyListObjectForListObject:containedListObject
+                                                        inListObject:listObject] flushCache];
 		}
 	}
 }
@@ -747,9 +745,9 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
     [self hideTooltip];
 	
     //Return the context menu
-	AIListObject	*listObject = ((AIProxyListObject *)outlineView.firstSelectedItem).listObject;
+	AIListObject *listObject = ((AIProxyListObject *)outlineView.firstSelectedItem).listObject;
 
-	return [self contextualMenuForListObject:listObject];
+	return ([listObject isKindOfClass:[AIListObject class]] ? [self contextualMenuForListObject:listObject] : nil);
 }
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(AIProxyListObject *)item

@@ -33,7 +33,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
 
@@ -132,26 +131,6 @@
     }
 	
     return self;
-}
-
-- (void)dealloc
-{
-	[lastDisconnectionError release];
-	[delayedUpdateStatusTargets release];
-	[delayedUpdateStatusTimer invalidate]; [delayedUpdateStatusTimer release];
-
-	/* Our superclass releases internalObjectID in its dealloc, so we should set it to nil when do.
-	 * We could just depend upon its implementation, but this is more robust.
-	 */
-	[internalObjectID release]; internalObjectID = nil; 
-
-	[self _stopAttributedRefreshTimer];
-	[autoRefreshingKeys release]; autoRefreshingKeys = nil;
-	
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[adium.preferenceController unregisterPreferenceObserver:self];
-	
-    [super dealloc];
 }
 
 - (void)adiumDidLoad:(NSNotification *)inNotification
@@ -1121,6 +1100,12 @@
 - (AIAccountGroupDeletionResponse)willDeleteGroup:(AIListGroup *)group
 {
 	return AIAccountGroupDeletionShouldRemoveContacts;
+}
+
+#pragma mark Chats
+- (BOOL)joiningGroupChatRequiresCreationDictionary
+{
+    return NO;
 }
 
 //Connectivity ---------------------------------------------------------------------------------------------------------

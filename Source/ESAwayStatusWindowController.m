@@ -21,7 +21,6 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIServiceIcons.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>

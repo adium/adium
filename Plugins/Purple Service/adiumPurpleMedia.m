@@ -298,7 +298,7 @@ adiumPurpleMedia_init(void)
 			PURPLE_MEDIA_CAPS_VIDEO_SINGLE_DIRECTION |
 			PURPLE_MEDIA_CAPS_AUDIO_VIDEO);
 
-	NSLog(@"Registering media element types");
+	AILogWithSignature(@"Registering media element types");
 	purple_media_manager_set_active_element(manager, default_video_src);
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);

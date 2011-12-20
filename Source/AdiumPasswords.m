@@ -24,8 +24,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <objc/objc-runtime.h>
 
-#import <AIUtilities/AIApplicationAdditions.h>
-
 #import "AISpecialPasswordPromptController.h"
 #import "ESAccountPasswordPromptController.h"
 #import "ESProxyPasswordPromptController.h"

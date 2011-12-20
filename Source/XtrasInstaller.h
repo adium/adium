@@ -31,4 +31,9 @@
 -(IBAction)cancel:(id)sender;
 -(void)installXtraAtURL:(NSURL *)url;
 +(XtrasInstaller *)installer;
+
+@property (retain) NSURLDownload *download;
+@property (retain) NSString *dest;
+@property (retain) NSString *xtraName;
+
 @end

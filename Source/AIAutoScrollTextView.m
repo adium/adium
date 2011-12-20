@@ -64,7 +64,6 @@
 		[self stopScrolling];
 	} else{
 		[self startScrolling];
-
     }
 }
 
@@ -72,7 +71,7 @@
 - (void)mouseExited:(NSEvent *)theEvent
 {
     if (!scrollTimer) {
-        [self startScrolling];
+		[self startScrolling];
     }
     
     [super mouseExited:theEvent];
@@ -80,13 +79,15 @@
 
 - (void)startScrolling
 {
+    [[self enclosingScrollView] setHasVerticalScroller:NO];
 	[[self enclosingScrollView] setLineScroll:0.0f];
 	[[self enclosingScrollView] setPageScroll:0.0f];
-	[[self enclosingScrollView] setVerticalScroller:nil];
-	[[self enclosingScrollView] setHasVerticalScroller:NO];
-	
-	// Start scrolling
-	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y;
+
+	/*
+	 * Xxx Somehow there are 7 pixels missing after re-starting to scroll - add
+	 * them by hand until we find the cause.
+	 */
+	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y + 7;
 	maxScroll = [[self textStorage] size].height;
     
 	scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0f / ABOUT_SCROLL_FPS)
@@ -100,11 +101,16 @@
 {
 	[scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
 
-	// Enable scrolling and show the scrollbar
-	[[self enclosingScrollView] setLineScroll:10.0f];
-	[[self enclosingScrollView] setPageScroll:10.0f];
-	[[self enclosingScrollView] setVerticalScroller:[[[NSScroller alloc] init] autorelease]];
+	// Enable scrolling
     [[self enclosingScrollView] setHasVerticalScroller:YES];
+    [[self enclosingScrollView] setLineScroll:10.0f];
+	[[self enclosingScrollView] setPageScroll:10.0f];
+    
+    /* 
+     * Scroll to correct location, otherwise scrolling will start
+     * at the end of the last manual scroll
+     */
+    [[[self enclosingScrollView] contentView] scrollPoint:NSMakePoint(0, scrollLocation)];
 }
 
 // Scroll the credits
@@ -115,7 +121,7 @@
 	if (scrollLocation > maxScroll || scrollLocation < 0) {
 		scrollLocation = 0;
     }
-    
+
 	[self scrollPoint:NSMakePoint(0, scrollLocation)];
 }
 

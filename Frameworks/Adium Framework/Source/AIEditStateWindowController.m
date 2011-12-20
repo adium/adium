@@ -24,7 +24,6 @@
 #import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIMessageEntryTextView.h>
 
 #define CONTROL_SPACING			8

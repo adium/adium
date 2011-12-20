@@ -30,6 +30,7 @@
 
 - (NSString *)labelString
 {
+	AIListObject *listObject = [proxyObject listObject];
 	NSString *label;
 	
 	if (chat && [chat displayNameForContact:listObject]) {
@@ -43,12 +44,14 @@
 
 - (NSImage *)statusImage
 {
+    AIListObject    *listObject = [proxyObject listObject];
 	return [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForContact:listObject]];
 }
 
 - (NSImage *)serviceImage
 {
 	// We can't use [listObject statusIcon] because it will show unknown for strangers.
+    AIListObject    *listObject = [proxyObject listObject];
 	return [AIStatusIcons statusIconForListObject:listObject
 											 type:AIStatusIconTab
 										direction:AIIconFlipped];
@@ -56,6 +59,7 @@
 
 - (NSColor *)textColor
 {
+    AIListObject    *listObject = [proxyObject listObject];
 	return [[AIGroupChatStatusIcons sharedIcons] colorForFlag:[chat flagsForContact:listObject]];
 }
 

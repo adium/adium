@@ -21,4 +21,6 @@
 	id rememberedScriptCommand;
 }
 
+@property (readonly) NSArray *chats;
+
 @end

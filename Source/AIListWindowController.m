@@ -25,7 +25,6 @@
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIWindowControllerAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <Adium/AIListBookmark.h>
@@ -51,6 +50,10 @@
 #define WINDOW_SLIDING_MOUSE_DISTANCE_TOLERANCE 3.0f /* Distance the mouse must be from the window's frame to be considered outside it */
 
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
+
+@interface NSScrollView (AIListWindowController_LionCompatability)
+- (void)setVerticalScrollElasticity:(NSInteger)elasticity;
+@end
 
 @interface AIListWindowController ()
 - (id)initWithContactList:(id<AIContainingObject>)contactList;
@@ -293,7 +296,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
-// A "stationary" window stays pinned to the desktop during Expos�
+// A "stationary" window stays pinned to the desktop during ExposŽ
 - (void)setCollectionBehaviorOfWindow:(NSWindow *)window showOnAllSpaces:(BOOL)allSpaces isStationary:(BOOL)stationary
 {
 	NSWindowCollectionBehavior behavior = NSWindowCollectionBehaviorDefault;
@@ -334,7 +337,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[self setCollectionBehaviorOfWindow:[self window]
 							showOnAllSpaces:showOnAllSpaces
-							   isStationary:YES];
+							   isStationary:(windowLevel == AIDesktopWindowLevel)];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -374,7 +377,14 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			case AIContactListWindowStyleContactBubbles_Fitted:
 				//The bubbles styles don't show a window; force them to autosize by leaving autoResizeVertically == YES
 				break;
-		}			
+		}
+		
+		/* Avoid the bouncing effect when scrolling on Lion. This looks very bad when using a borderless window.
+		 * TODO: (10.7+) remove this if
+		 */
+		if (windowStyle != AIContactListWindowStyleStandard && [scrollView_contactList respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+			[scrollView_contactList setVerticalScrollElasticity:1]; // NSScrollElasticityNone
+		}
 
 		if (autoResizeHorizontally) {
 			//If autosizing, KEY_LIST_LAYOUT_HORIZONTAL_WIDTH determines the maximum width; no forced width.
@@ -443,7 +453,12 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[contactListController setForcedWindowWidth:forcedWindowWidth];
 		[contactListController setMaxWindowWidth:maxWindowWidth];
 		
-		[contactListController contactListDesiredSizeChanged];
+		// let this happen at the beginning of the next runloop. The View needs to configure itself before we start forcing it to a size.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+			[contactListController contactListDesiredSizeChanged];
+			[pool release];
+		});
 		
 		if (!firstTime) {
 			shouldRevealWindowAndDelaySliding = YES;
@@ -615,7 +630,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		currentScreenFrame.size.height -= [[NSApp mainMenu] menuBarHeight];
 	}
 
-	//Ensure the window is displaying at the proper level and exposé setting
+	//Ensure the window is displaying at the proper level and exposÃ© setting
 	[self setWindowLevel:levelForAIWindowLevel(windowLevel)];	
 }
 
@@ -784,7 +799,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 			
 			/* If we're hiding the window (generally) but now sliding it off screen, set it to kCGBackstopMenuLevel and don't
-			 * let it participate in exposé.
+			 * let it participate in exposÃ©.
 			 */
 			if (overrodeWindowLevel &&
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {

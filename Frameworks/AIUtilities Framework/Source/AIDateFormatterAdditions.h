@@ -16,9 +16,9 @@
 
 @interface NSDateFormatter (AIDateFormatterAdditions)
 
-+ (NSDateFormatter *)localizedDateFormatter;
-+ (NSDateFormatter *)localizedShortDateFormatter;
-+ (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
++ (void)withLocalizedDateFormatterPerform:(void (^)(NSDateFormatter *))block;
++ (void)withLocalizedShortDateFormatterPerform:(void (^)(NSDateFormatter *))block;
++ (void)withLocalizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm perform:(void (^)(NSDateFormatter *))block;
 + (NSString *)localizedDateFormatStringShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
 + (NSString *)stringForTimeIntervalSinceDate:(NSDate *)inDate;
 + (NSString *)stringForTimeIntervalSinceDate:(NSDate *)inDate showingSeconds:(BOOL)showSeconds abbreviated:(BOOL)abbreviate;

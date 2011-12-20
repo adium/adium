@@ -35,7 +35,6 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusIcons.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 //
 #define LEGACY_VERSION_THRESHOLD		3	//Styles older than this version are considered legacy
@@ -772,7 +771,12 @@
 	[inString replaceKeyword:@"%time%" 
 				  withString:(date ? [timeStampFormatter stringFromDate:date] : @"")];
 
-	NSString *shortTimeString = (date ? [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] : @"");
+	__block NSString *shortTimeString;
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *dateFormatter){
+		shortTimeString = (date ? [[dateFormatter stringFromDate:date] retain] : @"");
+	}];
+	[shortTimeString autorelease];
+	
 	[inString replaceKeyword:@"%shortTime%"
 				  withString:shortTimeString];
 
@@ -1281,8 +1285,10 @@
 		}
 	} while (range.location != NSNotFound);
 	
-	[inString replaceKeyword:@"%dateOpened%"
-				  withString:[[NSDateFormatter localizedDateFormatter] stringFromDate:[chat dateOpened]]];
+	[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
+		[inString replaceKeyword:@"%dateOpened%"
+					  withString:[dateFormatter stringFromDate:[chat dateOpened]]];
+	}];
 	
 	//Background
 	{

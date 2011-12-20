@@ -18,7 +18,6 @@
 #import "AIPreferenceController.h"
 #import <Adium/AIListObject.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>

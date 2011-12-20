@@ -34,6 +34,8 @@
 
 @implementation DCJoinChatWindowController
 
+@synthesize joinChatViewController;
+
 static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 
 //Create a new join chat window
@@ -54,17 +56,11 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
     }
 }
 
-- (DCJoinChatViewController*)joinChatViewController
-{ 
-    return controller; 
-
-} 
-
 - (IBAction)joinChat:(id)sender
 {
 	// If there is a controller, it handles all of the join-chat work
-	if ( controller ) {
-		[controller joinChatWithAccount:[[popUp_service selectedItem] representedObject]];
+	if (self.joinChatViewController) {
+		[self.joinChatViewController joinChatWithAccount:[[popUp_service selectedItem] representedObject]];
 	}
 	
 	[self closeWindow:nil];
@@ -76,14 +72,13 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	CGFloat		diff;
 
 	//Remove the previous view controller's view
-	[currentView removeFromSuperview];
-	[currentView release]; currentView = nil;
+	[[self.joinChatViewController view] removeFromSuperview];
 
 	//Get a view controller for this account if there is one
-	controller = [[inAccount.service joinChatView] retain];
-	currentView = [controller view];
-	[controller setDelegate:self];
-	[controller setSharedChatInstance:self];
+	self.joinChatViewController = [inAccount.service joinChatView];
+	NSView *currentView = [self.joinChatViewController view];
+	[self.joinChatViewController setDelegate:self];
+	[self.joinChatViewController setSharedChatInstance:self];
 
 	//Resize the window to fit the new view
 	diff = NSHeight([view_customView frame]) - NSHeight([currentView frame]);
@@ -95,9 +90,9 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 
 	[[self window] setFrame:windowFrame display:YES animate:YES];
 
-	if (controller && currentView) {
+	if (self.joinChatViewController && currentView) {
 		[view_customView addSubview:currentView];
-		[controller configureForAccount:inAccount];
+		[self.joinChatViewController configureForAccount:inAccount];
 	}
 
     [popUp_service selectItemWithRepresentedObject:inAccount];
@@ -111,13 +106,17 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {	
     [super initWithWindowNibName:windowNibName];    
-	    		
-	if ( controller )
-		[controller release];
-	
-	controller = nil;
+	    
+	self.joinChatViewController = nil;
 
     return self;
+}
+
+- (void)dealloc
+{
+	self.joinChatViewController = nil;
+	
+	[super dealloc];
 }
 
 //Setup the window before it is displayed

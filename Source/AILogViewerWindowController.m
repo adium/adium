@@ -88,6 +88,7 @@
 
 @interface AILogViewerWindowController ()
 + (NSOperationQueue *)sharedLogViewerQueue;
++ (AILogViewerWindowController *)sharedLogViewerForPlugin:(id)inPlugin;
 
 - (id)initWithWindowNibName:(NSString *)windowNibName plugin:(id)inPlugin;
 - (void)initLogFiltering;
@@ -128,7 +129,6 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context);
 
 @implementation AILogViewerWindowController
 
-static AILogViewerWindowController	*sharedLogViewerInstance = nil;
 static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 + (NSOperationQueue *)sharedLogViewerQueue
@@ -137,6 +137,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		logViewerQueue = [[NSOperationQueue alloc] init];
+		[logViewerQueue setMaxConcurrentOperationCount:1];
 		if([logViewerQueue respondsToSelector:@selector(setName:)])
 			[logViewerQueue performSelector:@selector(setName:) withObject:@"im.adium.AILogViewerWindowController.logViewerQueue"];
 	});
@@ -149,11 +150,23 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	return @"LogViewer";
 }
 
+static AILogViewerWindowController *__sharedLogViewer = nil;
++ (AILogViewerWindowController *)sharedLogViewerForPlugin:(id)inPlugin
+{
+	if (inPlugin && !__sharedLogViewer) {
+		__sharedLogViewer = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
+	}
+	return __sharedLogViewer;
+}
+
++ (void)destroySharedLogViewer
+{
+	[__sharedLogViewer autorelease]; __sharedLogViewer = nil;
+}
+
 + (id)openForPlugin:(id)inPlugin
 {
-    if (!sharedLogViewerInstance) {
-		sharedLogViewerInstance = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
-	}
+	AILogViewerWindowController *sharedLogViewerInstance = [self sharedLogViewerForPlugin:inPlugin];
 
     [sharedLogViewerInstance showWindow:nil];
     
@@ -161,9 +174,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 }
 
 + (id)openLogAtPath:(NSString *)inPath plugin:(id)inPlugin
-{
+{	
 	[self openForPlugin:inPlugin];
 	
+	AILogViewerWindowController *sharedLogViewerInstance = [self sharedLogViewerForPlugin:inPlugin];
 	[sharedLogViewerInstance openLogAtPath:inPath];
 	
 	return sharedLogViewerInstance;
@@ -172,9 +186,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 //Open the log viewer window to a specific contact's logs
 + (id)openForContact:(AIListContact *)inContact plugin:(id)inPlugin
 {
-    if (!sharedLogViewerInstance) {
-		sharedLogViewerInstance = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
-	}
+    AILogViewerWindowController *sharedLogViewerInstance = [self sharedLogViewerForPlugin:inPlugin];
 
 	[sharedLogViewerInstance _willOpenForContact];
 	[sharedLogViewerInstance showWindow:nil];
@@ -186,9 +198,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 + (id)openForChatName:(NSString *)inChatName withAccount:(AIAccount *)inAccount plugin:(id)inPlugin
 {
-	if (!sharedLogViewerInstance) {
-		sharedLogViewerInstance = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
-	}
+	AILogViewerWindowController *sharedLogViewerInstance = [self sharedLogViewerForPlugin:inPlugin];
 	
 	[sharedLogViewerInstance _willOpenForContact];
 	[sharedLogViewerInstance showWindow:nil];
@@ -201,12 +211,13 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 //Returns the window controller if one exists
 + (id)existingWindowController
 {
-    return sharedLogViewerInstance;
+    return [self sharedLogViewerForPlugin:nil];
 }
 
 //Close the log viewer window
 + (void)closeSharedInstance
 {
+	AILogViewerWindowController *sharedLogViewerInstance = [self existingWindowController];
     if (sharedLogViewerInstance) {
         [sharedLogViewerInstance closeWindow:nil];
     }
@@ -231,8 +242,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 		sortDirection = YES;
 		searchMode = LOG_SEARCH_CONTENT;
-
-		headerDateFormatter = [[NSDateFormatter localizedDateFormatter] retain];
 
 		currentSearchResults = [[NSMutableArray alloc] init];
 		logFromGroupDict = [[NSMutableDictionary alloc] init];
@@ -260,7 +269,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[toArray release];
 	[currentSearchResults release];
 	[selectedColumn release];
-	[headerDateFormatter release];
 	[displayedLogArray release];
 	[blankImage release];
 	[activeSearchString release];
@@ -537,7 +545,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[activeSearchString release]; activeSearchString = nil;
 	[self updateRankColumnVisibility];
 	
-	[sharedLogViewerInstance autorelease]; sharedLogViewerInstance = nil;
+	[[self class] destroySharedLogViewer];
 	[toolbarItems autorelease]; toolbarItems = nil;
 }
 
@@ -747,13 +755,15 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 				horizontalRule = [[NSString alloc] initWithCharacters:separatorUTF16 length:HORIZONTAL_RULE_LENGTH];
 			}	
 			
-			[displayText appendString:[NSString stringWithFormat:@"%@%@\n%@ - %@\n%@\n\n",
-				(appendedFirstLog ? @"\n" : @""),
-				horizontalRule,
-				[headerDateFormatter stringFromDate:[theLog date]],
-				[theLog to],
-				horizontalRule]
-					   withAttributes:[[AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:NSBoldFontMask size:12] dictionary]];
+			[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *headerDateFormatter){
+				[displayText appendString:[NSString stringWithFormat:@"%@%@\n%@ - %@\n%@\n\n",
+										   (appendedFirstLog ? @"\n" : @""),
+										   horizontalRule,
+										   [headerDateFormatter stringFromDate:[theLog date]],
+										   [theLog to],
+										   horizontalRule]
+						   withAttributes:[[AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:NSBoldFontMask size:12] dictionary]];
+			}];
 		}
 		
 		if ([[theLog relativePath] hasSuffix:@".AdiumHTMLLog"] || [[theLog relativePath] hasSuffix:@".html"] || [[theLog relativePath] hasSuffix:@".html.bak"]) {
@@ -2234,6 +2244,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 static NSInteger toArraySort(id itemA, id itemB, void *context)
 {
+	AILogViewerWindowController *sharedLogViewerInstance = [AILogViewerWindowController existingWindowController];
 	NSString *nameA = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemA];
 	NSString *nameB = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemB];
 	NSComparisonResult result = [nameA caseInsensitiveCompare:nameB];

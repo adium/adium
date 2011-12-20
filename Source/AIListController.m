@@ -422,8 +422,12 @@
 	if (!object || (object == (AIListObject *)contactList)) {
 		[contactListView reloadData];
 	} else {
-		for (AIProxyListObject *proxyObject in object.proxyObjects)
-			[contactListView reloadItem:proxyObject reloadChildren:YES];
+		for (AIProxyListObject *proxyObject in object.proxyObjects) {
+            if ([proxyObject.listObject isExpanded])
+                [contactListView reloadItem:proxyObject reloadChildren:YES];
+            else
+                [contactListView reloadItem:proxyObject reloadChildren:NO];
+        }
 	}
 }
 
@@ -573,7 +577,7 @@
 					/* Dragging a contact into a contact which is already within a metacontact.
 					 * This should retarget to combine the dragged contact with the metacontact.
 					 */
-					[outlineView setDropItem:[AIProxyListObject proxyListObjectForListObject:[(AIListContact *)item parentContact]
+					[outlineView setDropItem:[AIProxyListObject existingProxyListObjectForListObject:[(AIListContact *)item parentContact]
 																				inListObject:[(AIListContact *)item parentContact].containingObjects.anyObject]
 							  dropChildIndex:NSOutlineViewDropOnItemIndex];
 				}

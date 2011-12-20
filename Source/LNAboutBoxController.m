@@ -18,8 +18,8 @@
 #import "LNAboutBoxController.h"
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 #define ABOUT_BOX_NIB		@"AboutBox"
 #define	ADIUM_SITE_LINK		AILocalizedString(@"http://www.adium.im","Adium homepage. Only localize if a translated version of the page exists.")
@@ -123,8 +123,13 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 - (NSString *)AI_applicationDate
 {
 	NSTimeInterval date = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildDate"] doubleValue];
-
-	return [[NSDateFormatter localizedShortDateFormatter] stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]];
+	__block NSString *ret;
+	
+	[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *shortDateFormatter){
+		ret = [[shortDateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]] retain];
+	}];
+	
+	return [ret autorelease];
 }
 
 #pragma mark Software License

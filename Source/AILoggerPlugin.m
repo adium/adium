@@ -44,13 +44,10 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
-
-#import <AIUtilities/AIApplicationAdditions.h>
 
 #import <libkern/OSAtomic.h>
 
@@ -209,7 +206,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	self.activeAppenders = [NSMutableDictionary dictionary];
 	self.dirtyLogSet = [NSMutableSet set];
 	
-	defaultDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+	defaultDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
 	
 	dirtyLogSetMutationQueue = dispatch_queue_create("im.adium.AILoggerPlugin.dirtyLogSetMutationQueue", 0);
 	searchIndexQueue = dispatch_queue_create("im.adium.AILoggerPlugin.searchIndexFlushingQueue", 0);
@@ -224,8 +221,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
 	
 	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
-	jobSemaphore = dispatch_semaphore_create(cpuCount + AIfloor(cpuCount/2));
-    logLoadingPrefetchSemaphore = dispatch_semaphore_create(2); //prefetch one log
+	jobSemaphore = dispatch_semaphore_create(3 * cpuCount);
+    logLoadingPrefetchSemaphore = dispatch_semaphore_create(3 * cpuCount + 1); //prefetch one log
 	
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
@@ -333,6 +330,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_release(activeAppendersMutationQueue); activeAppendersMutationQueue = nil;
 	dispatch_release(logIndexingGroup); logIndexingGroup = nil;
 	dispatch_release(closingIndexGroup); closingIndexGroup = nil;
+	dispatch_release(addToSearchKitQueue); addToSearchKitQueue = nil;
 	dispatch_release(logAppendingGroup); logAppendingGroup = nil;
 	dispatch_release(ioQueue); ioQueue = nil;
 	dispatch_release(jobSemaphore); jobSemaphore = nil;
@@ -468,7 +466,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (CFStringRef)@"Content", 
 											  kSKIndexInverted,
 											  (CFDictionaryRef)textAnalysisProperties);
-				
+
 				if (_index) {
 					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
@@ -501,7 +499,6 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 
 - (void)cancelIndexing
 {
-	NSLog(@"Canceling..");
 	if (logsToIndex) {
 		__block __typeof__(self) bself = self;
 		dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
@@ -1473,34 +1470,58 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                                 dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
                                     CFRetain(searchIndex);
                                     if (documentText && bself.indexingAllowed) {
-                                        SKIndexAddDocumentWithText(searchIndex,
-                                                                   document,
-                                                                   documentText,
-                                                                   YES);
+										static dispatch_queue_t skQueue = nil;
+										static dispatch_once_t onceToken;
+										dispatch_once(&onceToken, ^{
+											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.skQueue", 0);
+										});
+										CFRetain(searchIndex);
+										CFRetain(document);
+										CFRetain(documentText);
+										[logURL retain];
+										dispatch_group_async(logIndexingGroup, skQueue, ^{
+											SKIndexAddDocumentWithText(searchIndex,
+																	   document,
+																	   documentText,
+																	   YES);
+											
+											OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+											OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
+											
+											if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
+												dispatch_async(dispatch_get_main_queue(), ^{
+													[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+												});
+												UInt32 tick = TickCount();
+												OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
+											}
+											
+											OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+											if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
+												[bself _saveDirtyLogSet];
+												OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
+											}
+											
+											dispatch_semaphore_signal(jobSemaphore);
+											
+											CFRelease(searchIndex);
+											CFRelease(document);
+											CFRelease(documentText);
+											[logURL release];
+										});
                                         CFRelease(documentText);
                                     } else if (documentText) {
                                         CFRelease(documentText);
-                                    }
+										dispatch_semaphore_signal(jobSemaphore);
+                                    } else {
+										dispatch_semaphore_signal(jobSemaphore);
+									}
 									
-                                    dispatch_semaphore_signal(jobSemaphore);
+                                    
 									dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
                                     CFRelease(document);
                                     
-                                    OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
-                                    OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-                                    if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
-                                        });
-                                        UInt32 tick = TickCount();
-                                        OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
-                                    }
                                     
-                                    OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
-                                    if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
-                                        [bself _saveDirtyLogSet];
-                                        OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
-                                    }
                                     CFRelease(searchIndex);
                                 }));
                             }));
@@ -1569,8 +1590,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	__block __typeof__(self) bself = self;
 	dispatch_group_async(loggerPluginGroup, dirtyLogSetMutationQueue, ^{
-		NSLog(@"_saveDirtyLogSet");
 		NSSet *_dirtySet = [[bself.dirtyLogSet copy] autorelease];
+		AILogWithSignature(@"Saving %lu dirty logs", _dirtySet.count);
 		if ([_dirtySet count] > 0 && bself.canSaveDirtyLogSet) {
 			dispatch_async(ioQueue, ^{
 				[[_dirtySet allObjects] writeToFile:[bself _dirtyLogSetPath]
@@ -1621,6 +1642,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AILogWithSignature(@"**** Flushing index %p",inIndex);
 		CFRetain(inIndex);
 		SKIndexFlush(inIndex);
+		SKIndexCompact(inIndex);
 		CFRelease(inIndex);
 		AILogWithSignature(@"**** Finished flushing index %p, and released it",inIndex);
 		self.indexIsFlushing = NO;

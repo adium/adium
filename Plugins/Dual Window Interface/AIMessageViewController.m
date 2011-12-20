@@ -199,7 +199,7 @@
 	
 	//release menuItem
 	[showHide release];
-	
+	[view_contents release]; view_contents = nil;
 	[undoManager release]; undoManager = nil;
 
     [super dealloc];
@@ -711,6 +711,7 @@
 	
 	NSRect verticalFrame = splitView_verticalSplit.frame;
 	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame) - 2;
+	verticalFrame.size.width = NSWidth(view_contents.frame);
 	[splitView_verticalSplit setFrame:verticalFrame];
 	
 	[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX(splitView_verticalSplit.frame), NSMaxY(splitView_verticalSplit.frame))];
@@ -779,7 +780,7 @@
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
-	if (entryMinHeight <= 0) entryMinHeight = [self _textEntryViewProperHeightIgnoringUserMininum:YES];
+	if (entryMinHeight <= 0) entryMinHeight = AIfloor([self _textEntryViewProperHeightIgnoringUserMininum:YES] + 0.5f);
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
 	//and other special key-presses.
@@ -796,6 +797,13 @@
 											   object:textView_outgoing];
 
 	[self _updateTextEntryViewHeight];
+	
+	// Disable elastic scroll
+	// Remove the check on 10.7+
+	// Not sure why it won't work in AIMessageEntryTextView
+	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
+		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
+	}
 }
 
 /*!
@@ -1132,6 +1140,9 @@
  */
 - (void)_showUserListView
 {
+	if (chat.isGroupChat && view_userList.superview == nil) {
+		[splitView_verticalSplit addSubview:[view_userList autorelease]];
+	}
 	[self updateUserCount];
 	[userListController reloadData];
 
@@ -1147,6 +1158,13 @@
  */
 - (void)_hideUserListView
 {
+	if (!chat.isGroupChat) {
+		NSRect frame = view_userList.frame;
+		frame.size.width = 0;
+		view_userList.frame = frame;
+		[view_userList retain];
+		[view_userList removeFromSuperview];
+	}
 	[view_userList setHidden:YES];
 	[splitView_verticalSplit adjustSubviews];
 }
@@ -1181,15 +1199,12 @@
  */
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification
 {
-    //Update the user list
-	AILogWithSignature(@"%i, so %@ %@",[self userListVisible], ([self userListVisible] ? @"reloading" : @"not reloading"),
-					   userListController);
-	
 	[chat resortParticipants];
-	
+
+	/* Even if we're not viewing the user list, we can't risk it keeping stale information about potentially released objects */
+	[userListController reloadData];
+
     if ([self userListVisible]) {
-        [userListController reloadData];
-		
 		[self updateUserCount];
     }
 }
@@ -1259,7 +1274,7 @@
 - (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum
 {
 	CGFloat splitViewWidth = splitView_verticalSplit.frame.size.width;
-	CGFloat allowedWidth = (splitViewWidth / 2.0f) - [splitView_verticalSplit dividerThickness];
+	CGFloat allowedWidth = (splitViewWidth / 2) - [splitView_verticalSplit dividerThickness];
 	CGFloat width = ignoreUserMinimum ? USER_LIST_DEFAULT_WIDTH : userListMinWidth;
 	
 	if (width > allowedWidth)
@@ -1290,8 +1305,21 @@
 			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
 			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 		}
-	} else if ([aNotification object] == splitView_textEntryHorizontal) {
+	} else if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
 		entryMinHeight = NSHeight(textView_outgoing.frame);
+	}
+}
+
+/* 
+ * @brief Set the appropriate preference when the user list is dragged open or closed and update user count.
+ */
+- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
+{
+	if ([aNotification object] == splitView_verticalSplit) {
+		NSRect userListFrame = view_userList.frame;
+		if (NSWidth(userListFrame) > 0) {
+			[self updateUserCount];
+		}
 	}
 }
 
@@ -1301,30 +1329,45 @@
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
 	if ([splitView inLiveResize] || adium.interfaceController.activeChat != chat) {
+		// division between user list and message view
 		if (splitView == splitView_verticalSplit) {
 			NSRect currentFrame = splitView.frame;
 			NSRect msgFrame = [splitView_textEntryHorizontal superview].frame;
 			NSRect userFrame = view_userList.frame;
 			CGFloat dividerThickness = [splitView dividerThickness];
+			BOOL userListVisible = [self userListVisible];
+			BOOL userListAttached = view_userList.superview != nil;
 			
-			if ([self userListVisible]) {
-				if (userListOnRight)
-					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
-				else
-					userFrame.size.width = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
-			}
-			else
-				userFrame.size.width = 0.0f;
-			
-			msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 			msgFrame.size.height = currentFrame.size.height;
 			userFrame.size.height = currentFrame.size.height;
 			
-			if (userListOnRight)
+			if (userListVisible) {
+				if (userListOnRight) {
+					userFrame.size.width = currentFrame.size.width - [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+				} else
+					userFrame.size.width = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+			} else {
+				userFrame.size.width = 0;
+				if([view_userList isHidden]) {
+					msgFrame.size.width += 1 - dividerThickness;
+				}
+			}
+			
+			if (userListOnRight && userListAttached){
+				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
 				userFrame.origin.x = msgFrame.size.width + dividerThickness;
+			} else if (userListAttached) {
+				msgFrame.origin.x = NSMaxX(userFrame) + dividerThickness;
+				msgFrame.size.width = currentFrame.size.width - userFrame.size.width - dividerThickness;
+			} else {
+				msgFrame.size.width = currentFrame.size.width;
+				userFrame.origin.x = userListOnRight? currentFrame.size.width + dividerThickness : -1;
+			}
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
+		
+		// divition between text entry and message view
 		} else if (splitView == splitView_textEntryHorizontal) {
 			NSRect currentFrame = splitView.frame;
 			NSRect msgFrame = view_messages.frame;
@@ -1383,14 +1426,14 @@
 		//On the left: max size of user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
+				return AIfloor([self _userListViewDividerPositionIgnoringUserMinimum:YES] + 0.5f);
 			else
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor((splitView_verticalSplit.frame.size.width / 2) + 0.5f);
 		} else {
 			if (userListOnRight)
-				return splitView_verticalSplit.frame.size.width;
+				return AIfloor(splitView_verticalSplit.frame.size.width + 0.5f);
 			else
-				return 0.0f;
+				return 0;
 		}
 	}
 	
@@ -1407,20 +1450,20 @@
 {
 	if (splitView == splitView_textEntryHorizontal) {
 		//Max size of text entry view
-		return splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO;
+		return AIfloor(splitView_textEntryHorizontal.frame.size.height * MESSAGE_VIEW_MIN_HEIGHT_RATIO + 0.5f);
 	}  else if (splitView == splitView_verticalSplit) {
 		//On the right: max size of user list
 		//On the left: min size of the user list
 		if (chat.isGroupChat) {
 			if (userListOnRight)
-				return (splitView_verticalSplit.frame.size.width / 2);
+				return AIfloor(splitView_verticalSplit.frame.size.width / 2);
 			else
 				return [self _userListViewDividerPositionIgnoringUserMinimum:YES];
 		} else {
 			if (userListOnRight)
 				return splitView_verticalSplit.frame.size.width;
 			else
-				return 0.0f;
+				return 0;
 		}
 	}
 	

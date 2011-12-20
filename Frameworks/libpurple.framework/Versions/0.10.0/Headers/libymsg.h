@@ -48,7 +48,7 @@
 #define YAHOO_ROOMLIST_LOCALE "us"
 
 /* Yahoo! JAPAN stuff */
-#define YAHOOJP_PAGER_HOST_REQ_URL "http://cs1.msg.vip.ogk.yahoo.co.jp/capacity"
+#define YAHOOJP_PAGER_HOST_REQ_URL "http://cs1.yahoo.co.jp/capacity"
 #define YAHOOJP_TOKEN_URL "https://login.yahoo.co.jp/config/pwtoken_get?src=ymsgr&ts=&login=%s&passwd=%s&chal=%s"
 #define YAHOOJP_LOGIN_URL "https://login.yahoo.co.jp/config/pwtoken_login?src=ymsgr&ts=&token=%s"
 #define YAHOOJP_PROFILE_URL "http://profiles.yahoo.co.jp/"

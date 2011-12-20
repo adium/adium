@@ -45,7 +45,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
     theModifiers = -1;
   } else {
     theKeyCode = [[thePlist objectForKey:kKeyCodeDictionaryKey] integerValue];
-    if (theKeyCode <= 0) theKeyCode = -1;
+    if (theKeyCode < 0) theKeyCode = -1;
     
     theModifiers = [[thePlist objectForKey:kModifiersDictionaryKey] integerValue];
     if (theModifiers <= 0) theModifiers = -1;    

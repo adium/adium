@@ -22,7 +22,6 @@
 #import <Adium/AIToolbarControllerProtocol.h>
 
 #import "AIPreferenceWindowController.h"
-#import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

@@ -23,9 +23,9 @@
 #define kPSMTabBarCellPadding 4
 // fixed size objects
 #define kPSMMinimumTitleWidth 30
-#define kPSMTabBarIndicatorWidth 16.0
-#define kPSMTabBarIconWidth 16.0
-#define kPSMHideAnimationSteps 3.0
+#define kPSMTabBarIndicatorWidth 16.0f
+#define kPSMTabBarIconWidth 16.0f
+#define kPSMHideAnimationSteps 3.0f
 
 // Value used in _currentStep to indicate that resizing operation is not in progress
 #define kPSMIsNotBeingResized -1

@@ -262,8 +262,8 @@ static GString *purple_fbapi_construct_request_vargs(PurpleAccount *account, con
 		value = va_arg(args, const char *);
 		g_tree_insert(params, (char *)key, (char *)value);
 
-		/* If we have a session_key then we need a call_id */
-		if (g_str_equal(key, "session_key")) {
+		/* If we have an access_token then we need a call_id */
+		if (g_str_equal(key, "access_token")) {
 			struct timeval tv;
 			if (gettimeofday(&tv, NULL) != 0) {
 				time_t now;
