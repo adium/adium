@@ -76,8 +76,8 @@
 
 - (void)localizePane
 {
-	[label_privateKeys setStringValue:AILocalizedString(@"Private Keys", nil)];
-	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints", nil)];
+	[label_privateKeys setStringValue:AILocalizedString(@"Private Keys:", nil)];
+	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints:", nil)];
 	[button_forgetFingerprint setTitle:AILocalizedString(@"Forget Fingerprint", nil)];
 	[button_showFingerprint setTitle:[AILocalizedString(@"Show Fingerprint", nil) stringByAppendingEllipsis]];
 	[button_generate setTitle:AILocalizedString(@"Generate", nil)];
