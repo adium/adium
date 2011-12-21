@@ -150,6 +150,8 @@
 	BOOL            useImages = [[adium.preferenceController preferenceForKey:KEY_AB_USE_IMAGES
 																		  group:PREF_GROUP_ADDRESSBOOK] boolValue];
 	
+	[label_instructions setTextColor:((enableImport) ? [NSColor controlTextColor] : [NSColor disabledControlTextColor])];
+	
 	//Use Nick Name and the format menu are irrelevent if importing of names is not enabled
 	[checkBox_useFirstName setEnabled:enableImport];
 	[checkBox_useNickName setEnabled:enableImport];
