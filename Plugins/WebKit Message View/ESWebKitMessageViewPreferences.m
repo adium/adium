@@ -87,7 +87,7 @@
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-messages"];
+	return [NSImage imageNamed:@"pref-messagestyle"];
 }
 
 /*!
