@@ -385,6 +385,9 @@
 	[checkBox_showMessageColors setEnabled:anyControlsEnabled];
 	[button_setFont setEnabled:anyControlsEnabled];
 	[button_defaultFont setEnabled:anyControlsEnabled];
+	[checkBox_customNameFormatting setEnabled:anyControlsEnabled];
+	[popUp_timeStampFormat setEnabled:anyControlsEnabled];
+	[popUp_minimumFontSize setEnabled:anyControlsEnabled];
 	
 	//Only enable if there are multiple variant choices
 	[popUp_variants setEnabled:[popUp_variants numberOfItems] > 0 && anyControlsEnabled];
