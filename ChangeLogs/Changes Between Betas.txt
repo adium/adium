@@ -1,33 +1,37 @@
+Adium 1.5b9
+ * Made additional strings localisable
+ * Updated localisations: German (#15586, #15658), Portuguese (Portugal) (#15721), Swedish (#15726).
+
 Adium 1.5b8
+ General
+  * Make sure opening chatlog files does not show a warning in Finder about opening downloaded files. (#15573)
+  * Refactoring of ESiTunesPlugin including:
+    * Use same menu in menu bar, context menu and toolbar.
+    * Fix bug when replacing tokens with empty strings.
+    * Make tokens un-localizable.
+  * Fix a potential crash when opening the Transcript Viewer. (#15556)
+  * Fixed setting a global shortcut which used the letter "a" (yet again). (#12013)
 
-General
- * Make sure opening chatlog files does not show a warning in Finder about opening downloaded files. (#15573)
- * Refactoring of ESiTunesPlugin including:
-   * Use same menu in menu bar, context menu and toolbar.
-   * Fix bug when replacing tokens with empty strings.
-   * Make tokens un-localizable.
- * Fix a potential crash when opening the Transcript Viewer. (#15556)
- * Fixed setting a global shortcut which used the letter "a" (yet again). (#12013)
+ Interface
+  * Disabled elastic scroll in the text input of the message view.
+  * Disabled elastic scroll in Change User Picture Menu.
 
-Interface
- * Disabled elastic scroll in the text input of the message view.
- * Disabled elastic scroll in Change User Picture Menu.
+ Libpurple
+  * Updated libpurple, with the following changes:
+    * Fix double mail notifications on MSN. (#11199)
+    * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
 
-Libpurple
- * Updated libpurple, with the following changes:
-   * Fix double mail notifications on MSN. (#11199)
-   * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
-
-Twitter
- * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
+ Twitter
+  * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
 
  Localisation
- * Made non-localizable elements in ESStatusAdvancedPreferences localizable. (#15682)
- * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
+  * Made non-localizable elements in ESStatusAdvancedPreferences localizable. (#15682)
+  * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
 
 
 Adium 1.5b7
  * Make sure nibs are not stripped so they can be localized.
+
 
 Adium 1.5b6
  * Fixed automatic updating between betas failing with the error "Can't make a temporary directory for the update download". (#15666)
