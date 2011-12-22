@@ -21,6 +21,7 @@
 	NSTextField *label_actions;
 	NSTextField *label_counts;
 	NSTextField *label_statusMenu;
+	NSTextField *label_tabCounts;
 	AILocalizationButton *checkbox_statusMenuItemFlash;
 	AILocalizationButton *checkbox_statusMenuItemCount;
 	AILocalizationButton *checkbox_statusMenuItemBadge;
@@ -37,6 +38,7 @@
 @property (assign) IBOutlet NSTextField *label_actions;
 @property (assign) IBOutlet NSTextField *label_counts;
 @property (assign) IBOutlet NSTextField *label_statusMenu;
+@property (assign) IBOutlet NSTextField *label_tabCounts;
 
 @property (assign) IBOutlet AILocalizationButton *checkbox_statusMenuItemFlash;
 @property (assign) IBOutlet AILocalizationButton *checkbox_statusMenuItemCount;

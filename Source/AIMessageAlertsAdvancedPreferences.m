@@ -18,7 +18,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 
 @implementation AIMessageAlertsAdvancedPreferences
-@synthesize label_unreadMessages, label_actions, label_counts, label_statusMenu;
+@synthesize label_unreadMessages, label_actions, label_counts, label_statusMenu, label_tabCounts;
 @synthesize checkbox_statusMenuItemFlash, checkbox_statusMenuItemCount, checkbox_statusMenuItemBadge;
 @synthesize checkbox_animateDockIcon, checkbox_badgeDockIcon;
 @synthesize checkbox_unreadConversations, checkbox_unreadContentMention, checkbox_unreadMentionCount;
@@ -50,6 +50,7 @@
 	[label_unreadMessages setLocalizedString:AILocalizedString(@"Unread Messages", nil)];
 	[label_counts setLocalizedString:AILocalizedString(@"Counts:", nil)];
 	[label_statusMenu setLocalizedString:AILocalizedString(@"Status Menu Item:", nil)];
+	[label_tabCounts setLocalizedString:AILocalizedString(@"Tabs:", nil)];
 	
 	[checkbox_statusMenuItemBadge setLocalizedString:AILocalizedString(@"Badge the menu item with current status", nil)];
 	[checkbox_statusMenuItemFlash setLocalizedString:AILocalizedString(@"Flash status menu item", nil)];
