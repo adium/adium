@@ -109,7 +109,7 @@
         result = [converter readData:xmlData withOptions:options retrying:NO];
     } @catch (NSException *e) {
         NSLog(@"Error \"%@\" parsing log file at %@.", e, filePath);
-        return [[[NSAttributedString alloc] initWithString:@"Sorry, there was an error parsing this transcript. It may be corrupt."] autorelease];
+        return [[[NSAttributedString alloc] initWithString:AILocalizedString(@"Sorry, there was an error parsing this transcript. It may be corrupt.", nil)] autorelease];
     }
     return result;
 }
