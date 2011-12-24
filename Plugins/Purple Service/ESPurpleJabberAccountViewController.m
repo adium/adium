@@ -20,12 +20,12 @@
 #import <Adium/AIService.h>
 #import <Adium/AIContactList.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#include <tgmath.h>
+#import <tgmath.h>
 
 
 #import <Security/Security.h>
 #import <unistd.h>
-#include <sys/param.h>
+#import <sys/param.h>
 
 #define SERVERFEEDRSSURL @"http://xmpp.org/services/services-full.xml"
 
@@ -44,8 +44,68 @@
 {
 	[super awakeFromNib];
 	
-	[checkBox_checkMail setEnabled:NO];
+	[checkBox_checkMail setHidden:TRUE];
+    [label_checkMail setHidden:TRUE];
 	
+    char kcPath[MAXPATHLEN + 1];
+    UInt32 kcPathLen = MAXPATHLEN + 1;
+    SecKeychainRef kcRef = nil;
+    OSStatus err;
+    BOOL foundAny = FALSE;
+    
+    err = SecKeychainCopyDefault(&kcRef);
+    if(err) {
+        AILogWithSignature(@"SecKeychainCopyDefault returned %d; aborting.", (int)err);
+        return;
+    }
+    err = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+    if(err) {
+        AILogWithSignature(@"SecKeychainGetPath returned %d; aborting.", (int)err);
+        return;
+    }
+    
+    CFRelease(kcRef);
+    
+    err = SecKeychainOpen(kcPath, &kcRef);
+    if(err) {
+        AILogWithSignature(@"SecKeychainOpen returned %d.", (int)err);
+        AILogWithSignature(@"Cannot open keychain at %s. Aborting.", kcPath);
+        return;
+    }
+    
+    SecIdentitySearchRef srchRef = nil;
+    err = SecIdentitySearchCreate(kcRef, CSSM_KEYUSE_SIGN, &srchRef);
+    if(err) {
+        AILogWithSignature(@"SecIdentitySearchCreate returned %d.", (int)err);
+        AILogWithSignature(@"Cannot find signing key in keychain at %s. Aborting.", kcPath);
+        return;
+    }
+    
+    SecIdentityRef identity = nil;
+    
+    while(1) {
+        err = SecIdentitySearchCopyNext(srchRef, &identity);
+        
+        if(err) {
+            break;
+        }
+        
+        if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+            AILogWithSignature(@"SecIdentitySearchCopyNext CFTypeID failure!");
+            continue;
+        }
+        
+        if (!foundAny) {
+            foundAny = TRUE;
+            [[popup_clientSideCertificates menu] addItem:[NSMenuItem separatorItem]];
+        }
+        
+        SecCertificateRef client_cert = nil;
+        SecIdentityCopyCertificate(identity, &client_cert);
+        
+        [popup_clientSideCertificates addItemWithTitle:[(NSString *)SecCertificateCopySubjectSummary(client_cert) autorelease]];
+    }
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(contactListChanged:)
 									   name:Contact_ListChanged
@@ -56,10 +116,6 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 {
     [super configureForAccount:inAccount];
-	
-	[popup_authenticationMethod selectItemAtIndex:[[account preferenceForKey:KEY_JABBER_AUTHENTICATION_METHOD group:GROUP_ACCOUNT_STATUS] integerValue]];
-	
-	[self changeAuthenticationType:popup_authenticationMethod];
 	
 	//Connection security
 	[checkBox_forceOldSSL setState:[[account preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue]];
@@ -85,9 +141,11 @@
 	
 	//Priority
 	NSNumber *priority = [account preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
-	[textField_priorityAvailable setStringValue:(priority ? [priority stringValue] : @"")];
+	[textField_priorityAvailable setStringValue:(priority ? [priority stringValue] : @"0")];
+    [slider_priorityAvailable setIntegerValue:(priority ? [priority integerValue] : 0)];
 	priority = [account preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
-	[textField_priorityAway setStringValue:(priority ? [priority stringValue] : @"")];
+	[textField_priorityAway setStringValue:(priority ? [priority stringValue] : @"0")];
+    [slider_priorityAway setIntegerValue:(priority ? [priority integerValue] : 0)];
 	
 	//File transfer proxies
 	NSString *ftProxies = [account preferenceForKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
@@ -110,9 +168,6 @@
 - (void)saveConfiguration
 {
     [super saveConfiguration];
-	
-	[account setPreference:[NSNumber numberWithInteger:[popup_authenticationMethod indexOfItem:[popup_authenticationMethod selectedItem]]]
-					forKey:KEY_JABBER_AUTHENTICATION_METHOD group:GROUP_ACCOUNT_STATUS];
 	
 	//Connection security
 	[account setPreference:[NSNumber numberWithBool:[checkBox_forceOldSSL state]]
@@ -141,10 +196,10 @@
 					forKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
 	
 	//Priority
-	[account setPreference:([textField_priorityAvailable integerValue] ? [NSNumber numberWithInteger:[textField_priorityAvailable integerValue]] : nil)
+	[account setPreference:([slider_priorityAvailable integerValue] ? [NSNumber numberWithInteger:[slider_priorityAvailable integerValue]] : nil)
 					forKey:KEY_JABBER_PRIORITY_AVAILABLE
 					 group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:([textField_priorityAway integerValue] ? [NSNumber numberWithInteger:[textField_priorityAway integerValue]] : nil)
+	[account setPreference:([slider_priorityAway integerValue] ? [NSNumber numberWithInteger:[slider_priorityAway integerValue]] : nil)
 					forKey:KEY_JABBER_PRIORITY_AWAY
 					 group:GROUP_ACCOUNT_STATUS];
 
@@ -156,72 +211,12 @@
 					forKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 }
 
-- (IBAction)changeAuthenticationType:(id)sender {
-	// if client-side is used, get all possible certificates, and hide the password field
-	
-	if ([popup_authenticationMethod selectedTag] == 1) {
-		[[textField_password animator] setHidden:TRUE];
-		[[popup_clientSideCertificates animator] setHidden:FALSE];
-		
-		[popup_clientSideCertificates removeAllItems];
-		
-		char kcPath[MAXPATHLEN + 1];
-		UInt32 kcPathLen = MAXPATHLEN + 1;
-		SecKeychainRef kcRef = nil;
-		OSStatus err;
-		
-		err = SecKeychainCopyDefault(&kcRef);
-		if(err) {
-			AILogWithSignature(@"SecKeychainCopyDefault returned %d; aborting.", (int)err);
-			return;
-		}
-		err = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
-		if(err) {
-			AILogWithSignature(@"SecKeychainGetPath returned %d; aborting.", (int)err);
-			return;
-		}
-		
-		CFRelease(kcRef);
-		
-		err = SecKeychainOpen(kcPath, &kcRef);
-		if(err) {
-			AILogWithSignature(@"SecKeychainOpen returned %d.", (int)err);
-			AILogWithSignature(@"Cannot open keychain at %s. Aborting.", kcPath);
-			return;
-		}
-		
-		SecIdentitySearchRef srchRef = nil;
-		err = SecIdentitySearchCreate(kcRef, CSSM_KEYUSE_SIGN, &srchRef);
-		if(err) {
-			AILogWithSignature(@"SecIdentitySearchCreate returned %d.", (int)err);
-			AILogWithSignature(@"Cannot find signing key in keychain at %s. Aborting.", kcPath);
-			return;
-		}
-		
-		SecIdentityRef identity = nil;
-		
-		while(1) {
-			err = SecIdentitySearchCopyNext(srchRef, &identity);
-			
-			if(err) {
-				break;
-			}
-			
-			if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-				AILogWithSignature(@"SecIdentitySearchCopyNext CFTypeID failure!");
-				continue;
-			}
-			
-			SecCertificateRef client_cert = nil;
-			SecIdentityCopyCertificate(identity, &client_cert);
-			
-			[popup_clientSideCertificates addItemWithTitle:[(NSString *)SecCertificateCopySubjectSummary(client_cert) autorelease]];
-		}
-		
-	} else {
-		[[textField_password animator] setHidden:FALSE];
-		[[popup_clientSideCertificates animator] setHidden:TRUE];
-	}
+- (IBAction)changedPreference:(id)sender
+{
+	[super changedPreference:sender];
+    
+    [textField_priorityAvailable setIntegerValue:[slider_priorityAvailable integerValue]];
+    [textField_priorityAway setIntegerValue:[slider_priorityAway integerValue]];
 }
 
 - (IBAction)subscriptionModeDidChange:(id)sender {

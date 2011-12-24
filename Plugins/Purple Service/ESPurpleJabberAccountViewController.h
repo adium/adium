@@ -23,6 +23,8 @@
 	IBOutlet	NSTextField		*textField_resource;
 	IBOutlet	NSTextField		*textField_priorityAvailable;
 	IBOutlet	NSTextField		*textField_priorityAway;
+    IBOutlet    NSSlider        *slider_priorityAvailable;
+    IBOutlet    NSSlider        *slider_priorityAway;
 	IBOutlet	NSTextField		*textField_ftProxies;
 	IBOutlet	NSButton		*checkBox_useTLS;
 	IBOutlet	NSButton		*checkBox_forceOldSSL;
@@ -32,8 +34,8 @@
 	IBOutlet	NSPopUpButton	*popup_subscriptionBehavior;
 	IBOutlet	NSTextField		*textField_subscriptionModeLabel;
 	IBOutlet	NSComboBox		*comboBox_subscriptionGroup;
-	IBOutlet	NSPopUpButton	*popup_authenticationMethod;
 	IBOutlet	NSPopUpButton	*popup_clientSideCertificates;
+    IBOutlet    NSTextField     *label_checkMail;
 
 	IBOutlet	NSButton		*button_register;
 
@@ -44,6 +46,8 @@
 	IBOutlet	NSTextView		*textView_serverDescription;
 	IBOutlet	NSButton		*button_serverHomepage;
 
+    IBOutlet    NSView          *view_connectionOptions;
+    
 	NSArray *servers;
 }
 
@@ -54,7 +58,5 @@
 - (IBAction)subscriptionModeDidChange:(id)sender;
 
 - (IBAction)visitServerHomepage:(id)sender;
-
-- (IBAction)changeAuthenticationType:(id)sender;
 
 @end
