@@ -304,7 +304,8 @@
 	NSString	*contactServiceID = nil;
 
 	if ([contactUID hasSuffix:@"@gmail.com"] ||
-		[contactUID hasSuffix:@"@googlemail.com"]) {
+		[contactUID hasSuffix:@"@googlemail.com"] ||
+        [contactUID hasSuffix:@"@public.talk.google.com"]) {
 		contactServiceID = @"libpurple-jabber-gtalk";
 
 	} else if([contactUID hasSuffix:@"@livejournal.com"]){

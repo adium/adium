@@ -2892,7 +2892,8 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 		[serviceClass isEqualToString:@"LiveJournal"]) {
 		
 		if ([contactUID hasSuffix:@"@gmail.com"] ||
-			[contactUID hasSuffix:@"@googlemail.com"]) {
+			[contactUID hasSuffix:@"@googlemail.com"] ||
+            [contactUID hasSuffix:@"@public.talk.google.com"]) {
 			serviceClass = @"GTalk";
 			
 		} else if ([contactUID hasSuffix:@"@livejournal.com"]){
