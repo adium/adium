@@ -138,7 +138,9 @@
 	if (skIndex)
 		return;
 	
-	NSString *indexURL = [[[adium cachesPath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"preferences.searchIndex"];
+	NSURL *indexURL = [NSURL fileURLWithPath:[[[adium cachesPath] stringByDeletingLastPathComponent]
+											stringByAppendingPathComponent:@"preferences.searchIndex"]];
+	NSURL *termsURL = [[NSBundle mainBundle] URLForResource:@"SearchTerms" withExtension:@"plist"];
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
 	
 	//Check the language of the user vs the search index and recreate it if it looks like the language has changed
@@ -146,13 +148,23 @@
 	NSString *newLocale = [[NSLocale preferredLanguages] objectAtIndex:0];
 	if (![indexLocale isEqualToString:newLocale]) {
 		AILog(@"Recreating preferences search index for language: %@", newLocale);
-		[fm removeItemAtPath:indexURL error:nil];
+		[fm removeItemAtURL:indexURL error:nil];
 		[adium.preferenceController setPreference:newLocale forKey:@"search locale" group:PREF_GROUP_GENERAL];
 	}
 	
-	if ([fm isReadableFileAtPath:indexURL]) {
+	//Check the date of the search index and recreate it if we have newer terms
+	NSDictionary *properties = [fm attributesOfItemAtPath:indexURL.path error:nil];
+	NSDate *indexDate = [properties objectForKey:NSFileModificationDate];
+	properties = [fm attributesOfItemAtPath:termsURL.path error:nil];
+	NSDate *termsDate = [properties objectForKey:NSFileModificationDate];
+	if ([termsDate timeIntervalSinceDate:indexDate] > 0) {
+		AILog(@"Recreating preferences search index for new terms.");
+		[fm removeItemAtURL:indexURL error:nil];
+	}
+	
+	if ([fm isReadableFileAtPath:indexURL.path]) {
 		//Open the existing index
-		skIndex = SKIndexOpenWithURL((CFURLRef)[NSURL URLWithString:indexURL],
+		skIndex = SKIndexOpenWithURL((CFURLRef)indexURL,
 									 (CFStringRef)@"terms",
 									 YES);
 	}
@@ -164,7 +176,7 @@
 		if (skIndex)
 			SKIndexClose (skIndex);
 		
-		skIndex = SKIndexCreateWithURL((CFURLRef)[NSURL URLWithString:indexURL],
+		skIndex = SKIndexCreateWithURL((CFURLRef)indexURL,
 									   (CFStringRef)@"terms",
 									   (SKIndexType)type,
 									   NULL);
@@ -173,11 +185,8 @@
 			return;
 		}
 		
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"SearchTerms" ofType:@"plist"];
-		if (path) {
-			NSURL *url = [NSURL fileURLWithPath:path];
-			
-			NSDictionary *terms = [NSDictionary dictionaryWithContentsOfURL:url];
+		if (termsURL) {
+			NSDictionary *terms = [NSDictionary dictionaryWithContentsOfURL:termsURL];
 			//The file is laid out with each pane having an array of sections with each section having search terms
 			[terms enumerateKeysAndObjectsUsingBlock:^(id paneKey, id paneSection, BOOL *stop) {
 				__block NSString *pane = paneKey;
