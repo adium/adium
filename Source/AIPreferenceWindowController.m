@@ -193,7 +193,11 @@
 				
 				//Add the section
 				[(NSArray *)paneSection enumerateObjectsUsingBlock:^(id termDict, NSUInteger idx, BOOL *aStop) {
-					NSString *paneURL = [NSString stringWithFormat:@"%@/%@", pane, [termDict objectForKey:@"title"]];
+					NSString *title = [termDict objectForKey:@"title"];
+					if ([title isEqualToString:@""])
+						return;
+					
+					NSString *paneURL = [NSString stringWithFormat:@"%@/%@", pane, title];
 					SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
 														 NULL,
 														 (CFStringRef)paneURL);
