@@ -780,8 +780,9 @@
 	
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
-															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
-	if (entryMinHeight <= 0) entryMinHeight = AIfloor([self _textEntryViewProperHeightIgnoringUserMininum:YES] + 0.5f);
+															 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
+	if (entryMinHeight <= 0)
+		entryMinHeight = ENTRY_TEXTVIEW_MIN_HEIGHT;
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
 	//and other special key-presses.
