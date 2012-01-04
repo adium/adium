@@ -68,6 +68,7 @@
 											<int key="NSvFlags">274</int>
 											<string key="NSFrameSize">{213, 410}</string>
 											<reference key="NSSuperview" ref="58758836"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="374111282"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="_NSCornerView" key="NSCornerView">
@@ -154,6 +155,7 @@
 									</array>
 									<string key="NSFrameSize">{213, 410}</string>
 									<reference key="NSSuperview" ref="166732467"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="483964282"/>
 									<reference key="NSDocView" ref="483964282"/>
 									<object class="NSColor" key="NSBGColor">
@@ -172,6 +174,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-22, 0}, {11, 396}}</string>
 									<reference key="NSSuperview" ref="166732467"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="58758836"/>
 									<int key="NSsFlags">256</int>
 									<reference key="NSTarget" ref="166732467"/>
@@ -183,6 +186,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{0, -22}, {198, 11}}</string>
 									<reference key="NSSuperview" ref="166732467"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="593971232"/>
 									<int key="NSsFlags">257</int>
 									<reference key="NSTarget" ref="166732467"/>
@@ -192,6 +196,7 @@
 							</array>
 							<string key="NSFrameSize">{213, 410}</string>
 							<reference key="NSSuperview" ref="263109925"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="58758836"/>
 							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="593971232"/>
@@ -202,11 +207,12 @@
 					</array>
 					<string key="NSFrameSize">{213, 410}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="166732467"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSCustomView" id="951015401">
 				<nil key="NSNextResponder"/>
@@ -567,7 +573,69 @@
 			<nil key="sourceID"/>
 			<int key="maxID">301</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">AIDockingWindow</string>
+					<string key="superclassName">NSWindow</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIDockingWindow.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIListWindowController</string>
+					<string key="superclassName">AIWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIListWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIStandardListScrollView</string>
+					<string key="superclassName">AIAutoScrollView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIStandardListScrollView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIStandardListWindowController</string>
+					<string key="superclassName">AIListWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIStandardListWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIWindowController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeWindow:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">closeWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIWindowDraggingView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIWindowDraggingView.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
