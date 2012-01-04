@@ -582,8 +582,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIDockIconsDirectory) objectAtIndex:0];
         fileDescription = AILocalizedString(@"dock icon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumIcon";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumSoundset"] == NSOrderedSame) {
@@ -596,8 +596,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumEmoticonset"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIEmoticonsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"emoticon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumEmoticonset";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumScripts"] == NSOrderedSame) {
@@ -608,36 +608,36 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMessageStylesDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"message style",nil);
-		prefsButton = AILocalizedString(@"Open Message Prefs",nil);
-		prefsCategory = @"Messages";
+		prefsButton = AILocalizedString(@"Open Message Style Prefs",nil);
+		prefsCategory = @"Message Style";
 		extension = @"AdiumMessageStyle";
 
 	} else if ([extension caseInsensitiveCompare:@"ListLayout"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list layout",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListLayout";
 
 	} else if ([extension caseInsensitiveCompare:@"ListTheme"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list theme",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListTheme";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumServiceIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIServiceIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"service icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumServiceIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumMenuBarIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMenuBarIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"menu bar icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumMenuBarIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumStatusIcons"] == NSOrderedSame) {
@@ -653,8 +653,8 @@ static NSString	*prefsCategory;
 		if (![packName isEqualToString:defaultPackName]) {
 			destination = [AISearchPathForDirectories(AIStatusIconsDirectory) objectAtIndex:0];
 			fileDescription = AILocalizedString(@"status icons",nil);
-			prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-			prefsCategory = @"Appearance";
+			prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+			prefsCategory = @"Icons";
 			extension = @"AdiumStatusIcons";
 
 		} else {
