@@ -61,13 +61,13 @@ typedef enum {
 }
 - (NSString *)paneIdentifier
 {
-	return @"Appearance";
+	return @"Icons";
 }
 - (NSString *)paneName{
-    return AILocalizedString(@"Appearance","Appearance preferences label");
+    return AILocalizedString(@"Icons","Icons preferences label");
 }
 - (NSString *)nibName{
-    return @"Preferences-Appearance";
+    return @"Preferences-Icons";
 }
 - (NSImage *)paneIcon
 {
