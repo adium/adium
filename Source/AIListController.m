@@ -423,7 +423,7 @@
 		[contactListView reloadData];
 	} else {
 		for (AIProxyListObject *proxyObject in object.proxyObjects) {
-            if ([proxyObject.listObject isExpanded])
+            if ([(AIListObject<AIContainingObject> *)proxyObject.listObject isExpanded])
                 [contactListView reloadItem:proxyObject reloadChildren:YES];
             else
                 [contactListView reloadItem:proxyObject reloadChildren:NO];
