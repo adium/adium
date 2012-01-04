@@ -17,40 +17,24 @@
 #import <Adium/AIPreferencePane.h>
 
 @interface AIAppearancePreferences : AIPreferencePane <NSMenuDelegate> {
-	IBOutlet	NSPopUpButton	*popUp_statusIcons;
-	IBOutlet	NSPopUpButton	*popUp_serviceIcons;
-	IBOutlet	NSPopUpButton	*popUp_menuBarIcons;
-	IBOutlet	NSPopUpButton	*popUp_emoticons;
-	IBOutlet	NSPopUpButton	*popUp_dockIcon;
-	IBOutlet	NSPopUpButton	*popUp_listLayout;
-	IBOutlet	NSPopUpButton	*popUp_colorTheme;
-	IBOutlet	NSPopUpButton	*popUp_windowStyle;
-
-	IBOutlet	NSButton		*checkBox_verticalAutosizing;
-	IBOutlet	NSButton		*checkBox_horizontalAutosizing;
+	IBOutlet	NSPopUpButton *popUp_serviceIcons;
+	IBOutlet	NSPopUpButton *popUp_statusIcons;
+	IBOutlet	NSPopUpButton *popUp_menuBarIcons;
+	IBOutlet	NSPopUpButton *popUp_emoticons;
+	IBOutlet	NSPopUpButton *popUp_dockIcon;
 	
-	IBOutlet	NSSlider		*slider_windowOpacity;
-	IBOutlet	NSTextField		*textField_windowOpacity;
+	IBOutlet	AILocalizationTextField *label_serviceIcons;
+	IBOutlet	AILocalizationTextField *label_statusIcons;
+	IBOutlet	AILocalizationTextField *label_menuBarIcons;
+	IBOutlet	AILocalizationTextField *label_emoticons;
+	IBOutlet	AILocalizationTextField *label_dockIcons;
 	
-	IBOutlet	NSTextField		*textField_horizontalWidthText;
-	IBOutlet	NSSlider		*slider_horizontalWidth;
-	IBOutlet	NSTextField		*textField_horizontalWidthIndicator;
-		
-	IBOutlet	NSTextField		*label_serviceIcons;
-	IBOutlet	NSTextField		*label_statusIcons;
-	IBOutlet	NSTextField		*label_dockIcons;
-	IBOutlet	NSTextField		*label_menuBarIcons;
-
-	//
-	NSArray		*_listLayouts;	//Will NOT always be a valid reference.  Do not use as one!
-	NSArray		*_listThemes;	//Will NOT always be a valid reference.  Do not use as one!
+	IBOutlet	AILocalizationButton *button_emoticons;
+	IBOutlet	AILocalizationButton *button_dockIcons;
 }
 
 - (IBAction)showAllDockIcons:(id)sender;
-- (IBAction)customizeListLayout:(id)sender;
-- (IBAction)customizeListTheme:(id)sender;
 - (IBAction)customizeEmoticons:(id)sender;
-
 - (void)xtrasChanged:(NSNotification *)notification;
 
 @end
