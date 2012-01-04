@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1138.23</string>
 		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -34,7 +34,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="589682474">
 			<object class="NSCustomObject" id="765704780">
 				<string key="NSClassName">AdiumSetupWizard</string>
@@ -48,7 +51,7 @@
 			<object class="NSWindowTemplate" id="1044063078">
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{191, 399}, {615, 411}}</string>
+				<string key="NSWindowRect">{{235, 273}, {615, 411}}</string>
 				<int key="NSWTFlags">1886914560</int>
 				<string key="NSWindowTitle">Window</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -66,6 +69,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{145, 56}, {449, 305}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="809930931"/>
 							<string key="NSClassName">SetupAssistantBoxBackgroundView</string>
 							<string key="NSExtension">NSView</string>
@@ -75,6 +79,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{-9, 20}, {600, 391}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="584847413"/>
 							<string key="NSClassName">SetupWizardBackgroundView</string>
 							<string key="NSExtension">NSView</string>
@@ -88,11 +93,13 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrame">{{1, 1}, {448, 303}}</string>
 									<reference key="NSSuperview" ref="809930931"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="782611147"/>
 								</object>
 							</array>
 							<string key="NSFrame">{{145, 56}, {450, 305}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="358474532"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
@@ -129,6 +136,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{385, 12}, {108, 32}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="920653528"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="732476236">
@@ -161,7 +169,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{493, 12}, {108, 32}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="38815897">
 								<int key="NSCellFlags">67239424</int>
@@ -183,6 +191,7 @@
 							<int key="NSvFlags">-2147483388</int>
 							<string key="NSFrame">{{157, 12}, {125, 32}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1014533837"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="478540116">
@@ -207,7 +216,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{146, 60}, {447, 301}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
-							<reference key="NSNextKeyView" ref="232763656"/>
+							<reference key="NSWindow"/>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="589476996">
 									<string key="NSIdentifier">welcome</string>
@@ -228,7 +237,8 @@
 																<int key="NSvFlags">2322</int>
 																<string key="NSFrameSize">{407, 249}</string>
 																<reference key="NSSuperview" ref="436114676"/>
-																<reference key="NSNextKeyView" ref="273702641"/>
+																<reference key="NSWindow"/>
+																<reference key="NSNextKeyView" ref="540826813"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="987707059">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -340,6 +350,7 @@
 														</array>
 														<string key="NSFrameSize">{407, 249}</string>
 														<reference key="NSSuperview" ref="266106167"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="856980083"/>
 														<reference key="NSDocView" ref="856980083"/>
 														<reference key="NSBGColor" ref="367270094"/>
@@ -354,6 +365,7 @@
 														<int key="NSvFlags">-2147483392</int>
 														<string key="NSFrame">{{-30, 1}, {15, 286}}</string>
 														<reference key="NSSuperview" ref="266106167"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="436114676"/>
 														<reference key="NSTarget" ref="266106167"/>
 														<string key="NSAction">_doScroller:</string>
@@ -364,6 +376,7 @@
 														<int key="NSvFlags">-2147483392</int>
 														<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 														<reference key="NSSuperview" ref="266106167"/>
+														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="454366920"/>
 														<int key="NSsFlags">1</int>
 														<reference key="NSTarget" ref="266106167"/>
@@ -374,7 +387,8 @@
 												</array>
 												<string key="NSFrame">{{20, 32}, {407, 249}}</string>
 												<reference key="NSSuperview" ref="232763656"/>
-												<reference key="NSNextKeyView" ref="540826813"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="436114676"/>
 												<int key="NSsFlags">133648</int>
 												<reference key="NSVScroller" ref="454366920"/>
 												<reference key="NSHScroller" ref="540826813"/>
@@ -385,6 +399,7 @@
 												<int key="NSvFlags">256</int>
 												<string key="NSFrame">{{110, 8}, {221, 32}}</string>
 												<reference key="NSSuperview" ref="232763656"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="336102001"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="876127194">
@@ -407,6 +422,7 @@
 										</array>
 										<string key="NSFrameSize">{447, 301}</string>
 										<reference key="NSSuperview" ref="782611147"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="266106167"/>
 									</object>
 									<string key="NSLabel">welcome</string>
@@ -588,7 +604,7 @@
 																<int key="NSvFlags">2322</int>
 																<string key="NSFrameSize">{407, 16}</string>
 																<reference key="NSSuperview" ref="851955997"/>
-																<reference key="NSNextKeyView" ref="895748495"/>
+																<reference key="NSNextKeyView" ref="727036547"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="730100579">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -665,7 +681,7 @@
 												</array>
 												<string key="NSFrame">{{20, 132}, {407, 149}}</string>
 												<reference key="NSSuperview" ref="903855791"/>
-												<reference key="NSNextKeyView" ref="727036547"/>
+												<reference key="NSNextKeyView" ref="851955997"/>
 												<int key="NSsFlags">133648</int>
 												<reference key="NSVScroller" ref="1054556282"/>
 												<reference key="NSHScroller" ref="727036547"/>
@@ -698,7 +714,7 @@
 																<int key="NSvFlags">2322</int>
 																<string key="NSFrameSize">{407, 16}</string>
 																<reference key="NSSuperview" ref="967771140"/>
-																<reference key="NSNextKeyView" ref="336102001"/>
+																<reference key="NSNextKeyView" ref="220323521"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="207390920">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
 																		<object class="NSTextStorage" key="NSTextStorage">
@@ -775,7 +791,7 @@
 												</array>
 												<string key="NSFrame">{{20, 20}, {407, 261}}</string>
 												<reference key="NSSuperview" ref="857392327"/>
-												<reference key="NSNextKeyView" ref="220323521"/>
+												<reference key="NSNextKeyView" ref="967771140"/>
 												<int key="NSsFlags">133648</int>
 												<reference key="NSVScroller" ref="328346106"/>
 												<reference key="NSHScroller" ref="220323521"/>
@@ -804,6 +820,7 @@
 							<object class="NSPSMatrix" key="NSDrawMatrix"/>
 							<string key="NSFrame">{{321, 14}, {32, 32}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="589626502"/>
 							<int key="NSpiFlags">28682</int>
 							<double key="NSMaxValue">100</double>
@@ -813,6 +830,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{163, 369}, {428, 22}}</string>
 							<reference key="NSSuperview" ref="532451656"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="937930123"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="635153826">
@@ -832,6 +850,7 @@
 					</array>
 					<string key="NSFrameSize">{615, 411}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="577533829"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
@@ -849,22 +868,6 @@
 						<reference key="destination" ref="1044063078"/>
 					</object>
 					<int key="connectionID">7</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="920653528"/>
-						<reference key="destination" ref="589626502"/>
-					</object>
-					<int key="connectionID">11</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="589626502"/>
-						<reference key="destination" ref="336102001"/>
-					</object>
-					<int key="connectionID">12</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -924,22 +927,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="750767494"/>
-						<reference key="destination" ref="1044214582"/>
-					</object>
-					<int key="connectionID">81</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="1006372938"/>
-						<reference key="destination" ref="459634818"/>
-					</object>
-					<int key="connectionID">82</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">tabView</string>
 						<reference key="source" ref="765704780"/>
 						<reference key="destination" ref="782611147"/>
@@ -961,22 +948,6 @@
 						<reference key="destination" ref="895748495"/>
 					</object>
 					<int key="connectionID">86</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="782611147"/>
-						<reference key="destination" ref="765704780"/>
-					</object>
-					<int key="connectionID">87</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">initialFirstResponder</string>
-						<reference key="source" ref="595818746"/>
-						<reference key="destination" ref="1044214582"/>
-					</object>
-					<int key="connectionID">88</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1028,91 +999,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">initialFirstResponder</string>
-						<reference key="source" ref="1044063078"/>
-						<reference key="destination" ref="532451656"/>
-					</object>
-					<int key="connectionID">103</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="532451656"/>
-						<reference key="destination" ref="782611147"/>
-					</object>
-					<int key="connectionID">104</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="1044214582"/>
-						<reference key="destination" ref="459634818"/>
-					</object>
-					<int key="connectionID">105</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="459634818"/>
-						<reference key="destination" ref="895748495"/>
-					</object>
-					<int key="connectionID">106</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="895748495"/>
-						<reference key="destination" ref="1044214582"/>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="336102001"/>
-						<reference key="destination" ref="903855791"/>
-					</object>
-					<int key="connectionID">109</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="920653528"/>
-						<reference key="destination" ref="589626502"/>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="589626502"/>
-						<reference key="destination" ref="920653528"/>
-					</object>
-					<int key="connectionID">111</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">textView_addAccountMessage</string>
 						<reference key="source" ref="765704780"/>
 						<reference key="destination" ref="494428129"/>
 					</object>
 					<int key="connectionID">112</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="1044214582"/>
-						<reference key="destination" ref="765704780"/>
-					</object>
-					<int key="connectionID">114</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="1044063078"/>
-						<reference key="destination" ref="765704780"/>
-					</object>
-					<int key="connectionID">115</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1153,6 +1044,134 @@
 						<reference key="destination" ref="273702641"/>
 					</object>
 					<int key="connectionID">193</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="1044063078"/>
+						<reference key="destination" ref="532451656"/>
+					</object>
+					<int key="connectionID">103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1044063078"/>
+						<reference key="destination" ref="765704780"/>
+					</object>
+					<int key="connectionID">115</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="532451656"/>
+						<reference key="destination" ref="782611147"/>
+					</object>
+					<int key="connectionID">104</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="589626502"/>
+						<reference key="destination" ref="336102001"/>
+					</object>
+					<int key="connectionID">12</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="589626502"/>
+						<reference key="destination" ref="920653528"/>
+					</object>
+					<int key="connectionID">111</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="920653528"/>
+						<reference key="destination" ref="589626502"/>
+					</object>
+					<int key="connectionID">11</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToLeftSide</string>
+						<reference key="source" ref="920653528"/>
+						<reference key="destination" ref="589626502"/>
+					</object>
+					<int key="connectionID">110</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="336102001"/>
+						<reference key="destination" ref="903855791"/>
+					</object>
+					<int key="connectionID">109</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="782611147"/>
+						<reference key="destination" ref="765704780"/>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="595818746"/>
+						<reference key="destination" ref="1044214582"/>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="750767494"/>
+						<reference key="destination" ref="1044214582"/>
+					</object>
+					<int key="connectionID">81</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1044214582"/>
+						<reference key="destination" ref="459634818"/>
+					</object>
+					<int key="connectionID">105</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1044214582"/>
+						<reference key="destination" ref="765704780"/>
+					</object>
+					<int key="connectionID">114</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="1006372938"/>
+						<reference key="destination" ref="459634818"/>
+					</object>
+					<int key="connectionID">82</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="459634818"/>
+						<reference key="destination" ref="895748495"/>
+					</object>
+					<int key="connectionID">106</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="895748495"/>
+						<reference key="destination" ref="1044214582"/>
+					</object>
+					<int key="connectionID">107</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1598,10 +1617,250 @@
 			<nil key="sourceID"/>
 			<int key="maxID">197</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">AILinkTextView</string>
+					<string key="superclassName">NSTextView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AILinkTextView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AILocalizationButton</string>
+					<string key="superclassName">NSButton</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="view_anchorToLeftSide">NSView</string>
+						<string key="view_anchorToRightSide">NSView</string>
+						<string key="window_anchorOnLeftSide">NSWindow</string>
+						<string key="window_anchorOnRightSide">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
+							<string key="name">view_anchorToLeftSide</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
+							<string key="name">view_anchorToRightSide</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
+							<string key="name">window_anchorOnLeftSide</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
+							<string key="name">window_anchorOnRightSide</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AILocalizationButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AILocalizationTextField</string>
+					<string key="superclassName">NSTextField</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="view_anchorToLeftSide">NSView</string>
+						<string key="view_anchorToRightSide">NSView</string>
+						<string key="window_anchorOnLeftSide">NSWindow</string>
+						<string key="window_anchorOnRightSide">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
+							<string key="name">view_anchorToLeftSide</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
+							<string key="name">view_anchorToRightSide</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
+							<string key="name">window_anchorOnLeftSide</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
+							<string key="name">window_anchorOnRightSide</string>
+							<string key="candidateClassName">NSWindow</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AILocalizationTextField.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIWindowController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeWindow:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">closeWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AdiumSetupWizard</string>
+					<string key="superclassName">AIWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="nextTab:">id</string>
+						<string key="pressedAlternateButton:">id</string>
+						<string key="previousTab:">id</string>
+						<string key="promptForMultiples:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="nextTab:">
+							<string key="name">nextTab:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="pressedAlternateButton:">
+							<string key="name">pressedAlternateButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="previousTab:">
+							<string key="name">previousTab:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="promptForMultiples:">
+							<string key="name">promptForMultiples:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backgroundView">SetupWizardBackgroundView</string>
+						<string key="button_alternate">NSButton</string>
+						<string key="button_continue">NSButton</string>
+						<string key="button_goBack">NSButton</string>
+						<string key="button_informationAboutImporting">NSButton</string>
+						<string key="popUp_services">NSPopUpButton</string>
+						<string key="tabView">NSTabView</string>
+						<string key="textField_addAccount">NSTextField</string>
+						<string key="textField_done">NSTextField</string>
+						<string key="textField_password">NSTextField</string>
+						<string key="textField_passwordLabel">NSTextField</string>
+						<string key="textField_serviceLabel">NSTextField</string>
+						<string key="textField_username">NSTextField</string>
+						<string key="textField_usernameLabel">NSTextField</string>
+						<string key="textField_welcome">NSTextField</string>
+						<string key="textView_addAccountMessage">NSTextView</string>
+						<string key="textView_doneMessage">NSTextView</string>
+						<string key="textView_welcomeMessage">NSTextView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backgroundView">
+							<string key="name">backgroundView</string>
+							<string key="candidateClassName">SetupWizardBackgroundView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_alternate">
+							<string key="name">button_alternate</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_continue">
+							<string key="name">button_continue</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_goBack">
+							<string key="name">button_goBack</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_informationAboutImporting">
+							<string key="name">button_informationAboutImporting</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="popUp_services">
+							<string key="name">popUp_services</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tabView">
+							<string key="name">tabView</string>
+							<string key="candidateClassName">NSTabView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_addAccount">
+							<string key="name">textField_addAccount</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_done">
+							<string key="name">textField_done</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_password">
+							<string key="name">textField_password</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_passwordLabel">
+							<string key="name">textField_passwordLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_serviceLabel">
+							<string key="name">textField_serviceLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_username">
+							<string key="name">textField_username</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_usernameLabel">
+							<string key="name">textField_usernameLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_welcome">
+							<string key="name">textField_welcome</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textView_addAccountMessage">
+							<string key="name">textView_addAccountMessage</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textView_doneMessage">
+							<string key="name">textView_doneMessage</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textView_welcomeMessage">
+							<string key="name">textView_welcomeMessage</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AdiumSetupWizard.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SetupAssistantBoxBackgroundView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SetupAssistantBoxBackgroundView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SetupWizardBackgroundView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SetupWizardBackgroundView.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1060" key="NS.object.0"/>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
