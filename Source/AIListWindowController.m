@@ -37,6 +37,7 @@
 #import <AIUtilities/AIEventAdditions.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIContactHidingController.h>
+#import <AIUtilities/AIOSCompatibility.h>
 
 #import "AISearchFieldCell.h"
 
@@ -50,10 +51,6 @@
 #define WINDOW_SLIDING_MOUSE_DISTANCE_TOLERANCE 3.0f /* Distance the mouse must be from the window's frame to be considered outside it */
 
 #define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
-
-@interface NSScrollView (AIListWindowController_LionCompatability)
-- (void)setVerticalScrollElasticity:(NSInteger)elasticity;
-@end
 
 @interface AIListWindowController ()
 - (id)initWithContactList:(id<AIContainingObject>)contactList;

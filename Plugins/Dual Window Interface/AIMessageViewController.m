@@ -32,6 +32,7 @@
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
+#import <AIUtilities/AIOSCompatibility.h>
 
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
 

@@ -24,6 +24,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIOSCompatibility.h>
 
 #import "IKRecentPicture.h" //10.5+, private
 
