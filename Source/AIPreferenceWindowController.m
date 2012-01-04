@@ -87,6 +87,7 @@
  */
 + (void)openPreferenceWindowToCategoryWithIdentifier:(NSString *)identifier
 {	
+	[self openPreferenceWindow];
 	[[self sharedAIPreferenceWindowController] displayPaneWithIdentifier:identifier];
 }
 
