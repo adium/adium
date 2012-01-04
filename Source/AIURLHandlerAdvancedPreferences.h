@@ -14,10 +14,10 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 #import "AIURLHandlerPlugin.h"
 
-@interface AIURLHandlerAdvancedPreferences : AIAdvancedPreferencePane {
+@interface AIURLHandlerAdvancedPreferences : AIPreferencePane {
 	IBOutlet		NSTableView			*tableView;
 	
 	IBOutlet		NSButton					*button_setDefault;
