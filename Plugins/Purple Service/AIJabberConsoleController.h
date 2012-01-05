@@ -14,30 +14,11 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <AdiumLibpurple/CBPurpleAccount.h>
-#import <AdiumLibpurple/AIIRCConsoleController.h>
+#import <AdiumLibpurple/PurpleCommon.h>
+#import <Adium/AIConsoleController.h>
 
-#define KEY_IRC_USE_SSL		@"IRC:Use SSL"
-#define KEY_IRC_COMMANDS	@"IRC:Commands"
-#define KEY_IRC_USERNAME	@"IRC:Username"
-#define KEY_IRC_REALNAME	@"IRC:Realname"
-#define KEY_IRC_ENCODING	@"IRC:Encoding"
-
-typedef enum {
-	AIUnspecifiedOperation = 0,
-	AIRequiresNoLevel,
-	AIRequiresOp,
-	AIRequiresHalfop
-} AIOperationRequirement;
-
-@interface ESIRCAccount : CBPurpleAccount <AIAccount_Files> {
-	AIIRCConsoleController *consoleController;
+@interface AIJabberConsoleController : AIConsoleController {
+    PurpleConnection *gc;
 }
-
-@property (readonly, nonatomic) NSString *defaultUsername;
-@property (readonly, nonatomic) NSString *defaultRealname;
-
-- (void)identifyForName:(NSString *)name password:(NSString *)inPassword;
-- (AIGroupChatFlags)flagsInChat:(AIChat *)chat;
-
+- (void)setPurpleConnection:(PurpleConnection *)gc;
 @end

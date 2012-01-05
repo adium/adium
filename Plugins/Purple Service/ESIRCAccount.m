@@ -59,6 +59,15 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	}
 }
 
+- (void)dealloc
+{
+	[consoleController close];
+	[consoleController release];
+	consoleController = nil;
+	
+	[super dealloc];
+}
+
 #pragma mark IRC-ism overloads
 
 /*!
@@ -102,6 +111,21 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 }
 
 #pragma mark Command handling
+
+- (BOOL)enableConsole
+{
+	BOOL enableConsole;
+#ifdef DEBUG_BUILD
+	//Always enable the XML console for debug builds
+	enableConsole = YES;
+#else
+	//For non-debug builds, only enable it if the preference is set
+	enableConsole = [[NSUserDefaults standardUserDefaults] boolForKey:@"AIIRCConsole"];
+#endif
+	
+	return enableConsole;
+}
+
 /*!
  * @brief We've connected
  *
@@ -110,6 +134,11 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 - (void)didConnect
 {
 	[super didConnect];
+	
+	if ([self enableConsole]) {
+		if (!consoleController) consoleController = [[AIIRCConsoleController alloc] init];
+		[consoleController setPurpleConnection:purple_account_get_connection(account)];
+	}
 	
 	PurpleConversation *conv = fakeConversation(self.purpleAccount);
 	
@@ -142,6 +171,12 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	[self setPreference:[[NSAttributedString stringWithString:@"Adium"] dataRepresentation]
 				 forKey:KEY_ACCOUNT_DISPLAY_NAME
 				  group:GROUP_ACCOUNT_STATUS];
+}
+
+- (void)didDisconnect {
+	[consoleController setPurpleConnection:NULL];
+	
+	[super didDisconnect];
 }
 
 /*!
@@ -420,6 +455,29 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 }
 
 #pragma mark Action Menu
+
+- (IBAction)showConsole:(id)sender {
+    if(consoleController)
+        [consoleController showWindow:sender];
+    else
+        NSBeep();
+}
+
+
+- (NSArray *)accountActionMenuItems
+{
+	if ([self enableConsole]) {
+		NSMenuItem *xmlConsoleMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Console",nil)
+																	action:@selector(showConsole:) 
+															 keyEquivalent:@""];
+		[xmlConsoleMenuItem setTarget:self];
+		
+		return [[NSArray arrayWithObject:[xmlConsoleMenuItem autorelease]] arrayByAddingObjectsFromArray:[super accountActionMenuItems]];
+	}
+	
+	return [super accountActionMenuItems];
+}
+
 -(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
 	NSMenu *menu;

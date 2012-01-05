@@ -30,10 +30,10 @@
 #define KEY_JABBER_VERIFY_CERTS         @"Jabber:Verify Certificates"
 #define KEY_JABBER_FT_PROXIES			@"Jabber:File Transfer Proxies"
 
-@class AMXMLConsoleController, AMPurpleJabberServiceDiscoveryBrowsing, AMPurpleJabberAdHocServer;
+@class AIJabberConsoleController, AMPurpleJabberServiceDiscoveryBrowsing, AMPurpleJabberAdHocServer;
 
 @interface ESPurpleJabberAccount : CBPurpleAccount <AIAccount_Files> {
-    AMXMLConsoleController *xmlConsoleController;
+    AIJabberConsoleController *xmlConsoleController;
 	AMPurpleJabberServiceDiscoveryBrowsing *discoveryBrowserController;
 	
 	AMPurpleJabberAdHocServer *adhocServer;
