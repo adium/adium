@@ -29,10 +29,12 @@
 #import "AIHighlightingTextField.h"
 
 #define SUGGESTION_ENTRY_HEIGHT 17
+#define PREFERENCES_LAST_PANE_KEY @"Preferences Last Pane"
 
 @interface AIPreferenceWindowController ()
 - (void)showPreferencesWindow;
-- (void)displayPane:(NSView *)pane;
+- (void)displayPane:(AIPreferencePane *)pane;
+- (void)displayView:(NSView *)pane;
 - (void)displayPaneWithIdentifier:(NSString *)identifier;
 - (NSArray *)paneControllerSort;
 
@@ -282,7 +284,6 @@
 	[label_events setStringValue:AILocalizedString(@"Events", nil)];
 	[label_advanced setStringValue:AILocalizedString(@"Advanced", nil)];
 	[button_showAll setStringValue:AILocalizedString(@"Show All", nil)];
-	[self.window setTitle:AILocalizedString(@"Preferences", nil)];
 	
 	[self.window makeKeyAndOrderFront:nil];
 	
@@ -294,31 +295,47 @@
 		newWindowHeight.size.height += itemPrototypeView.frame.size.height * (int)(advCount / advColumns);
 		[self.window setFrame:newWindowHeight display:YES];
 	}
+	
+	//Load the last viewed pane
+	[self displayPaneWithIdentifier:[adium.preferenceController preferenceForKey:PREFERENCES_LAST_PANE_KEY group:PREF_GROUP_GENERAL]];
 }
 
 - (IBAction)showAllPanes:(id)sender {
-	[self.window setTitle:@"Preferences"];
-	[self displayPane:allPanes];
+	[self displayPane:nil];
 }
 
 #pragma mark - Panes
 - (void)displayPaneWithIdentifier:(NSString *)identifier
 {
 	AIPreferencePane *pane = [panes objectForKey:identifier];
-	[self displayPane:[pane view]];
+	[self displayPane:pane];
+}
+
+- (void)displayPane:(AIPreferencePane *)pane
+{
+	if (!pane) {
+		[self displayView:allPanes];
+		[self.window setTitle:@"Preferences"];
+	} else {
+		[self displayView:[pane view]];
+		[self.window setTitle:[pane paneName]];
+	}
+	
+	//Save the last viewed pane
+	[adium.preferenceController setPreference:[pane paneIdentifier] forKey:PREFERENCES_LAST_PANE_KEY group:PREF_GROUP_GENERAL];
 }
 
 /*!
- * @brief Resize the window to the size of the new pane and display the pane
+ * @brief Resize the window to the size of the new view and display the view
  */
-- (void)displayPane:(NSView *)pane
+- (void)displayView:(NSView *)view
 {
-	if (!pane || pane == [self.window contentView])
+	if (!view || view == [self.window contentView])
 		return;
 	
 	[self cancelSuggestions];
 	
-	if (pane != allPanes)
+	if (view != allPanes)
 		[allPanes retain];
 	
 	//Set an empty view to make resizing pretty
@@ -326,7 +343,7 @@
 	[self.window setContentView:tempView];
 	[tempView release];
 	
-	NSRect viewFrame = pane.frame;
+	NSRect viewFrame = view.frame;
 	NSRect windowFrame = self.window.frame;
 	NSRect contentFrame = [[self.window contentView] frame];
 	
@@ -335,9 +352,9 @@
 	
 	windowFrame.origin.y += (contentFrame.size.height - viewFrame.size.height);
 	[self.window setFrame:windowFrame display:YES animate:YES];
-	[self.window setContentView:pane];
+	[self.window setContentView:view];
 	
-	if (pane == allPanes)
+	if (view == allPanes)
 		[allPanes release];
 }
 
@@ -364,10 +381,8 @@
 
 - (void)preferenceCollectionView:(AIPreferenceCollectionView *)aCollectionView didSelectItem:(NSCollectionViewItem *)anItem
 {
-	if ([[anItem representedObject] isKindOfClass:[AIPreferencePane class]]) {
-		[self.window setTitle:[[anItem representedObject] paneName]];
-		[self displayPane:[[anItem representedObject] paneView]];
-	}
+	if ([[anItem representedObject] isKindOfClass:[AIPreferencePane class]])
+		[self displayPane:[anItem representedObject]];
 }
 
 /*
@@ -459,7 +474,7 @@
 																	  handler:^(NSEvent *event) {
 			//Load the selected suggestion
 			if ([event window] == suggestionsWindow) {
-				[self displayPane:_selectedView.pane.view];
+				[self displayPane:_selectedView.pane];
 				event = nil;
 			}
 			
@@ -651,7 +666,7 @@
 }
 
 - (void)controlTextDidEndEditing:(NSNotification *)obj {
-	[self displayPane:_selectedView.pane.view];
+	[self displayPane:_selectedView.pane];
 }
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
