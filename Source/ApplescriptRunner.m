@@ -217,7 +217,8 @@
 
 int main(int argc, const char *argv[])
 {
-	@autoreleasepool {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	{
 		AIApplescriptRunner		*applescriptRunner;
 		NSProcessInfo			*processInfo;
 		NSArray					*processArguments;
@@ -267,4 +268,6 @@ int main(int argc, const char *argv[])
 
 		[applescriptRunner release];
 	}
+	[pool release];
+	return EXIT_SUCCESS;
 }
