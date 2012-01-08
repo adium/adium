@@ -206,15 +206,14 @@
 
 int main(int argc, const char *argv[])
 {
-    NSAutoreleasePool		*pool = [[NSAutoreleasePool alloc] init];
-	AIApplescriptRunner		*applescriptRunner;
-	
-	applescriptRunner = [[AIApplescriptRunner alloc] init];
+	@autoreleasepool {
+		AIApplescriptRunner		*applescriptRunner;
+		
+		applescriptRunner = [[AIApplescriptRunner alloc] init];
 
-	[[NSRunLoop currentRunLoop] run];
-	
-	[applescriptRunner quit:nil];
-	[applescriptRunner release];
-
-	[pool release];
+		[[NSRunLoop currentRunLoop] run];
+		
+		[applescriptRunner quit:nil];
+		[applescriptRunner release];
+	}
 }
