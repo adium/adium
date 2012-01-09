@@ -65,6 +65,7 @@ ifeq ($(NIGHTLY),TRUE)
 	VERSION:=$(VERSION)$(REVISION)
 	BUILD_IN_DEBUG_MODE=TRUE
 	BUILDFLAGS+="ADIUM_CFLAGS=-DNIGHTLY_RELEASE"
+	BUILDFLAGS+="ADIUM_NIGHTLY_FLAGS=CACHE_ROOT=/var/folders/buildbot/com.apple.Xcode.$(strip $(shell id -u))/nightly/$(strip $(NIGHTLY_REPO))/$(strip $(NIGHTLY_BRANCH))" # Required, otherwise wrong precompiled headers are used.
 endif
 
 ifeq ($(BUILD_IN_DEBUG_MODE),TRUE)
@@ -74,6 +75,7 @@ else
 endif
 
 BUILDFLAGS+="BUILDCONFIGURATION=$(BUILDSTYLE)"
+
 ifeq ($(BETA),TRUE)
 	BUILDFLAGS+="ADIUM_CFLAGS=-DBETA_RELEASE"
 endif
