@@ -27,7 +27,7 @@ install:
 	cp -R build/$(BUILDCONFIGURATION)/Adium.app ~/Applications/
 
 clean:
-	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION)  clean
+	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) $(ADIUM_NIGHTLY_FLAGS) clean
 
 localizable-strings:
 	mkdir tmp || true
