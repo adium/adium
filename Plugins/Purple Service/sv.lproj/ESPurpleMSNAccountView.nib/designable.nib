@@ -40,7 +40,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="310894834">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="280124738">
@@ -48,6 +48,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{140, 41}, {279, 18}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="148039661"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="31537272">
 							<int key="NSCellFlags">67239424</int>
@@ -79,6 +81,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{386, 85}, {51, 22}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="673071534"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="224399399">
 							<int key="NSCellFlags">-1804468671</int>
@@ -110,8 +114,10 @@
 					<object class="NSTextField" id="264099923">
 						<reference key="NSNextResponder" ref="310894834"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{10.4140625, 87}, {126.5859375, 17}}</string>
+						<string key="NSFrame">{{10, 87}, {127, 17}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="459276419"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="26284219">
 							<int key="NSCellFlags">67239424</int>
@@ -141,6 +147,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{142, 85}, {200, 22}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="190693781"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="877816345">
 							<int key="NSCellFlags">-1804468671</int>
@@ -158,6 +166,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{140, 21}, {273, 18}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="101949784"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="636701001">
 							<int key="NSCellFlags">67239424</int>
@@ -180,6 +190,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{17, 22}, {120, 17}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="405762271"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1069097413">
 							<int key="NSCellFlags">67239424</int>
@@ -196,6 +208,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{347, 87}, {34, 17}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="721304768"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1068509127">
 							<int key="NSCellFlags">67239424</int>
@@ -212,6 +226,8 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{140, 61}, {279, 18}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="280124738"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="236028712">
 							<int key="NSCellFlags">67239424</int>
@@ -234,6 +250,8 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 2}, {120, 17}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="813455243"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="796623666">
 							<int key="NSCellFlags">68288064</int>
@@ -250,6 +268,8 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{140, 1}, {279, 18}}</string>
 						<reference key="NSSuperview" ref="310894834"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="641216641">
 							<int key="NSCellFlags">67239424</int>
@@ -269,6 +289,9 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{437, 107}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="264099923"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -1326,72 +1349,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="adiumPrint:">id</string>
-						<string key="didAdjustSubviews:">RBSplitView</string>
-						<string key="prefsWindowWillClose:">SS_PrefsController</string>
-						<string key="selectAction:">id</string>
-						<string key="selectEvent:">id</string>
-						<string key="selectGroup:">id</string>
-						<string key="selectServiceType:">id</string>
-						<string key="selectStatus:">id</string>
-						<string key="selectedEncryptionPreference:">id</string>
-						<string key="toggleFindPanel:">id</string>
-						<string key="willAdjustSubviews:">RBSplitView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="adiumPrint:">
-							<string key="name">adiumPrint:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="didAdjustSubviews:">
-							<string key="name">didAdjustSubviews:</string>
-							<string key="candidateClassName">RBSplitView</string>
-						</object>
-						<object class="IBActionInfo" key="prefsWindowWillClose:">
-							<string key="name">prefsWindowWillClose:</string>
-							<string key="candidateClassName">SS_PrefsController</string>
-						</object>
-						<object class="IBActionInfo" key="selectAction:">
-							<string key="name">selectAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectEvent:">
-							<string key="name">selectEvent:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectGroup:">
-							<string key="name">selectGroup:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectServiceType:">
-							<string key="name">selectServiceType:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectStatus:">
-							<string key="name">selectStatus:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectedEncryptionPreference:">
-							<string key="name">selectedEncryptionPreference:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleFindPanel:">
-							<string key="name">toggleFindPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="willAdjustSubviews:">
-							<string key="name">willAdjustSubviews:</string>
-							<string key="candidateClassName">RBSplitView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSObject.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">PurpleAccountViewController</string>
 					<string key="superclassName">AIAccountViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
@@ -1413,52 +1370,6 @@
 						<string key="minorKey">./Classes/PurpleAccountViewController.h</string>
 					</object>
 				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RBSplitSubview</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/RBSplitSubview.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RBSplitView</string>
-					<string key="superclassName">RBSplitSubview</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/RBSplitView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SS_PrefsController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SS_PrefsController.h</string>
-					</object>
-				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1469,7 +1380,7 @@
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1050" key="NS.object.0"/>
+			<real value="1060" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
