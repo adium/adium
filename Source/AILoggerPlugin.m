@@ -476,7 +476,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 					});
 					[bself _flushIndex:_index];
 				} else {
-					AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
+					AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL(%@, %@, %lu, %@) returned NULL", logIndexURL, @"Content", (unsigned long)kSKIndexInverted, textAnalysisProperties);
 				}
 			}
 			bself->logIndex = _index;
