@@ -658,6 +658,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									 toLocation:Context_GroupChat_Manage];
 }
 
+// Enable/Disable our view log menus
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{	
+    if (menuItem == viewContactLogsMenuItem) {
+        AIListObject *selectedObject = adium.interfaceController.selectedListObject;
+		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
+    } else if (menuItem == viewContactLogsContextMenuItem) {
+        AIListObject *selectedObject = adium.menuController.currentContextMenuObject;
+		return !adium.interfaceController.activeChat.isGroupChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
+    }
+	
+    return YES;
+}
+
 - (void)_initLogIndexing
 {
 	[self _loadDirtyLogSet];
