@@ -285,8 +285,6 @@
 	[label_advanced setStringValue:AILocalizedString(@"Advanced", nil)];
 	[button_showAll setStringValue:AILocalizedString(@"Show All", nil)];
 	
-	[self.window makeKeyAndOrderFront:nil];
-	
 	//Resize the last collection view and window
 	NSUInteger advCount = [advancedPaneArray count];
 	NSUInteger advColumns = [advancedCV maxNumberOfColumns];
@@ -298,6 +296,9 @@
 	
 	//Load the last viewed pane
 	[self displayPaneWithIdentifier:[adium.preferenceController preferenceForKey:PREFERENCES_LAST_PANE_KEY group:PREF_GROUP_GENERAL]];
+	
+	//Show the window
+	[self.window makeKeyAndOrderFront:nil];
 }
 
 - (IBAction)showAllPanes:(id)sender {
