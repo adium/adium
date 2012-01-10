@@ -667,7 +667,8 @@
 }
 
 - (void)controlTextDidEndEditing:(NSNotification *)obj {
-	[self displayPane:_selectedView.pane];
+	if (_selectedView)
+		[self displayPane:_selectedView.pane];
 }
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector
