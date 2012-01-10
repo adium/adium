@@ -614,8 +614,7 @@
 								<object class="NSMenuItem" id="287694887">
 									<reference key="NSMenu" ref="310167997"/>
 									<string key="NSTitle">Show Toolbar</string>
-									<string key="NSKeyEquiv">T</string>
-									<int key="NSKeyEquivModMask">1048576</int>
+									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
@@ -2541,6 +2540,22 @@
 					<int key="connectionID">7382</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleToolbarShown:</string>
+						<reference key="source" ref="276456795"/>
+						<reference key="destination" ref="287694887"/>
+					</object>
+					<int key="connectionID">7390</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">runToolbarCustomizationPalette:</string>
+						<reference key="source" ref="276456795"/>
+						<reference key="destination" ref="852785755"/>
+					</object>
+					<int key="connectionID">7391</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="651876030"/>
@@ -3468,7 +3483,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">7389</int>
+			<int key="maxID">7391</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3744,11 +3759,13 @@
 						<string key="pasteAndMatchStyle:">id</string>
 						<string key="pasteWithImagesAndColors:">id</string>
 						<string key="reopenChat:">id</string>
+						<string key="runToolbarCustomizationPalette:">id</string>
 						<string key="setFontPanelSettingsAsDefaultFont:">id</string>
 						<string key="showContactListAndBringToFront:">id</string>
 						<string key="showPreferenceWindow:">id</string>
 						<string key="toggleFontPanel:">id</string>
 						<string key="toggleFontTrait:">id</string>
+						<string key="toggleToolbarShown:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="adiumPrint:">
@@ -3783,6 +3800,10 @@
 							<string key="name">reopenChat:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="runToolbarCustomizationPalette:">
+							<string key="name">runToolbarCustomizationPalette:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="setFontPanelSettingsAsDefaultFont:">
 							<string key="name">setFontPanelSettingsAsDefaultFont:</string>
 							<string key="candidateClassName">id</string>
@@ -3801,6 +3822,10 @@
 						</object>
 						<object class="IBActionInfo" key="toggleFontTrait:">
 							<string key="name">toggleFontTrait:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleToolbarShown:">
+							<string key="name">toggleToolbarShown:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
