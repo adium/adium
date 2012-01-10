@@ -48,7 +48,18 @@
 - (BOOL)enableXMLConsole;
 - (void)registerGateway:(NSMenuItem *)mitem;
 - (void)removeGateway:(NSMenuItem *)mitem;
+
+- (void)configureRoom;
 @end
+
+typedef enum {
+	AIUnspecifiedOperation = 1 << 0,
+	AIRequiresNoLevel = 1 << 1,
+	AIRequiresMember = 1 << 2,
+	AIRequiresAdmin = 1 << 3,
+	AIRequiresOwner = 1 << 4,
+	AIRequiresSelection = 1 << 5
+} AIXMPPOperationRequirement;
 
 @implementation ESPurpleJabberAccount
 
@@ -686,7 +697,70 @@
 											   forListObject:listObject
 													  inChat:chat];
 	
+	
+	
+	[menu addItem:[NSMenuItem separatorItem]];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Configure Room...", nil)
+					target:self
+					action:@selector(configureRoom)
+			 keyEquivalent:@""
+					   tag:AIRequiresOwner];
+	
 	return menu;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	AIXMPPOperationRequirement req = (AIXMPPOperationRequirement)menuItem.tag;
+	AIChat *chat = adium.interfaceController.activeChat;
+	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
+	
+	AIGroupChatFlags flags = [chat flagsForContact:self];
+	
+	if (((req & AIRequiresSelection) == AIRequiresSelection) && !anySelected) {
+		return FALSE;
+	}
+	
+	req &= ~AIRequiresSelection;
+	
+	switch (req) {
+		case AIRequiresOwner:
+			return (flags & AIGroupChatFounder) == AIGroupChatFounder;
+			break;
+			
+		case AIRequiresAdmin:
+			return (flags & AIGroupChatOp) == AIGroupChatOp;
+			break;
+			
+		case AIRequiresNoLevel:
+			return YES;
+			break;
+			
+		default:
+			return YES;
+			break;
+	}
+}
+
+- (void)configureRoom
+{
+	AIChat *chat = adium.interfaceController.activeChat;
+	PurpleConversation *conv = convLookupFromChat(chat, self);
+	
+	if (!conv) {
+		AILogWithSignature(@"Lookup of conv failed");
+		return;
+	}
+	
+	JabberChat *jabber_chat = jabber_chat_find_by_conv(conv);
+	
+	if (!jabber_chat) {
+		AILogWithSignature(@"Lookup of jabber chat failed");
+		return;
+	}
+	
+	jabber_chat_request_room_configure(jabber_chat);
 }
 
 #pragma mark Status
