@@ -129,23 +129,6 @@
 											<reference key="NSTextColor" ref="552919332"/>
 										</object>
 									</object>
-									<object class="NSTextField" id="426564803">
-										<reference key="NSNextResponder" ref="462640365"/>
-										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{231, 41}, {70, 15}}</string>
-										<reference key="NSSuperview" ref="462640365"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="235196032"/>
-										<bool key="NSEnabled">YES</bool>
-										<object class="NSTextFieldCell" key="NSCell" id="329475763">
-											<int key="NSCellFlags">68288064</int>
-											<int key="NSCellFlags2">272630784</int>
-											<string key="NSContents">Last</string>
-											<reference key="NSControlView" ref="426564803"/>
-											<reference key="NSBackgroundColor" ref="314505115"/>
-											<reference key="NSTextColor" ref="552919332"/>
-										</object>
-									</object>
 									<object class="NSTextField" id="198705374">
 										<reference key="NSNextResponder" ref="462640365"/>
 										<int key="NSvFlags">268</int>
@@ -164,6 +147,24 @@
 											<reference key="NSTextColor" ref="552919332"/>
 										</object>
 									</object>
+									<object class="NSTextField" id="1070028253">
+										<reference key="NSNextResponder" ref="462640365"/>
+										<int key="NSvFlags">268</int>
+										<string key="NSFrame">{{231, 41}, {70, 14}}</string>
+										<reference key="NSSuperview" ref="462640365"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="235196032"/>
+										<bool key="NSEnabled">YES</bool>
+										<object class="NSTextFieldCell" key="NSCell" id="275970469">
+											<int key="NSCellFlags">68288064</int>
+											<int key="NSCellFlags2">272630784</int>
+											<string key="NSContents">Last</string>
+											<reference key="NSSupport" ref="634031963"/>
+											<reference key="NSControlView" ref="1070028253"/>
+											<reference key="NSBackgroundColor" ref="314505115"/>
+											<reference key="NSTextColor" ref="552919332"/>
+										</object>
+									</object>
 									<object class="NSTokenField" id="765092636">
 										<reference key="NSNextResponder" ref="462640365"/>
 										<int key="NSvFlags">268</int>
@@ -173,7 +174,7 @@
 										<string key="NSFrame">{{84, 40}, {93, 17}}</string>
 										<reference key="NSSuperview" ref="462640365"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="426564803"/>
+										<reference key="NSNextKeyView" ref="1070028253"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTokenFieldCell" key="NSCell" id="845658003">
 											<int key="NSCellFlags">69336641</int>
@@ -873,14 +874,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_lastToken</string>
-						<reference key="source" ref="186189435"/>
-						<reference key="destination" ref="426564803"/>
-					</object>
-					<int key="connectionID">304</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">label_nickToken</string>
 						<reference key="source" ref="186189435"/>
 						<reference key="destination" ref="198705374"/>
@@ -974,6 +967,14 @@
 						<reference key="destination" ref="728456228"/>
 					</object>
 					<int key="connectionID">316</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">label_lastToken</string>
+						<reference key="source" ref="186189435"/>
+						<reference key="destination" ref="1070028253"/>
+					</object>
+					<int key="connectionID">319</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1184,12 +1185,12 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="951711707"/>
 							<reference ref="487801613"/>
-							<reference ref="426564803"/>
 							<reference ref="198705374"/>
 							<reference ref="765092636"/>
 							<reference ref="839593331"/>
 							<reference ref="235196032"/>
 							<reference ref="766790085"/>
+							<reference ref="1070028253"/>
 						</array>
 						<reference key="parent" ref="1056980084"/>
 					</object>
@@ -1211,14 +1212,6 @@
 						<reference key="object" ref="198705374"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="197709699"/>
-						</array>
-						<reference key="parent" ref="159763298"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">274</int>
-						<reference key="object" ref="426564803"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="329475763"/>
 						</array>
 						<reference key="parent" ref="159763298"/>
 					</object>
@@ -1301,11 +1294,6 @@
 						<reference key="parent" ref="839593331"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">287</int>
-						<reference key="object" ref="329475763"/>
-						<reference key="parent" ref="426564803"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">288</int>
 						<reference key="object" ref="197709699"/>
 						<reference key="parent" ref="198705374"/>
@@ -1314,6 +1302,19 @@
 						<int key="objectID">289</int>
 						<reference key="object" ref="85200036"/>
 						<reference key="parent" ref="1004149543"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">317</int>
+						<reference key="object" ref="1070028253"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="275970469"/>
+						</array>
+						<reference key="parent" ref="159763298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">318</int>
+						<reference key="object" ref="275970469"/>
+						<reference key="parent" ref="1070028253"/>
 					</object>
 				</array>
 			</object>
@@ -1361,8 +1362,6 @@
 				<string key="272.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="273.CustomClassName">AILocalizationTextField</string>
 				<string key="273.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="274.CustomClassName">AILocalizationTextField</string>
-				<string key="274.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="275.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<dictionary class="NSMutableDictionary" key="276.IBAttributePlaceholdersKey"/>
 				<string key="276.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1378,16 +1377,18 @@
 				<string key="284.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="285.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="286.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="287.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="288.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="289.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="317.CustomClassName">AILocalizationTextField</string>
+				<string key="317.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="318.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">316</int>
+			<int key="maxID">319</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
