@@ -120,13 +120,13 @@
     NSMenu				*sortSelectionMenu;
 	
     //Create the menu
-    sortSelectionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
+    sortSelectionMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
 	
 	//Add each sort controller
 	for (AISortController *controller in [AISortController availableSortControllers]) {
 		NSMenuItem			*menuItem;
 
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:controller.displayName
+		menuItem = [[[NSMenuItem alloc] initWithTitle:controller.displayName
 																		 target:self
 																		 action:@selector(changedSortSelection:)
 																  keyEquivalent:@""] autorelease];
@@ -137,7 +137,7 @@
 	}
 	
 	//Add the menu item for configuring the sort
-	menuItem_configureSort = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:CONFIGURE_SORT_MENU_TITLE
+	menuItem_configureSort = [[NSMenuItem alloc] initWithTitle:CONFIGURE_SORT_MENU_TITLE
 																				  target:self
 																				  action:@selector(configureSort:)
 																		   keyEquivalent:@""];

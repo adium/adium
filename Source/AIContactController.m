@@ -1144,7 +1144,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
         NSMutableArray *groups = [groupsByList objectForKey:list.UID];
         [groups sortUsingActiveSortControllerInContainer:list];
         for (AIListGroup *group in groups) {
-            NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:group.displayName
+            NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:group.displayName
                                                                                         target:target
                                                                                         action:@selector(selectGroup:)
                                                                                  keyEquivalent:@""];

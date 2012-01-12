@@ -60,7 +60,7 @@
 {
 	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountStatusSubmenu showTitleVerbs:NO] retain];
 
-	dockStatusMenuRoot = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Status",nil)
+	dockStatusMenuRoot = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Status",nil)
 																			  target:self
 																			  action:@selector(dummyAction:)
 																	   keyEquivalent:@""];
@@ -95,7 +95,7 @@
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu didRebuildStatusMenuItems:(NSArray *)menuItemArray
 {
 	NSMenuItem		*menuItem;
-	NSMenu			*dockStatusMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu			*dockStatusMenu = [[NSMenu alloc] init];
 
     for (menuItem in menuItemArray) {
 		NSMenuItem	*dockMenuItem;

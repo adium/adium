@@ -94,7 +94,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 
 - (void) start:(NSNotification *)dummy {
 	//Contact list menu item
-	NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Debug Window",nil)
+	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Debug Window",nil)
 																				target:self
 																				action:@selector(showDebugWindow:)
 																		 keyEquivalent:@""];

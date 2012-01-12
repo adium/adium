@@ -49,7 +49,7 @@
 	advancedPreferences = [(ESStatusAdvancedPreferences *)[ESStatusAdvancedPreferences preferencePaneForPlugin:self] retain];
 
 	//Add our menu item
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Status Menu",nil) stringByAppendingEllipsis]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Status Menu",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(showStatusPreferences:)
 															  keyEquivalent:@""] autorelease];

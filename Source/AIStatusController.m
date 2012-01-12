@@ -235,7 +235,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (NSMenu *)menuOfStatusesForService:(AIService *)service withTarget:(id)target
 {
-	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*menu = [[NSMenu alloc] init];
 	NSMenuItem		*menuItem;
 	NSString		*serviceCodeUniqueID = service.serviceCodeUniqueID;
 	AIStatusType	type;
@@ -348,7 +348,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			NSImage		*image;
 			NSMenuItem	*menuItem;
 
-			menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+			menuItem = [[NSMenuItem alloc] initWithTitle:title
 																			target:target
 																			action:@selector(selectStatus:)
 																	 keyEquivalent:@""];

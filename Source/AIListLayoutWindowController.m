@@ -535,7 +535,7 @@
 
 - (NSMenu *)alignmentMenuWithChoices:(NSInteger [])alignmentChoices
 {
-    NSMenu		*alignmentMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*alignmentMenu = [[[NSMenu alloc] init] autorelease];
 	NSMenuItem	*menuItem;
     
 	NSUInteger	i = 0;
@@ -551,7 +551,7 @@
 			case NSRightTextAlignment:	menuTitle = AILocalizedString(@"Right",nil);
 				break;
 		}
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:menuTitle
+		menuItem = [[[NSMenuItem alloc] initWithTitle:menuTitle
 																		 target:nil
 																		 action:nil
 																  keyEquivalent:@""] autorelease];
@@ -567,7 +567,7 @@
 
 - (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices
 {
-    NSMenu		*positionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*positionMenu = [[[NSMenu alloc] init] autorelease];
     NSMenuItem	*menuItem;
     
 	NSUInteger	i = 0;
@@ -591,7 +591,7 @@
 			case LIST_POSITION_BADGE_RIGHT: menuTitle = AILocalizedString(@"Badge (Lower Right)",nil);
 				break;
 		}
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:menuTitle
+		menuItem = [[[NSMenuItem alloc] initWithTitle:menuTitle
 																		 target:nil
 																		 action:nil
 																  keyEquivalent:@""] autorelease];
@@ -606,24 +606,24 @@
 
 - (NSMenu *)extendedStatusPositionMenu
 {
-	NSMenu		*extendedStatusPositionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenu		*extendedStatusPositionMenu = [[[NSMenu alloc] init] autorelease];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Below Name",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Below Name",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:EXTENDED_STATUS_POSITION_BELOW_NAME];
 	[extendedStatusPositionMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Beside Name",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Beside Name",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:EXTENDED_STATUS_POSITION_BESIDE_NAME];
 	[extendedStatusPositionMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle Beside, Status Below",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle Beside, Status Below",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
@@ -635,24 +635,24 @@
 
 - (NSMenu *)extendedStatusStyleMenu
 {
-    NSMenu		*extendedStatusStyleMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*extendedStatusStyleMenu = [[[NSMenu alloc] init] autorelease];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Status",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Status",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:STATUS_ONLY];
 	[extendedStatusStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle Time",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle Time",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:IDLE_ONLY];
 	[extendedStatusStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle and Status",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle and Status",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];

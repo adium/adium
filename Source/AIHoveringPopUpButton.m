@@ -62,7 +62,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AIHoveringPopUpButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
+	AIHoveringPopUpButton	*newButton = [[[self class] alloc] initWithFrame:[self frame]];
 	
 	[newButton setMenu:[[[self menu] copy] autorelease]];
 	

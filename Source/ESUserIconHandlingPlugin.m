@@ -170,9 +170,9 @@
 		NSMenuItem	*menuFormRepresentation, *blankMenuItem;
 		NSMenu		*menu;
 
-		menuFormRepresentation = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		menuFormRepresentation = [[[NSMenuItem alloc] init] autorelease];
 
-		menu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+		menu = [[[NSMenu alloc] init] autorelease];
 		[menu setDelegate:self];
 		[menu setAutoenablesItems:NO];
 

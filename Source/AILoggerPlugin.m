@@ -624,7 +624,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 #pragma mark Installation Methods
 - (void)_configureMenuItems
 {
-	logViewerMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]]
+	logViewerMenuItem = [[[NSMenuItem alloc]
 						  initWithTitle:LOG_VIEWER 
 						  target:self
 						  action:@selector(showLogViewer:)
@@ -632,7 +632,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	[adium.menuController addMenuItem:logViewerMenuItem
 						   toLocation:LOC_Window_Auxiliary];
 	
-	viewContactLogsMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]]
+	viewContactLogsMenuItem = [[[NSMenuItem alloc]
 								initWithTitle:VIEW_LOGS_WITH_CONTACT
 								target:self
 								action:@selector(showLogViewerToSelectedContact:)
@@ -641,7 +641,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	[adium.menuController addMenuItem:viewContactLogsMenuItem
 						   toLocation:LOC_Contact_Info];
 	
-	viewContactLogsContextMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]]
+	viewContactLogsContextMenuItem = [[[NSMenuItem alloc]
 									   initWithTitle:VIEW_LOGS_WITH_CONTACT
 									   target:self
 									   action:@selector(showLogViewerToSelectedContextContact:) 
@@ -649,7 +649,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	[adium.menuController addContextualMenuItem:viewContactLogsContextMenuItem
 									 toLocation:Context_Contact_Manage];
 	
-	viewGroupLogsContextMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]]
+	viewGroupLogsContextMenuItem = [[[NSMenuItem alloc]
 									 initWithTitle:VIEW_LOGS_WITH_CONTACT
 									 target:self
 									 action:@selector(showLogViewerForGroupChat:) 

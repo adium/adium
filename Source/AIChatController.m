@@ -106,13 +106,13 @@
 									 object:nil];
 
 	//Ignore menu item for contacts in group chats
-	menuItem_ignore = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+	menuItem_ignore = [[NSMenuItem alloc] initWithTitle:@""
 																		   target:self
 																		   action:@selector(toggleIgnoreOfContact:)
 																	keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_ignore toLocation:Context_Contact_GroupChat_ParticipantAction];
 	
-	menuItem_joinLeave = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_JOIN_LEAVE_TITLE
+	menuItem_joinLeave = [[NSMenuItem alloc] initWithTitle:SHOW_JOIN_LEAVE_TITLE
 																				target:self
 																			  action:@selector(toggleShowJoinLeave:)
 																		 keyEquivalent:@""];

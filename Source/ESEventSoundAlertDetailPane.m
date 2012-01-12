@@ -149,10 +149,10 @@
 		NSAssert1(soundSetName != nil, @"Sound set does not have a name: %@", soundSet);
 		
 		if (soundSetContents && [soundSetContents count]) {
-			NSMenu	*soundsetMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+			NSMenu	*soundsetMenu = [[NSMenu alloc] init];
 
 			//Add an item for the set
-			menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:soundSetName
+			menuItem = [[[NSMenuItem alloc] initWithTitle:soundSetName
 																			 target:nil
 																			 action:nil
 																	  keyEquivalent:@""] autorelease];
@@ -173,7 +173,7 @@
 	[soundMenu addItem:[NSMenuItem separatorItem]];
 
 	//Add the "Other..." item
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:OTHER_ELLIPSIS
+	menuItem = [[[NSMenuItem alloc] initWithTitle:OTHER_ELLIPSIS
 																	 target:self
 																	 action:@selector(selectSound:)
 															  keyEquivalent:@""] autorelease];            
@@ -189,7 +189,7 @@
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu
 {
 	NSString	*soundTitle = [[soundPath lastPathComponent] stringByDeletingPathExtension];
-	NSMenuItem	*menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:soundTitle
+	NSMenuItem	*menuItem = [[[NSMenuItem alloc] initWithTitle:soundTitle
 																				  target:self
 																				  action:@selector(selectSound:)
 																		   keyEquivalent:@""] autorelease];

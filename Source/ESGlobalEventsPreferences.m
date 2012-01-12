@@ -202,7 +202,7 @@
  */
 - (NSMenu *)eventPresetsMenu
 {
-	NSMenu			*eventPresetsMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu			*eventPresetsMenu = [[NSMenu alloc] init];
 	NSEnumerator	*enumerator;
 	NSDictionary	*eventPreset;
 	NSMenuItem		*menuItem;
@@ -213,7 +213,7 @@
 		NSString		*name = [eventPreset objectForKey:@"Name"];
 		
 		//Add a menu item for the set
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[self _localizedTitle:name]
+		menuItem = [[[NSMenuItem alloc] initWithTitle:[self _localizedTitle:name]
 																		 target:self
 																		 action:@selector(selectEventPreset:)
 																  keyEquivalent:@""] autorelease];
@@ -230,7 +230,7 @@
 			NSString		*name = [eventPreset objectForKey:@"Name"];
 			
 			//Add a menu item for the set
-			menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+			menuItem = [[[NSMenuItem alloc] initWithTitle:name
 																			 target:self
 																			 action:@selector(selectEventPreset:)
 																	  keyEquivalent:@""] autorelease];
@@ -242,13 +242,13 @@
 	//Edit Presets
 	[eventPresetsMenu addItem:[NSMenuItem separatorItem]];
 
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Add New Preset",nil) stringByAppendingEllipsis]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Preset",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(addNewPreset:)
 															  keyEquivalent:@""] autorelease];
 	[eventPresetsMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Presets",nil) stringByAppendingEllipsis]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Presets",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(editPresets:)
 															  keyEquivalent:@""] autorelease];

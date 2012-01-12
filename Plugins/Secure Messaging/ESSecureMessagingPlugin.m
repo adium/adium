@@ -87,7 +87,7 @@
 	NSMenu		*menu = [self _secureMessagingMenu];
 	
 	//Add menu to toolbar item (for text mode)
-	menuItem_encryption = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Encryption", nil)
+	menuItem_encryption = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encryption", nil)
 																			   target:self
 																			   action:@selector(dummyAction:) 
 																		keyEquivalent:@""];
@@ -162,7 +162,7 @@
 		[[item view] setMenu:menu];
 		
 		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		NSMenuItem	*mItem = [[[NSMenuItem alloc] init] autorelease];
 		[mItem setSubmenu:menu];
 		[mItem setTitle:[menu title]];
 		[item setMenuFormRepresentation:mItem];
@@ -445,7 +445,7 @@
 	if (!_secureMessagingMenu) {
 		NSMenuItem	*item;
 
-		_secureMessagingMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+		_secureMessagingMenu = [[NSMenu alloc] init];
 		[_secureMessagingMenu setTitle:TITLE_ENCRYPTION];
 
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_MAKE_SECURE

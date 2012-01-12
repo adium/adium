@@ -282,7 +282,7 @@
 			// If there's any contained list objects, add ourself as a group and add the contained objects.
 			if ([containedListObjects count] > 0) {
 				// Create our menu item
-				NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@""
 																							target:self
 																							action:nil
 																					 keyEquivalent:@""
@@ -307,7 +307,7 @@
 			}
 		} else {
 			// Just add the menu item.
-			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@""
 																						target:self
 																						action:@selector(selectContactMenuItem:)
 																				 keyEquivalent:@""

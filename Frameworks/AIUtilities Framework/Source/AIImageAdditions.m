@@ -129,7 +129,7 @@
 	NSSize				size = [self size];
 	
 	// Work with a temporary image so we don't modify self
-	tempImage = [[[NSImage allocWithZone:[self zone]] initWithSize:size] autorelease];
+	tempImage = [[[NSImage alloc] initWithSize:size] autorelease];
 	
 	// Lock before drawing to the temporary image
 	[tempImage lockFocus];

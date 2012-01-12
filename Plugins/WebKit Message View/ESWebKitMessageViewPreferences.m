@@ -447,13 +447,13 @@
  */
 - (NSMenu *)_stylesMenu
 {
-	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
+	NSMenu			*menu = [[NSMenu alloc] initWithTitle:@""];
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
 	NSArray			*availableStyles = [[plugin availableMessageStyles] allValues];
 	NSMenuItem		*menuItem;
 	
 	for (NSBundle *style in availableStyles) {
-		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[style name]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[style name]
 																		target:nil
 																		action:nil
 																 keyEquivalent:@""];
@@ -476,7 +476,7 @@
  */
 - (NSMenu *)_variantsMenu
 {
-	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
+	NSMenu			*menu = [[NSMenu alloc] initWithTitle:@""];
 
 	//Add a menu item for each variant
 	for (NSString *variant in previewController.messageStyle.availableVariants) {
@@ -495,7 +495,7 @@
  */
 - (NSMenu *)_backgroundImageTypeMenu
 {
-	NSMenu	*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];	
+	NSMenu	*menu = [[NSMenu alloc] init];	
 
 	[self _addBackgroundImageTypeChoice:BackgroundNormal toMenu:menu withTitle:AILocalizedString(@"Normal","Background image display preference: The image will be displayed normally")];
 	[self _addBackgroundImageTypeChoice:BackgroundCenter toMenu:menu withTitle:AILocalizedString(@"Centered","Background image display preference: The image will be centered in the window")];
@@ -507,7 +507,7 @@
 }
 - (void)_addBackgroundImageTypeChoice:(NSInteger)tag toMenu:(NSMenu *)menu withTitle:(NSString *)title
 {
-	NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+	NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:title
 																				 action:nil
 																		  keyEquivalent:@""];
 	[menuItem setTag:tag];

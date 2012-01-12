@@ -20,7 +20,7 @@
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
 
     [self addItem:theMenuItem];
@@ -30,7 +30,7 @@
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(NSInteger)tag
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
 	[theMenuItem setTag:tag];
 	
@@ -41,7 +41,7 @@
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode representedObject:(id)object
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
     [theMenuItem setRepresentedObject:object];
 

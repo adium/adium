@@ -272,7 +272,7 @@
 {
 	NSMenuItem		*menuItem;
     
-    menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+    menuItem = [[NSMenuItem alloc] initWithTitle:title
 																	target:self
 																	action:@selector(changeProxyType:)
 															 keyEquivalent:@""];

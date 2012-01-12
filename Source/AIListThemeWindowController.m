@@ -541,31 +541,31 @@
 
 - (NSMenu *)displayImageStyleMenu
 {
-	NSMenu		*displayImageStyleMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenu		*displayImageStyleMenu = [[[NSMenu alloc] init] autorelease];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Normal",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Normal",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:AINormalBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Tile",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Tile",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:AITileBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Fill",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Fill",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[menuItem setTag:AIFillProportionatelyBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];

@@ -922,7 +922,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 		containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
 	}
 	
-	return [[[NSUniqueIDSpecifier allocWithZone:[self zone]]
+	return [[[NSUniqueIDSpecifier alloc]
 		initWithContainerClassDescription:containerClassDesc
 		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
 }

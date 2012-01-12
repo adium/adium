@@ -333,7 +333,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 			
 			if (![set isEqualToString:lastSet]) {
 				//We have a new set of scripts; create a section header for them
-				item = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:set
+				item = [[[NSMenuItem alloc] initWithTitle:set
 																			 target:nil
 																			 action:nil
 																	  keyEquivalent:@""] autorelease];
@@ -354,7 +354,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 			title = [appendDict objectForKey:@"Keyword"];
 		}
 		
-		item = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+		item = [[[NSMenuItem alloc] initWithTitle:title
 																	 target:self
 																	 action:@selector(selectScript:)
 															  keyEquivalent:@""] autorelease];
@@ -710,7 +710,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		[[item view] setMenu:menu];
 		
 		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		NSMenuItem	*mItem = [[[NSMenuItem alloc] init] autorelease];
 		[mItem setSubmenu:menu];
 		[mItem setTitle:[menu title]];
 		[item setMenuFormRepresentation:mItem];

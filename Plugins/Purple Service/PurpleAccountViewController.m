@@ -60,7 +60,7 @@
 	NSMenuItem		*menuItem;
     BOOL			canIndent = [NSMenuItem instancesRespondToSelector:@selector(setIndentationLevel:)];
 	
-    menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:inTitle
+    menuItem = [[NSMenuItem alloc] initWithTitle:inTitle
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -69,7 +69,7 @@
 	[menuItem release];
 	
 	for (name in inArray) {
-		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+		menuItem = [[NSMenuItem alloc] initWithTitle:name
 																		target:nil
 																		action:nil
 																 keyEquivalent:@""];

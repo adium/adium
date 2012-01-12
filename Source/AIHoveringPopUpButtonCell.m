@@ -66,7 +66,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AIHoveringPopUpButtonCell	*newCell = [[self class] allocWithZone:zone];
+	AIHoveringPopUpButtonCell	*newCell = [[self class] alloc];
 
 	switch ([self type]) {
 		case NSImageCellType:

@@ -126,7 +126,7 @@
 		[[item view] setMenu:theEmoticonMenu];
 		
 		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		NSMenuItem	*mItem = [[[NSMenuItem alloc] init] autorelease];
 		[mItem setSubmenu:theEmoticonMenu];
 		[mItem setTitle:TITLE_EMOTICON];
 		[item setMenuFormRepresentation:mItem];

@@ -671,7 +671,7 @@
 															type:AIServiceIconSmall
 													   direction:AIIconNormal];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Open %@'s user page",nil), inContact.UID]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Open %@'s user page",nil), inContact.UID]
 																	 target:self
 																	 action:@selector(openUserPage:)
 															  keyEquivalent:@""] autorelease];
@@ -679,7 +679,7 @@
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];	
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
 															  keyEquivalent:@""] autorelease];
@@ -688,7 +688,7 @@
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@", "Disable sending Twitter notifications to your phone"), inContact.UID]
+	menuItem = [[[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@", "Disable sending Twitter notifications to your phone"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
 															  keyEquivalent:@""] autorelease];
@@ -778,14 +778,14 @@
 															type:AIServiceIconSmall
 													   direction:AIIconNormal];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(periodicUpdate)
 															  keyEquivalent:@""] autorelease];
 	[menuItem setImage:serviceIcon];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
 																	 target:self
 																	 action:@selector(replyToTweet)
 															  keyEquivalent:@""] autorelease];
@@ -808,19 +808,19 @@
 	
 	NSMenuItem *menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(periodicUpdate)
 															  keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
 																	 target:self
 																	 action:@selector(replyToTweet)
 															  keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Get Rate Limit Amount",nil)
+	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Get Rate Limit Amount",nil)
 																	 target:self
 																	 action:@selector(getRateLimitAmount)
 															  keyEquivalent:@""] autorelease];

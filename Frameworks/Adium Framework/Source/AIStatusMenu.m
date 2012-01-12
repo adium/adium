@@ -448,7 +448,7 @@
 #pragma mark Class methods
 + (NSMenu *)staticStatusStatesMenuNotifyingTarget:(id)target selector:(SEL)selector
 {
-	NSMenu			*statusStatesMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*statusStatesMenu = [[NSMenu alloc] init];
 	NSEnumerator	*enumerator;
 	AIStatus		*statusState;
 	AIStatusType	currentStatusType = AIAvailableStatusType;

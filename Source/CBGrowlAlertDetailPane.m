@@ -72,7 +72,7 @@
  */
 - (NSMenu *)priorityMenu
 {
-	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu *menu = [[NSMenu alloc] init];
 	
 	[menu addItemWithTitle:AILocalizedString(@"Very Low", "Growl priority")
 					target:self
