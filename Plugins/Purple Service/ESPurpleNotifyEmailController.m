@@ -246,7 +246,7 @@
 		 * nor what normally happens when the user opens a .html file since that is, on many systems, an HTML editor.
 		 * Instead, we want to know what application to use for viewing web pages... and then open this file in it.
 		 */
-		err = LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://www.adiumx.com"],
+		err = LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://www.adium.im"],
 									 kLSRolesViewer,
 									 /*outAppRef*/ NULL,
 									 &appURL);

@@ -149,7 +149,7 @@ struct _JabberStream
 	 * when we receive a roster push.
 	 *
 	 * See these bug reports:
-	 * http://trac.adiumx.com/ticket/8834
+	 * http://trac.adium.im/ticket/8834
 	 * http://developer.pidgin.im/ticket/5484
 	 * http://developer.pidgin.im/ticket/6188
 	 */
