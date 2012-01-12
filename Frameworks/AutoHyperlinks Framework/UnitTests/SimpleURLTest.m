@@ -429,7 +429,7 @@
 	testHyperlink(@"yahoo://im?to=adiumy");
 	testHyperlink(@"ymsgr:im?to=adiumy");
 	testHyperlink(@"yahoo:im?to=adiumy");
-	//gtalk: URIs adapted from http://groups.google.com/group/google-talk-open/browse_thread/thread/8b297e26b4ffce1b/8d9f92f0f5e68a04?#8d9f92f0f5e68a04 and http://trac.adiumx.com/ticket/7420#comment:4
+	//gtalk: URIs adapted from http://groups.google.com/group/google-talk-open/browse_thread/thread/8b297e26b4ffce1b/8d9f92f0f5e68a04?#8d9f92f0f5e68a04 and http://trac.adium.im/ticket/7420#comment:4
 	testHyperlink(@"gtalk:chat?jid=example@gmail.com");
 	testHyperlink(@"gtalk:chat?jid=example@gmail.com&from_jid=example2@gmail.com");
 	testHyperlink(@"gtalk:call?jid=example@gmail.com");
