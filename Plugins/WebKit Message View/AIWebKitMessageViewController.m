@@ -94,7 +94,6 @@
 - (void)contentObjectAdded:(NSNotification *)notification;
 - (void)chatDidFinishAddingUntrackedContent:(NSNotification *)notification;
 - (void)customEmoticonUpdated:(NSNotification *)inNotification;
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)listObjectAttributesChanged:(NSNotification *)notification;
 - (BOOL)zoomImage:(DOMHTMLImageElement *)img;
 @end
@@ -838,25 +837,14 @@ static NSArray *draggedTypes = nil;
 	NSString	*path = [imageURL path];
 	
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
-	[savePanel beginSheetForDirectory:nil
-								 file:[path lastPathComponent]
-					   modalForWindow:[webView window]
-						modalDelegate:self
-					   didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-						  contextInfo:[imageURL retain]];
-}
-
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode  contextInfo:(void  *)contextInfo
-{
-	NSURL	*imageURL = (NSURL *)contextInfo;
-
-	if (returnCode ==  NSOKButton) {
-		[[NSFileManager defaultManager] copyItemAtPath:[imageURL absoluteString]
-												toPath:[[sheet URL] absoluteString]
-												 error:NULL];
-	}
-	
-	[imageURL release];
+	savePanel.nameFieldStringValue = [path lastPathComponent];
+	[savePanel beginSheetModalForWindow:[webView window] completionHandler:^(NSInteger result) {
+		if (result ==  NSFileHandlingPanelOKButton) {
+			[[NSFileManager defaultManager] copyItemAtURL:imageURL
+													toURL:savePanel.URL
+													error:nil];
+		}
+	}];
 }
 
 /*!
