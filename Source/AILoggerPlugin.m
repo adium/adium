@@ -517,6 +517,11 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 		SKIndexRef logSearchIndex = [bself logContentIndex];
 		
+        if (!logSearchIndex) {
+            AILogWithSignature(@"AILoggerPlugin warning: logSearchIndex is NULL, but we wanted to remove documents.");
+            return;
+        }
+
 		for (NSString *logPath in paths) {
 			SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 			if (document) {
