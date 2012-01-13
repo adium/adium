@@ -430,8 +430,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	 */
 	[self _cancelClosingLogIndex];
 	__block __typeof__(self) bself = self;
-	if (!logIndex) {
-		dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
+    dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
+        if (!logIndex) {
 			SKIndexRef _index = nil;
 			NSString  *logIndexPath = [bself _logIndexPath];
 			NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
@@ -480,8 +480,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 				}
 			}
 			bself->logIndex = _index;
-		}));
-	}
+		}
+    }));
 	return logIndex;
 }
 
@@ -1647,6 +1647,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
 				SKIndexClose(bself->logIndex);
+                AILogWithSignature(@"**** Finished closing index %p", bself->logIndex);
 				bself->logIndex = nil;
 			}
 		}
