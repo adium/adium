@@ -94,7 +94,7 @@
 					<object class="NSTextField" id="385654329">
 						<reference key="NSNextResponder" ref="837853317"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{29, 90}, {92, 17}}</string>
+						<string key="NSFrame">{{22, 90}, {99, 17}}</string>
 						<reference key="NSSuperview" ref="837853317"/>
 						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
@@ -545,7 +545,7 @@
 					<object class="NSTextField" id="463018609">
 						<reference key="NSNextResponder" ref="881248978"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{228, 192}, {96, 17}}</string>
+						<string key="NSFrame">{{223, 192}, {101, 17}}</string>
 						<reference key="NSSuperview" ref="881248978"/>
 						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
@@ -598,31 +598,30 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="514632623">
-								<reference key="NSMenu" ref="502010925"/>
-								<string key="NSTitle">詢問執行動作</string>
-								<string key="NSKeyEquiv"/>
-								<int key="NSKeyEquivModMask">1048576</int>
-								<int key="NSMnemonicLoc">2147483647</int>
-								<int key="NSState">1</int>
-								<object class="NSCustomResource" key="NSOnImage" id="687604397">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuCheckmark</string>
-								</object>
-								<object class="NSCustomResource" key="NSMixedImage" id="959336238">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuMixedState</string>
-								</object>
-								<string key="NSAction">_popUpItemAction:</string>
-								<reference key="NSTarget" ref="686819324"/>
-							</object>
+							<nil key="NSMenuItem"/>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="502010925">
 								<object class="NSMutableString" key="NSTitle">
 									<characters key="NS.bytes">OtherViews</characters>
 								</object>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<reference ref="514632623"/>
+									<object class="NSMenuItem" id="514632623">
+										<reference key="NSMenu" ref="502010925"/>
+										<string key="NSTitle">詢問執行動作</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<object class="NSCustomResource" key="NSOnImage" id="687604397">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuCheckmark</string>
+										</object>
+										<object class="NSCustomResource" key="NSMixedImage" id="959336238">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuMixedState</string>
+										</object>
+										<string key="NSAction">_popUpItemAction:</string>
+										<reference key="NSTarget" ref="686819324"/>
+									</object>
 									<object class="NSMenuItem" id="76618968">
 										<reference key="NSMenu" ref="502010925"/>
 										<string key="NSTitle">接受</string>
@@ -661,6 +660,7 @@
 									</object>
 								</array>
 							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<int key="NSPreferredEdge">3</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -1133,7 +1133,7 @@
 										<boolean value="YES" key="allowsFloats"/>
 										<object class="NSAttributedString" key="attributedStringForZero" id="888700306">
 											<string key="NSString">0</string>
-											<dictionary key="NSAttributes" id="1073401416"/>
+											<dictionary key="NSAttributes" id="248562360"/>
 										</object>
 										<string key="decimalSeparator">.</string>
 										<integer value="1000" key="formatterBehavior"/>
@@ -1168,7 +1168,7 @@
 									</object>
 									<object class="NSAttributedString" key="NS.nan">
 										<string key="NSString">NaN</string>
-										<reference key="NSAttributes" ref="1073401416"/>
+										<reference key="NSAttributes" ref="248562360"/>
 									</object>
 									<reference key="NS.min" ref="655256037"/>
 									<reference key="NS.max" ref="955832763"/>
