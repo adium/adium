@@ -2,15 +2,33 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSSegmentedControl</string>
+			<string>NSPopUpButton</string>
+			<string>NSScroller</string>
+			<string>NSMenuItem</string>
+			<string>NSMenu</string>
+			<string>NSScrollView</string>
+			<string>NSButtonCell</string>
+			<string>NSButton</string>
+			<string>NSTextFieldCell</string>
+			<string>NSBox</string>
+			<string>NSTableView</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSTableColumn</string>
+			<string>NSTextField</string>
+			<string>NSSegmentedCell</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -115,7 +133,7 @@
 						<object class="NSButtonCell" key="NSCell" id="857674845">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Always show this contact</string>
+							<string key="NSContents">一律顯示此聯絡人</string>
 							<object class="NSFont" key="NSSupport" id="26">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -205,7 +223,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="73466680">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Encryption:</string>
+							<string key="NSContents">加密保護：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="618853396"/>
 							<object class="NSColor" key="NSBackgroundColor" id="370526596">
@@ -238,7 +256,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="240162887">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Visibility:</string>
+							<string key="NSContents">可見性：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="157655746"/>
 							<reference key="NSBackgroundColor" ref="370526596"/>
@@ -254,7 +272,7 @@
 						<object class="NSButtonCell" key="NSCell" id="177219583">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Automatically join on connect</string>
+							<string key="NSContents">連線時自動加入</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="1031926986"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -277,7 +295,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="613889512">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Bookmark:</string>
+							<string key="NSContents">書籤：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="338161928"/>
 							<reference key="NSBackgroundColor" ref="370526596"/>
@@ -294,7 +312,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="297588302">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Account:</string>
+							<string key="NSContents">帳號：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="700146873"/>
 							<reference key="NSBackgroundColor" ref="370526596"/>
@@ -342,7 +360,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="255771465">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71434240</int>
-							<string key="NSContents">Contact:</string>
+							<string key="NSContents">聯絡人：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="881779345"/>
 							<reference key="NSBackgroundColor" ref="370526596"/>
@@ -453,6 +471,7 @@
 										<int key="NSDraggingSourceMaskForNonLocal">0</int>
 										<bool key="NSAllowsTypeSelect">YES</bool>
 										<int key="NSTableViewDraggingDestinationStyle">0</int>
+										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</array>
 								<string key="NSFrame">{{1, 1}, {271, 86}}</string>
@@ -492,7 +511,7 @@
 						<string key="NSFrame">{{14, 53}, {273, 88}}</string>
 						<reference key="NSSuperview" ref="415486846"/>
 						<reference key="NSNextKeyView" ref="411599534"/>
-						<int key="NSsFlags">530</int>
+						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="1052243442"/>
 						<reference key="NSHScroller" ref="264919868"/>
 						<reference key="NSContentView" ref="411599534"/>
@@ -572,22 +591,6 @@
 						<reference key="destination" ref="11541257"/>
 					</object>
 					<int key="connectionID">156</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="685758981"/>
-						<reference key="destination" ref="316663545"/>
-					</object>
-					<int key="connectionID">171</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="685758981"/>
-						<reference key="destination" ref="316663545"/>
-					</object>
-					<int key="connectionID">172</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -700,6 +703,22 @@
 						<reference key="destination" ref="593552036"/>
 					</object>
 					<int key="connectionID">340</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="685758981"/>
+						<reference key="destination" ref="316663545"/>
+					</object>
+					<int key="connectionID">171</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="685758981"/>
+						<reference key="destination" ref="316663545"/>
+					</object>
+					<int key="connectionID">172</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1218,7 +1237,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSAddTemplate">{8, 8}</string>

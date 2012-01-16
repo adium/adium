@@ -47,7 +47,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="97777641">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -56,11 +56,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 107}, {132, 18}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="177553946">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Always show tab bar</string>
+							<string key="NSContents">一律顯示標籤頁列</string>
 							<object class="NSFont" key="NSSupport" id="26">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -87,6 +88,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{5, 128}, {325, 5}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -121,11 +123,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 130}, {344, 14}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="437081824">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Tabs</string>
+							<string key="NSContents">標籤頁</string>
 							<object class="NSFont" key="NSSupport" id="27">
 								<string key="NSName">LucidaGrande-Bold</string>
 								<double key="NSSize">11</double>
@@ -157,6 +160,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{5, 85}, {325, 5}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -179,11 +183,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 84}, {344, 17}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="156353708">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Window Handling</string>
+							<string key="NSContents">視窗處理</string>
 							<reference key="NSSupport" ref="27"/>
 							<reference key="NSControlView" ref="937057524"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -195,6 +200,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{160, 16}, {163, 22}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="648432122">
 							<int key="NSCellFlags">-2080244160</int>
@@ -210,25 +216,7 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="315057812">
-								<reference key="NSMenu" ref="123450384"/>
-								<string key="NSTitle">其他視窗上方</string>
-								<string key="NSKeyEquiv"/>
-								<int key="NSKeyEquivModMask">1048576</int>
-								<int key="NSMnemonicLoc">2147483647</int>
-								<int key="NSState">1</int>
-								<object class="NSCustomResource" key="NSOnImage" id="589868088">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuCheckmark</string>
-								</object>
-								<object class="NSCustomResource" key="NSMixedImage" id="597550957">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuMixedState</string>
-								</object>
-								<string key="NSAction">_popUpItemAction:</string>
-								<int key="NSTag">1</int>
-								<reference key="NSTarget" ref="648432122"/>
-							</object>
+							<nil key="NSMenuItem"/>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="123450384">
 								<object class="NSMutableString" key="NSTitle">
@@ -236,9 +224,27 @@
 								</object>
 								<object class="NSMutableArray" key="NSMenuItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="315057812"/>
+									<object class="NSMenuItem" id="315057812">
+										<reference key="NSMenu" ref="123450384"/>
+										<string key="NSTitle">其他視窗上方</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<object class="NSCustomResource" key="NSOnImage" id="589868088">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuCheckmark</string>
+										</object>
+										<object class="NSCustomResource" key="NSMixedImage" id="597550957">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuMixedState</string>
+										</object>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">1</int>
+										<reference key="NSTarget" ref="648432122"/>
+									</object>
 								</object>
 							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<int key="NSPreferredEdge">3</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -250,11 +256,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 21}, {156, 14}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1026948912">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Order message windows:</string>
+							<string key="NSContents">排序訊息視窗：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="519092718"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -266,11 +273,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 63}, {304, 18}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="210582402">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Hide while Adium is in the background</string>
+							<string key="NSContents">當 Adium 為背景程式時，加以隱藏</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="811914299"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -288,11 +296,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{7, 176}, {215, 18}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="406880685">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Show unread message count in tabs</string>
+							<string key="NSContents">在標籤頁中顯示未讀訊息的數目</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="545611735"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -310,11 +319,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{2, 43}, {261, 18}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="793625101">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Open chats as soon as contacts begin typing</string>
+							<string key="NSContents">當聯絡人開始輸入訊息時，即打開聊天視窗</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="363404699"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -332,11 +342,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{7, 244}, {127, 18}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="164059459">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Use custom name format:</string>
+							<string key="NSContents">使用自定名稱格式：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="193879381"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -354,6 +365,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{133, 242}, {158, 22}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="250529975">
 							<int key="NSCellFlags">-2080244160</int>
@@ -440,6 +452,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{133, 218}, {135, 22}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="444178181">
 							<int key="NSCellFlags">-2080244160</int>
@@ -488,6 +501,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{133, 195}, {70, 22}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="379633026">
 							<int key="NSCellFlags">-2080244160</int>
@@ -536,11 +550,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{47, 223}, {84, 14}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="954880730">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Time stamp format:</string>
+							<string key="NSContents">時間戳記格式：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="413102437"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -552,11 +567,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{47, 200}, {84, 14}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="637054921">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Minimum Font Size:</string>
+							<string key="NSContents">最小字體大小：</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="241853139"/>
 							<reference key="NSBackgroundColor" ref="643806959"/>
@@ -568,6 +584,8 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{-2, 142}, {334, 153}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="673023347"/>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSTabViewItem" id="967513559">
@@ -577,6 +595,7 @@
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
 									<reference key="NSSuperview" ref="253734282"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="253734282"/>
 								</object>
 								<string key="NSLabel">一般聊天</string>
@@ -595,11 +614,12 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{14, 2}, {243, 18}}</string>
 											<reference key="NSSuperview" ref="276418137"/>
+											<reference key="NSNextKeyView" ref="253734282"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="1020229675">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">131072</int>
-												<string key="NSContents">…only count number of unread mentions</string>
+												<string key="NSContents">…僅顯示未讀提及處的數目</string>
 												<reference key="NSSupport" ref="26"/>
 												<reference key="NSControlView" ref="885657101"/>
 												<int key="NSButtonFlags">1211912703</int>
@@ -614,6 +634,7 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
+									<reference key="NSNextKeyView" ref="885657101"/>
 								</object>
 								<string key="NSLabel">群組聊天</string>
 								<reference key="NSColor" ref="643806959"/>
@@ -632,18 +653,24 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{330, 289}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSView" id="664897330">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 			<object class="NSView" id="686773270">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

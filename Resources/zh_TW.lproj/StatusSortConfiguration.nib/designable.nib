@@ -43,7 +43,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="182448734">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSMatrix" id="512042898">
@@ -51,6 +51,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{37, 135}, {259, 38}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">2</int>
 						<int key="NSNumCols">1</int>
@@ -105,49 +106,9 @@
 							<reference key="NSSupport" ref="455866334"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">0</int>
-							<object class="NSImage" key="NSNormalImage">
-								<int key="NSImageFlags">549453824</int>
-								<string key="NSSize">{18, 18}</string>
-								<array class="NSMutableArray" key="NSReps">
-									<array>
-										<integer value="0"/>
-										<object class="NSBitmapImageRep">
-											<object class="NSData" key="NSTIFFRepresentation">
-												<bytes key="NS.bytes">TU0AKgAABRgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0eHzRISk2AbG9zwIaJju2GiY7t
-bG9zwEhKTYAdHh80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOjs+Z36Ahtm6vMH/
-5OXn//b29//w8vT/1tjd/7G0u/99gIXZOjs+ZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6Oz5n
-lZie9eXm5/////////////n7/f/y9Pf/6+3y/+Pm6//GytH/kZWb9To7PmcAAAAAAAAAAAAAAAAAAAAA
-AAAAAB0eHzR+gIbZ5efp////////////+fr9//L0+P/s7vP/5ejt/97h5//Y2+H/u8DH/32AhdodHh80
-AAAAAAAAAAAAAAAAAAAAAEhKTYC4u8D////////////5+v3/9Pb5/+7w9P/o6/D/5Obr/97h5//S1t7/
-u8DL/5qfqP9ISk2AAAAAAAAAAAAAAAAAAAAAAGxvc8Dj5ej///////n6/f/09vn/7/L1/+zu8v/p6/D/
-4OTp/83R2v/Axc7/trzG/6Cmsf9sb3PAAAAAAAAAAAAAAAAAAAAAAIaJju309vj/+Pr9//T2+f/w8vb/
-7vD0/+zu8//l6O3/0dXc/8rO1v/Jzdb/xMnS/6uxvP+GiY7tAAAAAAAAAAAAAAAAAAAAAIaJju3y8/b/
-9vj7//Lz9//v8fX/7e/0/+Xo7f/Y2+L/1tng/9fa4f/U2N//ztLa/6+0wP+GiY7tAAAAAAAAAAAAAAAA
-AAAAAGxvc8DAxMv/3ODm/+Ll6v/h5Or/3eDm/9rd5P/e4ef/4OPp/+Dj6f/e4ef/0tbd/6yxuv9sb3PA
-AAAAAAAAAAAAAAAAAAAAAEhKTYCfo6v/vcLM/8vP2P/T197/2t3k/+Hk6v/m6e7/6Ovw/+jr8P/n6u7/
-ys/X/6Kmr/9ISk2AAAAAAAAAAAAAAAAAAAAAAB0eHzR8f4XZtbrD/83R2f/b3eT/4uXq/+fq7//s7vL/
-7/H1//Dx9v/c3+X/t7zE/3+Ch9sdHh80AAAAAAAAAAAAAAAAAAAAAAAAAAA6Oz5nkZWb9by/yP/U2N//
-4eTq/+nr8f/u7/T/6uzx/9ve5f+9wcn/kpac9To7PmcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Ojs+Z36Ahtmusbj/xcnQ/9TX3v/V2N//x8rQ/6+yuf+Ag4jbOjs+ZwAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAB0eHzRISk2AbG9zwIaJju2GiY7tbG9zwEhKTYAdHh80AAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQEAAAMAAAABABIAAAEB
-AAMAAAABABIAAAECAAMAAAAEAAAFugEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAES
-AAMAAAABAAEAAAEVAAMAAAABAAQAAAEWAAMAAAABABIAAAEXAAQAAAABAAAFEAEcAAMAAAABAAEAAAFS
-AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
-											</object>
-										</object>
-									</array>
-								</array>
-								<object class="NSColor" key="NSColor" id="1033787931">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MCAwAA</bytes>
-								</object>
-							</object>
+							<reference key="NSNormalImage" ref="509900671"/>
 							<reference key="NSAlternateImage" ref="900749336"/>
+							<string key="NSAlternateContents"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
@@ -172,11 +133,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{37, 276}, {259, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="494367558">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Group all idle contacts</string>
+							<string key="NSContents">群組所有閒置的聯絡人</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="813796818"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -199,11 +161,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{18, 231}, {278, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="209323122">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Sort idle contacts by ascending idle time</string>
+							<string key="NSContents">依遞增的閒置時間排序閒置的聯絡人</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="536111710"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -221,11 +184,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{18, 211}, {278, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="828604322">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Sort groups alphabetically</string>
+							<string key="NSContents">依字母順序排序群組</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="877210511"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -243,11 +207,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{37, 298}, {259, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="605819694">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Group all away contacts</string>
+							<string key="NSContents">群組所有暫離的聯絡人</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="181077054"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -265,11 +230,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 179}, {280, 17}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="237922873">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Sort within each status grouping:</string>
+							<string key="NSContents">每個狀態群組內的排序方式：</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="251980597"/>
 							<reference key="NSBackgroundColor" ref="437878504"/>
@@ -289,6 +255,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{20, 202}, {274, 5}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -316,11 +283,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{18, 393}, {278, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="58861736">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Group available contacts</string>
+							<string key="NSContents">將在線上的聯絡人置於相同群組</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="1050740083"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -338,11 +306,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{55, 113}, {241, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="838818930">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">...by last name</string>
+							<string key="NSContents">⋯依姓氏</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="5921139"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -360,6 +329,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{20, 202}, {274, 5}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -382,6 +352,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{20, 104}, {274, 5}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -404,11 +375,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 81}, {147, 17}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="217726232">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Status group ordering:</string>
+							<string key="NSContents">狀態群組排序順序：</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="923282437"/>
 							<reference key="NSBackgroundColor" ref="437878504"/>
@@ -428,6 +400,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{123, 76}</string>
 										<reference key="NSSuperview" ref="906194868"/>
+										<reference key="NSWindow"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
 											<nil key="NSNextResponder"/>
@@ -501,6 +474,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								</array>
 								<string key="NSFrame">{{1, 1}, {123, 76}}</string>
 								<reference key="NSSuperview" ref="1053547181"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="241117953"/>
 								<reference key="NSDocView" ref="241117953"/>
 								<reference key="NSBGColor" ref="369764134"/>
@@ -511,15 +485,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-30, 1}, {15, 76}}</string>
 								<reference key="NSSuperview" ref="1053547181"/>
+								<reference key="NSWindow"/>
 								<reference key="NSTarget" ref="1053547181"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSPercent">0.32105264067649841</double>
 							</object>
 							<object class="NSScroller" id="60579224">
 								<reference key="NSNextResponder" ref="1053547181"/>
-								<int key="NSvFlags">256</int>
+								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {69, 15}}</string>
 								<reference key="NSSuperview" ref="1053547181"/>
+								<reference key="NSWindow"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="1053547181"/>
 								<string key="NSAction">_doScroller:</string>
@@ -528,6 +504,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</array>
 						<string key="NSFrame">{{169, 20}, {125, 78}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="906194868"/>
 						<int key="NSsFlags">133650</int>
 						<reference key="NSVScroller" ref="909631693"/>
@@ -540,6 +517,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{18, 320}, {278, 38}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">2</int>
 						<int key="NSNumCols">1</int>
@@ -585,46 +563,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference key="NSSupport" ref="455866334"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">0</int>
-							<object class="NSImage" key="NSNormalImage">
-								<int key="NSImageFlags">549453824</int>
-								<string key="NSSize">{18, 18}</string>
-								<array class="NSMutableArray" key="NSReps">
-									<array>
-										<integer value="0"/>
-										<object class="NSBitmapImageRep">
-											<object class="NSData" key="NSTIFFRepresentation">
-												<bytes key="NS.bytes">TU0AKgAABRgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0eHzRISk2AbG9zwIaJju2GiY7t
-bG9zwEhKTYAdHh80AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOjs+Z36Ahtm6vMH/
-5OXn//b29//w8vT/1tjd/7G0u/99gIXZOjs+ZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6Oz5n
-lZie9eXm5/////////////n7/f/y9Pf/6+3y/+Pm6//GytH/kZWb9To7PmcAAAAAAAAAAAAAAAAAAAAA
-AAAAAB0eHzR+gIbZ5efp////////////+fr9//L0+P/s7vP/5ejt/97h5//Y2+H/u8DH/32AhdodHh80
-AAAAAAAAAAAAAAAAAAAAAEhKTYC4u8D////////////5+v3/9Pb5/+7w9P/o6/D/5Obr/97h5//S1t7/
-u8DL/5qfqP9ISk2AAAAAAAAAAAAAAAAAAAAAAGxvc8Dj5ej///////n6/f/09vn/7/L1/+zu8v/p6/D/
-4OTp/83R2v/Axc7/trzG/6Cmsf9sb3PAAAAAAAAAAAAAAAAAAAAAAIaJju309vj/+Pr9//T2+f/w8vb/
-7vD0/+zu8//l6O3/0dXc/8rO1v/Jzdb/xMnS/6uxvP+GiY7tAAAAAAAAAAAAAAAAAAAAAIaJju3y8/b/
-9vj7//Lz9//v8fX/7e/0/+Xo7f/Y2+L/1tng/9fa4f/U2N//ztLa/6+0wP+GiY7tAAAAAAAAAAAAAAAA
-AAAAAGxvc8DAxMv/3ODm/+Ll6v/h5Or/3eDm/9rd5P/e4ef/4OPp/+Dj6f/e4ef/0tbd/6yxuv9sb3PA
-AAAAAAAAAAAAAAAAAAAAAEhKTYCfo6v/vcLM/8vP2P/T197/2t3k/+Hk6v/m6e7/6Ovw/+jr8P/n6u7/
-ys/X/6Kmr/9ISk2AAAAAAAAAAAAAAAAAAAAAAB0eHzR8f4XZtbrD/83R2f/b3eT/4uXq/+fq7//s7vL/
-7/H1//Dx9v/c3+X/t7zE/3+Ch9sdHh80AAAAAAAAAAAAAAAAAAAAAAAAAAA6Oz5nkZWb9by/yP/U2N//
-4eTq/+nr8f/u7/T/6uzx/9ve5f+9wcn/kpac9To7PmcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Ojs+Z36Ahtmusbj/xcnQ/9TX3v/V2N//x8rQ/6+yuf+Ag4jbOjs+ZwAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAB0eHzRISk2AbG9zwIaJju2GiY7tbG9zwEhKTYAdHh80AAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQEAAAMAAAABABIAAAEB
-AAMAAAABABIAAAECAAMAAAAEAAAFugEDAAMAAAABAAEAAAEGAAMAAAABAAIAAAERAAQAAAABAAAACAES
-AAMAAAABAAEAAAEVAAMAAAABAAQAAAEWAAMAAAABABIAAAEXAAQAAAABAAAFEAEcAAMAAAABAAEAAAFS
-AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
-											</object>
-										</object>
-									</array>
-								</array>
-								<reference key="NSColor" ref="1033787931"/>
-							</object>
+							<reference key="NSNormalImage" ref="509900671"/>
 							<reference key="NSAlternateImage" ref="900749336"/>
+							<string key="NSAlternateContents"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
@@ -638,6 +579,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{20, 362}, {274, 5}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -660,11 +602,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{37, 254}, {259, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="583745702">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Group all idle+away contacts</string>
+							<string key="NSContents">群組所有閒置和暫離的聯絡人</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="936143366"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -682,11 +625,12 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{37, 371}, {259, 18}}</string>
 						<reference key="NSSuperview" ref="182448734"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="40255260">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Group mobile contacts separately</string>
+							<string key="NSContents">分別群組行動裝置的聯絡人</string>
 							<reference key="NSSupport" ref="455866334"/>
 							<reference key="NSControlView" ref="965766005"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -701,28 +645,38 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 				</array>
 				<string key="NSFrameSize">{316, 429}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSView" id="419633572">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 			<object class="NSView" id="100831486">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 			<object class="NSView" id="178961967">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 			<object class="NSView" id="929533243">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<string key="NSFrameSize">{125, 1}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
