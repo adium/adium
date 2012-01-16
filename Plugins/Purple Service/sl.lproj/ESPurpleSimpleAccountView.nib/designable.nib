@@ -2,15 +2,22 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSCustomView</string>
+			<string>NSTextField</string>
+			<string>NSButtonCell</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButton</string>
+			<string>NSCustomObject</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -29,19 +36,20 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="732366337">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="658603032">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{148, -1}, {188, 18}}</string>
+						<string key="NSFrame">{{192, -1}, {188, 18}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="263517475">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Publish Status to Everyone</string>
+							<string key="NSContents">Stanje naj bo vidno vsem</string>
 							<object class="NSFont" key="NSSupport" id="267095374">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -66,13 +74,14 @@
 					<object class="NSButton" id="328738866">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{148, 78}, {315, 18}}</string>
+						<string key="NSFrame">{{192, 78}, {315, 18}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="593250592">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Use UDP</string>
+							<string key="NSContents">Uporabi UDP</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="328738866"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -88,13 +97,14 @@
 					<object class="NSButton" id="176530394">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{148, 104}, {112, 18}}</string>
+						<string key="NSFrame">{{192, 131}, {249, 18}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="369914659">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Use SIP proxy:</string>
+							<string key="NSContents">Uporabi posredniški strežnik za SIP:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="176530394"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -110,8 +120,9 @@
 					<object class="NSTextField" id="73693750">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{266, 102}, {160, 22}}</string>
+						<string key="NSFrame">{{194, 102}, {245, 22}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="953493718">
 							<int key="NSCellFlags">-1804468671</int>
@@ -143,13 +154,14 @@
 					<object class="NSTextField" id="471373651">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{22, 105}, {123, 17}}</string>
+						<string key="NSFrame">{{66, 132}, {123, 17}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="786421852">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Connection:</string>
+							<string key="NSContents">Povezava:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="471373651"/>
 							<object class="NSColor" key="NSBackgroundColor" id="9983972">
@@ -172,13 +184,14 @@
 					<object class="NSTextField" id="267819284">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-3, 50}, {148, 17}}</string>
+						<string key="NSFrame">{{17, 50}, {172, 17}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="546444054">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Authorization User:</string>
+							<string key="NSContents">Uporabnik za avtorizacijo:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="267819284"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -188,13 +201,14 @@
 					<object class="NSTextField" id="1017087580">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{22, 0}, {123, 17}}</string>
+						<string key="NSFrame">{{66, 0}, {123, 17}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1027186468">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Status:</string>
+							<string key="NSContents">Stanje:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="1017087580"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -204,13 +218,14 @@
 					<object class="NSTextField" id="882434843">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-3, 25}, {148, 17}}</string>
+						<string key="NSFrame">{{29, 25}, {160, 17}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="184053678">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Authorization Domain:</string>
+							<string key="NSContents">Domena za avtorizacijo:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="882434843"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -220,8 +235,9 @@
 					<object class="NSTextField" id="600140707">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{150, 50}, {195, 22}}</string>
+						<string key="NSFrame">{{194, 50}, {245, 22}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="402516046">
 							<int key="NSCellFlags">-1804468671</int>
@@ -237,8 +253,9 @@
 					<object class="NSTextField" id="273343281">
 						<reference key="NSNextResponder" ref="732366337"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{150, 23}, {195, 22}}</string>
+						<string key="NSFrame">{{194, 23}, {245, 22}}</string>
 						<reference key="NSSuperview" ref="732366337"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="221263928">
 							<int key="NSCellFlags">-1804468671</int>
@@ -252,7 +269,9 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{426, 124}</string>
+				<string key="NSFrameSize">{459, 149}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -269,7 +288,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="194034653">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Password:</string>
+							<string key="NSContents">Geslo:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="534652022"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -285,7 +304,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="122243255">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Screen Name:</string>
+							<string key="NSContents">Prikazano ime:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="554786205"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -335,7 +354,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="722382962">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Server:</string>
+							<string key="NSContents">Strežnik:</string>
 							<reference key="NSSupport" ref="267095374"/>
 							<reference key="NSControlView" ref="378699911"/>
 							<reference key="NSBackgroundColor" ref="9983972"/>
@@ -491,20 +510,28 @@
 					<int key="connectionID">246</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">changedPreference:</string>
+						<reference key="source" ref="897443721"/>
+						<reference key="destination" ref="423887671"/>
+					</object>
+					<int key="connectionID">254</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: useSIPProxy</string>
-						<reference key="source" ref="176530394"/>
+						<string key="label">value: publishStatus</string>
+						<reference key="source" ref="658603032"/>
 						<reference key="destination" ref="897443721"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="176530394"/>
+							<reference key="NSSource" ref="658603032"/>
 							<reference key="NSDestination" ref="897443721"/>
-							<string key="NSLabel">value: useSIPProxy</string>
+							<string key="NSLabel">value: publishStatus</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">useSIPProxy</string>
+							<string key="NSKeyPath">publishStatus</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">247</int>
+					<int key="connectionID">253</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -524,59 +551,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: authUser</string>
-						<reference key="source" ref="600140707"/>
+						<string key="label">value: useSIPProxy</string>
+						<reference key="source" ref="176530394"/>
 						<reference key="destination" ref="897443721"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="600140707"/>
+							<reference key="NSSource" ref="176530394"/>
 							<reference key="NSDestination" ref="897443721"/>
-							<string key="NSLabel">value: authUser</string>
+							<string key="NSLabel">value: useSIPProxy</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">authUser</string>
+							<string key="NSKeyPath">useSIPProxy</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">251</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: authDomain</string>
-						<reference key="source" ref="273343281"/>
-						<reference key="destination" ref="897443721"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="273343281"/>
-							<reference key="NSDestination" ref="897443721"/>
-							<string key="NSLabel">value: authDomain</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">authDomain</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">252</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: publishStatus</string>
-						<reference key="source" ref="658603032"/>
-						<reference key="destination" ref="897443721"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="658603032"/>
-							<reference key="NSDestination" ref="897443721"/>
-							<string key="NSLabel">value: publishStatus</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">publishStatus</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">253</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changedPreference:</string>
-						<reference key="source" ref="897443721"/>
-						<reference key="destination" ref="423887671"/>
-					</object>
-					<int key="connectionID">254</int>
+					<int key="connectionID">247</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -631,6 +618,38 @@
 					</object>
 					<int key="connectionID">260</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: authUser</string>
+						<reference key="source" ref="600140707"/>
+						<reference key="destination" ref="897443721"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="600140707"/>
+							<reference key="NSDestination" ref="897443721"/>
+							<string key="NSLabel">value: authUser</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">authUser</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">251</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: authDomain</string>
+						<reference key="source" ref="273343281"/>
+						<reference key="destination" ref="897443721"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="273343281"/>
+							<reference key="NSDestination" ref="897443721"/>
+							<string key="NSLabel">value: authDomain</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">authDomain</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">252</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -658,14 +677,14 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="658603032"/>
 							<reference ref="328738866"/>
-							<reference ref="176530394"/>
-							<reference ref="73693750"/>
-							<reference ref="471373651"/>
 							<reference ref="267819284"/>
 							<reference ref="1017087580"/>
 							<reference ref="882434843"/>
 							<reference ref="600140707"/>
 							<reference ref="273343281"/>
+							<reference ref="73693750"/>
+							<reference ref="471373651"/>
+							<reference ref="176530394"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Options</string>
@@ -985,16 +1004,11 @@
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">NSSwitch</string>
