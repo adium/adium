@@ -1240,7 +1240,6 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 		[NSNumber numberWithInteger:activeSearchID], @"ID",
 		[NSNumber numberWithInteger:searchMode], @"Mode",
 		activeSearchString, @"String",
-		[plugin logContentIndex], @"SearchIndex",
 		nil];
     [NSThread detachNewThreadSelector:@selector(filterLogsWithSearch:) toTarget:self withObject:searchDict];
     
@@ -1714,7 +1713,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILog(@"filterLogsWithSearch (search ID %i): %@",searchID,searchInfoDict);
+		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1728,7 +1727,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				case LOG_SEARCH_CONTENT:
 					[self _logContentFilter:searchString
 								   searchID:searchID
-							  onSearchIndex:(SKIndexRef)[searchInfoDict objectForKey:@"SearchIndex"]];
+							  onSearchIndex:[plugin logContentIndex]];
 					break;
 			}
 		} else {
@@ -1740,7 +1739,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILog(@"filterLogsWithSearch (search ID %i): finished",searchID);
+		AILogWithSignature(@"Search ID %i): finished", searchID);
     }
 	
     //Cleanup
