@@ -77,7 +77,6 @@ Version 1.5 (10/11/2011)
   * Made emoticons between packs more consistent. (#11450)
   * Fixed the ":^)" emoticon being mistakenly interpreted the same as ":-\". (#13924)
   * Disabled elastic scroll of the text input, in Lion.
-  * Fixed enable/disable View Chat Transcripts menu item, in group chat's (user list) context menu. Regression after be26860de314.
   * Added the generic menu items to the group chat cog button for XMPP groupchats.
 
  Status
@@ -87,9 +86,6 @@ Version 1.5 (10/11/2011)
   * Added next/previous buttons for highlighted search terms within a transcript (similar to Safari).
   * Greatly improved reliability and speed of log indexing and search.
   * Fixed a bug when writing inline images to chat logs. (Peter Fung) (#15186)
-  * Fixed ghosting artifacts when scrolling transcript contents (when searching) (#12237).
-  * Preventing two threads to open the same index at the same time.
-  * Fixed a potential crash when the log index failed to initialize when trying to delete a log.
 
  User Picture (Buddy Icon)
   * Added ability to resize animated gifs that are too large. (#9885)
@@ -124,6 +120,7 @@ Version 1.5 (10/11/2011)
 
  Miscellaneous
   * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for graphics)
+  * Aqualicious Graphite, new contact list theme to match OS X Graphite style.
   * Updated Growl.framework to 1.3.1.
   * The Downloads stack in the Dock will now bounce when Adium finishes receiving a file.
   * Quarantine received files after downloading, so the Finder will show a warning before opening received applications (similar to Safari).
@@ -138,10 +135,10 @@ Version 1.5 (10/11/2011)
   * Miscellaneous improvements to Copyright.txt file.
   * Rewrote the libpurple eventloop to use libdispatch. (#13932)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
-  * Aqualicious Graphite, new contact list theme to match OS X Graphite style.
   
  Localisation
-  * Updated translations: Catalan (#15770), Chinese (Traditional), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), French (#15734), German (#15586, 15648), Italian (#15758), Portuguese (Portugal) (#15721), Slowenian (#15772), Swedish (#15726).
+  * Updated translations: Catalan (#15770), Chinese (Traditional), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), French (#15734), German (#15586, 15648), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772), Swedish (#15726).
+  * Fixed localisation of a couple of emoticons.
 
 
 Version 1.4.4 (12/5/2011)
