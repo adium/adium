@@ -44,7 +44,7 @@
 #define STRING_YEAR					AILocalizedString(@"Year", "Year of current song")
 #define	STRING_STORE_URL			AILocalizedString(@"iTunes Music Store Link", "iTUnes Music Store link for current song")
 #define STRING_MUSIC				AILocalizedString(@"Listening Status", "Listening status string (*is listening to XXX by YYY)")
-#define STRING_CURRENT_TRACK		AILocalizedString(@"Current Track", "Current track information (Track - Artist)")
+#define STRING_CURRENT_TRACK		AILocalizedString(@"iTunes Status", "Current track information (Track - Artist)")
 
 #pragma mark -
 
