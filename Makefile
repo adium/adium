@@ -15,8 +15,8 @@ RM=rm
 .PHONY: all adium clean localizable-strings latest test astest install
 
 adium:
-	xcodebuild -version
-	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
+	/Xcode4/usr/bin/./xcodebuild -version
+	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
 
 test:
 	/Xcode4/usr/bin/./xcodebuild -version
