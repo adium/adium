@@ -48,7 +48,7 @@
 						<string key="NSFrame">{{189, 364}, {389, 28}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="574090088"/>
+						<reference key="NSNextKeyView" ref="267563463"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="520021468">
 							<int key="NSCellFlags">67239424</int>
@@ -146,7 +146,7 @@
 						<string key="NSFrame">{{20, 360}, {560, 5}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="267563463"/>
+						<reference key="NSNextKeyView" ref="593286664"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -170,7 +170,7 @@
 						<string key="NSFrame">{{20, 436}, {560, 5}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="140834015"/>
+						<reference key="NSNextKeyView" ref="329872387"/>
 						<string key="NSOffsets">{0, 0}</string>
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
@@ -223,6 +223,7 @@
 						<string key="NSFrame">{{226, 20}, {263, 38}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">2</int>
 						<int key="NSNumCols">1</int>
@@ -606,7 +607,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{209, 400}, {283, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="593286664"/>
+						<reference key="NSNextKeyView" ref="574090088"/>
 						<string key="NSClassName">NSView</string>
 					</object>
 					<object class="NSTextField" id="140834015">
@@ -630,7 +631,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSTextField" id="329872387">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{157, 455}, {47, 17}}</string>
+						<string key="NSFrame">{{157, 438}, {47, 34}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="428798774"/>
@@ -651,7 +652,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{207, 453}, {254, 18}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="529712699"/>
+						<reference key="NSNextKeyView" ref="140834015"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="208827672">
 							<int key="NSCellFlags">67239424</int>
@@ -759,7 +760,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSFrameSize">{600, 490}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="329872387"/>
+				<reference key="NSNextKeyView" ref="529712699"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="628394202">
@@ -951,6 +952,30 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="428798774"/>
 					</object>
 					<int key="connectionID">103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">setAsDefaultApp</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="192769835"/>
+					</object>
+					<int key="connectionID">104</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setAsDefaultApp:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="192769835"/>
+					</object>
+					<int key="connectionID">105</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">customizeDefaultApp:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="241398256"/>
+					</object>
+					<int key="connectionID">106</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1640,7 +1665,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">103</int>
+			<int key="maxID">106</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1749,6 +1774,20 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">ESGeneralPreferences</string>
 					<string key="superclassName">AIPreferencePane</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="customizeDefaultApp:">id</string>
+						<string key="setAsDefaultApp:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="customizeDefaultApp:">
+							<string key="name">customizeDefaultApp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAsDefaultApp:">
+							<string key="name">setAsDefaultApp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="button_customizeDefaultApp">AILocalizationButton</string>
 						<string key="button_defaultApp">AILocalizationButton</string>

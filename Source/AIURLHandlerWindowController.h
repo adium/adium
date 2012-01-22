@@ -17,7 +17,7 @@
 #import <Adium/AIPreferencePane.h>
 #import "AIURLHandlerPlugin.h"
 
-@interface AIURLHandlerAdvancedPreferences : AIPreferencePane {
+@interface AIURLHandlerWindowController : NSWindowController {
 	IBOutlet		NSTableView			*tableView;
 	
 	IBOutlet		NSButton					*button_setDefault;
@@ -30,6 +30,6 @@
 - (IBAction)setDefault:(id)sender;
 - (IBAction)enforceDefault:(id)sender;
 
-- (void)refreshTable;
+- (IBAction)done:(id)sender;
 
 @end

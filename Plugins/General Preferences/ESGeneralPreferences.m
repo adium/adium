@@ -33,6 +33,8 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "AILogByAccountWindowController.h"
+#import "AIURLHandlerPlugin.h"
+#import "AIURLHandlerWindowController.h"
 
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
@@ -248,4 +250,25 @@
 	}
 }
 
+- (IBAction)setAsDefaultApp:(id)sender
+{
+	[[AIURLHandlerPlugin sharedAIURLHandlerPlugin] setAdiumAsDefault];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet orderOut:nil];
+	[sheet.windowController release];
+}
+
+- (IBAction)customizeDefaultApp:(id)sender
+{
+	AIURLHandlerWindowController *windowController = [[AIURLHandlerWindowController alloc] initWithWindowNibName:@"AIURLHandlerPreferences"];
+	
+	[NSApp beginSheet:windowController.window
+	   modalForWindow:self.view.window
+		modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
 @end
