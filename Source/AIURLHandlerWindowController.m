@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIURLHandlerAdvancedPreferences.h"
+#import "AIURLHandlerWindowController.h"
 #import "AIPreferenceWindowController.h"
 
 #import <AIUtilities/AIImageTextCell.h>
@@ -26,7 +26,9 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 
-@interface AIURLHandlerAdvancedPreferences()
+@interface AIURLHandlerWindowController() {
+	AIURLHandlerPlugin *plugin;
+}
 - (void)configureTableView;
 
 - (void)initializeServiceInformationForSchemes:(NSArray *)schemes;
@@ -36,44 +38,23 @@
 - (NSString *)serviceNameForScheme:(NSString *)scheme;
 @end
 
-@implementation AIURLHandlerAdvancedPreferences
-#pragma mark Preference pane settings
-- (AIPreferenceCategory)category
+@implementation AIURLHandlerWindowController
+- (id)initWithWindowNibName:(NSString *)windowNibName
 {
-    return AIPref_Advanced;
-}
-- (NSString *)paneIdentifier{
-	return @"URLHandlerAdvanced";
-}
-- (NSString *)paneName{
-    return AILocalizedString(@"Default Client",nil);
-}
-- (NSString *)nibName{
-    return @"AIURLHandlerPreferences";
-}
-- (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"pref-defaultclient" forClass:[AIPreferenceWindowController class]];
+	if((self = [super initWithWindowNibName:windowNibName])) {
+		servicesList = [[AIURLHandlerPlugin sharedAIURLHandlerPlugin].uniqueSchemes retain];
+		plugin = [AIURLHandlerPlugin sharedAIURLHandlerPlugin];
+	}
+	return self;
 }
 
-- (void)viewDidLoad
+- (void)awakeFromNib
 {
-	[servicesList release];
-	
-	servicesList = [((AIURLHandlerPlugin *)plugin).uniqueSchemes retain];
-	
 	[self configureTableView];
 	[self initializeServiceInformationForSchemes:servicesList];
 	
 	[button_setDefault setLocalizedString:AILocalizedString(@"Set Default for All", nil)];
 	[checkBox_enforceDefault setLocalizedString:AILocalizedString(@"Always set Adium as the default", nil)];
-	
-	[checkBox_enforceDefault setState:[[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
-																			  group:GROUP_URL_HANDLING] boolValue]];
-	
-	[tableView setEnabled:![[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
-																   group:GROUP_URL_HANDLING] boolValue]];
-	
-	[super viewDidLoad];
 }
 
 - (void)dealloc
@@ -92,15 +73,14 @@
 
 - (IBAction)enforceDefault:(id)sender
 {
-	[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-									   forKey:PREF_KEY_ENFORCE_DEFAULT
-										group:GROUP_URL_HANDLING];
-	
-	[tableView setEnabled:![sender state]];
-	
 	if ([sender state]) {
 		[plugin setAdiumAsDefault];
 	}
+}
+
+- (IBAction)done:(id)sender
+{
+	[NSApp endSheet:self.window];
 }
 
 #pragma mark Scheme information
@@ -215,11 +195,6 @@
 }
 
 #pragma mark Table view Delegate
-
-- (void)refreshTable
-{
-	[tableView reloadData];
-}
 
 - (void)configureTableView
 {

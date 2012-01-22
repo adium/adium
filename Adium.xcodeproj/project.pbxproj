@@ -115,7 +115,7 @@
 		113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892250F6B70CA00A7D7DC /* laconica-small.png */; };
 		113892280F6B70CA00A7D7DC /* laconica.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892260F6B70CA00A7D7DC /* laconica.png */; };
 		113900B10F85BEF60081A418 /* AIURLHandlerPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 113900B00F85BEF60081A418 /* AIURLHandlerPreferences.nib */; };
-		113900B40F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 113900B30F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m */; };
+		113900B40F85BF880081A418 /* AIURLHandlerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113900B30F85BF880081A418 /* AIURLHandlerWindowController.m */; };
 		1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */; };
 		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
@@ -1795,8 +1795,8 @@
 		113892250F6B70CA00A7D7DC /* laconica-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "laconica-small.png"; path = "Plugins/Twitter Plugin/laconica-small.png"; sourceTree = "<group>"; };
 		113892260F6B70CA00A7D7DC /* laconica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laconica.png; path = "Plugins/Twitter Plugin/laconica.png"; sourceTree = "<group>"; };
 		113900B00F85BEF60081A418 /* AIURLHandlerPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIURLHandlerPreferences.nib; path = Resources/AIURLHandlerPreferences.nib; sourceTree = "<group>"; };
-		113900B20F85BF880081A418 /* AIURLHandlerAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIURLHandlerAdvancedPreferences.h; path = Source/AIURLHandlerAdvancedPreferences.h; sourceTree = "<group>"; };
-		113900B30F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLHandlerAdvancedPreferences.m; path = Source/AIURLHandlerAdvancedPreferences.m; sourceTree = "<group>"; };
+		113900B20F85BF880081A418 /* AIURLHandlerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIURLHandlerWindowController.h; path = Source/AIURLHandlerWindowController.h; sourceTree = "<group>"; };
+		113900B30F85BF880081A418 /* AIURLHandlerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLHandlerWindowController.m; path = Source/AIURLHandlerWindowController.m; sourceTree = "<group>"; };
 		1139011A0F85C9450081A418 /* AIURLHandlerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIURLHandlerPlugin.h; path = Source/AIURLHandlerPlugin.h; sourceTree = "<group>"; };
 		1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLHandlerPlugin.m; path = Source/AIURLHandlerPlugin.m; sourceTree = "<group>"; };
 		1139FFA80F85260E0081A418 /* AIIRCChannelLinker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCChannelLinker.h; path = Source/AIIRCChannelLinker.h; sourceTree = "<group>"; };
@@ -6419,8 +6419,8 @@
 				1139011A0F85C9450081A418 /* AIURLHandlerPlugin.h */,
 				1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */,
 				113900B00F85BEF60081A418 /* AIURLHandlerPreferences.nib */,
-				113900B20F85BF880081A418 /* AIURLHandlerAdvancedPreferences.h */,
-				113900B30F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m */,
+				113900B20F85BF880081A418 /* AIURLHandlerWindowController.h */,
+				113900B30F85BF880081A418 /* AIURLHandlerWindowController.m */,
 				34F1023A073449D500890D3B /* XtrasInstaller.h */,
 				34F10239073449D500890D3B /* XtrasInstaller.m */,
 				34F1022A0734499600890D3B /* XtraProgressWindow.nib */,
@@ -10318,7 +10318,7 @@
 				112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */,
 				1111B2680F847CAD0068CE51 /* AIFilterBarView.m in Sources */,
 				1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */,
-				113900B40F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m in Sources */,
+				113900B40F85BF880081A418 /* AIURLHandlerWindowController.m in Sources */,
 				1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */,
 				11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */,
 				1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */,
