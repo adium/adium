@@ -2,15 +2,23 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">1938</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSTextField</string>
+			<string>NSView</string>
+			<string>NSProgressIndicator</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSButton</string>
+			<string>NSCustomObject</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -29,19 +37,21 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="610496814">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="511623407">
 						<reference key="NSNextResponder" ref="610496814"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{8, 147}, {378, 51}}</string>
+						<string key="NSFrame">{{8, 162}, {378, 51}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="290214125"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="12458334">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
-							<string key="NSContents">To connect to Facebook Chat, you must give Adium permission. A secure Facebook login screen will be shown when you click Allow Access.</string>
+							<string key="NSContents">Για να συνδεθείτε στο Facebook Chat, πρέπει να δώσετε πρόσβαση στο Adium. Μια ασφαλής οθόνη σύνδεσης θα εμφανιστεί όταν πατήσετε στην Επίτρεψη Πρόσβασης</string>
 							<object class="NSFont" key="NSSupport" id="568567493">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -71,13 +81,15 @@
 					<object class="NSTextField" id="444720455">
 						<reference key="NSNextResponder" ref="610496814"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{8, 22}, {347, 17}}</string>
+						<string key="NSFrame">{{8, 20}, {347, 34}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="249247989"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1047490784">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
-							<string key="NSContents">Current status information will go here.</string>
+							<string key="NSContents">Πληροφορίες για την τρέχουσα κατάσταση θα πηγαίνουν εδώ</string>
 							<reference key="NSSupport" ref="568567493"/>
 							<reference key="NSControlView" ref="444720455"/>
 							<reference key="NSBackgroundColor" ref="43977286"/>
@@ -87,13 +99,15 @@
 					<object class="NSButton" id="290214125">
 						<reference key="NSNextResponder" ref="610496814"/>
 						<int key="NSvFlags">269</int>
-						<string key="NSFrame">{{119, 99}, {157, 32}}</string>
+						<string key="NSFrame">{{107, 114}, {181, 32}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="901696267"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="119278707">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Allow Access</string>
+							<string key="NSContents">Επίτρεψη Πρόσβασης</string>
 							<object class="NSFont" key="NSSupport" id="25279989">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -112,8 +126,10 @@
 						<reference key="NSNextResponder" ref="610496814"/>
 						<int key="NSvFlags">-2147482356</int>
 						<object class="NSPSMatrix" key="NSDrawMatrix"/>
-						<string key="NSFrame">{{189, 71}, {16, 16}}</string>
+						<string key="NSFrame">{{189, 86}, {16, 16}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="444720455"/>
 						<int key="NSpiFlags">20746</int>
 						<double key="NSMinValue">16</double>
 						<double key="NSMaxValue">100</double>
@@ -121,8 +137,10 @@
 					<object class="NSButton" id="249247989">
 						<reference key="NSNextResponder" ref="610496814"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{361, 16}, {25, 25}}</string>
+						<string key="NSFrame">{{361, 31}, {25, 25}}</string>
 						<reference key="NSSuperview" ref="610496814"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="691241873">
 							<int key="NSCellFlags">67239424</int>
@@ -139,7 +157,10 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{394, 201}</string>
+				<string key="NSFrameSize">{394, 216}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="511623407"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -232,10 +253,10 @@
 						<reference key="object" ref="610496814"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="511623407"/>
-							<reference ref="290214125"/>
 							<reference ref="901696267"/>
 							<reference ref="249247989"/>
 							<reference ref="444720455"/>
+							<reference ref="290214125"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Setup</string>
@@ -599,7 +620,6 @@
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>

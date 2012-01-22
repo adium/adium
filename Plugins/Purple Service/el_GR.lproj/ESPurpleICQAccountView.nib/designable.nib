@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1306</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -26,7 +26,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="232476440">
 			<object class="NSCustomObject" id="1056646559">
 				<string key="NSClassName">ESPurpleICQAccountViewController</string>
@@ -38,16 +41,14 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="645808389">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSMatrix" id="891046006">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{125, 0}, {302, 58}}</string>
+						<string key="NSFrame">{{140, 0}, {302, 58}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">3</int>
 						<int key="NSNumCols">1</int>
@@ -55,7 +56,7 @@
 							<object class="NSButtonCell" id="230074098">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Καμμία κρυπτογράφηση</string>
+								<string key="NSContents">Απαίτηση κρυπτογράφησης</string>
 								<object class="NSFont" key="NSSupport" id="295423106">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -79,7 +80,7 @@
 							<object class="NSButtonCell" id="289139075">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Χρήση κρυπτογράφησης όταν υπάρχει</string>
+								<string key="NSContents">Radio</string>
 								<reference key="NSSupport" ref="295423106"/>
 								<reference key="NSControlView" ref="891046006"/>
 								<int key="NSTag">1</int>
@@ -94,7 +95,7 @@
 							<object class="NSButtonCell" id="350935637">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Απαίτηση κρυπτογράφησης</string>
+								<string key="NSContents">Καμμία κρυπτογράφηση</string>
 								<reference key="NSSupport" ref="295423106"/>
 								<reference key="NSControlView" ref="891046006"/>
 								<int key="NSTag">2</int>
@@ -114,7 +115,7 @@
 						<object class="NSButtonCell" key="NSProtoCell" id="614863997">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Radio</string>
+							<string key="NSContents">Χρήση κρυπτογράφησης όταν υπάρχει</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">0</int>
@@ -143,9 +144,8 @@
 					<object class="NSTextField" id="794882330">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-18, 41}, {140, 17}}</string>
+						<string key="NSFrame">{{-3, 41}, {140, 17}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="891046006"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1024022612">
@@ -169,15 +169,14 @@
 					<object class="NSTextField" id="745920523">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-18, 94}, {140, 17}}</string>
+						<string key="NSFrame">{{-3, 94}, {140, 17}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="249573703"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="153396750">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Encoding:</string>
+							<string key="NSContents">Κωδικοποίηση:</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="745920523"/>
 							<reference key="NSBackgroundColor" ref="213639974"/>
@@ -187,9 +186,8 @@
 					<object class="NSPopUpButton" id="249573703">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{124, 88}, {206, 26}}</string>
+						<string key="NSFrame">{{139, 88}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="61761228"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="1012636174">
@@ -246,15 +244,14 @@
 					<object class="NSTextField" id="647285985">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{332, 122}, {34, 17}}</string>
+						<string key="NSFrame">{{347, 122}, {46, 17}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="981830336"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="901796942">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Port:</string>
+							<string key="NSContents">Θύρα:</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="647285985"/>
 							<reference key="NSBackgroundColor" ref="213639974"/>
@@ -264,9 +261,8 @@
 					<object class="NSTextField" id="984350531">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{127, 120}, {200, 22}}</string>
+						<string key="NSFrame">{{142, 120}, {200, 22}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="647285985"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="138640132">
@@ -293,9 +289,8 @@
 					<object class="NSTextField" id="981830336">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{371, 120}, {51, 22}}</string>
+						<string key="NSFrame">{{398, 120}, {51, 22}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="745920523"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="978645782">
@@ -312,15 +307,14 @@
 					<object class="NSTextField" id="568138351">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-18, 122}, {140, 17}}</string>
+						<string key="NSFrame">{{-3, 122}, {140, 17}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="984350531"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="549949362">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Login Server:</string>
+							<string key="NSContents">Server Σύνδεσης:</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="568138351"/>
 							<reference key="NSBackgroundColor" ref="213639974"/>
@@ -330,15 +324,14 @@
 					<object class="NSButton" id="189208472">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{126, 65}, {238, 18}}</string>
+						<string key="NSFrame">{{141, 65}, {283, 18}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="794882330"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="46726646">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Always use proxy for file transfers</string>
+							<string key="NSContents">Χρήση proxy για μεταφορές αρχείων</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="189208472"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -359,9 +352,8 @@
 					<object class="NSTextField" id="61761228">
 						<reference key="NSNextResponder" ref="645808389"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{-18, 66}, {140, 17}}</string>
+						<string key="NSFrame">{{-3, 66}, {140, 17}}</string>
 						<reference key="NSSuperview" ref="645808389"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="189208472"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="855851100">
@@ -375,9 +367,7 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{427, 142}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
+				<string key="NSFrameSize">{454, 142}</string>
 				<reference key="NSNextKeyView" ref="568138351"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
@@ -385,20 +375,19 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="147130346">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="700603179">
 						<reference key="NSNextResponder" ref="147130346"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{149, 24}, {256, 18}}</string>
+						<string key="NSFrame">{{149, 24}, {349, 18}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="761993343">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Let others know when you are typing</string>
+							<string key="NSContents">Να γνωρίζουν οι επαφές μου πότε πληκτρολογώ</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="700603179"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -414,14 +403,13 @@
 					<object class="NSTextField" id="85405242">
 						<reference key="NSNextResponder" ref="147130346"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{71, 25}, {75, 17}}</string>
+						<string key="NSFrame">{{23, 25}, {123, 17}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="12040017">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Typing:</string>
+							<string key="NSContents">Πληκτρολόγηση:</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="85405242"/>
 							<reference key="NSBackgroundColor" ref="213639974"/>
@@ -431,14 +419,13 @@
 					<object class="NSButton" id="309853470">
 						<reference key="NSNextResponder" ref="147130346"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{149, -1}, {277, 18}}</string>
+						<string key="NSFrame">{{149, -1}, {349, 18}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="671917928">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Let anyone view my status from the Web</string>
+							<string key="NSContents">Εμφάνιση της κατάστασης μου στο Web</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="309853470"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -456,12 +443,11 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{23, 0}, {123, 17}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="736070787">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Web Aware:</string>
+							<string key="NSContents">Εμφάνιση Web:</string>
 							<reference key="NSSupport" ref="295423106"/>
 							<reference key="NSControlView" ref="153263732"/>
 							<reference key="NSBackgroundColor" ref="213639974"/>
@@ -471,9 +457,8 @@
 					<object class="NSTextField" id="731212631">
 						<reference key="NSNextResponder" ref="147130346"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{71, 54}, {75, 17}}</string>
+						<string key="NSFrame">{{17, 54}, {129, 17}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1045058572">
 							<int key="NSCellFlags">67239424</int>
@@ -488,9 +473,8 @@
 					<object class="NSPopUpButton" id="127155653">
 						<reference key="NSNextResponder" ref="147130346"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{148, 48}, {307, 26}}</string>
+						<string key="NSFrame">{{148, 48}, {351, 26}}</string>
 						<reference key="NSSuperview" ref="147130346"/>
-						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="678758936">
 							<int key="NSCellFlags">-2080244160</int>
@@ -534,9 +518,7 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{452, 73}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
+				<string key="NSFrameSize">{496, 73}</string>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
@@ -603,14 +585,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="700603179"/>
-						<reference key="destination" ref="85405242"/>
-					</object>
-					<int key="connectionID">201</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">view_privacy</string>
 						<reference key="source" ref="1056646559"/>
 						<reference key="destination" ref="147130346"/>
@@ -667,38 +641,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="731212631"/>
-						<reference key="destination" ref="127155653"/>
-					</object>
-					<int key="connectionID">211</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="85405242"/>
-						<reference key="destination" ref="700603179"/>
-					</object>
-					<int key="connectionID">212</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="309853470"/>
-						<reference key="destination" ref="153263732"/>
-					</object>
-					<int key="connectionID">217</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="153263732"/>
-						<reference key="destination" ref="309853470"/>
-					</object>
-					<int key="connectionID">218</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">checkBox_webAware</string>
 						<reference key="source" ref="1056646559"/>
 						<reference key="destination" ref="309853470"/>
@@ -723,11 +665,59 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">radio_Encryption</string>
+						<reference key="source" ref="1056646559"/>
+						<reference key="destination" ref="891046006"/>
+					</object>
+					<int key="connectionID">321</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="731212631"/>
+						<reference key="destination" ref="127155653"/>
+					</object>
+					<int key="connectionID">211</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="85405242"/>
+						<reference key="destination" ref="700603179"/>
+					</object>
+					<int key="connectionID">212</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="350935637"/>
+						<reference key="source" ref="700603179"/>
+						<reference key="destination" ref="85405242"/>
+					</object>
+					<int key="connectionID">201</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToLeftSide</string>
+						<reference key="source" ref="309853470"/>
+						<reference key="destination" ref="153263732"/>
+					</object>
+					<int key="connectionID">217</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToRightSide</string>
+						<reference key="source" ref="153263732"/>
+						<reference key="destination" ref="309853470"/>
+					</object>
+					<int key="connectionID">218</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_anchorToLeftSide</string>
+						<reference key="source" ref="230074098"/>
 						<reference key="destination" ref="794882330"/>
 					</object>
-					<int key="connectionID">318</int>
+					<int key="connectionID">320</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -740,18 +730,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="230074098"/>
+						<reference key="source" ref="350935637"/>
 						<reference key="destination" ref="794882330"/>
 					</object>
-					<int key="connectionID">320</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">radio_Encryption</string>
-						<reference key="source" ref="1056646559"/>
-						<reference key="destination" ref="891046006"/>
-					</object>
-					<int key="connectionID">321</int>
+					<int key="connectionID">318</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -788,12 +770,12 @@
 							<reference ref="249573703"/>
 							<reference ref="647285985"/>
 							<reference ref="984350531"/>
-							<reference ref="981830336"/>
 							<reference ref="568138351"/>
 							<reference ref="189208472"/>
 							<reference ref="61761228"/>
 							<reference ref="794882330"/>
 							<reference ref="891046006"/>
+							<reference ref="981830336"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">21</string>
@@ -1076,98 +1058,56 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="-3.ImportedFromIB2"/>
 				<string key="141.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="141.ImportedFromIB2"/>
 				<string key="159.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="159.ImportedFromIB2"/>
 				<string key="160.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="160.ImportedFromIB2"/>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="163.ImportedFromIB2"/>
 				<string key="164.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="164.ImportedFromIB2"/>
 				<string key="172.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="172.ImportedFromIB2"/>
 				<string key="173.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="173.ImportedFromIB2"/>
 				<string key="174.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="174.ImportedFromIB2"/>
 				<string key="175.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="175.ImportedFromIB2"/>
 				<string key="190.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="190.ImportedFromIB2"/>
 				<string key="191.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="191.ImportedFromIB2"/>
 				<string key="192.CustomClassName">AILocalizationTextField</string>
 				<string key="192.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="192.ImportedFromIB2"/>
 				<string key="193.CustomClassName">AILocalizationTextField</string>
 				<string key="193.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="193.ImportedFromIB2"/>
 				<string key="194.CustomClassName">AILocalizationButton</string>
 				<string key="194.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="194.ImportedFromIB2"/>
 				<string key="199.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="199.ImportedFromIB2"/>
 				<string key="200.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="200.ImportedFromIB2"/>
 				<string key="213.CustomClassName">AILocalizationButton</string>
 				<string key="213.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="213.ImportedFromIB2"/>
 				<string key="214.CustomClassName">AILocalizationTextField</string>
 				<string key="214.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="214.ImportedFromIB2"/>
 				<string key="265.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="265.ImportedFromIB2"/>
 				<string key="267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="267.ImportedFromIB2"/>
 				<string key="295.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="295.ImportedFromIB2"/>
 				<string key="296.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="296.ImportedFromIB2"/>
 				<string key="297.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="297.ImportedFromIB2"/>
 				<string key="298.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="298.ImportedFromIB2"/>
 				<string key="299.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="299.ImportedFromIB2"/>
 				<string key="300.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="300.ImportedFromIB2"/>
 				<string key="301.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="301.ImportedFromIB2"/>
 				<string key="303.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="303.ImportedFromIB2"/>
 				<string key="305.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="305.ImportedFromIB2"/>
 				<string key="306.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="306.ImportedFromIB2"/>
 				<string key="307.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="307.ImportedFromIB2"/>
 				<string key="308.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="308.ImportedFromIB2"/>
 				<string key="309.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="309.ImportedFromIB2"/>
 				<string key="310.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="310.ImportedFromIB2"/>
 				<string key="311.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="311.ImportedFromIB2"/>
 				<string key="312.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="312.ImportedFromIB2"/>
 				<string key="313.CustomClassName">AILocalizationButtonCell</string>
 				<string key="313.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="313.ImportedFromIB2"/>
 				<string key="314.CustomClassName">AILocalizationButtonCell</string>
 				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="314.ImportedFromIB2"/>
 				<string key="315.CustomClassName">AILocalizationButtonCell</string>
 				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="315.ImportedFromIB2"/>
 				<string key="316.CustomClassName">AILocalizationButtonCell</string>
 				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="316.ImportedFromIB2"/>
 				<string key="317.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="317.ImportedFromIB2"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
