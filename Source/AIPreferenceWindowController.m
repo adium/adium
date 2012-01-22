@@ -331,10 +331,10 @@
  */
 - (void)displayView:(NSView *)view
 {
+	[self cancelSuggestions];
+	
 	if (!view || view == [self.window contentView])
 		return;
-	
-	[self cancelSuggestions];
 	
 	if (view != allPanes)
 		[allPanes retain];
