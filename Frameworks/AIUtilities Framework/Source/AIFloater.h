@@ -20,7 +20,8 @@
  * @class AIFloater
  * @brief A programtically movable, fadable <tt>NSImage</tt> display class
  *
- * <tt>AIFloater</tt> allows for the display of an <tt>NSImage</tt>, including an animating one, anywhere on the screen.  The image can be easily moved programatically and will fade into and out of view as requested. 
+ * <tt>AIFloater</tt> allows for the display of an <tt>NSImage</tt>, including an animating one, anywhere on the screen.
+ * The image can be easily moved programatically and will fade into and out of view as requested. 
  */
 @interface AIFloater : NSObject {
     NSImageView		*staticView;
@@ -35,7 +36,7 @@
  *
  * It will handle releasing itself when closed; it need not be retained by the caller.
  */
-+ (id)floaterWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
++ (id)newFloaterWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
 
 /*!
  * Position the float at a specified point
