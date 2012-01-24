@@ -14,20 +14,25 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+
 #import "AISplitView.h"
 
 
 @interface AISplitView ()
-- (void)_initSplitView;
+
+- (void)AI_initSplitView;
+
 @end
 
 @implementation AISplitView
 
-//Init
+@synthesize dividerThickness, drawDivider;
+
+// Init
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	if (([super initWithCoder:aDecoder])) {
-		[self _initSplitView];
+	if ((self = [super initWithCoder:aDecoder])) {
+		[self AI_initSplitView];
 	}
 	return self;
 }
@@ -35,31 +40,22 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect])) {
-		[self _initSplitView];
+		[self AI_initSplitView];
 	}
 	return self;
 }
 
-- (void)_initSplitView
+- (void)AI_initSplitView
 {
 	dividerThickness = [super dividerThickness];
 	drawDivider = YES;
 }
 
-//Divider thickness
-- (void)setDividerThickness:(CGFloat)inThickness{
-	dividerThickness = inThickness;
-}
-- (CGFloat)dividerThickness{
-	return dividerThickness;
-}
+#pragma mark - Drawing
 
-//Divider drawing
-- (void)setDrawsDivider:(BOOL)inDraw{
-	drawDivider = inDraw;
-}
-- (void)drawDividerInRect:(NSRect)aRect{
-	if (drawDivider) {
+- (void)drawDividerInRect:(NSRect)aRect
+{
+	if ([self drawDivider]) {
 		[super drawDividerInRect:aRect];
 	}
 }
