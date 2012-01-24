@@ -107,5 +107,7 @@
 @end
 
 @interface NSObject (AIListThemeWindowTarget)
+
 - (void)listThemeEditorWillCloseWithChanges:(BOOL)changes forThemeNamed:(NSString *)name;
+
 @end
