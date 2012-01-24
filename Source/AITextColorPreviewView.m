@@ -18,26 +18,32 @@
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 
 @interface AITextColorPreviewView ()
-- (void)_initTextColorPreviewView;
+
+- (void)AI_initTextColorPreviewView;
+
 @end
 
 @implementation AITextColorPreviewView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    [super initWithCoder:aDecoder];
-    [self _initTextColorPreviewView];
+    if ((self = [super initWithCoder:aDecoder])) {
+    	[self AI_initTextColorPreviewView];
+	}
+
     return self;
 }
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-    [super initWithFrame:frameRect];
-    [self _initTextColorPreviewView];
+    if ((self = [super initWithFrame:frameRect])) {
+    	[self AI_initTextColorPreviewView];
+	}
+
     return self;
 }
 
-- (void)_initTextColorPreviewView
+- (void)AI_initTextColorPreviewView
 {
 	backColorOverride = nil;
 }
@@ -49,18 +55,19 @@
 	NSShadow			*textShadow = nil;
 	NSSize				sampleSize;
 	
-	//Background
+	// Background
 	if (([backgroundEnabled state] != NSOffState) && backgroundGradientColor) {
 		[[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] autorelease] drawInRect:rect angle:90.0f];
 	} else {
 		NSColor *backColor = (backColorOverride ? backColorOverride : [backgroundColor color]);
+		
 		if (backColor) {
 			[backColor set];
 			[NSBezierPath fillRect:rect];
 		}
 	}
 
-	//Shadow
+	// Shadow
 	if (([textShadowColorEnabled state] != NSOffState) && [textShadowColor color]) {
 		textShadow = [[[NSShadow alloc] init] autorelease];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
@@ -68,20 +75,21 @@
 		[textShadow setShadowColor:[textShadowColor color]];
 	}
 
-	//Text
+	// Text
 	NSColor *colorForText = [textColor color];
+	
 	if (colorForText) {
-		//If we have a checkbox and it's unchecked, change to black.
+		// If we have a checkbox and it's unchecked, change to black.
 		if (textColorEnabled && ([textColorEnabled state] == NSOffState)) {
 			colorForText = [NSColor blackColor];
 		}
 	}
-	attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[NSFont systemFontOfSize:12], NSFontAttributeName,
-		[NSParagraphStyle styleWithAlignment:NSCenterTextAlignment], NSParagraphStyleAttributeName,
-		colorForText, NSForegroundColorAttributeName,
-		textShadow, NSShadowAttributeName,
-		nil];
+	
+	attributes = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSFont systemFontOfSize:12], NSFontAttributeName,
+																	[NSParagraphStyle styleWithAlignment:NSCenterTextAlignment], NSParagraphStyleAttributeName,
+																	colorForText, NSForegroundColorAttributeName,
+																	textShadow, NSShadowAttributeName,
+																	nil];
 	
 	sample = [[[NSAttributedString alloc] initWithString:AILocalizedString(@"Sample",nil)
 											  attributes:attributes] autorelease];
@@ -99,7 +107,7 @@
 	[super dealloc];
 }
 
-//Overrides.  pass nil to disable
+// Overrides. Pass nil to disable
 - (void)setBackColorOverride:(NSColor *)inColor
 {
 	if (backColorOverride != inColor) {
