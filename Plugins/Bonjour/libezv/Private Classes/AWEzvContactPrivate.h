@@ -36,16 +36,16 @@
 
 @interface AWEzvContact ()
 @property (readwrite, nonatomic) AWEzvStatus status;
-@property (readwrite, retain, nonatomic) NSDate *idleSinceDate;
-@property (readwrite, retain, nonatomic) NSString *name;
-@property (readwrite, retain, nonatomic) AWEzvXMLStream *stream;
-@property (readwrite, retain, nonatomic) AWEzvRendezvousData *rendezvous;
-@property (readwrite, retain, nonatomic) NSString *ipAddr;
+@property (readwrite, nonatomic) NSDate *idleSinceDate;
+@property (readwrite, nonatomic) NSString *name;
+@property (readwrite, nonatomic, strong) AWEzvXMLStream *stream;
+@property (readwrite, nonatomic) AWEzvRendezvousData *rendezvous;
+@property (readwrite, nonatomic) NSString *ipAddr;
 @property (readwrite, nonatomic) u_int16_t port;
-@property (readwrite, retain, nonatomic) AWEzvContactManager *manager;
-@property (readwrite, retain, nonatomic) ServiceController * resolveServiceController;
-@property (readwrite, retain, nonatomic) ServiceController * imageServiceController;
-@property (readwrite, retain, nonatomic) ServiceController * addressServiceController;
+@property (readwrite, nonatomic) AWEzvContactManager *manager;
+@property (readwrite, nonatomic) ServiceController * resolveServiceController;
+@property (readwrite, nonatomic) ServiceController * imageServiceController;
+@property (readwrite, nonatomic) ServiceController * addressServiceController;
 @property (readonly, nonatomic) int serial;
 
 - (void)createConnection;

@@ -80,7 +80,7 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName account:(AIAccount *)inAccount notifyingTarget:(id)inTarget
 {
 	if ((self = [super initWithWindowNibName:windowNibName])) {
-		account = [inAccount retain];
+		account = inAccount;
 		notifyTarget = inTarget;
 		userIconData = nil;
 		didDeleteUserIcon = NO;
@@ -93,10 +93,7 @@
  */
 - (void)dealloc
 {
-	[account release];
-	[userIconData release]; userIconData = nil;
-
-	[super dealloc];
+	userIconData = nil;
 }
 
 /*!
@@ -157,7 +154,6 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	[self autorelease];
 }
 
 /*!
@@ -222,7 +218,7 @@
 	BOOL enableUserIcon = ([[matrix_userIcon selectedCell] tag] == 1);
 
 	if (!enableUserIcon) {
-		[userIconData release]; userIconData = nil;
+		userIconData = nil;
 		didDeleteUserIcon = YES;
 	}
 
@@ -254,7 +250,7 @@
 	NSInteger		newHeight = baseHeight, newWidth = baseWidth;
 
 	//Configure our account and proxy view controllers
-	accountViewController = [[inAccount.service accountViewController] retain];
+	accountViewController = [inAccount.service accountViewController];
 	[accountViewController configureForAccount:inAccount];
 
 	accountProxyController = ([inAccount.service supportsProxySettings] ?
@@ -362,7 +358,7 @@
 {
     //Close any currently open controllers
     [view_accountSetup removeAllSubviews];
-    [accountViewController release]; accountViewController = nil;
+	accountViewController = nil;
 }
 
 /*!
@@ -382,7 +378,7 @@
 #pragma mark AIImageViewWithImagePicker Delegate
 - (void)deleteInImageViewWithImagePicker:(AIImageViewWithImagePicker *)sender
 {
-	[userIconData release]; userIconData = nil;
+	userIconData = nil;
 	didDeleteUserIcon = YES;
 
 	//User icon - restore to the default icon
@@ -394,8 +390,7 @@
 
 - (void)imageViewWithImagePicker:(AIImageViewWithImagePicker *)sender didChangeToImageData:(NSData *)imageData
 {
-	[userIconData release];
-	userIconData = [imageData retain];
+	userIconData = imageData;
 	
 	if (!userIconData) {
 		//If we got a nil user icon, that means the icon was deleted

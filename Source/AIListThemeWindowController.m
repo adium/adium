@@ -62,16 +62,10 @@
 		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listThemeEditorWillCloseWithChanges:forThemeNamed:)]);
 	
 		target = inTarget;
-		themeName = [inName retain];
+		themeName = inName;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[themeName release];
-    [super dealloc];
 }
 
 #pragma mark Window Methods
@@ -95,8 +89,6 @@
 	
 	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
-	
-	[self autorelease];
 }
 
 // Cancel
@@ -552,34 +544,34 @@
 
 - (NSMenu *)displayImageStyleMenu
 {
-	NSMenu		*displayImageStyleMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*displayImageStyleMenu = [[NSMenu alloc] init];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Normal",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Normal",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AINormalBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Tile",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Tile",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AITileBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Fill",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Fill",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AIFillProportionatelyBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AIFillStretchBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	

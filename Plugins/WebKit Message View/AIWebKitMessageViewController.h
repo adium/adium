@@ -70,7 +70,7 @@
  *	@return  the ESWebView which should be inserted into the message window 
  */
 @property (readonly, nonatomic) ESWebView *messageView;
-@property (readonly, nonatomic) NSView *messageScrollView;
+@property (unsafe_unretained, readonly, nonatomic) NSView *messageScrollView;
 @property (readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
 
 /*!

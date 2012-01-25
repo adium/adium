@@ -24,7 +24,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
                      connectionIdentifier:identifier 
                               requestType:reqType
                              responseType:respType];
-    return [parser autorelease];
+    return parser;
 }
 
 
@@ -33,8 +33,8 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
      responseType:(MGTwitterResponseType)respType
 {
     if ((self = [super init])) {
-        xml = [theXML retain];
-        identifier = [theIdentifier retain];
+        xml = theXML;
+        identifier = theIdentifier;
         requestType = reqType;
         responseType = respType;
         delegate = theDelegate;
@@ -57,12 +57,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 - (void)dealloc
 {
-    [parser release];
-    [parsedObjects release];
-    [xml release];
-    [identifier release];
     delegate = nil;
-    [super dealloc];
 }
 
 
@@ -144,13 +139,12 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 
 - (NSString *)lastOpenedElement {
-    return [[lastOpenedElement retain] autorelease];
+    return lastOpenedElement;
 }
 
 
 - (void)setLastOpenedElement:(NSString *)value {
     if (lastOpenedElement != value) {
-        [lastOpenedElement release];
         lastOpenedElement = [value copy];
     }
 }

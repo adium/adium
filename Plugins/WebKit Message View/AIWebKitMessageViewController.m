@@ -109,7 +109,7 @@ static NSArray *draggedTypes = nil;
 
 + (AIWebKitMessageViewController *)messageDisplayControllerForChat:(AIChat *)inChat withPlugin:(AIWebKitMessageViewPlugin *)inPlugin
 {
-    return [[[self alloc] initForChat:inChat withPlugin:inPlugin] autorelease];
+    return [[self alloc] initForChat:inChat withPlugin:inPlugin];
 }
 
 - (id)initForChat:(AIChat *)inChat withPlugin:(AIWebKitMessageViewPlugin *)inPlugin
@@ -120,8 +120,8 @@ static NSArray *draggedTypes = nil;
 		
 		delegateProxy = [AIWebKitDelegate sharedWebKitDelegate];
 		
-		chat = [inChat retain];
-		plugin = [inPlugin retain];
+		chat = inChat;
+		plugin = inPlugin;
 		contentQueue = [[NSMutableArray alloc] init];
 		objectIconPathDict = [[NSMutableDictionary alloc] init];
 		objectsWithUserIconsArray = [[NSMutableArray alloc] init];
@@ -190,7 +190,7 @@ static NSArray *draggedTypes = nil;
 	[[webView windowScriptObject] removeWebScriptKey:@"client"];
 
 	//Release the web view
-	[webView release]; webView = nil;
+	webView = nil;
 }
 
 /*!
@@ -200,9 +200,9 @@ static NSArray *draggedTypes = nil;
 {
 	[self releaseAllCachedIcons];
 
-	[plugin release]; plugin = nil;
-	[objectsWithUserIconsArray release]; objectsWithUserIconsArray = nil;
-	[objectIconPathDict release]; objectIconPathDict = nil;
+	plugin = nil;
+	objectsWithUserIconsArray = nil;
+	objectIconPathDict = nil;
 
 	//Stop any delayed requests and remove all observers
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
@@ -210,22 +210,16 @@ static NSArray *draggedTypes = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	//Clean up style/variant info
-	[messageStyle release]; messageStyle = nil;
-	[activeStyle release]; activeStyle = nil;
-	[preferenceGroup release]; preferenceGroup = nil;
+	activeStyle = nil;
+	preferenceGroup = nil;
 	
 	//Cleanup content processing
-	[contentQueue release]; contentQueue = nil;
-	[storedContentObjects release]; storedContentObjects = nil;
-	[previousContent release]; previousContent = nil;
+	contentQueue = nil;
+	storedContentObjects = nil;
+	previousContent = nil;
 
 	//Release the chat
-	[chat release]; chat = nil;
-	
-	//Release the marked scroller
-	[self.markedScroller release];
-
-	[super dealloc];
+	chat = nil;
 }
 
 - (void)setShouldReflectPreferenceChanges:(BOOL)inValue
@@ -238,7 +232,7 @@ static NSArray *draggedTypes = nil;
 			storedContentObjects = [[NSMutableArray alloc] init];
 		}
 	} else {
-		[storedContentObjects release]; storedContentObjects = nil;
+		storedContentObjects = nil;
 	}
 }
 
@@ -355,15 +349,15 @@ static NSArray *draggedTypes = nil;
 	
 	isUpdatingWebViewForCurrentPreferences = YES;
 	dispatch_sync(webViewUpdateQueue, ^{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		//Cleanup first
-		[messageStyle autorelease]; messageStyle = nil;
-		[activeStyle release]; activeStyle = nil;
+		messageStyle = nil;
+		activeStyle = nil;
 		
 		//Load the message style
-		messageStyle = [[plugin currentMessageStyleForChat:chat] retain];
-		activeStyle = [[[messageStyle bundle] bundleIdentifier] retain];
-		preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
+		messageStyle = [plugin currentMessageStyleForChat:chat];
+		activeStyle = [[messageStyle bundle] bundleIdentifier];
+		preferenceGroup = [plugin preferenceGroupForChat:chat];
 		
 		[webView setPreferencesIdentifier:[NSString stringWithFormat:@"%@-%@",
 										   activeStyle, preferenceGroup]];
@@ -465,7 +459,7 @@ static NSArray *draggedTypes = nil;
 		
 		//Prime the webview with the new style/variant and settings, and re-insert all our content back into the view
 		[self _primeWebViewAndReprocessContent:YES];
-		[pool release];
+		}
 		isUpdatingWebViewForCurrentPreferences = NO;
 	});
 }
@@ -492,7 +486,6 @@ static NSArray *draggedTypes = nil;
 {
 	[self _primeWebViewAndReprocessContent:NO];
 	[self.markedScroller removeAllMarks];
-	[previousContent release];
 	previousContent = nil;
 	nextMessageFocus = NO;
 	nextMessageRegainedFocus = NO;
@@ -541,11 +534,10 @@ static NSArray *draggedTypes = nil;
 		//Add the old content queue back in if necessary
 		if (currentContentQueue) {
 			[contentQueue addObjectsFromArray:currentContentQueue];
-			[currentContentQueue release];
 		}
 
 		//We're still holding onto the previousContent from before, which is no longer accurate. Release it.
-		[previousContent release]; previousContent = nil;
+		previousContent = nil;
 	}
 }
 
@@ -557,7 +549,7 @@ static NSArray *draggedTypes = nil;
 - (void) setIsGroupChat:(BOOL) flag
 {
 	DOMHTMLElement *chatElement = (DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"Chat"];
-	NSMutableString *chatClassName = [[[chatElement className] mutableCopy] autorelease];
+	NSMutableString *chatClassName = [[chatElement className] mutableCopy];
 	if (flag == NO)
 		[chatClassName replaceOccurrencesOfString:@" groupchat"
 									   withString:@""
@@ -606,7 +598,7 @@ static NSArray *draggedTypes = nil;
 - (void)processQueuedContent
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		/* If the webview isn't ready, assume we have at least one piece of content left to display */
 		NSUInteger	contentQueueCount = 1;
 		NSUInteger	objectsAdded = 0;
@@ -653,7 +645,7 @@ static NSArray *draggedTypes = nil;
 				[self processQueuedContent];
 			});
 		}
-		[pool release];
+		}
 	});
 }
 
@@ -674,16 +666,15 @@ static NSArray *draggedTypes = nil;
 		
 		__block NSString *dateMessage;
 		[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
-			dateMessage = [[dateFormatter stringFromDate:content.date] retain];
+			dateMessage = [dateFormatter stringFromDate:content.date];
 		}];
-		[dateMessage autorelease];
 		
 		dateSeparator = [AIContentEvent statusInChat:content.chat
 										  withSource:content.chat.listObject
 										 destination:content.chat.account
 												date:content.date
-											 message:[[[NSAttributedString alloc] initWithString:dateMessage
-																					  attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
+											 message:[[NSAttributedString alloc] initWithString:dateMessage
+																					  attributes:[adium.contentController defaultFormattingAttributes]]
 											withType:@"date_separator"];
 
 		if ([content isKindOfClass:[AIContentContext class]])
@@ -694,7 +685,7 @@ static NSArray *draggedTypes = nil;
 					 similar:NO
 			willAddMoreContentObjects:YES
 		  replaceLastContent:NO];
-		[previousContent release]; previousContent = [dateSeparator retain];
+		previousContent = dateSeparator;
 	}
 	
 	BOOL similar = (previousContent && [content isSimilarToContent:previousContent] && ![content isKindOfClass:[ESFileTransfer class]]);
@@ -748,8 +739,6 @@ static NSArray *draggedTypes = nil;
 					[classes removeObject:@"lastFocus"];
 					
 					node.className = [classes componentsJoinedByString:@" "];
-					
-					[classes release];
 				}
 			}
 		}
@@ -772,7 +761,7 @@ static NSArray *draggedTypes = nil;
 		  replaceLastContent:replaceLastContent];
 	}
 
-	[previousContent release]; previousContent = [content retain];
+	previousContent = content;
 }
 
 /*!
@@ -852,7 +841,7 @@ static NSArray *draggedTypes = nil;
  */
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
-	NSMutableArray *webViewMenuItems = [[defaultMenuItems mutableCopy] autorelease];
+	NSMutableArray *webViewMenuItems = [defaultMenuItems mutableCopy];
 	AIListContact	*chatListObject = chat.listObject.parentContact;
 	NSMenuItem		*menuItem;
 
@@ -890,14 +879,12 @@ static NSArray *draggedTypes = nil;
 									   keyEquivalent:@""
 								   representedObject:imageURL];
 		[webViewMenuItems addObject:menuItem];
-		[menuItem release];
 		menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Save Image As", nil) stringByAppendingEllipsis]
 											  target:self
 											  action:@selector(saveImageAs:)
 									   keyEquivalent:@""
 								   representedObject:imageURL];
 		[webViewMenuItems addObject:menuItem];
-		[menuItem release];		
 		
 		/*
 		NSString *imgClass = [img className];
@@ -967,7 +954,6 @@ static NSArray *draggedTypes = nil;
 										  action:@selector(clearView)
 								   keyEquivalent:@""];
 	[webViewMenuItems addObject:menuItem];
-	[menuItem release];
 	
 	return webViewMenuItems;
 }
@@ -1143,7 +1129,7 @@ static NSArray *draggedTypes = nil;
 	}
 
 	//Remove the cache for any object no longer in the chat
-	for (AIListObject *listObject in [[objectsWithUserIconsArray copy] autorelease]) {
+	for (AIListObject *listObject in [objectsWithUserIconsArray copy]) {
 		if ((![listObject isKindOfClass:[AIMetaContact class]] || (![participatingListObjects firstObjectCommonWithArray:[(AIMetaContact *)listObject containedObjects]])) &&
 			(![listObject isKindOfClass:[AIListContact class]] || ![participatingListObjects containsObjectIdenticalTo:(AIListContact *)listObject]) &&
 			!(listObject == chat.account)) {
@@ -1269,7 +1255,7 @@ static NSArray *draggedTypes = nil;
  */
 - (void)releaseAllCachedIcons
 {
-	for (AIListObject *listObject in [[objectsWithUserIconsArray copy] autorelease]) {
+	for (AIListObject *listObject in [objectsWithUserIconsArray copy]) {
 		[self releaseCurrentWebKitUserIconForObject:listObject];
 	}
 }
@@ -1295,7 +1281,7 @@ static NSArray *draggedTypes = nil;
 		//If that's not the case, try using the UserIconPath
 		NSString *userIconPath = [iconSourceObject valueForProperty:@"UserIconPath"];
 		if (userIconPath)
-			userIcon = [[[NSImage alloc] initWithContentsOfFile:userIconPath] autorelease];
+			userIcon = [[NSImage alloc] initWithContentsOfFile:userIconPath];
 	}
 
 	if (userIcon) {
@@ -1303,7 +1289,7 @@ static NSArray *draggedTypes = nil;
 			//Apply the mask if the style has one
 			AILogWithSignature(@"Masking %@'s icon", inObject);
 			//XXX Using multiple styles at once, one of which has a user icon mask, would lead to odd behavior
-			webKitUserIcon = [[[messageStyle userIconMask] copy] autorelease];
+			webKitUserIcon = [[messageStyle userIconMask] copy];
 			[webKitUserIcon lockFocus];
 			[userIcon drawInRect:NSMakeRect(0,0,[webKitUserIcon size].width,[webKitUserIcon size].height)
 						fromRect:NSMakeRect(0,0,[userIcon size].width,[userIcon size].height)
@@ -1524,7 +1510,7 @@ static NSArray *draggedTypes = nil;
 	if( scroller && ! [scroller isMemberOfClass:[JVMarkedScroller class]] ) {
 		NSRect scrollerFrame = [[scrollView verticalScroller] frame];
 		NSScroller *oldScroller = scroller;
-		scroller = [[[JVMarkedScroller alloc] initWithFrame:scrollerFrame] autorelease];
+		scroller = [[JVMarkedScroller alloc] initWithFrame:scrollerFrame];
 		[scroller setFloatValue:oldScroller.floatValue];
 		[scroller setKnobProportion:oldScroller.knobProportion];
 		[scrollView setVerticalScroller:scroller];
@@ -1565,8 +1551,6 @@ static NSArray *draggedTypes = nil;
 		[classes removeObject:@"lastFocus"];
 		
 		node.className = [classes componentsJoinedByString:@" "];
-		
-		[classes release];
 	}
 	
 	// Also remove .regainedFocus. By definition this should _not_ have class .focus too, so make a new list
@@ -1580,8 +1564,6 @@ static NSArray *draggedTypes = nil;
 		[classes removeObject:@"regainedFocus"];
 		
 		node.className = [classes componentsJoinedByString:@" "];
-		
-		[classes release];
 	}
 	
 }
@@ -1656,7 +1638,7 @@ static NSArray *draggedTypes = nil;
 
 - (BOOL)zoomImage:(DOMHTMLImageElement *)img
 {
-	NSMutableString *className = [[[img className] mutableCopy] autorelease];
+	NSMutableString *className = [[img className] mutableCopy];
 	if ([className rangeOfString:@"fullSizeImage"].location != NSNotFound)
 		[className replaceOccurrencesOfString:@"fullSizeImage"
 								   withString:@"scaledToFitImage"

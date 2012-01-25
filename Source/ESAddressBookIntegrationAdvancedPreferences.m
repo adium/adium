@@ -133,14 +133,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[super dealloc];
-}
-
-/*!
  * @brief Configure control dimming
  */
 - (void)configureControlDimming
@@ -345,7 +337,7 @@
 
 - (NSMenu *)tokenField:(NSTokenField *)tokenField menuForRepresentedObject:(id)representedObject
 {
-	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	NSMenu *menu = [[NSMenu alloc] init];
 	
 	if (!representedObject)
 		return nil;

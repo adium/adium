@@ -97,9 +97,9 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName contactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount
 {
     if ((self = [super initWithWindowNibName:windowNibName])) {
-		service = [inService retain];
-		initialAccount = [inAccount retain];
-		contactName = [inName retain];
+		service = inService;
+		initialAccount = inAccount;
+		contactName = inName;
 		person = nil;
 	}
 	
@@ -111,16 +111,7 @@
  */
 - (void)dealloc
 {
-	[accounts release];
-	[contactName release];
-	[service release];
-	[initialAccount release];
-	[person release];
-	[checkedAccounts release];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 /*!
@@ -248,8 +239,8 @@
 - (IBAction)searchInAB:(id)sender
 {
 	OWABSearchWindowController *abSearchWindow;
-	abSearchWindow = [[OWABSearchWindowController promptForNewPersonSearchOnWindow:[self window]
-																	initialService:service] retain];
+	abSearchWindow = [OWABSearchWindowController promptForNewPersonSearchOnWindow:[self window]
+																	initialService:service];
 	[abSearchWindow setDelegate:self];
 }
 
@@ -276,14 +267,12 @@
 			[self selectServiceType:nil];
 		}
 		
-		[person release];
-		person = [selectedPerson retain];
+		person = selectedPerson;
 		
 		[self configureControlDimming];
 	}
 	
 	//Clean up
-	[controller release];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification
@@ -371,8 +360,7 @@
 - (void)_setServiceType:(AIService *)inService
 {
 	if (inService != service) {
-		[service release];
-		service = [inService retain];
+		service = inService;
 	}
 }
 
@@ -492,10 +480,8 @@
  */
 - (void)updateAccountList
 {	
-	[accounts release];
-	accounts = [[adium.accountController accountsCompatibleWithService:service] retain];
+	accounts = [adium.accountController accountsCompatibleWithService:service];
 	
-	[checkedAccounts release];
 	checkedAccounts = [[NSMutableSet alloc] init];
 
 	if (initialAccount && [accounts containsObject:initialAccount]) {

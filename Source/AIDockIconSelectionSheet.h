@@ -25,12 +25,12 @@
 	IBOutlet NSButton *__unsafe_unretained okButton;
     
 	NSMutableArray *icons;
-	NSMutableArray *iconsData;
+	NSMutableArray *__unsafe_unretained iconsData;
 		
 	// Currently animated icon state and its index
-    AIIconState *animatedIconState;
+    AIIconState *__unsafe_unretained animatedIconState;
 	NSInteger animatedIndex;
-	NSTimer *animationTimer;
+	NSTimer *__unsafe_unretained animationTimer;
 	
 	// Previous selected icon
 	NSUInteger previousIndex;
@@ -39,10 +39,10 @@
 @property (unsafe_unretained) IBOutlet AIImageCollectionView *imageCollectionView;
 @property (unsafe_unretained) IBOutlet NSButton *okButton;
 @property (copy) NSMutableArray *icons;
-@property NSMutableArray *iconsData;
-@property AIIconState *animatedIconState;
+@property (unsafe_unretained) NSMutableArray *iconsData;
+@property (unsafe_unretained) AIIconState *animatedIconState;
 @property (assign) NSInteger animatedIndex;
-@property NSTimer *animationTimer;
+@property (unsafe_unretained) NSTimer *animationTimer;
 @property (assign) NSUInteger previousIndex;
 
 + (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow;

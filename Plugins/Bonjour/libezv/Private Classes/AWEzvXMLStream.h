@@ -38,7 +38,7 @@
 
 @interface AWEzvXMLStream : NSObject {
     XML_Parser	parser;
-    id <AWEzvXMLStreamProtocol>	delegate;
+    id <AWEzvXMLStreamProtocol>	__unsafe_unretained delegate;
     NSFileHandle *connection;
     AWEzvStack	*nodeStack;
     int		initiator, negotiated;
@@ -50,7 +50,7 @@
 - (void) sendData:(NSData *)data;
 - (void) sendString:(NSString *)string;
 - (void) endConnection;
-@property (assign, readwrite, nonatomic) id<AWEzvXMLStreamProtocol> delegate;
+@property (unsafe_unretained, readwrite, nonatomic) id<AWEzvXMLStreamProtocol> delegate;
 
 /* Private methods: used by private implementation, do NOT use these methods */
 - (void) xmlStartElement:(const XML_Char *)name attributes:(const XML_Char **)attributes;

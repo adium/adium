@@ -29,8 +29,8 @@
 	
 	// Adium OAuth Additions
 	BOOL _useOAuth;
-	OAToken *_accessToken;
-	OAConsumer *_consumer;
+	OAToken *__unsafe_unretained _accessToken;
+	OAConsumer *__unsafe_unretained _consumer;
 }
 
 // Constructors
@@ -137,6 +137,6 @@
 
 // Adium OAuth additions
 @property (readwrite, nonatomic) BOOL useOAuth;
-@property (readwrite, nonatomic, retain) OAConsumer *consumer;
-@property (readwrite, nonatomic, retain) OAToken *accessToken;
+@property (unsafe_unretained, readwrite, nonatomic) OAConsumer *consumer;
+@property (unsafe_unretained, readwrite, nonatomic) OAToken *accessToken;
 @end

@@ -93,10 +93,10 @@
 																			   keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_addContactContext toLocation:Context_Group_Manage];
 	
-	menuItem_tabAddContact = [[[NSMenuItem alloc] initWithTitle:ADD_CONTACT_ELLIPSIS
+	menuItem_tabAddContact = [[NSMenuItem alloc] initWithTitle:ADD_CONTACT_ELLIPSIS
 																				   target:self 
 																				   action:@selector(addContactFromTab:)
-																			keyEquivalent:@""] autorelease];
+																			keyEquivalent:@""];
     [adium.menuController addContextualMenuItem:menuItem_tabAddContact toLocation:Context_Contact_Stranger_ChatAction];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self 
@@ -118,10 +118,10 @@
 																	keyEquivalent:@"\b"];
     [adium.menuController addMenuItem:menuItem_delete toLocation:LOC_Contact_Manage];
 
-	menuItem = [[[NSMenuItem alloc] initWithTitle:DELETE_CONTACT_CONTEXT_ELLIPSIS
+	menuItem = [[NSMenuItem alloc] initWithTitle:DELETE_CONTACT_CONTEXT_ELLIPSIS
 																	 target:self
 																	 action:@selector(deleteSelectionFromTab:) 
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_Contact_NegativeAction];
 	
 	//Add Contact toolbar item
@@ -306,7 +306,7 @@
 	
 	NSString *message = nil;
 
-	/* XXX Should allow the account to determine if the message will indicate the group is just hidden, not deleted, Ã¡ la Twitter */
+	/* XXX Should allow the account to determine if the message will indicate the group is just hidden, not deleted, ‡ la Twitter */
 	if (array.count == 1) {
 		AIListObject *listObject = [[array objectAtIndex:0] objectForKey:@"ListObject"];
 		AIListObject <AIContainingObject> *containingObject = [[array objectAtIndex:0] objectForKey:@"ContainingObject"];

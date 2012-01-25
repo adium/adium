@@ -39,22 +39,13 @@
  */
 - (void)installPlugin
 {
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountOptionsSubmenu showTitleVerbs:YES] retain];
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountOptionsSubmenu showTitleVerbs:YES];
 	
 	NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Connect a Guest Account", "Menu item title which opens the window for adding and connecting a guest (temporary) account") stringByAppendingEllipsis]
 													   target:self
 													   action:@selector(showGuestAccountWindow:)
 												keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_File_Additions];
-	[menuItem release];
-}
-
-/*!
- * @brief Uninstall Plugin
- */
-- (void)uninstallPlugin
-{
-	[accountMenu release];
 }
 
 /*!
@@ -79,8 +70,7 @@
     }
 	
 	//Remember the installed items so we can remove them later
-	[installedMenuItems release]; 
-	installedMenuItems = [menuItems retain];
+	installedMenuItems = menuItems;
 }
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount {
 	[inAccount toggleOnline];
@@ -103,7 +93,7 @@
 																				action:@selector(connectAllAccounts:)
 																		 keyEquivalent:@"R"];
 	[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
-	return [menuItem autorelease];
+	return menuItem;
 }
 
 /*!

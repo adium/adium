@@ -161,7 +161,7 @@
     
     if (textLimitConfigDownload) {
         [textLimitConfigDownload cancel];
-        [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+        textLimitConfigDownload = nil;
     }
     
     textLimitConfigDownload = [[NSURLConnection alloc] initWithRequest:configRequest delegate:self];
@@ -197,8 +197,8 @@
         if (err != nil)
             AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
 	
-		[configData release]; configData = nil;
-		[textLimitConfigDownload release]; textLimitConfigDownload = nil;
+		configData = nil;
+		textLimitConfigDownload = nil;
     }
 }
 
@@ -207,9 +207,9 @@
  */
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+	textLimitConfigDownload = nil;
     
-    [configData release]; configData = nil;
+    configData = nil;
     
     AILogWithSignature(@"%@",[NSString stringWithFormat:@"Fetch failed: %@", [error localizedDescription]]);
 }
@@ -260,9 +260,7 @@
 		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
 		
-		groupCharacters = [[disallowedCharacters invertedSet] retain];
-		
-		[disallowedCharacters release];	
+		groupCharacters = [disallowedCharacters invertedSet];
 	}
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString

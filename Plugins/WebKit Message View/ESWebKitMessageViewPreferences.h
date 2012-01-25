@@ -65,7 +65,7 @@
  */
 - (IBAction)resetDisplayFontToDefault:(id)sender;
 
-@property (readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
+@property (unsafe_unretained, readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
 @property (readonly, nonatomic) AIWebkitStyleType currentTab;
 
 @end

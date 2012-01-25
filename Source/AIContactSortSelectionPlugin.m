@@ -64,9 +64,9 @@
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
-	[AISortController registerSortController:[[[AIAlphabeticalSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[ESStatusSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[AIManualSort alloc] init] autorelease]];
+	[AISortController registerSortController:[[AIAlphabeticalSort alloc] init]];
+	[AISortController registerSortController:[[ESStatusSort alloc] init]];
+	[AISortController registerSortController:[[AIManualSort alloc] init]];
 }
 
 /*!
@@ -74,8 +74,7 @@
  */
 - (void)dealloc
 {
-	[menuItem_configureSort release]; menuItem_configureSort = nil;
-	[super dealloc];
+	menuItem_configureSort = nil;
 }
 
 /*!
@@ -120,16 +119,16 @@
     NSMenu				*sortSelectionMenu;
 	
     //Create the menu
-    sortSelectionMenu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+    sortSelectionMenu = [[NSMenu alloc] initWithTitle:@""];
 	
 	//Add each sort controller
 	for (AISortController *controller in [AISortController availableSortControllers]) {
 		NSMenuItem			*menuItem;
 
-		menuItem = [[[NSMenuItem alloc] initWithTitle:controller.displayName
+		menuItem = [[NSMenuItem alloc] initWithTitle:controller.displayName
 																		 target:self
 																		 action:@selector(changedSortSelection:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:controller];
 		
 		//Add the menu item

@@ -40,7 +40,7 @@
 	NSFileHandle	*listenSocket;
 	NSMutableDictionary *contacts;
 
-	AWEzv		*client;
+	AWEzv		*__unsafe_unretained client;
 	int			isConnected;
 
 	/* Listener related instance variables */
@@ -67,7 +67,7 @@
 
 - (AWEzvContact *)contactForIdentifier:(NSString *)uniqueID;
 
-@property (readonly, nonatomic) AWEzv *client;
+@property (unsafe_unretained, readonly, nonatomic) AWEzv *client;
 
 - (void)closeConnections;
 @end

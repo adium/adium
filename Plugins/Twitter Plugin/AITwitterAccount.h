@@ -164,23 +164,23 @@ typedef enum {
 	NSMutableDictionary	*pendingRequests;
 }
 
-@property (readonly, nonatomic) NSString *timelineChatName;
-@property (readonly, nonatomic) NSString *timelineGroupName;
-@property (readonly, nonatomic) NSString *apiPath;
-@property (readonly, nonatomic) NSString *sourceToken;
-@property (readonly, nonatomic) NSString *defaultServer;
+@property (unsafe_unretained, readonly, nonatomic) NSString *timelineChatName;
+@property (unsafe_unretained, readonly, nonatomic) NSString *timelineGroupName;
+@property (unsafe_unretained, readonly, nonatomic) NSString *apiPath;
+@property (unsafe_unretained, readonly, nonatomic) NSString *sourceToken;
+@property (unsafe_unretained, readonly, nonatomic) NSString *defaultServer;
 
 @property (readonly, nonatomic) int maxChars;
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) BOOL supportsCursors;
-@property (readonly, nonatomic) NSString *consumerKey;
-@property (readonly, nonatomic) NSString *secretKey;
-@property (readonly, nonatomic) NSString *tokenRequestURL;
-@property (readonly, nonatomic) NSString *tokenAccessURL;
-@property (readonly, nonatomic) NSString *tokenAuthorizeURL;
+@property (unsafe_unretained, readonly, nonatomic) NSString *consumerKey;
+@property (unsafe_unretained, readonly, nonatomic) NSString *secretKey;
+@property (unsafe_unretained, readonly, nonatomic) NSString *tokenRequestURL;
+@property (unsafe_unretained, readonly, nonatomic) NSString *tokenAccessURL;
+@property (unsafe_unretained, readonly, nonatomic) NSString *tokenAuthorizeURL;
 
-@property (readonly, nonatomic) AIChat *timelineChat;
+@property (unsafe_unretained, readonly, nonatomic) AIChat *timelineChat;
 
 - (NSString *)errorMessageForError:(NSError *)error;
 

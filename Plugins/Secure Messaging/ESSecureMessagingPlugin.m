@@ -64,11 +64,11 @@
 - (void)installPlugin
 {
 	//Muy imporatante: Set OTR as our encryption method
-	[adium.contentController setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
+	[adium.contentController setEncryptor:[[AdiumOTREncryption alloc] init]];
 
 	_secureMessagingMenu = nil;
-	lockImage_Locked = [[NSImage imageNamed:@"Lock_Locked State" forClass:[self class]] retain];
-	lockImage_Unlocked = [[NSImage imageNamed:@"Lock_Unlocked State" forClass:[self class]] retain];
+	lockImage_Locked = [NSImage imageNamed:@"Lock_Locked State" forClass:[self class]];
+	lockImage_Unlocked = [NSImage imageNamed:@"Lock_Unlocked State" forClass:[self class]];
 
 	[self registerToolbarItem];
 	[self configureMenuItems];
@@ -120,7 +120,7 @@
 	//Register our toolbar item
 	NSToolbarItem	*toolbarItem;
 	MVMenuButton	*button;
-	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)] autorelease];
+	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
 	[button setImage:lockImage_Locked];
 
     toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:@"Encryption"
@@ -162,7 +162,7 @@
 		[[item view] setMenu:menu];
 		
 		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[[NSMenuItem alloc] init] autorelease];
+		NSMenuItem	*mItem = [[NSMenuItem alloc] init];
 		[mItem setSubmenu:menu];
 		[mItem setTitle:[menu title]];
 		[item setMenuFormRepresentation:mItem];
@@ -448,46 +448,46 @@
 		_secureMessagingMenu = [[NSMenu alloc] init];
 		[_secureMessagingMenu setTitle:TITLE_ENCRYPTION];
 
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_MAKE_SECURE
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_MAKE_SECURE
 										   target:self
 										   action:@selector(toggleSecureMessaging:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Toggle];
 		[_secureMessagingMenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_SHOW_DETAILS
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_SHOW_DETAILS
 										   target:self
 										   action:@selector(showDetails:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_ShowDetails];
 		[_secureMessagingMenu addItem:item];
 
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
 										   target:self
 										   action:@selector(verify:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Verify];
 		[_secureMessagingMenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
 										   target:nil
 										   action:nil
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Options];
 		[item setSubmenu:[adium.contentController encryptionMenuNotifyingTarget:self
 																	  withDefault:YES]];
 		[_secureMessagingMenu addItem:item];		
 
 		[_secureMessagingMenu addItem:[NSMenuItem separatorItem]];
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_ABOUT_ENCRYPTION
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_ABOUT_ENCRYPTION
 										   target:self
 										   action:@selector(showAbout:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_ShowAbout];
 		[_secureMessagingMenu addItem:item];
 	}
 	
-	return [[_secureMessagingMenu copy] autorelease];
+	return [_secureMessagingMenu copy];
 }
 
 - (void)dummyAction:(id)sender {};

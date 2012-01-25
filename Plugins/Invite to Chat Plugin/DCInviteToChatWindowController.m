@@ -71,12 +71,10 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 //Dealloc
 - (void)dealloc
 {    
-	[contact release]; contact = nil;
-	[service release]; service = nil;
-	[chat release]; chat = nil;
-	[contactMenu release];
+	contact = nil;
+	service = nil;
+	chat = nil;
 
-	[super dealloc];
 }
 
 //Setup the window before it is displayed
@@ -111,8 +109,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 	[self window];
 		
 	//Configure the contact menu (primarily for handling metacontacts)
-	[contactMenu release];
-    contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:contact] retain];
+    contactMenu = [AIContactMenu contactMenuWithDelegate:self forContactsInObject:contact];
 
 	if ([contact isKindOfClass:[AIMetaContact class]]) {
 		[menu_contacts selectItemWithRepresentedObject:[(AIMetaContact *)contact preferredContactWithCompatibleService:service]];
@@ -134,8 +131,8 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 	[self setContact:inContact];
 	
 	if (chat != inChat) {
-		[chat release]; chat = [inChat retain];
-		[service release]; service = [chat.account.service retain];
+		chat = inChat;
+		service = chat.account.service;
 	}
 	
 	[self configureForChatAndContact];
@@ -144,7 +141,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 - (void)setContact:(AIListContact *)inContact
 {	
 	if (contact != inContact) {
-		[contact release]; contact = [inContact retain];
+		contact = inContact;
 	}
 }
 
@@ -155,7 +152,6 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 	[super windowWillClose:sender];
 	
 	sharedInviteToChatInstance = nil;
-    [self autorelease]; //Close the shared instance
 }
 
 //Close this window

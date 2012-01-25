@@ -158,7 +158,7 @@ typedef enum {
  * This is only a store; if it is changed, the changing object is responsible for making
  * any appropriate calls to update the display
  */
-@property (nonatomic, retain) NSString *activeVariant;
+@property (nonatomic) NSString *activeVariant;
 
 /*!
  *	Returns YES if this style is considered legacy
@@ -255,7 +255,7 @@ typedef enum {
 /*!
  * @brief The style's sender colors
  */
-@property (readonly, nonatomic) NSArray *validSenderColors;
+@property (unsafe_unretained, readonly, nonatomic) NSArray *validSenderColors;
 
 //Behavior
 /*!
@@ -301,7 +301,7 @@ typedef enum {
 /*!
  *	@brief Set the custom background color
  */
-@property (readwrite, retain, nonatomic) NSColor *customBackgroundColor;
+@property (readwrite, nonatomic) NSColor *customBackgroundColor;
 
 /*!
  *	@brief Toggle visibility of received coloring

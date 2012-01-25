@@ -119,15 +119,14 @@
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[previewListObjectsDict release]; previewListObjectsDict = nil;
+	previewListObjectsDict = nil;
 
 	[previewController messageViewIsClosing];
-	[previewController release]; previewController = nil;
+	previewController = nil;
 	[view_previewLocation setFrame:[preview frame]];
 	[[preview superview] replaceSubview:preview with:view_previewLocation];	
-	[preview release]; preview = nil;
+	preview = nil;
 	//Matches the retain performed in -[ESWebKitMessageViewPreferences _configureChatPreview]
-	[view_previewLocation release];
 
 	viewIsOpen = NO;
 }
@@ -254,7 +253,7 @@
 		NSData	*backgroundImage = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:style]
 																		   group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 		if (backgroundImage) {
-			[imageView_backgroundImage setImage:[[[NSImage alloc] initWithData:backgroundImage] autorelease]];
+			[imageView_backgroundImage setImage:[[NSImage alloc] initWithData:backgroundImage]];
 		} else {
 			[imageView_backgroundImage setImage:nil];
 		}
@@ -459,7 +458,6 @@
 																 keyEquivalent:@""];
 		[menuItem setRepresentedObject:[style bundleIdentifier]];
 		[menuItemArray addObject:menuItem];
-		[menuItem release];
 	}
 	
 	[menuItemArray sortUsingSelector:@selector(titleCompare:)];
@@ -468,7 +466,7 @@
 		[menu addItem:menuItem];
 	}
 	
-	return [menu autorelease];
+	return menu;
 }
 
 /*! 
@@ -487,7 +485,7 @@
 			 representedObject:variant];
 	}
 
-	return [menu autorelease];
+	return menu;
 }
 
 /*!
@@ -503,7 +501,7 @@
 	[self _addBackgroundImageTypeChoice:BackgroundTileCenter toMenu:menu withTitle:AILocalizedString(@"Tiled (Centered)","Background image display preference: The image will be tiled and centered in the window")];
 	[self _addBackgroundImageTypeChoice:BackgroundScale toMenu:menu withTitle:AILocalizedString(@"Scaled", "Background image display preference: The image will be increased or decreased in size to fit the window")];
 			
-	return [menu autorelease];
+	return menu;
 }
 - (void)_addBackgroundImageTypeChoice:(NSInteger)tag toMenu:(NSMenu *)menu withTitle:(NSString *)title
 {
@@ -512,7 +510,6 @@
 																		  keyEquivalent:@""];
 	[menuItem setTag:tag];
 	[menu addItem:menuItem];
-	[menuItem release];
 }
 
 
@@ -535,8 +532,8 @@
 	
 	NSDictionary *listObjects;
 	previewChat = [self previewChatWithDictionary:previewDict fromPath:previewPath listObjects:&listObjects];
-	previewController = [(AIWebKitPreviewMessageViewController *)[AIWebKitPreviewMessageViewController messageDisplayControllerForChat:previewChat
-																					withPlugin:plugin] retain];
+	previewController = (AIWebKitPreviewMessageViewController *)[AIWebKitPreviewMessageViewController messageDisplayControllerForChat:previewChat
+																					withPlugin:plugin];
 
 	//Enable live refreshing of our preview
 	[previewController setShouldReflectPreferenceChanges:YES];	
@@ -544,13 +541,11 @@
 	
 	//Add fake users and content to our chat
 	[self _fillContentOfChat:previewChat withDictionary:previewDict fromPath:previewPath listObjects:listObjects];
-	[previewDict release];
 	
 	//Place the preview chat in our view
-	preview = [[previewController messageView] retain];
+	preview = [previewController messageView];
 	[preview setFrame:[view_previewLocation frame]];
 	//Will be released in viewWillClose
-	[view_previewLocation retain];
 	[[view_previewLocation superview] replaceSubview:view_previewLocation with:preview];
 
 	//Disable drag and drop onto the preview chat - Jeff doesn't need your porn :)
@@ -621,7 +616,6 @@
 		}
 		
 		[listObjectDict setObject:listContact forKey:UID];
-		[listContact release];
 	}
 	
 	return listObjectDict;

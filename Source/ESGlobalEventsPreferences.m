@@ -138,7 +138,7 @@
 - (void)viewWillClose
 {
 	[contactAlertsViewController viewWillClose];
-	[contactAlertsViewController release]; contactAlertsViewController = nil;
+	contactAlertsViewController = nil;
 
 	[adium.preferenceController unregisterPreferenceObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -213,10 +213,10 @@
 		NSString		*name = [eventPreset objectForKey:@"Name"];
 		
 		//Add a menu item for the set
-		menuItem = [[[NSMenuItem alloc] initWithTitle:[self _localizedTitle:name]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[self _localizedTitle:name]
 																		 target:self
 																		 action:@selector(selectEventPreset:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:eventPreset];
 		[eventPresetsMenu addItem:menuItem];
 	}
@@ -230,10 +230,10 @@
 			NSString		*name = [eventPreset objectForKey:@"Name"];
 			
 			//Add a menu item for the set
-			menuItem = [[[NSMenuItem alloc] initWithTitle:name
+			menuItem = [[NSMenuItem alloc] initWithTitle:name
 																			 target:self
 																			 action:@selector(selectEventPreset:)
-																	  keyEquivalent:@""] autorelease];
+																	  keyEquivalent:@""];
 			[menuItem setRepresentedObject:eventPreset];
 			[eventPresetsMenu addItem:menuItem];
 		}
@@ -242,19 +242,19 @@
 	//Edit Presets
 	[eventPresetsMenu addItem:[NSMenuItem separatorItem]];
 
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Preset",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Preset",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(addNewPreset:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[eventPresetsMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Presets",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Presets",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(editPresets:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[eventPresetsMenu addItem:menuItem];
 		
-	return [eventPresetsMenu autorelease];
+	return eventPresetsMenu;
 }
 
 - (void)selectActiveEventInPopUp
@@ -346,7 +346,7 @@
 - (NSArray *)renamePreset:(NSDictionary *)preset toName:(NSString *)newName inPresets:(NSArray *)presets renamedPreset:(id *)renamedPreset
 {
 	NSString				*oldPresetName = [preset objectForKey:@"Name"];
-	NSMutableDictionary		*newPreset = [[preset mutableCopy] autorelease];
+	NSMutableDictionary		*newPreset = [preset mutableCopy];
 	NSString				*localizedCurrentName = [self _localizedTitle:[adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																												   group:PREF_GROUP_EVENT_PRESETS]];
 	[newPreset setObject:newName
@@ -383,10 +383,9 @@
 	[plugin saveEventPreset:newEventPreset];
 
 	//Return the created duplicate by reference
-	if (duplicatePreset != NULL) *duplicatePreset = [[newEventPreset retain] autorelease];
+	if (duplicatePreset != NULL) *duplicatePreset = newEventPreset;
 	
 	//Cleanup
-	[newEventPreset release];
 
 	//Return an updated presets array
 	return [plugin storedEventPresetsArray];
@@ -422,8 +421,7 @@
 			 
 	//Now save the new preset
 	[plugin saveEventPreset:newEventPreset];
-	if (presetAfterMove != NULL) *presetAfterMove = [[newEventPreset retain] autorelease];
-	[newEventPreset release];
+	if (presetAfterMove != NULL) *presetAfterMove = newEventPreset;
 
 	//Return an updated presets array
 	return [plugin storedEventPresetsArray];
@@ -562,7 +560,7 @@
 - (NSMutableDictionary *)currentEventSetForSaving
 {
 	NSDictionary		*eventPreset = [[popUp_eventPreset selectedItem] representedObject];
-	NSMutableDictionary	*currentEventSetForSaving = [[eventPreset mutableCopy] autorelease];
+	NSMutableDictionary	*currentEventSetForSaving = [eventPreset mutableCopy];
 	
 	//Set the sound set, which is just stored here for ease of preference pane display
 	NSString			*soundSetName = [[[popUp_soundSet selectedItem] representedObject] name];
@@ -770,7 +768,6 @@
 
 		} else {
 			[menuItemArray addObject:menuItem];
-			[menuItem release];
 		}
 	}
 	
@@ -783,10 +780,9 @@
 	if (noneMenuItem) {
 		[soundSetMenu addItem:[NSMenuItem separatorItem]];
 		[soundSetMenu addItem:noneMenuItem];
-		[noneMenuItem release];
 	}
 	
-    return [soundSetMenu autorelease];
+    return soundSetMenu;
 }
 
 #pragma mark Common menu methods

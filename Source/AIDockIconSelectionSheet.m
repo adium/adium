@@ -59,10 +59,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	icons = nil;
-	iconsData = nil;
-	animatedIconState = nil;
-	animationTimer = nil;
 }
 
 // Setup our preference view
