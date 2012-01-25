@@ -37,7 +37,7 @@
 		FriBidiCharType type;
 		
 		// Get a single character
-		uch = (UTF16)CFStringGetCharacterAtIndex((CFStringRef)self, i);
+		uch = (UTF16)CFStringGetCharacterAtIndex((__bridge CFStringRef)self, i);
 		u = &uch;
 		f = &fch;
 		
