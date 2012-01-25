@@ -77,17 +77,16 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 
 	accountColumnsVisible = YES;
-	[accountCol retain];
 
 	listContents = [[NSMutableArray alloc] init];
 
 	[stateChooser setMenu:[self privacyOptionsMenu]];
 
-	[[table tableColumnWithIdentifier:@"icon"] setDataCell:[[[NSImageCell alloc] init] autorelease]];
+	[[table tableColumnWithIdentifier:@"icon"] setDataCell:[[NSImageCell alloc] init]];
 	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 	[table registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListObject", @"AIListObjectUniqueIDs",nil]];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -110,22 +109,12 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[sharedInstance release]; sharedInstance = nil;
+	sharedInstance = nil;
 }
 
 - (NSString *)adiumFrameAutosaveName
 {
 	return @"PrivacyWindow";
-}
-
-- (void)dealloc
-{
-	[accountCol release];
-	[accountMenu release];
-	[listContents release];
-	[listContentsAllAccounts release];
-	
-	[super dealloc];
 }
 
 - (NSMutableArray*)listContents
@@ -136,7 +125,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (void)setListContents:(NSArray*)newList
 {
 	if (newList != listContents) {
-		[listContents release];
 		listContents = [newList mutableCopy];
 	}
 }
@@ -175,9 +163,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 {
 	[field setStringValue:@""];
 	
-	sheetAccountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	sheetAccountMenu = [AIAccountMenu accountMenuWithDelegate:self
 												   submenuType:AIAccountNoSubmenu
-												showTitleVerbs:NO] retain];
+												showTitleVerbs:NO];
 	[self selectAccountInSheet:[[popUp_sheetAccounts selectedItem] representedObject]];
 	
 	[NSApp beginSheet:sheet 
@@ -227,7 +215,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (void)didEndSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	[sheetAccountMenu release]; sheetAccountMenu = nil;
+	sheetAccountMenu = nil;
     [theSheet orderOut:self];
 }
 
@@ -386,28 +374,24 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 								   keyEquivalent:@""];
 	[menuItem setTag:AIPrivacyOptionAllowAll];
 	[stateMenu addItem:menuItem];
-	[menuItem release];
 
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow only contacts on my contact list", nil) 
 										  action:NULL
 								   keyEquivalent:@""];
 	[menuItem setTag:AIPrivacyOptionAllowContactList];
 	[stateMenu addItem:menuItem];
-	[menuItem release];
 
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow only certain contacts", nil) 
 										  action:NULL
 								   keyEquivalent:@""];
 	[menuItem setTag:AIPrivacyOptionAllowUsers];
 	[stateMenu addItem:menuItem];
-	[menuItem release];
 
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Block certain contacts", nil) 
 										  action:NULL
 								   keyEquivalent:@""];
 	[menuItem setTag:AIPrivacyOptionDenyUsers];
 	[stateMenu addItem:menuItem];
-	[menuItem release];
 
 	/*
 	tmpItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Custom settings for each account", nil) action:NULL keyEquivalent:@""];
@@ -415,7 +399,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[stateMenu addItem:[tmpItem autorelease]];
 	*/
 
-	return [stateMenu autorelease];
+	return stateMenu;
 }
 
 - (AIPrivacyOption)selectedPrivacyOption
@@ -542,7 +526,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 													   keyEquivalent:@""];
 			[menuItem setTag:AIPrivacyOptionCustom];
 			[[stateChooser menu] addItem:menuItem];
-			[menuItem release];
 			
 			success = [stateChooser selectItemWithTag:privacyOption];
 		}
@@ -692,8 +675,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		
 		[self selectAccountInSheet:previouslySelectedAccount];
 	}
-
-	[menu release];
 }
 
 //Add the All menu item first if we have more than one account listed
@@ -706,10 +687,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				allItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"All", nil)
+				allItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"All", nil)
 													  target:self
 													  action:@selector(selectedAllAccountItem:)
-											   keyEquivalent:@""] autorelease];
+											   keyEquivalent:@""];
 				break;
 			}
 		}
@@ -784,8 +765,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[pboard setString:@"Private" forType:@"AIListObject"];
 
 	if (dragItems != inArray) {
-		[dragItems release];
-		dragItems = [inArray retain];
+		dragItems = inArray;
 	}
 	
 	return YES;

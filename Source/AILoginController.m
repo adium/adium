@@ -50,15 +50,6 @@
 
 }
 
-// Dealloc
-- (void)dealloc
-{
-    [userDirectory release];
-    [currentUser release];
-
-    [super dealloc];
-}
-
 // Prompts for a user, or automatically selects one
 - (void)requestUserNotifyingTarget:(id)inTarget selector:(SEL)inSelector
 {
@@ -90,7 +81,7 @@
 		
 		argumentIndex = [arguments indexOfObject:@"--user"];
 		if ((argumentIndex != NSNotFound) && ([arguments count] > argumentIndex + 1)) {
-			userName = [[[arguments objectAtIndex:argumentIndex+1] copy] autorelease];
+			userName = [[arguments objectAtIndex:argumentIndex+1] copy];
 		}
 	}
 
@@ -123,7 +114,7 @@
 		}
 		if (shouldShowWindow) {
 			//Prompt for the user
-			loginWindowController = [[AILoginWindowController loginWindowControllerWithOwner:self] retain];
+			loginWindowController = [AILoginWindowController loginWindowControllerWithOwner:self];
 			[loginWindowController showWindow:nil];
 			
 			//If the user always wants to see the window, disable the login timeout
@@ -156,12 +147,12 @@
     //Close the login panel
     if (loginWindowController) {
         [loginWindowController closeWindow:nil];
-        [loginWindowController release]; loginWindowController = nil;
+        loginWindowController = nil;
     }
 
     //Save the user directory
-    currentUser = [userName retain];
-    userDirectory = [[[[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS] stringByAppendingPathComponent:userName] retain];
+    currentUser = userName;
+    userDirectory = [[[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS] stringByAppendingPathComponent:userName];
     
     //Tell Adium to complete login
     [target performSelector:selector];

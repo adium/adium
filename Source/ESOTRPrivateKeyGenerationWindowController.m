@@ -62,7 +62,7 @@ static NSMutableDictionary	*keyGenerationControllerDict = nil;
 - (id)initWithWindowNibName:(NSString *)windowNibName forIdentifier:(NSString *)inIdentifier
 {
 	if ((self = [super initWithWindowNibName:windowNibName])) {
-		identifier = [inIdentifier retain];
+		identifier = inIdentifier;
 	}
 
 	return self;
@@ -83,15 +83,6 @@ static NSMutableDictionary	*keyGenerationControllerDict = nil;
 	[progressIndicator startAnimation:nil];
 	[textField_message setStringValue:
 		[NSString stringWithFormat:AILocalizedString(@"Generating private encryption key for %@",nil),identifier]];
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[identifier release];
-	[super dealloc];
 }
 
 + (void)mainThreadFinishedGeneratingForIdentifier:(NSString *)inIdentifier

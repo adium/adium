@@ -257,7 +257,7 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 + (NSImage *)supportingImageWithName:(NSString *)name {
 //	NSLog(@"supportingImageWithName: %@", name);
 	if (nil == SRSharedImageCache) {
-		SRSharedImageCache = [[NSMutableDictionary dictionary] retain];
+		SRSharedImageCache = [NSMutableDictionary dictionary];
 //		NSLog(@"inited cache");
 	}
 	NSImage *cachedImage = nil;
@@ -277,7 +277,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 //	NSLog(@"created customImageRep: %@", customImageRep);
 	NSImage *returnImage = [[NSImage alloc] initWithSize:size];
 	[returnImage addRepresentation:customImageRep];
-	[customImageRep release];
 	[returnImage setScalesWhenResized:YES];
 	[SRSharedImageCache setObject:returnImage forKey:name];
 	
@@ -303,7 +302,7 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 #endif
 	
 //	NSLog(@"returned image: %@", returnImage);
-	return [returnImage autorelease];
+	return returnImage;
 }
 
 #define MakeRelativePoint(x,y)	NSMakePoint(x*hScale, y*vScale)
@@ -347,10 +346,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 	[sh set];
 	
 	[bp fill];
-	
-	[bp release];
-	[flip release];
-	[sh release];
 }
 
 + (NSValue *)_sizeSRRemoveShortcut {
@@ -381,7 +376,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 	[cross lineToPoint:MakeRelativePoint(4,10)];
 		
 	[cross stroke];
-	[cross release];
 }
 + (void)_drawSRRemoveShortcut:(id)anNSCustomImageRep {
 	

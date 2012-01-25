@@ -42,14 +42,6 @@ typedef enum
 	return self;
 }
 
-- (void)dealloc
-{
-	[questionQueue release];
-	[errorQueue release];
-	[currentAlert release];
-	[super dealloc];
-}
-
 - (void)installPlugin
 {
     //Install our observers
@@ -76,7 +68,6 @@ typedef enum
 			[errorQueue addObject:infoCopy];
 			break;
 	}
-	[infoCopy release];
 	if(currentAlert == nil)
 		[self displayNextAlert];
 }
@@ -105,7 +96,6 @@ typedef enum
 		ret = NO;
 	else
 	{
-		[currentAlert release];
 		currentAlert = nil;
 	}
 	return ret;
@@ -118,7 +108,7 @@ typedef enum
 	{
 		NSDictionary *info = [errorQueue objectAtIndex:0];
 		if(currentAlert == nil)
-			currentAlert = [[ESTextAndButtonsWindowController controller] retain];
+			currentAlert = [ESTextAndButtonsWindowController controller];
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:AILocalizedString(@"Next", @"Next Button")
 						  alternateButton:AILocalizedString(@"Dismiss All", @"Dismiss All Button")
@@ -137,7 +127,7 @@ typedef enum
 	{
 		NSDictionary *info = [questionQueue objectAtIndex:0];
 		if(currentAlert == nil)
-			currentAlert = [[ESTextAndButtonsWindowController controller] retain];
+			currentAlert = [ESTextAndButtonsWindowController controller];
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:[info objectForKey:@"Default Button"]
 						  alternateButton:[info objectForKey:@"Alternate Button"]

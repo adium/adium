@@ -28,9 +28,6 @@
 	//Load the readme and set it.
 	NSAttributedString *readMeString = [[NSAttributedString alloc] initWithPath:[xtraInfo readMePath] documentAttributes:NULL];
 	[[readMeView textStorage] setAttributedString:readMeString];
-	
-	//Clean up
-	[readMeString release];
 }
 
 - (NSView *) previewView

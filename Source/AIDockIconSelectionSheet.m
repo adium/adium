@@ -59,12 +59,10 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[icons release], icons = nil;
-	[iconsData release], iconsData = nil;
-	[animatedIconState release], animatedIconState = nil;
-	[animationTimer release], animationTimer = nil;
-	
-	[super dealloc];
+	icons = nil;
+	iconsData = nil;
+	animatedIconState = nil;
+	animationTimer = nil;
 }
 
 // Setup our preference view
@@ -101,7 +99,6 @@
 	[super windowWillClose:sender];
 	
     [self setAnimatedDockIconAtIndex:NSNotFound];
-	[self autorelease];
 }
 
 #pragma mark -
@@ -112,7 +109,6 @@
     [sheet orderOut:nil];
 	
     [self setAnimatedDockIconAtIndex:NSNotFound];
-	[self autorelease];
 }
 
 // When the xtras are changed, update our icons
@@ -130,7 +126,6 @@
 		}
 		
 		[self setIcons:dockIcons];
-		[dockIcons release];
 
 		[self selectIconWithName:[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		group:PREF_GROUP_APPEARANCE]];
@@ -207,10 +202,10 @@
 	NSDictionary *iconPackDict = [adium.dockController iconPackAtPath:path];
 	NSDictionary *stateDict = [iconPackDict objectForKey:@"State"];
 	
-	return [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObjects:[stateDict objectForKey:@"Base"],
+	return [[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObjects:[stateDict objectForKey:@"Base"],
 																					[stateDict objectForKey:@"Online"],
 														  							[stateDict objectForKey:@"Alert"],
-														  							nil]] autorelease];
+														  							nil]];
 }
 
 // Animate the hovered icon
@@ -288,7 +283,7 @@
 						  self, 
 						  @selector(trashConfirmSheetDidEnd:returnCode:contextInfo:),
 						  nil,
-						  selectedIconPath,
+						  (__bridge void *)selectedIconPath,
 						  AILocalizedString(@"Are you sure you want to delete the %@ Dock Icon? It will be moved to the Trash.", nil), name);
 	}
 }

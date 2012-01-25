@@ -21,6 +21,6 @@
 	id rememberedScriptCommand;
 }
 
-@property (readonly) NSArray *chats;
+@property (unsafe_unretained, readonly) NSArray *chats;
 
 @end

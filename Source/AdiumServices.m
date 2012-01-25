@@ -35,8 +35,7 @@
 
 - (void)dealloc
 {
-	[services release]; services = nil;
-	[super dealloc];
+	services = nil;
 }
 
 /*!

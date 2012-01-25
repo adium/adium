@@ -120,9 +120,9 @@ typedef enum {
 	NSString *filenameExtension = [notification object];
 
 	//Convert our filename extension into a Uniform Type Identifier so that we can robustly determine what type of Xtra this is.
-	CFStringRef type = (CFStringRef)[(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, 
-																					   (CFStringRef)filenameExtension,
-																					   /*inConformingToUTI*/ NULL) autorelease];
+	CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, 
+																					   (__bridge CFStringRef)filenameExtension,
+																					   /*inConformingToUTI*/ NULL);
 
 	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.emoticonset"))) {
 		[self _rebuildEmoticonMenuAndSelectActivePack];
@@ -359,7 +359,7 @@ typedef enum {
 	} else if (sender == popUp_emoticons) {
 		if ([[sender selectedItem] tag] != AIEmoticonMenuMultiple) {
 			//Disable all active emoticons
-			NSArray			*activePacks = [[[adium.emoticonController activeEmoticonPacks] mutableCopy] autorelease];
+			NSArray			*activePacks = [[adium.emoticonController activeEmoticonPacks] mutableCopy];
 			AIEmoticonPack	*pack, *selectedPack;
 			
 			selectedPack = [[sender selectedItem] representedObject];
@@ -408,20 +408,20 @@ typedef enum {
 	NSMenuItem		*menuItem;
 		
 	//Add the "No Emoticons" option
-	menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"None",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"None",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setImage:[NSImage imageNamed:@"emoticonBlank" forClass:[self class]]];
 	[menuItem setTag:AIEmoticonMenuNone];
 	[menu addItem:menuItem];
 	
 	//Add the "Multiple packs selected" option
 	if ([[adium.emoticonController activeEmoticonPacks] count] > 1) {
-		menuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Multiple Packs Selected",nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Multiple Packs Selected",nil)
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setImage:[NSImage imageNamed:@"emoticonBlank" forClass:[self class]]];
 		[menuItem setTag:AIEmoticonMenuMultiple];
 		[menu addItem:menuItem];
@@ -432,16 +432,16 @@ typedef enum {
 
 	//Emoticon Packs
 	while ((pack = [enumerator nextObject])) {
-		menuItem = [[[NSMenuItem alloc] initWithTitle:[pack name]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[pack name]
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:pack];
 		[menuItem setImage:[pack menuPreviewImage]];
 		[menu addItem:menuItem];
 	}
 
-	return [menu autorelease];
+	return menu;
 }
 
 
@@ -471,13 +471,13 @@ typedef enum {
 						withTag:AIContactListWindowStyleContactBubbles_Fitted
 						 toMenu:menu];
 
-	return [menu autorelease];
+	return menu;
 }
 - (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu{
-    NSMenuItem	*menuItem = [[[NSMenuItem alloc] initWithTitle:option
+    NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:option
 																				  target:nil
 																				  action:nil
-																		   keyEquivalent:@""] autorelease];
+																		   keyEquivalent:@""];
 	[menuItem setTag:tag];
 	[menu addItem:menuItem];
 }
@@ -817,10 +817,10 @@ typedef enum {
 	//Available Layouts
 	while ((set = [enumerator nextObject])) {
 		name = [set objectForKey:@"name"];
-		menuItem = [[[NSMenuItem alloc] initWithTitle:name
+		menuItem = [[NSMenuItem alloc] initWithTitle:name
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:name];
 		[menu addItem:menuItem];
 	}
@@ -829,19 +829,19 @@ typedef enum {
 	[menu addItem:[NSMenuItem separatorItem]];
 
 	//Preset management	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Layout",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Layout",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(createListLayout:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Layouts",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Layouts",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(manageListLayouts:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	return [menu autorelease];	
+	return menu;	
 }
 
 /*!
@@ -858,10 +858,10 @@ typedef enum {
 	//Available themes
 	while ((set = [enumerator nextObject])) {
 		name = [set objectForKey:@"name"];
-		menuItem = [[[NSMenuItem alloc] initWithTitle:name
+		menuItem = [[NSMenuItem alloc] initWithTitle:name
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:name];
 		[menu addItem:menuItem];
 	}
@@ -870,19 +870,19 @@ typedef enum {
 	[menu addItem:[NSMenuItem separatorItem]];
 	
 	//Preset management	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Theme",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Add New Theme",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(createListTheme:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Themes",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Edit Themes",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(manageListThemes:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	return [menu autorelease];	
+	return menu;	
 }
 
 
@@ -914,10 +914,10 @@ typedef enum {
 		name = packName;
 	}
 	
-	menuItem = [[[NSMenuItem alloc] initWithTitle:name
+	menuItem = [[NSMenuItem alloc] initWithTitle:name
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setRepresentedObject:packName];
 	[menuItem setImage:[[preview image] imageByScalingForMenuItem]];
 	
@@ -950,7 +950,7 @@ typedef enum {
  */
 - (void)configureDockIconMenu
 {
-	NSMenu		*tempMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*tempMenu = [[NSMenu alloc] init];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		   group:PREF_GROUP_APPEARANCE];
@@ -971,10 +971,10 @@ typedef enum {
 - (NSMenuItem *)menuItemForIconPackAtPath:(NSString *)packPath class:(Class)iconClass
 {
 	NSString	*name = [[packPath lastPathComponent] stringByDeletingPathExtension];
-	NSMenuItem	*menuItem = [[[NSMenuItem alloc] initWithTitle:name
+	NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:name
 																				  target:nil
 																				  action:nil
-																		   keyEquivalent:@""] autorelease];
+																		   keyEquivalent:@""];
 	[menuItem setRepresentedObject:name];
 	[menuItem setImage:[iconClass previewMenuImageForIconPackAtPath:packPath]];	
 
@@ -1003,7 +1003,7 @@ typedef enum {
 
 - (void)configureStatusIconsMenu
 {
-	NSMenu		*tempMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*tempMenu = [[NSMenu alloc] init];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_STATUS_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
@@ -1030,7 +1030,7 @@ typedef enum {
 
 - (void)configureServiceIconsMenu
 {
-	NSMenu		*tempMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*tempMenu = [[NSMenu alloc] init];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_SERVICE_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
@@ -1057,7 +1057,7 @@ typedef enum {
 
 - (void)configureMenuBarIconsMenu
 {
-	NSMenu		*tempMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*tempMenu = [[NSMenu alloc] init];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_MENU_BAR_ICONS
 																		   group:PREF_GROUP_APPEARANCE];

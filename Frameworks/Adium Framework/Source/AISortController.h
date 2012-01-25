@@ -20,7 +20,7 @@
 typedef NSComparisonResult(*sortfunc)(id, id, BOOL, id<AIContainingObject>);
 typedef struct {
 	sortfunc function;
-	id<AIContainingObject> container;
+__unsafe_unretained	id<AIContainingObject> container;
 } SortContext;
 
 #define PREF_GROUP_CONTACT_SORTING			@"Sorting"

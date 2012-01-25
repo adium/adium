@@ -21,8 +21,8 @@
 
 @interface AIDockIconSelectionSheet : AIWindowController <AIImageCollectionViewDelegate> {
 @private
-	IBOutlet AIImageCollectionView *imageCollectionView;
-	IBOutlet NSButton *okButton;
+	IBOutlet AIImageCollectionView *__unsafe_unretained imageCollectionView;
+	IBOutlet NSButton *__unsafe_unretained okButton;
     
 	NSMutableArray *icons;
 	NSMutableArray *iconsData;
@@ -36,13 +36,13 @@
 	NSUInteger previousIndex;
 }
 
-@property (assign) IBOutlet AIImageCollectionView *imageCollectionView;
-@property (assign) IBOutlet NSButton *okButton;
+@property (unsafe_unretained) IBOutlet AIImageCollectionView *imageCollectionView;
+@property (unsafe_unretained) IBOutlet NSButton *okButton;
 @property (copy) NSMutableArray *icons;
-@property (retain) NSMutableArray *iconsData;
-@property (retain) AIIconState *animatedIconState;
+@property NSMutableArray *iconsData;
+@property AIIconState *animatedIconState;
 @property (assign) NSInteger animatedIndex;
-@property (retain) NSTimer *animationTimer;
+@property NSTimer *animationTimer;
 @property (assign) NSUInteger previousIndex;
 
 + (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow;

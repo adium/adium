@@ -33,11 +33,6 @@
 	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
 }
 
-- (void)uninstallPlugin
-{
-	[blockEditorMenuItem release];
-}
-
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	for (AIAccount *account in adium.accountController.accounts) {

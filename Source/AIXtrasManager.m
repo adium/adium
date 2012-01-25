@@ -65,12 +65,10 @@ static AIXtrasManager *manager;
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[tableView_categories tableColumnWithIdentifier:@"name"] setDataCell:cell];
-	[cell release];
 	
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[xtraList tableColumnWithIdentifier:@"xtras"] setDataCell:cell];
-	[cell release];
 
 	//XXX ???
 	[previewContainerView setHasVerticalScroller:YES];
@@ -106,12 +104,12 @@ static AIXtrasManager *manager;
 										  name:AIXtrasDidChangeNotification
 										object:nil];
 	
-	[categories release]; categories = nil;
-	[toolbarItems release]; toolbarItems = nil;
+	categories = nil;
+	toolbarItems = nil;
 
 	//Release top-level nib objects besides the window
-	[view_content release]; view_content = nil;
-	[view_shelf release]; view_shelf = nil;	
+	view_content = nil;
+	view_shelf = nil;	
 
 	//XXX don't need to do this when this is a window controller
 	window = nil;
@@ -134,7 +132,6 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 
 - (void)loadXtras
 {
-	[categories release];
 	categories = [[NSMutableArray alloc] init];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -218,14 +215,6 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	return contents;
 }
 
-- (void)dealloc
-{
-	[categories release];
-    [selectedCategory release];
-
-	[super dealloc];
-}
-
 - (NSArray *)xtrasForCategoryAtIndex:(NSInteger)inIndex
 {
 	if (inIndex == -1) return nil;
@@ -239,7 +228,6 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		[newDictionary setObject:xtras forKey:@"Xtras"];
 		[categories replaceObjectAtIndex:inIndex
 							  withObject:newDictionary];
-		[newDictionary release];
 	}
 	
 	return xtras;
@@ -247,7 +235,6 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 
 - (void)updateForSelectedCategory
 {
-	[selectedCategory autorelease];
 	selectedCategory = [[self xtrasForCategoryAtIndex:[tableView_categories selectedRow]] mutableCopy];
 
 	[xtraList reloadData];
@@ -478,7 +465,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 
 - (void)installToolbar
 {	
-    NSToolbar 		*toolbar = [[[NSToolbar alloc] initWithIdentifier:@"XtrasManager:Toolbar"] autorelease];
+    NSToolbar 		*toolbar = [[NSToolbar alloc] initWithIdentifier:@"XtrasManager:Toolbar"];
 	
     [toolbar setDelegate:self];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];

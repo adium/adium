@@ -53,17 +53,10 @@
 {
     if ((self = [super initWithWindowNibName:windowNibName])) {
 		target = inTarget;
-		statusGroup = (inStatusGroup ? [inStatusGroup retain] : [[AIStatusGroup alloc] init]);
+		statusGroup = (inStatusGroup ? inStatusGroup : [[AIStatusGroup alloc] init]);
 	}	
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[statusGroup release];
-	
-	[super dealloc];
 }
 
 - (void)windowDidLoad
@@ -97,8 +90,6 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-
-	[self autorelease];
 }
 
 /*!
@@ -155,7 +146,6 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];
 	[menu addItem:menuItem];
-	[menuItem release];
 
 	menuItem = [[NSMenuItem alloc] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 																	target:nil
@@ -167,9 +157,8 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];	
 	[menu addItem:menuItem];
-	[menuItem release];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 @end

@@ -48,15 +48,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 	return self;
 }
 
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[components release];
-	[super dealloc];
-}
-
 #pragma mark -
 
 /*!
@@ -171,7 +162,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 #ifdef COMPONENT_LOAD_TIMING
 		NSDate *start = [NSDate date];
 #endif
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		Class class;
 
 		if (className && (class = NSClassFromString(className))) {
@@ -182,11 +173,10 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 			[object installPlugin];
 
 			[components setObject:object forKey:className];
-			[object release];
 		} else {
 			NSAssert1(NO, @"Failed to load %@", className);
 		}
-		[pool release];
+		}
 #ifdef COMPONENT_LOAD_TIMING
 		NSTimeInterval t = -[start timeIntervalSinceNow];
 		aggregateComponentLoadingTime += t;

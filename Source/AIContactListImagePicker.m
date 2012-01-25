@@ -80,9 +80,7 @@
 		trackingTag = -1;
 	}
 	
-	[imageMenu release]; imageMenu = nil;
-	
-	[super dealloc];
+	imageMenu = nil;
 }
 
 #pragma mark Drawing

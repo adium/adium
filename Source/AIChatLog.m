@@ -30,10 +30,10 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 - (id)initWithPath:(NSString *)inPath from:(NSString *)inFrom to:(NSString *)inTo serviceClass:(NSString *)inServiceClass
 {
     if ((self = [super init])) {
-		relativePath = [inPath retain];
-		from = [inFrom retain];
-		to = [inTo retain];
-		serviceClass = [inServiceClass retain];
+		relativePath = inPath;
+		from = inFrom;
+		to = inTo;
+		serviceClass = inServiceClass;
 		rankingPercentage = 0;
 	}
 
@@ -70,17 +70,6 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 				 serviceClass:myServiceClass];
 }
 
-- (void)dealloc
-{
-    [relativePath release];
-    [from release];
-    [to release];
-	[serviceClass release];
-    [date release];
-    
-    [super dealloc];
-}
-
 - (NSString *)relativePath{
     return relativePath;
 }
@@ -96,7 +85,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 - (NSCalendarDate *)date{
 	//Determine the date of this log lazily
 	if (!date) {
-		date = [dateFromFileName([relativePath lastPathComponent]) retain];
+		date = dateFromFileName([relativePath lastPathComponent]);
 
 		if (!date) {
 			//Sometimes the filename doesn't have a date (e.g., “jdoe ((null)).chatlog”). In such cases, if it's a chatlog, parse it and get the date from the first element that has one.
@@ -105,7 +94,6 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 				NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[AILoggerPlugin logBasePath] stringByAppendingPathComponent:relativePath]]];
 				[parser setDelegate:self];
 				[parser parse];
-				[parser release];
 			}
 		}
 	}
@@ -116,7 +104,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 	//Stop at the first element with a date.
 	NSString *dateString = nil;
 	if ((dateString = [attributeDict objectForKey:@"time"])) {
-		date = [[NSCalendarDate calendarDateWithString:dateString strictly:YES] retain];
+		date = [NSCalendarDate calendarDateWithString:dateString strictly:YES];
 		if (date)
 			[parser abortParsing];
 	}

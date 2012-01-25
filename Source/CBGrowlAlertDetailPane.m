@@ -104,7 +104,7 @@
 			 keyEquivalent:@""
 					   tag:2];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 /*!
