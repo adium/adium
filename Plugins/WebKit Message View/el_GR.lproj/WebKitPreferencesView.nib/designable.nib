@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSPopUpButton</string>
@@ -31,7 +31,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="91812671">
 			<object class="NSCustomObject" id="163452531">
 				<string key="NSClassName">ESWebKitMessageViewPreferences</string>
@@ -198,7 +201,7 @@
 					<object class="NSCustomView" id="810309450">
 						<reference key="NSNextResponder" ref="987793683"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{0, 359}, {580, 150}}</string>
+						<string key="NSFrame">{{0, 359}, {692, 150}}</string>
 						<reference key="NSSuperview" ref="987793683"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="556071234"/>
@@ -593,7 +596,7 @@
 					<object class="NSTabView" id="556071234">
 						<reference key="NSNextResponder" ref="987793683"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{12, 10}, {555, 347}}</string>
+						<string key="NSFrame">{{12, 10}, {667, 347}}</string>
 						<reference key="NSSuperview" ref="987793683"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="388480812"/>
@@ -603,7 +606,7 @@
 								<object class="NSView" key="NSView" id="464388914">
 									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{10, 33}, {515, 301}}</string>
+									<string key="NSFrame">{{10, 33}, {647, 301}}</string>
 								</object>
 								<string key="NSLabel">Τακτικές Συζητήσεις</string>
 								<reference key="NSColor" ref="441300610"/>
@@ -642,7 +645,7 @@
 										<object class="NSTextField" id="374093956">
 											<reference key="NSNextResponder" ref="388480812"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrame">{{398, 220}, {129, 56}}</string>
+											<string key="NSFrame">{{398, 220}, {235, 56}}</string>
 											<reference key="NSSuperview" ref="388480812"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="958274409"/>
@@ -663,7 +666,7 @@
 										<object class="NSTextField" id="958274409">
 											<reference key="NSNextResponder" ref="388480812"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrame">{{150, 76}, {346, 28}}</string>
+											<string key="NSFrame">{{150, 76}, {489, 28}}</string>
 											<reference key="NSSuperview" ref="388480812"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="460042097"/>
@@ -682,7 +685,7 @@
 											</object>
 										</object>
 									</array>
-									<string key="NSFrame">{{10, 33}, {535, 301}}</string>
+									<string key="NSFrame">{{10, 33}, {647, 301}}</string>
 									<reference key="NSSuperview" ref="556071234"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="423190582"/>
@@ -702,7 +705,7 @@
 						</array>
 					</object>
 				</array>
-				<string key="NSFrameSize">{580, 509}</string>
+				<string key="NSFrameSize">{692, 509}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="810309450"/>
@@ -712,38 +715,6 @@
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">chooseFontWithFontPanel:</string>
-						<reference key="source" ref="606138075"/>
-						<reference key="destination" ref="891721748"/>
-					</object>
-					<int key="connectionID">89</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="606138075"/>
-						<reference key="destination" ref="163452531"/>
-					</object>
-					<int key="connectionID">90</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="810309450"/>
-						<reference key="destination" ref="891721748"/>
-					</object>
-					<int key="connectionID">124</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="855284005"/>
-						<reference key="destination" ref="163452531"/>
-					</object>
-					<int key="connectionID">241</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
@@ -954,14 +925,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="556071234"/>
-						<reference key="destination" ref="163452531"/>
-					</object>
-					<int key="connectionID">310</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">checkBox_useRegularChatForGroup</string>
 						<reference key="source" ref="163452531"/>
 						<reference key="destination" ref="423190582"/>
@@ -991,6 +954,46 @@
 						<reference key="destination" ref="405208179"/>
 					</object>
 					<int key="connectionID">370</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">chooseFontWithFontPanel:</string>
+						<reference key="source" ref="606138075"/>
+						<reference key="destination" ref="891721748"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="606138075"/>
+						<reference key="destination" ref="163452531"/>
+					</object>
+					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="810309450"/>
+						<reference key="destination" ref="891721748"/>
+					</object>
+					<int key="connectionID">124</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="855284005"/>
+						<reference key="destination" ref="163452531"/>
+					</object>
+					<int key="connectionID">241</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="556071234"/>
+						<reference key="destination" ref="163452531"/>
+					</object>
+					<int key="connectionID">310</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
