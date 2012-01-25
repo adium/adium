@@ -25,6 +25,8 @@
 	
 	NSArray										*servicesList;
 	NSMutableDictionary							*services;
+
+	AIURLHandlerPlugin *plugin;
 }
 
 - (IBAction)setDefault:(id)sender;
