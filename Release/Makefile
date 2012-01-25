@@ -121,7 +121,7 @@ assertnoconflicts:
 
 version:
 	@# update the plists
-	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright 2001-$(shell date +"%Y") The Adium Team"
+	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright © 2001-$(shell date +"%Y") The Adium Team"
 	defaults write $(ADIUM_PLIST) CFBundleVersion "$(VERSION)"
 	defaults write $(ADIUM_PLIST) CFBundleShortVersionString "$(VERSION)"
 ifeq ($(NIGHTLY),TRUE)
