@@ -26,9 +26,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 
-@interface AIURLHandlerWindowController() {
-	AIURLHandlerPlugin *plugin;
-}
+@interface AIURLHandlerWindowController()
 - (void)configureTableView;
 
 - (void)initializeServiceInformationForSchemes:(NSArray *)schemes;
