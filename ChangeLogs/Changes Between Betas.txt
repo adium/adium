@@ -1,5 +1,34 @@
 Adium 1.5xx
- * Updated Italian localisation. (#15758)
+ * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
+ * Fixed localisation of a couple of emoticons.
+ * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
+ * Updated localisations: German (#15586, #15733), Greek, Swedish (#15786).
+ * Fixed initializers and did minor clean-up in: AISplitView, AIListOutlineView, AIAccountPlusFieldPromptController,
+   DCJoinChatWindowController, CSNewContactAlertWindowController, SHLinkEditorWindowController, AIListLayoutWindowController,
+   AIListThemeWindowController, AITextColorPreviewView, ErrorMessageWindowController, AWEzvContactManagerRendezvous, AIContactListImagePicker.
+ * Fixed a leak when resizing animated Gif files.
+
+Adium 1.5rc1
+ Localisation
+  * Updated localisations: Catalan (#15770), Chinese (Traditional), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772).
+  * Fixed typos/misspellings in Russian localization. (#15769, #15571)
+
+ Transcript Viewer
+  * Fixed ghosting artifacts when scrolling transcript contents (while searching).
+  * Fixed a potential crash when the log index failed to initialize while trying to delete a log.
+  * Fixed a hang caused by two threads opening the same index simultaneously.
+
+ General
+  * Added Aqualicious Graphite, a new contact list theme to match Mac OS X's Graphite style.
+  * Added the generic menu items to the group chat cog button for XMPP groupchats.
+  * Fixed "Show Toolbar" showing as disabled and untranslated. (#15759)
+  * Fixed ghosting artifacts in the "Get Info" window's "Events" tab. (#12237)
+  * Fixed enable/disable "View Chat Transcripts" menu item, in group chats (user list) context menu.
+  * Chats can no longer refuse to quit when they're still processing content.
+  * Fixed AdiumAppleScriptRunner to enable building on Lion.
+  * Switched some adiumx.com links to adium.im.
+  * Fixed a bunch of non-integer view size values.
+
 
 Adium 1.5b9
  General
