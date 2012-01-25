@@ -39,14 +39,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	startingColor = nil;
-	middleColor = nil;
-	endingColor = nil;
-	backgroundColor = nil;
-}
-
 - (void)drawRect:(NSRect)rect
 {
 	NSRect drawingRect = [self bounds];
@@ -77,7 +69,6 @@
 		gradient = [[NSGradient alloc] initWithStartingColor:startingColor
 												 endingColor:endColor];
 		[gradient drawInRect:drawingRect angle:angle];
-		[gradient release];
 	}
 
 	if (middleColor) {
@@ -93,7 +84,6 @@
 		gradient = [[NSGradient alloc] initWithStartingColor:middleColor
 												 endingColor:endColor];
 		[gradient drawInRect:halfRect angle:angle];
-		[gradient release];
 	}
 
 	[super drawRect:rect];

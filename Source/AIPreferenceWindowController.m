@@ -53,8 +53,8 @@ static SS_PrefsController			*prefsController = nil;
 + (SS_PrefsController *)sharedPrefsController
 {
 	if (!prefsController) {
-		prefsController = [[SS_PrefsController preferencesWithPanes:[adium.preferenceController paneArray]
-														   delegate:self] retain];
+		prefsController = [SS_PrefsController preferencesWithPanes:[adium.preferenceController paneArray]
+														   delegate:self];
 
 		// Set which panes are included, and their order.
 		[prefsController setPanesOrder:[NSArray arrayWithObjects:
@@ -92,12 +92,12 @@ static SS_PrefsController			*prefsController = nil;
 + (void)closePreferenceWindow
 {
 	[prefsController destroyPreferencesWindow];
-	[prefsController release]; prefsController = nil;
+	prefsController = nil;
 }
 
 + (void)prefsWindowWillClose:(SS_PrefsController *)inPrefsController
 {
-	[prefsController release]; prefsController = nil;
+	prefsController = nil;
 }
 
 //Panes ---------------------------------------------------------------------------------------------------------------

@@ -93,7 +93,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
     //init
-    [super initWithWindowNibName:windowNibName];
+    self = [super initWithWindowNibName:windowNibName];
 
     errorTitleArray = [[NSMutableArray alloc] init];
     errorDescArray =  [[NSMutableArray alloc] init];
@@ -104,11 +104,9 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 - (void)dealloc
 {
-    [errorTitleArray release]; errorTitleArray = nil;
-    [errorDescArray release]; errorDescArray = nil;
-    [errorWindowTitleArray release]; errorWindowTitleArray = nil;
-
-    [super dealloc];
+    errorTitleArray = nil;
+    errorDescArray = nil;
+    errorWindowTitleArray = nil;
 }
 
 - (void)refreshErrorDialog
@@ -199,7 +197,6 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 	
     //release the window controller (ourself)
     sharedErrorMessageInstance = nil;
-    [self autorelease];
 }
 
 @end

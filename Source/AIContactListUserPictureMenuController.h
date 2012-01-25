@@ -28,10 +28,10 @@
  * Supports changing for individual accounts, image editing and caputring from a camera.
  */
 @interface AIContactListUserPictureMenuController : NSObject <AIImageCollectionViewDelegate> {
-	IBOutlet NSMenu *menu;
-	IBOutlet AIImageCollectionView *imageCollectionView;
+	IBOutlet NSMenu *__unsafe_unretained menu;
+	IBOutlet AIImageCollectionView *__unsafe_unretained imageCollectionView;
 	
-	AIContactListImagePicker *imagePicker;
+	AIContactListImagePicker *__unsafe_unretained imagePicker;
 	
 	NSArray *images;
 
@@ -39,9 +39,9 @@
 	NSMutableArray *AI_topLevelObjects;
 }
 
-@property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet AIImageCollectionView *imageCollectionView;
-@property (retain) AIContactListImagePicker *imagePicker;
+@property (unsafe_unretained) IBOutlet NSMenu *menu;
+@property (unsafe_unretained) IBOutlet AIImageCollectionView *imageCollectionView;
+@property (unsafe_unretained) AIContactListImagePicker *imagePicker;
 @property (copy) NSArray *images;
 
 /*!

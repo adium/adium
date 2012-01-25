@@ -15,7 +15,7 @@
 #import <OAuthConsumer/OAMutableURLRequest.h>
 
 @interface MGTwitterEngine : NSObject <MGTwitterParserDelegate> {
-    __weak NSObject <MGTwitterEngineDelegate> *_delegate;
+    __unsafe_unretained NSObject <MGTwitterEngineDelegate> *_delegate;
     NSString *_username;
     NSString *_password;
     NSMutableDictionary *_connections;   // MGTwitterHTTPURLConnection objects

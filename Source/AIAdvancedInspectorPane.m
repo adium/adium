@@ -71,9 +71,9 @@
 									   name:Account_ListChanged
 									 object:nil];
 
-		accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+		accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 												  submenuType:AIAccountNoSubmenu
-											   showTitleVerbs:NO] retain];
+											   showTitleVerbs:NO];
 	}
 	
 	return self;
@@ -81,13 +81,12 @@
 
 - (void) dealloc
 {
-	[accountMenu release]; accountMenu = nil;
-	[contactMenu release]; contactMenu = nil;
-    [displayedObject release]; displayedObject = nil;
-	[inspectorContentView release]; inspectorContentView = nil;
+	accountMenu = nil;
+	contactMenu = nil;
+    displayedObject = nil;
+	inspectorContentView = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
-	[super dealloc];
 }
 
 
@@ -109,13 +108,9 @@
 -(void)updateForListObject:(AIListObject *)inObject
 {
 	if (displayedObject != inObject) {
-		[displayedObject release];
-		
 		displayedObject = ([inObject isKindOfClass:[AIListContact class]] ?
 						   [(AIListContact *)inObject parentContact] :
 						   inObject);
-		
-		[displayedObject retain];
 		
 		//Rebuild the account and contacts lists
 		[self reloadPopup];
@@ -188,8 +183,8 @@
 	
 	if (!contactMenu) {
 		// Instantiate here so we don't end up creating a massive menu for all contacts.
-		contactMenu = [[AIContactMenu contactMenuWithDelegate:self
-										  forContactsInObject:displayedObject] retain];	
+		contactMenu = [AIContactMenu contactMenuWithDelegate:self
+										  forContactsInObject:displayedObject];	
 	} else {
 		[contactMenu setContainingObject:displayedObject];
 	}

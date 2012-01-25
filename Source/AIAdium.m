@@ -169,7 +169,7 @@ static NSString	*prefsCategory;
 //Called by the login controller when a user has been selected, continue logging in
 - (void)completeLogin
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	/* Init the controllers.
 	 * Menu and interface controllers are created by MainMenu.nib when it loads.
@@ -196,16 +196,16 @@ static NSString	*prefsCategory;
 	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
 	[preferenceController controllerDidLoad];
 	[debugController controllerDidLoad];
-	[pool release];
+	}
 
 	//Plugins and components should always init last, since they rely on everything else.
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	componentLoader = [[AICoreComponentLoader alloc] init];
 	pluginLoader = [[AICorePluginLoader alloc] init];
-	[pool release];
+	}
 
 	//Finish initing
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	[menuController controllerDidLoad];			//Loaded by nib
 	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
 	
@@ -214,9 +214,9 @@ static NSString	*prefsCategory;
 	
 	[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
 	[interfaceController controllerDidLoad];	//Loaded by nib
-	[pool release];
+	}
 
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	[toolbarController controllerDidLoad];
 	[contactAlertsController controllerDidLoad];
 	[soundController controllerDidLoad];
@@ -225,9 +225,9 @@ static NSString	*prefsCategory;
 	[contentController controllerDidLoad];
 	[dockController controllerDidLoad];
 	[fileTransferController controllerDidLoad];
-	[pool release];
+	}
 
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	[applescriptabilityController controllerDidLoad];
 	[statusController controllerDidLoad];
 
@@ -244,14 +244,13 @@ static NSString	*prefsCategory;
 		for (NSString *eventString in queuedURLEvents) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
 		}
-		[queuedURLEvents release]; queuedURLEvents = nil;
+		queuedURLEvents = nil;
 	}
 	
 	//If we were asked to open a log at launch, do it now
 	if (queuedLogPathToShow) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
 												 object:queuedLogPathToShow];
-		[queuedLogPathToShow release];
 	}
 	
 	completedApplicationLoad = YES;
@@ -271,7 +270,7 @@ static NSString	*prefsCategory;
 	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 
-	[pool release];
+	}
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -549,7 +548,7 @@ static NSString	*prefsCategory;
 													 object:filename];
 		} else {
 			//Queue the request until Adium is done launching if Adium is not ready
-			[queuedLogPathToShow release]; queuedLogPathToShow = [filename retain];
+			queuedLogPathToShow = filename;
 		}
 		
 		//Don't continue to the xtras installation code. Return YES because we handled the open.
@@ -558,8 +557,8 @@ static NSString	*prefsCategory;
 	
 	/* Installation of Xtras below this point */
 
-	[prefsCategory release]; prefsCategory = nil;
-    [advancedPrefsName release]; advancedPrefsName = nil;
+	prefsCategory = nil;
+    advancedPrefsName = nil;
 
     /* Specify a file extension and a human-readable description of what the files of this type do
 	 * We reassign the extension so that regardless of its original case we end up with the case we want; this allows installation of
@@ -730,8 +729,8 @@ static NSString	*prefsCategory;
 			}
 		} else {
 			//If the user didn't press the "open prefs" button, clear the pref opening information
-			[prefsCategory release]; prefsCategory = nil;
-			[advancedPrefsName release]; advancedPrefsName = nil;
+			prefsCategory = nil;
+			advancedPrefsName = nil;
 		}
 		
     } else {
@@ -762,7 +761,7 @@ static NSString	*prefsCategory;
 	if (prefsCategory) {
 		[preferenceController openPreferencesToCategoryWithIdentifier:prefsCategory];
 		
-		[prefsCategory release]; prefsCategory = nil;
+		prefsCategory = nil;
 	}
 }
 
@@ -779,9 +778,9 @@ static NSString	*prefsCategory;
 	
     //Determine the preferences path if neccessary
 	if (!_preferencesFolderPath) {
-		_preferencesFolderPath = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:PORTABLE_ADIUM_KEY] stringByExpandingTildeInPath] retain];
+		_preferencesFolderPath = [[[[NSBundle mainBundle] infoDictionary] objectForKey:PORTABLE_ADIUM_KEY] stringByExpandingTildeInPath];
 		if (!_preferencesFolderPath)
-			_preferencesFolderPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Adium 2.0"] retain];
+			_preferencesFolderPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Adium 2.0"];
 	}
 	
 	return _preferencesFolderPath;
@@ -951,7 +950,7 @@ static NSString	*prefsCategory;
 		NSFileManager	*defaultManager = NSFileManager.defaultManager;
 
 		generalAdiumCachesPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Caches"] stringByAppendingPathComponent:@"Adium"];
-		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
+		cachesPath = [generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser];
 
 		//Ensure our cache path exists
 		if ([defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
@@ -1164,7 +1163,7 @@ typedef enum {
         // Nothing to do here
         return parts;
     }
-    s = [[[version substringToIndex:1] mutableCopy] autorelease];
+    s = [[version substringToIndex:1] mutableCopy];
     oldType = [self typeOfCharacter:s];
     n = [version length] - 1;
     for (i = 1; i <= n; ++i) {
@@ -1174,7 +1173,6 @@ typedef enum {
             // We've reached a new segment
 	    NSString *aPart = [[NSString alloc] initWithString:s];
             [parts addObject:aPart];
-	    [aPart release];
             [s setString:character];
         } else {
             // Add character to string and continue

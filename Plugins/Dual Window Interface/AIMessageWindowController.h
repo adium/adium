@@ -62,11 +62,11 @@ typedef enum
 															withID:(NSString *)inContainerID
 															  name:(NSString *)inName;
 - (IBAction)closeWindow:(id)sender;
-@property (readonly, nonatomic) NSString *containerID;
-@property (readonly, nonatomic) PSMTabBarControl *tabBar;
+@property (unsafe_unretained, readonly, nonatomic) NSString *containerID;
+@property (unsafe_unretained, readonly, nonatomic) PSMTabBarControl *tabBar;
 @property (readonly, nonatomic) AdiumTabPosition tabPosition;
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) AIChat *activeChat;
+@property (unsafe_unretained, readonly, nonatomic) NSString *name;
+@property (unsafe_unretained, readonly, nonatomic) AIChat *activeChat;
 
 /*
  * @brief Get an array of all the chats within this window controller's window.
@@ -76,7 +76,7 @@ typedef enum
 /*
  * @brief The window
  */
-@property (readonly, nonatomic) NSWindow *window;
+@property (unsafe_unretained, readonly, nonatomic) NSWindow *window;
 
 //Contained Chats
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem;

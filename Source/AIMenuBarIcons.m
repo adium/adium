@@ -76,7 +76,7 @@
 	}
 	
 	imagePath = [xtraBundle pathForImageResource:[iconInfo objectForKey:keyName]];
-	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+	return [[NSImage alloc] initWithContentsOfFile:imagePath];
 }
 
 - (BOOL)keyOfTypeExists:(NSString *)keyName
@@ -87,12 +87,6 @@
 	return YES;
 }
 
-- (void)dealloc
-{
-	[imageStates release];
-	[alternateImageStates release];
-	[super dealloc];
-}
 
 #define	PREVIEW_MENU_IMAGE_SIZE		18
 #define	PREVIEW_MENU_IMAGE_MARGIN	2
@@ -100,7 +94,7 @@
 + (NSImage *)previewMenuImageForIconPackAtPath:(NSString *)inPath
 {
 	NSImage			*image;
-	NSBundle		*menuIconsBundle = [[[NSBundle alloc] initWithPath:inPath] autorelease];
+	NSBundle		*menuIconsBundle = [[NSBundle alloc] initWithPath:inPath];
 	NSDictionary	*imageInfo;
 	
 	if (!menuIconsBundle) {
@@ -113,8 +107,8 @@
 		return nil;
 	}
 
-	image = [[[NSImage alloc] initWithSize:NSMakeSize((PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN) * 2,
-													  PREVIEW_MENU_IMAGE_SIZE)] autorelease];
+	image = [[NSImage alloc] initWithSize:NSMakeSize((PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN) * 2,
+													  PREVIEW_MENU_IMAGE_SIZE)];
 													 
 
 	if ([[menuIconsBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1) {
@@ -125,7 +119,7 @@
 			NSString	*anIconPath = [menuIconsBundle pathForImageResource:[imageInfo objectForKey:iconID]];
 			NSImage		*anIcon;
 
-			if ((anIcon = [[[NSImage alloc] initWithContentsOfFile:anIconPath] autorelease])) {
+			if ((anIcon = [[NSImage alloc] initWithContentsOfFile:anIconPath])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 
@@ -169,11 +163,11 @@
 	id monochromeFilter, invertFilter, alphaFilter;
 	
 	monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
-	[monochromeFilter setValue:[[[CIImage alloc] initWithBitmapImageRep:srcImageRep] autorelease]
+	[monochromeFilter setValue:[[CIImage alloc] initWithBitmapImageRep:srcImageRep]
 						forKey:@"inputImage"]; 
 	[monochromeFilter setValue:[NSNumber numberWithDouble:1.0]
 						forKey:@"inputIntensity"];
-	[monochromeFilter setValue:[[[CIColor alloc] initWithColor:[NSColor whiteColor]] autorelease]
+	[monochromeFilter setValue:[[CIColor alloc] initWithColor:[NSColor whiteColor]]
 						forKey:@"inputColor"];
 	
 	//Now invert our greyscale image
@@ -188,7 +182,7 @@
 
 	[altImage addRepresentation:[NSCIImageRep imageRepWithCIImage:[alphaFilter valueForKey:@"outputImage"]]];
 
-	return [altImage autorelease];
+	return altImage;
 }
 
 @end

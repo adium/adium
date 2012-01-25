@@ -19,7 +19,7 @@
 @class AIChat, AIMessageViewController, AIMessageWindowController;
 
 @interface AIMessageTabViewItem : NSTabViewItem <AIChatContainer> {
-	AIMessageWindowController	*windowController;
+	__unsafe_unretained AIMessageWindowController	*windowController;
 	AIMessageViewController 	*messageViewController;
 	NSImage						*tabViewItemImage;
 	NSImage						*largeImage;
@@ -32,13 +32,13 @@
 - (void)tabViewItemWillDeselect;
 - (void)tabViewDidChangeVisibility;
 
-@property (readonly, nonatomic) NSString *label;
-@property (readonly, nonatomic) NSImage *icon;
-@property (readonly, nonatomic) NSImage *statusIcon;
-@property (readonly, nonatomic) NSImage *stateIcon;
-@property (readonly, nonatomic) AIChat *chat;
-@property (readonly, nonatomic) NSImage *image;
-@property (readonly, nonatomic) AIMessageViewController *messageViewController;
-@property (readwrite, nonatomic, retain) AIMessageWindowController *windowController;
+@property (unsafe_unretained, readonly, nonatomic) NSString *label;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *icon;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *statusIcon;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *stateIcon;
+@property (unsafe_unretained, readonly, nonatomic) AIChat *chat;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *image;
+@property (unsafe_unretained, readonly, nonatomic) AIMessageViewController *messageViewController;
+@property (readwrite, nonatomic, unsafe_unretained) AIMessageWindowController *windowController;
 
 @end

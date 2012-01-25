@@ -105,9 +105,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[progressRows release]; progressRows = nil;
-
-    [super dealloc];
+	progressRows = nil;
 }
 
 - (NSString *)adiumFrameAutosaveName
@@ -136,7 +134,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 
 	//Configure the outline view
-	[[[outlineView tableColumns] objectAtIndex:0] setDataCell:[[[AIGenericViewCell alloc] init] autorelease]];
+	[[[outlineView tableColumns] objectAtIndex:0] setDataCell:[[AIGenericViewCell alloc] init]];
 
 	[outlineView sizeLastColumnToFit];
 	[outlineView setAutoresizesSubviews:YES];
@@ -213,7 +211,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 	//release the window controller (ourself)
     sharedTransferProgressInstance = nil;
-    [self autorelease];
 }
 
 - (void)configureControlDimming
@@ -308,9 +305,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		NSClipView		*clipView = [scrollView contentView];
 		NSUInteger		row;
 
-		//Protect
-		[progressRow retain];
-
 		//Remove the row from our array, and its file transfer from the fileTransferController
 		row = [progressRows indexOfObject:progressRow];
 		[progressRows removeObject:progressRow];
@@ -328,9 +322,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 			
 			[self updateStatusBar];
 		}
-		
-		//Clean up
-		[progressRow release];
 	}
 }
 
@@ -401,7 +392,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	ESFileTransferProgressRow	*row;
 	
 	shouldScrollToNewFileTransfer = NO;
-	enumerator = [[[progressRows copy] autorelease] objectEnumerator];
+	enumerator = [[progressRows copy] objectEnumerator];
 	while ((row = [enumerator nextObject])) {
 		if ([[row fileTransfer] isStopped]) [self _removeFileTransferRow:row];
 	}	
@@ -502,7 +493,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
  */
 - (void)reloadAllData
 {
-	[[[[outlineView subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	[[[outlineView subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	[outlineView reloadData];
 
 	NSRect	outlineFrame = [outlineView frame];

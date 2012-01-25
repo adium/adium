@@ -207,14 +207,12 @@
     __block NSString	*sampleStampA, *sampleStampB;
 	
 	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *noSecondsAMPM){
-		sampleStampA = [[noSecondsAMPM stringForObjectValue:[NSDate date]] retain];
+		sampleStampA = [noSecondsAMPM stringForObjectValue:[NSDate date]];
 	}];
-	[sampleStampA autorelease];
 	
 	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *noSecondsNoAMPM){
-		sampleStampB = [[noSecondsNoAMPM stringForObjectValue:[NSDate date]] retain];
+		sampleStampB = [noSecondsNoAMPM stringForObjectValue:[NSDate date]];
 	}];
-	[sampleStampB autorelease];
 	
 	BOOL		noAMPM = [sampleStampA isEqualToString:sampleStampB];
 	
@@ -251,17 +249,17 @@
  */
 - (NSMenu *)_fontSizeMenu
 {
-	NSMenu		*menu = [[[NSMenu alloc] init] autorelease];
+	NSMenu		*menu = [[NSMenu alloc] init];
 	NSMenuItem	*menuItem;
 
 	NSUInteger sizes[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,18,20,22,24,36,48,64,72,96};
 	NSUInteger loopCounter;
 
 	for (loopCounter = 0; loopCounter < 23; loopCounter++) {
-		menuItem = [[[NSMenuItem alloc] initWithTitle:[[NSNumber numberWithInteger:sizes[loopCounter]] stringValue]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[[NSNumber numberWithInteger:sizes[loopCounter]] stringValue]
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setTag:sizes[loopCounter]];
 		[menu addItem:menuItem];
 	}

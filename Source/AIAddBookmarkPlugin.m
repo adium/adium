@@ -75,9 +75,6 @@
 
 - (void)uninstallPlugin
 {
-	[addBookmarkMenuItem release]; 
-	[addBookmarkContextMenuItem release];
-	
 	[adium.toolbarController unregisterToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
 }
 

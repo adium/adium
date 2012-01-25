@@ -70,19 +70,11 @@
 - (id)initWithWindowNibName:(NSString *)nibName forChat:(AIChat *)inChat notifyingTarget:(id)inTarget
 {
 	if ((self = [super initWithWindowNibName:nibName])) {
-		chat = [inChat retain];
-		target = [inTarget retain];
+		chat = inChat;
+		target = inTarget;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[chat release];
-	[target release];
-	
-	[super dealloc];
 }
 
 /*!
