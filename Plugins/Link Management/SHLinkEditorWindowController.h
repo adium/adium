@@ -26,26 +26,25 @@
 
 @interface SHLinkEditorWindowController : AIWindowController {
     
-    IBOutlet    NSButton                    *button_insert;
-    IBOutlet    NSButton                    *button_cancel;
-	IBOutlet	NSButton					*button_removeLink;
+    IBOutlet NSButton                   *button_insert;
+    IBOutlet NSButton                   *button_cancel;
+	IBOutlet NSButton					*button_removeLink;
 	
-    IBOutlet    NSTextField                 *textField_linkText;
-    IBOutlet	AIAutoScrollView            *scrollView_URL;
-    IBOutlet    SHAutoValidatingTextView    *textView_URL;
-    IBOutlet    NSImageView                 *imageView_invalidURLAlert;
+    IBOutlet NSTextField                *textField_linkText;
+    IBOutlet AIAutoScrollView           *scrollView_URL;
+    IBOutlet SHAutoValidatingTextView   *textView_URL;
+    IBOutlet NSImageView                *imageView_invalidURLAlert;
     
-	IBOutlet	NSTextField					*label_linkText;
-	IBOutlet	NSTextField					*label_URL;
+	IBOutlet NSTextField				*label_linkText;
+	IBOutlet NSTextField				*label_URL;
 	
-    NSTextView                              *textView;
-    id                                       target;
+    NSTextView 							*textView;
+    id 									target;
 }
 
 + (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
 
 - (IBAction)cancel:(id)sender;
-
 - (IBAction)acceptURL:(id)sender;
 - (IBAction)removeURL:(id)sender;
 

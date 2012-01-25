@@ -661,8 +661,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	NSRect newScreenFrame = [[screenSlideBoundaryRectDictionary objectForKey:[NSValue valueWithNonretainedObject:windowScreen]] rectValue];
 
 	if ([self windowSlidOffScreenEdgeMask] != AINoEdges) {
-		NSRect newWindowFrame = AIRectByAligningRect_edge_toRect_edge_([window frame], [self windowSlidOffScreenEdgeMask],
-																	   newScreenFrame, [self windowSlidOffScreenEdgeMask]);
+		NSRect newWindowFrame = AIRectByAligningRect_edge_toRect_edge_([window frame], (NSRectEdge)[self windowSlidOffScreenEdgeMask],
+																	   newScreenFrame, (NSRectEdge)[self windowSlidOffScreenEdgeMask]);
 		[[self window] setFrame:newWindowFrame display:NO];
 
 		[self delayWindowSlidingForInterval:2];

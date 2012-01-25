@@ -15,10 +15,12 @@ RM=rm
 .PHONY: all adium clean localizable-strings latest test astest install
 
 adium:
-	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
+	/Xcode4/usr/bin/./xcodebuild -version
+	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
 
 test:
-	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) -target "Unit tests" build
+	/Xcode4/usr/bin/./xcodebuild -version
+	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) -target "Unit tests" build
 astest:
 	osascript unittest\ runner.applescript | tr '\r' '\n'
 
@@ -27,7 +29,8 @@ install:
 	cp -R build/$(BUILDCONFIGURATION)/Adium.app ~/Applications/
 
 clean:
-	xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) $(ADIUM_NIGHTLY_FLAGS) clean
+	/Xcode4/usr/bin/./xcodebuild -version
+	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) $(ADIUM_NIGHTLY_FLAGS) clean
 
 localizable-strings:
 	mkdir tmp || true

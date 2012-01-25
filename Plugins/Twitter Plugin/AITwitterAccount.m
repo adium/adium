@@ -160,7 +160,7 @@
 	
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
-							 URL:@"http://www.adiumx.com"
+							 URL:@"http://www.adium.im"
 						   token:self.sourceToken];	
 	
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
