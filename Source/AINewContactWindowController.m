@@ -46,7 +46,7 @@
 - (void)ensureValidContactTypeSelection;
 - (void)updateAccountList;
 - (void)_setServiceType:(AIService *)inService;
-- (void)selectServiceType:(id)sender;
+- (IBAction)selectServiceType:(id)sender;
 
 - (void)selectGroup:(id)sender;
 - (void)newGroup:(id)sender;

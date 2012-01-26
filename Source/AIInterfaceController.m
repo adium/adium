@@ -80,7 +80,7 @@
 - (void)toggleUserlist:(id)sender;
 - (void)toggleUserlistSide:(id)sender;
 - (void)clearDisplay:(id)sender;
-- (void)closeContextualChat:(id)sender;
+- (IBAction)closeContextualChat:(id)sender;
 - (void)openAuthorizationWindow:(id)sender;
 - (void)didReceiveContent:(NSNotification *)notification;
 - (void)adiumDidFinishLoading:(NSNotification *)inNotification;

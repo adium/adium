@@ -328,7 +328,7 @@ enum{
 /*!
  * @brief The selected service in the account configuration tab view item was changed
  */
-- (void)selectServiceType:(id)sender
+- (IBAction)selectServiceType:(id)sender
 {
 	[self configureAccountSetupForService:[[popUp_services selectedItem] representedObject]];
 }

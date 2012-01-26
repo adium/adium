@@ -54,7 +54,7 @@
 - (void)_updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 - (void) toolbarDidAddItem:(NSToolbarItem *)item;
 
-- (void)toggleSecureMessaging:(id)sender;
+- (IBAction)toggleSecureMessaging:(id)sender;
 - (void)chatDidBecomeVisible:(NSNotification *)notification;
 - (void)dummyAction:(id)sender;
 @end

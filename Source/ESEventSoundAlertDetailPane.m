@@ -29,7 +29,7 @@
 @interface ESEventSoundAlertDetailPane ()
 - (NSMenu *)soundListMenu;
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu;
-- (void)selectSound:(id)sender;
+- (IBAction)selectSound:(id)sender;
 @end
 
 /*!
