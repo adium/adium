@@ -100,7 +100,7 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)didSendContent:(NSNotification *)notification;
-- (void)toggleShowGroups:(id)sender;
+- (IBAction)toggleShowGroups:(id)sender;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;

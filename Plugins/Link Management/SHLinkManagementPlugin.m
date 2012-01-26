@@ -32,8 +32,8 @@
 @interface SHLinkManagementPlugin ()
 - (BOOL)textViewSelectionIsLink:(NSTextView *)textView;
 - (void)registerToolbarItem;
-- (void)editFormattedLink:(id)sender;
-- (void)removeFormattedLink:(id)sender;
+- (IBAction)editFormattedLink:(id)sender;
+- (IBAction)removeFormattedLink:(id)sender;
 @end
 
 @implementation SHLinkManagementPlugin

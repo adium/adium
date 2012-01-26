@@ -60,10 +60,10 @@
 - (void)deleteFromArray:(NSArray *)array;
 - (void)promptForNewContactOnWindow:(NSWindow *)inWindow selectedListObject:(AIListObject *)inListObject;
 
-- (void)addContactFromTab:(id)sender;
+- (IBAction)addContactFromTab:(id)sender;
 - (void)addContactRequest:(NSNotification *)notification;
-- (void)deleteSelection:(id)sender;
-- (void)deleteSelectionFromTab:(id)sender;
+- (IBAction)deleteSelection:(id)sender;
+- (IBAction)deleteSelectionFromTab:(id)sender;
 @end
 
 /*!
