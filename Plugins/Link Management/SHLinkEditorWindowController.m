@@ -226,15 +226,14 @@
 
 - (IBAction)removeURL:(id)sender
 {
-    id selectedLink;
     if ([[textView textStorage] length] &&
        [textView selectedRange].location != NSNotFound &&
        [textView selectedRange].location != [[textView textStorage] length]) {
             NSRange selectionRange = [textView selectedRange];
             // Get range
-            selectedLink = [[textView textStorage] attribute:NSLinkAttributeName
-												 atIndex:selectionRange.location
-										  effectiveRange:&selectionRange];
+            [[textView textStorage] attribute:NSLinkAttributeName
+									  atIndex:selectionRange.location
+							   effectiveRange:&selectionRange];
 			// Remove the link from it
             [[textView textStorage] removeAttribute:NSLinkAttributeName range:selectionRange];
     }

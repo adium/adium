@@ -385,8 +385,7 @@
 	}
 	
 	//Set the default button
-	NSRect newFrame, oldFrame;
-	oldFrame = [button_default frame];
+	NSRect newFrame;
 
 	[button_default setTitle:(defaultButton ? defaultButton : AILocalizedString(@"OK",nil))];
 	[button_default sizeToFit];
@@ -404,8 +403,6 @@
 	
 	//Set the alternate button if we were provided one, otherwise hide it
 	if (alternateButton) {
-		oldFrame = [button_alternate frame];
-
 		[button_alternate setTitle:alternateButton];
 		[button_alternate sizeToFit];
 		
@@ -422,8 +419,8 @@
 		//Set the other button if we were provided one, otherwise hide it
 		if (otherButton) {
 			[window setFrame:windowFrame display:NO animate:NO];
-
-			oldFrame = [button_other frame];
+			
+			NSRect oldFrame = [button_other frame];
 
 			[button_other setTitle:otherButton];
 

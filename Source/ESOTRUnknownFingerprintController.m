@@ -88,8 +88,6 @@
 									denyButton:(NSString *)denyButton
 								  responseInfo:(NSDictionary *)responseInfo
 {
-	ESTextAndButtonsWindowController	*windowController;
-
 	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
 
 	NSImage		*serviceImage = nil;
@@ -100,17 +98,17 @@
 												  direction:AIIconNormal];
 	}
 	
-	windowController = [ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"OTR Fingerprint Verification",nil)
-																			 defaultButton:acceptButton
-																		   alternateButton:denyButton
-																			   otherButton:AILocalizedString(@"Help", nil)
-																			   suppression:nil
-																				  onWindow:nil
-																		 withMessageHeader:nil
-																				andMessage:[AIHTMLDecoder decodeHTML:messageString]
-																					 image:serviceImage
-																					target:self
-																				  userInfo:responseInfo];	
+	[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"OTR Fingerprint Verification",nil)
+														  defaultButton:acceptButton
+														alternateButton:denyButton
+															otherButton:AILocalizedString(@"Help", nil)
+															suppression:nil
+															   onWindow:nil
+													  withMessageHeader:nil
+															 andMessage:[AIHTMLDecoder decodeHTML:messageString]
+																  image:serviceImage
+																 target:self
+															   userInfo:responseInfo];	
 }
 
 /*!
