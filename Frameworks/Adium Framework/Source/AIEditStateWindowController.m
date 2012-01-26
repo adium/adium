@@ -520,7 +520,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	current = [self _positionControl:box_idle relativeTo:current height:&height];
 	current = [self _positionControl:checkBox_muteSounds relativeTo:current height:&height];
 	current = [self _positionControl:checkBox_silenceGrowl relativeTo:current height:&height];
-	current = [self _positionControl:checkBox_save relativeTo:current height:&height];
+	[self _positionControl:checkBox_save relativeTo:current height:&height];
 
 	[window setContentSize:NSMakeSize([[window contentView] frame].size.width, height)
 				   display:YES
