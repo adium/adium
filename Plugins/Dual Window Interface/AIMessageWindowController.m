@@ -408,14 +408,24 @@
 		
 		[self _updateWindowTitleAndIcon];
 
-		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
-		NSInteger				level = NSNormalWindowLevel;
+		AIWindowLevel windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
+		NSInteger level;
 		
 		switch (windowLevel) {
-			case AINormalWindowLevel: level = NSNormalWindowLevel; break;
-			case AIFloatingWindowLevel: level = NSFloatingWindowLevel; break;
-			case AIDesktopWindowLevel: level = kCGDesktopWindowLevel; break;
+			case AINormalWindowLevel:
+				level = NSNormalWindowLevel;
+				break;
+			case AIFloatingWindowLevel:
+				level = NSFloatingWindowLevel;
+				break;
+			case AIDesktopWindowLevel:
+				level = kCGDesktopWindowLevel;
+				break;
+			default:
+				level = NSNormalWindowLevel;
+				break;
 		}
+		
 		[window setLevel:level];
 		[window setHidesOnDeactivate:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
     }
