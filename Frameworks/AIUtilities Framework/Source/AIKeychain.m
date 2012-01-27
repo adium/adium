@@ -929,17 +929,19 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 			   keychainItem:(out SecKeychainItemRef *)outKeychainItem
 					  error:(out NSError **)outError
 {
+	BOOL success = NO;
+
 	if (!password) {
 		// Remove the password
-		return [self deleteInternetPasswordForServer:server
-									  securityDomain:domain
-											 account:account
-												path:path
-												port:port
-											protocol:protocol
-								  authenticationType:authType
-										keychainItem:outKeychainItem
-											   error:outError];
+		success = [self deleteInternetPasswordForServer:server
+										 securityDomain:domain
+												account:account
+												   path:path
+												   port:port
+											   protocol:protocol
+									 authenticationType:authType
+										   keychainItem:outKeychainItem
+												  error:outError];
 	} else {
 		// Add it if it does not exist
 		NSError *error = nil;
@@ -1013,11 +1015,13 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 				[pool release];
 				[error autorelease];
-				
-				return (err = noErr);
 			} // if (err == errSecDuplicateItem)
+			
+			success = (err == noErr);
 		} // if (error) (addInternetPassword:...)
 	} // if (password)
+	
+	return success;
 }
 
 - (BOOL)setInternetPassword:(NSString *)password
