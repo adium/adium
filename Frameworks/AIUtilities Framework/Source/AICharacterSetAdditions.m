@@ -24,8 +24,10 @@
  * Shark sampling demonstrates this to be true as of OS X 10.4.5.
  *
  * However, -[NSMutableCharacterSet copy] returns a new NSMutableCharacterSet which remains inefficient!
+ *
+ * This is still true as of 10.7.2.
  */
-- (NSCharacterSet *)immutableCopy
+- (NSCharacterSet *)copyImmutable
 {
 	return [[NSCharacterSet characterSetWithBitmapRepresentation:[self bitmapRepresentation]] retain];
 }

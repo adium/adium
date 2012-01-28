@@ -60,7 +60,7 @@
 	[allowedCharacters formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
 	[allowedCharacters addCharactersInString:@" "];
 
-	returnSet = [allowedCharacters immutableCopy];
+	returnSet = [allowedCharacters copyImmutable];
 	[allowedCharacters release];
 	
 	return [returnSet autorelease];

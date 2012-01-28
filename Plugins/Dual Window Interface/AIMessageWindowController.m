@@ -153,8 +153,9 @@
 
     [tabView_tabBar setDelegate:nil];
 
-	[self.containedChats release];
+	[m_containedChats release];
 	[toolbarItems release];
+	[toolbar release];
 	[containerName release];
 	[containerID release];
 
@@ -1315,7 +1316,7 @@
 - (void)_configureToolbar
 {
 //	NSToolbar *toolbar; change this if need be
-    toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW] autorelease];
+    toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW];
 	
     [toolbar setDelegate:self];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];

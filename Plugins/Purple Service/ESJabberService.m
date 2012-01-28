@@ -175,7 +175,7 @@
 		[allowedCharactersInNode addCharactersInRange:x10000_10FFFF];
 
 
-		charactersInNode = [allowedCharactersInNode immutableCopy];
+		charactersInNode = [allowedCharactersInNode copyImmutable];
 		[allowedCharactersInNode release];
 	}
 
@@ -212,7 +212,7 @@
 		[allowedCharactersInDomain addCharactersInRange:upperCaseLatters];
 		[allowedCharactersInDomain addCharactersInString:@"-."];
 
-		charactersInDomain = [allowedCharactersInDomain immutableCopy];
+		charactersInDomain = [allowedCharactersInDomain copyImmutable];
 		[allowedCharactersInDomain release];
 	}
 
@@ -252,7 +252,7 @@
 		[allowedCharactersInResource addCharactersInRange:xE000_FFFD];
 		[allowedCharactersInResource addCharactersInRange:x10000_10FFFF];
 
-		charactersInResource = [allowedCharactersInResource immutableCopy];
+		charactersInResource = [allowedCharactersInResource copyImmutable];
 		[allowedCharactersInResource release];
 	}
 
@@ -277,7 +277,7 @@
 	[allowedCharacters formUnionWithCharacterSet:nodeSet];
 	[allowedCharacters addCharactersInString:@"@"];
 	[allowedCharacters formUnionWithCharacterSet:domainSet];
-	returnSet = [allowedCharacters immutableCopy];
+	returnSet = [allowedCharacters copyImmutable];
 	[allowedCharacters release];
 
 	return [returnSet autorelease];
@@ -296,7 +296,7 @@
 
 	[allowedCharacters addCharactersInString:@"/"];
 	[allowedCharacters formUnionWithCharacterSet:resourceSet];
-	returnSet = [allowedCharacters immutableCopy];
+	returnSet = [allowedCharacters copyImmutable];
 	[allowedCharacters release];
 	
 	return [returnSet autorelease];

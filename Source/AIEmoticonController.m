@@ -292,7 +292,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 					[tempSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
 					//remove any characters *in* the replacement string from the trimming set
 					[tempSet removeCharactersInString:replacementString];
-					[endingSetDict setObject:[tempSet immutableCopy] forKey:replacementString];
+					[endingSetDict setObject:[tempSet copyImmutable] forKey:replacementString];
 					[tempSet release];
 					endingTrimSet = [endingSetDict objectForKey:replacementString];
 				}
@@ -863,10 +863,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
         }
     }
 
-	[_emoticonHintCharacterSet release]; _emoticonHintCharacterSet = [tmpEmoticonHintCharacterSet immutableCopy];
+	[_emoticonHintCharacterSet release]; _emoticonHintCharacterSet = [tmpEmoticonHintCharacterSet copyImmutable];
 	[tmpEmoticonHintCharacterSet release];
 
-    [_emoticonStartCharacterSet release]; _emoticonStartCharacterSet = [tmpEmoticonStartCharacterSet immutableCopy];
+    [_emoticonStartCharacterSet release]; _emoticonStartCharacterSet = [tmpEmoticonStartCharacterSet copyImmutable];
 	[tmpEmoticonStartCharacterSet release];
 
 	//After building all the subIndexes, sort them by length here
