@@ -809,8 +809,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 
 	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
-	SecKeychainItemFreeContent(NULL, passwordData);
-
+	
+	if (err == noErr) {
+		SecKeychainItemFreeContent(NULL, passwordData);
+	}
+	
 	return passwordString;
 }
 
@@ -893,11 +896,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					username, @"Username",
 					password, @"Password",
 					nil];
+				
+				SecKeychainItemFreeAttributesAndData(attrList, passwordBytes);
 			} else {
 				NSLog(@"Error extracting infomation from keychain item");
 			}
-
-			SecKeychainItemFreeAttributesAndData(attrList, passwordBytes);
 
 			if (item) {
 				CFRelease(item);
@@ -1221,7 +1224,10 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 
 	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
-	SecKeychainItemFreeContent(NULL, passwordData);
+
+	if (err == noErr) {
+		SecKeychainItemFreeContent(NULL, passwordData);
+	}
 
 	return passwordString;	
 }
