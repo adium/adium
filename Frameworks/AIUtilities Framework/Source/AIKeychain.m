@@ -498,7 +498,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				[NSValue valueWithPointer:SecKeychainGetPath], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainGetPath", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				targetKeychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:targetKeychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			
 			if (outError) {
@@ -548,7 +548,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				[NSValue valueWithPointer:SecKeychainLock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainLock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -572,7 +572,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainUnlock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -603,7 +603,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainUnlock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -637,7 +637,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					[NSValue valueWithPointer:SecKeychainDelete], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 					@"SecKeychainDelete", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 					AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-					targetKeychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+					[NSValue valueWithPointer:targetKeychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
@@ -718,7 +718,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 				NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 				NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -800,7 +800,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 				NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 				NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -1004,7 +1004,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 								NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 								NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-								keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+								[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 								nil];
 							// Retain this because of the autorelease pool
 							error = [[NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo] retain];
@@ -1087,7 +1087,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 					NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 					NSFileTypeForHFSTypeCode(kSecAuthenticationTypeDefault), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-					keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+					[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
@@ -1169,7 +1169,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
 				service, AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -1212,7 +1212,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
 				service, AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
@@ -1256,7 +1256,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 										  service,  AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 										  account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 										  NSFileTypeForHFSTypeCode(kSecAuthenticationTypeDefault), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-										  keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+										  [NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 										  nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
