@@ -58,7 +58,7 @@
 	NSCharacterSet			*returnSet;
 	
 	[allowedCharacters addCharactersInString:@"[]\\`_^{|}-"];
-	returnSet = [allowedCharacters immutableCopy];
+	returnSet = [allowedCharacters copyImmutable];
 	[allowedCharacters release];
 
 	return [returnSet autorelease];

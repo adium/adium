@@ -15,5 +15,5 @@
  */
 
 @interface NSCharacterSet (AICharacterSetAdditions)
-- (NSCharacterSet *)immutableCopy;
+- (NSCharacterSet *)copyImmutable;
 @end
