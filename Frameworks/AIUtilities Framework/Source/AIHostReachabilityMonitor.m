@@ -364,7 +364,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 							self, @"self",
 							host, @"host",
 							observer, @"observer",
-							reachabilityRef, @"reachabilityRef",
+							[NSValue valueWithPointer:reachabilityRef], @"reachabilityRef",
 							nil],
 						.retain			 = CFRetain,
 						.release		 = CFRelease,
