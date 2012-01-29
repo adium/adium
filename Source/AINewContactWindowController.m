@@ -447,13 +447,14 @@
 - (void)newGroup:(id)sender
 {
 	AINewGroupWindowController *newGroupWindowController = [[AINewGroupWindowController alloc] init];
-	[newGroupWindowController showOnWindow:[self window]];
-
+	
 	//Observe for the New Group window to close
 	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(newGroupDidEnd:) 
-									   name:@"NewGroupWindowControllerDidEnd"
-									 object:[newGroupWindowController window]];	
+											 selector:@selector(newGroupDidEnd:) 
+												 name:@"NewGroupWindowControllerDidEnd"
+											   object:[newGroupWindowController window]];
+	
+	[newGroupWindowController showOnWindow:[self window]];
 }
 
 - (void)newGroupDidEnd:(NSNotification *)inNotification

@@ -261,12 +261,13 @@
 - (void)addNewGroup:(id)sender
 {
 	AINewGroupWindowController *newGroupController = [[AINewGroupWindowController alloc] init];
-	[newGroupController showOnWindow:inspectorContentView.window];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(newGroupControllerDidEnd:)
 												 name:@"NewGroupWindowControllerDidEnd"
 											   object:newGroupController.window];
+	
+	[newGroupController showOnWindow:inspectorContentView.window];
 }
 
 - (void)removeGroup
