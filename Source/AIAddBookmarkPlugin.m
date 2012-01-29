@@ -87,9 +87,9 @@
  */
 - (void)addBookmark:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.interfaceController.activeChat
-													  onWindow:[adium.interfaceController.activeChat.chatContainer.windowController window]
-												notifyingTarget:self];
+	AINewBookmarkWindowController *newBookmarkWindowController = [[AINewBookmarkWindowController alloc] initWithChat:adium.interfaceController.activeChat
+																									 notifyingTarget:self];
+	[newBookmarkWindowController showOnWindow:[adium.interfaceController.activeChat.chatContainer.windowController window]];
 }
 
 /*!
@@ -99,9 +99,9 @@
  */
 - (void)addBookmarkContext:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.menuController.currentContextMenuChat
-													  onWindow:[adium.menuController.currentContextMenuChat.chatContainer.windowController window]
-											   notifyingTarget:self];
+	AINewBookmarkWindowController *newBookmarkWindowController = [[AINewBookmarkWindowController alloc] initWithChat:adium.menuController.currentContextMenuChat
+																									 notifyingTarget:self];
+	[newBookmarkWindowController showOnWindow:[adium.menuController.currentContextMenuChat.chatContainer.windowController window]];
 }
 
 // @brief: create a bookmark for the given chat with the given name in the given group

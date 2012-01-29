@@ -31,10 +31,8 @@
 	AIChat		*chat;
 }
 
-+ (AINewBookmarkWindowController *)promptForNewBookmarkForChat:(AIChat *)inChat
-													  onWindow:(NSWindow*)parentWindow
-											   notifyingTarget:(id)inTarget __attribute__((objc_method_family(new)));
-
+- (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget;
+- (void)showOnWindow:(id)parentWindow __attribute__((ns_consumes_self));
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;
 
