@@ -23,7 +23,7 @@
 }
 
 + (void)start;
-+ (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
++ (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount __attribute__((ns_returns_retained));
 + (void)closeAuthorizationForUIHandle:(id)handle;
 
 @end

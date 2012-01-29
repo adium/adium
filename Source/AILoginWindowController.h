@@ -33,7 +33,7 @@
 	NSTimer						*loginTimer;
 }
 
-+ (AILoginWindowController *)loginWindowControllerWithOwner:(id)inOwner;
++ (AILoginWindowController *)loginWindowControllerWithOwner:(id)inOwner __attribute__((objc_method_family(new)));
 - (void)disableLoginTimeout;
 
 @end

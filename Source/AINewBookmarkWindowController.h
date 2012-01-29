@@ -33,7 +33,7 @@
 
 + (AINewBookmarkWindowController *)promptForNewBookmarkForChat:(AIChat *)inChat
 													  onWindow:(NSWindow*)parentWindow
-											   notifyingTarget:(id)inTarget;
+											   notifyingTarget:(id)inTarget __attribute__((objc_method_family(new)));
 
 - (IBAction)add:(id)sender;
 - (IBAction)cancel:(id)sender;

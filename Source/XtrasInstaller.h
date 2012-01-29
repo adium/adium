@@ -30,7 +30,7 @@
 
 -(IBAction)cancel:(id)sender;
 -(void)installXtraAtURL:(NSURL *)url;
-+(XtrasInstaller *)installer;
++(XtrasInstaller *)installer __attribute__((objc_method_family(new)));
 
 @property (retain) NSURLDownload *download;
 @property (retain) NSString *dest;
