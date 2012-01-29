@@ -260,7 +260,8 @@
 #pragma mark Group control
 - (void)addNewGroup:(id)sender
 {
-	AINewGroupWindowController *newGroupController = [AINewGroupWindowController promptForNewGroupOnWindow:inspectorContentView.window];
+	AINewGroupWindowController *newGroupController = [[AINewGroupWindowController alloc] init];
+	[newGroupController showOnWindow:inspectorContentView.window];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(newGroupControllerDidEnd:)
