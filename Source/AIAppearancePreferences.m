@@ -394,7 +394,8 @@ typedef enum {
  */
 - (IBAction)customizeEmoticons:(id)sender
 {
-	[AIEmoticonPreferences showEmoticionCustomizationOnWindow:[[self view] window]];
+	AIEmoticonPreferences *emoticonPreferences = [[AIEmoticonPreferences alloc] init];
+	[emoticonPreferences openOnWindow:[[self view] window]];
 }
 
 /*!
