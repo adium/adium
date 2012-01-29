@@ -22,7 +22,7 @@
 #define	ALLOW_UNTRUSTED_XTRAS	NO
 
 @interface XtrasInstaller ()
-- (void)closeInstaller;
+- (void)closeInstaller __attribute__((ns_consumes_self));
 - (void)updateInfoText;
 @end
 
@@ -304,12 +304,14 @@
 				quarantineProperties = [[(NSDictionary *)cfOldQuarantineProperties mutableCopy] autorelease];
 			} else {
 				AILogWithSignature(@"Getting quarantine data failed for %@ (%@)", self, self.dest);
+				[self closeInstaller];
 				return;
 			}
 			
 			CFRelease(cfOldQuarantineProperties);
 			
 			if (!quarantineProperties) {
+				[self closeInstaller];
 				return;
 			}
 			
