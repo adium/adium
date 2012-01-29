@@ -492,13 +492,14 @@ typedef enum {
  */
 - (IBAction)createListTheme:(id)sender
 {
-	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
+	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];
 	
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:[[theme stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)", nil)]
-													explanatoryText:AILocalizedString(@"Enter a unique name for this new theme.",nil)
-														   onWindow:[[self view] window]
-													notifyingTarget:self
-														   userInfo:@"theme"];
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:[[theme stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)", nil)]
+																									  explanatoryText:AILocalizedString(@"Enter a unique name for this new theme.",nil)
+																									  notifyingTarget:self
+																											 userInfo:@"theme"];
+	
+	[presetNameSheetController showOnWindow:[[self view] window]];
 }
 
 /*!
@@ -567,11 +568,12 @@ typedef enum {
 {
 	NSString *layout = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];
 	
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:[[layout stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)",nil)]
-													explanatoryText:AILocalizedString(@"Enter a unique name for this new layout.",nil)
-														   onWindow:[[self view] window]
-													notifyingTarget:self
-														   userInfo:@"layout"];
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:[[layout stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)",nil)]
+																									  explanatoryText:AILocalizedString(@"Enter a unique name for this new layout.",nil)
+																									  notifyingTarget:self
+																											 userInfo:@"layout"];
+	
+	[presetNameSheetController showOnWindow:[[self view] window]];
 }
 
 /*!
