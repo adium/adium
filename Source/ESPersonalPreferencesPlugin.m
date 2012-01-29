@@ -30,7 +30,12 @@
 																		forClass:[self class]]  
 										  forGroup:GROUP_ACCOUNT_STATUS];
 
-    [[ESPersonalPreferences preferencePaneForPlugin:self] retain];	
+    preferencePane = [[ESPersonalPreferences preferencePaneForPlugin:self] retain];	
+}
+
+- (void)uninstallPlugin
+{
+	[preferencePane release]; preferencePane = nil;
 }
 
 @end

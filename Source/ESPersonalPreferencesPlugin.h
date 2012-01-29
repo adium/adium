@@ -16,7 +16,7 @@
 
 
 @interface ESPersonalPreferencesPlugin : AIPlugin {
-
+	AIPreferencePane *preferencePane;
 }
 
 @end
