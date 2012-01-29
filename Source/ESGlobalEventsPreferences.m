@@ -323,10 +323,10 @@
  */
 - (void)editPresets:(id)sender
 {
-	[ESPresetManagementController managePresets:[plugin storedEventPresetsArray]
-									 namedByKey:@"Name"
-									   onWindow:[[self view] window]
-								   withDelegate:self];
+	ESPresetManagementController *presentManagementController = [[ESPresetManagementController alloc] initWithPresets:[plugin storedEventPresetsArray]
+																										   namedByKey:@"Name"
+																										 withDelegate:self];
+	[presentManagementController showOnWindow:[[self view] window]];
 
 	//Get our event presets menu back to its proper selection
 	[self selectActiveEventInPopUp];

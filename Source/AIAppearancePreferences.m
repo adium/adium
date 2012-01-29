@@ -551,10 +551,10 @@ typedef enum {
 - (void)manageListThemes:(id)sender
 {
 	_listThemes = [plugin availableThemeSets];
-	[ESPresetManagementController managePresets:_listThemes
-									 namedByKey:@"name"
-									   onWindow:[[self view] window]
-								   withDelegate:self];
+	ESPresetManagementController *presetManagementController = [[ESPresetManagementController alloc] initWithPresets:_listThemes
+																										  namedByKey:@"name"
+																										withDelegate:self];
+	[presetManagementController showOnWindow:[[self view] window]];
 	
 	[popUp_colorTheme selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME
 																							   group:PREF_GROUP_APPEARANCE]];		
@@ -624,10 +624,10 @@ typedef enum {
 - (void)manageListLayouts:(id)sender
 {
 	_listLayouts = [plugin availableLayoutSets];
-	[ESPresetManagementController managePresets:_listLayouts
-									 namedByKey:@"name"
-									   onWindow:[[self view] window]
-								   withDelegate:self];
+	ESPresetManagementController *presetManagementController = [[ESPresetManagementController alloc] initWithPresets:_listLayouts
+																										  namedByKey:@"name"
+																										withDelegate:self];
+	[presetManagementController showOnWindow:[[self view] window]];
 
 	[popUp_listLayout selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																							   group:PREF_GROUP_APPEARANCE]];		
