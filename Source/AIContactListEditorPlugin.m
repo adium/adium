@@ -221,10 +221,10 @@
 		inListObject = nil;
 	}
 	
-	[AINewContactWindowController promptForNewContactOnWindow:inWindow
-														 name:(inListObject ? inListObject.UID : nil)
-													  service:(inListObject ? [(AIListContact *)inListObject service] : nil)
-													  account:nil];
+	AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:(inListObject ? inListObject.UID : nil)
+																												 service:(inListObject ? [(AIListContact *)inListObject service] : nil)
+																												 account:nil];
+	[newContactWindowController showOnWindow:inWindow];
 }
 
 /*!
@@ -237,10 +237,10 @@
 {
 	NSDictionary *userInfo = [notification userInfo];
 	if (userInfo) {
-		[AINewContactWindowController promptForNewContactOnWindow:nil
-															 name:[userInfo objectForKey:@"UID"]
-														  service:[userInfo objectForKey:@"AIService"]
-														  account:[userInfo objectForKey:@"AIAccount"]];
+		AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:[userInfo objectForKey:@"UID"]
+																													 service:[userInfo objectForKey:@"AIService"]
+																													 account:[userInfo objectForKey:@"AIAccount"]];
+		[newContactWindowController showOnWindow:nil];
 	}
 }
 

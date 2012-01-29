@@ -37,7 +37,6 @@
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
 @interface AINewContactWindowController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName contactName:(NSString *)inName service:(AIService *)inService  account:(AIAccount *)inAccount;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 - (void)buildGroupMenu;
@@ -62,41 +61,33 @@
  */
 @implementation AINewContactWindowController
 
-/*!
- * @brief Prompt for adding a new contact.
- *
- * @param parentWindow Window on which to show the prompt as a sheet. Pass nil for a panel prompt. 
- * @param inName Initial value for the contact name field
- * @param inService <tt>AIService</tt> for determining the initial service type selection
- * @param inAccount If non-nil, the one AIAccount which should be initially enabled for adding this contact
- */
-+ (void)promptForNewContactOnWindow:(NSWindow *)parentWindow name:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	AINewContactWindowController	*newContactWindow;
-	
-	newContactWindow = [[self alloc] initWithWindowNibName:ADD_CONTACT_PROMPT_NIB contactName:inName service:inService account:inAccount];
-	
 	if (parentWindow) {
 		[parentWindow makeKeyAndOrderFront:nil];
 		
-		[NSApp beginSheet:[newContactWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:newContactWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[newContactWindow showWindow:nil];
-		[[newContactWindow window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 	}
 	
 }
 
 /*!
  * @brief Initialize
+ *
+ * @param inName Initial value for the contact name field
+ * @param inService <tt>AIService</tt> for determining the initial service type selection
+ * @param inAccount If non-nil, the one AIAccount which should be initially enabled for adding this contact
  */
-- (id)initWithWindowNibName:(NSString *)windowNibName contactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount
+- (id)initWithContactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount
 {
-    if ((self = [super initWithWindowNibName:windowNibName])) {
+    if ((self = [super initWithWindowNibName:ADD_CONTACT_PROMPT_NIB])) {
 		service = [inService retain];
 		initialAccount = [inAccount retain];
 		contactName = [inName retain];
@@ -111,6 +102,9 @@
  */
 - (void)dealloc
 {
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[accounts release];
 	[contactName release];
 	[service release];
@@ -165,8 +159,8 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[self autorelease];
 }
 
 /*!
@@ -175,6 +169,8 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	
+	[self autorelease];
 }
 
 /*!

@@ -403,10 +403,10 @@
 				
 				jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
 				
-				[AINewContactWindowController promptForNewContactOnWindow:nil
-																	 name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-																  service:jabberService
-																  account:nil];
+				AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+																															 service:jabberService
+																															 account:nil];
+				[newContactWindowController showOnWindow:nil];
 			} else if ([query rangeOfString:@"remove"].location == 0
 					   || [query rangeOfString:@"unsubscribe"].location == 0) {
 				// xmpp:johndoe@jabber.org?remove
@@ -455,10 +455,10 @@
 			
 			if (contactName.length) {
 				if ([host isEqualToString:@"addContact"]) {
-					[AINewContactWindowController promptForNewContactOnWindow:nil
-																		 name:contactName
-																	  service:[adium.accountController firstServiceWithServiceID:serviceID]
-																	  account:nil];
+					AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:contactName
+																																 service:[adium.accountController firstServiceWithServiceID:serviceID]
+																																 account:nil];
+					[newContactWindowController showOnWindow:nil];
 				} else if ([host isEqualToString:@"sendIM"]) {
 					[self _openChatToContactWithName:contactName
 										   onService:serviceID
