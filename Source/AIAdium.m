@@ -262,7 +262,7 @@ static NSString	*prefsCategory;
 														  object:nil];
 	
 	//Broadcast our presence
-	NSConnection *connection = [[NSConnection alloc] init];
+	connection = [[NSConnection alloc] init];
 	[connection setRootObject:self];
 	[connection registerName:@"com.adiumX.adiumX"];
 
@@ -343,6 +343,8 @@ static NSString	*prefsCategory;
 {
 	//Take no action if we didn't complete the application load
 	if (!completedApplicationLoad) return;
+	
+	[connection release]; connection = nil;
 
 	isQuitting = YES;
 
