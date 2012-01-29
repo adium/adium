@@ -145,9 +145,9 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 
 - (IBAction)displayAdvanced:(id)sender
 {
-	[AIEditAccountWindowController editAccount:self.account
-									  onWindow:[self window]
-							   notifyingTarget:self];	
+	AIEditAccountWindowController *editAccountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:self.account
+																										notifyingTarget:self];
+	[editAccountWindowController showOnWindow:[self window]];
 }
 
 - (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)inSuccess
