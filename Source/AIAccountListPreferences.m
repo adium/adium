@@ -236,16 +236,16 @@
 	AIAccount	*account = [adium.accountController createAccountWithService:service
 																		   UID:[service defaultUserName]];
 
-	[AIEditAccountWindowController editAccount:account
-									  onWindow:[[self view] window]
-							   notifyingTarget:self];
+	AIEditAccountWindowController *editAccountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:account
+																										notifyingTarget:self];
+	[editAccountWindowController showOnWindow:[[self view] window]];
 }
 
 - (void)editAccount:(AIAccount *)inAccount
 {
-	[AIEditAccountWindowController editAccount:inAccount
-									  onWindow:[[self view] window]
-							   notifyingTarget:self];	
+	AIEditAccountWindowController *editAccountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:inAccount
+																										notifyingTarget:self];
+	[editAccountWindowController showOnWindow:[[self view] window]];	
 }
 
 /*!
