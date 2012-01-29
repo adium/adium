@@ -42,10 +42,13 @@
 		server = [newServer retain];
 		port = (newPort == -1 ? 6667 : newPort);
 		password = [newPassword retain];
-		
-		[[self window] makeKeyAndOrderFront:nil];
 	}
 	return self;
+}
+
+- (void)show
+{
+	[[self window] makeKeyAndOrderFront:nil];
 }
 
 - (void)dealloc
