@@ -35,12 +35,8 @@ typedef enum {
 	id			target;
 	id			userInfo;
 }
-
-+ (void)showPresetNameSheetWithDefaultName:(NSString *)inDefaultName
-						   explanatoryText:(NSString *)inExplanatoryText
-								  onWindow:(NSWindow *)parentWindow
-						   notifyingTarget:(id)inTarget
-								  userInfo:(id)inUserInfo;
+- (id)initWithDefaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 - (IBAction)okay:(id)sender;
 - (IBAction)cancel:(id)sender;
 

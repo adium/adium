@@ -91,9 +91,9 @@
 
     if (earliestTextView &&
 		![[keyWin windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
-		[SHLinkEditorWindowController showLinkEditorForTextView:earliestTextView
-													   onWindow:keyWin
-												notifyingTarget:nil];
+		SHLinkEditorWindowController *linkEditorWindowController = [[SHLinkEditorWindowController alloc] initWithTextView:earliestTextView
+																										  notifyingTarget:nil];
+		[linkEditorWindowController showOnWindow:keyWin];
     }
 }
 

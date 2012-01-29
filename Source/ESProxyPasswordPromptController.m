@@ -53,6 +53,7 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
 													  context:inContext])) {
 			[proxyPasswordPromptControllerDict setObject:controller
 												  forKey:identifier];
+			[controller autorelease];
 		}
 	}
 	
