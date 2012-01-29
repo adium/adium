@@ -11,7 +11,9 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
+#import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
+#import <CoreServices/CoreServices.h>
 
 #pragma mark Dummy class 
 
@@ -22,7 +24,7 @@
 
 typedef struct _KeyCombo {
 	NSUInteger flags; // 0 for no flags
-	signed short code; // -1 for no code
+	NSInteger code; // -1 for no code
 } KeyCombo;
 
 #pragma mark -
@@ -109,7 +111,7 @@ enum {
 //#define SRCommonWriteDebugImagery
 
 // Macros for glyps
-#define SRInt(x) [NSNumber numberWithInt: x]
+#define SRInt(x) [NSNumber numberWithInteger:x]
 #define SRChar(x) [NSString stringWithFormat: @"%C", x]
 
 // Some default values
@@ -134,15 +136,15 @@ enum {
 // SRReadableString... X - X -
 // SRCharacter...      - X - -
 //
-NSString * SRStringForKeyCode( signed short keyCode );
+NSString * SRStringForKeyCode( NSInteger keyCode );
 NSString * SRStringForCarbonModifierFlags( NSUInteger flags );
-NSString * SRStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
+NSString * SRStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, NSInteger keyCode );
 NSString * SRStringForCocoaModifierFlags( NSUInteger flags );
-NSString * SRStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
-NSString * SRReadableStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
-NSString * SRReadableStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
-NSString *SRCharacterForKeyCodeAndCarbonFlags(signed short keyCode, NSUInteger carbonFlags);
-NSString *SRCharacterForKeyCodeAndCocoaFlags(signed short keyCode, NSUInteger cocoaFlags);
+NSString * SRStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, NSInteger keyCode );
+NSString * SRReadableStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, NSInteger keyCode );
+NSString * SRReadableStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, NSInteger keyCode );
+NSString *SRCharacterForKeyCodeAndCarbonFlags(NSInteger keyCode, NSUInteger carbonFlags);
+NSString *SRCharacterForKeyCodeAndCocoaFlags(NSInteger keyCode, NSUInteger cocoaFlags);
 
 #pragma mark Converting between Cocoa and Carbon modifier flags
 
@@ -157,36 +159,19 @@ CGFloat SRAnimationEaseInOut(CGFloat t);
 #pragma mark -
 #pragma mark Inlines
 
-FOUNDATION_STATIC_INLINE KeyCombo SRMakeKeyCombo(signed short code, NSUInteger flags) {
+FOUNDATION_STATIC_INLINE KeyCombo SRMakeKeyCombo(NSInteger code, NSUInteger flags) {
 	KeyCombo kc;
 	kc.code = code;
 	kc.flags = flags;
 	return kc;
 }
 
-FOUNDATION_STATIC_INLINE BOOL SRIsSpecialKey(signed short keyCode) {
+FOUNDATION_STATIC_INLINE BOOL SRIsSpecialKey(NSInteger keyCode) {
 	return (keyCode == kSRKeysF1 || keyCode == kSRKeysF2 || keyCode == kSRKeysF3 || keyCode == kSRKeysF4 || keyCode == kSRKeysF5 || keyCode == kSRKeysF6 || keyCode == kSRKeysF7 || keyCode == kSRKeysF8 || keyCode == kSRKeysF9 || keyCode == kSRKeysF10 || keyCode == kSRKeysF11 || keyCode == kSRKeysF12 || keyCode == kSRKeysF13 || keyCode == kSRKeysF14 || keyCode == kSRKeysF15 || keyCode == kSRKeysF16 || keyCode == kSRKeysSpace || keyCode == kSRKeysDeleteLeft || keyCode == kSRKeysDeleteRight || keyCode == kSRKeysPadClear || keyCode == kSRKeysLeftArrow || keyCode == kSRKeysRightArrow || keyCode == kSRKeysUpArrow || keyCode == kSRKeysDownArrow || keyCode == kSRKeysSoutheastArrow || keyCode == kSRKeysNorthwestArrow || keyCode == kSRKeysEscape || keyCode == kSRKeysPageDown || keyCode == kSRKeysPageUp || keyCode == kSRKeysReturnR2L || keyCode == kSRKeysReturn || keyCode == kSRKeysTabRight || keyCode == kSRKeysHelp);
 }
 
 #pragma mark -
 #pragma mark Additions
-
-//
-// This segment is a category on NSBezierPath to supply roundrects. It's a common thing if you're drawing,
-// so to integrate well, we use an oddball method signature to not implement the same method twice.
-//
-// This code is originally from http://www.cocoadev.com/index.pl?RoundedRectangles and no license demands
-// (or Copyright demands) are stated, so we pretend it's public domain. 
-//
-@interface NSBezierPath( SRAdditions )
-+ (NSBezierPath*)bezierPathWithSRCRoundRectInRect:(NSRect)aRect radius:(CGFloat)radius;
-@end
-
-@interface NSError( SRAdditions )
-- (NSString *)localizedFailureReason;
-- (NSString *)localizedRecoverySuggestion;
-- (NSArray *)localizedRecoveryOptions;
-@end
 
 @interface NSAlert( SRAdditions )
 + (NSAlert *) alertWithNonRecoverableError:(NSError *)error;

@@ -11,6 +11,7 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
+#import <Cocoa/Cocoa.h>
 #import "SRCommon.h"
 
 #define SRMinWidth 50
@@ -131,6 +132,6 @@ typedef enum SRRecorderStyle SRRecorderStyle;
 
 // Delegate Methods
 @interface NSObject (SRRecorderCellDelegate)
-- (BOOL)shortcutRecorderCell:(SRRecorderCell *)aRecorderCell isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
+- (BOOL)shortcutRecorderCell:(SRRecorderCell *)aRecorderCell isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
 - (void)shortcutRecorderCell:(SRRecorderCell *)aRecorderCell keyComboDidChange:(KeyCombo)newCombo;
 @end

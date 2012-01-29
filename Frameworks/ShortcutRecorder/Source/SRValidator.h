@@ -11,14 +11,16 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
+#import <Cocoa/Cocoa.h>
+
 @interface SRValidator : NSObject {
     id              delegate;
 }
 
 - (id) initWithDelegate:(id)theDelegate;
 
-- (BOOL) isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags error:(NSError **)error;
-- (BOOL) isKeyCode:(signed short)keyCode andFlags:(NSUInteger)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
+- (BOOL) isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags error:(NSError **)error;
+- (BOOL) isKeyCode:(NSInteger)keyCode andFlags:(NSUInteger)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
 
 - (id) delegate;
 - (void) setDelegate: (id) theDelegate;
@@ -28,5 +30,5 @@
 #pragma mark -
 
 @interface NSObject( SRValidation )
-- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
+- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
 @end
