@@ -420,7 +420,7 @@
 			}
 		}
 		
-		[tokens addObject:[[string substringWithRange:NSMakeRange(start, i - start)] mutableCopy]];
+		[tokens addObject:[[[string substringWithRange:NSMakeRange(start, i - start)] mutableCopy] autorelease]];
 	}
 	
 	return tokens;

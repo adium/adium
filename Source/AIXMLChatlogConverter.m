@@ -192,7 +192,7 @@
     for (AIAccount *account in adium.accountController.accounts) {
         if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
             [account.service.serviceID isEqualToString:service]) {
-            myDisplayName = [account.displayName retain];
+            myDisplayName = [[account.displayName retain] autorelease];
             break;
         }
     }    

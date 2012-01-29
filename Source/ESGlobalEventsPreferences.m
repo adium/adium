@@ -766,6 +766,7 @@
 								   representedObject:soundSet];
 		
 		if ([[menuItem title] isEqualToString:NONE]) {
+			[noneMenuItem release];
 			noneMenuItem = menuItem;
 
 		} else {

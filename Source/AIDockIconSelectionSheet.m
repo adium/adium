@@ -119,7 +119,7 @@
 - (void)xtrasChanged:(NSNotification *)notification
 {
 	if (!notification || [[notification object] caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
-		[self setIconsData:[[NSMutableArray alloc] init]];
+		[self setIconsData:[NSMutableArray array]];
 		NSMutableArray *dockIcons = [[NSMutableArray alloc] init];
 		
 		// Fetch the pack previews
