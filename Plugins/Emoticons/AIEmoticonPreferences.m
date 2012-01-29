@@ -74,7 +74,13 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:nil];
-	[sheet close];
+	
+	viewIsOpen = NO;
+	
+	[adium.preferenceController unregisterPreferenceObserver:self];
+    [adium.emoticonController flushEmoticonImageCache];
+	
+	[self autorelease];
 }
 
 //Configure the preference view
