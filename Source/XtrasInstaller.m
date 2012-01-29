@@ -103,7 +103,7 @@
 		AILogWithSignature(@"Downloading %@", urlToDownload);
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToDownload];
 		[request setHTTPShouldHandleCookies:NO];
-		self.download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+		self.download = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
 //		[download setDestination:dest allowOverwrite:YES];
 
 		[urlToDownload release];

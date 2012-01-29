@@ -153,9 +153,9 @@
     NSString        *path = [[@"/" stringByAppendingPathComponent:self.apiPath]
                                    stringByAppendingPathComponent:@"statusnet/config.xml"];
     
-	NSURL           *url = [[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
-                                                    host:self.host
-                                                    path:path];
+	NSURL           *url = [[[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
+													 host:self.host
+													 path:path] autorelease];
     
     NSURLRequest    *configRequest = [NSURLRequest requestWithURL:url];
     
@@ -198,6 +198,7 @@
             AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
 	
 		[configData release]; configData = nil;
+		[config release];
 		[textLimitConfigDownload release]; textLimitConfigDownload = nil;
     }
 }

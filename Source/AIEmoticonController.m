@@ -292,7 +292,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 					[tempSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
 					//remove any characters *in* the replacement string from the trimming set
 					[tempSet removeCharactersInString:replacementString];
-					[endingSetDict setObject:[tempSet copyImmutable] forKey:replacementString];
+					[endingSetDict setObject:[[tempSet copyImmutable] autorelease] forKey:replacementString];
 					[tempSet release];
 					endingTrimSet = [endingSetDict objectForKey:replacementString];
 				}
