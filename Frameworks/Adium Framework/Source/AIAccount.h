@@ -202,6 +202,7 @@ typedef enum {
 - (NSString *)accountWillSetUID:(NSString *)proposedUID;
 - (void)didChangeUID;
 - (void)willBeDeleted;
+- (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion __attribute__((objc_method_family(new)));
 @property (readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
 @property (readonly, nonatomic) NSAlert *alertForAccountDeletion;
 - (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode;

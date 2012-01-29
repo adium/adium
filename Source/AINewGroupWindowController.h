@@ -27,7 +27,7 @@
 	AIListGroup *group;
 }
 
-+ (AINewGroupWindowController *)promptForNewGroupOnWindow:(NSWindow *)parentWindow;
++ (AINewGroupWindowController *)promptForNewGroupOnWindow:(NSWindow *)parentWindow __attribute__((objc_method_family(new)));
 - (AIListGroup *)group;
 - (IBAction)cancel:(id)sender;
 - (IBAction)addGroup:(id)sender;

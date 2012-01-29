@@ -432,8 +432,8 @@
 			
 			//Draw the substring
 			[attributedSubString drawInRect:cellFrame];
-			[attributedSubString release];
 		}
+		[attributedSubString release];
 	}
 
 	[NSGraphicsContext restoreGraphicsState];

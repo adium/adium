@@ -98,7 +98,7 @@
 	NSString		*themeName;
 }
 
-+ (id)editListThemeWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
++ (id)editListThemeWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget __attribute__((objc_method_family(new)));
 - (IBAction)cancel:(id)sender;
 - (IBAction)okay:(id)sender;
 - (void)preferenceChanged:(id)sender;

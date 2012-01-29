@@ -67,7 +67,7 @@ typedef enum {
 							 andMessage:(NSAttributedString *)inMessage
 								  image:(NSImage *)inImage
 								 target:(id)inTarget
-							   userInfo:(id)inUserInfo;
+							   userInfo:(id)inUserInfo __attribute__((objc_method_family(new)));
 
 + (id)showTextAndButtonsWindowWithTitle:(NSString *)inTitle
 						  defaultButton:(NSString *)inDefaultButton
@@ -77,8 +77,8 @@ typedef enum {
 					  withMessageHeader:(NSString *)inMessageHeader
 							 andMessage:(NSAttributedString *)inMessage
 								 target:(id)inTarget
-							   userInfo:(id)inUserInfo;
-+ (id)controller;
+							   userInfo:(id)inUserInfo __attribute__((objc_method_family(new)));
++ (id)controller __attribute__((objc_method_family(new)));
 
 - (void)changeWindowToTitle:(NSString *)inTitle
 			  defaultButton:(NSString *)inDefaultButton
