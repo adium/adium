@@ -894,7 +894,8 @@ typedef enum {
  */
 - (IBAction)showAllDockIcons:(id)sender
 {
-	[AIDockIconSelectionSheet showDockIconSelectorOnWindow:[[self view] window]];
+	AIDockIconSelectionSheet *dockIconSelectionSheet = [[AIDockIconSelectionSheet alloc] init];
+	[dockIconSelectionSheet openOnWindow:[[self view] window]];
 }
 
 /*!
