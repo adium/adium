@@ -15,5 +15,5 @@
  */
 
 @interface NSCharacterSet (AICharacterSetAdditions)
-- (NSCharacterSet *)copyImmutable;
+- (NSCharacterSet *)immutableCopy __attribute__((objc_method_family(copy)));
 @end
