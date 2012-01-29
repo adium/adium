@@ -11,6 +11,7 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
+#import <Cocoa/Cocoa.h>
 #import "SRRecorderCell.h"
 
 @interface SRRecorderControl : NSControl
@@ -64,10 +65,15 @@
 - (NSUInteger)cocoaToCarbonFlags:(NSUInteger)cocoaFlags;
 - (NSUInteger)carbonToCocoaFlags:(NSUInteger)carbonFlags;
 
+#pragma mark *** Binding Methods ***
+
+- (NSDictionary *)objectValue;
+- (void)setObjectValue:(NSDictionary *)shortcut;
+
 @end
 
 // Delegate Methods
 @interface NSObject (SRRecorderDelegate)
-- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
 - (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo;
 @end

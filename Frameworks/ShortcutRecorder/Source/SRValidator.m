@@ -2,7 +2,7 @@
 //  SRValidator.h
 //  ShortcutRecorder
 //
-//  Copyright 2006-2007 Contributors. All rights reserved.
+//  Copyright 2006-2011 Contributors. All rights reserved.
 //
 //  License: BSD
 //
@@ -10,6 +10,7 @@
 //      David Dauer
 //      Jesper
 //      Jamie Kirkpatrick
+//      Andy Kim
 
 #import "SRValidator.h"
 #import "SRCommon.h"
@@ -33,7 +34,7 @@
 //---------------------------------------------------------- 
 // isKeyCode:andFlagsTaken:error:
 //---------------------------------------------------------- 
-- (BOOL) isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags error:(NSError **)error;
+- (BOOL) isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags error:(NSError **)error;
 {
     // if we have a delegate, it goes first...
 	if ( delegate )
@@ -54,31 +55,34 @@
                     SRReadableStringForCarbonModifierFlagsAndKeyCode( flags, keyCode ),
                     ( delegateReason && [delegateReason length] ) ? delegateReason : @"it's already used"];
                 NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                    description,
-                    @"NSLocalizedDescriptionKey",
-                    recoverySuggestion,
-                    @"NSLocalizedRecoverySuggestionErrorKey",
-                    [NSArray arrayWithObject:@"OK"],
-                    @"NSLocalizedRecoveryOptionsErrorKey",
-                    nil];
-                *error = [NSError errorWithDomain:@"NSCocoaErrorDomain" code:0 userInfo:userInfo];
+										  description, NSLocalizedDescriptionKey,
+										  recoverySuggestion, NSLocalizedRecoverySuggestionErrorKey,
+										  [NSArray arrayWithObject:@"OK"], NSLocalizedRecoveryOptionsErrorKey, // Is this needed? Shouldn't it show 'OK' by default? -AK
+										  nil];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:userInfo];
             }
 			return YES;
 		}
 	}
 	
 	// then our implementation...
-	NSArray *globalHotKeys;
+	CFArrayRef tempArray = NULL;
+	OSStatus err = noErr;
 	
 	// get global hot keys...
-	if ( CopySymbolicHotKeys((CFArrayRef *)&globalHotKeys ) != noErr )
-		return YES;
+	err = CopySymbolicHotKeys( &tempArray );
+
+	if ( err != noErr ) return YES;
+
+	// Not copying the array like this results in a leak on according to the Leaks Instrument
+	NSArray *globalHotKeys = [NSArray arrayWithArray:(NSArray *)tempArray];
+
+	if ( tempArray ) CFRelease(tempArray);
 	
+	NSEnumerator *globalHotKeysEnumerator = [globalHotKeys objectEnumerator];
 	NSDictionary *globalHotKeyInfoDictionary;
-	SInt32 gobalHotKeyFlags;
-	signed short globalHotKeyCharCode;
-	unichar globalHotKeyUniChar;
-	unichar localHotKeyUniChar;
+	int32_t globalHotKeyFlags;
+	NSInteger globalHotKeyCharCode;
 	BOOL globalCommandMod = NO, globalOptionMod = NO, globalShiftMod = NO, globalCtrlMod = NO;
 	BOOL localCommandMod = NO, localOptionMod = NO, localShiftMod = NO, localCtrlMod = NO;
 	
@@ -88,7 +92,7 @@
 	if ( flags & shiftKey )     localShiftMod = YES;
 	if ( flags & controlKey )   localCtrlMod = YES;
     
-	for (globalHotKeyInfoDictionary in globalHotKeys)
+	while (( globalHotKeyInfoDictionary = [globalHotKeysEnumerator nextObject] ))
 	{
 		// Only check if global hotkey is enabled
 		if ( (CFBooleanRef)[globalHotKeyInfoDictionary objectForKey:(NSString *)kHISymbolicHotKeyEnabled] != kCFBooleanTrue )
@@ -99,23 +103,21 @@
         globalShiftMod      = NO;
         globalCtrlMod       = NO;
         
-        globalHotKeyCharCode = [(NSNumber *)[globalHotKeyInfoDictionary objectForKey:(NSString *)kHISymbolicHotKeyCode] unsignedShortValue];
-        globalHotKeyUniChar = [[[NSString stringWithFormat:@"%C", globalHotKeyCharCode] uppercaseString] characterAtIndex:0];
+        globalHotKeyCharCode = [(NSNumber *)[globalHotKeyInfoDictionary objectForKey:(NSString *)kHISymbolicHotKeyCode] shortValue];
         
-        CFNumberGetValue((CFNumberRef)[globalHotKeyInfoDictionary objectForKey: (NSString *)kHISymbolicHotKeyModifiers],kCFNumberSInt32Type,&gobalHotKeyFlags);
+        CFNumberGetValue((CFNumberRef)[globalHotKeyInfoDictionary objectForKey: (NSString *)kHISymbolicHotKeyModifiers],kCFNumberSInt32Type,&globalHotKeyFlags);
         
-        if ( gobalHotKeyFlags & cmdKey )        globalCommandMod = YES;
-        if ( gobalHotKeyFlags & optionKey )     globalOptionMod = YES;
-        if ( gobalHotKeyFlags & shiftKey)       globalShiftMod = YES;
-        if ( gobalHotKeyFlags & controlKey )    globalCtrlMod = YES;
+        if ( globalHotKeyFlags & cmdKey )        globalCommandMod = YES;
+        if ( globalHotKeyFlags & optionKey )     globalOptionMod = YES;
+        if ( globalHotKeyFlags & shiftKey)       globalShiftMod = YES;
+        if ( globalHotKeyFlags & controlKey )    globalCtrlMod = YES;
         
         NSString *localKeyString = SRStringForKeyCode( keyCode );
         if (![localKeyString length]) return YES;
         
-        localHotKeyUniChar = [localKeyString characterAtIndex:0];
         
         // compare unichar value and modifier flags
-        if ( ( globalHotKeyUniChar == localHotKeyUniChar ) 
+		if ( ( globalHotKeyCharCode == keyCode ) 
              && ( globalCommandMod == localCommandMod ) 
              && ( globalOptionMod == localOptionMod ) 
              && ( globalShiftMod == localShiftMod ) 
@@ -129,15 +131,12 @@
                 NSString *recoverySuggestion = [NSString stringWithFormat: 
                     SRLoc(@"The key combination \"%@\" can't be used because it's already used by a system-wide keyboard shortcut. (If you really want to use this key combination, most shortcuts can be changed in the Keyboard & Mouse panel in System Preferences.)"), 
                     SRReadableStringForCarbonModifierFlagsAndKeyCode( flags, keyCode )];
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                    description,
-                    @"NSLocalizedDescriptionKey",
-                    recoverySuggestion,
-                    @"NSLocalizedRecoverySuggestionErrorKey",
-                    [NSArray arrayWithObject:@"OK"],
-                    @"NSLocalizedRecoveryOptionsErrorKey",
-                    nil];
-                *error = [NSError errorWithDomain:@"NSCocoaErrorDomain" code:0 userInfo:userInfo];
+				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+										  description, NSLocalizedDescriptionKey,
+										  recoverySuggestion, NSLocalizedRecoverySuggestionErrorKey,
+										  [NSArray arrayWithObject:@"OK"], NSLocalizedRecoveryOptionsErrorKey,
+										  nil];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:userInfo];
             }
             return YES;
         }
@@ -150,11 +149,12 @@
 //---------------------------------------------------------- 
 // isKeyCode:andFlags:takenInMenu:error:
 //---------------------------------------------------------- 
-- (BOOL) isKeyCode:(signed short)keyCode andFlags:(NSUInteger)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
+- (BOOL) isKeyCode:(NSInteger)keyCode andFlags:(NSUInteger)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
 {
     NSArray *menuItemsArray = [menu itemArray];
+	NSEnumerator *menuItemsEnumerator = [menuItemsArray objectEnumerator];
 	NSMenuItem *menuItem;
-	unsigned int menuItemModifierFlags;
+	NSUInteger menuItemModifierFlags;
 	NSString *menuItemKeyEquivalent;
 	
 	BOOL menuItemCommandMod = NO, menuItemOptionMod = NO, menuItemShiftMod = NO, menuItemCtrlMod = NO;
@@ -166,7 +166,7 @@
 	if ( flags & shiftKey )     localShiftMod = YES;
 	if ( flags & controlKey )   localCtrlMod = YES;
 	
-	for (menuItem in menuItemsArray)
+	while (( menuItem = [menuItemsEnumerator nextObject] ))
 	{
         // rescurse into all submenus...
 		if ( [menuItem hasSubmenu] )
@@ -185,7 +185,7 @@
 			menuItemShiftMod = NO;
 			menuItemCtrlMod = NO;
 			
-			menuItemModifierFlags = (unsigned int)[menuItem keyEquivalentModifierMask];
+			menuItemModifierFlags = [menuItem keyEquivalentModifierMask];
             
 			if ( menuItemModifierFlags & NSCommandKeyMask )     menuItemCommandMod = YES;
 			if ( menuItemModifierFlags & NSAlternateKeyMask )   menuItemOptionMod = YES;
@@ -211,14 +211,11 @@
                         SRReadableStringForCocoaModifierFlagsAndKeyCode( menuItemModifierFlags, keyCode ),
                         [menuItem title]];
                     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                        description,
-                        @"NSLocalizedDescriptionKey",
-                        recoverySuggestion,
-                        @"NSLocalizedRecoverySuggestionErrorKey",
-                        [NSArray arrayWithObject:@"OK"],
-                        @"NSLocalizedRecoveryOptionsErrorKey",
-                        nil];
-                    *error = [NSError errorWithDomain:@"NSCocoaErrorDomain" code:0 userInfo:userInfo];
+											  description, NSLocalizedDescriptionKey,
+											  recoverySuggestion, NSLocalizedRecoverySuggestionErrorKey,
+											  [NSArray arrayWithObject:@"OK"], NSLocalizedRecoveryOptionsErrorKey,
+											  nil];
+                    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0 userInfo:userInfo];
                 }
 				return YES;
 			}
@@ -253,7 +250,7 @@
 //---------------------------------------------------------- 
 // shortcutValidator:isKeyCode:andFlagsTaken:reason:
 //---------------------------------------------------------- 
-- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
+- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
 {
     return NO;
 }
