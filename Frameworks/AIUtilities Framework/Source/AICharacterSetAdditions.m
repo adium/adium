@@ -25,9 +25,9 @@
  *
  * However, -[NSMutableCharacterSet copy] returns a new NSMutableCharacterSet which remains inefficient!
  *
- * This is still true as of 10.7.2.
+ * XXX: This is still true as of 10.7.2.
  */
-- (NSCharacterSet *)copyImmutable
+- (NSCharacterSet *)immutableCopy
 {
 	return [[NSCharacterSet characterSetWithBitmapRepresentation:[self bitmapRepresentation]] retain];
 }
