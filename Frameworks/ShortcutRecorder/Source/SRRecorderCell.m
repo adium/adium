@@ -68,6 +68,8 @@
 	
 	[cancelCharacterSet release];
 	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[super dealloc];
 }
 
