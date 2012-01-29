@@ -581,9 +581,9 @@ typedef enum {
 {
 	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];	
 	
-	[AIListLayoutWindowController editListLayoutWithName:theme
-											  onWindow:[[self view] window]
-									   notifyingTarget:self];
+	AIListLayoutWindowController *listLayoutWindowController = [[AIListLayoutWindowController alloc] initWithName:theme
+																								  notifyingTarget:self];
+	[listLayoutWindowController showOnWindow:[[self view] window]];
 }
 
 /*!
@@ -691,9 +691,9 @@ typedef enum {
 	[listThemeWindowController showOnWindow:[[self view] window]];
 }
 - (void)_editListLayoutWithName:(NSString *)name{
-	[AIListLayoutWindowController editListLayoutWithName:name
-												onWindow:[[self view] window]
-										 notifyingTarget:self];
+	AIListLayoutWindowController *listLayoutWindowController = [[AIListLayoutWindowController alloc] initWithName:name
+																								  notifyingTarget:self];
+	[listLayoutWindowController showOnWindow:[[self view] window]];
 }
 
 /*!
