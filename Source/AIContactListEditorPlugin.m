@@ -252,7 +252,8 @@
  */
 - (IBAction)addGroup:(id)sender
 {
-	[AINewGroupWindowController promptForNewGroupOnWindow:nil];
+	AINewGroupWindowController *newGroupController = [[AINewGroupWindowController alloc] init];
+	[newGroupController showOnWindow:nil];
 }
 
 
