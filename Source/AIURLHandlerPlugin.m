@@ -527,7 +527,8 @@
 	}
 	
 	if (!ircAccount) {
-		[[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		AITemporaryIRCAccountWindowController *temporaryIRCAccountWindowController = [[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		[temporaryIRCAccountWindowController show];
 	} else if (name) {
 		[adium.chatController chatWithName:name
 		 identifier:nil
