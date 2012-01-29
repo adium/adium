@@ -44,21 +44,26 @@
 
 @implementation AIEmoticonPreferences
 
-+ (void)showEmoticionCustomizationOnWindow:(NSWindow *)parentWindow
+- (id)init
 {
-	AIEmoticonPreferences	*controller;
+	if (self = [super initWithWindowNibName:@"EmoticonPrefs"]) {
+		
+	}
 	
-	controller = [[self alloc] initWithWindowNibName:@"EmoticonPrefs"];
-	
+	return self;
+}
+
+- (void)openOnWindow:(NSWindow *)parentWindow
+{
 	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:controller
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[controller showWindow:nil];
-		[[controller window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
 }
@@ -68,7 +73,8 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
+	[sheet orderOut:nil];
+	[sheet close];
 }
 
 //Configure the preference view
@@ -87,6 +93,7 @@
 	[self configurePreviewControllers];
 
     //Emoticons table
+	[selectedEmoticonPack release];
 	selectedEmoticonPack = nil;
 	checkCell = [[NSButtonCell alloc] init];
 	[checkCell setButtonType:NSSwitchButton];
@@ -94,7 +101,6 @@
 	[checkCell setTitle:@""];
 	[checkCell setRefusesFirstResponder:YES];
 	[[table_emoticons tableColumnWithIdentifier:@"Enabled"] setDataCell:checkCell];
-	[checkCell release];
 
 	NSImageCell *imageCell = [[NSImageCell alloc] initImageCell:nil];
 	if ([imageCell respondsToSelector:@selector(_setAnimates:)]) [imageCell _setAnimates:NO];
@@ -131,15 +137,23 @@
 - (void)windowWillClose:(id)sender
 {
 	viewIsOpen = NO;
+	
+	[super windowWillClose:sender];
+	
+	[adium.preferenceController unregisterPreferenceObserver:self];
+    [adium.emoticonController flushEmoticonImageCache];
+	
+	[self autorelease];
+}
 
+- (void)dealloc
+{
 	[checkCell release]; checkCell = nil;
 	[selectedEmoticonPack release]; selectedEmoticonPack = nil;
 	[emoticonPackPreviewControllers release]; emoticonPackPreviewControllers = nil;
-	[adium.preferenceController unregisterPreferenceObserver:self];
 	[emoticonImageCache release]; emoticonImageCache = nil;
-
-    //Flush all the images we loaded
-    [adium.emoticonController flushEmoticonImageCache];
+	
+	[super dealloc];
 }
 
 - (void)configurePreviewControllers
