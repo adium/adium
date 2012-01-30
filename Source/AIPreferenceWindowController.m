@@ -517,6 +517,20 @@
 	
 	[suggestionsWindow setFrame:frame display:NO];
 	[window addChildWindow:suggestionsWindow ordered:NSWindowAbove];
+	
+	//Select the best match
+	if ([entries count] == 1) {
+		//If there's only one entry, select it
+		[self setSelectedView:[[suggestionsWindow.contentView subviews] objectAtIndex:0]];
+	} else if ([entries count] < 5) {
+		//Only select one when there are fewer than five entries
+		float score1 = [(NSNumber *)[[entries objectAtIndex:0] objectForKey:@"score"] floatValue];
+		float score2 = [(NSNumber *)[[entries objectAtIndex:1] objectForKey:@"score"] floatValue];
+		
+		//Make sure the score between the top two is at least 5 points
+		if ((score1 - score2) > 5)
+			[self setSelectedView:[[suggestionsWindow.contentView subviews] objectAtIndex:0]];
+	}
 }
 
 #pragma mark - Suggestions Mouse and Keyboard Tracking
@@ -580,6 +594,7 @@
 	int kSearchMax = 20;
 	CFURLRef foundURLs[kSearchMax];
 	SKDocumentID foundDocIDs[kSearchMax];
+	float foundScores[kSearchMax];
 	UInt32 totalCount = 0;
 	BOOL more = YES;
 	while (more) {
@@ -587,7 +602,7 @@
 		more = SKSearchFindMatches (search,
 									kSearchMax,
 									foundDocIDs,
-									NULL,
+									foundScores,
 									1,
 									&foundCount);
 		//Display or accumulate results here
@@ -597,7 +612,7 @@
 		for (int i = 0; i < foundCount; i++) {
 			NSString *paneName = [[(NSURL *)foundURLs[i] pathComponents] objectAtIndex:1];
 			AIPreferencePane *pane = [panes objectForKey:paneName];
-			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", nil]];
+			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", [NSNumber numberWithFloat:foundScores[i]], @"score", nil]];
 			[(NSURL *)foundURLs[i] release];
 			NSUInteger idx = [generalPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
@@ -620,9 +635,11 @@
 	[eventsCV setSelectionIndexes:eventsIndexes];
 	[advancedCV setSelectionIndexes:advancedIndexes];
 	
-	if (results.count > 0)
+	if (results.count > 0) {
+		//Sort by score
+		[results sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"score" ascending:NO]]];
 		[self layoutEntries:results];
-	else
+	} else
 		[self cancelSuggestions];
 }
 
