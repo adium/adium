@@ -188,6 +188,8 @@
 			return;
 		}
 		
+		__block NSMutableSet *skipSet = [[[NSMutableSet alloc] init] autorelease];
+		
 		if (termsURL) {
 			NSDictionary *terms = [NSDictionary dictionaryWithContentsOfURL:termsURL];
 			//The file is laid out with each pane having an array of sections with each section having search terms
@@ -198,7 +200,7 @@
 				[(NSArray *)paneSection enumerateObjectsUsingBlock:^(id termDict, NSUInteger idx, BOOL *aStop) {
 					NSString *title = [termDict objectForKey:@"title"];
 					if ([title isEqualToString:@""])
-						return;
+						[skipSet addObject:pane];
 					
 					NSString *paneURL = [NSString stringWithFormat:@"%@/%@", pane, title];
 					SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
@@ -219,6 +221,9 @@
 		//Add each pane to the index
 		id _skPaneNames = ^(id obj, NSUInteger idx, BOOL *stop) {
 			NSString *paneName = [obj paneName];
+			if ([skipSet containsObject:paneName])
+				return;
+			
 			NSString *paneURL = [NSString stringWithFormat:@"%@/", paneName];
 			SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
 												 NULL,
