@@ -30,6 +30,7 @@
 
 #define SUGGESTION_ENTRY_HEIGHT 17
 #define PREFERENCES_LAST_PANE_KEY @"Preferences Last Pane"
+#define PREFERENCES_MINIMUM_WIDTH 600
 
 @interface AIPreferenceWindowController ()
 - (void)showPreferencesWindow;
@@ -354,7 +355,7 @@
 	NSRect contentFrame = [[self.window contentView] frame];
 	
 	windowFrame.size.height = viewFrame.size.height + (windowFrame.size.height - contentFrame.size.height);
-	windowFrame.size.width = viewFrame.size.width;
+	windowFrame.size.width = MAX(viewFrame.size.width, PREFERENCES_MINIMUM_WIDTH);
 	
 	windowFrame.origin.y += (contentFrame.size.height - viewFrame.size.height);
 	[self.window setFrame:windowFrame display:YES animate:YES];
