@@ -580,7 +580,7 @@ AILocalizedStringFromTable(@"Sticking Out Tongue", "EmoticonNames", "Emoticon na
 AILocalizedStringFromTable(@"Erm", "EmoticonNames", "Emoticon name")
 AILocalizedStringFromTable(@"Cool", "EmoticonNames", "Emoticon name")
 AILocalizedStringFromTable(@"Wink", "EmoticonNames", "Emoticon name")
-AILocalizedStringFromTable(@"Foot in mouth", "EmoticonNames", "Emoticon name")
+AILocalizedStringFromTable(@"Foot In Mouth", "EmoticonNames", "Emoticon name")
 AILocalizedStringFromTable(@"Frown", "EmoticonNames", "Emoticon name")
 AILocalizedStringFromTable(@"Confused", "EmoticonNames", "Emoticon name")
 AILocalizedStringFromTable(@"Halo", "EmoticonNames", "Emoticon name")
