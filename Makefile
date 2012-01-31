@@ -9,14 +9,9 @@ DEFAULT_BUILDCONFIGURATION=Release-Debug
 
 BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 
-# Default DevTools
-XCODEBUILD=xcodebuild
-
-# Non-default install of DevTools
-# currently used for Muscovy build machine
-if test -d /Xcode4 ; \
-then XCODEBUILD=/Xcode4/usr/bin/./xcodebuild ; \
-fi
+# Choose xcodebuild 
+# currently used for build machines
+XCODEBUILD ?= $(shell if test -d /Xcode4; then echo "/Xcode4/usr/bin/xcodebuild"; else echo "xcodebuild"; fi)
 #
 
 CP=ditto --rsrc
