@@ -137,7 +137,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 
 + (BOOL)pluginIsBlacklisted:(NSBundle *)plugin
 {
-	// Only one right now: the Skype plugin that works with 1.4 crashes #15590.
+	// Only one right now: the Skype plugin that works with 1.4 crashes in 1.5 (see #15590).
 	if ([[plugin bundleIdentifier] isEqualToString:@"org.bigbrownchunx.skypeplugin"] &&
 		[[[plugin infoDictionary] objectForKey:@"CFBundleVersion"] isEqualToString:@"1.0"]) {
 		return YES;
