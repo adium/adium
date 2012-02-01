@@ -72,6 +72,12 @@
 	oldWindowFrame = NSMakeRect(0,0,0,0);
 	alreadyMoving = NO;
 	dockingEnabled = YES;
+	
+	// Disable Lion windows restore feature
+	// XXX - Remove the check on 10.7+
+	if ([self respondsToSelector:@selector(setRestorable:)]) {
+        [self setRestorable:NO]; // Remove on UI rewrite
+    }
 }
 
 //Stop observing movement
