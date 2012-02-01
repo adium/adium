@@ -12685,6 +12685,7 @@
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -12698,6 +12699,7 @@
 					"\"$(SRCROOT)/build/Debug\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -12714,6 +12716,7 @@
 					RELEASE_BUILD,
 					DEBUG_BUILD,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = "Release-Debug";
 		};
