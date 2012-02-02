@@ -11,17 +11,17 @@
 
 @interface AIFacebookXMPPAccountViewController : PurpleAccountViewController {
 	AILocalizationTextField *label_instructions;
-	AILocalizationButton *button_OAuthStart;
-	NSTextField *textField_OAuthStatus;
-	NSProgressIndicator *spinner;
+	AILocalizationButton *__unsafe_unretained button_OAuthStart;
+	NSTextField *__unsafe_unretained textField_OAuthStatus;
+	NSProgressIndicator *__unsafe_unretained spinner;
 	
-	NSButton *button_help;
+	NSButton *__unsafe_unretained button_help;
 }
 
-@property (assign) IBOutlet NSProgressIndicator *spinner;
-@property (assign) IBOutlet NSTextField *textField_OAuthStatus;
-@property (assign) IBOutlet NSButton *button_OAuthStart;
-@property (assign) IBOutlet NSButton *button_help;
+@property (unsafe_unretained) IBOutlet NSProgressIndicator *spinner;
+@property (unsafe_unretained) IBOutlet NSTextField *textField_OAuthStatus;
+@property (unsafe_unretained) IBOutlet NSButton *button_OAuthStart;
+@property (unsafe_unretained) IBOutlet NSButton *button_help;
 
 - (IBAction)showHelp:(id)sender;
 

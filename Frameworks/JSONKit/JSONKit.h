@@ -196,7 +196,7 @@ typedef struct {
   JKObjectStack       objectStack;
   JKTokenCache        cache;
   JKObjCImpCache      objCImpCache;
-  NSError            *error;
+__unsafe_unretained  NSError            *error;
 } JKParseState;
 
 

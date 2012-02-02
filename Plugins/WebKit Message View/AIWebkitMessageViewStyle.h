@@ -78,9 +78,9 @@ typedef enum {
  */
 @interface AIWebkitMessageViewStyle : NSObject {
 	NSInteger			styleVersion;
-	NSBundle			*styleBundle;
+	NSBundle			*__unsafe_unretained styleBundle;
 	NSString			*stylePath;
-	NSString			*activeVariant;
+	NSString			*__unsafe_unretained activeVariant;
 	
 	//Templates
 	NSString			*headerHTML;
@@ -121,7 +121,7 @@ typedef enum {
 	BOOL				showIncomingColors;
 	AIWebkitBackgroundType		customBackgroundType;
 	NSString			*customBackgroundPath;
-	NSColor			*customBackgroundColor;
+	NSColor			*__unsafe_unretained customBackgroundColor;
 	NSImage			*userIconMask;
 
 	NSMutableDictionary *statusIconPathCache;
@@ -143,7 +143,7 @@ typedef enum {
 /*!
  *	@brief The NSBundle for this style
  */
-@property (readonly, nonatomic) NSBundle *bundle;
+@property (unsafe_unretained, readonly, nonatomic) NSBundle *bundle;
 
 /*!
  *  @brief Reloads the content of the style, useful for style authors and updates
@@ -158,7 +158,7 @@ typedef enum {
  * This is only a store; if it is changed, the changing object is responsible for making
  * any appropriate calls to update the display
  */
-@property (nonatomic) NSString *activeVariant;
+@property (unsafe_unretained, nonatomic) NSString *activeVariant;
 
 /*!
  *	Returns YES if this style is considered legacy
@@ -301,7 +301,7 @@ typedef enum {
 /*!
  *	@brief Set the custom background color
  */
-@property (readwrite, nonatomic) NSColor *customBackgroundColor;
+@property (unsafe_unretained, readwrite, nonatomic) NSColor *customBackgroundColor;
 
 /*!
  *	@brief Toggle visibility of received coloring

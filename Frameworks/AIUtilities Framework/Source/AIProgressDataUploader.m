@@ -219,7 +219,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 		return;
 	}
 	
-	NSNumber *bytesWrittenPropertyNum = NSMakeCollectable(CFReadStreamCopyProperty(stream, kCFStreamPropertyHTTPRequestBytesWrittenCount));
+	NSNumber *bytesWrittenPropertyNum = CFBridgingRelease(CFReadStreamCopyProperty(stream, kCFStreamPropertyHTTPRequestBytesWrittenCount));
 	NSInteger bytesWritten = [bytesWrittenPropertyNum integerValue];
 
 	if (bytesWritten > bytesSent) {		

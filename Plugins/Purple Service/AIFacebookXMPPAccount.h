@@ -34,7 +34,7 @@ typedef enum {
     NSString *oAuthToken;
     NSUInteger networkState;
     
-    NSURLConnection *connection; // weak
+    NSURLConnection *__weak connection;
     NSURLResponse *connectionResponse;
     NSMutableData *connectionData;
 	
@@ -43,13 +43,13 @@ typedef enum {
 
 + (BOOL)uidIsValidForFacebook:(NSString *)inUID;
 
-@property (nonatomic, retain) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
+@property (nonatomic, strong) AIFacebookXMPPOAuthWebViewWindowController *oAuthWC;
 - (void)requestFacebookAuthorization;
 
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token;
 - (void)oAuthWebViewControllerDidFail:(AIFacebookXMPPOAuthWebViewWindowController *)wc;
 
-@property (nonatomic, retain) NSDictionary *migrationData;
+@property (nonatomic) NSDictionary *migrationData;
 @end
 
 @interface AIFacebookXMPPAccount (ForSubclasses)

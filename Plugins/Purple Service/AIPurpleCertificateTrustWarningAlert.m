@@ -70,7 +70,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 	AIPurpleCertificateTrustWarningAlert *alert = [[self alloc] initWithAccount:account hostname:hostname certificates:certs resultCallback:_query_cert_cb userData:ud];
 	[alert showWindow:nil];
-	[alert release];
 }
 
 - (id)initWithAccount:(AIAccount*)_account
@@ -92,13 +91,11 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		
 		userdata = ud;
 	}
-	return [self retain];
+	return self;
 }
 
 - (void)dealloc {
 	CFRelease(certificates);
-	[hostname release];
-	[super dealloc];
 }
 
 - (IBAction)showWindow:(id)sender {
@@ -115,11 +112,9 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		if (oldCertHash) {
 			NSData *certData = [[NSData alloc] initWithBytesNoCopy:data.Data length:data.Length freeWhenDone:NO];
 			NSUInteger newCertHash = [certData hash];
-			[certData release];
 			
 			if (oldCertHash == newCertHash) {
 				query_cert_cb(true, userdata);
-				[self release];
 				return;
 			}
 		}
@@ -129,7 +124,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	err = SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, NULL, &searchRef);
 	if(err != noErr) {
 		NSBeep();
-		[self release];
 		return;
 	}
 	
@@ -137,7 +131,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	if(err != noErr) {
 		CFRelease(searchRef);
 		NSBeep();
-		[self release];
 		return;
 	}
 
@@ -166,7 +159,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		if (trustRef)
 			CFRelease(trustRef);
 		NSBeep();
-		[self release];
 		return;
 	}
 		
@@ -180,7 +172,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 			case kSecTrustResultUnspecified: // trust ok, user has no particular opinion about this
 #ifndef ALWAYS_SHOW_TRUST_WARNING
 				query_cert_cb(true, userdata);
-				[self autorelease];
 				break;
 #endif
 			case kSecTrustResultConfirm: // trust ok, but user asked (earlier) that you check with him before proceeding
@@ -192,10 +183,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 #if 1
 				//Show on an independent window.
 #define TRUST_PANEL_WIDTH 535
-				NSWindow *fakeWindow = [[[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, TRUST_PANEL_WIDTH, 1)
+				NSWindow *fakeWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, TRUST_PANEL_WIDTH, 1)
 																	styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
 																	  backing:NSBackingStoreBuffered
-																		defer:NO] autorelease];
+																		defer:NO];
 				[fakeWindow center];
 				[fakeWindow setTitle:AILocalizedString(@"Verify Certificate", nil)];
 
@@ -213,12 +204,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 				 * kSecTrustResultInvalid -> logic error; fix your program (SecTrust was used incorrectly)
 				 */
 				query_cert_cb(false, userdata);
-				[self autorelease];
 				break;
 		}
 	} else {
 		query_cert_cb(false, userdata);
-		[self autorelease];
 	}
 
 	CFRelease(searchRef);
@@ -274,14 +263,14 @@ static SecPolicyRef SSLSecPolicyCopy()
 
 	SecPolicyRef sslPolicy = SSLSecPolicyCopy();
 	if (sslPolicy) {
-		[trustPanel setPolicies:(id)sslPolicy];
+		[trustPanel setPolicies:(__bridge id)sslPolicy];
 		CFRelease(sslPolicy);
 	}
 
 	[trustPanel beginSheetForWindow:window
 					  modalDelegate:self
 					 didEndSelector:@selector(certificateTrustSheetDidEnd:returnCode:contextInfo:)
-						contextInfo:window
+						contextInfo:(__bridge void *)window
 							  trust:trustRef
 							message:title];	
 }
@@ -294,7 +283,7 @@ static SecPolicyRef SSLSecPolicyCopy()
 
 - (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	BOOL didTrustCerficate = (returnCode == NSOKButton);
-	NSWindow *parentWindow = (NSWindow *)contextInfo;
+	NSWindow *parentWindow = (__bridge NSWindow *)contextInfo;
 
 	query_cert_cb(didTrustCerficate, userdata);
 	/* If the user confirmed this cert, we store this information until the app is closed so the user doesn't have to re-confirm it every time
@@ -309,12 +298,9 @@ static SecPolicyRef SSLSecPolicyCopy()
 		}
 	}
 
-	[trustpanel release];
 	CFRelease(trustRef);
 
 	[parentWindow performClose:nil];
-	
-	[self release];
 }
 
 @end

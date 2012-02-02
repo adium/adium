@@ -38,7 +38,7 @@
 	BOOL						webViewIsReady;
 	
 	//Style & Variant
-	AIWebkitMessageViewStyle	*messageStyle;
+	AIWebkitMessageViewStyle	*__unsafe_unretained messageStyle;
 	NSString					*activeStyle;
 	NSString					*preferenceGroup;
 	
@@ -71,7 +71,7 @@
  */
 @property (readonly, nonatomic) ESWebView *messageView;
 @property (unsafe_unretained, readonly, nonatomic) NSView *messageScrollView;
-@property (readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
+@property (unsafe_unretained, readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
 
 /*!
  *	@brief Clears the view from displayed messages

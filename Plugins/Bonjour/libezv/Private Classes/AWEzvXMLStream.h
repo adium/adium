@@ -39,13 +39,13 @@
 @interface AWEzvXMLStream : NSObject {
     XML_Parser	parser;
     id <AWEzvXMLStreamProtocol>	__unsafe_unretained delegate;
-    NSFileHandle *connection;
+    NSFileHandle *__unsafe_unretained connection;
     AWEzvStack	*nodeStack;
     int		initiator, negotiated;
 }
 
 - (id) initWithFileHandle:(NSFileHandle *)connection initiator:(int)initiator;
-@property (readonly, nonatomic) NSFileHandle *fileHandle;
+@property (unsafe_unretained, readonly, nonatomic) NSFileHandle *fileHandle;
 - (void) readAndParse;
 - (void) sendData:(NSData *)data;
 - (void) sendString:(NSString *)string;
