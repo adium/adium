@@ -37,7 +37,7 @@
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIImageButton *newButton = [super copyWithZone:zone];
-	newButton->imageFloater = [imageFloater retain];
+	newButton->imageFloater = imageFloater;
 	[newButton setCornerRadius:[self cornerRadius]];
 
 	return newButton;
@@ -46,9 +46,6 @@
 - (void)dealloc
 {
 	[imageFloater close:nil];
-	[imageFloater release];
-
-	[super dealloc];
 }
 
 #pragma mark Drawing
@@ -84,7 +81,6 @@
 
 		if (imageFloater) {
 			[imageFloater close:nil];
-			[imageFloater release];
 		}
 		
 		// Rounded corners
@@ -103,7 +99,6 @@
 			[roundedImage unlockFocus];
 			
 			[self setImage:roundedImage];
-			[roundedImage release];
 		}
 
 		/* If the image would go off the right side of the screen from its origin, shift the origin left
@@ -114,7 +109,7 @@
 			point.x = maxXOrigin;
 		}
 
-		imageFloater = [[AIFloater newFloaterWithImage:bigImage styleMask:NSBorderlessWindowMask] retain];
+		imageFloater = [AIFloater newFloaterWithImage:bigImage styleMask:NSBorderlessWindowMask];
 		[imageFloater setMaxOpacity:1.0f];
 		[imageFloater moveFloaterToPoint:point];
 		[imageFloater setVisible:YES animate:NO];
@@ -145,7 +140,7 @@
 {
 	if (!imageFloaterShouldBeOpen) {
 		[imageFloater close:nil];
-		[imageFloater release]; imageFloater = nil;
+		 imageFloater = nil;
 	}
 }
 

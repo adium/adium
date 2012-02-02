@@ -78,7 +78,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 				  delegate:(id <AIProgressDataUploaderDelegate>)delegate
 				   context:(id)context
 {
-	return [[[self alloc] initWithData:uploadData URL:url headers:headers delegate:delegate context:context] autorelease];
+	return [[self alloc] initWithData:uploadData URL:url headers:headers delegate:delegate context:context];
 }
 
 - (id)initWithData:(NSData *)inUploadData
@@ -88,11 +88,11 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 		   context:(id)inContext
 {
 	if ((self = [super init])) {
-		uploadData = [inUploadData retain];
+		uploadData = inUploadData;
 		delegate = inDelegate;
 		context = inContext;
-		url = [inURL retain];
-		headers = [inHeaders retain];
+		url = inURL;
+		headers = inHeaders;
 	}
 	
 	return self;
@@ -100,12 +100,10 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 
 - (void)dealloc
 {
-	[url release]; url = nil;
-	[headers release]; headers = nil;
-	[uploadData release]; uploadData = nil;
-	[returnedData release]; returnedData = nil;
-	
-	[super dealloc];
+	url = nil;
+	headers = nil;
+	uploadData = nil;
+	returnedData = nil;
 }
 
 /*!
@@ -117,22 +115,22 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 {
 	CFHTTPMessageRef httpRequest = CFHTTPMessageCreateRequest(kCFAllocatorDefault,
 															  CFSTR("POST"),
-															  (CFURLRef)url,
+															  (__bridge CFURLRef)url,
 															  kCFHTTPVersion1_1);
 	
 	for (NSString *headerKey in headers) {
 		CFHTTPMessageSetHeaderFieldValue(httpRequest,
-										 (CFStringRef)headerKey, 
-										 (CFStringRef)[headers objectForKey:headerKey]);
+										 (__bridge CFStringRef)headerKey, 
+										 (__bridge CFStringRef)[headers objectForKey:headerKey]);
 	}
 	
-	CFHTTPMessageSetBody(httpRequest, (CFDataRef)uploadData);
+	CFHTTPMessageSetBody(httpRequest, (__bridge CFDataRef)uploadData);
 	
 	stream = CFReadStreamCreateForHTTPRequest(kCFAllocatorDefault, httpRequest);
 	
 	CFStreamClientContext streamClientContext = {
 		0,
-		self,
+		(__bridge void *)(self),
 		NULL,
 		NULL,
 		NULL
@@ -196,11 +194,11 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 {
 	totalSize = [uploadData length];
 	
-	periodicTimer = [[NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL
+	periodicTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL
 													  target:self
 													selector:@selector(updateProgress)
 													userInfo:nil
-													 repeats:YES] retain];
+													 repeats:YES];
 	
 	timeoutTimer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:TIMEOUT_INTERVAL]
 											interval:TIMEOUT_INTERVAL
@@ -221,7 +219,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 		return;
 	}
 	
-	NSNumber *bytesWrittenPropertyNum = [NSMakeCollectable(CFReadStreamCopyProperty(stream, kCFStreamPropertyHTTPRequestBytesWrittenCount)) autorelease];
+	NSNumber *bytesWrittenPropertyNum = NSMakeCollectable(CFReadStreamCopyProperty(stream, kCFStreamPropertyHTTPRequestBytesWrittenCount));
 	NSInteger bytesWritten = [bytesWrittenPropertyNum integerValue];
 
 	if (bytesWritten > bytesSent) {		
@@ -256,7 +254,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 										   CFStreamEventType type,
 										   void *info)
 {
-	AIProgressDataUploader *uploader = (AIProgressDataUploader *)info;
+	AIProgressDataUploader *uploader = (__bridge AIProgressDataUploader *)info;
 	
 	switch (type) {
 		case kCFStreamEventHasBytesAvailable:

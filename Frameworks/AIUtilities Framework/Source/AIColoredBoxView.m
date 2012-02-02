@@ -23,13 +23,6 @@
 
 @implementation AIColoredBoxView
 
-- (void)dealloc
-{
-    self.color = nil;
-
-    [super dealloc];
-}
-
 - (BOOL)isOpaque
 {
     return NO;

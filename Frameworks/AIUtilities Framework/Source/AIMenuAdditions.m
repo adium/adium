@@ -25,7 +25,7 @@
 
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(NSInteger)tag
@@ -36,7 +36,7 @@
 	
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode representedObject:(id)object
@@ -47,7 +47,7 @@
 
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 
@@ -128,11 +128,9 @@
 	NSMenu	*menu = [self menu];
 	NSInteger		idx = [menu indexOfItem:self];
 
-	[self retain];
 	[menu removeItemAtIndex:idx];
 	[self setKeyEquivalent:@""];
 	[menu insertItem:self atIndex:idx];
-	[self release];
 }
 
 - (NSComparisonResult)titleCompare:(NSMenuItem *)inMenuItem
@@ -171,10 +169,10 @@
 {
 	if (itemA == itemB) return;
 
-	NSMenu	*menuA  = [[itemA retain] menu];
+	NSMenu	*menuA  = [itemA menu];
 	NSInteger		 indexA = menuA ? [menuA indexOfItem:itemA] : -1;
 
-	NSMenu	*menuB  = [[itemB retain] menu];
+	NSMenu	*menuB  = [itemB menu];
 	NSInteger		 indexB = menuB ? [menuB indexOfItem:itemB] : -1;
 
 	if ((menuA == menuB) && (indexA < indexB)) {
@@ -208,16 +206,12 @@
     NSMenuItem  *primaryItem = [containingMenu itemAtIndex:(menuItemIndex-1)];
 	
 	//Remove the primary item and readd it
-	[primaryItem retain];
 	[containingMenu removeItemAtIndex:(menuItemIndex-1)];
 	[containingMenu insertItem:primaryItem atIndex:(menuItemIndex-1)];
-	[primaryItem release];
 	
 	//Remove the alternate item and readd it
-	[alternateItem retain];
     [containingMenu removeItemAtIndex:menuItemIndex];
     [containingMenu insertItem:alternateItem atIndex:menuItemIndex];
-	[alternateItem release];
 }
 
 @end
