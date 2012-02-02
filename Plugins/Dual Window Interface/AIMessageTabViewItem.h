@@ -19,7 +19,7 @@
 @class AIChat, AIMessageViewController, AIMessageWindowController;
 
 @interface AIMessageTabViewItem : NSTabViewItem <AIChatContainer> {
-	__weak AIMessageWindowController	*windowController;
+	AIMessageWindowController	*windowController;
 	AIMessageViewController 	*messageViewController;
 	NSImage						*tabViewItemImage;
 	NSImage						*largeImage;
@@ -39,6 +39,6 @@
 @property (weak, readonly, nonatomic) AIChat *chat;
 @property (weak, readonly, nonatomic) NSImage *image;
 @property (weak, readonly, nonatomic) AIMessageViewController *messageViewController;
-@property (readwrite, nonatomic, weak) AIMessageWindowController *windowController;
+@property (readwrite, nonatomic) AIMessageWindowController *windowController;
 
 @end
