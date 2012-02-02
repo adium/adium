@@ -15,7 +15,7 @@
   NSString *name;
   
   SGKeyCombo *keyCombo;
-  id __unsafe_unretained target;
+  id __weak target;
   SEL action;
   
   EventHotKeyID hotKeyID;
@@ -24,7 +24,7 @@
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) SGKeyCombo *keyCombo;
-@property (nonatomic, unsafe_unretained) id target;
+@property (nonatomic, weak) id target;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, assign) EventHotKeyID hotKeyID;
 

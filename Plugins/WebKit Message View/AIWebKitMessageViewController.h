@@ -38,7 +38,7 @@
 	BOOL						webViewIsReady;
 	
 	//Style & Variant
-	AIWebkitMessageViewStyle	*__unsafe_unretained messageStyle;
+	AIWebkitMessageViewStyle	*__weak messageStyle;
 	NSString					*activeStyle;
 	NSString					*preferenceGroup;
 	
@@ -70,8 +70,8 @@
  *	@return  the ESWebView which should be inserted into the message window 
  */
 @property (readonly, nonatomic) ESWebView *messageView;
-@property (unsafe_unretained, readonly, nonatomic) NSView *messageScrollView;
-@property (unsafe_unretained, readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
+@property (weak, readonly, nonatomic) NSView *messageScrollView;
+@property (weak, readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
 
 /*!
  *	@brief Clears the view from displayed messages

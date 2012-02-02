@@ -21,7 +21,7 @@
  * View which draws, simply filling its bounds with a particular color.
  */
 @interface AIColoredBoxView : NSView {
-    NSColor 	*__unsafe_unretained color;
+    NSColor 	*__weak color;
 }
 
 /*!
@@ -29,6 +29,6 @@
  *
  * The <tt>NSColor</tt> to draw in the view
  */ 
-@property (unsafe_unretained, readwrite, nonatomic) NSColor *color;
+@property (weak, readwrite, nonatomic) NSColor *color;
 
 @end

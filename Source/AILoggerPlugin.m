@@ -139,7 +139,7 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 - (void)_flushIndex:(SKIndexRef)inIndex;
 
 // properties
-@property(unsafe_unretained, readwrite) NSMutableDictionary *activeAppenders;
+@property(weak, readwrite) NSMutableDictionary *activeAppenders;
 @property(readwrite, strong) AIHTMLDecoder       *xhtmlDecoder;
 @property(readwrite, strong) NSDictionary        *statusTranslation;
 @property(strong,readwrite) NSMutableSet        *dirtyLogSet;

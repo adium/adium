@@ -21,8 +21,8 @@
 	IBOutlet NSButton				*cancelButton;
 	
 	NSURLDownload					*download;
-	NSString						*__unsafe_unretained dest;
-	NSString						*__unsafe_unretained xtraName;
+	NSString						*__weak dest;
+	NSString						*__weak xtraName;
 
 	long long downloadSize;
 	long long amountDownloaded;
@@ -33,7 +33,7 @@
 +(XtrasInstaller *)installer;
 
 @property (strong) NSURLDownload *download;
-@property (unsafe_unretained) NSString *dest;
-@property (unsafe_unretained) NSString *xtraName;
+@property (weak) NSString *dest;
+@property (weak) NSString *xtraName;
 
 @end

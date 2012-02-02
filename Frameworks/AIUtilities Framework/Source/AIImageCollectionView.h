@@ -28,10 +28,10 @@
  */
 @interface AIImageCollectionView : NSCollectionView {
 
-	id <AIImageCollectionViewDelegate> __unsafe_unretained delegate;
+	id <AIImageCollectionViewDelegate> __weak delegate;
 
 @protected
-	IBOutlet NSArrayController *__unsafe_unretained itemsController;
+	IBOutlet NSArrayController *__weak itemsController;
 	
 	NSInteger highlightStyle;
 	CGFloat highlightSize;
@@ -40,9 +40,9 @@
 	NSUInteger highlightedIndex;
 }
 
-@property (readwrite, unsafe_unretained, nonatomic) id <AIImageCollectionViewDelegate> delegate;
+@property (readwrite, weak, nonatomic) id <AIImageCollectionViewDelegate> delegate;
 
-@property (unsafe_unretained) IBOutlet NSArrayController *itemsController;
+@property (weak) IBOutlet NSArrayController *itemsController;
 
 @property (assign) NSInteger highlightStyle;
 @property (assign) CGFloat highlightSize;

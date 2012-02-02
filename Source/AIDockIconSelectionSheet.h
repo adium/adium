@@ -21,28 +21,28 @@
 
 @interface AIDockIconSelectionSheet : AIWindowController <AIImageCollectionViewDelegate> {
 @private
-	IBOutlet AIImageCollectionView *__unsafe_unretained imageCollectionView;
-	IBOutlet NSButton *__unsafe_unretained okButton;
+	IBOutlet AIImageCollectionView *__weak imageCollectionView;
+	IBOutlet NSButton *__weak okButton;
     
 	NSMutableArray *icons;
-	NSMutableArray *__unsafe_unretained iconsData;
+	NSMutableArray *__weak iconsData;
 		
 	// Currently animated icon state and its index
-    AIIconState *__unsafe_unretained animatedIconState;
+    AIIconState *__weak animatedIconState;
 	NSInteger animatedIndex;
-	NSTimer *__unsafe_unretained animationTimer;
+	NSTimer *__weak animationTimer;
 	
 	// Previous selected icon
 	NSUInteger previousIndex;
 }
 
-@property (unsafe_unretained) IBOutlet AIImageCollectionView *imageCollectionView;
-@property (unsafe_unretained) IBOutlet NSButton *okButton;
+@property (weak) IBOutlet AIImageCollectionView *imageCollectionView;
+@property (weak) IBOutlet NSButton *okButton;
 @property (copy) NSMutableArray *icons;
-@property (unsafe_unretained) NSMutableArray *iconsData;
-@property (unsafe_unretained) AIIconState *animatedIconState;
+@property (weak) NSMutableArray *iconsData;
+@property (weak) AIIconState *animatedIconState;
 @property (assign) NSInteger animatedIndex;
-@property (unsafe_unretained) NSTimer *animationTimer;
+@property (weak) NSTimer *animationTimer;
 @property (assign) NSUInteger previousIndex;
 
 + (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow;

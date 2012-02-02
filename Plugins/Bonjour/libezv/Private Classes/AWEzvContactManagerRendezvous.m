@@ -78,7 +78,7 @@
 - (void)breakdownServiceController;
 - (DNSServiceRef)serviceRef;
 
-@property (unsafe_unretained, readonly, nonatomic) AWEzvContactManager *contactManager;
+@property (weak, readonly, nonatomic) AWEzvContactManager *contactManager;
 
 @end // Interface ServiceController
 

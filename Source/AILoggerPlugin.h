@@ -40,7 +40,7 @@
 	
 	// Logging
 	SKIndexRef           logIndex;
-	NSMutableDictionary *__unsafe_unretained activeAppenders;
+	NSMutableDictionary *__weak activeAppenders;
 	AIHTMLDecoder       *xhtmlDecoder;
 	NSDictionary        *statusTranslation;
 	BOOL                 logHTML;

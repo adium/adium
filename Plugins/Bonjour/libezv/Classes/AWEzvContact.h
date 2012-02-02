@@ -36,29 +36,29 @@
 @class AWEzvXMLStream, AWEzvRendezvousData, AWEzvContactManager, NSImage, ServiceController, EKEzvOutgoingFileTransfer;
 
 @interface AWEzvContact : NSObject <AWEzvXMLStreamProtocol> {
-	NSString *__unsafe_unretained name;
+	NSString *__weak name;
 	NSString *uniqueID;
-	NSData *__unsafe_unretained contactImageData;
+	NSData *__weak contactImageData;
 	AWEzvStatus status;
-	NSDate *__unsafe_unretained idleSinceDate;
+	NSDate *__weak idleSinceDate;
 	AWEzvXMLStream *stream;
-	AWEzvRendezvousData *__unsafe_unretained rendezvous;
-	NSString *__unsafe_unretained ipAddr;
-	NSString *__unsafe_unretained imageHash;
+	AWEzvRendezvousData *__weak rendezvous;
+	NSString *__weak ipAddr;
+	NSString *__weak imageHash;
 	u_int16_t port;
 	AWEzvContactManager *manager;
-	ServiceController *__unsafe_unretained resolveServiceController;
-	ServiceController *__unsafe_unretained imageServiceController;
-	ServiceController *__unsafe_unretained addressServiceController;
+	ServiceController *__weak resolveServiceController;
+	ServiceController *__weak imageServiceController;
+	ServiceController *__weak addressServiceController;
 }
 
 @property (readwrite, copy, nonatomic) NSString *uniqueID;
-@property (unsafe_unretained, readwrite, nonatomic) NSData *contactImageData;
-@property (unsafe_unretained, readwrite, nonatomic) NSString *imageHash;
+@property (weak, readwrite, nonatomic) NSData *contactImageData;
+@property (weak, readwrite, nonatomic) NSString *imageHash;
 @property (readonly, nonatomic) AWEzvStatus status;
-@property (unsafe_unretained, readonly, nonatomic) NSString *statusMessage;
-@property (unsafe_unretained, readonly, nonatomic) NSDate *idleSinceDate;
-@property (unsafe_unretained, readonly, nonatomic) NSString *name;
+@property (weak, readonly, nonatomic) NSString *statusMessage;
+@property (weak, readonly, nonatomic) NSDate *idleSinceDate;
+@property (weak, readonly, nonatomic) NSString *name;
 
 - (void)sendMessage:(NSString *)message withHtml:(NSString *)html;
 - (NSString *) fixHTML:(NSString *)html;

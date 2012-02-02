@@ -17,7 +17,7 @@
 #import "AIImageTextCellView.h"
 
 @interface AIStatusItemView : AIImageTextCellView {
-	__unsafe_unretained NSStatusItem			*statusItem;
+	__weak NSStatusItem			*statusItem;
 	
 	BOOL					mouseDown;
 	
@@ -37,6 +37,6 @@
 @property(assign) NSMenu *menu;
 @property(assign) NSMenu *alternateMenu;
 
-@property(unsafe_unretained) NSStatusItem *statusItem;
+@property(weak) NSStatusItem *statusItem;
 
 @end

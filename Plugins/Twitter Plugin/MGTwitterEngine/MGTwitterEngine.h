@@ -15,7 +15,7 @@
 #import <OAuthConsumer/OAMutableURLRequest.h>
 
 @interface MGTwitterEngine : NSObject <MGTwitterParserDelegate> {
-    __unsafe_unretained NSObject <MGTwitterEngineDelegate> *_delegate;
+    __weak NSObject <MGTwitterEngineDelegate> *_delegate;
     NSString *_username;
     NSString *_password;
     NSMutableDictionary *_connections;   // MGTwitterHTTPURLConnection objects
@@ -29,8 +29,8 @@
 	
 	// Adium OAuth Additions
 	BOOL _useOAuth;
-	OAToken *__unsafe_unretained _accessToken;
-	OAConsumer *__unsafe_unretained _consumer;
+	OAToken *__weak _accessToken;
+	OAConsumer *__weak _consumer;
 }
 
 // Constructors
@@ -137,6 +137,6 @@
 
 // Adium OAuth additions
 @property (readwrite, nonatomic) BOOL useOAuth;
-@property (unsafe_unretained, readwrite, nonatomic) OAConsumer *consumer;
-@property (unsafe_unretained, readwrite, nonatomic) OAToken *accessToken;
+@property (weak, readwrite, nonatomic) OAConsumer *consumer;
+@property (weak, readwrite, nonatomic) OAToken *accessToken;
 @end
