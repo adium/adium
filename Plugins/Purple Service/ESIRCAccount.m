@@ -113,7 +113,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	
 	PurpleConversation *conv = fakeConversation(self.purpleAccount);
 	
-	for (NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
+	for (__strong NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
 												group:GROUP_ACCOUNT_STATUS] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
 		if ([command hasPrefix:@"/"]) {
 			command = [command substringFromIndex:1];

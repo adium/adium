@@ -88,7 +88,7 @@
 }
 
 - (id) copyWithZone:(NSZone *)zone {
-	AIXMLElement *other = [[AIXMLElement allocWithZone:zone] initWithName:name];
+	AIXMLElement *other = [[AIXMLElement alloc] initWithName:name];
 	other.attributeNames  = [NSMutableArray arrayWithArray:attributeNames];
 	other.attributeValues = [NSMutableArray arrayWithArray:attributeValues];
 	other.selfCloses = selfCloses;

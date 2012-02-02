@@ -123,7 +123,7 @@
 			NSString	*timeElapsed;
 			NSString	*timeElapsedWithDesignation;
 			
-			sinceDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+			sinceDateFormatter = [[NSDateFormatter alloc] init];
 			[sinceDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 				[sinceDateFormatter setDateFormat:[NSString stringWithFormat:@"%@, %@",
@@ -152,7 +152,7 @@
 		}
 	}
 	
-	return [entry autorelease];
+	return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

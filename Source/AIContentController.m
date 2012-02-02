@@ -18,6 +18,7 @@
 
 #import "AIContentController.h"
 
+#import "AIStatus.h"
 #import "AdiumTyping.h"
 #import "AdiumFormatting.h"
 #import "AdiumMessageEvents.h"
@@ -117,13 +118,10 @@
  */
 - (void)dealloc
 {
-	[objectsBeingReceived release]; objectsBeingReceived = nil;
-	[adiumTyping release]; adiumTyping = nil;
-	[adiumFormatting release]; adiumFormatting = nil;
-	[adiumContentFiltering release]; adiumContentFiltering = nil;
-	[adiumEncryptor release];
-
-    [super dealloc];
+	objectsBeingReceived = nil;
+	adiumTyping = nil;
+	adiumFormatting = nil;
+	adiumContentFiltering = nil;
 }
 
 /*!
@@ -135,8 +133,7 @@
 {
 	NSParameterAssert([inEncryptor conformsToProtocol:@protocol(AdiumMessageEncryptor)]);
 
-	[adiumEncryptor release];
-	adiumEncryptor = [inEncryptor retain];
+	adiumEncryptor = inEncryptor;
 }
 
 
@@ -632,7 +629,7 @@
 
 				if (shouldSendAttachmentAsFile) {
 					if (!newAttributedString) {
-						newAttributedString = [[attributedMessage mutableCopy] autorelease];
+						newAttributedString = [attributedMessage mutableCopy];
 						currentAttributedString = newAttributedString;
 					}
 					
@@ -849,7 +846,7 @@
  */
 - (NSMenu *)encryptionMenuNotifyingTarget:(id)target withDefault:(BOOL)withDefault
 {
-	NSMenu		*encryptionMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu		*encryptionMenu = [[NSMenu alloc] init];
 	NSMenuItem	*menuItem;
 
 	[encryptionMenu setTitle:ENCRYPTION_MENU_TITLE];
@@ -861,7 +858,6 @@
 	
 	[menuItem setTag:EncryptedChat_Never];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats as requested",nil)
 										  target:target
@@ -870,7 +866,6 @@
 	
 	[menuItem setTag:EncryptedChat_Manually];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats automatically",nil)
 										  target:target
@@ -879,7 +874,6 @@
 	
 	[menuItem setTag:EncryptedChat_Automatically];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Force encryption and refuse plaintext",nil)
 										  target:target
@@ -888,7 +882,6 @@
 	
 	[menuItem setTag:EncryptedChat_RejectUnencryptedMessages];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	if (withDefault) {
 		[encryptionMenu addItem:[NSMenuItem separatorItem]];
@@ -900,10 +893,9 @@
 		
 		[defaultMenuItem setTag:EncryptedChat_Default];
 		[encryptionMenu addItem:defaultMenuItem];
-		[defaultMenuItem release];
 	}
 	
-	return [encryptionMenu autorelease];
+	return encryptionMenu;
 }
 
 @end

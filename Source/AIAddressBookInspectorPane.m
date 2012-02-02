@@ -46,10 +46,8 @@
 
 - (void)dealloc
 {
-	[inspectorContentView release]; inspectorContentView = nil;
-	[addressBookPanel release]; addressBookPanel = nil;
-	
-	[super dealloc];
+	inspectorContentView = nil;
+	addressBookPanel = nil;
 }
 
 -(NSString *)nibName
@@ -67,11 +65,9 @@
 	NSString	*currentNotes;
 
 	//Hold onto the object, using the highest-up metacontact if necessary
-	[displayedObject release];
 	displayedObject = ([inObject isKindOfClass:[AIListContact class]] ?
 				  [(AIListContact *)inObject parentContact] :
 				  inObject);
-	[displayedObject retain];
 
 	//Current note
     if ((currentNotes = [displayedObject notes])) {

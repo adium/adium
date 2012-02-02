@@ -262,7 +262,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 		enum LMXParseResult result = LMXParsedIncomplete;
 
 		// These set of file's autorelease pool.
-		NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		
 		@try {
 			do {
@@ -311,9 +311,6 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 							   foundMessages, chunk);
 
 		} @finally {
-			//Drain our autorelease pool.
-			[parsingAutoreleasePool release];
-			
 			//Be a good citizen and close the file
 			[file closeFile];
 			
@@ -321,6 +318,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
 			[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 			linesLeftToFind -= [outerFoundContentContexts count];
+		}
 		}
 	}
 	
@@ -435,7 +433,6 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
                 AIContentStatus *status = [[AIContentStatus alloc] initWithChat:chat source:nil destination:nil date:timeVal];
                 
                 [foundMessages insertObject:status atIndex:0];
-                [status release];
             }
         }
 		

@@ -59,9 +59,8 @@
 	
 	[allowedCharacters addCharactersInString:@"[]\\`_^{|}-"];
 	returnSet = [allowedCharacters immutableCopy];
-	[allowedCharacters release];
 
-	return [returnSet autorelease];
+	return returnSet;
 }
 - (BOOL)caseSensitive{
 	return NO;

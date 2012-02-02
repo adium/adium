@@ -136,8 +136,8 @@
         AIContentEvent	*content; 
 		
 		if (!attributedMessage)
-			attributedMessage = [[[NSAttributedString alloc] initWithString:message
-																 attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+			attributedMessage = [[NSAttributedString alloc] initWithString:message
+																 attributes:[adium.contentController defaultFormattingAttributes]];
 		
         //Create our content object
         content = [AIContentEvent statusInChat:chat

@@ -255,13 +255,13 @@ NSString* serviceIDForJabberUID(NSString *UID);
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {	
 	//Create our contextual menus
-	showInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_IN_AB_CONTEXTUAL_MENU_TITLE
+	showInABContextualMenuItem = [[[NSMenuItem alloc] initWithTitle:SHOW_IN_AB_CONTEXTUAL_MENU_TITLE
 											   action:@selector(showInAddressBook)
 										    keyEquivalent:@""] autorelease];
 	[showInABContextualMenuItem setTarget:self];
 	[showInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
 	
-	editInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:EDIT_IN_AB_CONTEXTUAL_MENU_TITLE
+	editInABContextualMenuItem = [[[NSMenuItem alloc] initWithTitle:EDIT_IN_AB_CONTEXTUAL_MENU_TITLE
 											   action:@selector(editInAddressBook)
 										    keyEquivalent:@""] autorelease];
 	[editInABContextualMenuItem setTarget:self];
@@ -269,7 +269,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	[editInABContextualMenuItem setAlternate:YES];
 	[editInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
 	
-	addToABContexualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_TO_AB_CONTEXTUAL_MENU_TITLE
+	addToABContexualMenuItem = [[[NSMenuItem alloc] initWithTitle:ADD_TO_AB_CONTEXTUAL_MENU_TITLE
 											 action:@selector(addToAddressBook)
 										  keyEquivalent:@""] autorelease];
 	[addToABContexualMenuItem setTarget:self];

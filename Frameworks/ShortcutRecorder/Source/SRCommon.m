@@ -172,7 +172,6 @@ NSString *SRCharacterForKeyCodeAndCocoaFlags(NSInteger keyCode, NSUInteger cocoa
 	UInt32              deadKeyState;
     OSStatus err = noErr;
     CFLocaleRef locale = CFLocaleCopyCurrent();
-	[(id)CFMakeCollectable(locale) autorelease]; // Autorelease here so that it gets released no matter what
 	
 	TISInputSourceRef tisSource = TISCopyCurrentKeyboardInputSource();
     if(!tisSource)
@@ -200,7 +199,7 @@ NSString *SRCharacterForKeyCodeAndCocoaFlags(NSInteger keyCode, NSUInteger cocoa
 
 	CFStringCapitalize(mutableTemp, locale);
 
-	NSString *resultString = [NSString stringWithString:(NSString *)mutableTemp];
+	NSString *resultString = [NSString stringWithString:(__bridge NSString *)mutableTemp];
 
 	if (temp) CFRelease(temp);
 	if (mutableTemp) CFRelease(mutableTemp);
@@ -269,7 +268,7 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 + (NSImage *)supportingImageWithName:(NSString *)name {
 //	NSLog(@"supportingImageWithName: %@", name);
 	if (nil == SRSharedImageCache) {
-		SRSharedImageCache = [[NSMutableDictionary dictionary] retain];
+		SRSharedImageCache = [NSMutableDictionary dictionary];
 //		NSLog(@"inited cache");
 	}
 	NSImage *cachedImage = nil;
@@ -289,7 +288,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 //	NSLog(@"created customImageRep: %@", customImageRep);
 	NSImage *returnImage = [[NSImage alloc] initWithSize:size];
 	[returnImage addRepresentation:customImageRep];
-	[customImageRep release];
 	[returnImage setScalesWhenResized:YES];
 	[SRSharedImageCache setObject:returnImage forKey:name];
 	
@@ -315,7 +313,7 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 #endif
 	
 //	NSLog(@"returned image: %@", returnImage);
-	return [returnImage autorelease];
+	return returnImage;
 }
 @end
 
@@ -362,10 +360,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 	[sh set];
 	
 	[bp fill];
-	
-	[bp release];
-	[flip release];
-	[sh release];
 }
 
 + (NSValue *)_sizeSRRemoveShortcut {
@@ -396,7 +390,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 	[cross lineToPoint:MakeRelativePoint(4.0f,10.0f)];
 		
 	[cross stroke];
-	[cross release];
 }
 + (void)_drawSRRemoveShortcut:(id)anNSCustomImageRep {
 	

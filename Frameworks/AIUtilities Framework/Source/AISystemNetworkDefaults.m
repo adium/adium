@@ -84,19 +84,18 @@
 		}
 	}
 
-	if ((proxyDict = (NSDictionary *)SCDynamicStoreCopyProxies(NULL))) {
-		[proxyDict autorelease];
+	if ((proxyDict = (__bridge_transfer NSDictionary *)SCDynamicStoreCopyProxies(NULL))) {
 
 		//Enabled?
-		enable = [[proxyDict objectForKey:(NSString *)enableKey] intValue];
+		enable = [[proxyDict objectForKey:(__bridge NSString *)enableKey] intValue];
 		if (enable) {
 
 			//Host
-			hostString = [proxyDict objectForKey:(NSString *)proxyKey];
+			hostString = [proxyDict objectForKey:(__bridge NSString *)proxyKey];
 			if (hostString) {
 
 				//Port
-				portNum = [proxyDict objectForKey:(NSString *)portKey];
+				portNum = [proxyDict objectForKey:(__bridge NSString *)portKey];
 				if (portNum) {
 					NSDictionary	*authDict;
 
@@ -131,7 +130,7 @@
 				NSString *pacFile = [proxyDict objectForKey:(NSString *)kSCPropNetProxiesProxyAutoConfigURLString];
 				
 				if (pacFile) {
-					CFURLRef url = (CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", hostName ?: @"google.com"]];
+					CFURLRef url = (__bridge CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", hostName ?: @"google.com"]];
 					NSString *scriptStr = [NSString stringWithContentsOfURL:[NSURL URLWithString:pacFile] encoding:NSUTF8StringEncoding error:NULL];
 					
 					if (url && scriptStr) {
@@ -143,7 +142,7 @@
 						CFRelease(CFNetworkCopyProxiesForURL(url, NULL));
 						
 						CFErrorRef error = NULL;
-						proxies = [(NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((CFStringRef)scriptStr, url, &error) autorelease];	
+						proxies = (__bridge_transfer NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((__bridge CFStringRef)scriptStr, url, &error);	
 
 						if (error) {
 							CFStringRef description = CFErrorCopyDescription(error);

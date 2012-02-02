@@ -60,18 +60,11 @@ static AITwitterReplyWindowController *sharedController = nil;
 	[super windowDidLoad];
 }
 
-- (void)dealloc
-{
-	[account release];
-
-	[super dealloc];
-}
-
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
 	
-	[sharedController autorelease]; sharedController = nil;
+	sharedController = nil;
 }
 
 /*!

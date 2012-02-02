@@ -26,9 +26,9 @@
 	NSMutableDictionary	*defaults;
 	NSInteger			preferenceChangeDelays;
 	
-	NSMutableDictionary **myGlobalPrefs;
+	NSMutableDictionary * __strong *myGlobalPrefs;
 	NSInteger			*myUsersOfGlobalPrefs;
-	NSTimer				**myTimerForSavingGlobalPrefs;
+	NSTimer				* __strong *myTimerForSavingGlobalPrefs;
 	NSString			*globalPrefsName;
 }
 

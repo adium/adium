@@ -7,7 +7,7 @@
 
 #import "EKEzvFileTransfer.h"
 
-@interface EKEzvIncomingFileTransfer : EKEzvFileTransfer {
+@interface EKEzvIncomingFileTransfer : EKEzvFileTransfer <NSURLDownloadDelegate> {
 	NSMutableDictionary *itemsToDownload;
 	NSMutableDictionary *permissionsToApply;
 	

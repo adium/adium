@@ -21,22 +21,13 @@
 {
     if ((self = [super initWithRequest:request delegate:delegate])) {
         _data = [[NSMutableData alloc] initWithCapacity:0];
-        _identifier = [[NSString stringWithNewUUID] retain];
+        _identifier = [NSString stringWithNewUUID];
         _requestType = requestType;
         _responseType = responseType;
-		_URL = [[request URL] retain];
+		_URL = [request URL];
     }
     
     return self;
-}
-
-
-- (void)dealloc
-{
-    [_data release];
-    [_identifier release];
-	[_URL release];
-    [super dealloc];
 }
 
 
@@ -60,19 +51,19 @@
 
 - (NSString *)identifier
 {
-    return [[_identifier retain] autorelease];
+    return _identifier;
 }
 
 
 - (NSData *)data
 {
-    return [[_data retain] autorelease];
+    return _data;
 }
 
 
 - (NSURL *)URL
 {
-    return [[_URL retain] autorelease];
+    return _URL;
 }
 
 

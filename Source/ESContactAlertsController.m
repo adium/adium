@@ -61,11 +61,9 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
  */
 - (void)dealloc
 {
-	[globalOnlyEventHandlers release]; globalOnlyEventHandlers = nil;
-	[eventHandlers release]; eventHandlers = nil;
-	[actionHandlers release]; actionHandlers = nil;
-	
-	[super dealloc];
+	globalOnlyEventHandlers = nil;
+	eventHandlers = nil;
+	actionHandlers = nil;
 }
 
 
@@ -139,14 +137,14 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	NSMenu				*menu;
 
 	//Prepare our menu
-	menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	menu = [[NSMenu alloc] init];
 	[menu setAutoenablesItems:NO];
 	
 	for (NSMenuItem *item in [self arrayOfMenuItemsForEventsWithTarget:target forGlobalMenu:global]) {
 		[menu addItem:item];
 	}
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (NSArray *)arrayOfMenuItemsForEventsWithTarget:(id)target forGlobalMenu:(BOOL)global
@@ -197,7 +195,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	for (NSString *eventID in inEventHandlers) {
 		id <AIEventHandler>	eventHandler = [inEventHandlers objectForKey:eventID];		
 		
-        menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(global ?
+        menuItem = [[NSMenuItem alloc] initWithTitle:(global ?
 																				[eventHandler globalShortDescriptionForEventID:eventID] :
 																				[eventHandler shortDescriptionForEventID:eventID])
 																		target:target 
@@ -205,7 +203,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 																 keyEquivalent:@""];
         [menuItem setRepresentedObject:eventID];
 		[menuItemArray addObject:menuItem];
-		[menuItem release];
     }
 }
 
@@ -292,7 +289,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	
 	if (alerts && [alerts count]) {
 		performedActionIDs = (previouslyPerformedActionIDs ?
-							  [[previouslyPerformedActionIDs mutableCopy] autorelease]:
+							  [previouslyPerformedActionIDs mutableCopy]:
 							  [NSMutableSet set]);
 		
 		//We go from contact->group->root; a given action will only fire once for this event
@@ -533,7 +530,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		id <AIActionHandler> actionHandler = [actionHandlers objectForKey:actionID];		
 		NSMenuItem			 *menuItem;
 
-        menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[actionHandler shortDescriptionForActionID:actionID]
+        menuItem = [[NSMenuItem alloc] initWithTitle:[actionHandler shortDescriptionForActionID:actionID]
 																		target:target 
 																		action:@selector(selectAction:) 
 																 keyEquivalent:@""];
@@ -541,7 +538,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		[menuItem setImage:[[actionHandler imageForActionID:actionID] imageByScalingForMenuItem]];
 		
         [menuItemArray addObject:menuItem];
-		[menuItem release];
     }
 
 	//Sort the array of menuItems alphabetically by title	
@@ -551,9 +547,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		[menu addItem:menuItem];
 	}
 	
-	[menuItemArray release];
-
-	return [menu autorelease];
+	return menu;
 }	
 
 /*!
@@ -670,10 +664,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 											  group:PREF_GROUP_CONTACT_ALERTS];	
 	}
 	
-	//Cleanup
-	[contactAlerts release];
-	[eventArray release];
-	
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
@@ -717,8 +707,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:listObject];
-	[eventArray release];
-	[contactAlerts release];
 }
 
 /*!
@@ -768,16 +756,12 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 			} else {
 				[newContactAlerts removeObjectForKey:victimEventID];	
 			}
-			
-			//Clean up
-			[newEventArray release];
 		}
 	}
 	
 	[adium.preferenceController setPreference:newContactAlerts
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS];
-	[newContactAlerts release];
 }
 
 /*!
@@ -813,7 +797,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:nil];
-	[contactAlerts release];
 
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 	

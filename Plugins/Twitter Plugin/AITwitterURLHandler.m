@@ -140,11 +140,11 @@
 		if (![textView.string hasPrefix:prefix]) {
 			NSMutableAttributedString *newString;
 			if (textView.attributedString.length > 0){
-				newString = [[[textView.attributedString attributedSubstringFromRange:NSMakeRange(0, 1)] mutableCopy] autorelease];
+				newString = [[textView.attributedString attributedSubstringFromRange:NSMakeRange(0, 1)] mutableCopy];
 				[newString replaceCharactersInRange:NSMakeRange(0, 1) withString:prefix];
 			}
 			else
-				newString = [[[NSMutableAttributedString alloc] initWithString:prefix attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+				newString = [[NSMutableAttributedString alloc] initWithString:prefix attributes:[adium.contentController defaultFormattingAttributes]];
 			
 			[newString appendAttributedString:textView.attributedString];
 			[textView setAttributedString:newString];

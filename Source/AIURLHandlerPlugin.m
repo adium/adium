@@ -64,7 +64,7 @@
  */
 - (void)installPlugin
 {
-	preferences = [(AIURLHandlerAdvancedPreferences *)[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self] retain];
+	preferences = (AIURLHandlerAdvancedPreferences *)[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self];
 	
 	[self checkHandledSchemes];
 	
@@ -80,8 +80,6 @@
 - (void)uninstallPlugin
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[preferences release];
 }
 
 #pragma mark Scheme enforcement
@@ -207,7 +205,7 @@
 - (void)setDefaultForScheme:(NSString *)inScheme toBundleID:(NSString *)bundleID
 {
 	for (NSString *scheme in [self allSchemesLikeScheme:inScheme]) {
-		LSSetDefaultHandlerForURLScheme((CFStringRef)scheme, (CFStringRef)bundleID);
+		LSSetDefaultHandlerForURLScheme((__bridge CFStringRef)scheme, (__bridge CFStringRef)bundleID);
 	}
 	
 	[preferences refreshTable];
@@ -221,7 +219,7 @@
  */
 - (NSString *)defaultApplicationBundleIDForScheme:(NSString *)scheme
 {
-	return [[(NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)scheme) autorelease] lowercaseString];
+	return [(__bridge_transfer NSString *)LSCopyDefaultHandlerForURLScheme((__bridge CFStringRef)scheme) lowercaseString];
 }
 
 #pragma mark URL Handling
@@ -331,11 +329,10 @@
 				if ([iconURLString length]) {
 					NSURL *urlToDownload = [[NSURL alloc] initWithString:iconURLString];
 					NSData *imageData = (urlToDownload ? [NSData dataWithContentsOfURL:urlToDownload] : nil);
-					[urlToDownload release];
 					
 					//Should prompt for where to apply the icon?
 					if (imageData &&
-						[[[NSImage alloc] initWithData:imageData] autorelease]) {
+						[[NSImage alloc] initWithData:imageData]) {
 						//If we successfully got image data, and that data makes a valid NSImage, set it as our global buddy icon
 						[adium.preferenceController setPreference:imageData
 						 forKey:KEY_USER_ICON

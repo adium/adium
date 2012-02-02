@@ -28,22 +28,19 @@
 
 - (void)dealloc
 {
-	[preferencesChangedDelegate release]; preferencesChangedDelegate = nil;
-
-	[super dealloc];
+	preferencesChangedDelegate = nil;
 }
 
 - (void)setIsGroupChat:(BOOL)groupChat
 {
 	chat.isGroupChat = groupChat;
-	preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
+	preferenceGroup = [plugin preferenceGroupForChat:chat];
 }
 
 - (void)setPreferencesChangedDelegate:(id)inDelegate
 {
 	if (inDelegate != preferencesChangedDelegate) {
-		[preferencesChangedDelegate release];
-		preferencesChangedDelegate = [inDelegate retain];
+		preferencesChangedDelegate = inDelegate;
 		
 		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY
 														   key:nil

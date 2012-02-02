@@ -57,25 +57,23 @@ Boolean GetMetadataForFile(void* thisInterface,
     /* Return TRUE if successful, FALSE if there was no data provided */
     
 	Boolean				success = FALSE;
-	NSAutoreleasePool	*pool;
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForHTMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+		success = GetMetadataForHTMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 	} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForXMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+		success = GetMetadataForXMLLog((__bridge_transfer NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 	} else {
 		NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
 	}
 
-	[pool release];
-	
     return success;
+    }
 }
 
 static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
     //Deteremine the UTI type if we weren't passed one
-    CFStringRef pathExtension = (CFStringRef)[urlToFile pathExtension];
+    CFStringRef pathExtension = (__bridge CFStringRef)[urlToFile pathExtension];
 	if (contentTypeUTI == NULL) {
 		if (CFStringCompare(pathExtension, CFSTR("chatLog"), (kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
 			contentTypeUTI = CFSTR("com.adiumx.xmllog");
@@ -90,7 +88,7 @@ static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 }
 
 NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
-    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	NSData			*content;
 	contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
     
@@ -115,14 +113,13 @@ NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 		content = nil;
 		NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
 	}
-    
-	[pool release];
 	
 	return content;
+	}
 }
 
 NSData *CopyDataForFile(CFStringRef contentTypeUTI, CFStringRef pathToFile) {
-    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile]);
+    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile]);
 }
 
 CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToFile, NSData *fileData) {
@@ -137,7 +134,7 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
         result = CopyTextContentForXMLLogData(fileData);
     }
-    return (CFStringRef)result;
+    return (__bridge CFStringRef)result;
 }
 
 /*!
@@ -153,12 +150,12 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 								   CFStringRef pathToFile)
 {
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
     NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
-	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
-	[pool release];
+	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile], logData);
 	
 	return textContent;
+	}
 }
 
 /*!
@@ -247,15 +244,12 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 																													 locale:nil]]
 							   forKey:(NSString *)kMDItemDisplayName];
 			}
-			[otherAuthors release];
-			
 		}
 		[attributes setObject:@"Chat log"
 					   forKey:(NSString *)kMDItemKind];
 		[attributes setObject:@"Adium"
 					   forKey:(NSString *)kMDItemCreator];
 		
-		[xmlDoc release];
 	}
 	else
 		ret = NO;
@@ -311,7 +305,6 @@ NSString *CopyTextContentForXMLLogData(NSData *data) {
     if (xmlDoc) {
         NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()" error:NULL];
 		contentString = [contentArray componentsJoinedByString:@" "];
-        [xmlDoc release];
     }
     return contentString;
 }

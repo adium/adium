@@ -38,11 +38,11 @@
 - (void)awakeFromNib
 {
 	//
-    toolbarItems = [[NSMutableDictionary dictionary] retain];
+    toolbarItems = [NSMutableDictionary dictionary];
 	oldHeight = 100; //Height of the original tab view content
 	
 	//Create our toolbar
-	NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:@"ToolbarTabView"] autorelease];
+	NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"ToolbarTabView"];
     [toolbar setDelegate:self];
     [toolbar setAllowsUserCustomization:NO];
     [toolbar setAutosavesConfiguration:NO];
@@ -50,15 +50,6 @@
 	[self installToolbarItems];
     [[self window] setToolbar:toolbar];
 }
-
-//Dealloc
-- (void)dealloc
-{
-	[toolbarItems release];
-	
-	[super dealloc];
-}
-
 
 //Toolbar --------------------------------------------------------------------------------------------------------------
 #pragma mark Toolbar

@@ -46,17 +46,10 @@
 {
     if ((self = [super initWithWindowNibName:@"EditStatusGroup"])) {
 		target = inTarget;
-		statusGroup = (inStatusGroup ? [inStatusGroup retain] : [[AIStatusGroup alloc] init]);
+		statusGroup = (inStatusGroup ? inStatusGroup : [[AIStatusGroup alloc] init]);
 	}	
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[statusGroup release];
-	
-	[super dealloc];
 }
 
 - (void)windowDidLoad
@@ -90,8 +83,6 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-
-	[self autorelease];
 }
 
 /*!
@@ -100,8 +91,6 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
-	
-	[self autorelease];
 }
 
 
@@ -137,10 +126,10 @@
 
 - (NSMenu *)groupWithStatusMenu
 {
-	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu *menu = [[NSMenu alloc] init];
 	NSMenuItem *menuItem;
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -150,9 +139,8 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];
 	[menu addItem:menuItem];
-	[menuItem release];
 
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -162,9 +150,8 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];	
 	[menu addItem:menuItem];
-	[menuItem release];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 @end

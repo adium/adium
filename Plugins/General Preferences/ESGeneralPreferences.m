@@ -114,7 +114,7 @@
 	[popUp_tabPositionMenu selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																								 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
 
-    self.shortcutRecorder = [[[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame] autorelease];
+    self.shortcutRecorder = [[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame];
     shortcutRecorder.delegate = self;
     [[placeholder_shortcutRecorder superview] addSubview:shortcutRecorder];
 
@@ -122,8 +122,8 @@
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
 	if (TISGetInputSourceProperty(currentLayout, kTISPropertyUnicodeKeyLayoutData)) {
-		SGKeyCombo *keyCombo = [[[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
-																														 group:PREF_GROUP_GENERAL]] autorelease];
+		SGKeyCombo *keyCombo = [[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
+																														 group:PREF_GROUP_GENERAL]];
 		[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
 		[shortcutRecorder setAnimates:YES];
 		[shortcutRecorder setStyle:SRGreyStyle];
@@ -140,12 +140,6 @@
     [self configureControlDimming];
 }
 
-- (void)dealloc
-{
-    self.shortcutRecorder = nil;
-
-    [super dealloc];
-}
 
 //Called in response to all preference controls, applies new settings
 - (IBAction)changePreference:(id)sender
@@ -196,7 +190,7 @@
  */
 - (NSMenu *)tabChangeKeysMenu
 {
-	NSMenu		*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*menu = [[NSMenu alloc] init];
 #define PLACE_OF_INTEREST_SIGN	"\u2318"
 #define LEFTWARDS_ARROW			"\u2190"
 #define RIGHTWARDS_ARROW		"\u2192"
@@ -252,7 +246,7 @@
 			 keyEquivalent:@""
 					   tag:AIBraces];
 	
-	return [menu autorelease];		
+	return menu;		
 }
 
 - (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
@@ -276,7 +270,7 @@
  */
 - (NSMenu *)sendKeysMenu
 {
-	NSMenu		*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*menu = [[NSMenu alloc] init];
 
 	[menu addItemWithTitle:AILocalizedString(@"Enter","Enter key for sending messages")
 					target:nil
@@ -296,7 +290,7 @@
 			 keyEquivalent:@""
 					   tag:AISendOnBoth];
 
-	return [menu autorelease];		
+	return menu;		
 }
 
 - (IBAction)configureLogCertainAccounts:(id)sender
@@ -313,12 +307,11 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:nil];
-	[sheet.windowController release];
 }
 								
 - (NSMenu *)tabPositionMenu
 {
-	NSMenu		*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*menu = [[NSMenu alloc] init];
 	
 	[menu addItemWithTitle:AILocalizedString(@"Top","Position menu item for tabs at the top of the message window")
 					target:nil
@@ -344,7 +337,7 @@
 			 keyEquivalent:@""
 					   tag:AdiumTabPositionRight];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (BOOL)chatHistoryDisplayActive

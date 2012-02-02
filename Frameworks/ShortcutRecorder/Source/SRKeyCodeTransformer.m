@@ -131,13 +131,6 @@ static NSArray              *padKeysArray        = nil;
 	return self;
 }
 
-//---------------------------------------------------------- 
-//  dealloc
-//---------------------------------------------------------- 
-- (void)dealloc
-{
-	[super dealloc];
-}
 
 //---------------------------------------------------------- 
 //  transformedValue: 
@@ -222,7 +215,7 @@ static NSArray              *padKeysArray        = nil;
 //---------------------------------------------------------- 
 + (void) regenerateStringToKeyCodeMapping;
 {
-    SRKeyCodeTransformer *transformer = [[[self alloc] init] autorelease];
+    SRKeyCodeTransformer *transformer = [[self alloc] init];
     [stringToKeyCodeDict removeAllObjects];
     
     // loop over every keycode (0 - 127) finding its current string mapping...

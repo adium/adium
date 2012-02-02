@@ -26,10 +26,10 @@
 	int angle;
 }
 
-@property(nonatomic, retain) NSColor *startingColor;
-@property(nonatomic, retain) NSColor *middleColor;
-@property(nonatomic, retain) NSColor *endingColor;
-@property(nonatomic, retain) NSColor *backgroundColor;
+@property(nonatomic) NSColor *startingColor;
+@property(nonatomic) NSColor *middleColor;
+@property(nonatomic) NSColor *endingColor;
+@property(nonatomic) NSColor *backgroundColor;
 
 @property(assign) int angle;
 

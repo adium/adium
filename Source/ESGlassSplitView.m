@@ -21,7 +21,7 @@
 @implementation ESGlassSplitView
 - (void)_initGlassSplitView
 {
-	background = [[NSImage imageNamed:@"sourceListBackground" forClass:[KNShelfSplitView class]] retain];
+	background = [NSImage imageNamed:@"sourceListBackground" forClass:[KNShelfSplitView class]];
 	backgroundSize = [background size];
 	
 	[self setNeedsDisplay:YES];
@@ -43,13 +43,6 @@
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[background release];
-	
-	[super dealloc];
 }
 
 -(void)drawDividerInRect:(NSRect)aRect
