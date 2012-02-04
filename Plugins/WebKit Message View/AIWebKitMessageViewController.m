@@ -980,11 +980,14 @@ static NSArray *draggedTypes = nil;
 }
 
 /*!
- * @brief Add ourself to the window script object bridge when it's safe to do so
+ * @brief Add ourself to the window script object bridge when it's safe to do so. Also injects custom javascript.
  */
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
 {
     [[webView windowScriptObject] setValue:self forKey:@"client"];
+	
+	// Add an event listener for DOM ready and notify back our controller
+	[[webView windowScriptObject] evaluateWebScript:@"document.addEventListener(\"DOMContentLoaded\", function() {window.client.$_setDocumentReady()}, false);"];
 }
 
 //Dragging delegate ----------------------------------------------------------------------------------------------------
