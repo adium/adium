@@ -67,6 +67,7 @@
 - (void)processQueuedContent;
 - (void)_processContentObject:(AIContentObject *)content willAddMoreContentObjects:(BOOL)willAddMoreContentObjects;
 - (void)_appendContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar willAddMoreContentObjects:(BOOL)willAddMoreContentObjects replaceLastContent:(BOOL)replaceLastContent;
+- (void)_setDocumentReady;
 
 - (NSString *)_webKitBackgroundImagePathForUniqueID:(NSInteger)uniqueID;
 - (NSString *)_webKitUserIconPathForObject:(AIListObject *)inObject;
@@ -568,6 +569,12 @@ static NSArray *draggedTypes = nil;
 	[chatElement setClassName:chatClassName];
 }
 
+// Set document is ready (DOM ready)
+- (void)_setDocumentReady
+{
+	documentIsReady = YES;
+}
+
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
 /*!
@@ -611,7 +618,7 @@ static NSArray *draggedTypes = nil;
 		NSUInteger	contentQueueCount = 1;
 		NSUInteger	objectsAdded = 0;
 		
-		if (webViewIsReady) {
+		if (webViewIsReady && documentIsReady) {
 			contentQueueCount = contentQueue.count;
 			
 			while (contentQueueCount > 0) {
@@ -1630,7 +1637,8 @@ static NSArray *draggedTypes = nil;
 	if (
 		sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:)) ||
 		sel_isEqual(aSelector, @selector(debugLog:)) ||
-		sel_isEqual(aSelector, @selector(zoomImage:))
+		sel_isEqual(aSelector, @selector(zoomImage:)) ||
+		sel_isEqual(aSelector, @selector(_setDocumentReady))
 	)
 		return NO;
 	

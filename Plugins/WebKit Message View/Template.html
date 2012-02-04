@@ -8,6 +8,10 @@
 		// Any percent signs in this file must be escaped!
 		// Use two escape signs (%%) to display it, this is passed through a format call!
 
+		// We listen for DOM ready and notify our controller
+		document.addEventListener("DOMContentLoaded", function() {window.client.$_setDocumentReady()}, false);
+		//
+		
 		function appendHTML(html) {
 			var node = document.getElementById("Chat");
 			var range = document.createRange();
