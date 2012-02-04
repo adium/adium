@@ -47,7 +47,7 @@
 	return @"Xtras";
 }
 - (NSString *)paneName{
-    return AILocalizedString(@"Xtras Manager",nil);
+    return AILocalizedString(@"Xtras",nil);
 }
 - (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"xtras_duck" forClass:[self class]];
