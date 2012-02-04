@@ -406,7 +406,7 @@ static NSString	*prefsCategory;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_FORUM_PAGE]];
 }
 - (IBAction)showXtras:(id)sender{
-	[[AIXtrasManager sharedManager] showXtras];
+	[preferenceController openPreferencesToCategoryWithIdentifier:@"Xtras"];
 }
 
 - (IBAction)contibutingToAdium:(id)sender

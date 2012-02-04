@@ -136,7 +136,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"SMContactListShowBehaviorPlugin",
 		@"ESiTunesPlugin",
 		@"ESPersonalPreferencesPlugin",
-		@"AIXtrasManager",
 		@"OWSpellingPerContactPlugin",
 		@"GBQuestionHandlerPlugin",
 		@"AINulRemovalPlugin",
