@@ -28,10 +28,6 @@
 #import <Adium/AICorePluginLoader.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://www.adiumxtras.com/","Adium xtras page. Localized only if a translated version exists.")
-#define DELETE					AILocalizedStringFromTable(@"Delete", @"Buttons", nil)
-#define GET_MORE_XTRAS			AILocalizedStringFromTable(@"Get More Xtras", @"Buttons", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")
-
-#define MINIMUM_SOURCE_LIST_WIDTH 40
 
 @interface AIXtrasManager ()
 - (void)updateForSelectedCategory;
@@ -65,7 +61,7 @@
  */
 - (void)viewDidLoad
 {
-	[findXtras setLocalizedString:AILocalizedString(@"Find More Xtras", nil)];
+	[findXtras setLocalizedString:AILocalizedString(@"Find More Xtras", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")];
 	
 	AIImageTextCell			*cell;
 	//Configure our tableViews
