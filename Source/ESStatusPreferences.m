@@ -135,7 +135,7 @@
 
 - (void)localizePane
 {
-	[tabItem_status setLabel:AILocalizedString(@"Statuses", nil)];
+	[tabItem_status setLabel:AILocalizedString(@"Saved Statuses", nil)];
 	[tabItem_settings setLabel:AILocalizedString(@"Settings", nil)];
 	
 	[button_addGroup setLocalizedString:AILocalizedString(@"Add Group", nil)];
