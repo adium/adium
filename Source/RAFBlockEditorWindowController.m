@@ -123,14 +123,20 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (void)updateAccountSelection
 {
 	AIAccount<AIAccount_Privacy> *account = [self selectedAccount];
-	BOOL online = (account && account.online);
+	BOOL hasPrivacy = [account respondsToSelector:@selector(privacyOptions)];
+	BOOL online = (account && account.online && hasPrivacy);
 
 	//Control dimming
 	[privacyLevel setEnabled:online];
 	[contactTable setEnabled:online];
 	[addRemoveContact setEnabled:online];
 
-	[label_information setStringValue:AILocalizedString(@"Account is offline", nil)];
+	if (!hasPrivacy)
+		[label_information setStringValue:AILocalizedString(@"Account does not support privacy settings.", nil)];
+	else if (!online)
+		[label_information setStringValue:AILocalizedString(@"Account is offline.", nil)];
+	else
+		[label_information setStringValue:@""];
 
 	if (listContents.count > 0) {
 		[listContents release];
@@ -147,7 +153,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		
 		[privacyLevel selectCellWithTag:privacyOption];
 		[self setPrivacyOption:nil];
-		[label_information setStringValue:@""];
 	}
 }
 
@@ -359,7 +364,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
  */
 - (AIAccount<AIAccount_Privacy> *)selectedAccount
 {
-	if ([accountTable selectedRow] > 0)
+	if ([accountTable selectedRow] >= 0)
 		return [accountArray objectAtIndex:[accountTable selectedRow]];
 	return nil;
 }
@@ -382,7 +387,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 {
 	if ([inModifiedKeys containsObject:KEY_IS_BLOCKED]) {
 		[self privacySettingsChangedExternally:nil];
-	} else if ([inModifiedKeys containsObject:@"isOnline"]) {
+	} else if ([inObject isKindOfClass:[AIAccount class]] && [inModifiedKeys containsObject:@"isOnline"]) {
 		[self updateAccountSelection];
 	}
 	
