@@ -295,7 +295,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 	// create the connection with the request
 	// and start loading the data
-	NSURLDownload *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest delegate:self];
+	NSURLDownload *theDownload = [[[NSURLDownload alloc] initWithRequest:theRequest delegate:self] autorelease];
 	if (theDownload) {
 		[currentDownloads addObject:theDownload];
 		// set the destination file now

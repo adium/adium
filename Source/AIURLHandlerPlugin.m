@@ -421,10 +421,10 @@
 				
 				jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
 				
-				[AINewContactWindowController promptForNewContactOnWindow:nil
-																	 name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-																  service:jabberService
-																  account:nil];
+				AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+																															 service:jabberService
+																															 account:nil];
+				[newContactWindowController showOnWindow:nil];
 			} else if ([query rangeOfString:@"remove"].location == 0
 					   || [query rangeOfString:@"unsubscribe"].location == 0) {
 				// xmpp:johndoe@jabber.org?remove
@@ -473,10 +473,10 @@
 			
 			if (contactName.length) {
 				if ([host isEqualToString:@"addContact"]) {
-					[AINewContactWindowController promptForNewContactOnWindow:nil
-																		 name:contactName
-																	  service:[adium.accountController firstServiceWithServiceID:serviceID]
-																	  account:nil];
+					AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:contactName
+																																 service:[adium.accountController firstServiceWithServiceID:serviceID]
+																																 account:nil];
+					[newContactWindowController showOnWindow:nil];
 				} else if ([host isEqualToString:@"sendIM"]) {
 					[self _openChatToContactWithName:contactName
 										   onService:serviceID
@@ -504,7 +504,7 @@
 		
 	} else if ([scheme isEqualToString:@"adiumxtra"]) {
 		//Installs an adium extra
-		// adiumxtra://www.adiumxtras.com/path/to/xtra.zip
+		// adiumxtra://xtras.adium.im/path/to/xtra.zip
 		
 		[[XtrasInstaller installer] installXtraAtURL:url];
 	}
@@ -545,7 +545,8 @@
 	}
 	
 	if (!ircAccount) {
-		[[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		AITemporaryIRCAccountWindowController *temporaryIRCAccountWindowController = [[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		[temporaryIRCAccountWindowController show];
 	} else if (name) {
 		[adium.chatController chatWithName:name
 		 identifier:nil

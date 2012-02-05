@@ -42,7 +42,8 @@
     id 									target;
 }
 
-+ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
+- (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)acceptURL:(id)sender;

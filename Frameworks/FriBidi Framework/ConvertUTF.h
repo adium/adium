@@ -79,7 +79,7 @@
 
 ------------------------------------------------------------------------ */
 
-#include <FriBidi/fribidi_types.h>
+#include <FriBidi/fribidi-types.h>
 
 /* ---------------------------------------------------------------------
     The following 4 definitions are compiler-specific.

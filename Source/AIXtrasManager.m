@@ -27,7 +27,7 @@
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AICorePluginLoader.h>
 
-#define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://www.adiumxtras.com/","Adium xtras page. Localized only if a translated version exists.")
+#define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
 
 @interface AIXtrasManager ()
 - (void)updateForSelectedCategory;

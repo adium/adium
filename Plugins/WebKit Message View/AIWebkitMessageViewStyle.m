@@ -448,6 +448,8 @@
 	} else {
 		usingCustomTemplateHTML = YES;
 		
+		NSAssert(baseHTML != nil, @"The impossible happened!");
+		
 		if ([baseHTML rangeOfString:@"function imageCheck()" options:NSLiteralSearch].location != NSNotFound) {
 			/* This doesn't quite fix image swapping on styles with broken image swapping due to custom HTML templates,
 			 * but it improves it. For some reason, the result of using our normal template.html functions is that 
@@ -635,7 +637,7 @@
 - (NSString *)scriptForScrollingAfterAddingMultipleContentObjects
 {
 	if ((styleVersion >= 3) || !usingCustomTemplateHTML) {
-		return @"alignChat(true);";
+		return @"alignChat(nearBottom());";
 	}
 
 	return nil;

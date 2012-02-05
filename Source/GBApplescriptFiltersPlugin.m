@@ -43,9 +43,9 @@
 - (void)_appendScripts:(NSArray *)scripts toMenu:(NSMenu *)menu;
 - (void)registerToolbarItem;
 - (void)xtrasChanged:(NSNotification *)notification;
-- (void)selectScript:(id)sender;
+- (IBAction)selectScript:(id)sender;
 - (void)applescriptDidRun:(id)userInfo resultString:(NSString *)resultString;
-- (void)dummyTarget:(id)sender;
+- (IBAction)dummyTarget:(id)sender;
 
 - (void)_replaceKeyword:(NSString *)keyword
 			 withScript:(NSMutableDictionary *)infoDict

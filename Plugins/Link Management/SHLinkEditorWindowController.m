@@ -25,7 +25,6 @@
 
 @interface SHLinkEditorWindowController ()
 
-- (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
 - (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 
@@ -43,27 +42,23 @@
 
 #pragma mark Init methods
 
-+ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	SHLinkEditorWindowController	*editorWindow = [[self alloc] initWithWindowNibName:LINK_EDITOR_NIB_NAME
-																			forTextView:inTextView
-																		notifyingTarget:inTarget];
-	
 	if (parentWindow) {
-		[NSApp beginSheet:[editorWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:editorWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[editorWindow showWindow:nil];
+		[self showWindow:nil];
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
+- (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
 
 {
-    if ((self = [super initWithWindowNibName:windowNibName])) {
+    if ((self = [super initWithWindowNibName:LINK_EDITOR_NIB_NAME])) {
 		textView = [inTextView retain];
 		target = [inTarget retain];
 	}
@@ -179,6 +174,7 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	[self autorelease];
 }
 
 // Cancel
@@ -226,15 +222,14 @@
 
 - (IBAction)removeURL:(id)sender
 {
-    id selectedLink;
     if ([[textView textStorage] length] &&
        [textView selectedRange].location != NSNotFound &&
        [textView selectedRange].location != [[textView textStorage] length]) {
             NSRange selectionRange = [textView selectedRange];
             // Get range
-            selectedLink = [[textView textStorage] attribute:NSLinkAttributeName
-												 atIndex:selectionRange.location
-										  effectiveRange:&selectionRange];
+            [[textView textStorage] attribute:NSLinkAttributeName
+									  atIndex:selectionRange.location
+							   effectiveRange:&selectionRange];
 			// Remove the link from it
             [[textView textStorage] removeAttribute:NSLinkAttributeName range:selectionRange];
     }

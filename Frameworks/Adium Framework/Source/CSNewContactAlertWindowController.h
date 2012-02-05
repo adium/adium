@@ -62,7 +62,7 @@
 										onWindow:(NSWindow *)parentWindow
 								 notifyingTarget:(id)inTarget
 							  configureForGlobal:(BOOL)inConfigureForGlobal
-								  defaultEventID:(NSString *)inDefaultEventID;
+								  defaultEventID:(NSString *)inDefaultEventID __attribute__((objc_method_family(new)));
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
 

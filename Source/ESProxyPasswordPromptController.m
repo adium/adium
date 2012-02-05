@@ -45,6 +45,7 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
 		[controller setTarget:inTarget selector:inSelector context:inContext];
 		
 	} else {
+		// Do not trust the static analyzer, look at the superclass. This is not a leak.
 		if ((controller = [[self alloc] initWithWindowNibName:PROXY_PASSWORD_PROMPT_NIB
 											   forProxyServer:inServer
 													 userName:inUserName

@@ -9,18 +9,23 @@ DEFAULT_BUILDCONFIGURATION=Release-Debug
 
 BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 
+# Choose xcodebuild 
+# currently used for build machines
+XCODEBUILD ?= $(shell if test -d /Xcode4; then echo "/Xcode4/usr/bin/xcodebuild"; else echo "xcodebuild"; fi)
+#
+
 CP=ditto --rsrc
 RM=rm
 
 .PHONY: all adium clean localizable-strings latest test astest install
 
 adium:
-	/Xcode4/usr/bin/./xcodebuild -version
-	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
+	$(XCODEBUILD) -version
+	$(XCODEBUILD) -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) build
 
 test:
-	/Xcode4/usr/bin/./xcodebuild -version
-	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) -target "Unit tests" build
+	$(XCODEBUILD) -version
+	$(XCODEBUILD) -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) CFLAGS="$(ADIUM_CFLAGS)" $(ADIUM_NIGHTLY_FLAGS) -target "Unit tests" build
 astest:
 	osascript unittest\ runner.applescript | tr '\r' '\n'
 
@@ -29,8 +34,8 @@ install:
 	cp -R build/$(BUILDCONFIGURATION)/Adium.app ~/Applications/
 
 clean:
-	/Xcode4/usr/bin/./xcodebuild -version
-	/Xcode4/usr/bin/./xcodebuild -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) $(ADIUM_NIGHTLY_FLAGS) clean
+	$(XCODEBUILD) -version
+	$(XCODEBUILD) -project Adium.xcodeproj -configuration $(BUILDCONFIGURATION) $(ADIUM_NIGHTLY_FLAGS) clean
 
 localizable-strings:
 	mkdir tmp || true

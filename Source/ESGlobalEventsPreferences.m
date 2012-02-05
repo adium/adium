@@ -309,11 +309,11 @@
 		COPY_IN_PARENTHESIS];
 	explanatoryText = AILocalizedString(@"Enter a unique name for this new event set.",nil);
 
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:defaultName
-													explanatoryText:explanatoryText
-														   onWindow:[[self view] window]
-													notifyingTarget:self
-														   userInfo:nil];
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:defaultName
+																									  explanatoryText:explanatoryText
+																									  notifyingTarget:self
+																											 userInfo:nil];
+	[presetNameSheetController showOnWindow:[[self view] window]];
 
 	//Get our event presets menu back to its proper selection
 	[self selectActiveEventInPopUp];
@@ -326,10 +326,10 @@
  */
 - (void)editPresets:(id)sender
 {
-	[ESPresetManagementController managePresets:[plugin storedEventPresetsArray]
-									 namedByKey:@"Name"
-									   onWindow:[[self view] window]
-								   withDelegate:self];
+	ESPresetManagementController *presentManagementController = [[ESPresetManagementController alloc] initWithPresets:[plugin storedEventPresetsArray]
+																										   namedByKey:@"Name"
+																										 withDelegate:self];
+	[presentManagementController showOnWindow:[[self view] window]];
 
 	//Get our event presets menu back to its proper selection
 	[self selectActiveEventInPopUp];
@@ -658,11 +658,11 @@
 	defaultName = [NSString stringWithFormat:@"%@ %@", originalPresetName, COPY_IN_PARENTHESIS];
 	explanatoryText = AILocalizedString(@"You are editing a default event set.  Please enter a unique name for your modified set.",nil);
 	
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:defaultName
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:defaultName
 													explanatoryText:explanatoryText
-														   onWindow:[[self view] window]
 													notifyingTarget:self
 														   userInfo:nil];
+	[presetNameSheetController showOnWindow:[[self view] window]];
 }
 
 - (BOOL)presetNameSheetController:(ESPresetNameSheetController *)controller
@@ -769,6 +769,7 @@
 								   representedObject:soundSet];
 		
 		if ([[menuItem title] isEqualToString:NONE]) {
+			[noneMenuItem release];
 			noneMenuItem = menuItem;
 
 		} else {

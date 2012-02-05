@@ -25,7 +25,6 @@
 
 @interface AIListThemeWindowController ()
 
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget;
 - (void)configureControls;
 - (void)configureControlDimming;
 - (void)updateSliderValues;
@@ -37,28 +36,22 @@
 
 @implementation AIListThemeWindowController
 
-+ (id)editListThemeWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(id)parentWindow
 {
-	AIListThemeWindowController	*listThemeWindow = [[self alloc] initWithWindowNibName:@"ListThemeSheet"
-																				  name:inName
-																	   notifyingTarget:inTarget];
-	
 	if (parentWindow) {
-		[NSApp beginSheet:[listThemeWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:listThemeWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[listThemeWindow showWindow:nil];
+		[self showWindow:nil];
 	}
-	
-	return listThemeWindow;
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget
 {
-    if ((self = [super initWithWindowNibName:windowNibName])) {	
+    if ((self = [super initWithWindowNibName:@"ListThemeSheet"])) {	
 		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listThemeEditorWillCloseWithChanges:forThemeNamed:)]);
 	
 		target = inTarget;
@@ -95,6 +88,13 @@
 	
 	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
+	
+	[self autorelease];
+}
+
+- (void)windowWillClose:(id)sender
+{
+	[super windowWillClose:sender];
 	
 	[self autorelease];
 }

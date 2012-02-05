@@ -39,6 +39,11 @@ static NSMutableDictionary	*keyGenerationControllerDict = nil;
 			
 			[keyGenerationControllerDict setObject:controller
 											forKey:inIdentifier];
+			
+			/* Contrary to most other NSWindowControllers, this doesn't need it to release itself
+			 * in -windowWillClose, as it's in keyGenerationControllerDict.
+			 */
+			[controller autorelease];
 		}
 	}
 }

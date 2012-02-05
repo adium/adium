@@ -498,9 +498,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 	BOOL accept = NO;
-    if (row < 0)
-		row = 0;
-	
+
 	if ([info.draggingPasteboard.types containsObject:@"AIListObjectUniqueIDs"]) {
 		for (NSString *uniqueUID in [info.draggingPasteboard propertyListForType:@"AIListObjectUniqueIDs"])
 			[self addListObjectToList:[adium.contactController existingListObjectWithUniqueID:uniqueUID]];

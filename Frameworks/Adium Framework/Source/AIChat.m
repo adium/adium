@@ -914,7 +914,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 {
 	AIMessageWindowController *windowController = self.chatContainer.windowController;	
 	NSScriptClassDescription *containerClassDesc;
-	NSScriptObjectSpecifier *containerRef;
+	NSScriptObjectSpecifier *containerRef = nil;
 	if (windowController) {
 		containerRef = [[windowController window] objectSpecifier];
 		containerClassDesc = [containerRef keyClassDescription];
