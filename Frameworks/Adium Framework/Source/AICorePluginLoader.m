@@ -302,11 +302,11 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	if (!minimumVersionOfPlugin) {
 		NSString *pluginName = [[pluginPath lastPathComponent] stringByDeletingPathExtension];
 
-		NSLog(@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+		NSLog(@"The %@ plugin is not compatible with Adium %@. Please check xtras.adium.im to see if an update is available.",
 			  pluginName, [NSApp applicationVersion]);
 
 		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
-						@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+						@"The %@ plugin is not compatible with Adium %@. Please check xtras.adium.im to see if an update is available.",
 						AILocalizedString(@"Disable", nil), nil, nil, pluginName, [NSApp applicationVersion]);
 		[self disablePlugin:pluginPath];
 		return NO;
