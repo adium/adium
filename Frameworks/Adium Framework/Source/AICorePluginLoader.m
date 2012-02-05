@@ -285,8 +285,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureX86_64
 	#elif defined(__i386__)
 		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureI386
-	#elif defined(__ppc__)
-		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitecturePPC
 	#else
 		#error Unsupported Architecture!
 	#endif
