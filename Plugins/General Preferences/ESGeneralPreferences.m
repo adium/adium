@@ -119,10 +119,10 @@
 	[label_status setLocalizedString:AILocalizedString(@"Status:", nil)];
 	[label_updates setLocalizedString:AILocalizedString(@"Updates:", nil)];
 	
-	[button_defaultApp setLocalizedString:AILocalizedString(@"Set default application", nil)];
+	[button_defaultApp setLocalizedString:AILocalizedString(@"Make Adium default application", nil)];
 	[button_customizeDefaultApp setLocalizedString:AILocalizedString(@"Customize…", nil)];
 	
-	[checkbox_showInMenu setLocalizedString:AILocalizedString(@"Show Adium status in menu bar", nil)];
+	[checkbox_showInMenu setLocalizedString:AILocalizedString(@"Show Adium's status in the menu bar", nil)];
 	[checkbox_updatesAutomatic setLocalizedString:AILocalizedString(@"Automatically check for updates", nil)];
 	[checkbox_updatesIncludeBetas setLocalizedString:AILocalizedString(@"Update to beta versions when available", nil)];
 	[checkbox_updatesProfileInfo setLocalizedString:AILocalizedString(@"Include anonymous system profile", nil)];
