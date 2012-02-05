@@ -225,21 +225,22 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
     logLoadingPrefetchSemaphore = dispatch_semaphore_create(3 * cpuCount + 1); //prefetch one log
 	
 	
-	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
-													  fontTags:YES
-												 closeFontTags:YES
-													 colorTags:YES
-													 styleTags:YES
-												encodeNonASCII:YES
-												  encodeSpaces:NO
-											 attachmentsAsText:NO
-									 onlyIncludeOutgoingImages:NO
-												simpleTagsOnly:NO
-												bodyBackground:NO
-										   allowJavascriptURLs:YES];
+	self.xhtmlDecoder = [[[AIHTMLDecoder alloc] initWithHeaders:NO
+													   fontTags:YES
+												  closeFontTags:YES
+													  colorTags:YES
+													  styleTags:YES
+												 encodeNonASCII:YES
+												   encodeSpaces:NO
+											  attachmentsAsText:NO
+									  onlyIncludeOutgoingImages:NO
+												 simpleTagsOnly:NO
+												 bodyBackground:NO
+											allowJavascriptURLs:YES] autorelease];
+	
 	[self.xhtmlDecoder setGeneratesStrictXHTML:YES];
 	
-	self.statusTranslation = [[NSDictionary alloc] initWithObjectsAndKeys:
+	self.statusTranslation = [NSDictionary dictionaryWithObjectsAndKeys:
 							  @"away",@"away",
 							  @"online",@"return_away",
 							  @"online",@"online",
@@ -324,6 +325,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	self.dirtyLogSet = nil;
 	self.activeAppenders = nil;
 	self.xhtmlDecoder = nil;
+	self.statusTranslation = nil;
 	
 	dispatch_release(dirtyLogSetMutationQueue); dirtyLogSetMutationQueue = nil;
 	dispatch_release(searchIndexQueue); searchIndexQueue = nil;
@@ -1546,7 +1548,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                             }));
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
-							CFRelease(document);
+							if (document) CFRelease(document);
 							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
 							dispatch_semaphore_signal(jobSemaphore);

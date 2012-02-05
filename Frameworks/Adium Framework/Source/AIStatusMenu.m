@@ -37,7 +37,7 @@
 - (void)stateArrayChanged:(NSNotification *)notification;
 - (void)activeStatusStateChanged:(NSNotification *)notification;
 - (void)statusIconSetChanged:(NSNotification *)notification;
-- (void)selectCustomState:(id)sender;
+- (IBAction)selectCustomState:(id)sender;
 - (void)selectState:(id)sender;
 + (void)dummyAction:(id)sender;
 @end

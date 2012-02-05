@@ -170,19 +170,19 @@
 	NSString *mailApplicationName = [self mailApplicationName];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AINoNewMailWindow"]) {
-		[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"New Mail",nil)
-															  defaultButton:nil
-															alternateButton:(inURLString ? 
-																			 AILocalizedString(@"Open Mail in Browser",nil) :
-																			 nil)
-																otherButton:((mailApplicationName && [mailApplicationName length]) ?
-																			 [NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
-																			 nil)
-																   onWindow:nil
-														  withMessageHeader:nil
-																 andMessage:inMessage
-																	 target:self
-																   userInfo:inURLString];
+		ESTextAndButtonsWindowController *textAndButtonsWindowController = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"New Mail",nil)
+																													 defaultButton:nil
+																												   alternateButton:(inURLString ? 
+																																	AILocalizedString(@"Open Mail in Browser",nil) :
+																																	nil)
+																													   otherButton:((mailApplicationName && [mailApplicationName length]) ?
+																																	[NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
+																																	nil)
+																												 withMessageHeader:nil
+																														andMessage:inMessage
+																															target:self
+																														  userInfo:inURLString];
+		[textAndButtonsWindowController showOnWindow:nil];
 	}
 	
 	//XXX - Hook this to the account for listobject

@@ -24,6 +24,6 @@
 	NSDictionary *theInfoDict;
 }
 
-+ (ESPurpleRequestActionController *)showActionWindowWithDict:(NSDictionary *)infoDict;
++ (ESPurpleRequestActionController *)showActionWindowWithDict:(NSDictionary *)infoDict __attribute__((objc_method_family(new)));
 
 @end

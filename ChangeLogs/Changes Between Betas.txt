@@ -1,17 +1,36 @@
 Adium 1.5xx
- * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
- * Fixed localisation of a couple of emoticons.
- * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
- * Updated localisations: German (#15586, #15733), Greek, Swedish (#15786).
- * Fixed initializers and did minor clean-up in: AISplitView, AIListOutlineView, AIAccountPlusFieldPromptController,
-   DCJoinChatWindowController, CSNewContactAlertWindowController, SHLinkEditorWindowController, AIListLayoutWindowController,
-   AIListThemeWindowController, AITextColorPreviewView, ErrorMessageWindowController, AWEzvContactManagerRendezvous, AIContactListImagePicker.
- * Fixed a leak when resizing animated Gif files.
+ * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
+ * Fixed message history only showing on 1st tab, on startup (#15377).
+ * Fixed message view jumps to the bottom when Twitter Timeline updates (#15790).
+ * Fixed the Ukrainian localisation not being used on Mac OS X Lion (#15821).
+
+
+Adium 1.5rc3
+ General
+  * Fixed permission issues caused by previous release being built incorrectly.
+  * Blacklisted the Skype plugin in 1.5, as it's known to be broken.
+  * Restored LiveJournal connectivity by removing the hard-coded server name, they have an SRV record now.
+
+ Localisation
+  * Updated localisations: Italian (#15810, #15808).
+
+
+Adium 1.5rc2
+ General
+  * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
+  * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
+  * Fixed numerous memory leaks.
+  * Fixed numerous Clang Analyzer warnings.
+
+ Localisation
+  * Updated localisations: German (##15586, #15733), Greek, Swedish (#15786).
+  * Fixed localisation of a couple of emoticon names.
+
 
 Adium 1.5rc1
  Localisation
   * Updated localisations: Catalan (#15770), Chinese (Traditional), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772).
-  * Fixed typos/misspellings in Russian localization. (#15769, #15571)
+  * Fixed typos/misspellings in Russian localisation. (#15769, #15571)
 
  Transcript Viewer
   * Fixed ghosting artifacts when scrolling transcript contents (while searching).

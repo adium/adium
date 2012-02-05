@@ -44,7 +44,7 @@
 
 // AIListObject interaction
 - (void)sendNotification:(AIListObject *)object;
-- (void)notifyContact:(id)sender;
+- (IBAction)notifyContact:(id)sender;
 
 // Notifications.
 - (void)nudgeBuzzDidOccur:(NSNotification *)notification;

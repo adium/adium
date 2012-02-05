@@ -226,9 +226,9 @@
 #pragma mark Editing
 - (void)editAccount:(AIAccount *)account onWindow:(NSWindow *)window notifyingTarget:(id)target
 {
-	[AIEditAccountWindowController editAccount:account
-									  onWindow:window
-							   notifyingTarget:target];	
+	AIEditAccountWindowController *accountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:account
+																									notifyingTarget:target];
+	[accountWindowController showOnWindow:window];
 }
 
 @end

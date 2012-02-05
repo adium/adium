@@ -726,7 +726,7 @@ static OtrlMessageAppOps ui_ops = {
 
 		ConnContext		*context = contextForChat(inContentMessage.chat);
 
-		err = otrl_message_fragment_and_send(&ui_ops, /* opData */ NULL, context,
+		otrl_message_fragment_and_send(&ui_ops, /* opData */ NULL, context,
 											 fullOutgoingMessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, &lastFragmentOfMessage);
 
 		//This new message is what should be sent to the remote contact

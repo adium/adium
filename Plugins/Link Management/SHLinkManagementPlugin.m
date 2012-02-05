@@ -32,8 +32,8 @@
 @interface SHLinkManagementPlugin ()
 - (BOOL)textViewSelectionIsLink:(NSTextView *)textView;
 - (void)registerToolbarItem;
-- (void)editFormattedLink:(id)sender;
-- (void)removeFormattedLink:(id)sender;
+- (IBAction)editFormattedLink:(id)sender;
+- (IBAction)removeFormattedLink:(id)sender;
 @end
 
 @implementation SHLinkManagementPlugin
@@ -91,9 +91,9 @@
 
     if (earliestTextView &&
 		![[keyWin windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
-		[SHLinkEditorWindowController showLinkEditorForTextView:earliestTextView
-													   onWindow:keyWin
-												notifyingTarget:nil];
+		SHLinkEditorWindowController *linkEditorWindowController = [[SHLinkEditorWindowController alloc] initWithTextView:earliestTextView
+																										  notifyingTarget:nil];
+		[linkEditorWindowController showOnWindow:keyWin];
     }
 }
 

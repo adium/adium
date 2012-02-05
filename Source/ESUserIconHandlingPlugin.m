@@ -44,7 +44,7 @@
 - (void)chatDidBecomeVisible:(NSNotification *)notification;
 
 - (void)listObjectAttributesChanged:(NSNotification *)notification;
-- (void)dummyAction:(id)sender;
+- (IBAction)dummyAction:(id)sender;
 @end
 
 /*!

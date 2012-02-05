@@ -80,7 +80,7 @@
 - (void)toggleUserlist:(id)sender;
 - (void)toggleUserlistSide:(id)sender;
 - (void)clearDisplay:(id)sender;
-- (void)closeContextualChat:(id)sender;
+- (IBAction)closeContextualChat:(id)sender;
 - (void)openAuthorizationWindow:(id)sender;
 - (void)didReceiveContent:(NSNotification *)notification;
 - (void)adiumDidFinishLoading:(NSNotification *)inNotification;
@@ -1751,10 +1751,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
         [entryString adjustColorsToShowOnBackground:[NSColor colorWithCalibratedRed:1.000f green:1.000f blue:0.800f alpha:1.0f]];
 
         //headIndent doesn't apply to the first line of a paragraph... so when new lines are in the entry, we need to tab over to the proper location
-		if ([entryString replaceOccurrencesOfString:@"\r" withString:@"\r\t\t" options:NSLiteralSearch range:fullLength])
+		if ([entryString replaceOccurrencesOfString:@"\r" withString:@"\r\t\t" options:NSLiteralSearch range:fullLength]) {
             fullLength = NSMakeRange(0, [entryString length]);
-        if ([entryString replaceOccurrencesOfString:@"\n" withString:@"\n\t\t" options:NSLiteralSearch range:fullLength])
-            fullLength = NSMakeRange(0, [entryString length]);
+		}
+		
+        [entryString replaceOccurrencesOfString:@"\n" withString:@"\n\t\t" options:NSLiteralSearch range:fullLength];
 		
         //Run the entry through the filters and add it to tipString
 		entryString = [[adium.contentController filterAttributedString:entryString

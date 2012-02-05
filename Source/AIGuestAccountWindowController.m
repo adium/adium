@@ -24,7 +24,7 @@
 #import <AIUtilities/AIStringFormatter.h>
 
 @interface AIGuestAccountWindowController ()
-- (void)selectServiceType:(id)sender;
+- (IBAction)selectServiceType:(id)sender;
 @end
 
 static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
@@ -113,7 +113,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	return account;
 }
 
-- (void)selectServiceType:(id)sender
+- (IBAction)selectServiceType:(id)sender
 {
 	AIService *service = self.service;
 	[label_name setStringValue:[[service userNameLabel] stringByAppendingString:AILocalizedString(@":", "Colon which will be appended after a label such as 'User Name', before an input field")]];
@@ -145,9 +145,9 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 
 - (IBAction)displayAdvanced:(id)sender
 {
-	[AIEditAccountWindowController editAccount:self.account
-									  onWindow:[self window]
-							   notifyingTarget:self];	
+	AIEditAccountWindowController *editAccountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:self.account
+																										notifyingTarget:self];
+	[editAccountWindowController showOnWindow:[self window]];
 }
 
 - (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)inSuccess

@@ -61,7 +61,8 @@
 	NSString		*layoutName;	
 }
 
-+ (id)editListLayoutWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget;
 - (IBAction)cancel:(id)sender;
 - (IBAction)okay:(id)sender;
 - (void)preferenceChanged:(id)sender;

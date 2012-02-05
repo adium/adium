@@ -67,6 +67,7 @@
 - (void)processQueuedContent;
 - (void)_processContentObject:(AIContentObject *)content willAddMoreContentObjects:(BOOL)willAddMoreContentObjects;
 - (void)_appendContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar willAddMoreContentObjects:(BOOL)willAddMoreContentObjects replaceLastContent:(BOOL)replaceLastContent;
+- (void)_setDocumentReady;
 
 - (NSString *)_webKitBackgroundImagePathForUniqueID:(NSInteger)uniqueID;
 - (NSString *)_webKitUserIconPathForObject:(AIListObject *)inObject;
@@ -568,6 +569,12 @@ static NSArray *draggedTypes = nil;
 	[chatElement setClassName:chatClassName];
 }
 
+// Set document is ready (DOM ready)
+- (void)_setDocumentReady
+{
+	documentIsReady = YES;
+}
+
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
 /*!
@@ -611,7 +618,7 @@ static NSArray *draggedTypes = nil;
 		NSUInteger	contentQueueCount = 1;
 		NSUInteger	objectsAdded = 0;
 		
-		if (webViewIsReady) {
+		if (webViewIsReady && documentIsReady) {
 			contentQueueCount = contentQueue.count;
 			
 			while (contentQueueCount > 0) {
@@ -973,11 +980,14 @@ static NSArray *draggedTypes = nil;
 }
 
 /*!
- * @brief Add ourself to the window script object bridge when it's safe to do so
+ * @brief Add ourself to the window script object bridge when it's safe to do so. Also injects custom javascript.
  */
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
 {
     [[webView windowScriptObject] setValue:self forKey:@"client"];
+	
+	// Add an event listener for DOM ready and notify back our controller
+	[[webView windowScriptObject] evaluateWebScript:@"document.addEventListener(\"DOMContentLoaded\", function() {window.client.$_setDocumentReady()}, false);"];
 }
 
 //Dragging delegate ----------------------------------------------------------------------------------------------------
@@ -1630,7 +1640,8 @@ static NSArray *draggedTypes = nil;
 	if (
 		sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:)) ||
 		sel_isEqual(aSelector, @selector(debugLog:)) ||
-		sel_isEqual(aSelector, @selector(zoomImage:))
+		sel_isEqual(aSelector, @selector(zoomImage:)) ||
+		sel_isEqual(aSelector, @selector(_setDocumentReady))
 	)
 		return NO;
 	
