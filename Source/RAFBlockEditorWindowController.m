@@ -37,6 +37,9 @@
 - (void)privacySettingsChangedExternally:(NSNotification *)inNotification;
 - (void)runBlockSheet;
 - (void)removeSelection;
+- (void)accountListChanged:(NSNotification *)note;
+- (void)addObject:(AIListContact *)inContact;
+- (void)addListObjectToList:(AIListObject *)listObject;
 @end
 
 @implementation RAFBlockEditorWindowController
