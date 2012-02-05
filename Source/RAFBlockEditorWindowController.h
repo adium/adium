@@ -23,6 +23,7 @@
 	NSMutableArray				*listContents;
 	NSArray						*accountArray;
 	
+	NSMatrix *privacyLevel;
 	NSTableView *accountTable;
 	NSTableView *contactTable;
 	NSTextField *label_information;
