@@ -51,7 +51,6 @@
 	[self configureTableView];
 	[self initializeServiceInformationForSchemes:servicesList];
 	
-	[button_setDefault setLocalizedString:AILocalizedString(@"Set Default for All", nil)];
 	[checkBox_enforceDefault setLocalizedString:AILocalizedString(@"Always set Adium as the default", nil)];
 }
 
@@ -63,12 +62,6 @@
 }
 
 #pragma mark Actions
-- (IBAction)setDefault:(id)sender
-{
-	[plugin setAdiumAsDefault];
-	[tableView reloadData];
-}
-
 - (IBAction)enforceDefault:(id)sender
 {
 	if ([sender state]) {

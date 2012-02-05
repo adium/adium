@@ -20,7 +20,6 @@
 @interface AIURLHandlerWindowController : NSWindowController {
 	IBOutlet		NSTableView			*tableView;
 	
-	IBOutlet		NSButton					*button_setDefault;
 	IBOutlet		NSButton					*checkBox_enforceDefault;
 	
 	NSArray										*servicesList;
@@ -29,7 +28,6 @@
 	AIURLHandlerPlugin *plugin;
 }
 
-- (IBAction)setDefault:(id)sender;
 - (IBAction)enforceDefault:(id)sender;
 
 - (IBAction)done:(id)sender;

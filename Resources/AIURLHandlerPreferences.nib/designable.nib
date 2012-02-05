@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11D50</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2166</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2166</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -34,7 +34,7 @@
 		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">AIURLHandlerAdvancedPreferences</string>
+				<string key="NSClassName">AIURLHandlerWindowController</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -141,10 +141,10 @@
 														<int key="NSCellFlags">75628096</int>
 														<int key="NSCellFlags2">2048</int>
 														<string key="NSContents">Service</string>
-														<object class="NSFont" key="NSSupport" id="26">
+														<object class="NSFont" key="NSSupport">
 															<string key="NSName">LucidaGrande</string>
 															<double key="NSSize">11</double>
-															<int key="NSfFlags">3100</int>
+															<int key="NSfFlags">16</int>
 														</object>
 														<object class="NSColor" key="NSBackgroundColor" id="775481550">
 															<int key="NSColorSpace">3</int>
@@ -164,7 +164,7 @@
 														<int key="NSCellFlags">337772096</int>
 														<int key="NSCellFlags2">133120</int>
 														<string key="NSContents">Text Cell</string>
-														<reference key="NSSupport" ref="26"/>
+														<reference key="NSSupport" ref="527417476"/>
 														<reference key="NSControlView" ref="538476932"/>
 														<object class="NSColor" key="NSBackgroundColor" id="1064280141">
 															<int key="NSColorSpace">6</int>
@@ -196,20 +196,24 @@
 														<int key="NSCellFlags">75628096</int>
 														<int key="NSCellFlags2">2048</int>
 														<string key="NSContents">Application</string>
-														<reference key="NSSupport" ref="26"/>
+														<object class="NSFont" key="NSSupport">
+															<string key="NSName">LucidaGrande</string>
+															<double key="NSSize">11</double>
+															<int key="NSfFlags">3100</int>
+														</object>
 														<reference key="NSBackgroundColor" ref="775481550"/>
 														<reference key="NSTextColor" ref="166961911"/>
 													</object>
 													<object class="NSPopUpButtonCell" key="NSDataCell" id="986734970">
 														<int key="NSCellFlags">-2076049856</int>
 														<int key="NSCellFlags2">133120</int>
-														<reference key="NSSupport" ref="26"/>
+														<reference key="NSSupport" ref="527417476"/>
 														<reference key="NSControlView" ref="538476932"/>
 														<int key="NSButtonFlags">103956735</int>
 														<int key="NSButtonFlags2">130</int>
 														<object class="NSFont" key="NSAlternateImage">
 															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">11</double>
+															<double key="NSSize">13</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<string key="NSAlternateContents"/>
@@ -268,7 +272,7 @@
 													<bytes key="NSWhite">MC41AA</bytes>
 												</object>
 											</object>
-											<double key="NSRowHeight">17</double>
+											<double key="NSRowHeight">22</double>
 											<int key="NSTvFlags">1388314624</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
@@ -320,7 +324,7 @@
 							<reference key="NSVScroller" ref="326916591"/>
 							<reference key="NSHScroller" ref="394420978"/>
 							<reference key="NSContentView" ref="259587117"/>
-							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
+							<bytes key="NSScrollAmts">QSAAAEEgAABBwAAAQcAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{428, 344}</string>
@@ -635,6 +639,47 @@
 						<string key="minorKey">./Classes/AILocalizationButton.h</string>
 					</object>
 				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIURLHandlerWindowController</string>
+					<string key="superclassName">NSWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="done:">id</string>
+						<string key="enforceDefault:">id</string>
+						<string key="setDefault:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="done:">
+							<string key="name">done:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="enforceDefault:">
+							<string key="name">enforceDefault:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setDefault:">
+							<string key="name">setDefault:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="checkBox_enforceDefault">NSButton</string>
+						<string key="tableView">NSTableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="checkBox_enforceDefault">
+							<string key="name">checkBox_enforceDefault</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tableView">
+							<string key="name">tableView</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIURLHandlerWindowController.h</string>
+					</object>
+				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -654,8 +699,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSMenuCheckmark">{11, 11}</string>
+			<string key="NSMenuMixedState">{10, 3}</string>
 			<string key="NSSwitch">{15, 15}</string>
 		</dictionary>
 	</data>
