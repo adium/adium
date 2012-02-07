@@ -99,11 +99,6 @@
 - (BOOL)zoomImage:(DOMHTMLImageElement *)img;
 @end
 
-@interface DOMDocument (FutureWebKitPublicMethodsIKnow)
-- (DOMNodeList *)getElementsByClassName:(NSString *)className;
-- (DOMNodeList *)querySelectorAll:(NSString *)selectors; // We require 10.5.8/Safari 4, all is well!
-@end
-
 static NSArray *draggedTypes = nil;
 
 @implementation AIWebKitMessageViewController
@@ -1404,9 +1399,6 @@ static NSArray *draggedTypes = nil;
 - (void)updateServiceIcon
 {
 	DOMDocument *doc = [webView mainFrameDocument];
-	//Old WebKits don't support this... if someone feels like doing it the slower way here, feel free
-	if(![doc respondsToSelector:@selector(getElementsByClassName:)])
-		return; 
 	DOMNodeList  *serviceIconImages = [doc getElementsByClassName:@"serviceIcon"];
 	NSUInteger imagesCount = [serviceIconImages length];
 	
