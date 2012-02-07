@@ -56,7 +56,7 @@
 	return NO;
 }
 - (AIServiceImportance)serviceImportance{
-	return AIServiceSecondary;
+	return AIServicePrimary;
 }
 - (NSString *)userNameLabel{
     return AILocalizedString(@"ICQ Number",nil);    //ICQ#
