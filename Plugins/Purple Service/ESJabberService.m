@@ -83,10 +83,10 @@
 	return @"Jabber";
 }
 - (NSString *)shortDescription{
-	return @"Jabber";
+	return @"XMPP";
 }
 - (NSString *)longDescription{
-	return @"Jabber";
+	return @"XMPP";
 }
 
 /*!
