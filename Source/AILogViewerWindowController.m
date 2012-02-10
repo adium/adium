@@ -1575,14 +1575,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			[wildcardedSearchString appendFormat:@"%@ ", searchComponent];
 	}
 	
-	AILogWithSignature(@"Calling flush");
-	SKIndexFlush(logSearchIndex);
-	AILogWithSignature(@"Done flushing. Now we can search.");
 	thisSearch = SKSearchCreate(logSearchIndex,
 								(CFStringRef)wildcardedSearchString,
 								kSKSearchOptionDefault);
 	currentSearch = (thisSearch ? (SKSearchRef)CFRetain(thisSearch) : NULL);
 	[currentSearchLock unlock];
+	
+	AILogWithSignature(@"Calling flush");
+	SKIndexFlush(logSearchIndex);
+	AILogWithSignature(@"Done flushing. Now we can search.");
 	
 	//Retrieve matches as long as more are pending
     while (more && currentSearch) {
