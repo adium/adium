@@ -76,6 +76,29 @@ void AILog_impl (NSString *format, ...) {
 	va_end(ap); /* clean up when done */
 }
 
+void AILogWithSignature_impl(const char *name, int line, NSString *format, ...) {
+	va_list		ap; /* Points to each unamed argument in turn */
+	NSString	*debugMessage, *actualMessage;
+	const char	*queue = NULL;
+	
+	if (dispatch_get_current_queue() != dispatch_get_main_queue()) {
+		queue = dispatch_queue_get_label(dispatch_get_current_queue());
+	}
+	
+	va_start(ap, format); /* Make ap point to the first unnamed argument */
+	
+	debugMessage = [[NSString alloc] initWithFormat:format
+										  arguments:ap];
+	if (!queue)
+		actualMessage = [NSString stringWithFormat:@"%s:%d: %@", name, line, debugMessage];
+	else
+		actualMessage = [NSString stringWithFormat:@"%s:%d: (on %s) %@", name, line, (queue ?: ""), debugMessage];
+	AIAddDebugMessage(actualMessage);
+	[debugMessage release];
+	
+	va_end(ap); /* clean up when done */
+}
+
 void AILogWithPrefix_impl (const char *prefix, NSString *format, ...) {
 	va_list		ap; /* Points to each unamed argument in turn */
 	NSString	*debugMessage, *actualMessage;
