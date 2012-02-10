@@ -709,10 +709,14 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 {
 	[displayOperation cancel];
 	[displayOperation autorelease];
+	displayOperation = nil;
 	currentMatch = -1;
 	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
-	displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
-	[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	
+	if (logArray) {
+		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
+		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	}
 }
 
 //Displays the contents of the specified log in our window
