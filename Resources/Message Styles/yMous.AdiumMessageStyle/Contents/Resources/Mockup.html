@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>
+		yMous messagestyle sample
+	</title>
+
+	<style type="text/css">
+		@import url( "./Variants/Saturnine BlueGreen Both.css" );
+
+		body
+		{
+			font: 7.5pt "Lucida Grande" !important;
+			border-bottom: 1px solid yellow !important;
+		}
+
+		/*img.x-icon
+		{
+			display: none;
+		}*/
+
+		/*.x-sender
+		{
+			font-size: 7pt !important;
+		}*/
+
+		/*.x-time
+		{
+			font-size: 6.5pt !important;
+		}*/
+
+	</style>
+</head>
+
+<body>
+
+<div id="topic" title="1.3.6 http://adium.im || Adium VV? See http://adium.im/blog/2009/08/pidgin-2-6-0-and-adium-vv/ || #adium-devl for development talk || Paste into http://paste.lisp.org/new/adium">
+	<div id="x-topic">
+		<style type="text/css">
+			@import url(./Styles/Topic.css);
+		</style>
+
+		<div id="x-hide" class="x-toggle" onclick="hide_header();" style=""></div>
+		<div id="x-show" class="x-toggle" onclick="show_header();" style="display: none; "></div>
+		<div id="x-wrap" style="top: 8px; ">
+			<span id="topicEdit" ondblclick="this.setAttribute('contentEditable', true); this.focus();">1.3.6 http://adium.im || Adium VV? See http://adium.im/blog/2009/08/pidgin-2-6-0-and-adium-vv/ || #adium-devl for development talk || Paste into http://paste.lisp.org/new/adium"</span>
+		</div>
+	</div>
+</div>
+
+<div id="Chat" class="">
+
+<div class="hideIcons SERVICE history date_separator event" style="background-color: cyan;" title="date_separator&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:45:48&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="buddy_icon.png" /></span>
+<span class="x-sender"></span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Wednesday, June 09, 2004</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:45:48</span>
+</div>
+
+<div class="hideIcons SERVICE history outgoing message" user="TekJew" style="background-color: seagreen;" title="Evan&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:45:48&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./outgoing_icon.png" /></span>
+<span class="x-sender">Evan</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">So a priest, a rabbi, and a chicken walk into a bar.</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:45:48</span>
+</div>
+
+<div class="hideIcons SERVICE history incoming message mention" user="fetchgreebledonx" style="background-color: blue;" title="Jeff&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:46:07&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./incoming_icon.png" /></span>
+<span class="x-sender">Jeff</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">I'm pretty sure I've heard this one before.</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:46:07</span>
+</div>
+
+<div class="hideIcons SERVICE history consecutive incoming message" user="fetchgreebledonx" style="background-color: blue;" title="Jeff&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:46:32&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./incoming_icon.png" /></span>
+<span class="x-sender">Jeff</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">So what happens next?</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:46:32</span>
+</div>
+
+<div class="hideIcons SERVICE outgoing message" user="TekJew" style="background-color: seagreen;" title="Evan&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:46:50&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./outgoing_icon.png" /></span>
+<span class="x-sender">Evan</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">If I remember correctly, they explode outward at the speed of light.</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:46:50</span>
+</div>
+
+<div class="hideIcons SERVICE action consecutive outgoing message" user="TekJew" style="background-color: seagreen;" title="Evan&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:47:00&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./outgoing_icon.png" /></span>
+<span class="x-sender">Evan</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">But that might be if you cross the streams…</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:00</span>
+</div>
+
+<div class="hideIcons SERVICE incoming message mention" user="fetchgreebledonx" style="background-color: blue;" title="Jeff&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:47:06&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./incoming_icon.png" /></span>
+<span class="x-sender">Jeff</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">…thus negating all existence!</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:06</span>
+</div>
+
+<div class="hideIcons SERVICE outgoing message" user="TekJew" style="background-color: seagreen;" title="Evan&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:47:51&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./outgoing_icon.png" /></span>
+<span class="x-sender">Evan</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Precisely! it's a risk one takes whenever one walks into a bar, I'm afraid. Especially if one is a chicken.</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:51</span>
+</div>
+
+<div class="hideIcons SERVICE status away" style="background-color: cyan;" title="away&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:47:54&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="buddy_icon.png" /></span>
+<span class="x-sender"></span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Jeff went away</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:54</span>
+</div>
+
+<div class="hideIcons SERVICE consecutive status away_message" style="background-color: cyan;" title="away_message&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:47:55&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="buddy_icon.png" /></span>
+<span class="x-sender"></span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Away Message: "Away for the sake of being away."</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:55</span>
+</div>
+
+<div class="hideIcons SERVICE firstFocus focus incoming message auto_reply" user="fetchgreebledonx" style="background-color: blue;" title="Jeff&nbsp;&middot;&nbsp;AIM (Autoreply)&nbsp;&middot;&nbsp;12:47:51&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./incoming_icon.png" /></span>
+<span class="x-sender">Jeff (Autoreply)</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Away for the sake of being away.</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:47:51</span>
+</div>
+
+<div class="hideIcons SERVICE focus outgoing message" user="TekJew" style="background-color: seagreen;" title="Evan&nbsp;&middot;&nbsp;AIM&nbsp;&middot;&nbsp;12:48:02&nbsp;&middot;&nbsp;19 Apr 2004">
+<span class="x-focus"></span>
+<span class="x-icon"><img src="./outgoing_icon.png" /></span>
+<span class="x-sender">Evan</span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message">Gotta run; catch ya later ;)</span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time">12:48:02</span>
+</div>
+
+<div id="insert" class="">
+<span class="x-focus"></span>
+<span class="x-icon"></span>
+<span class="x-sender"></span>
+<span class="x-line"></span>
+<span class="x-color"></span>
+<span class="x-message"></span>
+<span class="x-mention"></span>
+<span class="x-line"></span>
+<span class="x-time"></span>
+</div>
+
+</div>
+
+<script src="./Footer.js" type="text/javascript" charset="utf-8"></script>
+
+</body>
+</html>

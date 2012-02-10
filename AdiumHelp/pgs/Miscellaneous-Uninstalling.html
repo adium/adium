@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link media="all" rel="stylesheet" href="../css/topicpage.css" type="text/css" />
+<title>Uninstalling Adium</title>
+<meta name="keywords" content="uninstall, remove, delete" />
+<meta name="description" content="Uninstalling Adium" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Uninstalling Adium</h1>
+	</div>
+	<p>Uninstalling Adium is similar to uninstalling most Mac OS X applications.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Removing the Adium application</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Most of Adium is contained within a single application bundle—that's the green duck you dragged to your Applications folder in InstallingAdium.</p>
+			<ul>
+				<li>Make sure Adium is not running.</li>
+				<li>Drag the Adium application (Usually located in /Applications) to the trash.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Removing settings, chat transcripts, and Xtras</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium stores all of your important preferences (including accounts—specifically, the service each account is on and each account's username), all of your transcripts of previous chats (if you didn't turn logging off in Adium's Preferences), and all Xtras you've installed in this folder:</p>
+			<ul>
+				<li>~/Library/Application Support/Adium 2.0/</li>
+			</ul>
+			<p>Adium also places preferences and supporting files in the following locations (in your 'Home' folder):</p>
+			<ul>
+				<li>~/Library/Caches/Adium/</li>
+				<li>~/Library/Caches/Adium Crash Reporter/</li>
+				<li>~/Library/Preferences/com.adiumX.adiumX.plist</li>
+				<li>~/Library/Preferences/com.adiumx.crashReporter.plist</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Removing the Address Book scripts</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><p>Adium also installs Apple Address Book contextual menu actions via AppleScripts in the following location:</p>
+			<ul>
+				<li>~/Library/Address Book Plug-Ins</li>
+			</ul>
+			<p>Move all of these to the Trash (preferably with Address Book not running).</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Removing saved passwords</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium stores your passwords in your Keychain. To remove them from there
+			<ul>
+				<li>open Keychain Access (in your Utilities folder)</li>
+				<li>search for “service.username” (for example, “AIM.jdoe”).</li>
+				<li>select it and press the Delete (⌫) key.</li>
+			</ul>
+			<p>Keychain Access will require your keychain password to go through with this; usually, this is the same as your Mac OS X login password. (It is *not* the password you're deleting.)</p>
+			<p>That said, it is safer to leave them in the Keychain, so you don't delete a password saved by another application by mistake. There is no harm in having keychain items that you aren't using.</p>
+		</div>
+	</div>
+	</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

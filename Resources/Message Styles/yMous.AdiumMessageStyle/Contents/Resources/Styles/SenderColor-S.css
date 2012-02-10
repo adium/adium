@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+.outgoing,
+.incoming,
+.consecutive.message .x-sender:after
+{
+	color: hsla(0, 0%, 83%, 1);
+}
+
+.outgoing:hover,
+.incoming:hover,
+.outgoing.x-hover,
+.incoming.x-hover,
+.consecutive.message:hover .x-sender:after,
+.consecutive.message.x-hover .x-sender:after,
+.outgoing.message .x-color
+{
+	color: hsla(0, 0%, 100%, 1) !important;
+}
+
+.outgoing.message .x-color
+{
+	background-color: hsla(0, 0%, 100%, 1) !important;
+}
+
+.outgoing.message:not(.x-hover) .x-color,
+.outgoing.message.x-hover .x-color
+{
+	color: hsla(0, 0%, 100%, 1) !important;
+}
+
+.status .x-color,
+.event .x-color
+{
+	color: hsla(0, 0%, 0%, 1) !important;
+}
+
+.status.history .x-color,
+.event.history .x-color
+{
+	color: hsla(0, 0%, 12.5%, 1) !important;
+}
+

@@ -1,0 +1,778 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C05A19C06CAA52B00D84F6F /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
+		31583FDC105C0CDA00E4447D /* AFSIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */; };
+		31583FE1105C0D7200E4447D /* AFSIMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */; };
+		31583FE4105C0D8600E4447D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
+		3158400B105C12A100E4447D /* AFSIMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3158400A105C12A100E4447D /* AFSIMain.m */; };
+		3158400E105C12C400E4447D /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */; };
+		3158400F105C12C500E4447D /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
+		31584033105C189800E4447D /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
+		3158403A105C18B400E4447D /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */; };
+		3459CBBB0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3459CBB90A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h */; };
+		3459CBBC0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
+		3459CBC80A25FEA200ECC256 /* AdiumSpotlightImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3459CBC70A25FEA200ECC256 /* AdiumSpotlightImporter.h */; };
+		345AF7DC0A5D55BE00D7DA6F /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
+		345AF7DD0A5D55BE00D7DA6F /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */; };
+		345AF7DE0A5D55BE00D7DA6F /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
+		345AF7DF0A5D55BE00D7DA6F /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */; };
+		345AF9140A5D55C400D7DA6F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
+		345AF9150A5D55C400D7DA6F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86B05260671AA6E00DD9006 /* CoreServices.framework */; };
+		345AF9160A5D55C400D7DA6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34611BEF09B662FF00870036 /* Foundation.framework */; };
+		345AF9270A5D567900D7DA6F /* maintest.m in Sources */ = {isa = PBXBuildFile; fileRef = 345AF91F0A5D560600D7DA6F /* maintest.m */; };
+		34611BF009B662FF00870036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34611BEF09B662FF00870036 /* Foundation.framework */; };
+		34611BF709B664FC00870036 /* GetMetadataForHTMLLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 34611BF509B664FC00870036 /* GetMetadataForHTMLLog.h */; };
+		34611BF809B664FC00870036 /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */; };
+		8D576312048677EA00EA77CD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B6FE84183AC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
+		8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
+		8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
+		C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86B05260671AA6E00DD9006 /* CoreServices.framework */; };
+		C88FB7D8067446EC006EBB30 /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = C88FB7D7067446EC006EBB30 /* schema.xml */; };
+		C88FB7E40674480E006EBB30 /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = C88FB7E30674480E006EBB30 /* schema.strings */; };
+		F520600F0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.h in Headers */ = {isa = PBXBuildFile; fileRef = F520600D0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.h */; };
+		F52060100A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
+		31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdiumFauxSpotlightImporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31583FD4105C0C4F00E4447D /* AdiumFauxSpotlightImporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AdiumFauxSpotlightImporter-Info.plist"; sourceTree = "<group>"; };
+		31583FDA105C0CDA00E4447D /* AFSIAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSIAppDelegate.h; sourceTree = "<group>"; };
+		31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSIAppDelegate.m; sourceTree = "<group>"; };
+		31583FE0105C0D7200E4447D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AFSIMainMenu.xib; sourceTree = "<group>"; };
+		3158400A105C12A100E4447D /* AFSIMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSIMain.m; sourceTree = "<group>"; };
+		3450766C0E106DF400BF0883 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/schema.strings; sourceTree = "<group>"; };
+		3450766D0E106DF600BF0883 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/schema.strings; sourceTree = "<group>"; };
+		3450766E0E106DF800BF0883 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/schema.strings; sourceTree = "<group>"; };
+		3450766F0E106DF900BF0883 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/schema.strings; sourceTree = "<group>"; };
+		345076700E106DFA00BF0883 /* is */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/schema.strings; sourceTree = "<group>"; };
+		345076710E106DFB00BF0883 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/schema.strings; sourceTree = "<group>"; };
+		345076720E106DFC00BF0883 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/schema.strings; sourceTree = "<group>"; };
+		345076730E106DFC00BF0883 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/schema.strings; sourceTree = "<group>"; };
+		345076740E106DFD00BF0883 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/schema.strings; sourceTree = "<group>"; };
+		345076750E106E0200BF0883 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/schema.strings; sourceTree = "<group>"; };
+		345076760E106E0500BF0883 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/schema.strings; sourceTree = "<group>"; };
+		345076770E106E0600BF0883 /* sl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/schema.strings; sourceTree = "<group>"; };
+		345076780E106E0800BF0883 /* tr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/schema.strings; sourceTree = "<group>"; };
+		345076790E106E1800BF0883 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = fr_CA.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767A0E106E1B00BF0883 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767B0E106E1F00BF0883 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767C0E106E2000BF0883 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767D0E106E2100BF0883 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767E0E106E2200BF0883 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3450767F0E106E2400BF0883 /* is */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076800E106E2500BF0883 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076810E106E2600BF0883 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076820E106E2700BF0883 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076830E106E2900BF0883 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076840E106E2A00BF0883 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076850E106E2B00BF0883 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076860E106E2C00BF0883 /* sl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		345076870E106E2D00BF0883 /* tr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3459CBB90A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GetMetadataForHTMLLog-Additions.h"; sourceTree = "<group>"; };
+		3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GetMetadataForHTMLLog-Additions.m"; sourceTree = "<group>"; };
+		3459CBC70A25FEA200ECC256 /* AdiumSpotlightImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdiumSpotlightImporter.h; sourceTree = "<group>"; };
+		345AF7D00A5D559900D7DA6F /* AISpotlightImporterTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AISpotlightImporterTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		345AF91F0A5D560600D7DA6F /* maintest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = maintest.m; sourceTree = "<group>"; };
+		34611BEF09B662FF00870036 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		34611BF509B664FC00870036 /* GetMetadataForHTMLLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetMetadataForHTMLLog.h; sourceTree = "<group>"; };
+		34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForHTMLLog.m; sourceTree = "<group>"; };
+		34A092940C90646D00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		34A092950C90646D00A82168 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/schema.strings; sourceTree = "<group>"; };
+		34D8B3F80D15A4BF0066F013 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = fr_CA.lproj/schema.strings; sourceTree = "<group>"; };
+		34D8B3F90D15A4C30066F013 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/schema.strings; sourceTree = "<group>"; };
+		8D576316048677EA00EA77CD /* AdiumSpotlightImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdiumSpotlightImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D576317048677EA00EA77CD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C86B05260671AA6E00DD9006 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		C88FB7D7067446EC006EBB30 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
+		C88FB7DB0674470F006EBB30 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/schema.strings; sourceTree = "<group>"; };
+		DED034C70CDFF79B00BE4F38 /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/schema.strings; sourceTree = "<group>"; };
+		DED034C80CDFF79B00BE4F38 /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DED034C90CDFF79B00BE4F38 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/schema.strings; sourceTree = "<group>"; };
+		DED034CA0CDFF79B00BE4F38 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F520600D0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "../../Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = SOURCE_ROOT; };
+		F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Parsing.m"; path = "../../Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.m"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		31583FD0105C0C4F00E4447D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		345AF7CE0A5D559900D7DA6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345AF9140A5D55C400D7DA6F /* CoreFoundation.framework in Frameworks */,
+				345AF9150A5D55C400D7DA6F /* CoreServices.framework in Frameworks */,
+				345AF9160A5D55C400D7DA6F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D576313048677EA00EA77CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
+				C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */,
+				34611BF009B662FF00870036 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* AdiumSpotlightImporter */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Source */,
+				F52060120A530838003BFC03 /* External Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* External Frameworks and Libraries */,
+				19C28FB6FE9D52B211CA2CBB /* Products */,
+			);
+			name = AdiumSpotlightImporter;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				34611BEF09B662FF00870036 /* Foundation.framework */,
+				C86B05260671AA6E00DD9006 /* CoreServices.framework */,
+				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C88FB7E30674480E006EBB30 /* schema.strings */,
+				C88FB7D7067446EC006EBB30 /* schema.xml */,
+				8D576317048677EA00EA77CD /* Info.plist */,
+				8D5B49A704867FD3000E48DA /* InfoPlist.strings */,
+				31583FD4105C0C4F00E4447D /* AdiumFauxSpotlightImporter-Info.plist */,
+				31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				3459CBD70A25FEFB00ECC256 /* Additions */,
+				3459CBD40A25FEE200ECC256 /* Log Importing */,
+				08FB77B6FE84183AC02AAC07 /* main.c */,
+				345AF91F0A5D560600D7DA6F /* maintest.m */,
+				31583FDA105C0CDA00E4447D /* AFSIAppDelegate.h */,
+				31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */,
+				3158400A105C12A100E4447D /* AFSIMain.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		19C28FB6FE9D52B211CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D576316048677EA00EA77CD /* AdiumSpotlightImporter.mdimporter */,
+				345AF7D00A5D559900D7DA6F /* AISpotlightImporterTest */,
+				31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3459CBD40A25FEE200ECC256 /* Log Importing */ = {
+			isa = PBXGroup;
+			children = (
+				3459CBC70A25FEA200ECC256 /* AdiumSpotlightImporter.h */,
+				2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */,
+				34611BF509B664FC00870036 /* GetMetadataForHTMLLog.h */,
+				34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */,
+			);
+			name = "Log Importing";
+			sourceTree = "<group>";
+		};
+		3459CBD70A25FEFB00ECC256 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				3459CBB90A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h */,
+				3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
+		F52060120A530838003BFC03 /* External Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F520600D0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.h */,
+				F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */,
+			);
+			name = "External Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D57630E048677EA00EA77CD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34611BF709B664FC00870036 /* GetMetadataForHTMLLog.h in Headers */,
+				3459CBBB0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h in Headers */,
+				3459CBC80A25FEA200ECC256 /* AdiumSpotlightImporter.h in Headers */,
+				F520600F0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		31583FD1105C0C4F00E4447D /* AdiumFauxSpotlightImporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31583FD8105C0C5000E4447D /* Build configuration list for PBXNativeTarget "AdiumFauxSpotlightImporter" */;
+			buildPhases = (
+				31583FCE105C0C4F00E4447D /* Resources */,
+				31583FCF105C0C4F00E4447D /* Sources */,
+				31583FD0105C0C4F00E4447D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdiumFauxSpotlightImporter;
+			productName = AdiumFauxSpotlightImporter;
+			productReference = 31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		345AF7CF0A5D559900D7DA6F /* AISpotlightImporterTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 345AF7D50A5D55BC00D7DA6F /* Build configuration list for PBXNativeTarget "AISpotlightImporterTest" */;
+			buildPhases = (
+				345AF7CD0A5D559900D7DA6F /* Sources */,
+				345AF7CE0A5D559900D7DA6F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AISpotlightImporterTest;
+			productName = AISpotlightImporterTest;
+			productReference = 345AF7D00A5D559900D7DA6F /* AISpotlightImporterTest */;
+			productType = "com.apple.product-type.tool";
+		};
+		8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70138C840896BE9A00968C2F /* Build configuration list for PBXNativeTarget "AdiumSpotlightImporter" */;
+			buildPhases = (
+				8D57630E048677EA00EA77CD /* Headers */,
+				8D57630F048677EA00EA77CD /* Resources */,
+				8D576311048677EA00EA77CD /* Sources */,
+				8D576313048677EA00EA77CD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdiumSpotlightImporter;
+			productInstallPath = /Library/Spotlight;
+			productName = AdiumSpotlightImporter;
+			productReference = 8D576316048677EA00EA77CD /* AdiumSpotlightImporter.mdimporter */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = NO;
+			};
+			buildConfigurationList = 70138C880896BE9A00968C2F /* Build configuration list for PBXProject "AdiumSpotlightImporter" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				sv,
+				pl,
+				cs,
+				fr_CA,
+				zh_CN,
+				da,
+				de,
+				es,
+				fi,
+				fr,
+				is,
+				it,
+				ja,
+				nb,
+				nl,
+				pt_BR,
+				pt,
+				ru,
+				sl,
+				tr,
+				zh_TW,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* AdiumSpotlightImporter */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */,
+				345AF7CF0A5D559900D7DA6F /* AISpotlightImporterTest */,
+				31583FD1105C0C4F00E4447D /* AdiumFauxSpotlightImporter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		31583FCE105C0C4F00E4447D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31583FE1105C0D7200E4447D /* AFSIMainMenu.xib in Resources */,
+				31583FE4105C0D8600E4447D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D57630F048677EA00EA77CD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49A804867FD3000E48DA /* InfoPlist.strings in Resources */,
+				C88FB7D8067446EC006EBB30 /* schema.xml in Resources */,
+				C88FB7E40674480E006EBB30 /* schema.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		31583FCF105C0C4F00E4447D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31583FDC105C0CDA00E4447D /* AFSIAppDelegate.m in Sources */,
+				3158400B105C12A100E4447D /* AFSIMain.m in Sources */,
+				3158400E105C12C400E4447D /* GetMetadataForHTMLLog.m in Sources */,
+				3158400F105C12C500E4447D /* GetMetadataForFile.m in Sources */,
+				31584033105C189800E4447D /* GetMetadataForHTMLLog-Additions.m in Sources */,
+				3158403A105C18B400E4447D /* NSCalendarDate+ISO8601Parsing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		345AF7CD0A5D559900D7DA6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				345AF7DC0A5D55BE00D7DA6F /* GetMetadataForFile.m in Sources */,
+				345AF7DD0A5D55BE00D7DA6F /* GetMetadataForHTMLLog.m in Sources */,
+				345AF7DE0A5D55BE00D7DA6F /* GetMetadataForHTMLLog-Additions.m in Sources */,
+				345AF7DF0A5D55BE00D7DA6F /* NSCalendarDate+ISO8601Parsing.m in Sources */,
+				345AF9270A5D567900D7DA6F /* maintest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D576311048677EA00EA77CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D576312048677EA00EA77CD /* main.c in Sources */,
+				2C05A19C06CAA52B00D84F6F /* GetMetadataForFile.m in Sources */,
+				34611BF809B664FC00870036 /* GetMetadataForHTMLLog.m in Sources */,
+				3459CBBC0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m in Sources */,
+				F52060100A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31583FE0105C0D7200E4447D /* English */,
+			);
+			name = AFSIMainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8D5B49A704867FD3000E48DA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+				34A092940C90646D00A82168 /* sv */,
+				DED034C80CDFF79B00BE4F38 /* pl */,
+				DED034CA0CDFF79B00BE4F38 /* cs */,
+				345076790E106E1800BF0883 /* fr_CA */,
+				3450767A0E106E1B00BF0883 /* zh_CN */,
+				3450767B0E106E1F00BF0883 /* da */,
+				3450767C0E106E2000BF0883 /* de */,
+				3450767D0E106E2100BF0883 /* fi */,
+				3450767E0E106E2200BF0883 /* fr */,
+				3450767F0E106E2400BF0883 /* is */,
+				345076800E106E2500BF0883 /* it */,
+				345076810E106E2600BF0883 /* ja */,
+				345076820E106E2700BF0883 /* nb */,
+				345076830E106E2900BF0883 /* nl */,
+				345076840E106E2A00BF0883 /* pt */,
+				345076850E106E2B00BF0883 /* ru */,
+				345076860E106E2C00BF0883 /* sl */,
+				345076870E106E2D00BF0883 /* tr */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C88FB7E30674480E006EBB30 /* schema.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C88FB7DB0674470F006EBB30 /* English */,
+				34A092950C90646D00A82168 /* sv */,
+				DED034C70CDFF79B00BE4F38 /* pl */,
+				DED034C90CDFF79B00BE4F38 /* cs */,
+				34D8B3F80D15A4BF0066F013 /* fr_CA */,
+				34D8B3F90D15A4C30066F013 /* zh_CN */,
+				3450766C0E106DF400BF0883 /* da */,
+				3450766D0E106DF600BF0883 /* de */,
+				3450766E0E106DF800BF0883 /* fi */,
+				3450766F0E106DF900BF0883 /* fr */,
+				345076700E106DFA00BF0883 /* is */,
+				345076710E106DFB00BF0883 /* it */,
+				345076720E106DFC00BF0883 /* ja */,
+				345076730E106DFC00BF0883 /* nb */,
+				345076740E106DFD00BF0883 /* nl */,
+				345076750E106E0200BF0883 /* pt */,
+				345076760E106E0500BF0883 /* ru */,
+				345076770E106E0600BF0883 /* sl */,
+				345076780E106E0800BF0883 /* tr */,
+			);
+			name = schema.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		11BD7C1A09BBCD01006B26FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = Bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Debug;
+		};
+		11BD7C1B09BBCD01006B26FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
+				ARCHS = "$(NATIVE_ARCH)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = xml;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fno-builtin";
+				PLIST_FILE_OUTPUT_FORMAT = xml;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
+			};
+			name = Debug;
+		};
+		31583FD5105C0C5000E4447D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		31583FD6105C0C5000E4447D /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
+			};
+			name = "Release-Debug";
+		};
+		31583FD7105C0C5000E4447D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
+			};
+			name = Debug;
+		};
+		345AF7D70A5D55BC00D7DA6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AISpotlightImporterTest;
+			};
+			name = Release;
+		};
+		345AF7D80A5D55BC00D7DA6F /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AISpotlightImporterTest;
+			};
+			name = "Release-Debug";
+		};
+		345AF7DA0A5D55BC00D7DA6F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INSTALL_PATH = "$(HOME)/bin";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AISpotlightImporterTest;
+			};
+			name = Debug;
+		};
+		34611CEE09B67B4500870036 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = Bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = "Release-Debug";
+		};
+		34611CEF09B67B4500870036 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				OTHER_CFLAGS = "-fno-builtin";
+				PLIST_FILE_OUTPUT_FORMAT = binary;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+			};
+			name = "Release-Debug";
+		};
+		70138C860896BE9A00968C2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = Bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Release;
+		};
+		70138C8A0896BE9A00968C2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				OTHER_CFLAGS = "-fno-builtin";
+				PLIST_FILE_OUTPUT_FORMAT = binary;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				SYMROOT = ../../build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31583FD8105C0C5000E4447D /* Build configuration list for PBXNativeTarget "AdiumFauxSpotlightImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31583FD5105C0C5000E4447D /* Release */,
+				31583FD6105C0C5000E4447D /* Release-Debug */,
+				31583FD7105C0C5000E4447D /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		345AF7D50A5D55BC00D7DA6F /* Build configuration list for PBXNativeTarget "AISpotlightImporterTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				345AF7D70A5D55BC00D7DA6F /* Release */,
+				345AF7D80A5D55BC00D7DA6F /* Release-Debug */,
+				345AF7DA0A5D55BC00D7DA6F /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		70138C840896BE9A00968C2F /* Build configuration list for PBXNativeTarget "AdiumSpotlightImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70138C860896BE9A00968C2F /* Release */,
+				34611CEE09B67B4500870036 /* Release-Debug */,
+				11BD7C1A09BBCD01006B26FD /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		70138C880896BE9A00968C2F /* Build configuration list for PBXProject "AdiumSpotlightImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70138C8A0896BE9A00968C2F /* Release */,
+				34611CEF09B67B4500870036 /* Release-Debug */,
+				11BD7C1B09BBCD01006B26FD /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

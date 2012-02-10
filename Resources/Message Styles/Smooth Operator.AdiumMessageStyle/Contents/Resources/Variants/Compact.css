@@ -1,0 +1,494 @@
+@charset "utf-8";
+
+body
+{
+	margin: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255 ,255, 1)), to(rgba(208, 208, 208, 1))) fixed repeat-x;
+	-webkit-background-size: auto;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	padding: 8px;
+	color: rgba(64, 64, 64, 1);
+}
+
+#Chat .history:first-child.message
+{
+	-webkit-box-shadow: 0px -1px 1px rgba(0, 0, 0, .2);
+}
+
+.firstFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b07";
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -11px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -7px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.lastFocus > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -5px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.message:not(.consecutive),
+.status:not(.consecutive),
+.event:not(.consecutive)
+{
+	margin-top: 2px;
+	margin-right: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, .4);
+	min-width: 7em;
+}
+
+.message.consecutive,
+.status.consecutive,
+.event.consecutive
+{
+	margin-top: 2px;
+}
+
+.message.mention .x-message:before
+{
+	position: absolute;
+	margin-top: -1px;
+	font-family: AppleGothic;
+	content: "\23af";
+	right: 4px;
+	font-size: 12px;
+	content: "\2605";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+	font-style: normal !important;
+}
+
+.message:not(.mention):not(.autoreply):not(.consecutive):not(.history):not(.x-hover)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, .375))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.message.mention:not(.consecutive):not(.history):not(.autoreply):not(.x-hover)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, .375))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .9)), to(rgba(240, 240, 240, .9))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.message.autoreply:not(.mention):not(.consecutive):not(.history):not(.x-hover)
+{
+	color: rgba(244, 244, 244, 1) !important;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, .375))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(64, 64, 64, 1))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.message.consecutive:not(.mention):not(.autoreply):not(.history):not(.x-hover)
+{
+	background: none;
+	margin-left: 0px;
+	padding-bottom: 0px;
+	padding-right: 0px;
+}
+
+.message.x-hover:not(.consecutive)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, .75)), to(rgba(192, 192, 192, .75))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, 1)), to(rgba(192, 192, 192, 1))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+	-webkit-box-shadow: 0px 1px 2px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, .4);
+}
+
+.consecutive.message
+{
+	background: none !important;
+}
+
+.status:not(.consecutive):not(.history),
+.event:not(.consecutive):not(.history)
+{
+	color: rgba(244, 244, 244, 1);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(88, 88, 88, 1)), to(rgba(72, 72, 72, 1))) 0px 0px no-repeat;
+}
+
+.consecutive .x-sender
+{
+	display: none;
+}
+
+.message img.x-icon
+{
+	display: none;
+	position:fixed;
+	top: 8px;
+	right: 18px;
+	width: auto;
+	height: auto;
+	-webkit-user-drag: element;
+	max-width: 125px;
+	max-height: 125px;
+}
+
+#Chat > div:last-of-type.message.showIcons img.x-icon
+{
+	display: inline;
+	padding: 4px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1)));
+	-webkit-border-radius: 5px;
+	z-index:101;
+	-webkit-transition: all .4s linear;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75);
+}
+
+#topic:hover + #Chat > div:last-of-type.message.showIcons img.x-icon
+{
+	z-index: 91;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
+}
+
+#Chat > div:last-of-type.message.showIcons .x-color[src*="buddy_icon.png"]
+{
+	width: 125px;
+	height: 125px;
+	-webkit-border-radius: 5px;
+	position:fixed;
+	top: 12px;
+	right: 22px;
+	z-index: 102;
+	-webkit-transition: all .4s linear;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, .5)));
+	-webkit-mask-box-image: url(../adiumy-mask.png);
+}
+
+#topic:hover + #Chat > div:last-of-type.message.showIcons .x-color[src*="buddy_icon.png"]
+{
+	z-index: 92;
+}
+
+.consecutive.message .x-color,
+.consecutive.message img.x-icon
+{
+	display: none !important;
+}
+
+.x-wrap
+{
+	display: block;
+	margin-left: 5px;
+	padding-left: 3px;
+	padding-right: 5px;
+	padding-bottom: 1px;
+}
+
+.x-sender
+{
+	font-weight: bold;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+.x-ltime
+{
+	display: none;
+}
+
+.x-rtime
+{
+	float: right;
+	padding-left: 10px;
+	font-size: .9em;
+	margin-top: .15em;
+	color: rgba(184, 184, 184, 1);
+}
+
+.message .x-rtime,
+.status .x-rtime,
+.event:not(.date_separator) .x-rtime
+{
+	padding-left: 10px;
+}
+
+.x-mark
+{
+	font-family: Lucida Grande;
+	font-size: 12px;
+	position: absolute;
+	left: 7px;
+	margin-left: -.054em;
+	margin-top: -2px;
+	margin-right: -2px;
+	letter-spacing: -.2em;
+}
+
+.x-mark:before
+{
+	content: "\2023";
+}
+
+.autoreply .x-mark,
+.message .x-mark
+{
+	color: rgba(0, 0, 0, .8)
+}
+
+.status .x-mark,
+.event .x-mark
+{
+	color: rgba(255, 255, 255, .8)
+}
+
+.message.x-hover .x-sender,
+.message.x-hover .x-rtime,
+.message.x-hover .x-message
+{
+	color: rgba(0, 0, 0, 1);
+}
+
+img.emoticon
+{
+	vertical-align: top;
+}
+
+/*.history img.emoticon
+{
+	opacity: .4;
+}*/
+
+a,
+a:link
+{
+	color: inherit;
+	text-decoration: underline;
+}
+
+a:hover
+{
+	border-bottom: 1px solid;
+}
+
+a:active
+{
+	border-bottom: 2px solid;
+}
+
+img.fullSizeImage
+{
+	width: auto;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+	max-height: 10px;
+}
+
+/* history */
+
+.history:not(.consecutive)
+{
+	display: block;
+	margin-top: 0px;
+	-webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, .2);
+}
+
+.history.message
+{
+	padding-right: 0px;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, .5))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(248, 248, 248, 1))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.history.mention.message
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, .5))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(248, 248, 248, .9))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.history.message.x-hover:not(.consecutive)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, .75)), to(rgba(200, 200, 200, .75))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 1)), to(rgba(200, 200, 200, 1))) 5px 0px no-repeat;
+	-webkit-background-size: 5px 100%, 100% 100%;
+}
+
+.history.message.consecutive
+{
+	padding-right: 0px;
+}
+
+.history.status,
+.history.event
+{
+	border-right: 1px solid rgba(184, 184, 184, 1);
+	margin-right: 9px;
+}
+
+.history.status:not(.consecutive),
+.history.event:not(.consecutive)
+{
+	color: rgba(244, 244, 244, 1);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 112, 112, 1)), to(rgba(112, 112, 112, 1)));
+}
+
+.history.message .x-wrap
+{
+	color: rgba(64, 64, 64, .75);
+}
+
+.history.message .x-wrap .x-sender,
+.history.message .x-wrap .x-message
+{
+	text-shadow: 0px 1px 4px rgba(64, 64, 64, .5);
+}
+
+.history .x-rtime
+{
+	text-shadow: 0px 1px 4px rgba(184, 184, 184, .5);
+}
+
+.history.x-hover + .history.x-hover
+{
+	-webkit-box-shadow: 0px 1px 1px rgba(255, 255, 255, 1) !important;
+}
+
+.history.status .x-message,
+.history.event .x-message
+{
+	text-shadow: 0px 1px 4px rgba(64, 64, 64, .5);
+}
+
+/* header */
+
+#x-header #x-wrap
+{
+	text-align: left !important;
+	padding: 8px;
+	right: inherit !important;
+	height: 20px !important;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) !important;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4) !important;
+	-webkit-background-size: auto !important;
+	vertical-align: bottom !important;
+}
+
+#x-header .x-color,
+#x-header .x-iconmask,
+#x-header img.x-icon,
+#x-header .x-sender
+{
+	display: none !important;
+}
+
+#x-header .x-date,
+#x-header .x-time
+{
+	display: inline !important;
+	font-weight: bold;
+	margin-right: 1ex;
+	position: relative;
+	top: 4px;
+}
+
+#x-header .serviceIcon
+{
+	float: right;
+	top: -7px !important;
+	margin-left: 1ex;
+}
+
+#x-header img.serviceIcon
+{
+	top: -11px !important;
+}
+
+#topic #x-wrap
+{
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1) !important;
+}
+
+#topic:hover #x-wrap
+{
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1) !important;
+}
+
+.actionMessageUserName
+{
+	display: none;
+}
+
+.actionMessageBody:after
+{
+	content: "";
+}
+
+.actionMessageBody:before
+{
+	content: "";
+}
+
+.action > .x-wrap > .x-sender,
+.action > .x-wrap >  .x-message
+{
+	font-style: italic !important;
+}
+
+.action > .x-wrap > .x-sender
+{
+	display: inline;
+}

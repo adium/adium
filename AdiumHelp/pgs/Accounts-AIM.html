@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="AOL, AIM" />
+<meta name="description" content="AOL Instant Messenger" />
+<title>AOL Instant Messenger</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner">
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>AOL Instant Messenger</h1>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Description</h3>
+		</div>
+		<div class="taskboxtext">
+			<table> 
+				<tr>
+					<td><strong>Homepage:</strong></td>
+					<td> <a class="ext_link" href="http://www.aim.com">http://www.aim.com</a></td>
+				</tr>
+				<tr>
+					<td><strong>Type:</strong></td>
+					<td>Proprietary</td>
+				</tr>
+				<tr>
+					<td><strong>Identity:</strong></td>
+					<td>user name (called "screen name" by AOL)</td>
+				</tr>
+				<tr>
+					<td><strong>Interoperability:</strong></td>
+					<td>MobileMe, ICQ</td>
+				</tr>
+				<tr>
+					<td><strong>Popularity:</strong></td>
+					<td>USA</td>
+				</tr>
+				<tr><td><strong>Default server; port:</strong></td>
+				<td>login.oscar.aol.com; 5190</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>History</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Being the second modern client after ICQ, AIM was initially released in 1997.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Censorship</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>AIM servers filter strings containing <i>&#60;img</i> and <i>&#60;script</i>, which are tags in the Hypertext Markup Language (HTML) AIM uses to encode messages (so as to support fonts, colors, etc.).</p>
+			<p>HTML tags that you put into the inputline are “escaped” by Adium, so that the recipient's client will not attempt to use the HTML tag; it will simply display the text of the tag. However, it appears that the AIM server drops messages containing even escaped HTML (but only those two tags—other tags work fine).</p>
+			<p>AIM will also drop any message containing a link to a file: address. These addresses are intended to refer to files on the sender's or your computer. (The file need not actually exist on one end or the other. A perfectly valid file: link can refer to a path that does not exist on anyone's machine, such as  this one.)</p>
+			<p>On the other hand, it will allow the message if the address is plain text instead of a link. So, for example, “Check out what I just wrote:  file:///Users/me/Documents/Why-Adium-is-awesome.txt” will go through, but “Check out <a class="ext_link" href="file:///Users/me/Documents/Why-Adium-is-awesome.txt">what I just wrote</a>” will not.</p>
+		</div>
+	</div>
+	</div>
+	<script type="text/javascript" src="../js/help.js"></script>
+	</body>
+</html>

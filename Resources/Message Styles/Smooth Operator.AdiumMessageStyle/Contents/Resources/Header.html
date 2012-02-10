@@ -1,0 +1,21 @@
+﻿<div id="x-header">
+	<style id="mainStyle" type="text/css" media="screen,print">
+		@import url(./Header.css);
+	</style>
+
+	<div id="x-hide" class="x-toggle" onClick="hide_header();"></div>
+	<div id="x-show" class="x-toggle" onClick="show_header();" style="display: none"></div>
+	<div id="x-wrap" class="%service%">
+		<span class="x-date">%dateOpened%</span>
+		<span class="x-time">%timeOpened%</span>
+		%serviceIconImg%
+		<span class="x-sender x-incoming">%destinationName%</span>
+		<span class="x-sender x-outgoing">%sourceName%</span>
+		<img class="x-icon x-incoming" src="%incomingIconPath%" />
+		<span class="x-iconmask x-incoming" style="-webkit-mask-box-image: url(%incomingIconPath%);"></span>
+		<span class="x-color x-incoming" style="background-color: %incomingColor%;"></span>
+		<img class="x-icon x-outgoing" src="%outgoingIconPath%" />
+		<span class="x-iconmask x-outgoing" style="-webkit-mask-box-image: url(%outgoingIconPath%);"></span>
+		<span class="x-color x-outgoing" style="background-color: %outgoingColor%;"></span>
+	</div>
+</div>
