@@ -92,7 +92,7 @@ static NSMutableArray		*libpurplePluginArray = nil;
 {
 	libpurplePluginArray = [[NSMutableArray alloc] init];
 
-	for (NSString *libpurplePluginPath in [adium allResourcesForName:@"Plugins"
+	for (NSString *libpurplePluginPath in [adium allResourcesForName:@"PlugIns"
 													  withExtensions:@"AdiumLibpurplePlugin"]) {
 		[AICorePluginLoader loadPluginAtPath:libpurplePluginPath
 							  confirmLoading:YES
