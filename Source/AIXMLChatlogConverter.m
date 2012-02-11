@@ -229,7 +229,11 @@
                 //Find an account if one exists, and use its name
                 displayName = (myDisplayName ? myDisplayName : sender);
             } else {
-                AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				__block AIListObject *listObject;
+				
+				dispatch_sync(dispatch_get_main_queue(), ^{
+					listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				});
                 
                 displayName = listObject.displayName;
                 longDisplayName = [listObject longDisplayName];
