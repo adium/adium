@@ -53,11 +53,11 @@ update_language()
 		silent_pushd $LANG
 			loc_copy "$REPO/Resources/$DEST_LANG"
 			# Move the Twitter account view
-			rm -rf "$REPO/Plugins/Twitter Plugin/$DEST_LANG/AITwitterAccountView.nib"
-			mv "$REPO/Resources/$DEST_LANG/AITwitterAccountView.nib" "$REPO/Plugins/Twitter Plugin/$DEST_LANG"
+			rm -rf "$REPO/Plugins/Twitter Plugin/Resources/$DEST_LANG/AITwitterAccountView.nib"
+			mv "$REPO/Resources/$DEST_LANG/AITwitterAccountView.nib" "$REPO/Plugins/Twitter Plugin/Resources/$DEST_LANG"
 			# Move the WebKit preferences
-			rm -rf "$REPO/Plugins/WebKit Message View/$DEST_LANG/WebKitPreferencesView.nib"
-			mv "$REPO/Resources/$DEST_LANG/WebKitPreferencesView.nib" "$REPO/Plugins/WebKit Message View/$DEST_LANG"
+			rm -rf "$REPO/Plugins/WebKit Message View/Resources/$DEST_LANG/WebKitPreferencesView.nib"
+			mv "$REPO/Resources/$DEST_LANG/WebKitPreferencesView.nib" "$REPO/Plugins/WebKit Message View/Resources/$DEST_LANG"
 		silent_popd
     
 		# Emoticons
@@ -113,7 +113,7 @@ update_language()
 		echo "AdiumLibpurple.framework"
 		if [ -e  "AdiumLibpurple.framework/Versions/A/Resources/$LANG" ] ; then
 		  silent_pushd AdiumLibpurple.framework/Versions/A/Resources/$LANG
-			loc_copy "$REPO/Plugins/Purple Service/$DEST_LANG"
+			loc_copy "$REPO/Plugins/Purple Service/Resources/$DEST_LANG"
 		  silent_popd
 		fi
 	silent_popd
