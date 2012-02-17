@@ -318,6 +318,8 @@
 									   children:[NSArray arrayWithObject:list]
 									 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
 	
+	purple_request_field_list_clear_selected(field);
+	
 	return result;
 }
 
