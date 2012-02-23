@@ -50,7 +50,7 @@
 																		toolTip:AILocalizedString(@"Bookmark the current chat", "tooltip text for Add Bookmark")
 																  		 target:self
 																settingSelector:@selector(setImage:)
-																	itemContent:[NSImage imageNamed:@"bookmark_chat" forClass:[self class] loadLazily:YES]
+																	itemContent:[NSImage imageNamed:@"msg-bookmark-chat" forClass:[self class] loadLazily:YES]
 																		 action:@selector(addBookmark:)
 																		   menu:nil];
 	

@@ -150,7 +150,7 @@
                                                          toolTip:AILocalizedString(@"Add/Edit Hyperlink",nil)
                                                           target:self
                                                  settingSelector:@selector(setImage:)
-                                                     itemContent:[NSImage imageNamed:@"linkToolbar" forClass:[self class] loadLazily:YES]
+                                                     itemContent:[NSImage imageNamed:@"msg-insert-link" forClass:[self class] loadLazily:YES]
                                                           action:@selector(editFormattedLink:)
                                                             menu:nil] retain];
     
