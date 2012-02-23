@@ -108,7 +108,7 @@ static ESFileTransferPreferences *preferences;
 														toolTip:AILocalizedString(@"Send a file","Tooltip for the Send File toolbar item")
 														 target:self
 												settingSelector:@selector(setImage:)
-													itemContent:[NSImage imageNamed:@"sendfile" forClass:[self class] loadLazily:YES]
+													itemContent:[NSImage imageNamed:@"msg-send-file" forClass:[self class] loadLazily:YES]
 														 action:@selector(sendFileToSelectedContact:)
 														   menu:nil];
     [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];

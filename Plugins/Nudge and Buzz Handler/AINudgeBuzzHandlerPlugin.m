@@ -99,7 +99,7 @@
 	[adium.menuController addContextualMenuItem:notifyContextualMenuItem toLocation:Context_Contact_Action];
 	
 	// Load the toolbar icon.
-	notifyToolbarIcon = [NSImage imageNamed:@"notify" forClass:[self class] loadLazily:YES];
+	notifyToolbarIcon = [NSImage imageNamed:@"msg-request-attention" forClass:[self class] loadLazily:YES];
 	
 	// Create the toolbar item
 	NSToolbarItem *chatItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_NOTIFY_IDENTIFIER

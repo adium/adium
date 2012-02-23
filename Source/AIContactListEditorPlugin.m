@@ -131,7 +131,7 @@
 														toolTip:AILocalizedString(@"Add a new contact",nil)
 														 target:self
 												settingSelector:@selector(setImage:)
-													itemContent:[NSImage imageNamed:@"AddContact" forClass:[self class] loadLazily:YES]
+													itemContent:[NSImage imageNamed:@"msg-add-contact" forClass:[self class] loadLazily:YES]
 														 action:@selector(addContact:)
 														   menu:nil];
     [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
