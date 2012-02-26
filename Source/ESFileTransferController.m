@@ -815,7 +815,7 @@ static ESFileTransferPreferences *preferences;
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"pref-ft" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [[NSImage imageNamed:@"pref-file-transfer" forClass:[self class]] retain];
 	return eventImage;
 }
 
