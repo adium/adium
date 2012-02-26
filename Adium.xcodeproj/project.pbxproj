@@ -259,8 +259,8 @@
 		3419DE780A81042F00C3FC68 /* emoticon32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3428B33E0815E1FB00C0D3DC /* emoticon32.png */; };
 		3419DE790A81042F00C3FC68 /* emoticon32_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 345F590608199746001F733C /* emoticon32_transparent.png */; };
 		3419DE7A0A81042F00C3FC68 /* FontPanelAccessoryView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34B995D9092A832700E31E91 /* FontPanelAccessoryView.nib */; };
-		3419DE7C0A81042F00C3FC68 /* msg-lock-locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 34DFF53007A62EB100B92233 /* msg-lock-locked.png */; };
-		3419DE7D0A81042F00C3FC68 /* msg-lock-unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 34DFF52607A62EB000B92233 /* msg-lock-unlocked.png */; };
+		3419DE7C0A81042F00C3FC68 /* lock-locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 34DFF53007A62EB100B92233 /* lock-locked.png */; };
+		3419DE7D0A81042F00C3FC68 /* lock-unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 34DFF52607A62EB000B92233 /* lock-unlocked.png */; };
 		3419DE7E0A81042F00C3FC68 /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 347E787507CA975900350507 /* remove.png */; };
 		3419DE7F0A81042F00C3FC68 /* msg-send-file.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D8326307CBD598006466F2 /* msg-send-file.png */; };
 		3419DE820A81042F00C3FC68 /* ToolbarPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D8327607CBD5B3006466F2 /* ToolbarPrefs.plist */; };
@@ -3648,8 +3648,8 @@
 		34DC84280A7EA012003E1636 /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = Resources/nl.lproj/ESFileTransferProgressView.nib; sourceTree = "<group>"; };
 		34DFF46007A5EABF00B92233 /* ESSecureMessagingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESSecureMessagingPlugin.h; path = "Plugins/Secure Messaging/ESSecureMessagingPlugin.h"; sourceTree = "<group>"; };
 		34DFF46107A5EABF00B92233 /* ESSecureMessagingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESSecureMessagingPlugin.m; path = "Plugins/Secure Messaging/ESSecureMessagingPlugin.m"; sourceTree = "<group>"; };
-		34DFF52607A62EB000B92233 /* msg-lock-unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "msg-lock-unlocked.png"; path = "Plugins/Secure Messaging/msg-lock-unlocked.png"; sourceTree = "<group>"; };
-		34DFF53007A62EB100B92233 /* msg-lock-locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "msg-lock-locked.png"; path = "Plugins/Secure Messaging/msg-lock-locked.png"; sourceTree = "<group>"; };
+		34DFF52607A62EB000B92233 /* lock-unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock-unlocked.png"; path = "Plugins/Secure Messaging/lock-unlocked.png"; sourceTree = "<group>"; };
+		34DFF53007A62EB100B92233 /* lock-locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock-locked.png"; path = "Plugins/Secure Messaging/lock-locked.png"; sourceTree = "<group>"; };
 		34E00F7407B92B2E000DF265 /* ESTextAndButtonsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextAndButtonsWindowController.h; path = "Frameworks/Adium Framework/Source/ESTextAndButtonsWindowController.h"; sourceTree = "<group>"; };
 		34E00F7507B92B2F000DF265 /* ESTextAndButtonsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextAndButtonsWindowController.m; path = "Frameworks/Adium Framework/Source/ESTextAndButtonsWindowController.m"; sourceTree = "<group>"; };
 		34E00F8607B92B88000DF265 /* TextAndButtonsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = TextAndButtonsWindow.nib; path = "Frameworks/Adium Framework/Resources/TextAndButtonsWindow.nib"; sourceTree = "<group>"; };
@@ -6538,8 +6538,8 @@
 				3428B33E0815E1FB00C0D3DC /* emoticon32.png */,
 				345F590608199746001F733C /* emoticon32_transparent.png */,
 				34B995D9092A832700E31E91 /* FontPanelAccessoryView.nib */,
-				34DFF53007A62EB100B92233 /* msg-lock-locked.png */,
-				34DFF52607A62EB000B92233 /* msg-lock-unlocked.png */,
+				34DFF53007A62EB100B92233 /* lock-locked.png */,
+				34DFF52607A62EB000B92233 /* lock-unlocked.png */,
 				347E787507CA975900350507 /* remove.png */,
 				34D8326307CBD598006466F2 /* msg-send-file.png */,
 				4BB2EB200D88D76100CA7A7D /* timestamp32.png */,
@@ -9851,8 +9851,8 @@
 				3419DE780A81042F00C3FC68 /* emoticon32.png in Resources */,
 				3419DE790A81042F00C3FC68 /* emoticon32_transparent.png in Resources */,
 				3419DE7A0A81042F00C3FC68 /* FontPanelAccessoryView.nib in Resources */,
-				3419DE7C0A81042F00C3FC68 /* msg-lock-locked.png in Resources */,
-				3419DE7D0A81042F00C3FC68 /* msg-lock-unlocked.png in Resources */,
+				3419DE7C0A81042F00C3FC68 /* lock-locked.png in Resources */,
+				3419DE7D0A81042F00C3FC68 /* lock-unlocked.png in Resources */,
 				3419DE7E0A81042F00C3FC68 /* remove.png in Resources */,
 				3419DE7F0A81042F00C3FC68 /* msg-send-file.png in Resources */,
 				3419DE820A81042F00C3FC68 /* ToolbarPrefs.plist in Resources */,
