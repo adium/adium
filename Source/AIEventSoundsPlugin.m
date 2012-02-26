@@ -72,7 +72,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"SoundAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-sound-alert" forClass:[self class]];
 }
 
 /*!

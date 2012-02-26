@@ -69,7 +69,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"DockAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-dock-alert" forClass:[self class]];
 }
 
 /*!

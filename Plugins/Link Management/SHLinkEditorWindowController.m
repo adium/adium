@@ -305,7 +305,7 @@
         if ([textView_URL isURLValid]) {
             [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"space" forClass:[self class]]];
         } else {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"ErrorAlert" forClass:[self class]]];
+            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"events-error-alert" forClass:[self class]]];
         }
     }
 }
