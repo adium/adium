@@ -45,7 +45,7 @@
 }
 - (NSImage *)image
 {
-	return [NSImage imageNamed:@"msg-lock-locked" forClass:[adium class]];
+	return [NSImage imageNamed:@"lock-locked" forClass:[adium class]];
 }
 
 - (void)viewDidLoad

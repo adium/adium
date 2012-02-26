@@ -91,7 +91,7 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 
 - (void)windowDidLoad
 {
-	[imageView_lock setImage:[NSImage imageNamed:@"msg-lock-locked" forClass:[adium class]]];	
+	[imageView_lock setImage:[NSImage imageNamed:@"lock-locked" forClass:[adium class]]];	
 	
 	[[self window] setTitle:AILocalizedString(@"OTR Fingerprint",nil)];
 	[button_OK setLocalizedString:AILocalizedString(@"OK",nil)];
