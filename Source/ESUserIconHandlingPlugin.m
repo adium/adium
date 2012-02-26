@@ -148,7 +148,7 @@
 	
 	[button setCornerRadius:3.0f];
 	[button setToolbarItem:toolbarItem];
-	[button setImage:[NSImage imageNamed:@"msg-user-icon" forClass:[self class] loadLazily:YES]];
+	[button setImage:[NSImage imageNamed:@"default-icon" forClass:[self class] loadLazily:YES]];
 	[button release];
 
 	//Register our toolbar item
