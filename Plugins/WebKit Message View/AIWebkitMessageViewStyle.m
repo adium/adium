@@ -637,7 +637,7 @@
 - (NSString *)scriptForScrollingAfterAddingMultipleContentObjects
 {
 	if ((styleVersion >= 3) || !usingCustomTemplateHTML) {
-		return @"alignChat(nearBottom());";
+		return @"if (this.AI_viewScrolledOnLoad != undefined) {alignChat(nearBottom());} else {this.AI_viewScrolledOnLoad = true; alignChat(true);}";
 	}
 
 	return nil;
@@ -648,7 +648,7 @@
  */
 - (NSMutableString *)_escapeStringForPassingToScript:(NSMutableString *)inString
 {	
-	//We need to escape a few things to get our string to the javascript without trouble
+	// We need to escape a few things to get our string to the javascript without trouble
 	[inString replaceOccurrencesOfString:@"\\" 
 							  withString:@"\\\\" 
 								 options:NSLiteralSearch];
