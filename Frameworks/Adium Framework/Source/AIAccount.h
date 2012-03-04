@@ -54,7 +54,8 @@ typedef enum
 	Adium_Proxy_Default_HTTP,
 	Adium_Proxy_Default_SOCKS4,
 	Adium_Proxy_Default_SOCKS5,
-	Adium_Proxy_None
+	Adium_Proxy_None,
+    Adium_Proxy_Tor
 } AdiumProxyType;
 
 //Privacy
@@ -329,6 +330,16 @@ typedef enum {
  * Subclasses which intend to return YES should return [super shouldLogChat:chat].
  */
 - (BOOL)shouldLogChat:(AIChat *)chat;
+
+/*!
+ * @brief The proxy's type used for this account.
+ */
+- (AdiumProxyType)proxyType;
+
+/*!
+ * @brief The proxy's hostname the user entered for this account.
+ */
+- (NSString *)proxyHost;
 
 @end
 

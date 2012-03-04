@@ -1993,6 +1993,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		case Adium_Proxy_Default_SOCKS5:
 			purpleAccountProxyType = PURPLE_PROXY_SOCKS5;
 			break;
+        case Adium_Proxy_Tor:
+            purpleAccountProxyType = PURPLE_PROXY_TOR;
+            break;
 		case Adium_Proxy_None:
 		default:
 			purpleAccountProxyType = PURPLE_PROXY_NONE;
@@ -2002,7 +2005,16 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	purple_proxy_info_set_type(proxy_info, purpleAccountProxyType);
 
 	if (proxyType != Adium_Proxy_None) {
-		purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
+        
+        /* In Tor mode, libpurple will not do any DNS queries itself, ever.
+         * However, if the user entered "localhost" as the proxy, then that will not be resolved either!
+         * Let's help the user here by replacing it with 127.0.0.1.
+         */
+        if ([[proxyConfig objectForKey:@"Host"] isEqualToString:@"localhost"]) {
+            purple_proxy_info_set_host(proxy_info, "127.0.0.1");
+        } else {
+            purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
+        }
 		purple_proxy_info_set_port(proxy_info, [(NSNumber*)[proxyConfig objectForKey:@"Port"] intValue]);
 
 		purple_proxy_info_set_username(proxy_info, (char *)[[proxyConfig objectForKey:@"Username"] UTF8String]);
