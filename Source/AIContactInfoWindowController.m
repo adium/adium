@@ -42,9 +42,9 @@
 
 //Defines for the image files used by the toolbar segments
 #define INFO_SEGMENT_IMAGE (@"Personal.png")
-#define ADDRESS_BOOK_SEGMENT_IMAGE (@"get-info-address-book.png")
-#define EVENTS_SEGMENT_IMAGE (@"get-info-events.png")
-#define ADVANCED_SEGMENT_IMAGE (@"get-info-advanced.png")
+#define ADDRESS_BOOK_SEGMENT_IMAGE (@"get-info-address-book.tiff")
+#define EVENTS_SEGMENT_IMAGE (@"get-info-events.tiff")
+#define ADVANCED_SEGMENT_IMAGE (@"get-info-advanced.tiff")
 
 enum segments {
 	CONTACT_INFO_SEGMENT = 0,
