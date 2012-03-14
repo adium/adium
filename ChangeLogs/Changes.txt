@@ -1,23 +1,23 @@
 				Adium Version History
 				-----------------------
-Version 1.5 (X/X/2011)
+Version 1.5 (3/15/2012)
  Major changes
   * Requires Mac OS X 10.6.8 or later.
   * Requires an Intel Mac.
-  * Added 64bit support.
+  * Added 64-bit support.
   * Updated to libpurple 2.10.0.
     * Removed defunct QQ support.
     * Fix double mail notifications on MSN. (#11199)
     * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
-  * Various user interface improvements
+  * Many user interface improvements, including updated look & feel for Mac OS X 10.7+
 
  Address Book integration
-  * Use a token field to specify the format to use for names imported from the Address Book. (#7394)
-  * Added support for Facebook. (#13755)
+  * Made it easier to choose how names imported from the Address Book are displayed. (#7394)
+  * Added support for Facebook in Address Book contact cards. (#13755)
 
  Authorisation Requests
   * First entry in the list is now auto-selected.
-  * Toolbar items now get disabled when no request is selected.
+  * Toolbar items now behave properly when no request is selected.
 
  Chat Window
   * Rounded user icon in the chat window toolbar. (#3757)
@@ -25,8 +25,8 @@ Version 1.5 (X/X/2011)
  Contact List
   * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
   * Improved the logic for the display of tooltips. (Matthew Plough) (#12774)
-  * User picture menu now looks native on Leopard and newer systems. (#11964)
-  * Made the user picture an image well, added drag and drop support.
+  * Updated the menu for selecting your own picture to look natural on current versions of Mac OS X. (#11964)
+  * Added support for drag & drop of an image to your own picture to change it.
   * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (#9908)
   * Fixed the contact list shrinking when closing the search. (#14433)
   * The contact list search now treats whitespace-separated words as keywords. (Paul Vet) (#14354)
@@ -38,7 +38,7 @@ Version 1.5 (X/X/2011)
   * Fixed dock badge text becoming too large. (#13088)
   * Removed flashing of the contact name. (#14452)
 
- Encryption
+ Encryption (Off-The-Record)
   * Made it easier to delete a fingerprint. (Aleksei Gorny) (#1654)
   * The "Generate" button is now labelled "Regenerate" when a fingerprint already exists. (Tyler Funnell) (#1128)
   * Disable Encryption -> Initiate Encrypted OTR Chat menu item if encrypted chat is disabled from settings. (Tyler Funnell) (#7389)
@@ -56,7 +56,7 @@ Version 1.5 (X/X/2011)
   * Fixed ghosting artifacts in Events tab (#12237).
 
  Group Chats
-  * Added support for purple images (custom emoticons etc.). (Peter Fung) (#15183)
+  * Added support for in-line images, including custom emoticons, on supported protocols. (Peter Fung) (#15183)
 
  iTunes integration
   * Use same menu in menu bar, context menu and toolbar.
@@ -69,12 +69,12 @@ Version 1.5 (X/X/2011)
   * Added Imgur as a supported image uploading service. (Shayne Sweeney) (#13186)
   * Removed kl.am as a supported url shortener service. (Shawn Khan) (#14412)
   * Fixed link insertion for NetNewsWire. (#11389)
-  * Added Google Chrome support for link insertion.
+  * Added support for Google Chrome when inserting a link to the active webpage.
 
  Message View
+  * New default message style, Smooth Operator
   * Fixed message history only showing in the first tab/window on startup under certain circumstances. (#15377)
   * Fixed "Recent messages" still showing with logging. (#12577)
-  * Smooth Operator replaced Stockholm as the default message style
   * Added the "lastFocus" class for message styles to the latest message received while the chat didn't have focus, and "regainedFocus" for the first message received while the chat has regained focus after having previously lost it.
   * Made emoticons between packs more consistent. (#11450)
   * Fixed the ":^)" emoticon being mistakenly interpreted the same as ":-\". (#13924)
@@ -91,21 +91,21 @@ Version 1.5 (X/X/2011)
 
  User Picture (Contact Icon)
   * Added ability to resize animated gifs that are too large. (#9885)
-  * Image wells for changing user picture support drag & drop and will also open the Image Picker to edit the image if it's too large or not of square shape. (20% off shape)
+  * Image wells for changing user picture support drag & drop and will also open the Image Picker to edit the image if it's too large or not close to being square.
 
  Preferences
   * Fixed some bad user interface behaviour in the "Customise..." sheet for dock  icon in the "Appearance" pane. (#15158)
   * Improved wording and alignment in the "Status" pane. (ctbeiser) (#15370)
 
  AIM
-  * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
+  * Added a preference for AIM's "Allow Multiple Sign-In Locations" setting, which defaults to yes. (Josh Perry) (#5790)
   * Fixed crash when sending certain group chat requests. (#15674)
 
  LiveJournal
-  * Restored connectivity by removing the hard-coded server name, they have an SRV record now.
+  * Restored connectivity by removing the hard-coded server name, as the server has an SRV record to allow dynamic configuration.
 
  StatusNet
-  * Allow overriding the 140 character limit for StatusNet. (brion) (#13485)
+  * Messages longer than 140 characters are now allowed. (brion) (#13485)
 
  Twitter
   * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
@@ -125,7 +125,7 @@ Version 1.5 (X/X/2011)
 
  Miscellaneous
   * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for graphics)
-  * Aqualicious Graphite, new contact list theme to match OS X Graphite style.
+  * Added Aqualicious Graphite, new contact list theme to match OS X Graphite style.
   * Updated Growl.framework to 1.3.1.
   * Updated OAuthCustomer to latest (1/29/2012).
   * Updated Fribidi to version 2 (0.19.x)
