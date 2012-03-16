@@ -336,7 +336,6 @@
 		timeStampFormatter = [[NSDateFormatter alloc] initWithDateFormat:format allowNaturalLanguage:NO];
 	} else {
 		timeStampFormatter = [[NSDateFormatter alloc] init];
-		[timeStampFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[timeStampFormatter setDateFormat:format];
 	}
 }
@@ -855,7 +854,6 @@
 							dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
 						} else {
 							dateFormatter = [[NSDateFormatter alloc] init];
-							[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 							[dateFormatter setDateFormat:timeFormat];
 						}
 						[timeFormatterCache setObject:dateFormatter forKey:timeFormat];
@@ -1275,7 +1273,6 @@
 					dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
 				} else {
 					dateFormatter = [[NSDateFormatter alloc] init];
-					[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 					[dateFormatter setDateFormat:timeFormat];
 				}
 				
