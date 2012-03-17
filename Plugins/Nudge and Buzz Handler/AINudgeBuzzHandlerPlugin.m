@@ -34,7 +34,7 @@
 
 #import "AINudgeBuzzHandlerPlugin.h"
 
-#define NOTIFICATION				AILocalizedString(@"Request attention", "Request attention (nudge or buzz) menu item")
+#define NOTIFICATION				AILocalizedString(@"Request Attention", "Request Attention (nudge or buzz) menu item")
 #define TOOLBAR_NOTIFY_IDENTIFIER	@"NotifyParticipants"
 
 @interface AINudgeBuzzHandlerPlugin()
