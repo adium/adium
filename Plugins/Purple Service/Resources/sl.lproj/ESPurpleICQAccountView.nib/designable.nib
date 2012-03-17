@@ -41,7 +41,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="403886526">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSMatrix" id="320340409">
@@ -49,6 +49,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{191, 0}, {302, 58}}</string>
 						<reference key="NSSuperview" ref="403886526"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">3</int>
 						<int key="NSNumCols">1</int>
@@ -370,6 +371,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{566, 141}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="516429255"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
@@ -377,7 +379,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="532569147">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="1008075567">
@@ -385,6 +387,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{149, 24}, {256, 18}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="834106747">
 							<int key="NSCellFlags">67239424</int>
@@ -407,6 +410,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{71, 25}, {75, 17}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="341838145">
 							<int key="NSCellFlags">67239424</int>
@@ -421,8 +425,9 @@
 					<object class="NSButton" id="846540893">
 						<reference key="NSNextResponder" ref="532569147"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{149, -1}, {277, 18}}</string>
+						<string key="NSFrame">{{149, -1}, {329, 18}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="368825651">
 							<int key="NSCellFlags">67239424</int>
@@ -443,8 +448,9 @@
 					<object class="NSTextField" id="322587337">
 						<reference key="NSNextResponder" ref="532569147"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{23, 0}, {123, 17}}</string>
+						<string key="NSFrame">{{-3, 0}, {149, 17}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="72191265">
 							<int key="NSCellFlags">67239424</int>
@@ -461,6 +467,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{71, 54}, {75, 17}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="984227523">
 							<int key="NSCellFlags">67239424</int>
@@ -477,6 +484,7 @@
 						<int key="NSvFlags">264</int>
 						<string key="NSFrame">{{148, 48}, {307, 26}}</string>
 						<reference key="NSSuperview" ref="532569147"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="983994944">
 							<int key="NSCellFlags">-2076049856</int>
@@ -522,7 +530,9 @@
 						</object>
 					</object>
 				</array>
-				<string key="NSFrameSize">{452, 73}</string>
+				<string key="NSFrameSize">{476, 73}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
