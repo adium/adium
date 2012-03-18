@@ -289,7 +289,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	/* This should be easy.  We have a url and a location so let's download things to a location! */
 
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:downloadURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-	NSString *value = [NSString stringWithString:@"AppleSingle"];
+	NSString *value = @"AppleSingle";
 	[theRequest addValue:value forHTTPHeaderField:@"Accept-Encoding"];
 	[theRequest setHTTPShouldHandleCookies:NO];
 
