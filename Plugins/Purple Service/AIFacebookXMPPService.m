@@ -63,7 +63,7 @@
 
 - (AIServiceImportance)serviceImportance
 {
-	return AIServiceSecondary;
+	return AIServicePrimary;
 }
 
 /*!
@@ -83,9 +83,9 @@
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType
 {
 	if ((iconType == AIServiceIconSmall) || (iconType == AIServiceIconList)) {
-		return [NSImage imageNamed:@"f_logo_small" forClass:[self class] loadLazily:YES];
+		return [NSImage imageNamed:@"facebook-small" forClass:[self class] loadLazily:YES];
 	} else {
-		return [NSImage imageNamed:@"f_logo" forClass:[self class] loadLazily:YES];
+		return [NSImage imageNamed:@"facebook" forClass:[self class] loadLazily:YES];
 	}
 }
 
@@ -100,9 +100,9 @@
 - (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType
 {
 	if ((iconType == AIServiceIconSmall) || (iconType == AIServiceIconList)) {
-		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"f_logo_small"];
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"facebook-small"];
 	} else {
-		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"f_logo"];		
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"facebook"];		
 	}
 }
 

@@ -26,9 +26,9 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 
-#define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://www.adiumxtras.com/","Adium xtras page. Localized only if a translated version exists.")
+#define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
 #define DELETE					AILocalizedStringFromTable(@"Delete", @"Buttons", nil)
-#define GET_MORE_XTRAS			AILocalizedStringFromTable(@"Get More Xtras", @"Buttons", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")
+#define GET_MORE_XTRAS			AILocalizedStringFromTable(@"Get More Xtras", @"Buttons", "Button in the Xtras Manager to go to xtras.adium.im to get more adiumxtras")
 
 #define MINIMUM_SOURCE_LIST_WIDTH 40
 

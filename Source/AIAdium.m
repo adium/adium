@@ -1097,7 +1097,7 @@ static NSString	*prefsCategory;
 			nil];
 		[profileInfo addObject:entry];
 		
-		/** Temporary: get a combined type/bitness value, like PPC64 **/
+		/** Temporary: get a combined type/bitness value **/
 		// CPU type (decoder info for values found here is in mach/machine.h)
 		int sysctlvalue = 0;
 		unsigned long length = sizeof(sysctlvalue);
@@ -1108,17 +1108,15 @@ static NSString	*prefsCategory;
 		}
 		BOOL is64bit = NO;
 		error = sysctlbyname("hw.cpu64bit_capable", &sysctlvalue, &length, NULL, 0);
-		if(error != 0)
+		if(error != 0) {
 			error = sysctlbyname("hw.optional.x86_64", &sysctlvalue, &length, NULL, 0); //x86 specific
-		if(error != 0)
-			error = sysctlbyname("hw.optional.64bitops", &sysctlvalue, &length, NULL, 0); //PPC specific
-		
+		}
+
 		if (error == 0) {
 			is64bit = sysctlvalue == 1;
 			NSString *visibleCPUType;
 			switch(cpuType) {
 				case 7:		visibleCPUType=@"Intel";	break;
-				case 18:	visibleCPUType=@"PowerPC";	break;
 				default:	visibleCPUType=@"Unknown";	break;
 			}
 			visibleCPUType = [visibleCPUType stringByAppendingFormat:@"%@", is64bit ? @"64" : @"32"];

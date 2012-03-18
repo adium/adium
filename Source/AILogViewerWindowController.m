@@ -694,10 +694,14 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 - (void)displayLogs:(NSArray *)logArray
 {
 	[displayOperation cancel];
+	displayOperation = nil;
 	currentMatch = -1;
 	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
-	displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
-	[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	
+	if (logArray) {
+		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
+		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	}
 }
 
 //Displays the contents of the specified log in our window
@@ -1551,6 +1555,10 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 								kSKSearchOptionDefault);
 	currentSearch = (thisSearch ? (SKSearchRef)CFRetain(thisSearch) : NULL);
 	[currentSearchLock unlock];
+	
+	AILogWithSignature(@"Calling flush");
+	SKIndexFlush(logSearchIndex);
+	AILogWithSignature(@"Done flushing. Now we can search.");
 	
 	//Retrieve matches as long as more are pending
     while (more && currentSearch) {

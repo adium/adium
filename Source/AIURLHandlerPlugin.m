@@ -483,7 +483,7 @@
 		
 	} else if ([scheme isEqualToString:@"adiumxtra"]) {
 		//Installs an adium extra
-		// adiumxtra://www.adiumxtras.com/path/to/xtra.zip
+		// adiumxtra://xtras.adium.im/path/to/xtra.zip
 		
 		[[XtrasInstaller installer] installXtraAtURL:url];
 	}

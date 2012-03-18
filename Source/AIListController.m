@@ -351,6 +351,11 @@
 
 		//Now, figure out how big the view wants to be and add that to our frame
 		newWindowFrame.size.height += desiredHeight;
+		
+		//Don't set a height smaller than the toolbar
+		CGFloat windowHeight = NSHeight(windowFrame);
+		CGFloat contentHeight = NSHeight([theWindow.contentView frame]);
+		newWindowFrame.size.height = MAX(windowHeight - contentHeight, NSHeight(newWindowFrame));
 
 		//Vertical positioning and size if we are placed on a screen
 		if (NSHeight(newWindowFrame) >= NSHeight(boundingFrame)) {

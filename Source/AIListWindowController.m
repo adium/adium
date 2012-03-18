@@ -1637,9 +1637,8 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 		
 	} else {
 		if (!filterBarIsVisible) {
-			/* Typing caused the filter bar ot be shown automatically */
+			[self toggleFindPanel:nil];
 			filterBarShownAutomatically = YES;
-			[self showFilterBarWithAnimation:NO];
 		}
 		
 		[[self window] makeFirstResponder:searchField];

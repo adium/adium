@@ -622,7 +622,7 @@
 - (NSString *)scriptForScrollingAfterAddingMultipleContentObjects
 {
 	if ((styleVersion >= 3) || !usingCustomTemplateHTML) {
-		return @"alignChat(true);";
+		return @"alignChat(nearBottom());";
 	}
 
 	return nil;

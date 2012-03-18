@@ -36,6 +36,7 @@
 	NSMutableArray				*contentQueue;
 	NSMutableArray				*storedContentObjects;
 	BOOL						webViewIsReady;
+	BOOL						documentIsReady;	// Is DOM ready?
 	
 	//Style & Variant
 	AIWebkitMessageViewStyle	*__weak messageStyle;

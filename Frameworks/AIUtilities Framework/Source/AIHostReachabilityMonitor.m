@@ -433,7 +433,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
  * This method begins the process of scheduling the reachability check.  It actually creates a CFHost to schedules
  * an asynchronous IP lookup for nodename.  hostResolvedCallback() will be called when it succeeds or fails.
  *
- * @param nodename The name such as "www.adiumxtras.com"
+ * @param nodename The name such as "xtras.adium.im"
  * @param observer The observer which will be notified when the reachability changes
  */
 - (void)scheduleReachabilityMonitoringForHost:(NSString *)nodename observer:(id)observer
