@@ -69,7 +69,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
     return AILocalizedString(@"Privacy",nil);
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"block" forClass:[self class]];
+	return [NSImage imageNamed:@"msg-block-contact" forClass:[self class]];
 }
 - (NSString *)nibName{
     return @"Preferences-Privacy";
