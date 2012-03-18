@@ -63,6 +63,9 @@
 @end
 
 @implementation ESGlobalEventsPreferences
+- (AIPreferenceCategory)category{
+	return AIPref_Events;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Events";

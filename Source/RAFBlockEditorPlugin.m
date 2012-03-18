@@ -31,16 +31,9 @@
 											   keyEquivalent:@"p"];
 	[blockEditorMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask | NSCommandKeyMask)];
 	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-	for (AIAccount *account in adium.accountController.accounts) {
-		if(account.online && [account conformsToProtocol:@protocol(AIAccount_Privacy)])
-			return YES;
-	}
-
-	return NO;
+	
+	//Install our preference view
+	preferences = (RAFBlockEditorWindowController *)[RAFBlockEditorWindowController preferencePaneForPlugin:self];
 }
 
 - (IBAction)showEditor:(id)sender

@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		9719EEF2134129210030317B /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEEC134129210030317B /* Debug.xcconfig */; };
-		9719EEF3134129210030317B /* Release-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEED134129210030317B /* Release-Debug.xcconfig */; };
-		9719EEF4134129210030317B /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEEE134129210030317B /* Release.xcconfig */; };
-		9719EEF6134129210030317B /* FriBidi.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9719EEF0134129210030317B /* FriBidi.xcconfig */; };
 		97376FAC14D4C0E100F93845 /* getopt_int.h in Headers */ = {isa = PBXBuildFile; fileRef = 97376F6914D4C0E100F93845 /* getopt_int.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97376FAD14D4C0E100F93845 /* getopt.c in Sources */ = {isa = PBXBuildFile; fileRef = 97376F6A14D4C0E100F93845 /* getopt.c */; };
 		97376FAE14D4C0E100F93845 /* getopt.h in Headers */ = {isa = PBXBuildFile; fileRef = 97376F6B14D4C0E100F93845 /* getopt.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -410,7 +406,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = NO;
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "FriBidi" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -434,10 +430,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9719EEF2134129210030317B /* Debug.xcconfig in Resources */,
-				9719EEF3134129210030317B /* Release-Debug.xcconfig in Resources */,
-				9719EEF4134129210030317B /* Release.xcconfig in Resources */,
-				9719EEF6134129210030317B /* FriBidi.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,12 +27,11 @@
 #define AIXtraTypeServiceIcons		@"adiumserviceicons"
 #define AIXtraTypeMenuBarIcons		@"adiummenubaricons"
 
-@interface AIXtrasManager : AIPlugin <NSToolbarDelegate> {
+@interface AIXtrasManager : AIPreferencePane {
 	NSMutableDictionary						*disabledXtras;
 	NSMutableArray							*categories;
 	NSMutableArray							*selectedCategory;
-	IBOutlet NSWindow						*window;
-	IBOutlet NSTableView		*tableView_categories;;
+	IBOutlet NSTableView					*tableView_categories;;
 	IBOutlet NSTableView					*xtraList;
 	IBOutlet NSTextView						*infoView;
 	IBOutlet NSScrollView					*previewContainerView;
@@ -49,14 +48,17 @@
 	
 	NSMutableDictionary						*toolbarItems;
 }
+@property (weak) IBOutlet NSButton *removeXtra;
+@property (weak) IBOutlet NSButton *findXtras;
+@property (weak) IBOutlet NSButton *togglePluginEnabled;
 
-+ (AIXtrasManager *) sharedManager;
 - (void) showXtras;
 - (void) loadXtras;
 - (NSArray *) arrayOfXtrasAtPaths:(NSArray *)paths;
 - (IBAction) browseXtras:(id)sender;
 - (IBAction) deleteXtra:(id)sender;
 - (IBAction) checkForUpdates:(id)sender;
+- (IBAction) toggleEnable:(id)sender;
 - (void) updatePreview;
 
 - (IBAction) setShowsInfo:(id)sender;

@@ -14,55 +14,33 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIWindowController.h>
 #import <Adium/AIContactObserverManager.h>
-#import <Adium/AIAccountMenu.h>
+#import "AISegmentedControl.h"
 
-@class AIListContact, AIAccount, AICompletingTextField;
+@class AICompletingTextField;
 
-@interface RAFBlockEditorWindowController : AIWindowController <AIListObjectObserver, AIAccountMenuDelegate> {
-	IBOutlet NSWindow			*window;
-	IBOutlet NSTableView		*table;
-
-	IBOutlet NSWindow			*sheet;
-	IBOutlet NSPopUpButton		*popUp_sheetAccounts;
-	IBOutlet AICompletingTextField		*field;
-	IBOutlet NSButton			*blockButton;
-	IBOutlet NSButton			*cancelButton;
-	IBOutlet NSTextField		*label_account;
-	IBOutlet NSTextField		*label_privacyLevel;
-	
-	IBOutlet NSTextField		*accountText;
-	IBOutlet NSTextField		*buddyText;
-	IBOutlet NSTableColumn		*buddyCol;
-	IBOutlet NSTableColumn		*accountCol;
-	BOOL						accountColumnsVisible;
-	
-	IBOutlet NSPopUpButton		*stateChooser;
-	IBOutlet NSPopUpButton		*popUp_accounts;
-	IBOutlet NSTextField		*accountCaption;
-	
-	IBOutlet NSTabView			*tabView_contactList;
-	
+@interface RAFBlockEditorWindowController : AIPreferencePane <AIListObjectObserver, NSTableViewDelegate, NSTableViewDataSource> {
 	NSMutableArray				*listContents;
-	NSMutableArray				*listContentsAllAccounts;
-	NSMutableDictionary			*accountStates;
-	
-	AIAccountMenu				*accountMenu;
-	AIAccountMenu				*sheetAccountMenu;
-	
-	NSArray *dragItems;
+	NSArray						*accountArray;
 }
+@property (weak) IBOutlet NSTableView *accountTable;
+@property (weak) IBOutlet NSTableView *contactTable;
+@property (weak) IBOutlet NSMatrix *privacyLevel;
+@property (weak) IBOutlet NSTextField *label_information;
+@property (weak) IBOutlet AISegmentedControl *addRemoveContact;
+
+@property (strong) IBOutlet NSWindow *sheet;
+@property (weak) IBOutlet AICompletingTextField *addContactField;
+@property (weak) IBOutlet AILocalizationButton *addContact;
+@property (weak) IBOutlet AILocalizationButton *cancelSheet;
+@property (weak) IBOutlet AILocalizationTextField *label_contact;
+@property (weak) IBOutlet AILocalizationTextField *label_blockInformation;
 
 + (void)showWindow;
 
 - (IBAction)addOrRemoveBlock:(id)sender;
-- (IBAction)cancelBlockSheet: (id)sender;
-- (IBAction)didBlockSheet: (id)sender;
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-
-- (NSMutableArray*)listContents;
-- (void)setListContents:(NSArray*)newList;
+- (IBAction)cancelBlockSheet:(id)sender;
+- (IBAction)didBlockSheet:(id)sender;
 - (IBAction)setPrivacyOption:(id)sender;
 
 @end

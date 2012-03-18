@@ -30,7 +30,6 @@
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
 #import "AIPreferencePane.h"
-#import "AIAdvancedPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)
@@ -214,17 +213,11 @@
     return paneArray;
 }
 
-/*!
-* @brief Add a view to the preferences
- */
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane
+- (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory
 {
-    [advancedPaneArray addObject:inPane];
-}
-
-- (NSArray *)advancedPaneArray
-{
-	return advancedPaneArray;
+	return [paneArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		return ([evaluatedObject category] == paneCategory);
+	}]];
 }
 
 //Observing ------------------------------------------------------------------------------------------------------------

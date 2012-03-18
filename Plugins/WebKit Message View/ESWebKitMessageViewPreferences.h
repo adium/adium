@@ -55,6 +55,11 @@
 	BOOL							viewIsOpen;
 }
 
+@property (weak) IBOutlet NSButton *checkBox_customNameFormatting;
+@property (weak) IBOutlet NSPopUpButton *popUp_nameFormat;
+@property (weak) IBOutlet NSPopUpButton *popUp_timeStampFormat;
+@property (weak) IBOutlet NSPopUpButton *popUp_minimumFontSize;
+
 /*!
  *	@brief Rebuild our styles menu when installed message styles change
  */

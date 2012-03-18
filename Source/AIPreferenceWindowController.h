@@ -14,14 +14,64 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import "AIPreferenceCollectionView.h"
+@class AIPreferenceCollectionView, AIHighlightingTextField;
 
-//XXX rename me
-@interface AIPreferenceWindowController : NSObject {    
+/*!
+ * @class AIPreferenceWindowController
+ * @brief Adium preference window controller
+ *
+ * Implements the main preference window.  This controller displays the preference panes registered with the
+ * preference controller sorted by category.
+ */
+@interface AIPreferenceWindowController : NSWindowController <NSWindowDelegate, AIPreferenceCollectionViewDelegate> {
+	SKIndexRef skIndex;
+	BOOL completePosting;
+	BOOL commandHandling;
+	
+	//Window
+	NSWindow *suggestionsWindow;
+	NSMutableArray *_trackingAreas;
+	id _localMouseDownEventMonitor;
+	id _lostFocusObserver;
+	id _localMouseUpEventHandler;
 
+	NSMutableDictionary *panes;
+	AIHighlightingTextField *_selectedView;
+	
+	NSMutableArray *AI_topLevelObjects;
 }
+
+@property (copy) NSArray *generalPaneArray;
+@property (copy) NSArray *appearancePaneArray;
+@property (copy) NSArray *eventsPaneArray;
+@property (copy) NSArray *advancedPaneArray;
+@property (assign) IBOutlet AIPreferenceCollectionView *generalCV;
+@property (assign) IBOutlet AIPreferenceCollectionView *appearanceCV;
+@property (assign) IBOutlet AIPreferenceCollectionView *eventsCV;
+@property (assign) IBOutlet AIPreferenceCollectionView *advancedCV;
+@property (weak) IBOutlet NSArrayController *generalController;
+@property (weak) IBOutlet NSArrayController *appearanceController;
+@property (weak) IBOutlet NSArrayController *eventsController;
+@property (weak) IBOutlet NSArrayController *advancedController;
+
+@property (strong) IBOutlet NSWindow *window;
+@property (strong) IBOutlet NSView *allPanes;
+@property (assign) IBOutlet NSView *itemPrototypeView;
+
+@property (assign) IBOutlet NSSearchField *searchField;
+
+@property (weak) IBOutlet NSTextField *label_general;
+@property (weak) IBOutlet NSTextField *label_advanced;
+@property (weak) IBOutlet NSTextField *label_events;
+@property (weak) IBOutlet NSTextField *label_appearance;
+@property (weak) IBOutlet NSButton *button_showAll;
+
 
 + (void)openPreferenceWindow;
 + (void)openPreferenceWindowToCategoryWithIdentifier:(NSString *)identifier;
 + (void)closePreferenceWindow;
+
+- (IBAction)showAllPanes:(id)sender;
 
 @end

@@ -16,40 +16,65 @@
 
 #import "AIPreferencePane.h"
 
-@class AIAutoScrollView, AIStatus, AIAlternatingRowOutlineView;
+@class AIAutoScrollView, AIStatus, AIAlternatingRowOutlineView, AISegmentedControl;
 
-@interface ESStatusPreferences : AIPreferencePane {
-	//Status state tableview
-	IBOutlet	NSButton			*button_editState;
-	IBOutlet	NSButton			*button_addGroup;
-	IBOutlet	NSSegmentedControl	*button_addOrRemoveState;
-
-	IBOutlet	AIAlternatingRowOutlineView		*outlineView_stateList;
-	IBOutlet	AIAutoScrollView				*scrollView_stateList;
+@interface ESStatusPreferences : AIPreferencePane <NSTokenFieldDelegate> {
+	NSArray		*draggingItems;
 	
-	NSArray				*draggingItems;
-	
-	//Other controls
-	IBOutlet	NSButton		*checkBox_idle;
-	IBOutlet	NSTextField		*textField_idleMinutes;
-	IBOutlet    NSStepper       *stepper_idleMinutes;
-
-	IBOutlet	NSButton		*checkBox_autoAway;
-	IBOutlet	NSPopUpButton	*popUp_autoAwayStatusState;
-	IBOutlet	NSTextField		*textField_autoAwayMinutes;
-	IBOutlet    NSStepper       *stepper_autoAwayMinutes;
-	BOOL						showingSubmenuItemInAutoAway;
-
-	IBOutlet	NSButton		*checkBox_fastUserSwitching;
-	IBOutlet	NSPopUpButton	*popUp_fastUserSwitchingStatusState;
-	BOOL						showingSubmenuItemInFastUserSwitching;
-
-	IBOutlet	NSButton		*checkBox_screenSaver;
-	IBOutlet	NSPopUpButton	*popUp_screenSaverStatusState;
-	BOOL						showingSubmenuItemInScreenSaver;
-	
-	IBOutlet	NSButton		*checkBox_showStatusWindow;
+	BOOL		showingSubmenuItemInAutoAway;
+	BOOL		showingSubmenuItemInFastUserSwitching;
+	BOOL		showingSubmenuItemInScreenSaver;
 }
+
+@property (weak) IBOutlet NSTabViewItem *tabItem_status;
+@property (weak) IBOutlet NSTabViewItem *tabItem_settings;
+
+@property (weak) IBOutlet AISegmentedControl *button_addOrRemoveState;
+@property (weak) IBOutlet AILocalizationButton *button_addGroup;
+@property (weak) IBOutlet AILocalizationButton *button_editState;
+@property (weak) IBOutlet AIAutoScrollView *scrollView_stateList;
+@property (weak) IBOutlet AIAlternatingRowOutlineView *outlineView_stateList;
+
+@property (weak) IBOutlet AILocalizationButton *checkBox_idle;
+@property (weak) IBOutlet NSTextField *textField_idleMinutes;
+@property (weak) IBOutlet NSStepper *stepper_idleMinutes;
+
+@property (weak) IBOutlet AILocalizationButton *checkBox_autoAway;
+@property (weak) IBOutlet NSTextField *textField_autoAwayMinutes;
+@property (weak) IBOutlet NSStepper *stepper_autoAwayMinutes;
+@property (weak) IBOutlet NSPopUpButton *popUp_autoAwayStatusState;
+
+@property (weak) IBOutlet AILocalizationButton *checkBox_fastUserSwitching;
+@property (weak) IBOutlet NSPopUpButton *popUp_fastUserSwitchingStatusState;
+
+@property (weak) IBOutlet AILocalizationButton *checkBox_screenSaver;
+@property (weak) IBOutlet NSPopUpButton *popUp_screenSaverStatusState;
+
+@property (weak) IBOutlet AILocalizationButton *checkBox_showStatusWindow;
+
+@property (weak) IBOutlet AILocalizationTextField *label_inactivity;
+@property (weak) IBOutlet AILocalizationTextField *label_inactivitySet;
+@property (weak) IBOutlet NSTextField *label_iTunesFormat;
+
+@property (weak) IBOutlet NSBox *box_itunesElements;
+
+@property (weak) IBOutlet AILocalizationTextField *label_instructions;
+@property (weak) IBOutlet AILocalizationTextField *label_album;
+@property (weak) IBOutlet AILocalizationTextField *label_artist;
+@property (weak) IBOutlet AILocalizationTextField *label_composer;
+@property (weak) IBOutlet AILocalizationTextField *label_genre;
+@property (weak) IBOutlet AILocalizationTextField *label_status;
+@property (weak) IBOutlet AILocalizationTextField *label_title;
+@property (weak) IBOutlet AILocalizationTextField *label_year;
+
+@property (weak) IBOutlet NSTokenField *tokenField_format;
+@property (weak) IBOutlet NSTokenField *tokenField_album;
+@property (weak) IBOutlet NSTokenField *tokenField_artist;
+@property (weak) IBOutlet NSTokenField *tokenField_composer;
+@property (weak) IBOutlet NSTokenField *tokenField_genre;
+@property (weak) IBOutlet NSTokenField *tokenField_status;
+@property (weak) IBOutlet NSTokenField *tokenField_title;
+@property (weak) IBOutlet NSTokenField *tokenField_year;
 
 - (void)configureStateList;
 
@@ -58,5 +83,7 @@
 - (IBAction)addGroup:(id)sender;
 
 - (void)stateArrayChanged:(NSNotification *)notification;
+
+- (IBAction)changeFormat:(id)sender;
 
 @end
