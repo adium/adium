@@ -17,6 +17,7 @@
 
 #import "JVMarkedScroller.h"
 #import "AIStringUtilities.h"
+#import "AIOSCompatibility.h"
 
 struct _mark {
 	NSUInteger location;
