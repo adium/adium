@@ -78,7 +78,7 @@
 
 - (void)installXtraAtURL:(NSURL *)url
 {
-	if ([[url host] isEqualToString:@"xtras.adium.im"] || ALLOW_UNTRUSTED_XTRAS) {
+	if ([[url host] isEqualToString:@"xtras.adium.im"] || [[url host] isEqualToString:@"www.adiumxtras.com"] || ALLOW_UNTRUSTED_XTRAS) {
 		NSURL	*urlToDownload;
 
 		[NSBundle loadNibNamed:@"XtraProgressWindow" owner:self];
@@ -110,7 +110,7 @@
 
 	} else {
 		NSRunAlertPanel(AILocalizedString(@"Nontrusted Xtra", nil),
-						AILocalizedString(@"This Xtra is not hosted by xtras.adium.im. Automatic installation is not allowed.", nil),
+						AILocalizedString(@"This Xtra is not hosted on the Adium Xtras website. Automatic installation is not allowed.", nil),
 						AILocalizedString(@"Cancel", nil),
 						nil, nil);
 		[self closeInstaller];
