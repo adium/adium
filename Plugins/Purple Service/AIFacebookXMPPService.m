@@ -63,7 +63,7 @@
 
 - (AIServiceImportance)serviceImportance
 {
-	return AIServiceSecondary;
+	return AIServicePrimary;
 }
 
 /*!
