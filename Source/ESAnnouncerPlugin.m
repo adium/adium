@@ -94,7 +94,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"AnnouncerAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-announcer-alert" forClass:[self class]];
 }
 
 /*!

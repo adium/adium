@@ -171,7 +171,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (!(*cachePointer)) {
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterFullStyle];
 		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
 	}
@@ -188,7 +187,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (!(*cachePointer)) {
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterShortStyle];
 		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
 	}
@@ -228,7 +226,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	if (!(*cachePointer)) {
 		// Get the current time format string
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterNoStyle];
 		[*cachePointer setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
 		
@@ -694,7 +691,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Same as "%X %x"
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];
@@ -773,7 +769,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Date representation for the locale, including time zone.
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterNoStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];
@@ -784,7 +779,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Time representation for the locale.
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterNoStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];

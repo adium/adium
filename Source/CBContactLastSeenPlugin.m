@@ -124,7 +124,6 @@
 			NSString	*timeElapsedWithDesignation;
 			
 			sinceDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-			[sinceDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 				[sinceDateFormatter setDateFormat:[NSString stringWithFormat:@"%@, %@",
 												   [dateFormatter dateFormat],

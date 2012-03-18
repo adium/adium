@@ -680,7 +680,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	
 	//Register our toolbar item
 	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)] autorelease];
-	[button setImage:[NSImage imageNamed:@"scriptToolbar" forClass:[self class] loadLazily:YES]];
+	[button setImage:[NSImage imageNamed:@"msg-insert-script" forClass:[self class] loadLazily:YES]];
 	toolbarItem = [[AIToolbarUtilities toolbarItemWithIdentifier:SCRIPT_IDENTIFIER
 														   label:AILocalizedString(@"Scripts",nil)
 													paletteLabel:TITLE_INSERT_SCRIPT

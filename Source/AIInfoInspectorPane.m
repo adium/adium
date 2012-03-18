@@ -122,7 +122,7 @@
 
 	//User Icon
 	if (!(currentIcon = [inObject userIcon])) {
-		currentIcon = [NSImage imageNamed:@"DefaultIcon" forClass:[self class]];
+		currentIcon = [NSImage imageNamed:@"default-icon" forClass:[self class]];
 	}
 	
 	/* NSScaleProportionally will lock an animated GIF into a single frame.  We therefore use NSScaleNone if
