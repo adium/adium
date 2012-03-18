@@ -1087,9 +1087,8 @@
 		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.nib */; };
-		5A27FA7D14A272330063489D /* (null) in Resources */ = {isa = PBXBuildFile; };
-		5A27FA7E14A272330063489D /* (null) in Resources */ = {isa = PBXBuildFile; };
-		5A27FA7F14A272330063489D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		5A27FA7D14A272330063489D /* pref-messagehistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7914A272330063489D /* pref-messagehistory.png */; };
+		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
 		5A27FA8014A272330063489D /* pref-windowhandling.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7C14A272330063489D /* pref-windowhandling.png */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
@@ -1111,7 +1110,7 @@
 		5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1FEA601334549300C14951 /* MessageView.xib */; };
 		5A804FEA12BE9E84007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
 		5A80508512BE9F00007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
-		5A8F637614DD1B21008412C8 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */; };
 		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* events-do-nothing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* events-do-nothing.tiff */; };
@@ -3937,6 +3936,8 @@
 		5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Xtras.xib"; path = "Resources/Preferences-Xtras.xib"; sourceTree = "<group>"; };
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.nib"; sourceTree = "<group>"; };
+		5A27FA7914A272330063489D /* pref-messagehistory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagehistory.png"; path = "Resources/pref-messagehistory.png"; sourceTree = "<group>"; };
+		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
 		5A27FA7C14A272330063489D /* pref-windowhandling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-windowhandling.png"; path = "Resources/pref-windowhandling.png"; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
@@ -4031,6 +4032,7 @@
 		5A80CCAB121F5A7B00D0670A /* uk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = uk; path = Resources/uk.lproj/Statuses.strings; sourceTree = "<group>"; };
 		5A80CCAD121F5A7B00D0670A /* uk */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = uk; path = Resources/uk.lproj/StatusSortConfiguration.nib; sourceTree = "<group>"; };
 		5A80CCAE121F5A7B00D0670A /* uk */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = uk; path = "Plugins/WebKit Message View/Resources/uk.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
+		5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Privacy.xib"; path = "Resources/Preferences-Privacy.xib"; sourceTree = "<group>"; };
 		5A9439791279ECB800FDD81D /* AIImgurImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImgurImageUploader.h; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.h"; sourceTree = "<group>"; };
 		5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImgurImageUploader.m; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.m"; sourceTree = "<group>"; };
 		5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDoNothingContactAlertPlugin.h; sourceTree = "<group>"; };
@@ -6104,6 +6106,7 @@
 				110763F408676CC9005987A5 /* RAFBlockEditorWindowController.m */,
 				9E125C6307D3571400AA91C5 /* ESBlockingPlugin.h */,
 				9E125C6407D3571400AA91C5 /* ESBlockingPlugin.m */,
+				5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */,
 			);
 			name = Blocking;
 			sourceTree = "<group>";
@@ -8204,6 +8207,8 @@
 		9C82689903D9B23F00F1D4AF /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				5A27FA7914A272330063489D /* pref-messagehistory.png */,
+				5A27FA7A14A272330063489D /* pref-messagestyle.png */,
 				5A27FA7C14A272330063489D /* pref-windowhandling.png */,
 				D10A3A2A122C61EF003B5A7E /* msg-source-destination.tiff */,
 				4BF3CBEC07D192F500A8112A /* pref-accounts.tiff */,
@@ -9780,12 +9785,11 @@
 				5A4BD56A13F86B7E00A4D3F7 /* Preferences-Icons.xib in Resources */,
 				5A4BD57F13F86BC500A4D3F7 /* Preferences-General.xib in Resources */,
 				7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */,
-				5A27FA7D14A272330063489D /* (null) in Resources */,
-				5A27FA7E14A272330063489D /* (null) in Resources */,
-				5A27FA7F14A272330063489D /* (null) in Resources */,
+				5A27FA7D14A272330063489D /* pref-messagehistory.png in Resources */,
+				5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */,
 				5A27FA8014A272330063489D /* pref-windowhandling.png in Resources */,
 				5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */,
-				5A8F637614DD1B21008412C8 /* (null) in Resources */,
+				5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */,
 				97F7B38014E29BC500A0F6F8 /* facebook-small.png in Resources */,
 				97F7B38114E29BC500A0F6F8 /* facebook.png in Resources */,
 			);
