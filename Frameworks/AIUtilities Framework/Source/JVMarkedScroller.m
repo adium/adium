@@ -102,7 +102,7 @@ struct _mark {
 		[shades appendBezierPathWithRect:NSIntegralRect( shadesRect )];
 	}
 	
-	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], ( sFlags.isHoriz ? 4.f : 3.f ), ( sFlags.isHoriz ? 3.f : 4.f ) ) );
+	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], 1, 1 ) );
 	
 	if( ! [shades isEmpty ] ) {
 		[[[NSColor knobColor] colorWithAlphaComponent:0.45f] set];

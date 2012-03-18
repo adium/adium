@@ -40,8 +40,8 @@
 #define BLOCK_GROUP_MENUITEM		[BLOCK_GROUP stringByAppendingEllipsis]
 #define UNBLOCK_GROUP_MENUITEM		[UNBLOCK_GROUP stringByAppendingEllipsis]
 #define TOOLBAR_ITEM_IDENTIFIER		@"BlockParticipants"
-#define TOOLBAR_BLOCK_ICON_KEY		@"Block"
-#define TOOLBAR_UNBLOCK_ICON_KEY	@"Unblock"
+#define TOOLBAR_BLOCK_ICON_KEY		@"msg-block-contact"
+#define TOOLBAR_UNBLOCK_ICON_KEY	@"msg-unblock-contact"
 
 @interface ESBlockingPlugin()
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked;
@@ -99,8 +99,8 @@
 	chatToolbarItems = [[NSMutableSet alloc] init];
 	//cache toolbar icons
 	blockedToolbarIcons = [[NSDictionary alloc] initWithObjectsAndKeys:
-								[NSImage imageNamed:@"block" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
-								[NSImage imageNamed:@"unblock" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"msg-block-contact" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"msg-unblock-contact" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
 								nil];
 	NSToolbarItem	*chatItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_ITEM_IDENTIFIER
 																		label:BLOCK

@@ -48,7 +48,7 @@
     return @"Preferences-Encryption";
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"Lock_Locked State" forClass:[adium class]];
+	return [NSImage imageNamed:@"lock-locked" forClass:[adium class]];
 }
 
 - (void)viewDidLoad

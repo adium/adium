@@ -46,7 +46,7 @@
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-ft" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-file-transfer" forClass:[self class]];
 }
 
 //Called in response to all preference controls, applies new settings
