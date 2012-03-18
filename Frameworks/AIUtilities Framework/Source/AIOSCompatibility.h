@@ -37,6 +37,11 @@
 - (void)setRestorable:(BOOL)flag;
 @end
 
+@protocol NSDraggingDestination <NSObject>
+@end
+@protocol NSURLDownloadDelegate <NSObject>
+@end
+
 #endif
 
 #else //Not compiling for 10.7
