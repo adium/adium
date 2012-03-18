@@ -29,8 +29,6 @@
 
 #ifdef __OBJC__
 
-#define NSScrollerStyleOverlay 1
-
 @interface NSScrollView (NewLionMethods)
 - (void)setVerticalScrollElasticity:(NSInteger)elasticity;
 @end

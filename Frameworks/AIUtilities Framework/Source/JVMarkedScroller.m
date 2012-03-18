@@ -17,7 +17,6 @@
 
 #import "JVMarkedScroller.h"
 #import "AIStringUtilities.h"
-#import "AIOSCompatibility.h"
 
 struct _mark {
 	NSUInteger location;
@@ -62,7 +61,7 @@ struct _mark {
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize] scrollerStyle:NSScrollerStyleOverlay];
+	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
 	
 	CGFloat scale = [self scaleToContentView];
 	[transform scaleXBy:( sFlags.isHoriz ? scale : 1.f ) yBy:( sFlags.isHoriz ? 1.f : scale )];
