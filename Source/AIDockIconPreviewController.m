@@ -28,11 +28,9 @@
 
 - (void) setXtra:(AIXtraInfo *)xtraInfo
 {
-	[images autorelease];
-	[statusNames autorelease];
 	NSDictionary * pack = [[adium.dockController iconPackAtPath:[xtraInfo path]] objectForKey:@"State"];
-	images = [[pack allValues] retain];
-	statusNames = [[pack allKeys] retain];
+	images = [pack allValues];
+	statusNames = [pack allKeys];
 	[tableView reloadData];
 	[tableView sizeToFit];
 }
@@ -45,14 +43,12 @@
 	NSTableColumn * column = [[NSTableColumn alloc] initWithIdentifier:@"Dock Icon"];
 	[column setMaxWidth:48.0f];
 	[column setMinWidth:48.0f];
-	[column setDataCell:[[[NSImageCell alloc]init]autorelease]];
+	[column setDataCell:[[NSImageCell alloc]init]];
 	[tableView addTableColumn:column];
-	[column release];
 	
 	column = [[NSTableColumn alloc] initWithIdentifier:@"Status"];
-	[column setDataCell:[[[AIVerticallyCenteredTextCell alloc] init] autorelease]];
+	[column setDataCell:[[AIVerticallyCenteredTextCell alloc] init]];
 	[tableView addTableColumn:column];
-	[column release];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex

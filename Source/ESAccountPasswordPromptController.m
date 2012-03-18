@@ -76,17 +76,10 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 							 notifyingTarget:inTarget
 									selector:inSelector
 									 context:inContext])) {
-		account = [inAccount retain];
+		account = inAccount;
 	}
 
     return self;
-}
-
-- (void)dealloc
-{
-    [account release];
-	
-	[super dealloc];
 }
 
 /*!

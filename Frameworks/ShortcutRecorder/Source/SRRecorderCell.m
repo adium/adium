@@ -58,19 +58,7 @@
 
 - (void)dealloc
 {
-    [validator release];
-	
-	[keyCharsIgnoringModifiers release];
-	[keyChars release];
-    
-	[recordingGradient release];
-	[autosaveName release];
-	
-	[cancelCharacterSet release];
-	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 #pragma mark *** Coding Support ***
@@ -82,7 +70,7 @@
 	[self _privateInit];
 
 	if ([aDecoder allowsKeyedCoding]) {
-		autosaveName = [[aDecoder decodeObjectForKey: @"autosaveName"] retain];
+		autosaveName = [aDecoder decodeObjectForKey: @"autosaveName"];
 		
 		keyCombo.code = [[aDecoder decodeObjectForKey: @"keyComboCode"] shortValue];
 		keyCombo.flags = [[aDecoder decodeObjectForKey: @"keyComboFlags"] unsignedIntegerValue];
@@ -102,7 +90,7 @@
 		
 		style = [[aDecoder decodeObjectForKey:@"style"] shortValue];
 	} else {
-		autosaveName = [[aDecoder decodeObject] retain];
+		autosaveName = [aDecoder decodeObject];
 		
 		keyCombo.code = [[aDecoder decodeObject] shortValue];
 		keyCombo.flags = [[aDecoder decodeObject] unsignedIntegerValue];
@@ -156,8 +144,8 @@
     SRRecorderCell *cell;
     cell = (SRRecorderCell *)[super copyWithZone: zone];
 	
-	cell->recordingGradient = [recordingGradient retain];
-	cell->autosaveName = [autosaveName retain];
+	cell->recordingGradient = recordingGradient;
+	cell->autosaveName = autosaveName;
 
 	cell->isRecording = isRecording;
 	cell->mouseInsideTrackingArea = mouseInsideTrackingArea;
@@ -179,7 +167,7 @@
 	
 	cell->style = style;
 
-	cell->cancelCharacterSet = [cancelCharacterSet retain];
+	cell->cancelCharacterSet = cancelCharacterSet;
     
 	cell->delegate = delegate;
 	
@@ -279,7 +267,7 @@
 		[[NSGraphicsContext currentContext] restoreGraphicsState];
 		
 	// Draw text
-		NSMutableParagraphStyle *mpstyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle *mpstyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[mpstyle setLineBreakMode: NSLineBreakByTruncatingTail];
 		[mpstyle setAlignment: NSCenterTextAlignment];
 		
@@ -449,7 +437,6 @@
 			}
 			CGFloat insetAmount = -([snapBackButton lineWidth]/2.0f);
 			[gradient drawInRect:NSInsetRect(correctedSnapBackRect, insetAmount, insetAmount) angle:90.0f];
-			[gradient release];
 
 			/*
 		// Highlight if inside or down
@@ -481,7 +468,7 @@
 		
 		
 	// Draw text
-		NSMutableParagraphStyle *mpstyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle *mpstyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[mpstyle setLineBreakMode: NSLineBreakByTruncatingTail];
 		[mpstyle setAlignment: NSCenterTextAlignment];
 		
@@ -813,7 +800,7 @@
 				
 				NSString *character = [[theEvent charactersIgnoringModifiers] uppercaseString];
 				
-			// accents like "¬¥" or "`" will be ignored since we don't get a keycode
+			// accents like "´" or "`" will be ignored since we don't get a keycode
 				if ([character length]) {
 					NSError *error = nil;
 					
@@ -836,8 +823,8 @@
 						keyCombo.code = [theEvent keyCode];
 						
 						hasKeyChars = YES;
-						keyChars = [[theEvent characters] retain];
-						keyCharsIgnoringModifiers = [[theEvent charactersIgnoringModifiers] retain];
+						keyChars = [theEvent characters];
+						keyCharsIgnoringModifiers = [theEvent charactersIgnoringModifiers];
 //						NSLog(@"keychars: %@, ignoringmods: %@", keyChars, keyCharsIgnoringModifiers);
 //						NSLog(@"calculated keychars: %@, ignoring: %@", SRStringForKeyCode(keyCombo.code), SRCharacterForKeyCodeAndCocoaFlags(keyCombo.code,keyCombo.flags));
 						
@@ -1012,7 +999,6 @@
 {
 	if (aName != autosaveName)
 	{
-		[autosaveName release];
 		autosaveName = [aName copy];
 	}
 }
@@ -1197,7 +1183,7 @@
 		
 		if (hasKeyChars) {
 			
-			NSMutableDictionary *mutableDefaultsValue = [[defaultsValue mutableCopy] autorelease];
+			NSMutableDictionary *mutableDefaultsValue = [defaultsValue mutableCopy];
 			[mutableDefaultsValue setObject:keyChars forKey:@"keyChars"];
 			[mutableDefaultsValue setObject:keyCharsIgnoringModifiers forKey:@"keyCharsIgnoringModifiers"];
 			
@@ -1231,8 +1217,8 @@
 		NSString *kc = [savedCombo valueForKey: @"keyChars"];
 		hasKeyChars = (nil != kc);
 		if (kc) {
-			keyCharsIgnoringModifiers = [[savedCombo valueForKey: @"keyCharsIgnoringModifiers"] retain];
-			keyChars = [kc retain];
+			keyCharsIgnoringModifiers = [savedCombo valueForKey: @"keyCharsIgnoringModifiers"];
+			keyChars = kc;
 		}
 		
 		// Notify delegate

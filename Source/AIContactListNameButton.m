@@ -48,7 +48,6 @@
 																						 nil]];
 		textField_editor = [[NSTextField alloc] initWithFrame:editingFrame];
 		[textField_editor setAttributedStringValue:attributedString];
-		[attributedString release];
 	
 		[textField_editor setFocusRingType:NSFocusRingTypeNone];
 		[textField_editor setDelegate:self];
@@ -76,7 +75,7 @@
 						 withObject:editUserInfo];
 
 	[textField_editor removeFromSuperview];
-	[textField_editor release]; textField_editor = nil;
+	textField_editor = nil;
 
 	[self resetCursorRects];
 }
@@ -94,15 +93,13 @@
 	[self editName:startingString];
 	
 	if (editTarget != inTarget) {
-		[editTarget release];
-		editTarget = [inTarget retain];
+		editTarget = inTarget;
 	}
 	
 	editSelector = inSelector;
 	
 	if (inUserInfo != editUserInfo) {
-		[editUserInfo release];
-		editUserInfo = [inUserInfo retain];
+		editUserInfo = inUserInfo;
 	}
 }
 

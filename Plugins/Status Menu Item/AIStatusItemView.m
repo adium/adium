@@ -35,17 +35,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-	[statusItem release];
-	[regularImage release];
-	[alternateImage release];
-	[menu release];
-	[alternateMenu release];
-	
-	[super dealloc];
-}
-
 #pragma mark Display
 
 - (void)drawRect:(NSRect)rect
@@ -122,7 +111,6 @@
  */
 - (void)setRegularImage:(NSImage *)image
 {
-	[regularImage release];
 	regularImage = [image copy];
 	
 	if (!mouseDown) {
@@ -148,7 +136,6 @@
  */
 - (void)setAlternateImage:(NSImage *)image
 {
-	[alternateImage release];
 	alternateImage = [image copy];
 
 	if (mouseDown) {

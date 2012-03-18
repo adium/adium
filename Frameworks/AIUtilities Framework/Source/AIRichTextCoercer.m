@@ -51,7 +51,7 @@
 		result = [input string];
 		if([input isKindOfClass:[NSMutableAttributedString class]]) {
 			//The input string is mutable, so make a copy of the string.
-			result = [[result copy] autorelease];
+			result = [result copy];
 		}
 	}
 
@@ -63,7 +63,7 @@
 + (id)coercePlainText:(NSString *)input toClass:(Class)class
 {
 	if([class isSubclassOfClass:[NSAttributedString class]]) {
-		return [[[class alloc] initWithString:input] autorelease];
+		return [[class alloc] initWithString:input];
 	}
 	return nil;
 }

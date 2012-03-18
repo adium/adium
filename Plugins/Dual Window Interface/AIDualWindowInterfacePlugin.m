@@ -47,7 +47,7 @@
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DUAL_INTERFACE_DEFAULT_PREFS forClass:[self class]] 
 										  forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
-	preferenceMessageAdvController = [(ESDualWindowMessageAdvancedPreferences *)[ESDualWindowMessageAdvancedPreferences preferencePane] retain];
+	preferenceMessageAdvController = (ESDualWindowMessageAdvancedPreferences *)[ESDualWindowMessageAdvancedPreferences preferencePane];
 	
 	//Watch Adium hide and unhide (Used for better window opening behavior)
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -70,9 +70,9 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	//Cleanup
-	[preferenceMessageAdvController release]; preferenceMessageAdvController = nil;
-	[containers release]; containers = nil;
-	[delayedContainerShowArray release]; delayedContainerShowArray = nil;
+	preferenceMessageAdvController = nil;
+	containers = nil;
+	delayedContainerShowArray = nil;
 }	
 
 
@@ -147,7 +147,6 @@
 	if ([messageTab windowController] == windowController) {
 		[windowController moveTabViewItem:messageTab toIndex:idx];
 	} else {
-		[messageTab retain];
 		[[messageTab windowController] removeTabViewItem:messageTab silent:YES];
 
 		//Create the container if necessary
@@ -156,7 +155,6 @@
 		}
 
 		[windowController addTabViewItem:messageTab atIndex:idx silent:YES];
-		[messageTab release];
 	}
 }
 
@@ -323,8 +321,6 @@
 		NSRect  oldMessageWindowFrame = [[oldMessageWindowController window] frame];
 		
 		//Remove the tab, which will close the containiner if it becomes empty
-		[tabViewItem retain];
-	
 		[oldMessageWindowController removeTabViewItem:tabViewItem silent:YES];
 		
 		//Spawn a new window (if necessary)
@@ -356,7 +352,6 @@
 		[(AIMessageWindowController *)newMessageWindowController addTabViewItem:tabViewItem atIndex:idx silent:YES]; 
 		[adium.interfaceController chatOrderDidChange];
 		[tabViewItem makeActive:nil];
-		[tabViewItem release];
 	}
 	
 }

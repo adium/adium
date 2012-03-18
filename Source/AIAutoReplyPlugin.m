@@ -77,9 +77,6 @@
 - (void)dealloc
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[receivedAutoReply release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -95,7 +92,7 @@
 	   [inModifiedKeys containsObject:@"accountStatus"]) {
 			
 		//Reset our list of contacts who have already received an auto-reply
-		[receivedAutoReply release]; receivedAutoReply = [[NSMutableSet alloc] init];
+		receivedAutoReply = [[NSMutableSet alloc] init];
 		
 		//Don't want to remove from the new set any chats which previously closed and are pending removal
 		[NSObject cancelPreviousPerformRequestsWithTarget:self];
@@ -155,7 +152,7 @@
 	if (autoReply) {
 		if (!supportsAutoreply) {
 			//Tthe service isn't natively expecting an autoresponse, so make it a bit clearer what's going on
-			NSMutableAttributedString *mutableAutoReply = [[autoReply mutableCopy] autorelease];
+			NSMutableAttributedString *mutableAutoReply = [autoReply mutableCopy];
 			[mutableAutoReply replaceCharactersInRange:NSMakeRange(0, 0) 
 											withString:AILocalizedString(@"(Autoreply) ", 
 												"Prefix to place before autoreplies on services which do not natively support them")];

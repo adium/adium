@@ -67,7 +67,7 @@
 
 - (NSMenu *)chatServerMenu
 {
-	NSMenu			*chatServerMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu			*chatServerMenu = [[NSMenu alloc] init];
 	NSMutableArray	*menuItems = [NSMutableArray array];
 	NSMenuItem		*menuItem;
 	NSEnumerator	*enumerator;
@@ -98,19 +98,19 @@
 		@"United Kingdom", @"uk",
 		nil];
 
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"United States",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"United States",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setRepresentedObject:@"us"];
 	[menuItems addObject:menuItem];
 
 	enumerator = [roomListServersDict keyEnumerator];
 	while ((prefix = [enumerator nextObject])) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[roomListServersDict objectForKey:prefix]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[roomListServersDict objectForKey:prefix]
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:prefix];
 		[menuItems addObject:menuItem];		
 	}
@@ -121,7 +121,7 @@
 		[chatServerMenu addItem:menuItem];
 	}
 
-	return [chatServerMenu autorelease];
+	return chatServerMenu;
 }
 
 @end

@@ -65,8 +65,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-
-	[super dealloc];
 }
 
 /*!
@@ -90,7 +88,7 @@
 	[nameView setFont:[NSFont fontWithName:@"Lucida Grande" size:12]];
 	
 	//Configure the state menu
-	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
+	statusMenu = [AIStatusMenu statusMenuWithDelegate:self];
 	
 	//Update the selections in our state menu when the active state changes
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -137,7 +135,6 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[statusMenu release];
 	
 	[super windowWillClose:notification];
 }
@@ -387,7 +384,7 @@
 		NSData *data = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		if (!data) data = [adium.preferenceController preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
-		image = [[[NSImage alloc] initWithData:data] autorelease];
+		image = [[NSImage alloc] initWithData:data];
 	}
 	
 	return image;
@@ -442,7 +439,6 @@
 	}
 	
 	[statusMenuView setMenu:menu];
-	[menu release];
 }
 
 /*
@@ -586,7 +582,6 @@
 								   keyEquivalent:@""];
 	[menuItem setEnabled:NO];
 	[menu addItem:menuItem];
-	[menuItem release];
 	
 	for (account in ownDisplayNameAccounts) {
 		//Put a check before the account if it is the active account
@@ -602,8 +597,6 @@
 		}
 		[menuItem setIndentationLevel:1];
 		[menu addItem:menuItem];
-		
-		[menuItem release];
 	}
 	
 	//Show "All Other Accounts" if some accounts are using the global preference
@@ -617,7 +610,6 @@
 		}
 		[menuItem setIndentationLevel:1];
 		[menu addItem:menuItem];
-		[menuItem release];
 	}
 	
 	[menu addItem:[NSMenuItem separatorItem]];
@@ -627,9 +619,8 @@
 										  action:@selector(nameViewChangeName:)
 								   keyEquivalent:@""];
 	[menu addItem:menuItem];
-	[menuItem release];	
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (void)updateNameView
@@ -668,8 +659,6 @@
 				}
 			}
 		}
-		
-		[onlineAccountsUsingGlobalPreference release];
 	}
 	
 	if ((!activeAccount && ![ownDisplayNameAccounts count]) || ([onlineAccounts count] == 1)) {
@@ -714,7 +703,7 @@
 //Install our toolbar
 - (void)_configureToolbar
 {
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_CONTACT_LIST] autorelease];
+    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_CONTACT_LIST];
 	
 	[toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
@@ -746,7 +735,7 @@
 	[statusAndIconItem setMaxSize:NSMakeSize(100000, [view_statusAndImage bounds].size.height)];
 	[statusAndIconItem setView:view_statusAndImage];
 	
-	return [statusAndIconItem autorelease];
+	return statusAndIconItem;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar

@@ -879,7 +879,7 @@
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptObjectSpecifier *containerRef = self.account.objectSpecifier;
-	return [[[NSNameSpecifier allocWithZone:[self zone]]
+	return [[[NSNameSpecifier alloc]
 		initWithContainerClassDescription:[containerRef keyClassDescription]
 		containerSpecifier:containerRef key:@"contacts" name:self.UID] autorelease];
 }

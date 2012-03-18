@@ -170,7 +170,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
  */
 - (NSMenu *)statusSubmenuNotifyingTarget:(id)target action:(SEL)selector
 {
-	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*menu = [[NSMenu alloc] init];
 	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 	AIStatusItem	*statusState;

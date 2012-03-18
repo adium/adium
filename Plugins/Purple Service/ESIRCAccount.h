@@ -33,8 +33,8 @@ typedef enum {
 
 }
 
-@property (readonly, nonatomic) NSString *defaultUsername;
-@property (readonly, nonatomic) NSString *defaultRealname;
+@property (weak, readonly, nonatomic) NSString *defaultUsername;
+@property (weak, readonly, nonatomic) NSString *defaultRealname;
 
 - (void)identifyForName:(NSString *)name password:(NSString *)inPassword;
 - (AIGroupChatFlags)flagsInChat:(AIChat *)chat;

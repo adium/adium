@@ -55,7 +55,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AITextAttachmentExtension *ret = [[[self class] allocWithZone:zone] init];
+	AITextAttachmentExtension *ret = [[[self class] alloc] init];
 	
 	if(ret == nil)
 		return nil;

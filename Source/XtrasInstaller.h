@@ -14,15 +14,15 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@interface XtrasInstaller : NSObject {
+@interface XtrasInstaller : NSObject <NSURLDownloadDelegate> {
 	IBOutlet NSWindow				*window;
 	IBOutlet NSProgressIndicator	*progressBar;
 	IBOutlet NSTextField			*infoText;
 	IBOutlet NSButton				*cancelButton;
 	
 	NSURLDownload					*download;
-	NSString						*dest;
-	NSString						*xtraName;
+	NSString						*__weak dest;
+	NSString						*__weak xtraName;
 
 	long long downloadSize;
 	long long amountDownloaded;
@@ -32,8 +32,8 @@
 -(void)installXtraAtURL:(NSURL *)url __attribute__((ns_consumes_self));
 +(XtrasInstaller *)installer __attribute__((objc_method_family(new)));
 
-@property (retain) NSURLDownload *download;
-@property (retain) NSString *dest;
-@property (retain) NSString *xtraName;
+@property (strong) NSURLDownload *download;
+@property (weak) NSString *dest;
+@property (weak) NSString *xtraName;
 
 @end

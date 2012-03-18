@@ -105,9 +105,7 @@
 
 - (void)dealloc
 {
-	[queuedEvents release]; queuedEvents = nil;
-	
-	[super dealloc];
+	queuedEvents = nil;
 }
 
 /*!
@@ -454,7 +452,6 @@
 		
         description = [NSString stringWithFormat:AILocalizedString(@"[%@] %@", "A Growl notification with a timestamp. The first %@ is the timestamp, the second is the main string"), [timeStampFormatter stringFromDate:dateStamp], description];
 		
-        [timeStampFormatter release];
 	}
     
 	
@@ -468,7 +465,7 @@
 									usingFilterType:AIFilterContactList
 									direction:AIFilterIncoming
 									context:listObject] string];
-		statusMessage = [[[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+		statusMessage = [[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy];
 		
 		/* If the message contains line breaks, start it on a new line */
 		description = [NSString stringWithFormat:@"%@:%@%@",
@@ -747,7 +744,7 @@
 	NSMutableAttributedString	*growlInfo;
 	
 	//Start with the window title, centered and bold
-	NSMutableParagraphStyle	*centeredStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	NSMutableParagraphStyle	*centeredStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[centeredStyle setAlignment:NSCenterTextAlignment];
 	
 	growlInfo = [[NSMutableAttributedString alloc] initWithString:(isUpdate ? GROWL_UPDATE_WINDOW_TITLE : GROWL_INSTALLATION_WINDOW_TITLE)
@@ -760,14 +757,14 @@
 	
 	//Now provide a default explanation
 	NSAttributedString *defaultExplanation;
-	defaultExplanation = [[[NSAttributedString alloc] initWithString:(isUpdate ? GROWL_UPDATE_EXPLANATION : GROWL_INSTALLATION_EXPLANATION)
+	defaultExplanation = [[NSAttributedString alloc] initWithString:(isUpdate ? GROWL_UPDATE_EXPLANATION : GROWL_INSTALLATION_EXPLANATION)
 														  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 															  [NSFont systemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
-															  nil]] autorelease];
+															  nil]];
 	
 	[growlInfo appendAttributedString:defaultExplanation];
 	
-	return [growlInfo autorelease];
+	return growlInfo;
 }
 
 @end

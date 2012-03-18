@@ -41,7 +41,7 @@
 	if (!nulString) {
 		UInt8 bytes[1];
 		bytes[0] = '\0';
-		nulString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, bytes, 1, kCFStringEncodingASCII, false);
+		nulString = (__bridge_transfer NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, bytes, 1, kCFStringEncodingASCII, false);
 	}
 
 	NSAttributedString *nulFreeAttributedString;
@@ -52,7 +52,7 @@
 										 withString:@""
 											options:NSLiteralSearch
 											  range:NSMakeRange(0, [temporaryString length])];
-		nulFreeAttributedString = [temporaryString autorelease];
+		nulFreeAttributedString = temporaryString;
 
 	} else {
 		nulFreeAttributedString = inAttributedString;

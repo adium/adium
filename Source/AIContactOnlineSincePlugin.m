@@ -56,16 +56,13 @@
             //Get day & time strings
 			__block NSString *currentDay, *signonDay, *signonTime;
 			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dayFormatter){
-				currentDay = [[dayFormatter stringForObjectValue:[NSDate date]] retain];
-				signonDay = [[dayFormatter stringForObjectValue:signonDate] retain];
+				currentDay = [dayFormatter stringForObjectValue:[NSDate date]];
+				signonDay = [dayFormatter stringForObjectValue:signonDate];
 			}];
-			[currentDay autorelease];
-			[signonDay autorelease];
 			
 			[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *timeFormatter){
-				signonTime = [[timeFormatter stringForObjectValue:signonDate] retain];
+				signonTime = [timeFormatter stringForObjectValue:signonDate];
 			}];
-			[signonTime autorelease];
             
             if ([currentDay isEqualToString:signonDay]) { //Show time
                 entry = [[NSAttributedString alloc] initWithString:signonTime];
@@ -77,7 +74,7 @@
         }
     }
 
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

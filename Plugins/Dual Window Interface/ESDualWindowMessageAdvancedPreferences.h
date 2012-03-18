@@ -42,7 +42,7 @@
 	IBOutlet	NSPopUpButton	*popUp_windowPosition;
 }
 
-@property (readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
+@property (weak, readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
 @property (readonly, nonatomic) AIWebkitStyleType currentTab;
 
 @end

@@ -35,7 +35,7 @@
     //Open the plist file
     arrayPath = [ownerBundle pathForResource:name ofType:@"plist"];    
 
-    return [[[NSArray alloc] initWithContentsOfFile:arrayPath] autorelease];
+    return [[NSArray alloc] initWithContentsOfFile:arrayPath];
 }
 
 - (NSComparisonResult)compare:(NSArray *)other

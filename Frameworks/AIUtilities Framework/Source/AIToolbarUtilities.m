@@ -27,7 +27,7 @@
 
 + (NSToolbarItem *)toolbarItemWithIdentifier:(NSString *)identifier label:(NSString *)label paletteLabel:(NSString *)paletteLabel toolTip:(NSString *)toolTip target:(id)target settingSelector:(SEL)settingSelector itemContent:(id)itemContent action:(SEL)action menu:(NSMenu *)menu
 {
-    NSToolbarItem 	*item = [[[NSToolbarItem alloc] initWithItemIdentifier:identifier] autorelease];
+    NSToolbarItem 	*item = [[NSToolbarItem alloc] initWithItemIdentifier:identifier];
     NSMenuItem 		*mItem;
 
     [item setLabel:label];
@@ -55,7 +55,7 @@
 	 */
     if (menu != NULL) {
         //We actually need an NSMenuItem here, so we construct one
-        mItem = [[[NSMenuItem alloc] init] autorelease];
+        mItem = [[NSMenuItem alloc] init];
         [mItem setSubmenu: menu];
         [mItem setTitle: [menu title]];
         [item setMenuFormRepresentation:mItem];
@@ -70,11 +70,11 @@
 	NSToolbarItem *newItem;
 	
 	item = [theDict objectForKey:itemIdentifier];
-	newItem = [[item copy] autorelease];
+	newItem = [item copy];
 
     if ([item view] != NULL) {
 		if ([[item view] respondsToSelector:@selector(copyWithZone:)]) {
-			[newItem setView:[[[item view] copy] autorelease]];
+			[newItem setView:[[item view] copy]];
 
 		} else {
 			/* For a toolbar only used in one window at a time, it's alright for a view to not allow copying.

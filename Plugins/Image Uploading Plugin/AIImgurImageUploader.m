@@ -45,11 +45,9 @@
 
 - (void)dealloc
 {
-	[resultData release]; resultData = nil;
-	[response release]; response = nil;
-	[responseParser release]; responseParser = nil;
-	
-	[super dealloc];
+	resultData = nil;
+	response = nil;
+	responseParser = nil;
 }
 
 #pragma mark Response parsing

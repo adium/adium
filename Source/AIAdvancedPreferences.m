@@ -82,8 +82,8 @@
 	//Close open panes
 	[loadedAdvancedPanes makeObjectsPerformSelector:@selector(closeView)];
 	[modularPane removeAllSubviews];
-	[loadedAdvancedPanes release]; loadedAdvancedPanes = nil;
-	[_advancedCategoryArray release]; _advancedCategoryArray = nil;
+	loadedAdvancedPanes = nil;
+	_advancedCategoryArray = nil;
 }
 
 /*!
@@ -92,7 +92,7 @@
 - (NSArray *)advancedCategoryArray
 {
     if (!_advancedCategoryArray) {
-        _advancedCategoryArray = [[[adium.preferenceController advancedPaneArray] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+        _advancedCategoryArray = [[adium.preferenceController advancedPaneArray] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     
     return _advancedCategoryArray;
@@ -106,11 +106,11 @@
 	//Close open panes
 	[loadedAdvancedPanes makeObjectsPerformSelector:@selector(closeView)];
 	[modularPane removeAllSubviews];
-	[loadedAdvancedPanes release]; loadedAdvancedPanes = nil;
+	loadedAdvancedPanes = nil;
 	
 	//Load new panes
 	if (preferencePane) {
-		loadedAdvancedPanes = [[NSArray arrayWithObject:preferencePane] retain];
+		loadedAdvancedPanes = [NSArray arrayWithObject:preferencePane];
 		[modularPane setPanes:loadedAdvancedPanes];
 	}
 }
@@ -122,7 +122,7 @@
 {	
 	[[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
 	
-	AIImageTextCell *cell = [[[AIImageTextCell alloc] initTextCell:@""] autorelease];
+	AIImageTextCell *cell = [[AIImageTextCell alloc] initTextCell:@""];
 	[cell setFont:[NSFont systemFontOfSize:11]];
 	[cell setLineBreakMode:NSLineBreakByTruncatingTail];
 	

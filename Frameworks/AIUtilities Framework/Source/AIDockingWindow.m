@@ -87,7 +87,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSWindowDidMoveNotification
 												  object:self];
-	[super dealloc];
 }
 
 //Watch the window move.  If it gets near an edge, dock it to that edge

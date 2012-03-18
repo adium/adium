@@ -53,7 +53,6 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
  */
 + (void)destroySharedInstance 
 {
-	[sharedNewMessageInstance autorelease]; 
 	sharedNewMessageInstance = nil;
 }
 

@@ -182,7 +182,7 @@
     [self showContactList:nil];
 	
 	//Userlist show/hide item
-	menuItem_toggleUserlist = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
+	menuItem_toggleUserlist = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																							 target:self
 																							 action:@selector(toggleUserlist:)
 																					  keyEquivalent:@"/"];
@@ -190,42 +190,40 @@
 	
 	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_Display_General];
 	
-	menuItem_toggleUserlistSide = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List Side", nil)
+	menuItem_toggleUserlistSide = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Toggle User List Side", nil)
 																				   target:self
 																				   action:@selector(toggleUserlistSide:)
 																			keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:menuItem_toggleUserlistSide toLocation:LOC_Display_General];
 
-	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
+	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																				target:self
 																				action:@selector(toggleUserlist:)
-																		 keyEquivalent:@""] autorelease];
+																		 keyEquivalent:@""];
 	
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_GroupChat_Action];
 	
 	// Clear display
-	menuItem_clearDisplay = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Clear Display", nil)
+	menuItem_clearDisplay = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Clear Display", nil)
 																				 target:self
 																				 action:@selector(clearDisplay:)
 																		  keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem_clearDisplay toLocation:LOC_Display_MessageControl];
 																			  
 	//Contact list menu item
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
 																				target:self
 																				action:@selector(toggleContactList:)
 																		 keyEquivalent:@"/"];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Fixed];
-	[adium.menuController addMenuItem:[[menuItem copy] autorelease] toLocation:LOC_Dock_Status];
-	[menuItem release];
+	[adium.menuController addMenuItem:[menuItem copy] toLocation:LOC_Dock_Status];
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Close Chat","Title for the close chat menu item")
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Close Chat","Title for the close chat menu item")
 																	target:self
 																	action:@selector(closeContextualChat:)
 															 keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_Tab_Action];
-	[menuItem release];
 	
 	// Authorization requests menu item
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle(@"Authorization Requests",nil, [NSBundle bundleForClass:[AIAuthorizationRequestsWindowController class]], nil)
@@ -234,7 +232,6 @@
 								   keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Auxiliary];
-	[menuItem release];
 
     //Observe content so we can open chats as necessary
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveContent:) 
@@ -264,21 +261,20 @@
 // Dealloc
 - (void)dealloc
 {
-    [contactListViewArray release]; contactListViewArray = nil;
-    [messageViewArray release]; messageViewArray = nil;
-    [interfaceArray release]; interfaceArray = nil;
+    contactListViewArray = nil;
+    messageViewArray = nil;
+    interfaceArray = nil;
 	
-    [tooltipListObject release]; tooltipListObject = nil;
-	[tooltipTitle release]; tooltipTitle = nil;
-	[tooltipBody release]; tooltipBody = nil;
-	[tooltipImage release]; tooltipImage = nil;
+    tooltipListObject = nil;
+	tooltipTitle = nil;
+	tooltipBody = nil;
+	tooltipImage = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
-	[recentlyClosedChats release]; recentlyClosedChats = nil;
+	recentlyClosedChats = nil;
 	
-    [super dealloc];
 }
 
 - (void)adiumDidFinishLoading:(NSNotification *)inNotification
@@ -294,13 +290,13 @@
 //Registers code to handle the interface
 - (void)registerInterfaceController:(id <AIInterfaceComponent>)inController
 {
-	if (!interfacePlugin) interfacePlugin = [inController retain];
+	if (!interfacePlugin) interfacePlugin = inController;
 }
 
 //Register code to handle the contact list
 - (void)registerContactListController:(id <AIMultiContactListComponent>)inController
 {
-	if (!contactListPlugin) contactListPlugin = [inController retain];
+	if (!contactListPlugin) contactListPlugin = inController;
 }
 
 //Preferences changed
@@ -554,7 +550,7 @@
 		// Replace the "Content" key in -openContainersAndChats with our version of the content.
 		// Remove the ActiveChat reference
 		// We use the same keys otherwise that -openContainersAndChats provides (Name, ID, Frame)
-		NSMutableDictionary *saveDict = [[dict mutableCopy] autorelease];
+		NSMutableDictionary *saveDict = [dict mutableCopy];
 
 		[saveDict removeObjectForKey:@"ActiveChat"];
 		
@@ -724,13 +720,9 @@
 					toContainerWithID:firstContainerID
 								index:-1];
 		}
-		
-		[openChats release];
 	}
 	
 	[self chatOrderDidChange];
-	
-	[openContainerIDs release];
 }
 
 - (void)moveChatToNewContainer:(AIChat *)inChat
@@ -776,7 +768,7 @@
 - (NSArray *)openChats
 {
 	if (!_cachedOpenChats) {
-		_cachedOpenChats = [[interfacePlugin openChats] retain];
+		_cachedOpenChats = [interfacePlugin openChats];
 	}
 	
 	return _cachedOpenChats;
@@ -813,7 +805,7 @@
  */
 - (void)_resetOpenChatsCache
 {
-	[_cachedOpenChats release]; _cachedOpenChats = nil;
+	_cachedOpenChats = nil;
 }
 
 - (IBAction)reopenChat:(id)sender
@@ -823,7 +815,7 @@
 		return;
 	}
 	
-	NSDictionary *chatDict = [[[recentlyClosedChats objectAtIndex:0] retain] autorelease];
+	NSDictionary *chatDict = [recentlyClosedChats objectAtIndex:0];
 	[recentlyClosedChats removeObjectAtIndex:0];
 	
 	AIChat			*chat = nil;
@@ -889,14 +881,14 @@
 {
 	AIChat	*previouslyActiveChat = activeChat;
 	
-	activeChat = [inChat retain];
+	activeChat = inChat;
 	
 	[self updateCloseMenuKeys];
 	[self updateActiveWindowMenuItem];
 	
 	if (inChat && (inChat != mostRecentActiveChat)) {
-		[mostRecentActiveChat release]; mostRecentActiveChat = nil;
-		mostRecentActiveChat = [inChat retain];
+		mostRecentActiveChat = nil;
+		mostRecentActiveChat = inChat;
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_BecameActive
@@ -915,8 +907,6 @@
 					 withObject:nil
 					 afterDelay:0];
 	}
-	
-	[previouslyActiveChat release];	
 }
 
 /*!
@@ -970,11 +960,11 @@
 	}
 	
 	if (inChat == activeChat) {
-		[activeChat release]; activeChat = nil;
+		activeChat = nil;
 	}
 	
 	if (inChat == mostRecentActiveChat) {
-		[mostRecentActiveChat release]; mostRecentActiveChat = nil;
+		mostRecentActiveChat = nil;
 	}
 }
 
@@ -1042,7 +1032,7 @@
  */
 - (IBAction)closeAllChats:(id)sender
 {
-	for (AIChat *chatToClose in [[interfacePlugin.openChats copy] autorelease]) {
+	for (AIChat *chatToClose in [interfacePlugin.openChats copy]) {
 		[self closeChat:chatToClose];
 	}
 }
@@ -1113,7 +1103,7 @@
     for (item in windowMenuArray) {
         [adium.menuController removeMenuItem:item];
     }
-    [windowMenuArray release]; windowMenuArray = [[NSMutableArray alloc] init];
+    windowMenuArray = [[NSMutableArray alloc] init];
 	
     //Messages window and any open messasges	
 	for (NSDictionary *containerDict in [interfacePlugin openContainersAndChats]) {
@@ -1122,12 +1112,11 @@
 		
 		//Add a menu item for the container
 		if (contentArray.count > 1) {
-			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:([containerName length] ? containerName : AILocalizedString(@"Chats", nil))
+			item = [[NSMenuItem alloc] initWithTitle:([containerName length] ? containerName : AILocalizedString(@"Chats", nil))
 																		target:nil
 																		action:nil
 																 keyEquivalent:@""];
 			[self _addItemToMainMenuAndDock:item];
-			[item release];
 		}
 		
 		//Add items for the chats it contains
@@ -1143,7 +1132,7 @@
 				windowKeyString = [NSString stringWithString:@""];
 			}
 			
-			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:chat.displayName
+			item = [[NSMenuItem alloc] initWithTitle:chat.displayName
 																		target:self
 																		action:@selector(showChatWindow:)
 																 keyEquivalent:windowKeyString];
@@ -1151,7 +1140,6 @@
 			[item setRepresentedObject:chat];
 			[item setImage:chat.chatMenuImage];
 			[self _addItemToMainMenuAndDock:item];
-			[item release];
 
 			windowKey++;
 		}
@@ -1176,7 +1164,6 @@
 	[item setKeyEquivalent:@""];
 	[adium.menuController addMenuItem:item toLocation:LOC_Dock_Status];
 	[windowMenuArray addObject:item];
-	[item release];
 }
 
 
@@ -1373,9 +1360,9 @@
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
 {
 	[self displayQuestion:inTitle
-withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
+withAttributedDescription:[[NSAttributedString alloc] initWithString:inDesc
 														   attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:0]
-																								  forKey:NSFontAttributeName]] autorelease]
+																								  forKey:NSFontAttributeName]]
 		  withWindowTitle:inWindowTitle
 			defaultButton:inDefaultButton
 		  alternateButton:inAlternateButton
@@ -1393,11 +1380,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     //Setup the timer if we don't have one yet
     if (!flashObserverArray) {
         flashObserverArray = [[NSMutableArray alloc] init];
-        flashTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0/2.0) 
+        flashTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0/2.0) 
                                                        target:self 
                                                      selector:@selector(flashTimer:) 
                                                      userInfo:nil
-                                                      repeats:YES] retain];
+                                                      repeats:YES];
     }
     
     //Add the new observer to the array
@@ -1412,9 +1399,9 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     
     //Release the observer array and uninstall the timer
     if ([flashObserverArray count] == 0) {
-        [flashObserverArray release]; flashObserverArray = nil;
+        flashObserverArray = nil;
         [flashTimer invalidate];
-        [flashTimer release]; flashTimer = nil;
+        flashTimer = nil;
     }
 }
 
@@ -1423,7 +1410,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 {
 	flashState++;
 
-	for (id<AIFlashObserver>observer in [[flashObserverArray copy] autorelease]) {
+	for (id<AIFlashObserver>observer in [flashObserverArray copy]) {
 		[observer flash:flashState];
 	}
 }
@@ -1485,32 +1472,30 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
             NSMutableParagraphStyle     *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
             
             //Hold onto the new object
-            [tooltipListObject release]; tooltipListObject = [object retain];
+			tooltipListObject = object;
             
             //Buddy Icon
-            [tooltipImage release];
-			tooltipImage = [[tooltipListObject userIcon] retain];
-			if (!tooltipImage) tooltipImage = [[AIServiceIcons serviceIconForObject:tooltipListObject
+			tooltipImage = [tooltipListObject userIcon];
+			if (!tooltipImage) tooltipImage = [AIServiceIcons serviceIconForObject:tooltipListObject
 																			 type:AIServiceIconLarge
-																		direction:AIIconNormal] retain];
+																		direction:AIIconNormal];
             
             //Reset the maxLabelWidth for the tooltip generation
             maxLabelWidth = 0;
             
             //Build a tooltip string for the primary information
-            [tooltipTitle release]; tooltipTitle = [[self _tooltipTitleForObject:object] retain];
+			tooltipTitle = [self _tooltipTitleForObject:object];
             
             //If there is an image, set the title tab and indentation settings independently
             if (tooltipImage) {
                 //Set a right-align tab at the maximum label width and a left-align just past it
-                tabArray = [[NSArray alloc] initWithObjects:[[[NSTextTab alloc] initWithType:NSRightTabStopType 
-																					location:maxLabelWidth] autorelease]
-                                                            ,[[[NSTextTab alloc] initWithType:NSLeftTabStopType 
-                                                                                   location:maxLabelWidth + LABEL_ENTRY_SPACING] autorelease]
+                tabArray = [[NSArray alloc] initWithObjects:[[NSTextTab alloc] initWithType:NSRightTabStopType 
+																					location:maxLabelWidth]
+                                                            ,[[NSTextTab alloc] initWithType:NSLeftTabStopType 
+                                                                                   location:maxLabelWidth + LABEL_ENTRY_SPACING]
                                                             ,nil];
                 
                 [paragraphStyleTitle setTabStops:tabArray];
-                [tabArray release];
                 tabArray = nil;
                 [paragraphStyleTitle setHeadIndent:(maxLabelWidth + LABEL_ENTRY_SPACING)];
                 
@@ -1523,17 +1508,16 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
             }
             
             //Build a tooltip string for the secondary information
-            [tooltipBody release]; tooltipBody = nil;
-            tooltipBody = [[self _tooltipBodyForObject:object] retain];
+			tooltipBody = nil;
+            tooltipBody = [self _tooltipBodyForObject:object];
             
             //Set a right-align tab at the maximum label width for the body and a left-align just past it
-            tabArray = [[NSArray alloc] initWithObjects:[[[NSTextTab alloc] initWithType:NSRightTabStopType 
-                                                                                 location:maxLabelWidth] autorelease]
-                                                        ,[[[NSTextTab alloc] initWithType:NSLeftTabStopType 
-                                                                                location:maxLabelWidth + LABEL_ENTRY_SPACING] autorelease]
+            tabArray = [[NSArray alloc] initWithObjects:[[NSTextTab alloc] initWithType:NSRightTabStopType 
+                                                                                 location:maxLabelWidth]
+                                                        ,[[NSTextTab alloc] initWithType:NSLeftTabStopType 
+                                                                                location:maxLabelWidth + LABEL_ENTRY_SPACING]
                                                         ,nil];
             [paragraphStyle setTabStops:tabArray];
-            [tabArray release];
             [paragraphStyle setHeadIndent:(maxLabelWidth + LABEL_ENTRY_SPACING)];
             
             [tooltipBody addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0,[tooltipBody length])];
@@ -1551,8 +1535,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
                                              atPoint:point 
                                          orientation:TooltipBelow];
 			
-			[paragraphStyleTitle release];
-			[paragraphStyle release];
         }
         
     } else {
@@ -1564,11 +1546,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
                                             onWindow:nil
                                              atPoint:point
                                          orientation:TooltipBelow];
-            [tooltipListObject release]; tooltipListObject = nil;
+            tooltipListObject = nil;
 			
-			[tooltipTitle release]; tooltipTitle = nil;
-			[tooltipBody release]; tooltipBody = nil;
-			[tooltipImage release]; tooltipImage = nil;
+			tooltipTitle = nil;
+			tooltipBody = nil;
+			tooltipImage = nil;
         }
     }
 }
@@ -1616,7 +1598,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	if (formattedUID && (!([[[displayName string] compactedString] isEqualToString:[formattedUID compactedString]]))) {
 		[titleString appendString:[NSString stringWithFormat:@" (%@)", formattedUID] withAttributes:titleDict];
 	}
-	[displayName release];
     	
     if ([object isKindOfClass:[AIListGroup class]]) {
         [titleString appendString:[NSString stringWithFormat:@" (%ld/%ld)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object countOfContainedObjects]] 
@@ -1643,13 +1624,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
                 
                 //The largest size should be the label's size plus the distance to the next tab at least a space past its end
                 labelWidth = [labelAttribString size].width;
-                [labelAttribString release];
                 
                 if (labelWidth > maxLabelWidth)
                     maxLabelWidth = labelWidth;
             }
         }
-        [entryString release];
     }
     
     //Add labels plus entires to the toolTip
@@ -1670,13 +1649,12 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
         
         //Add the label (with its spacing)
         [titleString appendAttributedString:labelAttribString];
-		[labelAttribString release];
 
 		[entryString addAttributes:entryDict range:NSMakeRange(0,[entryString length])];
         [titleString appendAttributedString:entryString];
     }
 
-    return [titleString autorelease];
+    return titleString;
 }
 
 - (NSMutableAttributedString *)_tooltipBodyForObject:(AIListObject *)object
@@ -1715,18 +1693,16 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 				
 				//The largest size should be the label's size plus the distance to the next tab at least a space past its end
 				labelWidth = labelAttribString.size.width;
-				[labelAttribString release];
 				
 				if (labelWidth > maxLabelWidth)
 					maxLabelWidth = labelWidth;
 			}
 		}
-		[entryString release];
 	}
 		
     //Add labels plus entires to the toolTip
     labelEnumerator = [labelArray objectEnumerator];
-    for (NSMutableAttributedString *entryString in entryArray) {
+    for (__strong NSMutableAttributedString *entryString in entryArray) {
         NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@:\t",[labelEnumerator nextObject]]
 																						attributes:labelDict];
         
@@ -1739,7 +1715,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
         
         //Add the label (with its spacing)
         [tipString appendAttributedString:labelString];
-        [labelString release];
 
         NSRange fullLength = NSMakeRange(0, [entryString length]);
         
@@ -1764,10 +1739,9 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		
 		[entryString addAttributes:entryDict range:NSMakeRange(0,[entryString length])];
         [tipString appendAttributedString:entryString];
-		[entryString release];
     }
 
-    return [tipString autorelease];
+    return tipString;
 }
 
 //Custom pasting ----------------------------------------------------------------------------------------------------
@@ -1993,39 +1967,36 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 #pragma mark Window levels
 - (NSMenu *)menuForWindowLevelsNotifyingTarget:(id)target
 {
-	NSMenu		*windowPositionMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu		*windowPositionMenu = [[NSMenu alloc] init];
 	NSMenuItem	*menuItem;
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Above other windows",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Above other windows",nil)
 																	target:target
 																	action:@selector(selectedWindowLevel:)
 															 keyEquivalent:@""];
 	[menuItem setEnabled:YES];
 	[menuItem setTag:AIFloatingWindowLevel];
 	[windowPositionMenu addItem:menuItem];
-	[menuItem release];
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Normally",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Normally",nil)
 																	target:target
 																	action:@selector(selectedWindowLevel:)
 															 keyEquivalent:@""];
 	[menuItem setEnabled:YES];
 	[menuItem setTag:AINormalWindowLevel];
 	[windowPositionMenu addItem:menuItem];
-	[menuItem release];
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Below other windows",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Below other windows",nil)
 																	target:target
 																	action:@selector(selectedWindowLevel:)
 															 keyEquivalent:@""];
 	[menuItem setEnabled:YES];
 	[menuItem setTag:AIDesktopWindowLevel];
 	[windowPositionMenu addItem:menuItem];
-	[menuItem release];
 	
 	[windowPositionMenu setAutoenablesItems:NO];
 
-	return [windowPositionMenu autorelease];
+	return windowPositionMenu;
 }
 
 -(void)toggleUserlist:(id)sender

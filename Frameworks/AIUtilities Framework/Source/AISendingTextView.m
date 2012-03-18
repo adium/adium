@@ -70,13 +70,6 @@
 	sendingEnabled = YES;
 }
 
-- (void)dealloc
-{
-	[returnArray release];
-	
-	[super dealloc];
-}
-
 //If true we will invoke selector on target when a send key is pressed
 @synthesize sendingEnabled;
 

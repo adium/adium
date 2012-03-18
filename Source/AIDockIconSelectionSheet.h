@@ -21,28 +21,28 @@
 
 @interface AIDockIconSelectionSheet : AIWindowController <AIImageCollectionViewDelegate> {
 @private
-	IBOutlet AIImageCollectionView *imageCollectionView;
-	IBOutlet NSButton *okButton;
+	IBOutlet AIImageCollectionView *__weak imageCollectionView;
+	IBOutlet NSButton *__weak okButton;
     
 	NSMutableArray *icons;
-	NSMutableArray *iconsData;
+	NSMutableArray *__weak iconsData;
 		
 	// Currently animated icon state and its index
-    AIIconState *animatedIconState;
+    AIIconState *__weak animatedIconState;
 	NSInteger animatedIndex;
-	NSTimer *animationTimer;
+	NSTimer *__weak animationTimer;
 	
 	// Previous selected icon
 	NSUInteger previousIndex;
 }
 
-@property (assign) IBOutlet AIImageCollectionView *imageCollectionView;
-@property (assign) IBOutlet NSButton *okButton;
+@property (weak) IBOutlet AIImageCollectionView *imageCollectionView;
+@property (weak) IBOutlet NSButton *okButton;
 @property (copy) NSMutableArray *icons;
-@property (retain) NSMutableArray *iconsData;
-@property (retain) AIIconState *animatedIconState;
+@property (weak) NSMutableArray *iconsData;
+@property (weak) AIIconState *animatedIconState;
 @property (assign) NSInteger animatedIndex;
-@property (retain) NSTimer *animationTimer;
+@property (weak) NSTimer *animationTimer;
 @property (assign) NSUInteger previousIndex;
 
 - (void)openOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));

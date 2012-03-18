@@ -54,9 +54,7 @@
 
 - (void)viewDidLoad
 {
-	[servicesList release];
-	
-	servicesList = [((AIURLHandlerPlugin *)plugin).uniqueSchemes retain];
+	servicesList = ((AIURLHandlerPlugin *)plugin).uniqueSchemes;
 	
 	[self configureTableView];
 	[self initializeServiceInformationForSchemes:servicesList];
@@ -71,13 +69,6 @@
 																   group:GROUP_URL_HANDLING] boolValue]];
 	
 	[super viewDidLoad];
-}
-
-- (void)dealloc
-{
-	[servicesList release];
-	[services release];
-	[super dealloc];
 }
 
 #pragma mark Actions
@@ -103,7 +94,7 @@
 #pragma mark Scheme information
 - (void)initializeServiceInformationForSchemes:(NSArray *)schemes
 {
-	[services release]; services = [[NSMutableDictionary alloc] init];
+	services = [[NSMutableDictionary alloc] init];
 	
 	for (NSString *scheme in schemes) {
 		[services setObject:[NSMutableDictionary dictionary] forKey:scheme];
@@ -116,7 +107,7 @@
 	NSMenu					*menu = [servicesInformation objectForKey:@"applicationsMenu"];
 	
 	if (!menu) {
-		menu = [[[NSMenu alloc] init] autorelease];
+		menu = [[NSMenu alloc] init];
 		
 		for (NSDictionary *application in [self applicationDictionaryArrayForScheme:scheme]) {
 			NSMenuItem *menuItem = [menu addItemWithTitle:[application objectForKey:@"ApplicationName"]
@@ -140,13 +131,13 @@
 	NSArray					*applications = [servicesInformation objectForKey:@"applications"];
 	
 	if (!applications) {
-		NSArray					*applicationArray = [(NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme) autorelease];
+		NSArray					*applicationArray = (__bridge_transfer NSArray *)LSCopyAllHandlersForURLScheme((__bridge CFStringRef)scheme);
 		NSMutableArray			*mutableApplications = [NSMutableArray array];
 		
 		for (NSString *bundleID in applicationArray) {
 			// File System Ref for this bundle ID
 			FSRef		fileSystemRef;
-			OSStatus	err = LSFindApplicationForInfo(kLSUnknownCreator, (CFStringRef)bundleID, NULL, &fileSystemRef, NULL);
+			OSStatus	err = LSFindApplicationForInfo(kLSUnknownCreator, (__bridge CFStringRef)bundleID, NULL, &fileSystemRef, NULL);
 			
 			if (err == kLSApplicationNotFoundErr) {
 				return nil;
@@ -168,7 +159,7 @@
 				return nil;
 			}
 			
-			NSImage *image = [[[NSImage alloc] initWithIconRef:iconRef] autorelease];
+			NSImage *image = [[NSImage alloc] initWithIconRef:iconRef];
 			
 			[mutableApplications addObject:[NSDictionary dictionaryWithObjectsAndKeys:bundleID.lowercaseString, @"BundleID",
 											applicationName, @"ApplicationName",
@@ -223,7 +214,6 @@
 	AIImageTextCell		*imageTextCell = [[AIImageTextCell alloc] init];
 	[imageTextCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 	[[tableView tableColumnWithIdentifier:@"service"] setDataCell:imageTextCell];
-	[imageTextCell release];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView

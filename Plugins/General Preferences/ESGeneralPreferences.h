@@ -42,6 +42,6 @@
 
 - (IBAction)configureLogCertainAccounts:(id)sender;
 
-@property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
+@property (nonatomic, strong) SRRecorderControl *shortcutRecorder;
 
 @end

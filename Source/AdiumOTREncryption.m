@@ -85,9 +85,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 {
 	//Singleton
 	if (adiumOTREncryption) {
-		[self release];
-		
-		return [adiumOTREncryption retain];
+		return adiumOTREncryption;
 	}
 
 	if ((self = [super init])) {
@@ -169,15 +167,12 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 									 object:nil];
 
 	//Add the Encryption preferences
-	OTRPrefs = [(ESOTRPreferences *)[ESOTRPreferences preferencePane] retain];
+	OTRPrefs = (ESOTRPreferences *)[ESOTRPreferences preferencePane];
 }
 
 - (void)dealloc
 {
-	[OTRPrefs release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 
@@ -943,7 +938,7 @@ void update_security_details_for_chat(AIChat *inChat)
 		
 		if (securityDetailsDict) {
 			NSString				*format, *description;
-			fullSecurityDetailsDict = [[securityDetailsDict mutableCopy] autorelease];
+			fullSecurityDetailsDict = [securityDetailsDict mutableCopy];
 			
 			/* Encrypted by Off-the-Record Messaging
 				*
@@ -1229,7 +1224,7 @@ OtrlUserState otrg_get_userstate(void)
 
 - (NSString *)upgradedPrivateKeyFromFile:(NSString *)inPath
 {
-	NSMutableString	*sourcePrivateKey = [[[NSString stringWithContentsOfUTF8File:inPath] mutableCopy] autorelease];
+	NSMutableString	*sourcePrivateKey = [[NSString stringWithContentsOfUTF8File:inPath] mutableCopy];
 	AILog(@"Upgrading private keys at %@ gave %@",inPath,sourcePrivateKey);
 	if (!sourcePrivateKey || ![sourcePrivateKey length]) return nil;
 
@@ -1373,7 +1368,6 @@ OtrlUserState otrg_get_userstate(void)
 					  atomically:YES
 						encoding:NSUTF8StringEncoding
 						   error:NULL];
-		[privateKeys release];
 
 		NSMutableString *fingerprints = [[NSString stringWithContentsOfUTF8File:fingerprintsPath] mutableCopy];
 		[fingerprints replaceOccurrencesOfString:@"libgaim"
@@ -1384,7 +1378,6 @@ OtrlUserState otrg_get_userstate(void)
 					   atomically:YES
 						 encoding:NSUTF8StringEncoding
 							error:NULL];
-		[fingerprints release];
 
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 											 forKey:@"Libgaim_to_Libpurple_Update"

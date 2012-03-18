@@ -54,7 +54,7 @@
 
 	/* Loading and using the real file icons is slow, and all the sound files should have the same icons anyway.  So
 	 * we can cheat and load a sound icon from our bundle here (for all the menu items) for a nice speed boost. */
-	if (!soundFileIcon) soundFileIcon = [[NSImage imageNamed:@"SoundFileIcon" forClass:[self class]] retain];
+	if (!soundFileIcon) soundFileIcon = [NSImage imageNamed:@"SoundFileIcon" forClass:[self class]];
 	
 	//Prepare our sound menu
     [popUp_actionDetails setMenu:[self soundListMenu]];
@@ -71,7 +71,7 @@
 	NSString		*soundPath = [[popUp_actionDetails selectedItem] representedObject];
 	[adium.soundController stopPlayingSoundAtPath:soundPath];
 
-	[soundFileIcon release]; soundFileIcon = nil;
+	soundFileIcon = nil;
 	[super viewWillClose];
 }
 
@@ -149,13 +149,13 @@
 		NSAssert1(soundSetName != nil, @"Sound set does not have a name: %@", soundSet);
 		
 		if (soundSetContents && [soundSetContents count]) {
-			NSMenu	*soundsetMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+			NSMenu	*soundsetMenu = [[NSMenu alloc] init];
 
 			//Add an item for the set
-			menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:soundSetName
+			menuItem = [[NSMenuItem alloc] initWithTitle:soundSetName
 																			 target:nil
 																			 action:nil
-																	  keyEquivalent:@""] autorelease];
+																	  keyEquivalent:@""];
 			
 			//Add an item for each sound
 			for (soundPath in soundSetContents) {
@@ -163,7 +163,6 @@
 			}
 			
 			[menuItem setSubmenu:soundsetMenu];
-			[soundsetMenu release];
 
 			[soundMenu addItem:menuItem];
 		}
@@ -173,14 +172,14 @@
 	[soundMenu addItem:[NSMenuItem separatorItem]];
 
 	//Add the "Other..." item
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:OTHER_ELLIPSIS
+	menuItem = [[NSMenuItem alloc] initWithTitle:OTHER_ELLIPSIS
 																	 target:self
 																	 action:@selector(selectSound:)
-															  keyEquivalent:@""] autorelease];            
+															  keyEquivalent:@""];            
 	[soundMenu addItem:menuItem];
 	[soundMenu setAutoenablesItems:NO];
 	
-    return [soundMenu autorelease];
+    return soundMenu;
 }
 
 /*!
@@ -189,10 +188,10 @@
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu
 {
 	NSString	*soundTitle = [[soundPath lastPathComponent] stringByDeletingPathExtension];
-	NSMenuItem	*menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:soundTitle
+	NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:soundTitle
 																				  target:self
 																				  action:@selector(selectSound:)
-																		   keyEquivalent:@""] autorelease];
+																		   keyEquivalent:@""];
 	
 	[menuItem setRepresentedObject:[soundPath stringByCollapsingBundlePath]];
 	[menuItem setImage:soundFileIcon];

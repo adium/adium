@@ -38,7 +38,7 @@
 
 + (ESFileTransferProgressRow *)rowForFileTransfer:(ESFileTransfer *)inFileTransfer withOwner:(id)inOwner
 {
-	return [[[ESFileTransferProgressRow alloc] initForFileTransfer:inFileTransfer withOwner:inOwner] autorelease];
+	return [[ESFileTransferProgressRow alloc] initForFileTransfer:inFileTransfer withOwner:inOwner];
 }
 
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer withOwner:(id)inOwner
@@ -47,7 +47,7 @@
 		sizeString = nil;
 		forceUpdate = NO;
 
-		fileTransfer = [inFileTransfer retain];
+		fileTransfer = inFileTransfer;
 		[fileTransfer setDelegate:self];
 
 		owner = inOwner;
@@ -65,14 +65,11 @@
 {
 	owner = nil;
 	[fileTransfer setDelegate:nil];
-	[fileTransfer release];
-	[view release]; view = nil;
-	[sizeString release]; sizeString = nil;
+	view = nil;
+	sizeString = nil;
 	
-	[bytesSentQueue release]; bytesSentQueue = nil;
-	[updateTickQueue release]; updateTickQueue = nil;
-
-	[super dealloc];
+	bytesSentQueue = nil;
+	updateTickQueue = nil;
 }
 
 - (ESFileTransfer *)fileTransfer
@@ -128,8 +125,7 @@
 {
 	size = inSize;
 	
-	[sizeString release];
-	sizeString = [[adium.fileTransferController stringForSize:size] retain];
+	sizeString = [adium.fileTransferController stringForSize:size];
 }
 
 - (void)fileTransfer:(ESFileTransfer *)inFileTransfer didSetLocalFilename:(NSString *)inLocalFilename
@@ -173,8 +169,7 @@
 	if (!size) {
 		size = [inFileTransfer size];
 		
-		[sizeString release];
-		sizeString = [[adium.fileTransferController stringForSize:size] retain];
+		sizeString = [adium.fileTransferController stringForSize:size];
 	}
 
 	switch (status) {
@@ -383,41 +378,41 @@
 #pragma mark Contextual menu
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-	NSMenu		*contextualMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*contextualMenu = [[NSMenu alloc] init];
 	NSMenuItem  *menuItem;
 	
 	//Allow open and show in finder on complete incoming transfers and all outgoing transfers
 	if (([fileTransfer status] == Complete_FileTransfer) ||
 	   ([fileTransfer fileTransferType] == Outgoing_FileTransfer)) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Open",nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Open",nil)
 																		 target:self
 																		 action:@selector(openFileAction:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[contextualMenu addItem:menuItem];
 
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Show in Finder",nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show in Finder",nil)
 																		 target:self
 																		 action:@selector(revealAction:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[contextualMenu addItem:menuItem];
 		
 	}	
 
 	if ([fileTransfer isStopped]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Remove from List",nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Remove from List",nil)
 																		 target:self
 																		 action:@selector(removeRowAction:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[contextualMenu addItem:menuItem];	
 	} else {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Cancel",nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Cancel",nil)
 																		 target:self
 																		 action:@selector(stopResumeAction:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[contextualMenu addItem:menuItem];
 	}	
 	
-	return [contextualMenu autorelease];
+	return contextualMenu;
 }
 
 //Pass height change information on to our owner
@@ -444,7 +439,7 @@
 	
 	if ( secs < 0 ) secs *= -1;
 	
-	breaks = [[[desc allKeys] mutableCopy] autorelease];
+	breaks = [[desc allKeys] mutableCopy];
 	[breaks sortUsingSelector:@selector( compare: )];
 	
 	while ( i < [breaks count] && secs >= (NSTimeInterval) [[breaks objectAtIndex:i] unsignedIntegerValue] ) i++;

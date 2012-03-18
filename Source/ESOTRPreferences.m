@@ -53,9 +53,9 @@
 	viewIsOpen = YES;
 
 	//Account Menu
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 	
 	//Fingerprints
 	[tableView_fingerprints setDelegate:self];
@@ -74,8 +74,8 @@
 - (void)viewWillClose
 {
 	viewIsOpen = NO;
-	[fingerprintDictArray release]; fingerprintDictArray = nil;
-	[accountMenu release]; accountMenu = nil;
+	fingerprintDictArray = nil;
+	accountMenu = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Account_ListChanged
@@ -87,10 +87,9 @@
  */
 - (void)dealloc
 {
-	[fingerprintDictArray release]; fingerprintDictArray = nil;
+	fingerprintDictArray = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[super dealloc];
 }
 
 /*!
@@ -106,7 +105,6 @@
 		ConnContext		*context;
 		Fingerprint		*fingerprint;
 
-		[fingerprintDictArray release];
 		fingerprintDictArray = [[NSMutableArray alloc] init];
 		
 		for (context = otrg_plugin_userstate->context_root; context != NULL;

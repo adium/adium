@@ -51,25 +51,23 @@
 
 - (void)dealloc
 {
-	[children release]; children = nil;
-	[attributes release]; attributes = nil;
-	[name release]; name = nil;
-	
-	[super dealloc];
+	children = nil;
+	attributes = nil;
+	name = nil;
 }
 
 - (int) type {
     return type;
 }
 - (NSArray *)children {
-    return [[children copy] autorelease];
+    return [children copy];
 }
 - (void) addChild:(AWEzvXMLNode *)node {
     [children addObject:node];
 }
 
 - (NSDictionary *)attributes {
-    return [[attributes copy] autorelease];
+    return [attributes copy];
 }
 
 - (void) addAttribute:(NSString *)property withValue:(NSString *)value {
@@ -88,8 +86,7 @@
 
 - (void) setName:(NSString *)theName {
 	if (name != theName) {
-        [name release];
-		name = [theName retain];
+		name = theName;
 	}
 }
 
@@ -99,17 +96,17 @@
     AWEzvXMLNode	*node;
     
     if (type == AWEzvXMLText) {
-        string = [[name mutableCopy] autorelease];
+        string = [name mutableCopy];
         [string replaceOccurrencesOfString:@"&" withString:@"&amp;" 
 								   options:NSLiteralSearch range:NSMakeRange(0, [string length])];
         [string replaceOccurrencesOfString:@"<" withString:@"&lt;" 
 								   options:NSLiteralSearch range:NSMakeRange(0, [string length])];
         [string replaceOccurrencesOfString:@">" withString:@"&gt;" 
 								   options:NSLiteralSearch range:NSMakeRange(0, [string length])];
-        return [[string copy] autorelease];
+        return [string copy];
 
     } else if (type == AWEzvXMLRaw) {
-		return [[name copy] autorelease];
+		return [name copy];
     }
     
     string = [NSMutableString stringWithString:@"<"];
@@ -130,7 +127,7 @@
     
     [string appendFormat:@"</%@>", name];
     
-    return [[string copy] autorelease];
+    return [string copy];
 }
 
 - (NSString *)description

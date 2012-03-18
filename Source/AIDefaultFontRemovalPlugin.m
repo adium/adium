@@ -30,12 +30,6 @@
 	[adium.contentController unregisterContentFilter:self];
 }
 
-- (void)dealloc
-{
-	[defaultRemovedAttributes release];
-	[super dealloc];
-}
-
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
 {
 	if (!inAttributedString || ![inAttributedString length]) return inAttributedString;
@@ -47,10 +41,10 @@
 																			 group:PREF_GROUP_FORMATTING
 																			object:nil] representedFont];
 		
-		defaultRemovedAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
+		defaultRemovedAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 									 defaultFont, NSFontAttributeName,
 									 [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f], NSBackgroundColorAttributeName,
-									 nil] retain];
+									 nil];
 	}
 	
 	for (NSString *attributeName in defaultRemovedAttributes.allKeys) {
@@ -70,7 +64,7 @@
 		}
 	}
 	
-	return [mutableString autorelease];
+	return mutableString;
 }
 
 /*!

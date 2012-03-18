@@ -92,9 +92,9 @@
  */
 - (void)respondIfReady:(NSNotification *)inNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	[self applescriptRunnerIsReady];
-	[pool release];
+	}
 }
 
 /*!
@@ -104,7 +104,7 @@
  */
 - (void)executeScript:(NSNotification *)inNotification
 {
-	NSAutoreleasePool		*pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	NSDictionary			*userInfo = [inNotification userInfo];
 
@@ -156,7 +156,6 @@
 				}
 
 				[containerEvent setParamDescriptor:arguments forKeyword:keyDirectObject];
-				[arguments release];
 			}
 			
 			//Execute the event
@@ -175,12 +174,11 @@
 																	 (resultString ? resultString : @""), @"resultString",
 																	 nil]
 													   deliverImmediately:NO];
-	[appleScript release];
 
 	//Reset the automatic quit timer
 	[self resetAutomaticQuitTimer];
 
-	[pool release];
+	}
 }
 
 /*!
@@ -217,7 +215,7 @@
 
 int main(int argc, const char *argv[])
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	{
 		AIApplescriptRunner		*applescriptRunner;
 		NSProcessInfo			*processInfo;
@@ -268,8 +266,7 @@ int main(int argc, const char *argv[])
 			[[NSNotificationCenter defaultCenter] postNotification:notification];
 		}
 
-		[applescriptRunner release];
 	}
-	[pool release];
+	}
 	return EXIT_SUCCESS;
 }

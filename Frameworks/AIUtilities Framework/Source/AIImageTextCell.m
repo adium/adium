@@ -49,10 +49,7 @@
 //Dealloc
 - (void)dealloc
 {
-	[font release]; font = nil;
-	[subString release];
-
-	[super dealloc];
+	font = nil;
 }
 
 //Copy
@@ -98,8 +95,7 @@
 - (void)setFont:(NSFont *)inFont
 {
     if (font != inFont) {
-        [font release];
-        font = [inFont retain];
+        font = inFont;
     }
 }
 - (NSFont *)font
@@ -112,8 +108,7 @@
 - (void)setSubString:(NSString *)inSubString
 {
 	if (subString != inSubString) {
-		[subString release];
-		subString = [inSubString retain];
+		subString = inSubString;
 	}
 }
 
@@ -422,8 +417,6 @@
 			[NSGraphicsContext restoreGraphicsState];
 		}
 
-		[attributedMainString release];
-
 		//Draw the substring
 		if (subString) {
 			NSAffineTransform *subStringTranslation = [NSAffineTransform transform];
@@ -433,7 +426,6 @@
 			//Draw the substring
 			[attributedSubString drawInRect:cellFrame];
 		}
-		[attributedSubString release];
 	}
 
 	[NSGraphicsContext restoreGraphicsState];
