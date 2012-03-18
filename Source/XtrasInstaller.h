@@ -14,7 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@interface XtrasInstaller : NSObject {
+#import "AIOSCompatibility.h"
+
+@interface XtrasInstaller : NSObject <NSURLDownloadDelegate> {
 	IBOutlet NSWindow				*window;
 	IBOutlet NSProgressIndicator	*progressBar;
 	IBOutlet NSTextField			*infoText;
