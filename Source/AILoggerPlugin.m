@@ -1454,7 +1454,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs > 0 && bself.indexingAllowed) {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				__block NSString *__logPath;
+				__block NSString *__logPath = nil;
 				NSString  *logPath = nil;
 				
 				dispatch_sync(dirtyLogSetMutationQueue, ^{
