@@ -146,6 +146,7 @@ struct _mark {
 				
 				point = NSMakePoint( ( sFlags.isHoriz ? 0.f : width ), ( sFlags.isHoriz ? width : 0.f ) );
 				[line relativeLineToPoint:point];
+				[line setLineWidth:2];
 				[lineArray addObject:mark.color];
 				[lineArray addObject:line];
 			} else {
