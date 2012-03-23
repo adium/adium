@@ -1138,9 +1138,9 @@
 			if (windowKey < 10) {
 				windowKeyString = [NSString stringWithFormat:@"%ld", (windowKey)];
 			} else if (windowKey == 10) {
-				windowKeyString = [NSString stringWithString:@"0"];
+				windowKeyString = @"0";
 			} else {
-				windowKeyString = [NSString stringWithString:@""];
+				windowKeyString = @"";
 			}
 			
 			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:chat.displayName
