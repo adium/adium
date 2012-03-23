@@ -441,7 +441,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 			else
 				displayString = [NSString stringWithString:name];
 		} else {
-			displayString = [NSString stringWithString:@""];
+			displayString = @"";
 		}
 
 		return displayString;

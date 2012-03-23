@@ -61,6 +61,7 @@ struct _mark {
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
+	//Use -scrollerWidthForControlSize:scrollerStyle: on 10.7+
 	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
 	
 	CGFloat scale = [self scaleToContentView];

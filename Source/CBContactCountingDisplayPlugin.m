@@ -164,7 +164,7 @@
 		} else if (inGroup != adium.contactController.offlineGroup) {
 			countString = [NSString stringWithFormat:@"%lu", onlineObjects];
 		} else {
-			countString = [NSString stringWithString:@""];
+			countString = @"";
 		}
 
 		[inGroup setValue:countString
