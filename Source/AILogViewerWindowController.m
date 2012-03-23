@@ -428,6 +428,9 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 	//Toolbar
 	[self installToolbar];
+	
+	//Setting this autosave in the nib doesn't work properly
+	[splitView_contacts setAutosaveName:@"LogViewer:Contacts"];
 
 	[outlineView_contacts setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 
@@ -2265,6 +2268,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	//Force a minumum size for the log view
 	if (splitView == splitView_logs)
 		return splitView_logs.frame.size.height - 100.0f;
+	else if (splitView == splitView_contacts)
+		return floor(splitView_contacts.frame.size.width / 2);
 	
 	return proposedMax;
 }
