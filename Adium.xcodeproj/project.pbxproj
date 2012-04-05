@@ -284,11 +284,6 @@
 		342838EE07D2D004004F01C9 /* Shared Dock Icon Images in Resources */ = {isa = PBXBuildFile; fileRef = 342838ED07D2D004004F01C9 /* Shared Dock Icon Images */; };
 		342910CD07AE228600C815F6 /* AIEmoticonPackPreviewTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 342910CB07AE228600C815F6 /* AIEmoticonPackPreviewTableView.m */; };
 		3429BB06070378F700EED705 /* ESFileTransferMessagesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3429BB04070378F700EED705 /* ESFileTransferMessagesPlugin.m */; };
-		342F88BC0A2A74D50001DB29 /* SRKeyCodeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B00A2A74D30001DB29 /* SRKeyCodeTransformer.m */; };
-		342F88BD0A2A74D50001DB29 /* SRValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B10A2A74D40001DB29 /* SRValidator.m */; };
-		342F88C00A2A74D50001DB29 /* SRRecorderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B40A2A74D40001DB29 /* SRRecorderControl.m */; };
-		342F88C20A2A74D50001DB29 /* SRCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B60A2A74D40001DB29 /* SRCommon.m */; };
-		342F88C40A2A74D50001DB29 /* SRRecorderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B80A2A74D40001DB29 /* SRRecorderCell.m */; };
 		342F88CF0A2A74EB0001DB29 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88C90A2A74EA0001DB29 /* SGKeyCombo.m */; };
 		342F88D10A2A74EB0001DB29 /* SGHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CB0A2A74EA0001DB29 /* SGHotKeyCenter.m */; };
 		342F88D30A2A74EB0001DB29 /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CD0A2A74EB0001DB29 /* SGHotKey.m */; };
@@ -1440,6 +1435,7 @@
 		9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9718DF43136A2C5200013760 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9718DF44136A2C5200013760 /* AIImageCollectionView.m */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
+		9744E74B152E20EE0067FEA2 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */; };
 		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		979AA6A714D59DC8008730DF /* AIBoolToControlTextColorTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */; settings = {ATTRIBUTES = (); }; };
 		979AA6A814D59DC8008730DF /* AIBoolToControlTextColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */; };
@@ -1621,40 +1617,19 @@
 			remoteGlobalIDString = 7EA3B0440DD1153F002A18D1;
 			remoteInfo = Test;
 		};
-		979AA69B14D59C21008730DF /* PBXContainerItemProxy */ = {
+		9744E747152E1E3C0067FEA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
+			containerPortal = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 939837800DA42965007F53F3;
-			remoteInfo = "ShortcutRecorder.framework - with embedded ibplugin";
+			remoteInfo = ShortcutRecorder.framework;
 		};
-		979AA69D14D59C21008730DF /* PBXContainerItemProxy */ = {
+		9744E749152E1E3C0067FEA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 939838A50DA4300F007F53F3;
-			remoteInfo = "ShortcutRecorder.ibplugin - for embedding in framework";
-		};
-		979AA69F14D59C21008730DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
+			containerPortal = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 93983B220DA43C4E007F53F3;
-			remoteInfo = ShortcutRecorderFramework_Tester;
-		};
-		979AA6A114D59C21008730DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 342E00CF109CCBF5009AD8CA;
-			remoteInfo = "ShortcutRecorder.ibplugin - standalone";
-		};
-		979AA6A314D59C21008730DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 342E0104109CCC36009AD8CA;
-			remoteInfo = "ShortcutRecorder.framework - for embedding in ibplugin";
+			remoteInfo = ShortcutRecorder_Tester;
 		};
 		EFB1C3D70DDCA0A900B3973D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -4623,8 +4598,8 @@
 		9718DF43136A2C5200013760 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.h"; sourceTree = "<group>"; };
 		9718DF44136A2C5200013760 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.m"; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
+		9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = Frameworks/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
-		979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = Frameworks/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIBoolToControlTextColorTransformer.h; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.h"; sourceTree = "<group>"; };
 		979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIBoolToControlTextColorTransformer.m; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.m"; sourceTree = "<group>"; };
 		979AA6B214D5A452008730DF /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
@@ -4922,6 +4897,7 @@
 				11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */,
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
+				9744E74B152E20EE0067FEA2 /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8282,14 +8258,11 @@
 			name = "Hot Key";
 			sourceTree = "<group>";
 		};
-		979AA68F14D59C21008730DF /* Products */ = {
+		9744E73F152E1E3C0067FEA2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				979AA69C14D59C21008730DF /* ShortcutRecorder.framework */,
-				979AA69E14D59C21008730DF /* ShortcutRecorder.ibplugin */,
-				979AA6A014D59C21008730DF /* ShortcutRecorder.app */,
-				979AA6A214D59C21008730DF /* ShortcutRecorder.ibplugin */,
-				979AA6A414D59C21008730DF /* ShortcutRecorder.framework */,
+				9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */,
+				9744E74A152E1E3C0067FEA2 /* ShortcutRecorder.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -8299,7 +8272,7 @@
 			children = (
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
 				346636860D41541A006C9034 /* FriBidi.xcodeproj */,
-				979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */,
+				9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */,
 				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
 				377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */,
@@ -9442,7 +9415,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -9499,8 +9472,8 @@
 					ProjectRef = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
 				},
 				{
-					ProductGroup = 979AA68F14D59C21008730DF /* Products */;
-					ProjectRef = 979AA68E14D59C21008730DF /* ShortcutRecorder.xcodeproj */;
+					ProductGroup = 9744E73F152E1E3C0067FEA2 /* Products */;
+					ProjectRef = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -9555,39 +9528,18 @@
 			remoteRef = 7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		979AA69C14D59C21008730DF /* ShortcutRecorder.framework */ = {
+		9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ShortcutRecorder.framework;
-			remoteRef = 979AA69B14D59C21008730DF /* PBXContainerItemProxy */;
+			remoteRef = 9744E747152E1E3C0067FEA2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		979AA69E14D59C21008730DF /* ShortcutRecorder.ibplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ShortcutRecorder.ibplugin;
-			remoteRef = 979AA69D14D59C21008730DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		979AA6A014D59C21008730DF /* ShortcutRecorder.app */ = {
+		9744E74A152E1E3C0067FEA2 /* ShortcutRecorder.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = ShortcutRecorder.app;
-			remoteRef = 979AA69F14D59C21008730DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		979AA6A214D59C21008730DF /* ShortcutRecorder.ibplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ShortcutRecorder.ibplugin;
-			remoteRef = 979AA6A114D59C21008730DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		979AA6A414D59C21008730DF /* ShortcutRecorder.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ShortcutRecorder.framework;
-			remoteRef = 979AA6A314D59C21008730DF /* PBXContainerItemProxy */;
+			remoteRef = 9744E749152E1E3C0067FEA2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		EFB1C3D80DDCA0A900B3973D /* LinkDriver.app */ = {
@@ -10423,11 +10375,6 @@
 				F5F8CA4D0A1A9C9400154550 /* GBQuestionHandlerPlugin.m in Sources */,
 				3459CBED0A25FFBF00ECC256 /* GetMetadataForHTMLLog.m in Sources */,
 				3459CBEF0A25FFBF00ECC256 /* GetMetadataForFile.m in Sources */,
-				342F88BC0A2A74D50001DB29 /* SRKeyCodeTransformer.m in Sources */,
-				342F88BD0A2A74D50001DB29 /* SRValidator.m in Sources */,
-				342F88C00A2A74D50001DB29 /* SRRecorderControl.m in Sources */,
-				342F88C20A2A74D50001DB29 /* SRCommon.m in Sources */,
-				342F88C40A2A74D50001DB29 /* SRRecorderCell.m in Sources */,
 				342F88CF0A2A74EB0001DB29 /* SGKeyCombo.m in Sources */,
 				342F88D10A2A74EB0001DB29 /* SGHotKeyCenter.m in Sources */,
 				342F88D30A2A74EB0001DB29 /* SGHotKey.m in Sources */,
