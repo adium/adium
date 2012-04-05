@@ -21,7 +21,7 @@
 #import "ESGeneralPreferencesPlugin.h"
 #import "SGHotKeyCenter.h"
 #import "SGHotKey.h"
-#import "SRRecorderControl.h"
+#import <ShortcutRecorder/SRRecorderControl.h>
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIServiceIcons.h>
