@@ -164,7 +164,7 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
 		security unlock-keychain -p `cat ~/adium-password`; \
 	fi
-	codesign -v -s Adium $(ADIUM_DIR)/Adium.app/Contents/MacOS/Adium
+	codesign -v -s "Developer ID Application: Instant Messaging Freedom, Inc." $(ADIUM_DIR)/Adium.app/Contents/MacOS/Adium
 endif
 
 createfolder:

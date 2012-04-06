@@ -11,7 +11,8 @@ BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 
 # Choose xcodebuild 
 # currently used for build machines
-XCODEBUILD ?= $(shell if test -d /Xcode4; then echo "/Xcode4/usr/bin/xcodebuild"; else echo "xcodebuild"; fi)
+# XCODEBUILD ?= $(shell if test -d /Xcode4; then echo "/Xcode4/usr/bin/xcodebuild"; else echo "xcodebuild"; fi)
+XCODEBUILD ?= xcodebuild
 #
 
 CP=ditto --rsrc
