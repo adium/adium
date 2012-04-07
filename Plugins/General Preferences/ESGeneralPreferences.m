@@ -17,11 +17,11 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AISoundController.h"
+#import <ShortcutRecorder/SRRecorderControl.h>
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import "SGHotKeyCenter.h"
 #import "SGHotKey.h"
-#import <ShortcutRecorder/SRRecorderControl.h>
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIServiceIcons.h>
