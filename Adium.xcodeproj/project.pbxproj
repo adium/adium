@@ -370,8 +370,6 @@
 		346545BA0C8F71380046ED68 /* AMPurpleJabberAdHocCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 346545B80C8F71380046ED68 /* AMPurpleJabberAdHocCommand.m */; };
 		346545CB0C8F73000046ED68 /* AMPurpleJabberAdHocPing.h in Headers */ = {isa = PBXBuildFile; fileRef = 346545C90C8F73000046ED68 /* AMPurpleJabberAdHocPing.h */; };
 		346545CC0C8F73000046ED68 /* AMPurpleJabberAdHocPing.m in Sources */ = {isa = PBXBuildFile; fileRef = 346545CA0C8F73000046ED68 /* AMPurpleJabberAdHocPing.m */; };
-		346636AC0D415440006C9034 /* FriBidi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3466368B0D41541A006C9034 /* FriBidi.framework */; };
-		346637690D415457006C9034 /* FriBidi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3466368B0D41541A006C9034 /* FriBidi.framework */; };
 		346935D60BA6C89D00E1CF7E /* AIFileTransferProgressOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 346935D40BA6C89D00E1CF7E /* AIFileTransferProgressOutlineView.m */; };
 		346BA33F0774C27400628F06 /* ESGlobalEventsPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 346BA33D0774C27400628F06 /* ESGlobalEventsPreferencesPlugin.m */; };
 		346BA3450774C2D200628F06 /* ESGlobalEventsPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 346BA3430774C2D200628F06 /* ESGlobalEventsPreferences.m */; };
@@ -1434,12 +1432,14 @@
 		81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E839050583207E00F2AADB /* SystemConfiguration.framework */; };
 		9718DF45136A2C5200013760 /* AIImageCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9718DF43136A2C5200013760 /* AIImageCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9718DF44136A2C5200013760 /* AIImageCollectionView.m */; };
+		9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92B1530EDF700217FBE /* FriBidi.framework */; };
+		9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */; };
+		9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92B1530EDF700217FBE /* FriBidi.framework */; };
+		9719C9301530EE4800217FBE /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
-		9744E74B152E20EE0067FEA2 /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */; };
 		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		979AA6A714D59DC8008730DF /* AIBoolToControlTextColorTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */; settings = {ATTRIBUTES = (); }; };
 		979AA6A814D59DC8008730DF /* AIBoolToControlTextColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */; };
-		979F8ECE1530333C000E7636 /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
 		97E4B4FF13E7490000A8BA53 /* AboutDialog_transp_btm.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E4B4FB13E7490000A8BA53 /* AboutDialog_transp_btm.png */; };
@@ -1534,13 +1534,6 @@
 			remoteGlobalIDString = 31C460380DE1D17100C4265B;
 			remoteInfo = StressTester;
 		};
-		3466368A0D41541A006C9034 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = FriBidi;
-		};
 		3496A8ED07CE6CCB0055BBAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -1590,13 +1583,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AutoHyperlinks.framework;
 		};
-		639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = FriBidi;
-		};
 		639DFB630F981FCB003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1617,20 +1603,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7EA3B0440DD1153F002A18D1;
 			remoteInfo = Test;
-		};
-		9744E747152E1E3C0067FEA2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 939837800DA42965007F53F3;
-			remoteInfo = ShortcutRecorder.framework;
-		};
-		9744E749152E1E3C0067FEA2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 93983B220DA43C4E007F53F3;
-			remoteInfo = ShortcutRecorder_Tester;
 		};
 		EFB1C3D70DDCA0A900B3973D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1656,14 +1628,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				979F8ECE1530333C000E7636 /* ShortcutRecorder.framework in Copy Frameworks */,
 				116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */,
 				118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */,
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
 				11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */,
 				11EE1CCF0CDD01120097F246 /* libglib.framework in Copy Frameworks */,
-				346637690D415457006C9034 /* FriBidi.framework in Copy Frameworks */,
 				11EE1CD00CDD01120097F246 /* libgmodule.framework in Copy Frameworks */,
 				11EE1CD10CDD01120097F246 /* libgobject.framework in Copy Frameworks */,
 				11EE1CD20CDD01120097F246 /* libgthread.framework in Copy Frameworks */,
@@ -1673,6 +1643,8 @@
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
 				377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
+				9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */,
+				9719C9301530EE4800217FBE /* ShortcutRecorder.framework in Copy Frameworks */,
 				7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */,
 				F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */,
 				3419FE230531586A00C68BA3 /* Adium.framework in Copy Frameworks */,
@@ -2916,7 +2888,6 @@
 		346545B80C8F71380046ED68 /* AMPurpleJabberAdHocCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberAdHocCommand.m; path = "Plugins/Purple Service/AMPurpleJabberAdHocCommand.m"; sourceTree = "<group>"; };
 		346545C90C8F73000046ED68 /* AMPurpleJabberAdHocPing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleJabberAdHocPing.h; path = "Plugins/Purple Service/AMPurpleJabberAdHocPing.h"; sourceTree = "<group>"; };
 		346545CA0C8F73000046ED68 /* AMPurpleJabberAdHocPing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberAdHocPing.m; path = "Plugins/Purple Service/AMPurpleJabberAdHocPing.m"; sourceTree = "<group>"; };
-		346636860D41541A006C9034 /* FriBidi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FriBidi.xcodeproj; path = "Frameworks/FriBidi Framework/FriBidi.xcodeproj"; sourceTree = "<group>"; };
 		346935D30BA6C89D00E1CF7E /* AIFileTransferProgressOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFileTransferProgressOutlineView.h; path = Source/AIFileTransferProgressOutlineView.h; sourceTree = "<group>"; };
 		346935D40BA6C89D00E1CF7E /* AIFileTransferProgressOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFileTransferProgressOutlineView.m; path = Source/AIFileTransferProgressOutlineView.m; sourceTree = "<group>"; };
 		34695FA20A89BA2B00E3B0D0 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Resources/zh_TW.lproj/PersonalPreferences.nib; sourceTree = "<group>"; };
@@ -4599,8 +4570,9 @@
 		81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberServiceDiscoveryBrowsing.m; path = "Plugins/Purple Service/AMPurpleJabberServiceDiscoveryBrowsing.m"; sourceTree = "<group>"; };
 		9718DF43136A2C5200013760 /* AIImageCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageCollectionView.h; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.h"; sourceTree = "<group>"; };
 		9718DF44136A2C5200013760 /* AIImageCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageCollectionView.m; path = "Frameworks/AIUtilities Framework/Source/AIImageCollectionView.m"; sourceTree = "<group>"; };
+		9719C92B1530EDF700217FBE /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FriBidi.framework; path = Frameworks/FriBidi.framework; sourceTree = "<group>"; };
+		9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = Frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
-		9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = Frameworks/ShortcutRecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIBoolToControlTextColorTransformer.h; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.h"; sourceTree = "<group>"; };
 		979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIBoolToControlTextColorTransformer.m; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.m"; sourceTree = "<group>"; };
@@ -4885,7 +4857,6 @@
 				111256210F8DA2DB00E76177 /* libcrypto.dylib in Frameworks */,
 				6318DBC20F8D943A00C5E584 /* WebKit.framework in Frameworks */,
 				636D92CD0E4E990500E5F558 /* AddressBook.framework in Frameworks */,
-				346636AC0D415440006C9034 /* FriBidi.framework in Frameworks */,
 				F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */,
 				34BD9D5A053146CC000AB133 /* Carbon.framework in Frameworks */,
 				34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */,
@@ -4899,7 +4870,8 @@
 				11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */,
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
-				9744E74B152E20EE0067FEA2 /* ShortcutRecorder.framework in Frameworks */,
+				9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */,
+				9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5765,14 +5737,6 @@
 				346545CA0C8F73000046ED68 /* AMPurpleJabberAdHocPing.m */,
 			);
 			name = "Ad Hoc Server";
-			sourceTree = "<group>";
-		};
-		346636870D41541A006C9034 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3466368B0D41541A006C9034 /* FriBidi.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		346BA3330774C21300628F06 /* Global Events Preferences */ = {
@@ -8260,24 +8224,15 @@
 			name = "Hot Key";
 			sourceTree = "<group>";
 		};
-		9744E73F152E1E3C0067FEA2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */,
-				9744E74A152E1E3C0067FEA2 /* ShortcutRecorder.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		979AA6A914D59EF3008730DF /* Others */ = {
 			isa = PBXGroup;
 			children = (
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
-				346636860D41541A006C9034 /* FriBidi.xcodeproj */,
-				9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */,
+				9719C92B1530EDF700217FBE /* FriBidi.framework */,
 				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
 				377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */,
+				9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */,
 				9E1E1DFC0A96741500E16DFC /* LMX.framework */,
 				638392F609D4D67A0067B9B7 /* Sparkle.framework */,
 				7E6F8A93105611B700C6D80D /* libotr.framework */,
@@ -9366,7 +9321,6 @@
 				63DE4C530F9C77D50034ED3A /* PBXTargetDependency */,
 				6334045E0F9C1899003C77A9 /* PBXTargetDependency */,
 				639DFB560F981F7A003C9A32 /* PBXTargetDependency */,
-				639DFB600F981FA8003C9A32 /* PBXTargetDependency */,
 				639DFB640F981FCB003C9A32 /* PBXTargetDependency */,
 			);
 			name = Adium.Framework;
@@ -9469,14 +9423,6 @@
 					ProductGroup = 3496A8E807CE6CA30055BBAB /* Products */;
 					ProjectRef = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
 				},
-				{
-					ProductGroup = 346636870D41541A006C9034 /* Products */;
-					ProjectRef = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
-				},
-				{
-					ProductGroup = 9744E73F152E1E3C0067FEA2 /* Products */;
-					ProjectRef = 9744E73E152E1E3C0067FEA2 /* ShortcutRecorder.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -9509,13 +9455,6 @@
 			remoteRef = 3416394C0DE58A1A009E9550 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3466368B0D41541A006C9034 /* FriBidi.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = FriBidi.framework;
-			remoteRef = 3466368A0D41541A006C9034 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -9528,20 +9467,6 @@
 			fileType = wrapper.cfbundle;
 			path = Test.octest;
 			remoteRef = 7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9744E748152E1E3C0067FEA2 /* ShortcutRecorder.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ShortcutRecorder.framework;
-			remoteRef = 9744E747152E1E3C0067FEA2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9744E74A152E1E3C0067FEA2 /* ShortcutRecorder.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ShortcutRecorder.app;
-			remoteRef = 9744E749152E1E3C0067FEA2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		EFB1C3D80DDCA0A900B3973D /* LinkDriver.app */ = {
@@ -10805,11 +10730,6 @@
 			isa = PBXTargetDependency;
 			name = AutoHyperlinks.framework;
 			targetProxy = 639DFB550F981F7A003C9A32 /* PBXContainerItemProxy */;
-		};
-		639DFB600F981FA8003C9A32 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FriBidi;
-			targetProxy = 639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */;
 		};
 		639DFB640F981FCB003C9A32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
