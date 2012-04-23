@@ -31,7 +31,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
@@ -131,12 +131,6 @@ static ESFileTransferPreferences *preferences;
     [adium.preferenceController unregisterPreferenceObserver:self];
 }
 
-- (void)dealloc
-{
-	safeFileExtensions = nil;
-	fileTransferArray = nil;
-}
-
 #pragma mark Access to file transfer objects
 - (ESFileTransfer *)newFileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)t
 {
@@ -151,10 +145,9 @@ static ESFileTransferPreferences *preferences;
 	//Wait until the next run loop to inform observers of the new file transfer object;
 	//this way the code which requested a new ESFileTransfer has time to configure it before we
 	//dispaly information to the user
-	[[NSNotificationCenter defaultCenter] performSelector:@selector(postNotificationName:object:)
-									 withObject:FileTransfer_NewFileTransfer 
-									 withObject:fileTransfer
-									 afterDelay:0];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:FileTransfer_NewFileTransfer object:fileTransfer];
+	});
 
 	return fileTransfer;
 }

@@ -46,6 +46,7 @@
 #import "KNShelfSplitview.h"
 #import <Adium/AIContactList.h>
 #import "AIListOutlineView.h"
+#import "GBQuestionHandlerPlugin.h"
 
 #import "AIMessageViewController.h"
 
@@ -1081,9 +1082,7 @@
  */
 - (void)updateActiveWindowMenuItem
 {
-    NSMenuItem		*item;
-
-    for (item in windowMenuArray) {
+	for (NSMenuItem *item in windowMenuArray) {
 		if ([item representedObject]) [item setState:([item representedObject] == activeChat ? NSOnState : NSOffState)];
     }
 }
@@ -1120,16 +1119,16 @@
 		}
 		
 		//Add items for the chats it contains
-		for (AIChat *chat in [contentArray objectEnumerator]) {
+		for (AIChat *chat in contentArray) {
 			NSString		*windowKeyString;
 			
 			//Prepare a key equivalent for the controller
 			if (windowKey < 10) {
 				windowKeyString = [NSString stringWithFormat:@"%ld", (windowKey)];
 			} else if (windowKey == 10) {
-				windowKeyString = [NSString stringWithString:@"0"];
+				windowKeyString = @"0";
 			} else {
-				windowKeyString = [NSString stringWithString:@""];
+				windowKeyString = @"";
 			}
 			
 			item = [[NSMenuItem alloc] initWithTitle:chat.displayName
@@ -1327,7 +1326,7 @@
 #pragma mark Question Display
 - (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+		responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 {
 	NSMutableDictionary *questionDict = [NSMutableDictionary dictionary];
 	
@@ -1345,19 +1344,16 @@
 		[questionDict setObject:inOtherButton forKey:@"Other Button"];
 	if(inSuppression != nil)
 		[questionDict setObject:inSuppression forKey:@"Suppression Checkbox"];
-	if(inTarget != nil)
-		[questionDict setObject:inTarget forKey:@"Target"];
-	if(inSelector != NULL)
-		[questionDict setObject:NSStringFromSelector(inSelector) forKey:@"Selector"];
-	if(inUserInfo != nil)
-		[questionDict setObject:inUserInfo forKey:@"Userinfo"];
+	if (handler) {
+		[questionDict setObject:[handler copy] forKey:@"Handler"];
+	}
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
+	[GBQuestionHandlerPlugin handleQuestion:questionDict];
 }
 
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+		responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 {
 	[self displayQuestion:inTitle
 withAttributedDescription:[[NSAttributedString alloc] initWithString:inDesc
@@ -1368,9 +1364,7 @@ withAttributedDescription:[[NSAttributedString alloc] initWithString:inDesc
 		  alternateButton:inAlternateButton
 			  otherButton:inOtherButton
 			  suppression:inSuppression
-				   target:inTarget
-				 selector:inSelector
-				 userInfo:inUserInfo];
+		   responseHandler:handler];
 }
 //Synchronized Flashing ------------------------------------------------------------------------------------------------
 #pragma mark Synchronized Flashing

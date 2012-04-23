@@ -56,9 +56,9 @@ void AIAddDebugMessage(NSString *debugMessage)
 		[adium.debugController addMessage:actualMessage];
 
 	} else {
-		[adium.debugController performSelectorOnMainThread:@selector(addMessage:)
-																		   withObject:actualMessage
-																		waitUntilDone:NO];		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[adium.debugController addMessage:actualMessage];
+		});
 	}
 }
 

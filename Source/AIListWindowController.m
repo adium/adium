@@ -37,7 +37,7 @@
 #import <AIUtilities/AIEventAdditions.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIContactHidingController.h>
-#import <AIUtilities/AIOSCompatibility.h>
+
 #import "AIAutoScrollView.h"
 #import "AISearchFieldCell.h"
 

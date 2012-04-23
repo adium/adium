@@ -17,7 +17,7 @@
 #import "ESPurpleNotifyEmailController.h"
 #import "adiumPurpleNotify.h"
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import "AMPurpleSearchResultsController.h"
 
 static void *adiumPurpleNotifyMessage(PurpleNotifyMsgType type, const char *title, const char *primary, const char *secondary)

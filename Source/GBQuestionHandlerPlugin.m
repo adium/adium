@@ -17,7 +17,7 @@
 #import "GBQuestionHandlerPlugin.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "ESTextAndButtonsWindowController.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 typedef enum
 {
@@ -30,6 +30,8 @@ typedef enum
 @end
 
 @implementation GBQuestionHandlerPlugin
+
+static GBQuestionHandlerPlugin *instance;
 
 - (id)init
 {
@@ -44,11 +46,7 @@ typedef enum
 
 - (void)installPlugin
 {
-    //Install our observers
-    [[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(handleQuestion:)
-									   name:Interface_ShouldDisplayQuestion 
-									 object:nil];
+	instance = self;
 }
 
 - (void)uninstallPlugin
@@ -72,30 +70,24 @@ typedef enum
 		[self displayNextAlert];
 }
 
-- (void)handleQuestion:(NSNotification *)notification
++ (void)handleQuestion:(NSDictionary *)questionDict;
 {
-	[self handleType:ALERT_TYPE_QUESTION userInfo:notification.userInfo];
+	[instance handleType:ALERT_TYPE_QUESTION userInfo:questionDict];
 }
 
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
-	NSString *selectorString = [userInfo objectForKey:@"Selector"];
-	id target = [userInfo objectForKey:@"Target"];
+	void (^handler)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) = [userInfo objectForKey:@"Handler"];
+
 	BOOL	ret = YES;
 	
-	if(target != nil || selectorString != nil)
-	{
-		SEL selector = NSSelectorFromString(selectorString);
-		if([target respondsToSelector:selector])
-		{
-			[target performSelector:selector withObject:[NSNumber numberWithInteger:returnCode] withObject:[userInfo objectForKey:@"Userinfo"] withObject:[NSNumber numberWithBool:suppression]];
-		}
-	}
-	if([self displayNextAlert])
+	if (handler)
+		handler(returnCode, suppression, [userInfo objectForKey:@"Userinfo"]);
+	
+	if ([self displayNextAlert]) {
 		//More alerts so don't hide window
 		ret = NO;
-	else
-	{
+	} else {
 		currentAlert = nil;
 	}
 	return ret;

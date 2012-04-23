@@ -24,7 +24,7 @@
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 #define MAX_AVAILABLE_MESSAGE_LENGTH	249
 
@@ -95,10 +95,11 @@
 		//Remove trailing and leading whitespace
 		formattedUID = [formattedUID stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		
-		[[self purpleAdapter] performSelector:@selector(OSCARSetFormatTo:onAccount:)
-								withObject:formattedUID
-								withObject:self
-								afterDelay:5.0];
+		double delayInSeconds = 5.0;
+		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+			[[self purpleAdapter] OSCARSetFormatTo:formattedUID onAccount:self];
+		});
 	}
 }
 

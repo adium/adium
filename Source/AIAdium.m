@@ -291,33 +291,42 @@ static NSString	*prefsCategory;
 																	group:@"Confirmations"] boolValue];
 	
 	NSString	*questionToAsk = [NSString string];
-	SEL			questionSelector = nil;
+	void (^responseHandler)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) = nil;
 
 	NSApplicationTerminateReply allowQuit = NSTerminateNow;
 	
 	switch (confirmationType) {
-		case AIQuitConfirmAlways:
-			questionSelector = @selector(confirmQuitQuestion:userInfo:suppression:);
+		case AIQuitConfirmAlways: {
+			responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+				[self confirmQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+			} copy];
 			
 			allowQuit = NSTerminateLater;
 			break;
-			
-		case AIQuitConfirmSelective:
+		}
+		case AIQuitConfirmSelective: {
 			if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
 				questionToAsk = (([chatController unviewedContentCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d unread messages.",@"Quit Confirmation"), [chatController unviewedContentCount]] : AILocalizedString(@"You have an unread message.",@"Quit Confirmation"));
-				questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self unreadQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
 				questionToAsk = (([fileTransferController activeTransferCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d file transfers in progress.",@"Quit Confirmation"), [fileTransferController activeTransferCount]] : AILocalizedString(@"You have a file transfer in progress.",@"Quit Confirmation"));
-				questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self fileTransferQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			} else if ([[chatController openChats] count] > 0 && confirmOpenChats) {
 				questionToAsk = (([[chatController openChats] count] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d open chats.",@"Quit Confirmation"), [[chatController openChats] count]] : AILocalizedString(@"You have an open chat.",@"Quit Confirmation"));
-				questionSelector = @selector(openChatQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self openChatQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			}
 
 			break;
+        }
 	}
 	
 	if (allowQuit == NSTerminateLater) {
@@ -330,9 +339,7 @@ static NSString	*prefsCategory;
 									alternateButton:AILocalizedString(@"Cancel", nil)
 										otherButton:nil
 										 suppression:AILocalizedString(@"Don't ask again", nil)
-											 target:self
-										   selector:questionSelector
-										   userInfo:nil];
+									responseHandler:responseHandler];
 	}
 
 	return allowQuit;

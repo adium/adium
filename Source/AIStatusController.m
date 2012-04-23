@@ -27,7 +27,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatusIcons.h>
@@ -470,10 +470,9 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (void)setActiveStatusState:(AIStatus *)statusState
 {
 	//Apply the state to our accounts and notify (delay to the next run loop to improve perceived speed)
-	[self performSelector:@selector(applyState:toAccounts:)
-			   withObject:statusState
-			   withObject:adium.accountController.accounts
-			   afterDelay:0];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self applyState:statusState toAccounts:adium.accountController.accounts];
+	});
 }
 /*!
  * @brief Set the active status state for some account

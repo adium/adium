@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleBlist.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIListContact.h>
 
 static void adiumPurpleBlistNewList(PurpleBuddyList *list)

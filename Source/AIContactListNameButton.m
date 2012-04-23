@@ -16,7 +16,7 @@
 
 #import "AIContactListNameButton.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 @implementation AIContactListNameButton
 
@@ -69,13 +69,11 @@
  */
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification
 {
-	[editTarget mainPerformSelector:editSelector
-						 withObject:self
-						 withObject:[textField_editor stringValue]
-						 withObject:editUserInfo];
+	continuation([textField_editor stringValue]);
 
 	[textField_editor removeFromSuperview];
 	textField_editor = nil;
+	continuation = nil;
 
 	[self resetCursorRects];
 }
@@ -88,19 +86,11 @@
  * @param inSelector The selector, which should be of the form nameView:didChangeToString:userInfo:
  * @param inUserInfo Userinfo which will be passed back to inTarget via inSelector
  */
-- (void)editNameStartingWithString:(NSString *)startingString notifyingTarget:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+- (void)editNameStartingWithString:(NSString *)startingString continuation:(void (^)(NSString *newString))inContinuation
 {
 	[self editName:startingString];
 	
-	if (editTarget != inTarget) {
-		editTarget = inTarget;
-	}
-	
-	editSelector = inSelector;
-	
-	if (inUserInfo != editUserInfo) {
-		editUserInfo = inUserInfo;
-	}
+	continuation = [inContinuation copy];
 }
 
 - (NSRect)trackingRect

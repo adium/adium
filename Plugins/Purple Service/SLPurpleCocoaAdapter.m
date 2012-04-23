@@ -23,7 +23,7 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIAccount.h>
 #import <Adium/AICorePluginLoader.h>
 #import <Adium/AIService.h>

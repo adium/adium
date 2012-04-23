@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleSignals.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIChat.h>

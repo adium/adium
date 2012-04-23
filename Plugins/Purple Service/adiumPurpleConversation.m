@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleConversation.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentTyping.h>
@@ -227,16 +227,13 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		 * first.
 		 */
 		if (errorType != AIChatUnknownError) {
-			[accountLookup(purple_conversation_get_account(conv)) performSelector:@selector(errorForChat:type:)
-																	   withObject:chat
-																	   withObject:[NSNumber numberWithInteger:errorType]
-																	   afterDelay:0];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[accountLookup(purple_conversation_get_account(conv)) errorForChat:chat type:[NSNumber numberWithInteger:errorType]];
+			});
 		} else {
-			[adium.contentController performSelector:@selector(displayEvent:ofType:inChat:)
-										  withObject:messageString
-										  withObject:@"libpurpleMessage"
-										  withObject:chat
-										  afterDelay:0];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[adium.contentController displayEvent:messageString ofType:@"libpurpleMessage" inChat:chat];
+			});
 		}
 		
 		AILog(@"*** Conversation error %@: %@", chat, messageString);
@@ -279,12 +276,9 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		if (shouldDisplayMessage) {
 			CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
 			
-			[account performSelector:@selector(receivedEventForChat:message:date:flags:)
-						  withObject:chat
-						  withObject:messageString
-						  withObject:[NSDate dateWithTimeIntervalSince1970:mtime]
-						  withObject:[NSNumber numberWithInteger:flags]
-						  afterDelay:0];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[account receivedEventForChat:chat message:messageString date:[NSDate dateWithTimeIntervalSince1970:mtime] flags:[NSNumber numberWithInteger:flags]];
+			});
 		}
 	}
     [pool drain];

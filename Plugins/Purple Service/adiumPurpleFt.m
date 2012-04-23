@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleFt.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 static void adiumPurpleNewXfer(PurpleXfer *xfer)
 {

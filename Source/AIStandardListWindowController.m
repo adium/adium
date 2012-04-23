@@ -525,9 +525,8 @@
 										  group:GROUP_ACCOUNT_STATUS];
 }
 
-- (void)nameView:(AIContactListNameButton *)inNameView didChangeToString:(NSString *)inName userInfo:(NSDictionary *)userInfo
+- (void)nameView:(AIContactListNameButton *)inNameView didChangeToString:(NSString *)inName activeAccount:(AIAccount *)activeAccount
 {
-	AIAccount	*activeAccount = [userInfo objectForKey:@"activeAccount"];
 	NSData		*newDisplayName = ((inName && [inName length]) ?
 								   [[NSAttributedString stringWithString:inName] dataRepresentation] :
 								   nil);
@@ -558,16 +557,9 @@
 																	group:GROUP_ACCOUNT_STATUS] attributedString] string];
 	}
 	
-	NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-	if (activeAccount) {
-		[userInfo setObject:activeAccount
-					 forKey:@"activeAccount"];
-	}
-	
-	[nameView editNameStartingWithString:startingString
-						 notifyingTarget:self
-								selector:@selector(nameView:didChangeToString:userInfo:)
-								userInfo:userInfo];
+	[nameView editNameStartingWithString:startingString continuation:^(NSString *newString) {
+		[self nameView:nameView didChangeToString:newString activeAccount:activeAccount];
+	}];
 }
 
 - (NSMenu *)nameViewMenuWithActiveAccount:(AIAccount *)activeAccount accountsUsingOwnName:(NSSet *)ownDisplayNameAccounts onlineAccounts:(NSSet *)onlineAccounts

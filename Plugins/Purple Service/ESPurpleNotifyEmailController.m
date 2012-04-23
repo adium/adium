@@ -20,7 +20,7 @@
 #import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 @interface ESPurpleNotifyEmailController ()
 + (void)openURLString:(NSString *)urlString;
@@ -145,10 +145,8 @@
 		[infoDict setObject:urlString forKey:@"URL"];
 	}
 	
-	[self mainPerformSelector:@selector(showNotifyEmailWindowForAccount:withMessage:URLString:)
-				   withObject:account
-				   withObject:message
-				   withObject:(urlString ? urlString : nil)];
+	assert([[NSThread currentThread] isMainThread]);
+	[self showNotifyEmailWindowForAccount:account withMessage:message URLString:(urlString ? urlString : nil)];
 
 	return NULL;
 }

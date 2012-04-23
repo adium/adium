@@ -40,7 +40,7 @@
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -464,11 +464,11 @@
  * everything will work as expected.
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{   
-	[[NSNotificationCenter defaultCenter] performSelector:@selector(postNotificationName:object:)
-									 withObject:Interface_ContactSelectionChanged
-									 withObject:nil
-									 afterDelay:0];
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
+															object:nil];
+	});
 }
 
 #pragma mark Drag & Drop
