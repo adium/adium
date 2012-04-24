@@ -70,6 +70,9 @@
 /*!
  * @brief Preference pane properties
  */
+- (AIPreferenceCategory)category{
+	return AIPref_General;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Accounts";
