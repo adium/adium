@@ -630,10 +630,10 @@
 	}
 	
 	//Highlight matches in the collection views
-	[generalCV setSelectionIndexes:generalIndexes];
-	[appearanceCV setSelectionIndexes:appearanceIndexes];
-	[eventsCV setSelectionIndexes:eventsIndexes];
-	[advancedCV setSelectionIndexes:advancedIndexes];
+	generalCV.matchedSearchIndexes = generalIndexes;
+	appearanceCV.matchedSearchIndexes = appearanceIndexes;
+	eventsCV.matchedSearchIndexes = eventsIndexes;
+	advancedCV.matchedSearchIndexes = advancedIndexes;
 	
 	if (results.count > 0) {
 		//Sort by score
@@ -668,11 +668,11 @@
 		_localMouseUpEventHandler = nil;
 	}
 	
-	//Clear all selections
-	[generalCV setSelectionIndexes:nil];
-	[appearanceCV setSelectionIndexes:nil];
-	[eventsCV setSelectionIndexes:nil];
-	[advancedCV setSelectionIndexes:nil];
+	//Clear all matches
+	generalCV.matchedSearchIndexes = nil;
+	appearanceCV.matchedSearchIndexes = nil;
+	eventsCV.matchedSearchIndexes = nil;
+	advancedCV.matchedSearchIndexes = nil;
 	
 	_selectedView = nil;
 }

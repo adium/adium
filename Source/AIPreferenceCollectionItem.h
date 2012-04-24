@@ -14,27 +14,16 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@protocol AIPreferenceCollectionViewDelegate;
-
 /*!
- * @class AIPreferenceCollectionView
- * @brief NSCollectionView subclass
+ * @class AIPreferenceCollectionItem
+ * @brief Collection View Item for preferences window
  *
- * Draw an outline on an item when it is clicked or when it is highlighted.
+ * Creates a darkened icon that's used when the item is clicked
  */
-@interface AIPreferenceCollectionView : NSCollectionView {
-	NSUInteger highlightedIndex;
-	NSMutableIndexSet *matchedSearchIndexes;
-	id <AIPreferenceCollectionViewDelegate> delegate;
+@interface AIPreferenceCollectionItem : NSCollectionViewItem {
+	NSImage *darkIcon;
+	NSImage *_image;
 }
+@property (assign, nonatomic) IBOutlet NSImage *image;
 
-@property (assign, nonatomic) NSUInteger highlightedIndex;
-@property (retain, nonatomic) NSMutableIndexSet *matchedSearchIndexes;
-@property (assign, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
-
-@end
-
-@protocol AIPreferenceCollectionViewDelegate <NSObject>
-@optional
-- (void)preferenceCollectionView:(AIPreferenceCollectionView *)aCollectionView didSelectItem:(NSCollectionViewItem *)anItem;
 @end
