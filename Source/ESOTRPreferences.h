@@ -14,10 +14,10 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIAdvancedPreferencePane.h"
+#import "AIPreferencePane.h"
 #import "AIAccountMenu.h"
 
-@interface ESOTRPreferences : AIAdvancedPreferencePane <AIAccountMenuDelegate, NSTableViewDelegate, NSTableViewDataSource> {
+@interface ESOTRPreferences : AIPreferencePane <AIAccountMenuDelegate, NSTableViewDelegate, NSTableViewDataSource> {
 	IBOutlet	NSPopUpButton	*popUp_accounts;
 	IBOutlet	NSButton		*button_generate;
 	IBOutlet	NSTextField		*textField_privateKey;
@@ -30,7 +30,12 @@
 	
 	NSMutableArray				*fingerprintDictArray;
 	AIAccountMenu 				*accountMenu;
+	NSTextField *label_knownFingerprints;
+	NSTextField *label_privateKeys;
 }
+
+@property (assign) IBOutlet NSTextField *label_privateKeys;
+@property (assign) IBOutlet NSTextField *label_knownFingerprints;
 
 - (IBAction)generate:(id)sender;
 - (IBAction)showFingerprint:(id)sender;

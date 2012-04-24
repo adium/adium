@@ -17,12 +17,20 @@
 #import <Adium/AIModularPane.h>
 #import <Adium/SS_PreferencePaneProtocol.h>
 
+//Preference Categories
+typedef enum {
+	AIPref_General = 0,
+	AIPref_Appearance,
+	AIPref_Events,
+	AIPref_Advanced
+} AIPreferenceCategory;
 
-@interface AIPreferencePane : AIModularPane <SS_PreferencePaneProtocol> {    
+@interface AIPreferencePane : AIModularPane <SS_PreferencePaneProtocol> {
 
 }
 
 + (AIPreferencePane *)preferencePane;
 + (AIPreferencePane *)preferencePaneForPlugin:(id)inPlugin;
+- (AIPreferenceCategory)category;
 
 @end

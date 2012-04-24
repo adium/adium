@@ -15,110 +15,56 @@
  */
 
 #import "AIMessageAlertsAdvancedPreferences.h"
-#import "AIStatusController.h"
-#import "AIDockController.h"
 #import <AIUtilities/AIImageAdditions.h>
 
-
 @implementation AIMessageAlertsAdvancedPreferences
+@synthesize label_unreadMessages, label_actions, label_counts, label_statusMenu, label_tabCounts;
+@synthesize checkbox_statusMenuItemFlash, checkbox_statusMenuItemCount, checkbox_statusMenuItemBadge;
+@synthesize checkbox_animateDockIcon, checkbox_badgeDockIcon;
+@synthesize checkbox_unreadConversations, checkbox_unreadContentMention, checkbox_unreadMentionCount;
+@synthesize checkbox_showTabCountSingle, checkbox_showTabCountGroup;
+
 #pragma mark Preference Pane
-- (AIPreferenceCategory)category{
-    return AIPref_Advanced;
+- (AIPreferenceCategory)category
+{
+    return AIPref_Events;
 }
-- (NSString *)label{
+- (NSString *)paneIdentifier{
+	return @"MessageAlertsAdvanced";
+}
+- (NSString *)paneName{
     return AILocalizedString(@"Message Alerts",nil);
 }
 - (NSString *)nibName{
-    return @"AIMessageAlertsAdvancedPreferences";
+    return @"Preferences-MessageAlerts";
 }
-- (NSImage *)image{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-messagealerts" forClass:[self class]];
-}
-
-#pragma mark Preference toggling
-
-- (IBAction)changePreference:(id)sender
-{
-	if (sender == checkBox_unreadConversations) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-								   forKey:KEY_STATUS_CONVERSATION_COUNT
-									group:PREF_GROUP_STATUS_PREFERENCES];
-	}
-	
-	if (sender == checkBox_unreadContentMention) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-										   forKey:KEY_STATUS_MENTION_COUNT
-											group:PREF_GROUP_STATUS_PREFERENCES];
-	}
-	
-	if (sender == checkBox_statusMenuItemBadge) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-								   forKey:KEY_STATUS_MENU_ITEM_BADGE
-									group:PREF_GROUP_STATUS_MENU_ITEM];
-	}
-
-	if (sender == checkBox_statusMenuItemFlash) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-								   forKey:KEY_STATUS_MENU_ITEM_FLASH
-									group:PREF_GROUP_STATUS_MENU_ITEM];
-	}
-	
-	if (sender == checkBox_statusMenuItemCount) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-								   forKey:KEY_STATUS_MENU_ITEM_COUNT
-									group:PREF_GROUP_STATUS_MENU_ITEM];
-	}
-	
-	if (sender == checkBox_animateDockIcon) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-										   forKey:KEY_ANIMATE_DOCK_ICON
-											group:PREF_GROUP_APPEARANCE];
-	}
-	
-	if (sender == checkBox_badgeDockIcon) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-										   forKey:KEY_BADGE_DOCK_ICON
-											group:PREF_GROUP_APPEARANCE];
-	}
 }
 
 #pragma mark Display
 
-//Configure the preference view
-- (void)viewDidLoad
+- (void)localizePane
 {
-	[label_dockMenuBarIconCounts setLocalizedString:AILocalizedString(@"Dock Icon and Status Menu Item Counts", nil)];
-	[checkBox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
-	[checkBox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of highlights and mentions for group chats", nil)];
+	[label_actions setLocalizedString:AILocalizedString(@"Actions:", nil)];
+	[label_unreadMessages setLocalizedString:AILocalizedString(@"Unread Messages", nil)];
+	[label_counts setLocalizedString:AILocalizedString(@"Counts:", nil)];
+	[label_statusMenu setLocalizedString:AILocalizedString(@"Status Menu Item:", nil)];
+	[label_tabCounts setLocalizedString:AILocalizedString(@"Tabs:", nil)];
 	
-	NSDictionary *statusPreferences = [adium.preferenceController preferencesForGroup:PREF_GROUP_STATUS_PREFERENCES];
+	[checkbox_statusMenuItemBadge setLocalizedString:AILocalizedString(@"Badge the menu item with current status", nil)];
+	[checkbox_statusMenuItemFlash setLocalizedString:AILocalizedString(@"Flash status menu item", nil)];
+	[checkbox_statusMenuItemCount setLocalizedString:AILocalizedString(@"Show count in the menu bar", nil)];
 	
-	[checkBox_unreadConversations setState:[[statusPreferences objectForKey:KEY_STATUS_CONVERSATION_COUNT] boolValue]];
-	[checkBox_unreadContentMention setState:[[statusPreferences objectForKey:KEY_STATUS_MENTION_COUNT] boolValue]];
-
-	[label_statusMenuItem setLocalizedString:AILocalizedString(@"Status Menu Item", nil)];
-	[checkBox_statusMenuItemBadge setLocalizedString:AILocalizedString(@"Badge the menu item with current status", nil)];
-	[checkBox_statusMenuItemFlash setLocalizedString:AILocalizedString(@"Flash when there are unread messages", nil)];
-	[checkBox_statusMenuItemCount setLocalizedString:AILocalizedString(@"Show unread message count in the menu bar", nil)];	
+	[checkbox_animateDockIcon setLocalizedString:AILocalizedString(@"Animate the dock icon", nil)];
+	[checkbox_badgeDockIcon setLocalizedString:AILocalizedString(@"Display a count badge on the dock icon", nil)];
 	
-	NSDictionary *menuItemPreferences = [adium.preferenceController preferencesForGroup:PREF_GROUP_STATUS_MENU_ITEM];
+	[checkbox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
+	[checkbox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of highlights and mentions for group chats", nil)];
+	[checkbox_unreadMentionCount setLocalizedString:AILocalizedString(@"For tabs, only count number of unread mentions", nil)];
 	
-	[checkBox_statusMenuItemBadge setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_BADGE] boolValue]];
-	[checkBox_statusMenuItemFlash setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_FLASH] boolValue]];
-	[checkBox_statusMenuItemCount setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_COUNT] boolValue]];	
-	
-	[label_dockIcon setLocalizedString:AILocalizedString(@"Dock Icon", nil)];
-	[label_dockIconWhenUnread setLocalizedString:AILocalizedString(@"When there are unread messages:", nil)];
-	[checkBox_animateDockIcon setLocalizedString:AILocalizedString(@"Animate the dock icon", nil)];
-	[checkBox_badgeDockIcon setLocalizedString:AILocalizedString(@"Display a message count badge", nil)];
-	
-	NSDictionary *appearancePreferences = [adium.preferenceController preferencesForGroup:PREF_GROUP_APPEARANCE];
-	
-	[checkBox_animateDockIcon setState:[[appearancePreferences objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue]];
-	[checkBox_badgeDockIcon setState:[[appearancePreferences objectForKey:KEY_BADGE_DOCK_ICON] boolValue]];
-	
-	[self configureControlDimming];
-	[super viewDidLoad];
+	[checkbox_showTabCountSingle setLocalizedString:AILocalizedString(@"Show count in tabs (single chat)", nil)];
+	[checkbox_showTabCountGroup setLocalizedString:AILocalizedString(@"Show count in tabs (group chat)", nil)];
 }
 
 
