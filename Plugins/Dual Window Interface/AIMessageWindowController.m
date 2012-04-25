@@ -153,8 +153,9 @@
 
     [tabView_tabBar setDelegate:nil];
 
-	[self.containedChats release];
+	[m_containedChats release];
 	[toolbarItems release];
+	[toolbar release];
 	[containerName release];
 	[containerID release];
 
@@ -408,14 +409,24 @@
 		
 		[self _updateWindowTitleAndIcon];
 
-		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
-		NSInteger				level = NSNormalWindowLevel;
+		AIWindowLevel windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
+		NSInteger level;
 		
 		switch (windowLevel) {
-			case AINormalWindowLevel: level = NSNormalWindowLevel; break;
-			case AIFloatingWindowLevel: level = NSFloatingWindowLevel; break;
-			case AIDesktopWindowLevel: level = kCGDesktopWindowLevel; break;
+			case AINormalWindowLevel:
+				level = NSNormalWindowLevel;
+				break;
+			case AIFloatingWindowLevel:
+				level = NSFloatingWindowLevel;
+				break;
+			case AIDesktopWindowLevel:
+				level = kCGDesktopWindowLevel;
+				break;
+			default:
+				level = NSNormalWindowLevel;
+				break;
 		}
+		
 		[window setLevel:level];
 		[window setHidesOnDeactivate:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
     }
@@ -1305,7 +1316,7 @@
 - (void)_configureToolbar
 {
 //	NSToolbar *toolbar; change this if need be
-    toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW] autorelease];
+    toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW];
 	
     [toolbar setDelegate:self];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];

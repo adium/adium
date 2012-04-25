@@ -265,7 +265,7 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 		 * The ui_info stays in memory forever, anyways, so it hardly matters. -evands
 		 */
 		g_hash_table_insert(ui_info, "version", g_strdup([[NSApp applicationVersion] UTF8String])); 
-		g_hash_table_insert(ui_info, "website", "http://adium.im");
+		g_hash_table_insert(ui_info, "website", "http://www.adium.im");
 		g_hash_table_insert(ui_info, "dev_website", "http://trac.adium.im");
 		g_hash_table_insert(ui_info, "client_type", "mac");
 		

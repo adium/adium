@@ -14,6 +14,8 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+// XXX - Remove this on 10.7+ transition
+
 #ifndef AILeopardCompatibility
 #define AILeopardCompatibility
 
@@ -26,8 +28,18 @@
 #if MAC_OS_X_VERSION_10_7 > MAC_OS_X_VERSION_MAX_ALLOWED
 
 #ifdef __OBJC__
+
 @interface NSScrollView (NewLionMethods)
 - (void)setVerticalScrollElasticity:(NSInteger)elasticity;
+@end
+
+@interface NSWindow (NewLionMethods)
+- (void)setRestorable:(BOOL)flag;
+@end
+
+@protocol NSDraggingDestination <NSObject>
+@end
+@protocol NSURLDownloadDelegate <NSObject>
 @end
 
 #endif

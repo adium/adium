@@ -225,21 +225,22 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
     logLoadingPrefetchSemaphore = dispatch_semaphore_create(3 * cpuCount + 1); //prefetch one log
 	
 	
-	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
-													  fontTags:YES
-												 closeFontTags:YES
-													 colorTags:YES
-													 styleTags:YES
-												encodeNonASCII:YES
-												  encodeSpaces:NO
-											 attachmentsAsText:NO
-									 onlyIncludeOutgoingImages:NO
-												simpleTagsOnly:NO
-												bodyBackground:NO
-										   allowJavascriptURLs:YES];
+	self.xhtmlDecoder = [[[AIHTMLDecoder alloc] initWithHeaders:NO
+													   fontTags:YES
+												  closeFontTags:YES
+													  colorTags:YES
+													  styleTags:YES
+												 encodeNonASCII:YES
+												   encodeSpaces:NO
+											  attachmentsAsText:NO
+									  onlyIncludeOutgoingImages:NO
+												 simpleTagsOnly:NO
+												 bodyBackground:NO
+											allowJavascriptURLs:YES] autorelease];
+	
 	[self.xhtmlDecoder setGeneratesStrictXHTML:YES];
 	
-	self.statusTranslation = [[NSDictionary alloc] initWithObjectsAndKeys:
+	self.statusTranslation = [NSDictionary dictionaryWithObjectsAndKeys:
 							  @"away",@"away",
 							  @"online",@"return_away",
 							  @"online",@"online",
@@ -280,7 +281,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 														toolTip:AILocalizedString(@"View previous conversations with this contact or chat",nil)
 														 target:self
 												settingSelector:@selector(setImage:)
-													itemContent:[NSImage imageNamed:@"LogViewer" forClass:[self class] loadLazily:YES]
+													itemContent:[NSImage imageNamed:@"msg-log-viewer" forClass:[self class] loadLazily:YES]
 														 action:@selector(showLogViewerForActiveChat:)
 														   menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
@@ -324,6 +325,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	self.dirtyLogSet = nil;
 	self.activeAppenders = nil;
 	self.xhtmlDecoder = nil;
+	self.statusTranslation = nil;
 	
 	dispatch_release(dirtyLogSetMutationQueue); dirtyLogSetMutationQueue = nil;
 	dispatch_release(searchIndexQueue); searchIndexQueue = nil;
@@ -430,8 +432,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	 */
 	[self _cancelClosingLogIndex];
 	__block __typeof__(self) bself = self;
-	if (!logIndex) {
-		dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
+    dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
+        if (!logIndex) {
 			SKIndexRef _index = nil;
 			NSString  *logIndexPath = [bself _logIndexPath];
 			NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
@@ -480,8 +482,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 				}
 			}
 			bself->logIndex = _index;
-		}));
-	}
+		}
+    }));
 	return logIndex;
 }
 
@@ -517,6 +519,11 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
 		SKIndexRef logSearchIndex = [bself logContentIndex];
 		
+        if (!logSearchIndex) {
+            AILogWithSignature(@"AILoggerPlugin warning: logSearchIndex is NULL, but we wanted to remove documents.");
+            return;
+        }
+
 		for (NSString *logPath in paths) {
 			SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 			if (document) {
@@ -656,6 +663,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									 keyEquivalent:@""] autorelease];
 	[adium.menuController addContextualMenuItem:viewGroupLogsContextMenuItem
 									 toLocation:Context_GroupChat_Manage];
+}
+
+// Enable/Disable our view log menus
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{	
+    if (menuItem == viewContactLogsMenuItem) {
+        AIListObject *selectedObject = adium.interfaceController.selectedListObject;
+		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
+    } else if (menuItem == viewContactLogsContextMenuItem) {
+        AIListObject *selectedObject = adium.menuController.currentContextMenuObject;
+		return !adium.interfaceController.activeChat.isGroupChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
+    }
+	
+    return YES;
 }
 
 - (void)_initLogIndexing
@@ -1433,7 +1454,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs > 0 && bself.indexingAllowed) {
 				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				__block NSString *__logPath;
+				__block NSString *__logPath = nil;
 				NSString  *logPath = nil;
 				
 				dispatch_sync(dirtyLogSetMutationQueue, ^{
@@ -1527,7 +1548,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                             }));
 						} else {
 							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
-							CFRelease(document);
+							if (document) CFRelease(document);
 							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
 							dispatch_semaphore_signal(jobSemaphore);
@@ -1628,6 +1649,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
 				SKIndexClose(bself->logIndex);
+                AILogWithSignature(@"**** Finished closing index %p", bself->logIndex);
 				bself->logIndex = nil;
 			}
 		}

@@ -17,8 +17,8 @@
 # - make all
 ###########
 
-VERSION=1.5b9
-BUILD_IN_DEBUG_MODE?=TRUE
+VERSION=1.6hg
+BUILD_IN_DEBUG_MODE?=FALSE
 BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
 
@@ -31,7 +31,7 @@ NIGHTLY_BRANCH?=default
 # To release!
 # Releasing requires cachefly access and adiumx.com access.
 #
-# First upload to cachefly. If you don't have access and need to do a release, get with Evan or Chris (tick).
+# First upload to cachefly. If you don't have access and need to do a release, get with Evan, Eric, or Zac.
 # Triggering the version checker once the release is up:
 # 1) Build Adium
 # 2) Get the number out of the 'buildnum' file in Adium.app/Contents/Resources
@@ -121,7 +121,7 @@ assertnoconflicts:
 
 version:
 	@# update the plists
-	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright 2001-$(shell date +"%Y") The Adium Team"
+	defaults write $(ADIUM_PLIST) CFBundleGetInfoString "$(VERSION), Copyright © 2001-$(shell date +"%Y") The Adium Team"
 	defaults write $(ADIUM_PLIST) CFBundleVersion "$(VERSION)"
 	defaults write $(ADIUM_PLIST) CFBundleShortVersionString "$(VERSION)"
 ifeq ($(NIGHTLY),TRUE)
@@ -164,7 +164,7 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
 		security unlock-keychain -p `cat ~/adium-password`; \
 	fi
-	codesign -v -s Adium $(ADIUM_DIR)/Adium.app/Contents/MacOS/Adium
+	codesign -v -s "Developer ID Application: Instant Messaging Freedom, Inc." $(ADIUM_DIR)/Adium.app/Contents/MacOS/Adium
 endif
 
 createfolder:

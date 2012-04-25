@@ -170,19 +170,19 @@
 	NSString *mailApplicationName = [self mailApplicationName];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AINoNewMailWindow"]) {
-		[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"New Mail",nil)
-															  defaultButton:nil
-															alternateButton:(inURLString ? 
-																			 AILocalizedString(@"Open Mail in Browser",nil) :
-																			 nil)
-																otherButton:((mailApplicationName && [mailApplicationName length]) ?
-																			 [NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
-																			 nil)
-																   onWindow:nil
-														  withMessageHeader:nil
-																 andMessage:inMessage
-																	 target:self
-																   userInfo:inURLString];
+		ESTextAndButtonsWindowController *textAndButtonsWindowController = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"New Mail",nil)
+																													 defaultButton:nil
+																												   alternateButton:(inURLString ? 
+																																	AILocalizedString(@"Open Mail in Browser",nil) :
+																																	nil)
+																													   otherButton:((mailApplicationName && [mailApplicationName length]) ?
+																																	[NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
+																																	nil)
+																												 withMessageHeader:nil
+																														andMessage:inMessage
+																															target:self
+																														  userInfo:inURLString];
+		[textAndButtonsWindowController showOnWindow:nil];
 	}
 	
 	//XXX - Hook this to the account for listobject
@@ -246,7 +246,7 @@
 		 * nor what normally happens when the user opens a .html file since that is, on many systems, an HTML editor.
 		 * Instead, we want to know what application to use for viewing web pages... and then open this file in it.
 		 */
-		err = LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://www.adiumx.com"],
+		err = LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://www.adium.im"],
 									 kLSRolesViewer,
 									 /*outAppRef*/ NULL,
 									 &appURL);

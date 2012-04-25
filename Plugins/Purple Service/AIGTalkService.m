@@ -58,7 +58,7 @@
 	return NO;
 }
 - (AIServiceImportance)serviceImportance{
-	return AIServiceSecondary;
+	return AIServicePrimary;
 }
 /*!
  * @brief Placeholder string for the UID field

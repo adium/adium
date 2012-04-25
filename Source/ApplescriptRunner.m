@@ -234,7 +234,9 @@ int main(int argc, const char *argv[])
 		(void)[processArgumentsEnum nextObject]; //The first argument is the command name. We don't need that.
 
 		scriptPath = [processArgumentsEnum nextObject];
-		if (!scriptPath) {
+		
+		// It appears LSOpenFromRefSpec passes something of the form -psn_0_1234, don't interpret that as the path of a script.
+		if (!scriptPath || [scriptPath hasPrefix:@"-psn_"]) {
 			[applescriptRunner beginObservingForDistributedNotifications];
 
 			//Run in the background for up to SECONDS_INACTIVITY_BEFORE_AUTOMATIC_QUIT seconds, waiting for Adium to give us a script to run.

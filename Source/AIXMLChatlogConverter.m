@@ -192,7 +192,7 @@
     for (AIAccount *account in adium.accountController.accounts) {
         if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
             [account.service.serviceID isEqualToString:service]) {
-            myDisplayName = [account.displayName retain];
+            myDisplayName = [[account.displayName retain] autorelease];
             break;
         }
     }    
@@ -229,7 +229,11 @@
                 //Find an account if one exists, and use its name
                 displayName = (myDisplayName ? myDisplayName : sender);
             } else {
-                AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				__block AIListObject *listObject;
+				
+				dispatch_sync(dispatch_get_main_queue(), ^{
+					listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				});
                 
                 displayName = listObject.displayName;
                 longDisplayName = [listObject longDisplayName];

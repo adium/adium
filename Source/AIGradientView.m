@@ -45,6 +45,8 @@
 	middleColor = nil;
 	endingColor = nil;
 	backgroundColor = nil;
+	
+	[super dealloc];
 }
 
 - (void)drawRect:(NSRect)rect

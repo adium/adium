@@ -19,40 +19,30 @@
 #define	PRESET_NAME_SHEET	@"PresetNameSheet"
 
 @interface ESPresetNameSheetController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName defaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo;
 - (void)configureExplanatoryTextWithString:(NSString *)inExplanatoryText;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESPresetNameSheetController
 
-+ (void)showPresetNameSheetWithDefaultName:(NSString *)inDefaultName
-						   explanatoryText:(NSString *)inExplanatoryText
-								  onWindow:(NSWindow *)parentWindow
-						   notifyingTarget:(id)inTarget
-								  userInfo:(id)inUserInfo
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	ESPresetNameSheetController	*controller = [[self alloc] initWithWindowNibName:PRESET_NAME_SHEET
-																	  defaultName:inDefaultName
-																explanatoryText:inExplanatoryText
-																notifyingTarget:inTarget
-																	   userInfo:inUserInfo];
 	//Must be called on a window
 	NSParameterAssert(parentWindow != nil);
 	
-	//Target must respond to the ending selector
-	NSParameterAssert([inTarget respondsToSelector:@selector(presetNameSheetControllerDidEnd:returnCode:newName:userInfo:)]);
-	
-	[NSApp beginSheet:[controller window]
+	[NSApp beginSheet:self.window
 	   modalForWindow:parentWindow
-		modalDelegate:controller
+		modalDelegate:self
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 		  contextInfo:nil];
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName defaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo
+- (id)initWithDefaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo
 {
-	if ((self = [super initWithWindowNibName:windowNibName])) {
+	//Target must respond to the ending selector
+	NSParameterAssert([inTarget respondsToSelector:@selector(presetNameSheetControllerDidEnd:returnCode:newName:userInfo:)]);
+	
+	if ((self = [super initWithWindowNibName:PRESET_NAME_SHEET])) {
 		defaultName = [inDefaultName retain];
 		explanatoryText = [inExplanatoryText retain];
 		target = [inTarget retain];
@@ -68,6 +58,8 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {	
     [sheet orderOut:nil];
+	
+	[self autorelease];
 }
 
 /*!

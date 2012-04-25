@@ -30,7 +30,6 @@
 #import <Adium/AIServiceIcons.h>
 
 @interface AIEditAccountWindowController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName account:(AIAccount *)inAccount notifyingTarget:(id)inTarget;
 - (void)_addCustomViewAndTabsForAccount:(AIAccount *)inAccount;
 - (void)_addCustomView:(NSView *)customView toView:(NSView *)setupView tabViewItemIdentifier:(NSString *)identifier
 		runningHeight:(NSInteger *)height width:(NSInteger *)width;
@@ -51,35 +50,27 @@
 /*!
  * @brief Begin editing
  *
- * @param inAccount The account to edit
  * @param parentWindow A window on which to show the edit account window as a sheet.  If nil, account editing takes place in an independent window.
- * @param inTarget Target to notify when editing is complete.
  */
-+ (void)editAccount:(AIAccount *)inAccount onWindow:(id)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(id)parentWindow
 {
-	AIEditAccountWindowController	*controller;
-
-	controller = [[self alloc] initWithWindowNibName:@"EditAccountSheet"
-											 account:inAccount
-									 notifyingTarget:inTarget];
-
 	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:controller
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[controller showWindow:nil];
+		[self showWindow:nil];
 	}
 }
 
 /*!
  * @brief Init the window controller
  */
-- (id)initWithWindowNibName:(NSString *)windowNibName account:(AIAccount *)inAccount notifyingTarget:(id)inTarget
+- (id)initWithAccount:(AIAccount *)inAccount notifyingTarget:(id)inTarget
 {
-	if ((self = [super initWithWindowNibName:windowNibName])) {
+	if ((self = [super initWithWindowNibName:@"EditAccountSheet"])) {
 		account = [inAccount retain];
 		notifyTarget = inTarget;
 		userIconData = nil;
@@ -94,6 +85,8 @@
 - (void)dealloc
 {
 	[account release];
+	[accountViewController release];
+	[accountProxyController release];
 	[userIconData release]; userIconData = nil;
 
 	[super dealloc];
@@ -166,6 +159,7 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	[self autorelease];
 }
 
 - (void)configureControlDimming

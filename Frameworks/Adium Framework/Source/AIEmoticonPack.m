@@ -603,6 +603,7 @@ AILocalizedStringFromTable(@"Embarrassed", "EmoticonNames", "Emoticon name")
  AILocalizedStringFromTable(@"Surprised", "EmoticonNames", "Emoticon name")
  AILocalizedStringFromTable(@"Thinking", "EmoticonNames", "Emoticon name")
  AILocalizedStringFromTable(@"Tongue Out", "EmoticonNames", "Emoticon name")
+ AILocalizedStringFromTable(@"Wearing Sunglasses", "EmoticonNames", "Emoticon name")
 */
 
 @end

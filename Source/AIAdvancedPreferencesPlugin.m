@@ -18,6 +18,7 @@
 #import "AIMessageAlertsAdvancedPreferences.h"
 #import "AIWindowHandlingPreferences.h"
 #import "AIMessagePreferences.h"
+#import "AIXtrasManager.h"
 
 @implementation AIAdvancedPreferencesPlugin
 
@@ -27,6 +28,7 @@
 	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
 	windowHandlingPreferences = [(AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane] retain];
 	messagePreferences = [(AIMessagePreferences *)[AIMessagePreferences preferencePane] retain];
+	xtrasManager = [(AIXtrasManager *)[AIXtrasManager preferencePane] retain];
 }
 
 @end

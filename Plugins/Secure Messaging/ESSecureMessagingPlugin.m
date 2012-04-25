@@ -54,7 +54,7 @@
 - (void)_updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 - (void) toolbarDidAddItem:(NSToolbarItem *)item;
 
-- (void)toggleSecureMessaging:(id)sender;
+- (IBAction)toggleSecureMessaging:(id)sender;
 - (void)chatDidBecomeVisible:(NSNotification *)notification;
 - (void)dummyAction:(id)sender;
 @end
@@ -67,8 +67,8 @@
 	[adium.contentController setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
 
 	_secureMessagingMenu = nil;
-	lockImage_Locked = [[NSImage imageNamed:@"Lock_Locked State" forClass:[self class]] retain];
-	lockImage_Unlocked = [[NSImage imageNamed:@"Lock_Unlocked State" forClass:[self class]] retain];
+	lockImage_Locked = [[NSImage imageNamed:@"lock-locked" forClass:[self class]] retain];
+	lockImage_Unlocked = [[NSImage imageNamed:@"lock-unlocked" forClass:[self class]] retain];
 
 	[self registerToolbarItem];
 	[self configureMenuItems];

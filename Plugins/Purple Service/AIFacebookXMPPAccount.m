@@ -26,7 +26,7 @@
 #import <Adium/AIPasswordPromptController.h>
 #import <Adium/AIService.h>
 
-#import <Libpurple/auth.h>
+#import <libpurple/auth.h>
 #import "auth_fb.h"
 
 enum {

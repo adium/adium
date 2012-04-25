@@ -302,14 +302,12 @@
 		if ([[pboard availableTypeFromArray:[NSArray arrayWithObject:@"AIListObjectUniqueIDs"]] isEqualToString:@"AIListObjectUniqueIDs"]) {
 			NSArray			*dragItemsUniqueIDs;
 			NSString		*uniqueID;
-			AIListObject	*listObject;
 			AIListContact	*listContact;
 			
 			dragItemsUniqueIDs = [pboard propertyListForType:@"AIListObjectUniqueIDs"];
 			
 			for (uniqueID in dragItemsUniqueIDs) {
 				NSString *oldValue = [theField stringValue];
-				listObject = [adium.contactController existingListObjectWithUniqueID:uniqueID];
 				
 				// Get contacts with our service
 				// (May not be necessary, as we reject ungood contacts in the dragging entered phase)

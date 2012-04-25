@@ -17,11 +17,11 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AISoundController.h"
+#import <ShortcutRecorder/SRRecorderControl.h>
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import "SGHotKeyCenter.h"
 #import "SGHotKey.h"
-#import "SRRecorderControl.h"
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIServiceIcons.h>
@@ -33,6 +33,8 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "AILogByAccountWindowController.h"
+#import "AIURLHandlerPlugin.h"
+#import "AIURLHandlerWindowController.h"
 
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
@@ -117,10 +119,10 @@
 	[label_status setLocalizedString:AILocalizedString(@"Status:", nil)];
 	[label_updates setLocalizedString:AILocalizedString(@"Updates:", nil)];
 	
-	[button_defaultApp setLocalizedString:AILocalizedString(@"Set default application", nil)];
+	[button_defaultApp setLocalizedString:AILocalizedString(@"Make Adium default application", nil)];
 	[button_customizeDefaultApp setLocalizedString:AILocalizedString(@"Customize…", nil)];
 	
-	[checkbox_showInMenu setLocalizedString:AILocalizedString(@"Show Adium status in menu bar", nil)];
+	[checkbox_showInMenu setLocalizedString:AILocalizedString(@"Show Adium's status in the menu bar", nil)];
 	[checkbox_updatesAutomatic setLocalizedString:AILocalizedString(@"Automatically check for updates", nil)];
 	[checkbox_updatesIncludeBetas setLocalizedString:AILocalizedString(@"Update to beta versions when available", nil)];
 	[checkbox_updatesProfileInfo setLocalizedString:AILocalizedString(@"Include anonymous system profile", nil)];
@@ -248,4 +250,25 @@
 	}
 }
 
+- (IBAction)setAsDefaultApp:(id)sender
+{
+	[[AIURLHandlerPlugin sharedAIURLHandlerPlugin] setAdiumAsDefault];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet orderOut:nil];
+	[sheet.windowController release];
+}
+
+- (IBAction)customizeDefaultApp:(id)sender
+{
+	AIURLHandlerWindowController *windowController = [[AIURLHandlerWindowController alloc] initWithWindowNibName:@"AIURLHandlerPreferences"];
+	
+	[NSApp beginSheet:windowController.window
+	   modalForWindow:self.view.window
+		modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
 @end
