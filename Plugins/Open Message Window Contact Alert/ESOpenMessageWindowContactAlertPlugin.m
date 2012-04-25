@@ -47,7 +47,7 @@
 
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"WindowAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-window-alert" forClass:[self class]];
 }
 
 - (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID

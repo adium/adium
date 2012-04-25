@@ -24,10 +24,12 @@
  */
 @interface AIPreferenceCollectionView : NSCollectionView {
 	NSUInteger highlightedIndex;
+	NSMutableIndexSet *matchedSearchIndexes;
 	id <AIPreferenceCollectionViewDelegate> delegate;
 }
 
 @property (assign, nonatomic) NSUInteger highlightedIndex;
+@property (retain, nonatomic) NSMutableIndexSet *matchedSearchIndexes;
 @property (assign, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
 
 @end

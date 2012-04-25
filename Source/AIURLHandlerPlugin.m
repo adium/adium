@@ -15,7 +15,7 @@
  */
 
 #import "AIURLHandlerPlugin.h"
-#import "AIURLHandlerAdvancedPreferences.h"
+#import "AIURLHandlerWindowController.h"
 
 #import "AINewContactWindowController.h"
 #import "XtrasInstaller.h"
@@ -57,6 +57,30 @@
  * for the schemes we support, and enforcing if necessary our ownership.
  */
 @implementation AIURLHandlerPlugin
+- (id)initPlugin
+{
+	if (!(self = [super init]))
+		return nil;
+	
+	return self;
+}
+
++ (AIURLHandlerPlugin *)sharedAIURLHandlerPlugin
+{
+	static AIURLHandlerPlugin *sharedAIURLHandlerPlugin = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedAIURLHandlerPlugin = [[self alloc] initPlugin];
+	});
+	
+	return sharedAIURLHandlerPlugin;
+}
+
+- (id)init
+{
+	return [AIURLHandlerPlugin sharedAIURLHandlerPlugin];
+}
+
 /*!
  * @brief Install plugin
  *
@@ -64,8 +88,6 @@
  */
 - (void)installPlugin
 {
-	preferences = [(AIURLHandlerAdvancedPreferences *)[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self] retain];
-	
 	[self checkHandledSchemes];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -80,8 +102,6 @@
 - (void)uninstallPlugin
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[preferences release];
 }
 
 #pragma mark Scheme enforcement
@@ -209,8 +229,6 @@
 	for (NSString *scheme in [self allSchemesLikeScheme:inScheme]) {
 		LSSetDefaultHandlerForURLScheme((CFStringRef)scheme, (CFStringRef)bundleID);
 	}
-	
-	[preferences refreshTable];
 }
 
 /*!
@@ -403,10 +421,10 @@
 				
 				jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
 				
-				[AINewContactWindowController promptForNewContactOnWindow:nil
-																	 name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-																  service:jabberService
-																  account:nil];
+				AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+																															 service:jabberService
+																															 account:nil];
+				[newContactWindowController showOnWindow:nil];
 			} else if ([query rangeOfString:@"remove"].location == 0
 					   || [query rangeOfString:@"unsubscribe"].location == 0) {
 				// xmpp:johndoe@jabber.org?remove
@@ -455,10 +473,10 @@
 			
 			if (contactName.length) {
 				if ([host isEqualToString:@"addContact"]) {
-					[AINewContactWindowController promptForNewContactOnWindow:nil
-																		 name:contactName
-																	  service:[adium.accountController firstServiceWithServiceID:serviceID]
-																	  account:nil];
+					AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:contactName
+																																 service:[adium.accountController firstServiceWithServiceID:serviceID]
+																																 account:nil];
+					[newContactWindowController showOnWindow:nil];
 				} else if ([host isEqualToString:@"sendIM"]) {
 					[self _openChatToContactWithName:contactName
 										   onService:serviceID
@@ -486,7 +504,7 @@
 		
 	} else if ([scheme isEqualToString:@"adiumxtra"]) {
 		//Installs an adium extra
-		// adiumxtra://www.adiumxtras.com/path/to/xtra.zip
+		// adiumxtra://xtras.adium.im/path/to/xtra.zip
 		
 		[[XtrasInstaller installer] installXtraAtURL:url];
 	}
@@ -527,7 +545,8 @@
 	}
 	
 	if (!ircAccount) {
-		[[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		AITemporaryIRCAccountWindowController *temporaryIRCAccountWindowController = [[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
+		[temporaryIRCAccountWindowController show];
 	} else if (name) {
 		[adium.chatController chatWithName:name
 		 identifier:nil

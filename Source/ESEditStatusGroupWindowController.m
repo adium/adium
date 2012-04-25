@@ -23,35 +23,28 @@
 
 @interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;
-- (id)initWithWindowNibName:(NSString *)windowNibName forStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESEditStatusGroupWindowController
 
-+ (void)editStatusGroup:(AIStatusGroup *)inStatusGroup onWindow:(id)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	ESEditStatusGroupWindowController *controller;
-
-	controller = [[self alloc] initWithWindowNibName:@"EditStatusGroup"
-									  forStatusGroup:inStatusGroup
-									 notifyingTarget:inTarget];
-
 	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:controller
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[controller showWindow:nil];
-		[[controller window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName forStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget
+- (id)initWithStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget
 {
-    if ((self = [super initWithWindowNibName:windowNibName])) {
+    if ((self = [super initWithWindowNibName:@"EditStatusGroup"])) {
 		target = inTarget;
 		statusGroup = (inStatusGroup ? [inStatusGroup retain] : [[AIStatusGroup alloc] init]);
 	}	
@@ -107,6 +100,8 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	
+	[self autorelease];
 }
 
 

@@ -19,7 +19,7 @@
 
 
 @implementation AIPreferenceCollectionView
-@synthesize highlightedIndex, delegate;
+@synthesize highlightedIndex, matchedSearchIndexes, delegate;
 
 - (void)setHighlightedIndex:(NSUInteger)anIndex
 {
@@ -32,7 +32,7 @@
 
 - (void)awakeFromNib
 {
-	[self addObserver:self forKeyPath:@"selectionIndexes"
+	[self addObserver:self forKeyPath:@"matchedSearchIndexes"
 			  options:(NSKeyValueObservingOptionNew)
 			  context:NULL];
 	
@@ -41,14 +41,14 @@
 
 - (void)dealloc
 {
-	[self removeObserver:self forKeyPath:@"selectionIndexes"];
+	[self removeObserver:self forKeyPath:@"matchedSearchIndexes"];
 	[super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	//Selection has changed
-	if ([keyPath isEqualToString:@"selectionIndexes"]) {
+	if ([keyPath isEqualToString:@"matchedSearchIndexes"]) {
 		[self setNeedsDisplay:YES];
 	}
 }
@@ -97,29 +97,34 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	if ([[self selectionIndexes] count] > 0) {
-		[[self selectionIndexes] enumerateIndexesUsingBlock:^(NSUInteger anIndex, BOOL *stop) {
-			if (anIndex == self.highlightedIndex)
-				[[NSColor whiteColor] set];
-			else
-				[[NSColor lightGrayColor] set];
-			
-			NSRect highlightRect = [self frameForItemAtIndex:anIndex];
-			
-			CGFloat radius = MIN(highlightRect.size.width, highlightRect.size.height);
-			
-			radius = radius * 0.9f;
-			highlightRect.origin.x += (highlightRect.size.width - radius) / 2;
-			
-			highlightRect.size.width = radius;
-			highlightRect.size.height = radius;
-			
-			NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:highlightRect
-																 xRadius:radius
-																 yRadius:radius];
-			[path fill];
-		}];
-	}
+	id highlightItems = ^(NSUInteger anIndex, BOOL *stop) {
+		if ([[self itemAtIndex:anIndex] isSelected])
+			return;
+		if (anIndex == self.highlightedIndex)
+			[[NSColor whiteColor] set];
+		else
+			[[NSColor lightGrayColor] set];
+		
+		NSRect highlightRect = [self frameForItemAtIndex:anIndex];
+		
+		CGFloat radius = MIN(highlightRect.size.width, highlightRect.size.height);
+		
+		radius = radius * 0.9f;
+		highlightRect.origin.x += (highlightRect.size.width - radius) / 2;
+		
+		highlightRect.size.width = radius;
+		highlightRect.size.height = radius;
+		
+		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:highlightRect
+															 xRadius:radius
+															 yRadius:radius];
+		[path fill];
+	};
+	
+	if ([self.selectionIndexes count] > 0)
+		[self.selectionIndexes enumerateIndexesUsingBlock:highlightItems];
+	else if ([self.matchedSearchIndexes count] > 0)
+		[self.matchedSearchIndexes enumerateIndexesUsingBlock:highlightItems];
 }
 
 @end

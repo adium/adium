@@ -295,7 +295,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         attachmentRange = [[self string] rangeOfString:attachmentCharacterString
 											   options:0 
 												 range:NSMakeRange(currentLocation,
-																   [self length] - currentLocation)];
+																   [self length])];
 		
         while (attachmentRange.length != 0) { //if we found an attachment
 			NSTextAttachment	*attachment = [self attribute:NSAttachmentAttributeName

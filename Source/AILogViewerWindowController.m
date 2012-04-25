@@ -428,6 +428,9 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 	//Toolbar
 	[self installToolbar];
+	
+	//Setting this autosave in the nib doesn't work properly
+	[splitView_contacts setAutosaveName:@"LogViewer:Contacts"];
 
 	[outlineView_contacts setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 
@@ -709,10 +712,14 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 {
 	[displayOperation cancel];
 	[displayOperation autorelease];
+	displayOperation = nil;
 	currentMatch = -1;
 	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
-	displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
-	[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	
+	if (logArray) {
+		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
+		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	}
 }
 
 //Displays the contents of the specified log in our window
@@ -1240,7 +1247,6 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 		[NSNumber numberWithInteger:activeSearchID], @"ID",
 		[NSNumber numberWithInteger:searchMode], @"Mode",
 		activeSearchString, @"String",
-		[plugin logContentIndex], @"SearchIndex",
 		nil];
     [NSThread detachNewThreadSelector:@selector(filterLogsWithSearch:) toTarget:self withObject:searchDict];
     
@@ -1578,6 +1584,10 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	currentSearch = (thisSearch ? (SKSearchRef)CFRetain(thisSearch) : NULL);
 	[currentSearchLock unlock];
 	
+	AILogWithSignature(@"Calling flush");
+	SKIndexFlush(logSearchIndex);
+	AILogWithSignature(@"Done flushing. Now we can search.");
+	
 	//Retrieve matches as long as more are pending
     while (more && currentSearch) {
 #define BATCH_NUMBER 100
@@ -1714,7 +1724,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILog(@"filterLogsWithSearch (search ID %i): %@",searchID,searchInfoDict);
+		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1728,7 +1738,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				case LOG_SEARCH_CONTENT:
 					[self _logContentFilter:searchString
 								   searchID:searchID
-							  onSearchIndex:(SKIndexRef)[searchInfoDict objectForKey:@"SearchIndex"]];
+							  onSearchIndex:[plugin logContentIndex]];
 					break;
 			}
 		} else {
@@ -1740,7 +1750,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILog(@"filterLogsWithSearch (search ID %i): finished",searchID);
+		AILogWithSignature(@"Search ID %i): finished", searchID);
     }
 	
     //Cleanup
@@ -1968,7 +1978,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		dateFormatter = [cell formatter];
 		if (!dateFormatter) {
 			dateFormatter = [[[AILogDateFormatter alloc] init] autorelease];
-			[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[cell setFormatter:dateFormatter];
 		}
 		
@@ -2259,6 +2268,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	//Force a minumum size for the log view
 	if (splitView == splitView_logs)
 		return splitView_logs.frame.size.height - 100.0f;
+	else if (splitView == splitView_contacts)
+		return floor(splitView_contacts.frame.size.width / 2);
 	
 	return proposedMax;
 }

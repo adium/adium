@@ -409,16 +409,16 @@
 												   [listObject valueForProperty:@"extendedStatus"])
 										drawUnder:YES];
 		
-		rect = [self drawDisplayNameWithFrame:rect];
+		[self drawDisplayNameWithFrame:rect];
 		
 	} else if (!idleTimeIsBelow && !statusMessageIsBelow) {
 		// Draw the display name before
 		rect = [self drawDisplayNameWithFrame:rect];
 		
-		rect = [self drawUserExtendedStatusInRect:rect
-									  withMessage:(useStatusMessageAsExtendedStatus ?
-												   [listObject statusMessageString] : 
-												   [listObject valueForProperty:@"extendedStatus"])
+		[self drawUserExtendedStatusInRect:rect
+							   withMessage:(useStatusMessageAsExtendedStatus ?
+											[listObject statusMessageString] :
+											[listObject valueForProperty:@"extendedStatus"])
 										drawUnder:NO];	
 	} else {
 		if (statusMessageIsBelow && statusMessageVisible) {
@@ -443,9 +443,9 @@
 		}
 		
 		if (!idleTimeIsBelow && idleTimeVisible) {
-			rect = [self drawUserExtendedStatusInRect:rect
-										  withMessage:[listObject valueForProperty:@"idleReadable"]
-											drawUnder:NO];
+			[self drawUserExtendedStatusInRect:rect
+								   withMessage:[listObject valueForProperty:@"idleReadable"]
+									 drawUnder:NO];
 		}
 	}
 }

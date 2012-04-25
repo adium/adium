@@ -47,5 +47,7 @@
 }
 
 @property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
+- (IBAction)setAsDefaultApp:(id)sender;
+- (IBAction)customizeDefaultApp:(id)sender;
 
 @end

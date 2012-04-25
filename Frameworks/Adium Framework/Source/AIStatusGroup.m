@@ -191,12 +191,9 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 		 * Sorting the menu items before enumerating means that we know our statuses are sorted first by statusType
 		 */
 		if ((currentStatusType != thisStatusType)) {			
-			if ((currentStatusType != AIOfflineStatusType) &&
-				addedItemForThisStatusType) {
+			if ((currentStatusType != AIOfflineStatusType) && addedItemForThisStatusType) {
 				//Add a divider
 				[menu addItem:[NSMenuItem separatorItem]];
-
-				addedItemForThisStatusType = NO;
 			}
 
 			currentStatusType = thisStatusType;

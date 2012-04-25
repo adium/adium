@@ -34,7 +34,8 @@
 	NSDictionary	*tempDragPreset;
 }
 
-+ (void)managePresets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey onWindow:(NSWindow *)parentWindow withDelegate:(id)inDelegate;
+- (id)initWithPresets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 
 - (IBAction)duplicatePreset:(id)sender;
 - (IBAction)deletePreset:(id)sender;

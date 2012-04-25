@@ -1,5 +1,63 @@
 Adium 1.5xx
- * Updated Italian localisation. (#15758)
+ General
+  * Can't change XMPP room settings for combo box settings (#15629).
+  * Fixed deletion of a Gadu-Gadu contact from contact list not being persistent (#9126).
+  * Fixed message view content not scrolled to bottom when opening and not scrolling when new content is added.
+
+ Localisation
+  * Updated localisations: Swedish (#15786).
+
+Adium 1.5rc4
+ * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
+ * Fixed message history only showing on 1st tab, on startup (#15377).
+ * Fixed message view jumps to the bottom when Twitter Timeline updates (#15790).
+ * Fixed the contact list shrinking when closing the search. (#14433)
+ * Fixed the Ukrainian localisation not being used on Mac OS X Lion (#15821).
+
+
+Adium 1.5rc3
+ General
+  * Fixed permission issues caused by previous release being built incorrectly.
+  * Blacklisted the Skype plugin in 1.5, as it's known to be broken.
+  * Restored LiveJournal connectivity by removing the hard-coded server name, they have an SRV record now.
+
+ Localisation
+  * Updated localisations: Italian (#15810, #15808).
+
+
+Adium 1.5rc2
+ General
+  * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
+  * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
+  * Fixed numerous memory leaks.
+  * Fixed numerous Clang Analyzer warnings.
+
+ Localisation
+  * Updated localisations: German (##15586, #15733), Greek, Swedish (#15786).
+  * Fixed localisation of a couple of emoticon names.
+
+
+Adium 1.5rc1
+ Localisation
+  * Updated localisations: Catalan (#15770), Chinese (Traditional), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772).
+  * Fixed typos/misspellings in Russian localisation. (#15769, #15571)
+
+ Transcript Viewer
+  * Fixed ghosting artifacts when scrolling transcript contents (while searching).
+  * Fixed a potential crash when the log index failed to initialize while trying to delete a log.
+  * Fixed a hang caused by two threads opening the same index simultaneously.
+
+ General
+  * Added Aqualicious Graphite, a new contact list theme to match Mac OS X's Graphite style.
+  * Added the generic menu items to the group chat cog button for XMPP groupchats.
+  * Fixed "Show Toolbar" showing as disabled and untranslated. (#15759)
+  * Fixed ghosting artifacts in the "Get Info" window's "Events" tab. (#12237)
+  * Fixed enable/disable "View Chat Transcripts" menu item, in group chats (user list) context menu.
+  * Chats can no longer refuse to quit when they're still processing content.
+  * Fixed AdiumAppleScriptRunner to enable building on Lion.
+  * Switched some adiumx.com links to adium.im.
+  * Fixed a bunch of non-integer view size values.
+
 
 Adium 1.5b9
  General

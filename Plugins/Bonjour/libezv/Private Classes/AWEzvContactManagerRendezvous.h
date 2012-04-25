@@ -63,40 +63,41 @@
 - (void) stopBrowsing;
 
 - (void)browseResultwithFlags:(DNSServiceFlags)flags
-	onInterface:(uint32_t) interfaceIndex
- 	name:(const char *)replyName
-	type:(const char *)replyType
-	domain:(const char *)replyDomain
-	av:(BOOL) av;
+				  onInterface:(uint32_t) interfaceIndex
+						 name:(const char *)replyName
+						 type:(const char *)replyType
+					   domain:(const char *)replyDomain
+						   av:(BOOL) av;
 
 - (void)updateContact:(AWEzvContact *)iccontact
-	withData:(AWEzvRendezvousData *)rendezvousData
-	withHost:(NSString *)host
-	withInterface:(uint32_t)interface
-	withPort:(uint16_t)recPort
-	av:(BOOL)av;
+			 withData:(AWEzvRendezvousData *)rendezvousData
+			 withHost:(NSString *)host
+		withInterface:(uint32_t)interface
+			 withPort:(uint16_t)recPort
+				   av:(BOOL)av;
 
 - (void)findAddressForContact:(AWEzvContact *)contact
-	withHost:(NSString *)host
-	withInterface:(uint32_t)interface;
+					 withHost:(NSString *)host
+				withInterface:(uint32_t)interface;
 
 - (void)updateAddressForContact:(AWEzvContact *)contact
-	addr:(const void *)buff 
-	addrLen:(uint16_t)addrLen 
-	host:(const char*) host 
-	interfaceIndex:(uint32_t)interface 
-	more:(boolean_t)moreToCome;
+						   addr:(const void *)buff
+						addrLen:(uint16_t)addrLen
+						   host:(const char*) host
+				 interfaceIndex:(uint32_t)interface
+						   more:(boolean_t)moreToCome;
 
 - (void)updateImageForContact:(AWEzvContact *)contact
-	data:(const void *)buff 
-	dataLen:(uint16_t)addrLen
-	more:(boolean_t)moreToCome;
+						 data:(const void *)buff
+					  dataLen:(uint16_t)addrLen
+						 more:(boolean_t)moreToCome;
 
 - (void) updatePHSH;
-/* REALLY PRIVATE STUFF */
-- (void)setInstanceName:(NSString *)newName;
+
+// REALLY PRIVATE STUFF
+- (void) setInstanceName:(NSString *)newName;
 - (void) regCallBack:(int)errorCode;
 
-- (void)contactWillDeallocate:(AWEzvContact *)contact;
+- (void) contactWillDeallocate:(AWEzvContact *)contact;
 
 @end

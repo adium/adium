@@ -1623,7 +1623,7 @@
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString
 														   options:0 
 															 range:NSMakeRange(currentLocation,
-																			   [attributedString length] - currentLocation)];
+																			   [attributedString length])];
 		while (attachmentRange.length != 0) {
 			//Found an attachment in at attachmentRange.location
 			NSTextAttachment	*attachment = [attributedString attribute:NSAttachmentAttributeName

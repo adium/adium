@@ -61,6 +61,7 @@ struct _mark {
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
+	//Use -scrollerWidthForControlSize:scrollerStyle: on 10.7+
 	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
 	
 	CGFloat scale = [self scaleToContentView];
@@ -102,7 +103,7 @@ struct _mark {
 		[shades appendBezierPathWithRect:NSIntegralRect( shadesRect )];
 	}
 	
-	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], ( sFlags.isHoriz ? 4.f : 3.f ), ( sFlags.isHoriz ? 3.f : 4.f ) ) );
+	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], 1, 1 ) );
 	
 	if( ! [shades isEmpty ] ) {
 		[[[NSColor knobColor] colorWithAlphaComponent:0.45f] set];
@@ -145,6 +146,7 @@ struct _mark {
 				
 				point = NSMakePoint( ( sFlags.isHoriz ? 0.f : width ), ( sFlags.isHoriz ? width : 0.f ) );
 				[line relativeLineToPoint:point];
+				[line setLineWidth:2];
 				[lineArray addObject:mark.color];
 				[lineArray addObject:line];
 			} else {

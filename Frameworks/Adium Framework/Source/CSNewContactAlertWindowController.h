@@ -19,29 +19,29 @@
 @class AIImageTextCellView, AIActionDetailsPane;
 
 @interface CSNewContactAlertWindowController : AIWindowController {
-	IBOutlet NSView					*view_auxiliary;
-	IBOutlet NSPopUpButton			*popUp_event;
-	IBOutlet NSPopUpButton			*popUp_action;
+	IBOutlet NSView			*view_auxiliary;
+	IBOutlet NSPopUpButton	*popUp_event;
+	IBOutlet NSPopUpButton	*popUp_action;
 
-	IBOutlet NSButton				*checkbox_oneTime;
+	IBOutlet NSButton		*checkbox_oneTime;
 
-	IBOutlet NSButton				*button_OK;
-	IBOutlet NSButton				*button_cancel;
-	IBOutlet NSTextField			*label_Event;
-	IBOutlet NSTextField			*label_Action;
+	IBOutlet NSButton		*button_OK;
+	IBOutlet NSButton		*button_cancel;
+	IBOutlet NSTextField	*label_Event;
+	IBOutlet NSTextField	*label_Action;
 
-	AIActionDetailsPane				*detailsPane;
-	NSView							*detailsView;
-	NSMutableDictionary				*alert;
+	AIActionDetailsPane		*detailsPane;
+	NSView					*detailsView;
+	NSMutableDictionary		*alert;
 
-	id								target;
-	NSDictionary					*oldAlert;
+	id				target;
+	NSDictionary	*oldAlert;
 	
-	AIListObject					*listObject;
+	AIListObject	*listObject;
 	
-	BOOL							configureForGlobal;
+	BOOL			configureForGlobal;
 	
-	IBOutlet	AIImageTextCellView	*headerView;
+	IBOutlet AIImageTextCellView *headerView;
 }
 
 /*!
@@ -62,7 +62,7 @@
 										onWindow:(NSWindow *)parentWindow
 								 notifyingTarget:(id)inTarget
 							  configureForGlobal:(BOOL)inConfigureForGlobal
-								  defaultEventID:(NSString *)inDefaultEventID;
+								  defaultEventID:(NSString *)inDefaultEventID __attribute__((objc_method_family(new)));
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
 

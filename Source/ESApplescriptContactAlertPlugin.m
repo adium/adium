@@ -64,7 +64,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"ApplescriptAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-applescript-alert" forClass:[self class]];
 }
 
 /*!

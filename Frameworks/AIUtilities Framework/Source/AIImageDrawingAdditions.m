@@ -273,6 +273,9 @@
 			// Write GIF Extension Blocks
 			[self writeGIFExtensionBlocksInData:GIFRepresentationData forRepresenation:(NSBitmapImageRep *)bestRep];
 			
+			// Release before you re-allocate.
+			[newImage release];
+
 			newImage = [[NSImage alloc] initWithData:GIFRepresentationData];
 		} else {
 			[scaledImage lockFocus];

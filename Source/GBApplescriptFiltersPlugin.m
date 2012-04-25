@@ -43,9 +43,9 @@
 - (void)_appendScripts:(NSArray *)scripts toMenu:(NSMenu *)menu;
 - (void)registerToolbarItem;
 - (void)xtrasChanged:(NSNotification *)notification;
-- (void)selectScript:(id)sender;
+- (IBAction)selectScript:(id)sender;
 - (void)applescriptDidRun:(id)userInfo resultString:(NSString *)resultString;
-- (void)dummyTarget:(id)sender;
+- (IBAction)dummyTarget:(id)sender;
 
 - (void)_replaceKeyword:(NSString *)keyword
 			 withScript:(NSMutableDictionary *)infoDict
@@ -680,7 +680,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	
 	//Register our toolbar item
 	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)] autorelease];
-	[button setImage:[NSImage imageNamed:@"scriptToolbar" forClass:[self class] loadLazily:YES]];
+	[button setImage:[NSImage imageNamed:@"msg-insert-script" forClass:[self class] loadLazily:YES]];
 	toolbarItem = [[AIToolbarUtilities toolbarItemWithIdentifier:SCRIPT_IDENTIFIER
 														   label:AILocalizedString(@"Scripts",nil)
 													paletteLabel:TITLE_INSERT_SCRIPT

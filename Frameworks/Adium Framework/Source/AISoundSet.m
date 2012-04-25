@@ -261,7 +261,6 @@
 			oldSetString = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[tempSetPath stringByAppendingPathComponent:[setName stringByAppendingPathExtension:@"txt"]]]
 													encoding:NSUTF8StringEncoding
 													   error:NULL];
-			success = NO;
 			
 			if (!oldSetString || ![oldSetString length]) {
 				//If we can't find a txt file with the correct name, try to use any text file

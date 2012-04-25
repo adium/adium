@@ -27,7 +27,7 @@
 #define SAFARI_LINK_SCRIPT_PATH	[[NSBundle bundleForClass:[self class]] pathForResource:@"Safari.scpt" ofType:nil]
 
 @interface ESSafariLinkToolbarItemPlugin ()
-- (void)insertSafariLink:(id)sender;
+- (IBAction)insertSafariLink:(id)sender;
 - (void)applescriptDidRun:(id)userInfo resultString:(NSString *)resultString;
 @end
 

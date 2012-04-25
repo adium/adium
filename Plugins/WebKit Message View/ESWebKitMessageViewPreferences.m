@@ -80,7 +80,7 @@
 	return @"Messages";
 }
 - (NSString *)paneName{
-	return AILocalizedString(@"Message Style", "Title of the messages preferences");
+	return AILocalizedString(@"Message View", "Title of the messages preferences");
 }
 - (NSString *)nibName{
     return @"WebKitPreferencesView";

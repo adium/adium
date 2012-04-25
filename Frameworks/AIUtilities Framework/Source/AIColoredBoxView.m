@@ -16,42 +16,40 @@
 
 #import "AIColoredBoxView.h"
 
-/*
-    A colored box
-    $Id$
-*/
+// A colored box
 
 @implementation AIColoredBoxView
 
-- (void)dealloc
-{
-    self.color = nil;
-
-    [super dealloc];
-}
+@synthesize color;
 
 - (BOOL)isOpaque
 {
     return NO;
 }
 
-@synthesize color;
-
 - (void)drawRect:(NSRect)rect
 {    
-    //Clear the rect
+    // Clear the rect
     [[NSColor clearColor] set];
     NSRectFill(rect);
 
-    //Fill it with our color
+    // Fill it with our color
     if (!color) {
         self.color = [NSColor whiteColor];
     }
+	
     [color set];
     NSRectFill(rect);
     
-    //Draw our contents
+    // Draw our contents
     [super drawRect:rect];
+}
+
+- (void)dealloc
+{
+    self.color = nil;
+	
+    [super dealloc];
 }
 
 @end

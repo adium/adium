@@ -367,7 +367,7 @@
 	connection = [[NSFileHandle alloc] initWithFileDescriptor:fd];
 	
 	/* now to create stream */
-	self.stream = [[AWEzvXMLStream alloc] initWithFileHandle:connection initiator:1];
+	self.stream = [[[AWEzvXMLStream alloc] initWithFileHandle:connection initiator:1] autorelease];
 	[self.stream setDelegate:self];
 	[self.stream readAndParse];
 	

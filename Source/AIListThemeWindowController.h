@@ -98,7 +98,8 @@
 	NSString		*themeName;
 }
 
-+ (id)editListThemeWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
+- (void)showOnWindow:(id)parentWindow __attribute__((ns_consumes_self));
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget;
 - (IBAction)cancel:(id)sender;
 - (IBAction)okay:(id)sender;
 - (void)preferenceChanged:(id)sender;
@@ -107,5 +108,7 @@
 @end
 
 @interface NSObject (AIListThemeWindowTarget)
+
 - (void)listThemeEditorWillCloseWithChanges:(BOOL)changes forThemeNamed:(NSString *)name;
+
 @end
