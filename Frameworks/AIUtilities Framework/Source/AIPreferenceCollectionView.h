@@ -24,11 +24,11 @@
  */
 @interface AIPreferenceCollectionView : NSCollectionView {
 	NSUInteger highlightedIndex;
-	id <AIPreferenceCollectionViewDelegate> delegate;
+	id <AIPreferenceCollectionViewDelegate> __weak delegate;
 }
 
 @property (assign, nonatomic) NSUInteger highlightedIndex;
-@property (nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
+@property (weak, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
 
 @end
 

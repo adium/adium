@@ -67,8 +67,6 @@
 - (void)dealloc
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	
-	[super dealloc];
 }
 
 #pragma mark Connectivity

@@ -31,9 +31,9 @@
 	NSString *node;
 	NSString *name;
 	
-	NSArray *items;
-	NSSet *features;
-	NSArray *identities;
+	NSArray *__weak items;
+	NSSet *__weak features;
+	NSArray *__weak identities;
 	
 	AMPurpleJabberNode *commands;
 	
@@ -49,8 +49,8 @@
 @property (readonly, copy, nonatomic) NSString *jid;
 @property (readonly, copy, nonatomic) NSString *node;
 @property (weak, readonly, nonatomic) NSArray *items;
-@property (readonly, nonatomic) NSSet *features;
-@property (readonly, nonatomic) NSArray *identities;
+@property (weak, readonly, nonatomic) NSSet *features;
+@property (weak, readonly, nonatomic) NSArray *identities;
 @property (weak, readonly, nonatomic) NSArray *commands;
 
 - (void)addDelegate:(id<AMPurpleJabberNodeDelegate>)delegate;

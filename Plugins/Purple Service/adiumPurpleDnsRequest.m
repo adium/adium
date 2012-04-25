@@ -60,7 +60,7 @@ static NSMutableDictionary *lookupRequestsByQueryData = nil;
  */
 + (BOOL)performDnsRequestWithData:(PurpleDnsQueryData *)inData resolvedCB:(PurpleDnsQueryResolvedCallback)inResolved failedCB:(PurpleDnsQueryFailedCallback)inFailed
 {
-	return [[[[self alloc] initWithData:inData resolvedCB:inResolved failedCB:inFailed] autorelease] startLookup];
+	return [[[self alloc] initWithData:inData resolvedCB:inResolved failedCB:inFailed] startLookup];
 }
 
 - (id)initWithData:(PurpleDnsQueryData *)data resolvedCB:(PurpleDnsQueryResolvedCallback)resolved failedCB:(PurpleDnsQueryFailedCallback)failed
@@ -76,9 +76,6 @@ static NSMutableDictionary *lookupRequestsByQueryData = nil;
 
 	[lookupRequestsByQueryData setObject:self forKey:[NSValue valueWithPointer:query_data]];
 
-	//Released in finishDnsRequest
-	[self retain];
-
 	return self;
 }
 
@@ -86,8 +83,6 @@ static NSMutableDictionary *lookupRequestsByQueryData = nil;
 {
 	if (host)
 		CFRelease(host);
-	
-	[super dealloc];
 }
 
 - (PurpleDnsQueryData *)queryData
@@ -102,7 +97,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 						   const CFStreamError *streamError,
 						   void *info)
 {
-	AdiumPurpleDnsRequest *self = (AdiumPurpleDnsRequest *)info;
+	AdiumPurpleDnsRequest *self = (__bridge AdiumPurpleDnsRequest *)info;
 	if (streamError && (streamError->error != 0)) {
 		[self lookupFailedWithError:streamError];
 
@@ -113,7 +108,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 		 CFArrayRef of addresses.  Each address is a CFDataRef wrapping a struct sockaddr. */
 		CFArrayRef addresses = CFHostGetAddressing(theHost, &hasBeenResolved);
 		if (hasBeenResolved) {
-			[self lookupSucceededWithAddresses:(NSArray *)addresses];
+			[self lookupSucceededWithAddresses:(__bridge NSArray *)addresses];
 
 		} else {
 			[self lookupFailedWithError:NULL];
@@ -187,14 +182,14 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 {
 	CFStreamError		streamError;
 	Boolean				success;
-	CFHostClientContext context =  { /* Version */ 0, /* info */ self, CFRetain, CFRelease, NULL};
+	CFHostClientContext context =  { /* Version */ 0, /* info */ (__bridge void *)(self), CFRetain, CFRelease, NULL};
 
 	AILogWithSignature(@"Performing DNS resolve: %s:%d",
 					   purple_dnsquery_get_host(query_data),
 					   purple_dnsquery_get_port(query_data));
 	
 	host = CFHostCreateWithName(kCFAllocatorDefault,
-								(CFStringRef)[NSString stringWithUTF8String:purple_dnsquery_get_host(query_data)]);
+								(__bridge CFStringRef)[NSString stringWithUTF8String:purple_dnsquery_get_host(query_data)]);
 	success = CFHostSetClient(host, host_client_cb, &context);
 
 	if (!success) {
@@ -229,9 +224,6 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 		[lookupRequestsByQueryData removeObjectForKey:[NSValue valueWithPointer:query_data]];
 		query_data = NULL;
 	}
-
-	//Release our retain in init...
-	[self autorelease];
 }
 
 /*!

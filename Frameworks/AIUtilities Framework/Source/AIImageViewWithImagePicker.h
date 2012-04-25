@@ -22,7 +22,7 @@
 @class IKPictureTakerRecentPicture; // Private 10.5+ class
 
 @interface AIImageViewWithImagePicker : NSImageView {
-	IBOutlet id		delegate;
+	IBOutlet id		__weak delegate;
 	
 	NSString		*title;
 	id				pictureTaker;
@@ -40,7 +40,7 @@
 	NSSize			maxSize;
 }
 
-@property (readwrite, nonatomic) IBOutlet id delegate;
+@property (weak, readwrite, nonatomic) IBOutlet id delegate;
 
 @property (weak) NSString *title;
 @property (weak) id activeRecentPicture;

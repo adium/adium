@@ -40,8 +40,8 @@ enum {
 @property (nonatomic, copy) NSString *oAuthToken;
 @property (nonatomic, assign) NSUInteger networkState;
 @property (nonatomic, weak) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
-@property (nonatomic) NSURLResponse *connectionResponse;
-@property (nonatomic) NSMutableData *connectionData;
+@property (weak, nonatomic) NSURLResponse *connectionResponse;
+@property (weak, nonatomic) NSMutableData *connectionData;
 
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;

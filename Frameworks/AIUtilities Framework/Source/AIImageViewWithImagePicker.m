@@ -119,8 +119,6 @@
 		[pictureTaker close];
 		pictureTaker = nil;
 	}
-	
-	delegate = nil;
 }
 
 #pragma mark Getters and Setters
