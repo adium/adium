@@ -39,13 +39,13 @@
 @property (weak, readwrite, nonatomic) NSDate *idleSinceDate;
 @property (weak, readwrite, nonatomic) NSString *name;
 @property (readwrite, nonatomic, strong) AWEzvXMLStream *stream;
-@property (weak, weak, readwrite, nonatomic) AWEzvRendezvousData *rendezvous;
-@property (weak, weak, readwrite, nonatomic) NSString *ipAddr;
+@property (weak, readwrite, nonatomic) AWEzvRendezvousData *rendezvous;
+@property (weak, readwrite, nonatomic) NSString *ipAddr;
 @property (readwrite, nonatomic) u_int16_t port;
-@property (readwrite, nonatomic) AWEzvContactManager *manager;
-@property (weak, weak, readwrite, nonatomic) ServiceController * resolveServiceController;
-@property (weak, weak, readwrite, nonatomic) ServiceController * imageServiceController;
-@property (weak, weak, readwrite, nonatomic) ServiceController * addressServiceController;
+@property (readwrite, nonatomic, strong) AWEzvContactManager *manager;
+@property (weak, readwrite, nonatomic) ServiceController * resolveServiceController;
+@property (weak, readwrite, nonatomic) ServiceController * imageServiceController;
+@property (weak, readwrite, nonatomic) ServiceController * addressServiceController;
 @property (readonly, nonatomic) int serial;
 
 - (void)createConnection;

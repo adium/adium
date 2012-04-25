@@ -66,5 +66,5 @@
 - (void) XMLConnectionClosed;
 - (void) XMLReceived:(AWEzvXMLNode *)root;
 @property (readonly, copy, nonatomic) NSString *uniqueID;
-@property (readonly, retain, nonatomic) AWEzvContactManager *manager;
+@property (readonly, strong, nonatomic) AWEzvContactManager *manager;
 @end

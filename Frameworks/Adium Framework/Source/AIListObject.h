@@ -164,11 +164,11 @@ typedef enum {
 @property (readonly, nonatomic) BOOL isMobile;
 @property (readonly, nonatomic) BOOL isBlocked;
 
-@property (readwrite, nonatomic) NSString *displayName;
+@property (readwrite, nonatomic, strong) NSString *displayName;
 
 @property (weak, readonly, nonatomic) NSString *phoneticName;
 
-@property (readwrite, nonatomic) NSString *notes;
+@property (readwrite, nonatomic, strong) NSString *notes;
 
 @property (readonly, nonatomic) NSInteger idleTime;
 

@@ -35,7 +35,7 @@
  */
 
 @interface AIContentObject : NSObject {
-    AIChat				*chat;
+    AIChat				*__weak chat;
     AIListObject		*source;
     AIListObject		*destination;
     BOOL				outgoing;
@@ -160,13 +160,13 @@
  *
  *	@return	The chat with which this content is associated.
  */
-@property (nonatomic, readwrite) AIChat *chat;
+@property (nonatomic, readwrite, weak) AIChat *chat;
 
 /*!	@brief	Obtain the current message in the content.
  *
  *	@return	The current message.
  */
-@property (nonatomic) NSAttributedString *message;
+@property (nonatomic, strong) NSAttributedString *message;
 @property (weak, readonly, nonatomic) NSString *messageString;
 /*!	@brief	Get an array of CSS class names with which this content should be displayed.
  *
@@ -192,7 +192,7 @@
  *
  *	@param	inUserInfo	The new user-info object.
  */
-@property (nonatomic) id userInfo;
+@property (nonatomic, strong) id userInfo;
 
 #pragma mark Behavior
 

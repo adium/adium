@@ -148,10 +148,10 @@ typedef enum {
 
 + (id)chatForAccount:(AIAccount *)inAccount;
 
-@property (readwrite, nonatomic) AIAccount *account;
+@property (readwrite, nonatomic, strong) AIAccount *account;
 
 @property (readonly, nonatomic) NSDate *dateOpened;
-@property (readwrite, nonatomic) NSDictionary *chatCreationDictionary;
+@property (readwrite, nonatomic, strong) NSDictionary *chatCreationDictionary;
 
 @property (readwrite, nonatomic) BOOL isOpen;
 
@@ -183,22 +183,22 @@ typedef enum {
 - (void)removeObject:(AIListObject *)inObject;
 
 //
-@property (readwrite, nonatomic) AIListContact *listObject;
+@property (readwrite, nonatomic, strong) AIListContact *listObject;
 @property (readwrite, nonatomic, weak) AIListContact *preferredListObject;
 - (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
 
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject;
 - (void)finishedSendingContentObject:(AIContentObject *)inObject;
 
-@property (readwrite, nonatomic) NSString *name; 
-@property (readwrite, nonatomic) id identifier;
+@property (readwrite, nonatomic, strong) NSString *name; 
+@property (readwrite, nonatomic, strong) id identifier;
 
 @property (weak, readonly, nonatomic) NSString *uniqueChatID;
 
 @property (unsafe_unretained, readonly, nonatomic) NSImage *chatImage;
 @property (unsafe_unretained, readonly, nonatomic) NSImage *chatMenuImage;
 
-@property (readwrite, nonatomic) NSDictionary *securityDetails;
+@property (readwrite, nonatomic, strong) NSDictionary *securityDetails;
 @property (readonly, nonatomic) BOOL isSecure;
 @property (readonly, nonatomic) AIEncryptionStatus encryptionStatus;
 @property (readonly, nonatomic) BOOL supportsSecureMessagingToggling;

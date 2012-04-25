@@ -442,8 +442,7 @@
 														simpleTagsOnly:NO
 														bodyBackground:NO
 												   allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTagsAttachmentsAsText))
-	  ;
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTagsAttachmentsAsText);
 	[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
   }
   
@@ -472,8 +471,7 @@
 														simpleTagsOnly:NO
 														bodyBackground:NO
 												   allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTags))
-	  ;
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTags);
 	
 	newEncoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
 											   fontTags:YES
@@ -487,8 +485,7 @@
 										 simpleTagsOnly:YES
 										 bodyBackground:NO
 									allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderGroupChat))
-	  ;
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderGroupChat);
 	
 	[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
 	[encoderGroupChat setAllowAIMsubprofileLinks:YES];
