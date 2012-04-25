@@ -99,7 +99,6 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 																	type:AIServiceIconSmall
 															   direction:AIIconNormal]];
 				[menuItemArray addObject:menuItem];
-				[menuItem release];
 			}
 		}
 
@@ -109,8 +108,6 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 			[menu addItem:menuItem];
 		}
 		
-		[menuItemArray release];
-
 		//If we added a divider but didn't add any items, remove it
 		currentNumberOfItems = [menu numberOfItems];
 		if (addedDivider && (currentNumberOfItems <= numberOfItems) && (currentNumberOfItems > 0)) {
@@ -118,7 +115,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 		}
 	}
 	
-	return [menu autorelease];
+	return menu;
 }	
 
 @end

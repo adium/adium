@@ -47,10 +47,8 @@
 
 - (void)dealloc
 {
-	[trackingDictPersonToTagNumber release]; trackingDictPersonToTagNumber = nil;
-	[trackingDictTagNumberToPerson release]; trackingDictTagNumberToPerson = nil;
-	
-	[super dealloc];
+	trackingDictPersonToTagNumber = nil;
+	trackingDictTagNumberToPerson = nil;
 }
 
 /*!
@@ -144,7 +142,7 @@
 		tagNumber = [NSNumber numberWithInteger:tag];
 		
 		//Apply the image to the appropriate listObject
-		image = (inData ? [[[NSImage alloc] initWithData:inData] autorelease] : nil);
+		image = (inData ? [[NSImage alloc] initWithData:inData] : nil);
 
 		if (image) {
 			//Address book can feed us giant images, which we really don't want to keep around
@@ -166,7 +164,7 @@
 			
 		} else /*if ([setOrObject isKindOfClass:[NSSet class]])*/{
 			//Apply the image to each listObject at the appropriate priority
-			for (AIListObject *listObject in [[(NSSet *)setOrObject copy] autorelease]) {
+			for (AIListObject *listObject in [(NSSet *)setOrObject copy]) {
 				[AIUserIcons userIconSource:self
 					   didDetermineUserIcon:image
 							 asynchronously:YES
@@ -248,7 +246,7 @@
 - (BOOL)updateFromLocalImageForPerson:(ABPerson *)person object:(AIListObject *)inObject
 {
 	NSData *imageData = [person imageData];
-	NSImage *image = (imageData ? [[[NSImage alloc] initWithData:imageData] autorelease] : nil);
+	NSImage *image = (imageData ? [[NSImage alloc] initWithData:imageData] : nil);
 
 	//Address book can feed us giant images, which we really don't want to keep around
 	if (image) {

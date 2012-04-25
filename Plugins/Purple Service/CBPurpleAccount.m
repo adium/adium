@@ -2188,7 +2188,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	[self didDisconnect];
 }
 
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError
 {
 	AIReconnectDelayType reconnectDelayType;
 

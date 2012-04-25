@@ -54,7 +54,7 @@ typedef enum {
  */
 @property (readwrite, nonatomic) BOOL useSystemFont;
 
-@property (readwrite, nonatomic, assign) id<AIAccountMenuDelegate> delegate;
+@property (readwrite, nonatomic, unsafe_unretained) id<AIAccountMenuDelegate> delegate;
 
 - (NSMenuItem *)menuItemForAccount:(AIAccount *)account;
 

@@ -28,8 +28,8 @@
 #import <ESDebugAILog.h>
 
 @interface AIXMLElement()
-@property (readwrite, retain, nonatomic) NSMutableArray *attributeNames;
-@property (readwrite, retain, nonatomic) NSMutableArray *attributeValues;
+@property (readwrite, nonatomic) NSMutableArray *attributeNames;
+@property (readwrite, nonatomic) NSMutableArray *attributeValues;
 @end
 
 @implementation AIXMLElement
@@ -48,7 +48,7 @@
 }
 + (id) elementWithName:(NSString *)newName
 {
-	return [[[self alloc] initWithName:newName] autorelease];
+	return [[self alloc] initWithName:newName];
 }
 - (id) initWithName:(NSString *)newName
 {
@@ -75,16 +75,6 @@
 											 userInfo:nil];
 	[exc raise];
 	return nil;
-}
-
-- (void) dealloc
-{
-	[name release];
-	[attributeNames  release];
-	[attributeValues release];
-	[contents release];
-
-	[super dealloc];
 }
 
 - (id) copyWithZone:(NSZone *)zone {

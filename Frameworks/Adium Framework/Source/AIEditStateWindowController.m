@@ -134,14 +134,12 @@ static	NSMutableDictionary	*controllerDict = nil;
 - (void)setOriginalStatusState:(AIStatus *)inStatusState forType:(AIStatusType)inStatusType
 {
 	if (originalStatusState != inStatusState) {
-		[originalStatusState release];
-		originalStatusState = [inStatusState retain];
+		originalStatusState = inStatusState;
 	}
 	
-	[workingStatusState release];
 	workingStatusState = (originalStatusState ? 
 						  [originalStatusState mutableCopy] :
-						  [[AIStatus statusOfType:inStatusType] retain]);
+						  [AIStatus statusOfType:inStatusType]);
 	
 	/* Reset to the default for this status type if we're not on it already */
 	if (workingStatusState.statusType != inStatusType) {
@@ -158,21 +156,8 @@ static	NSMutableDictionary	*controllerDict = nil;
 - (void)setAccount:(AIAccount *)inAccount
 {
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 	}
-}
-
-/*!
- * Deallocate
- */
-- (void)dealloc
-{
-	[originalStatusState release];
-	[workingStatusState release];
-	[account release];
-
-	[super dealloc];
 }
 
 /*!
@@ -233,7 +218,6 @@ static	NSMutableDictionary	*controllerDict = nil;
 																				length:0 /* No length limit */
 																		 caseSensitive:NO
 																		  errorMessage:nil]];
-	[noNewlinesCharacterSet release];
 
 	if (!showSaveCheckbox) {
 		[checkBox_save setHidden:YES];
@@ -281,8 +265,6 @@ static	NSMutableDictionary	*controllerDict = nil;
 	//Stop tracking with the controllerDict
 	NSNumber	*targetHash = [NSNumber numberWithUnsignedInteger:[target hash]];
 	[controllerDict removeObjectForKey:targetHash];
-
-	[self autorelease];
 }
 
 /*!
@@ -399,10 +381,10 @@ static	NSMutableDictionary	*controllerDict = nil;
 	id sender = [notification object];
 
 	if (sender == textView_statusMessage) {
-		[workingStatusState setStatusMessage:[[[textView_statusMessage textStorage] copy] autorelease]];
+		[workingStatusState setStatusMessage:[[textView_statusMessage textStorage] copy]];
 		
 	} else if (sender == textView_autoReply) {
-		[workingStatusState setAutoReply:[[[textView_autoReply textStorage] copy] autorelease]];
+		[workingStatusState setAutoReply:[[textView_autoReply textStorage] copy]];
 		
 	}
 	

@@ -38,7 +38,7 @@
 - (void)setupObservedValues;
 - (void)updateOrderCache;
 
-@property (nonatomic, assign) AIService *service;
+@property (nonatomic, weak) AIService *service;
 
 @end
 
@@ -58,7 +58,7 @@
 	if ((self = [super init])) {
 		m_groups = [[NSMutableSet alloc] initWithCapacity:1];
 
-		UID = [inUID retain];	
+		UID = inUID;	
 		service = inService;
 		
 		// Delay until the next run loop so bookmarks can instantiate their values first.
@@ -73,19 +73,16 @@
  */
 - (void)dealloc
 {
-	[UID release]; UID = nil;
-	[internalObjectID release]; internalObjectID = nil;
-	[m_groups release]; m_groups = nil;
+	internalObjectID = nil;
+	m_groups = nil;
 	
-	[listObjectStatusMessage release]; listObjectStatusMessage = nil;
-	[listStateIcon release]; listStateIcon = nil;
-	[listStatusIcon release]; listStatusIcon = nil;
-	[listObjectStatusType release]; listObjectStatusType = nil;
-	[extendedStatus release]; extendedStatus = nil;
-	[listObjectStatusName release]; listObjectStatusName = nil;
-	[webKitUserIconPath release]; webKitUserIconPath = nil;
-
-	[super dealloc];
+	listObjectStatusMessage = nil;
+	listStateIcon = nil;
+	listStatusIcon = nil;
+	listObjectStatusType = nil;
+	extendedStatus = nil;
+	listObjectStatusName = nil;
+	webKitUserIconPath = nil;
 }
 
 - (void)setupObservedValues
@@ -122,7 +119,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		internalObjectID = [[AIListObject internalObjectIDForServiceID:self.service.serviceID UID:self.UID] retain];
+		internalObjectID = [AIListObject internalObjectIDForServiceID:self.service.serviceID UID:self.UID];
 	}
 	return internalObjectID;
 }
@@ -171,7 +168,7 @@
 - (NSSet *) groups
 {
 #warning Very inefficient
-	return [[m_groups copy] autorelease];
+	return [m_groups copy];
 }
 
 - (void) addContainingGroup:(AIListGroup *)inGroup
@@ -664,7 +661,7 @@
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
 												 group:PREF_GROUP_OBJECT_STATUS_CACHE];
-	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
+	NSMutableDictionary *newDict = (dict ? [dict mutableCopy] : [NSMutableDictionary dictionary]);
 	
 	// Sanity check - are we trying to assign infinity?
 	if (orderIndexForObject == INFINITY) {
@@ -833,7 +830,7 @@
  */
 - (NSTextStorage *)scriptingStatusMessage
 {
-	return [[[NSTextStorage alloc] initWithAttributedString:self.statusMessage] autorelease];
+	return [[NSTextStorage alloc] initWithAttributedString:self.statusMessage];
 }
 
 @end

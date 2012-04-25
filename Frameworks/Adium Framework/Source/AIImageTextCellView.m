@@ -49,8 +49,7 @@
 
 - (void)dealloc
 {
-	[cell release]; cell = nil;
-	[super dealloc];
+	cell = nil;
 }
 
 //NSCell expects to draw into a flipped view
