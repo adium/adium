@@ -271,10 +271,11 @@
 		NSMenuItem *paneItem = [[NSMenuItem alloc] initWithTitle:[pane paneName]
 														  action:@selector(displayPaneFromMenu:)
 												   keyEquivalent:@""];
-		NSImage *paneImage = [pane paneIcon];
+		NSImage *paneImage = [[pane paneIcon] copy];
 		[paneImage setSize:NSMakeSize(16, 16)];
 		[paneItem setImage:paneImage];
 		[paneMenu addItem:paneItem];
+		[paneImage release];
 		[paneItem release];
 	}
 	
