@@ -58,8 +58,10 @@
 	NSTextField *label_advanced;
 	NSTextField *label_events;
 	NSTextField *label_appearance;
-	NSButton *button_showAll;
+	NSSegmentedControl *button_showAll;
 	AIHighlightingTextField *_selectedView;
+	
+	NSMenu *paneMenu;
 	
 	NSMutableArray *AI_topLevelObjects;
 }
@@ -87,7 +89,7 @@
 @property (assign) IBOutlet NSTextField *label_advanced;
 @property (assign) IBOutlet NSTextField *label_events;
 @property (assign) IBOutlet NSTextField *label_appearance;
-@property (assign) IBOutlet NSButton *button_showAll;
+@property (assign) IBOutlet NSSegmentedControl *button_showAll;
 
 
 + (void)openPreferenceWindow;
