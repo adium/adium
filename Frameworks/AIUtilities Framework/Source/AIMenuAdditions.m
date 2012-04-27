@@ -50,15 +50,6 @@
     return [theMenuItem autorelease];
 }
 
-
-- (void)removeAllItems
-{
-	NSInteger count = [self numberOfItems];
-	while (count--) {
-		[self removeItemAtIndex:0];
-	}
-}
-
 - (void)removeAllItemsButFirst
 {
 	NSInteger count = [self numberOfItems];
