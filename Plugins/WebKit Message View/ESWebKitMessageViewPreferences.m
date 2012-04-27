@@ -77,7 +77,7 @@
 }
 - (NSString *)paneIdentifier
 {
-	return @"Messages";
+	return @"Message View";
 }
 - (NSString *)paneName{
 	return AILocalizedString(@"Message View", "Title of the messages preferences");
