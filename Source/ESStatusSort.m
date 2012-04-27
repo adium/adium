@@ -473,14 +473,14 @@ static NSInteger  sizeOfSortOrder;
 /*!
  * @brief Table view write rows
  */
--  (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
+-  (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
     [pboard declareTypes:[NSArray arrayWithObject:STATUS_DRAG_TYPE] owner:self];
 	
     //Build a list of all the highlighted aways
     NSString	*dragItem = [self tableView:tableView
 				  objectValueForTableColumn:nil
-										row:[[rows objectAtIndex:0] integerValue]];
+										row:[rowIndexes firstIndex]];
 	
     //put it on the pasteboard
     [pboard setString:dragItem forType:STATUS_DRAG_TYPE];

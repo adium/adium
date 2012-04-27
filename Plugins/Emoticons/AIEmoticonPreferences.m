@@ -334,12 +334,12 @@
 #pragma mark Drag and Drop
 
 
-- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray*)rows toPasteboard:(NSPasteboard*)pboard
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	if (tableView != table_emoticonPacks)
 		return NO;
 	
-	dragRows = rows;        
+	dragRows = rowIndexes;
 	[pboard declareTypes:[NSArray arrayWithObject:EMOTICON_PACK_DRAG_TYPE] owner:self];
 	[pboard setString:@"dragPack" forType:EMOTICON_PACK_DRAG_TYPE];
 
@@ -366,9 +366,9 @@
 
 	//Move
 	NSMutableArray  *movedPacks = [NSMutableArray array]; //Keep track of the packs we've moved
-	for (NSNumber *dragRow in dragRows) {
-		[movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:[dragRow integerValue]] emoticonPack]];
-	}
+	[dragRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+		[movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:idx] emoticonPack]];
+	}];
 	[adium.emoticonController moveEmoticonPacks:movedPacks toIndex:row];
 	
 	[self configurePreviewControllers];
