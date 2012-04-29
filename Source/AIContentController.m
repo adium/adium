@@ -113,17 +113,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	objectsBeingReceived = nil;
-	adiumTyping = nil;
-	adiumFormatting = nil;
-	adiumContentFiltering = nil;
-}
-
-/*!
  * @brief Set the encryptor
  *
  * NB: We must _always_ have an encryptor.

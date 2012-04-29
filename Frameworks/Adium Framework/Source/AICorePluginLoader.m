@@ -127,11 +127,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
     }
 }
 
-- (void)dealloc
-{
-	pluginArray = nil;
-}
-
 + (BOOL)pluginIsBlacklisted:(NSBundle *)plugin
 {
 	// Only one right now: the Skype plugin that works with 1.4 crashes in 1.5 (see #15590).

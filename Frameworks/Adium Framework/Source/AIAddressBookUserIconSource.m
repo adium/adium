@@ -45,12 +45,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	trackingDictPersonToTagNumber = nil;
-	trackingDictTagNumberToPerson = nil;
-}
-
 /*!
  * @brief AIUserIcons wants this source to update its user icon for an object
  *

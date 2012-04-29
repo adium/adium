@@ -147,20 +147,7 @@
 - (void)controllerWillClose
 {
 	[AIPreferenceContainer preferenceControllerWillClose];
-} 
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-    delayedNotificationGroups = nil;
-    paneArray = nil;
-    prefCache = nil;
-	objectPrefCache = nil;
 }
-
-
 
 //Preference Window ----------------------------------------------------------------------------------------------------
 #pragma mark Preference Window

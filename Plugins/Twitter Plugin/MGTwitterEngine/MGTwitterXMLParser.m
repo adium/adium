@@ -54,13 +54,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
     return self;
 }
 
-
-- (void)dealloc
-{
-    delegate = nil;
-}
-
-
 #pragma mark NSXMLParser delegate methods
 
 
@@ -76,21 +69,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
     [delegate parsingSucceededForRequest:identifier ofResponseType:responseType 
                        withParsedObjects:parsedObjects];
 }
-
-
-- (void)parser:(NSXMLParser *)theParser didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName 
-    attributes:(NSDictionary *)attributeDict
-{
-    //NSLog(@"Started element: %@ (%@)", elementName, attributeDict);
-}
-
-
-- (void)parser:(NSXMLParser *)theParser foundCharacters:(NSString *)characters
-{
-    //NSLog(@"Found characters: %@", characters);
-}
-
 
 - (void)parser:(NSXMLParser *)theParser didEndElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
@@ -112,20 +90,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
         }
     }
 }
-
-
-- (void)parser:(NSXMLParser *)theParser foundAttributeDeclarationWithName:(NSString *)attributeName 
-    forElement:(NSString *)elementName type:(NSString *)type defaultValue:(NSString *)defaultValue
-{
-    //NSLog(@"Found attribute: %@ (%@) [%@] {%@}", attributeName, elementName, type, defaultValue);
-}
-
-
-- (void)parser:(NSXMLParser *)theParser foundIgnorableWhitespace:(NSString *)whitespaceString
-{
-    //NSLog(@"Found ignorable whitespace: %@", whitespaceString);
-}
-
 
 - (void)parser:(NSXMLParser *)theParser parseErrorOccurred:(NSError *)parseError
 {

@@ -103,12 +103,7 @@
 
 - (void)dealloc
 {
-	AILogWithSignature(@"");
-	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	tabViewItemImage = nil;
-    messageViewController = nil;
 }
 
 //Access to our message view controller

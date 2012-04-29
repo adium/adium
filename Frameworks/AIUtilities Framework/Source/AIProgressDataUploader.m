@@ -98,14 +98,6 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 	return self;
 }
 
-- (void)dealloc
-{
-	url = nil;
-	headers = nil;
-	uploadData = nil;
-	returnedData = nil;
-}
-
 /*!
  * @brief Begin the upload.
  *

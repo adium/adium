@@ -63,12 +63,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-	chat = nil;
-	customDisplayClasses = nil;
-}
-
 //Content Identifier
 - (NSString *)type
 {

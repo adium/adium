@@ -190,13 +190,6 @@
 	}
 }
 
-- (void)dealloc
-{
-	okayCallbackValue = nil;
-	cancelCallbackValue = nil;
-	userDataValue = nil;
-}
-
 - (void)doWindowWillClose
 {
 	if (cancelCallbackValue) {

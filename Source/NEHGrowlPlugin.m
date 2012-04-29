@@ -103,11 +103,6 @@
 	queuedEvents = [[NSMutableDictionary alloc] init];
 }
 
-- (void)dealloc
-{
-	queuedEvents = nil;
-}
-
 /*!
  * @brief Adium finished launching
  *

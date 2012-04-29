@@ -85,14 +85,6 @@ static NSMutableArray *sortControllers = nil;
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	configureView = nil;
-}
-
-/*!
  * @brief Configure our customization view
  */
 - (NSView *)configureView

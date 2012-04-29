@@ -47,11 +47,6 @@
     [cell setFont:[NSFont systemFontOfSize:12]];
 }
 
-- (void)dealloc
-{
-	cell = nil;
-}
-
 //NSCell expects to draw into a flipped view
 - (BOOL)isFlipped
 {

@@ -80,8 +80,6 @@
 		[self removeTrackingRect:trackingTag];
 		trackingTag = -1;
 	}
-	
-	imageMenu = nil;
 }
 
 #pragma mark Drawing

@@ -75,9 +75,6 @@
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	containingObject = nil;
-	delegate = nil;
 }
 
 /*!

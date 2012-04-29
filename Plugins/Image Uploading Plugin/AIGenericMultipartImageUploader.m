@@ -91,13 +91,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	dataUploader = nil;
-	image = nil;
-}
-
-
 #pragma mark Data uploader delegate
 - (void)updateUploadProgress:(NSUInteger)uploaded total:(NSUInteger)total context:(id)context
 {

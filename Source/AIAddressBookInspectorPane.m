@@ -44,12 +44,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	inspectorContentView = nil;
-	addressBookPanel = nil;
-}
-
 -(NSString *)nibName
 {
 	return ADDRESS_BOOK_NIB_NAME;

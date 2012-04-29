@@ -60,14 +60,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	idleObjectArray = nil;
-}
-
-/*!
  * @brief Update list object
  *
  * When the idleSince property changes, we start or stop tracking the object as appropriate.

@@ -56,14 +56,6 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	return self;
 }
 
-- (void)dealloc
-{
-	matchedContacts = nil;
-	filterPredicate = nil;
-	filterPredicateTemplate = nil;
-	hideAccounts = nil;
-}
-
 - (void)preferencesChangedForGroup:(NSString *)group
 							   key:(NSString *)key
 							object:(AIListObject *)object

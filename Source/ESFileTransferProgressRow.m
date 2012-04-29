@@ -63,13 +63,7 @@
 
 - (void)dealloc
 {
-	owner = nil;
 	[fileTransfer setDelegate:nil];
-	view = nil;
-	sizeString = nil;
-	
-	bytesSentQueue = nil;
-	updateTickQueue = nil;
 }
 
 - (ESFileTransfer *)fileTransfer

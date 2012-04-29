@@ -259,26 +259,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	return self;
 }
 
-//dealloc
-- (void)dealloc
-{
-	filterDate = nil;
-	currentSearchLock = nil;
-
-	logFromGroupDict = nil;
-	logToGroupDict = nil;
-
-	horizontalRule = nil;
-
-	adiumIcon = nil;
-	adiumIconHighlighted = nil;
-
-	//We loaded	view_DatePicker from a nib manually, so we must release it
-	view_DatePicker = nil;
-
-	undoManager = nil;
-}
-
 //Init our log filtering tree
 - (void)initLogFiltering
 {

@@ -105,12 +105,6 @@ static int nextChatNumber = 0;
 	AILog(@"[%@ dealloc]",self);
 
 	[self removeAllParticipatingContactsSilently];
-	uniqueChatID = nil;
-	
-	tabStateIcon = nil;
-    chatCreationInfo = nil;
-    enteredTextTimer = nil;
-    securityDetails = nil;
 }
 
 //Big image

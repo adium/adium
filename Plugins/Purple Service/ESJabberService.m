@@ -47,10 +47,6 @@
 - (void)dealloc
 {
 	[adium.interfaceController unregisterContactListTooltipEntry:moodTooltip secondaryEntry:YES];
-	moodTooltip = nil;
-	charactersInNode = nil;
-	charactersInDomain = nil;
-	charactersInResource = nil;
 }
 
 //Account Creation

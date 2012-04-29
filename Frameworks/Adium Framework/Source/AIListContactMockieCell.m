@@ -42,11 +42,6 @@
 	return newCell;
 }
 
-- (void)dealloc
-{
-	lastBackgroundBezierPath = nil;
-}
-
 //Draw the background of our cell
 - (NSBezierPath *)bezierPathForDrawingInRect:(NSRect)rect
 {

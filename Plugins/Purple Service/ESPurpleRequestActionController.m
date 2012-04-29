@@ -111,11 +111,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	requestController = nil;
-}
-
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	GCallback		*theCallBacks;

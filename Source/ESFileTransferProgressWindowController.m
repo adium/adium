@@ -104,8 +104,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	progressRows = nil;
 }
 
 - (NSString *)adiumFrameAutosaveName

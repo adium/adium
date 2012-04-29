@@ -74,23 +74,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	m_remoteGroupNames = nil;
-	internalUniqueObjectID = nil;
-	
-	textColor = nil;
-	invertedTextColor = nil;
-	labelColor = nil;
-	imageOpacity = nil;
-	ABUniqueID = nil;
-	textProfile = nil;
-	idleSince = nil;
-	idleReadable = nil;
-	serverDisplayName = nil;
-	formattedUID = nil;
-}
-
 //The account that owns this contact
 @synthesize account;
 

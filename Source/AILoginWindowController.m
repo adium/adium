@@ -66,13 +66,6 @@
 	return self;
 }
 
-// deallocate the login controller
-- (void)dealloc
-{
-    owner = nil;
-    userArray = nil;
-}
-
 // TableView Delegate methods - Return the number of items in the table
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {

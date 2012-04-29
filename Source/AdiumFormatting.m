@@ -68,7 +68,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	_defaultAttributes = nil;
 }
 
 /*!

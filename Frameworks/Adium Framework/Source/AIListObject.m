@@ -68,23 +68,6 @@
 	return self;
 }
 
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	internalObjectID = nil;
-	m_groups = nil;
-	
-	listObjectStatusMessage = nil;
-	listStateIcon = nil;
-	listStatusIcon = nil;
-	listObjectStatusType = nil;
-	extendedStatus = nil;
-	listObjectStatusName = nil;
-	webKitUserIconPath = nil;
-}
-
 - (void)setupObservedValues
 {
 	[self setValue:[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE]

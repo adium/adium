@@ -80,14 +80,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	userIconData = nil;
-}
-
-/*!
  * @brief Setup the window before it is displayed
  */
 - (void)windowDidLoad

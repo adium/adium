@@ -46,12 +46,6 @@
 	return self;
 }
 
-//Dealloc
-- (void)dealloc
-{
-	font = nil;
-}
-
 //Copy
 - (id)copyWithZone:(NSZone *)zone
 {

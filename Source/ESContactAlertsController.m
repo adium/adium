@@ -56,17 +56,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	
 }
 
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	globalOnlyEventHandlers = nil;
-	eventHandlers = nil;
-	actionHandlers = nil;
-}
-
-
 //Events ---------------------------------------------------------------------------------------------------------------
 #pragma mark Events
 

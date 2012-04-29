@@ -114,17 +114,6 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 
 	[outlineView_summary setDelegate:nil];
 	[outlineView_summary setDataSource:nil];
-
-	editingPanel = nil;
-	contactAlertsEvents = nil;
-	contactAlertsActions = nil;
-	listObject = nil;
-	expandStateDict = nil;
-	requiredHeightDict = nil;
-
-	// I don't think this needs to be released, because the contact-specific
-	// alerts view does not appear to get released. But anyway...
-	targetEventID = nil;
 }
 
 - (void)setDelegate:(id)inDelegate

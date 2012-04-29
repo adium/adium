@@ -46,10 +46,6 @@
 	}
 }
 
-- (void) dealloc {
-	_actualFont = nil;
-}
-
 - (void) changeFont:(id) sender {
 	NSFont *font = [sender convertFont:[self font]];
 	NSObject <NSObject,JVFontPreviewFieldDelegate> *__delegate = (id <NSObject,JVFontPreviewFieldDelegate>)self.delegate;

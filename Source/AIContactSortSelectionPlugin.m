@@ -70,14 +70,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	menuItem_configureSort = nil;
-}
-
-/*!
  * @brief Our available sort controllers changed
  */
 - (void)adiumFinishedLaunching:(NSNotification *)notification

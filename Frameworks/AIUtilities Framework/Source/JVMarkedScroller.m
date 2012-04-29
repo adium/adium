@@ -41,11 +41,6 @@ __unsafe_unretained	NSColor *color;
 	return self;
 }
 
-- (void) dealloc {
-	_marks = nil;
-	_shades = nil;
-}
-
 #pragma mark -
 
 + (BOOL)isCompatibleWithOverlayScrollers {

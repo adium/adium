@@ -50,11 +50,6 @@
 	return newCell;
 }
 
-- (void)dealloc
-{
-	lastBackgroundBezierPath = nil;
-}
-
 //Give ourselves extra padding to compensate for the rounded bubble
 - (CGFloat)leftPadding{
 	return [super leftPadding] + EDGE_INDENT;

@@ -71,11 +71,6 @@
 									 object:nil];
 }
 
-- (void)dealloc
-{
-	contextualMenuItem = nil;
-}
-
 /*!
  * @brief Tooltip label
  *

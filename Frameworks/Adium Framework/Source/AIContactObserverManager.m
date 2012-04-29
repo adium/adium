@@ -69,10 +69,6 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	
 	return self;
 }
-- (void)dealloc
-{
-	contactObservers = nil;
-}
 
 //Status and Display updates -------------------------------------------------------------------------------------------
 #pragma mark Status and Display updates
