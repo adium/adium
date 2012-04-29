@@ -53,6 +53,16 @@
 	}
 }
 
+- (void)flushPreferenceColorCache
+{
+	signedOffColor = nil;
+	signedOnColor = nil;
+	unviewedContentColor = nil;
+	backSignedOffColor = nil;
+	backSignedOnColor = nil;
+	backUnviewedContentColor = nil;
+}
+
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
