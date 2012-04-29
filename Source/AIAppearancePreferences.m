@@ -284,8 +284,6 @@ typedef enum {
 - (NSMenu *)_emoticonPackMenu
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSEnumerator	*enumerator = [[adium.emoticonController availableEmoticonPacks] objectEnumerator];
-	AIEmoticonPack	*pack;
 	NSMenuItem		*menuItem;
 		
 	//Add the "No Emoticons" option
@@ -312,7 +310,7 @@ typedef enum {
 	[menu addItem:[NSMenuItem separatorItem]];
 
 	//Emoticon Packs
-	while ((pack = [enumerator nextObject])) {
+	for (AIEmoticonPack *pack  in [adium.emoticonController availableEmoticonPacks]) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[pack name]
 																		 target:nil
 																		 action:nil
@@ -370,11 +368,8 @@ typedef enum {
 - (NSArray *)_dockIconMenuArray
 {
 	NSMutableArray		*menuItemArray = [NSMutableArray array];
-	NSEnumerator		*enumerator;
-	NSString			*packPath;
 
-	enumerator = [[adium.dockController availableDockIconPacks] objectEnumerator];
-	while ((packPath = [enumerator nextObject])) {
+	for (NSString *packPath in [adium.dockController availableDockIconPacks]) {
 		[menuItemArray addObject:[self meuItemForDockIconPackAtPath:packPath]];
 	}
 

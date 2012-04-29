@@ -192,9 +192,9 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
 	//Iterate over the elements of the log path array.
-	NSEnumerator *pathsEnumerator = [logPaths objectEnumerator];
-	NSString *logPath = nil;
-	while (linesLeftToFind > 0 && (logPath = [pathsEnumerator nextObject])) {
+	for (NSString *logPath in logPaths) {
+		if (linesLeftToFind <= 0)
+			break;
 		//If it's not a .chatlog, ignore it.
 		if (![logPath hasSuffix:@".chatlog"])
 			continue;
