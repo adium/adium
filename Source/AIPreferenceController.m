@@ -92,13 +92,9 @@
 		NSMutableDictionary *prefsDict;
 		NSString *dir;
 		
-		NSEnumerator *enumerator;
-		NSString *file;
-
 		dir = [userDirectory stringByAppendingPathComponent:OBJECT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSMutableDictionary *thisDict = [NSMutableDictionary dictionaryAtPath:dir
 																		 withName:name
@@ -121,8 +117,7 @@
 
 		dir = [userDirectory stringByAppendingPathComponent:ACCOUNT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSDictionary *thisDict = [NSDictionary dictionaryAtPath:dir
 														   withName:name
@@ -260,13 +255,10 @@
  */
 - (void)unregisterPreferenceObserver:(id)observer
 {
-	NSEnumerator	*enumerator = [observers objectEnumerator];
-	NSMutableArray	*observerArray;
 	NSValue			*observerValue = [NSValue valueWithNonretainedObject:observer];
-
-	while ((observerArray = [enumerator nextObject])) {
+	[observers enumerateKeysAndObjectsUsingBlock:^(id key, id observerArray, BOOL *stop) {
 		[observerArray removeObject:observerValue];
-	}
+	}];
 }
 
 /*!

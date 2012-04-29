@@ -633,13 +633,11 @@
 - (NSMenu *)_listLayoutMenu
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSEnumerator	*enumerator = [[self availableLayoutSets] objectEnumerator];
-	NSDictionary	*set;
 	NSMenuItem		*menuItem;
 	NSString		*name;
 	
 	//Available Layouts
-	while ((set = [enumerator nextObject])) {
+	for (NSDictionary *set in self.availableLayoutSets) {
 		name = [set objectForKey:@"name"];
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
 																		 target:nil
@@ -674,13 +672,11 @@
 - (NSMenu *)_colorThemeMenu
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSEnumerator	*enumerator = [[self availableThemeSets] objectEnumerator];
-	NSDictionary	*set;
 	NSMenuItem		*menuItem;
 	NSString		*name;
 	
 	//Available themes
-	while ((set = [enumerator nextObject])) {
+	for (NSDictionary *set in self.availableThemeSets) {
 		name = [set objectForKey:@"name"];
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
 																		 target:nil

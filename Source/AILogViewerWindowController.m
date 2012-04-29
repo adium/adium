@@ -2687,21 +2687,14 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (NSArray *)allSelectedToGroups:(NSInteger *)totalLogCount
 {
-    NSEnumerator        *fromEnumerator;
-    AILogFromGroup      *fromGroup;
-	NSMutableArray		*allToGroups = [NSMutableArray array];
+	__block NSMutableArray	*allToGroups = [NSMutableArray array];
 
 	if (totalLogCount) *totalLogCount = 0;
 
     //Walk through every 'from' group
-    fromEnumerator = [logFromGroupDict objectEnumerator];
-    while ((fromGroup = [fromEnumerator nextObject])) {
-		NSEnumerator        *toEnumerator;
-		AILogToGroup        *toGroup;
-
+    [logFromGroupDict enumerateKeysAndObjectsUsingBlock:^(id key, id fromGroup, BOOL *stop) {
 		//Walk through every 'to' group
-		toEnumerator = [[fromGroup toGroupArray] objectEnumerator];
-		while ((toGroup = [toEnumerator nextObject])) {
+		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
 			if (![contactIDsToFilter count] || [contactIDsToFilter containsObject:[[NSString stringWithFormat:@"%@.%@",[toGroup serviceClass],[toGroup to]] compactedString]]) {
 				if (totalLogCount) {
 					*totalLogCount += [toGroup logCount];
@@ -2710,7 +2703,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 				[allToGroups addObject:toGroup];
 			}
 		}
-	}
+	}];
 
 	return allToGroups;
 }
@@ -2741,10 +2734,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 							 toPath:toGroupPath
 							  error:NULL];
 		
-		NSEnumerator *logEnumerator = [toGroup logEnumerator];
-		AIChatLog	 *aLog;
-	
-		while ((aLog = [logEnumerator nextObject])) {
+		for (AIChatLog *aLog in [toGroup logEnumerator]) {
 			[plugin markLogDirtyAtPath:[logBasePath stringByAppendingPathComponent:[aLog relativePath]]];
 		}
 	}
@@ -2760,11 +2750,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		NSMutableSet	*logPaths = [NSMutableSet set];
 		
 		for (logToGroup in allSelectedToGroups) {
-			NSEnumerator *logEnumerator;
-			AIChatLog	 *aLog;
-			
-			logEnumerator = [logToGroup logEnumerator];
-			while ((aLog = [logEnumerator nextObject])) {
+			for (AIChatLog *aLog in [logToGroup logEnumerator]) {
 				NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 				[logPaths addObject:logPath];
 			}
@@ -3111,9 +3097,7 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	}
 	
 	if (updateSize) {
-		NSEnumerator *enumerator = [[[[self window] toolbar] items] objectEnumerator];
-		NSToolbarItem *toolbarItem;
-		while ((toolbarItem = [enumerator nextObject])) {
+		for (NSToolbarItem *toolbarItem in self.window.toolbar.items) {
 			if ([[toolbarItem itemIdentifier] isEqualToString:DATE_ITEM_IDENTIFIER]) {
 				NSSize newSize = NSMakeSize(([datePicker isHidden] ? 180 : 290), NSHeight([view_DatePicker frame]));
 				[toolbarItem setMinSize:newSize];

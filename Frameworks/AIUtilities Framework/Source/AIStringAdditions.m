@@ -702,9 +702,8 @@ return nil; \
 
 - (NSString *)volumePath
 {
-	NSEnumerator *pathEnum = [[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] objectEnumerator];
 	NSString *volumePath;
-	while ((volumePath = [pathEnum nextObject])) {
+	for (volumePath in [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths]) {
 		if ([self hasPrefix:[volumePath stringByAppendingString:@"/"]])
 			break;
 	}

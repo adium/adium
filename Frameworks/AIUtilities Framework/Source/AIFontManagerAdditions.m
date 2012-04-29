@@ -34,11 +34,7 @@
 	}
 
 	if (!theFont) {
-		NSEnumerator	*fontEnum;
-		NSString		*thisName;
-
-		fontEnum = [[fontManager availableFontFamilies] objectEnumerator];
-		while ((thisName = [fontEnum nextObject])) {
+		for (NSString *thisName in [fontManager availableFontFamilies]) {
 			if ([thisName caseInsensitiveCompare:name] == NSOrderedSame) {
 				@try
 				{

@@ -629,10 +629,7 @@ void updateRepresentedObjectForSubmenusOfMenuItem(NSMenuItem *menuItem, AIAccoun
 {
 	NSMenu *submenu;
 	if ((submenu = [menuItem submenu])) {
-		NSEnumerator *enumerator = [[submenu itemArray] objectEnumerator];
-		NSMenuItem *submenuItem;
-		
-		while ((submenuItem = [enumerator nextObject])) {
+		for (NSMenuItem *submenuItem in submenu.itemArray) {
 			AIStatus	 *status;
 			NSDictionary *newRepresentedObject;
 

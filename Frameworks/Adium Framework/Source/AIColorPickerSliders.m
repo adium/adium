@@ -56,12 +56,7 @@
 	method_invoke(self, class_getInstanceMethod([AIColorPickerSliders class], @selector(_setupProfileUI)));
 
 	if (sliderModePopUp && [sliderModePopUp isKindOfClass:[NSPopUpButton class]]) {
-		NSMenu			*menu = [sliderModePopUp menu];
-		NSMenuItem		*menuItem;
-		NSEnumerator	*enumerator;
-
-		enumerator = [[menu itemArray] objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (NSMenuItem *menuItem in [sliderModePopUp menu].itemArray) {
 			//Remove the key equivalent
 			[menuItem setKeyEquivalent:@""];
 		}

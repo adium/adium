@@ -41,18 +41,15 @@
 {
 	NSMutableSet	*supportedDocumentTypes = [NSMutableSet set];
 	NSDictionary	*documentTypes = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-	NSEnumerator	*documentTypesEnumerator;
-	NSDictionary	*documentType;
 
 	//Look at each dictionary in turn
-	documentTypesEnumerator = [documentTypes objectEnumerator];
-	while ((documentType = [documentTypesEnumerator nextObject])) {
+	[documentTypes enumerateKeysAndObjectsUsingBlock:^(id key, id documentType, BOOL *stop) {
 		//The @"CFBundleTypeExtensions" key yields an NSArray of supported extensions
 		NSArray	*extensions = [documentType objectForKey:@"CFBundleTypeExtensions"];
 		if (extensions) {
 			[supportedDocumentTypes addObjectsFromArray:extensions];
 		}
-	}
+	}];
 
 	return supportedDocumentTypes;
 }
