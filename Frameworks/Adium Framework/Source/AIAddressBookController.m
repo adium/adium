@@ -149,12 +149,12 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		}
 		
 		//Services dictionary
-		serviceDict = [NSDictionary dictionaryWithObjectsAndKeys:kABAIMInstantProperty,@"AIM",
-				kABJabberInstantProperty,@"Jabber",
-				kABMSNInstantProperty,@"MSN",
-				kABYahooInstantProperty,@"Yahoo!",
-				kABICQInstantProperty,@"ICQ",
-				kABURLsProperty,@"Facebook", nil];
+		serviceDict = [NSDictionary dictionaryWithObjectsAndKeys:kABInstantMessageServiceAIM,@"AIM",
+				kABInstantMessageServiceJabber,@"Jabber",
+				kABInstantMessageServiceMSN,@"MSN",
+				kABInstantMessageServiceYahoo,@"Yahoo!",
+				kABInstantMessageServiceICQ,@"ICQ",
+				kABInstantMessageServiceFacebook,@"Facebook", nil];
 		
 		//Shared Address Book
 		sharedAddressBook = [ABAddressBook sharedAddressBook];
@@ -599,22 +599,22 @@ NSString* serviceIDForJabberUID(NSString *UID);
 {
 	NSString	*serviceID = nil;
 	
-	if ([property isEqualToString:kABAIMInstantProperty])
+	if ([property isEqualToString:kABInstantMessageServiceAIM])
 		serviceID = @"AIM";
 	
-	else if ([property isEqualToString:kABICQInstantProperty])
+	else if ([property isEqualToString:kABInstantMessageServiceICQ])
 		serviceID = @"ICQ";
 	
-	else if ([property isEqualToString:kABMSNInstantProperty])
+	else if ([property isEqualToString:kABInstantMessageServiceMSN])
 		serviceID = @"MSN";
 	
-	else if ([property isEqualToString:kABJabberInstantProperty])
+	else if ([property isEqualToString:kABInstantMessageServiceJabber])
 		serviceID = @"Jabber";
 	
-	else if ([property isEqualToString:kABYahooInstantProperty])
+	else if ([property isEqualToString:kABInstantMessageServiceYahoo])
 		serviceID = @"Yahoo!";
 	
-	else if ([property isEqualToString:kABURLsProperty])
+	else if ([property isEqualToString:kABInstantMessageServiceFacebook])
 		serviceID = @"Facebook";
 
 	return (serviceID ? [adium.accountController firstServiceWithServiceID:serviceID] : nil);
@@ -633,13 +633,13 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	//Check for some special cases
 	if (!result) {
 		if ([serviceID isEqualToString:@"GTalk"]) {
-			result = kABJabberInstantProperty;
+			result = kABInstantMessageServiceGoogleTalk;
 		} else if ([serviceID isEqualToString:@"LiveJournal"]) {
-			result = kABJabberInstantProperty;
+			result = kABInstantMessageServiceJabber;
 		} else if ([serviceID isEqualToString:@"Mac"]) {
-			result = kABAIMInstantProperty;
+			result = kABInstantMessageServiceAIM;
 		} else if ([serviceID isEqualToString:@"MobileMe"]) {
-			result = kABAIMInstantProperty;
+			result = kABInstantMessageServiceAIM;
 		}
 	}
 	
