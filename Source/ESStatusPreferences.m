@@ -715,65 +715,6 @@
 }
 
 /*!
- * @brief Configure control dimming for idle, auto-away, etc., preferences.
- */
-- (void)configureControlDimming
-{
-	BOOL	idleControlsEnabled, autoAwayControlsEnabled;
-
-	idleControlsEnabled = ([checkBox_idle state] == NSOnState);
-	[textField_idleMinutes setEnabled:idleControlsEnabled];
-	[stepper_idleMinutes setEnabled:idleControlsEnabled];
-	
-	autoAwayControlsEnabled = ([checkBox_autoAway state] == NSOnState);
-	[popUp_autoAwayStatusState setEnabled:autoAwayControlsEnabled];
-	[textField_autoAwayMinutes setEnabled:autoAwayControlsEnabled];
-	[stepper_autoAwayMinutes setEnabled:autoAwayControlsEnabled];
-	
-	[popUp_fastUserSwitchingStatusState setEnabled:([checkBox_fastUserSwitching state] == NSOnState)];
-	[popUp_screenSaverStatusState setEnabled:([checkBox_screenSaver state] == NSOnState)];
-}
-
-/*!
- * @brief Change preference
- *
- * Sent when controls are clicked
- */
-- (void)changePreference:(id)sender
-{
-	if (sender == checkBox_idle) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_REPORT_IDLE
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_autoAway) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_AUTO_AWAY
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_showStatusWindow) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_SHOW_STATUS_WINDOW
-											  group:PREF_GROUP_STATUS_PREFERENCES];		
-		
-	} else if (sender == checkBox_fastUserSwitching) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_FUS
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_screenSaver) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_SS
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	}
-}
-
-/*!
  * @brief If menuItem is not selectable in popUpButton, add it and select it
  *
  * Menu items located within submenus can't be directly selected. This method will add a spearator item and then the item itself

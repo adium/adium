@@ -2,39 +2,39 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.SystemVersion">11D50</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2488</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
 		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2182</string>
+			<string key="NS.object.0">2488</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSTabView</string>
-			<string>NSMenuItem</string>
-			<string>NSMenu</string>
-			<string>NSTokenField</string>
+			<string>NSBox</string>
 			<string>NSButton</string>
+			<string>NSButtonCell</string>
 			<string>NSCustomObject</string>
-			<string>NSTableView</string>
 			<string>NSCustomView</string>
+			<string>NSMenu</string>
+			<string>NSMenuItem</string>
+			<string>NSPopUpButton</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSScrollView</string>
+			<string>NSScroller</string>
+			<string>NSSegmentedCell</string>
+			<string>NSSegmentedControl</string>
+			<string>NSStepper</string>
+			<string>NSStepperCell</string>
+			<string>NSTabView</string>
+			<string>NSTabViewItem</string>
+			<string>NSTableColumn</string>
+			<string>NSTableView</string>
 			<string>NSTextField</string>
 			<string>NSTextFieldCell</string>
-			<string>NSStepperCell</string>
-			<string>NSButtonCell</string>
-			<string>NSSegmentedControl</string>
-			<string>NSTableColumn</string>
-			<string>NSBox</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSView</string>
+			<string>NSTokenField</string>
 			<string>NSTokenFieldCell</string>
-			<string>NSScrollView</string>
-			<string>NSTabViewItem</string>
-			<string>NSSegmentedCell</string>
-			<string>NSScroller</string>
-			<string>NSPopUpButton</string>
-			<string>NSStepper</string>
+			<string>NSView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -54,7 +54,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="508597123">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTabView" id="766875091">
@@ -62,6 +62,8 @@
 						<int key="NSvFlags">36</int>
 						<string key="NSFrame">{{13, 10}, {574, 434}}</string>
 						<reference key="NSSuperview" ref="508597123"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="847794410"/>
 						<array class="NSMutableArray" key="NSTabViewItems">
 							<object class="NSTabViewItem" id="512098607">
 								<string key="NSIdentifier">2</string>
@@ -74,6 +76,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{336, 272}, {203, 26}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="445005678"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="423372751">
@@ -158,6 +161,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{16, 277}, {314, 18}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1003069505"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="28940795">
@@ -186,6 +190,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{336, 301}, {203, 26}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="935309897"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="910331539">
@@ -256,6 +261,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{16, 306}, {314, 18}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="965781515"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="615654449">
@@ -279,6 +285,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{290, 365}, {151, 17}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="114536691"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="244382644">
@@ -312,6 +319,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{16, 248}, {519, 18}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="735263584"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="960122746">
@@ -335,6 +343,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{269, 359}, {19, 28}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="827326141"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSStepperCell" key="NSCell" id="789427554">
@@ -353,6 +362,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{237, 362}, {32, 22}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="260371314"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="490800326">
@@ -384,6 +394,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{16, 364}, {215, 18}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="413878704"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="515118068">
@@ -407,6 +418,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{107, 330}, {19, 28}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1036253426"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSStepperCell" key="NSCell" id="529057240">
@@ -425,6 +437,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{128, 336}, {203, 17}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="561806677"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="172071308">
@@ -442,6 +455,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{75, 333}, {32, 22}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1060636245"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="645132893">
@@ -460,6 +474,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{336, 330}, {203, 26}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="142559874"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="433879343">
@@ -530,6 +545,7 @@
 											<int key="NSvFlags">256</int>
 											<string key="NSFrame">{{16, 335}, {54, 18}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="849977316"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="115181534">
@@ -553,6 +569,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{15, 204}, {272, 17}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="599912222"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="181275317">
@@ -577,6 +594,7 @@
 											</set>
 											<string key="NSFrame">{{18, 153}, {518, 21}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="479729983"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTokenFieldCell" key="NSCell" id="146283497">
@@ -600,8 +618,9 @@
 										<object class="NSTextField" id="599912222">
 											<reference key="NSNextResponder" ref="847794410"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{16, 182}, {521, 14}}</string>
+											<string key="NSFrame">{{16, 180}, {521, 16}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="621441915"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="106964936">
@@ -627,6 +646,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{16, 67}, {75, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="981936102"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="599757741">
@@ -648,6 +668,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{16, 93}, {75, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="30562161"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="616404927">
@@ -668,6 +689,7 @@
 															</set>
 															<string key="NSFrame">{{94, 66}, {114, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="647870191"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="887539734">
@@ -720,6 +742,7 @@
 															</set>
 															<string key="NSFrame">{{94, 92}, {114, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="115929416"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="451396417">
@@ -769,6 +792,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{16, 41}, {75, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="139723063"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="544662386">
@@ -789,6 +813,7 @@
 															</set>
 															<string key="NSFrame">{{94, 40}, {114, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="151495878"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="785175568">
@@ -838,6 +863,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{16, 15}, {80, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="255059936"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="767722415">
@@ -858,7 +884,8 @@
 															</set>
 															<string key="NSFrame">{{94, 14}, {100, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
-															<reference key="NSNextKeyView" ref="766875091"/>
+															<reference key="NSWindow"/>
+															<reference key="NSNextKeyView"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="962544668">
 																<int key="NSCellFlags">69336641</int>
@@ -910,6 +937,7 @@
 															</set>
 															<string key="NSFrame">{{338, 66}, {110, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="620053603"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="990867802">
@@ -959,6 +987,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{270, 67}, {70, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="739617405"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="569196580">
@@ -976,6 +1005,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{270, 41}, {70, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="943385469"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="858409124">
@@ -996,6 +1026,7 @@
 															</set>
 															<string key="NSFrame">{{338, 40}, {110, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="143076389"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="353976226">
@@ -1048,6 +1079,7 @@
 															</set>
 															<string key="NSFrame">{{338, 92}, {110, 17}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="831737628"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTokenFieldCell" key="NSCell" id="432748673">
@@ -1097,6 +1129,7 @@
 															<int key="NSvFlags">268</int>
 															<string key="NSFrame">{{270, 93}, {70, 14}}</string>
 															<reference key="NSSuperview" ref="751445188"/>
+															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="497624388"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTextFieldCell" key="NSCell" id="661004301">
@@ -1112,11 +1145,13 @@
 													</array>
 													<string key="NSFrame">{{1, 1}, {522, 117}}</string>
 													<reference key="NSSuperview" ref="479729983"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="335731260"/>
 												</object>
 											</array>
 											<string key="NSFrame">{{15, 14}, {524, 135}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="751445188"/>
 											<string key="NSOffsets">{0, 0}</string>
 											<object class="NSTextFieldCell" key="NSTitleCell">
@@ -1141,6 +1176,7 @@
 											<int key="NSvFlags">12</int>
 											<string key="NSFrame">{{18, 231}, {518, 5}}</string>
 											<reference key="NSSuperview" ref="847794410"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="757394752"/>
 											<string key="NSReuseIdentifierKey">_NS:2411</string>
 											<string key="NSOffsets">{0, 0}</string>
@@ -1163,6 +1199,7 @@
 									</array>
 									<string key="NSFrame">{{10, 33}, {554, 388}}</string>
 									<reference key="NSSuperview" ref="766875091"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="503412681"/>
 								</object>
 								<string key="NSLabel">Settings</string>
@@ -1399,6 +1436,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{600, 458}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="766875091"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
@@ -1855,12 +1894,44 @@
 					<int key="connectionID">130</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Preferences.Auto Away</string>
+						<reference key="source" ref="114536691"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="114536691"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Auto Away</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">371</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="561806677"/>
 						<reference key="destination" ref="849977316"/>
 					</object>
 					<int key="connectionID">131</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+						<reference key="source" ref="561806677"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="561806677"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">381</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1887,6 +1958,42 @@
 					<int key="connectionID">232</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+						<reference key="source" ref="849977316"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="849977316"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">384</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">textColor: adium.preferenceController.Status Preferences.Auto Away</string>
+						<reference key="source" ref="1036253426"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1036253426"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">textColor: adium.preferenceController.Status Preferences.Auto Away</string>
+							<string key="NSBinding">textColor</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Auto Away</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">AIBoolToControlTextColorTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">380</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">takeIntValueFrom:</string>
 						<reference key="source" ref="1060636245"/>
@@ -1895,12 +2002,44 @@
 					<int key="connectionID">93</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+						<reference key="source" ref="1060636245"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1060636245"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Auto Away</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">385</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="503412681"/>
 						<reference key="destination" ref="413878704"/>
 					</object>
 					<int key="connectionID">127</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Preferences.Report Idle</string>
+						<reference key="source" ref="503412681"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="503412681"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Report Idle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Report Idle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">369</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1927,12 +2066,44 @@
 					<int key="connectionID">129</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Report Idle</string>
+						<reference key="source" ref="413878704"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="413878704"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Report Idle</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Report Idle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">386</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">takeIntValueFrom:</string>
 						<reference key="source" ref="260371314"/>
 						<reference key="destination" ref="413878704"/>
 					</object>
 					<int key="connectionID">99</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Report Idle</string>
+						<reference key="source" ref="260371314"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="260371314"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Report Idle</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Report Idle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">387</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1943,12 +2114,64 @@
 					<int key="connectionID">133</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Preferences.Show Status Window</string>
+						<reference key="source" ref="445005678"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="445005678"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Show Status Window</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Show Status Window</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">375</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">textColor: adium.preferenceController.Status Preferences.Report Idle</string>
+						<reference key="source" ref="827326141"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="827326141"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">textColor: adium.preferenceController.Status Preferences.Report Idle</string>
+							<string key="NSBinding">textColor</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Report Idle</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">AIBoolToControlTextColorTransformer</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">378</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="142559874"/>
 						<reference key="destination" ref="965781515"/>
 					</object>
 					<int key="connectionID">233</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+						<reference key="source" ref="142559874"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="142559874"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">373</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1959,6 +2182,22 @@
 					<int key="connectionID">234</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+						<reference key="source" ref="965781515"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="965781515"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Fast User Switching Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">382</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="935309897"/>
@@ -1967,12 +2206,44 @@
 					<int key="connectionID">235</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+						<reference key="source" ref="935309897"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="935309897"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">374</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="1003069505"/>
 						<reference key="destination" ref="445005678"/>
 					</object>
 					<int key="connectionID">236</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+						<reference key="source" ref="1003069505"/>
+						<reference key="destination" ref="437598582"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1003069505"/>
+							<reference key="NSDestination" ref="437598582"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Preferences.ScreenSaver Auto Away</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">383</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2819,384 +3090,12 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">366</int>
+			<int key="maxID">387</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">AIAlternatingRowOutlineView</string>
-					<string key="superclassName">AIOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIAlternatingRowOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIAutoScrollView</string>
-					<string key="superclassName">NSScrollView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIAutoScrollView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AILocalizationButton</string>
-					<string key="superclassName">NSButton</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="view_anchorToLeftSide">NSView</string>
-						<string key="view_anchorToRightSide">NSView</string>
-						<string key="window_anchorOnLeftSide">NSWindow</string>
-						<string key="window_anchorOnRightSide">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
-							<string key="name">view_anchorToLeftSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
-							<string key="name">view_anchorToRightSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
-							<string key="name">window_anchorOnLeftSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
-							<string key="name">window_anchorOnRightSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AILocalizationButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AILocalizationTextField</string>
-					<string key="superclassName">NSTextField</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="view_anchorToLeftSide">NSView</string>
-						<string key="view_anchorToRightSide">NSView</string>
-						<string key="window_anchorOnLeftSide">NSWindow</string>
-						<string key="window_anchorOnRightSide">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
-							<string key="name">view_anchorToLeftSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
-							<string key="name">view_anchorToRightSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
-							<string key="name">window_anchorOnLeftSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
-							<string key="name">window_anchorOnRightSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AILocalizationTextField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIModularPane</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">changePreference:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">changePreference:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">changePreference:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">view</string>
-						<string key="NS.object.0">NSView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">view</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">view</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIModularPane.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIOutlineView</string>
-					<string key="superclassName">NSOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIPreferencePane</string>
-					<string key="superclassName">AIModularPane</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIPreferencePane.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AISegmentedControl</string>
-					<string key="superclassName">NSSegmentedControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AISegmentedControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ESStatusPreferences</string>
-					<string key="superclassName">AIPreferencePane</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addGroup:">id</string>
-						<string key="addOrRemoveState:">id</string>
-						<string key="changeFormat:">id</string>
-						<string key="editState:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="addGroup:">
-							<string key="name">addGroup:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="addOrRemoveState:">
-							<string key="name">addOrRemoveState:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeFormat:">
-							<string key="name">changeFormat:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="editState:">
-							<string key="name">editState:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="box_itunesElements">NSBox</string>
-						<string key="button_addGroup">AILocalizationButton</string>
-						<string key="button_addOrRemoveState">AISegmentedControl</string>
-						<string key="button_editState">AILocalizationButton</string>
-						<string key="checkBox_autoAway">AILocalizationButton</string>
-						<string key="checkBox_fastUserSwitching">AILocalizationButton</string>
-						<string key="checkBox_idle">AILocalizationButton</string>
-						<string key="checkBox_screenSaver">AILocalizationButton</string>
-						<string key="checkBox_showStatusWindow">AILocalizationButton</string>
-						<string key="label_album">AILocalizationTextField</string>
-						<string key="label_artist">AILocalizationTextField</string>
-						<string key="label_composer">AILocalizationTextField</string>
-						<string key="label_genre">AILocalizationTextField</string>
-						<string key="label_iTunesFormat">NSTextField</string>
-						<string key="label_inactivity">AILocalizationTextField</string>
-						<string key="label_inactivitySet">AILocalizationTextField</string>
-						<string key="label_instructions">AILocalizationTextField</string>
-						<string key="label_status">AILocalizationTextField</string>
-						<string key="label_title">AILocalizationTextField</string>
-						<string key="label_year">AILocalizationTextField</string>
-						<string key="outlineView_stateList">AIAlternatingRowOutlineView</string>
-						<string key="popUp_autoAwayStatusState">NSPopUpButton</string>
-						<string key="popUp_fastUserSwitchingStatusState">NSPopUpButton</string>
-						<string key="popUp_screenSaverStatusState">NSPopUpButton</string>
-						<string key="scrollView_stateList">AIAutoScrollView</string>
-						<string key="stepper_autoAwayMinutes">NSStepper</string>
-						<string key="stepper_idleMinutes">NSStepper</string>
-						<string key="tabItem_settings">NSTabViewItem</string>
-						<string key="tabItem_status">NSTabViewItem</string>
-						<string key="textField_autoAwayMinutes">NSTextField</string>
-						<string key="textField_idleMinutes">NSTextField</string>
-						<string key="tokenField_album">NSTokenField</string>
-						<string key="tokenField_artist">NSTokenField</string>
-						<string key="tokenField_composer">NSTokenField</string>
-						<string key="tokenField_format">NSTokenField</string>
-						<string key="tokenField_genre">NSTokenField</string>
-						<string key="tokenField_status">NSTokenField</string>
-						<string key="tokenField_title">NSTokenField</string>
-						<string key="tokenField_year">NSTokenField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="box_itunesElements">
-							<string key="name">box_itunesElements</string>
-							<string key="candidateClassName">NSBox</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="button_addGroup">
-							<string key="name">button_addGroup</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="button_addOrRemoveState">
-							<string key="name">button_addOrRemoveState</string>
-							<string key="candidateClassName">AISegmentedControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="button_editState">
-							<string key="name">button_editState</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkBox_autoAway">
-							<string key="name">checkBox_autoAway</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkBox_fastUserSwitching">
-							<string key="name">checkBox_fastUserSwitching</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkBox_idle">
-							<string key="name">checkBox_idle</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkBox_screenSaver">
-							<string key="name">checkBox_screenSaver</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkBox_showStatusWindow">
-							<string key="name">checkBox_showStatusWindow</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_album">
-							<string key="name">label_album</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_artist">
-							<string key="name">label_artist</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_composer">
-							<string key="name">label_composer</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_genre">
-							<string key="name">label_genre</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_iTunesFormat">
-							<string key="name">label_iTunesFormat</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_inactivity">
-							<string key="name">label_inactivity</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_inactivitySet">
-							<string key="name">label_inactivitySet</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_instructions">
-							<string key="name">label_instructions</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_status">
-							<string key="name">label_status</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_title">
-							<string key="name">label_title</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_year">
-							<string key="name">label_year</string>
-							<string key="candidateClassName">AILocalizationTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="outlineView_stateList">
-							<string key="name">outlineView_stateList</string>
-							<string key="candidateClassName">AIAlternatingRowOutlineView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="popUp_autoAwayStatusState">
-							<string key="name">popUp_autoAwayStatusState</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="popUp_fastUserSwitchingStatusState">
-							<string key="name">popUp_fastUserSwitchingStatusState</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="popUp_screenSaverStatusState">
-							<string key="name">popUp_screenSaverStatusState</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="scrollView_stateList">
-							<string key="name">scrollView_stateList</string>
-							<string key="candidateClassName">AIAutoScrollView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stepper_autoAwayMinutes">
-							<string key="name">stepper_autoAwayMinutes</string>
-							<string key="candidateClassName">NSStepper</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="stepper_idleMinutes">
-							<string key="name">stepper_idleMinutes</string>
-							<string key="candidateClassName">NSStepper</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tabItem_settings">
-							<string key="name">tabItem_settings</string>
-							<string key="candidateClassName">NSTabViewItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tabItem_status">
-							<string key="name">tabItem_status</string>
-							<string key="candidateClassName">NSTabViewItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textField_autoAwayMinutes">
-							<string key="name">textField_autoAwayMinutes</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textField_idleMinutes">
-							<string key="name">textField_idleMinutes</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_album">
-							<string key="name">tokenField_album</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_artist">
-							<string key="name">tokenField_artist</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_composer">
-							<string key="name">tokenField_composer</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_format">
-							<string key="name">tokenField_format</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_genre">
-							<string key="name">tokenField_genre</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_status">
-							<string key="name">tokenField_status</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_title">
-							<string key="name">tokenField_title</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tokenField_year">
-							<string key="name">tokenField_year</string>
-							<string key="candidateClassName">NSTokenField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ESStatusPreferences.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
