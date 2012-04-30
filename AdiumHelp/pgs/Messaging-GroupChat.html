@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="font, color, style, default" />
+<meta name="description" content="Group Chat" />
+<title>Group chat</title>
+<link media="all" rel="stylesheet" href="../css/topicpage.css" type="text/css" />
+</head>
+<body>
+<div id="banner"> <a name="fonts-colors" id="fonts-colors"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Group chat</h1>
+	</div>
+	<p>Group chats, also called conferences or multiuser chats ("MUC"), allow you to chat with multiple contacts simultaneously. Support for group chat varies by service, and the options available when joining a group chat also vary.</p>
+	<p>To join a group chat, it requires that you already have an account on the particular service. Otherwise, you can <a href="Accounts-CreatingAccounts.html">create a new account</a>.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Initiating/joining a group chat</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><b>AIM, Jabber, SameTime, Yahoo, Zephyr</b></p>
+			<p>Choose <b>File</b> → <b>Join Group</b> Chat and enter the details for the chat. You may invite contacts to join you in the chat immediately via the Join Group Chat window, and you may invite them later by:</p>
+			<ul>
+				<li>Selecting them in the contact list and choosing <b>Contact</b> → <b>Invite to Chat</b> and selecting the chat, or</li>
+				<li>Right-clicking (control-clicking) the contact or an open chat with the contact and choosing <b>Invite to Chat</b> and selecting the chat</li>
+			</ul>
+			<p><b>MSN</b></p>
+			<p>To initiate a multiuser chat in MSN, right-click (control-click) on a contact you want to include in the chat and select Initiate Multiuser Chat.</p>
+			<p>You may then add additional contacts to that chat by:</p>
+			<ul>
+				<li>Selecting them in the contact list and choosing <b>Contact</b> → <b>Invite to Chat</b> and selecting the chat, or</li>
+				<li>Right-clicking (control-clicking) the contact or an open chat with the contact and choosing <b>Invite to Chat</b> and selecting the chat</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Bookmarks</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>To add a group chat as a bookmark, select <b>Add Group Chat Bookmark</b> from the <b>Contact</b> menu.</p>
+			<p>Group bookmarks' status messages reflect how many unread mentions or messages are in the chat.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Ranks and icons</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>In IRC group chats, or XMPP MUCs, a number of ranks exists. While their usage and permissions can vary per server or channel, usually they mean the following:</p>
+			<ul>
+				<li style="list-style-image: url(../gfx/founder.png)">The <strong>founder</strong>. Only exists on XMPP. Can change the configuration of the room.</li>
+				<li style="list-style-image: url(../gfx/op.png)"><strong>Operators</strong> (mode <tt>+o</tt>). Have the ability to kick, ban or change the rank of other users, and can change the channel's topic.</li>
+				<li style="list-style-image: url(../gfx/half-op.png)"><strong>Half-operators</strong> (mode <tt>+h</tt>). Not available everywhere, often have same permissions as operators, but can't change the permissions of operators.</li>
+				<li style="list-style-image: url(../gfx/voice.png)"><strong>Voice</strong> (mode <tt>+v</tt>). Can still speak if the channel is muted (mode <tt>+m</tt>).</li>
+				<li style="list-style-image: url(../gfx/none.png)"><strong>Normal</strong>.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Autojoining</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>There are two different ways of automatically joining a group chat when connecting:</p>
+			<ul>
+				<li>Using a bookmark
+				<ol>
+					<li>Bookmark the group chat.</li>
+					<li><b>Get info</b> (via <b>Contact</b> menu) for the bookmark.</li>
+					<li>In the "Advanced" (fourth) pane check <b>Automatically Join On Connect</b>.</li>
+				</ol>
+				</li>
+			</ul>
+			<ul>
+				<li>Using "Reopen chats from last time"
+				<ol>
+					<li>Activate <b>Reopen chats from last time on startup</b> in Adium's General preferences.</li>
+					<li>Leave the chat tab/window with your group chat open when quitting Adium.</li>
+				</ol>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Topics</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Some message styles, such as all the default message styles in Adium 1.4, support the display of topics in a header at the top of the chat.</p>
+			<p>To make them show up</p>
+			<ol>
+				<li>Go to Adium Preferences.</li>
+				<li>Select <b>Messages</b> from the toolbar.</li>
+				<li>Select the &quot;Group Chats&quot; tab.</li>
+				<li>Activate &quot;Show Header&quot;.</li>
+			</ol>
+			<p>For message styles that do not support the topic header, you can type '''/topic''' to show the topic.</p>
+			<p><b>Editing topics </b></p>
+			<p>To edit a topic either</p>
+			<ul>
+				<li>double-click the header in the chat window, edit the text and press return/enter</li>
+			</ul>
+			<p>or</p>
+			<ul>
+				<li>type "/topic 'this is the new topic'".</li>
+			</ul>
+			<p>To edit a topic double-click the header in the chat window, enter or edit the text and press enter.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Mentions</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium provides indication of when your user name (and some other text you possibly specified - see below) has been mentioned in a <a href="Messaging-GroupChat.html">group chat</a>. Primarily it does so by displaying a grey line in the scrollbar (not customizable) but Adium also provides a way for message styles to apply custom styling to messages that contain a mention.</p>
+			<p>Mentions can be specified in Preferences → Advanced → Mention.</p>
+			<p>All message styles bundled with 1.4 (or newer) provide a different, style-integrated indication for mentions that indicate the specific message that contains a message.</p>
+			<p>See the dedicated article on <a href="Messaging-Mentions.html">Mentions</a> for details.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Focus</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium provides indication when a new message has been received in a <a href="Messaging-GroupChat.html">group chat</a> after your tab/window lost focus. Primarily it does so by displaying a red line in the scrollbar (not customizable) but Adium also provides a way for message styles to apply custom styling to messages that were received while focus was lost.</p>
+			<p>See the dedicated article on <a href="Messaging-Focus.html">Focus</a> for details.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Hiding/displaying join/leave messages</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>You can toggle hiding/displaying messages of users joining or leaving a group chat via the <b>Display</b> menu. Currently, this only works on a per-chat basis, it is not possible to hide these messages for all group chats in one go.</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+/*
+---------------------------------------------------------------------------
+  PROJECT: 	Adium Message Style
+
+FILE NAME: 	minimal_mod.AdiumMessageStyle
+
+	 NAME: 	minimal_mod
+				[http://caenim.com/public/minimal_mod.AdiumMessageStyle.zip]
+
+ DESIGNER: 	John Muhl [http://caenim.com/]
+
+  CREATED: 	2005.04.25 [first local version]
+
+REVISIONS: 	1.0.2005.05.03 [first public version]
+				new image background image [back_l.png]
+				changed default font to Lucida Grande
+				removed all existing color variants
+				created 67 new color variants (lots contributed by amy b.)
+				removed consecutive message timestamp
+				changed sender name to ALL CAPS
+				changed all colors to "web safe"
+				increased user icons to 36x36 px
+				adjusted line height in messages
+				adjusted line height between sender and initial message
+				minor adjustments to text padding in messages
+
+				1.1.2005.09.18
+				very (VERY!) minor changes to the line height & hyperlink decoration
+				corrected a few errors in the variants (fixes contributed by amy b.)
+
+				1.2.2005.10.04
+				corrected zany user icon placement throughout:
+				fixed problem where user icons appeared diagonally
+				fixed vertical alignment problems with user icons
+				decreased user icon size to 24x24 px
+				removed forceable capitalization of user names
+				fixed vertical alignment problem in the status message
+
+				1.3.2005.11.18
+				added service indicator to initial time stamp
+				lightened the dotted line between messages
+				removed all reference to specific typefaces; improves compatibility with Adium and user selected fonts
+				more minor changes to hyperlink decoration
+				updated: Black vs ... color variants
+				updated: Blue vs ... color variants
+				updated: Green vs ... color variants
+				updated: Grey vs ... color variants
+				updated: Orange vs ... color variants
+				updated: Pink vs ... color variants
+				updated: Purple vs ... color variants
+				updated: Red vs ... color variants
+				updated: White vs ... color variants
+				updated: Yellow vs ... color variants
+				added a "Conversation started at ... " header
+
+			1.4.2006.06.06
+			fixed problem with six digit time stamps
+			removed a bunch of cruft; thanks to Catfish_Man for the catch
+
+	 TODO: 	wait for new issues to arise via users or personal use.
+				update for user with XtrasManager [currently does not work with message styles].
+				hyperlink decoration tweaks [?].
+
+ BASED ON: 	Minimal Adium Message Style [default package 0.8 b12 version]
+				check http://xtras.adium.im/index.php?a=xtras&xtra_id=1576 for full credits
+---------------------------------------------------------------------------
+*/
+
+body
+{
+	color: #333333;
+	margin: 0;
+	line-height: 1.4em;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	overflow: hidden;
+	background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255 ,255, .5)), to(rgba(255, 255, 255, .9)));
+}
+
+a
+{
+	border-bottom: 1px dashed;
+	text-decoration: none;
+}
+
+a:hover
+{
+	border-bottom: 1px solid;
+}
+
+.x-container:not(.consecutive),
+.message.action + .x-container.consecutive,
+.message.action
+{
+	padding-top: 4px;
+	border-top: 1px dotted rgba(0, 0, 0, .2);
+}
+
+.x-container.message.showIcons:not([src*="buddy_icon.png"]):not(.consecutive),
+.message.action + .x-container.message.consecutive.showIcons:not([src*="buddy_icon.png"]),
+.message.action.showIcons:not([src*="buddy_icon.png"])
+{
+	min-height: 29px;
+}
+
+.x-container
+{
+	padding-left: 16px;
+	padding-right: 8px;
+	padding-bottom: 2px;
+}
+
+.message:not(.consecutive) .x-message,
+.message.action + .message.consecutive .x-message
+{
+	padding-top: 4px;
+}
+
+.message:not(.action) + .message.consecutive:not(.action) .x-message
+{
+	padding-top: 2px;
+}
+
+.message:not(.action) + .consecutive.message.showIcons:not(.action) img[src*="buddy_icon.png"] + .x-message
+{
+	margin-left: 30px;
+}
+
+.x-sender
+{
+	font-weight: bold;
+	font-size: 1.1em;
+	overflow: hidden;
+}
+
+.x-time
+{
+	float: right;
+	text-align: right;
+	padding-left: 6px;
+	font-size: .9em;
+}
+
+.history .x-message,
+.groupchat .status .x-message,
+.groupchat .event .x-message,
+.groupchat .status a,
+.groupchat .event a,
+.x-time
+{
+	color: #9F9F9F;
+}
+
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-time,
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-sender,
+.message:not(.hideIcons):not([src*="buddy_icon.png"]) .x-message
+{
+	margin-left: 30px;
+}
+
+img.x-buddyicon
+{
+	position: absolute;
+	left: 16px;
+	margin-top: 2px;
+	margin-right: 6px;
+	padding-bottom: 8px;
+	width: 24px;
+	height: 24px;
+}
+
+.hideIcons img.x-buddyicon
+{
+	display: none;
+}
+
+img:not(.x-buddyicon)
+{
+	vertical-align: middle;
+	top: -3px;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+}
+
+.history .x-message a
+{
+	color: #999999;
+}
+
+/*
+#topic
+{
+	opacity: 1;
+	-webkit-transition: opacity .1s linear;
+}
+
+#topic:hover
+{
+	opacity: .1;
+}
+*/
+
+#x-header
+{
+	position: fixed;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+	margin: 0px;
+	padding: 5px;
+	overflow: auto;
+	color: white;
+	text-align: center;
+	font-size: 1em;
+	background: rgba(0, 0, 0, .75);
+	z-index: 999;
+}
+
+#x-header:hover #topicEdit
+{
+	min-height: 1em;
+	display: block;
+}
+
+#x-header a
+{
+	color: white;
+}
+
+.mention
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .75)), to(rgba(0, 0, 0, .75))) 0px 0px no-repeat;
+	-webkit-background-size: 10px 100%;
+}
+
+.focus
+{
+	background: url("./images/vert.png") repeat;
+}
+
+.focus:not(.consecutive),
+.focus.action,
+.message.action + .focus.consecutive
+{
+	border-top: none !important;
+	margin-top: 1px;
+}
+
+.x-container.focus + .x-container:not(.focus)
+{
+	border-top: none !important;
+	margin-top: 1px;
+}
+
+.focus .x-time
+{
+	color: #888;
+}
+
+.focus.mention
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .75)), to(rgba(0, 0, 0, .75))) 0px 0px no-repeat,
+		url("./images/vert.png") repeat;
+	-webkit-background-size: 10px 100%, 2px 100%;
+}
+
+.history.mention
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .2)), to(rgba(0, 0, 0, .2))) 0px 0px no-repeat;
+}
+
+.status .x-buddyicon,
+.status .x-sender,
+.event .x-buddyicon,
+.event .x-sender,
+.message:not(.action) + .consecutive:not(.action) .x-buddyicon,
+.message:not(.action) + .consecutive:not(.action) .x-sender,
+.message:not(.action) + .consecutive:not(.action) .x-time,
+img[src*="buddy_icon.png"]
+{
+	display: none;
+}
+
+
+/* ACTION */
+
+.showIcons.x-container.action:not([src*="buddy_icon.png"]),
+.showIcons.x-container.x-filetransfer:not([src*="buddy_icon.png"])
+{
+	padding-left: 46px;
+}
+
+.action .x-sender,
+.action .x-message,
+.x-filetransfer .x-sender,
+.x-filetransfer .x-message
+{
+	display: inline;
+	font-style: italic !important;
+	margin-left: 0px !important;
+}
+
+.action.consecutive .x-message
+{
+	padding-top: 3px;
+}
+
+.actionMessageUserName
+{
+	display: none;
+}
+
+.actionMessageBody:after
+{
+	content: "";
+}
+
+.actionMessageBody:before
+{
+	content: "";
+}
+
+.x-filetransfer .x-sender,
+.x-filetransfer .x-message
+{
+	display: inline;
+}
+
+.x-filetransfer .x-buttons
+{
+	padding-top: 4px;
+}
+

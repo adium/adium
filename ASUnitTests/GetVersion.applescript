@@ -1,0 +1,1 @@
+tell application "Adium" to version

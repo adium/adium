@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="blocking, privacy, block, allow, unblock" />
+<meta name="description" content="Get rid of Spammers and block friends." />
+<title>Blocking and unblocking contacts</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="blocking" id="blocking"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Blocking and unblocking contacts</h1>
+	</div>
+	<p>Blocking is used to prevent communication from a specific contact. Once a contact has been blocked, you will appear offline to them and they will be unable to send messages to you. For all services except MSN, they also will appear offline to you, and you will be unable to see their status.</p>
+	<p>Blocked contacts appear in your ContactList with this status icon:</p>
+	<img src="../gfx/StatusIcons-blocked.png" alt="Blocked status bubble" />
+	<p>though some AdiumStatusIcons packs may have a different icon for blocked contacts.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Blocking a contact in chat</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>There are two ways:</p>
+			<ul>
+				<li>Click on the "Block" icon on the toolbar of the chat window (Clicking this symbol again will unblock the contact) or</li>
+				<li>Right-click on the chat tab containing the spam and click “Block”</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Blocking a contact in the contact list</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Select the Contact in the Contact List.</p>
+				<ul>
+					<li>From the <b>Contact</b> menu, select <strong>Block</strong> or</li>
+					<li>Right-click the contact and select <b>Block</b>.</li>
+				</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Unblocking a contact</h3>
+		</div>
+		<div class="taskboxtext">
+			<ol>
+				<li>Navigate to your Privacy Settings page via the <strong>Adium</strong> menu.</li>
+				<li>Select the user you wish to unblock.</li>
+				<li>Click the "-" button.</li>
+			</ol>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Setting up Privacy Settings</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>From version 1.0 onwards:</p>
+			<ol>
+				<li>Choose <b>Privacy Settings...</b> from the<strong> Adium </strong>menu.</li>
+				<li>A window will appear.</li>
+			</ol>
+			<p>The menu can utilize different privacy levels and manipulate allow and block lists for each account. Adjust your privacy level to an appropriate one, and add or remove contacts using the &quot;+&quot; and &quot;-&quot; buttons.</p>
+			<ol>
+				<li><b>Allow lists</b>
+				<ul>
+					<li>Allow All Contacts</li>
+					<li>Allow certain contacts</li>
+					<li>Allow only users on my contact list is the quickest way to block spammers:</li>
+				</ul>
+				</li>
+				<li><b>Block lists</b>
+				<ul>
+					<li>Block certain contacts</li>
+				</ul>
+				</li>
+			</ol>
+			<p><b>Note:</b> Unfortunately, not all services support all privacy settings; Adium does not currently present this information as clearly as it should. This will hopefully be fixed at a later point on the libpurple (http://trac.adium.im/wiki/LibPurple) level. (See http://developer.pidgin.im/wiki/GSoC2009/PrivacyRewrite for more information)</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Services and the Privacy Settings they support</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><b>AIM</b></p>
+				<ul>
+					<li>Supports: All privacy settings displayed by Adium.</li>
+				</ul>
+				<p><b>MSN</b></p>
+					<ul>
+						<li>Supports "Allow certain contacts" and "Block certain contacts".</li>
+					</ul>
+						<ul>
+							<li><strong>Allow only users on my contact list</strong> setting actually adds all contacts currently on your list to the allow list and sets <strong>Allow certain contacts</strong>. (Restart Adium if the change is not reflected)</li>
+							<li>It should also be noted that <strong>Allow all contact</strong>s is the same as <strong>Block certain contacts</strong>, so selecting <strong>Allow all contacts</strong> won't remove the block list stored on the server.</li>
+						</ul>
+				<p><b>Yahoo</b></p>
+					<ul>
+						<li>Supports: <strong>Allow All Contacts</strong> and <strong>Block certain contacts</strong>.</li>
+					</ul>
+						<ul>
+							<li>All settings except <strong>Allow All Contacts</strong> will enable your Block list and block only those contacts. (Restart Adium if the change is not reflected)</li>
+						</ul>
+				<p><b>ICQ</b></p>
+					<ul>
+						<li>Supports: <strong>Block certain contacts</strong> except that they aren't really blocked and are still able to send you messages, they just can't see if you are online or not. So this privacy option resembles ICQ's &quot;invisible lists&quot;.</li>
+					</ul>
+			</div>
+		</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>
