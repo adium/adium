@@ -38,28 +38,28 @@ typedef enum {
 
 //Account Creation
 - (id)accountWithUID:(NSString *)inUID internalObjectID:(NSString *)inInternalObjectID;
-@property (readonly, nonatomic) Class accountClass;
-@property (readonly, nonatomic) AIAccountViewController *accountViewController;
-@property (readonly, nonatomic) DCJoinChatViewController *joinChatView;
+@property (unsafe_unretained, readonly, nonatomic) Class accountClass;
+@property (weak, readonly, nonatomic) AIAccountViewController *accountViewController;
+@property (unsafe_unretained, readonly, nonatomic) DCJoinChatViewController *joinChatView;
 
 //Service Description
-@property (readonly, nonatomic) NSString *serviceCodeUniqueID;
-@property (readonly, nonatomic) NSString *serviceID;
-@property (readonly, nonatomic) NSString *serviceClass;
-@property (readonly, nonatomic) NSString *shortDescription;
-@property (readonly, nonatomic) NSString *longDescription;
-@property (readonly, nonatomic) NSString *userNameLabel;
-@property (readonly, nonatomic) NSString *contactUserNameLabel;
-@property (readonly, nonatomic) NSString *UIDPlaceholder;
+@property (weak, readonly, nonatomic) NSString *serviceCodeUniqueID;
+@property (weak, readonly, nonatomic) NSString *serviceID;
+@property (weak, readonly, nonatomic) NSString *serviceClass;
+@property (weak, readonly, nonatomic) NSString *shortDescription;
+@property (weak, readonly, nonatomic) NSString *longDescription;
+@property (weak, readonly, nonatomic) NSString *userNameLabel;
+@property (weak, readonly, nonatomic) NSString *contactUserNameLabel;
+@property (weak, readonly, nonatomic) NSString *UIDPlaceholder;
 @property (readonly, nonatomic) AIServiceImportance serviceImportance;
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType;
 - (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType;
 
 //Service Properties
-@property (readonly, nonatomic) NSCharacterSet *allowedCharacters;
-@property (readonly, nonatomic) NSCharacterSet *allowedCharactersForUIDs;
-@property (readonly, nonatomic) NSCharacterSet *allowedCharactersForAccountName;
-@property (readonly, nonatomic) NSCharacterSet *ignoredCharacters;
+@property (weak, readonly, nonatomic) NSCharacterSet *allowedCharacters;
+@property (weak, readonly, nonatomic) NSCharacterSet *allowedCharactersForUIDs;
+@property (weak, readonly, nonatomic) NSCharacterSet *allowedCharactersForAccountName;
+@property (weak, readonly, nonatomic) NSCharacterSet *ignoredCharacters;
 @property (readonly, nonatomic) NSUInteger allowedLength;
 @property (readonly, nonatomic) NSUInteger allowedLengthForUIDs;
 @property (readonly, nonatomic) NSUInteger allowedLengthForAccountName;
@@ -70,7 +70,7 @@ typedef enum {
 @property (readonly, nonatomic) BOOL supportsPassword;
 @property (readonly, nonatomic) BOOL requiresPassword;
 @property (readonly, nonatomic) BOOL isSocialNetworkingService;
-@property (readonly, nonatomic) NSString *defaultUserName;
+@property (weak, readonly, nonatomic) NSString *defaultUserName;
 @property (readonly, nonatomic) BOOL isHidden;
 
 //Utilities

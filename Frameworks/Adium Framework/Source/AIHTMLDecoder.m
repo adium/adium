@@ -81,15 +81,9 @@ static NSString			*horizontalRule = nil;
 	}	
 }
 
-- (void) dealloc {
-	[XMLNamespace release]; XMLNamespace = nil;
-	[baseURL release]; baseURL = nil;
-	[super dealloc];
-}
-
 + (AIHTMLDecoder *)decoder
 {
-	return [[[self alloc] init] autorelease];
+	return [[self alloc] init];
 }
 
 - (id)initWithHeaders:(BOOL)includeHeaders
@@ -138,7 +132,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					   bodyBackground:(BOOL)bodyBackground
                   allowJavascriptURLs:(BOOL)allowJS
 {
-	return [[[self alloc] initWithHeaders:includeHeaders
+	return [[self alloc] initWithHeaders:includeHeaders
 								 fontTags:includeFontTags
 							closeFontTags:closeFontTags
 								colorTags:includeColorTags
@@ -149,7 +143,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		   onlyIncludeOutgoingImages:onlyIncludeOutgoingImages
 						   simpleTagsOnly:simpleOnly
 						   bodyBackground:bodyBackground
-					  allowJavascriptURLs:allowJS] autorelease];
+					  allowJavascriptURLs:allowJS];
 }
 
 #pragma mark Work methods
@@ -170,10 +164,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	NSString				*key = nil, *value = nil;
 
 	//Setup
-	if (!equalsSet) equalsSet = [[NSCharacterSet characterSetWithCharactersInString:@"="]  retain];
-	if (!dquoteSet) dquoteSet = [[NSCharacterSet characterSetWithCharactersInString:@"\""] retain];
-	if (!squoteSet) squoteSet = [[NSCharacterSet characterSetWithCharactersInString:@"'"]  retain];
-	if (!spaceSet)  spaceSet  = [[NSCharacterSet characterSetWithCharactersInString:@" "]  retain];
+	if (!equalsSet) equalsSet = [NSCharacterSet characterSetWithCharactersInString:@"="];
+	if (!dquoteSet) dquoteSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+	if (!squoteSet) squoteSet = [NSCharacterSet characterSetWithCharactersInString:@"'"];
+	if (!spaceSet)  spaceSet  = [NSCharacterSet characterSetWithCharactersInString:@" "];
 
 	scanner = [NSScanner scannerWithString:arguments];
 	argDict = [NSMutableDictionary dictionary];
@@ -249,7 +243,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	}	
 	
 	//Setup the default attributes
-	NSString		*currentFamily = [@"Helvetica" retain];
+	NSString		*currentFamily = @"Helvetica";
 	NSString		*currentColor = nil;
 	NSString		*currentBackColor = nil;
 	CGFloat			 currentSize = 12;
@@ -336,7 +330,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					}
 
 				}
-				[currentFamily release]; currentFamily = [familyName retain];
+				currentFamily = familyName;
 			}
 
 			//Size
@@ -429,7 +423,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				 */
 				if (thingsToInclude.allowAIMsubprofileLinks && 
 				   ([linkString rangeOfString:@"%25n"].location != NSNotFound)) {
-					NSMutableString	*fixedLinkString = [[linkString mutableCopy] autorelease];
+					NSMutableString	*fixedLinkString = [linkString mutableCopy];
 					[fixedLinkString replaceOccurrencesOfString:@"%25n"
 													 withString:@"%n"
 														options:NSLiteralSearch
@@ -525,7 +519,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 												uniqueifyHTML:shouldSaveImage];
 							
 							//We were succesful appending the image tag, so release this chunk
-							[chunk release]; chunk = nil;	
+							chunk = nil;	
 						}
 					}
 					
@@ -536,7 +530,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 							[string appendString:attachmentString];
 						}
 						
-						[chunk release]; chunk = nil;
+						chunk = nil;
 					}
 				}
 			}
@@ -653,15 +647,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			} else {
 				[string appendString:chunk];
 			}
-
-			//Release the chunk
-			[chunk release];
 		}
 
 		searchRange.location += searchRange.length;
 	}
-
-	[currentFamily release];
 
 	//Finish off the HTML
 	if (thingsToInclude.styleTags) {
@@ -813,9 +802,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 }
 - (NSDictionary *)attributesByReplacingNSFontAttributeNameWithAIFontAttributeNames:(NSDictionary *)attributes
 {
-	NSFont *font = [[attributes objectForKey:NSFontAttributeName] retain];
+	NSFont *font = [attributes objectForKey:NSFontAttributeName];
 	if (!font) {
-		return [[attributes retain] autorelease];
+		return attributes;
 	} else {
 		NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
 
@@ -834,10 +823,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			[mutableAttributes setObject:@"italic" forKey:AIFontStyleAttributeName];
 		}
 
-		[font release];
-
 		NSDictionary *result = [NSDictionary dictionaryWithDictionary:mutableAttributes];
-		[mutableAttributes release];
 		return result;
 	}
 }
@@ -890,7 +876,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	[elementStack addObject:divElement];
 	[attributeNamesStack addObject:emptySet];
 
-	NSMutableSet *CSSCapableAttributes = [[[NSAttributedString CSSCapableAttributesSet] mutableCopy] autorelease];
+	NSMutableSet *CSSCapableAttributes = [[NSAttributedString CSSCapableAttributesSet] mutableCopy];
 	[CSSCapableAttributes addObject:NSLinkAttributeName];
 	NSSet *CSSCapableAttributesWithNoAttachment = [NSSet setWithSet:CSSCapableAttributes];
 	[CSSCapableAttributes addObject:NSAttachmentAttributeName];
@@ -924,7 +910,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					--popRange.location; ++popRange.length;
 
 					NSMutableSet *attributeNames = [attributeNamesStack objectAtIndex:popRange.location];
-					NSMutableSet *intersection = [[attributeNames mutableCopy] autorelease];
+					NSMutableSet *intersection = [attributeNames mutableCopy];
 					[intersection intersectSet:mutableEndedKeys];
 
 					[attributeNames minusSet:intersection];
@@ -953,11 +939,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				}
 			}
 
-			[mutableEndedKeys release];
 		}
 
 		//Now handle attributes that have started or changed.
-		NSMutableString *elementContent = [[[inMessageString substringWithRange:runRange] mutableCopy] autorelease];
+		NSMutableString *elementContent = [[inMessageString substringWithRange:runRange] mutableCopy];
 		
 		BOOL addElementContentToTopElement;
 		if ([startedKeys count]) {
@@ -976,7 +961,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				[item addObject:[NSNumber numberWithUnsignedInteger:attributeRange.length]];
 				[item addObject:attributeName];
 				[startedKeysArray replaceObjectAtIndex:i withObject:item];
-				[item release];
 			}
 			//Sort. Items will be sorted first by length, then by attribute name.
 			[startedKeysArray sortUsingSelector:@selector(compare:)];
@@ -1020,7 +1004,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					[[elementStack lastObject] addObject:elementContent];
 				}
 			}
-			[startedKeysArray release];
 
 		} else {
 			addElementContentToTopElement = YES;
@@ -1066,7 +1049,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (NSAttributedString *)decodeHTML:(NSString *)inMessage withDefaultAttributes:(NSDictionary *)inDefaultAttributes
 {
-	if (!inMessage) return [[[NSAttributedString alloc] init] autorelease];
+	if (!inMessage) return [[NSAttributedString alloc] init];
 
 	NSScanner					*scanner;
 	static NSCharacterSet		*tagCharStart = nil, *tagEnd = nil, *charEnd = nil, *absoluteTagEnd = nil;
@@ -1086,15 +1069,15 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	if (inDefaultAttributes) {
 		textAttributes = [AITextAttributes textAttributesWithDictionary:inDefaultAttributes];
 	} else {
-		textAttributes = [[[AITextAttributes alloc] init] autorelease];
+		textAttributes = [[AITextAttributes alloc] init];
 	}
 
     attrString = [[NSMutableAttributedString alloc] init];
 
-	if (!tagCharStart)     tagCharStart = [[NSCharacterSet characterSetWithCharactersInString:@"<&"] retain];
-	if (!tagEnd)                 tagEnd = [[NSCharacterSet characterSetWithCharactersInString:@" >"] retain];
-	if (!charEnd)               charEnd = [[NSCharacterSet characterSetWithCharactersInString:@";"] retain];
-	if (!absoluteTagEnd) absoluteTagEnd = [[NSCharacterSet characterSetWithCharactersInString:@">"] retain];
+	if (!tagCharStart)     tagCharStart = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
+	if (!tagEnd)                 tagEnd = [NSCharacterSet characterSetWithCharactersInString:@" >"];
+	if (!charEnd)               charEnd = [NSCharacterSet characterSetWithCharactersInString:@";"];
+	if (!absoluteTagEnd) absoluteTagEnd = [NSCharacterSet characterSetWithCharactersInString:@">"];
 
 	scanner = [NSScanner scannerWithString:inMessage];
 	[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@""]];
@@ -1107,7 +1090,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		 * All characters before the next HTML entity are textual characters in the current textAttributes. We append
 		 * those characters to our final attributed string with the desired attributes before continuing.
 		 */
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 		if ([scanner scanUpToCharactersFromSet:tagCharStart intoString:&chunkString]) {
 			id	languageValue = [textAttributes languageValue];
 			
@@ -1164,7 +1147,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	
 					} else if ([chunkString caseInsensitiveCompare:@"/HTML"] == NSOrderedSame) {
 						//We are done
-						[pool release]; pool = nil;
 						break;
 
 					//PRE -- ignore attributes for logViewer
@@ -1334,8 +1316,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					//Base URL tag
 					} else if ([chunkString caseInsensitiveCompare:@"BASE"] == NSOrderedSame) {
 						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							[myBaseURL release];
-							myBaseURL = [[[self parseArguments:chunkString] objectForKey:@"href"] retain];
+							myBaseURL = [[self parseArguments:chunkString] objectForKey:@"href"];
 						}
 					//Ignore <meta> tags
 					} else if ([chunkString caseInsensitiveCompare:@"META"] == NSOrderedSame ||
@@ -1444,7 +1425,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				}
 			}
 		}
-		[pool release];
+		}
 	}
 	
 	/* If the string has a constant NSBackgroundColorAttributeName attribute and no AIBodyColorAttributeName,
@@ -1465,9 +1446,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		}
 	}
 
-	[myBaseURL release];
-
-	return [attrString autorelease];
+	return attrString;
 }
 
 #pragma mark Tag-parsing
@@ -1722,7 +1701,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 																	   defaultColor:[NSColor blackColor]]];
 
 					//Take out the background-color attribute, so that the following search for color: does not match it.
-					NSMutableString *mStyle = [[style mutableCopy] autorelease];
+					NSMutableString *mStyle = [style mutableCopy];
 					[mStyle replaceCharactersInRange:attributeRange
 										  withString:@"onpxtebhaq-pbybe:"]; //ROT13('background-color: ')
 					style = mStyle;
@@ -1781,7 +1760,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			 * returns NULL if any percent escapes are invalid... and %n is decidedly invalid.
 			 */
 			if ([linkString rangeOfString:@"%n"].location != NSNotFound) {
-				NSMutableString	*newLinkString = [[linkString mutableCopy] autorelease];
+				NSMutableString	*newLinkString = [linkString mutableCopy];
 				[newLinkString replaceOccurrencesOfString:@"%n"
 											   withString:@"%25n"
 												  options:NSLiteralSearch
@@ -1832,7 +1811,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 - (NSAttributedString *)processImgTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes baseURL:(NSString *)inBaseURL
 {
 	NSAttributedString			*attachString;
-	AITextAttachmentExtension   *attachment = [[[AITextAttachmentExtension alloc] init] autorelease];
+	AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
 
 	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"src"] == NSOrderedSame) {
@@ -1880,7 +1859,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	if (image) {
 		NSTextAttachmentCell *cell = [[NSTextAttachmentCell alloc] initImageCell:image];
 		[attachment setAttachmentCell:cell];
-		[cell release];
 		
 		attachString = [NSAttributedString attributedStringWithAttachment:attachment];
 	} else {

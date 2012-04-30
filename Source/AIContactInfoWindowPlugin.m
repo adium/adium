@@ -132,21 +132,21 @@
 - (void)prepareContactInfo
 {
 	//Add our get info contextual menu item
-	menuItem_getInfoContextualContact = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
+	menuItem_getInfoContextualContact = [[NSMenuItem alloc] initWithTitle:VIEW_CONTACTS_INFO
 																							 target:self
 																							 action:@selector(showContactInfo:)
 																					  keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualContact
 									   toLocation:Context_Contact_Manage];
 	
-	menuItem_getInfoContextualGroup = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
+	menuItem_getInfoContextualGroup = [[NSMenuItem alloc] initWithTitle:VIEW_CONTACTS_INFO
 																						   target:self
 																						   action:@selector(showContactInfo:)
 																					keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualGroup
 									   toLocation:Context_Group_Manage];
 	
-	menuItem_getInfoContextualGroupChat = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_BOOKMARK_GET_INFO
+	menuItem_getInfoContextualGroupChat = [[NSMenuItem alloc] initWithTitle:VIEW_BOOKMARK_GET_INFO
 																							   target:self
 																							   action:@selector(showBookmarkInfo:)
 																						keyEquivalent:@""];
@@ -154,7 +154,7 @@
 	
 	
 	//Install the standard Get Info menu item which will always be command-shift-I
-	menuItem_getInfo = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
+	menuItem_getInfo = [[NSMenuItem alloc] initWithTitle:VIEW_CONTACTS_INFO
 																			target:self
 																			action:@selector(showContactInfo:)
 																	 keyEquivalent:@"i"];
@@ -164,7 +164,7 @@
 	/* Install the alternate Get Info menu item which will be alternately command-I and command-shift-I, in the contact list
 		* and in all other places, respectively.
 		*/
-	menuItem_getInfoAlternate = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
+	menuItem_getInfoAlternate = [[NSMenuItem alloc] initWithTitle:VIEW_CONTACTS_INFO
 																					 target:self
 																					 action:@selector(showContactInfo:)
 																			  keyEquivalent:@"i"];
@@ -187,7 +187,7 @@
 									 object:[menuItem_getInfoAlternate menu]];
 	
 	//Install the Get Info (prompting for a contact name) menu item
-	menuItem_getInfoWithPrompt = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO_WITH_PROMPT
+	menuItem_getInfoWithPrompt = [[NSMenuItem alloc] initWithTitle:VIEW_CONTACTS_INFO_WITH_PROMPT
 																					  target:self
 																					  action:@selector(showSpecifiedContactInfo:)
 																			   keyEquivalent:@"i"];

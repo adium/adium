@@ -36,6 +36,6 @@ typedef enum {
 		notificationType:(AINotificationType)inNotificationType;
 
 @property (readonly, nonatomic) AINotificationType notificationType;
-@property (readonly, nonatomic) NSString *eventType;
+@property (weak, readonly, nonatomic) NSString *eventType;
 
 @end

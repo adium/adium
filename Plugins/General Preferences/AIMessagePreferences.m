@@ -184,7 +184,7 @@
 					   tag:AIBraces];
 	
 	
-	return [menu autorelease];		
+	return menu;		
 }
 
 - (NSMenu *)sendKeysMenu
@@ -209,7 +209,7 @@
 			 keyEquivalent:@""
 					   tag:AISendOnBoth];
 	
-	return [menu autorelease];		
+	return menu;		
 }
 
 - (NSMenu *)tabPositionMenu
@@ -240,7 +240,7 @@
 			 keyEquivalent:@""
 					   tag:AdiumTabPositionRight];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (BOOL)chatHistoryDisplayActive
@@ -258,7 +258,6 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:nil];
-	[sheet.windowController release];
 }
 - (IBAction)configureLogCertainAccounts:(id)sender
 {

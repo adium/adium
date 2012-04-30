@@ -142,21 +142,7 @@
 - (void)controllerWillClose
 {
 	[AIPreferenceContainer preferenceControllerWillClose];
-} 
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-    [delayedNotificationGroups release]; delayedNotificationGroups = nil;
-    [paneArray release]; paneArray = nil;
-    [prefCache release]; prefCache = nil;
-	[objectPrefCache release]; objectPrefCache = nil;
-    [super dealloc];
 }
-
-
 
 //Preference Window ----------------------------------------------------------------------------------------------------
 #pragma mark Preference Window
@@ -236,7 +222,6 @@
 	if (!(groupObservers = [observers objectForKey:group])) {
 		groupObservers = [[NSMutableArray alloc] init];
 		[observers setObject:groupObservers forKey:group];
-		[groupObservers release];
 	}
 
 	//Add our new observer
@@ -279,8 +264,8 @@
 	if (!object && preferenceChangeDelays > 0) {
         [delayedNotificationGroups addObject:group];
     } else {
-		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object] dictionary] retain];
-		for (NSValue *observerValue in [[[observers objectForKey:group] copy] autorelease]) {
+		NSDictionary	*preferenceDict = [[self preferenceContainerForGroup:group object:object] dictionary];
+		for (NSValue *observerValue in [[observers objectForKey:group] copy]) {
 			id observer = observerValue.nonretainedObjectValue;
 			[observer preferencesChangedForGroup:group
 											 key:key
@@ -288,8 +273,6 @@
 								  preferenceDict:preferenceDict
 									   firstTime:NO];
 		}
-
-		[preferenceDict release];
     }
 }
 
@@ -527,13 +510,13 @@
 		CFURLRef	urlToDefaultBrowser = NULL;
 		
 		//Use Safari's preference as a default if it's the default browser and it is set
-		if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
+		if (LSGetApplicationForURL((__bridge CFURLRef)[NSURL URLWithString:@"http://google.com"],
 								   kLSRolesViewer,
 								   NULL /*outAppRef*/,
 								   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
 			NSString	*defaultBrowserName = nil;
 			
-			defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(NSURL *)urlToDefaultBrowser path]];
+			defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(__bridge NSURL *)urlToDefaultBrowser path]];
 			
 			if ([defaultBrowserName rangeOfString:@"Safari"].location != NSNotFound) {
 				/* ICGetPref() for kICDownloadFolder returns any previously set preference, not the default ~/Downloads or the current
@@ -543,10 +526,8 @@
 				if (safariDownloadsPath) {
 					//This should return a CFStringRef... we're using another app's prefs, so make sure.
 					if (CFGetTypeID(safariDownloadsPath) == CFStringGetTypeID()) {
-						userPreferredDownloadFolder = (NSString *)safariDownloadsPath;
+						userPreferredDownloadFolder = (__bridge NSString *)safariDownloadsPath;
 					}
-					
-					[(NSObject *)safariDownloadsPath autorelease];
 				}					
 			}
 		}

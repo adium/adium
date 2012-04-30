@@ -61,8 +61,6 @@
 - (void)dealloc
 {
 	[adium.chatController unregisterChatObserver:self];
-	
-	[super dealloc];
 }
 
 #pragma mark Message event handling
@@ -411,7 +409,7 @@
  */
 - (NSString *)stringFromMessageAttributedString:(NSAttributedString *)attributedString
 {
-	NSMutableAttributedString *mutableMessage = [[[attributedString attributedStringByConvertingAttachmentsToStrings] mutableCopy] autorelease];
+	NSMutableAttributedString *mutableMessage = [[attributedString attributedStringByConvertingAttachmentsToStrings] mutableCopy];
 
 	NSRange messageRange = NSMakeRange(0, 0);
 	NSUInteger stringLength = attributedString.length;
@@ -434,7 +432,7 @@
 {
 	static NSImage	*eventImage = nil;
 	//Use the message icon from the main bundle
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-message"] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-message"];
 	return eventImage;
 }
 

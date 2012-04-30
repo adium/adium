@@ -85,8 +85,8 @@
 			 defaultEventID:(NSString *)inDefaultEventID
 {
 	if ((self = [super initWithWindowNibName:windowNibName])) {
-		oldAlert = [inAlert retain];
-		listObject = [inListObject retain];
+		oldAlert = inAlert;
+		listObject = inListObject;
 		target = inTarget;
 		detailsPane = nil;
 		configureForGlobal = inConfigureForGlobal;
@@ -116,13 +116,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[alert release];
-	[oldAlert release];
-	[detailsPane release];
-	[listObject release];
-	
-	[super dealloc];
 }
 
 // Setup the window before it is displayed
@@ -246,7 +239,7 @@
 	[detailsView removeFromSuperview], detailsView = nil;
 
 	[detailsPane closeView];
-	[detailsPane release], detailsPane = nil;
+	detailsPane = nil;
 }
 
 // Configure the details pane for our current alert
@@ -263,7 +256,7 @@
 	[self cleanUpDetailsPane];
 	
 	// Get a new pane for the current action type, and configure it for our alert
-	detailsPane = [[actionHandler detailsPaneForActionID:actionID] retain];
+	detailsPane = [actionHandler detailsPaneForActionID:actionID];
 	if (detailsPane) {
 		NSDictionary	*actionDetails = [alert objectForKey:KEY_ACTION_DETAILS];
 		

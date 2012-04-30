@@ -52,12 +52,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 @implementation EKEzvIncomingFileTransfer
 #pragma mark Downloading
 
-- (void)dealloc
-{
-	[currentDownloads release];
-	[encodedDownloads release];
-	[super dealloc];
-}
 - (void) startDownload
 {
 	currentDownloads = [[NSMutableArray alloc] initWithCapacity: 10];
@@ -80,8 +74,8 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		for ( download in currentDownloads) {
 			[download cancel];
 		}
-		[currentDownloads release]; currentDownloads = nil;
-		[encodedDownloads release]; encodedDownloads = nil;
+		currentDownloads = nil;
+		encodedDownloads = nil;
 	}
 }
 - (void) downloadFolder
@@ -89,7 +83,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	/*We need to first get the xml for the layout */
 	NSURL *URL = [NSURL URLWithString:url];
 	NSError *error = nil;
-	NSXMLDocument *documentRoot = [[[NSXMLDocument alloc] initWithContentsOfURL:URL options:0 error:&error] autorelease];
+	NSXMLDocument *documentRoot = [[NSXMLDocument alloc] initWithContentsOfURL:URL options:0 error:&error];
 	if (error) {
 		[[[[self manager] client] client] remoteCanceledFileTransfer:self];
 		return;
@@ -154,8 +148,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 			}
 		}
 
-
-		[permissionsToApply retain];
 	} else {
 		[[[[self manager] client] client] remoteCanceledFileTransfer:self];
 	}
@@ -264,7 +256,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		return YES;
 	}
 	if ([permissionsToApply count] <= 0) {
-		[permissionsToApply release]; permissionsToApply = nil;
+		permissionsToApply = nil;
 		return YES;
 	}
 	NSDictionary *attributes;
@@ -275,11 +267,11 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		if (![defaultManager setAttributes:attributes ofItemAtPath:path error:NULL]) {
 			[[[manager client] client] reportError:[NSString stringWithFormat:@"Error applying permissions of %@ to file at %@", attributes, path] ofLevel: AWEzvError];
 			[[[manager client] client] remoteCanceledFileTransfer:self];
-			[permissionsToApply release]; permissionsToApply = nil;
+			permissionsToApply = nil;
 			return NO;
 		}
 	}
-	[permissionsToApply release]; permissionsToApply = nil;
+	permissionsToApply = nil;
 	return YES;
 }
 - (void)downloadURL:(NSURL *)downloadURL toPath:(NSString *)path
@@ -293,7 +285,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 	// create the connection with the request
 	// and start loading the data
-	NSURLDownload *theDownload = [[[NSURLDownload alloc] initWithRequest:theRequest delegate:self] autorelease];
+	NSURLDownload *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest delegate:self];
 	if (theDownload) {
 		[currentDownloads addObject:theDownload];
 		// set the destination file now
@@ -314,7 +306,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	[[[manager client] client] reportError:[NSString stringWithFormat: @"Download failed! Error - %@ %@",
 	         [error localizedDescription],
 	         [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]] ofLevel: AWEzvError];
-	[download release];
 }
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
@@ -338,7 +329,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		[[[manager client] client] updateProgressForFileTransfer:self percent:[NSNumber numberWithFloat:percentComplete] bytesSent:[NSNumber numberWithLongLong:bytesReceived]];
 
 	[currentDownloads removeObject:download];
-	[download release];
 }
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
 {

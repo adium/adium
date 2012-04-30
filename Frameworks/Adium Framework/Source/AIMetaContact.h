@@ -40,7 +40,7 @@
 @property (readonly, nonatomic) NSNumber *objectID;
 + (NSString *)internalObjectIDFromObjectID:(NSNumber *)inObjectID;
 
-@property (readonly, nonatomic) AIListContact *preferredContact;
+@property (weak, readonly, nonatomic) AIListContact *preferredContact;
 - (AIListContact *)preferredContactWithCompatibleService:(AIService *)inService;
 
 - (void)updateRemoteGroupingOfContact:(AIListContact *)inListContact;
@@ -49,8 +49,8 @@
 @property (readonly, nonatomic) NSUInteger uniqueContainedObjectsCount;
 - (AIListObject *)uniqueObjectAtIndex:(int)inIndex;
 
-@property (readonly, nonatomic) NSDictionary *dictionaryOfServiceClassesAndListContacts;
-@property (readonly, nonatomic) NSArray *servicesOfContainedObjects;
+@property (weak, readonly, nonatomic) NSDictionary *dictionaryOfServiceClassesAndListContacts;
+@property (weak, readonly, nonatomic) NSArray *servicesOfContainedObjects;
 
 /*
  * @brief A flat array of AIListContacts each with a different internalObjectID

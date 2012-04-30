@@ -121,7 +121,7 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 	for (NSScreen *screen in [NSScreen screens])
 		[multiscreenKey appendFormat:@"-%@", NSStringFromRect([screen frame])];
 	
-	return [multiscreenKey autorelease];
+	return multiscreenKey;
 }
 
 /*!

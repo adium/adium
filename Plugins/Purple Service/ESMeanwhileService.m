@@ -61,9 +61,8 @@
 	[allowedCharacters addCharactersInString:@" "];
 
 	returnSet = [allowedCharacters immutableCopy];
-	[allowedCharacters release];
 	
-	return [returnSet autorelease];
+	return returnSet;
 }
 - (NSUInteger)allowedLength{
 	return 1000;

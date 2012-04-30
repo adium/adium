@@ -42,7 +42,6 @@
 - (void)dealloc
 {
 	[self removeObserver:self forKeyPath:@"matchedSearchIndexes"];
-	[super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

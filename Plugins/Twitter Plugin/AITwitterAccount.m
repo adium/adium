@@ -121,14 +121,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	
-	[twitterEngine release];
-	[pendingRequests release];
-	[queuedUpdates release];
-	[queuedDM release];
-	[queuedOutgoingDM release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -153,8 +145,6 @@
 - (void)connect
 {
 	[super connect];
-	
-	[twitterEngine release];
 	
 	twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	
@@ -188,8 +178,8 @@
 		} else {
 			twitterEngine.useOAuth = YES;
 			
-			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:self.passwordWhileConnected] autorelease];
-			OAConsumer *consumer = [[[OAConsumer alloc] initWithKey:self.consumerKey secret:self.secretKey] autorelease];
+			OAToken *token = [[OAToken alloc] initWithHTTPResponseBody:self.passwordWhileConnected];
+			OAConsumer *consumer = [[OAConsumer alloc] initWithKey:self.consumerKey secret:self.secretKey];
 			
 			twitterEngine.accessToken = token;
 			twitterEngine.consumer = consumer;
@@ -272,7 +262,7 @@
 {
 	[super disconnect];
 	
-	[twitterEngine release]; twitterEngine = nil;
+	twitterEngine = nil;
 	[updateTimer invalidate]; updateTimer = nil;
 	
 	[self didDisconnect];
@@ -452,7 +442,7 @@
 /*!
  * @brief For an invalid password, fail but don't try and reconnect or report it. We do it ourself.
  */
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError
 {
 	AIReconnectDelayType reconnectDelayType = [super shouldAttemptReconnectAfterDisconnectionError:disconnectionError];
 	
@@ -671,27 +661,27 @@
 															type:AIServiceIconSmall
 													   direction:AIIconNormal];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Open %@'s user page",nil), inContact.UID]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Open %@'s user page",nil), inContact.UID]
 																	 target:self
 																	 action:@selector(openUserPage:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setImage:serviceIcon];
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];	
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:YES];
 	[menuItem setImage:serviceIcon];
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@", "Disable sending Twitter notifications to your phone"), inContact.UID]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@", "Disable sending Twitter notifications to your phone"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:NO];
 	[menuItem setImage:serviceIcon];
 	[menuItem setRepresentedObject:inContact];
@@ -778,17 +768,17 @@
 															type:AIServiceIconSmall
 													   direction:AIIconNormal];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(periodicUpdate)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setImage:serviceIcon];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
 																	 target:self
 																	 action:@selector(replyToTweet)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setImage:serviceIcon];
 	[menuItemArray addObject:menuItem];
 	
@@ -808,22 +798,22 @@
 	
 	NSMenuItem *menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(periodicUpdate)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
 																	 target:self
 																	 action:@selector(replyToTweet)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItemArray addObject:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Get Rate Limit Amount",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Get Rate Limit Amount",nil)
 																	 target:self
 																	 action:@selector(getRateLimitAmount)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	
@@ -1413,7 +1403,7 @@
 								url, NSLinkAttributeName,
 								className, AIElementClassAttributeName, nil];
 	
-	return [[[NSAttributedString alloc] initWithString:label attributes:attributes] autorelease];
+	return [[NSAttributedString alloc] initWithString:label attributes:attributes];
 }
 
 /*!
@@ -1427,7 +1417,7 @@
 	static NSCharacterSet *hashCharacters = nil;
 	
 	if (!usernameCharacters) {
-		usernameCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"] retain];
+		usernameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
 	}
 	
 	if (!hashCharacters) {
@@ -1435,9 +1425,8 @@
 		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
 		[disallowedCharacters removeCharactersInString:@"_"];
 		
-		hashCharacters = [[disallowedCharacters invertedSet] retain];
+		hashCharacters = [disallowedCharacters invertedSet];
 		
-		[disallowedCharacters release];
 	}
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
@@ -1474,7 +1463,7 @@
 	BOOL tweetLink = (tweetID.length && userID.length);
 	
 	if (replyTweet || tweetLink) {
-		NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+		NSMutableAttributedString *mutableMessage = [message mutableCopy];
 		
 		NSUInteger startIndex = message.length;
 		
@@ -1628,7 +1617,7 @@
 	
 	message = [self linkifiedAttributedStringFromString:message];
 	
-	NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+	NSMutableAttributedString *mutableMessage = [message mutableCopy];
 	
 	NSUInteger startIndex = message.length;
 	
@@ -1695,7 +1684,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 	}
 	
-	return [mutableArray autorelease];
+	return mutableArray;
 }
 
 /*!
@@ -1777,7 +1766,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		[queuedUpdates removeAllObjects];
 	} else if (requestType == AITwitterUpdateDirectMessage || requestType == AITwitterDirectMessageSend) {
-		NSMutableArray **unsortedArray = (requestType == AITwitterUpdateDirectMessage) ? &queuedDM : &queuedOutgoingDM;
+		NSMutableArray * __strong *unsortedArray = (requestType == AITwitterUpdateDirectMessage) ? &queuedDM : &queuedOutgoingDM;
 		
 		if (!(*unsortedArray).count) {
 			return;
@@ -2140,10 +2129,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else {
 			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				followedTimelineCompleted = YES;
-				futureTimelineLastID = [largestTweet retain];
+				futureTimelineLastID = largestTweet;
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
-				futureRepliesLastID = [largestTweet retain];
+				futureRepliesLastID = largestTweet;
 			}
 			
 			--pendingUpdateCount;
@@ -2160,7 +2149,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 						
-						[futureRepliesLastID release]; futureRepliesLastID = nil;
+						futureRepliesLastID = nil;
 					}
 					
 					if(futureTimelineLastID) {
@@ -2170,7 +2159,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 						
-						[futureTimelineLastID release]; futureTimelineLastID = nil;
+						futureTimelineLastID = nil;
 					}
 					
 					[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
@@ -2186,7 +2175,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileStatusUpdates) {
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
-		NSMutableArray *profileArray = [[[listContact profileArray] mutableCopy] autorelease];
+		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
 		
 		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, listContact);
 		

@@ -57,7 +57,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 	BOOL targetRespondsToShouldIncludeService = [target respondsToSelector:@selector(serviceMenuShouldIncludeService:)];
 
 	//Prepare our menu
-	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu *menu = [[NSMenu alloc] init];
 	
 	serviceArray = (activeServicesOnly ? (id)[accountController activeServicesIncludingCompatibleServices:YES] : (id)[accountController services]);
 	
@@ -85,7 +85,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 											[service longDescription] :
 											[service shortDescription]);
 				
-				menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(format ? 
+				menuItem = [[NSMenuItem alloc] initWithTitle:(format ? 
 																						[NSString stringWithFormat:format,description] :
 																						description)
 																				target:target 
@@ -96,7 +96,6 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 																	type:AIServiceIconSmall
 															   direction:AIIconNormal]];
 				[menuItemArray addObject:menuItem];
-				[menuItem release];
 			}
 		}
 
@@ -106,8 +105,6 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 			[menu addItem:menuItem];
 		}
 		
-		[menuItemArray release];
-
 		//If we added a divider but didn't add any items, remove it
 		currentNumberOfItems = [menu numberOfItems];
 		if (addedDivider && (currentNumberOfItems <= numberOfItems) && (currentNumberOfItems > 0)) {
@@ -115,7 +112,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 		}
 	}
 	
-	return [menu autorelease];
+	return menu;
 }	
 
 @end

@@ -70,9 +70,9 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 				  submenuType:(AIAccountSubmenuType)inSubmenuType
 			   showTitleVerbs:(BOOL)inShowTitleVerbs
 {
-	return [[[self alloc] initWithDelegate:inDelegate
+	return [[self alloc] initWithDelegate:inDelegate
 							   submenuType:inSubmenuType
-							showTitleVerbs:inShowTitleVerbs] autorelease];
+							showTitleVerbs:inShowTitleVerbs];
 }
 
 /*!
@@ -110,7 +110,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
 		if (submenuType == AIAccountStatusSubmenu) {
-			statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
+			statusMenu = [AIStatusMenu statusMenuWithDelegate:self];
 		}
 
 		//Rebuild our menu now
@@ -124,15 +124,13 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 {
 	if (submenuType == AIAccountStatusSubmenu) {
 		[NSObject cancelPreviousPerformRequestsWithTarget:statusMenu];
-		[statusMenu release]; statusMenu = nil;
+		statusMenu = nil;
 	}
 
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	delegate = nil;
-
-	[super dealloc];
 }
 
 /*!
@@ -232,7 +230,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	for (AIAccount *account in accounts) {
 		if ((account.enabled && !delegateRespondsToShouldIncludeAccount) ||
 			(delegateRespondsToShouldIncludeAccount && [delegate accountMenu:self shouldIncludeAccount:account])) {
-			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@""
 																						target:self
 																						action:@selector(selectAccountMenuItem:)
 																				 keyEquivalent:@""
@@ -242,7 +240,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 				[menuItem setSubmenu:[self actionsMenuForAccount:account]];
 			}
 			[menuItemArray addObject:menuItem];
-			[menuItem release];
 		}
 	}
 	
@@ -252,14 +249,13 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		for (AIAccount *account in accounts) {
 			if (!account.enabled &&
 				(!delegateRespondsToShouldIncludeAccount || [delegate accountMenu:self shouldIncludeAccount:account])) {
-				NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@""
 																							target:self
 																							action:@selector(toggleAccountEnabled:)
 																					 keyEquivalent:@""
 																				 representedObject:account];
 				[self _updateMenuItem:menuItem];
 				[disabledAccountMenu addItem:menuItem];
-				[menuItem release];
 			}
 		}
 
@@ -275,28 +271,25 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 																	format:AILocalizedString(@"%@",nil)];
 			
 			
-			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Add Account", nil)
+			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Add Account", nil)
 																						target:self
 																						action:@selector(dummyAction:)
 																				 keyEquivalent:@""
 																			 representedObject:nil];
 			[menuItemArray addObject:menuItem];
 			[menuItem setSubmenu:serviceMenu];
-			[menuItem release];
         }
 
 		if ([disabledAccountMenu numberOfItems]) {
-			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disabled Accounts", nil)
+			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Disabled Accounts", nil)
                                                                             target:self
                                                                             action:@selector(dummyAction:)
                                                                      keyEquivalent:@""
                                                                  representedObject:nil];
 			[menuItemArray addObject:menuItem];
 			[menuItem setSubmenu:disabledAccountMenu];
-			[menuItem release];
 		}
 		
-		[disabledAccountMenu release];
 	}
 
 	if (submenuType == AIAccountStatusSubmenu) {
@@ -370,19 +363,13 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			[SSLIconText addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:-3.0f] range:NSMakeRange(0, [SSLIconText length])];
 
 			[title appendAttributedString:SSLIconText];
-			[SSLIconText release];
 
 			[menuItem setAttributedTitle:title];
 			
-			[title release];
-			[textAttachment release];
-			[fileWrapper release];
 		} else {
 			[menuItem setAttributedTitle:plainTitle];
 		}
 		
-		[plainTitle release];
-
 		[account accountMenuDidUpdate:menuItem];
 
 		[[menuItem menu] setMenuChangedMessagesEnabled:YES];
@@ -518,7 +505,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  */
 - (NSMenu *)actionsMenuForAccount:(AIAccount *)inAccount
 {
-	NSMenu		*actionsSubmenu = [[[NSMenu allocWithZone:[NSMenu zone]] init] autorelease];
+	NSMenu		*actionsSubmenu = [[NSMenu alloc] init];
 	
 	[actionsSubmenu setDelegate:self];
 
@@ -561,13 +548,12 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 - (void)rebuildActionsSubmenu:(NSMenu*)actionsSubmenu withAccount:(AIAccount*)inAccount {
 	NSArray		*accountActionMenuItems = (inAccount.online ? [inAccount accountActionMenuItems] : nil);
 	NSMenuItem	*menuItem;
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Edit Account", nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Edit Account", nil)
 																	target:self
 																	action:@selector(editAccount:)
 															 keyEquivalent:@""
 														 representedObject:inAccount];
 	[actionsSubmenu addItem:menuItem];
-	[menuItem release];
 	
 	[actionsSubmenu addItem:[NSMenuItem separatorItem]];
 	
@@ -577,7 +563,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		for (menuItem in accountActionMenuItems) {
 			NSMenuItem	*newMenuItem = [menuItem copy];
 			[actionsSubmenu addItem:newMenuItem];
-			[newMenuItem release];
 		}
 		
 		//Separate the actions from our final menu items which apply to all accounts
@@ -585,20 +570,19 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	}
 	
 	if ([inAccount enabled]) {
-		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable", nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Disable", nil)
 																	target:self
 																	action:@selector(toggleAccountEnabled:)
 															 keyEquivalent:@""
 														 representedObject:inAccount];
 	} else {
-		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable", nil)
+		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Enable", nil)
 																		target:self
 																		action:@selector(toggleAccountEnabled:)
 																 keyEquivalent:@""
 															 representedObject:inAccount];
 	}
 	[actionsSubmenu addItem:menuItem];
-	[menuItem release];
 }
 
 /*!
@@ -647,7 +631,6 @@ void updateRepresentedObjectForSubmenusOfMenuItem(NSMenuItem *menuItem, AIAccoun
 			}
 			
 			[submenuItem setRepresentedObject:newRepresentedObject];
-			[newRepresentedObject release];
 
 			//Recurse into any submenu on this menu item
 			updateRepresentedObjectForSubmenusOfMenuItem(submenuItem, account);
@@ -665,7 +648,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	 * By copying the accountMenuItem's target and action, it gains the action of toggling conncectivity,
 	 * which is exactly what we want.
 	 */
-	onlineOfflineItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(account.online ?
+	onlineOfflineItem = [[NSMenuItem alloc] initWithTitle:(account.online ?
 																					 AILocalizedString(@"Disconnect", nil) :
 																					 AILocalizedString(@"Connect", nil))
 																			 target:target
@@ -675,7 +658,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	
 	[accountSubmenu insertItem:onlineOfflineItem atIndex:0];
 	[accountSubmenu insertItem:[NSMenuItem separatorItem] atIndex:1];
-	[onlineOfflineItem release];	
 	
 	return accountSubmenu;
 }
@@ -691,7 +673,7 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 		[accountSubmenu setMenuChangedMessagesEnabled:NO];
 		
 	} else {
-		accountSubmenu = [[[NSMenu allocWithZone:[NSMenu zone]] init] autorelease];
+		accountSubmenu = [[NSMenu alloc] init];
 		[accountSubmenu setMenuChangedMessagesEnabled:NO];
 
 		//Enumerate all the menu items we were originally passed
@@ -725,11 +707,9 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 				NSMenuItem *newItem = [statusMenuItem copy];
 				actualMenuItem = newItem;
 				[accountSubmenu addItem:newItem];
-				[newItem release];				
 			}
 			
 			[actualMenuItem setRepresentedObject:newRepresentedObject];
-			[newRepresentedObject release];
 			
 			updateRepresentedObjectForSubmenusOfMenuItem(actualMenuItem, account);
 		}
@@ -738,13 +718,13 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 	NSMenuItem *enableDisableItem;
 	
 	if (account.enabled) {
-		enableDisableItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable", nil)
+		enableDisableItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Disable", nil)
 																						target:self
 																						action:@selector(toggleAccountEnabled:)
 																				 keyEquivalent:@""
 																			 representedObject:account];
 	} else {
-		enableDisableItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable", nil)
+		enableDisableItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Enable", nil)
 																						target:self
 																						action:@selector(toggleAccountEnabled:)
 																				 keyEquivalent:@""
@@ -753,7 +733,6 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 	
 	[accountSubmenu addItem:[NSMenuItem separatorItem]];
 	[accountSubmenu addItem:enableDisableItem];
-	[enableDisableItem release];
 	
 	[accountSubmenu setMenuChangedMessagesEnabled:YES];
 	

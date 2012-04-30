@@ -20,13 +20,13 @@
 {
 	if ([decoder allowsKeyedCoding])
 	{
-		service = [[decoder decodeObjectForKey:@"ServiceName"] retain];
-		senderID = [[decoder decodeObjectForKey:@"ID"] retain];
+		service = [decoder decodeObjectForKey:@"ServiceName"];
+		senderID = [decoder decodeObjectForKey:@"ID"];
 	}
 	else
 	{
-		service = [[decoder decodeObject] retain];
-		senderID = [[decoder decodeObject] retain];
+		service = [decoder decodeObject];
+		senderID = [decoder decodeObject];
 	}
 	
 	return self;

@@ -54,7 +54,7 @@
  */
 + (id)accountViewController
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 /*!
@@ -91,15 +91,8 @@
  * @brief Deallocate
  */
 - (void)dealloc
-{    
-	[view_setup release];
-	[view_profile release];
-	[view_options release];
-	[changedPrefDict release];
-
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [super dealloc];
 }
 
 /*!

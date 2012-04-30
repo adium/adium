@@ -47,13 +47,13 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 //Create a link tracking controller for any view
 + (id)linkTrackingControllerForView:(NSView *)inControlView withTextStorage:(NSTextStorage *)inTextStorage layoutManager:(NSLayoutManager *)inLayoutManager textContainer:(NSTextContainer *)inTextContainer
 {
-    return [[[self alloc] initForView:inControlView withTextStorage:inTextStorage layoutManager:inLayoutManager textContainer:inTextContainer] autorelease];
+    return [[self alloc] initForView:inControlView withTextStorage:inTextStorage layoutManager:inLayoutManager textContainer:inTextContainer];
 }
 
 //Create a tracking controller for a text view
 + (id)linkTrackingControllerForTextView:(NSTextView *)inTextView
 {
-    return [[[self alloc] initForView:inTextView withTextStorage:[inTextView textStorage] layoutManager:[inTextView layoutManager] textContainer:[inTextView textContainer]] autorelease];
+    return [[self alloc] initForView:inTextView withTextStorage:[inTextView textStorage] layoutManager:[inTextView layoutManager] textContainer:[inTextView textContainer]];
 }
 
 //Track links in the passed rect.  Returns YES if links exist within our text.  Pass a 0 width/height visible rect to stop any link tracking.
@@ -96,7 +96,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 //Called when the mouse leaves the link
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    [self _setMouseOverLink:NO atPoint:NSMakePoint(0,0)];
+    [self _setMouseOverLink:nil atPoint:NSMakePoint(0,0)];
 }
 
 //Handle a mouse down.  Returns NO if the mouse down event should continue to be processed
@@ -108,7 +108,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
     NSUInteger	charIndex;
     NSRectArray		linkRects = nil;
 	
-    [self _setMouseOverLink:NO atPoint:NSMakePoint(0,0)]; //Remove any tooltips
+    [self _setMouseOverLink:nil atPoint:NSMakePoint(0,0)]; //Remove any tooltips
 	
     //Find clicked char index
     mouseLoc = [controlView convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -236,12 +236,6 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 - (void)dealloc
 {
     [self _endCursorTracking];
-
-    [hoveredString release];
-    [hoveredLink release];
-    [linkArray release];
-
-    [super dealloc];
 }
 
 //Begins cursor tracking, registering tracking rects for all our available links
@@ -299,15 +293,15 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
                 visibleLinkRect = NSIntersectionRect(linkRect, visibleRect);
                 
                 //Create a flexible link instance
-                trackedLink = [[[AIFlexibleLink alloc] initWithTrackingRect:linkRect
+                trackedLink = [[AIFlexibleLink alloc] initWithTrackingRect:linkRect
 																 url:linkURL
-															   title:[[textStorage string] substringWithRange:scanRange]] autorelease];
+															   title:[[textStorage string] substringWithRange:scanRange]];
                 if (!linkArray) linkArray = [[NSMutableArray alloc] init];
                 [linkArray addObject:trackedLink];
 
 				
                 //Install a tracking rect for the link (The userData of each tracking rect is the AIFlexibleLink it covers)
-                trackingTag = [controlView addTrackingRect:visibleLinkRect owner:self userData:trackedLink assumeInside:NO];
+                trackingTag = [controlView addTrackingRect:visibleLinkRect owner:self userData:(__bridge void *)trackedLink assumeInside:NO];
                 [trackedLink setTrackingTag:trackingTag];
             }
         }
@@ -323,7 +317,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
     }
 
     //Flush the link array
-    [linkArray release]; linkArray = nil;
+	linkArray = nil;
 }
 
 //Configure the mouse for being over a link or not
@@ -340,8 +334,8 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 		   [[inHoveredLink title] caseInsensitiveCompare:[inHoveredLink url]] != NSOrderedSame &&
 		   [[@"http://" stringByAppendingString:[inHoveredLink title]] caseInsensitiveCompare:[inHoveredLink url]] != NSOrderedSame) {
 			
-			[hoveredLink release]; hoveredLink = [inHoveredLink retain];
-			[hoveredString release]; hoveredString = [[NSString stringWithFormat:@"%@", [hoveredLink url]] retain];
+			hoveredLink = inHoveredLink;
+			hoveredString = [NSString stringWithFormat:@"%@", [hoveredLink url]];
 			
 			[AITooltipUtilities showTooltipWithString:hoveredString onWindow:nil atPoint:inPoint orientation:TooltipAbove]; //Show tooltip
 		}
@@ -352,8 +346,8 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
         if (showTooltip) {
             [AITooltipUtilities showTooltipWithString:nil onWindow:nil atPoint:NSMakePoint(0,0) orientation:TooltipAbove]; //Hide the tooltip
 			
-            [hoveredLink release]; hoveredLink = nil;
-            [hoveredString release]; hoveredString = nil;
+            hoveredLink = nil;
+            hoveredString = nil;
         }
 
         mouseOverLink = NO;
@@ -394,11 +388,11 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize)
     if (linkURL) {
         NSMenuItem  *menuItem;
         
-        menuItemsArray = [[[NSMutableArray alloc] init] autorelease];
-        menuItem = [[[NSMenuItem alloc] initWithTitle:COPY_LINK
+        menuItemsArray = [[NSMutableArray alloc] init];
+        menuItem = [[NSMenuItem alloc] initWithTitle:COPY_LINK
                                                target:self
                                                action:@selector(copyLink:)
-                                        keyEquivalent:@""] autorelease];
+                                        keyEquivalent:@""];
         [menuItem setRepresentedObject:linkURL];
         [menuItemsArray addObject:menuItem];
     }
@@ -409,7 +403,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize)
 //Copy the absolute URL to the clipboard
 - (void)copyLink:(id)sender
 {
-    NSAttributedString *copyString = [[[NSAttributedString alloc] initWithString:[(NSURL *)[sender representedObject] absoluteString] attributes:nil] autorelease];
+    NSAttributedString *copyString = [[NSAttributedString alloc] initWithString:[(NSURL *)[sender representedObject] absoluteString] attributes:nil];
     [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSRTFPboardType] owner:nil];
     [[NSPasteboard generalPasteboard] setData:[copyString RTFFromRange:NSMakeRange(0,[copyString length]) documentAttributes:nil] forType:NSRTFPboardType];
 }

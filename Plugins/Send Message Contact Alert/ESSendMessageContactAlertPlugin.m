@@ -42,12 +42,6 @@
     attributes = nil;
 }
 
-- (void)uninstallPlugin
-{
-    [attributes release];
-}
-
-
 //Send Message Alert -----------------------------------------------------------------------------------------------------
 #pragma mark Send Message Alert
 - (NSString *)shortDescriptionForActionID:(NSString *)actionID

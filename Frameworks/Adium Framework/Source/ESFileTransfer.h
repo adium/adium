@@ -43,7 +43,7 @@
 	AIFileTransferStatus		status;
 
 	NSString					*uniqueID;
-	id <FileTransferDelegate>   delegate;
+	id <FileTransferDelegate>   __unsafe_unretained delegate;
 	
 	ESFileTransferRequestPromptController *promptController;
 }
@@ -51,12 +51,12 @@
 + (id)fileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)t;
 + (ESFileTransfer *)existingFileTransferWithID:(NSString *)fileTransferID;
 
-@property (readonly, nonatomic) AIListContact *contact;
-@property (readonly, nonatomic) AIAccount<AIAccount_Files> *account;
+@property (weak, readonly, nonatomic) AIListContact *contact;
+@property (weak, readonly, nonatomic) AIAccount<AIAccount_Files> *account;
 
-@property (readwrite, nonatomic, retain) NSString *remoteFilename;
-@property (readwrite, nonatomic, retain) NSString *localFilename;
-@property (readonly, nonatomic) NSString *displayFilename;
+@property (readwrite, nonatomic) NSString *remoteFilename;
+@property (readwrite, nonatomic) NSString *localFilename;
+@property (weak, readonly, nonatomic) NSString *displayFilename;
 
 @property (readwrite, nonatomic) unsigned long long size;
 @property (readwrite, nonatomic) BOOL isDirectory;
@@ -70,9 +70,9 @@
 - (void)setSizeWithNumber:(NSNumber *)newSize;
 - (NSNumber *)sizeNumber;
 
-@property (readwrite, nonatomic, retain) id accountData;
+@property (readwrite, nonatomic) id accountData;
 
-@property (readwrite, nonatomic, assign) id <FileTransferDelegate> delegate;
+@property (readwrite, nonatomic, unsafe_unretained) id <FileTransferDelegate> delegate;
 
 @property (readonly, nonatomic) BOOL isStopped;
 
@@ -80,10 +80,10 @@
 - (void)reveal;
 - (void)openFile;
 
-@property (readonly, nonatomic) NSImage *iconImage;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *iconImage;
 
-@property (readonly, nonatomic) NSString *uniqueID;
+@property (weak, readonly, nonatomic) NSString *uniqueID;
 
-@property (readwrite, nonatomic, retain) ESFileTransferRequestPromptController *fileTransferRequestPromptController;
+@property (readwrite, nonatomic) ESFileTransferRequestPromptController *fileTransferRequestPromptController;
 
 @end

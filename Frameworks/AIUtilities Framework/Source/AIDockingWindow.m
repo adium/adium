@@ -16,7 +16,7 @@
 
 #import "AIDockingWindow.h"
 #import "AIEventAdditions.h"
-#import <AIUtilities/AIOSCompatibility.h>
+
 
 #define WINDOW_DOCKING_DISTANCE 	12	//Distance in pixels before the window is snapped to an edge
 #define IGNORED_X_RESISTS			3
@@ -87,7 +87,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSWindowDidMoveNotification
 												  object:self];
-	[super dealloc];
 }
 
 //Watch the window move.  If it gets near an edge, dock it to that edge

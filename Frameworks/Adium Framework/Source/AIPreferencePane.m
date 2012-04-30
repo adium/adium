@@ -23,13 +23,13 @@
 //Return a new preference pane
 + (AIPreferencePane *)preferencePane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 //Return a new preference pane, passing plugin
 + (AIPreferencePane *)preferencePaneForPlugin:(id)inPlugin
 {
-    return [[[self alloc] initForPlugin:inPlugin] autorelease];
+    return [[self alloc] initForPlugin:inPlugin];
 }
 
 //Init
@@ -39,11 +39,6 @@
 		[adium.preferenceController addPreferencePane:self];
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[super dealloc];
 }
 
 + (NSArray *)preferencePanes

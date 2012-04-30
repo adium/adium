@@ -61,7 +61,7 @@
 		entry = [[NSAttributedString alloc] initWithString:client];
     }
 	
-    return [entry autorelease];
+    return entry;
 }
 
 

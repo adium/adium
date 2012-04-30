@@ -46,7 +46,7 @@
 
 - (void)saveTerms
 {
-	NSMutableArray *termsCopy = [[mentionTerms mutableCopy] autorelease];
+	NSMutableArray *termsCopy = [mentionTerms mutableCopy];
 	
 	// Never save a blank term.
 	[termsCopy removeObject:@""];
@@ -101,7 +101,7 @@
 
 - (void)viewWillClose
 {
-	[mentionTerms release]; mentionTerms = nil;
+	 mentionTerms = nil;
 	
 	[super viewWillClose];
 }

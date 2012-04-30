@@ -63,25 +63,16 @@
 		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listLayoutEditorWillCloseWithChanges:forLayoutNamed:)]);
 	
 		target = inTarget;
-		layoutName = [inName retain];
+		layoutName = inName;
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[layoutName release];
-    [super dealloc];
 }
 
 #pragma mark Window Methods
 
 - (void)windowDidLoad
 {
-	// We'll be adding/removing this from our view
-	[tabViewItem_advancedContactBubbles retain];
-	
 	// Allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];	
 
@@ -105,16 +96,11 @@
 	
 	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
-	
-	[tabViewItem_advancedContactBubbles autorelease];
-	[self autorelease];
 }
 
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 // Cancel
@@ -525,7 +511,7 @@
 
 - (NSMenu *)alignmentMenuWithChoices:(NSInteger [])alignmentChoices
 {
-    NSMenu		*alignmentMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*alignmentMenu = [[NSMenu alloc] init];
 	NSMenuItem	*menuItem;
 
 	NSUInteger	i = 0;
@@ -541,10 +527,10 @@
 			case NSRightTextAlignment:	menuTitle = AILocalizedString(@"Right",nil);
 				break;
 		}
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:menuTitle
+		menuItem = [[NSMenuItem alloc] initWithTitle:menuTitle
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setTag:alignmentChoices[i]];
 		[alignmentMenu addItem:menuItem];
 		
@@ -557,7 +543,7 @@
 
 - (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices
 {
-    NSMenu		*positionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*positionMenu = [[NSMenu alloc] init];
     NSMenuItem	*menuItem;
     
 	NSUInteger	i = 0;
@@ -581,10 +567,10 @@
 			case LIST_POSITION_BADGE_RIGHT: menuTitle = AILocalizedString(@"Badge (Lower Right)",nil);
 				break;
 		}
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:menuTitle
+		menuItem = [[NSMenuItem alloc] initWithTitle:menuTitle
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setTag:positionChoices[i]];
 		[positionMenu addItem:menuItem];
 		
@@ -596,27 +582,27 @@
 
 - (NSMenu *)extendedStatusPositionMenu
 {
-	NSMenu		*extendedStatusPositionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenu		*extendedStatusPositionMenu = [[NSMenu alloc] init];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Below Name",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Below Name",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:EXTENDED_STATUS_POSITION_BELOW_NAME];
 	[extendedStatusPositionMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Beside Name",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Beside Name",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:EXTENDED_STATUS_POSITION_BESIDE_NAME];
 	[extendedStatusPositionMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle Beside, Status Below",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle Beside, Status Below",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:EXTENDED_STATUS_POSITION_BOTH];
 	[extendedStatusPositionMenu addItem:menuItem];
 	
@@ -625,27 +611,27 @@
 
 - (NSMenu *)extendedStatusStyleMenu
 {
-    NSMenu		*extendedStatusStyleMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu		*extendedStatusStyleMenu = [[NSMenu alloc] init];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Status",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Status",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:STATUS_ONLY];
 	[extendedStatusStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle Time",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle Time",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:IDLE_ONLY];
 	[extendedStatusStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Idle and Status",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Idle and Status",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:IDLE_AND_STATUS];
 	[extendedStatusStyleMenu addItem:menuItem];
 	

@@ -41,17 +41,17 @@
 - (void)installPlugin
 {
 	//Invite to Chat menu item
-	menuItem_inviteToChat = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:INVITE_CONTACT
+	menuItem_inviteToChat = [[NSMenuItem alloc] initWithTitle:INVITE_CONTACT
 																				  target:self
 																				  action:@selector(dummyTarget:)
-																		   keyEquivalent:@""] autorelease];
+																		   keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem_inviteToChat toLocation:LOC_Contact_Action];
 	
 	//Invite to Chat context menu item
-	menuItem_inviteToChatContext = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:INVITE_CONTACT
+	menuItem_inviteToChatContext = [[NSMenuItem alloc] initWithTitle:INVITE_CONTACT
 																						 target:self
 																						 action:@selector(dummyTarget:)
-																				  keyEquivalent:@""] autorelease];
+																				  keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_inviteToChatContext toLocation:Context_Contact_Action];	
 	
 }
@@ -145,7 +145,7 @@
 					[chat.account.service.serviceClass isEqualToString:serviceClass]) {
 					
 					if (!menu_chatMenu) {
-						menu_chatMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
+						menu_chatMenu = [[NSMenu alloc] initWithTitle:@""];
 						[menu_chatMenu setMenuChangedMessagesEnabled:NO];
 					}
 					

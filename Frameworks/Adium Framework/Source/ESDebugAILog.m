@@ -56,9 +56,9 @@ void AIAddDebugMessage(NSString *debugMessage)
 		[adium.debugController addMessage:actualMessage];
 
 	} else {
-		[adium.debugController performSelectorOnMainThread:@selector(addMessage:)
-																		   withObject:actualMessage
-																		waitUntilDone:NO];		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[adium.debugController addMessage:actualMessage];
+		});
 	}
 }
 
@@ -71,7 +71,6 @@ void AILog_impl (NSString *format, ...) {
 	debugMessage = [[NSString alloc] initWithFormat:format
 										  arguments:ap];
 	AIAddDebugMessage(debugMessage);
-	[debugMessage release];
 
 	va_end(ap); /* clean up when done */
 }
@@ -94,7 +93,6 @@ void AILogWithSignature_impl(const char *name, int line, NSString *format, ...) 
 	else
 		actualMessage = [NSString stringWithFormat:@"%s:%d: (on %s) %@", name, line, (queue ?: ""), debugMessage];
 	AIAddDebugMessage(actualMessage);
-	[debugMessage release];
 	
 	va_end(ap); /* clean up when done */
 }
@@ -109,7 +107,6 @@ void AILogWithPrefix_impl (const char *prefix, NSString *format, ...) {
 										  arguments:ap];
 	actualMessage = [NSString stringWithFormat:@"%s: %@", prefix, debugMessage];
 	AIAddDebugMessage(actualMessage);
-	[debugMessage release];
 
 	va_end(ap); /* clean up when done */
 }

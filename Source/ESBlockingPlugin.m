@@ -129,10 +129,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[chatToolbarItems release];
-	[blockedToolbarIcons release];
-	[blockContactMenuItem release];
-	[blockContactContextualMenuItem release];
 }
 
 /*!

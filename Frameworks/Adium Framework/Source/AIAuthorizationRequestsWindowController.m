@@ -118,19 +118,12 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 {
 	// Fade into oblivion only if we don't have any oustanding requests.
 	if (!requests.count) {
-		[sharedController autorelease]; sharedController = nil;
+		sharedController = nil;
 	}
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super windowWillClose:sender];
-}
-
-- (void)dealloc
-{
-	[toolbarItems release];
-	[requests release];
-	[super dealloc];
 }
 
 #pragma mark Toolbar
@@ -145,7 +138,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 												 name:NSToolbarWillAddItemNotification
 											   object:nil];
 	
-	NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:@"AdiumAuthorizeWindow"] autorelease];
+	NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"AdiumAuthorizeWindow"];
 	
     [toolbar setDelegate:self];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
@@ -160,10 +153,10 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	MVMenuButton				*button;
 	
 	// Authorize
-	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)];
 	[button setImage:[NSImage imageNamed:@"Authorize" forClass:[self class]]];
 	
-	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:AUTHORIZE] autorelease];
+	toolbarItem = [[AIValidatingToolbarItem alloc] initWithItemIdentifier:AUTHORIZE];
     [toolbarItem setLabel:AUTHORIZE];
     [toolbarItem setPaletteLabel:AUTHORIZE];
 	[toolbarItem setToolTip:AILocalizedString(@"Authorize Selected",nil)];
@@ -182,15 +175,15 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 										   toolTip:AILocalizedString(@"Get Info",nil)
 											target:self
 								   settingSelector:@selector(setImage:)
-									   itemContent:[[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"get-info.tiff"]] autorelease]
+									   itemContent:[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"get-info.tiff"]]
 											action:@selector(getInfo:)
 											  menu:nil];
 	
 	// Deny
-	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)];
 	[button setImage:[NSImage imageNamed:@"Deny" forClass:[self class]]];
 
-	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:DENY] autorelease];
+	toolbarItem = [[AIValidatingToolbarItem alloc] initWithItemIdentifier:DENY];
 	[toolbarItem setLabel:DENY];
     [toolbarItem setPaletteLabel:DENY];
 	[toolbarItem setToolTip:AILocalizedString(@"Deny Selected",nil)];
@@ -202,10 +195,10 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	[toolbarItems setObject:toolbarItem forKey:DENY];
 	
 	// Ignore
-	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)];
 	[button setImage:[NSImage imageNamed:@"Ignore" forClass:[self class]]];
 
-	toolbarItem = [[[AIValidatingToolbarItem alloc] initWithItemIdentifier:IGNORE] autorelease];
+	toolbarItem = [[AIValidatingToolbarItem alloc] initWithItemIdentifier:IGNORE];
 	[toolbarItem setLabel:IGNORE];
     [toolbarItem setPaletteLabel:IGNORE];
 	[toolbarItem setToolTip:AILocalizedString(@"Ignore Selected",nil)];
@@ -238,7 +231,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 				 keyEquivalent:@""];
 		
 		[[item view] setMenu:menu];
-		[menu release];
 	} else if ([[item itemIdentifier] isEqualToString:DENY]) {
 		NSMenu *menu = [[NSMenu alloc] init];
 		
@@ -253,7 +245,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 				 keyEquivalent:@""];
 		
 		[[item view] setMenu:menu];
-		[menu release];	
 	} else if ([[item itemIdentifier] isEqualToString:IGNORE]) {
 		NSMenu *menu = [[NSMenu alloc] init];
 		
@@ -268,7 +259,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 				 keyEquivalent:@""];
 		
 		[[item view] setMenu:menu];
-		[menu release];	
 	}
 }
 
@@ -426,7 +416,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
  */
 - (void)applyResponse:(AIAuthorizationResponse)response
 {
-	for (NSDictionary *dict in [[[requests objectsAtIndexes:[tableView selectedRowIndexes]] mutableCopy] autorelease]) {
+	for (NSDictionary *dict in [[requests objectsAtIndexes:[tableView selectedRowIndexes]] mutableCopy]) {
 		AIAccount *account = [dict objectForKey:@"Account"];
 		
 		[account authorizationWithDict:dict response:response];
@@ -481,8 +471,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		
 		CGFloat combinedHeight = [mainTitle heightWithWidth:[tableColumn width]];
 		
-		[mainTitle release];
-		
 		// Substring (the status message)
 		NSString *reason = [[requests objectAtIndex:row] objectForKey:@"Reason"];
 		
@@ -492,8 +480,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 																				 attributes:subStringAttributes];
 			
 			combinedHeight += [subStringTitle heightWithWidth:[tableColumn width]] + MINIMUM_CELL_SPACING;
-			
-			[subStringTitle release];
 		}
 		
 		[tableView setNeedsDisplayInRect:[tableView rectOfRow:row]];
@@ -591,7 +577,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		return nil;
 	}
 	
-	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	NSMenu *menu = [[NSMenu alloc] init];
 	
 	if (inTableView.selectedRowIndexes.count == 1) {
 		[menu addItemWithTitle:GET_INFO
