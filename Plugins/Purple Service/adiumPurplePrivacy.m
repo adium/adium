@@ -15,31 +15,31 @@
  */
 
 #import "adiumPurplePrivacy.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 static void adiumPurplePermitAdded(PurpleAccount *account, const char *name)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	[accountLookup(account)	privacyPermitListAdded:[NSString stringWithUTF8String:purple_normalize(account, name)]];
-    [pool drain];
+    }
 }
 static void adiumPurplePermitRemoved(PurpleAccount *account, const char *name)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	[accountLookup(account)	privacyPermitListRemoved:[NSString stringWithUTF8String:purple_normalize(account, name)]];
-    [pool drain];
+    }
 }
 static void adiumPurpleDenyAdded(PurpleAccount *account, const char *name)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	[accountLookup(account)	privacyDenyListAdded:[NSString stringWithUTF8String:purple_normalize(account, name)]];
-    [pool drain];
+    }
 }
 static void adiumPurpleDenyRemoved(PurpleAccount *account, const char *name)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	[accountLookup(account)	privacyDenyListRemoved:[NSString stringWithUTF8String:purple_normalize(account, name)]];
-    [pool drain];
+    }
 }
 
 static PurplePrivacyUiOps adiumPurplePrivacyOps = {

@@ -32,7 +32,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIStringAdditions.h>
 
 #import <libkern/OSAtomic.h>
@@ -180,7 +180,7 @@
 	
 #pragma mark Account Connection
 
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError
 {
 	AIReconnectDelayType shouldAttemptReconnect = [super shouldAttemptReconnectAfterDisconnectionError:disconnectionError];
 
@@ -328,8 +328,8 @@
 		[arrayOfContactsForDelayedUpdates removeObjectAtIndex:0];
 		
 	} else {
-		[arrayOfContactsForDelayedUpdates release]; arrayOfContactsForDelayedUpdates = nil;
-		[delayedSignonUpdateTimer invalidate]; [delayedSignonUpdateTimer release]; delayedSignonUpdateTimer = nil;
+		arrayOfContactsForDelayedUpdates = nil;
+		[delayedSignonUpdateTimer invalidate];  delayedSignonUpdateTimer = nil;
 	}
 }
 
@@ -340,11 +340,11 @@
 		[arrayOfContactsForDelayedUpdates addObject:theContact];
 		
 		if (!delayedSignonUpdateTimer) {
-			delayedSignonUpdateTimer = [[NSTimer scheduledTimerWithTimeInterval:DELAYED_UPDATE_INTERVAL 
+			delayedSignonUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:DELAYED_UPDATE_INTERVAL 
 																		 target:self
 																	   selector:@selector(_performDelayedUpdates:) 
 																	   userInfo:nil 
-																		repeats:YES] retain];
+																		repeats:YES];
 		}
 	}
 }
@@ -442,8 +442,7 @@
 														simpleTagsOnly:NO
 														bodyBackground:NO
 												   allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, newEncoder, (void *)&encoderCloseFontTagsAttachmentsAsText))
-	  [newEncoder release];
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTagsAttachmentsAsText);
 	[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
   }
   
@@ -472,8 +471,7 @@
 														simpleTagsOnly:NO
 														bodyBackground:NO
 												   allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, newEncoder, (void *)&encoderCloseFontTags))
-	  [newEncoder release];
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTags);
 	
 	newEncoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
 											   fontTags:YES
@@ -487,8 +485,7 @@
 										 simpleTagsOnly:YES
 										 bodyBackground:NO
 									allowJavascriptURLs:YES];
-	if(!OSAtomicCompareAndSwapPtrBarrier(nil, newEncoder, (void *)&encoderGroupChat))
-	  [newEncoder release];
+	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderGroupChat);
 	
 	[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
 	[encoderGroupChat setAllowAIMsubprofileLinks:YES];
@@ -589,7 +586,7 @@
 			purple_imgstore_unref_by_id([imgstoreNumber intValue]);			
 		}
 		
-		[purpleImagesToUnref release]; purpleImagesToUnref = nil;
+		purpleImagesToUnref = nil;
 	}
 
 	return success;
@@ -623,7 +620,7 @@
 		[directIMQueue removeObjectForKey:theContact.internalObjectID];
 		
 		if (![directIMQueue count]) {
-			[directIMQueue release]; directIMQueue = nil;
+			directIMQueue = nil;
 		}
 	}
 }
@@ -643,7 +640,7 @@
 	
 	static NSCharacterSet *elementEndCharacters = nil;
 	if (!elementEndCharacters)
-		elementEndCharacters = [[NSCharacterSet characterSetWithCharactersInString:@" >"] retain];
+		elementEndCharacters = [NSCharacterSet characterSetWithCharactersInString:@" >"];
 	static NSString		*tagStart = @"<", *tagEnd = @">";
 	NSString			*chunkString;
 	NSMutableString		*processedString;
@@ -709,17 +706,15 @@
 						if (requiresConversionToJPEG) {
 							NSImage				*image = [[NSImage alloc] initWithData:imageData];
 							
-							imageData = [[[image JPEGRepresentationWithCompressionFactor:1.0f] retain] autorelease];
+							imageData = [image JPEGRepresentationWithCompressionFactor:1.0f];
 							extension = @"jpg";
-							[image release];
 
 						} else if (![extension length]) {
 							//We don't know what we're working with. Try to produce a PNG so we know the format.
 							NSImage				*image = [[NSImage alloc] initWithData:imageData];
 							
-							imageData = [[[image PNGRepresentation] retain] autorelease];
+							imageData = [image PNGRepresentation];
 							extension = @"png";
-							[image release];							
 						}
 
 						//Delete any existing wrong extension
@@ -753,7 +748,7 @@
 		}
 	}
 	
-	return ([processedString autorelease]);
+	return (processedString);
 }
 
 
@@ -833,10 +828,10 @@
 
 		//Get day & time strings
 		[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dayFormatter){
-			valueDay = [[dayFormatter stringForObjectValue:date] retain];
+			valueDay = [dayFormatter stringForObjectValue:date];
 		}];
 		[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *timeFormatter) {
-			valueTime = [[timeFormatter stringForObjectValue:date] retain];
+			valueTime = [timeFormatter stringForObjectValue:date];
 		}];
 
 		if (valueDay && valueTime) {
@@ -852,9 +847,6 @@
 			else
 				replacementString = (includeTimeWithDay ? [NSString stringWithFormat:@"%@, %@", valueDay, valueTime] : valueDay);
 		}
-		
-		[valueDay release];
-		[valueTime release];
 	}
 
 	return replacementString;
@@ -878,7 +870,6 @@
 				NSMutableDictionary *replacementDict = [dict mutableCopy];
 				[replacementDict setObject:replacementString forKey:KEY_VALUE];
 				[array replaceObjectAtIndex:i withObject:replacementDict];
-				[replacementDict release];
 			}
 		} else if ([key isEqualToString:memberSinceKey]) {
 			[array removeObjectAtIndex:i];

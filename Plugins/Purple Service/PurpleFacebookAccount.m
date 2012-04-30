@@ -56,7 +56,7 @@
 	NSString *basePath = [[logsDir stringByAppendingPathComponent:oldFolder] stringByExpandingTildeInPath];
 	NSString *newPath = [[logsDir stringByAppendingPathComponent:newFolder] stringByExpandingTildeInPath];
 	
-	NSFileManager *fileManager = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fileManager = [[NSFileManager alloc] init];
 	NSInteger errors = 0;
 	
 	for (NSString *file in [fileManager enumeratorAtPath:basePath]) {

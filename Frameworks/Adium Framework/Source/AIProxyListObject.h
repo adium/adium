@@ -18,8 +18,8 @@
 @protocol AIContainingObject;
 
 @interface AIProxyListObject : NSObject {
-	AIListObject *listObject;
-    ESObjectWithProperties <AIContainingObject> *containingObject;
+	AIListObject *__weak listObject;
+    ESObjectWithProperties <AIContainingObject> *__weak containingObject;
 	NSString *key;
 	NSString *cachedDisplayNameString;
 	NSAttributedString *cachedDisplayName;
@@ -27,14 +27,14 @@
 	NSSize cachedDisplayNameSize;
 }
 @property (nonatomic, copy) NSDictionary *cachedLabelAttributes;
-@property (nonatomic, retain) NSString *cachedDisplayNameString;
-@property (nonatomic, retain) NSAttributedString *cachedDisplayName;
+@property (nonatomic, strong) NSString *cachedDisplayNameString;
+@property (nonatomic, strong) NSAttributedString *cachedDisplayName;
 @property (nonatomic) NSSize cachedDisplayNameSize;
 
-@property (nonatomic, retain) NSString *key;
+@property (nonatomic, strong) NSString *key;
 
-@property (nonatomic, assign) AIListObject *listObject;
-@property (nonatomic, assign) ESObjectWithProperties <AIContainingObject> * containingObject;
+@property (nonatomic, weak) AIListObject *listObject;
+@property (nonatomic, weak) ESObjectWithProperties <AIContainingObject> * containingObject;
 
 + (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
 									   inListObject:(ESObjectWithProperties<AIContainingObject> *)containingObject;

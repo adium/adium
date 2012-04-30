@@ -67,11 +67,8 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 - (void)dealloc
 {
 	sharedIconsInstance = nil;
-	[icons release]; [colors release];
-	[iconInfo release]; [colorInfo release];
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[super dealloc];
 }
 
 #pragma mark Image Retrieval
@@ -123,7 +120,7 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 	}
 	
 	imagePath = [xtraBundle pathForImageResource:[iconInfo objectForKey:key]];
-	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+	return [[NSImage alloc] initWithContentsOfFile:imagePath];
 }
 
 #pragma mark Color retrieval
@@ -236,15 +233,9 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 {
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
 		if ([key isEqualToString:KEY_GROUP_CHAT_STATUS_ICONS]) {
-			// We're going to be killing ourself off, so retain until the end.
-			[self retain];
-			
 			// Create a new shared controller.
-			[sharedIconsInstance release]; sharedIconsInstance = nil;
+			sharedIconsInstance = nil;
 			[AIGroupChatStatusIcons sharedIcons];
-			
-			// Suicide. :'(
-			[self release];
 		}
 	}
 }

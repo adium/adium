@@ -34,7 +34,7 @@
 @implementation AIGenericMultipartImageUploader
 + (id)uploadImage:(NSImage *)image forUploader:(AIImageUploaderPlugin *)uploader inChat:(AIChat *)chat;
 {
-	return [[[self alloc] initWithImage:image uploader:uploader chat:chat] autorelease];
+	return [[self alloc] initWithImage:image uploader:uploader chat:chat];
 }
 
 + (NSString *)serviceName
@@ -81,7 +81,7 @@
 			   chat:(AIChat *)inChat
 {
 	if ((self = [super init])) {
-		image = [inImage retain];
+		image = inImage;
 		uploader = inUploader;
 		chat = inChat;
 		
@@ -90,15 +90,6 @@
 	
 	return self;
 }
-
-- (void)dealloc
-{
-	[dataUploader release]; dataUploader = nil;
-	[image release]; image = nil;
-	
-	[super dealloc];
-}
-
 
 #pragma mark Data uploader delegate
 - (void)updateUploadProgress:(NSUInteger)uploaded total:(NSUInteger)total context:(id)context
@@ -163,11 +154,11 @@
 	NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY], @"Content-type", nil];
 	
-	dataUploader = [[AIProgressDataUploader dataUploaderWithData:body
+	dataUploader = [AIProgressDataUploader dataUploaderWithData:body
 															 URL:[NSURL URLWithString:self.uploadURL]
 														 headers:headers
 														delegate:self
-														 context:nil] retain];
+														 context:nil];
 	
 	[dataUploader upload];
 }

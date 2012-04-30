@@ -38,10 +38,12 @@
 - (id)initWithChannel:(NSString *)newChannel server:(NSString *)newServer port:(NSInteger)newPort andPassword:(NSString *)newPassword
 {
 	if((self = [super initWithWindowNibName:@"TemporaryIRCAccountWindow"])) {
-		channel = [newChannel retain];
-		server = [newServer retain];
+		channel = newChannel;
+		server = newServer;
 		port = (newPort == -1 ? 6667 : newPort);
-		password = [newPassword retain];
+		password = newPassword;
+		
+		[[self window] makeKeyAndOrderFront:nil];
 	}
 	return self;
 }
@@ -49,17 +51,6 @@
 - (void)show
 {
 	[[self window] makeKeyAndOrderFront:nil];
-}
-
-- (void)dealloc
-{
-	[channel release];
-	[server release];
-	[password release];
-	
-	[account release];
-	
-	[super dealloc];
 }
 
 - (NSString *)adiumFrameAutosaveName
@@ -97,8 +88,6 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 - (NSString *)UID
@@ -124,8 +113,8 @@
 - (AIAccount *)account
 {
 	if (!account) {
-		account = [[adium.accountController createAccountWithService:[adium.accountController firstServiceWithServiceID:@"IRC"]
-																 UID:self.UID] retain];
+		account = [adium.accountController createAccountWithService:[adium.accountController firstServiceWithServiceID:@"IRC"]
+																 UID:self.UID];
 		
 		[account setPreference:server forKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
 	}
@@ -179,8 +168,7 @@
 {
 	//If the AIEditAccountWindowController changes the account object, update to follow suit
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 	}
 	
 	//Make sure our UID is still accurate

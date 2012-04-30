@@ -51,7 +51,6 @@
 	delegate = nil;
 	
 	[self _destroyArrays];
-	[super dealloc];
 }
 
 
@@ -66,7 +65,7 @@
 	}
 	[desc appendString:@">"];
 	
-	return [desc autorelease];
+	return desc;
 }
 
 
@@ -356,9 +355,9 @@
 //Destroy our storage arrays
 - (void)_destroyArrays
 {
-	[contentArray release]; contentArray = nil;
-	[priorityArray release]; priorityArray = nil;
-	[ownerArray release]; ownerArray = nil;
+	contentArray = nil;
+	priorityArray = nil;
+	ownerArray = nil;
 }
 
 //Delegation -----------------------------------------------------------------------------------------
@@ -375,7 +374,7 @@
 	return delegate;
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len;
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])stackbuf count:(NSUInteger)len;
 {
 	return [contentArray countByEnumeratingWithState:state objects:stackbuf count:len];
 }

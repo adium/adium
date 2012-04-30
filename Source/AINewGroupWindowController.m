@@ -76,14 +76,11 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewGroupWindowControllerDidEnd"
 											  object:sheet];
     [sheet orderOut:nil];
-	[self autorelease];
 }
 
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 /*!

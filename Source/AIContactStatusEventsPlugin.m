@@ -69,17 +69,6 @@
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
-- (void)dealloc
-{
-	[onlineCache release];
-	[awayCache release];
-	[idleCache release];
-	[statusMessageCache release];
-	[mobileCache release];
-	
-	[super dealloc];
-}
-
 /*!
  * @brief Short description
  * @result A short localized description of the passed event
@@ -305,7 +294,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-contact" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-contact" forClass:[self class]];
 	return eventImage;
 }
 
@@ -486,7 +475,7 @@
 
 	if ((newStatus && !oldStatus) ||
 	   (oldStatus && !newStatus) ||
-	   ((performCompare && newStatus && oldStatus && [newStatus performSelector:@selector(compare:) withObject:oldStatus] != NSOrderedSame))) {
+	   ((performCompare && newStatus && oldStatus && (int)[newStatus performSelector:@selector(compare:) withObject:oldStatus] != NSOrderedSame))) {
 		
 		if (newStatus) {
 			[cache setObject:newStatus forKey:inObject.internalObjectID];

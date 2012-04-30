@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleSignals.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIChat.h>
@@ -365,7 +365,7 @@ file_recv_request_cb(PurpleXfer *xfer)
 	//Configure the new object for the transfer
 	[fileTransfer setAccountData:[NSValue valueWithPointer:xfer]];
 	
-	xfer->ui_data = [fileTransfer retain];
+	xfer->ui_data = (__bridge_retained void *)(fileTransfer);
 	
 	/* Set a fake local filename to convince libpurple that we are handling the request. We are, but
 	 * the code expects a synchronous response, and we rock out asynchronously.

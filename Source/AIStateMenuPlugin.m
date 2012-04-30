@@ -58,15 +58,15 @@
 
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountStatusSubmenu showTitleVerbs:NO] retain];
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountStatusSubmenu showTitleVerbs:NO];
 
-	dockStatusMenuRoot = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Status",nil)
+	dockStatusMenuRoot = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Status",nil)
 																			  target:self
 																			  action:@selector(dummyAction:)
 																	   keyEquivalent:@""];
 	[adium.menuController addMenuItem:dockStatusMenuRoot toLocation:LOC_Dock_Status];
 
-	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
+	statusMenu = [AIStatusMenu statusMenuWithDelegate:self];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(stateMenuSelectionsChanged:)
@@ -80,8 +80,8 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[accountMenu release]; accountMenu = nil;
-	[statusMenu release]; statusMenu = nil;
+	accountMenu = nil;
+	statusMenu = nil;
 }
 
 /*!
@@ -95,7 +95,7 @@
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu didRebuildStatusMenuItems:(NSArray *)menuItemArray
 {
 	NSMenuItem		*menuItem;
-	NSMenu			*dockStatusMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu			*dockStatusMenu = [[NSMenu alloc] init];
 
     for (menuItem in menuItemArray) {
 		NSMenuItem	*dockMenuItem;
@@ -104,17 +104,15 @@
 		
 		dockMenuItem = [menuItem copy];
 		[dockStatusMenu addItem:dockMenuItem];
-		[dockMenuItem release];
     }
 	
 	[dockStatusMenuRoot setSubmenu:dockStatusMenu];
 
 	//Tell the status controller to update these items as necessary
 	[statusMenu delegateCreatedMenuItems:[dockStatusMenu itemArray]];
-	[dockStatusMenu release];
 	
 	if (currentMenuItemArray != menuItemArray) {
-		[currentMenuItemArray release]; currentMenuItemArray = [menuItemArray retain];
+		currentMenuItemArray = menuItemArray;
 	}
 
 	[self updateKeyEquivalents];
@@ -211,13 +209,13 @@
 	
 	if (oneOrMoreSocialNetworkingAccountsOnline) {
 		if (!socialNetworkingMenuItem) {
-			socialNetworkingMenuItem = [[AISocialNetworkingStatusMenu socialNetworkingSubmenuItem] retain];
+			socialNetworkingMenuItem = [AISocialNetworkingStatusMenu socialNetworkingSubmenuItem];
 			[adium.menuController addMenuItem:socialNetworkingMenuItem toLocation:LOC_Status_SocialNetworking];
 		}
 	} else {
 		if (socialNetworkingMenuItem) {
 			[adium.menuController removeMenuItem:socialNetworkingMenuItem];
-			[socialNetworkingMenuItem release]; socialNetworkingMenuItem = nil;
+			socialNetworkingMenuItem = nil;
 		}
 	}
 }
@@ -257,8 +255,7 @@
 	
 	//Remember the installed items so we can remove them later
 	if (installedMenuItems != menuItems) {
-		[installedMenuItems release];
-		installedMenuItems = [menuItems retain];
+		installedMenuItems = menuItems;
 	}
 }
 

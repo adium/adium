@@ -76,7 +76,6 @@ static inline NSMutableDictionary *_getProxyDict() {
 		[inListObject noteProxyObject:proxy];
 		[proxyDict setObject:proxy
 					  forKey:key];
-		[proxy release];
 	}
 
 	return proxy;
@@ -96,7 +95,6 @@ static inline NSMutableDictionary *_getProxyDict() {
  */
 + (void)releaseProxyObject:(AIProxyListObject *)proxyObject
 {
-	[[proxyObject retain] autorelease];
 	proxyObject.listObject = nil;
 	[proxyObject flushCache];
 	[proxyDict removeObjectForKey:proxyObject.key];
@@ -105,11 +103,8 @@ static inline NSMutableDictionary *_getProxyDict() {
 - (void)dealloc
 {
 	AILogWithSignature(@"%@", self);
-	self.key = nil;
 
     [self flushCache];
-	
-	[super dealloc];
 }
 
 /* Pretend to be our listObject. I suspect being an NSProxy subclass could do this more cleanly, but my initial attempt

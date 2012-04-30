@@ -23,7 +23,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 }
 
 + (id)keyComboWithKeyCode:(signed short)theKeyCode modifiers:(NSUInteger)theModifiers {
-  return [[[self alloc] initWithKeyCode:theKeyCode modifiers:theModifiers] autorelease];
+  return [[self alloc] initWithKeyCode:theKeyCode modifiers:theModifiers];
 }
 
 
@@ -107,7 +107,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 		path = [[NSBundle bundleForClass:self] pathForResource:@"SGKeyCodes" ofType:@"plist"];
 		contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     NSAssert(contents != nil, @"Contents of SGKeyCodes is nil");    
-		keyCodes = [[contents propertyList] retain];
+		keyCodes = [contents propertyList];
 	}
 	
 	return keyCodes;

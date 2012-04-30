@@ -33,12 +33,7 @@
 	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
 	
 	//Install our preference view
-	preferences = [(RAFBlockEditorWindowController *)[RAFBlockEditorWindowController preferencePaneForPlugin:self] retain];
-}
-
-- (void)uninstallPlugin
-{
-	[blockEditorMenuItem release];
+	preferences = (RAFBlockEditorWindowController *)[RAFBlockEditorWindowController preferencePaneForPlugin:self];
 }
 
 - (IBAction)showEditor:(id)sender

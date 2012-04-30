@@ -72,7 +72,7 @@
 - (NSArray *)chatWindows
 {
 	NSArray *windows = [self orderedWindows];
-	NSMutableArray *chatWindows = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *chatWindows = [[NSMutableArray alloc] init];
 	for (NSInteger i=0;i<[windows count];i++)
 		if ([[windows objectAtIndex:i] isKindOfClass:[AIMessageWindow class]])
 			[chatWindows addObject:[windows objectAtIndex:i]];

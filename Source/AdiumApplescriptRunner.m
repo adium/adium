@@ -59,8 +59,6 @@
 																   object:nil
 																 userInfo:nil
 													   deliverImmediately:NO];
-
-	[super dealloc];
 }
 
 - (void)_executeApplescriptWithDict:(NSDictionary *)executionDict
@@ -138,7 +136,7 @@
 
 - (void)applescriptRunnerIsReady:(NSNotification *)inNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	NSDictionary	*executionDict;
 	
 	applescriptRunnerIsReady = YES;
@@ -147,8 +145,8 @@
 		[self _executeApplescriptWithDict:executionDict];		
 	}
 	
-	[pendingApplescriptsArray release]; pendingApplescriptsArray = nil;
-	[pool release];
+	pendingApplescriptsArray = nil;
+	}
 }
 
 - (void)applescriptRunnerDidQuit:(NSNotification *)inNotification
@@ -158,21 +156,20 @@
 
 - (void)applescriptDidRun:(NSNotification *)inNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	NSDictionary *userInfo = [inNotification userInfo];
 	NSString	 *uniqueID = [userInfo objectForKey:@"uniqueID"];
 
 	NSDictionary *targetDict = [runningApplescriptsDict objectForKey:uniqueID];
 	if (targetDict) {
 		// Prevent a secondary "finish" from returning in the middle of the invocation.
-		[targetDict retain];
 		
 		//No further need for this dictionary entry
 		[runningApplescriptsDict removeObjectForKey:uniqueID];
 		
 		//If there's no others, release the dictionary.
 		if (![runningApplescriptsDict count]) {
-			[runningApplescriptsDict release]; runningApplescriptsDict = nil;
+			runningApplescriptsDict = nil;
 		}
 		
 		id			 target = [targetDict objectForKey:@"target"];
@@ -183,10 +180,8 @@
 		[target performSelector:selector
 					 withObject:[targetDict objectForKey:@"userInfo"]
 					 withObject:[userInfo objectForKey:@"resultString"]];
-		
-		[targetDict release];
 	}
-	[pool release];
+	}
 }
 
 @end

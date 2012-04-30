@@ -128,7 +128,7 @@ typedef enum {
 - (BOOL)animationShouldStart:(NSAnimation *)animation;
 - (void)animationDidEnd:(NSAnimation*)animation;
 
-@property (nonatomic, retain) NSViewAnimation *windowAnimation;
+@property (nonatomic, strong) NSViewAnimation *windowAnimation;
 
 // Window snapping
 - (void)snapToOtherWindows;
@@ -150,6 +150,6 @@ typedef enum {
 - (void)showFilterBarWithAnimation:(BOOL)useAnimation;
 - (void)hideFilterBarWithAnimation:(BOOL)useAnimation;
 
-@property (nonatomic, retain ) NSViewAnimation *filterBarAnimation;
+@property (nonatomic, strong) NSViewAnimation *filterBarAnimation;
 
 @end

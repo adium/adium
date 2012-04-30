@@ -24,7 +24,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
                      connectionIdentifier:identifier 
                               requestType:reqType
                              responseType:respType];
-    return [parser autorelease];
+    return parser;
 }
 
 
@@ -33,8 +33,8 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
      responseType:(MGTwitterResponseType)respType
 {
     if ((self = [super init])) {
-        xml = [theXML retain];
-        identifier = [theIdentifier retain];
+        xml = theXML;
+        identifier = theIdentifier;
         requestType = reqType;
         responseType = respType;
         delegate = theDelegate;
@@ -54,18 +54,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
     return self;
 }
 
-
-- (void)dealloc
-{
-    [parser release];
-    [parsedObjects release];
-    [xml release];
-    [identifier release];
-    delegate = nil;
-    [super dealloc];
-}
-
-
 #pragma mark NSXMLParser delegate methods
 
 
@@ -81,21 +69,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
     [delegate parsingSucceededForRequest:identifier ofResponseType:responseType 
                        withParsedObjects:parsedObjects];
 }
-
-
-- (void)parser:(NSXMLParser *)theParser didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName 
-    attributes:(NSDictionary *)attributeDict
-{
-    //NSLog(@"Started element: %@ (%@)", elementName, attributeDict);
-}
-
-
-- (void)parser:(NSXMLParser *)theParser foundCharacters:(NSString *)characters
-{
-    //NSLog(@"Found characters: %@", characters);
-}
-
 
 - (void)parser:(NSXMLParser *)theParser didEndElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
@@ -118,20 +91,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
     }
 }
 
-
-- (void)parser:(NSXMLParser *)theParser foundAttributeDeclarationWithName:(NSString *)attributeName 
-    forElement:(NSString *)elementName type:(NSString *)type defaultValue:(NSString *)defaultValue
-{
-    //NSLog(@"Found attribute: %@ (%@) [%@] {%@}", attributeName, elementName, type, defaultValue);
-}
-
-
-- (void)parser:(NSXMLParser *)theParser foundIgnorableWhitespace:(NSString *)whitespaceString
-{
-    //NSLog(@"Found ignorable whitespace: %@", whitespaceString);
-}
-
-
 - (void)parser:(NSXMLParser *)theParser parseErrorOccurred:(NSError *)parseError
 {
     //NSLog(@"Parsing error occurred: %@", parseError);
@@ -144,13 +103,12 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 
 - (NSString *)lastOpenedElement {
-    return [[lastOpenedElement retain] autorelease];
+    return lastOpenedElement;
 }
 
 
 - (void)setLastOpenedElement:(NSString *)value {
     if (lastOpenedElement != value) {
-        [lastOpenedElement release];
         lastOpenedElement = [value copy];
     }
 }

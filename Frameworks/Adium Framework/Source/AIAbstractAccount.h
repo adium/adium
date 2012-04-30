@@ -95,7 +95,7 @@ typedef enum {
 - (void)getProxyConfigurationNotifyingTarget:(id)target selector:(SEL)selector context:(id)context;
 - (NSString *)lastDisconnectionError;
 - (void)setLastDisconnectionError:(NSString *)inError;
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError;
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError;
 @property (readonly, nonatomic) BOOL encrypted;
 
 //FUS Disconnecting

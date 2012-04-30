@@ -73,8 +73,6 @@
 		SKIndexClose (skIndex);
 		skIndex = nil;
  	}
-	
-	[super dealloc];
 }
 
 /*!
@@ -104,17 +102,14 @@
 	[eventsController unbind:NSContentArrayBinding];
 	[advancedController unbind:NSContentArrayBinding];
 	
-	if ([window contentView] != allPanes)
-		[allPanes release];
+	allPanes = nil;
 	
-	[generalPaneArray release], generalPaneArray = nil;
-	[appearancePaneArray release], appearancePaneArray = nil;
-	[eventsPaneArray release], eventsPaneArray = nil;
-	[advancedPaneArray release], advancedPaneArray = nil;
+	generalPaneArray = nil;
+	appearancePaneArray = nil;
+	eventsPaneArray = nil;
+	advancedPaneArray = nil;
 	
-	[panes release], panes = nil;
-	
-	[AI_topLevelObjects release];
+	panes = nil;
 	window = nil;
 }
 
@@ -145,7 +140,7 @@
 	NSURL *indexURL = [NSURL fileURLWithPath:[[[adium cachesPath] stringByDeletingLastPathComponent]
 											stringByAppendingPathComponent:@"preferences.searchIndex"]];
 	NSURL *termsURL = [[NSBundle mainBundle] URLForResource:@"SearchTerms" withExtension:@"plist"];
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	
 	//Check the language of the user vs the search index and recreate it if it looks like the language has changed
 	NSString *indexLocale = [adium.preferenceController preferenceForKey:@"search locale" group:PREF_GROUP_GENERAL];
@@ -168,7 +163,7 @@
 	
 	if ([fm isReadableFileAtPath:indexURL.path]) {
 		//Open the existing index
-		skIndex = SKIndexOpenWithURL((CFURLRef)indexURL,
+		skIndex = SKIndexOpenWithURL((__bridge CFURLRef)indexURL,
 									 (CFStringRef)@"terms",
 									 YES);
 	}
@@ -180,7 +175,7 @@
 		if (skIndex)
 			SKIndexClose (skIndex);
 		
-		skIndex = SKIndexCreateWithURL((CFURLRef)indexURL,
+		skIndex = SKIndexCreateWithURL((__bridge CFURLRef)indexURL,
 									   (CFStringRef)@"terms",
 									   (SKIndexType)type,
 									   NULL);
@@ -189,7 +184,8 @@
 			return;
 		}
 		
-		__block NSMutableSet *skipSet = [[[NSMutableSet alloc] init] autorelease];
+		__block NSMutableSet *skipSet =
+		[[NSMutableSet alloc] init];
 		
 		if (termsURL) {
 			NSDictionary *terms = [NSDictionary dictionaryWithContentsOfURL:termsURL];
@@ -206,14 +202,13 @@
 					NSString *paneURL = [NSString stringWithFormat:@"%@/%@", pane, title];
 					SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
 														 NULL,
-														 (CFStringRef)paneURL);
-					[(id)doc autorelease];
+														 (__bridge CFStringRef)paneURL);
 					
 					//Add the terms
 					NSString *contents = [termDict objectForKey:@"index"];
 					SKIndexAddDocumentWithText (skIndex,
 												doc,
-												(CFStringRef)contents,
+												(__bridge CFStringRef)contents,
 												NO);
 				}];
 			}];
@@ -228,12 +223,11 @@
 			NSString *paneURL = [NSString stringWithFormat:@"%@/", paneName];
 			SKDocumentRef doc = SKDocumentCreate((CFStringRef)@"file",
 												 NULL,
-												 (CFStringRef)paneURL);
-			[(id) doc autorelease];
+												 (__bridge CFStringRef)paneURL);
 			
 			SKIndexAddDocumentWithText (skIndex,
 										doc,
-										(CFStringRef)paneName,
+										(__bridge CFStringRef)paneName,
 										NO);
 		};
 		[generalPaneArray enumerateObjectsUsingBlock:_skPaneNames];
@@ -277,8 +271,6 @@
 	if ([[NSBundle mainBundle] loadNibFile:@"Preferences"
 						 externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:self, NSNibOwner, AI_topLevelObjects, NSNibTopLevelObjects, nil]
 								  withZone:nil]) {
-		// Release top level objects, release AI_topLevelObjects in -dealloc
-		[AI_topLevelObjects makeObjectsPerformSelector:@selector(release)];
 	}
 }
 
@@ -342,13 +334,9 @@
 	if (!view || view == [self.window contentView])
 		return;
 	
-	if (view != allPanes)
-		[allPanes retain];
-	
 	//Set an empty view to make resizing pretty
 	NSView *tempView = [[NSView alloc] initWithFrame:[[self.window contentView] frame]];
 	[self.window setContentView:tempView];
-	[tempView release];
 	
 	NSRect viewFrame = view.frame;
 	NSRect windowFrame = self.window.frame;
@@ -360,9 +348,6 @@
 	windowFrame.origin.y += (contentFrame.size.height - viewFrame.size.height);
 	[self.window setFrame:windowFrame display:YES animate:YES];
 	[self.window setContentView:view];
-	
-	if (view == allPanes)
-		[allPanes release];
 }
 
 /*!
@@ -409,7 +394,7 @@
     NSTrackingAreaOptions trackingOptions = NSTrackingEnabledDuringMouseDrag | NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp;
 	NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:trackingOptions owner:self userInfo:trackerData];
     
-    return [trackingArea autorelease];
+    return trackingArea;
 }
 
 /*!
@@ -427,9 +412,8 @@
 	}];
 	[_trackingAreas removeAllObjects];
 	
-	NSArray *suggestionsViews = [[[suggestionsWindow.contentView subviews] copy] autorelease];
+	NSArray *suggestionsViews = [[suggestionsWindow.contentView subviews] copy];
 	[suggestionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-	[suggestionsViews makeObjectsPerformSelector:@selector(release)];
 	
 	//Set size and location
 	NSRect frame = searchField.frame;
@@ -579,7 +563,7 @@
  */
 - (void)getSuggestions
 {
-	NSMutableArray *results = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *results = [[NSMutableArray alloc] init];
 	NSMutableIndexSet *generalIndexes = [NSMutableIndexSet indexSet];
 	NSMutableIndexSet *appearanceIndexes = [NSMutableIndexSet indexSet];
 	NSMutableIndexSet *eventsIndexes = [NSMutableIndexSet indexSet];
@@ -588,9 +572,8 @@
 	//Open search index
 	NSString *query = [NSString stringWithFormat:@"*%@*", [searchField stringValue]];
 	SKSearchRef search = SKSearchCreate (skIndex,
-										 (CFStringRef) query,
+										 (__bridge CFStringRef) query,
 										 kSKSearchOptionDefault);
-	[(id) search autorelease];
 	int kSearchMax = 20;
 	CFURLRef foundURLs[kSearchMax];
 	SKDocumentID foundDocIDs[kSearchMax];
@@ -610,10 +593,9 @@
 		
 		totalCount += foundCount;
 		for (int i = 0; i < foundCount; i++) {
-			NSString *paneName = [[(NSURL *)foundURLs[i] pathComponents] objectAtIndex:1];
+			NSString *paneName = [[(__bridge NSURL *)foundURLs[i] pathComponents] objectAtIndex:1];
 			AIPreferencePane *pane = [panes objectForKey:paneName];
-			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", [NSNumber numberWithFloat:foundScores[i]], @"score", nil]];
-			[(NSURL *)foundURLs[i] release];
+			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(__bridge NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", [NSNumber numberWithFloat:foundScores[i]], @"score", nil]];
 			NSUInteger idx = [generalPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
 				[generalIndexes addIndex:idx];
@@ -650,9 +632,8 @@
 		[suggestionsWindow orderOut:nil];
 	}
 	
-	NSArray *suggestionsViews = [[[suggestionsWindow.contentView subviews] copy] autorelease];
+	NSArray *suggestionsViews = [[suggestionsWindow.contentView subviews] copy];
 	[suggestionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-	[suggestionsViews makeObjectsPerformSelector:@selector(release)];
 	
 	//Dismantle any observers for auto cancel
 	if (_lostFocusObserver) {

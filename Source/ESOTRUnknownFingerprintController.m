@@ -136,7 +136,7 @@
 																alternateButton:nil
 																	otherButton:nil
 															  withMessageHeader:AILocalizedString(@"Fingerprint Help", nil)
-																	 andMessage:[[[NSAttributedString alloc] initWithString:message] autorelease]
+																	 andMessage:[[NSAttributedString alloc] initWithString:message]
 																		 target:self
 																	   userInfo:nil];
 			[textAndButtonsWindowController showOnWindow:window];

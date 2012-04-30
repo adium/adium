@@ -99,13 +99,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 + (BOOL)unlockDefaultKeychainWithPassword:(NSString *)password error:(out NSError **)outError
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
 	OSStatus err = SecKeychainUnlock(/* keychain */ NULL, (UInt32)[data length], [data bytes], /* usePassword */ true);
-
-	[pool release];
 
 	if (outError) {
 		NSError *error = nil;
@@ -121,8 +119,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		
 		*outError = error;
 	}
-
 	return (err == noErr);
+	}
 }
 
 + (BOOL)allowsUserInteraction_error:(out NSError **)outError
@@ -248,13 +246,12 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	if (aKeychainRef) {
 		if (!lastKnownDefaultKeychain ||
 			([lastKnownDefaultKeychain keychainRef] && (aKeychainRef != [lastKnownDefaultKeychain keychainRef]))) {
-			[lastKnownDefaultKeychain release];
 			lastKnownDefaultKeychain = [[self alloc] init];
 		}
 
 		CFRelease(aKeychainRef);
 
-		return [[lastKnownDefaultKeychain retain] autorelease];
+		return lastKnownDefaultKeychain;
 
 	} else {
 		NSLog(@"No default keychain!");
@@ -284,8 +281,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 	
 	if (err == noErr) {
-		[lastKnownDefaultKeychain release];
-		lastKnownDefaultKeychain = [newDefaultKeychain retain];
+		lastKnownDefaultKeychain = newDefaultKeychain;
 	}
 	
 	return (err == noErr);
@@ -293,7 +289,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 + (AIKeychain *)keychainWithContentsOfFile:(NSString *)path error:(out NSError **)outError
 {
-	return [[[self alloc] initWithContentsOfFile:path error:outError] autorelease];
+	return [[self alloc] initWithContentsOfFile:path error:outError];
 }
 
 - (id)initWithContentsOfFile:(NSString *)path error:(out NSError **)outError
@@ -317,7 +313,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		}
 		
 		if (err != noErr) {
-			[self release], self = nil;
+			self = nil;
 		}
 	}
 
@@ -328,7 +324,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 + (AIKeychain *)keychainWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError
 {
-	return [[[self alloc] initWithPath:path password:password promptUser:prompt initialAccess:initialAccess error:outError] autorelease];
+	return [[self alloc] initWithPath:path password:password promptUser:prompt initialAccess:initialAccess error:outError];
 }
 
 - (id)initWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError
@@ -337,7 +333,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		/* We create our own copy of the string (if any) using NSString to ensure that the NSData that we create is an NSData.
 		 * We create our own pool to ensure that both objects are released ASAP.
 		 */
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 
 		void     *passwordBytes  = NULL;
 		u_int32_t passwordLength = 0;
@@ -350,8 +346,6 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		}
 
 		OSStatus err = SecKeychainCreate([path fileSystemRepresentation], passwordLength, passwordBytes, prompt, initialAccess, &keychainRef);
-
-		[pool release];
 
 		if (outError) {
 			NSError *error = nil;
@@ -368,10 +362,9 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		}
 
 		if (err != noErr) {
-			[self release];
 			self = nil;
 		}
-
+		}
 	}
 
 	return self;
@@ -379,7 +372,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 + (AIKeychain *)keychainWithKeychainRef:(SecKeychainRef)newKeychainRef
 {
-	return [[[self alloc] initWithKeychainRef:newKeychainRef] autorelease];
+	return [[self alloc] initWithKeychainRef:newKeychainRef];
 }
 
 - (id)initWithKeychainRef:(SecKeychainRef)newKeychainRef
@@ -585,15 +578,13 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 - (BOOL)unlockKeychainWithPassword:(NSString *)password error:(out NSError **)outError
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	
 	// If keychainRef is NULL, the default keychain will unlocked
 	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
 	OSStatus err = SecKeychainUnlock(keychainRef, (UInt32)[data length], [data bytes], /* usePassword */ true);
-
-	[pool release];
 
 	if (outError) {
 		NSError *error = nil;
@@ -612,6 +603,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 
 	return (err == noErr);
+	}
 }
 
 #pragma mark -
@@ -670,7 +662,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSParameterAssert(server != nil);
 	// Domain is optional
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -703,8 +695,6 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 												  (UInt32)[passwordData length], [passwordData bytes],
 												  outKeychainItem);
 
-	[pool release];
-
 	if (outError) {
 		NSError *error = nil;
 		
@@ -727,6 +717,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 
 	return (err == noErr);
+	}
 }
 
 - (BOOL)addInternetPassword:(NSString *)password forServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
@@ -967,7 +958,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				 */
 
 				SecKeychainItemRef item = NULL;
-				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+				@autoreleasepool {
 
 				[self findInternetPasswordForServer:server
 									 securityDomain:domain
@@ -978,12 +969,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								 authenticationType:authType
 									   keychainItem:&item
 											  error:&error];
-				[(NSObject *)item autorelease]; // Might as well
 
 				if (error) {
 					// Retain this because of the autorelease pool
 					if (outError) {
-						*outError = [error retain];
+						*outError = error;
 					}
 				} else {
 					NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
@@ -1010,17 +1000,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 								nil];
 							// Retain this because of the autorelease pool
-							error = [[NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo] retain];
+							error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 						}
 						*outError = error;
 					} // if (outError)
 				} // if (!error) (findInternetPasswordForServer:...)
-
-				[pool release];
-				[error autorelease];
 			} // if (err == errSecDuplicateItem)
 			
 			success = (err == noErr);
+			}
 		} // if (error) (addInternetPassword:...)
 	} // if (password)
 	
@@ -1057,7 +1045,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 						   keychainItem:(out SecKeychainItemRef *)outKeychainItem
 								  error:(out NSError **)outError
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
 	SecKeychainItemRef keychainItem = NULL;
 	NSError *error = nil;
@@ -1100,7 +1088,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 
 	if (outError) {
-		*outError = [error retain];
+		*outError = error;
 	}
 	
 	if (outKeychainItem) {
@@ -1109,13 +1097,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		CFRelease(keychainItem);
 	}
 	
-	[pool release];
-	
-	if (outError) {
-		[*outError autorelease];
-	}
-	
 	return success;
+	}
 }
 
 - (BOOL)deleteInternetPasswordForServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
@@ -1143,7 +1126,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSParameterAssert(service != nil);
 	NSParameterAssert(account != nil);
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
 	NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
@@ -1159,8 +1142,6 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 												  (UInt32)[accountData length],  [accountData bytes],
 												 (UInt32)[passwordData length], [passwordData bytes],
 												 outKeychainItem);
-
-	[pool release];
 
 	if (outError) {
 		NSError *error = nil;
@@ -1181,6 +1162,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 	
 	return (err == noErr);
+	}
 }
 
 - (NSString *)findGenericPasswordForService:(NSString *)service
@@ -1236,7 +1218,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								account:(NSString *)account
 								  error:(out NSError **)outError
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
 	SecKeychainItemRef keychainItem = NULL;
 	NSError *error = nil;
@@ -1276,10 +1258,9 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	if (keychainItem) {
 		CFRelease(keychainItem);
 	}
-
-	[pool release];
 	
 	return success;
+	}
 }
 
 #pragma mark -

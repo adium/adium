@@ -45,11 +45,4 @@
     [super drawRect:rect];
 }
 
-- (void)dealloc
-{
-    self.color = nil;
-	
-    [super dealloc];
-}
-
 @end

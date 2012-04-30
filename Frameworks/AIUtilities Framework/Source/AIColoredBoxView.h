@@ -21,7 +21,6 @@
  * View which draws, simply filling its bounds with a particular color.
  */
 @interface AIColoredBoxView : NSView {
-    NSColor 	*color;
 }
 
 /*!
@@ -29,6 +28,6 @@
  *
  * The <tt>NSColor</tt> to draw in the view
  */ 
-@property (readwrite, nonatomic, retain) NSColor *color;
+@property (readwrite, nonatomic) NSColor *color;
 
 @end

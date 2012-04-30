@@ -27,7 +27,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatusIcons.h>
@@ -183,9 +183,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)dealloc
 {
-	[_rootStateGroup release]; _rootStateGroup = nil;
-	[_sortedFullStateArray release]; _sortedFullStateArray = nil;
-	[super dealloc];
+	_rootStateGroup = nil;
+	_sortedFullStateArray = nil;
 }
 
 #pragma mark Status registration
@@ -235,7 +234,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (NSMenu *)menuOfStatusesForService:(AIService *)service withTarget:(id)target
 {
-	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*menu = [[NSMenu alloc] init];
 	NSMenuItem		*menuItem;
 	NSString		*serviceCodeUniqueID = service.serviceCodeUniqueID;
 	AIStatusType	type;
@@ -258,7 +257,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		}
 	}
 
-	return [menu autorelease];
+	return menu;
 }
 
 /*!
@@ -315,7 +314,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	[menuItems sortUsingSelector:@selector(titleCompare:)];
 
-	return [menuItems autorelease];
+	return menuItems;
 }
 
 /*!
@@ -348,7 +347,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			NSImage		*image;
 			NSMenuItem	*menuItem;
 
-			menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+			menuItem = [[NSMenuItem alloc] initWithTitle:title
 																			target:target
 																			action:@selector(selectStatus:)
 																	 keyEquivalent:@""];
@@ -362,7 +361,6 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			[menuItem setImage:image];
 			[menuItem setEnabled:YES];
 			[menuItems addObject:menuItem];
-			[menuItem release];
 
 			[alreadyAddedTitles addObject:title];
 		}
@@ -374,7 +372,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	static NSDictionary	*coreLocalizedStatusDescriptions = nil;
 	if(!coreLocalizedStatusDescriptions){
-		coreLocalizedStatusDescriptions = [[NSDictionary dictionaryWithObjectsAndKeys:
+		coreLocalizedStatusDescriptions = [NSDictionary dictionaryWithObjectsAndKeys:
 			AILocalizedStringFromTable(@"Available", @"Statuses", "Name of a status"), STATUS_NAME_AVAILABLE,
 			AILocalizedStringFromTable(@"Free for chat", @"Statuses", "Name of a status"), STATUS_NAME_FREE_FOR_CHAT,
 			AILocalizedStringFromTable(@"Available for friends only", @"Statuses", "Name of a status"), STATUS_NAME_AVAILABLE_FRIENDS_ONLY,
@@ -395,7 +393,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			AILocalizedStringFromTable(@"Stepped out", @"Statuses", "Name of a status"), STATUS_NAME_STEPPED_OUT,
 			AILocalizedStringFromTable(@"Invisible", @"Statuses", "Name of a status"), STATUS_NAME_INVISIBLE,
 			AILocalizedStringFromTable(@"Offline", @"Statuses", "Name of a status"), STATUS_NAME_OFFLINE,
-			nil] retain];
+			nil];
 	}
 	
 	return (statusName ? [coreLocalizedStatusDescriptions objectForKey:statusName] : nil);
@@ -472,10 +470,9 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (void)setActiveStatusState:(AIStatus *)statusState
 {
 	//Apply the state to our accounts and notify (delay to the next run loop to improve perceived speed)
-	[self performSelector:@selector(applyState:toAccounts:)
-			   withObject:statusState
-			   withObject:adium.accountController.accounts
-			   afterDelay:0];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self applyState:statusState toAccounts:adium.accountController.accounts];
+	});
 }
 /*!
  * @brief Set the active status state for some account
@@ -507,8 +504,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (void)_resetActiveStatusState
 {
 	//Clear the active status state.  It will be rebuilt next time it is requested
-	[_activeStatusState release]; _activeStatusState = nil;
-	[_allActiveStatusStates release]; _allActiveStatusStates = nil;
+	_activeStatusState = nil;
+	_allActiveStatusStates = nil;
 
 	//Let observers know the active state has changed
 	if (!activeStatusUpdateDelays) {
@@ -629,7 +626,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 
 	//Any objects in the temporary state array which aren't the state we just set should now be removed.
-	for (aStatusState in [[temporaryStateArray copy] autorelease]) {
+	for (aStatusState in [temporaryStateArray copy]) {
 		if (aStatusState != statusState) {
 			[temporaryStateArray removeObject:aStatusState];
 			shouldRebuild = YES;
@@ -666,15 +663,15 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 			if ([archivedObject isKindOfClass:[AIStatusGroup class]]) {
 				//Adium 1.0 archives an AIStatusGroup
-				_rootStateGroup = [archivedObject retain];
+				_rootStateGroup = archivedObject;
 			
 			} else if  ([archivedObject isKindOfClass:[NSArray class]]) {
 				//Adium 0.8x archived an NSArray
-				_rootStateGroup = [[AIStatusGroup statusGroupWithContainedStatusItems:archivedObject] retain];
+				_rootStateGroup = [AIStatusGroup statusGroupWithContainedStatusItems:archivedObject];
 			}
 		}
 
-		if (!_rootStateGroup) _rootStateGroup = [[AIStatusGroup statusGroup] retain];
+		if (!_rootStateGroup) _rootStateGroup = [AIStatusGroup statusGroup];
 
 		//Upgrade Adium 0.7x away messages
 		[self _upgradeSavedAwaysToSavedStates];
@@ -703,8 +700,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 			//Store a reference to our offline state if we just loaded it
 			if (status.statusType == AIOfflineStatusType) {
-				[offlineStatusState release];
-				offlineStatusState = [status retain];
+				offlineStatusState = status;
 			}
 		}
 	}
@@ -802,7 +798,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		[tempArray addObjectsFromArray:[temporaryStateArray allObjects]];
 
 		//Pass the original array so its indexes can be used for comparison of saved state ordering
-		[AIStatusGroup sortArrayOfStatusItems:tempArray context:originalStateArray];
+		[AIStatusGroup sortArrayOfStatusItems:tempArray context:(__bridge void *)originalStateArray];
 
 		_sortedFullStateArray = tempArray;
 	}
@@ -864,10 +860,10 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 				}
 			}
 
-			_activeStatusState = (bestStatusState ? [bestStatusState retain]: [offlineStatusState retain]);
+			_activeStatusState = (bestStatusState ? bestStatusState : offlineStatusState);
 
 		} else {
-			_activeStatusState = [offlineStatusState retain];
+			_activeStatusState = offlineStatusState;
 		}
 	}
 
@@ -1064,8 +1060,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (void)notifyOfChangedStatusArray
 {
 	//Clear the sorted menu items array since our state array changed.
-	[_sortedFullStateArray release]; _sortedFullStateArray = nil;
-	[_flatStatusSet release]; _flatStatusSet = nil;
+	_sortedFullStateArray = nil;
+	_flatStatusSet = nil;
 
 	if (!statusMenuRebuildDelays) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIStatusStateArrayChangedNotification object:nil];	
@@ -1138,8 +1134,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	NSMutableDictionary *lastStatusStates;
 	
-	lastStatusStates = [[[adium.preferenceController preferenceForKey:@"LastStatusStates"
-																  group:PREF_GROUP_STATUS_PREFERENCES] mutableCopy] autorelease];
+	lastStatusStates = [[adium.preferenceController preferenceForKey:@"LastStatusStates"
+																  group:PREF_GROUP_STATUS_PREFERENCES] mutableCopy];
 	if (!lastStatusStates) lastStatusStates = [NSMutableDictionary dictionary];
 	
 	[lastStatusStates setObject:[NSKeyedArchiver archivedDataWithRootObject:statusState]

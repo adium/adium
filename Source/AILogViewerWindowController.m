@@ -138,8 +138,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	dispatch_once(&onceToken, ^{
 		logViewerQueue = [[NSOperationQueue alloc] init];
 		[logViewerQueue setMaxConcurrentOperationCount:1];
-		if([logViewerQueue respondsToSelector:@selector(setName:)])
-			[logViewerQueue performSelector:@selector(setName:) withObject:@"im.adium.AILogViewerWindowController.logViewerQueue"];
+		[logViewerQueue setName:@"im.adium.AILogViewerWindowController.logViewerQueue"];
 	});
 	
 	return logViewerQueue;
@@ -161,7 +160,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 + (void)destroySharedLogViewer
 {
-	[__sharedLogViewer autorelease]; __sharedLogViewer = nil;
+	__sharedLogViewer = nil;
 }
 
 + (id)openForPlugin:(id)inPlugin
@@ -250,7 +249,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		resultsLock = [[NSRecursiveLock alloc] init];
 		contactIDsToFilter = [[NSMutableSet alloc] initWithCapacity:1];
 
-		allContactsIdentifier = [[NSNumber numberWithInteger:-1] retain];
+		allContactsIdentifier = [NSNumber numberWithInteger:-1];
 
 		undoManager = [[NSUndoManager alloc] init];
 		currentSearchLock = [[NSLock alloc] init];
@@ -258,37 +257,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	}
 	
 	return self;
-}
-
-//dealloc
-- (void)dealloc
-{
-	[filterDate release]; filterDate = nil;
-	[currentSearchLock release]; currentSearchLock = nil;
-	[resultsLock release];
-	[toArray release];
-	[currentSearchResults release];
-	[selectedColumn release];
-	[displayedLogArray release];
-	[blankImage release];
-	[activeSearchString release];
-	[contactIDsToFilter release];
-
-	[logFromGroupDict release]; logFromGroupDict = nil;
-	[logToGroupDict release]; logToGroupDict = nil;
-
-	[horizontalRule release]; horizontalRule = nil;
-
-	[adiumIcon release]; adiumIcon = nil;
-	[adiumIconHighlighted release]; adiumIconHighlighted = nil;
-
-	//We loaded	view_DatePicker from a nib manually, so we must release it
-	[view_DatePicker release]; view_DatePicker = nil;
-
-	[allContactsIdentifier release];
-	[undoManager release]; undoManager = nil;
-
-	[super dealloc];
 }
 
 //Init our log filtering tree
@@ -344,7 +312,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 				}
 			}
 
-			[logFromGroup release];
 		}
 	}
 
@@ -354,7 +321,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 - (void)rebuildContactsList
 {
 	NSInteger	oldCount = toArray.count;
-	[toArray release]; toArray = [[NSMutableArray alloc] initWithCapacity:(oldCount ? oldCount : 20)];
+	toArray = [[NSMutableArray alloc] initWithCapacity:(oldCount ? oldCount : 20)];
 
 	for (AILogFromGroup *logFromGroup in [logFromGroupDict objectEnumerator]) {
 		//Add the 'to' for each grouping on this account
@@ -439,7 +406,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[tableColumn setDataCell:dataCell];
 	[tableColumn setEditable:NO];
 	[dataCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
-	[dataCell release];
 
 	// Set the selector for doubleAction
 	[outlineView_contacts setDoubleAction:@selector(openChatOnDoubleAction:)];
@@ -472,10 +438,10 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	NSString	*selectedTableColumnPref;
 	if ((selectedTableColumnPref = [adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_SELECTED_COLUMN
 																		   group:PREF_GROUP_LOGGING])) {
-		selectedColumn = [[tableView_results tableColumnWithIdentifier:selectedTableColumnPref] retain];
+		selectedColumn = [tableView_results tableColumnWithIdentifier:selectedTableColumnPref];
 	}
 	if (!selectedColumn) {
-		selectedColumn = [[tableView_results tableColumnWithIdentifier:@"Date"] retain];
+		selectedColumn = [tableView_results tableColumnWithIdentifier:@"Date"];
 	}
 	[self sortCurrentSearchResultsForTableColumn:selectedColumn direction:YES];
 
@@ -500,7 +466,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 -(void)rebuildIndices
 {
     //Rebuild the 'global' log indexes
-    [logFromGroupDict release]; logFromGroupDict = [[NSMutableDictionary alloc] init];
+	logFromGroupDict = [[NSMutableDictionary alloc] init];
     [toArray removeAllObjects]; //note: even if there are no logs, the name will remain [bug or feature?]
     
     [self initLogFiltering];
@@ -545,11 +511,11 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [plugin cleanUpLogContentSearching];
 
 	//Reset our column widths if needed
-	[activeSearchString release]; activeSearchString = nil;
+	activeSearchString = nil;
 	[self updateRankColumnVisibility];
 	
 	[[self class] destroySharedLogViewer];
-	[toolbarItems autorelease]; toolbarItems = nil;
+	toolbarItems = nil;
 }
 
 //Display --------------------------------------------------------------------------------------------------------------
@@ -574,7 +540,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		
 		//We are searching, but there is no active search  string. This indicates we're still opening logs.
 		if (searching) {
-			progress = [[AILocalizedString(@"Opening transcripts",nil) mutableCopy] autorelease];
+			progress = [AILocalizedString(@"Opening transcripts",nil) mutableCopy];
 		}
     }
     [resultsLock unlock];
@@ -693,7 +659,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 - (void)searchComplete
 {
-	[refreshResultsTimer invalidate]; [refreshResultsTimer release]; refreshResultsTimer = nil;
+	[refreshResultsTimer invalidate]; refreshResultsTimer = nil;
 	[self refreshResultsSearchIsComplete:YES];
 }
 
@@ -711,7 +677,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 - (void)displayLogs:(NSArray *)logArray
 {
 	[displayOperation cancel];
-	[displayOperation autorelease];
 	displayOperation = nil;
 	currentMatch = -1;
 	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
@@ -725,14 +690,13 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 //Displays the contents of the specified log in our window
 - (void)_displayLogs:(NSArray *)logArray
 {
-	NSAutoreleasePool *threadPool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	NSInvocationOperation *thisOperation = displayOperation;
 	NSMutableAttributedString	*displayText = nil;
 	NSAttributedString			*finalDisplayText = nil;
 	BOOL						appendedFirstLog = NO;
 
     if (![logArray isEqualToArray:displayedLogArray]) {
-		[displayedLogArray release];
 		displayedLogArray = [logArray copy];
 	}
 
@@ -746,8 +710,8 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	for (theLog in logArray) {
 		if ([thisOperation isCancelled])
 			break;
-		
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+			
+			@autoreleasepool {
 		
 		if (displayText) {
 			if (!horizontalRule) {
@@ -821,8 +785,8 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 			NSString *logFileText = [NSString stringWithContentsOfURL:logURL encoding:NSUTF8StringEncoding error:NULL];
 			if (logFileText) {
 				AITextAttributes *textAttributes = [AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:0 size:12];
-				NSAttributedString *attributedLogFileText = [[[NSAttributedString alloc] initWithString:logFileText 
-																							 attributes:[textAttributes dictionary]] autorelease];
+				NSAttributedString *attributedLogFileText = [[NSAttributedString alloc] initWithString:logFileText 
+																							 attributes:[textAttributes dictionary]];
 				if (showEmoticons) {
 					attributedLogFileText = [adium.contentController filterAttributedString:attributedLogFileText
 																			  usingFilterType:AIFilterMessageDisplay
@@ -840,11 +804,10 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		
 		appendedFirstLog = YES;
 		
-		[pool release];
+		}
 	}
 	
 	currentMatch = -1;
-	[matches release];
 	matches = [[NSMutableArray alloc] init];
 	
 	if (displayText && [displayText length] && ![thisOperation isCancelled]) {
@@ -858,16 +821,12 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 			NSScanner					*scanner = [NSScanner scannerWithString:activeSearchString];
 			
 			//Look for an initial quote
-			NSAutoreleasePool *pool = nil;
 			while (![scanner isAtEnd]) {
-				[pool release];
-				pool = [[NSAutoreleasePool alloc] init];
-				
+				@autoreleasepool {
 				[scanner scanUpToString:@"\"" intoString:NULL];
 				
 				//Scan past the quote
 				if (![scanner scanString:@"\"" intoString:NULL]) {
-					[pool release]; pool = nil;
 					continue;
 				}
 				
@@ -908,6 +867,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 					//Add the full quoted string
 					[searchWordsArray addObject:quotedString];
 				}
+				}
 			}
 
 			for (searchWord in searchWordsArray) {
@@ -923,8 +883,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 						currentMatch = 1;
 				}
 			}
-
-			[searchWordsArray release];
 		}
 		finalDisplayText = displayText;
 	}
@@ -948,9 +906,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 								waitUntilDone:YES];
 		}
 	}
-
-	[displayText release];
-	[threadPool drain];
+	}
 }
 
 NSInteger compareRectLocation(id obj1, id obj2, void *context)
@@ -1167,7 +1123,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
     
     //Set the highlighted table column.
     [tableView_results setHighlightedTableColumn:tableColumn];
-    [selectedColumn release]; selectedColumn = [tableColumn retain];
+	selectedColumn = tableColumn;
     sortDirection = direction;
 	
 	[self resortLogs];
@@ -1187,7 +1143,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 - (IBAction)updateSearch:(id)sender
 {
     automaticSearch = NO;
-    [self setSearchString:[[[searchField_logs stringValue] copy] autorelease]];
+    [self setSearchString:[[searchField_logs stringValue] copy]];
 	AILog(@"updateSearch calling startSearching");
     [self startSearchingClearingCurrentResults:YES];
 }
@@ -1234,7 +1190,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 		//Stop any existing searches inside of resultsLock so we won't get any additions results added that we don't want
 		[self stopSearching];
 
-		[currentSearchResults release]; currentSearchResults = [[NSMutableArray alloc] init];
+		currentSearchResults = [[NSMutableArray alloc] init];
 		[resultsLock unlock];
 	} else {
 	    //Stop any existing searches
@@ -1251,12 +1207,12 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
     [NSThread detachNewThreadSelector:@selector(filterLogsWithSearch:) toTarget:self withObject:searchDict];
     
 	//Update the table periodically while the logs load.
-	[refreshResultsTimer invalidate]; [refreshResultsTimer release];
-	refreshResultsTimer = [[NSTimer scheduledTimerWithTimeInterval:REFRESH_RESULTS_INTERVAL
+	[refreshResultsTimer invalidate]; 
+	refreshResultsTimer = [NSTimer scheduledTimerWithTimeInterval:REFRESH_RESULTS_INTERVAL
 															target:self
 														  selector:@selector(refreshResults)
 														  userInfo:nil
-														   repeats:YES] retain];
+														   repeats:YES];
 }
 
 //Abort any active searches
@@ -1269,7 +1225,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	}
 	[currentSearchLock unlock];
 	
-	[refreshResultsTimer invalidate]; [refreshResultsTimer release]; refreshResultsTimer = nil;
+	[refreshResultsTimer invalidate]; refreshResultsTimer = nil;
 
 	//Increase the active search ID so any existing searches stop, and then
 	//wait for any active searches to finish and release the lock
@@ -1316,9 +1272,9 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 			NSArray			*tableColumns;
 
 			//Set up the results column
-			resultsColumn = [[[NSTableColumn alloc] initWithIdentifier:@"Rank"] autorelease];
+			resultsColumn = [[NSTableColumn alloc] initWithIdentifier:@"Rank"];
 			[[resultsColumn headerCell] setTitle:AILocalizedString(@"Rank",nil)];
-			[resultsColumn setDataCell:[[[ESRankingCell alloc] init] autorelease]];
+			[resultsColumn setDataCell:[[ESRankingCell alloc] init]];
 			
 			//Add it to the table
 			[tableView_results addTableColumn:resultsColumn];
@@ -1366,8 +1322,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	
 	//Use autorelease so activeSearchString can be passed back to here
 	if (activeSearchString != inString) {
-		[activeSearchString release];
-		activeSearchString = [inString retain];
+		activeSearchString = inString;
 	}
 
 	[self updateRankColumnVisibility];
@@ -1376,7 +1331,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 //Build the search mode menu
 - (void)buildSearchMenu
 {
-    NSMenu  *cellMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:SEARCH_MENU] autorelease];
+    NSMenu  *cellMenu = [[NSMenu alloc] initWithTitle:SEARCH_MENU];
     [cellMenu addItem:[self _menuItemWithTitle:FROM forSearchMode:LOG_SEARCH_FROM]];
     [cellMenu addItem:[self _menuItemWithTitle:TO forSearchMode:LOG_SEARCH_TO]];
     [cellMenu addItem:[self _menuItemWithTitle:DATE forSearchMode:LOG_SEARCH_DATE]];
@@ -1455,13 +1410,13 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
  */
 - (NSMenuItem *)_menuItemWithTitle:(NSString *)title forSearchMode:(LogSearchMode)mode
 {
-    NSMenuItem  *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title 
+    NSMenuItem  *menuItem = [[NSMenuItem alloc] initWithTitle:title 
 																				 action:@selector(selectSearchType:) 
 																		  keyEquivalent:@""];
     [menuItem setTag:mode];
     [menuItem setState:(mode == searchMode ? NSOnState : NSOffState)];
     
-    return [menuItem autorelease];
+    return menuItem;
 }
 
 #pragma mark Filtering search results
@@ -1497,7 +1452,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		return nil;
 	}
 
-	NSString	*logPath = [(NSURL *)url path];
+	NSString	*logPath = [(__bridge NSURL *)url path];
 	if (!logPath)
 		AILogWithSignature(@"Could not get path for %@", url);
 	NSArray		*pathComponents = [logPath pathComponents];
@@ -1579,7 +1534,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	}
 	
 	thisSearch = SKSearchCreate(logSearchIndex,
-								(CFStringRef)wildcardedSearchString,
+								(__bridge CFStringRef)wildcardedSearchString,
 								kSKSearchOptionDefault);
 	currentSearch = (thisSearch ? (SKSearchRef)CFRetain(thisSearch) : NULL);
 	[currentSearchLock unlock];
@@ -1633,7 +1588,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			 * will cause CFURLCopyFileSystemPath() to crash [ultimately in CFGetAllocator()].  This is the case for all
 			 * Cocoa applications...
 			 */
-			NSString *logPath = [(NSURL *)url path];
+			NSString *logPath = [(__bridge NSURL *)url path];
 			if (!logPath) 
 				AILogWithSignature(@"Could not get path for %@. ", url);
 			
@@ -1717,7 +1672,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 //Search the logs, filtering out any matching logs into the currentSearchResults
 - (void)filterLogsWithSearch:(NSDictionary *)searchInfoDict
 {
-    NSAutoreleasePool       *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
     LogSearchMode                     mode = [[searchInfoDict objectForKey:@"Mode"] intValue];
     NSInteger                     searchID = [[searchInfoDict objectForKey:@"ID"] integerValue];
     NSString                *searchString = [searchInfoDict objectForKey:@"String"];
@@ -1752,9 +1707,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
 		AILogWithSignature(@"Search ID %i): finished", searchID);
     }
-	
-    //Cleanup
-    [pool release];
+	}
 }
 
 //Perform a filter search based on source name, destination name, or date
@@ -1952,7 +1905,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		[alert beginSheetModalForWindow:[self window] 
 						  modalDelegate:self 
 						 didEndSelector:@selector(deleteLogsAlertDidEnd:returnCode:contextInfo:) 
-							contextInfo:[selectedLogs retain]];
+							contextInfo:(__bridge_retained void *)(selectedLogs)];
 	}
 }
 
@@ -1977,7 +1930,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 		dateFormatter = [cell formatter];
 		if (!dateFormatter) {
-			dateFormatter = [[[AILogDateFormatter alloc] init] autorelease];
+			dateFormatter = [[AILogDateFormatter alloc] init];
 			[cell setFormatter:dateFormatter];
 		}
 		
@@ -2100,7 +2053,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		 */
 		NSImage *image = [AIUserIcons listUserIconForContact:(AIListContact *)item
 														size:NSMakeSize(16,16)];
-		if (!image) image = [[[NSImage alloc] initWithSize:NSMakeSize(16, 16)] autorelease];
+		if (!image) image = [[NSImage alloc] initWithSize:NSMakeSize(16, 16)];
 
 		[cell setImage:image];
 
@@ -2121,16 +2074,16 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
 			([[self window] isKeyWindow] && ([[self window] firstResponder] == self))) {
 			if (!adiumIconHighlighted) {
-				adiumIconHighlighted = [[NSImage imageNamed:@"adiumHighlight"
-												   forClass:[self class]] retain];
+				adiumIconHighlighted = [NSImage imageNamed:@"adiumHighlight"
+												   forClass:[self class]];
 			}
 
 			[cell setImage:adiumIconHighlighted];
 
 		} else {
 			if (!adiumIcon) {
-				adiumIcon = [[NSImage imageNamed:@"adium"
-										forClass:[self class]] retain];
+				adiumIcon = [NSImage imageNamed:@"adium"
+										forClass:[self class]];
 			}
 
 			[cell setImage:adiumIcon];
@@ -2281,7 +2234,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 {	
 	[NSBundle loadNibNamed:[self dateItemNibName] owner:self];
 
-    NSToolbar 		*toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_LOG_VIEWER] autorelease];
+    NSToolbar 		*toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_LOG_VIEWER];
     NSToolbarItem	*toolbarItem;
 	
     [toolbar setDelegate:self];
@@ -2404,12 +2357,12 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (NSMenuItem *)_menuItemForDateType:(AIDateType)dateType dict:(NSDictionary *)dateTypeTitleDict
 {
-    NSMenuItem  *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[dateTypeTitleDict objectForKey:[NSNumber numberWithInteger:dateType]] 
+    NSMenuItem  *menuItem = [[NSMenuItem alloc] initWithTitle:[dateTypeTitleDict objectForKey:[NSNumber numberWithInteger:dateType]] 
 																				 action:@selector(selectDateType:) 
 																		  keyEquivalent:@""];
     [menuItem setTag:dateType];
     
-    return [menuItem autorelease];
+    return menuItem;
 }
 
 - (NSInteger)daysSinceStartOfWeekGivenToday:(NSCalendarDate *)today
@@ -2422,7 +2375,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		if (iCalFirstDayOfWeek) {
 			//This should return a CFNumberRef... we're using another app's prefs, so make sure.
 			if (CFGetTypeID(iCalFirstDayOfWeek) == CFNumberGetTypeID()) {
-				firstDayOfWeek = [(NSNumber *)iCalFirstDayOfWeek integerValue];
+				firstDayOfWeek = [(__bridge NSNumber *)iCalFirstDayOfWeek integerValue];
 			}
 
 			CFRelease(iCalFirstDayOfWeek);
@@ -2491,10 +2444,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		
 		//Now add the path from the root to the actual log
 		fakeRelativePath = [fakeRelativePath stringByAppendingPathComponent:canonicalInPath];
-		chatLog = [[[AIChatLog alloc] initWithPath:fakeRelativePath
+		chatLog = [[AIChatLog alloc] initWithPath:fakeRelativePath
 											  from:[serviceAndAccountName substringFromIndex:([serviceID length] + 1)] //One off for the '.'
 												to:contactName
-									  serviceClass:serviceID] autorelease];
+									  serviceClass:serviceID];
 	}
 
 	//Now display the requested log
@@ -2524,7 +2477,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
     printOperation = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
     [printOperation runOperationModalForWindow:[self window] delegate:nil
 								didRunSelector:NULL contextInfo:NULL];
-	[printView release];
 }
 
 - (BOOL)validatePrintMenuItem:(NSMenuItem *)menuItem
@@ -2576,7 +2528,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	[alert addButtonWithTitle:DELETE];
 	[alert addButtonWithTitle:AILocalizedString(@"Cancel",nil)];
 	
-	return [alert autorelease];
+	return alert;
 }
 
 /*!
@@ -2607,7 +2559,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 
 - (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
 {
-	NSArray *selectedLogs = (NSArray *)contextInfo;
+	NSArray *selectedLogs = (__bridge NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
 		[resultsLock lock];
 		
@@ -2654,7 +2606,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[self rebuildContactsList];
 		[self updateProgressDisplay];
 	}
-	[selectedLogs release];
 }
 
 /*!
@@ -2672,11 +2623,11 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[alert beginSheetModalForWindow:[self window]
 						  modalDelegate:self
 						 didEndSelector:@selector(deleteLogsAlertDidEnd:returnCode:contextInfo:)
-							contextInfo:[selectedLogs retain]];
+							contextInfo:(__bridge_retained void *)(selectedLogs)];
 	} else if ([selectedLogs count] == 1) {
 		[self deleteLogsAlertDidEnd:nil
 						 returnCode:NSAlertFirstButtonReturn
-						contextInfo:[selectedLogs retain]];
+						contextInfo:(__bridge_retained void *)(selectedLogs)];
 	}
 }
 
@@ -2754,7 +2705,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 
 - (void)deleteSelectedContactsFromSourceListAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 {
-	NSArray *allSelectedToGroups = (NSArray *)contextInfo;
+	NSArray *allSelectedToGroups = (__bridge NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
 		AILogToGroup	*logToGroup;
 		NSMutableSet	*logPaths = [NSMutableSet set];
@@ -2783,8 +2734,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[self rebuildIndices];
 		[self updateProgressDisplay];
 	}
-	
-	[allSelectedToGroups release];
 }
 
 /*!
@@ -2804,11 +2753,11 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[alert beginSheetModalForWindow:[self window]
 						  modalDelegate:self
 						 didEndSelector:@selector(deleteSelectedContactsFromSourceListAlertDidEnd:returnCode:contextInfo:)
-							contextInfo:[allSelectedToGroups retain]];
+							contextInfo:(__bridge_retained void *)(allSelectedToGroups)];
 	} else {
 		[self deleteSelectedContactsFromSourceListAlertDidEnd:nil
 												   returnCode:NSAlertFirstButtonReturn
-												  contextInfo:[allSelectedToGroups retain]];
+												  contextInfo:(__bridge_retained void *)(allSelectedToGroups)];
 	}
 }
 
@@ -2956,8 +2905,7 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 
 - (IBAction)selectDate:(id)sender
 {
-	[filterDate release];
-	filterDate = [[[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil] retain];
+	filterDate = [[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil];
 	
 	[self startSearchingClearingCurrentResults:YES];
 }
@@ -2995,7 +2943,7 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 		[dateTypeMenu addItem:[self _menuItemForDateType:dateType dict:dateTypeTitleDict]];
 	}
 	
-	return [dateTypeMenu autorelease];
+	return dateTypeMenu;
 }
 
 /*!
@@ -3010,7 +2958,7 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	
 	NSCalendarDate	*today = [NSCalendarDate date];
 	
-	[filterDate release]; filterDate = nil;
+	filterDate = nil;
 	
 	switch (dateType) {
 		case AIDateTypeAnyDate:
@@ -3019,57 +2967,57 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 			
 		case AIDateTypeToday:
 			filterDateType = AIDateTypeExactly;
-			filterDate = [today retain];
+			filterDate = today;
 			break;
 			
 		case AIDateTypeSinceYesterday:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
+			filterDate = [today dateByAddingYears:0
 											months:0
 											  days:-1
 											 hours:-[today hourOfDay]
 										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+										   seconds:-([today secondOfMinute] + 1)];
 			break;
 			
 		case AIDateTypeThisWeek:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
+			filterDate = [today dateByAddingYears:0
 											months:0
 											  days:-[self daysSinceStartOfWeekGivenToday:today]
 											 hours:-[today hourOfDay]
 										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+										   seconds:-([today secondOfMinute] + 1)];
 			break;
 			
 		case AIDateTypeWithinLastTwoWeeks:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
+			filterDate = [today dateByAddingYears:0
 											months:0
 											  days:-14
 											 hours:-[today hourOfDay]
 										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+										   seconds:-([today secondOfMinute] + 1)];
 			break;
 			
 		case AIDateTypeThisMonth:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[[NSCalendarDate date] dateByAddingYears:0
+			filterDate = [[NSCalendarDate date] dateByAddingYears:0
 															months:0
 															  days:-[today dayOfMonth]
 															 hours:0
 														   minutes:0
-														   seconds:-1] retain];
+														   seconds:-1];
 			break;
 			
 		case AIDateTypeWithinLastTwoMonths:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[[NSCalendarDate date] dateByAddingYears:0
+			filterDate = [[NSCalendarDate date] dateByAddingYears:0
 															months:-1
 															  days:-[today dayOfMonth]
 															 hours:0
 														   minutes:0
-														   seconds:-1] retain];
+														   seconds:-1];
 			break;
 			
 		default:
@@ -3079,19 +3027,19 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	switch (dateType) {
 		case AIDateTypeExactly:
 			filterDateType = AIDateTypeExactly;
-			filterDate = [[[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil] retain];
+			filterDate = [[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil];
 			showDatePicker = YES;
 			break;
 			
 		case AIDateTypeBefore:
 			filterDateType = AIDateTypeBefore;
-			filterDate = [[[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil] retain];
+			filterDate = [[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil];
 			showDatePicker = YES;
 			break;
 			
 		case AIDateTypeAfter:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil] retain];
+			filterDate = [[datePicker dateValue] dateWithCalendarFormat:nil timeZone:nil];
 			showDatePicker = YES;
 			break;
 			

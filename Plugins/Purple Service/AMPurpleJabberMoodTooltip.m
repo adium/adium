@@ -57,7 +57,7 @@
 				else
 					str = [NSString stringWithUTF8String:mood];
 				
-				return [[[NSAttributedString alloc] initWithString:str attributes:nil] autorelease];
+				return [[NSAttributedString alloc] initWithString:str attributes:nil];
 			}
 		}
 	}

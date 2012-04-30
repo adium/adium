@@ -64,7 +64,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 + (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)inGroup object:(AIListObject *)inObject
 {
-	return [[[self alloc] initForGroup:inGroup object:inObject] autorelease];
+	return [[self alloc] initForGroup:inGroup object:inObject];
 }
 
 + (void)preferenceControllerWillClose
@@ -77,7 +77,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		 * We've done our final save, though; don't let the timer fire again.
 		 */
 		[timer_savingOfObjectCache invalidate];
-		[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
+		timer_savingOfObjectCache = nil;
 	}
 
 	//If a save of the account prefs is pending, perform it immediately since we are quitting
@@ -88,15 +88,15 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		 * We've done our final save, though; don't let the timer fire again.
 		 */		
 		[timer_savingOfAccountCache invalidate];
-		[timer_savingOfAccountCache release]; timer_savingOfObjectCache = nil;
+		timer_savingOfObjectCache = nil;
 	}
 }
 
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject
 {
 	if ((self = [super init])) {
-		group = [inGroup retain];
-		object = [inObject retain];
+		group = inGroup;
+		object = inObject;
 		if (object) {
 			if ([object isKindOfClass:[AIAccount class]]) {
 				myGlobalPrefs = &accountPrefs;
@@ -112,16 +112,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[defaults release]; defaults = nil;
-	[group release];
-	[object release];
-	[globalPrefsName release]; globalPrefsName = nil;
-	
-	[super dealloc];
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
@@ -145,7 +135,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	[defaults addEntriesFromDictionary:inDefaults];
 	
 	//Clear the cached defaults dictionary so it will be recreated as needed
-	[prefsWithDefaults release]; prefsWithDefaults = nil;
+	prefsWithDefaults = nil;
 }
 
 #pragma mark Get and set
@@ -181,10 +171,10 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	
 	//We want to load a mutable dictioanry of mutable dictionaries.
 	if (data) {
-		*myGlobalPrefs = [[NSPropertyListSerialization propertyListFromData:data 
+		*myGlobalPrefs = [NSPropertyListSerialization propertyListFromData:data 
 														   mutabilityOption:NSPropertyListMutableContainers 
 																	 format:NULL 
-														   errorDescription:&errorString] retain];
+														   errorDescription:&errorString];
 	}
 	
 	/* Log any error */
@@ -235,12 +225,12 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
-			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
+			prefs = [*myGlobalPrefs objectForKey:globalPrefsKey];
 
 		} else {
-			prefs = [[NSMutableDictionary dictionaryAtPath:userDirectory
+			prefs = [NSMutableDictionary dictionaryAtPath:userDirectory
 												  withName:group
-													create:YES] retain];
+													create:YES];
 		}
 	}
 	
@@ -261,7 +251,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 				[prefsWithDefaults addEntriesFromDictionary:prefDict];
 
 		} else {
-			prefsWithDefaults = [self.prefs retain];
+			prefsWithDefaults = self.prefs;
 		}
 	}
 
@@ -291,7 +281,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		if (value)
 			[prefsWithDefaults setValue:value forKey:key];
 		else {
-			[prefsWithDefaults autorelease]; prefsWithDefaults = nil;
+			prefsWithDefaults = nil;
 		}
 		
 		[self setPrefValue:value forKey:key];		
@@ -362,7 +352,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
-	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
+	NSDictionary *immutablePrefsToWrite = [[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES];
 	/* Data verification */
 #ifdef PREFERENCE_CONTAINER_DEBUG
 //	{
@@ -387,9 +377,9 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		*((int*)0xdeadbeef) = 42;
 	}
 	if (inTimer == timer_savingOfObjectCache) {
-			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
+			timer_savingOfObjectCache = nil;
 	} else if (inTimer == timer_savingOfAccountCache) {
-			[timer_savingOfAccountCache release]; timer_savingOfAccountCache = nil;
+			timer_savingOfAccountCache = nil;
 	}
 }
 
@@ -412,11 +402,11 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 			}
 #endif
 
-			*myTimerForSavingGlobalPrefs = [[NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
+			*myTimerForSavingGlobalPrefs = [NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
 																			 target:self
 																		   selector:@selector(performObjectPrefsSave:)
 																		   userInfo:*myGlobalPrefs
-																			repeats:NO] retain];
+																			repeats:NO];
 		}
 
 
@@ -429,8 +419,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 - (void)setGroup:(NSString *)inGroup
 {
 	if (group != inGroup) {
-		[group release];
-		group = [inGroup retain];
+		group = inGroup;
 	}
 }
 
