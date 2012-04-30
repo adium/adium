@@ -30,7 +30,7 @@
 
 + (void)registerService
 {
-	[[self alloc] init];
+	(void)[[self alloc] init];
 }
 
 /*!

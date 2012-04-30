@@ -41,9 +41,9 @@
 									 notifyingTarget:(id)inTarget
 											selector:(SEL)inSelector
 {	
-	[[self alloc] initForFileTransfer:inFileTransfer
-					   notifyingTarget:inTarget
-							  selector:inSelector];
+	(void)[[self alloc] initForFileTransfer:inFileTransfer
+							notifyingTarget:inTarget
+								   selector:inSelector];
 }
 
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer

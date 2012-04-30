@@ -54,7 +54,7 @@
 
 + (void)popUpMenuForImagePicker:(AIContactListImagePicker *)picker
 {
-	[[self alloc] initWithNibName:@"ContactListChangeUserPictureMenu" imagePicker:picker];
+	(void)[[self alloc] initWithNibName:@"ContactListChangeUserPictureMenu" imagePicker:picker];
 }
 
 /*!
