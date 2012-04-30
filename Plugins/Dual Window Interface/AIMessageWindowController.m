@@ -68,11 +68,6 @@
 - (void)_relayoutWindow;
 @end
 
-//Used to squelch compiler warnings on this private call
-@interface NSWindow (AISecretWindowDocumentIconAdditions)
-- (void)addDocumentIconButton;
-@end
-
 @implementation AIMessageWindowController
 
 //Create a new message window controller
@@ -99,7 +94,6 @@
 		containerName = [inName retain];
 		containerID = [inContainerID retain];
 		m_containedChats = [[NSMutableArray alloc] init];
-		hasShownDocumentButton = NO;
 		
 		//Load our window
 		myWindow = [self window];
@@ -600,6 +594,12 @@
 	return tabPosition;
 }
 
+//Prevent the document popup since we aren't using an actual file
+- (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu
+{
+	return NO;
+}
+
 //Contained Chats ------------------------------------------------------------------------------------------------------
 #pragma mark Contained Chats
 //Add a tab view item container at the end of the tabs (without changing the current selection)
@@ -759,26 +759,13 @@
 	if (title) [window setTitle:title];
 	
 	//Window Icon (We display state in the window title if tabs are not visible)
-	if (!hasShownDocumentButton) {
-		if ([window respondsToSelector:@selector(addDocumentIconButton)]) {
-			[window addDocumentIconButton];
-		}
-		hasShownDocumentButton = YES;
-	}
-
 	button = [window standardWindowButton:NSWindowDocumentIconButton];
-		  
-	if ([tabView_tabBar isTabBarHidden]) {
-		NSImage *image = [(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] stateIcon];
-		if (image != [button image]) {
-			[button setImage:image];
-		}
-
-	} else {
-		if ([button image]) {
-			[button setImage:nil];
-		}
-	}
+	[window setRepresentedURL:[NSURL URLWithString:@"StatusIcon"]];
+	
+	if ([tabView_tabBar isTabBarHidden])
+		[button setImage:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] icon]];
+	else
+		[button setImage:nil];
 }
 
 - (AIChat *)activeChat
