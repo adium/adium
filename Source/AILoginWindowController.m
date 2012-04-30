@@ -28,7 +28,6 @@
 
 @interface AILoginWindowController ()
 - (id)initWithOwner:(id)inOwner windowNibName:(NSString *)windowNibName;
-- (void)dealloc;
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 - (IBAction)login:(id)sender;
