@@ -372,8 +372,8 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (void)accountListChanged:(NSNotification *)note
 {
 	//Update our list of accounts
-    [accountArray release];
-	accountArray = adium.accountController.accounts;
+	[accountArray release];
+	accountArray = [adium.accountController.accounts retain];
 	
 	[accountTable reloadData];
 }
