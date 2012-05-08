@@ -22,8 +22,8 @@ HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # Also try /Developer-old, just in case XCode 4 is installed
-DEVELOPER="/Developer"
-SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.6.sdk"
+DEVELOPER=$(xcode-select -print-path)
+SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk"
 
 MIN_OS_VERSION="10.6"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
@@ -161,8 +161,8 @@ if [ "$DISTCC_HOSTS" != "" ]; then
 	eval `$DEVELOPER/usr/bin/pump --startup`
 else
 	# Try to find the right gcc, even when XCode4 is installed
-	export CC="$DEVELOPER/usr/bin/gcc"
-	export CXX="$DEVELOPER/usr/bin/g++"
+	export CC="/opt/local/bin/gcc-apple-4.2"
+	export CXX="/opt/local/bin/g++-apple-4.2"
 	export CCAS="$CC"
 	export OBJC="$CC"
 fi
