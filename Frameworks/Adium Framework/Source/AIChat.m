@@ -385,21 +385,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	return AIGroupChatNone;
 }
 
-NSComparisonResult userListSort (id objectA, id objectB, void *context)
-{
-	AIChat *chat = (AIChat *)context;
-	
-	AIGroupChatFlags flagA = highestFlag([chat flagsForContact:objectA]), flagB = highestFlag([chat flagsForContact:objectB]);
-	
-	if(flagA > flagB) {
-		return NSOrderedAscending;
-	} else if (flagA < flagB) {
-		return NSOrderedDescending;
-	} else {
-		return [[chat displayNameForContact:objectA] caseInsensitiveCompare:[chat displayNameForContact:objectB]];
-	}
-}
-
 /*!
  * @brief Resorts our participants
  *
@@ -407,7 +392,17 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  */
 - (void)resortParticipants
 {
-	[participatingContacts sortUsingFunction:userListSort context:self];
+	[participatingContacts sortUsingComparator:^(id objectA, id objectB){
+		AIGroupChatFlags flagA = highestFlag([self flagsForContact:objectA]), flagB = highestFlag([self flagsForContact:objectB]);
+		
+		if(flagA > flagB) {
+			return (NSComparisonResult)NSOrderedAscending;
+		} else if (flagA < flagB) {
+			return NSOrderedDescending;
+		} else {
+			return [[self displayNameForContact:objectA] localizedCaseInsensitiveCompare:[self displayNameForContact:objectB]];
+		}
+	}];
 }
 
 /*!
