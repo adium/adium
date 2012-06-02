@@ -32,6 +32,7 @@ typedef enum {
 	BOOL					autoResizeHorizontallyWithIdleTime;
 	NSInteger						maxWindowWidth;
 	NSInteger						forcedWindowWidth;
+	NSRect					previousWindowRect;
 
 	AIDockToBottomType 		dockToBottomOfScreen;
 
