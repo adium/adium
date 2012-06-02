@@ -1557,7 +1557,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 			
 			[[targetView window] setFrame:NSMakeRect(NSMinX(windowFrame), NSMinY(windowFrame) - NSHeight([filterBarView bounds]),
 													 NSWidth(windowFrame), NSHeight(windowFrame) + NSHeight([filterBarView bounds]))
-								  display:NO
+								  display:YES
 								  animate:NO];
 			
 			targetFrame = [targetView frame];
