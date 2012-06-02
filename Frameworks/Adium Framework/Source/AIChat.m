@@ -398,7 +398,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 		if(flagA > flagB) {
 			return (NSComparisonResult)NSOrderedAscending;
 		} else if (flagA < flagB) {
-			return NSOrderedDescending;
+			return (NSComparisonResult)NSOrderedDescending;
 		} else {
 			return [[self displayNameForContact:objectA] localizedCaseInsensitiveCompare:[self displayNameForContact:objectB]];
 		}

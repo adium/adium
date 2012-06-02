@@ -246,7 +246,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 			return (NSComparisonResult)NSOrderedAscending;
 			
 		} else if (groupB < groupA) {
-			return NSOrderedDescending;
+			return (NSComparisonResult)NSOrderedDescending;
 			
 		} else {
 			NSString	*descriptionA = [eventHandlerA globalShortDescriptionForEventID:objectA];
