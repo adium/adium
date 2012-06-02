@@ -1692,6 +1692,24 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	return YES;
 }
 
+- (void)expandGroupsForFiltering:(BOOL)state
+{
+	BOOL modified = NO;
+	for (AIListObject *listObject in [self.contactList containedObjects]) {
+		if ([listObject isKindOfClass:[AIListGroup class]] &&
+			((!state && [listObject boolValueForProperty:@"ExpandedByFiltering"]) ||
+			(state && [(AIListGroup *)listObject isExpanded] == NO))) {
+			[listObject setValue:[NSNumber numberWithBool:state] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
+			modified = YES;
+		}
+	}
+	
+	filterBarExpandedGroups = state;
+	
+	if (modified)
+		[contactListView reloadData];
+}
+
 /*!
  * @brief Filter contacts from the search field
  *
@@ -1703,35 +1721,8 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	if (![sender isKindOfClass:[NSSearchField class]])
 		return;
 	
-	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
-        BOOL modified = NO;
-        for (AIListObject *listObject in [self.contactList containedObjects]) {
-            if ([listObject isKindOfClass:[AIListGroup class]] && [(AIListGroup *)listObject isExpanded] == NO) {
-                [listObject setValue:[NSNumber numberWithBool:YES] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
-                modified = YES;
-            }
-        }
-        
-        filterBarExpandedGroups = YES;
-        
-        if (modified) {
-            [contactListView reloadData];
-        }
-    } else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
-        BOOL modified = NO;
-        for (AIListObject *listObject in [self.contactList containedObjects]) {
-            if ([listObject isKindOfClass:[AIListGroup class]] && [listObject boolValueForProperty:@"ExpandedByFiltering"]) {
-                [listObject setValue:[NSNumber numberWithBool:NO] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
-                modified = YES;
-            }
-        }
-        
-        filterBarExpandedGroups = NO;
-        
-        if (modified) {
-            [contactListView reloadData];
-        }
-    }
+	if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""])
+		[self expandGroupsForFiltering:NO];
 	
 	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
 		// Select the first contact; we're guaranteed at least one visible contact.
@@ -1751,6 +1742,9 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 																								   brightness:0.99f
 																										alpha:1.0f]];
 	}
+	
+	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""])
+		[self expandGroupsForFiltering:YES];
 }
 
 /*!
