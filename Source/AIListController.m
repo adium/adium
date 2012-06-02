@@ -286,6 +286,10 @@
 	screenFrame = [currentScreen frame]; 
 	visibleScreenFrame = [currentScreen visibleFrame];
 	
+	//Store the window's rect for when we unresize vertically
+	if (NSEqualRects(previousWindowRect, NSZeroRect) || previousWindowRect.origin.x != windowFrame.origin.x)
+		previousWindowRect = windowFrame;
+	
     //Width
 	if (useDesiredWidth) {
 		if (forcedWindowWidth != -1) {
@@ -369,8 +373,11 @@
 		} else {
 			//A non-full height window is anchored to the appropriate screen edge
 			if (dockToBottomOfScreen == AIDockToBottom_No) {
-				//If the user did not dock to the bottom in any way last, the origin should move up
-				newWindowFrame.origin.y = NSMaxY(windowFrame) - NSHeight(newWindowFrame);
+				//If the user did not dock to the bottom in any way last, the origin should move towards the saved origin
+				if (NSMinX(previousWindowRect) == NSMinX(windowFrame) && NSMaxY(previousWindowRect) < NSMaxY(windowFrame))
+					newWindowFrame.origin.y = NSMaxY(previousWindowRect) - NSHeight(newWindowFrame);
+				else
+					newWindowFrame.origin.y = NSMaxY(windowFrame) - NSHeight(newWindowFrame);
 			} else {
 				//If the user did dock (either to the full screen or the visible screen), the origin should remain in place.
 				newWindowFrame.origin.y = NSMinY(windowFrame);	
