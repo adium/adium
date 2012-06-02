@@ -354,11 +354,26 @@
 
 	//Height
 	if (useDesiredHeight) {
-		//Subtract the current size of the view from our frame
-		newWindowFrame.size.height -= viewFrame.size.height;
-
-		//Now, figure out how big the view wants to be and add that to our frame
-		newWindowFrame.size.height += desiredHeight;
+		if (forcedWindowHeight != -1) {
+			//If auto-sizing is disabled, use the specified height
+			newWindowFrame.size.height = forcedWindowHeight;
+		} else {
+			/* Using vertical auto-sizing, so find and determine our new height
+			 *
+			 * First, subtract the current size of the view from our frame
+			 */
+			newWindowFrame.size.height -= viewFrame.size.height;
+			
+			//Now, figure out how big the view wants to be and add that to our frame
+			newWindowFrame.size.height += desiredHeight;
+			
+			//Don't get bigger than our maxWindowHeight
+			if (newWindowFrame.size.height > maxWindowHeight) {
+				newWindowFrame.size.height = maxWindowHeight;
+			} else if (newWindowFrame.size.height < 0) {
+				newWindowFrame.size.height = 0;
+			}
+		}
 		
 		//Don't set a height smaller than the toolbar
 		CGFloat windowHeight = NSHeight(windowFrame);
@@ -416,7 +431,7 @@
 	return newWindowFrame;
 }
 
-@synthesize autoResizeHorizontally, autoResizeVertically, autoResizeHorizontallyWithIdleTime, minWindowSize, maxWindowWidth, forcedWindowWidth;
+@synthesize autoResizeHorizontally, autoResizeVertically, autoResizeHorizontallyWithIdleTime, minWindowSize, maxWindowWidth, forcedWindowWidth, maxWindowHeight, forcedWindowHeight;
 
 //Content Updating -----------------------------------------------------------------------------------------------------
 #pragma mark Content Updating

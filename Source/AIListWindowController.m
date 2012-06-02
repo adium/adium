@@ -360,6 +360,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		BOOL	autoResizeHorizontally = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 		BOOL	autoResizeVertically = YES;
 		NSInteger		forcedWindowWidth, maxWindowWidth;
+		NSInteger		forcedWindowHeight, maxWindowHeight;
 		
 		//Determine how to handle vertical autosizing. AIAppearancePreferences must match this behavior for this to make sense.
 		switch (windowStyle) {
@@ -399,6 +400,22 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 		}
 		
+		if (autoResizeVertically) {
+			//If autosizing, KEY_LIST_LAYOUT_VERTICAL_HEIGHT determines the maximum height; no forced height.
+			maxWindowHeight = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT] integerValue];
+			forcedWindowHeight = -1;
+		} else {
+			if (windowStyle == AIContactListWindowStyleStandard/* || windowStyle == AIContactListWindowStyleBorderless*/) {
+				//In the non-transparent non-autosizing modes, KEY_LIST_LAYOUT_VERTICAL_HEIGHT has no meaning
+				maxWindowHeight = 10000;
+				forcedWindowHeight = -1;
+			} else {
+				//In the transparent non-autosizing modes, KEY_LIST_LAYOUT_VERTICAL_HEIGHT determines the height of the window
+				forcedWindowHeight = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT] integerValue];
+				maxWindowHeight = forcedWindowHeight;
+			}
+		}
+        
 		//Show the resize indicator if either or both of the autoresizing options is NO
 		[[self window] setShowsResizeIndicator:!(autoResizeVertically && autoResizeHorizontally)];
 		
@@ -407,10 +424,10 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		 (and therefore the min and max sizes aren't set there).
 		 */
 		NSSize	thisMinimumSize = minWindowSize;
-		NSSize	thisMaximumSize = NSMakeSize(maxWindowWidth, 10000);
+		NSSize	thisMaximumSize = NSMakeSize(maxWindowWidth, maxWindowHeight);
 		NSRect	currentFrame = [[self window] frame];
 		
-		if (forcedWindowWidth != -1) {
+		if (forcedWindowWidth != -1 || forcedWindowHeight != -1) {
 			/*
 			 If we have a forced width but we are doing no autoresizing, set our frame now so we don't have to be doing checks every time
 			 contactListDesiredSizeChanged is called.
@@ -449,6 +466,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 		[contactListController setForcedWindowWidth:forcedWindowWidth];
 		[contactListController setMaxWindowWidth:maxWindowWidth];
+		
+		[contactListController setForcedWindowHeight:forcedWindowHeight];
+		[contactListController setMaxWindowHeight:maxWindowHeight];
 		
 		// let this happen at the beginning of the next runloop. The View needs to configure itself before we start forcing it to a size.
 		dispatch_async(dispatch_get_main_queue(), ^{
