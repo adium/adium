@@ -433,8 +433,11 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			 contactListDesiredSizeChanged is called.
 			 */
 			if (!(autoResizeVertically || autoResizeHorizontally)) {
-				thisMinimumSize.width = forcedWindowWidth;
-				[[self window] setFrame:NSMakeRect(currentFrame.origin.x,currentFrame.origin.y,forcedWindowWidth,currentFrame.size.height) 
+				if (forcedWindowWidth != -1)
+					thisMinimumSize.width = forcedWindowWidth;
+				if (forcedWindowHeight != -1)
+					thisMinimumSize.height = forcedWindowHeight;
+				[[self window] setFrame:NSMakeRect(currentFrame.origin.x,currentFrame.origin.y,forcedWindowWidth,currentFrame.size.height)
 								display:YES
 								animate:NO];
 			}
