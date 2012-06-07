@@ -17,9 +17,9 @@
 # - make all
 ###########
 
-VERSION=1.5.1
+VERSION=1.5.2b1
 BUILD_IN_DEBUG_MODE?=FALSE
-BETA?=FALSE
+BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
 
 # Always builds in debug mode.
@@ -216,4 +216,4 @@ tarballapp:
 	cd $(BUILD_DIR) && tar zcf $(RELEASE_NAME).tgz Adium*/ && cd ..
 
 tarball:
-	hg archive -t tgz ($TARBALL_DIR).tgz
+	hg archive -t tgz $(TARBALL_DIR).tgz
