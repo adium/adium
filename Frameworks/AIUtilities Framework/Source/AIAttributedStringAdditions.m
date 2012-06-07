@@ -370,9 +370,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 	BOOL hasLineThrough = NO, hasUnderline = NO;
 
-	NSEnumerator *keysEnum = [attrs keyEnumerator];
-	NSString *key;
-	while ((key = [keysEnum nextObject])) {
+	for (NSString *key in attrs) {
 		if ([key isEqualToString:NSUnderlineStyleAttributeName]) {
 			hasUnderline = YES;
 		} else if ([key isEqualToString:NSStrikethroughStyleAttributeName]) {

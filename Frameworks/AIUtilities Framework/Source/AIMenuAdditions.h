@@ -19,7 +19,6 @@
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode;
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(NSInteger)tag;
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode representedObject:(id)object;
-- (void)removeAllItems;
 - (void)removeAllItemsButFirst;
 - (void)removeAllItemsAfterIndex:(NSInteger)idx;
 
