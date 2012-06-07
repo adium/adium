@@ -33,7 +33,7 @@
 	AIEmoticonPack								*selectedEmoticonPack;
 	NSMutableDictionary					*emoticonImageCache;
 
-	NSArray													*dragRows;
+	NSIndexSet										*dragRows;
 	
 	BOOL															viewIsOpen;
 }

@@ -236,16 +236,13 @@
 
 - (void)_drawGridInClipRect:(NSRect)rect
 {
-    NSEnumerator	*enumerator;
-    NSTableColumn	*column;
     CGFloat		xPos = 0.5f;
     CGFloat			intercellWidth = [self intercellSpacing].width;
     
     [[self gridColor] set];
     [NSBezierPath setDefaultLineWidth:1.0f];
 
-    enumerator = [[self tableColumns] objectEnumerator];
-    while ((column = [enumerator nextObject])) {
+    for (NSTableColumn *column in self.tableColumns) {
         xPos += [column width] + intercellWidth;
 
         [NSBezierPath strokeLineFromPoint:NSMakePoint(xPos, rect.origin.y)
