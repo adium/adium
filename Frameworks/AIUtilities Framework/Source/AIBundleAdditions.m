@@ -40,10 +40,10 @@
 - (NSSet *)supportedDocumentExtensions
 {
 	NSMutableSet	*supportedDocumentTypes = [NSMutableSet set];
-	NSDictionary	*documentTypes = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-
+	NSArray			*documentTypes = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
+	
 	//Look at each dictionary in turn
-	[documentTypes enumerateKeysAndObjectsUsingBlock:^(id key, id documentType, BOOL *stop) {
+	[documentTypes enumerateObjectsUsingBlock:^(id documentType, NSUInteger idx, BOOL *stop) {
 		//The @"CFBundleTypeExtensions" key yields an NSArray of supported extensions
 		NSArray	*extensions = [documentType objectForKey:@"CFBundleTypeExtensions"];
 		if (extensions) {
