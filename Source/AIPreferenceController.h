@@ -23,10 +23,10 @@
 	NSMutableArray			*advancedPaneArray;
 	NSMutableDictionary		*observers;						//Preference change observers
 
-	NSMutableDictionary		*prefCache;						//Preference cache	
+	NSMutableDictionary		*prefCache;						//Preference cache
 	NSMutableDictionary		*objectPrefCache;				//Object specific preferences cache
 
-	NSInteger						preferenceChangeDelays;			//Number of active delays (0 = not delayed)
+	NSInteger				preferenceChangeDelays;			//Number of active delays (0 = not delayed)
 	NSMutableSet			*delayedNotificationGroups;  	//Groups with delayed changes
 }
 
