@@ -271,9 +271,7 @@ static NSImage *det_triangle_closed = nil;
 		
 		NSMutableArray *identities = [[NSMutableArray alloc] init];
 		
-		NSEnumerator *e = [[item identities] objectEnumerator];
-		NSDictionary *identity;
-		while ((identity = [e nextObject]))
+		for (NSDictionary *identity in [item identities])
 			[identities addObject:[NSString stringWithFormat:@"%@ (%@)",[identity objectForKey:@"category"],[identity objectForKey:@"type"]]];
 		
 		NSString *result = [identities componentsJoinedByString:@", "];
