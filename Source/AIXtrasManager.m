@@ -108,7 +108,7 @@
 
 NSInteger categorySort(id categoryA, id categoryB, void * context)
 {
-	return [[categoryA objectForKey:@"Name"] caseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
+	return [[categoryA objectForKey:@"Name"] localizedCaseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
 }
 
 - (void)loadXtras

@@ -38,6 +38,7 @@
 	IBOutlet	AILocalizationTextField		*label_opacity;
 	IBOutlet	AILocalizationTextField		*label_automaticSizing;
 	IBOutlet	AILocalizationTextField		*label_horizontalWidth;
+	IBOutlet	AILocalizationTextField		*label_verticalHeight;
 	IBOutlet	AILocalizationTextField		*label_animation;
 	IBOutlet	AILocalizationTextField		*label_tooltips;
 	
@@ -46,6 +47,8 @@
 	
 	IBOutlet	NSSlider		*slider_horizontalWidth;
 	IBOutlet	NSTextField		*textField_horizontalWidth;
+	IBOutlet	NSSlider		*slider_verticalHeight;
+	IBOutlet	NSTextField		*textField_verticalHeight;
 	
 	//
 	NSArray		*_listLayouts;	//Will NOT always be a valid reference.  Do not use as one!

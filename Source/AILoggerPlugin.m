@@ -1048,7 +1048,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					[attributeValues addObject:displayName];
 				}
 				
-				AIXMLElement *messageElement = [[AIXMLElement alloc] initWithName:@"message"];
+				AIXMLElement *messageElement;
+				if ([[content displayClasses] containsObject:@"action"]) {
+					messageElement = [[AIXMLElement alloc] initWithName:@"action"];
+				} else {
+					messageElement = [[AIXMLElement alloc] initWithName:@"message"];
+				}
 				
 				[messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
 															   imagesPath:[appender.path stringByDeletingLastPathComponent]]];

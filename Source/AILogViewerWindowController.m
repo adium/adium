@@ -129,8 +129,6 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context);
 
 @implementation AILogViewerWindowController
 
-static NSInteger toArraySort(id itemA, id itemB, void *context);
-
 + (NSOperationQueue *)sharedLogViewerQueue
 {
 	static NSOperationQueue *logViewerQueue = nil;
@@ -349,7 +347,15 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		}		
 	}
 	
-	[toArray sortUsingFunction:toArraySort context:NULL];
+	[toArray sortUsingComparator:^(id itemA, id itemB){
+		NSString *nameA = [self outlineView:nil objectValueForTableColumn:nil byItem:itemA];
+		NSString *nameB = [self outlineView:nil objectValueForTableColumn:nil byItem:itemB];
+		NSComparisonResult result = [nameA localizedCaseInsensitiveCompare:nameB];
+		if (result == NSOrderedSame) result = [nameA compare:nameB];
+		
+		return result;
+	}];
+	
 	[outlineView_contacts reloadData];
 
 	if (!isOpeningForContact) {
@@ -2202,17 +2208,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	}
 	
 	return nil;
-}
-
-static NSInteger toArraySort(id itemA, id itemB, void *context)
-{
-	AILogViewerWindowController *sharedLogViewerInstance = [AILogViewerWindowController existingWindowController];
-	NSString *nameA = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemA];
-	NSString *nameB = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemB];
-	NSComparisonResult result = [nameA caseInsensitiveCompare:nameB];
-	if (result == NSOrderedSame) result = [nameA compare:nameB];
-
-	return result;
 }
 
 #pragma mark Split View Delegate

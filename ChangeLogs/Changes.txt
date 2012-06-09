@@ -1,5 +1,23 @@
 				Adium Version History
 				-----------------------
+Version 1.5.1
+  * Adium is now securely signed with an Apple Developer ID for OS X 10.8 / GateKeeper compatibility.
+  * Updated to libpurple 2.10.4
+    * AIM/ICQ: Fixed communication with buddies containing periods and underscores.
+    * MSN: Fixed messages to offline contacts.
+    * MSN: Switched to MSN protocol version 18, therefore re-enabling Multiple Points of Presence support.
+    * Fixed a number of security issues (see http://pidgin.im/news/security/), small memory leaks, miscellaneous bugs.
+  * Fixed MSN public display names not being set. (Chenguang Li) (#15915)
+  * Adjusted the minimum size of the message window to be 200px. (#15794)
+  * Fixed status indicators in chat windows with only one chat. (#9620)
+  * Increased the size of the focus indicators so that they can be better seen when using overlay scrollbars.
+  * Fixed the transcript viewer not saving the user list size.
+  * Corrected some MSN emoticon shortcuts. (Paul Wilde) (#15926)
+  * Renamed "Send Notification" to "Request Attention". (#15789)
+  * Adjusted the layout of the profile selection window.
+  * Fixed alphabetical contact list sorting involving diacritics such as "å" and "ä" (Rafael Glauber) (#12678)
+  * Made "View Release Notes" localizable. (#15914)
+
 Version 1.5 (3/15/2012)
  Major changes
   * Requires Mac OS X 10.6.8 or later.

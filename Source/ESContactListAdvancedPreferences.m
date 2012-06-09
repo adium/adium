@@ -97,6 +97,7 @@
 	[label_automaticSizing setLocalizedString:AILocalizedString(@"Automatic Sizing:", nil)];
 	[label_colorTheme setLocalizedString:AILocalizedString(@"Color Theme:", nil)];
 	[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:", nil)];
+	[label_verticalHeight setLocalizedString:AILocalizedString(@"Maximum Height:", nil)];
 	[label_listLayout setLocalizedString:AILocalizedString(@"List Layout:", nil)];
 	[label_opacity setLocalizedString:AILocalizedString(@"Opacity:", nil)];
 	[label_tooltips setLocalizedString:AILocalizedString(@"Tooltips:",nil)];
@@ -108,6 +109,7 @@
 	[checkBox_animateChanges setLocalizedString:AILocalizedString(@"Animate changes","This string is under the heading 'Contact List' and refers to changes such as sort order in the contact list being animated rather than occurring instantenously")];
 	[checkBox_flash setLocalizedString:AILocalizedString(@"Flash names with unviewed messages",nil)];
 	[checkBox_horizontalAutosizing setLocalizedString:AILocalizedString(@"Size to fit horizontally", nil)];
+	[checkBox_verticalAutosizing setLocalizedString:AILocalizedString(@"Size to fit vertically", nil)];
 	[checkBox_showTooltips setLocalizedString:AILocalizedString(@"Show contact information tooltips",nil)];
 	[checkBox_showTooltipsInBackground setLocalizedString:AILocalizedString(@"While Adium is in the background","Checkbox to indicate that something should occur while Adium is not the active application")];
 	[checkBox_verticalAutosizing setLocalizedString:AILocalizedString(@"Size to fit vertically", nil)];
@@ -154,34 +156,38 @@
 			[popUp_windowStyle selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue]];	
 			[slider_windowOpacity setDoubleValue:([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue] * 100.0)];
 			[slider_horizontalWidth setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] integerValue]];
+			[slider_verticalHeight setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT] integerValue]];
 			[self _updateSliderValues];
 		}
 		
 		//Horizontal resizing label
 		if (firstTime || 
 			[key isEqualToString:KEY_LIST_LAYOUT_WINDOW_STYLE] ||
-			[key isEqualToString:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE]) {
+			[key isEqualToString:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] ||
+			[key isEqualToString:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE]) {
 			
 			AIContactListWindowStyle windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
 			BOOL horizontalAutosize = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
+			BOOL verticalAutosize = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE] boolValue];
+			
+			[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:",nil)];
+			[label_verticalHeight setLocalizedString:AILocalizedString(@"Maximum Height:", nil)];
 			
 			if (windowStyle == AIContactListWindowStyleStandard) {
-				//In standard mode, disable the horizontal autosizing slider if horiztonal autosizing is off
+				//In standard mode, disable the autosizing sliders if their respective autosize is off
 				[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:",nil)];
 				[slider_horizontalWidth setEnabled:horizontalAutosize];
+				[slider_verticalHeight setEnabled:verticalAutosize];
 				
 			} else {
-				//In all the borderless transparent modes, the horizontal autosizing slider becomes the
-				//horizontal sizing slider when autosizing is off
-				if (horizontalAutosize) {
-					[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:",nil)];
-				} else {
-					[label_horizontalWidth setLocalizedString:AILocalizedString(@"Width:",nil)];			
-				}
+				//In all the borderless transparent modes, the autosizing sliders control the fixed size
+				[label_horizontalWidth setLocalizedString:AILocalizedString(@"Width:",nil)];
+				[label_verticalHeight setLocalizedString:AILocalizedString(@"Height:", nil)];
 				[slider_horizontalWidth setEnabled:YES];
+				[slider_verticalHeight setEnabled:YES];
 			}
 			
-			//Configure vertical autosizing's appearance. AIListWindowController must match this behavior for this to make sense.
+			//Configure the silders' appearance. AIListWindowController must match this behavior for this to make sense.
 			switch (windowStyle) {
 				case AIContactListWindowStyleStandard:
 				case AIContactListWindowStyleBorderless:
@@ -190,6 +196,9 @@
 					[checkBox_verticalAutosizing setEnabled:YES];
 					[checkBox_verticalAutosizing setState:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
 																								  group:PREF_GROUP_APPEARANCE] integerValue]];
+					[checkBox_horizontalAutosizing setEnabled:YES];
+					[checkBox_horizontalAutosizing setState:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE
+																								  group:PREF_GROUP_APPEARANCE] integerValue]];
 					break;
 				case AIContactListWindowStyleGroupBubbles:
 				case AIContactListWindowStyleContactBubbles:
@@ -197,6 +206,8 @@
 					//The bubbles styles don't show a window; force them to autosize
 					[checkBox_verticalAutosizing setEnabled:NO];
 					[checkBox_verticalAutosizing setState:YES];
+					[checkBox_horizontalAutosizing setEnabled:NO];
+					[checkBox_horizontalAutosizing setState:YES];
 			}			
 		}
 		
@@ -256,6 +267,17 @@
 												group:PREF_GROUP_APPEARANCE];
 			[self _updateSliderValues];
 		}
+		
+	} else if (sender == slider_verticalHeight) {
+		NSInteger newValue = [sender integerValue];
+		NSInteger oldValue = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT
+																	 group:PREF_GROUP_APPEARANCE] integerValue];
+		if (newValue != oldValue) {
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:newValue]
+											   forKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT 
+												group:PREF_GROUP_APPEARANCE];
+			[self _updateSliderValues];
+		}
 	}
 }
 
@@ -266,6 +288,7 @@
 {
 	[textField_windowOpacity setStringValue:[NSString stringWithFormat:@"%ld%%", (NSInteger)[slider_windowOpacity doubleValue]]];
 	[textField_horizontalWidth setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_horizontalWidth integerValue]]];
+	[textField_verticalHeight setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_verticalHeight integerValue]]];
 }
 
 //Contact list options -------------------------------------------------------------------------------------------------

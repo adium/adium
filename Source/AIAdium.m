@@ -619,7 +619,7 @@ static NSString	*prefsCategory;
 		destination = [AISearchPathForDirectories(AIMessageStylesDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"message style",nil);
 		prefsButton = AILocalizedString(@"Open Message Style Prefs",nil);
-		prefsCategory = @"Message Style";
+		prefsCategory = @"Message View";
 		extension = @"AdiumMessageStyle";
 
 	} else if ([extension caseInsensitiveCompare:@"ListLayout"] == NSOrderedSame) {
