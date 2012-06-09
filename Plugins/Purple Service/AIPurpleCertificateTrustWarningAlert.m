@@ -100,68 +100,38 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (IBAction)showWindow:(id)sender {
 	OSStatus err;
-	SecPolicySearchRef searchRef = NULL;
 	SecPolicyRef policyRef;
 	
-	CSSM_DATA data;
-	err = SecCertificateGetData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0), &data);
-	if(err == noErr) {
+	CFDataRef data = SecCertificateCopyData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0));
+	if (data) {
 		// Did we ask the user to confirm this certificate before?
 		// Note that this information is not stored on the disk, which is on purpose.
 		NSUInteger oldCertHash = [[acceptedCertificates objectForKey:hostname] unsignedIntegerValue];
 		if (oldCertHash) {
-			NSData *certData = [[NSData alloc] initWithBytesNoCopy:data.Data length:data.Length freeWhenDone:NO];
-			NSUInteger newCertHash = [certData hash];
+			NSUInteger newCertHash = [(__bridge NSData *)data hash];
 			
 			if (oldCertHash == newCertHash) {
 				query_cert_cb(true, userdata);
 				return;
 			}
 		}
-	}
-		
-	
-	err = SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, NULL, &searchRef);
-	if(err != noErr) {
-		NSBeep();
-		return;
+		CFRelease(data);
 	}
 	
-	err = SecPolicySearchCopyNext(searchRef, &policyRef);
-	if(err != noErr) {
-		CFRelease(searchRef);
-		NSBeep();
-		return;
-	}
-
 	NSAssert( UINT_MAX > [hostname length],
 					 @"More string data than libpurple can handle.  Abort." );
 	
-	CSSM_APPLE_TP_SSL_OPTIONS ssloptions = {
-		.Version = CSSM_APPLE_TP_SSL_OPTS_VERSION,
-		.ServerNameLen = (UInt32)([hostname length]+1),
-		.ServerName = [hostname cStringUsingEncoding:NSASCIIStringEncoding],
-		.Flags = 0
-	};
-	
-	CSSM_DATA theCssmData = {
-		.Length = sizeof(ssloptions),
-		.Data = (uint8*)&ssloptions 
-	};
-	
-	SecPolicySetValue(policyRef, &theCssmData); // Don't care about the error
-	
+	policyRef = SecPolicyCreateSSL(YES, (__bridge CFStringRef)hostname);
 	err = SecTrustCreateWithCertificates(certificates, policyRef, &trustRef);
 
 	if(err != noErr) {
-		CFRelease(searchRef);
 		CFRelease(policyRef);
 		if (trustRef)
 			CFRelease(trustRef);
 		NSBeep();
 		return;
 	}
-		
+	
 	// test whether we aren't already trusting this certificate
 	SecTrustResultType result;
 	err = SecTrustEvaluate(trustRef, &result);
@@ -210,7 +180,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		query_cert_cb(false, userdata);
 	}
 
-	CFRelease(searchRef);
 	CFRelease(policyRef);
 	CFRelease(trustRef);
 }
@@ -222,19 +191,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
  */
 static SecPolicyRef SSLSecPolicyCopy()
 {
-	SecPolicyRef policy = NULL;
-	SecPolicySearchRef policy_search;
-	OSStatus status;
-	
-	status = SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, NULL, &policy_search);
-	if (status == noErr) {
-		status = SecPolicySearchCopyNext(policy_search, &policy);
-		if (status != noErr) policy = NULL;
-	}
-
-	CFRelease(policy_search);
-	
-	return policy;
+	return SecPolicyCreateSSL(NO, NULL);
 }
 
 - (void)runTrustPanelOnWindow:(NSWindow *)window
@@ -290,15 +247,13 @@ static SecPolicyRef SSLSecPolicyCopy()
 	 * (doing otherwise might be particularily annoying on auto-reconnect)
 	 */
 	if (didTrustCerficate) {
-		CSSM_DATA certdata;
-		OSStatus err = SecCertificateGetData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0), &certdata);
-		if(err == noErr) {
-			[acceptedCertificates setObject:[NSNumber numberWithUnsignedInteger:[[NSData dataWithBytes:certdata.Data length:certdata.Length] hash]]
+		CFDataRef data = SecCertificateCopyData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0));
+		if(data) {
+			[acceptedCertificates setObject:[NSNumber numberWithUnsignedInteger:[(__bridge NSData *)data hash]]
 									 forKey:hostname];
+			CFRelease(data);
 		}
 	}
-
-	CFRelease(trustRef);
 
 	[parentWindow performClose:nil];
 }
