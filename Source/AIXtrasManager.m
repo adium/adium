@@ -459,7 +459,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	if ([aNotification object] == xtraList) {
-		int	selectedRow = [xtraList selectedRow];
+		NSInteger selectedRow = [xtraList selectedRow];
 		if ((selectedRow >= 0) && (selectedRow < [selectedCategory count])) {
 			//AIXtraInfo *xtraInfo  = [AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[[selectedCategory objectAtIndex:selectedRow] path]]];
 		//	if ([[xtraList selectedRowIndexes] count] == 1)
