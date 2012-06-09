@@ -433,7 +433,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 			
 			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
 				_index = SKIndexOpenWithURL((__bridge CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+				AILogWithSignature(@"Opened index %p from %@",_index,logIndexURL);
 				
 				if (!_index) {
 					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
@@ -463,7 +463,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (__bridge CFDictionaryRef)textAnalysisProperties);
 
 				if (_index) {
-					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+					AILogWithSignature(@"Created a new log index %p at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
 					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
 					dispatch_sync(dirtyLogSetMutationQueue, ^{
@@ -1320,7 +1320,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			__block __typeof__(self) bself = self;
 			dispatch_sync(dirtyLogSetMutationQueue, ^{
 				[bself.dirtyLogSet addObjectsFromArray:[NSArray arrayWithContentsOfFile:[bself _dirtyLogSetPath]]];
-				AILogWithSignature(@"Loaded dirty log set with %i logs",[bself.dirtyLogSet count]);
+				AILogWithSignature(@"Loaded dirty log set with %li logs",[bself.dirtyLogSet count]);
 			});      
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
@@ -1443,7 +1443,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		__block UInt32  lastUpdate = TickCount();
 		__block SInt32  unsavedChanges = 0;
 		
-		AILogWithSignature(@"Cleaning %i dirty logs", [localLogSet count]);
+		AILogWithSignature(@"Cleaning %li dirty logs", [localLogSet count]);
 		dispatch_group_async(loggerPluginGroup, searchIndexQueue, blockWithAutoreleasePool(^{
 			dispatch_group_enter(logIndexingGroup);
 			while (_remainingLogs > 0 && bself.indexingAllowed) {
@@ -1561,7 +1561,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 				});
 				[bself _flushIndex:searchIndex];
-				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
+				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %li and a count of %li",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				[bself _didCleanDirtyLogs];

@@ -93,7 +93,7 @@
 		GList *column;
 		for(column = results->columns; column; column = g_list_next(column)) {
 			PurpleNotifySearchColumn *scol = column->data;
-			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%d", idx++]];
+			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%ld", idx++]];
 			
 			if(scol->title)
 				[[tcol headerCell] setStringValue:[NSString stringWithUTF8String:scol->title]];

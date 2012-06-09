@@ -208,7 +208,7 @@
  */
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@<%x> (Equivalents: %@) [in %@]",name,self,[self textEquivalents],pack];
+    return [NSString stringWithFormat:@"%@<%p> (Equivalents: %@) [in %@]",name,self,[self textEquivalents],pack];
 }
 
 /*!

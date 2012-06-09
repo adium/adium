@@ -120,7 +120,7 @@
 	downloadSize = [response expectedContentLength];
 	[progressBar setMaxValue:(long long)downloadSize];
 	[progressBar setDoubleValue:0.0];
-	AILogWithSignature(@"Beginning download of %@, which has size %ll", [response allHeaderFields], downloadSize);
+	AILogWithSignature(@"Beginning download of %@, which has size %lld", [response allHeaderFields], downloadSize);
 	[self updateInfoText];
 }
 

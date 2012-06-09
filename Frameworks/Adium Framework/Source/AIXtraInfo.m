@@ -45,7 +45,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@, %@, %@, retaincount=%lu", [self name], [self path], [self type], 0];
+	return [NSString stringWithFormat:@"%@, %@, %@, retaincount=%u", [self name], [self path], [self type], 0];
 }
 
 + (AIXtraInfo *) infoWithURL:(NSURL *)url

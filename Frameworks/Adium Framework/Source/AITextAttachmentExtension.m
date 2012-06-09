@@ -270,7 +270,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"%@<%x>: %@",NSStringFromClass([self class]),self,[super description]];
+	return [NSString stringWithFormat:@"%@<%p>: %@",NSStringFromClass([self class]),self,[super description]];
 }
 
 @end

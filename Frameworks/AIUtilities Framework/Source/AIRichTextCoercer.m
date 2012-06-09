@@ -55,8 +55,7 @@
 		}
 	}
 
-	enum { RIGHTWARDS_ARROW = 0x2192 };
-	NSLog(@"%s: Input '%@' %C Class %@ %C Result '%@'", __PRETTY_FUNCTION__, input, RIGHTWARDS_ARROW, class, RIGHTWARDS_ARROW, result);
+	NSLog(@"%s: Input '%@' → Class %@ → Result '%@'", __PRETTY_FUNCTION__, input, class, result);
 
 	return result;
 }
