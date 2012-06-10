@@ -89,11 +89,11 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
  */
 - (void)windowWillClose:(id)sender
 {
+	[super windowWillClose:sender];
+
 	NSString	*identifier = account.internalObjectID;
 
 	[passwordPromptControllerDict removeObjectForKey:identifier];
-
-	[super windowWillClose:sender];
 }
 
 /*!
