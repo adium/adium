@@ -105,7 +105,8 @@ typedef enum
 		ret = NO;
 	else
 	{
-		[currentAlert release];
+		// Note: Explicitly not released here: ESTextAndButtonsWindowController will autorelease itself in -windowWillClose:
+		[currentAlert close];
 		currentAlert = nil;
 	}
 	return ret;
