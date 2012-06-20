@@ -94,7 +94,8 @@
 {    
 	[view_setup release];
 	[view_profile release];
-	[view_options release];
+	if (view_setup != view_options)
+		[view_options release];
 	[changedPrefDict release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
