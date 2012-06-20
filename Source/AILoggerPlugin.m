@@ -401,7 +401,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 		if(reindex)
 			[bself _resetLogIndex];
 		
-		[bself logContentIndex];
+		[bself copyLogContentIndex];
 		if (!userTriggeredReindex) {
 			if (reindex)
 				[bself _dirtyAllLogs];
@@ -483,6 +483,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 			}
 			bself->logIndex = _index;
 		}
+		if (logIndex) CFRetain(logIndex);
     }));
 	return logIndex;
 }
@@ -531,6 +532,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 				CFRelease(document);
 			}
 		}
+		
+		CFRelease(logSearchIndex);
 	}));
 }
 
@@ -1439,8 +1442,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AILogWithSignature(@"*** Warning: Could not open searchIndex in -[%@ _cleanDirtyLogs]. That shouldn't happen!", self);
 		return;
 	}
-	
-	CFRetain(searchIndex);
 	
 	// logsIndexed = 0;
 	OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
