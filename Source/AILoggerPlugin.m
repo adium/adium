@@ -401,7 +401,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 		if(reindex)
 			[bself _resetLogIndex];
 		
-		[bself copyLogContentIndex];
+		[bself logContentIndex];
 		if (!userTriggeredReindex) {
 			if (reindex)
 				[bself _dirtyAllLogs];
