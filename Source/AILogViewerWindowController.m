@@ -1712,6 +1712,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	[currentSearchLock unlock];
 	
 	if (thisSearch) CFRelease(thisSearch);
+	if (logSearchIndex) CFRelease(logSearchIndex);
 }
 
 //Search the logs, filtering out any matching logs into the currentSearchResults
