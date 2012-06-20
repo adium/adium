@@ -73,15 +73,15 @@
 		skipSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableSkipSet bitmapRepresentation]] retain];
 		[mutableSkipSet release];
 		
-		endSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"',:;>)]}.?!@"] retain];
+		endSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'“”‘’,:;>)]}–—.…?!@"] retain];
 		
 		NSMutableCharacterSet *mutableStartSet = [[NSMutableCharacterSet alloc] init];
 		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'.,:;<?!-@%C%C", 0x2014, 0x2013]]];
+		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'“”‘’.…,:;<?!-–—@%C%C", 0x2014, 0x2013]]];
 		startSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableStartSet bitmapRepresentation]] retain];
 		[mutableStartSet release];
 		
-		puncSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'.,:;<?!"] retain];
+		puncSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'“”‘’.…,:;–—<?!"] retain];
 		hostnameComponentSeparatorSet = [[NSCharacterSet characterSetWithCharactersInString:@"./"] retain];
 		enclosureStartArray = [[NSArray arrayWithObjects:@"(",@"[",@"{",nil] retain];
 		enclosureSet = [[NSCharacterSet characterSetWithCharactersInString:@"()[]{}"] retain];
