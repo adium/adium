@@ -1563,6 +1563,11 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
     Boolean			more = true;
     unsigned long			totalCount = 0;
 	
+	if (!logSearchIndex) {
+		AILogWithSignature(@"Got a NULL logSearchIndex. This shouldn't happen!");
+		return;
+	}
+	
 	[currentSearchLock lock];
 	if (currentSearch) {
 		SKSearchCancel(currentSearch);
