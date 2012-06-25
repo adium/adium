@@ -1494,20 +1494,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
 							 */
 							
-                            NSData *documentData = [CopyDataForURL(NULL, logURL) autorelease];
+                            NSData *documentData = CopyDataForURL(NULL, logURL);
 							
 							dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
                             
 							dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
                                 __block CFStringRef documentText = CopyTextContentForFileData(NULL, logURL, documentData);
 								
-								if (documentText) CFRetain(documentText);
+								[documentData release];
 								
                                 dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
                                     
 									CFRetain(searchIndex);
 									
-                                    if (documentText && bself.indexingAllowed) {
+                                    if (documentText && CFStringGetLength(documentText) > 0 && bself.indexingAllowed) {
 										static dispatch_queue_t skQueue = nil;
 										static dispatch_once_t onceToken;
 										dispatch_once(&onceToken, ^{
