@@ -1421,16 +1421,15 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	//Reset the cleaning progress
 	__block __typeof__(self) bself = self;
 	__block NSMutableSet *localLogSet = nil;
+	
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		localLogSet = [[self.dirtyLogSet mutableCopy] autorelease];
-		// bself.logsToIndex = [bself.dirtyLogSet count];
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [localLogSet count], (int64_t *)&(bself->logsToIndex));
 		OSAtomicCompareAndSwap64Barrier(_remainingLogs, bself->logsToIndex, (int64_t *)&_remainingLogs);
 	});
 	
 	if (self.logsToIndex == 0){
 		dispatch_async(defaultDispatchQueue, ^{
-			// logsIndexed = 0;
 			OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 			[bself _didCleanDirtyLogs];
 		});
@@ -1438,12 +1437,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 	
 	__block SKIndexRef searchIndex = [self logContentIndex];
+	
 	if (!searchIndex) {
 		AILogWithSignature(@"*** Warning: Could not open searchIndex in -[%@ _cleanDirtyLogs]. That shouldn't happen!", self);
 		return;
 	}
 	
-	// logsIndexed = 0;
 	OSAtomicCompareAndSwap64Barrier(logsIndexed, 0, (int64_t*)&logsIndexed);
 	
 	if (self.indexingAllowed) {
@@ -1453,7 +1452,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		__block SInt32  unsavedChanges = 0;
 		
 		AILogWithSignature(@"Cleaning %i dirty logs", [localLogSet count]);
+		
 		[localLogSet retain];
+		
 		dispatch_group_async(loggerPluginGroup, searchIndexQueue, blockWithAutoreleasePool(^{
 			
 			dispatch_group_enter(logIndexingGroup);
@@ -1470,15 +1471,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 						[localLogSet removeObject:__logPath];
 					}
 				});
+				
 				logPath = [[__logPath copy] autorelease];
+				
 				if (logPath) {
                     NSURL *logURL = [NSURL fileURLWithPath:logPath];
-                    if (!logURL)
-                        NSLog(@"Uh oh");
+					
+					NSAssert(logURL != nil, @"Converting path to url failed");
+					
 					dispatch_semaphore_wait(logLoadingPrefetchSemaphore, DISPATCH_TIME_FOREVER);
+					
 					dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
 						CFRetain(searchIndex);
 						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)logURL);
+						
 						if (document && bself.indexingAllowed) {
 							/* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
 							 * However, this has three problems:
@@ -1489,28 +1495,32 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 							 */
 							
                             NSData *documentData = [CopyDataForURL(NULL, logURL) autorelease];
+							
 							dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
-                            dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
+                            
+							dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
                                 __block CFStringRef documentText = CopyTextContentForFileData(NULL, logURL, documentData);
-								if (documentText)
-									CFRetain(documentText);
+								
+								if (documentText) CFRetain(documentText);
+								
                                 dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-                                    CFRetain(searchIndex);
+                                    
+									CFRetain(searchIndex);
+									
                                     if (documentText && bself.indexingAllowed) {
 										static dispatch_queue_t skQueue = nil;
 										static dispatch_once_t onceToken;
 										dispatch_once(&onceToken, ^{
 											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.skQueue", 0);
 										});
+										
 										CFRetain(searchIndex);
 										CFRetain(document);
 										CFRetain(documentText);
 										[logURL retain];
+										
 										dispatch_group_async(logIndexingGroup, skQueue, ^{
-											SKIndexAddDocumentWithText(searchIndex,
-																	   document,
-																	   documentText,
-																	   YES);
+											SKIndexAddDocumentWithText(searchIndex, document, documentText, YES);
 											
 											OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 											OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
@@ -1524,6 +1534,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 											}
 											
 											OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+											
 											if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
 												[bself _saveDirtyLogSet];
 												OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
@@ -1539,6 +1550,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
                                         CFRelease(documentText);
                                     } else if (documentText) {
                                         CFRelease(documentText);
+										
 										dispatch_semaphore_signal(jobSemaphore);
                                     } else {
 										OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
@@ -1549,18 +1561,21 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 									
                                     
 									dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
+									
                                     CFRelease(document);
-                                    
-                                    
                                     CFRelease(searchIndex);
                                 }));
                             }));
 						} else {
-							AILogWithSignature(@"Could not create document for %@ [%@]",logPath,[NSURL fileURLWithPath:logPath]);
-							if (document) CFRelease(document);
+							if (document) {
+								CFRelease(document);
+							} else {
+								AILogWithSignature(@"Could not create document for %@ [%@]", logPath, logURL);
+							}
+							
 							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 							OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-							OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+							
 							dispatch_semaphore_signal(jobSemaphore);
 							dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
 						}
@@ -1576,19 +1591,26 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			if (unsavedChanges) {
 				[bself _saveDirtyLogSet];
 			}
+			
 			dispatch_group_enter(closingIndexGroup);
+			
 			dispatch_group_leave(logIndexingGroup);
+			
 			dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{
 				dispatch_async(dispatch_get_main_queue(), ^{
 					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 				});
+				
 				[bself _flushIndex:searchIndex];
+				
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
+				
 				CFRelease(searchIndex);
-				[bself _didCleanDirtyLogs];
 				[localLogSet release];
+				
+				[bself _didCleanDirtyLogs];
 			});
 			dispatch_group_leave(closingIndexGroup);
 		}));
