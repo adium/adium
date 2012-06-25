@@ -307,11 +307,29 @@ NSString *killXMLTags(NSString *inString)
 
 NSString *CopyTextContentForXMLLogData(NSData *data) {
     NSString *contentString = nil;
-    NSXMLDocument *xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:NULL];
+	NSError *err;
+    NSXMLDocument *xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
+	
     if (xmlDoc) {
-        NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()" error:NULL];
-		contentString = [contentArray componentsJoinedByString:@" "];
+		NSArray *children = [[xmlDoc rootElement] children];
+		NSMutableArray *messages = [NSMutableArray array];
+		
+		for (NSXMLNode *child in children) {
+			if ([child.name isEqualToString:@"message"]) {
+				[messages addObject:child.stringValue];
+			}
+		}
+		
+		if (messages.count) contentString = [messages componentsJoinedByString:@" "];
+		
         [xmlDoc release];
-    }
+    } else {
+#ifdef AILogWithSignature
+		AILogWithSignature(@"Parsing log failed: %@", err);
+#endif
+	}
+	
+	[contentString retain];
+	
     return contentString;
 }
