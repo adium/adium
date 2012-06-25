@@ -1566,6 +1566,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 						}
 						CFRelease(searchIndex);
 					}));
+				} else {
+					[pool release];
+					break;
 				}
 				[pool release]; pool = nil;
 			}
