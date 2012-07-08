@@ -17,22 +17,20 @@
 	<div id="pagetitle">
 		<h1>Growl support</h1>
 	</div>
-	<p>Growl lets Mac OS X applications unobtrusively tell you when things happen. In its default configuration, Growl fades a floating notification into the top-right corner of your screen for a moment and then fades it out again.  Once installed, you can control how it notifies you via the Growl preference pane in the System Preferences. You can learn more about Growl at <a href="http://growl.info/about.php">Growl's website</a>.</p>
+	<p><a href="http://growl.info/about.php">Growl</a> lets Mac OS X applications unobtrusively tell you when things happen. In its default configuration, Growl fades a floating notification into the top-right corner of your screen for a moment and then fades it out again. This help page informs how to set up Growl.</p>
+	<p align="center"> <img src="../gfx/Growl notification.png" alt="" /></p>
 	<div class="taskboxline">
 		<div class="taskboxheader">
 			<h3>Installing Growl</h3>
 		</div>
 		<div class="taskboxtext">
-	<p>Growl is separate from Adium, but if you choose to do so Adium can install Growl for you.</p>
-	<ul>
-		<li>If Growl isn't installed, then the first time Adium tries to post a Growl notification, it will ask to install Growl.</li>
-		<li>If Growl is installed but isn't working, open the Growl pane within the System Preferences, ensure Adium is listed on the Applications tab, and check that notifications from it are enabled. Adium will be listed and enabled by default.</li>
-	</ul>
+	<p>As of Adium 1.5, Adium is able to show Growl notifications without the Growl application installed. This feature is called <a href="http://growl.info/notetodevelopers">Mist</a>.</p>
+	<p>If you want to use a different style or use some of the more advanced features of Growl, you will have to either buy the application from the Mac App Store, or get an older and free version from <a href="http://growl.info/downloads">http://growl.info/downloads</a>.</p>
 		</div>
 	</div>
 	<div class="taskboxline">
 		<div class="taskboxheader">
-			<h3>Default Growl notifications</h3>
+			<h3>Configuring Growl notifications</h3>
 		</div>
 		<div class="taskboxtext">
 	<p>The following events notify you via Growl by default:</p>
@@ -44,7 +42,20 @@
 		<li>File transfer failed</li>
 		<li>Error occurs</li>
 	</ul>
-	<p>To turn some of these off, or to make Adium post additional <a href="http://growl.info">Growl</a> notifications, you need to set up one or more events (either on a contact, or globally in the Preferences) that post a Growl notification.</p>
+	<p>To turn certain notifications off, or to make Adium post additional ones, you need to set up one or more events. You can do this globally as well as on a per-contact basis.</p>
+	<ul>
+		<li>To change the global Growl notification settings edit the events in Adium's "Events" preferences.</li>
+		<li>To edit the Growl notification settings for a specific contact, open the "Get Info" window for this contact and edit the events in the third pane.</li>
+	</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Disabling and uninstalling Growl</h3>
+		</div>
+		<div class="taskboxtext">
+	<p>To disable Adium's built-in Mist notifications, enter this command in Terminal.app: <code>defaults write -g com.growl.growlframework.mist.enabled -bool NO</code>.<p>
+	<p>To uninstall the Growl application, follow the <a href="http://growl.info/documentation/growl-package-removal.php">instructions on the Growl website</a>.</p>
 		</div>
 	</div>
 </div>
