@@ -2,15 +2,30 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">851</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">851</string>
+			<string key="NS.object.0">2182</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSUserDefaultsController</string>
+			<string>NSNumberFormatter</string>
+			<string>NSPopUpButton</string>
+			<string>NSButton</string>
+			<string>NSMenu</string>
+			<string>NSTextFieldCell</string>
+			<string>NSButtonCell</string>
+			<string>NSMenuItem</string>
+			<string>NSCustomObject</string>
+			<string>NSCustomView</string>
+			<string>NSPopUpButtonCell</string>
+			<string>NSStepperCell</string>
+			<string>NSTextField</string>
+			<string>NSStepper</string>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -29,7 +44,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="974184333">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="727659852">
@@ -37,6 +52,8 @@
 						<int key="NSvFlags">258</int>
 						<string key="NSFrame">{{180, 40}, {223, 22}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="395798763"/>
 						<string key="NSClassName">NSView</string>
 					</object>
 					<object class="NSTextField" id="666833680">
@@ -44,6 +61,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 422}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="866289369"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="554074539">
 							<int key="NSCellFlags">67239424</int>
@@ -80,6 +99,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{178, 421}, {345, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1028402368"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="64001217">
 							<int key="NSCellFlags">67239424</int>
@@ -107,6 +128,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 186}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="550877228"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="604695771">
 							<int key="NSCellFlags">67239424</int>
@@ -123,6 +146,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{177, 180}, {283, 26}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="509204869"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="346932475">
 							<int key="NSCellFlags">-2076049856</int>
@@ -176,6 +201,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 149}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="968411985"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="220626710">
 							<int key="NSCellFlags">67239424</int>
@@ -192,6 +219,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{178, 148}, {345, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1022912864"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="96418576">
 							<int key="NSCellFlags">67239424</int>
@@ -214,6 +243,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 222}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="317131823"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1048718565">
 							<int key="NSCellFlags">67239424</int>
@@ -230,6 +261,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{177, 216}, {283, 26}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="685592821"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="239510870">
 							<int key="NSCellFlags">-2076049856</int>
@@ -278,6 +311,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 45}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="727659852"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="305595294">
 							<int key="NSCellFlags">67239424</int>
@@ -294,6 +329,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{177, 4}, {347, 28}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="169795752">
 							<int key="NSCellFlags">67239424</int>
@@ -312,14 +349,20 @@
 					<object class="NSButton" id="147301537">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{379, 337}, {108, 32}}</string>
+						<string key="NSFrame">{{422, 337}, {118, 32}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="715645352"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="23840310">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Customize</string>
-							<reference key="NSSupport" ref="679211629"/>
+							<string key="NSContents">Налаштувати</string>
+							<object class="NSFont" key="NSSupport" id="684362340">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">12</double>
+								<int key="NSfFlags">16</int>
+							</object>
 							<reference key="NSControlView" ref="147301537"/>
 							<int key="NSButtonFlags">-2038284033</int>
 							<int key="NSButtonFlags2">129</int>
@@ -332,13 +375,15 @@
 					<object class="NSButton" id="680415872">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{195, 371}, {328, 18}}</string>
+						<string key="NSFrame">{{190, 371}, {328, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="958453719"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="468254486">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Log OTR-secured chats</string>
+							<string key="NSContents">Записувати OTR-захищені чати</string>
 							<reference key="NSSupport" ref="679211629"/>
 							<reference key="NSControlView" ref="680415872"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -353,13 +398,15 @@
 					<object class="NSButton" id="958453719">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{195, 346}, {184, 18}}</string>
+						<string key="NSFrame">{{190, 346}, {232, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="223591434"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="482404893">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Log only certain accounts</string>
+							<string key="NSContents">Записувати лише деякі обл. зап.</string>
 							<reference key="NSSupport" ref="679211629"/>
 							<reference key="NSControlView" ref="958453719"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -374,14 +421,16 @@
 					<object class="NSButton" id="1028402368">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{195, 397}, {55, 18}}</string>
+						<string key="NSFrame">{{190, 397}, {82, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="606751019"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="685173519">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Показати</string>
-							<reference key="NSSupport" ref="679211629"/>
+							<reference key="NSSupport" ref="684362340"/>
 							<reference key="NSControlView" ref="1028402368"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
@@ -398,6 +447,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{178, 297}, {345, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="209177718"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="839881608">
 							<int key="NSCellFlags">67239424</int>
@@ -418,8 +469,10 @@
 					<object class="NSButton" id="9325956">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{195, 250}, {328, 18}}</string>
+						<string key="NSFrame">{{190, 250}, {328, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="838555988"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="54678259">
 							<int key="NSCellFlags">67239424</int>
@@ -440,8 +493,10 @@
 					<object class="NSPopUpButton" id="838555988">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{315, 267}, {147, 26}}</string>
+						<string key="NSFrame">{{286, 267}, {147, 26}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="765263822"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="156626493">
 							<int key="NSCellFlags">-2076049856</int>
@@ -523,8 +578,10 @@
 					<object class="NSTextField" id="209177718">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{196, 274}, {117, 17}}</string>
+						<string key="NSFrame">{{189, 274}, {117, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="9325956"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1046230780">
 							<int key="NSCellFlags">67239424</int>
@@ -541,6 +598,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{17, 121}, {158, 17}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="55874791"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="637601550">
 							<int key="NSCellFlags">67239424</int>
@@ -557,6 +616,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{178, 120}, {345, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="379579225"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="399560084">
 							<int key="NSCellFlags">67239424</int>
@@ -579,6 +640,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{195, 97}, {328, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="876436028"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="122113635">
 							<int key="NSCellFlags">67239424</int>
@@ -601,6 +664,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{195, 75}, {328, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="457706126"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="839973176">
 							<int key="NSCellFlags">67239424</int>
@@ -621,8 +686,10 @@
 					<object class="NSTextField" id="606751019">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{254, 395}, {32, 22}}</string>
+						<string key="NSFrame">{{266, 395}, {32, 22}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="149624680"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="623150519">
 							<int key="NSCellFlags">-1804468671</int>
@@ -651,8 +718,10 @@
 					<object class="NSStepper" id="149624680">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{286, 392}, {19, 28}}</string>
+						<string key="NSFrame">{{294, 391}, {19, 28}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="202374623"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSStepperCell" key="NSCell" id="166405478">
 							<int key="NSCellFlags">917024</int>
@@ -668,14 +737,17 @@
 					<object class="NSTextField" id="202374623">
 						<reference key="NSNextResponder" ref="974184333"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{303, 398}, {221, 17}}</string>
+						<string key="NSFrame">{{310, 389}, {271, 32}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="680415872"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="9023852">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272629760</int>
-							<string key="NSContents">останніх повідомлень в новому вікні чату</string>
-							<reference key="NSSupport" ref="679211629"/>
+							<string type="base64-UTF8" key="NSContents">0L7RgdGC0LDQvdC90ZbRhSDQv9C+0LLRltC00L7QvNC70LXQvdGMINCyINC90L7QstC+0LzRgyAK0LLR
+ltC60L3RliDRh9Cw0YLRgw</string>
+							<reference key="NSSupport" ref="684362340"/>
 							<reference key="NSControlView" ref="202374623"/>
 							<reference key="NSBackgroundColor" ref="170402507"/>
 							<reference key="NSTextColor" ref="927266986"/>
@@ -686,6 +758,8 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{178, 321}, {345, 18}}</string>
 						<reference key="NSSuperview" ref="974184333"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="147301537"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="538262951">
 							<int key="NSCellFlags">67239424</int>
@@ -705,6 +779,9 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{541, 459}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="666833680"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -717,7 +794,7 @@
 					</object>
 					<string key="decimalSeparator">,</string>
 					<integer value="1000" key="formatterBehavior"/>
-					<string key="groupingSeparator">.</string>
+					<string type="base64-UTF8" key="groupingSeparator">wqA</string>
 					<real value="400" key="maximum"/>
 					<object class="NSDecimalNumberPlaceholder" key="minimum" id="653808996">
 						<int key="NS.exponent">0</int>
@@ -750,7 +827,7 @@
 				<real value="400" key="NS.max"/>
 				<nil key="NS.rounding"/>
 				<string key="NS.decimal">,</string>
-				<string key="NS.thousand">.</string>
+				<string type="base64-UTF8" key="NS.thousand">wqA</string>
 				<bool key="NS.hasthousands">NO</bool>
 				<bool key="NS.localized">YES</bool>
 				<bool key="NS.allowsfloats">YES</bool>
@@ -850,136 +927,12 @@
 					<int key="connectionID">131</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
-						<reference key="source" ref="968411985"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="968411985"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">165</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Logging.Enable Logging</string>
-						<reference key="source" ref="866289369"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="866289369"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: adium.preferenceController.Logging.Enable Logging</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Logging.Enable Logging</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">170</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Interface.Tabbed Chatting</string>
-						<reference key="source" ref="715645352"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="715645352"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: adium.preferenceController.Interface.Tabbed Chatting</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Interface.Tabbed Chatting</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">180</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Interface.Group Chats By Group</string>
-						<reference key="source" ref="9325956"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="9325956"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: adium.preferenceController.Interface.Group Chats By Group</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Interface.Group Chats By Group</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">182</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: adium.preferenceController.Interface.Tabbed Chatting</string>
-						<reference key="source" ref="9325956"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="9325956"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">enabled: adium.preferenceController.Interface.Tabbed Chatting</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">adium.preferenceController.Interface.Tabbed Chatting</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">183</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: adium.preferenceController.Logging.Enable Logging</string>
-						<reference key="source" ref="1028402368"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1028402368"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">enabled: adium.preferenceController.Logging.Enable Logging</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">adium.preferenceController.Logging.Enable Logging</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">186</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">popUp_tabPositionMenu</string>
 						<reference key="source" ref="836442907"/>
 						<reference key="destination" ref="838555988"/>
 					</object>
 					<int key="connectionID">197</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
-						<reference key="source" ref="838555988"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="838555988"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">selectedTag: adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValidatesImmediately</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">200</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1030,12 +983,168 @@
 					<int key="connectionID">210</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">takeIntValueFrom:</string>
-						<reference key="source" ref="149624680"/>
-						<reference key="destination" ref="606751019"/>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">label_shortcutRecorder</string>
+						<reference key="source" ref="836442907"/>
+						<reference key="destination" ref="395798763"/>
 					</object>
-					<int key="connectionID">213</int>
+					<int key="connectionID">337</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">configureLogCertainAccounts:</string>
+						<reference key="source" ref="836442907"/>
+						<reference key="destination" ref="147301537"/>
+					</object>
+					<int key="connectionID">390</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">placeholder_shortcutRecorder</string>
+						<reference key="source" ref="836442907"/>
+						<reference key="destination" ref="727659852"/>
+					</object>
+					<int key="connectionID">404</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Interface.Group Chats By Group</string>
+						<reference key="source" ref="9325956"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="9325956"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: adium.preferenceController.Interface.Group Chats By Group</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Interface.Group Chats By Group</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">182</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Interface.Tabbed Chatting</string>
+						<reference key="source" ref="9325956"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="9325956"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Interface.Tabbed Chatting</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Interface.Tabbed Chatting</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">183</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Interface.Tabbed Chatting</string>
+						<reference key="source" ref="715645352"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="715645352"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: adium.preferenceController.Interface.Tabbed Chatting</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Interface.Tabbed Chatting</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">180</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Logging.Enable Logging</string>
+						<reference key="source" ref="866289369"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="866289369"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: adium.preferenceController.Logging.Enable Logging</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Logging.Enable Logging</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEnabled</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">170</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
+						<reference key="source" ref="968411985"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="968411985"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Status Menu Item.Status Menu Item Enabled</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEnabled</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">165</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: adium.preferenceController.Logging.Enable Logging</string>
+						<reference key="source" ref="1028402368"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1028402368"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Logging.Enable Logging</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Logging.Enable Logging</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: chatHistoryDisplayActive</string>
+						<reference key="source" ref="1028402368"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1028402368"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: chatHistoryDisplayActive</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">chatHistoryDisplayActive</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">310</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
+						<reference key="source" ref="838555988"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="838555988"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">selectedTag: adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Tab Bar Position</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValidatesImmediately</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">200</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1094,6 +1203,34 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: adium.preferenceController.Message Context Display.Lines to Display</string>
+						<reference key="source" ref="606751019"/>
+						<reference key="destination" ref="836442907"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="606751019"/>
+							<reference key="NSDestination" ref="836442907"/>
+							<string key="NSLabel">value: adium.preferenceController.Message Context Display.Lines to Display</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">adium.preferenceController.Message Context Display.Lines to Display</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">228</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">takeIntValueFrom:</string>
+						<reference key="source" ref="149624680"/>
+						<reference key="destination" ref="606751019"/>
+					</object>
+					<int key="connectionID">213</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: adium.preferenceController.Logging.Enable Logging</string>
 						<reference key="source" ref="149624680"/>
 						<reference key="destination" ref="836442907"/>
@@ -1134,26 +1271,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: adium.preferenceController.Message Context Display.Lines to Display</string>
-						<reference key="source" ref="606751019"/>
-						<reference key="destination" ref="836442907"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="606751019"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: adium.preferenceController.Message Context Display.Lines to Display</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Message Context Display.Lines to Display</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">228</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Message Context Display.Lines to Display</string>
 						<reference key="source" ref="149624680"/>
 						<reference key="destination" ref="836442907"/>
 						<object class="NSNibBindingConnector" key="connector">
@@ -1184,28 +1301,28 @@
 					<int key="connectionID">284</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="147301537"/>
+						<reference key="destination" ref="223591434"/>
+					</object>
+					<int key="connectionID">394</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: chatHistoryDisplayActive</string>
-						<reference key="source" ref="1028402368"/>
-						<reference key="destination" ref="836442907"/>
+						<string key="label">enabled: adium.preferenceController.Logging.LogCertainAccounts</string>
+						<reference key="source" ref="147301537"/>
+						<reference key="destination" ref="1027461115"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1028402368"/>
-							<reference key="NSDestination" ref="836442907"/>
-							<string key="NSLabel">value: chatHistoryDisplayActive</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">chatHistoryDisplayActive</string>
+							<reference key="NSSource" ref="147301537"/>
+							<reference key="NSDestination" ref="1027461115"/>
+							<string key="NSLabel">enabled: adium.preferenceController.Logging.LogCertainAccounts</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">adium.preferenceController.Logging.LogCertainAccounts</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">310</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_shortcutRecorder</string>
-						<reference key="source" ref="836442907"/>
-						<reference key="destination" ref="395798763"/>
-					</object>
-					<int key="connectionID">337</int>
+					<int key="connectionID">396</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1224,28 +1341,12 @@
 					<int key="connectionID">384</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">configureLogCertainAccounts:</string>
-						<reference key="source" ref="836442907"/>
-						<reference key="destination" ref="147301537"/>
-					</object>
-					<int key="connectionID">390</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="958453719"/>
 						<reference key="destination" ref="147301537"/>
 					</object>
 					<int key="connectionID">392</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="147301537"/>
-						<reference key="destination" ref="223591434"/>
-					</object>
-					<int key="connectionID">394</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1262,22 +1363,6 @@
 						</object>
 					</object>
 					<int key="connectionID">395</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: adium.preferenceController.Logging.LogCertainAccounts</string>
-						<reference key="source" ref="147301537"/>
-						<reference key="destination" ref="1027461115"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="147301537"/>
-							<reference key="NSDestination" ref="1027461115"/>
-							<string key="NSLabel">enabled: adium.preferenceController.Logging.LogCertainAccounts</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">adium.preferenceController.Logging.LogCertainAccounts</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">396</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1319,14 +1404,6 @@
 					</object>
 					<int key="connectionID">402</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">placeholder_shortcutRecorder</string>
-						<reference key="source" ref="836442907"/>
-						<reference key="destination" ref="727659852"/>
-					</object>
-					<int key="connectionID">404</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1358,7 +1435,6 @@
 						<int key="objectID">5</int>
 						<reference key="object" ref="974184333"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="9325956"/>
 							<reference ref="715645352"/>
 							<reference ref="666833680"/>
 							<reference ref="866289369"/>
@@ -1369,22 +1445,23 @@
 							<reference ref="765263822"/>
 							<reference ref="317131823"/>
 							<reference ref="457706126"/>
-							<reference ref="1028402368"/>
-							<reference ref="838555988"/>
-							<reference ref="209177718"/>
 							<reference ref="1022912864"/>
 							<reference ref="379579225"/>
 							<reference ref="876436028"/>
-							<reference ref="606751019"/>
-							<reference ref="149624680"/>
-							<reference ref="202374623"/>
 							<reference ref="223591434"/>
-							<reference ref="958453719"/>
-							<reference ref="147301537"/>
-							<reference ref="680415872"/>
 							<reference ref="55874791"/>
 							<reference ref="395798763"/>
 							<reference ref="727659852"/>
+							<reference ref="1028402368"/>
+							<reference ref="606751019"/>
+							<reference ref="149624680"/>
+							<reference ref="202374623"/>
+							<reference ref="147301537"/>
+							<reference ref="680415872"/>
+							<reference ref="958453719"/>
+							<reference ref="9325956"/>
+							<reference ref="209177718"/>
+							<reference ref="838555988"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -1911,20 +1988,15 @@
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
 		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<real value="3200" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{9, 8}</string>
-			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSMenuCheckmark">{11, 11}</string>
+			<string key="NSMenuMixedState">{10, 3}</string>
 			<string key="NSSwitch">{15, 15}</string>
 		</dictionary>
 	</data>
