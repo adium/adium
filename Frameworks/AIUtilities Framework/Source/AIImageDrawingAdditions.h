@@ -26,6 +26,7 @@ typedef enum {
 
 - (void)tileInRect:(NSRect)rect;
 - (NSImage *)imageByScalingToSize:(NSSize)size;
+- (NSImage *)imageByScalingToSize:(NSSize)size DPI:(CGFloat)dpi;
 - (NSImage *)imageByFadingToFraction:(CGFloat)delta;
 - (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta;
 - (NSImage *)imageByScalingForMenuItem;
