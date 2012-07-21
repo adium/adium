@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
+#import <Adium/AIPreferencePane.h>
 
 //Preference groups
 #define PREF_GROUP_GENERAL              @"General"
@@ -24,19 +25,6 @@
 #define PREF_GROUP_SPELLING 			@"Spelling"
 #define OBJECT_PREFS_PATH               @"ByObject"			//Path to object specific preference folder
 #define ACCOUNT_PREFS_PATH              @"Accounts"			//Path to account specific preference folder
-
-//Preference Categories
-typedef enum {
-	AIPref_General= 0,
-	AIPref_Accounts,
-	AIPref_Personal,
-	AIPref_Appearance,
-	AIPref_Messages,
-	AIPref_Status,
-	AIPref_Events,
-	AIPref_FileTransfer,
-	AIPref_Advanced
-} AIPreferenceCategory;
 
 @class AIAdium, AIListObject;
 @class AIPreferencePane, AIAdvancedPreferencePane;
@@ -49,8 +37,7 @@ typedef enum {
 - (void)addPreferencePane:(AIPreferencePane *)inPane;
 - (void)removePreferencePane:(AIPreferencePane *)inPane;
 - (NSArray *)paneArray;
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane;
-- (NSArray *)advancedPaneArray;
+- (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory;
 
 //Observing
 - (void)registerPreferenceObserver:(id)observer forGroup:(NSString *)group;

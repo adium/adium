@@ -30,7 +30,6 @@
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
 #import "AIPreferencePane.h"
-#import "AIAdvancedPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)
@@ -93,13 +92,9 @@
 		NSMutableDictionary *prefsDict;
 		NSString *dir;
 		
-		NSEnumerator *enumerator;
-		NSString *file;
-
 		dir = [userDirectory stringByAppendingPathComponent:OBJECT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSMutableDictionary *thisDict = [NSMutableDictionary dictionaryAtPath:dir
 																		 withName:name
@@ -122,8 +117,7 @@
 
 		dir = [userDirectory stringByAppendingPathComponent:ACCOUNT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSDictionary *thisDict = [NSDictionary dictionaryAtPath:dir
 														   withName:name
@@ -215,17 +209,11 @@
     return paneArray;
 }
 
-/*!
-* @brief Add a view to the preferences
- */
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane
+- (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory
 {
-    [advancedPaneArray addObject:inPane];
-}
-
-- (NSArray *)advancedPaneArray
-{
-	return advancedPaneArray;
+	return [paneArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		return ([evaluatedObject category] == paneCategory);
+	}]];
 }
 
 //Observing ------------------------------------------------------------------------------------------------------------
@@ -267,13 +255,10 @@
  */
 - (void)unregisterPreferenceObserver:(id)observer
 {
-	NSEnumerator	*enumerator = [observers objectEnumerator];
-	NSMutableArray	*observerArray;
 	NSValue			*observerValue = [NSValue valueWithNonretainedObject:observer];
-
-	while ((observerArray = [enumerator nextObject])) {
+	[observers enumerateKeysAndObjectsUsingBlock:^(id key, id observerArray, BOOL *stop) {
 		[observerArray removeObject:observerValue];
-	}
+	}];
 }
 
 /*!
@@ -536,57 +521,25 @@
 	
 	userPreferredDownloadFolder = [[self preferenceForKey:@"UserPreferredDownloadFolder"
 													group:PREF_GROUP_GENERAL] stringByExpandingTildeInPath];
-	
-	if (!userPreferredDownloadFolder) {
-		//10.5: ICGetPref() for kICDownloadFolder is useless
-		CFURLRef	urlToDefaultBrowser = NULL;
-		
-		//Use Safari's preference as a default if it's the default browser and it is set
-		if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
-								   kLSRolesViewer,
-								   NULL /*outAppRef*/,
-								   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
-			NSString	*defaultBrowserName = nil;
-			
-			defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(NSURL *)urlToDefaultBrowser path]];
-			
-			if ([defaultBrowserName rangeOfString:@"Safari"].location != NSNotFound) {
-				/* ICGetPref() for kICDownloadFolder returns any previously set preference, not the default ~/Downloads or the current
-				 * Safari setting, in 10.5.0, with Safari the default browser
-				 */
-				CFPropertyListRef safariDownloadsPath = CFPreferencesCopyAppValue(CFSTR("DownloadsPath"),CFSTR("com.apple.Safari"));
-				if (safariDownloadsPath) {
-					//This should return a CFStringRef... we're using another app's prefs, so make sure.
-					if (CFGetTypeID(safariDownloadsPath) == CFStringGetTypeID()) {
-						userPreferredDownloadFolder = (NSString *)safariDownloadsPath;
-					}
-					
-					[(NSObject *)safariDownloadsPath autorelease];
-				}					
-			}
-		}
 
-		NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-		if ([searchPaths count]) {
-			userPreferredDownloadFolder = [searchPaths objectAtIndex:0];
-		}
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if (!userPreferredDownloadFolder) {
+		userPreferredDownloadFolder = [[fm URLForDirectory:NSDownloadsDirectory
+												  inDomain:NSUserDomainMask
+										 appropriateForURL:nil create:YES error:nil] path];
 	}
 
-	/* If we can't write to the specified folder, fall back to the desktop and then to the home directory;
-	 * if neither are writable the user has worse problems then an IM download to worry about.
-	 */
-	if (![[NSFileManager defaultManager] isWritableFileAtPath:userPreferredDownloadFolder]) {
-		NSString *originalFolder = userPreferredDownloadFolder;
-
-		userPreferredDownloadFolder = [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"];
-
-		if (![[NSFileManager defaultManager] isWritableFileAtPath:userPreferredDownloadFolder]) {
-			userPreferredDownloadFolder = NSHomeDirectory();
-		}
-
-		NSLog(@"Could not obtain write access for %@; defaulting to %@",
-			  originalFolder,
-			  userPreferredDownloadFolder);
+	//If the existing folder doesn't exist anymore, try to create it falling back to the desktop if that fails
+	BOOL isDir = NO, created = NO;
+	if (userPreferredDownloadFolder && ![fm fileExistsAtPath:userPreferredDownloadFolder isDirectory:&isDir]) {
+		//Try to create the saved folder
+		created = [fm createDirectoryAtPath:userPreferredDownloadFolder withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	if (!isDir && !created) {
+		//Try the desktop
+		userPreferredDownloadFolder = [[fm URLForDirectory:NSDesktopDirectory
+												  inDomain:NSUserDomainMask
+										 appropriateForURL:nil create:YES error:nil] path];
 	}
 
 	return userPreferredDownloadFolder;

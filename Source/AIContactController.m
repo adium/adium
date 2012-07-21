@@ -970,12 +970,6 @@
 										  group:PREF_GROUP_CONTACT_LIST];
 }
 
-//Sort list objects alphabetically by their display name
-NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
-{
-	return [objectA.displayName caseInsensitiveCompare:objectB.displayName];
-}
-
 #pragma mark Preference observing
 /*!
  * @brief Preferences changed

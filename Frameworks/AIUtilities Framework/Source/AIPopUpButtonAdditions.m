@@ -38,10 +38,7 @@
 	BOOL selectedItem = NO;
 
 	if ([self numberOfItems] > 0) {
-		NSEnumerator *enumerator = [[self itemArray] objectEnumerator];
-		NSMenuItem	 *menuItem;
-		
-		while ((menuItem = [enumerator nextObject])) {
+		for (NSMenuItem *menuItem in self.itemArray) {
 			if ([[menuItem representedObject] compare:object] == NSOrderedSame) {
 				[self selectItem:menuItem];
 				selectedItem = YES;

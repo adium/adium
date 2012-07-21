@@ -360,6 +360,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		BOOL	autoResizeHorizontally = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 		BOOL	autoResizeVertically = YES;
 		NSInteger		forcedWindowWidth, maxWindowWidth;
+		NSInteger		forcedWindowHeight, maxWindowHeight;
 		
 		//Determine how to handle vertical autosizing. AIAppearancePreferences must match this behavior for this to make sense.
 		switch (windowStyle) {
@@ -399,6 +400,22 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 		}
 		
+		if (autoResizeVertically) {
+			//If autosizing, KEY_LIST_LAYOUT_VERTICAL_HEIGHT determines the maximum height; no forced height.
+			maxWindowHeight = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT] integerValue];
+			forcedWindowHeight = -1;
+		} else {
+			if (windowStyle == AIContactListWindowStyleStandard/* || windowStyle == AIContactListWindowStyleBorderless*/) {
+				//In the non-transparent non-autosizing modes, KEY_LIST_LAYOUT_VERTICAL_HEIGHT has no meaning
+				maxWindowHeight = 10000;
+				forcedWindowHeight = -1;
+			} else {
+				//In the transparent non-autosizing modes, KEY_LIST_LAYOUT_VERTICAL_HEIGHT determines the height of the window
+				forcedWindowHeight = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_HEIGHT] integerValue];
+				maxWindowHeight = forcedWindowHeight;
+			}
+		}
+        
 		//Show the resize indicator if either or both of the autoresizing options is NO
 		[[self window] setShowsResizeIndicator:!(autoResizeVertically && autoResizeHorizontally)];
 		
@@ -407,17 +424,20 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		 (and therefore the min and max sizes aren't set there).
 		 */
 		NSSize	thisMinimumSize = minWindowSize;
-		NSSize	thisMaximumSize = NSMakeSize(maxWindowWidth, 10000);
+		NSSize	thisMaximumSize = NSMakeSize(maxWindowWidth, maxWindowHeight);
 		NSRect	currentFrame = [[self window] frame];
 		
-		if (forcedWindowWidth != -1) {
+		if (forcedWindowWidth != -1 || forcedWindowHeight != -1) {
 			/*
 			 If we have a forced width but we are doing no autoresizing, set our frame now so we don't have to be doing checks every time
 			 contactListDesiredSizeChanged is called.
 			 */
 			if (!(autoResizeVertically || autoResizeHorizontally)) {
-				thisMinimumSize.width = forcedWindowWidth;
-				[[self window] setFrame:NSMakeRect(currentFrame.origin.x,currentFrame.origin.y,forcedWindowWidth,currentFrame.size.height) 
+				if (forcedWindowWidth != -1)
+					thisMinimumSize.width = forcedWindowWidth;
+				if (forcedWindowHeight != -1)
+					thisMinimumSize.height = forcedWindowHeight;
+				[[self window] setFrame:NSMakeRect(currentFrame.origin.x,currentFrame.origin.y,forcedWindowWidth,currentFrame.size.height)
 								display:YES
 								animate:NO];
 			}
@@ -449,6 +469,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 		[contactListController setForcedWindowWidth:forcedWindowWidth];
 		[contactListController setMaxWindowWidth:maxWindowWidth];
+		
+		[contactListController setForcedWindowHeight:forcedWindowHeight];
+		[contactListController setMaxWindowHeight:maxWindowHeight];
 		
 		// let this happen at the beginning of the next runloop. The View needs to configure itself before we start forcing it to a size.
 		dispatch_async(dispatch_get_main_queue(), ^{
@@ -1557,7 +1580,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 			
 			[[targetView window] setFrame:NSMakeRect(NSMinX(windowFrame), NSMinY(windowFrame) - NSHeight([filterBarView bounds]),
 													 NSWidth(windowFrame), NSHeight(windowFrame) + NSHeight([filterBarView bounds]))
-								  display:NO
+								  display:YES
 								  animate:NO];
 			
 			targetFrame = [targetView frame];
@@ -1692,6 +1715,24 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	return YES;
 }
 
+- (void)expandGroupsForFiltering:(BOOL)state
+{
+	BOOL modified = NO;
+	for (AIListObject *listObject in [self.contactList containedObjects]) {
+		if ([listObject isKindOfClass:[AIListGroup class]] &&
+			((!state && [listObject boolValueForProperty:@"ExpandedByFiltering"]) ||
+			(state && [(AIListGroup *)listObject isExpanded] == NO))) {
+			[listObject setValue:[NSNumber numberWithBool:state] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
+			modified = YES;
+		}
+	}
+	
+	filterBarExpandedGroups = state;
+	
+	if (modified)
+		[contactListView reloadData];
+}
+
 /*!
  * @brief Filter contacts from the search field
  *
@@ -1703,35 +1744,8 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	if (![sender isKindOfClass:[NSSearchField class]])
 		return;
 	
-	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
-        BOOL modified = NO;
-        for (AIListObject *listObject in [self.contactList containedObjects]) {
-            if ([listObject isKindOfClass:[AIListGroup class]] && [(AIListGroup *)listObject isExpanded] == NO) {
-                [listObject setValue:[NSNumber numberWithBool:YES] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
-                modified = YES;
-            }
-        }
-        
-        filterBarExpandedGroups = YES;
-        
-        if (modified) {
-            [contactListView reloadData];
-        }
-    } else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
-        BOOL modified = NO;
-        for (AIListObject *listObject in [self.contactList containedObjects]) {
-            if ([listObject isKindOfClass:[AIListGroup class]] && [listObject boolValueForProperty:@"ExpandedByFiltering"]) {
-                [listObject setValue:[NSNumber numberWithBool:NO] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
-                modified = YES;
-            }
-        }
-        
-        filterBarExpandedGroups = NO;
-        
-        if (modified) {
-            [contactListView reloadData];
-        }
-    }
+	if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""])
+		[self expandGroupsForFiltering:NO];
 	
 	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
 		// Select the first contact; we're guaranteed at least one visible contact.
@@ -1751,6 +1765,9 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 																								   brightness:0.99f
 																										alpha:1.0f]];
 	}
+	
+	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""])
+		[self expandGroupsForFiltering:YES];
 }
 
 /*!
