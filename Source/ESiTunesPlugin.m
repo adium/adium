@@ -566,7 +566,14 @@
 	MVMenuButton  *button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
 
 	//configure the popup button and its menu
-	[button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
+
+    /* XXX Remove after 10.6: Apparently with iTunes 10.6.3 on Mac OS X 10.6.8, the NSIconRefImageRep
+     * that is returned by -iconfForFile: for iTunes fails to encode itself for NSCopying. Make a copy
+     * here via -TIFFRepresentation to avoid this bug.
+     * rdar://11930126 http://trac.adium.im/ticket/16046
+     */
+    NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
+	[button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
 	[self createiTunesToolbarItemMenuItems:menu];
 
 	NSToolbarItem * iTunesItem = [AIToolbarUtilities toolbarItemWithIdentifier:KEY_TRIGGERS_TOOLBAR
