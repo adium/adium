@@ -70,19 +70,15 @@
 
 - (void)selectItemsInArray:(NSArray *)selectedItems
 {
-	NSEnumerator	*enumerator = [selectedItems objectEnumerator];
-	id				selectedItem;
-	NSUInteger 			selectedRow;
-
 	id  indexSet = [NSMutableIndexSet indexSet];
 
 	//Build an index set
-	while ((selectedItem = [enumerator nextObject])) {
-		selectedRow = [self rowForItem:selectedItem];
+	[selectedItems enumerateObjectsUsingBlock:^(id selectedItem, NSUInteger idx, BOOL *stop) {
+		NSUInteger selectedRow = [self rowForItem:selectedItem];
 		if (selectedRow != NSNotFound) {
 			[indexSet addIndex:selectedRow];
 		}
-	}
+	}];
 
 	//Select the indexes
 	[self selectRowIndexes:indexSet byExtendingSelection:NO];
