@@ -401,7 +401,6 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 		if(reindex)
 			[bself _resetLogIndex];
 		
-		[bself logContentIndex];
 		if (!userTriggeredReindex) {
 			if (reindex)
 				[bself _dirtyAllLogs];
@@ -1693,8 +1692,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
+                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
 				SKIndexClose(bself->logIndex);
-                AILogWithSignature(@"**** %@ Released its index %p", bself, bself->logIndex);
 				bself->logIndex = nil;
 			}
 		}
