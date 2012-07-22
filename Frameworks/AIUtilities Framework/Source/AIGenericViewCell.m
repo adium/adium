@@ -81,7 +81,10 @@
 	[embeddedView drawRect:usableFrame];
 	
 	//Now draw each subview in its proper place
-	for (NSView *subView in [embeddedView subviews]) {
+	NSEnumerator	*enumerator = [[embeddedView subviews] objectEnumerator];
+	NSView			*subView;
+
+	while ((subView = [enumerator nextObject])) {
 		NSRect	subFrame = [subView frame];
 		NSRect	subUsableFrame = NSMakeRect(0, 0, subFrame.size.width, subFrame.size.height);
 

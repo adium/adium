@@ -129,6 +129,8 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context);
 
 @implementation AILogViewerWindowController
 
+static NSInteger toArraySort(id itemA, id itemB, void *context);
+
 + (NSOperationQueue *)sharedLogViewerQueue
 {
 	static NSOperationQueue *logViewerQueue = nil;
@@ -380,15 +382,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		}		
 	}
 	
-	[toArray sortUsingComparator:^(id itemA, id itemB){
-		NSString *nameA = [self outlineView:nil objectValueForTableColumn:nil byItem:itemA];
-		NSString *nameB = [self outlineView:nil objectValueForTableColumn:nil byItem:itemB];
-		NSComparisonResult result = [nameA localizedCaseInsensitiveCompare:nameB];
-		if (result == NSOrderedSame) result = [nameA compare:nameB];
-		
-		return result;
-	}];
-	
+	[toArray sortUsingFunction:toArraySort context:NULL];
 	[outlineView_contacts reloadData];
 
 	if (!isOpeningForContact) {
@@ -2263,6 +2257,17 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	return nil;
 }
 
+static NSInteger toArraySort(id itemA, id itemB, void *context)
+{
+	AILogViewerWindowController *sharedLogViewerInstance = [AILogViewerWindowController existingWindowController];
+	NSString *nameA = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemA];
+	NSString *nameB = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemB];
+	NSComparisonResult result = [nameA caseInsensitiveCompare:nameB];
+	if (result == NSOrderedSame) result = [nameA compare:nameB];
+
+	return result;
+}
+
 #pragma mark Split View Delegate
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
 {
@@ -2688,14 +2693,21 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
  */
 - (NSArray *)allSelectedToGroups:(NSInteger *)totalLogCount
 {
-	__block NSMutableArray	*allToGroups = [NSMutableArray array];
+    NSEnumerator        *fromEnumerator;
+    AILogFromGroup      *fromGroup;
+	NSMutableArray		*allToGroups = [NSMutableArray array];
 
 	if (totalLogCount) *totalLogCount = 0;
 
     //Walk through every 'from' group
-    [logFromGroupDict enumerateKeysAndObjectsUsingBlock:^(id key, id fromGroup, BOOL *stop) {
+    fromEnumerator = [logFromGroupDict objectEnumerator];
+    while ((fromGroup = [fromEnumerator nextObject])) {
+		NSEnumerator        *toEnumerator;
+		AILogToGroup        *toGroup;
+
 		//Walk through every 'to' group
-		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
+		toEnumerator = [[fromGroup toGroupArray] objectEnumerator];
+		while ((toGroup = [toEnumerator nextObject])) {
 			if (![contactIDsToFilter count] || [contactIDsToFilter containsObject:[[NSString stringWithFormat:@"%@.%@",[toGroup serviceClass],[toGroup to]] compactedString]]) {
 				if (totalLogCount) {
 					*totalLogCount += [toGroup logCount];
@@ -2704,7 +2716,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				[allToGroups addObject:toGroup];
 			}
 		}
-	}];
+	}
 
 	return allToGroups;
 }
@@ -2735,7 +2747,10 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 							 toPath:toGroupPath
 							  error:NULL];
 		
-		for (AIChatLog *aLog in [toGroup logEnumerator]) {
+		NSEnumerator *logEnumerator = [toGroup logEnumerator];
+		AIChatLog	 *aLog;
+	
+		while ((aLog = [logEnumerator nextObject])) {
 			[plugin markLogDirtyAtPath:[logBasePath stringByAppendingPathComponent:[aLog relativePath]]];
 		}
 	}
@@ -2751,7 +2766,11 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		NSMutableSet	*logPaths = [NSMutableSet set];
 		
 		for (logToGroup in allSelectedToGroups) {
-			for (AIChatLog *aLog in [logToGroup logEnumerator]) {
+			NSEnumerator *logEnumerator;
+			AIChatLog	 *aLog;
+			
+			logEnumerator = [logToGroup logEnumerator];
+			while ((aLog = [logEnumerator nextObject])) {
 				NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 				[logPaths addObject:logPath];
 			}
@@ -3098,7 +3117,9 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	}
 	
 	if (updateSize) {
-		for (NSToolbarItem *toolbarItem in self.window.toolbar.items) {
+		NSEnumerator *enumerator = [[[[self window] toolbar] items] objectEnumerator];
+		NSToolbarItem *toolbarItem;
+		while ((toolbarItem = [enumerator nextObject])) {
 			if ([[toolbarItem itemIdentifier] isEqualToString:DATE_ITEM_IDENTIFIER]) {
 				NSSize newSize = NSMakeSize(([datePicker isHidden] ? 180 : 290), NSHeight([view_DatePicker frame]));
 				[toolbarItem setMinSize:newSize];

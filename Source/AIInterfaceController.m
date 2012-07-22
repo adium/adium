@@ -715,9 +715,11 @@
 	//For all containers but the first, move the chats they contain to the first container
 	while ((containerID = [containerEnumerator nextObject])) {
 		NSArray			*openChats = [[interfacePlugin openChatsInContainerWithID:containerID] copy];
+		NSEnumerator	*chatEnumerator = [openChats objectEnumerator];
+		AIChat			*chat;
 
 		//Move all the chats, providing a target index if chat sorting is enabled
-		for (AIChat *chat in openChats) {
+		while ((chat = [chatEnumerator nextObject])) {
 			[interfacePlugin moveChat:chat
 					toContainerWithID:firstContainerID
 								index:-1];

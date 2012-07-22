@@ -171,14 +171,16 @@
     // to a completion value, but with different case, he or she can avoid this automatic case "correction" by
     // NOT hitting tab or enter, and instead just clicking the appropriate button or control they want to use.
     
-    NSString        *userValue;
+    NSEnumerator    *enumerator;
+    NSString        *userValue, *currentString;
     
     // If the field matches an entry in stringSet (except maybe case) replace it with the correct-case string
     userValue = [self stringValue];
     
     if ([userValue length] >= minLength) {
         // Look for matching first matching string (except for case)
-        for (NSString *currentString in stringSet) {
+        enumerator = [stringSet objectEnumerator];
+        while ((currentString = [enumerator nextObject])) {
             if ([currentString compare:userValue options:NSCaseInsensitiveSearch] == 0) {
                 [self setStringValue:currentString];
                 break;
@@ -193,7 +195,9 @@
 - (NSString *)completionForString:(NSString *)inString
 {
 	NSMutableArray  *possibleCompletions = [[NSMutableArray alloc] init];
+    NSEnumerator	*enumerator;
 	NSString		*compString = inString;
+    NSString		*autoString;
     NSUInteger		length;
     NSRange			range;
 
@@ -209,7 +213,8 @@
 	
     if (length >= minLength) {
         //Check each auto-complete string for a match, add each match to array of possible competions
-        for (NSString *autoString in stringSet) {
+        enumerator = [stringSet objectEnumerator];
+        while ((autoString = [enumerator nextObject])) {
             if (([autoString length] > length) && [autoString compare:compString options:NSCaseInsensitiveSearch range:range] == 0) {
 				[possibleCompletions addObject:autoString];
             }

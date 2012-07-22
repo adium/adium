@@ -50,6 +50,15 @@
     return [theMenuItem autorelease];
 }
 
+
+- (void)removeAllItems
+{
+	NSInteger count = [self numberOfItems];
+	while (count--) {
+		[self removeItemAtIndex:0];
+	}
+}
+
 - (void)removeAllItemsButFirst
 {
 	NSInteger count = [self numberOfItems];
@@ -137,7 +146,9 @@
 
 - (void)setAllMenuItemsToState:(int)state
 {
-	for (NSMenuItem *menuItem in self.itemArray) {
+	NSEnumerator	*enumerator = [[self itemArray] objectEnumerator];
+	NSMenuItem		*menuItem;
+	while ((menuItem = [enumerator nextObject])) {
 		[menuItem setState:state];
 	}
 }
@@ -145,7 +156,10 @@
 //Finds and returns the first enabled menu item, or nil if there are none
 - (NSMenuItem *)firstEnabledMenuItem
 {
-	for (NSMenuItem *menuItem in self.itemArray) {
+	NSEnumerator	*enumerator = [[self itemArray] objectEnumerator];
+	NSMenuItem		*menuItem;
+	
+	while ((menuItem = [enumerator nextObject])) {
 		if ([menuItem isEnabled]) return menuItem;
 	}
 	

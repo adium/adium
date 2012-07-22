@@ -55,8 +55,10 @@
 	    [[inAttributedString string] rangeOfString:@"/me "
 										   options:NSCaseInsensitiveSearch].location == 0 ) {
 		NSMutableAttributedString *ourAttributedString = [[inAttributedString mutableCopy] autorelease];
+		NSAttributedString *dots = [[[NSAttributedString alloc] initWithString:@"*" attributes:[ourAttributedString attributesAtIndex:[ourAttributedString length] - 1 effectiveRange:NULL]] autorelease];
 		[ourAttributedString replaceCharactersInRange:NSMakeRange(0, 4)
-										   withString:@""];
+										   withString:@"*"];
+		[ourAttributedString appendAttributedString:dots];
 		[ourAttributedString addAttribute:AIActionMessageAttributeName
 									value:[NSNumber numberWithBool:YES]
 									range:NSMakeRange(0, [ourAttributedString length])];
@@ -71,7 +73,7 @@
 }
 
 /*!
- * @brief Transform the HTML from an action to the proper span structure
+ * @brief Transform the HTML from *foo* to the proper span structure
  */
 - (NSString *)filterHTMLString:(NSString *)inHTMLString content:(AIContentObject*)content;
 {	
@@ -79,7 +81,11 @@
 		AIContentMessage *message = (AIContentMessage *)content;
 		if([[[message message] attribute:AIActionMessageAttributeName atIndex:0 effectiveRange:NULL] boolValue]) {
 
-			return [NSString stringWithFormat:@"<span class='actionMessageUserName'>%@</span><span class='actionMessageBody'>%@</span>", [[content source] displayName], inHTMLString];
+			NSMutableString *mutableHTML = [[inHTMLString mutableCopy] autorelease];
+			NSString *replaceString = [NSString stringWithFormat:@"<span class='actionMessageUserName'>%@</span><span class='actionMessageBody'>", [[content source] displayName]];
+			[mutableHTML replaceCharactersInRange:[mutableHTML rangeOfString:@"*"] withString:replaceString];
+			[mutableHTML replaceCharactersInRange:[mutableHTML rangeOfString:@"*" options:NSBackwardsSearch] withString:@"</span>"];
+			return mutableHTML;
 		}
 	}
 	return inHTMLString;

@@ -553,8 +553,12 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 - (void)queryUnconfiguredHosts
 {
 	if ([unconfiguredHostsAndObservers count]) {
+		NSEnumerator	*enumerator;
+		NSDictionary	*unconfiguredDict;
+
 		[hostAndObserverListLock lock];
-		for (NSDictionary *unconfiguredDict in unconfiguredHostsAndObservers) {
+		enumerator = [unconfiguredHostsAndObservers objectEnumerator];
+		while ((unconfiguredDict = [enumerator nextObject])) {
 			[self scheduleReachabilityMonitoringForHost:[unconfiguredDict objectForKey:@"host"]
 											   observer:[unconfiguredDict objectForKey:@"observer"]];
 		}
@@ -638,11 +642,14 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 	NSArray	*oldHosts = [hosts copy];
 	NSArray	*oldObservers = [observers copy];
 	
-	[reachabilities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		SCNetworkReachabilityUnscheduleFromRunLoop((SCNetworkReachabilityRef)obj,
+	NSEnumerator				*enumerator;
+	SCNetworkReachabilityRef	reachabilityRef;
+	enumerator = [reachabilities objectEnumerator];
+	while ((reachabilityRef = (SCNetworkReachabilityRef)[enumerator nextObject])) {
+		SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef,
 												   CFRunLoopGetCurrent(),
 												   kCFRunLoopDefaultMode);
-	}];
+	}
 	
 	[hosts removeAllObjects];
 	[observers removeAllObjects];

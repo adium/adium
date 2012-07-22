@@ -200,9 +200,13 @@
 // Configure window for our current event dict
 - (void)configureForEvent
 {
+	NSEnumerator 	*enumerator;
+	NSMenuItem 		*menuItem;
+
 	// Select the correct event
 	NSString	*eventID = [alert objectForKey:KEY_EVENT_ID];
-	for (NSMenuItem *menuItem in [popUp_event itemArray]) {
+	enumerator = [[popUp_event itemArray] objectEnumerator];
+	while ((menuItem = [enumerator nextObject])) {
 		if ([eventID isEqualToString:[menuItem representedObject]]) {
 			[popUp_event selectItem:menuItem];
 			break;
@@ -211,7 +215,8 @@
 	
 	// Select the correct action
 	NSString *actionID = [alert objectForKey:KEY_ACTION_ID];
-	for (NSMenuItem *menuItem in [popUp_action itemArray]) {
+	enumerator = [[popUp_action itemArray] objectEnumerator];
+	while ((menuItem = [enumerator nextObject])) {
 		if ([actionID isEqualToString:[menuItem representedObject]]) {
 			[popUp_action selectItem:menuItem];
 			break;

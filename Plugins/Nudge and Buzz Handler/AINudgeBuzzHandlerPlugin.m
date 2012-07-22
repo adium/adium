@@ -254,8 +254,10 @@
 	
 	// Find the correct choice to send for a meta contact.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
-		for (AIListContact *contact in [(AIMetaContact *)object uniqueContainedObjects]) {
+		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
+		AIListContact	*contact = nil;		
 		// Loop until the first contact supporting notifications
+		while ((contact = [enumerator nextObject])) {
 			if ([self contactDoesSupportNotification:contact]) {
 				sendChoice = contact;
 				break;

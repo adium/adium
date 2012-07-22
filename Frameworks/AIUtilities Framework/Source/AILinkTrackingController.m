@@ -317,8 +317,12 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 //Stops cursor tracking, removing all cursor rects
 - (void)_endCursorTracking
 {
+    NSEnumerator	*enumerator;
+    AIFlexibleLink	*trackedLink;
+
     //Remove all existing tracking rects
-    for (AIFlexibleLink *trackedLink in linkArray) {
+    enumerator = [linkArray objectEnumerator];
+    while ((trackedLink = [enumerator nextObject])) {
         [controlView removeTrackingRect:[trackedLink trackingTag]];
     }
 

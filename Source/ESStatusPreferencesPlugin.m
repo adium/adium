@@ -15,6 +15,7 @@
  */
 
 #import "ESStatusPreferencesPlugin.h"
+#import "ESStatusAdvancedPreferences.h"
 #import "ESStatusPreferences.h"
 #import <Adium/AIMenuControllerProtocol.h>
 #import "AIStatusController.h"
@@ -45,6 +46,7 @@
 	
 	//Install our preference view
     preferences = [(ESStatusPreferences *)[ESStatusPreferences preferencePaneForPlugin:self] retain];
+	advancedPreferences = [(ESStatusAdvancedPreferences *)[ESStatusAdvancedPreferences preferencePaneForPlugin:self] retain];
 
 	//Add our menu item
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Status Menu",nil) stringByAppendingEllipsis]

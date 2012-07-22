@@ -271,6 +271,11 @@
 	return success;
 }
 
+//Sort sets
+NSInteger availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *context) {
+	return [[objectA objectForKey:@"name"] caseInsensitiveCompare:[objectB objectForKey:@"name"]];
+}
+
 - (NSArray *)availableSetsWithExtension:(NSString *)extension fromFolder:(NSString *)folder
 {
 	NSMutableArray	*setArray = [NSMutableArray array];
@@ -302,9 +307,7 @@
 		}
 	}
 	
-	return [setArray sortedArrayUsingComparator:^(NSDictionary *objectA, NSDictionary *objectB){
-		return [[objectA objectForKey:@"name"] localizedCaseInsensitiveCompare:[objectB objectForKey:@"name"]];
-	}];
+	return [setArray sortedArrayUsingFunction:availableSetSort context:nil];
 }
 
 - (NSArray *)availableLayoutSets

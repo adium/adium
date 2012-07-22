@@ -51,11 +51,6 @@
 	return nil;
 }
 
-- (AIPreferenceCategory)category
-{
-	return AIPref_Advanced;
-}
-
 - (NSView *)paneView
 {
 	return [self view];

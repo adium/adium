@@ -336,6 +336,9 @@
  */
 - (void)windowWillClose:(id)sender
 {
+    NSEnumerator			*enumerator;
+    AIMessageTabViewItem	*tabViewItem;
+	
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
 		CGFloat widthToStore;
 		if ([tabView_tabBar isTabBarHidden]) {
@@ -355,10 +358,10 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
-	[[tabView_messages tabViewItems] enumerateObjectsWithOptions:NSEnumerationReverse
-													  usingBlock:^(id tabViewItem, NSUInteger idx, BOOL *stop) {
-		[adium.interfaceController closeChat:[(AIMessageTabViewItem *)tabViewItem chat]];
-	}];
+	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
+    while ((tabViewItem = [enumerator nextObject])) {
+		[adium.interfaceController closeChat:tabViewItem.chat];
+	}
 
 	//Chats have all closed, set active to nil, let the interface know we closed.  We should skip this step if our
 	//window is no longer visible, since in that case another window will have already became active.
@@ -701,9 +704,14 @@
 
 - (void)_reloadContainedChats
 {
+	NSEnumerator			*enumerator;
+	AIMessageTabViewItem	*tabViewItem;
+
 	//Update our contained chats array to mirror the order of the tabs
 	[m_containedChats release]; m_containedChats = [[NSMutableArray alloc] init];
-	for (AIMessageTabViewItem *tabViewItem in [tabView_messages tabViewItems]) {
+	enumerator = [[tabView_messages tabViewItems] objectEnumerator];
+	
+	while ((tabViewItem = [enumerator nextObject])) {
 		[tabViewItem setWindowController:self];
 		[m_containedChats addObject:[tabViewItem chat]];
 	}
@@ -1362,9 +1370,11 @@
 - (void)removeToolbarItemWithIdentifier:(NSString*)identifier
 {
 	NSArray			*itemArray = [toolbar items];
+	NSEnumerator	*enumerator = [itemArray objectEnumerator];
+	NSToolbarItem	*item;
 	NSInteger		idx = NSNotFound;
 
-	for (NSToolbarItem *item in itemArray) {
+	while ((item = [enumerator nextObject])) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {
 			idx = [itemArray indexOfObject:item];
 			break;

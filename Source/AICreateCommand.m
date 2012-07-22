@@ -30,6 +30,7 @@
  */
 - (id)performDefaultImplementation
 {
+#warning This uses a Private API
 	NSScriptClassDescription *newObjectDescription = [self createClassDescription];	
 	id target = [self subjectsSpecifier];
 
@@ -63,13 +64,16 @@
 
 /**
  * @brief returns the object in the 'subj' key in this apple event.
+ *
+ * This uses a private API. It's the only way I've found to get the target of the 'make' command, which is necessary 
+ * in order to override performDefaultImplementation.
  */
 - (id)subjectsSpecifier
 {
 	NSAppleEventDescriptor *subjDesc = [[self appleEvent] attributeDescriptorForKeyword: 'subj'];
 	if ([subjDesc aeDesc] && [subjDesc aeDesc]->descriptorType == typeNull)
 		return nil;
-	NSScriptObjectSpecifier *subjSpec = [NSScriptObjectSpecifier objectSpecifierWithDescriptor:subjDesc];
+	NSScriptObjectSpecifier *subjSpec = [NSScriptObjectSpecifier _objectSpecifierFromDescriptor: subjDesc inCommandConstructionContext: nil];
 	return [subjSpec objectsByEvaluatingSpecifier];
 }
 @end

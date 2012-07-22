@@ -15,7 +15,7 @@
  */
 
 #import "AIURLHandlerPlugin.h"
-#import "AIURLHandlerWindowController.h"
+#import "AIURLHandlerAdvancedPreferences.h"
 
 #import "AINewContactWindowController.h"
 #import "XtrasInstaller.h"
@@ -57,30 +57,6 @@
  * for the schemes we support, and enforcing if necessary our ownership.
  */
 @implementation AIURLHandlerPlugin
-- (id)initPlugin
-{
-	if (!(self = [super init]))
-		return nil;
-	
-	return self;
-}
-
-+ (AIURLHandlerPlugin *)sharedAIURLHandlerPlugin
-{
-	static AIURLHandlerPlugin *sharedAIURLHandlerPlugin = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		sharedAIURLHandlerPlugin = [[self alloc] initPlugin];
-	});
-	
-	return sharedAIURLHandlerPlugin;
-}
-
-- (id)init
-{
-	return [AIURLHandlerPlugin sharedAIURLHandlerPlugin];
-}
-
 /*!
  * @brief Install plugin
  *
@@ -88,6 +64,8 @@
  */
 - (void)installPlugin
 {
+	preferences = [(AIURLHandlerAdvancedPreferences *)[AIURLHandlerAdvancedPreferences preferencePaneForPlugin:self] retain];
+	
 	[self checkHandledSchemes];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -102,6 +80,8 @@
 - (void)uninstallPlugin
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[preferences release];
 }
 
 #pragma mark Scheme enforcement
@@ -229,6 +209,8 @@
 	for (NSString *scheme in [self allSchemesLikeScheme:inScheme]) {
 		LSSetDefaultHandlerForURLScheme((CFStringRef)scheme, (CFStringRef)bundleID);
 	}
+	
+	[preferences refreshTable];
 }
 
 /*!

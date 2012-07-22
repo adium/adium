@@ -15,20 +15,19 @@
  */
 
 #import "AIAdvancedPreferencesPlugin.h"
+#import "AIAdvancedPreferences.h"
 #import "AIMessageAlertsAdvancedPreferences.h"
-#import "AIWindowHandlingPreferences.h"
-#import "AIMessagePreferences.h"
-#import "AIXtrasManager.h"
+#import "AIConfirmationsAdvancedPreferences.h"
 
 @implementation AIAdvancedPreferencesPlugin
 
 - (void)installPlugin
 {
+	[AIAdvancedPreferences preferencePane];
+	
 	// Generic advanced panes with no specific plugins.
 	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
-	windowHandlingPreferences = [(AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane] retain];
-	messagePreferences = [(AIMessagePreferences *)[AIMessagePreferences preferencePane] retain];
-	xtrasManager = [(AIXtrasManager *)[AIXtrasManager preferencePane] retain];
+	confirmationsPreferences = [(AIConfirmationsAdvancedPreferences *)[AIConfirmationsAdvancedPreferences preferencePane] retain];
 }
 
 @end
