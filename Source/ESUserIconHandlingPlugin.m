@@ -283,7 +283,13 @@
 	AIListContact	*listContact;
 	NSImage			*image;
 	
-	if ((listContact = chat.listObject.parentContact) && !chat.isGroupChat) {
+    if (chat.isGroupChat) {
+        listContact = (AIListContact *)[adium.contactController existingBookmarkForChat:chat];
+    } else {
+        listContact = chat.listObject.parentContact;
+    }
+    
+	if (listContact) {
 		image = [listContact userIcon];
 		
 		//Use the serviceIcon if no image can be found
