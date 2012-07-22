@@ -18,7 +18,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 
@@ -34,20 +33,18 @@
 @end
 
 @implementation ESOTRPreferences
-@synthesize label_privateKeys;
-@synthesize label_knownFingerprints;
 
 //Preference pane properties
-- (NSString *)paneIdentifier{
-	return @"OTRAdvanced";
-}
-- (NSString *)paneName{
+- (NSString *)label
+{
     return AILocalizedString(@"Encryption",nil);
 }
-- (NSString *)nibName{
-    return @"Preferences-Encryption";
+- (NSString *)nibName
+{
+    return @"OTRPrefs";
 }
-- (NSImage *)paneIcon{
+- (NSImage *)image
+{
 	return [NSImage imageNamed:@"lock-locked" forClass:[adium class]];
 }
 
@@ -72,17 +69,6 @@
 	[textField_privateKey setSelectable:YES];
 
 	[self tableViewSelectionDidChange:nil];		
-}
-
-- (void)localizePane
-{
-	[label_privateKeys setStringValue:AILocalizedString(@"Private Keys:", nil)];
-	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints:", nil)];
-	[button_forgetFingerprint setTitle:AILocalizedString(@"Forget Fingerprint", nil)];
-	[button_showFingerprint setTitle:[AILocalizedString(@"Show Fingerprint", nil) stringByAppendingEllipsis]];
-	[button_generate setTitle:AILocalizedString(@"Generate", nil)];
-	[[[tableView_fingerprints tableColumnWithIdentifier:@"UID"] headerCell] setStringValue:AILocalizedString(@"Name", nil)];
-	[[[tableView_fingerprints tableColumnWithIdentifier:@"Status"] headerCell] setStringValue:AILocalizedString(@"Status", nil)];
 }
 
 - (void)viewWillClose

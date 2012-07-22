@@ -418,12 +418,14 @@
     [table setHidesEmptyCells:YES];
 
 	NSMutableAttributedString		*result = [[[NSMutableAttributedString alloc] init] autorelease];
+	NSEnumerator					*enumerator = [profileArray objectEnumerator];
+	NSDictionary					*lineDict;
 	
-	__block BOOL					shownAnyContent = NO;
+	BOOL							shownAnyContent = NO;
 	
-	[profileArray enumerateObjectsUsingBlock:^(id lineDict, NSUInteger row, BOOL *stop) {
+	for (NSInteger row = 0; (lineDict = [enumerator nextObject]); row++) {
 		if ([[lineDict objectForKey:KEY_TYPE] integerValue] == AIUserInfoSectionBreak && shownAnyContent == NO) {
-			return;
+			continue;
 		}
 		
 		NSAttributedString *value = nil, *key = nil;
@@ -503,7 +505,7 @@
 		}
 		
 		shownAnyContent = YES;
-	}];
+	}
 	
 	return result;
 }

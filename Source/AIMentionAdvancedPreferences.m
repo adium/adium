@@ -29,18 +29,15 @@
 #pragma mark Preference pane settings
 - (AIPreferenceCategory)category
 {
-    return AIPref_Events;
+    return AIPref_Advanced;
 }
-- (NSString *)paneIdentifier{
-	return @"MentionAdvanced";
-}
-- (NSString *)paneName{
+- (NSString *)label{
     return AILocalizedString(@"Mention",nil);
 }
 - (NSString *)nibName{
     return @"AIMentionAdvancedPreferences";
 }
-- (NSImage *)paneIcon{
+- (NSImage *)image{
 	return [NSImage imageNamed:@"pref-mention" forClass:[AIPreferenceWindowController class]];
 }
 
@@ -89,14 +86,11 @@
  */
 - (void)viewDidLoad
 {
+	[label_explanation setStringValue:AILocalizedString(@"Messages are highlighted when the following terms are spoken. Your username is always highlighted.", nil)];
+	
 	mentionTerms = [[NSMutableArray alloc] initWithArray:[adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL]];
 	
 	[super viewDidLoad];
-}
-
-- (void)localizePane
-{
-	[label_explanation setStringValue:AILocalizedString(@"Messages are highlighted when the following terms are spoken. Your username is always highlighted.", nil)];
 }
 
 - (void)viewWillClose

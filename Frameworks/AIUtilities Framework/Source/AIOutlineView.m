@@ -113,11 +113,13 @@
 			}
 
         } else if (pressedChar == NSRightArrowFunctionKey) { //right
-			[self.arrayOfSelectedItems enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) {
+			NSEnumerator *enumerator = [[self arrayOfSelectedItems] objectEnumerator];
+			id object;
+			while ((object = [enumerator nextObject])) {
 				if ([self isExpandable:object] && ![self isItemExpanded:object]) {
 					[self expandItem:object];
 				}
-			}];
+			}
 
 		} else if (pressedChar == NSUpArrowFunctionKey) { //up
 			[super keyDown:theEvent];

@@ -377,7 +377,10 @@
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	for (AIAccount *account in [adium.accountController accountsCompatibleWithService:[menuItem representedObject]]) {
+	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[menuItem representedObject]] objectEnumerator];
+	AIAccount		*account;
+	
+	while ((account = [enumerator nextObject])) {
 		if (account.contactListEditable) return YES;
 	}
 	
@@ -524,12 +527,10 @@
 	BOOL		shouldEnable = NO;
 	
 	if (([[textField_contactName stringValue] length] > 0)) {
-		for (AIAccount *account in checkedAccounts) {
-			if (account.contactListEditable) {
-				shouldEnable = YES;
-				break;
-			}
-		}
+		NSEnumerator *enumerator = [checkedAccounts objectEnumerator];
+		AIAccount	 *account;
+		while (!shouldEnable && (account = [enumerator nextObject]))
+			if (account.contactListEditable) shouldEnable = YES;
 	}
 
 	[button_add setEnabled:shouldEnable];

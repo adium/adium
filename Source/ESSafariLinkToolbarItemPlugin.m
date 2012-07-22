@@ -57,7 +57,10 @@
 		defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:defaultBrowserPath];
 
 		//Is the default browser supported?
-		for (NSString *aSupportedBrowser in [NSArray arrayWithObjects:@"Safari", @"Firefox", @"OmniWeb", @"Camino", @"Shiira", @"NetNewsWire", @"Google Chrome", nil]) {
+		NSEnumerator *enumerator = [[NSArray arrayWithObjects:@"Safari", @"Firefox", @"OmniWeb", @"Camino", @"Shiira", @"NetNewsWire", @"Google Chrome", nil] objectEnumerator];
+		NSString	 *aSupportedBrowser;
+
+		while ((aSupportedBrowser = [enumerator nextObject])) {
 			if ([defaultBrowserName rangeOfString:aSupportedBrowser
 										  options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
 				//Use the name and image provided by the system if possible

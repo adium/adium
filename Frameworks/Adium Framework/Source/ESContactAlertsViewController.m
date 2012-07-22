@@ -375,6 +375,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 
 - (void)calculateHeightForItem:(id)item
 {
+	NSEnumerator	*enumerator;
+	NSTableColumn	*tableColumn;
 	BOOL			eventIsExtended = [self outlineView:outlineView_summary
 								extendToEdgeColumn:EVENT_COLUMN_INDEX
 											ofRow:[outlineView_summary rowForItem:item]];
@@ -384,7 +386,9 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	NSRect			rectOfEventColumn = [outlineView_summary rectOfColumn:EVENT_COLUMN_INDEX];
 	CGFloat			expandedEventWidth = NSMaxX(rectOfLastColumn) - NSMinX(rectOfEventColumn);
 
-	for (NSTableColumn *tableColumn in outlineView_summary.tableColumns) {
+	//This pool seems to fix a crash. I don't know why.
+	enumerator = [[outlineView_summary tableColumns] objectEnumerator];
+	while ((tableColumn = [enumerator nextObject])) {
 		NSString	*identifier = [tableColumn identifier];
 
 		if ([identifier isEqualToString:@"event"] || ([identifier isEqualToString:@"action"] && !eventIsExtended)) {
@@ -461,6 +465,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 {
 	//Get two parallel arrays for event IDs and the array of actions for that event ID
 	NSDictionary	*contactAlertsDict;
+	NSEnumerator	*enumerator;
+	NSString		*eventID;
 	NSString		*selectedEventID = nil;
 	
 	NSInteger		row = [outlineView_summary selectedRow];
@@ -482,7 +488,9 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	[contactAlertsEvents release]; contactAlertsEvents = [[NSMutableArray alloc] init];
 	[contactAlertsActions release]; contactAlertsActions = [[NSMutableArray alloc] init];
 	
-	for (NSString *eventID in [adium.contactAlertsController sortedArrayOfEventIDsFromArray:[contactAlertsDict allKeys]]) {
+	enumerator = [[adium.contactAlertsController sortedArrayOfEventIDsFromArray:[contactAlertsDict allKeys]] objectEnumerator];
+	
+	while ((eventID = [enumerator nextObject])) {
 		[contactAlertsEvents addObject:eventID];
 		[contactAlertsActions addObject:[[contactAlertsDict objectForKey:eventID] sortedArrayUsingFunction:actionSort
 																								   context:NULL]];
@@ -490,7 +498,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 
 	//Now add events which have no actions at present
 	NSArray *sourceEventArray = (listObject ? [adium.contactAlertsController nonGlobalEventIDs] : [adium.contactAlertsController allEventIDs]);
-	for (NSString *eventID in [adium.contactAlertsController sortedArrayOfEventIDsFromArray:sourceEventArray]) {
+	enumerator = [[adium.contactAlertsController sortedArrayOfEventIDsFromArray:sourceEventArray] objectEnumerator];
+	while ((eventID = [enumerator nextObject])) {
 		if (![contactAlertsEvents containsObject:eventID]) {
 			[contactAlertsEvents addObject:eventID];
 			

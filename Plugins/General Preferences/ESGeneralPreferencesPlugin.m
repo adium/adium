@@ -78,14 +78,13 @@
 {
 	if (![NSApp isActive]) {
 		[NSApp activateIgnoringOtherApps:YES];
-        //Switch to the appropriate window, just like clicking the dock; this method will handle switching to a chat with unviewed content, for example.
-        [adium.interfaceController handleReopenWithVisibleWindows:NO];
+	}
 
-        //Now ensure that all Adium windows are visible
-        [NSApp unhide:nil];
-	} else {
-        [NSApp hide:self];
-    }
+	//Switch to the appropriate window, just like clicking the dock; this method will handle switching to a chat with unviewed content, for example.
+	[adium.interfaceController handleReopenWithVisibleWindows:NO];
+	
+	//Now ensure that all Adium windows are visible
+	[NSApp unhide:nil];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object

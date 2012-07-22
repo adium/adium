@@ -838,63 +838,79 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSDictionary *result = nil;
 
 	// Search for keychain items whose server is our key
-	SecKeychainItemRef item = NULL;
-	UInt32 passwordLength = 0U;
-	void  *passwordBytes = NULL;
-	
-	// If keychainRef is NULL, the user's default keychain search list will be used
-	OSStatus err = SecKeychainFindInternetPassword(keychainRef,
-												   (unsigned int)[server length],
-												   [server UTF8String],
-												   0,
-												   NULL,
-												   0,
-												   NULL,
-												   0,
-												   NULL,
-												   0,
-												   protocol,
-												   kSecAuthenticationTypeAny,
-												   &passwordLength,
-												   &passwordBytes,
-												   &item);
-	
-	if (err == errSecItemNotFound) {
-		// No matching server found
-	} else if (err == noErr) {
-		// Output storage.
-		struct SecKeychainAttributeList *attrList = NULL;
+	SecKeychainSearchRef search = NULL;
 
-		// First, grab the username.
-		UInt32    tags[] = { kSecAccountItemAttr };
-		UInt32 formats[] = { CSSM_DB_ATTRIBUTE_FORMAT_STRING };
-		struct SecKeychainAttributeInfo info = {
-			.count  = 1,
-			.tag    = tags,
-			.format = formats,
-		};
-		
-		err = SecKeychainItemCopyAttributesAndData(item,
-												   &info,
-												   /* itemClass */ NULL,
-												   &attrList,
-												   &passwordLength,
-												   &passwordBytes);
-		if (err == noErr) {
-			NSString *username = [NSString stringWithBytes:attrList->attr[0].data length:attrList->attr[0].length encoding:NSUTF8StringEncoding];
-			NSString *password = [NSString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
-			result = [NSDictionary dictionaryWithObjectsAndKeys:
-				username, @"Username",
-				password, @"Password",
-				nil];
+	struct SecKeychainAttribute searchAttrs[] = {
+		{
+			.tag    = kSecServerItemAttr,
+			.length = (UInt32)[server length],
+			.data   = (void *)[server UTF8String],
+		},
+		{
+			.tag    = kSecProtocolItemAttr,
+			.length = sizeof(SecProtocolType),
+			.data   = &protocol,
+		}
+	};
+
+	struct SecKeychainAttributeList searchAttrList = {
+		.count = 2,
+		.attr  = searchAttrs,
+	};
+
+	// If keychainRef is NULL, the users's default keychain search list will be used
+	OSStatus err = SecKeychainSearchCreateFromAttributes(keychainRef, kSecInternetPasswordItemClass, &searchAttrList, &search);
+	
+	if (err == noErr) {
+		SecKeychainItemRef item = NULL;
 			
-			SecKeychainItemFreeAttributesAndData(attrList, passwordBytes);
+		err = SecKeychainSearchCopyNext(search, &item);
+
+		if (err == errSecItemNotFound) {
+			// No matching server found
+		} else if (err == noErr) {
+			// Output storage.
+			struct SecKeychainAttributeList *attrList = NULL;
+			UInt32 passwordLength = 0U;
+			void  *passwordBytes = NULL;
+
+			// First, grab the username.
+			UInt32    tags[] = { kSecAccountItemAttr };
+			UInt32 formats[] = { CSSM_DB_ATTRIBUTE_FORMAT_STRING };
+			struct SecKeychainAttributeInfo info = {
+				.count  = 1,
+				.tag    = tags,
+				.format = formats,
+			};
+			
+			err = SecKeychainItemCopyAttributesAndData(item,
+													   &info,
+													   /* itemClass */ NULL,
+													   &attrList,
+													   &passwordLength,
+													   &passwordBytes);
+			if (err == noErr) {
+				NSString *username = [NSString stringWithBytes:attrList->attr[0].data length:attrList->attr[0].length encoding:NSUTF8StringEncoding];
+				NSString *password = [NSString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
+				result = [NSDictionary dictionaryWithObjectsAndKeys:
+					username, @"Username",
+					password, @"Password",
+					nil];
+				
+				SecKeychainItemFreeAttributesAndData(attrList, passwordBytes);
+			} else {
+				NSLog(@"Error extracting infomation from keychain item");
+			}
+
+			if (item) {
+				CFRelease(item);
+			}
 		} else {
-			NSLog(@"Error extracting infomation from keychain item");
+			NSLog(@"%@: Error in SecKeychainSearchCopyNext(); err is %ld", self, (long)err);	
 		}
 
-		if (item) {
-			CFRelease(item);
+		if (search)	{
+			CFRelease(search);
 		}
 	} else {
 		NSLog(@"%@: Could not create search; err is %ld", self, (long)err);

@@ -70,6 +70,8 @@
 	NSMenu			*chatServerMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
 	NSMutableArray	*menuItems = [NSMutableArray array];
 	NSMenuItem		*menuItem;
+	NSEnumerator	*enumerator;
+	NSString		*prefix;
 	NSDictionary	*roomListServersDict;
 
 	roomListServersDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -103,7 +105,8 @@
 	[menuItem setRepresentedObject:@"us"];
 	[menuItems addObject:menuItem];
 
-	for (NSString *prefix in roomListServersDict) {
+	enumerator = [roomListServersDict keyEnumerator];
+	while ((prefix = [enumerator nextObject])) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[roomListServersDict objectForKey:prefix]
 																		 target:nil
 																		 action:nil

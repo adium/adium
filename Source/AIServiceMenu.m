@@ -63,6 +63,8 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 	
 	//Divide our menu into sections.  This helps separate less important services from the others (sorry guys!)
 	for (importance = AIServicePrimary; importance <= AIServiceUnsupported; importance++) {
+		NSEnumerator	*enumerator;
+		AIService		*service;
 		NSMutableArray	*menuItemArray = [[NSMutableArray alloc] init];
 		NSMenuItem		*menuItem;
 		NSUInteger		currentNumberOfItems;
@@ -77,7 +79,8 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 		}
 		
 		//Insert a menu item for each service of this importance
-		for (AIService *service in serviceArray) {
+		enumerator = [serviceArray objectEnumerator];
+		while ((service = [enumerator nextObject])) {
 			if (([service serviceImportance] == importance) &&
 				![service isHidden] &&
 				(!targetRespondsToShouldIncludeService || [target serviceMenuShouldIncludeService:service])) {

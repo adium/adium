@@ -158,7 +158,9 @@
 			[mutableNewInfo setObject:[mutableNewInfo objectForKey:KEY_ITUNES_STREAM_TITLE]
 							   forKey:KEY_ITUNES_NAME];
 
-		for (NSString *key in newInfo) {
+		NSEnumerator *enumerator = [newInfo keyEnumerator];
+		NSString *key;
+		while ((key = [enumerator nextObject])) {
 			//Some versions of iTunes may send numbers as numbers rather than strings. Change these to numbers for our use.
 			id value = [newInfo objectForKey:key];
 			if (![value isKindOfClass:[NSString class]]) {
@@ -421,13 +423,17 @@
 	
 	//get the attributed string as a regular string so we can do string processing
 	if ((stringMessage = [inAttributedString string])) {
+		NSEnumerator	*enumerator;
+		NSString		*trigger;
 		BOOL			addStoreLinkAsSubtext = NO;
 		
 		/* Replace the phrases with the string containing the triggers.
 		 * For example, /music will become *is listening to %_track by %_artist*.
 		 * This will then become the actual track information in the next while().
 		 */
-		for (NSString *trigger in phraseSubstitutionDict) {
+		enumerator = [phraseSubstitutionDict keyEnumerator];
+		
+		while ((trigger = [enumerator nextObject])) {
 			//search for phrase in the string that needs to be filtered
 			if (([stringMessage rangeOfString:trigger options:(NSLiteralSearch | NSCaseInsensitiveSearch)].location != NSNotFound)) {
 				NSDictionary	*replacementDict;
@@ -468,7 +474,9 @@
 		}
 		
 		//Substitute simple triggers as appropriate
-		for (NSString *trigger in substitutionDict) {
+		enumerator = [substitutionDict keyEnumerator];
+		while ((trigger = [enumerator nextObject])) {
+			
 			//Find if the current trigger is in the string
 			if (([stringMessage rangeOfString:trigger options:(NSLiteralSearch | NSCaseInsensitiveSearch)].location != NSNotFound)) {
 				//Get the info if we don't already have it

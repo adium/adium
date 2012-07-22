@@ -22,7 +22,10 @@
 #define ADIUM_BUNDLE_ID					@"com.adiumx.adiumx"
 #define GROUP_URL_HANDLING				@"URL Handling Group"
 
-@interface AIURLHandlerPlugin : AIPlugin
+@class AIURLHandlerAdvancedPreferences;
+@interface AIURLHandlerPlugin : AIPlugin {
+	AIURLHandlerAdvancedPreferences		*preferences;
+}
 
 // Enforcement
 - (void)setAdiumAsDefault;
@@ -36,7 +39,5 @@
 // Applications
 - (void)setDefaultForScheme:(NSString *)inScheme toBundleID:(NSString *)bundleID;
 - (NSString *)defaultApplicationBundleIDForScheme:(NSString *)scheme;
-
-+ (AIURLHandlerPlugin *)sharedAIURLHandlerPlugin;
 
 @end

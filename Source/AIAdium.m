@@ -409,7 +409,7 @@ static NSString	*prefsCategory;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_FORUM_PAGE]];
 }
 - (IBAction)showXtras:(id)sender{
-	[preferenceController openPreferencesToCategoryWithIdentifier:@"Xtras"];
+	[[AIXtrasManager sharedManager] showXtras];
 }
 
 - (IBAction)contibutingToAdium:(id)sender
@@ -586,8 +586,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIDockIconsDirectory) objectAtIndex:0];
         fileDescription = AILocalizedString(@"dock icon set",nil);
-		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
-		prefsCategory = @"Icons";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"AdiumIcon";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumSoundset"] == NSOrderedSame) {
@@ -600,8 +600,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumEmoticonset"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIEmoticonsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"emoticon set",nil);
-		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
-		prefsCategory = @"Icons";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"AdiumEmoticonset";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumScripts"] == NSOrderedSame) {
@@ -612,36 +612,36 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMessageStylesDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"message style",nil);
-		prefsButton = AILocalizedString(@"Open Message Style Prefs",nil);
-		prefsCategory = @"Message View";
+		prefsButton = AILocalizedString(@"Open Message Prefs",nil);
+		prefsCategory = @"Messages";
 		extension = @"AdiumMessageStyle";
 
 	} else if ([extension caseInsensitiveCompare:@"ListLayout"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list layout",nil);
-		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
-		prefsCategory = @"Contact List";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"ListLayout";
 
 	} else if ([extension caseInsensitiveCompare:@"ListTheme"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list theme",nil);
-		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
-		prefsCategory = @"Contact List";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"ListTheme";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumServiceIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIServiceIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"service icons",nil);
-		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
-		prefsCategory = @"Icons";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"AdiumServiceIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumMenuBarIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMenuBarIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"menu bar icons",nil);
-		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
-		prefsCategory = @"Icons";
+		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+		prefsCategory = @"Appearance";
 		extension = @"AdiumMenuBarIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumStatusIcons"] == NSOrderedSame) {
@@ -657,8 +657,8 @@ static NSString	*prefsCategory;
 		if (![packName isEqualToString:defaultPackName]) {
 			destination = [AISearchPathForDirectories(AIStatusIconsDirectory) objectAtIndex:0];
 			fileDescription = AILocalizedString(@"status icons",nil);
-			prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
-			prefsCategory = @"Icons";
+			prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
+			prefsCategory = @"Appearance";
 			extension = @"AdiumStatusIcons";
 
 		} else {
@@ -950,20 +950,32 @@ static NSString	*prefsCategory;
 {
 	static NSString *cachesPath = nil;
 
-	static dispatch_once_t setCachesPath;
-	dispatch_once(&setCachesPath, ^{
-		NSFileManager	*defaultManager = [[[NSFileManager alloc] init] autorelease];
-		
-		NSURL *generalCacheURL = [defaultManager URLForDirectory:NSCachesDirectory
-														inDomain:NSUserDomainMask
-											   appropriateForURL:nil create:NO error:nil];
-		cachesPath = [[[generalCacheURL path] stringByAppendingPathComponent:@"Adium"] stringByAppendingPathComponent:self.loginController.currentUser];
-		
-		//Ensure our cache path exists
-		[defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL];
-	});
+	if (!cachesPath) {
+		NSString		*generalAdiumCachesPath;
+		NSFileManager	*defaultManager = NSFileManager.defaultManager;
 
-	return [cachesPath retain];
+		generalAdiumCachesPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Caches"] stringByAppendingPathComponent:@"Adium"];
+		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
+
+		//Ensure our cache path exists
+		if ([defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
+			//If we have to make directories, try to move old cache files into the new directory
+			BOOL			isDir;
+
+			for (NSString *filename in [defaultManager contentsOfDirectoryAtPath:generalAdiumCachesPath error:NULL]) {
+				NSString	*fullPath = [generalAdiumCachesPath stringByAppendingPathComponent:filename];
+				
+				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
+				   (!isDir)) {
+					[defaultManager moveItemAtPath:fullPath
+									  toPath:[cachesPath stringByAppendingPathComponent:filename]
+									 error:NULL];
+				}
+			}
+		}
+	}
+	
+	return cachesPath;
 }
 
 - (NSString *)pathOfPackWithName:(NSString *)name extension:(NSString *)extension resourceFolderName:(NSString *)folderName

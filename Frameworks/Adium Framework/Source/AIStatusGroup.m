@@ -171,14 +171,17 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 - (NSMenu *)statusSubmenuNotifyingTarget:(id)target action:(SEL)selector
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
+	AIStatusItem	*statusState;
 	AIStatusType	currentStatusType = AIAvailableStatusType;
 	BOOL			addedItemForThisStatusType = NO;
 
 	/* Create a menu item for each state.  States must first be sorted such that states of the same AIStatusType
 		* are grouped together.
 		*/
-	for (AIStatusItem *statusState in [self sortedContainedStatusItems]) {
+	enumerator = [[self sortedContainedStatusItems] objectEnumerator];
+	while ((statusState = [enumerator nextObject])) {
 		AIStatusType thisStatusType = statusState.statusType;
 
 		//We treat Invisible statuses as being the same as Away for purposes of the menu

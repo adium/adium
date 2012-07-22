@@ -57,7 +57,9 @@
 
 	NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
 	
-	for (id item in selectedItems) {
+	NSEnumerator *enumerator = [selectedItems objectEnumerator];
+	id	item;
+	while ((item = [enumerator nextObject])) {
 		NSUInteger i = [sourceArray indexOfObject:item];
 		if (i != NSNotFound) {
 			[indexes addIndex:i];

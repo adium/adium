@@ -118,6 +118,9 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 //Setup the window before it is displayed
 - (void)windowDidLoad
 {
+	NSEnumerator	*enumerator;
+	ESFileTransfer	*fileTransfer;
+
 	//Set the localized title
 	[[self window] setTitle:AILocalizedString(@"File Transfers",nil)];
 
@@ -191,7 +194,8 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	
 	//Create progress rows for all existing file transfers
 	shouldScrollToNewFileTransfer = NO;
-	for (ESFileTransfer *fileTransfer in [adium.fileTransferController fileTransferArray]) {
+	enumerator = [[adium.fileTransferController fileTransferArray] objectEnumerator];
+	while ((fileTransfer = [enumerator nextObject])) {
 		[self addFileTransfer:fileTransfer];
 	}
 	
@@ -393,8 +397,12 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 - (IBAction)clearAllCompleteTransfers:(id)sender
 {
+	NSEnumerator				*enumerator;
+	ESFileTransferProgressRow	*row;
+	
 	shouldScrollToNewFileTransfer = NO;
-	for (ESFileTransferProgressRow *row in [[progressRows copy] autorelease]) {
+	enumerator = [[[progressRows copy] autorelease] objectEnumerator];
+	while ((row = [enumerator nextObject])) {
 		if ([[row fileTransfer] isStopped]) [self _removeFileTransferRow:row];
 	}	
 	shouldScrollToNewFileTransfer = YES;

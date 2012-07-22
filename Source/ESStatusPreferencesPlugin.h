@@ -15,10 +15,11 @@
  */
 
 
-@class ESStatusPreferences;
+@class ESStatusPreferences, ESStatusAdvancedPreferences;
 
 @interface ESStatusPreferencesPlugin : AIPlugin {
 	ESStatusPreferences			*preferences;
+	ESStatusAdvancedPreferences *advancedPreferences;
 }
 
 @end

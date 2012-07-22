@@ -234,7 +234,7 @@
  */
 - (NSComparisonResult)compare:(AIEmoticon *)otherEmoticon
 {
-	return [name localizedCaseInsensitiveCompare:[otherEmoticon name]];
+	return [name caseInsensitiveCompare:[otherEmoticon name]];
 }
 
 @end

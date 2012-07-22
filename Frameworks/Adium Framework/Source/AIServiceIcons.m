@@ -173,10 +173,12 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 
 	if (iconDict && [[iconDict objectForKey:@"AdiumSetVersion"] intValue] == 1) {
 		NSDictionary	*previewIconNames = [iconDict objectForKey:@"List"];
+		NSEnumerator	*enumerator = [[NSArray arrayWithObjects:@"AIM",@"Jabber",@"MSN",@"Yahoo!",nil] objectEnumerator];
+		NSString		*iconID;
 		int				xOrigin = 0;
 
 		[image lockFocus];
-		for (NSString *iconID in [NSArray arrayWithObjects:@"AIM",@"Jabber",@"MSN",@"Yahoo!",nil]) {
+		while ((iconID = [enumerator nextObject])) {
 			NSString	*anIconPath = [inPath stringByAppendingPathComponent:[previewIconNames objectForKey:iconID]];
 			NSImage		*anIcon;
 

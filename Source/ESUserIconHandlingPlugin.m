@@ -211,11 +211,12 @@
 	* This will only be true when the toolbar is revealed for the first time having been hidden when window opened.
 	*/
 	if (![validatedItems containsObject:item]) {
+		NSEnumerator *enumerator = [[NSApp windows] objectEnumerator];
 		NSWindow	 *window;
 		NSToolbar	 *thisItemsToolbar = [item toolbar];
 		
 		//Look at each window to find the toolbar we are in
-		for (window in [NSApp windows]) {
+		while ((window = [enumerator nextObject])) {
 			if ([window toolbar] == thisItemsToolbar) break;
 		}
 		
@@ -310,7 +311,11 @@
  */
 - (void)_updateToolbarIconOfChat:(AIChat *)chat inWindow:(NSWindow *)window
 {
-	for (NSToolbarItem *item in window.toolbar.items) {
+	NSToolbar		*toolbar = [window toolbar];
+	NSEnumerator	*enumerator = [[toolbar items] objectEnumerator];
+	NSToolbarItem	*item;
+
+	while ((item = [enumerator nextObject])) {
 		if ([[item itemIdentifier] isEqualToString:@"UserIcon"]) {
 			[self _updateToolbarItem:item forChat:chat];
 			break;

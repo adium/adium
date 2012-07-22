@@ -36,4 +36,7 @@
 - (NSArray *)loadedPanes;
 - (void)loadContentPanes:(NSArray *)contentPanes;
 
+//Segmented Control action
+-(IBAction)segmentSelected:(id)sender;
+
 @end

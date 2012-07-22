@@ -19,7 +19,7 @@
 
 VERSION=1.5.3b1
 BUILD_IN_DEBUG_MODE?=FALSE
-BETA?=TRUE
+BETA?=FALSE
 OFFICIAL_BUILD?=TRUE
 
 # Always builds in debug mode.
