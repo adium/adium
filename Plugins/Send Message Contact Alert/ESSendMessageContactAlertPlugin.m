@@ -128,6 +128,12 @@
 															UID:contact.UID];
 	}
 	
+	/* I'm also not sure how this can occur. Apparently the contact corresponding to the destUniqueID was a
+	 * meta-contact, and it had no subcontacts on account.service. Probably a broken (empty?) meta-contact
+	 * or an inconsistent offline message. (#15787)
+	 */
+	if (!contact) return FALSE;
+	
 	//If the desired account is not available for sending, ask Adium for the best available account
 	if (![account availableForSendingContentType:CONTENT_MESSAGE_TYPE
 									   toContact:contact]) {
