@@ -127,8 +127,14 @@ static int nextChatNumber = 0;
 //Big image
 - (NSImage *)chatImage
 {
-	AIListContact 	*listObject = self.listObject;
+	AIListContact 	*listObject = nil;
 	NSImage			*image = nil;
+
+	if (self.isGroupChat) {
+		listObject = (AIListContact *)[adium.contactController existingBookmarkForChat:self];
+	} else {
+		listObject = self.listObject;
+	}
 
 	if (listObject) {
 		image = listObject.parentContact.userIcon;
@@ -143,9 +149,15 @@ static int nextChatNumber = 0;
 //lil image
 - (NSImage *)chatMenuImage
 {
-	AIListObject 	*listObject = self.listObject;
+	AIListObject 	*listObject = nil;
 	NSImage			*chatMenuImage = nil;
 	
+	if (self.isGroupChat) {
+		listObject = (AIListContact *)[adium.contactController existingBookmarkForChat:self];
+	} else {
+		listObject = self.listObject;
+	}
+
 	if (listObject) {
 		chatMenuImage = [AIUserIcons menuUserIconForObject:listObject];
 	} else {
