@@ -17,6 +17,7 @@
 #import "AIGroupChatStatusIcons.h"
 
 #import <AIUtilities/AIColorAdditions.h>
+#import <AIUtilities/AIBundleAdditions.h>
 
 @interface AIGroupChatStatusIcons()
 + (NSURL *)currentPackURL;
@@ -116,14 +117,11 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
  */
 - (NSImage *)imageForKey:(NSString *)key
 {
-	NSString *imagePath = nil;
-	
 	if (!iconInfo || ![iconInfo objectForKey:key]) {
 		return nil;
 	}
 	
-	imagePath = [xtraBundle pathForImageResource:[iconInfo objectForKey:key]];
-	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+	return [xtraBundle AI_imageForResource:[iconInfo objectForKey:key]];
 }
 
 #pragma mark Color retrieval

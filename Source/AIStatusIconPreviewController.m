@@ -15,6 +15,7 @@
  */
 
 #import "AIStatusIconPreviewController.h"
+#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AIStatusIconPreviewController
 
@@ -35,8 +36,7 @@
 	images = [[NSMutableArray alloc] init];
 
 	for (NSString *imageName in [iconDict objectEnumerator]) {
-		NSString *imagePath = [resourcePath stringByAppendingPathComponent:imageName];
-		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+		NSImage *image = [xtraInfo.bundle AI_imageForResource:imageName];
 		if (image)
 			[images addObject:image];
 	}

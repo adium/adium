@@ -15,6 +15,13 @@
  */
 
 #import "AIBundleAdditions.h"
+#import "AIApplicationAdditions.h"
+
+@interface NSBundle (LionCompatibility)
+
+- (NSImage *)imageForResource:(NSString *)name;
+
+@end
 
 @implementation NSBundle (AIBundleAdditions)
 
@@ -52,6 +59,19 @@
 	}];
 
 	return supportedDocumentTypes;
+}
+
+
+
+- (NSImage *)AI_imageForResource:(NSString *)resource
+{
+	if ([NSApp isOnLionOrNewer]) {
+		resource = [resource stringByDeletingPathExtension];
+		
+		return [self imageForResource:resource];
+	} else {
+		return [[[NSImage alloc] initByReferencingFile:[self pathForImageResource:resource]] autorelease];
+	}
 }
 
 @end
