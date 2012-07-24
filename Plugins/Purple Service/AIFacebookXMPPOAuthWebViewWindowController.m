@@ -176,7 +176,7 @@
     NSMutableArray *sentCookies = [NSMutableArray array];
     
     // same origin: domain, port, path.
-    for (NSHTTPCookie *cookie in cookies) {
+    for (NSHTTPCookie *cookie in cookies.allValues) {
         if ([[cookie expiresDate] timeIntervalSinceNow] < 0) {
             //NSLog(@"****** expired: %@", cookie);
             continue;
