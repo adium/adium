@@ -374,24 +374,23 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	id <NSFastEnumeration> en = contacts ?: (id)[(AIContactController *)adium.contactController contactEnumerator];
 	
 	for (AIListObject *listObject in en) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
-		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
-		
-		if ([listObject isKindOfClass:[AIListContact class]]) {
-			AIListContact *contact = (AIListContact *)listObject;
+		@autoreleasepool {
+			NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
+			if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
 			
-			//If this contact is within a meta contact, update the meta contact too
-			if (contact.metaContact) {
-				attributes = [inObserver updateListObject:contact.metaContact
-															keys:nil
-														  silent:YES];
-				if (attributes) [self listObjectAttributesChanged:contact.metaContact
-													 modifiedKeys:attributes];
+			if ([listObject isKindOfClass:[AIListContact class]]) {
+				AIListContact *contact = (AIListContact *)listObject;
+				
+				//If this contact is within a meta contact, update the meta contact too
+				if (contact.metaContact) {
+					attributes = [inObserver updateListObject:contact.metaContact
+														 keys:nil
+													   silent:YES];
+					if (attributes) [self listObjectAttributesChanged:contact.metaContact
+														 modifiedKeys:attributes];
+				}
 			}
 		}
-		
-		[pool release];
 	}
 	
 	[self endListObjectNotificationsDelay];

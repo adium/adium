@@ -262,65 +262,63 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 		enum LMXParseResult result = LMXParsedIncomplete;
 
 		// These set of file's autorelease pool.
-		NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
-		
-		@try {
-			do {
-				// The location we're going to read for *this* set of reads.
-				off_t readOffset = offset - readSize;
-				
-				if (readOffset < 0) {
-					// Decrease it by the amount we're over.
-					readSize += (NSInteger)readOffset;
-					// Start from the beginning.
-					readOffset = 0;
-				}
-				
-				if (chunk.length != readSize) {
-					// In case we short-read last time, or we're reading a smaller amount this time.
-					[chunk setLength:readSize];				
-				}
-				
-				char *buf = [chunk mutableBytes];
-				
-				//Seek to it and read greedily until we hit readSize or run out of file.
-				NSInteger idx = 0;
-				ssize_t amountRead = 0;
-				for (amountRead = 0; idx < readSize; idx += amountRead) { 
-					amountRead = pread(fd, buf + idx, readSize, readOffset + idx); 
-					if (amountRead <= 0) break;
-				}
-				
-				if (idx != readSize) {
-					// If we short read, we don't want to read unknown buffer contents.
-					[chunk setLength:idx];
-				}
-				
-				// Adjust the real offset
-				offset -= idx;
-				
-				//Parse
-				result = [parser parseChunk:chunk];
-				
-				//Continue to parse as long as we need more elements, we have data to read, and LMX doesn't think we're done.
-			} while ([foundMessages count] < linesLeftToFind && offset > 0 && result != LMXParsedCompletely);
-
-		} @catch (id theException) {
-			AILogWithSignature(@"Error \"%@\" while parsing %@; foundMessages at that point was %@, and the chunk to be parsed was %@",
-							   theException, logPath, 
-							   foundMessages, chunk);
-
-		} @finally {
-			//Drain our autorelease pool.
-			[parsingAutoreleasePool release];
+		@autoreleasepool {
 			
-			//Be a good citizen and close the file
-			[file closeFile];
-			
-			//Add our locals to the outer array; we're probably looping again.
-			AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
-			[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
-			linesLeftToFind -= [outerFoundContentContexts count];
+			@try {
+				do {
+					// The location we're going to read for *this* set of reads.
+					off_t readOffset = offset - readSize;
+					
+					if (readOffset < 0) {
+						// Decrease it by the amount we're over.
+						readSize += (NSInteger)readOffset;
+						// Start from the beginning.
+						readOffset = 0;
+					}
+					
+					if (chunk.length != readSize) {
+						// In case we short-read last time, or we're reading a smaller amount this time.
+						[chunk setLength:readSize];
+					}
+					
+					char *buf = [chunk mutableBytes];
+					
+					//Seek to it and read greedily until we hit readSize or run out of file.
+					NSInteger idx = 0;
+					ssize_t amountRead = 0;
+					for (amountRead = 0; idx < readSize; idx += amountRead) {
+						amountRead = pread(fd, buf + idx, readSize, readOffset + idx);
+						if (amountRead <= 0) break;
+					}
+					
+					if (idx != readSize) {
+						// If we short read, we don't want to read unknown buffer contents.
+						[chunk setLength:idx];
+					}
+					
+					// Adjust the real offset
+					offset -= idx;
+					
+					//Parse
+					result = [parser parseChunk:chunk];
+					
+					//Continue to parse as long as we need more elements, we have data to read, and LMX doesn't think we're done.
+				} while ([foundMessages count] < linesLeftToFind && offset > 0 && result != LMXParsedCompletely);
+				
+			} @catch (id theException) {
+				AILogWithSignature(@"Error \"%@\" while parsing %@; foundMessages at that point was %@, and the chunk to be parsed was %@",
+								   theException, logPath,
+								   foundMessages, chunk);
+				
+			} @finally {
+				//Be a good citizen and close the file
+				[file closeFile];
+				
+				//Add our locals to the outer array; we're probably looping again.
+				AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
+				[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
+				linesLeftToFind -= [outerFoundContentContexts count];
+			}
 		}
 	}
 	

@@ -170,109 +170,108 @@ static NSString	*prefsCategory;
 //Called by the login controller when a user has been selected, continue logging in
 - (void)completeLogin
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	/* Init the controllers.
-	 * Menu and interface controllers are created by MainMenu.nib when it loads.
-	 */
-	preferenceController = [[AIPreferenceController alloc] init];
-	toolbarController = [[AIToolbarController alloc] init];
-	debugController = [[ESDebugController alloc] init];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AIEnableDebugLogging"])
-		AIEnableDebugLogging();
-	contactAlertsController = [[ESContactAlertsController alloc] init];
-	soundController = [[AISoundController alloc] init];
-	emoticonController = [[AIEmoticonController alloc] init];
-	accountController = [[AIAccountController alloc] init];
-	contactController = [[AIContactController alloc] init];
-	[AIContactHidingController sharedController];
-	[AdiumAuthorization start];
-	chatController = [[AIChatController alloc] init];
-	contentController = [[AIContentController alloc] init];
-	dockController = [[AIDockController alloc] init];
-	fileTransferController = [[ESFileTransferController alloc] init];
-	applescriptabilityController = [[ESApplescriptabilityController alloc] init];
-	statusController = [[AIStatusController alloc] init];
+	@autoreleasepool {
+		
+		/* Init the controllers.
+		 * Menu and interface controllers are created by MainMenu.nib when it loads.
+		 */
+		preferenceController = [[AIPreferenceController alloc] init];
+		toolbarController = [[AIToolbarController alloc] init];
+		debugController = [[ESDebugController alloc] init];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AIEnableDebugLogging"])
+			AIEnableDebugLogging();
+		contactAlertsController = [[ESContactAlertsController alloc] init];
+		soundController = [[AISoundController alloc] init];
+		emoticonController = [[AIEmoticonController alloc] init];
+		accountController = [[AIAccountController alloc] init];
+		contactController = [[AIContactController alloc] init];
+		[AIContactHidingController sharedController];
+		[AdiumAuthorization start];
+		chatController = [[AIChatController alloc] init];
+		contentController = [[AIContentController alloc] init];
+		dockController = [[AIDockController alloc] init];
+		fileTransferController = [[ESFileTransferController alloc] init];
+		applescriptabilityController = [[ESApplescriptabilityController alloc] init];
+		statusController = [[AIStatusController alloc] init];
+		
+		//Finish setting up the preference controller before the components and plugins load so they can read prefs
+		[preferenceController controllerDidLoad];
+		[debugController controllerDidLoad];
+	}
 	
-	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
-	[preferenceController controllerDidLoad];
-	[debugController controllerDidLoad];
-	[pool release];
-
 	//Plugins and components should always init last, since they rely on everything else.
-	pool = [[NSAutoreleasePool alloc] init];
-	componentLoader = [[AICoreComponentLoader alloc] init];
-	pluginLoader = [[AICorePluginLoader alloc] init];
-	[pool release];
-
+	@autoreleasepool {
+		componentLoader = [[AICoreComponentLoader alloc] init];
+		pluginLoader = [[AICorePluginLoader alloc] init];
+	}
+	
 	//Finish initing
-	pool = [[NSAutoreleasePool alloc] init];
-	[menuController controllerDidLoad];			//Loaded by nib
-	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
-	
-	[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
-	[ESAddressBookIntegrationAdvancedPreferences preferencePane];
-	
-	[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
-	[interfaceController controllerDidLoad];	//Loaded by nib
-	[pool release];
-
-	pool = [[NSAutoreleasePool alloc] init];
-	[toolbarController controllerDidLoad];
-	[contactAlertsController controllerDidLoad];
-	[soundController controllerDidLoad];
-	[emoticonController controllerDidLoad];
-	[chatController controllerDidLoad];
-	[contentController controllerDidLoad];
-	[dockController controllerDidLoad];
-	[fileTransferController controllerDidLoad];
-	[pool release];
-
-	pool = [[NSAutoreleasePool alloc] init];
-	[applescriptabilityController controllerDidLoad];
-	[statusController controllerDidLoad];
-
-	//Open the preferences if we were unable to because application:openFile: was called before we got here
-	[self openAppropriatePreferencesIfNeeded];
-
-	//If no accounts are setup, run the setup wizard
-	if (accountController.accounts.count == 0 || ALWAYS_RUN_SETUP_WIZARD) {
-		[AdiumSetupWizard runWizard];
+	@autoreleasepool {
+		[menuController controllerDidLoad];			//Loaded by nib
+		[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
+		
+		[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
+		[ESAddressBookIntegrationAdvancedPreferences preferencePane];
+		
+		[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
+		[interfaceController controllerDidLoad];	//Loaded by nib
 	}
-
-	//Process any delayed URL events 
-	if (queuedURLEvents) {
-		for (NSString *eventString in queuedURLEvents) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
+	
+	@autoreleasepool {
+		[toolbarController controllerDidLoad];
+		[contactAlertsController controllerDidLoad];
+		[soundController controllerDidLoad];
+		[emoticonController controllerDidLoad];
+		[chatController controllerDidLoad];
+		[contentController controllerDidLoad];
+		[dockController controllerDidLoad];
+		[fileTransferController controllerDidLoad];
+	}
+	
+	@autoreleasepool {
+		[applescriptabilityController controllerDidLoad];
+		[statusController controllerDidLoad];
+		
+		//Open the preferences if we were unable to because application:openFile: was called before we got here
+		[self openAppropriatePreferencesIfNeeded];
+		
+		//If no accounts are setup, run the setup wizard
+		if (accountController.accounts.count == 0 || ALWAYS_RUN_SETUP_WIZARD) {
+			[AdiumSetupWizard runWizard];
 		}
-		[queuedURLEvents release]; queuedURLEvents = nil;
+		
+		//Process any delayed URL events
+		if (queuedURLEvents) {
+			for (NSString *eventString in queuedURLEvents) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
+			}
+			[queuedURLEvents release]; queuedURLEvents = nil;
+		}
+		
+		//If we were asked to open a log at launch, do it now
+		if (queuedLogPathToShow) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
+																object:queuedLogPathToShow];
+			[queuedLogPathToShow release];
+		}
+		
+		completedApplicationLoad = YES;
+		
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(systemTimeZoneDidChange:)
+																name:@"NSSystemTimeZoneDidChangeDistributedNotification"
+															  object:nil];
+		
+		//Broadcast our presence
+		connection = [[NSConnection alloc] init];
+		[connection setRootObject:self];
+		[connection registerName:@"com.adiumX.adiumX"];
+		
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+		[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 	}
-	
-	//If we were asked to open a log at launch, do it now
-	if (queuedLogPathToShow) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
-												 object:queuedLogPathToShow];
-		[queuedLogPathToShow release];
-	}
-	
-	completedApplicationLoad = YES;
-	
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-														selector:@selector(systemTimeZoneDidChange:)
-															name:@"NSSystemTimeZoneDidChangeDistributedNotification"
-														  object:nil];
-	
-	//Broadcast our presence
-	connection = [[NSConnection alloc] init];
-	[connection setRootObject:self];
-	[connection registerName:@"com.adiumX.adiumX"];
-
-	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
-	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
-	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
-
-	[pool release];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender

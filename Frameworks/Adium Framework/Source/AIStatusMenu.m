@@ -172,61 +172,61 @@
 		* are grouped together.
 		*/
 	for (AIStatus *statusState in [adium.statusController sortedFullStateArray]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		AIStatusType thisStatusType = statusState.statusType;
-		AIStatusMutabilityType thisStatusMutabilityType = [statusState mutabilityType];
-		
-		if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
-			(thisStatusMutabilityType == AISecondaryLockedStatusState)) {
-			//Add the custom item, as we are ending this group
-			[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+		@autoreleasepool {
+			AIStatusType thisStatusType = statusState.statusType;
+			AIStatusMutabilityType thisStatusMutabilityType = [statusState mutabilityType];
 			
-			//Add a divider when we switch to a secondary locked group
-			[menuItemArray addObject:[NSMenuItem separatorItem]];
-		}
-		
-		//We treat Invisible statuses as being the same as Away for purposes of the menu
-		if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;
-		
-		/* Add the "Custom..." state option and a separatorItem before beginning to add items for a new statusType
-			* Sorting the menu items before enumerating means that we know our statuses are sorted first by statusType
-			*/
-		if ((currentStatusType != thisStatusType) &&
-			(currentStatusType != AIOfflineStatusType)) {
-			
-			//Don't include a Custom item after the secondary locked group, as it was already included
-			if ((currentStatusMutabilityType != AISecondaryLockedStatusState)) {
+			if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
+				(thisStatusMutabilityType == AISecondaryLockedStatusState)) {
+				//Add the custom item, as we are ending this group
 				[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+				
+				//Add a divider when we switch to a secondary locked group
+				[menuItemArray addObject:[NSMenuItem separatorItem]];
 			}
 			
-			//Add a divider
-			[menuItemArray addObject:[NSMenuItem separatorItem]];
+			//We treat Invisible statuses as being the same as Away for purposes of the menu
+			if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;
 			
-			currentStatusType = thisStatusType;
-		}
-
-		menuItem = [[NSMenuItem alloc] initWithTitle:[AIStatusMenu titleForMenuDisplayOfState:statusState]
-											  target:self
-											  action:@selector(selectState:)
-									   keyEquivalent:@""];
-		
-		if ([statusState isKindOfClass:[AIStatus class]]) {
-			[menuItem setToolTip:[statusState statusMessageTooltipString]];
+			/* Add the "Custom..." state option and a separatorItem before beginning to add items for a new statusType
+			 * Sorting the menu items before enumerating means that we know our statuses are sorted first by statusType
+			 */
+			if ((currentStatusType != thisStatusType) &&
+				(currentStatusType != AIOfflineStatusType)) {
+				
+				//Don't include a Custom item after the secondary locked group, as it was already included
+				if ((currentStatusMutabilityType != AISecondaryLockedStatusState)) {
+					[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+				}
+				
+				//Add a divider
+				[menuItemArray addObject:[NSMenuItem separatorItem]];
+				
+				currentStatusType = thisStatusType;
+			}
 			
-		} else {
-			/* AIStatusGroup */
-			[menuItem setSubmenu:[(AIStatusGroup *)statusState statusSubmenuNotifyingTarget:self
-																					 action:@selector(selectState:)]];
+			menuItem = [[NSMenuItem alloc] initWithTitle:[AIStatusMenu titleForMenuDisplayOfState:statusState]
+												  target:self
+												  action:@selector(selectState:)
+										   keyEquivalent:@""];
+			
+			if ([statusState isKindOfClass:[AIStatus class]]) {
+				[menuItem setToolTip:[statusState statusMessageTooltipString]];
+				
+			} else {
+				/* AIStatusGroup */
+				[menuItem setSubmenu:[(AIStatusGroup *)statusState statusSubmenuNotifyingTarget:self
+																						 action:@selector(selectState:)]];
+			}
+			[menuItem setRepresentedObject:[NSDictionary dictionaryWithObject:statusState
+																	   forKey:@"AIStatus"]];
+			[menuItem setTag:currentStatusType];
+			[menuItem setImage:[statusState menuIcon]];
+			[menuItemArray addObject:menuItem];
+			[menuItem release];
+			
+			currentStatusMutabilityType = thisStatusMutabilityType;
 		}
-		[menuItem setRepresentedObject:[NSDictionary dictionaryWithObject:statusState
-																   forKey:@"AIStatus"]];
-		[menuItem setTag:currentStatusType];
-		[menuItem setImage:[statusState menuIcon]];
-		[menuItemArray addObject:menuItem];
-		[menuItem release];
-		
-		currentStatusMutabilityType = thisStatusMutabilityType;
-		[pool release];
 	}
 	
 	if (currentStatusType != AIOfflineStatusType) {

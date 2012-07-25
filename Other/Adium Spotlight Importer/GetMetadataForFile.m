@@ -57,20 +57,19 @@ Boolean GetMetadataForFile(void* thisInterface,
     /* Return TRUE if successful, FALSE if there was no data provided */
     
 	Boolean				success = FALSE;
-	NSAutoreleasePool	*pool;
-	pool = [[NSAutoreleasePool alloc] init];
 
-	if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForHTMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
-	} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForXMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
-	} else {
-		NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
+	@autoreleasepool {
+		
+		if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
+			success = GetMetadataForHTMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+		} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
+			success = GetMetadataForXMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+		} else {
+			NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
+		}
+		
+		return success;
 	}
-
-	[pool release];
-	
-    return success;
 }
 
 static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
@@ -90,35 +89,34 @@ static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 }
 
 NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
-    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	NSData			*content;
-	contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
-    
-	if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.htmllog"))) {
-		content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSDataReadingUncached error:NULL];
-	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
-		BOOL isDir;
-        NSString *path = [urlToFile path];
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-            if (isDir) {
-                /* If we have a chatLog bundle, we want to get the text content for the xml file inside */
-                urlToFile = [NSURL fileURLWithPath:[path stringByAppendingPathComponent:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
-            }
+    @autoreleasepool {
+		NSData			*content;
+		contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
+		
+		if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.htmllog"))) {
+			content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSDataReadingUncached error:NULL];
+		} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
+			BOOL isDir;
+			NSString *path = [urlToFile path];
+			if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+				if (isDir) {
+					/* If we have a chatLog bundle, we want to get the text content for the xml file inside */
+					urlToFile = [NSURL fileURLWithPath:[path stringByAppendingPathComponent:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
+				}
+				
+				content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSUncachedRead error:NULL];
+				
+			} else {
+				content = nil;
+			}
 			
-			content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSUncachedRead error:NULL];
-            
 		} else {
 			content = nil;
+			NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
 		}
 		
-	} else {
-		content = nil;
-		NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
+		return content;
 	}
-    
-	[pool release];
-	
-	return content;
 }
 
 NSData *CopyDataForFile(CFStringRef contentTypeUTI, CFStringRef pathToFile) {
@@ -153,12 +151,12 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 								   CFStringRef pathToFile)
 {
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-    NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
-	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
-	[pool release];
-	
-	return textContent;
+	@autoreleasepool {
+		NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
+		CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
+		
+		return textContent;
+	}
 }
 
 /*!

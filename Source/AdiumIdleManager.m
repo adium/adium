@@ -145,9 +145,9 @@
  */
 - (void)screenSaverDidStart
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self _setMachineIsIdle:YES];
-	[pool release];
+	@autoreleasepool {
+		[self _setMachineIsIdle:YES];
+	}
 }
 
 /*!
@@ -157,9 +157,9 @@
  */
 - (void)screenSaverDidStop
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[self _setMachineIsIdle:NO];
-	[pool release];
+	@autoreleasepool {
+		[self _setMachineIsIdle:NO];
+	}
 }
 
 

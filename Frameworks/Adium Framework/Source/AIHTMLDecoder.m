@@ -1107,344 +1107,343 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		 * All characters before the next HTML entity are textual characters in the current textAttributes. We append
 		 * those characters to our final attributed string with the desired attributes before continuing.
 		 */
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		if ([scanner scanUpToCharactersFromSet:tagCharStart intoString:&chunkString]) {
-			id	languageValue = [textAttributes languageValue];
-			
-			/* AIM sets language value 143 for characters which are in Symbol, Wingdings, or Webdings.
-			 * All Symbol characters can be represented in the Symbol font. When the language value is 143, they are being sent
-			 * as normal ASCII characters and we must run them through stringByConvertingSymbolToSymbolUnicode.
-			 *
-			 * Wingdings characters can be represented in the font Wingdings, if available, by offsetting the ASCII characters
-			 * by 0xF000 to move into the Private  Use space.  If the font is not available, many of them can be represented
-			 * in any font via our stringByConvertingWingdingsToUnicode conversion table. Wingdings2 and Wingdings3 do not have
-			 * conversion tables but can also be used as fonts so long as we move the ASCII characters to the Private Use space.
-			 *
-			 * Similarly, Webdings can be represented in the font Webdings in the Private Use unicode space.
-			 */
-			if (languageValue && ([languageValue intValue] == 143)) {
-				NSString *fontFamily = [textAttributes fontFamily];
-
-				if ([fontFamily caseInsensitiveCompare:@"Symbol"] == NSOrderedSame) {
-					chunkString = [chunkString stringByConvertingSymbolToSymbolUnicode];
-
-				} else if ([fontFamily rangeOfString:@"Wingdings" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-					if ([NSFont fontWithName:fontFamily size:0]) {
-						//Use the font (in is Private Use space) if it is installed
-						chunkString = [chunkString stringByTranslatingByOffset:0xF000];
-
-					} else {
-						chunkString = [chunkString stringByConvertingWingdingsToUnicode];
+		@autoreleasepool {
+			if ([scanner scanUpToCharactersFromSet:tagCharStart intoString:&chunkString]) {
+				id	languageValue = [textAttributes languageValue];
+				
+				/* AIM sets language value 143 for characters which are in Symbol, Wingdings, or Webdings.
+				 * All Symbol characters can be represented in the Symbol font. When the language value is 143, they are being sent
+				 * as normal ASCII characters and we must run them through stringByConvertingSymbolToSymbolUnicode.
+				 *
+				 * Wingdings characters can be represented in the font Wingdings, if available, by offsetting the ASCII characters
+				 * by 0xF000 to move into the Private  Use space.  If the font is not available, many of them can be represented
+				 * in any font via our stringByConvertingWingdingsToUnicode conversion table. Wingdings2 and Wingdings3 do not have
+				 * conversion tables but can also be used as fonts so long as we move the ASCII characters to the Private Use space.
+				 *
+				 * Similarly, Webdings can be represented in the font Webdings in the Private Use unicode space.
+				 */
+				if (languageValue && ([languageValue intValue] == 143)) {
+					NSString *fontFamily = [textAttributes fontFamily];
+					
+					if ([fontFamily caseInsensitiveCompare:@"Symbol"] == NSOrderedSame) {
+						chunkString = [chunkString stringByConvertingSymbolToSymbolUnicode];
+						
+					} else if ([fontFamily rangeOfString:@"Wingdings" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+						if ([NSFont fontWithName:fontFamily size:0]) {
+							//Use the font (in is Private Use space) if it is installed
+							chunkString = [chunkString stringByTranslatingByOffset:0xF000];
+							
+						} else {
+							chunkString = [chunkString stringByConvertingWingdingsToUnicode];
+						}
+						
+					} else if ([fontFamily rangeOfString:@"Webdings" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+						if ([NSFont fontWithName:fontFamily size:0]) {
+							//Use the Webdings font if it is installed
+							chunkString = [chunkString stringByTranslatingByOffset:0xF000];
+						}
 					}
-
-				} else if ([fontFamily rangeOfString:@"Webdings" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-					if ([NSFont fontWithName:fontFamily size:0]) {
-						//Use the Webdings font if it is installed
-						chunkString = [chunkString stringByTranslatingByOffset:0xF000];
-					}						
 				}
+				
+				[attrString appendString:chunkString withAttributes:[textAttributes dictionary]];
 			}
 			
-			[attrString appendString:chunkString withAttributes:[textAttributes dictionary]];
-		}
-		
-		//Process the tag
-		if ([scanner scanCharactersFromSet:tagCharStart intoString:&tagOpen]) { //If a tag wasn't found, we don't process.
-			NSUInteger scanLocation = [scanner scanLocation]; //Remember our location (if this is an invalid tag we'll need to move back)
-
-			if ([tagOpen isEqualToString:@"<"]) { // HTML <tag>
-				BOOL		validTag = [scanner scanUpToCharactersFromSet:tagEnd intoString:&chunkString]; //Get the tag
-				NSString	*charactersToSkipAfterThisTag = nil;
-
-				if (validTag) { 
-					//HTML
-					if ([chunkString caseInsensitiveCompare:@"HTML"] == NSOrderedSame) {
-						//We ignore most stuff inside the HTML tag, but don't want to see the end of it.
-						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
-	
-					} else if ([chunkString caseInsensitiveCompare:@"/HTML"] == NSOrderedSame) {
-						//We are done
-						[pool release]; pool = nil;
-						break;
-
-					//PRE -- ignore attributes for logViewer
-					} else if ([chunkString caseInsensitiveCompare:@"PRE"] == NSOrderedSame ||
-							 [chunkString caseInsensitiveCompare:@"/PRE"] == NSOrderedSame) {
-
-						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
-
-						//XXX what's going on here?
-						[textAttributes setTextColor:[NSColor blackColor]];
-
-					//DIV
-					} else if ([chunkString caseInsensitiveCompare:@"DIV"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd
-													intoString:&chunkString]) {
-							[self processDivTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
+			//Process the tag
+			if ([scanner scanCharactersFromSet:tagCharStart intoString:&tagOpen]) { //If a tag wasn't found, we don't process.
+				NSUInteger scanLocation = [scanner scanLocation]; //Remember our location (if this is an invalid tag we'll need to move back)
+				
+				if ([tagOpen isEqualToString:@"<"]) { // HTML <tag>
+					BOOL		validTag = [scanner scanUpToCharactersFromSet:tagEnd intoString:&chunkString]; //Get the tag
+					NSString	*charactersToSkipAfterThisTag = nil;
+					
+					if (validTag) {
+						//HTML
+						if ([chunkString caseInsensitiveCompare:@"HTML"] == NSOrderedSame) {
+							//We ignore most stuff inside the HTML tag, but don't want to see the end of it.
+							[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
+							
+						} else if ([chunkString caseInsensitiveCompare:@"/HTML"] == NSOrderedSame) {
+							//We are done
+							break;
+							
+							//PRE -- ignore attributes for logViewer
+						} else if ([chunkString caseInsensitiveCompare:@"PRE"] == NSOrderedSame ||
+								   [chunkString caseInsensitiveCompare:@"/PRE"] == NSOrderedSame) {
+							
+							[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
+							
+							//XXX what's going on here?
+							[textAttributes setTextColor:[NSColor blackColor]];
+							
+							//DIV
+						} else if ([chunkString caseInsensitiveCompare:@"DIV"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd
+														intoString:&chunkString]) {
+								[self processDivTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
+							}
+							inDiv = YES;
+							
+						} else if ([chunkString caseInsensitiveCompare:@"/DIV"] == NSOrderedSame) {
+							inDiv = NO;
+							
+							//LINK
+						} else if ([chunkString caseInsensitiveCompare:@"A"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								[self processLinkTagArgs:[self parseArguments:chunkString]
+											  attributes:textAttributes]; //Process the linktag's contents
+							}
+							
+						} else if ([chunkString caseInsensitiveCompare:@"/A"] == NSOrderedSame) {
+							[textAttributes setLinkURL:nil];
+							
+							//Body
+						} else if ([chunkString caseInsensitiveCompare:@"BODY"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								[self processBodyTagArgs:[self parseArguments:chunkString] attributes:textAttributes]; //Process the font tag's contents
+							}
+							
+						} else if (([chunkString caseInsensitiveCompare:@"/BODY"] == NSOrderedSame) ||
+								   ([chunkString caseInsensitiveCompare:@"BODY/"] == NSOrderedSame)) {
+							//ignore
+							
+							//Font
+						} else if ([chunkString caseInsensitiveCompare:@"FONT"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								NSDictionary *changedAttributes;
+								
+								//Process the font tag's contents
+								changedAttributes = [self processFontTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
+								[fontTagChangedAttributesQueue addObject:(changedAttributes ? changedAttributes : [NSDictionary dictionary])];
+							}
+							
+						} else if ([chunkString caseInsensitiveCompare:@"/FONT"] == NSOrderedSame) {
+							NSInteger changedAttributesCount = [fontTagChangedAttributesQueue count];
+							if (changedAttributesCount) {
+								[self restoreAttributesFromDict:[fontTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
+								[fontTagChangedAttributesQueue removeObjectAtIndex:([fontTagChangedAttributesQueue count] - 1)];
+							}
+							
+							//span
+						} else if ([chunkString caseInsensitiveCompare:@"SPAN"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								NSDictionary *changedAttributes;
+								
+								changedAttributes = [self processSpanTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
+								[spanTagChangedAttributesQueue addObject:(changedAttributes ? changedAttributes : [NSDictionary dictionary])];
+							}
+							
+						} else if ([chunkString caseInsensitiveCompare:@"/SPAN"] == NSOrderedSame) {
+							NSInteger changedAttributesCount = [spanTagChangedAttributesQueue count];
+							if (changedAttributesCount) {
+								[self restoreAttributesFromDict:[spanTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
+								[spanTagChangedAttributesQueue removeObjectAtIndex:([spanTagChangedAttributesQueue count] - 1)];
+							}
+							
+							//Line Break
+						} else if ([chunkString caseInsensitiveCompare:@"BR"] == NSOrderedSame ||
+								   [chunkString caseInsensitiveCompare:@"BR/"] == NSOrderedSame ||
+								   [chunkString caseInsensitiveCompare:@"/BR"] == NSOrderedSame) {
+							[attrString appendString:@"\n" withAttributes:nil];
+							
+							/* Make sure the tag closes; it may have a <BR /> which stopped the scanner at
+							 * at the space rather than the '>'
+							 */
+							[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
+							
+							/* Skip any newlines following an HTML line break; if we have one we want to ignore the other.
+							 * This is generally unnecessary; it is a hack around a winAIM bug where
+							 * newlines are sent as "<BR>\n\r"
+							 */
+							charactersToSkipAfterThisTag = @"\n\r";
+							
+							//Bold
+						} else if ([chunkString caseInsensitiveCompare:@"B"] == NSOrderedSame) {
+							[textAttributes enableTrait:NSBoldFontMask];
+						} else if ([chunkString caseInsensitiveCompare:@"/B"] == NSOrderedSame) {
+							[textAttributes disableTrait:NSBoldFontMask];
+							
+							//Strong (interpreted as bold)
+						} else if ([chunkString caseInsensitiveCompare:@"STRONG"] == NSOrderedSame) {
+							[textAttributes enableTrait:NSBoldFontMask];
+						} else if ([chunkString caseInsensitiveCompare:@"/STRONG"] == NSOrderedSame) {
+							[textAttributes disableTrait:NSBoldFontMask];
+							
+							//Italic
+						} else if ([chunkString caseInsensitiveCompare:@"I"] == NSOrderedSame) {
+							[textAttributes enableTrait:NSItalicFontMask];
+						} else if ([chunkString caseInsensitiveCompare:@"/I"] == NSOrderedSame) {
+							[textAttributes disableTrait:NSItalicFontMask];
+							
+							//Emphasised (interpreted as italic)
+						} else if ([chunkString caseInsensitiveCompare:@"EM"] == NSOrderedSame) {
+							[textAttributes enableTrait:NSItalicFontMask];
+						} else if ([chunkString caseInsensitiveCompare:@"/EM"] == NSOrderedSame) {
+							[textAttributes disableTrait:NSItalicFontMask];
+							
+							//Underline
+						} else if ([chunkString caseInsensitiveCompare:@"U"] == NSOrderedSame) {
+							[textAttributes setUnderline:YES];
+						} else if ([chunkString caseInsensitiveCompare:@"/U"] == NSOrderedSame) {
+							[textAttributes setUnderline:NO];
+							
+							//Strikethrough: <s> is deprecated, but people use it
+						} else if ([chunkString caseInsensitiveCompare:@"S"] == NSOrderedSame) {
+							[textAttributes setStrikethrough:YES];
+						} else if ([chunkString caseInsensitiveCompare:@"/S"] == NSOrderedSame) {
+							[textAttributes setStrikethrough:NO];
+							
+							// Subscript
+						} else if ([chunkString caseInsensitiveCompare:@"SUB"] == NSOrderedSame)  {
+							[textAttributes setSubscript:YES];
+						} else if ([chunkString caseInsensitiveCompare:@"/SUB"] == NSOrderedSame)  {
+							[textAttributes setSubscript:NO];
+							
+							// Superscript
+						} else if ([chunkString caseInsensitiveCompare:@"SUP"] == NSOrderedSame)  {
+							[textAttributes setSuperscript:YES];
+						} else if ([chunkString caseInsensitiveCompare:@"/SUP"] == NSOrderedSame)  {
+							[textAttributes setSuperscript:NO];
+							
+							//Image
+						} else if ([chunkString caseInsensitiveCompare:@"IMG"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								NSAttributedString *attachString = [self processImgTagArgs:[self parseArguments:chunkString]
+																				attributes:textAttributes
+																				   baseURL:myBaseURL];
+								if (attachString) {
+									[attrString appendAttributedString:attachString];
+								}
+							}
+						} else if ([chunkString caseInsensitiveCompare:@"/IMG"] == NSOrderedSame) {
+							//just ignore </img> if we find it
+							
+							//Horizontal Rule
+						} else if ([chunkString caseInsensitiveCompare:@"HR"] == NSOrderedSame) {
+							[attrString appendString:horizontalRule withAttributes:nil];
+							
+							// Ignore <p> for those wacky AIM express users
+						} else if ([chunkString caseInsensitiveCompare:@"P"] == NSOrderedSame ||
+								   ([chunkString caseInsensitiveCompare:@"/P"] == NSOrderedSame)) {
+							
+							// Ignore <head> tags
+						} else if ([chunkString caseInsensitiveCompare:@"HEAD"] == NSOrderedSame ||
+								   ([chunkString caseInsensitiveCompare:@"/HEAD"] == NSOrderedSame)) {
+							[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
+							
+							//Base URL tag
+						} else if ([chunkString caseInsensitiveCompare:@"BASE"] == NSOrderedSame) {
+							if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
+								[myBaseURL release];
+								myBaseURL = [[[self parseArguments:chunkString] objectForKey:@"href"] retain];
+							}
+							//Ignore <meta> tags
+						} else if ([chunkString caseInsensitiveCompare:@"META"] == NSOrderedSame ||
+								   ([chunkString caseInsensitiveCompare:@"/META"] == NSOrderedSame)) {
+							[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
+							
+							//Ignore <ul>, </ul>, and </li>
+						} else if (([chunkString caseInsensitiveCompare:@"UL"] == NSOrderedSame) ||
+								   ([chunkString caseInsensitiveCompare:@"/UL"] == NSOrderedSame) ||
+								   ([chunkString caseInsensitiveCompare:@"/LI"] == NSOrderedSame)) {
+							
+							//Convert <li> into a bullet point
+						} else if ([chunkString caseInsensitiveCompare:@"LI"] == NSOrderedSame) {
+							[attrString appendString:@"• " withAttributes:[textAttributes dictionary]];
+							
+							//Invalid
+						} else {
+							validTag = NO;
 						}
-						inDiv = YES;
-
-					} else if ([chunkString caseInsensitiveCompare:@"/DIV"] == NSOrderedSame) {
-						inDiv = NO;
-
-					//LINK
-					} else if ([chunkString caseInsensitiveCompare:@"A"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							[self processLinkTagArgs:[self parseArguments:chunkString] 
-										  attributes:textAttributes]; //Process the linktag's contents
-						}
-
-					} else if ([chunkString caseInsensitiveCompare:@"/A"] == NSOrderedSame) {
-						[textAttributes setLinkURL:nil];
-
-					//Body
-					} else if ([chunkString caseInsensitiveCompare:@"BODY"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							[self processBodyTagArgs:[self parseArguments:chunkString] attributes:textAttributes]; //Process the font tag's contents
-						}
-
-					} else if (([chunkString caseInsensitiveCompare:@"/BODY"] == NSOrderedSame) ||
-							   ([chunkString caseInsensitiveCompare:@"BODY/"] == NSOrderedSame)) {
-						//ignore
-
-					//Font
-					} else if ([chunkString caseInsensitiveCompare:@"FONT"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							NSDictionary *changedAttributes;
-
-							//Process the font tag's contents
-							changedAttributes = [self processFontTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
-							[fontTagChangedAttributesQueue addObject:(changedAttributes ? changedAttributes : [NSDictionary dictionary])];
-						}
-
-					} else if ([chunkString caseInsensitiveCompare:@"/FONT"] == NSOrderedSame) {
-						NSInteger changedAttributesCount = [fontTagChangedAttributesQueue count];
-						if (changedAttributesCount) {
-							[self restoreAttributesFromDict:[fontTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
-							[fontTagChangedAttributesQueue removeObjectAtIndex:([fontTagChangedAttributesQueue count] - 1)];	
-						}
+					}
+					
+					//Skip over the end tag character '>' and any other characters we want to skip
+					if (validTag) {
+						//Get to the > if we're not there already, as will happen with XML namespacing...
+						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:NULL];
 						
-					//span
-					} else if ([chunkString caseInsensitiveCompare:@"SPAN"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							NSDictionary *changedAttributes;
-
-							changedAttributes = [self processSpanTagArgs:[self parseArguments:chunkString] attributes:textAttributes];
-							[spanTagChangedAttributesQueue addObject:(changedAttributes ? changedAttributes : [NSDictionary dictionary])];
-						}
-
-					} else if ([chunkString caseInsensitiveCompare:@"/SPAN"] == NSOrderedSame) {
-						NSInteger changedAttributesCount = [spanTagChangedAttributesQueue count];
-						if (changedAttributesCount) {
-							[self restoreAttributesFromDict:[spanTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
-							[spanTagChangedAttributesQueue removeObjectAtIndex:([spanTagChangedAttributesQueue count] - 1)];	
-						}
-
-					//Line Break
-					} else if ([chunkString caseInsensitiveCompare:@"BR"] == NSOrderedSame || 
-							 [chunkString caseInsensitiveCompare:@"BR/"] == NSOrderedSame ||
-							 [chunkString caseInsensitiveCompare:@"/BR"] == NSOrderedSame) {
-						[attrString appendString:@"\n" withAttributes:nil];
-						
-						/* Make sure the tag closes; it may have a <BR /> which stopped the scanner at
-						 * at the space rather than the '>'
-						 */
-						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
-
-						/* Skip any newlines following an HTML line break; if we have one we want to ignore the other.
-						 * This is generally unnecessary; it is a hack around a winAIM bug where 
-						 * newlines are sent as "<BR>\n\r"
-						 */
-						charactersToSkipAfterThisTag = @"\n\r";
-
-					//Bold
-					} else if ([chunkString caseInsensitiveCompare:@"B"] == NSOrderedSame) {
-						[textAttributes enableTrait:NSBoldFontMask];
-					} else if ([chunkString caseInsensitiveCompare:@"/B"] == NSOrderedSame) {
-						[textAttributes disableTrait:NSBoldFontMask];
-
-					//Strong (interpreted as bold)
-					} else if ([chunkString caseInsensitiveCompare:@"STRONG"] == NSOrderedSame) {
-						[textAttributes enableTrait:NSBoldFontMask];
-					} else if ([chunkString caseInsensitiveCompare:@"/STRONG"] == NSOrderedSame) {
-						[textAttributes disableTrait:NSBoldFontMask];
-
-					//Italic
-					} else if ([chunkString caseInsensitiveCompare:@"I"] == NSOrderedSame) {
-						[textAttributes enableTrait:NSItalicFontMask];
-					} else if ([chunkString caseInsensitiveCompare:@"/I"] == NSOrderedSame) {
-						[textAttributes disableTrait:NSItalicFontMask];
-
-					//Emphasised (interpreted as italic)
-					} else if ([chunkString caseInsensitiveCompare:@"EM"] == NSOrderedSame) {
-						[textAttributes enableTrait:NSItalicFontMask];
-					} else if ([chunkString caseInsensitiveCompare:@"/EM"] == NSOrderedSame) {
-						[textAttributes disableTrait:NSItalicFontMask];
-
-					//Underline
-					} else if ([chunkString caseInsensitiveCompare:@"U"] == NSOrderedSame) {
-						[textAttributes setUnderline:YES];
-					} else if ([chunkString caseInsensitiveCompare:@"/U"] == NSOrderedSame) {
-						[textAttributes setUnderline:NO];
-
-					//Strikethrough: <s> is deprecated, but people use it
-					} else if ([chunkString caseInsensitiveCompare:@"S"] == NSOrderedSame) {
-						[textAttributes setStrikethrough:YES];
-					} else if ([chunkString caseInsensitiveCompare:@"/S"] == NSOrderedSame) {
-						[textAttributes setStrikethrough:NO];
-
-					// Subscript
-					} else if ([chunkString caseInsensitiveCompare:@"SUB"] == NSOrderedSame)  {
-						[textAttributes setSubscript:YES];
-					} else if ([chunkString caseInsensitiveCompare:@"/SUB"] == NSOrderedSame)  {
-						[textAttributes setSubscript:NO];
-
-					// Superscript
-					} else if ([chunkString caseInsensitiveCompare:@"SUP"] == NSOrderedSame)  {
-						[textAttributes setSuperscript:YES];
-					} else if ([chunkString caseInsensitiveCompare:@"/SUP"] == NSOrderedSame)  {
-						[textAttributes setSuperscript:NO];
-
-					//Image
-					} else if ([chunkString caseInsensitiveCompare:@"IMG"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							NSAttributedString *attachString = [self processImgTagArgs:[self parseArguments:chunkString] 
-																			attributes:textAttributes
-																			   baseURL:myBaseURL];
-							if (attachString) {
-								[attrString appendAttributedString:attachString];
+						//And skip it
+						if (![scanner isAtEnd]) {
+							[scanner setScanLocation:[scanner scanLocation]+1];
+							
+							//Skip any other characters we are supposed to skip before continuing
+							if (charactersToSkipAfterThisTag) {
+								NSCharacterSet *charSetToSkip;
+								
+								charSetToSkip = [NSCharacterSet characterSetWithCharactersInString:charactersToSkipAfterThisTag];
+								[scanner scanCharactersFromSet:charSetToSkip
+													intoString:NULL];
 							}
 						}
-					} else if ([chunkString caseInsensitiveCompare:@"/IMG"] == NSOrderedSame) {
-						//just ignore </img> if we find it
-
-					//Horizontal Rule
-					} else if ([chunkString caseInsensitiveCompare:@"HR"] == NSOrderedSame) {
-						[attrString appendString:horizontalRule withAttributes:nil];
 						
-					// Ignore <p> for those wacky AIM express users
-					} else if ([chunkString caseInsensitiveCompare:@"P"] == NSOrderedSame ||
-							   ([chunkString caseInsensitiveCompare:@"/P"] == NSOrderedSame)) {
-						
-					// Ignore <head> tags
-					} else if ([chunkString caseInsensitiveCompare:@"HEAD"] == NSOrderedSame ||
-							   ([chunkString caseInsensitiveCompare:@"/HEAD"] == NSOrderedSame)) {
-						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
-						
-					//Base URL tag
-					} else if ([chunkString caseInsensitiveCompare:@"BASE"] == NSOrderedSame) {
-						if ([scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString]) {
-							[myBaseURL release];
-							myBaseURL = [[[self parseArguments:chunkString] objectForKey:@"href"] retain];
-						}
-					//Ignore <meta> tags
-					} else if ([chunkString caseInsensitiveCompare:@"META"] == NSOrderedSame ||
-							   ([chunkString caseInsensitiveCompare:@"/META"] == NSOrderedSame)) {
-						[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:&chunkString];
-					
-					//Ignore <ul>, </ul>, and </li>
-					} else if (([chunkString caseInsensitiveCompare:@"UL"] == NSOrderedSame) ||
-							   ([chunkString caseInsensitiveCompare:@"/UL"] == NSOrderedSame) ||
-							   ([chunkString caseInsensitiveCompare:@"/LI"] == NSOrderedSame)) {
-
-					//Convert <li> into a bullet point
-					} else if ([chunkString caseInsensitiveCompare:@"LI"] == NSOrderedSame) {
-						[attrString appendString:@"• " withAttributes:[textAttributes dictionary]];
-	
-					//Invalid
 					} else {
-						validTag = NO;
+						//When an invalid tag is encountered, we add the <, and then move our scanner back to continue processing
+						[attrString appendString:@"<" withAttributes:[textAttributes dictionary]];
+						[scanner setScanLocation:scanLocation];
 					}
-				}
-
-				//Skip over the end tag character '>' and any other characters we want to skip
-				if (validTag) {
-					//Get to the > if we're not there already, as will happen with XML namespacing...
-					[scanner scanUpToCharactersFromSet:absoluteTagEnd intoString:NULL];
-
-					//And skip it
-					if (![scanner isAtEnd]) {
-						[scanner setScanLocation:[scanner scanLocation]+1];
-						
-						//Skip any other characters we are supposed to skip before continuing
-						if (charactersToSkipAfterThisTag) {
-							NSCharacterSet *charSetToSkip;
+					
+				} else if ([tagOpen compare:@"&"] == NSOrderedSame) { // escape character, eg &gt;
+					BOOL validTag = [scanner scanUpToCharactersFromSet:charEnd intoString:&chunkString];
+					
+					if (validTag) {
+						// We could upgrade this to use an NSDictionary with lots of chars
+						// but for now, if-blocks will do
+						if ([chunkString caseInsensitiveCompare:@"GT"] == NSOrderedSame) {
+							[attrString appendString:@">" withAttributes:[textAttributes dictionary]];
 							
-							charSetToSkip = [NSCharacterSet characterSetWithCharactersInString:charactersToSkipAfterThisTag];
-							[scanner scanCharactersFromSet:charSetToSkip
-												intoString:NULL];
+						} else if ([chunkString caseInsensitiveCompare:@"LT"] == NSOrderedSame) {
+							[attrString appendString:@"<" withAttributes:[textAttributes dictionary]];
+							
+						} else if ([chunkString caseInsensitiveCompare:@"AMP"] == NSOrderedSame) {
+							[attrString appendString:@"&" withAttributes:[textAttributes dictionary]];
+							
+						} else if ([chunkString caseInsensitiveCompare:@"QUOT"] == NSOrderedSame) {
+							[attrString appendString:@"\"" withAttributes:[textAttributes dictionary]];
+							
+						} else if ([chunkString caseInsensitiveCompare:@"APOS"] == NSOrderedSame) {
+							[attrString appendString:@"'" withAttributes:[textAttributes dictionary]];
+							
+						} else if ([chunkString caseInsensitiveCompare:@"NBSP"] == NSOrderedSame) {
+							[attrString appendString:@" " withAttributes:[textAttributes dictionary]];
+							
+						} else if ([chunkString hasPrefix:@"#x"]) {
+							NSString *hexString = [chunkString substringFromIndex:2];
+							NSScanner *hexScanner = [NSScanner scannerWithString:hexString];
+							unsigned int character = 0;
+							if([hexScanner scanHexInt:&character])
+								[attrString appendString:[NSString stringWithFormat:@"%C", character]
+										  withAttributes:[textAttributes dictionary]];
+						} else if ([chunkString hasPrefix:@"#"]) {
+							NSString *decString = [chunkString substringFromIndex:1];
+							NSScanner *decScanner = [NSScanner scannerWithString:decString];
+							int character = 0;
+							if([decScanner scanInt:&character])
+								[attrString appendString:[NSString stringWithFormat:@"%C", character]
+										  withAttributes:[textAttributes dictionary]];
+						}
+						else { //Invalid
+							validTag = NO;
 						}
 					}
 					
-				} else {
-					//When an invalid tag is encountered, we add the <, and then move our scanner back to continue processing
-					[attrString appendString:@"<" withAttributes:[textAttributes dictionary]];
-					[scanner setScanLocation:scanLocation];
-				}
-
-			} else if ([tagOpen compare:@"&"] == NSOrderedSame) { // escape character, eg &gt;
-				BOOL validTag = [scanner scanUpToCharactersFromSet:charEnd intoString:&chunkString];
-
-				if (validTag) {
-					// We could upgrade this to use an NSDictionary with lots of chars
-					// but for now, if-blocks will do
-					if ([chunkString caseInsensitiveCompare:@"GT"] == NSOrderedSame) {
-						[attrString appendString:@">" withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString caseInsensitiveCompare:@"LT"] == NSOrderedSame) {
-						[attrString appendString:@"<" withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString caseInsensitiveCompare:@"AMP"] == NSOrderedSame) {
+					if (validTag) { //Skip over the end tag character ';'.  Don't scan all of that character, however, as we'll skip ;; and so on.
+						if (![scanner isAtEnd])
+							[scanner setScanLocation:[scanner scanLocation] + 1];
+					} else {
+						//When an invalid tag is encountered, we add the &, and then move our scanner back to continue processing
 						[attrString appendString:@"&" withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString caseInsensitiveCompare:@"QUOT"] == NSOrderedSame) {
-						[attrString appendString:@"\"" withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString caseInsensitiveCompare:@"APOS"] == NSOrderedSame) {
-						[attrString appendString:@"'" withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString caseInsensitiveCompare:@"NBSP"] == NSOrderedSame) {
-						[attrString appendString:@" " withAttributes:[textAttributes dictionary]];
-
-					} else if ([chunkString hasPrefix:@"#x"]) {
-						NSString *hexString = [chunkString substringFromIndex:2];
-						NSScanner *hexScanner = [NSScanner scannerWithString:hexString];
-						unsigned int character = 0;
-						if([hexScanner scanHexInt:&character])
-							[attrString appendString:[NSString stringWithFormat:@"%C", character]
-									  withAttributes:[textAttributes dictionary]];
-					} else if ([chunkString hasPrefix:@"#"]) {
-						NSString *decString = [chunkString substringFromIndex:1];
-						NSScanner *decScanner = [NSScanner scannerWithString:decString];
-						int character = 0;
-						if([decScanner scanInt:&character])
-							[attrString appendString:[NSString stringWithFormat:@"%C", character]
-									  withAttributes:[textAttributes dictionary]];
+						[scanner setScanLocation:scanLocation];
 					}
-					else { //Invalid
-						validTag = NO;
+				} else { //Invalid tag character (most likely a stray < or &)
+					if ([tagOpen length] > 1) {
+						//If more than one character was scanned, add the first one, and move the scanner back to re-process the additional characters
+						[attrString appendString:[tagOpen substringToIndex:1] withAttributes:[textAttributes dictionary]];
+						[scanner setScanLocation:[scanner scanLocation] - ([tagOpen length]-1)]; 
+					} else {
+						[attrString appendString:tagOpen withAttributes:[textAttributes dictionary]];
 					}
-				}
-
-				if (validTag) { //Skip over the end tag character ';'.  Don't scan all of that character, however, as we'll skip ;; and so on.
-					if (![scanner isAtEnd])
-						[scanner setScanLocation:[scanner scanLocation] + 1];
-				} else {
-					//When an invalid tag is encountered, we add the &, and then move our scanner back to continue processing
-					[attrString appendString:@"&" withAttributes:[textAttributes dictionary]];
-					[scanner setScanLocation:scanLocation];
-				}
-			} else { //Invalid tag character (most likely a stray < or &)
-				if ([tagOpen length] > 1) {
-					//If more than one character was scanned, add the first one, and move the scanner back to re-process the additional characters
-					[attrString appendString:[tagOpen substringToIndex:1] withAttributes:[textAttributes dictionary]];
-					[scanner setScanLocation:[scanner scanLocation] - ([tagOpen length]-1)]; 
-				} else {
-					[attrString appendString:tagOpen withAttributes:[textAttributes dictionary]];
 				}
 			}
 		}
-		[pool release];
 	}
 	
 	/* If the string has a constant NSBackgroundColorAttributeName attribute and no AIBodyColorAttributeName,
