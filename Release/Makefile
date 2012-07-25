@@ -215,13 +215,12 @@ ifeq ($(BETA),TRUE)
 	@echo
 	@echo Add this to sparkle/appcast-beta.xml:
 	@echo "	<item>"
-	@echo "	    <title>Adium $(VERSION)/title>"
+	@echo "	    <title>Adium $(VERSION)</title>"
 	@echo "	    <pubDate>`date +"%a, %d %b %Y %H:%M:%S %z"`</pubDate>"
 	@echo "	    <sparkle:releaseNotesLink>http://beta.adium.im/?notemplate</sparkle:releaseNotesLink>"
 	@echo "	    <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>"
 	@echo "	    <enclosure sparkle:dsaSignature=\"$(DSA)\" sparkle:version=\"$(VERSION)\" url=\"http://download.adium.im/Adium_$(VERSION).dmg\" length=\"`stat -f %z $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`\" type=\"application/octet-stream\"/>"
 	@echo "	</item>"
-	@echo "	<item>"
 endif
 endif
 
