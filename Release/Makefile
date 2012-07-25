@@ -19,7 +19,7 @@
 
 VERSION=1.5.3b1
 BUILD_IN_DEBUG_MODE?=FALSE
-BETA?=FALSE
+BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
 
 # Always builds in debug mode.
@@ -194,11 +194,11 @@ diskimage:
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
 
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	DSA=`ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
-	@echo DSA for Sparkle: $DSA
+	$(eval DSA := $(shell ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem))
+	@echo DSA for Sparkle: $(DSA)
 endif
 
-	MD5=`md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
+	$(eval MD5 := $(shell md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg))
 	@echo Build finished. $(MD5)
 
 ifeq ($(OFFICIAL_BUILD),TRUE)
