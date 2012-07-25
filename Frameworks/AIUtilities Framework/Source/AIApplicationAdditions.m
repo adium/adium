@@ -29,9 +29,4 @@
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
-- (BOOL)isOnLionOrNewer
-{
-	return (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_6);
-}
-
 @end

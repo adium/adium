@@ -74,7 +74,7 @@
 		return nil;
 	}
 	
-	return [xtraBundle AI_imageForResource:[iconInfo objectForKey:keyName]];
+	return [xtraBundle imageForResource:[iconInfo objectForKey:keyName]];
 }
 
 - (BOOL)keyOfTypeExists:(NSString *)keyName
@@ -122,7 +122,7 @@
 		for (NSString *iconID in [NSArray arrayWithObjects:@"Online",@"Offline",nil]) {
 			NSImage		*anIcon;
 
-			if ((anIcon = [menuIconsBundle AI_imageForResource:[imageInfo objectForKey:iconID]])) {
+			if ((anIcon = [menuIconsBundle imageForResource:[imageInfo objectForKey:iconID]])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 

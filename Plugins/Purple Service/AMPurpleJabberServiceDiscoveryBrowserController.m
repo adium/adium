@@ -312,7 +312,7 @@ static NSImage *det_triangle_closed = nil;
 	BOOL expanded = [outlineView isItemExpanded:item];
 	if (expanded && [item items] == nil) {
 		if (!downloadprogress)
-			downloadprogress = [[NSBundle bundleForClass:[self class]] AI_imageForResource:@"downloadprogress"];
+			downloadprogress = [[NSBundle bundleForClass:[self class]] imageForResource:@"downloadprogress"];
 		NSSize imgsize = [downloadprogress size];
 		NSImage *img = [[NSImage alloc] initWithSize:imgsize];
 		NSAffineTransform *transform = [NSAffineTransform transform];

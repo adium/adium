@@ -36,7 +36,7 @@
 	images = [[NSMutableArray alloc] init];
 
 	for (NSString *imageName in [iconDict objectEnumerator]) {
-		NSImage *image = [xtraInfo.bundle AI_imageForResource:imageName];
+		NSImage *image = [xtraInfo.bundle imageForResource:imageName];
 		if (image)
 			[images addObject:image];
 	}
