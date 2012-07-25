@@ -198,30 +198,30 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 	@echo DSA for Sparkle: $(DSA)
 endif
 
-	$(eval MD5 := $(shell md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg))
-	@echo Build finished. $(MD5)
+	$(eval MDFIVEHASH := $(shell md5 -q $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg))
+	@echo Build finished. $(MDFIVEHASH)
 
 ifeq ($(OFFICIAL_BUILD),TRUE)
 ifeq ($(BETA),TRUE)
 	@echo Add this to beta/index.php:
-	@echo					array(
-	@echo					"ver" => "$(VERSION)",
-	@echo					"rev" => "`hg parent --template {node\|short}`",
-	@echo					"date" => "`date +"%Y-%m-%d"`",
-	@echo					"md5" => "$(MD5)",
-	@echo					"dsa" => "$(DSA)"
-	@echo					),
+	@echo "					array("
+	@echo "					\"ver\" => \"$(VERSION)\","
+	@echo "					\"rev\" => \"`hg parent --template {node\|short}`\","
+	@echo "					\"date\" => \"`date +"%Y-%m-%d"`\","
+	@echo "					\"md5\" => \"$(MDFIVEHASH)\","
+	@echo "					\"dsa\" => \"$(DSA)\""
+	@echo "					),"
 
 	@echo
 	@echo Add this to sparkle/appcast-beta.xml:
-	@echo 	<item>
-	@echo 	    <title>Adium $(VERSION)/title>
-	@echo 	    <pubDate>`date +"%a, %d %b %Y %H:%M:%S %z"`</pubDate>
-	@echo 	    <sparkle:releaseNotesLink>http://beta.adium.im/?notemplate</sparkle:releaseNotesLink>
-	@echo 	    <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>
-	@echo 	    <enclosure sparkle:dsaSignature="$(DSA)" sparkle:version="$(VERSION)" url="http://download.adium.im/Adium_$(VERSION).dmg" length="`stat -f %z $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`" type="application/octet-stream"/>
-	@echo 	</item>
-	@echo 	<item>
+	@echo "	<item>"
+	@echo "	    <title>Adium $(VERSION)/title>"
+	@echo "	    <pubDate>`date +"%a, %d %b %Y %H:%M:%S %z"`</pubDate>"
+	@echo "	    <sparkle:releaseNotesLink>http://beta.adium.im/?notemplate</sparkle:releaseNotesLink>"
+	@echo "	    <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>"
+	@echo "	    <enclosure sparkle:dsaSignature=\"$(DSA)\" sparkle:version=\"$(VERSION)\" url=\"http://download.adium.im/Adium_$(VERSION).dmg\" length=\"`stat -f %z $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`\" type=\"application/octet-stream\"/>"
+	@echo "	</item>"
+	@echo "	<item>"
 endif
 endif
 
