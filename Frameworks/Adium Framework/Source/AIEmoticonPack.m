@@ -152,7 +152,7 @@
 - (NSArray *)enabledEmoticons
 {
 	if (!enabledEmoticonArray)
-		enabledEmoticonArray = [self.emoticons filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isEnabled == TRUE"]];
+		enabledEmoticonArray = [[self.emoticons filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isEnabled == TRUE"]] retain];
 	
 	return enabledEmoticonArray;
 }
