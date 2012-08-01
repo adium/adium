@@ -416,9 +416,9 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[textField_resultCount setStringValue:@""];
 
 	[tableView_results accessibilitySetOverrideValue:AILocalizedString(@"Transcripts", nil)
-										forAttribute:NSAccessibilityRoleDescriptionAttribute];
+										forAttribute:NSAccessibilityTitleAttribute];
 	[outlineView_contacts accessibilitySetOverrideValue:AILocalizedString(@"Contacts", nil)
-										forAttribute:NSAccessibilityRoleDescriptionAttribute];
+										forAttribute:NSAccessibilityTitleAttribute];
 
 	//Set emoticon filtering
 	showEmoticons = [[adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_EMOTICONS

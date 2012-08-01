@@ -120,7 +120,7 @@
 	[outlineView_stateList setUsesAlternatingRowBackgroundColors:YES];
 	
 	[outlineView_stateList accessibilitySetOverrideValue:AILocalizedString(@"Statuses", nil)
-											forAttribute:NSAccessibilityRoleDescriptionAttribute];
+											forAttribute:NSAccessibilityTitleAttribute];
 
 	/* Register as an observer of state array changes so we can refresh our list
 	 * in response to changes. */

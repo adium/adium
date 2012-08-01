@@ -108,7 +108,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											   object:self.window];
 	
 	[tableView accessibilitySetOverrideValue:AILocalizedString(@"Authorization Requests", nil)
-								forAttribute:NSAccessibilityRoleDescriptionAttribute];
+								forAttribute:NSAccessibilityTitleAttribute];
 	[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self.window setTitle:AUTHORIZATION_REQUESTS];
