@@ -80,7 +80,6 @@
 	
 	//Adium menu
 	IBOutlet	NSMenuItem	*menuItem_aboutAdium;
-	IBOutlet	NSMenuItem	*menuItem_adiumXtras;
 	IBOutlet	NSMenuItem	*menuItem_checkForUpdates;
 	IBOutlet	NSMenuItem	*menuItem_preferences;
 	IBOutlet	NSMenuItem	*menuItem_donate;
