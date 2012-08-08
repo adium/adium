@@ -84,7 +84,7 @@
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
-	[key getCString:property_name maxLength:32 encoding:NSUTF8StringEncoding];
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
 	
 	Ivar ivar = class_getInstanceVariable([self class], property_name);
 	
@@ -212,7 +212,7 @@
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
-	[key getCString:property_name maxLength:32 encoding:NSUTF8StringEncoding];
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
 	
 	Ivar ivar = object_getInstanceVariable(self, property_name, (void **)&value);
 	
@@ -256,7 +256,7 @@
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
-	[key getCString:property_name maxLength:32 encoding:NSUTF8StringEncoding];
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
 	
 	Ivar ivar = class_getInstanceVariable([self class], property_name);
 	
@@ -295,7 +295,7 @@
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
-	[key getCString:property_name maxLength:32 encoding:NSUTF8StringEncoding];
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
 	
 	Ivar ivar = class_getInstanceVariable([self class], property_name);
 	
