@@ -15,6 +15,7 @@
  */
  
 #import "AIMenuBarIcons.h"
+#import <AIUtilities/AIBundleAdditions.h>
 #import <Adium/AIXtraInfo.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <QuartzCore/CoreImage.h>
@@ -68,15 +69,12 @@
 
 - (NSImage *)imageForKey:(NSString *)keyName
 {
-	NSString *imagePath;
-	
 	// This set doesn't contain an Icons dictionary entry. It's invalid.
 	if (!iconInfo) {
 		return nil;
 	}
 	
-	imagePath = [xtraBundle pathForImageResource:[iconInfo objectForKey:keyName]];
-	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+	return [xtraBundle AI_imageForResource:[iconInfo objectForKey:keyName]];
 }
 
 - (BOOL)keyOfTypeExists:(NSString *)keyName
@@ -122,10 +120,9 @@
 
 		[image lockFocus];
 		for (NSString *iconID in [NSArray arrayWithObjects:@"Online",@"Offline",nil]) {
-			NSString	*anIconPath = [menuIconsBundle pathForImageResource:[imageInfo objectForKey:iconID]];
 			NSImage		*anIcon;
 
-			if ((anIcon = [[[NSImage alloc] initWithContentsOfFile:anIconPath] autorelease])) {
+			if ((anIcon = [menuIconsBundle AI_imageForResource:[imageInfo objectForKey:iconID]])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 

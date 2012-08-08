@@ -21,7 +21,7 @@
 	NSString			*serviceClass;
 	NSString			*emoticonLocation;
     NSMutableArray		*emoticonArray;
-	NSMutableArray		*enabledEmoticonArray;
+	NSArray				*enabledEmoticonArray;
     BOOL				enabled;
 }
 

@@ -19,9 +19,9 @@
 
 @interface RAFBlockEditorPlugin : AIPlugin {
 	NSMenuItem  *blockEditorMenuItem;
+	RAFBlockEditorWindowController *preferences;
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (IBAction)showEditor:(id)sender;
 
 @end

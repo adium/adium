@@ -1066,7 +1066,7 @@
 
 - (NSString *)getRepliesStartingAtPage:(int)pageNum
 {
-    NSString *path = @"statuses/replies.xml";
+    NSString *path = @"statuses/mentions.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (pageNum > 0) {
@@ -1386,7 +1386,7 @@
 
 - (NSString *)getRepliesSinceID:(NSString *)updateID startingAtPage:(int)pageNum
 {
-	NSString *path = @"statuses/replies.xml";
+	NSString *path = @"statuses/mentions.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {

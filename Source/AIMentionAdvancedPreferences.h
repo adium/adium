@@ -14,11 +14,11 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 
 #define PREF_KEY_MENTIONS		@"Saved Mentions"
 
-@interface AIMentionAdvancedPreferences : AIAdvancedPreferencePane {
+@interface AIMentionAdvancedPreferences : AIPreferencePane {
 	IBOutlet		NSTextField			*label_explanation;
 	
 	IBOutlet		NSTableView			*tableView;
