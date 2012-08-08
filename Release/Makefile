@@ -69,9 +69,9 @@ ifeq ($(NIGHTLY),TRUE)
 endif
 
 ifeq ($(BUILD_IN_DEBUG_MODE),TRUE)
-    BUILDSTYLE=Release-Debug
+	BUILDSTYLE=Release-Debug
 else
-    BUILDSTYLE=Release
+	BUILDSTYLE=Release
 endif
 
 BUILDFLAGS+="BUILDCONFIGURATION=$(BUILDSTYLE)"
@@ -194,10 +194,35 @@ diskimage:
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
 
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
+	$(eval DSA := $(shell ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem))
+	@echo DSA for Sparkle: $(DSA)
 endif
 
-	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
+	$(eval MDFIVEHASH := $(shell md5 -q $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg))
+	@echo Build finished. $(MDFIVEHASH)
+
+ifeq ($(OFFICIAL_BUILD),TRUE)
+ifeq ($(BETA),TRUE)
+	@echo Add this to beta/index.php:
+	@echo "					array("
+	@echo "					\"ver\" => \"$(VERSION)\","
+	@echo "					\"rev\" => \"`hg parent --template {node\|short}`\","
+	@echo "					\"date\" => \"`date +"%Y-%m-%d"`\","
+	@echo "					\"md5\" => \"$(MDFIVEHASH)\","
+	@echo "					\"dsa\" => \"$(DSA)\""
+	@echo "					),"
+
+	@echo
+	@echo Add this to sparkle/appcast-beta.xml:
+	@echo "	<item>"
+	@echo "	    <title>Adium $(VERSION)</title>"
+	@echo "	    <pubDate>`date +"%a, %d %b %Y %H:%M:%S %z"`</pubDate>"
+	@echo "	    <sparkle:releaseNotesLink>http://beta.adium.im/?notemplate</sparkle:releaseNotesLink>"
+	@echo "	    <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>"
+	@echo "	    <enclosure sparkle:dsaSignature=\"$(DSA)\" sparkle:version=\"$(VERSION)\" url=\"http://download.adium.im/Adium_$(VERSION).dmg\" length=\"`stat -f %z $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`\" type=\"application/octet-stream\"/>"
+	@echo "	</item>"
+endif
+endif
 
 #This is what nightly builds use. Does not update because buildbot does.
 nightly: version clean compile createfolder prepare-release-bundle diskimage

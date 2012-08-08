@@ -146,14 +146,14 @@ static BOOL g_ascii_isspace(char character)
 
 /* Find the length of STRING, but scan at most MAXLEN characters.
  If no '\0' terminator is found in that many characters, return MAXLEN.  */
-static size_t
+size_t
 strnlen (const char *string, size_t maxlen)
 {
 	const char *end = memchr (string, '\0', maxlen);
 	return end ? (size_t) (end - string) : maxlen;
 }
 
-static char *strndup (const char *s, size_t n)
+char *strndup (const char *s, size_t n)
 {
 	size_t len = strnlen (s, n);
 	char *nouveau = malloc (len + 1);
