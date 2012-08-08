@@ -1632,19 +1632,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
 	});
 	
-	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
-	for (AIChat *chat in adium.chatController.openChats) {
-		NSString *existingAppenderPath = [[self _existingAppenderForChat:chat] path];
-		if (existingAppenderPath) {
-			NSString *dirtyKey = [@"LogIsDirty_" stringByAppendingString:existingAppenderPath];
-			
-			if ([chat integerValueForProperty:dirtyKey]) {
-				[chat setValue:nil
-				   forProperty:dirtyKey
-						notify:NotifyNever];
-			}
-		}
-	}
 	self.isIndexing = NO;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
