@@ -120,6 +120,7 @@ static int nextChatNumber = 0;
     [chatCreationInfo release]; chatCreationInfo = nil;
     [enteredTextTimer release]; enteredTextTimer = nil;
     [securityDetails release]; securityDetails = nil;
+	[lastMessageDate release]; lastMessageDate = nil;
 	
 	[super dealloc];
 }
