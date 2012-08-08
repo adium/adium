@@ -80,7 +80,7 @@
         
     [self willChangeValueForKey:key];
 	
-	char property_name[256];
+	char property_name[256] = {0};
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
@@ -207,8 +207,7 @@
 {
 	id ret = nil;
 	id value = nil;
-	
-	char property_name[256];
+	char property_name[256] = {0};
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
@@ -217,19 +216,13 @@
 	Ivar ivar = object_getInstanceVariable(self, property_name, (void **)&value);
 	
 	if (ivar == NULL) {
-		
-		// no dictionary -> this property is certainly nil
-		if (propertiesDictionary) {
-			ret = [propertiesDictionary objectForKey:key];
-		}
-		
+		ret = [propertiesDictionary objectForKey:key];
 	} else {
-		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
 		// attempt to wrap it, if we know how
 		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
-			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
+			ret = [NSNumber numberWithInteger:(NSInteger)value];
 		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
 			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
 			ret = [NSNumber numberWithBool:*idx];
@@ -251,8 +244,7 @@
 - (NSInteger)integerValueForProperty:(NSString *)key
 {
 	NSInteger ret = 0;
-	
-	char property_name[256];
+	char property_name[256] = {0};
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
@@ -262,7 +254,7 @@
 	
 	if (ivar == NULL) {
 		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number integerValue] : 0;
+		ret = [number integerValue];
 	} else {
 		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
@@ -282,7 +274,7 @@
 	int ret = 0;
 	
 	NSNumber *number = [self numberValueForProperty:key];
-	ret = number ? [number intValue] : 0;
+	ret = [number intValue];
 	
     return ret;
 }
@@ -290,8 +282,7 @@
 - (BOOL)boolValueForProperty:(NSString *)key
 {
 	BOOL ret = FALSE;
-	
-	char property_name[256];
+	char property_name[256] = {0};
 	
 	NSAssert([key length] < 256, @"Too long property!");
 	
@@ -301,7 +292,7 @@
 	
 	if (ivar == NULL) {
 		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number boolValue] : NO;
+		ret = [number boolValue];
 	} else {
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
@@ -310,7 +301,7 @@
 		}
 		
 		BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
-		ret = (NSInteger)(*idx);
+		ret = *idx;
 	}
 	
     return ret;
