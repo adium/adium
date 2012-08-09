@@ -683,12 +683,14 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 + (NSArray *)_forwardedProperties
 {
 	static NSArray *properties = nil;
+	static dispatch_once_t onceToken;
 	
-	if (properties == nil) {
+	dispatch_once(&onceToken, ^{
 		properties = [[NSArray alloc] initWithObjects:@"isOnline", @"isBlocked",
 					  @"isIdle", @"notAStranger", @"isMobile", @"signedOff", @"signedOn",
 					  @"alwaysOnline", @"unviewedContent", @"unviewedMention", nil];
-	}
+	});
+	
 	return properties;
 }
 
