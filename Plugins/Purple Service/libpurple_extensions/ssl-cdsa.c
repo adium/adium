@@ -70,6 +70,7 @@ typedef
 void (*query_cert_chain)(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata);
 
 static query_cert_chain certificate_ui_cb = NULL;
+static void ssl_cdsa_create_context(gpointer data);
 
 /*
  * ssl_cdsa_init
@@ -139,7 +140,67 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 	 * here and there.
 	 */
 	err = SSLHandshake(cdsa_data->ssl_ctx);
-	if(err != noErr) {
+    if (err == errSSLBadRecordMac) {
+        /*
+         * try explicitly forcing TLS 1.0/SSL 3.0 to (maybe) make buggy servers work
+         */
+        purple_debug_info("cdsa", "SSLHandshake reported bad MAC, forcing TLS 1.0/SSL 3.0\n");
+        
+        ssl_cdsa_close(gsc);
+        ssl_cdsa_create_context(gsc);
+        cdsa_data = PURPLE_SSL_CDSA_DATA(gsc);
+        
+        OSStatus protoErr;
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocolAll, false);
+        if (protoErr != noErr) {
+            fprintf(stderr, "cdsa: failed to disable protocols: error %d\n",(int)protoErr);
+            purple_debug_error("cdsa", "failed to disable protocols: error %d\n",(int)protoErr);
+            if (gsc->error_cb != NULL)
+                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                              gsc->connect_cb_data);
+            
+            purple_ssl_close(gsc);
+            return;
+        }
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
+        if (protoErr != noErr) {
+            fprintf(stderr, "cdsa: failed to enable TLS 1.0: error %d\n",(int)protoErr);
+            purple_debug_error("cdsa", "failed to enable TLS 1.0: error %d\n",(int)protoErr);
+            if (gsc->error_cb != NULL)
+                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                              gsc->connect_cb_data);
+            
+            purple_ssl_close(gsc);
+            return;
+        }
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
+        if (protoErr != noErr) {
+            fprintf(stderr, "cdsa: failed to enable SSL 3.0: error %d\n",(int)protoErr);
+            purple_debug_error("cdsa", "failed to enable SSL 3.0: error %d\n",(int)protoErr);
+            if (gsc->error_cb != NULL)
+                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                              gsc->connect_cb_data);
+            
+            purple_ssl_close(gsc);
+            return;
+        }
+        
+        purple_debug_info("cdsa", "retrying SSLHandshake\n");
+        err = SSLHandshake(cdsa_data->ssl_ctx);
+        if (err != noErr) {
+            if(err == errSSLWouldBlock)
+                return;
+            fprintf(stderr,"cdsa: SSLHandshake failed after forcing protocol versions with error %d\n",(int)err);
+            purple_debug_error("cdsa", "SSLHandshake failed after forcing protocol versions with error %d\n",(int)err);
+            if (gsc->error_cb != NULL)
+                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                              gsc->connect_cb_data);
+            
+            purple_ssl_close(gsc);
+            return;
+        }
+        purple_debug_info("cdsa", "SSLHandshake succeeded after forcing protocol versions, continuing ssl_connect\n");
+    } else if (err != noErr) {
 		if(err == errSSLWouldBlock)
 			return;
 		fprintf(stderr,"cdsa: SSLHandshake failed with error %d\n",(int)err);
@@ -283,26 +344,22 @@ static OSStatus SocketWrite(
     return ortn;
 }
 
-/*
- * ssl_cdsa_connect
- *
- * given a socket, put an cdsa connection around it.
- */
 static void
-ssl_cdsa_connect(PurpleSslConnection *gsc) {
+ssl_cdsa_create_context(gpointer data) {
+    PurpleSslConnection *gsc = (PurpleSslConnection *)data;
 	PurpleSslCDSAData *cdsa_data;
     OSStatus err;
-
-	/*
+    
+    /*
 	 * allocate some memory to store variables for the cdsa connection.
 	 * the memory comes zero'd from g_new0 so we don't need to null the
 	 * pointers held in this struct.
 	 */
-	cdsa_data = g_new0(PurpleSslCDSAData, 1);
+    cdsa_data = g_new0(PurpleSslCDSAData, 1);
 	gsc->private_data = cdsa_data;
 	connections = g_list_append(connections, gsc);
-
-	/*
+    
+    /*
 	 * allocate a new SSLContextRef object
 	 */
     err = SSLNewContext(false, &cdsa_data->ssl_ctx);
@@ -310,8 +367,8 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
 		purple_debug_error("cdsa", "SSLNewContext failed\n");
 		if (gsc->error_cb != NULL)
 			gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-				gsc->connect_cb_data);
-
+                          gsc->connect_cb_data);
+        
 		purple_ssl_close(gsc);
 		return;
 	}
@@ -381,8 +438,8 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
         purple_debug_error("cdsa", "SSLSetEnabledCiphers failed\n");
         if (gsc->error_cb != NULL)
             gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-                       gsc->connect_cb_data);
-
+                          gsc->connect_cb_data);
+        
         purple_ssl_close(gsc);
         return;
     }
@@ -402,7 +459,7 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
             return;
         }
     }
-
+    
 	/*
      * Disable verifying the certificate chain.
 	 * We have to do that manually later on! This is the only way to be able to continue with a connection, even though the user
@@ -415,7 +472,18 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
     }
 	
 	cdsa_data->handshake_handler = purple_input_add(gsc->fd, PURPLE_INPUT_READ, ssl_cdsa_handshake_cb, gsc);
+}
 
+/*
+ * ssl_cdsa_connect
+ *
+ * given a socket, put an cdsa connection around it.
+ */
+static void
+ssl_cdsa_connect(PurpleSslConnection *gsc) {
+	
+    ssl_cdsa_create_context(gsc);
+    
 	// calling this here relys on the fact that SSLHandshake has to be called at least twice
 	// to get an actual connection (first time returning errSSLWouldBlock).
 	// I guess this is always the case because SSLHandshake has to send the initial greeting first, and then wait
