@@ -130,7 +130,7 @@ make_po_files() {
 	PURPLE_RSRC_DIR="${ROOTDIR}/Frameworks/libpurple.subproj/libpurple.framework/Resources"
 	
 	status "Building libpurple po files"
-	quiet pushd "${ROOTDIR}/source/im.pidgin.adium/po"
+	quiet pushd "${ROOTDIR}/source/libpurple/po"
 		log make all
 		log make install
 	quiet popd
