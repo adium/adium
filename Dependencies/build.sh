@@ -140,7 +140,7 @@ for option in ${@:1} ; do
   --libpurple-branch=[branch] : Force a secific libpurple branch
   --libpurple-only            : Assume all dependencies are already built
                                 and start the build with libpurple itself
-  --download-libpurple        : Download the libpurple mtn bootstrap db.
+  --download-libpurple        : Download the libpurple Mercurial repository
   --help                      : This help text
 	
 Note that explicitly setting any arch flags implies a forced reconfigure.'
@@ -179,12 +179,13 @@ set_arch_flags
 
 # assert that the developer can, in fact, build libpurple.  Why waste his time if he can't?
 asserttools gcc
-asserttools mtn
+asserttools hg
 
 # Ok, so we keep running into issues where MacPorts will volunteer to supply
 # dependencies that we want to build ourselves.
-# Getting mtn's path before we export our own (safer?) path will ensure it works,
+# Getting hg's path before we export our own (safer?) path will ensure it works,
 # even if it's being managed by MacPorts, Fink, or similar.
+HG=`which hg`
 export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$DEVELOPER/usr/bin:$DEVELOPER/usr/sbin
 export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
 export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
