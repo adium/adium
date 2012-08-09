@@ -26,12 +26,12 @@ fetch_libpurple() {
 	if [ -d "libpurple" ]; then
 		status "Pulling latest changes to libpurple"
 		cd "libpurple"
-		hg pull
+		$HG pull
 
 		status "Updating libpurple with ${HG_UPDATE_PARAM}"
-		hg update ${HG_UPDATE_PARAM}
+		$HG update ${HG_UPDATE_PARAM}
 	else
-		hg clone -b adium "http://hg.adium.im/libpurple/" libpurple
+		$HG clone -b adium "http://hg.adium.im/libpurple/" libpurple
 	fi
 	
 	quiet popd
