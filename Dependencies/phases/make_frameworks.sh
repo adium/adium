@@ -54,14 +54,6 @@ prep_headers() {
 		local meanwhileDir="${ROOTDIR}/build/lib/include/libmeanwhile-${MEANWHILE_VERSION}"
 		quiet mkdir "${meanwhileDir}" || true
 		touch "${meanwhileDir}/no_headers_here.txt"
-		
-		#json-glib
-		status "Staging json-glib headers"
-		local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
-		quiet rm -r "${jsonDir}" || true
-		quiet mkdir "${jsonDir}" || true
-		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
-		
 
 		#libpurple
 		status "Staging libpurple headers"
@@ -136,7 +128,7 @@ make_po_files() {
 	quiet popd
 	
 	status "Copy po files to framework"
-	quiet pushd "${ROOTDIR}/build/share/locale"
+	quiet pushd "${ROOTDIR}/build/lib/locale"
 		quiet mkdir "${PURPLE_RSRC_DIR}" || true
 		log cp -v -r * "${PURPLE_RSRC_DIR}"
 	quiet popd

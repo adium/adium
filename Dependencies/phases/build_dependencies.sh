@@ -14,6 +14,7 @@ build_pkgconfig() {
 	
 	if needsconfigure $@; then
 		status "Configuring pkg-config"
+		export CFLAGS="-std=gnu89"
 		log ./configure --prefix="$ROOTDIR/build"
 	fi
 	
@@ -39,6 +40,7 @@ build_gettext() {
 	if needsconfigure $@; then
 	(
 		status "Configuring gettext"
+		export "gl_cv_absolute_stdint_h=${SDK_ROOT}/usr/include/stdint.h"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-java \
