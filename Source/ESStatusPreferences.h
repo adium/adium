@@ -16,40 +16,110 @@
 
 #import "AIPreferencePane.h"
 
-@class AIAutoScrollView, AIStatus, AIAlternatingRowOutlineView;
+@class AIAutoScrollView, AIStatus, AIAlternatingRowOutlineView, AISegmentedControl;
 
-@interface ESStatusPreferences : AIPreferencePane {
-	//Status state tableview
-	IBOutlet	NSButton			*button_editState;
-	IBOutlet	NSButton			*button_addGroup;
-	IBOutlet	NSSegmentedControl	*button_addOrRemoveState;
-
-	IBOutlet	AIAlternatingRowOutlineView		*outlineView_stateList;
-	IBOutlet	AIAutoScrollView				*scrollView_stateList;
+@interface ESStatusPreferences : AIPreferencePane <NSTokenFieldDelegate> {
+	NSArray		*draggingItems;
 	
-	NSArray				*draggingItems;
+	BOOL		showingSubmenuItemInAutoAway;
+	BOOL		showingSubmenuItemInFastUserSwitching;
+	BOOL		showingSubmenuItemInScreenSaver;
 	
-	//Other controls
-	IBOutlet	NSButton		*checkBox_idle;
-	IBOutlet	NSTextField		*textField_idleMinutes;
-	IBOutlet    NSStepper       *stepper_idleMinutes;
-
-	IBOutlet	NSButton		*checkBox_autoAway;
-	IBOutlet	NSPopUpButton	*popUp_autoAwayStatusState;
-	IBOutlet	NSTextField		*textField_autoAwayMinutes;
-	IBOutlet    NSStepper       *stepper_autoAwayMinutes;
-	BOOL						showingSubmenuItemInAutoAway;
-
-	IBOutlet	NSButton		*checkBox_fastUserSwitching;
-	IBOutlet	NSPopUpButton	*popUp_fastUserSwitchingStatusState;
-	BOOL						showingSubmenuItemInFastUserSwitching;
-
-	IBOutlet	NSButton		*checkBox_screenSaver;
-	IBOutlet	NSPopUpButton	*popUp_screenSaverStatusState;
-	BOOL						showingSubmenuItemInScreenSaver;
+	NSTabViewItem *tabItem_status;
+	NSTabViewItem *tabItem_settings;
 	
-	IBOutlet	NSButton		*checkBox_showStatusWindow;
+	AILocalizationTextField *label_inactivity;
+	AILocalizationTextField *label_inactivitySet;
+	AILocalizationTextField *label_iTunesFormat;
+	
+	NSBox *box_itunesElements;
+	
+	NSTokenField *tokenField_format;
+	NSTokenField *tokenField_album;
+	NSTokenField *tokenField_artist;
+	NSTokenField *tokenField_composer;
+	NSTokenField *tokenField_genre;
+	NSTokenField *tokenField_status;
+	NSTokenField *tokenField_title;
+	NSTokenField *tokenField_year;
+	
+	AILocalizationTextField *label_instructions;
+	AILocalizationTextField *label_album;
+	AILocalizationTextField *label_artist;
+	AILocalizationTextField *label_composer;
+	AILocalizationTextField *label_genre;
+	AILocalizationTextField *label_status;
+	AILocalizationTextField *label_title;
+	AILocalizationTextField *label_year;
+	
+	AISegmentedControl *button_addOrRemoveState;
+	AILocalizationButton *button_addGroup;
+	AILocalizationButton *button_editState;
+	AIAutoScrollView *scrollView_stateList;
+	AIAlternatingRowOutlineView *outlineView_stateList;
+	AILocalizationButton *checkBox_idle;
+	NSTextField *textField_idleMinutes;
+	NSStepper *stepper_idleMinutes;
+	AILocalizationButton *checkBox_autoAway;
+	NSTextField *textField_autoAwayMinutes;
+	NSStepper *stepper_autoAwayMinutes;
+	NSPopUpButton *popUp_autoAwayStatusState;
+	AILocalizationButton *checkBox_fastUserSwitching;
+	NSPopUpButton *popUp_fastUserSwitchingStatusState;
+	AILocalizationButton *checkBox_screenSaver;
+	NSPopUpButton *popUp_screenSaverStatusState;
+	AILocalizationButton *checkBox_showStatusWindow;
 }
+
+@property (assign) IBOutlet NSTabViewItem *tabItem_status;
+@property (assign) IBOutlet NSTabViewItem *tabItem_settings;
+
+@property (assign) IBOutlet AISegmentedControl *button_addOrRemoveState;
+@property (assign) IBOutlet AILocalizationButton *button_addGroup;
+@property (assign) IBOutlet AILocalizationButton *button_editState;
+@property (assign) IBOutlet AIAutoScrollView *scrollView_stateList;
+@property (assign) IBOutlet AIAlternatingRowOutlineView *outlineView_stateList;
+
+@property (assign) IBOutlet AILocalizationButton *checkBox_idle;
+@property (assign) IBOutlet NSTextField *textField_idleMinutes;
+@property (assign) IBOutlet NSStepper *stepper_idleMinutes;
+
+@property (assign) IBOutlet AILocalizationButton *checkBox_autoAway;
+@property (assign) IBOutlet NSTextField *textField_autoAwayMinutes;
+@property (assign) IBOutlet NSStepper *stepper_autoAwayMinutes;
+@property (assign) IBOutlet NSPopUpButton *popUp_autoAwayStatusState;
+
+@property (assign) IBOutlet AILocalizationButton *checkBox_fastUserSwitching;
+@property (assign) IBOutlet NSPopUpButton *popUp_fastUserSwitchingStatusState;
+
+@property (assign) IBOutlet AILocalizationButton *checkBox_screenSaver;
+@property (assign) IBOutlet NSPopUpButton *popUp_screenSaverStatusState;
+
+@property (assign) IBOutlet AILocalizationButton *checkBox_showStatusWindow;
+
+@property (assign) IBOutlet AILocalizationTextField *label_inactivity;
+@property (assign) IBOutlet AILocalizationTextField *label_inactivitySet;
+@property (assign) IBOutlet NSTextField *label_iTunesFormat;
+
+@property (assign) IBOutlet NSBox *box_itunesElements;
+
+@property (assign) IBOutlet AILocalizationTextField *label_instructions;
+@property (assign) IBOutlet AILocalizationTextField *label_album;
+@property (assign) IBOutlet AILocalizationTextField *label_artist;
+@property (assign) IBOutlet AILocalizationTextField *label_composer;
+@property (assign) IBOutlet AILocalizationTextField *label_genre;
+@property (assign) IBOutlet AILocalizationTextField *label_status;
+@property (assign) IBOutlet AILocalizationTextField *label_title;
+@property (assign) IBOutlet AILocalizationTextField *label_year;
+
+@property (assign) IBOutlet NSTokenField *tokenField_format;
+@property (assign) IBOutlet NSTokenField *tokenField_album;
+@property (assign) IBOutlet NSTokenField *tokenField_artist;
+@property (assign) IBOutlet NSTokenField *tokenField_composer;
+@property (assign) IBOutlet NSTokenField *tokenField_genre;
+@property (assign) IBOutlet NSTokenField *tokenField_status;
+@property (assign) IBOutlet NSTokenField *tokenField_title;
+@property (assign) IBOutlet NSTokenField *tokenField_year;
 
 - (void)configureStateList;
 
@@ -58,5 +128,7 @@
 - (IBAction)addGroup:(id)sender;
 
 - (void)stateArrayChanged:(NSNotification *)notification;
+
+- (IBAction)changeFormat:(id)sender;
 
 @end
