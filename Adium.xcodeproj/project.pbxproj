@@ -145,9 +145,6 @@
 		11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */; };
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
-		118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
-		118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
-		118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
 		1192E6D90FD3056F003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */; };
 		1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */; };
 		1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */ = {isa = PBXBuildFile; fileRef = 1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */; };
@@ -1652,7 +1649,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */,
-				118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */,
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
 				11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */,
@@ -4444,7 +4440,6 @@
 		979AA6B414D5A452008730DF /* libgobject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgobject.framework; path = Frameworks/libgobject.framework; sourceTree = "<group>"; };
 		979AA6B514D5A452008730DF /* libgthread.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgthread.framework; path = Frameworks/libgthread.framework; sourceTree = "<group>"; };
 		979AA6B614D5A452008730DF /* libintl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libintl.framework; path = Frameworks/libintl.framework; sourceTree = "<group>"; };
-		979AA6B714D5A452008730DF /* libjson-glib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "libjson-glib.framework"; path = "Frameworks/libjson-glib.framework"; sourceTree = "<group>"; };
 		979AA6B814D5A452008730DF /* libmeanwhile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmeanwhile.framework; path = Frameworks/libmeanwhile.framework; sourceTree = "<group>"; };
 		979AA6B914D5A452008730DF /* libpurple.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpurple.framework; path = Frameworks/libpurple.framework; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
@@ -4726,7 +4721,6 @@
 				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
 				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
-				118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4770,7 +4764,6 @@
 				340C1ABF0BD58FAB00D09235 /* Security.framework in Frameworks */,
 				31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */,
 				11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */,
-				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
 				9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */,
 				9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */,
@@ -8154,7 +8147,6 @@
 				979AA6B414D5A452008730DF /* libgobject.framework */,
 				979AA6B514D5A452008730DF /* libgthread.framework */,
 				979AA6B614D5A452008730DF /* libintl.framework */,
-				979AA6B714D5A452008730DF /* libjson-glib.framework */,
 				979AA6B914D5A452008730DF /* libpurple.framework */,
 				979AA6B814D5A452008730DF /* libmeanwhile.framework */,
 			);

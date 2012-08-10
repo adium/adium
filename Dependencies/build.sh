@@ -23,7 +23,7 @@ NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # Also try /Developer-old, just in case XCode 4 is installed
 DEVELOPER=$(xcode-select -print-path)
-SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk"
+SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk"
 # SDK_ROOT="/Developer/SDKs/MacOSX10.6.sdk/"
 
 MIN_OS_VERSION="10.6"
