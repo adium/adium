@@ -64,7 +64,7 @@
 #define KEY_LOG_INDEX_VERSION		@"Log Index Version"
 
 //Version of the log index.  Increase this number to reset everyone's index.
-#define	CURRENT_LOG_VERSION			9
+#define	CURRENT_LOG_VERSION			10
 #define LOG_INDEX_STATUS_INTERVAL   20
 #define LOG_CLEAN_SAVE_INTERVAL     2000
 #define NEW_LOGFILE_TIMEOUT         600
