@@ -527,12 +527,11 @@
  */
 - (void)iTunesUpdate:(NSNotification *)aNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSDictionary *newInfo = [aNotification userInfo];
-	[self setiTunesCurrentInfo:newInfo];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		NSDictionary *newInfo = [aNotification userInfo];
+		[self setiTunesCurrentInfo:newInfo];
+	}
 }
 
 /*!

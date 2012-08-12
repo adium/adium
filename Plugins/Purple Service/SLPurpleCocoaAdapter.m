@@ -168,39 +168,39 @@ static void ZombieKiller_Signal(int i)
 
 void adium_glib_print(const char *string)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AILog(@"(GLib): %s", string);
-    [pool drain];
+    @autoreleasepool {
+		AILog(@"(GLib): %s", string);
+    }
 }
 
 void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *message, gpointer user_data)
 {
 	if (!AIDebugLoggingIsEnabled()) return;
 	
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-	NSString *level;
-	
-	if (!log_domain) log_domain = "general";
-	
-	if ((flags & G_LOG_LEVEL_ERROR) == G_LOG_LEVEL_ERROR)
-		level = @"ERROR";
-	else if ((flags & G_LOG_LEVEL_CRITICAL) == G_LOG_LEVEL_CRITICAL)
-		level = @"CRITICAL";
-	else if ((flags & G_LOG_LEVEL_WARNING) == G_LOG_LEVEL_WARNING)
-		level = @"WARNING";
-	else if ((flags & G_LOG_LEVEL_MESSAGE) == G_LOG_LEVEL_MESSAGE)
-		level = @"MESSAGE";
-	else if ((flags & G_LOG_LEVEL_INFO) == G_LOG_LEVEL_INFO)
-		level = @"INFO";
-	else if ((flags & G_LOG_LEVEL_DEBUG) == G_LOG_LEVEL_DEBUG)
-		level = @"MISC";
-	else
-		level = @"UNKNOWN";
-
-	
-	AILog(@"(GLib : %s): %@: %s", log_domain, level, message);
-    [pool drain];
+    @autoreleasepool {
+		
+		NSString *level;
+		
+		if (!log_domain) log_domain = "general";
+		
+		if ((flags & G_LOG_LEVEL_ERROR) == G_LOG_LEVEL_ERROR)
+			level = @"ERROR";
+		else if ((flags & G_LOG_LEVEL_CRITICAL) == G_LOG_LEVEL_CRITICAL)
+			level = @"CRITICAL";
+		else if ((flags & G_LOG_LEVEL_WARNING) == G_LOG_LEVEL_WARNING)
+			level = @"WARNING";
+		else if ((flags & G_LOG_LEVEL_MESSAGE) == G_LOG_LEVEL_MESSAGE)
+			level = @"MESSAGE";
+		else if ((flags & G_LOG_LEVEL_INFO) == G_LOG_LEVEL_INFO)
+			level = @"INFO";
+		else if ((flags & G_LOG_LEVEL_DEBUG) == G_LOG_LEVEL_DEBUG)
+			level = @"MISC";
+		else
+			level = @"UNKNOWN";
+		
+		
+		AILog(@"(GLib : %s): %@: %s", log_domain, level, message);
+    }
 }
 
 - (void)initLibPurple

@@ -170,39 +170,39 @@
 	});
 	__block NSMutableAttributedString   *attributedString;
 	dispatch_sync(cacheQueue, ^{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		AITextAttachmentExtension   *attachment;
-		
-		//Cache this attachment for ourself if we don't already have a cache, or if our cache needs to have an image attached
-		
-		if (!_cachedAttributedString || (!imageLoaded && attach)) {
-			[_cachedAttributedString release]; //for the second half of the conditional
-			AITextAttachmentExtension   *emoticonAttachment = [[[AITextAttachmentExtension alloc] init] autorelease];
-			if(!path || attach) {
-				NSTextAttachmentCell		*cell = [[NSTextAttachmentCell alloc] initImageCell:[self image]];
-				[emoticonAttachment setAttachmentCell:cell];
-				[cell release];
-				imageLoaded = YES;
-			} 
+		@autoreleasepool {
+			AITextAttachmentExtension   *attachment;
 			
-			[emoticonAttachment setPath:path];
-			[emoticonAttachment setHasAlternate:YES];
-			[emoticonAttachment setImageClass:@"emoticon"];
+			//Cache this attachment for ourself if we don't already have a cache, or if our cache needs to have an image attached
 			
-			//Emoticons should not ever be sent out as images
-			[emoticonAttachment setShouldAlwaysSendAsText:YES];
+			if (!_cachedAttributedString || (!imageLoaded && attach)) {
+				[_cachedAttributedString release]; //for the second half of the conditional
+				AITextAttachmentExtension   *emoticonAttachment = [[[AITextAttachmentExtension alloc] init] autorelease];
+				if(!path || attach) {
+					NSTextAttachmentCell		*cell = [[NSTextAttachmentCell alloc] initImageCell:[self image]];
+					[emoticonAttachment setAttachmentCell:cell];
+					[cell release];
+					imageLoaded = YES;
+				}
+				
+				[emoticonAttachment setPath:path];
+				[emoticonAttachment setHasAlternate:YES];
+				[emoticonAttachment setImageClass:@"emoticon"];
+				
+				//Emoticons should not ever be sent out as images
+				[emoticonAttachment setShouldAlwaysSendAsText:YES];
+				
+				_cachedAttributedString = [[NSAttributedString attributedStringWithAttachment:emoticonAttachment] retain];
+			}
 			
-			_cachedAttributedString = [[NSAttributedString attributedStringWithAttachment:emoticonAttachment] retain];
-		}
-		
-		
-		//Create a copy of our cached string, and update it for the new text equivalent
-		attributedString = [_cachedAttributedString mutableCopy];
-		attachment = [[attributedString attribute:NSAttachmentAttributeName atIndex:0 effectiveRange:NULL] copy];
-		[attributedString addAttribute:NSAttachmentAttributeName value:attachment range:NSMakeRange(0, [attributedString length])];
-		[attachment setString:textEquivalent];
-		[attachment release];
-   		[pool release];
+			
+			//Create a copy of our cached string, and update it for the new text equivalent
+			attributedString = [_cachedAttributedString mutableCopy];
+			attachment = [[attributedString attribute:NSAttachmentAttributeName atIndex:0 effectiveRange:NULL] copy];
+			[attributedString addAttribute:NSAttachmentAttributeName value:attachment range:NSMakeRange(0, [attributedString length])];
+			[attachment setString:textEquivalent];
+			[attachment release];
+   		}
     }); 
     return [attributedString autorelease];
 }

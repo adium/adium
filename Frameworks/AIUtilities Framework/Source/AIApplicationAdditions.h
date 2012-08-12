@@ -18,6 +18,4 @@
 
 - (NSString *)applicationVersion;
 
-- (BOOL)isOnLionOrNewer;
-
 @end

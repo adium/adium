@@ -32,7 +32,7 @@
     // Get the bundle
     ownerBundle = [NSBundle bundleForClass:inClass];
 	
-    return [ownerBundle AI_imageForResource:name];
+    return [ownerBundle imageForResource:name];
 }
 
 // Returns an image from the owners bundle with the specified name
