@@ -40,7 +40,7 @@
 #import "AWEzvSupportRoutines.h"
 
 #import <dns_sd.h>
-#import <openssl/sha.h>
+#import <CommonCrypto/CommonDigest.h>
 
 /* One of the stupidest things I've ever met. Doing DNS lookups using the standard
  * functions does not for mDNS records work unless you're in BIND 8 compatibility
@@ -331,7 +331,7 @@ void image_register_reply (
 - (void)setImageData:(NSData *)JPEGData
 {
 	DNSServiceErrorType error;
-	SHA_CTX ctx;
+	CC_SHA1_CTX ctx;
 	unsigned char digest[20];
 
 	if (avDNSReference == NULL) {
@@ -382,9 +382,9 @@ void image_register_reply (
 
 	if (error == kDNSServiceErr_NoError) {
 		// Let's create the hash
-		SHA1_Init(&ctx);
-		SHA1_Update(&ctx, [JPEGData bytes], (unsigned long)[JPEGData length]);
-		SHA1_Final(digest, &ctx);
+		CC_SHA1_Init(&ctx);
+		CC_SHA1_Update(&ctx, [JPEGData bytes], (CC_LONG)[JPEGData length]);
+		CC_SHA1_Final(digest, &ctx);
 		imagehash = [[NSData dataWithBytes:digest length:20] retain];
 		AILogWithSignature(@"Will update with hash %@; length is %u", imagehash, [JPEGData length]);
 		[self updatePHSH];
