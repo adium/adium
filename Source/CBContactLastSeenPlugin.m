@@ -45,7 +45,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	/* Update only for contacts whose online status has changed */
-	if ([inObject isKindOfClass:[AIListContact class]]) {
+	if ([inObject isKindOfClass:[AIListContact class]] && !inObject.isStranger) {
 		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			if (inObject.online) {
 				//Either they are online, or we've come online. Either way, update both their status and the time
