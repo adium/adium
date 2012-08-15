@@ -140,6 +140,10 @@ build_meanwhile() {
 	
 	# The provided libtool ignores our Universal Binary-makin' flags
 	fwdpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0 || true
+
+	# Fixes accepting group chat invites from the standard Sametime client.
+	# Thanks to Jere Krischel and Jonathan Rice.
+	fwdpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0 || true
 	
 	if needsconfigure $@; then
 	(
@@ -173,6 +177,7 @@ build_meanwhile() {
 	revpatch "$ROOTDIR/patches/Meanwhile-st_list.c.diff" -p0
 	revpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0
 	revpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0
+	revpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0
 	
 	quiet popd
 }
