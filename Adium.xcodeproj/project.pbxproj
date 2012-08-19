@@ -1055,6 +1055,8 @@
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.xib */; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
 		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
+		5A1E24A915BC746B003A6F9E /* AIAdvancedPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1E24A715BC746B003A6F9E /* AIAdvancedPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A1E24AA15BC746B003A6F9E /* AIAdvancedPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */; };
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7D14A272330063489D /* pref-messagehistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7914A272330063489D /* pref-messagehistory.png */; };
@@ -3879,6 +3881,8 @@
 		5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutoScrollTextView.m; path = Source/AIAutoScrollTextView.m; sourceTree = "<group>"; };
 		5A17D65B130F76B4002C852F /* AIGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGradientView.h; path = Source/AIGradientView.h; sourceTree = "<group>"; };
 		5A17D65C130F76B4002C852F /* AIGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGradientView.m; path = Source/AIGradientView.m; sourceTree = "<group>"; };
+		5A1E24A715BC746B003A6F9E /* AIAdvancedPreferencePane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdvancedPreferencePane.h; path = "Frameworks/Adium Framework/Source/AIAdvancedPreferencePane.h"; sourceTree = "<group>"; };
+		5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdvancedPreferencePane.m; path = "Frameworks/Adium Framework/Source/AIAdvancedPreferencePane.m"; sourceTree = "<group>"; };
 		5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Xtras.xib"; path = "Resources/Preferences-Xtras.xib"; sourceTree = "<group>"; };
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
@@ -8716,6 +8720,8 @@
 				4BAA1B360632ED8B00D8B92C /* AIActionDetailsPane.m */,
 				F5793923033E74C301A8010A /* AIPreferencePane.h */,
 				F5793913033E748F01A8010A /* AIPreferencePane.m */,
+				5A1E24A715BC746B003A6F9E /* AIAdvancedPreferencePane.h */,
+				5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */,
 				4BAD188C066A83550002008E /* AIModularPaneCategoryView.h */,
 				4BAD188D066A83550002008E /* AIModularPaneCategoryView.m */,
 			);
@@ -9018,6 +9024,7 @@
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
 				979AA6A714D59DC8008730DF /* AIBoolToControlTextColorTransformer.h in Headers */,
+				5A1E24A915BC746B003A6F9E /* AIAdvancedPreferencePane.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10500,6 +10507,7 @@
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
 				979AA6A814D59DC8008730DF /* AIBoolToControlTextColorTransformer.m in Sources */,
+				5A1E24AA15BC746B003A6F9E /* AIAdvancedPreferencePane.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
