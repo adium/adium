@@ -152,39 +152,57 @@
 #define RIGHTWARDS_ARROW		"\u2192"
 #define SHIFT_ARROW				"\u21E7"
 #define OPTION_KEY				"\u2325"
+#define TAB_KEY					"\u21E5"
 	
-	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Arrows (%@ and %@)","Directional arrow keys word"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Ctrl + Tab (%@ and %@)","Ctrl/Ctrl+Shift + Tab key word"),
+							[NSString stringWithUTF8String:"^" TAB_KEY],
+							[NSString stringWithUTF8String:"^" SHIFT_ARROW TAB_KEY]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+					   tag:AICtrlTab];
+	
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Arrows (%@ and %@)","Directional arrow keys word"),
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW],
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
 					target:nil
 					action:nil
 			 keyEquivalent:@""
 					   tag:AISwitchArrows];
 	
-	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Shift + Arrows (%@ and %@)","Shift key word + Directional arrow keys word"), [NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Shift + Arrows (%@ and %@)","Shift key word + Directional arrow keys word"),
+							[NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW],
+							[NSString stringWithUTF8String:SHIFT_ARROW PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
 					target:nil
 					action:nil
 			 keyEquivalent:@""
 					   tag:AISwitchShiftArrows];
 	
-	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Option + Arrows (%@ and %@)","Option key word + Directional arrow keys word"), [NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW], [NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Option + Arrows (%@ and %@)","Option key word + Directional arrow keys word"),
+							[NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN LEFTWARDS_ARROW],
+							[NSString stringWithUTF8String:OPTION_KEY PLACE_OF_INTEREST_SIGN RIGHTWARDS_ARROW]]
 					target:nil
 					action:nil
 			 keyEquivalent:@""
-					   tag:AIOptArrows];	
+					   tag:AIOptArrows];
 	
-	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Brackets (%@ and %@)","Word for [ and ] keys"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "["], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "]"]]
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Brackets (%@ and %@)","Word for [ and ] keys"),
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "["],
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "]"]]
 					target:nil
 					action:nil
 			 keyEquivalent:@""
 					   tag:AIBrackets];
 	
-	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Curly braces (%@ and %@)","Word for { and } keys"), [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "{"], [NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "}"]]
+	[menu addItemWithTitle:[NSString stringWithFormat:AILocalizedString(@"Curly braces (%@ and %@)","Word for { and } keys"),
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "{"],
+							[NSString stringWithUTF8String:PLACE_OF_INTEREST_SIGN "}"]]
 					target:nil
 					action:nil
 			 keyEquivalent:@""
 					   tag:AIBraces];
 	
-	
-	return [menu autorelease];		
+	return [menu autorelease];
 }
 
 - (NSMenu *)sendKeysMenu
@@ -209,7 +227,7 @@
 			 keyEquivalent:@""
 					   tag:AISendOnBoth];
 	
-	return [menu autorelease];		
+	return [menu autorelease];
 }
 
 - (NSMenu *)tabPositionMenu
