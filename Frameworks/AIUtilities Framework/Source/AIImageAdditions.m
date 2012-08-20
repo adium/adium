@@ -129,7 +129,7 @@
 	NSRectFill(NSMakeRect(0, 0, size.width, size.height));
 	
 	// Draw the image
-	[self compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
+	[self drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	
 	// We're done drawing
 	[tempImage unlockFocus];

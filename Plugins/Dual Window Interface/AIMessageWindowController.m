@@ -1007,7 +1007,7 @@
 	NSPoint tabOrigin = [tabView frame].origin;
 	tabOrigin.x += 10;
 	tabOrigin.y += 13;
-	[tabViewImage compositeToPoint:tabOrigin operation:NSCompositeSourceOver];
+	[tabViewImage drawAtPoint:tabOrigin fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	[viewImage unlockFocus];
 	
 	//draw over where the tab bar would usually be
