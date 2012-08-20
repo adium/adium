@@ -572,8 +572,12 @@
      * here via -TIFFRepresentation to avoid this bug.
      * rdar://11930126 http://trac.adium.im/ticket/16046
      */
-    NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
-	[button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
+    if ([NSApp isOnLionOrNewer]) {
+        [button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
+    } else {
+        NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
+	    [button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
+    }
 	[self createiTunesToolbarItemMenuItems:menu];
 
 	NSToolbarItem * iTunesItem = [AIToolbarUtilities toolbarItemWithIdentifier:KEY_TRIGGERS_TOOLBAR
