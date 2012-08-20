@@ -19,7 +19,6 @@
 #import "AIXtraPreviewController.h"
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIPathUtilities.h>
-#import <Adium/KNShelfSplitView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
