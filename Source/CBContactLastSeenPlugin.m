@@ -110,7 +110,7 @@
 	NSAttributedString	*entry = nil;
 	
 	//Only display for offline contacts
-	if (!inObject.online) {
+	if (!inObject.online && !inObject.isStranger) {
 	
 		lastSeenStatus = [adium.preferenceController preferenceForKey:KEY_LAST_SEEN_STATUS 
 																  group:PREF_GROUP_LAST_SEEN
