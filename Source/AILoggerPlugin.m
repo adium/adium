@@ -155,8 +155,6 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 @end
 
 #pragma mark Private Function Prototypes
-void runWithAutoreleasePool(dispatch_block_t block);
-static inline dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block);
 NSCalendarDate* getDateFromPath(NSString *path);
 NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context);
 
@@ -431,59 +429,61 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	 */
 	[self _cancelClosingLogIndex];
 	__block __typeof__(self) bself = self;
-    dispatch_sync(searchIndexQueue, blockWithAutoreleasePool(^{
-        if (!logIndex) {
-			SKIndexRef _index = nil;
-			NSString  *logIndexPath = [bself _logIndexPath];
-			NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
-			
-			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
-				_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+    dispatch_sync(searchIndexQueue, ^{
+		@autoreleasepool {
+			if (!logIndex) {
+				SKIndexRef _index = nil;
+				NSString  *logIndexPath = [bself _logIndexPath];
+				NSURL     *logIndexURL = [NSURL fileURLWithPath:logIndexPath];
+				
+				if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
+					_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
+					AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+					
+					if (!_index) {
+						//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
+						AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
+										   logIndexPath);
+						[[NSFileManager defaultManager] removeItemAtPath:logIndexPath error:NULL];
+					}
+				}
 				
 				if (!_index) {
-					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
-					AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
-									   logIndexPath);
-					[[NSFileManager defaultManager] removeItemAtPath:logIndexPath error:NULL];
-				}
-			}
-			
-			if (!_index) {
-				NSDictionary *textAnalysisProperties;
-				
-				textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-										  [NSNumber numberWithInteger:0], kSKMaximumTerms,
-										  [NSNumber numberWithInteger:2], kSKMinTermLength,
+					NSDictionary *textAnalysisProperties;
+					
+					textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
+											  [NSNumber numberWithInteger:0], kSKMaximumTerms,
+											  [NSNumber numberWithInteger:2], kSKMinTermLength,
 #if ENABLE_PROXIMITY_SEARCH
-										  kCFBooleanTrue, kSKProximityIndexing, 
+											  kCFBooleanTrue, kSKProximityIndexing,
 #endif
-										  nil];
-				
-				//Create the index if one doesn't exist or it couldn't be opened.
-				[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
-				
-				_index = SKIndexCreateWithURL((CFURLRef)logIndexURL,
-											  (CFStringRef)@"Content", 
-											  kSKIndexInverted,
-											  (CFDictionaryRef)textAnalysisProperties);
-
-				if (_index) {
-					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
-					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
-					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
-					dispatch_sync(dirtyLogSetMutationQueue, ^{
-						[bself->dirtyLogSet removeAllObjects];
-					});
-					[bself _flushIndex:_index];
-				} else {
-					AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL(%@, %@, %lu, %@) returned NULL", logIndexURL, @"Content", (unsigned long)kSKIndexInverted, textAnalysisProperties);
+											  nil];
+					
+					//Create the index if one doesn't exist or it couldn't be opened.
+					[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
+					
+					_index = SKIndexCreateWithURL((CFURLRef)logIndexURL,
+												  (CFStringRef)@"Content",
+												  kSKIndexInverted,
+												  (CFDictionaryRef)textAnalysisProperties);
+					
+					if (_index) {
+						AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+						//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
+						[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
+						dispatch_sync(dirtyLogSetMutationQueue, ^{
+							[bself->dirtyLogSet removeAllObjects];
+						});
+						[bself _flushIndex:_index];
+					} else {
+						AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL(%@, %@, %lu, %@) returned NULL", logIndexURL, @"Content", (unsigned long)kSKIndexInverted, textAnalysisProperties);
+					}
 				}
+				bself->logIndex = _index;
 			}
-			bself->logIndex = _index;
+			if (logIndex) CFRetain(logIndex);
 		}
-		if (logIndex) CFRetain(logIndex);
-    }));
+    });
 	return logIndex;
 }
 
@@ -516,43 +516,32 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 - (void)removePathsFromIndex:(NSSet *)paths
 {
 	__block __typeof__(self) bself = self;
-	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-		SKIndexRef logSearchIndex = [bself logContentIndex];
-		
-        if (!logSearchIndex) {
-            AILogWithSignature(@"AILoggerPlugin warning: logSearchIndex is NULL, but we wanted to remove documents.");
-            return;
-        }
-
-		for (NSString *logPath in paths) {
-			SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
-			if (document) {
-				SKIndexRemoveDocument(logSearchIndex, document);
-				CFRelease(document);
+	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
+		@autoreleasepool {
+			SKIndexRef logSearchIndex = [bself logContentIndex];
+			
+			if (!logSearchIndex) {
+				AILogWithSignature(@"AILoggerPlugin warning: logSearchIndex is NULL, but we wanted to remove documents.");
+				return;
 			}
+			
+			for (NSString *logPath in paths) {
+				SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
+				if (document) {
+					SKIndexRemoveDocument(logSearchIndex, document);
+					CFRelease(document);
+				}
+			}
+			
+			CFRelease(logSearchIndex);
 		}
-		
-		CFRelease(logSearchIndex);
-	}));
+	});
 }
 
 #pragma mark -
 #pragma mark Private Methods
 #pragma mark -
 #pragma mark Private Functions
-void runWithAutoreleasePool(dispatch_block_t block)
-{
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	block();
-	[pool release];
-}
-
-static inline dispatch_block_t blockWithAutoreleasePool(dispatch_block_t block)
-{
-	return [[^{
-		runWithAutoreleasePool(block);
-	} copy] autorelease];
-}
 
 NSCalendarDate* getDateFromPath(NSString *path)
 {
@@ -1037,124 +1026,126 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (![chat shouldLog]) return;	
 		
 		__block __typeof__(self) bself = self;
-		dispatch_group_async(logAppendingGroup, dispatch_get_main_queue(), blockWithAutoreleasePool(^{
-			BOOL			dirty = NO;
-			NSString		*contentType = [content type];
-			NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
-			
-			if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
-				[contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
-				NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
-				NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:[[content source] UID], date, nil];
-				AIXMLAppender  *appender = [self _appenderForChat:chat];
-				if ([content isAutoreply]) {
-					[attributeKeys addObject:@"auto"];
-					[attributeValues addObject:@"true"];
-				}
+		dispatch_group_async(logAppendingGroup, dispatch_get_main_queue(), ^{
+			@autoreleasepool {
+				BOOL			dirty = NO;
+				NSString		*contentType = [content type];
+				NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
 				
-				NSString *displayName = [chat displayNameForContact:content.source];
-				
-				if (![[[content source] UID] isEqualToString:displayName]) {
-					[attributeKeys addObject:@"alias"];
-					[attributeValues addObject:displayName];
-				}
-				
-				AIXMLElement *messageElement;
-				if ([[content displayClasses] containsObject:@"action"]) {
-					messageElement = [[[AIXMLElement alloc] initWithName:@"action"] autorelease];
+				if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
+					[contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
+					NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
+					NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:[[content source] UID], date, nil];
+					AIXMLAppender  *appender = [self _appenderForChat:chat];
+					if ([content isAutoreply]) {
+						[attributeKeys addObject:@"auto"];
+						[attributeValues addObject:@"true"];
+					}
+					
+					NSString *displayName = [chat displayNameForContact:content.source];
+					
+					if (![[[content source] UID] isEqualToString:displayName]) {
+						[attributeKeys addObject:@"alias"];
+						[attributeValues addObject:displayName];
+					}
+					
+					AIXMLElement *messageElement;
+					if ([[content displayClasses] containsObject:@"action"]) {
+						messageElement = [[[AIXMLElement alloc] initWithName:@"action"] autorelease];
+					} else {
+						messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
+					}
+					
+					[messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+																   imagesPath:[appender.path stringByDeletingLastPathComponent]]];
+					
+					[messageElement setAttributeNames:attributeKeys values:attributeValues];
+					
+					[appender appendElement:messageElement];
+					
+					dirty = YES;
 				} else {
-					messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
-				}
-				
-				[messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
-															   imagesPath:[appender.path stringByDeletingLastPathComponent]]];
-				
-				[messageElement setAttributeNames:attributeKeys values:attributeValues];
-				
-				[appender appendElement:messageElement];
-				
-				dirty = YES;
-			} else {
-				//XXX: Yucky hack. This is here because we get status and event updates for metas, not for individual contacts. Or something like that.
-				AIListObject	*retardedMetaObject = [content source];
-				AIListObject	*actualObject = nil;
-				
-				if (content.source) {
-					for(AIListContact *participatingListObject in chat) {
-						if ([participatingListObject parentContact] == retardedMetaObject) {
-							actualObject = participatingListObject;
-							break;
+					//XXX: Yucky hack. This is here because we get status and event updates for metas, not for individual contacts. Or something like that.
+					AIListObject	*retardedMetaObject = [content source];
+					AIListObject	*actualObject = nil;
+					
+					if (content.source) {
+						for(AIListContact *participatingListObject in chat) {
+							if ([participatingListObject parentContact] == retardedMetaObject) {
+								actualObject = participatingListObject;
+								break;
+							}
 						}
 					}
-				}
-				
-				//If we can't find it for some reason, we probably shouldn't attempt logging, unless source was nil.
-				if ([contentType isEqualToString:CONTENT_STATUS_TYPE] && actualObject) {
-					NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
-					if (translatedStatus == nil) {
-						AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
-					} else {
-						NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
-						NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
-														   translatedStatus, 
-														   actualObject.UID, 
-														   date,
-														   nil];
+					
+					//If we can't find it for some reason, we probably shouldn't attempt logging, unless source was nil.
+					if ([contentType isEqualToString:CONTENT_STATUS_TYPE] && actualObject) {
+						NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
+						if (translatedStatus == nil) {
+							AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
+						} else {
+							NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
+							NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
+															   translatedStatus,
+															   actualObject.UID,
+															   date,
+															   nil];
+							
+							if (![actualObject.UID isEqualToString:actualObject.displayName]) {
+								[attributeKeys addObject:@"alias"];
+								[attributeValues addObject:actualObject.displayName];
+							}
+							
+							AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
+							
+							[statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
+															 [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
+															 @"")];
+							
+							[statusElement setAttributeNames:attributeKeys values:attributeValues];
+							
+							[[bself _appenderForChat:chat] appendElement:statusElement];
+							
+							dirty = YES;
+						}
 						
-						if (![actualObject.UID isEqualToString:actualObject.displayName]) {
+					} else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
+							   [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
+						NSMutableArray *attributeKeys = nil, *attributeValues = nil;
+						if (content.source) {
+							attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
+							attributeValues = [NSMutableArray arrayWithObjects:
+											   [(AIContentEvent *)content eventType], [[content source] UID], date, nil];
+						} else {
+							attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"time", nil];
+							attributeValues = [NSMutableArray arrayWithObjects:
+											   [(AIContentEvent *)content eventType], date, nil];
+						}
+						
+						AIXMLAppender  *appender = [self _appenderForChat:chat];
+						
+						if (content.source && ![[[content source] UID] isEqualToString:[[content source] displayName]]) {
 							[attributeKeys addObject:@"alias"];
-							[attributeValues addObject:actualObject.displayName];				
+							[attributeValues addObject:[[content source] displayName]];
 						}
 						
 						AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
 						
-						[statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
-														 [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
-														 @"")];
+						[statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+																	  imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
 						
 						[statusElement setAttributeNames:attributeKeys values:attributeValues];
 						
-						[[bself _appenderForChat:chat] appendElement:statusElement];
-						
+						[appender appendElement:statusElement];
 						dirty = YES;
 					}
-					
-				} else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
-						   [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
-					NSMutableArray *attributeKeys = nil, *attributeValues = nil;
-					if (content.source) {
-						attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
-						attributeValues = [NSMutableArray arrayWithObjects:
-										   [(AIContentEvent *)content eventType], [[content source] UID], date, nil];	
-					} else {
-						attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"time", nil];
-						attributeValues = [NSMutableArray arrayWithObjects:
-										   [(AIContentEvent *)content eventType], date, nil];
-					}
-					
-					AIXMLAppender  *appender = [self _appenderForChat:chat];
-					
-					if (content.source && ![[[content source] UID] isEqualToString:[[content source] displayName]]) {
-						[attributeKeys addObject:@"alias"];
-						[attributeValues addObject:[[content source] displayName]];				
-					}
-					
-					AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
-					
-					[statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
-																  imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
-					
-					[statusElement setAttributeNames:attributeKeys values:attributeValues];
-					
-					[appender appendElement:statusElement];
-					dirty = YES;
 				}
+				//Don't create a new one if not needed
+				AIXMLAppender *appender = [self _existingAppenderForChat:chat];
+				if (dirty && appender)
+					[bself _markLogDirtyAtPath:[appender path] forChat:chat];
 			}
-			//Don't create a new one if not needed
-			AIXMLAppender *appender = [self _existingAppenderForChat:chat];
-			if (dirty && appender)
-				[bself _markLogDirtyAtPath:[appender path] forChat:chat];
-		}));
+		});
 	}
 }
 
@@ -1370,45 +1361,47 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	dispatch_sync(dirtyLogSetMutationQueue, ^{
 		[bself.dirtyLogSet removeAllObjects];
 	});
-	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-		dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
-		dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
-		dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
-		
-		bself.canSaveDirtyLogSet = NO;
-		
-		//Process each from folder
-		NSString *_logBasePath = [[bself class] logBasePath];
-		NSArray *fromNames = [[NSFileManager defaultManager]
-							  contentsOfDirectoryAtPath:_logBasePath
-							  error:NULL];
-		for (NSString *fromName in fromNames) {
-			AILogFromGroup *fromGroup = [[AILogFromGroup alloc] initWithPath:fromName
-																	 fromUID:fromName
-																serviceClass:nil];
-			for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
-				NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-				for (AIChatLog *theLog in [toGroup logEnumerator]) {
-					if (theLog != nil) {
-						dispatch_sync(dirtyLogSetMutationQueue, ^{
-							[bself.dirtyLogSet addObject:[_logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
-						});
+	dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
+		@autoreleasepool {
+			dispatch_group_wait(logIndexingGroup, DISPATCH_TIME_FOREVER);
+			dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
+			dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
+			
+			bself.canSaveDirtyLogSet = NO;
+			
+			//Process each from folder
+			NSString *_logBasePath = [[bself class] logBasePath];
+			NSArray *fromNames = [[NSFileManager defaultManager]
+								  contentsOfDirectoryAtPath:_logBasePath
+								  error:NULL];
+			for (NSString *fromName in fromNames) {
+				AILogFromGroup *fromGroup = [[AILogFromGroup alloc] initWithPath:fromName
+																		 fromUID:fromName
+																	serviceClass:nil];
+				for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
+					@autoreleasepool {
+						for (AIChatLog *theLog in [toGroup logEnumerator]) {
+							if (theLog != nil) {
+								dispatch_sync(dirtyLogSetMutationQueue, ^{
+									[bself.dirtyLogSet addObject:[_logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+								});
+							}
+						}
 					}
 				}
-				[innerPool release];
+				[fromGroup release];
 			}
-			[fromGroup release];
+			AILogWithSignature(@"Finished dirtying all logs");
+			
+			bself.canSaveDirtyLogSet = YES;
+			[bself _saveDirtyLogSet];
+			
+			if (bself.indexingAllowed &&
+				[AILogViewerWindowController existingWindowController]) {
+				[bself _cleanDirtyLogs];
+			}
 		}
-		AILogWithSignature(@"Finished dirtying all logs");
-		
-		bself.canSaveDirtyLogSet = YES;
-		[bself _saveDirtyLogSet];
-		
-		if (bself.indexingAllowed &&
-			[AILogViewerWindowController existingWindowController]) {
-			[bself _cleanDirtyLogs];
-		}
-	}));
+	});
 }
 
 /*!
@@ -1459,165 +1452,172 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		
 		[localLogSet retain];
 		
-		dispatch_group_async(loggerPluginGroup, searchIndexQueue, blockWithAutoreleasePool(^{
-			
-			dispatch_group_enter(logIndexingGroup);
-			
-			while (_remainingLogs > 0 && bself.indexingAllowed) {
-				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-				__block NSString *__logPath = nil;
-				NSString  *logPath = nil;
+		dispatch_group_async(loggerPluginGroup, searchIndexQueue, ^{
+			@autoreleasepool {
 				
-				dispatch_sync(dirtyLogSetMutationQueue, ^{
-					if ([localLogSet count]) {
-						__logPath = [[[localLogSet anyObject] retain] autorelease];
-						[bself.dirtyLogSet removeObject:__logPath];
-						[localLogSet removeObject:__logPath];
-					}
-				});
+				dispatch_group_enter(logIndexingGroup);
 				
-				logPath = [[__logPath copy] autorelease];
-				
-				if (logPath) {
-                    NSURL *logURL = [NSURL fileURLWithPath:logPath];
-					
-					NSAssert(logURL != nil, @"Converting path to url failed");
-					
-					dispatch_semaphore_wait(logLoadingPrefetchSemaphore, DISPATCH_TIME_FOREVER);
-					
-					dispatch_group_async(logIndexingGroup, ioQueue, blockWithAutoreleasePool(^{
-						CFRetain(searchIndex);
-						__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)logURL);
+				while (_remainingLogs > 0 && bself.indexingAllowed) {
+					@autoreleasepool {
+						__block NSString *__logPath = nil;
+						NSString  *logPath = nil;
 						
-						if (document && bself.indexingAllowed) {
-							/* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
-							 * However, this has three problems:
-							 *	1. Slower, especially to start initial indexing, which is the most common use case since the log viewer
-							 *	   indexes recently-modified ("dirty") logs when it opens.
-							 *  2. Sometimes logs don't appear to be associated with the right URI type and therefore don't get indexed.
-							 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
-							 */
+						dispatch_sync(dirtyLogSetMutationQueue, ^{
+							if ([localLogSet count]) {
+								__logPath = [[[localLogSet anyObject] retain] autorelease];
+								[bself.dirtyLogSet removeObject:__logPath];
+								[localLogSet removeObject:__logPath];
+							}
+						});
+						
+						logPath = [[__logPath copy] autorelease];
+						
+						if (logPath) {
+							NSURL *logURL = [NSURL fileURLWithPath:logPath];
 							
-                            NSData *documentData = CopyDataForURL(NULL, logURL);
+							NSAssert(logURL != nil, @"Converting path to url failed");
 							
-							dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
-                            
-							dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-                                __block CFStringRef documentText = CopyTextContentForFileData(NULL, logURL, documentData);
-								
-								[documentData release];
-								
-                                dispatch_group_async(logIndexingGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-                                    
+							dispatch_semaphore_wait(logLoadingPrefetchSemaphore, DISPATCH_TIME_FOREVER);
+							
+							dispatch_group_async(logIndexingGroup, ioQueue, ^{
+								@autoreleasepool {
 									CFRetain(searchIndex);
+									__block SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)logURL);
 									
-                                    if (documentText && CFStringGetLength(documentText) > 0 && bself.indexingAllowed) {
-										static dispatch_queue_t skQueue = nil;
-										static dispatch_once_t onceToken;
-										dispatch_once(&onceToken, ^{
-											skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.skQueue", 0);
-										});
+									if (document && bself.indexingAllowed) {
+										/* We _could_ use SKIndexAddDocument() and depend on our Spotlight plugin for importing.
+										 * However, this has three problems:
+										 *	1. Slower, especially to start initial indexing, which is the most common use case since the log viewer
+										 *	   indexes recently-modified ("dirty") logs when it opens.
+										 *  2. Sometimes logs don't appear to be associated with the right URI type and therefore don't get indexed.
+										 *  3. On 10.3, this means that logs' markup is indexed in addition to their text, which is undesireable.
+										 */
 										
-										CFRetain(searchIndex);
-										CFRetain(document);
-										CFRetain(documentText);
-										[logURL retain];
+										NSData *documentData = CopyDataForURL(NULL, logURL);
 										
-										dispatch_group_async(logIndexingGroup, skQueue, ^{
-											SKIndexAddDocumentWithText(searchIndex, document, documentText, YES);
-											
-											OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
-											OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-											
-											if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
-												dispatch_async(dispatch_get_main_queue(), ^{
-													[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+										dispatch_semaphore_wait(jobSemaphore, DISPATCH_TIME_FOREVER);
+										
+										dispatch_group_async(logIndexingGroup, defaultDispatchQueue, ^{
+											@autoreleasepool {
+												__block CFStringRef documentText = CopyTextContentForFileData(NULL, logURL, documentData);
+												
+												[documentData release];
+												
+												dispatch_group_async(logIndexingGroup, defaultDispatchQueue, ^{
+													@autoreleasepool {
+														
+														CFRetain(searchIndex);
+														
+														if (documentText && CFStringGetLength(documentText) > 0 && bself.indexingAllowed) {
+															static dispatch_queue_t skQueue = nil;
+															static dispatch_once_t onceToken;
+															dispatch_once(&onceToken, ^{
+																skQueue = dispatch_queue_create("im.adium.AILoggerPlugin._cleanDirtyLogs.skQueue", 0);
+															});
+															
+															CFRetain(searchIndex);
+															CFRetain(document);
+															CFRetain(documentText);
+															[logURL retain];
+															
+															dispatch_group_async(logIndexingGroup, skQueue, ^{
+																SKIndexAddDocumentWithText(searchIndex, document, documentText, YES);
+																
+																OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+																OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
+																
+																if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
+																	dispatch_async(dispatch_get_main_queue(), ^{
+																		[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+																	});
+																	UInt32 tick = TickCount();
+																	OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
+																}
+																
+																OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
+																
+																if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
+																	[bself _saveDirtyLogSet];
+																	OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
+																}
+																
+																dispatch_semaphore_signal(jobSemaphore);
+																
+																CFRelease(searchIndex);
+																CFRelease(document);
+																CFRelease(documentText);
+																[logURL release];
+															});
+															CFRelease(documentText);
+														} else if (documentText) {
+															CFRelease(documentText);
+															
+															dispatch_semaphore_signal(jobSemaphore);
+														} else {
+															OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
+															OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
+															
+															dispatch_semaphore_signal(jobSemaphore);
+														}
+														
+														
+														dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
+														
+														CFRelease(document);
+														CFRelease(searchIndex);
+													}
 												});
-												UInt32 tick = TickCount();
-												OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
 											}
-											
-											OSAtomicIncrement32Barrier((int32_t *)&unsavedChanges);
-											
-											if (unsavedChanges > LOG_CLEAN_SAVE_INTERVAL) {
-												[bself _saveDirtyLogSet];
-												OSAtomicCompareAndSwap32Barrier(unsavedChanges, 0, (int32_t *)&unsavedChanges);
-											}
-											
-											dispatch_semaphore_signal(jobSemaphore);
-											
-											CFRelease(searchIndex);
-											CFRelease(document);
-											CFRelease(documentText);
-											[logURL release];
 										});
-                                        CFRelease(documentText);
-                                    } else if (documentText) {
-                                        CFRelease(documentText);
+									} else {
+										if (document) {
+											CFRelease(document);
+										} else {
+											AILogWithSignature(@"Could not create document for %@ [%@]", logPath, logURL);
+										}
 										
-										dispatch_semaphore_signal(jobSemaphore);
-                                    } else {
 										OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 										OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
 										
 										dispatch_semaphore_signal(jobSemaphore);
+										dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
 									}
-									
-                                    
-									dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
-									
-                                    CFRelease(document);
-                                    CFRelease(searchIndex);
-                                }));
-                            }));
+									CFRelease(searchIndex);
+								}
+							});
 						} else {
-							if (document) {
-								CFRelease(document);
-							} else {
-								AILogWithSignature(@"Could not create document for %@ [%@]", logPath, logURL);
-							}
-							
-							OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
-							OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
-							
-							dispatch_semaphore_signal(jobSemaphore);
-							dispatch_semaphore_signal(logLoadingPrefetchSemaphore);
+							break;
 						}
-						CFRelease(searchIndex);
-					}));
-				} else {
-					[pool release];
-					break;
+					}
 				}
-				[pool release]; pool = nil;
-			}
-			
-			if (unsavedChanges) {
-				[bself _saveDirtyLogSet];
-			}
-			
-			dispatch_group_enter(closingIndexGroup);
-			
-			dispatch_group_leave(logIndexingGroup);
-			
-			dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{
-				dispatch_async(dispatch_get_main_queue(), ^{
-					[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+				
+				if (unsavedChanges) {
+					[bself _saveDirtyLogSet];
+				}
+				
+				dispatch_group_enter(closingIndexGroup);
+				
+				dispatch_group_leave(logIndexingGroup);
+				
+				dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
+					});
+					
+					[bself _flushIndex:searchIndex];
+					
+					AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
+									   SKIndexGetMaximumDocumentID(searchIndex),
+									   SKIndexGetDocumentCount(searchIndex));
+					
+					CFRelease(searchIndex);
+					[localLogSet release];
+					
+					[bself _didCleanDirtyLogs];
 				});
-				
-				[bself _flushIndex:searchIndex];
-				
-				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
-								   SKIndexGetMaximumDocumentID(searchIndex),
-								   SKIndexGetDocumentCount(searchIndex));
-				
-				CFRelease(searchIndex);
-				[localLogSet release];
-				
-				[bself _didCleanDirtyLogs];
-			});
-			dispatch_group_leave(closingIndexGroup);
-		}));
+				dispatch_group_leave(closingIndexGroup);
+			}
+		});
 	} else {
 		CFRelease(searchIndex);
 	}
@@ -1632,19 +1632,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		OSAtomicCompareAndSwap64Barrier(bself->logsToIndex, [bself->dirtyLogSet count], (int64_t *)&(bself->logsToIndex));
 	});
 	
-	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
-	for (AIChat *chat in adium.chatController.openChats) {
-		NSString *existingAppenderPath = [[self _existingAppenderForChat:chat] path];
-		if (existingAppenderPath) {
-			NSString *dirtyKey = [@"LogIsDirty_" stringByAppendingString:existingAppenderPath];
-			
-			if ([chat integerValueForProperty:dirtyKey]) {
-				[chat setValue:nil
-				   forProperty:dirtyKey
-						notify:NotifyNever];
-			}
-		}
-	}
 	self.isIndexing = NO;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
@@ -1675,9 +1662,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		dispatch_async(dirtyLogSetMutationQueue, ^{
 			if (path && ![bself.dirtyLogSet containsObject:path]) {
 				[bself.dirtyLogSet addObject:path];
-				dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, blockWithAutoreleasePool(^{
-					[bself _saveDirtyLogSet];
-				}));
+				dispatch_group_async(loggerPluginGroup, defaultDispatchQueue, ^{
+					@autoreleasepool {
+						[bself _saveDirtyLogSet];
+					}
+				});
 			}
 		});
 	});
@@ -1702,19 +1691,18 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)_flushIndex:(SKIndexRef)inIndex
 {
-	NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
-	if (inIndex) {
-		self.indexIsFlushing = YES;
-		AILogWithSignature(@"**** Flushing index %p",inIndex);
-		CFRetain(inIndex);
-		SKIndexFlush(inIndex);
-		SKIndexCompact(inIndex);
-		CFRelease(inIndex);
-		AILogWithSignature(@"**** Finished flushing index %p",inIndex);
-		self.indexIsFlushing = NO;
+	@autoreleasepool {
+		if (inIndex) {
+			self.indexIsFlushing = YES;
+			AILogWithSignature(@"**** Flushing index %p",inIndex);
+			CFRetain(inIndex);
+			SKIndexFlush(inIndex);
+			SKIndexCompact(inIndex);
+			CFRelease(inIndex);
+			AILogWithSignature(@"**** Finished flushing index %p",inIndex);
+			self.indexIsFlushing = NO;
+		}
 	}
-	
-	[pool release];
 }
 
 @end

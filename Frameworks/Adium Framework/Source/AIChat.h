@@ -133,6 +133,8 @@ typedef enum {
 	
 	NSDictionary		*chatCreationInfo;
 	
+	BOOL				accountJoined;
+	
 	NSInteger			unviewedMention;
 	NSInteger			unviewedContent;
 	
@@ -141,6 +143,8 @@ typedef enum {
 	NSInteger			ourTypingState;
 	
 	NSDictionary		*securityDetails;
+	
+	BOOL				secureMessagingLastEncryptedState;
 	
 	NSString			*topic;
     AIListContact		*topicSetter;

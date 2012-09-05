@@ -270,10 +270,10 @@
 - (void)_loadMetaContactsFromArray:(NSArray *)array
 {	
 	for (NSString *identifier in array) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
-		[self metaContactWithObjectID:objectID];
-		[pool release];
+		@autoreleasepool {
+			NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
+			[self metaContactWithObjectID:objectID];
+		}
 	}
 }
 
