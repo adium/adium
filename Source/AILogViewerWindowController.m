@@ -503,7 +503,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	}
 }
 
--(void)rebuildIndices
+- (void)rebuildIndices
 {
     //Rebuild the 'global' log indexes
     [logFromGroupDict release]; logFromGroupDict = [[NSMutableDictionary alloc] init];
@@ -1928,16 +1928,27 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (void)tableViewSelectionDidChangeDelayed
 {
     if (!ignoreSelectionChange) {
-		NSArray		*selectedLogs;
+		NSArray		*selectedLogs = nil;
 		
 		//Update the displayed log
 		automaticSearch = NO;
 		
 		[resultsLock lock];
-		selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
+		@try {
+			/* If currentSearchResults is out of sync with the data of tableView_results, this could throw an exception.
+			 * Catching it is far more straightforward than preventing that possibility without breaking our re-selection of
+			 * selected search results as the table view reloads when new results come in.
+			 */
+			selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
+		} @catch (NSException *e) {
+			
+		} @finally {
+			
+		}
 		[resultsLock unlock];
 		
-		[self displayLogs:selectedLogs];
+		if (selectedLogs)
+			[self displayLogs:selectedLogs];
     }
 }
 
