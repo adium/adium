@@ -358,6 +358,19 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 									 error:NULL];
 }
 
+//Move a plugin to the enabled plugins folder
++ (void)enablePlugin:(NSString *)pluginPath
+{
+	NSString	*pluginName = [pluginPath lastPathComponent];
+	NSString	*basePath = [pluginPath stringByDeletingLastPathComponent];
+	NSString	*disabledPath = [[basePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:EXTERNAL_PLUGIN_FOLDER];
+	
+	[[NSFileManager defaultManager] createDirectoryAtPath:disabledPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	[[NSFileManager defaultManager] moveItemAtPath:[basePath stringByAppendingPathComponent:pluginName]
+											toPath:[disabledPath stringByAppendingPathComponent:pluginName]
+											 error:NULL];
+}
+
 /*!
  * @brief Retrieve a plugin by its class name
  */

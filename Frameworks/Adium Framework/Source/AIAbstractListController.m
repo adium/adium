@@ -826,8 +826,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 			@"ymsgr://im?to=%@", @"Yahoo! Japan",
 			nil];
 
-		NSEnumerator *itemsEnum = [items objectEnumerator];
-		for (AIProxyListObject *proxyListObject = [itemsEnum nextObject]; proxyListObject; proxyListObject = [itemsEnum nextObject]) {
+		for (AIProxyListObject *proxyListObject in items) {
 			AIListObject *listObject = proxyListObject.listObject;
 			NSString *format;
 

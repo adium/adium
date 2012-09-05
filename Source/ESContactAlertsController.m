@@ -210,48 +210,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 }
 
 /*!
- * @brief Sort event IDs by group and then by global short description
- */
-NSInteger eventIDSort(id objectA, id objectB, void *context) {
-	NSInteger					groupA, groupB;
-	id <AIEventHandler> eventHandlerA;
-	id <AIEventHandler> eventHandlerB;
-	
-	//Determine the group of the first event ID
-	for (groupA = 0; groupA < EVENT_HANDLER_GROUP_COUNT; groupA++) {
-		eventHandlerA = [eventHandlersByGroup[groupA] objectForKey:objectA];
-		if (!eventHandlerA) {
-			eventHandlerA = [globalOnlyEventHandlersByGroup[groupA] objectForKey:objectA];
-		}
-		
-		if (eventHandlerA) break;
-	}
-	
-	//Determine the group of the second ID
-	for (groupB = 0; groupB < EVENT_HANDLER_GROUP_COUNT; groupB++) {
-		eventHandlerB = [eventHandlersByGroup[groupB] objectForKey:objectB];
-		if (!eventHandlerB) {
-			eventHandlerB = [globalOnlyEventHandlersByGroup[groupB] objectForKey:objectB];
-		}
-		
-		if (eventHandlerB) break;
-	}
-	
-	if (groupA < groupB) {
-		return NSOrderedAscending;
-		
-	} else if (groupB < groupA) {
-		return NSOrderedDescending;
-		
-	} else {
-		NSString	*descriptionA = [eventHandlerA globalShortDescriptionForEventID:objectA];
-		NSString	*descriptionB = [eventHandlerA globalShortDescriptionForEventID:objectB];
-		
-		return ([descriptionA caseInsensitiveCompare:descriptionB]);
-	}
-}
-
-/*!
  * @brief Sort an array of event IDs
  *
  * @brief inArray The array of eventIDs to sort
@@ -259,7 +217,44 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (NSArray *)sortedArrayOfEventIDsFromArray:(NSArray *)inArray
 {
-	return [inArray sortedArrayUsingFunction:eventIDSort context:NULL];
+	return [inArray sortedArrayUsingComparator:^(id objectA, id objectB){
+		NSInteger					groupA, groupB;
+		id <AIEventHandler> eventHandlerA;
+		id <AIEventHandler> eventHandlerB;
+		
+		//Determine the group of the first event ID
+		for (groupA = 0; groupA < EVENT_HANDLER_GROUP_COUNT; groupA++) {
+			eventHandlerA = [eventHandlersByGroup[groupA] objectForKey:objectA];
+			if (!eventHandlerA) {
+				eventHandlerA = [globalOnlyEventHandlersByGroup[groupA] objectForKey:objectA];
+			}
+			
+			if (eventHandlerA) break;
+		}
+		
+		//Determine the group of the second ID
+		for (groupB = 0; groupB < EVENT_HANDLER_GROUP_COUNT; groupB++) {
+			eventHandlerB = [eventHandlersByGroup[groupB] objectForKey:objectB];
+			if (!eventHandlerB) {
+				eventHandlerB = [globalOnlyEventHandlersByGroup[groupB] objectForKey:objectB];
+			}
+			
+			if (eventHandlerB) break;
+		}
+		
+		if (groupA < groupB) {
+			return (NSComparisonResult)NSOrderedAscending;
+			
+		} else if (groupB < groupA) {
+			return (NSComparisonResult)NSOrderedDescending;
+			
+		} else {
+			NSString	*descriptionA = [eventHandlerA globalShortDescriptionForEventID:objectA];
+			NSString	*descriptionB = [eventHandlerA globalShortDescriptionForEventID:objectB];
+			
+			return ([descriptionA localizedCaseInsensitiveCompare:descriptionB]);
+		}
+	}];
 }
 
 /*!

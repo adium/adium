@@ -390,6 +390,7 @@
 
 }
 
+//Our default drag image will be cropped incorrectly, so we need a custom one here
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
@@ -400,24 +401,6 @@
 	[dragRows getIndexes:buf maxCount:bufSize inIndexRange:&range];
 
 	image = [self dragImageForRows:buf count:bufSize tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
-
-	free(buf);
-
-	return image;
-}
-
-//Our default drag image will be cropped incorrectly, so we need a custom one here
-- (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset
-{
-	NSImage			*image;
-	NSUInteger	i, bufSize = [dragRows count];
-	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
-
-	for (i = 0; i < bufSize; i++) {
-		buf[i] = [[dragRows objectAtIndex:0] unsignedIntValue];
-	}
-
-	image = [self dragImageForRows:buf count:bufSize tableColumns:nil event:dragEvent offset:dragImageOffset];
 
 	free(buf);
 
