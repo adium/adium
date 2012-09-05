@@ -805,9 +805,13 @@ void image_register_reply (
 
 void register_reply(DNSServiceRef sdRef, DNSServiceFlags flags, DNSServiceErrorType errorCode, const char *name, const char *regtype, const char *domain, void *context)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AWEzvContactManager *self = context;
 	[self setInstanceName:[NSString stringWithUTF8String:name]];
 	[self regCallBack:errorCode];
+	
+	[pool release];
 }
 
 void image_register_reply( 
@@ -817,12 +821,16 @@ void image_register_reply(
 	DNSServiceErrorType errorCode, 
 	void *context)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	if (errorCode != kDNSServiceErr_NoError) {
 		AWEzvLog(@"error %d registering image record", errorCode);
 	} else {
 		AWEzvContactManager *self = context;
 		[self updatePHSH];
 	}
+	
+	[pool release];
 }
 
 #pragma mark mDNS Browse Callback
@@ -841,6 +849,8 @@ void handle_av_browse_reply(DNSServiceRef sdRef,
 							const char *replyDomain,
 							void *context)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	// Received a browser reply from DNSServiceBrowse for av, now must handle processing the list of results
 	if (errorCode == kDNSServiceErr_NoError) {
 		AWEzvContactManager *self = context;
@@ -850,6 +860,8 @@ void handle_av_browse_reply(DNSServiceRef sdRef,
 	} else {
 		AWEzvLog(@"Error browsing");
 	}
+	
+	[pool release];
 }
 
 #pragma mark mDNS Resolve Callback
@@ -870,6 +882,8 @@ void resolve_reply( DNSServiceRef sdRef,
 					const unsigned char *txtRecord, 
 					void *context)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	if (errorCode == kDNSServiceErr_NoError) {
 		// Use TXTRecord methods to resolve this
 		AWEzvContact	*contact = context;
@@ -881,7 +895,9 @@ void resolve_reply( DNSServiceRef sdRef,
 		[self updateContact:contact withData:data withHost:[NSString stringWithUTF8String:hosttarget] withInterface:interfaceIndex withPort:ntohs(port) av:YES];
 	} else {
 		AWEzvLog(@"Error resolving records");
-	}	
+	}
+	
+	[pool release];
 }
 
 #pragma mark mDNS Address Callback
@@ -891,12 +907,15 @@ void AddressQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, ui
 							uint16_t rdlen, const void *rdata, uint32_t ttl, void *context )
 // DNSServiceQueryRecord callback used to look up IP addresses.
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AWEzvContact	*contact = context;
 	AWEzvContactManager *self = [contact manager];
 
 	[self updateAddressForContact:contact addr:rdata addrLen:rdlen host:fullname interfaceIndex:interfaceIndex
 							 more:((flags & kDNSServiceFlagsMoreComing) != 0)];
 
+	[pool release];
 }
 
 #pragma mark mDNS Image Callback
@@ -906,6 +925,8 @@ void ImageQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, uint
 							uint16_t rdlen, const void *rdata, uint32_t ttl, void *context)
 // DNSServiceQueryRecord callback used to look up buddy icon.
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AWEzvContact	*contact = context;
 	AWEzvContactManager *self = [contact manager];
 	if (errorCode == kDNSServiceErr_NoError) {
@@ -913,6 +934,8 @@ void ImageQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, uint
 			[self updateImageForContact:contact data:rdata dataLen:rdlen more:((flags & kDNSServiceFlagsMoreComing) != 0)];
 		}
 	}
+	
+	[pool release];
 }
 
 #pragma mark Service Controller
@@ -926,6 +949,8 @@ void ImageQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, uint
 static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info)
 // CFRunloop callback that notifies dns_sd when new data appears on a DNSServiceRef's socket.
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	ServiceController *self = (ServiceController *)info;
 	AILogWithSignature(@"Processing result for %@", self);
 
@@ -953,6 +978,8 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 			DNSServiceRefSockFD(info), err, type, data);
 		}
 	}
+	
+	[pool release];
 }
 
 - (id) initWithServiceRef:(DNSServiceRef) ref forContactManager:(AWEzvContactManager *)inContactManager
