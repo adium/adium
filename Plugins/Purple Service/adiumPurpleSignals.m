@@ -315,6 +315,7 @@ static void typing_changed(PurpleAccount *account, const char *name, AITypingSta
 	
 	// Don't do anything for those who aren't on our contact list.
 	if (contact.isStranger) {
+		[pool release];
 		return;
 	}
 
