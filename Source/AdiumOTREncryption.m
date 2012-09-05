@@ -372,7 +372,13 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context)
 
 static OtrlPolicy policy_cb(void *opdata, ConnContext *context)
 {
-	return policyForContact(contactForContext(context));	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	OtrlPolicy ret = policyForContact(contactForContext(context));
+	
+	[pool release];
+	
+	return ret;
 }
 
 /* Generate a private key for the given accountname/protocol */
