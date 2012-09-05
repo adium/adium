@@ -37,8 +37,10 @@ static void AMPurpleJabberAdHocServer_received_data_cb(PurpleConnection *gc, xml
 			return;
 		}
 		const char *type = xmlnode_get_attrib(*packet,"type");
-		if(!type || strcmp(type,"set"))
+		if(!type || strcmp(type,"set")) {
+			[pool release];
 			return; // doesn't talk to us, probably the user interacting with some other adhoc node
+		}
 		const char *from = xmlnode_get_attrib(*packet,"from");
 		const char *iqid = xmlnode_get_attrib(*packet,"id");
 		xmlnode *command = xmlnode_get_child_with_namespace(*packet,"command","http://jabber.org/protocol/commands");
