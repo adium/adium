@@ -28,10 +28,14 @@
 static void
 xmlnode_received_cb(PurpleConnection *gc, xmlnode **packet, gpointer this)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
     AMXMLConsoleController *self = (AMXMLConsoleController *)this;
     
-    if (!this || [self gc] != gc)
-        return;
+    if (!this || [self gc] != gc) {
+		[pool release];
+		return;
+	}
     
 	char *str = xmlnode_to_formatted_str(*packet, NULL);
     NSString *sstr = [NSString stringWithUTF8String:str];
@@ -45,23 +49,30 @@ xmlnode_received_cb(PurpleConnection *gc, xmlnode **packet, gpointer this)
     [astr release];
     
 	g_free(str);
+	
+	[pool release];
 }
 
 static void
 xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     AMXMLConsoleController *self = (AMXMLConsoleController *)this;
 	xmlnode *node;
 
-    if (!this || [self gc] != gc)
-        return;
+    if (!this || [self gc] != gc) {
+		[pool release];
+		return;
+	}
 
 	node = ((*packet && strlen(*packet) && ((*packet)[0] == '<')) ?
 			xmlnode_from_str(*packet, -1) :
 			NULL);
 
-	if (!node)
+	if (!node) {
+		[pool release];
 		return;
+	}
 	
 	char *str = xmlnode_to_formatted_str(node, NULL);
     NSString *sstr = [NSString stringWithUTF8String:str];
@@ -76,6 +87,8 @@ xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
     
 	g_free(str);
 	xmlnode_free(node);
+	
+	[pool release];
 }
 
 @implementation AMXMLConsoleController

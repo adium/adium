@@ -27,11 +27,15 @@
 @implementation AMPurpleJabberAdHocServer
 
 static void AMPurpleJabberAdHocServer_received_data_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AMPurpleJabberAdHocServer *self = this;
 	PurpleAccount *account = [self.account purpleAccount];
 	if(purple_account_get_connection(account) == gc) {
-		if(strcmp((*packet)->name,"iq"))
+		if(strcmp((*packet)->name,"iq")) {
+			[pool release];
 			return;
+		}
 		const char *type = xmlnode_get_attrib(*packet,"type");
 		if(!type || strcmp(type,"set"))
 			return; // doesn't talk to us, probably the user interacting with some other adhoc node
@@ -48,10 +52,13 @@ static void AMPurpleJabberAdHocServer_received_data_cb(PurpleConnection *gc, xml
 			}
 		}
 	}
+	
+	[pool release];
 }
 
 /* we have to catch the reply to a disco#info for http://jabber.org/protocol/commands and insert our nodes */
 static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	xmlnode *xml = *packet;
 	AMPurpleJabberAdHocServer *self = this;
 	PurpleAccount *account = [self.account purpleAccount];
@@ -78,6 +85,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 			}
 		}
 	}
+	[pool release];
 }
 
 + (void)initialize {
