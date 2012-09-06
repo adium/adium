@@ -1390,6 +1390,10 @@
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
+		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
+		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
+		76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
+		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
 		76889DEF12D3CA40007AEF00 /* Personal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.tiff */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
@@ -1642,6 +1646,8 @@
 				11EE1CD50CDD01120097F246 /* libpurple.framework in Copy Frameworks */,
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
 				377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */,
+				76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */,
+				76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
 				9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */,
 				9719C9301530EE4800217FBE /* ShortcutRecorder.framework in Copy Frameworks */,
@@ -4522,6 +4528,8 @@
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
+		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
+		76731DE115F90538007728C3 /* libgpgerror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgpgerror.framework; path = Frameworks/libgpgerror.framework; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
 		76889DEE12D3CA40007AEF00 /* Personal.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Personal.tiff; path = Resources/Personal.tiff; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
@@ -4872,6 +4880,8 @@
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
 				9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */,
 				9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */,
+				76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */,
+				76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8227,6 +8237,8 @@
 		979AA6A914D59EF3008730DF /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				76731DE015F90538007728C3 /* libgcrypt.framework */,
+				76731DE115F90538007728C3 /* libgpgerror.framework */,
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
 				9719C92B1530EDF700217FBE /* FriBidi.framework */,
 				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
