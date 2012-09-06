@@ -334,7 +334,7 @@ static NSString *statusNameForChat(AIChat *inChat)
 								  nil]) {
 			NSImage		*anIcon;
 			
-			if ((anIcon = [xtraBundle AI_imageForResource:[previewIconNames objectForKey:iconID]])) {
+			if ((anIcon = [xtraBundle imageForResource:[previewIconNames objectForKey:iconID]])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 				

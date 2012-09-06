@@ -121,7 +121,7 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 		return nil;
 	}
 	
-	return [xtraBundle AI_imageForResource:[iconInfo objectForKey:key]];
+	return [xtraBundle imageForResource:[iconInfo objectForKey:key]];
 }
 
 #pragma mark Color retrieval

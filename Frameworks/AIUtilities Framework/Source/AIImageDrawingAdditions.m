@@ -18,12 +18,6 @@
 #import "AIImageAdditions.h"
 #import "AIBezierPathAdditions.h"
 
-@interface NSScreen (LionCompatibility)
-
-- (CGFloat)backingScaleFactor;
-
-@end
-
 @implementation NSImage (AIImageDrawingAdditions)
 
 

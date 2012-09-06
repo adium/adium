@@ -527,12 +527,11 @@
  */
 - (void)iTunesUpdate:(NSNotification *)aNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSDictionary *newInfo = [aNotification userInfo];
-	[self setiTunesCurrentInfo:newInfo];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		NSDictionary *newInfo = [aNotification userInfo];
+		[self setiTunesCurrentInfo:newInfo];
+	}
 }
 
 /*!
@@ -559,17 +558,7 @@
 
 	//configure the popup button and its menu
 
-    /* XXX Remove after 10.6: Apparently with iTunes 10.6.3 on Mac OS X 10.6.8, the NSIconRefImageRep
-     * that is returned by -iconfForFile: for iTunes fails to encode itself for NSCopying. Make a copy
-     * here via -TIFFRepresentation to avoid this bug.
-     * rdar://11930126 http://trac.adium.im/ticket/16046
-     */
-    if ([NSApp isOnLionOrNewer]) {
-        [button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
-    } else {
-        NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
-	    [button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
-    }
+	[button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
 	[self createiTunesToolbarItemMenuItems:menu];
 
 	NSToolbarItem * iTunesItem = [AIToolbarUtilities toolbarItemWithIdentifier:KEY_TRIGGERS_TOOLBAR

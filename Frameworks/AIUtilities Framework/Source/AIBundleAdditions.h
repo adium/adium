@@ -18,6 +18,5 @@
 
 - (NSString *)name;
 - (NSSet *)supportedDocumentExtensions;
-- (NSImage *)AI_imageForResource:(NSString *)resource;
 
 @end

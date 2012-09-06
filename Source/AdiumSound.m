@@ -337,15 +337,15 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 #pragma unused(inNumberAddresses)
 #pragma unused(inAddresses)
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	AdiumSound *self = (id)refcon;
-	NSCAssert1(self, @"AudioHardware property listener function %s called with nil refcon, which we expected to be the AdiumSound instance", __PRETTY_FUNCTION__);
-
-	[self performSelectorOnMainThread:@selector(systemOutputDeviceDidChange)
-						   withObject:nil
-						waitUntilDone:NO];
-	[pool release];
-
-	return noErr;
+	@autoreleasepool {
+		
+		AdiumSound *self = (id)refcon;
+		NSCAssert1(self, @"AudioHardware property listener function %s called with nil refcon, which we expected to be the AdiumSound instance", __PRETTY_FUNCTION__);
+		
+		[self performSelectorOnMainThread:@selector(systemOutputDeviceDidChange)
+							   withObject:nil
+							waitUntilDone:NO];
+		
+		return noErr;
+	}
 }
