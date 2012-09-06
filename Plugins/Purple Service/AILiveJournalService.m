@@ -46,6 +46,16 @@
 	return @"LiveJournal";
 }
 
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://www.livejournal.com/create.bml", @"URL for LiveJournal signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for LiveJournal", @"Text for LiveJournal sign up button");
+}
+
 - (NSCharacterSet *)ignoredCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@" "];
 }

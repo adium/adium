@@ -1380,8 +1380,7 @@
 	NSString *myType = [[pasteboard types] firstObjectCommonWithArray:FILES_AND_IMAGES_TYPES];
 	NSString *superclassType = [[pasteboard types] firstObjectCommonWithArray:PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY];
 	
-	if (myType &&
-		(!superclassType || ([[pasteboard types] indexOfObject:myType] < [[pasteboard types] indexOfObject:superclassType]))) {
+	if (myType && !superclassType) {
 		[self addAttachmentsFromPasteboard:pasteboard];
 		
 		success = YES;		
@@ -1542,38 +1541,15 @@
  */
 - (void)addAttachmentOfPath:(NSString *)inPath
 {
-	if ([[inPath pathExtension] caseInsensitiveCompare:@"textClipping"] == NSOrderedSame) {
-		inPath = [inPath stringByAppendingString:@"/..namedfork/rsrc"];
-
-		NSData *data = [NSData dataWithContentsOfFile:inPath];
-		if (data) {
-			data = [data subdataWithRange:NSMakeRange(260, [data length] - 260)];
-			
-			NSAttributedString *clipping = [[[NSAttributedString alloc] initWithRTF:data documentAttributes:nil] autorelease];
-			if (clipping) {
-				NSDictionary	*attributes = [[self typingAttributes] copy];
-				
-				[self insertText:clipping];
-
-				if (attributes) {
-					[self setTypingAttributes:attributes];
-				}
-				
-				[attributes release];
-			}
-		}
-
-	} else {
-		AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
-		[attachment setPath:inPath];
-		[attachment setString:[inPath lastPathComponent]];
-		[attachment setShouldSaveImageForLogging:YES];
-		
-		//Insert an attributed string into the text at the current insertion point
-		[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
-		
-		[attachment release];
-	}
+	AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
+	[attachment setPath:inPath];
+	[attachment setString:[inPath lastPathComponent]];
+	[attachment setShouldSaveImageForLogging:YES];
+	
+	//Insert an attributed string into the text at the current insertion point
+	[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
+	
+	[attachment release];
 }
 
 /*!

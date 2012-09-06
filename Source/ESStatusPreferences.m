@@ -16,6 +16,7 @@
 
 #import "ESStatusPreferences.h"
 #import "AIStatusController.h"
+#import "ESiTunesPlugin.h"
 #import "ESEditStatusGroupWindowController.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIAccount.h>
@@ -49,28 +50,37 @@
 
 - (void)newState;
 - (void)deleteState;
+
+- (NSArray *)separateStringIntoTokens:(NSString *)string;
 @end
 
 @implementation ESStatusPreferences
+@synthesize tabItem_status, tabItem_settings;
+@synthesize button_addOrRemoveState, button_addGroup, button_editState;
+@synthesize scrollView_stateList, outlineView_stateList;
+@synthesize checkBox_idle, textField_idleMinutes, stepper_idleMinutes, label_inactivity;
+@synthesize checkBox_autoAway, textField_autoAwayMinutes, stepper_autoAwayMinutes, popUp_autoAwayStatusState, label_inactivitySet;
+@synthesize checkBox_fastUserSwitching, popUp_fastUserSwitchingStatusState;
+@synthesize checkBox_screenSaver, popUp_screenSaverStatusState;
+@synthesize checkBox_showStatusWindow;
+@synthesize box_itunesElements, label_iTunesFormat;
+@synthesize label_instructions, label_album, label_artist, label_composer, label_genre, label_status, label_title, label_year;
+@synthesize tokenField_album, tokenField_artist, tokenField_composer, tokenField_genre, tokenField_status, tokenField_title, tokenField_year, tokenField_format;
 
-- (NSString *)paneIdentifier
-{
+- (AIPreferenceCategory)category{
+	return AIPref_General;
+}
+- (NSString *)paneIdentifier{
 	return @"Status";
 }
-- (NSString *)paneName
-{
+- (NSString *)paneName{
     return AILocalizedString(@"Status",nil);
 }
-- (NSImage *)paneIcon
-{
+- (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"pref-status" forClass:[self class]];
 }
-
-/*!
- * @brief Nib name
- */
 - (NSString *)nibName{
-    return @"StatusPreferences";
+    return @"Preferences-Status";
 }
 
 /*!
@@ -78,6 +88,31 @@
  */
 - (void)viewDidLoad
 {
+	//Setup iTunes format
+	NSString *displayFormat = [adium.preferenceController preferenceForKey:KEY_ITUNES_TRACK_FORMAT
+																	 group:PREF_GROUP_STATUS_PREFERENCES];
+	if (!displayFormat || ![displayFormat length]) {
+		displayFormat  = [NSString stringWithFormat:@"%@ - %@", TRIGGER_TRACK, TRIGGER_ARTIST];
+	}
+	[tokenField_format setObjectValue:[self separateStringIntoTokens:displayFormat]];
+	[tokenField_format setTokenizingCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@""]];
+	[tokenField_format setDelegate:self];
+	
+	[tokenField_album setStringValue:TRIGGER_ALBUM];
+	[tokenField_album setDelegate:self];
+	[tokenField_artist setStringValue:TRIGGER_ARTIST];
+	[tokenField_artist setDelegate:self];
+	[tokenField_composer setStringValue:TRIGGER_COMPOSER];
+	[tokenField_composer setDelegate:self];
+	[tokenField_genre setStringValue:TRIGGER_GENRE];
+	[tokenField_genre setDelegate:self];
+	[tokenField_status setStringValue:TRIGGER_STATUS];
+	[tokenField_status setDelegate:self];
+	[tokenField_title setStringValue:TRIGGER_TRACK];
+	[tokenField_title setDelegate:self];
+	[tokenField_year setStringValue:TRIGGER_YEAR];
+	[tokenField_year setDelegate:self];
+	
 	//Configure the controls
 	[self configureStateList];
 
@@ -96,6 +131,36 @@
 	[self stateArrayChanged:nil];
 
 	[self configureOtherControls];
+}
+
+- (void)localizePane
+{
+	[tabItem_status setLabel:AILocalizedString(@"Saved Statuses", nil)];
+	[tabItem_settings setLabel:AILocalizedString(@"Settings", nil)];
+	
+	[button_addGroup setLocalizedString:AILocalizedString(@"Add Group", nil)];
+	[button_editState setLocalizedString:AILocalizedString(@"Edit", nil)];
+	
+	[checkBox_idle setLocalizedString:AILocalizedString(@"Let others know I am idle after", nil)];
+	[label_inactivity setLocalizedString:AILocalizedString(@"minutes of inactivity", nil)];
+	
+	[checkBox_autoAway setLocalizedString:AILocalizedString(@"After", nil)];
+	[label_inactivitySet setLocalizedString:AILocalizedString(@"minutes of inactivity, set:", nil)];
+	
+	[checkBox_fastUserSwitching setLocalizedString:AILocalizedString(@"When Fast User Switching is activated, set:", nil)];
+	[checkBox_screenSaver setLocalizedString:AILocalizedString(@"When Screen Saver is activated, set:", nil)];
+	[checkBox_showStatusWindow setLocalizedString:AILocalizedString(@"Display status window when away", nil)];
+	
+	[label_iTunesFormat setLocalizedString:AILocalizedString(@"iTunes Status Format", nil)];
+	[box_itunesElements setTitle:AILocalizedString(@"iTunes Elements", nil)];
+	[label_instructions setLocalizedString:AILocalizedString(@"Type text and drag iTunes elements to create a custom format.", nil)];
+	[label_album setLocalizedString:AILocalizedString(@"Album", nil)];
+	[label_artist setLocalizedString:AILocalizedString(@"Artist", nil)];
+	[label_composer setLocalizedString:AILocalizedString(@"Composer", nil)];
+	[label_genre setLocalizedString:AILocalizedString(@"Genre", nil)];
+	[label_status setLocalizedString:AILocalizedString(@"Player State", nil)];
+	[label_title setLocalizedString:AILocalizedString(@"Title", nil)];
+	[label_year setLocalizedString:AILocalizedString(@"Year", nil)];
 }
 
 /*!
@@ -650,65 +715,6 @@
 }
 
 /*!
- * @brief Configure control dimming for idle, auto-away, etc., preferences.
- */
-- (void)configureControlDimming
-{
-	BOOL	idleControlsEnabled, autoAwayControlsEnabled;
-
-	idleControlsEnabled = ([checkBox_idle state] == NSOnState);
-	[textField_idleMinutes setEnabled:idleControlsEnabled];
-	[stepper_idleMinutes setEnabled:idleControlsEnabled];
-	
-	autoAwayControlsEnabled = ([checkBox_autoAway state] == NSOnState);
-	[popUp_autoAwayStatusState setEnabled:autoAwayControlsEnabled];
-	[textField_autoAwayMinutes setEnabled:autoAwayControlsEnabled];
-	[stepper_autoAwayMinutes setEnabled:autoAwayControlsEnabled];
-	
-	[popUp_fastUserSwitchingStatusState setEnabled:([checkBox_fastUserSwitching state] == NSOnState)];
-	[popUp_screenSaverStatusState setEnabled:([checkBox_screenSaver state] == NSOnState)];
-}
-
-/*!
- * @brief Change preference
- *
- * Sent when controls are clicked
- */
-- (void)changePreference:(id)sender
-{
-	if (sender == checkBox_idle) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_REPORT_IDLE
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_autoAway) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_AUTO_AWAY
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_showStatusWindow) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_SHOW_STATUS_WINDOW
-											  group:PREF_GROUP_STATUS_PREFERENCES];		
-		
-	} else if (sender == checkBox_fastUserSwitching) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_FUS
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	} else if (sender == checkBox_screenSaver) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_STATUS_SS
-											  group:PREF_GROUP_STATUS_PREFERENCES];
-		[self configureControlDimming];
-		
-	}
-}
-
-/*!
  * @brief If menuItem is not selectable in popUpButton, add it and select it
  *
  * Menu items located within submenus can't be directly selected. This method will add a spearator item and then the item itself
@@ -809,6 +815,124 @@
 	[adium.preferenceController setPreference:[NSNumber numberWithDouble:([textField_autoAwayMinutes doubleValue]*60.0)]
 										 forKey:KEY_STATUS_AUTO_AWAY_INTERVAL
 										  group:PREF_GROUP_STATUS_PREFERENCES];
+}
+
+- (IBAction)changeFormat:(id)sender
+{
+	[adium.preferenceController setPreference:[[sender objectValue] componentsJoinedByString:@""]
+									   forKey:KEY_ITUNES_TRACK_FORMAT
+										group:PREF_GROUP_STATUS_PREFERENCES];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Adium_CurrentTrackFormatChangedNotification 
+														object:[[sender objectValue] componentsJoinedByString:@""]];
+}
+
+#pragma mark Token Field Delegate
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField shouldAddObjects:(NSArray *)tokens atIndex:(NSUInteger)index
+{
+	NSString *tokenString = [tokens componentsJoinedByString:@""];
+	return [self separateStringIntoTokens:tokenString];
+}
+
+- (NSArray *)tokenField:(NSTokenField *)tokenField readFromPasteboard:(NSPasteboard *)pboard
+{
+	return [self separateStringIntoTokens:[pboard stringForType:NSStringPboardType]];
+}
+
+- (BOOL)tokenField:(NSTokenField *)tokenField writeRepresentedObjects:(NSArray *)objects toPasteboard:(NSPasteboard *)pboard
+{
+	[pboard setString:[objects componentsJoinedByString:@""] forType:NSStringPboardType];
+	return YES;
+}
+
+- (NSTokenStyle)tokenField:(NSTokenField *)tokenField styleForRepresentedObject:(id)representedObject
+{
+	if ([representedObject hasPrefix:@"%_"]) {
+		return NSRoundedTokenStyle;
+	} else {
+		return NSPlainTextTokenStyle;
+	}
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
+{
+	if ([representedObject isEqualToString:TRIGGER_ALBUM]) {
+		return AILocalizedString(@"Let It Be", @"Example for album title");
+	} else if ([representedObject isEqualToString:TRIGGER_ARTIST]) {
+		return AILocalizedString(@"The Beatles", @"Example for song artist");
+	} else if ([representedObject isEqualToString:TRIGGER_COMPOSER]) {
+		return AILocalizedString(@"Harrison", @"Example for song composer");
+	} else if ([representedObject isEqualToString:TRIGGER_GENRE]) {
+		return AILocalizedString(@"Rock", @"Example for song genre");
+	} else if ([representedObject isEqualToString:TRIGGER_STATUS]) {
+		return AILocalizedString(@"Paused", @"Example for music players' status (e.g. playing, paused)");
+	} else if ([representedObject isEqualToString:TRIGGER_TRACK]) {
+		return AILocalizedString(@"I Me Mine", @"Example for song title");
+	} else if ([representedObject isEqualToString:TRIGGER_YEAR]) {
+		return AILocalizedString(@"1970", @"Example for a songs debut-year");
+	} else {
+		return nil;
+	}
+}
+
+- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)editingString
+{
+	return editingString;
+}
+
+- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)representedObject
+{
+	// Tokens should not be editable
+	return nil;
+}
+
+- (NSArray *)separateStringIntoTokens:(NSString *)string
+{
+	NSMutableArray *tokens = [NSMutableArray array];
+	
+	int i = 0;
+	while (i < [string length]) {
+		unsigned int start = i;
+		
+		// Evaluate if it known token
+		if ([[string substringFromIndex:i] hasPrefix:@"%_"]) {
+			NSString *substringFromIndex = [string substringFromIndex:i];
+			if ([substringFromIndex hasPrefix:TRIGGER_ALBUM]) {
+				i += [TRIGGER_ALBUM length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_ARTIST]) {
+				i += [TRIGGER_ARTIST length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_COMPOSER]) {
+				i += [TRIGGER_COMPOSER length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_GENRE]) {
+				i += [TRIGGER_GENRE length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_STATUS]) {
+				i += [TRIGGER_STATUS length];
+			} else if ([substringFromIndex hasPrefix:TRIGGER_TRACK]) {
+				i += [TRIGGER_TRACK length];			
+			} else if ([substringFromIndex hasPrefix:TRIGGER_YEAR]) {
+				i += [TRIGGER_YEAR length];
+			} else {
+				for (; i < [string length]; i++) {
+					if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {
+						i++;
+						break;
+					}
+				}
+			}
+			// Search for start of next token
+		} else {
+			for (; i < [string length]; i++) {
+				if ([[string substringFromIndex:(i + 1)] hasPrefix:@"%_"]) {
+					i++;
+					break;
+				}
+			}
+		}
+		
+		[tokens addObject:[string substringWithRange:NSMakeRange(start, i - start)]];
+	}
+	
+	return tokens;
 }
 
 @end

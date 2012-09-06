@@ -34,6 +34,7 @@
 	IBOutlet	NSTextField		*textField_accountUID;			//UID field
 	IBOutlet	NSTextField		*label_password;				//Label on the password field
 	IBOutlet	NSTextField		*textField_password;			//Password field
+	IBOutlet	NSButton		*button_SignUp;					//Sign up for account
 	IBOutlet	NSTextField		*textField_connectHost;			//Connect host
 	IBOutlet	NSTextField		*textField_connectPort;			//Connect port
 	IBOutlet	NSTextField		*textField_alias;				//User alias (or display name)
@@ -65,6 +66,7 @@
 - (NSView *)privacyView;
 - (void)configureForAccount:(AIAccount *)inAccount;
 - (IBAction)changedPreference:(id)sender;
+- (IBAction)signUpAccount:(id)sender;
 - (NSString *)nibName;
 - (void)saveConfiguration;
 

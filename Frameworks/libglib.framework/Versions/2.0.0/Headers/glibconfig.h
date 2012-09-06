@@ -139,7 +139,7 @@ typedef unsigned long guintptr;
 #endif
 
 #define G_HAVE_GNUC_VARARGS 1
-#define G_HAVE_GROWING_STACK 0
+#define G_HAVE_GROWING_STACK 1
 
 #if defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)
 #define G_GNUC_INTERNAL __attribute__((visibility("hidden")))
@@ -289,15 +289,15 @@ G_GNUC_EXTENSION typedef unsigned long long guint64;
 #define GLIB_SIZEOF_LONG   4
 #define GLIB_SIZEOF_SIZE_T 4
 
-typedef signed long gssize;
-typedef unsigned long gsize;
-#define G_GSIZE_MODIFIER "l"
-#define G_GSSIZE_FORMAT "li"
-#define G_GSIZE_FORMAT "lu"
+typedef signed int gssize;
+typedef unsigned int gsize;
+#define G_GSIZE_MODIFIER ""
+#define G_GSSIZE_FORMAT "i"
+#define G_GSIZE_FORMAT "u"
 
-#define G_MAXSIZE	G_MAXULONG
-#define G_MINSSIZE	G_MINLONG
-#define G_MAXSSIZE	G_MAXLONG
+#define G_MAXSIZE	G_MAXUINT
+#define G_MINSSIZE	G_MININT
+#define G_MAXSSIZE	G_MAXINT
 
 typedef gint64 goffset;
 #define G_MINOFFSET	G_MININT64
@@ -364,7 +364,7 @@ typedef unsigned int guintptr;
 #endif
 
 #define G_HAVE_GNUC_VARARGS 1
-#define G_HAVE_GROWING_STACK 0
+#define G_HAVE_GROWING_STACK 1
 
 #if defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)
 #define G_GNUC_INTERNAL __attribute__((visibility("hidden")))
