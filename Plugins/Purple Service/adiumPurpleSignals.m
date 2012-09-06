@@ -276,6 +276,9 @@ static NSDictionary *dictionaryFromHashTable(GHashTable *data)
 	for (ll = l; ll; ll = ll->next) {
 		void *key = ll->data;
 		void *value = g_hash_table_lookup(data, key);
+		
+		if (!key || !value) continue;
+		
 		NSString *keyString = [NSString stringWithUTF8String:key];
 		NSString *valueString = [NSString stringWithUTF8String:value];
 		if ([valueString integerValue]) {
