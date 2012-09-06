@@ -61,6 +61,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *cachesPath;
 
 - (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB;
+- (NSString *)earliestLaunchedAdiumVersion;
 
 @property (readonly, nonatomic) BOOL isQuitting;
 
