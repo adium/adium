@@ -58,10 +58,10 @@
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
-@property (readonly, nonatomic) id<AIContainingObject>containingObject __attribute__((deprecated));
+@property (unsafe_unretained, readonly, nonatomic) id<AIContainingObject>containingObject __attribute__((deprecated));
 @property (readwrite, copy, nonatomic) NSSet *remoteGroupNames;
 @property (readonly, nonatomic) NSUInteger countOfRemoteGroupNames;
-@property (readonly, nonatomic) NSSet *remoteGroups;
+@property (weak, readonly, nonatomic) NSSet *remoteGroups;
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;
 
@@ -71,12 +71,12 @@
 + (NSString *)internalUniqueObjectIDForService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (void)restoreGrouping;
 
-@property (readonly, nonatomic) AIListContact *parentContact; //This needs renaming. It's the 'topmost' contact, either self or meta
-@property (readonly, nonatomic, assign) AIMetaContact *metaContact;
+@property (weak, readonly, nonatomic) AIListContact *parentContact; //This needs renaming. It's the 'topmost' contact, either self or meta
+@property (readonly, nonatomic, weak) AIMetaContact *metaContact;
 
-@property (readonly, nonatomic) NSString *ownDisplayName;
-@property (readonly, nonatomic) NSString *ownPhoneticName;
-@property (readonly, nonatomic) NSString *serversideDisplayName;
+@property (weak, readonly, nonatomic) NSString *ownDisplayName;
+@property (weak, readonly, nonatomic) NSString *ownPhoneticName;
+@property (weak, readonly, nonatomic) NSString *serversideDisplayName;
 
 @property (readonly, nonatomic) BOOL canJoinMetaContacts;
 

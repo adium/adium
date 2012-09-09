@@ -57,14 +57,6 @@
 	[adium.menuController addMenuItem:newWndowMenuItem toLocation:LOC_Window_Commands];	
 }
 
-- (void)dealloc
-{
-	[consolidateMenuItem release];
-	[newWndowMenuItem release];
-
-	[super dealloc];
-}
-
 /*!
  * @brief Consolidate chats
  *

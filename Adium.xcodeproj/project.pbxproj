@@ -545,7 +545,7 @@
 		34A1A8E70DFB276E00AC78CF /* SocialNetworkingCustomStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34A1A8E60DFB276E00AC78CF /* SocialNetworkingCustomStatus.xib */; };
 		34A1A8ED0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34A1A8EB0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.h */; };
 		34A1A8EE0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A1A8EC0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.m */; };
-		34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A1AB6B0DFC531000AC78CF /* AIXMLChatlogConverter.m */; };
+		34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A1AB6B0DFC531000AC78CF /* AIXMLChatlogConverter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		34A1AEE90DFD4BFE00AC78CF /* AIAddressBookInspectorPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34A1AEE80DFD4BFE00AC78CF /* AIAddressBookInspectorPane.xib */; };
 		34A1AEEE0DFD4C4A00AC78CF /* AIAdvancedInspectorPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34A1AEED0DFD4C4A00AC78CF /* AIAdvancedInspectorPane.xib */; };
 		34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A1B2C20DFDBA1200AC78CF /* AIStringDebug.m */; };
@@ -639,7 +639,7 @@
 		34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */; };
 		34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */; };
 		34D8154613B663700022C8C4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
-		34D8154713B663700022C8C4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-DNS_BLOCK_ASSERTIONS"; }; };
+		34D8154713B663700022C8C4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-DNS_BLOCK_ASSERTIONS -fno-objc-arc"; }; };
 		34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154913B663A80022C8C4 /* auth_fb.c */; };
 		34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154A13B663A80022C8C4 /* auth_fb.h */; };
 		34D8154F13B663A80022C8C4 /* fbapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154B13B663A80022C8C4 /* fbapi.c */; };
@@ -790,7 +790,7 @@
 		34DC8A8E0A7EEEF7003E1636 /* AISoundSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BD548AE086086B5008DF3CB /* AISoundSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8A8F0A7EEEF7003E1636 /* AISoundSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD548AF086086B5008DF3CB /* AISoundSet.m */; };
 		34DC8A900A7EEEF7003E1636 /* AIToolbar.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E6D38E0727354600A2643A /* AIToolbar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34DC8A910A7EEEF7003E1636 /* AIToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E6D38F0727354600A2643A /* AIToolbar.m */; };
+		34DC8A910A7EEEF7003E1636 /* AIToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E6D38F0727354600A2643A /* AIToolbar.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		34DC8A920A7EEEF7003E1636 /* AIColorPickerSliders.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D369ED08E7544D00E15E40 /* AIColorPickerSliders.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8A930A7EEEF7003E1636 /* AIColorPickerSliders.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D369EE08E7544D00E15E40 /* AIColorPickerSliders.m */; };
 		34DC8A940A7EEEF7003E1636 /* AIPathUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = DA9CF854080F9784000C5249 /* AIPathUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -798,7 +798,7 @@
 		34DC8A960A7EEEF7003E1636 /* AISortController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B422C0905ACB248005E720B /* AISortController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8A970A7EEEF7003E1636 /* AISortController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B422C0A05ACB248005E720B /* AISortController.m */; };
 		34DC8A980A7EEEF7003E1636 /* ESObjectWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 34111A5D06BE1B370005AF5C /* ESObjectWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34DC8A990A7EEEF7003E1636 /* ESObjectWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */; };
+		34DC8A990A7EEEF7003E1636 /* ESObjectWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		34DC8A9A0A7EEEF7003E1636 /* AIChat.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B82138E049CA6CC00A8010A /* AIChat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8A9B0A7EEEF7003E1636 /* AIChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B82138F049CA6CC00A8010A /* AIChat.m */; };
 		34DC8A9C0A7EEEF7003E1636 /* AIListObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BF5BA14042F3CB200A8010A /* AIListObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1228,7 +1228,7 @@
 		633400890F9C14C2003C77A9 /* AIDateAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFBE0F9C14C1003C77A9 /* AIDateAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334008A0F9C14C2003C77A9 /* AIDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFBF0F9C14C1003C77A9 /* AIDateAdditions.m */; };
 		6334008B0F9C14C2003C77A9 /* AIDateFormatterAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFC00F9C14C1003C77A9 /* AIDateFormatterAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6334008C0F9C14C2003C77A9 /* AIDateFormatterAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFC10F9C14C1003C77A9 /* AIDateFormatterAdditions.m */; };
+		6334008C0F9C14C2003C77A9 /* AIDateFormatterAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFC10F9C14C1003C77A9 /* AIDateFormatterAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6334008D0F9C14C2003C77A9 /* AIDictionaryAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFC20F9C14C1003C77A9 /* AIDictionaryAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334008E0F9C14C2003C77A9 /* AIDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFC30F9C14C1003C77A9 /* AIDictionaryAdditions.m */; };
 		6334008F0F9C14C2003C77A9 /* AIEventAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFC40F9C14C1003C77A9 /* AIEventAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1247,8 +1247,6 @@
 		6334009C0F9C14C2003C77A9 /* AIMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFD10F9C14C1003C77A9 /* AIMenuAdditions.m */; };
 		6334009D0F9C14C2003C77A9 /* AIMutableStringAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFD20F9C14C1003C77A9 /* AIMutableStringAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334009E0F9C14C2003C77A9 /* AIMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFD30F9C14C1003C77A9 /* AIMutableStringAdditions.m */; };
-		6334009F0F9C14C2003C77A9 /* AIObjectAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFD40F9C14C1003C77A9 /* AIObjectAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400A00F9C14C2003C77A9 /* AIObjectAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFD50F9C14C1003C77A9 /* AIObjectAdditions.m */; };
 		633400A10F9C14C2003C77A9 /* AIOutlineViewAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFD60F9C14C1003C77A9 /* AIOutlineViewAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		633400A20F9C14C2003C77A9 /* AIOutlineViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFD70F9C14C1003C77A9 /* AIOutlineViewAdditions.m */; };
 		633400A30F9C14C2003C77A9 /* AIParagraphStyleAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFD80F9C14C1003C77A9 /* AIParagraphStyleAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4167,8 +4165,6 @@
 		6334FFD10F9C14C1003C77A9 /* AIMenuAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMenuAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIMenuAdditions.m"; sourceTree = "<group>"; };
 		6334FFD20F9C14C1003C77A9 /* AIMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMutableStringAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIMutableStringAdditions.h"; sourceTree = "<group>"; };
 		6334FFD30F9C14C1003C77A9 /* AIMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMutableStringAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIMutableStringAdditions.m"; sourceTree = "<group>"; };
-		6334FFD40F9C14C1003C77A9 /* AIObjectAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIObjectAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIObjectAdditions.h"; sourceTree = "<group>"; };
-		6334FFD50F9C14C1003C77A9 /* AIObjectAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIObjectAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIObjectAdditions.m"; sourceTree = "<group>"; };
 		6334FFD60F9C14C1003C77A9 /* AIOutlineViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOutlineViewAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIOutlineViewAdditions.h"; sourceTree = "<group>"; };
 		6334FFD70F9C14C1003C77A9 /* AIOutlineViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOutlineViewAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIOutlineViewAdditions.m"; sourceTree = "<group>"; };
 		6334FFD80F9C14C1003C77A9 /* AIParagraphStyleAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIParagraphStyleAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIParagraphStyleAdditions.h"; sourceTree = "<group>"; };
@@ -7850,8 +7846,6 @@
 				6334FFD10F9C14C1003C77A9 /* AIMenuAdditions.m */,
 				6334FFD20F9C14C1003C77A9 /* AIMutableStringAdditions.h */,
 				6334FFD30F9C14C1003C77A9 /* AIMutableStringAdditions.m */,
-				6334FFD40F9C14C1003C77A9 /* AIObjectAdditions.h */,
-				6334FFD50F9C14C1003C77A9 /* AIObjectAdditions.m */,
 				6334FFD60F9C14C1003C77A9 /* AIOutlineViewAdditions.h */,
 				6334FFD70F9C14C1003C77A9 /* AIOutlineViewAdditions.m */,
 				6334FFD80F9C14C1003C77A9 /* AIParagraphStyleAdditions.h */,
@@ -9111,7 +9105,6 @@
 				633400990F9C14C2003C77A9 /* AIImageDrawingAdditions.h in Headers */,
 				6334009B0F9C14C2003C77A9 /* AIMenuAdditions.h in Headers */,
 				6334009D0F9C14C2003C77A9 /* AIMutableStringAdditions.h in Headers */,
-				6334009F0F9C14C2003C77A9 /* AIObjectAdditions.h in Headers */,
 				633400A10F9C14C2003C77A9 /* AIOutlineViewAdditions.h in Headers */,
 				633400A30F9C14C2003C77A9 /* AIParagraphStyleAdditions.h in Headers */,
 				633400A50F9C14C2003C77A9 /* AIPopUpButtonAdditions.h in Headers */,
@@ -9301,9 +9294,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				CLASSPREFIX = AI;
-				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = "The Adium Team";
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -10593,7 +10584,6 @@
 				6334009A0F9C14C2003C77A9 /* AIImageDrawingAdditions.m in Sources */,
 				6334009C0F9C14C2003C77A9 /* AIMenuAdditions.m in Sources */,
 				6334009E0F9C14C2003C77A9 /* AIMutableStringAdditions.m in Sources */,
-				633400A00F9C14C2003C77A9 /* AIObjectAdditions.m in Sources */,
 				633400A20F9C14C2003C77A9 /* AIOutlineViewAdditions.m in Sources */,
 				633400A40F9C14C2003C77A9 /* AIParagraphStyleAdditions.m in Sources */,
 				633400A60F9C14C2003C77A9 /* AIPopUpButtonAdditions.m in Sources */,
@@ -12406,7 +12396,6 @@
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -12420,7 +12409,6 @@
 					"\"$(SRCROOT)/build/Debug\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -12437,7 +12425,6 @@
 					RELEASE_BUILD,
 					DEBUG_BUILD,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = "Release-Debug";
 		};

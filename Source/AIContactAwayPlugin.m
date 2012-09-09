@@ -135,7 +135,7 @@
 		 */
 		NSString *awayDescription = [self awayDescriptionForObject:inObject];
 		entry = (awayDescription ?
-				 [[[NSAttributedString alloc] initWithString:awayDescription] autorelease] :
+				 [[NSAttributedString alloc] initWithString:awayDescription] :
 				 nil);
 		
 	} else {
@@ -146,7 +146,7 @@
 			} else {
 				/* We don't display tabs well in the tooltips because we use them for alignment, so
 				* turn them into 4 spaces. */
-				NSMutableAttributedString	*mutableStatusMessage = [[statusMessage mutableCopy] autorelease];
+				NSMutableAttributedString	*mutableStatusMessage = [statusMessage mutableCopy];
 				[mutableStatusMessage replaceOccurrencesOfString:@"\t"
 													  withString:@"    "
 														 options:NSLiteralSearch
@@ -159,7 +159,7 @@
 		} else {
 			NSString *awayDescription = [self awayDescriptionForObject:inObject];
 			entry = (awayDescription ?
-					 [[[NSAttributedString alloc] initWithString:awayDescription] autorelease] :
+					 [[NSAttributedString alloc] initWithString:awayDescription] :
 					 nil);
 		}
 	}

@@ -32,7 +32,7 @@
 
 typedef struct stacklink {
     struct stacklink *next;
-    id		data;
+__unsafe_unretained    id		data;
 } stacklink;
 
 @interface AWEzvStack : NSObject {

@@ -39,7 +39,7 @@
 //close
 - (void)controllerWillClose
 {
-	[applescriptRunner release]; applescriptRunner = nil;
+	applescriptRunner = nil;
 }
 
 #pragma mark Convenience
@@ -110,8 +110,6 @@
 	
 	[newStatus setStatusTypeApplescript:newStatusType];
 	[self setMyStatus:newStatus];
-	
-	[newStatus release];
 }
 
 - (NSString *)myStatusMessageString
@@ -125,8 +123,6 @@
 	
 	[newStatus setStatusMessageString:inString];
 	[self setMyStatus:newStatus];
-	
-	[newStatus release];	
 }
 
 #pragma mark Controller convenience

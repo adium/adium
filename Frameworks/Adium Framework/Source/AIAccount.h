@@ -209,10 +209,10 @@ typedef enum {
 - (void)didChangeUID;
 - (void)willBeDeleted;
 - (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion __attribute__((objc_method_family(new)));
-@property (readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
-@property (readonly, nonatomic) NSAlert *alertForAccountDeletion;
+@property (unsafe_unretained, readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
+@property (weak, readonly, nonatomic) NSAlert *alertForAccountDeletion;
 - (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode;
-@property (readonly, nonatomic) NSString *explicitFormattedUID;
+@property (weak, readonly, nonatomic) NSString *explicitFormattedUID;
 @property (readonly, nonatomic) BOOL useHostForPasswordServerName;
 @property (readonly, nonatomic) BOOL useInternalObjectIDForPasswordName;
 
@@ -230,7 +230,7 @@ typedef enum {
 @property (readwrite, nonatomic) BOOL isTemporary;
 
 //Status
-@property (readonly, nonatomic) NSSet *supportedPropertyKeys;
+@property (weak, readonly, nonatomic) NSSet *supportedPropertyKeys;
 - (id)statusForKey:(NSString *)key;
 - (void)updateStatusForKey:(NSString *)key;
 - (void)delayedUpdateContactStatus:(AIListContact *)inContact;
@@ -278,12 +278,12 @@ typedef enum {
 - (NSArray *)menuItemsForChat:(AIChat *)inChat;
 
 //Account-specific menu items
-@property (readonly, nonatomic) NSArray *accountActionMenuItems;
+@property (weak, readonly, nonatomic) NSArray *accountActionMenuItems;
 - (void)accountMenuDidUpdate:(NSMenuItem*)menuItem;
 
 //Secure messaging
 - (BOOL)allowSecureMessagingTogglingForChat:(AIChat *)inChat;
-@property (readonly, nonatomic) NSString *aboutEncryption;
+@property (weak, readonly, nonatomic) NSString *aboutEncryption;
 - (void)requestSecureMessaging:(BOOL)inSecureMessaging
 						inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;

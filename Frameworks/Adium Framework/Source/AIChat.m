@@ -57,18 +57,18 @@ static int nextChatNumber = 0;
 
 + (id)chatForAccount:(AIAccount *)inAccount
 {
-    return [[[self alloc] initForAccount:inAccount] autorelease];
+    return [[self alloc] initForAccount:inAccount];
 }
 
 - (id)initForAccount:(AIAccount *)inAccount
 {
     if ((self = [super init])) {
 		name = nil;
-		account = [inAccount retain];
+		account = inAccount;
 		participatingContacts = [[NSMutableArray alloc] init];
 		participatingContactsFlags = [[NSMutableDictionary alloc] init];
 		participatingContactsAliases = [[NSMutableDictionary alloc] init];
-		dateOpened = [[NSDate date] retain];
+		dateOpened = [NSDate date];
 		uniqueChatID = nil;
 		ignoredListContacts = nil;
 		isOpen = NO;
@@ -79,7 +79,7 @@ static int nextChatNumber = 0;
 		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
 
-		AILog(@"[AIChat: %x initForAccount]",self);
+		AILog(@"[AIChat: %p initForAccount]",self);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector(contentObjectAdded:) 
@@ -104,25 +104,7 @@ static int nextChatNumber = 0;
 {
 	AILog(@"[%@ dealloc]",self);
 
-	[account release];
 	[self removeAllParticipatingContactsSilently];
-	[participatingContacts release];
-	[participatingContactsFlags release];
-	[participatingContactsAliases release];
-	[dateOpened release];
-	[ignoredListContacts release];
-	[pendingOutgoingContentObjects release];
-	[uniqueChatID release]; uniqueChatID = nil;
-	[customEmoticons release]; customEmoticons = nil;
-	[topic release]; [topicSetter release];
-	
-	[tabStateIcon release]; tabStateIcon = nil;
-    [chatCreationInfo release]; chatCreationInfo = nil;
-    [enteredTextTimer release]; enteredTextTimer = nil;
-    [securityDetails release]; securityDetails = nil;
-	[lastMessageDate release]; lastMessageDate = nil;
-	
-	[super dealloc];
 }
 
 //Big image
@@ -181,8 +163,7 @@ static int nextChatNumber = 0;
 - (void)setAccount:(AIAccount *)inAccount
 {
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 		
 		//The uniqueChatID may depend upon the account, so clear it
 		[self clearUniqueChatID];
@@ -446,7 +427,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	
 	[participatingContacts addObjectsFromArray:contacts];
 	[adium.chatController chat:self addedListContacts:contacts notify:notify];
-	[contacts release];
 }
 
 - (BOOL)addObject:(AIListObject *)inObject
@@ -498,7 +478,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 		if (self.isGroupChat) {
 			uniqueChatID = [[NSString alloc] initWithFormat:@"%@.%i", self.name, nextChatNumber++];
 		} else {			
-			uniqueChatID = [self.listObject.internalObjectID retain];
+			uniqueChatID = self.listObject.internalObjectID;
 		}
 
 		if (!uniqueChatID) {
@@ -512,7 +492,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 
 - (void)clearUniqueChatID
 {
-	[uniqueChatID release]; uniqueChatID = nil;
+	uniqueChatID = nil;
 }
 
 - (NSString *)internalObjectID
@@ -703,9 +683,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	if ([self containsObject:inObject]) {
 		AIListContact *contact = (AIListContact *)inObject; //if we contain it, it has to be an AIListContact
 		
-		//make sure removing it from the array doesn't deallocate it immediately, since we need it for -chat:removedListContact:
-		[inObject retain];
-		
 		[participatingContacts removeObject:inObject];
 		
 		[self removeSavedValuesForContactUID:inObject.UID];
@@ -720,8 +697,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[adium.contactController accountDidStopTrackingContact:contact];
 			[[AIContactObserverManager sharedManager] endListObjectNotificationsDelaysImmediately];
 		}
-		
-		[inObject release];
 	}
 }
 
@@ -879,7 +854,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[account setTopic:inTopic forChat:self];
 		}
 	} else {
-		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
+		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.", self);
 	}
 }
 
@@ -930,9 +905,9 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 		containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
 	}
 	
-	return [[[NSUniqueIDSpecifier allocWithZone:[self zone]]
+	return [[NSUniqueIDSpecifier alloc]
 		initWithContainerClassDescription:containerClassDesc
-		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
+		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]];
 }
 
 - (unsigned int)index
@@ -1062,7 +1037,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 }
 
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackbuf count:(NSUInteger)len
 {
 	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }

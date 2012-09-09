@@ -43,24 +43,24 @@
 	if ([group isEqualToString:PREF_GROUP_LIST_THEME]) {
 		//Grab colors from status coloring plugin's prefs
 		[self flushPreferenceColorCache];
-		signedOffColor = [[[prefDict objectForKey:KEY_SIGNED_OFF_COLOR] representedColor] retain];
-		signedOnColor = [[[prefDict objectForKey:KEY_SIGNED_ON_COLOR] representedColor] retain];
-		unviewedContentColor = [[[prefDict objectForKey:KEY_UNVIEWED_COLOR] representedColor] retain];
+		signedOffColor = [[prefDict objectForKey:KEY_SIGNED_OFF_COLOR] representedColor];
+		signedOnColor = [[prefDict objectForKey:KEY_SIGNED_ON_COLOR] representedColor];
+		unviewedContentColor = [[prefDict objectForKey:KEY_UNVIEWED_COLOR] representedColor];
 		
-		backSignedOffColor = [[[prefDict objectForKey:KEY_LABEL_SIGNED_OFF_COLOR] representedColor] retain];
-		backSignedOnColor = [[[prefDict objectForKey:KEY_LABEL_SIGNED_ON_COLOR] representedColor] retain];
-		backUnviewedContentColor = [[[prefDict objectForKey:KEY_LABEL_UNVIEWED_COLOR] representedColor] retain];
+		backSignedOffColor = [[prefDict objectForKey:KEY_LABEL_SIGNED_OFF_COLOR] representedColor];
+		backSignedOnColor = [[prefDict objectForKey:KEY_LABEL_SIGNED_ON_COLOR] representedColor];
+		backUnviewedContentColor = [[prefDict objectForKey:KEY_LABEL_UNVIEWED_COLOR] representedColor];
 	}
 }
 
 - (void)flushPreferenceColorCache
 {
-	[signedOffColor release]; signedOffColor = nil;
-	[signedOnColor release]; signedOnColor = nil;
-	[unviewedContentColor release]; unviewedContentColor = nil;
-	[backSignedOffColor release]; backSignedOffColor = nil;
-	[backSignedOnColor release]; backSignedOnColor = nil;
-	[backUnviewedContentColor release]; backUnviewedContentColor = nil;
+	signedOffColor = nil;
+	signedOnColor = nil;
+	unviewedContentColor = nil;
+	backSignedOffColor = nil;
+	backSignedOnColor = nil;
+	backUnviewedContentColor = nil;
 }
 
 - (void)uninstallPlugin
@@ -191,7 +191,7 @@
 		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			BOOL madeChanges = NO;
 			
-			for (AIListObject *listObject in [[overlayObjectsArray copy] autorelease]) {
+			for (AIListObject *listObject in [overlayObjectsArray copy]) {
 				if (([listObject respondsToSelector:@selector(account)]) &&
 					([(id)listObject account] == inObject) &&
 					([overlayObjectsArray containsObjectIdenticalTo:listObject])) {
@@ -302,7 +302,6 @@
 	[image unlockFocus];
 	
 	[adium.dockController setOverlay:image];
-	[image release];
 }
 
 @end

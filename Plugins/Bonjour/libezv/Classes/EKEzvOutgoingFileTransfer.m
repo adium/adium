@@ -61,16 +61,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	}
 	return self;
 }
-- (void)dealloc
-{
-	[urlSizes release];
-	[validURLS release];
-	[urlData release];
-	[randomString release];
-	[server release];
-
-	[super dealloc];
-}
 
 - (BOOL)isDirectory
 {
@@ -85,8 +75,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (void)setContactUID:(NSString *)newUID
 {
 	if (contactUID != newUID) {
-		[contactUID release];
-		contactUID = [newUID retain];
+		contactUID = newUID;
 	}
 }
 
@@ -118,17 +107,11 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	
 	/* Now we send the correct information to the contact */
 	[self sendTransferMessage];
-	
-	/* Keep ourself around until the transfer is complete or cancelled */
-	[self retain];
 }
 
 - (void)stopSending
 {
 	[server stop];
-	
-	/* We called -[self retain] in startSending */
-	[self autorelease];
 }
 
 - (bool) processTransfer
@@ -168,7 +151,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		[self setSize:0u];
 
 		/*First we need to get the NSData for the xml to describe the directory contents*/
-		directoryXMLData = [[self generateDirectoryXML] retain];
+		directoryXMLData = [self generateDirectoryXML];
 		/* Now we need to get the NSData for each item in the directory */
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSString *basePath = [[self localFilename] stringByAppendingString:@"/"];
@@ -237,14 +220,14 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	 **/
 	NSString *newPath = [self localFilename];
 	/*Create the dir */
-	NSXMLElement *root = [[[NSXMLElement alloc] initWithName:@"dir"] autorelease];
+	NSXMLElement *root = [[NSXMLElement alloc] initWithName:@"dir"];
 	NSString *posixFlags = [self posixFlagsForPath: newPath];
 	if (posixFlags != nil) {
 		[root addAttribute:[NSXMLNode attributeWithName:@"posixflags" stringValue:posixFlags]];
 	}
 
 	/*Add the name */
-	NSXMLElement *name = [[[NSXMLElement alloc] initWithName:@"name" stringValue:[newPath lastPathComponent]] autorelease];
+	NSXMLElement *name = [[NSXMLElement alloc] initWithName:@"name" stringValue:[newPath lastPathComponent]];
 	[root addChild:name];
 	NSArray *children = [self generateXMLFromDirectory:newPath];
 
@@ -285,13 +268,13 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 		if (directory) {
 			// handle the creation of the directory xml
-			NSXMLElement *directoryNode = [[[NSXMLElement alloc] initWithName:@"dir"] autorelease];
+			NSXMLElement *directoryNode = [[NSXMLElement alloc] initWithName:@"dir"];
 			NSString *posixFlags = [self posixFlagsForPath: newPath];
 			if (posixFlags != nil) {
 				[directoryNode addAttribute:[NSXMLNode attributeWithName:@"posixflags" stringValue:posixFlags]];
 			}
 
-			NSXMLElement *name = [[[NSXMLElement alloc] initWithName:@"name" stringValue:file] autorelease];
+			NSXMLElement *name = [[NSXMLElement alloc] initWithName:@"name" stringValue:file];
 			[directoryNode addChild:name];
 
 			NSArray *dirChildren = [self generateXMLFromDirectory:newPath];
@@ -303,7 +286,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 			[children addObject:directoryNode];
 		} else {
 			// create the file xml
-			NSXMLElement *fileXML = [[[NSXMLElement alloc] initWithName:@"file"] autorelease];
+			NSXMLElement *fileXML = [[NSXMLElement alloc] initWithName:@"file"];
 			NSString *mimeTypeString = [self mimeTypeForPath:newPath];
 			if (mimeType != nil) {
 				[fileXML addAttribute:[NSXMLNode attributeWithName:@"mimetype" stringValue:mimeTypeString]];
@@ -318,7 +301,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 				[fileXML addAttribute:[NSXMLNode attributeWithName:@"size" stringValue:sizeString]];
 			}
 
-			NSXMLElement *name = [[[NSXMLElement alloc] initWithName:@"name" stringValue:file] autorelease];
+			NSXMLElement *name = [[NSXMLElement alloc] initWithName:@"name" stringValue:file];
 			[fileXML addChild:name];
 
 			/*Now add this to the array */
@@ -336,7 +319,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 	URI = [URI stringByAppendingString:[[NSProcessInfo processInfo] globallyUniqueString]];	
 
-	randomString = [[URI stringByAppendingString:@"/"] retain];
+	randomString = [URI stringByAppendingString:@"/"];
 
 	URI = [URI stringByAppendingPathComponent:[[[self localFilename] lastPathComponent] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	if (isDirectory)
@@ -479,10 +462,10 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSString *data = nil;
 	if ([URI hasPrefix:randomString] && ([URI length] > [randomString length])) {
 		NSString *path = [URI substringFromIndex:[randomString length]];
-		data = [(NSString *)[urlData valueForKey:path] retain];
+		data = (NSString *)[urlData valueForKey:path];
 		[urlData removeObjectForKey:path];
 	}
-	return [data autorelease];
+	return data;
 }
 
 - (NSString *)posixFlagsForPath:(NSString *)filePath
@@ -491,7 +474,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	if (attributes && [attributes objectForKey:NSFilePosixPermissions]) {
 		NSNumber *posixInfo = [attributes objectForKey:NSFilePosixPermissions];
-		posixFlags = [NSString stringWithFormat:@"%X", [posixInfo longValue]];
+		posixFlags = [NSString stringWithFormat:@"%lX", [posixInfo longValue]];
 	}
 
 	return posixFlags;
@@ -500,10 +483,10 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (NSString *)mimeTypeForPath:(NSString *)filePath
 {
 	NSString *mime = nil;
-	NSString *UTI = [(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-	                                                                   (CFStringRef)[filePath pathExtension],
-	                                                                   NULL) autorelease];
-	mime = [(NSString *)UTTypeCopyPreferredTagWithClass((CFStringRef)UTI, kUTTagClassMIMEType) autorelease];
+	NSString *UTI = (__bridge_transfer NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+	                                                                   (__bridge CFStringRef)[filePath pathExtension],
+	                                                                   NULL);
+	mime = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassMIMEType);
 	if (!mime || [mime length] == 0)
 	{
 		mime = @"application/octet-stream";

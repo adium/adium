@@ -81,8 +81,6 @@ static AdiumAuthorization *sharedInstance;
 + (void)closeAuthorizationForUIHandle:(id)handle
 {
 	[[AIAuthorizationRequestsWindowController sharedController] removeRequest:handle];
-	
-	[handle release];
 }
 
 #pragma mark Event descriptions
@@ -179,7 +177,7 @@ static AdiumAuthorization *sharedInstance;
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"default-icon" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"default-icon" forClass:[self class]];
 	return eventImage;
 }
 

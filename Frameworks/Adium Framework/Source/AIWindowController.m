@@ -121,7 +121,7 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 	for (NSScreen *screen in [NSScreen screens])
 		[multiscreenKey appendFormat:@"-%@", NSStringFromRect([screen frame])];
 	
-	return [multiscreenKey autorelease];
+	return multiscreenKey;
 }
 
 /*!
@@ -147,7 +147,7 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 
 		if (!frameString) {
 			//Fall back on the old number-of-screens key
-			frameString = [adium.preferenceController preferenceForKey:[NSString stringWithFormat:@"%@-%i",key,[[NSScreen screens] count]]
+			frameString = [adium.preferenceController preferenceForKey:[NSString stringWithFormat:@"%@-%li",key,[[NSScreen screens] count]]
 																   group:PREF_GROUP_WINDOW_POSITIONS];
 			if (!frameString) {
 				//Fall back on the single screen preference if necessary (this is effectively a preference upgrade).

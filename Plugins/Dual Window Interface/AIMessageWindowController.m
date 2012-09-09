@@ -75,10 +75,10 @@
 															withID:(NSString *)inContainerID
 															  name:(NSString *)inName
 {
-    return [[[self alloc] initWithWindowNibName:MESSAGE_WINDOW_NIB
+    return [[self alloc] initWithWindowNibName:MESSAGE_WINDOW_NIB
 									  interface:inInterface
 									containerID:inContainerID
-										   containerName:inName] autorelease];
+										   containerName:inName];
 }
 
 //init
@@ -90,9 +90,9 @@
 	if ((self = [super initWithWindowNibName:windowNibName])) {
 		NSWindow	*myWindow;
 	
-		interface = [inInterface retain];
-		containerName = [inName retain];
-		containerID = [inContainerID retain];
+		interface = inInterface;
+		containerName = inName;
+		containerID = inContainerID;
 		m_containedChats = [[NSMutableArray alloc] init];
 		
 		//Load our window
@@ -147,15 +147,8 @@
 
     [tabView_tabBar setDelegate:nil];
 
-	[m_containedChats release];
-	[toolbarItems release];
-	[toolbar release];
-	[containerName release];
-	[containerID release];
-
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
-    [super dealloc];
 }
 
 //Human readable container name
@@ -200,7 +193,7 @@
     }
 	
 	//Setup the tab bar
-	tabView_tabStyle = [[[PSMAdiumTabStyle alloc] init] autorelease];
+	tabView_tabStyle = [[PSMAdiumTabStyle alloc] init];
 	[tabView_tabBar setStyle:tabView_tabStyle];
 	[tabView_tabBar setCanCloseOnlyTab:YES];
 	[tabView_tabBar setUseOverflowMenu:NO];
@@ -435,15 +428,11 @@
 	
 	//remove the split view if the last orientation was vertical
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
-		[tabView_messages retain];
 		[tabView_messages removeFromSuperview];
-		[tabView_tabBar retain];
 		[tabView_tabBar removeFromSuperview];
 		[tabView_splitView removeFromSuperview];
 		[[[self window] contentView] addSubview:tabView_messages];
 		[[[self window] contentView] addSubview:tabView_tabBar];
-		[tabView_messages release];
-		[tabView_tabBar release];
 	} else {
 		[tabView_horzLine removeFromSuperview];
 		tabView_horzLine = nil;
@@ -485,7 +474,7 @@
 			if (!isTabBarHidden){
 				NSRect horzLineFrame = NSMakeRect(tabBarFrame.origin.x, (tabPosition == AdiumTabPositionBottom)? NSMinY(tabViewMessagesFrame)-1 : NSMaxY(tabViewMessagesFrame)-2, NSWidth(tabViewMessagesFrame), 1);
 				NSUInteger mask = (tabPosition == AdiumTabPositionBottom)? (NSViewMaxYMargin|NSViewWidthSizable) : (NSViewMinYMargin|NSViewWidthSizable);
-				tabView_horzLine = [[[NSBox alloc] initWithFrame:horzLineFrame] autorelease];
+				tabView_horzLine = [[NSBox alloc] initWithFrame:horzLineFrame];
 				[tabView_horzLine setBorderColor:[NSColor windowFrameColor]];
 				[tabView_horzLine setBorderWidth:1];
 				[tabView_horzLine setBorderType:NSLineBorder];
@@ -527,7 +516,7 @@
 			} else {
 				splitViewRect.size.width += [tabView_tabBar isTabBarHidden] ? 0 : 1;
 			}
-			tabView_splitView = [[[AIMessageTabSplitView alloc] initWithFrame:splitViewRect] autorelease];
+			tabView_splitView = [[AIMessageTabSplitView alloc] initWithFrame:splitViewRect];
 			[tabView_splitView setDividerThickness:([tabView_tabBar isTabBarHidden] ? 0 : VERTICAL_DIVIDER_THICKNESS)];
 			[tabView_splitView setVertical:YES];
 			[tabView_splitView setDelegate:self];
@@ -702,7 +691,7 @@
 - (void)_reloadContainedChats
 {
 	//Update our contained chats array to mirror the order of the tabs
-	[m_containedChats release]; m_containedChats = [[NSMutableArray alloc] init];
+	m_containedChats = [[NSMutableArray alloc] init];
 	for (AIMessageTabViewItem *tabViewItem in [tabView_messages tabViewItems]) {
 		[tabViewItem setWindowController:self];
 		[m_containedChats addObject:[tabViewItem chat]];
@@ -988,17 +977,17 @@
 - (NSImage *)tabView:(NSTabView *)tabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
 {
 	// grabs whole window image
-	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
+	NSImage *viewImage = [[NSImage alloc] init];
 	NSRect contentFrame = [[[self window] contentView] frame];
 	[[[self window] contentView] lockFocus];
-	NSBitmapImageRep *viewRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame] autorelease];
+	NSBitmapImageRep *viewRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame];
 	[viewImage addRepresentation:viewRep];
 	[[[self window] contentView] unlockFocus];
 	
     // grabs snapshot of dragged tabViewItem's view (represents content being dragged)
 	NSView *viewForImage = [tabViewItem view];
 	NSRect viewRect = [viewForImage frame];
-	NSImage *tabViewImage = [[[NSImage alloc] initWithSize:viewRect.size] autorelease];
+	NSImage *tabViewImage = [[NSImage alloc] initWithSize:viewRect.size];
 	[tabViewImage lockFocus];
 	[viewForImage drawRect:[viewForImage bounds]];
 	[tabViewImage unlockFocus];
@@ -1305,7 +1294,7 @@
     [toolbar setAutosavesConfiguration:YES];
 	
     //
-	toolbarItems = [[adium.toolbarController toolbarItemsForToolbarTypes:[NSArray arrayWithObjects:@"General", @"ListObject", @"TextEntry", @"MessageWindow", nil]] retain];
+	toolbarItems = [adium.toolbarController toolbarItemsForToolbarTypes:[NSArray arrayWithObjects:@"General", @"ListObject", @"TextEntry", @"MessageWindow", nil]];
 
 	/* Seemingly randomly, setToolbar: may throw:
 	 * Exception:	NSInternalInconsistencyException
@@ -1442,7 +1431,6 @@
 	[[self window] setMiniwindowImage:miniwindowImage];
 	
 	//Cleanup
-	[miniwindowImage release];
 }
 
 - (BOOL)window:(NSWindow *)sender shouldDragDocumentWithEvent:(NSEvent *)mouseEvent from:(NSPoint)startPoint withPasteboard:(NSPasteboard *)pasteboard

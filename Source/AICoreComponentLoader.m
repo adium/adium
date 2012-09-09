@@ -48,15 +48,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 	return self;
 }
 
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[components release];
-	[super dealloc];
-}
-
 #pragma mark -
 
 /*!
@@ -172,16 +163,15 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 #endif
 		@autoreleasepool {
 			Class class;
-			
+
 			if (className && (class = NSClassFromString(className))) {
 				id <AIPlugin>	object = [[class alloc] init];
-				
+
 				NSAssert1(object, @"Failed to load %@", className);
-				
+
 				[object installPlugin];
-				
+
 				[components setObject:object forKey:className];
-				[object release];
 			} else {
 				NSAssert1(NO, @"Failed to load %@", className);
 			}

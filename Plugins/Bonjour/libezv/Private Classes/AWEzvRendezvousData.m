@@ -48,7 +48,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 -(AWEzvRendezvousData *) init 
 {
     if ((self = [super init])) {
-		keys = [[NSMutableDictionary dictionary] retain];
+		keys = [NSMutableDictionary dictionary];
 		serial = 1;
 	}
 
@@ -72,7 +72,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     /* check that the length is ok */
     if ([data length] < (sizeof(subn) + 4 + sizeof(endn))) {
 	AWEzvLog(@"Invalid rendezvous announcement: length %u", [data length]);
-		[self autorelease];
 	return nil;
     }
         
@@ -83,7 +82,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     version = ntohl(version);
     if (version != 1) {
 	AWEzvLog(@"Invalid rendezvous announcement: incorrect version: %u", version);
-		[self autorelease];
 	return nil;
     }
     
@@ -106,7 +104,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 	/* read length of field name */
 	if ([data length] < i + 2) {
 	    AWEzvLog(@"Invalid rendezvous announcement at field name length");
-		[self autorelease];
 	    return nil;
 	}
 	range.location = i;
@@ -119,17 +116,15 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 	/* read field data */
 	if ([data length] < i + fieldLen) {
 	    AWEzvLog(@"Invalid rendezvous announcement at field name");
-		[self autorelease];
 	    return nil;
 	}
         tmpData = [NSData dataWithBytes:[data bytes] + i length:fieldLen];
-	fieldName = [[[NSString alloc] initWithData:tmpData encoding:NSUTF8StringEncoding] autorelease];
+	fieldName = [[NSString alloc] initWithData:tmpData encoding:NSUTF8StringEncoding];
 	i = i + fieldLen;
 	
 	/* read length of field data */
 	if ([data length] < i + 2) {
 	    AWEzvLog(@"Invalid rendezvous announcement at field data length");
-		[self autorelease];
 	    return nil;
 	}
 	range.location = i;
@@ -145,14 +140,13 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 	/* read field data */
 	if ([data length] < i + fieldLen) {
 	    AWEzvLog(@"Invalid rendezvous announcement at field data");
-		[self autorelease];
 	    return nil;
 	}
         if (!binFlag) {
             tmpData = [NSData dataWithBytes:[data bytes] + i length:fieldLen];
-            fieldContent = [[[NSString alloc] initWithData:tmpData encoding:NSUTF8StringEncoding] autorelease];
+            fieldContent = [[NSString alloc] initWithData:tmpData encoding:NSUTF8StringEncoding];
         } else {
-			fieldContent = [[[NSString alloc] initWithBytes:[data bytes] + i length:fieldLen encoding:NSUTF8StringEncoding] autorelease];
+			fieldContent = [[NSString alloc] initWithBytes:[data bytes] + i length:fieldLen encoding:NSUTF8StringEncoding];
         }
         i = i + fieldLen;
 	
@@ -187,14 +181,12 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     /* check if there was an error in extraction */
     if (extracted == nil) {
 	AWEzvLog(@"Unable to extract XML into plist");
-		[self autorelease];
 	return nil;
     }
     
     /* make sure it's an NSData, or reponds to getBytes:range: */
     if (![extracted respondsToSelector:@selector(getBytes:range:)]) {
 	AWEzvLog(@"Extracted object from XML is not an NSData");
-		[self autorelease];
 	return nil;  
     }
 
@@ -261,7 +253,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 			keyString = [NSString stringWithUTF8String: key];
 			
 			if (value) {
-				data = [[[NSString alloc] initWithBytes: value length: valLen encoding: NSUTF8StringEncoding] autorelease];
+				data = [[NSString alloc] initWithBytes: value length: valLen encoding: NSUTF8StringEncoding];
 			}
 			
 			if (data != NULL && keyString != NULL) {
@@ -298,13 +290,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 	
 }
 
-/* deallocate, destroy our dictionary */
-- (void)dealloc
-{
-	[keys release];
-	[super dealloc];
-}
-
 /* sets a field in the rendezvous data structures */
 -(void) setField:(NSString *)fieldName content:(NSObject *)content {
     if (content == nil || fieldName == nil)
@@ -322,7 +307,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 
 /* get a field from the rendezvous data structure */
 -(NSString *) getField:(NSString *)fieldName {
-    return [[[keys objectForKey:fieldName] copy] autorelease];
+    return [[keys objectForKey:fieldName] copy];
 }
 
 /* return if a field exists */
@@ -337,7 +322,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 
 /* return the dictionary */
 -(NSDictionary *)dictionary {
-    return [[keys copy] autorelease];
+    return [keys copy];
 }
 
 /*
@@ -359,7 +344,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 
     /* allocate NSData to create data in */
     data = [[NSMutableData alloc] init];
-    [data autorelease];
     /* add the subnegotiation string */
     [data appendBytes:subn length:sizeof(subn)];
     [data appendBytes:&serialBE length:4];
@@ -414,11 +398,10 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     				    format:NSPropertyListXMLFormat_v1_0
     				    errorDescription:&error];
     infoData = [[NSMutableString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
-    [infoData autorelease];
 	
     /* and now we have the rendezvous data to return to the caller, the copy
        converts it to immutable */
-    return [[infoData copy] autorelease];
+    return [infoData copy];
 }
 
 /* 
@@ -426,7 +409,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
  * We add an ASCII 1 character every 255 characters for pascal string separation
  */
 -(NSString *)dataAsDNSTXT {
-    NSMutableString	*infoData = [[[self data] mutableCopy] autorelease]; /* data to be done */
+    NSMutableString	*infoData = [[self data] mutableCopy]; /* data to be done */
     unsigned long	i;	/* loop counter */
 
     /* add the character \001 when we exceed 255 characters, required to allow announcement
@@ -437,7 +420,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     }
 
     /* return a copy so it is immutable */
-    return [[infoData copy] autorelease];
+    return [infoData copy];
 }
 
 /* ichat AV style TXT record */
@@ -583,7 +566,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
     }
     
     /* return copy so it is immutable */
-    return [[data copy] autorelease];
+    return [data copy];
 }
 
 /* ichat AV style TXT record */
@@ -612,7 +595,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 			}
 			hexdata[[(NSData *)value length] * 2] = '\0';
 			
-			[infoData appendFormat:@"%c", ([(NSData *)value length] * 2 + [key length] + 1)];
+			[infoData appendFormat:@"%c", (unsigned char)([(NSData *)value length] * 2 + [key length] + 1)];
 			[infoData appendString:key];
 			[infoData appendString:@"="];
 			[infoData appendString:[NSString stringWithUTF8String:hexdata]];
@@ -620,7 +603,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 		} else {
 			const char *val = [(NSString *)value UTF8String];
 			NSInteger len = strlen(val);
-			[infoData appendFormat:@"%c", len + [key length] + 1];
+			[infoData appendFormat:@"%c", (unsigned char)(len + [key length] + 1)];
 			[infoData appendString:key];
 			[infoData appendString:@"="];
 			[infoData appendString:value];

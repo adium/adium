@@ -130,12 +130,11 @@
 	
 	//Update our timer interval for either idle or active polling
 	[idleTimer invalidate];
-	[idleTimer release];
-	idleTimer = [[NSTimer scheduledTimerWithTimeInterval:(machineIsIdle ? MACHINE_IDLE_POLL_INTERVAL : MACHINE_ACTIVE_POLL_INTERVAL)
+	idleTimer = [NSTimer scheduledTimerWithTimeInterval:(machineIsIdle ? MACHINE_IDLE_POLL_INTERVAL : MACHINE_ACTIVE_POLL_INTERVAL)
 												  target:self
 												selector:@selector(_idleCheckTimer:)
 												userInfo:nil
-												 repeats:YES] retain];
+												 repeats:YES];
 }
 
 /*!

@@ -50,12 +50,6 @@
 				keyEquivalent:@""];
 	
 	[importMenuRoot setSubmenu:subMenu];
-	[subMenu release];
-}
-
-- (void)uninstallPlugin
-{
-	[importMenuRoot release];
 }
 
 - (void)importIChat:(id)sender

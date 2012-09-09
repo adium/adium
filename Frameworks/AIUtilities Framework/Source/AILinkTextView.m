@@ -51,7 +51,7 @@
 //Common init
 - (void)_initLinkTextView
 {
-    linkTrackingController = [[AILinkTrackingController linkTrackingControllerForTextView:self] retain];
+    linkTrackingController = [AILinkTrackingController linkTrackingControllerForTextView:self];
     [[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(frameDidChange:)
 												 name:NSViewFrameDidChangeNotification 
@@ -63,9 +63,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [linkTrackingController release];
-    
-    [super dealloc];
 }
 
 //Pass clicks to the link tracking controller
@@ -118,7 +115,7 @@
 	linkMenuItems = [linkTrackingController menuItemsForEvent:theEvent withOffset:NSMakePoint(0,0)];
 	
 	if ([linkMenuItems count]) {
-		if (!menu) menu = [[[NSMenu alloc] init] autorelease];
+		if (!menu) menu = [[NSMenu alloc] init];
 		
 		[linkMenuItems enumerateObjectsWithOptions:NSEnumerationReverse
 										usingBlock:^(id menuItem, NSUInteger idx, BOOL *stop) {

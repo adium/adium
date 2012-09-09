@@ -33,19 +33,10 @@
 {
 	if ((self = [super init])) {
 		delegate = inDelegate;
-		account = [inAccount retain];
+		account = inAccount;
 	}
 	
 	return self;
-}	
-
-- (void)dealloc
-{
-	[account release];
-	[requestToken release];
-	[consumer release];
-	[account release];
-	[super dealloc];
 }
 
 #pragma mark Requesting
@@ -72,7 +63,6 @@
 																				   didFailSelector:@selector(requestTokenTicket:didFailWithError:)];
 	
 	[fetcher start];
-	[request release];
 }
 
 @synthesize verifier;
@@ -106,14 +96,13 @@
 																					didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
 	
 	[fetcher start];
-	[request release];
 }
 
 #pragma mark Request token processing
 - (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
 	if (ticket.didSucceed) {
-		NSString *responseBody = [[[NSString alloc] initWithData:data
-														encoding:NSUTF8StringEncoding] autorelease];
+		NSString *responseBody = [[NSString alloc] initWithData:data
+														encoding:NSUTF8StringEncoding];
 		
 		requestToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
 		
@@ -135,8 +124,8 @@
 #pragma mark Access token processing
 - (void)accessTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
 	if (ticket.didSucceed) {
-		NSString *responseBody = [[[NSString alloc] initWithData:data
-														encoding:NSUTF8StringEncoding] autorelease];
+		NSString *responseBody = [[NSString alloc] initWithData:data
+														encoding:NSUTF8StringEncoding];
 
 		OAToken *accessToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
 		
@@ -145,7 +134,6 @@
 				   withToken:accessToken
 				responseBody:responseBody];
 		
-		[accessToken release];
 	} else {
 		[delegate OAuthSetup:self changedToStep:AIOAuthStepFailure withToken:nil responseBody:nil];
 		AILogWithSignature(@"%@ failure in access token", account);	

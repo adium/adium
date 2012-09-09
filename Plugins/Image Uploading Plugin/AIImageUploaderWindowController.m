@@ -33,9 +33,9 @@
 					 delegate:(id)inDelegate
 						 chat:(AIChat *)inChat
 {
-	AIImageUploaderWindowController *newController = [[[self alloc] initWithWindowNibName:@"ImageUploaderProgress"
+	AIImageUploaderWindowController *newController = [[self alloc] initWithWindowNibName:@"ImageUploaderProgress"
 																				delegate:inDelegate
-																					chat:inChat] autorelease];
+																					chat:inChat];
 
 	[NSApp beginSheet:newController.window
 	   modalForWindow:window
@@ -56,11 +56,6 @@
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[super dealloc];
 }
 
 - (void)windowDidLoad

@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleBlist.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIListContact.h>
 
 static void adiumPurpleBlistNewList(PurpleBuddyList *list)
@@ -44,7 +44,7 @@ static void adiumPurpleBlistRemove(PurpleBuddyList *list, PurpleBlistNode *node)
 			[accountLookup(purple_buddy_get_account(buddy)) removeContact:contactLookupFromBuddy(buddy)];
 			
 			//Clear the ui_data
-			[(id)buddy->node.ui_data release]; buddy->node.ui_data = NULL;
+			buddy->node.ui_data = NULL;
 		}
 	}
 }

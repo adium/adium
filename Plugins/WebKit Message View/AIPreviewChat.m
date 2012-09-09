@@ -26,8 +26,7 @@
 - (void)setDateOpened:(NSDate *)inDate
 {
 	if (dateOpened != inDate) {
-		[dateOpened release]; 
-		dateOpened = [inDate retain];
+		dateOpened = inDate;
     }
 }
 

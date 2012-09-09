@@ -192,7 +192,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
 	//Iterate over the elements of the log path array.
-	for (NSString *logPath in logPaths) {
+	for (__strong NSString *logPath in logPaths) {
 		if (linesLeftToFind <= 0)
 			break;
 		//If it's not a .chatlog, ignore it.
@@ -315,7 +315,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 				[file closeFile];
 				
 				//Add our locals to the outer array; we're probably looping again.
-				AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
+				AILog(@"Context: %li messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
 				[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 				linesLeftToFind -= [outerFoundContentContexts count];
 			}
@@ -323,7 +323,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	}
 	
 	if (linesLeftToFind > 0) {
-		AILogWithSignature(@"Unable to find %d logs for %@; we needed %d more", linesToDisplay, chat, linesLeftToFind);
+		AILogWithSignature(@"Unable to find %ld logs for %@; we needed %ld more", linesToDisplay, chat, linesLeftToFind);
 	}
 	
 	return outerFoundContentContexts;
@@ -438,7 +438,6 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
                 AIContentStatus *status = [[AIContentStatus alloc] initWithChat:chat source:nil destination:nil date:timeVal];
                 
                 [foundMessages insertObject:status atIndex:0];
-                [status release];
             }
         }
 		

@@ -23,7 +23,7 @@
 #import "AIStatusController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
@@ -76,16 +76,6 @@
 {
     //Disconnect all accounts
     [self disconnectAllAccounts];
-}
-
-- (void)dealloc
-{
-	[adiumServices release];
-	[adiumPasswords release];
-	[adiumAccounts release];
-	[adiumPreferredAccounts release];
-
-	[super dealloc];
 }
 
 //Services
@@ -236,6 +226,6 @@
 - (NSScriptObjectSpecifier *) objectSpecifier {
 	id classDescription = [NSClassDescription classDescriptionForClass:[NSApplication class]];
 	NSScriptObjectSpecifier *container = [[NSApplication sharedApplication] objectSpecifier];
-	return [[[NSPropertySpecifier alloc] initWithContainerClassDescription:classDescription containerSpecifier:container key:@"accountController"] autorelease];
+	return [[NSPropertySpecifier alloc] initWithContainerClassDescription:classDescription containerSpecifier:container key:@"accountController"];
 }
 @end

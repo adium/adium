@@ -69,19 +69,19 @@ static void *adiumPurpleAccountRequestAuthorize(PurpleAccount *account, const ch
 	if (alias && strlen(alias)) [infoDict setObject:[NSString stringWithUTF8String:alias] forKey:@"Alias"];
 
 	//Note that CBPurpleAccount will retain ownership of this object to keep it around for us in case adiumPurpleAccountRequestClose() is called.
-	return [accountLookup(account) authorizationRequestWithDict:infoDict];
+	return (__bridge_retained void *)([accountLookup(account) authorizationRequestWithDict:infoDict]);
 }
 
 static void adiumPurpleAccountRequestClose(void *ui_handle)
 {
-	id	ourHandle = (id)ui_handle;
+	id	ourHandle = (__bridge id)ui_handle;
 
 	// Remove the request; we're passing the pointer to it.
 	[AdiumAuthorization closeAuthorizationForUIHandle:ourHandle];
 }
 
 void adiumPurpleAccountRegisterCb(PurpleAccount *account, gboolean succeeded, void *user_data) {
-	id ourHandle = user_data;
+	id ourHandle = (__bridge id)user_data;
 	
 	if([ourHandle respondsToSelector:@selector(purpleAccountRegistered:)])
 		[ourHandle purpleAccountRegistered:(succeeded ? YES : NO)];

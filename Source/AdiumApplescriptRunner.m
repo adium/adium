@@ -24,8 +24,6 @@
 		xpc_connection_cancel(applescriptRunner);
 		applescriptRunner = NULL;
 	}
-	
-	[super dealloc];
 }
 
 /*!

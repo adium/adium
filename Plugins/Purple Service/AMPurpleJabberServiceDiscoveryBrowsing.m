@@ -38,9 +38,6 @@
 
 - (void)dealloc {
 	[browsers makeObjectsPerformSelector:@selector(close)];
-	[browsers release];
-	[rootnode release];
-	[super dealloc];
 }
 
 - (IBAction)browse:(id)sender
@@ -59,7 +56,6 @@
 																													   purpleConnection:gc
 																																   node:rootnode];
 	[browsers addObject:browser];
-	[browser release];
 }
 
 @end

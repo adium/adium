@@ -84,8 +84,8 @@
 #else
 	[checkbox_updatesIncludeBetas setEnabled:[checkbox_updatesAutomatic state]];
 #endif
-	
-    self.shortcutRecorder = [[[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame] autorelease];
+
+    self.shortcutRecorder = [[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame];
     shortcutRecorder.delegate = self;
     [[placeholder_shortcutRecorder superview] addSubview:shortcutRecorder];
 
@@ -93,8 +93,8 @@
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
 	if (TISGetInputSourceProperty(currentLayout, kTISPropertyUnicodeKeyLayoutData)) {
-		SGKeyCombo *keyCombo = [[[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
-																														 group:PREF_GROUP_GENERAL]] autorelease];
+		SGKeyCombo *keyCombo = [[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
+																														 group:PREF_GROUP_GENERAL]];
 		[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
 		[shortcutRecorder setAnimates:YES];
 		[shortcutRecorder setStyle:SRGreyStyle];
@@ -111,39 +111,6 @@
     [self configureControlDimming];
 }
 
-- (void)localizePane
-{
-	[label_confirmations setLocalizedString:AILocalizedString(@"Confirmations:", nil)];
-	[label_globalShortcut setLocalizedString:AILocalizedString(@"Global Shortcut:", nil)];
-	[label_IMLinks setLocalizedString:AILocalizedString(@"Open IM links:", nil)];
-	[label_status setLocalizedString:AILocalizedString(@"Status:", nil)];
-	[label_updates setLocalizedString:AILocalizedString(@"Updates:", nil)];
-	
-	[button_defaultApp setLocalizedString:AILocalizedString(@"Make Adium default application", nil)];
-	[button_customizeDefaultApp setLocalizedString:AILocalizedString(@"Customize…", nil)];
-	
-	[checkbox_showInMenu setLocalizedString:AILocalizedString(@"Show Adium's status in the menu bar", nil)];
-	[checkbox_updatesAutomatic setLocalizedString:AILocalizedString(@"Automatically check for updates", nil)];
-	[checkbox_updatesIncludeBetas setLocalizedString:AILocalizedString(@"Update to beta versions when available", nil)];
-	[checkbox_updatesProfileInfo setLocalizedString:AILocalizedString(@"Include anonymous system profile", nil)];
-	[checkbox_confirmBeforeQuitting setLocalizedString:AILocalizedString(@"Confirm before quitting Adium", "Quit Confirmation preference")];
-	[checkbox_quitConfirmFT setLocalizedString:AILocalizedString(@"File transfers are in progress", "Quit Confirmation preference")];
-	[checkbox_quitConfirmUnread setLocalizedString:AILocalizedString(@"There are unread messages", "Quit Confirmation preference")];
-	[checkbox_quitConfirmOpenChats setLocalizedString:AILocalizedString(@"There are open chat windows", "Quit Confirmation preference")];
-	[[matrix_quitConfirmType cellWithTag:AIQuitConfirmAlways] setTitle:AILocalizedString(@"Always","Confirmation preference")];
-	[[matrix_quitConfirmType cellWithTag:AIQuitConfirmSelective] setTitle:[AILocalizedString(@"Only when","Quit Confirmation preference") stringByAppendingEllipsis]];
-	
-	[checkbox_confirmBeforeClosing setLocalizedString:AILocalizedString(@"Confirm before closing multiple chat windows", "Message close confirmation preference")];
-	[[matrix_closeConfirmType cellWithTag:AIMessageCloseAlways] setTitle:AILocalizedString(@"Always", "Confirmation preference")];
-	[[matrix_closeConfirmType cellWithTag:AIMessageCloseUnread] setTitle:AILocalizedString(@"Only when there are unread messages", "Message close confirmation preference")];
-}
-
-- (void)dealloc
-{
-    self.shortcutRecorder = nil;
-
-    [super dealloc];
-}
 
 //Called in response to all preference controls, applies new settings
 - (IBAction)changePreference:(id)sender
@@ -194,7 +161,6 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:nil];
-	[sheet.windowController release];
 }
 
 - (IBAction)customizeDefaultApp:(id)sender
@@ -207,4 +173,5 @@
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 		  contextInfo:nil];
 }
+
 @end

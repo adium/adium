@@ -58,13 +58,6 @@
 	return self;
 }
 
-- (void)dealloc {
-    [accounts release];
-	[unloadableAccounts release];
-
-	[super dealloc];
-}
-
 /*!
  * @brief Finish Initing
  *
@@ -231,7 +224,7 @@
     //Create an instance of every saved account
 	for (accountDict in accountList) {
 		@autoreleasepool {
-			NSString		*serviceUniqueID = [self _upgradeServiceUniqueID:[accountDict objectForKey:ACCOUNT_TYPE]
+			NSString		*serviceUniqueID = [self _upgradeServiceUniqueID:[accountDict objectForKey:ACCOUNT_TYPE] 
 														forAccountDict:accountDict];
 			AIAccount		*newAccount;
 			
@@ -284,7 +277,7 @@
 									  withString:@"libpurple"
 										 options:(NSLiteralSearch | NSAnchoredSearch)
 										   range:NSMakeRange(0, [newServiceID length])];
-		serviceID = [newServiceID autorelease];
+		serviceID = newServiceID;
 
 	} else if ([serviceID hasSuffix:@"LIBGAIM"]) {
 		if ([serviceID isEqualToString:@"AIM-LIBGAIM"]) {

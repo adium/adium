@@ -50,15 +50,15 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 		  leftPadding = 
 		 rightPadding = 0;
 		
-		font = [[NSFont systemFontOfSize:12] retain];
-		textColor = [[NSColor blackColor] retain];
-		invertedTextColor = [[NSColor whiteColor] retain];
+		font = [NSFont systemFontOfSize:12];
+		textColor = [NSColor blackColor];
+		invertedTextColor = [NSColor whiteColor];
 		
 		useAliasesAsRequested = YES;
 
 		if (!leftParagraphStyleWithTruncatingTail) {
-			leftParagraphStyleWithTruncatingTail = [[NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
-																				  lineBreakMode:NSLineBreakByTruncatingTail] retain];
+			leftParagraphStyleWithTruncatingTail = [NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
+																				  lineBreakMode:NSLineBreakByTruncatingTail];
 		}
 		
 	}
@@ -74,33 +74,16 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	newCell->proxyObject = nil;
 	[newCell setProxyListObject:proxyObject];
 
-	[newCell->font retain];
-	[newCell->textColor retain];
-	[newCell->invertedTextColor retain];
-
 	return newCell;
 }
 
 //Dealloc
-- (void)dealloc
-{
-	[textColor release];
-	[invertedTextColor release];
-	
-	[font release];
-	
-	[proxyObject release];
-	[labelAttributes release];
-
-	[super dealloc];
-}
 
 //Set the list object being drawn
 - (void)setProxyListObject:(AIProxyListObject *)inProxyObject
 {
 	if (proxyObject != inProxyObject) {
-		[proxyObject release];
-		proxyObject = [inProxyObject retain];
+		proxyObject = inProxyObject;
 	}
 
 	isGroup = [[proxyObject listObject] isKindOfClass:[AIListGroup class]];
@@ -120,13 +103,12 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (void)setFont:(NSFont *)inFont
 {
 	if (inFont != font) {
-		[font release];
-		font = [inFont retain];
+		font = inFont;
 	}
 
 	//Calculate and cache the height of this font
-	labelFontHeight = [[[[NSLayoutManager alloc] init] autorelease] defaultLineHeightForFont:[self font]]; 
-	[labelAttributes release]; labelAttributes = nil;
+	labelFontHeight = [[[NSLayoutManager alloc] init] defaultLineHeightForFont:[self font]]; 
+	labelAttributes = nil;
 }
 - (NSFont *)font{
 	return font;
@@ -260,8 +242,8 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	NSDictionary *attributes = self.labelAttributes;
 	NSString *labelString = self.labelString;
 	if (![labelAttributes isEqualToDictionary:proxyObject.cachedLabelAttributes] || ![labelString isEqualToString:proxyObject.cachedDisplayNameString]) {
-		proxyObject.cachedDisplayName = [[[NSAttributedString alloc] initWithString:labelString
-																		 attributes:attributes] autorelease];
+		proxyObject.cachedDisplayName = [[NSAttributedString alloc] initWithString:labelString
+																		 attributes:attributes];
 		proxyObject.cachedDisplayNameString = labelString;
 		proxyObject.cachedLabelAttributes = attributes;
 		proxyObject.cachedDisplayNameSize = NSZeroSize;
@@ -346,10 +328,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (NSMutableDictionary *)labelAttributes
 {
 	if (!labelAttributes) {
-		labelAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+		labelAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 												leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
 												[self font], NSFontAttributeName,
-												nil] retain];
+												nil];
 		
 	}
 	
@@ -398,7 +380,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	NSMutableArray *attributeNames = [[super accessibilityAttributeNames] mutableCopy];
 	[attributeNames addObject:NSAccessibilityValueAttribute];
 
-	return [attributeNames autorelease];
+	return attributeNames;
 }
 
 - (id)accessibilityAttributeValue:(NSString *)attribute
@@ -425,7 +407,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 																			   statusType:[proxyObject listObject].statusType];
 			statusMessage = [[proxyObject listObject] statusMessageString];
 			
-			value = [[name mutableCopy] autorelease];
+			value = [name mutableCopy];
 			if (statusDescription) [value appendFormat:@"; %@", statusDescription];
 			if (statusMessage) [value appendFormat:AILocalizedString(@"; status message %@", "please keep the semicolon at the start of the line. %@ will be replaced by a status message. This is used when reading an entry in the contact list aloud, such as 'Evan Schoenberg; status message I am bouncing up and down'"), statusMessage];
 		}

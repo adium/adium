@@ -106,19 +106,19 @@
 									 object:nil];
 
 	//Ignore menu item for contacts in group chats
-	menuItem_ignore = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
+	menuItem_ignore = [[NSMenuItem alloc] initWithTitle:@""
 																		   target:self
 																		   action:@selector(toggleIgnoreOfContact:)
 																	keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_ignore toLocation:Context_Contact_GroupChat_ParticipantAction];
 	
-	menuItem_joinLeave = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_JOIN_LEAVE_TITLE
+	menuItem_joinLeave = [[NSMenuItem alloc] initWithTitle:SHOW_JOIN_LEAVE_TITLE
 																				target:self
 																			  action:@selector(toggleShowJoinLeave:)
 																		 keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:menuItem_joinLeave toLocation:LOC_Display_MessageControl];
-	[adium.menuController addContextualMenuItem:[[menuItem_joinLeave copy] autorelease] toLocation:Context_GroupChat_Action];
+	[adium.menuController addContextualMenuItem:[menuItem_joinLeave copy] toLocation:Context_GroupChat_Action];
 
 	[adiumChatEvents controllerDidLoad];
 }
@@ -142,10 +142,9 @@
 	//Every open chat is about to close. We perform the internal closing here rather than calling on the interface controller since the UI need not change.
 	//Also, we don't care for still processing content, the user won't see it anyway, and it can make Adium refuse to quit.
 	while ([openChats count] > 0) {
-		AIChat *chat = [[openChats anyObject] retain];
+		AIChat *chat = [openChats anyObject];
 		
 		if (mostRecentChat == chat) {
-			[mostRecentChat release];
 			mostRecentChat = nil;
 		}
 		
@@ -157,7 +156,6 @@
 		AILogWithSignature(@"Removed <<%@>> [%@]", chat, openChats);
 		
 		[chat setIsOpen:NO];
-		[chat release];
 	}
 }
 
@@ -166,11 +164,9 @@
  */
 - (void)dealloc
 {
-	[openChats release]; openChats = nil;
-	[chatObserverArray release]; chatObserverArray = nil;
+	openChats = nil;
+	chatObserverArray = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 	
 /*!
@@ -555,10 +551,7 @@
 	 */
 	shouldRemove = ![adium.contentController chatIsReceivingContent:inChat];
 
-	[inChat retain];
-
 	if (mostRecentChat == inChat) {
-		[mostRecentChat release];
 		mostRecentChat = nil;
 	}
 	
@@ -578,7 +571,6 @@
 	}
 	
 	[inChat setIsOpen:NO];
-	[inChat release];
 
 	return shouldRemove;
 }
@@ -615,9 +607,6 @@
 {
 	AIAccount	*oldAccount = chat.account;
 	if (newAccount != oldAccount) {
-		//Hang onto stuff until we're done
-		[chat retain];
-
 		//Close down the chat on account A
 		[oldAccount closeChat:chat];
 
@@ -634,9 +623,6 @@
 
 		//Open the chat on account B
 		[newAccount openChat:chat];
-		
-		//Clean up
-		[chat release];
 	}
 }
 
@@ -656,9 +642,6 @@
 																		account:newAccount
 																			UID:inContact.UID];
 	if (newContact != chat.listObject) {
-		//Hang onto stuff until we're done
-		[chat retain];
-		
 		//Close down the chat on the account, as the account may need to perform actions such as closing a connection
 		[chat.account closeChat:chat];
 		
@@ -669,9 +652,6 @@
 
 		//Reopen the chat on the account
 		[chat.account openChat:chat];
-		
-		//Clean up
-		[chat release];
 	}
 }
 
@@ -750,7 +730,7 @@
  */
 - (NSSet *)openChats
 {
-    return [[openChats copy] autorelease];
+    return [openChats copy];
 }
 
 /*!
@@ -857,8 +837,7 @@
 		AIChat	*chat = contentObject.chat;
 		
 		if (chat != mostRecentChat) {
-			[mostRecentChat release];
-			mostRecentChat = [chat retain];
+			mostRecentChat = chat;
 		}
 	}
 }

@@ -99,18 +99,6 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
-- (void)dealloc
-{
-	[defaultService release];
-	[windowControllers release];
-	[uploadInstances release];
-	[uploaders release];
-	[contextMenuItem release];
-	[editMenuItem release];
-	
-	[super dealloc];
-}
-
 #pragma mark Preferences
 @synthesize defaultService;
 
@@ -254,7 +242,7 @@
 	[attrs setObject:inAddress forKey:NSLinkAttributeName];
 	
 	[textView.textStorage replaceCharactersInRange:selectedRange
-							  withAttributedString:[[[NSAttributedString alloc] initWithString:inAddress attributes:attrs] autorelease]];
+							  withAttributedString:[[NSAttributedString alloc] initWithString:inAddress attributes:attrs]];
 	
 	// Select the inserted URL
 	textView.selectedRange = NSMakeRange(selectedRange.location, inAddress.length);
@@ -281,12 +269,8 @@
 - (void)uploadedURL:(NSString *)url forChat:(AIChat *)chat
 {
 	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
-	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
 	
 	[windowController closeWindow:nil];
-	
-	[[windowController retain] autorelease];
-	[[imageUploader retain] autorelease];
 	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
 	[uploadInstances setValue:nil forKey:chat.internalObjectID];
@@ -321,13 +305,9 @@
  */
 - (void)cancelForChat:(AIChat *)chat
 {
-	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
 	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
 	
 	[imageUploader cancel];
-
-	[[windowController retain] autorelease];
-	[[imageUploader retain] autorelease];
 	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
 	[uploadInstances setValue:nil forKey:chat.internalObjectID];

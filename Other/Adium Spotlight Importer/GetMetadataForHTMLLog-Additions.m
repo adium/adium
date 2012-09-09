@@ -129,11 +129,11 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 		NSData	*data = [NSData dataWithContentsOfFile:path];
 		
 		if (data) {
-			string = [[[NSString alloc] initWithData:data
-											encoding:NSUTF8StringEncoding] autorelease];
+			string = [[NSString alloc] initWithData:data
+											encoding:NSUTF8StringEncoding];
 			if (!string) {
-				string = [[[NSString alloc] initWithData:data
-												encoding:NSASCIIStringEncoding] autorelease];			
+				string = [[NSString alloc] initWithData:data
+												encoding:NSASCIIStringEncoding];			
 			}
 			
 			if (!string) {
@@ -163,7 +163,7 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 - (NSString *)stringByUnescapingFromXMLWithEntities:(NSDictionary *)entities
 {
 	if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber10_3) {
-		return [(NSString *)CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, (CFStringRef)self, (CFDictionaryRef)entities) autorelease];
+		return (__bridge_transfer NSString *)CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, (__bridge CFStringRef)self, (__bridge CFDictionaryRef)entities);
 	} else {
 		//COMPAT 10.3
 		

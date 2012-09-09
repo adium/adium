@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurplePrivacy.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 static void adiumPurplePermitAdded(PurpleAccount *account, const char *name)
 {

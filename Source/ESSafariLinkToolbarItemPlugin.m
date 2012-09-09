@@ -46,14 +46,14 @@
 	NSString	*browserName = nil;
 	NSImage		*browserImage = nil;
 
-	if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
+	if (LSGetApplicationForURL((__bridge CFURLRef)[NSURL URLWithString:@"http://google.com"],
 							   kLSRolesViewer,
 							   NULL /*outAppRef*/,
 							   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
 		NSString	*defaultBrowserName;
 		NSString	*defaultBrowserPath;
 
-		defaultBrowserPath = [(NSURL *)urlToDefaultBrowser path];
+		defaultBrowserPath = [(__bridge NSURL *)urlToDefaultBrowser path];
 		defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:defaultBrowserPath];
 
 		//Is the default browser supported?
@@ -133,7 +133,6 @@
 		attributes = [[earliestTextView typingAttributes] copy];
 		[earliestTextView insertText:attributedScriptResult];
 		if (attributes) [earliestTextView setTypingAttributes:attributes];
-		[attributes release];
 
 	} else {
 		NSBeep();		

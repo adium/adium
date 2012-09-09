@@ -56,16 +56,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[awayAccounts release];
-
-	[super dealloc];
-}
-
-/*!
  * @brief Preferences changed
  *
  * Note whether we are supposed to should show the status window, and toggle it if necessary

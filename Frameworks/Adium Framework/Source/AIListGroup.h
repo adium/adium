@@ -41,6 +41,6 @@
 //Visibility
 @property (readonly, nonatomic) NSUInteger visibleCount;
 
-@property (readonly, nonatomic) AIContactList *contactList;
+@property (weak, readonly, nonatomic) AIContactList *contactList;
 
 @end

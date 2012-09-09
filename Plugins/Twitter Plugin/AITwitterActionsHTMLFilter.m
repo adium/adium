@@ -64,7 +64,7 @@
 											options:NSBackwardsSearch
 											  range:NSMakeRange(mutableHTML.length - 1, 1)];
 			
-			return [mutableHTML autorelease];
+			return mutableHTML;
 		}
 	}
 	

@@ -308,7 +308,7 @@ static NSInteger  sizeOfSortOrder;
 		
 		//Ensure the mobile item is in our sort order array, as the old defaults didn't include it
 		if ([sortOrderArray indexOfObject:[NSNumber numberWithInteger:Mobile]] == NSNotFound) {
-			NSMutableArray	*newSortOrderArray = [[sortOrderArray mutableCopy] autorelease];
+			NSMutableArray	*newSortOrderArray = [sortOrderArray mutableCopy];
 			[newSortOrderArray addObject:[NSNumber numberWithInteger:Mobile]];
 			
 			[adium.preferenceController setPreference:newSortOrderArray
@@ -551,8 +551,6 @@ static NSInteger  sizeOfSortOrder;
 		[tableView reloadData];
 		
 		[adium.contactController sortContactList];
-
-		[sortOrderPref release];
 	}
 	
    	

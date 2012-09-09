@@ -82,7 +82,7 @@
 	
 	[newString endEditing];
 	
-	return [newString autorelease];
+	return newString;
 }
 
 @end

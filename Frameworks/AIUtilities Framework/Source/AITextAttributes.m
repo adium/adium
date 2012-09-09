@@ -35,19 +35,19 @@
 //Creates a new instance of AITextAttributes
 + (id)textAttributesWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize
 {
-    return [[[self alloc] initWithFontFamily:inFamilyName traits:inTraits size:inSize] autorelease];
+    return [[self alloc] initWithFontFamily:inFamilyName traits:inTraits size:inSize];
 }
 
 + (id)textAttributesWithDictionary:(NSDictionary *)inAttributes
 {
-	return [[[self alloc] initWithDictionary:inAttributes] autorelease];
+	return [[self alloc] initWithDictionary:inAttributes];
 }
 
 //init
 - (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize
 {
 	if ((self = [self init])) {
-		fontFamilyName = [inFamilyName retain];
+		fontFamilyName = inFamilyName;
 		fontTraitsMask = inTraits;
 		fontSize = inSize;
 	}
@@ -58,17 +58,16 @@
 - (id)initWithDictionary:(NSDictionary *)inAttributes
 {
 	if ((self = [self init])) {
-		[dictionary release];
 		dictionary = [inAttributes mutableCopy];
 
 		NSFont	*font = [dictionary objectForKey:NSFontAttributeName];
 
 		if (font) {
-			fontFamilyName = [[font familyName] retain];
+			fontFamilyName = [font familyName];
 			fontTraitsMask = [[NSFontManager sharedFontManager] traitsOfFont:font];
 			fontSize = [font pointSize];
 		} else {
-			fontFamilyName = [@"Helvetica" retain];
+			fontFamilyName = @"Helvetica";
 			fontTraitsMask = 0;
 			fontSize = 12;
 		}
@@ -90,21 +89,12 @@
 	return self;
 }
 
-//dealloc
-- (void)dealloc
-{
-    [dictionary release];
-    [fontFamilyName release];
-
-    [super dealloc];
-}
-
 - (id)copyWithZone:(NSZone *)zone
 {
 	AITextAttributes	*newTextAttributes = [[AITextAttributes alloc] init];
 
 	newTextAttributes->dictionary = [dictionary mutableCopy];
-	newTextAttributes->fontFamilyName = [fontFamilyName retain];
+	newTextAttributes->fontFamilyName = fontFamilyName;
 	newTextAttributes->fontTraitsMask = fontTraitsMask;
 	newTextAttributes->fontSize = fontSize;
 
@@ -120,8 +110,7 @@
 - (void)setFontFamily:(NSString *)inName
 {
     if (fontFamilyName != inName) {
-        [fontFamilyName release];
-        fontFamilyName = [inName retain];
+        fontFamilyName = inName;
 
 		[dictionary removeObjectForKey:NSFontAttributeName];
 	}
@@ -317,7 +306,7 @@
 
 - (void)resetFontAttributes
 {
-	[fontFamilyName release]; fontFamilyName = nil;
+	fontFamilyName = nil;
 	fontSize = 0;
 	[dictionary removeObjectForKey:NSForegroundColorAttributeName];
 	[dictionary removeObjectForKey:NSBackgroundColorAttributeName];
@@ -364,7 +353,7 @@
 		paragraphStyle = [NSParagraphStyle defaultParagraphStyle];
 	}
 	
-	newParagraphStyle = [[paragraphStyle mutableCopy] autorelease];
+	newParagraphStyle = [paragraphStyle mutableCopy];
 	[newParagraphStyle setBaseWritingDirection:inDirection];
 	[dictionary setObject:newParagraphStyle forKey:NSParagraphStyleAttributeName];
 }

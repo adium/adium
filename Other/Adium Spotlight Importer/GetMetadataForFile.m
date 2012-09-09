@@ -57,24 +57,23 @@ Boolean GetMetadataForFile(void* thisInterface,
     /* Return TRUE if successful, FALSE if there was no data provided */
     
 	Boolean				success = FALSE;
-
 	@autoreleasepool {
 		
 		if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-			success = GetMetadataForHTMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+			success = GetMetadataForHTMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 		} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-			success = GetMetadataForXMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
+			success = GetMetadataForXMLLog((__bridge_transfer NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 		} else {
 			NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
 		}
 		
 		return success;
-	}
+    }
 }
 
 static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
     //Deteremine the UTI type if we weren't passed one
-    CFStringRef pathExtension = (CFStringRef)[urlToFile pathExtension];
+    CFStringRef pathExtension = (__bridge CFStringRef)[urlToFile pathExtension];
 	if (contentTypeUTI == NULL) {
 		if (CFStringCompare(pathExtension, CFSTR("chatLog"), (kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
 			contentTypeUTI = CFSTR("com.adiumx.xmllog");
@@ -89,7 +88,7 @@ static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 }
 
 NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
-    @autoreleasepool {
+	@autoreleasepool {
 		NSData			*content;
 		contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
 		
@@ -120,7 +119,7 @@ NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 }
 
 NSData *CopyDataForFile(CFStringRef contentTypeUTI, CFStringRef pathToFile) {
-    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile]);
+    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile]);
 }
 
 CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToFile, NSData *fileData) {
@@ -135,7 +134,7 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
         result = CopyTextContentForXMLLogData(fileData);
     }
-    return (CFStringRef)result;
+    return (__bridge CFStringRef)result;
 }
 
 /*!
@@ -153,7 +152,7 @@ CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 {
 	@autoreleasepool {
 		NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
-		CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
+		CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile], logData);
 		
 		return textContent;
 	}
@@ -244,18 +243,13 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 				
 				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[dateFormatter stringFromDate:startDate]]
 							   forKey:(NSString *)kMDItemDisplayName];
-				
-				[dateFormatter release];
 			}
-			[otherAuthors release];
-			
 		}
 		[attributes setObject:@"Chat log"
 					   forKey:(NSString *)kMDItemKind];
 		[attributes setObject:@"Adium"
 					   forKey:(NSString *)kMDItemCreator];
 		
-		[xmlDoc release];
 	}
 	else
 		ret = NO;
@@ -322,14 +316,11 @@ NSString *CopyTextContentForXMLLogData(NSData *data) {
 		
 		if (messages.count) contentString = [messages componentsJoinedByString:@" "];
 		
-        [xmlDoc release];
     } else {
 #ifdef AILogWithSignature
 		AILogWithSignature(@"Parsing log failed: %@", err);
 #endif
 	}
-	
-	[contentString retain];
 	
     return contentString;
 }

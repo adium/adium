@@ -82,7 +82,7 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 			kAudioObjectPropertyScopeGlobal,
 			kAudioObjectPropertyElementMaster
 		};
-		OSStatus err = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &audioAddress, systemOutputDeviceDidChange, self);
+		OSStatus err = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &audioAddress, systemOutputDeviceDidChange, (__bridge void *)(self));
 
 		if (err != noErr)
 			NSLog(@"%s: Couldn't sign up for system-output-device-changed notification, because AudioHardwareAddPropertyListener returned %ld. Adium will not know when the default system audio device changes.", __PRETTY_FUNCTION__, (long)err);
@@ -107,11 +107,9 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 
 	[self _stopAndReleaseAllSounds];
 
-	[soundCacheDict release]; soundCacheDict = nil;
-	[soundCacheArray release]; soundCacheArray = nil;
-	[soundCacheCleanupTimer invalidate]; [soundCacheCleanupTimer release]; soundCacheCleanupTimer = nil;
-
-	[super dealloc];
+	soundCacheDict = nil;
+	soundCacheArray = nil;
+	[soundCacheCleanupTimer invalidate]; soundCacheCleanupTimer = nil;
 }
 
 - (void)playSoundAtPath:(NSString *)inPath
@@ -189,7 +187,6 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 			//Insert the player at the front of our cache
 			[soundCacheArray insertObject:inPath atIndex:0];
 			[soundCacheDict setObject:sound forKey:inPath];
-			[sound release];
 			
 			//Set the volume (otherwise #2283 happens)
 			[sound setVolume:customVolume];
@@ -266,9 +263,8 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		NSLog(@"%s: Could not get the device UID for device %ld: AudioDeviceGetProperty returned error %ld", __PRETTY_FUNCTION__, (unsigned long)systemOutputDevice, (long)err);
 		return NULL;
 	}
-	[(NSString *)deviceUID autorelease];
 	
-	return (NSString *)deviceUID;
+	return (__bridge NSString *)deviceUID;
 }
 
 - (void)configureAudioContextForSound:(NSSound *)sound
@@ -338,14 +334,14 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 #pragma unused(inAddresses)
 	
 	@autoreleasepool {
-		
-		AdiumSound *self = (id)refcon;
+
+		AdiumSound *self = (__bridge id)refcon;
 		NSCAssert1(self, @"AudioHardware property listener function %s called with nil refcon, which we expected to be the AdiumSound instance", __PRETTY_FUNCTION__);
-		
+
 		[self performSelectorOnMainThread:@selector(systemOutputDeviceDidChange)
 							   withObject:nil
 							waitUntilDone:NO];
-		
+
 		return noErr;
 	}
 }

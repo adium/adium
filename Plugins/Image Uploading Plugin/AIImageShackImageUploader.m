@@ -38,15 +38,6 @@
 	return 2500000;
 }
 
-- (void)dealloc
-{
-	[resultData release]; resultData = nil;
-	[links release]; links = nil;
-	[responseParser release]; responseParser = nil;
-	
-	[super dealloc];
-}
-
 #pragma mark Response parsing
 - (void)parseResponse:(NSData *)data
 {

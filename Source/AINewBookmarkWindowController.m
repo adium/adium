@@ -56,19 +56,11 @@
 - (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget
 {
 	if ((self = [super initWithWindowNibName:ADD_BOOKMARK_NIB])) {
-		chat = [inChat retain];
-		target = [inTarget retain];
+		chat = inChat;
+		target = inTarget;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[chat release];
-	[target release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -77,15 +69,11 @@
 -(void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo
 {
 	[sheet orderOut:nil];
-	
-	[self autorelease];
 }
 
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 /*!

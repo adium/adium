@@ -26,7 +26,7 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIListContact.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 
@@ -77,7 +77,7 @@ NSString *processButtonText(NSString *inButtonText)
 									  options:NSLiteralSearch
 										range:NSMakeRange(0, [processedText length])];
 	
-	return [processedText autorelease];
+	return processedText;
 	
 }
 
@@ -91,7 +91,7 @@ static void *adiumPurpleRequestInput(
 								   void *userData)
 {
     @autoreleasepool {
-		
+
 		/*
 		 Multiline should be a paragraph-sized box; otherwise, a single line will suffice.
 		 Masked means we want to use an NSSecureTextField sort of thing.
@@ -101,21 +101,21 @@ static void *adiumPurpleRequestInput(
 		NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
 		
 		//Ignore purple trying to get an account's password; we'll feed it the password and reconnect if it gets here, somehow.
-		if (primaryString && [primaryString rangeOfString:@"Enter password for "].location != NSNotFound) return [NSNull null];
+		if (primaryString && [primaryString rangeOfString:@"Enter password for "].location != NSNotFound) return (__bridge void *)([NSNull null]);
 		
 		NSMutableDictionary *infoDict;
 		NSString			*okButtonText = processButtonText([NSString stringWithUTF8String:okText]);
 		NSString			*cancelButtonText = processButtonText([NSString stringWithUTF8String:cancelText]);
 		
 		infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:okButtonText,@"OK Text",
-					cancelButtonText,@"Cancel Text",
-					[NSValue valueWithPointer:okCb],@"OK Callback",
-					[NSValue valueWithPointer:cancelCb],@"Cancel Callback",
-					[NSValue valueWithPointer:userData],@"userData",nil];
+			cancelButtonText,@"Cancel Text",
+			[NSValue valueWithPointer:okCb],@"OK Callback",
+			[NSValue valueWithPointer:cancelCb],@"Cancel Callback",
+			[NSValue valueWithPointer:userData],@"userData",nil];
 		
 		
 		if (primaryString) [infoDict setObject:primaryString forKey:@"Primary Text"];
-		if (title) [infoDict setObject:[NSString stringWithUTF8String:title] forKey:@"Title"];
+		if (title) [infoDict setObject:[NSString stringWithUTF8String:title] forKey:@"Title"];	
 		if (defaultValue) [infoDict setObject:[NSString stringWithUTF8String:defaultValue] forKey:@"Default Value"];
 		if (secondary) [infoDict setObject:[NSString stringWithUTF8String:secondary] forKey:@"Secondary Text"];
 		
@@ -126,7 +126,8 @@ static void *adiumPurpleRequestInput(
 		
 		requestController = [ESPurpleRequestWindowController showInputWindowWithDict:infoDict];
 		
-		return requestController;
+		
+		return (__bridge void*)requestController;
 	}
 }
 
@@ -154,24 +155,24 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 											  size_t actionCount, va_list actions)
 {
     @autoreleasepool {
-		
+
 		NSString			*titleString = (title ? [NSString stringWithUTF8String:title] : @"");
 		NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
 		id					requestController = nil;
 		NSInteger					i;
 		BOOL				handled = NO;
-		
+
 		if (primaryString && ([primaryString isEqualToString:[NSString stringWithFormat:[NSString stringWithUTF8String:_("%s has just asked to directly connect to %s")],
 															  who, purple_account_get_username(account)]])) {
 			AIListContact *adiumContact = contactLookupFromBuddy(purple_find_buddy(account, who));
-			
+
 			// Look up the user preference for this setting -- we use the same settings as the File Transfer code.
-			AIFileTransferAutoAcceptType autoAccept = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT
-																							  group:PREF_GROUP_FILE_TRANSFER] intValue];
-			if ((autoAccept == AutoAccept_All) ||
+			AIFileTransferAutoAcceptType autoAccept = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT 
+																								group:PREF_GROUP_FILE_TRANSFER] intValue];
+			if ((autoAccept == AutoAccept_All) || 
 				((autoAccept == AutoAccept_FromContactList) && adiumContact && [adiumContact isIntentionallyNotAStranger])) {
 				GCallback ok_cb;
-				
+
 				//Get the callback for Connect, skipping over the title
 				va_arg(actions, char *);
 				ok_cb = va_arg(actions, GCallback);
@@ -183,11 +184,11 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 		} else if (primary && strcmp(primary, _("Accept chat invitation?")) == 0) {
 			AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(account, who));
 			[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_INVITE
-										   forListObject:contact
-												userInfo:[NSDictionary dictionary]
-							previouslyPerformedActionIDs:nil];
+											 forListObject:contact
+												  userInfo:[NSDictionary dictionary]
+							  previouslyPerformedActionIDs:nil];	
 		}
-		
+
 		if (!handled) {
 			NSString		*secondaryString = (secondary ? [NSString stringWithUTF8String:secondary] : nil);
 			NSMutableArray	*buttonNamesArray = [NSMutableArray arrayWithCapacity:actionCount];
@@ -210,7 +211,7 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 				// If there's no default_action, assume the first one is, and move it to the end.
 				if (default_action == -1)
 					default_action = 0;
-				
+
 				GCallback tempCallBack = callBacks[actionCount-1];
 				callBacks[actionCount-1] = callBacks[default_action];
 				callBacks[default_action] = tempCallBack;
@@ -245,18 +246,18 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 				
 				[infoDict setObject:[NSString stringWithUTF8String:who] forKey:@"who"];
 			}
-			
+
 			if (icon_data && (icon_size > 0)) {
 				NSData *imageData = [NSData dataWithBytes:icon_data length:icon_size];
-				NSImage *image = [[[NSImage alloc] initWithData:imageData] autorelease];
-				if (image)
+				NSImage *image = [[NSImage alloc] initWithData:imageData];
+				if (image) 
 					[infoDict setObject:image forKey:@"Image"];
 			}
-			
+
 			requestController = [ESPurpleRequestActionController showActionWindowWithDict:infoDict];
 		}
 		
-		return requestController;
+		return (__bridge void*)requestController;
 	}
 }
 
@@ -286,9 +287,9 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 									void *userData)
 {
     @autoreleasepool {
-		
+
 		id requestController = nil;
-		
+
 		if (title && (strcmp(title, _("Register New XMPP Account")) == 0)) {
 			/* Jabber registration request. Instead of displaying a request dialogue, we fill in the information automatically.
 			 * And by that, I mean that we accept all the default empty values, since the username and password are preset for us. */
@@ -305,7 +306,7 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 										notifyingTarget:[ESPurpleRequestAdapter class]
 											   selector:@selector(returnedPassword:returnCode:context:)
 												context:[NSDictionary dictionaryWithObjectsAndKeys:
-														 adiumAccount, @"Account",
+														 adiumAccount, @"Account", 
 														 [NSValue valueWithPointer:fields], @"fields",
 														 [NSValue valueWithPointer:okCb], @"okCb",
 														 [NSValue valueWithPointer:cancelCb], @"cancelCb",
@@ -318,7 +319,7 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 				  (primary ? primary : ""),
 				  (secondary ? secondary : ""));
 			
-			id self = (CBPurpleAccount*)account->ui_data; // for AILocalizedString
+			id self = (__bridge CBPurpleAccount*)account->ui_data; // for AILocalizedString
 			
 			requestController = [[AMPurpleRequestFieldsController alloc] initWithTitle:(title ? [NSString stringWithUTF8String:title] : nil)
 																		   primaryText:(primary ? [NSString stringWithUTF8String:primary] : nil)
@@ -328,13 +329,13 @@ static void *adiumPurpleRequestFields(const char *title, const char *primary,
 																			  callback:okCb
 																			cancelText:(cancelText ? [NSString stringWithUTF8String:cancelText] : AILocalizedString(@"Cancel",nil))
 																			  callback:cancelCb
-																			   account:(CBPurpleAccount*)account->ui_data
+																			   account:(__bridge CBPurpleAccount*)account->ui_data
 																				   who:(who ? [NSString stringWithUTF8String:who] : nil)
 																		  conversation:conv
 																			  userData:userData];
 		}
-		
-		return requestController;
+
+		return (__bridge void*)requestController;
 	}
 }
 
@@ -343,24 +344,24 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 									GCallback cancel_cb,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
 									void *user_data)
-{
+{	
     @autoreleasepool {
-		
+
 		if (title) {
 			NSString *titleString = (title ? [NSString stringWithUTF8String:title] : nil);
 			if (savedialog) {
 				NSSavePanel *savePanel = [NSSavePanel savePanel];
 				if ([titleString length]) [savePanel setTitle:titleString];
 				[savePanel setAllowedFileTypes:nil];
-				
+
 				if ([savePanel runModal] == NSOKButton) {
 					((PurpleRequestFileCb)ok_cb)(user_data, [[[savePanel URL] path] UTF8String]);
-				}
+				}			
 			} else {
 				NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 				if ([titleString length]) [openPanel setTitle:titleString];
 				[openPanel setAllowedFileTypes:nil];
-				
+
 				if ([openPanel runModal] == NSOKButton) {
 					((PurpleRequestFileCb)ok_cb)(user_data, [[[openPanel URL] path] UTF8String]);
 				}
@@ -384,7 +385,7 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 					 * and we do, in fact, want to send. Call the OK callback immediately.
 					 */
 					if (xfer->local_filename != NULL && xfer->filename != NULL) {
-						AILog(@"PURPLE_XFER_SEND: %x (%s)",xfer,xfer->local_filename);
+						AILog(@"PURPLE_XFER_SEND: %p (%s)",xfer,xfer->local_filename);
 						((PurpleRequestFileCb)ok_cb)(user_data, xfer->local_filename);
 					} else {
 						((PurpleRequestFileCb)cancel_cb)(user_data, xfer->local_filename);
@@ -393,9 +394,9 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 				}
 			}
 		}
-		
-		return NULL;
-	}
+    }
+	
+	return NULL;
 }
 
 /*!
@@ -410,15 +411,15 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 static void adiumPurpleRequestClose(PurpleRequestType type, void *uiHandle)
 {
     @autoreleasepool {
-		id	ourHandle = (id)uiHandle;
+		id	ourHandle = (__bridge id)uiHandle;
 		AILogWithSignature(@"%@ (%i)",uiHandle,[ourHandle respondsToSelector:@selector(purpleRequestClose)]);
 		if ([ourHandle respondsToSelector:@selector(purpleRequestClose)]) {
 			[ourHandle purpleRequestClose];
-			
+
 		} else if ([ourHandle respondsToSelector:@selector(closeWindow:)]) {
 			[ourHandle closeWindow:nil];
 		}
-	}
+    }
 }
 
 static void *adiumPurpleRequestFolder(const char *title, const char *dirname, GCallback ok_cb, GCallback cancel_cb,
@@ -454,7 +455,7 @@ PurpleRequestUiOps *adium_purple_request_get_ui_ops()
 + (void)requestCloseWithHandle:(id)handle
 {
 	AILogWithSignature(@"%@", handle);
-	purple_request_close_with_handle(handle);
+	purple_request_close_with_handle((__bridge void*)handle);
 }
 
 + (void)returnedPassword:(NSString *)password returnCode:(AIPasswordPromptReturn)returnCode context:(id)context

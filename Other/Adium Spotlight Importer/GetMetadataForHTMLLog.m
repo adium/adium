@@ -111,8 +111,6 @@ Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToF
 		[attributes setObject:textContent
 					   forKey:(NSString *)kMDItemTextContent];
 	}
-    [logData release];
-    [textContent release];
 	
 	[attributes setObject:serviceClass
 				   forKey:@"com_adiumX_service"];

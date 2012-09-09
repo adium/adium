@@ -164,11 +164,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
-
 // Setup the window before it is displayed
 - (void)windowDidLoad
 {
@@ -181,9 +176,9 @@
 	[textField_handle setMinStringLength:2];
 	
 	// Account menu
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 	[self _restoreLastAccountIfPossible];
 	[self AI_configureTextFieldForAccount:[[popUp_service selectedItem] representedObject]];
 	[self controlTextDidChange:nil];
@@ -195,8 +190,6 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[accountMenu release];
 	
 	[[self class] destroySharedInstance];
 }
@@ -239,13 +232,13 @@
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				anyItem = [[[NSMenuItem alloc] initWithTitle:
+				anyItem = [[NSMenuItem alloc] initWithTitle:
 							AILocalizedStringFromTableInBundle(@"Any",
 															   nil,
 															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
 															   nil)
 													  action:nil
-											   keyEquivalent:@""] autorelease];
+											   keyEquivalent:@""];
 				break;
 			}
 		}

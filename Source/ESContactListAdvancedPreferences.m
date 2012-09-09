@@ -125,9 +125,9 @@
 	NSString *filenameExtension = [notification object];
 	
 	//Convert our filename extension into a Uniform Type Identifier so that we can robustly determine what type of Xtra this is.
-	CFStringRef type = (CFStringRef)[(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, 
-																					   (CFStringRef)filenameExtension,
-																					   /*inConformingToUTI*/ NULL) autorelease];
+	CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+																					(__bridge CFStringRef)filenameExtension,
+																					   /*inConformingToUTI*/ NULL);
 	
 	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.contactlisttheme"))) {
 		[popUp_colorTheme setMenu:[self _colorThemeMenu]];
@@ -317,13 +317,13 @@
 						withTag:AIContactListWindowStyleContactBubbles_Fitted
 						 toMenu:menu];
 	
-	return [menu autorelease];
+	return menu;
 }
 - (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu{
-    NSMenuItem	*menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:option
+    NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:option
 																				 target:nil
 																				 action:nil
-																		  keyEquivalent:@""] autorelease];
+																		  keyEquivalent:@""];
 	[menuItem setTag:tag];
 	[menu addItem:menuItem];
 }
@@ -662,10 +662,10 @@
 	//Available Layouts
 	for (NSDictionary *set in self.availableLayoutSets) {
 		name = [set objectForKey:@"name"];
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:name];
 		[menu addItem:menuItem];
 	}
@@ -674,19 +674,19 @@
 	[menu addItem:[NSMenuItem separatorItem]];
 	
 	//Preset management	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Add New Layout",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Add New Layout",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(createListLayout:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Layouts",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Layouts",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(manageListLayouts:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	return [menu autorelease];	
+	return menu;	
 }
 
 /*!
@@ -701,10 +701,10 @@
 	//Available themes
 	for (NSDictionary *set in self.availableThemeSets) {
 		name = [set objectForKey:@"name"];
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:name];
 		[menu addItem:menuItem];
 	}
@@ -713,19 +713,19 @@
 	[menu addItem:[NSMenuItem separatorItem]];
 	
 	//Preset management	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Add New Theme",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Add New Theme",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(createListTheme:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Themes",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Edit Themes",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(manageListThemes:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menu addItem:menuItem];
 	
-	return [menu autorelease];	
+	return menu;	
 }
 
 #pragma mark ListLayout and ListTheme preference management
@@ -848,7 +848,7 @@
 	NSMutableArray	*setArray = [NSMutableArray array];
 	NSMutableSet	*alreadyAddedArray = [NSMutableSet set];
 	
-    for (NSString *filePath in [adium allResourcesForName:folder withExtensions:extension]) {
+    for (__strong NSString *filePath in [adium allResourcesForName:folder withExtensions:extension]) {
 		NSString		*name;
 		NSBundle		*xtraBundle;
 		NSDictionary 	*themeDict;
