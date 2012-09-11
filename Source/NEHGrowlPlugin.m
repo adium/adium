@@ -177,7 +177,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"events-growl-alert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-notification" forClass:[self class]];
 }
 
 /*!
