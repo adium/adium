@@ -726,11 +726,13 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[displayOperation autorelease];
 	displayOperation = nil;
 	currentMatch = -1;
-	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
+	[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"Loading...", @"Displayed when loading a chat transcript")]];
 	
 	if (logArray) {
 		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
 		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	} else {
+		[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"No chat transcript found", nil)]];
 	}
 }
 
