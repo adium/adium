@@ -34,24 +34,9 @@
 - (void)buildGroupMenu;
 - (void)newGroup:(id)sender;
 - (void)newGroupDidEnd:(NSNotification *)inNotification;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AINewBookmarkWindowController
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if(parentWindow) {
-	   [NSApp beginSheet:self.window
-		  modalForWindow:parentWindow
-	   	   modalDelegate:self
-		  didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			 contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-		[self.window makeKeyAndOrderFront:nil];
-	}
-}
 
 - (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget
 {
@@ -61,19 +46,6 @@
 	}
 	
 	return self;
-}
-
-/*!
- *	@brief didEnd selector for the sheet created above, dismisses the sheet
- */
--(void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo
-{
-	[sheet orderOut:nil];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
 }
 
 /*!

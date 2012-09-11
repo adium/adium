@@ -20,7 +20,6 @@
 
 @interface ESTextAndButtonsWindowController ()
 - (void)configureWindow;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESTextAndButtonsWindowController
@@ -84,20 +83,6 @@
 	}
 	
 	return self;
-}
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-		
-	} else {
-		[self show];
-	}
 }
 
 - (id)initWithTitle:(NSString *)inTitle
@@ -250,18 +235,10 @@
  */
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
-	
 	//Release our target immediately to avoid a potential mutual retain (if the target is retaining us)
 	target = nil;
-}
-
-/*!
- * @brief Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
+	
+	[super windowWillClose:sender];
 }
 
 /*!

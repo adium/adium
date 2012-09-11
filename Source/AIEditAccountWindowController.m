@@ -37,8 +37,6 @@
 - (void)_localizeTabViewItemLabels;
 - (void)saveConfiguration;
 - (void)configureControlDimming;
-
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!
@@ -46,24 +44,6 @@
  * @brief Window controller for configuring an <tt>AIAccount</tt>
  */
 @implementation AIEditAccountWindowController
-
-/*!
- * @brief Begin editing
- *
- * @param parentWindow A window on which to show the edit account window as a sheet.  If nil, account editing takes place in an independent window.
- */
-- (void)showOnWindow:(id)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
 
 /*!
  * @brief Init the window controller
@@ -129,22 +109,6 @@
 	[super showWindow:sender];
 	if([notifyTarget respondsToSelector:@selector(editAccountWindow:didOpenForAccount:)])
 		[notifyTarget editAccountWindow:[self window] didOpenForAccount:account];
-}
-
-/*!
- * @brief Window is closing
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-}
-
-/*!
- * @brief Called as the user list edit sheet closes, dismisses the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
 }
 
 - (void)configureControlDimming

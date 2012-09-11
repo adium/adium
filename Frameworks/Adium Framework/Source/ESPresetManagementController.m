@@ -21,7 +21,6 @@
 @interface ESPresetManagementController ()
 - (void)configureControlDimming;
 - (void)tableViewSelectionDidChange:(NSNotification *)notification;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!
@@ -32,15 +31,9 @@
 
 - (void)showOnWindow:(NSWindow *)parentWindow
 {
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-
-	} else {
-		[self showWindow:nil];
+	[super showOnWindow:parentWindow];
+	
+	if (!parentWindow) {
 		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
@@ -106,26 +99,7 @@
  */
 - (IBAction)okay:(id)sender
 {
-	
 	[self closeWindow:nil];
-}
-
-/*!
- * Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{	
-    [sheet orderOut:nil];
-}
-
-/*!
- * @brief As the window closes, release this controller instance
- *
- * The instance retained itself (rather, was not autoreleased when created) so it could function independently.
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
 }
 
 /*!

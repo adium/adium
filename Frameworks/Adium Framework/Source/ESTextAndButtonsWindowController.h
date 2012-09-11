@@ -65,8 +65,6 @@
 			 target:(id)inTarget
 		   userInfo:(id)inUserInfo;
 
-- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
-
 - (void)changeWindowToTitle:(NSString *)inTitle
 			  defaultButton:(NSString *)inDefaultButton
 			alternateButton:(NSString *)inAlternateButton

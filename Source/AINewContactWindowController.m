@@ -37,8 +37,6 @@
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
 @interface AINewContactWindowController ()
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-
 - (void)buildGroupMenu;
 - (void)buildContactTypeMenu;
 - (void)configureForCurrentServiceType;
@@ -63,16 +61,11 @@
 
 - (void)showOnWindow:(NSWindow *)parentWindow
 {
+	[super showOnWindow:parentWindow];
+	
 	if (parentWindow) {
 		[parentWindow makeKeyAndOrderFront:nil];
-		
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
 	} else {
-		[self showWindow:nil];
 		[self.window makeKeyAndOrderFront:nil];
 	}
 	
@@ -142,22 +135,6 @@
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	[self configureControlDimming];
-}
-
-/*!
- * @brief Window is closing
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-}
-
-/*!
- * @brief Called as the user list edit sheet closes, dismisses the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
 }
 
 /*!

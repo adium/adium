@@ -23,24 +23,9 @@
 
 @interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESEditStatusGroupWindowController
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-		[self.window makeKeyAndOrderFront:nil];
-	}
-}
 
 - (id)initWithStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget
 {
@@ -73,26 +58,6 @@
 
 	[super windowDidLoad];
 }
-
-/*!
- * @brief Called before the window is closed
- *
- * As our window is closing, we auto-release this window controller instance.  This allows our editor to function
- * independently without needing a separate object to retain and release it.
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-}
-
-/*!
- * Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
-}
-
 
 /*!
  * @brief Okay

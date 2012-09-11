@@ -44,19 +44,6 @@
 
 @implementation AIListLayoutWindowController
 
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
-
 - (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget
 {
     if ((self = [super initWithWindowNibName:@"ListLayoutSheet"])) {
@@ -90,17 +77,12 @@
 // Called as the sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
-	
 	[[NSColorPanel sharedColorPanel] close];
 	
 	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
+	
+	[super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 // Cancel

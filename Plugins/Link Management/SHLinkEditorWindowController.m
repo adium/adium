@@ -28,8 +28,6 @@
 - (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
 @end
 
 @interface NSObject (SHLinkEditorAdditions)
@@ -41,19 +39,6 @@
 @implementation SHLinkEditorWindowController
 
 #pragma mark Init methods
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
 
 - (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
 
@@ -155,18 +140,6 @@
     [textView_URL setContinuousURLValidationEnabled:YES];
 	
 	[scrollView_URL setAlwaysDrawFocusRingIfFocused:YES];
-}
-
-// Window is closing
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-}
-
-// Called as the sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
 }
 
 // Cancel
