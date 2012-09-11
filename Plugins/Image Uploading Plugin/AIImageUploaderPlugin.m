@@ -74,6 +74,8 @@
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
+
+	[subMenu release];
 }
 
 - (void)uninstallPlugin
