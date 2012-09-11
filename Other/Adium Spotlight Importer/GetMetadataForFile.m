@@ -134,7 +134,7 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
         result = CopyTextContentForXMLLogData(fileData);
     }
-    return (__bridge CFStringRef)result;
+    return CFBridgingRetain(result);
 }
 
 /*!
