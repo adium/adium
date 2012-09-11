@@ -59,6 +59,9 @@
 	[contextMenuItem setSubmenu:contextSubmenu];
 	[editMenuItem setSubmenu:contextSubmenu];
 	
+	[contextSubmenu release];
+	[editSubmenu release];
+	
 	[adium.menuController addMenuItem:editMenuItem toLocation:LOC_Edit_Links];
 	[adium.menuController addContextualMenuItem:contextMenuItem toLocation:Context_TextView_Edit];
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
