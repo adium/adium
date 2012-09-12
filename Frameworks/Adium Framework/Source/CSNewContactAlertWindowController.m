@@ -63,15 +63,7 @@
 																		   configureForGlobal:inConfigureForGlobal
 																			   defaultEventID:inDefaultEventID];
 	
-	if (parentWindow) {
-		[NSApp beginSheet:[newController window]
-		   modalForWindow:parentWindow
-			modalDelegate:newController
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[newController showWindow:nil];
-	}
+	[newController showOnWindow:parentWindow];
 	
 	return newController;
 }
@@ -155,15 +147,17 @@
 // Window is closing
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
 	[self cleanUpDetailsPane];
+	
+	[super windowWillClose:sender];
 }
 
 // Called as the user list edit sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
 	[self cleanUpDetailsPane];
+	
+	[super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 #pragma mark Buttons
