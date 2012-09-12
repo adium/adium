@@ -24,17 +24,14 @@
 
 @implementation MVMenuButton
 
-@synthesize toolbarItem;
+@synthesize toolbarItem, controlSize, drawsArrow;
 
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
 		//Default configure
-		bigImage    = nil;
-		toolbarItem = nil;
-		arrowPath   = nil;
-		drawsArrow  = YES;
-		controlSize = NSRegularControlSize;
+		self.drawsArrow  = YES;
+		self.controlSize = NSRegularControlSize;
 		[self setBordered:NO];
 		[self setButtonType:NSMomentaryChangeButton];
 	}
@@ -47,9 +44,9 @@
 	MVMenuButton	*newButton = [[[self class] alloc] initWithFrame:[self frame]];
 
 	//Copy our config
-	[newButton setControlSize:controlSize];
-	[newButton setImage:bigImage];
-	[newButton setDrawsArrow:drawsArrow];
+	newButton.controlSize = self.controlSize;
+	newButton.image = bigImage;
+	newButton.drawsArrow = drawsArrow;
 
 	//Copy super's config
 	[newButton setMenu:[[self menu] copy]];
@@ -95,10 +92,6 @@
 	//Reset the popup arrow path cache, we'll need to re-calculate it for the new size
 	arrowPath = nil;
 }
-- (NSControlSize)controlSize
-{
-	return controlSize;
-}
 
 //Big Image (This is the one that should be called to configure this button)
 - (void)setImage:(NSImage *)inImage
@@ -114,17 +107,6 @@
 {
 	return bigImage;
 }
-
-//Popup arrow Drawing
-- (void)setDrawsArrow:(BOOL)inDraw
-{
-	drawsArrow = inDraw;
-}
-- (BOOL)drawsArrow
-{
-	return drawsArrow;
-}
-
 
 //Drawing --------------------------------------------------------------------------------------------------------------
 #pragma mark Drawing
