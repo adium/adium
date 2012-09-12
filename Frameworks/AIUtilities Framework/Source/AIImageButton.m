@@ -23,22 +23,13 @@
 
 @implementation AIImageButton
 
-@synthesize cornerRadius;
-
-- (id)initWithFrame:(NSRect)frame
-{
-	if ((self = [super initWithFrame:frame])) {
-		imageFloater = nil;
-	}
-
-	return self;
-}
+@synthesize cornerRadius, imageFloater;
 
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIImageButton *newButton = [super copyWithZone:zone];
-	newButton->imageFloater = imageFloater;
-	[newButton setCornerRadius:[self cornerRadius]];
+	newButton.imageFloater = imageFloater;
+	newButton.cornerRadius = self.cornerRadius;
 
 	return newButton;
 }
