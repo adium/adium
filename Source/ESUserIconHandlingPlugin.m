@@ -235,7 +235,12 @@
 {
 	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
 	if ([toolbarItems containsObject:item]) {
+		
+		[[item view] setMenu:nil];
+		[[item view] setToolbarItem:nil];
 		[item setView:nil];
+		[item setMenuFormRepresentation:nil];
+		
 		[toolbarItems removeObject:item];
 		[validatedItems removeObject:item];
 
