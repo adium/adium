@@ -14,9 +14,28 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import "ESProfilePreferencesPlugin.h"
+#import "ESProfilePreferences.h"
+#import <Adium/AIAccount.h>
+#import <AIUtilities/AIDictionaryAdditions.h>
 
-@interface ESPersonalPreferencesPlugin : AIPlugin {
-	AIPreferencePane *preferencePane;
+@implementation ESProfilePreferencesPlugin
+
+/*!
+ * @brief Install the plugin
+ */
+- (void)installPlugin
+{
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"ProfilePreferencesDefaults" 
+																		forClass:[self class]]  
+										  forGroup:GROUP_ACCOUNT_STATUS];
+
+    preferencePane = [[ESProfilePreferences preferencePaneForPlugin:self] retain];
+}
+
+- (void)uninstallPlugin
+{
+	[preferencePane release]; preferencePane = nil;
 }
 
 @end

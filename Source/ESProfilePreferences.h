@@ -18,7 +18,7 @@
 
 @class AIImageViewWithImagePicker, AIDelayedTextField;
 
-@interface ESPersonalPreferences : AIPreferencePane {
+@interface ESProfilePreferences : AIPreferencePane {
 	IBOutlet	NSMatrix					*matrix_userIcon;
 	IBOutlet	NSButton					*button_chooseIcon;
 	IBOutlet	AIImageViewWithImagePicker  *imageView_userIcon;

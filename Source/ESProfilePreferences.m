@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "ESPersonalPreferences.h"
+#import "ESProfilePreferences.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIMessageEntryTextView.h>
@@ -25,14 +25,14 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
 
-@interface ESPersonalPreferences ()
+@interface ESProfilePreferences ()
 - (void)fireProfileChangesImmediately;
 - (void)configureProfile;
 - (void)configureImageView;
 - (void)configureTooltips;
 @end
 
-@implementation ESPersonalPreferences
+@implementation ESProfilePreferences
 
 /*!
  * @brief Preference pane properties
@@ -42,17 +42,17 @@
 }
 - (NSString *)paneIdentifier
 {
-	return @"Personal";
+	return @"Profile";
 }
 - (NSString *)paneName{
-    return AILocalizedString(@"Personal","Personal preferences label");
+    return AILocalizedString(@"Profile","Profile preferences label");
 }
 - (NSString *)nibName{
-    return @"PersonalPreferences";
+    return @"ProfilePreferences";
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"Personal" forClass:[self class]];
+	return [NSImage imageNamed:@"Profile" forClass:[self class]];
 }
 
 /*!
