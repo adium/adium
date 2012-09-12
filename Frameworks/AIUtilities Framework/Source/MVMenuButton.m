@@ -24,6 +24,8 @@
 
 @implementation MVMenuButton
 
+@synthesize toolbarItem;
+
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
@@ -111,16 +113,6 @@
 - (NSImage *)image
 {
 	return bigImage;
-}
-
-//Containing toolbar Item
-- (void)setToolbarItem:(NSToolbarItem *)item
-{
-	toolbarItem = item;
-}
-- (NSToolbarItem *)toolbarItem
-{
-	return toolbarItem;
 }
 
 //Popup arrow Drawing

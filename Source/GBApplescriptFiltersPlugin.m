@@ -103,10 +103,6 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 											 selector:@selector(toolbarWillAddItem:)
 												 name:NSToolbarWillAddItemNotification
 											   object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(toolbarDidRemove:)
-												 name:NSToolbarDidRemoveItemNotification
-											   object:nil];
 	//Start building the script menu
 	scriptMenu = nil;
 	[self buildScriptMenu]; //this also sets the submenu for the menu item.
@@ -713,18 +709,6 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		[mItem setSubmenu:menu];
 		[mItem setTitle:[menu title]];
 		[item setMenuFormRepresentation:mItem];
-	}
-}
-
-- (void)toolbarDidRemove:(NSNotification *)notification
-{
-	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
-	
-	if (!notification || ([[item itemIdentifier] isEqualToString:SCRIPT_IDENTIFIER])) {
-		[[item view] setMenu:nil];
-		[[item view] setToolbarItem:nil];
-		[item setView:nil];
-		[item setMenuFormRepresentation:nil];
 	}
 }
 

@@ -130,9 +130,6 @@
 {
 	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
 	if ([[item itemIdentifier] isEqualToString:TOOLBAR_EMOTICON_IDENTIFIER]) {
-		[item setView:nil];
-		[[item view] setMenu:nil];
-		[item setView:nil];
 		[toolbarItems removeObject:item];
 	}
 }

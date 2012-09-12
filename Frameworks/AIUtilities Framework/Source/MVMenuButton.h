@@ -24,12 +24,14 @@
 @interface MVMenuButton : NSButton <NSCopying> {
 	NSImage				*bigImage;
 	NSImage				*smallImage;
-	NSToolbarItem 		*toolbarItem;
+	NSToolbarItem 		*__weak toolbarItem;
 	NSBezierPath 		*arrowPath;
 	
 	BOOL				drawsArrow;
 	NSControlSize 		controlSize;
 }
+
+@property (nonatomic, weak) NSToolbarItem *toolbarItem;
 
 /*!
  * @brief Set the <tt>NSControlSize</tt> at which the button will be displayed.
@@ -54,20 +56,6 @@
  * @return An <tt>NSImage</tt>.
 */ 
 - (NSImage *)image;
-
-/*!
- * @brief Set the toolbar item associated with this button
- *
- * This is used for synchronizing sizing.
- * @param item The <tt>NSToolbarItem</tt> to associate.
- */
-- (void)setToolbarItem:(NSToolbarItem *)item;
-
-/*!
- * @brief Returns the toolbar item associated with this button
- * @return The <tt>NSToolbarItem</tt>
- */
-- (NSToolbarItem *)toolbarItem;
 
 /*!
  * @brief Set whether the button draws a dropdown arrow.
