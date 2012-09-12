@@ -29,7 +29,6 @@
 
 @interface AIMessagePreferences ()
 - (NSMenu *)tabChangeKeysMenu;
-- (NSMenu *)sendKeysMenu;
 - (NSMenu *)tabPositionMenu;
 @end
 
@@ -65,28 +64,12 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-	BOOL			sendOnEnter, sendOnReturn;
-	
 	//Chat Cycling
 	[popUp_tabKeys setMenu:[self tabChangeKeysMenu]];
 	[popUp_tabKeys selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TAB_SWITCH_KEYS
 																			 group:PREF_GROUP_CHAT_CYCLING] intValue]];
 	
 	//General
-	sendOnEnter = [[adium.preferenceController preferenceForKey:SEND_ON_ENTER
-														  group:PREF_GROUP_GENERAL] boolValue];
-	sendOnReturn = [[adium.preferenceController preferenceForKey:SEND_ON_RETURN
-														   group:PREF_GROUP_GENERAL] boolValue];
-	[popUp_sendKeys setMenu:[self sendKeysMenu]];
-	
-	if (sendOnEnter && sendOnReturn) {
-		[popUp_sendKeys selectItemWithTag:AISendOnBoth];
-	} else if (sendOnEnter) {
-		[popUp_sendKeys selectItemWithTag:AISendOnEnter];			
-	} else if (sendOnReturn) {
-		[popUp_sendKeys selectItemWithTag:AISendOnReturn];
-	}
-	
 	[popUp_tabPositionMenu setMenu:[self tabPositionMenu]];
 	[popUp_tabPositionMenu selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																					 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
@@ -98,7 +81,6 @@
 {
 	[label_messages setLocalizedString:AILocalizedString(@"Messages:", nil)];
 	[label_recentMessages setLocalizedString:AILocalizedString(@" recent messages in new chats", nil)];
-	[label_sendWith setLocalizedString:AILocalizedString(@"Send with:", nil)];
 	[label_showTabs setLocalizedString:AILocalizedString(@"Show tabs on the:", nil)];
 	[label_switchTabs setLocalizedString:AILocalizedString(@"Switch tabs with:", nil)];
 	[label_tabs setLocalizedString:AILocalizedString(@"Tabs:", nil)];
@@ -125,17 +107,6 @@
 										   forKey:KEY_TAB_SWITCH_KEYS
 											group:PREF_GROUP_CHAT_CYCLING];
 		
-	} else if (sender == popUp_sendKeys) {
-		AISendKeys 	keySelect = (AISendKeys)[[sender selectedItem] tag];
-		BOOL		sendOnEnter = (keySelect == AISendOnEnter || keySelect == AISendOnBoth);
-		BOOL		sendOnReturn = (keySelect == AISendOnReturn || keySelect == AISendOnBoth);
-		
-		[adium.preferenceController setPreference:[NSNumber numberWithInt:sendOnEnter]
-										   forKey:SEND_ON_ENTER
-											group:PREF_GROUP_GENERAL];
-		[adium.preferenceController setPreference:[NSNumber numberWithInt:sendOnReturn]
-										   forKey:SEND_ON_RETURN
-											group:PREF_GROUP_GENERAL];
 	}
 	
 	[self configureControlDimming];
@@ -201,31 +172,6 @@
 					action:nil
 			 keyEquivalent:@""
 					   tag:AIBraces];
-	
-	return [menu autorelease];
-}
-
-- (NSMenu *)sendKeysMenu
-{
-	NSMenu		*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	
-	[menu addItemWithTitle:AILocalizedString(@"Enter","Enter key for sending messages")
-					target:nil
-					action:nil
-			 keyEquivalent:@""
-					   tag:AISendOnEnter];
-	
-	[menu addItemWithTitle:AILocalizedString(@"Return","Return key for sending messages")
-					target:nil
-					action:nil
-			 keyEquivalent:@""
-					   tag:AISendOnReturn];
-	
-	[menu addItemWithTitle:AILocalizedString(@"Enter and Return","Enter and return key for sending messages")
-					target:nil
-					action:nil
-			 keyEquivalent:@""
-					   tag:AISendOnBoth];
 	
 	return [menu autorelease];
 }
