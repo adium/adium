@@ -45,8 +45,6 @@
 @property (weak) NSTimer *animationTimer;
 @property (assign) NSUInteger previousIndex;
 
-- (void)openOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
-
 #pragma mark - Animations
 
 - (void)setAnimatedDockIconAtIndex:(NSInteger)index;

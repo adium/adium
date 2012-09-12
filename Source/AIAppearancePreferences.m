@@ -275,7 +275,7 @@ typedef enum {
 - (IBAction)customizeEmoticons:(id)sender
 {
 	AIEmoticonPreferences *emoticonPreferences = [[AIEmoticonPreferences alloc] init];
-	[emoticonPreferences openOnWindow:[[self view] window]];
+	[emoticonPreferences showOnWindow:[[self view] window]];
 }
 
 /*!
@@ -331,7 +331,7 @@ typedef enum {
 - (IBAction)showAllDockIcons:(id)sender
 {
 	AIDockIconSelectionSheet *dockIconSelectionSheet = [[AIDockIconSelectionSheet alloc] init];
-	[dockIconSelectionSheet openOnWindow:[[self view] window]];
+	[dockIconSelectionSheet showOnWindow:[[self view] window]];
 }
 
 /*!

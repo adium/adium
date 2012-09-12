@@ -53,16 +53,11 @@
 	return self;
 }
 
-- (void)openOnWindow:(NSWindow *)parentWindow
+- (void)showOnWindow:(id)parentWindow
 {
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
+	[super showOnWindow:parentWindow];
+	
+	if (!parentWindow) {
 		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
@@ -73,12 +68,12 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	[sheet orderOut:nil];
-	
 	viewIsOpen = NO;
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
     [adium.emoticonController flushEmoticonImageCache];
+	
+	[super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 //Configure the preference view
@@ -138,10 +133,10 @@
 {
 	viewIsOpen = NO;
 	
-	[super windowWillClose:sender];
-	
 	[adium.preferenceController unregisterPreferenceObserver:self];
     [adium.emoticonController flushEmoticonImageCache];
+	
+	[super windowWillClose:sender];
 }
 
 - (void)dealloc

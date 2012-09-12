@@ -198,10 +198,10 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedColumn]]
 										  forKey:KEY_INFO_SELECTED_CATEGORY
 										   group:PREF_GROUP_WINDOW_POSITIONS];
-	
-	sharedContactInfoInstance = nil;
 
 	[super windowWillClose:inNotification];
+	
+	sharedContactInfoInstance = nil;
 }
 
 /*
