@@ -158,20 +158,11 @@
 	[[AIURLHandlerPlugin sharedAIURLHandlerPlugin] setAdiumAsDefault];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet orderOut:nil];
-}
-
 - (IBAction)customizeDefaultApp:(id)sender
 {
 	AIURLHandlerWindowController *windowController = [[AIURLHandlerWindowController alloc] initWithWindowNibName:@"AIURLHandlerPreferences"];
 	
-	[NSApp beginSheet:windowController.window
-	   modalForWindow:self.view.window
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[windowController showOnWindow:self.view.window];
 }
 
 @end

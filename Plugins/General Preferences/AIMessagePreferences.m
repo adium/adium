@@ -273,19 +273,11 @@
 										group:@"Message Context Display"];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet orderOut:nil];
-}
 - (IBAction)configureLogCertainAccounts:(id)sender
 {
 	AILogByAccountWindowController *windowController = [[AILogByAccountWindowController alloc] initWithWindowNibName:@"AILogByAccountWindow"];
 	
-	[NSApp beginSheet:windowController.window
-	   modalForWindow:self.view.window
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[windowController showOnWindow:self.view.window];
 }
 
 @end
