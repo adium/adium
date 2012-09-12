@@ -238,10 +238,12 @@ enum {
 	
 	// The properties have to be unset on the .chatlog itself, not the .xml in it
 	if (FSPathMakeRef((UInt8 const *)[[self.path stringByDeletingLastPathComponent] fileSystemRepresentation], &fsRef, NULL) == noErr) {
-		if (LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, NULL) != noErr) {
-			AILogWithSignature(@"Un-quarantining file %@ failed!", [self.path stringByDeletingLastPathComponent]);
+		OSStatus err = LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, NULL);
+		if (err != noErr) {
+			AILogWithSignature(@"Un-quarantining file %@ failed: %d!", [self.path stringByDeletingLastPathComponent], err);
+		} else {
+			AILogWithSignature(@"Un-quarantining file %@ succeeded!", [self.path stringByDeletingLastPathComponent]);
 		}
-		AILogWithSignature(@"Un-quarantining file %@ succeeded!", [self.path stringByDeletingLastPathComponent]);
 	} else {
 		AILogWithSignature(@"Could not find file to quarantine: %@!", [self.path stringByDeletingLastPathComponent]);
 	}
