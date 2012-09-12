@@ -21,6 +21,8 @@
 	IBOutlet	NSPopUpButton *popUp_tabPositionMenu;
 	
 	IBOutlet	AILocalizationTextField *label_messages;
+	IBOutlet	AILocalizationTextField *label_chatRestore;
+	IBOutlet	AILocalizationTextField *label_psychic;
 	IBOutlet	AILocalizationTextField *label_tabs;
 	IBOutlet	AILocalizationTextField *label_showTabs;
 	IBOutlet	AILocalizationTextField *label_switchTabs;

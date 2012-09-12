@@ -79,7 +79,9 @@
 
 - (void)localizePane
 {
-	[label_messages setLocalizedString:AILocalizedString(@"Messages:", nil)];
+	[label_messages setLocalizedString:AILocalizedString(@"Logging:", nil)];
+	[label_chatRestore setLocalizedString:AILocalizedString(@"Chat restore:", nil)];
+	[label_psychic setLocalizedString:AILocalizedString(@"Psychic mode:", nil)];
 	[label_recentMessages setLocalizedString:AILocalizedString(@" recent messages in new chats", nil)];
 	[label_showTabs setLocalizedString:AILocalizedString(@"Show tabs on the:", nil)];
 	[label_switchTabs setLocalizedString:AILocalizedString(@"Switch tabs with:", nil)];
