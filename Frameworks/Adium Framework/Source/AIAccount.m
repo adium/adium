@@ -259,8 +259,11 @@ typedef enum
 
 - (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion
 {
-	//Will be released in alertForAccountDeletion:didReturn:
-	return [[AIAccountDeletionDialog alloc] initWithAccount:self alert:[self alertForAccountDeletion]];
+	if (!confirmationDialogForAccountDeletion) {
+		confirmationDialogForAccountDeletion = [[AIAccountDeletionDialog alloc] initWithAccount:self alert:[self alertForAccountDeletion]];
+	}
+	
+	return confirmationDialogForAccountDeletion;
 }
 
 /*!
@@ -293,6 +296,8 @@ typedef enum
 	if(returnCode == NSAlertDefaultReturn) {
 		[self performDelete];
 	}
+	
+	confirmationDialogForAccountDeletion = nil;
 }
 
 /*!

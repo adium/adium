@@ -3059,6 +3059,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 				break;
 		}
 	}
+	
+	confirmationDialogForAccountDeletion = nil;
 }
 
 - (void)unregisteredAccount:(BOOL)success {

@@ -198,6 +198,8 @@ typedef enum {
 	BOOL					mustPromptForPasswordOnNextConnect;
 	
 	NSString				*currentDisplayName;
+	
+	id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
 }
 
 - (void)initAccount;
