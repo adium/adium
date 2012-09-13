@@ -14,7 +14,7 @@
 @interface AIFacebookXMPPOAuthWebViewWindowController : AIWindowController {
     IBOutlet WebView *webView;
 	IBOutlet NSProgressIndicator *spinner;
-    NSMutableSet *cookies;
+    NSMutableDictionary *cookies;
 	
 	AIFacebookXMPPAccount *account;
 	
@@ -28,7 +28,7 @@
 @property (nonatomic, retain) IBOutlet WebView *webView;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
 
-@property (nonatomic, retain) NSMutableSet *cookies;
+@property (nonatomic, retain) NSMutableDictionary *cookies;
 @property (nonatomic, retain) AIFacebookXMPPAccount *account;
 
 @property (nonatomic, retain) NSString *autoFillUsername;

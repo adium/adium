@@ -156,10 +156,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		.Data = (uint8*)&ssloptions 
 	};
 	
-	err = SecPolicySetValue(policyRef, &theCssmData);
-	// don't care about the error
+	SecPolicySetValue(policyRef, &theCssmData); // Don't care about the error
 	
 	err = SecTrustCreateWithCertificates(certificates, policyRef, &trustRef);
+
 	if(err != noErr) {
 		CFRelease(searchRef);
 		CFRelease(policyRef);

@@ -27,11 +27,13 @@
 - (NSMenu *)downloadLocationMenu;
 - (void)buildDownloadLocationMenu;
 - (void)selectOtherDownloadFolder:(id)sender;
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESFileTransferPreferences
 //Preference pane properties
+- (AIPreferenceCategory)category{
+	return AIPref_Advanced;
+}
 - (NSString *)paneIdentifier
 {
 	return @"File Transfer";
@@ -44,7 +46,7 @@
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-ft" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-file-transfer" forClass:[self class]];
 }
 
 //Called in response to all preference controls, applies new settings
@@ -155,23 +157,14 @@
 
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
-
-	[openPanel beginSheetForDirectory:userPreferredDownloadFolder
-								 file:nil
-								types:nil
-					   modalForWindow:[[self view] window]
-						modalDelegate:self
-					   didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-						  contextInfo:nil];
-}
-
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	if (returnCode == NSOKButton) {
-		[adium.preferenceController setUserPreferredDownloadFolder:[openPanel filename]];
-	}
-
-	[self buildDownloadLocationMenu];
+	openPanel.directoryURL = [NSURL fileURLWithPath:userPreferredDownloadFolder];
+	[openPanel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSInteger result) {
+		if (result == NSFileHandlingPanelOKButton) {
+			[adium.preferenceController setUserPreferredDownloadFolder:openPanel.URL. path];
+		}
+		
+		[self buildDownloadLocationMenu];
+	}];
 }
 
 @end

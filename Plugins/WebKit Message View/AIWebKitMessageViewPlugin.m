@@ -308,7 +308,7 @@
 	if (![[adium.preferenceController preferenceForKey:@"Adium 1.4:Updated Preferences"
 												 group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY] boolValue]) {
 		NSDictionary		*dict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
-		NSMutableDictionary *newDict = [dict mutableCopy];
+		NSMutableDictionary *newDict = [[dict mutableCopy] autorelease];
 		NSMutableSet		*keysToRemove = [NSMutableSet set];
 	
 		NSDictionary *conversionDict = 

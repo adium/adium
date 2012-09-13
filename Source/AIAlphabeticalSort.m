@@ -137,6 +137,8 @@ static  BOOL	sortByLastName;
 NSInteger alphabeticalSort(id objectA, id objectB, BOOL groups, id<AIContainingObject> container)
 {
 	//If we were not passed groups or if we should be sorting groups, sort alphabetically
+    
+    // Changed from "caseInsensitiveCompare" to "localizedCaseInsensitive" to get the correct ordering for languages like Swedish
 	if (!groups) {
 		if (sortByLastName) {
 			NSString	*space = @" ";
@@ -145,21 +147,21 @@ NSInteger alphabeticalSort(id objectA, id objectB, BOOL groups, id<AIContainingO
 			NSArray		*componentsA = [displayNameA componentsSeparatedByString:space];
 			NSArray		*componentsB = [displayNameB componentsSeparatedByString:space];
 			
-			NSComparisonResult returnValue = [[componentsA lastObject] caseInsensitiveCompare:[componentsB lastObject]];
+			NSComparisonResult returnValue = [[componentsA lastObject] localizedCaseInsensitiveCompare:[componentsB lastObject]];
 			//If the last names are the same, compare the whole object, which will amount to sorting these objects by first name
 			if (returnValue == NSOrderedSame) {
-				returnValue = [displayNameA caseInsensitiveCompare:displayNameB];
+				returnValue = [displayNameA localizedCaseInsensitiveCompare:displayNameB];
 			}
 			
 			return (returnValue);
 		} else {
-			return [[objectA longDisplayName] caseInsensitiveCompare:[objectB longDisplayName]];
+			return [[objectA longDisplayName] localizedCaseInsensitiveCompare:[objectB longDisplayName]];
 		}
 
 	} else {
 		//If sorting groups, do a caseInsesitiveCompare; otherwise, keep groups in manual order
 		if (sortGroups) {
-			return [[objectA longDisplayName] caseInsensitiveCompare:[objectB longDisplayName]];
+			return [[objectA longDisplayName] localizedCaseInsensitiveCompare:[objectB longDisplayName]];
 		} else if ([container orderIndexForObject:objectA] > [container orderIndexForObject:objectB]) {
 			return NSOrderedDescending;
 		} else {

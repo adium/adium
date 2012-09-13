@@ -44,7 +44,7 @@
 #define STRING_YEAR					AILocalizedString(@"Year", "Year of current song")
 #define	STRING_STORE_URL			AILocalizedString(@"iTunes Music Store Link", "iTUnes Music Store link for current song")
 #define STRING_MUSIC				AILocalizedString(@"Listening Status", "Listening status string (*is listening to XXX by YYY)")
-#define STRING_CURRENT_TRACK		AILocalizedString(@"Current Track", "Current track information (Track - Artist)")
+#define STRING_CURRENT_TRACK		AILocalizedString(@"iTunes Status", "Current track information (Track - Artist)")
 
 #pragma mark -
 
@@ -158,9 +158,7 @@
 			[mutableNewInfo setObject:[mutableNewInfo objectForKey:KEY_ITUNES_STREAM_TITLE]
 							   forKey:KEY_ITUNES_NAME];
 
-		NSEnumerator *enumerator = [newInfo keyEnumerator];
-		NSString *key;
-		while ((key = [enumerator nextObject])) {
+		for (NSString *key in newInfo) {
 			//Some versions of iTunes may send numbers as numbers rather than strings. Change these to numbers for our use.
 			id value = [newInfo objectForKey:key];
 			if (![value isKindOfClass:[NSString class]]) {
@@ -423,17 +421,13 @@
 	
 	//get the attributed string as a regular string so we can do string processing
 	if ((stringMessage = [inAttributedString string])) {
-		NSEnumerator	*enumerator;
-		NSString		*trigger;
 		BOOL			addStoreLinkAsSubtext = NO;
 		
 		/* Replace the phrases with the string containing the triggers.
 		 * For example, /music will become *is listening to %_track by %_artist*.
 		 * This will then become the actual track information in the next while().
 		 */
-		enumerator = [phraseSubstitutionDict keyEnumerator];
-		
-		while ((trigger = [enumerator nextObject])) {
+		for (NSString *trigger in phraseSubstitutionDict) {
 			//search for phrase in the string that needs to be filtered
 			if (([stringMessage rangeOfString:trigger options:(NSLiteralSearch | NSCaseInsensitiveSearch)].location != NSNotFound)) {
 				NSDictionary	*replacementDict;
@@ -474,9 +468,7 @@
 		}
 		
 		//Substitute simple triggers as appropriate
-		enumerator = [substitutionDict keyEnumerator];
-		while ((trigger = [enumerator nextObject])) {
-			
+		for (NSString *trigger in substitutionDict) {
 			//Find if the current trigger is in the string
 			if (([stringMessage rangeOfString:trigger options:(NSLiteralSearch | NSCaseInsensitiveSearch)].location != NSNotFound)) {
 				//Get the info if we don't already have it
@@ -566,7 +558,18 @@
 	MVMenuButton  *button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
 
 	//configure the popup button and its menu
-	[button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
+
+    /* XXX Remove after 10.6: Apparently with iTunes 10.6.3 on Mac OS X 10.6.8, the NSIconRefImageRep
+     * that is returned by -iconfForFile: for iTunes fails to encode itself for NSCopying. Make a copy
+     * here via -TIFFRepresentation to avoid this bug.
+     * rdar://11930126 http://trac.adium.im/ticket/16046
+     */
+    if ([NSApp isOnLionOrNewer]) {
+        [button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
+    } else {
+        NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
+	    [button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
+    }
 	[self createiTunesToolbarItemMenuItems:menu];
 
 	NSToolbarItem * iTunesItem = [AIToolbarUtilities toolbarItemWithIdentifier:KEY_TRIGGERS_TOOLBAR

@@ -15,6 +15,13 @@
  */
 
 #import "AIBundleAdditions.h"
+#import "AIApplicationAdditions.h"
+
+@interface NSBundle (LionCompatibility)
+
+- (NSImage *)imageForResource:(NSString *)name;
+
+@end
 
 @implementation NSBundle (AIBundleAdditions)
 
@@ -40,21 +47,31 @@
 - (NSSet *)supportedDocumentExtensions
 {
 	NSMutableSet	*supportedDocumentTypes = [NSMutableSet set];
-	NSDictionary	*documentTypes = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-	NSEnumerator	*documentTypesEnumerator;
-	NSDictionary	*documentType;
-
+	NSArray			*documentTypes = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
+	
 	//Look at each dictionary in turn
-	documentTypesEnumerator = [documentTypes objectEnumerator];
-	while ((documentType = [documentTypesEnumerator nextObject])) {
+	[documentTypes enumerateObjectsUsingBlock:^(id documentType, NSUInteger idx, BOOL *stop) {
 		//The @"CFBundleTypeExtensions" key yields an NSArray of supported extensions
 		NSArray	*extensions = [documentType objectForKey:@"CFBundleTypeExtensions"];
 		if (extensions) {
 			[supportedDocumentTypes addObjectsFromArray:extensions];
 		}
-	}
+	}];
 
 	return supportedDocumentTypes;
+}
+
+
+
+- (NSImage *)AI_imageForResource:(NSString *)resource
+{
+	if ([NSApp isOnLionOrNewer]) {
+		resource = [resource stringByDeletingPathExtension];
+		
+		return [self imageForResource:resource];
+	} else {
+		return [[[NSImage alloc] initByReferencingFile:[self pathForImageResource:resource]] autorelease];
+	}
 }
 
 @end

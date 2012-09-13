@@ -25,14 +25,16 @@
 #define WINDOW_FADE_SNAP		0.05f // How close to min/max we must get before fade is finished
 
 @interface AIFloater ()
+
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
-- (void)_setWindowOpacity:(CGFloat)opacity;
+- (void)AI_setWindowOpacity:(CGFloat)opacity;
+
 @end
 
 @implementation AIFloater
 
 // Because the floater can control its own display, it retains itself and releases when it closes.
-+ (id)floaterWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask
++ (id)newFloaterWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask
 {
     return [[self alloc] initWithImage:inImage styleMask:styleMask];
 }
@@ -58,7 +60,7 @@
 		[panel setHasShadow:YES];
 		[panel setOpaque:NO];
 		[panel setBackgroundColor:[NSColor clearColor]];
-		[self _setWindowOpacity:WINDOW_FADE_MIN];
+		[self AI_setWindowOpacity:WINDOW_FADE_MIN];
 			
 		// Setup the static view
 		staticView = [[NSImageView alloc] initWithFrame:frame];
@@ -106,7 +108,7 @@
 - (void)setMaxOpacity:(CGFloat)inMaxOpacity
 {
     maxOpacity = inMaxOpacity;
-    if (windowIsVisible) [self _setWindowOpacity:maxOpacity];
+    if (windowIsVisible) [self AI_setWindowOpacity:maxOpacity];
 }
 
 #pragma mark Window Visibility
@@ -134,12 +136,12 @@
 				[fadeAnimation startAnimation];
             }
         } else {
-            [self _setWindowOpacity:(windowIsVisible ? maxOpacity : WINDOW_FADE_MIN)];
+            [self AI_setWindowOpacity:(windowIsVisible ? maxOpacity : WINDOW_FADE_MIN)];
         }
     }
 }
 
-- (void)_setWindowOpacity:(CGFloat)opacity
+- (void)AI_setWindowOpacity:(CGFloat)opacity
 {
     [panel setAlphaValue:opacity];
 }

@@ -41,10 +41,10 @@
 #define	CONTACT_INFO_LAYOUT				@"Contact Info List Layout"
 
 //Defines for the image files used by the toolbar segments
-#define INFO_SEGMENT_IMAGE (@"Personal.png")
-#define ADDRESS_BOOK_SEGMENT_IMAGE (@"addressbook_segment.png")
-#define EVENTS_SEGMENT_IMAGE (@"events_segment.png")
-#define ADVANCED_SEGMENT_IMAGE (@"advanced_segment.png")
+#define INFO_SEGMENT_IMAGE (@"Personal.tiff")
+#define ADDRESS_BOOK_SEGMENT_IMAGE (@"get-info-address-book.tiff")
+#define EVENTS_SEGMENT_IMAGE (@"get-info-events.tiff")
+#define ADVANCED_SEGMENT_IMAGE (@"get-info-advanced.tiff")
 
 enum segments {
 	CONTACT_INFO_SEGMENT = 0,

@@ -98,7 +98,7 @@
 
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"ErrorAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-error-alert" forClass:[self class]];
 }
 
 - (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID
@@ -207,7 +207,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"ErrorAlert" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-error-alert" forClass:[self class]] retain];
 	return eventImage;
 }
 

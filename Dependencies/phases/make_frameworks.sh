@@ -54,14 +54,6 @@ prep_headers() {
 		local meanwhileDir="${ROOTDIR}/build/lib/include/libmeanwhile-${MEANWHILE_VERSION}"
 		quiet mkdir "${meanwhileDir}" || true
 		touch "${meanwhileDir}/no_headers_here.txt"
-		
-		#json-glib
-		status "Staging json-glib headers"
-		local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
-		quiet rm -r "${jsonDir}" || true
-		quiet mkdir "${jsonDir}" || true
-		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
-		
 
 		#libpurple
 		status "Staging libpurple headers"
@@ -130,7 +122,8 @@ make_po_files() {
 	PURPLE_RSRC_DIR="${ROOTDIR}/Frameworks/libpurple.subproj/libpurple.framework/Resources"
 	
 	status "Building libpurple po files"
-	quiet pushd "${ROOTDIR}/source/im.pidgin.adium/po"
+	quiet pushd "${ROOTDIR}/source/libpurple/po"
+		log make -j $NUMBER_OF_CORES update-po
 		log make all
 		log make install
 	quiet popd

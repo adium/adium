@@ -81,7 +81,7 @@
 {
 	[self retain];
 
-	NSString	*localFilename = nil;
+	NSString	*localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];;
 	BOOL		finished = NO;
 	
 	[fileTransfer retain];
@@ -89,8 +89,6 @@
 	switch (action) {			
 		case AISaveFile: /* Save */
 		{
-			localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];
-			
 			/* If the file doesn't exist, we're done.  If it does, fall through to AISaveFileAs
 			* triggering a Save As... panel.
 			*/
@@ -103,11 +101,12 @@
 		{
 			//Prompt for a location to save
 			NSSavePanel *savePanel = [NSSavePanel savePanel];
-			NSInteger returnCode = [savePanel runModalForDirectory:[adium.preferenceController userPreferredDownloadFolder]
-																			   file:[fileTransfer remoteFilename]];
+			savePanel.directoryURL = [NSURL fileURLWithPath:localFilename];
+			savePanel.nameFieldStringValue = [localFilename lastPathComponent];
+			NSInteger returnCode = [savePanel runModal];
 			//Only need to take action if the user pressed OK; if she pressed cancel, just return to our window.
-			if (returnCode == NSOKButton) {
-				localFilename = [savePanel filename];
+			if (returnCode == NSFileHandlingPanelOKButton) {
+				localFilename = savePanel.URL.path;
 				finished = YES;
 			}
 			
@@ -115,6 +114,7 @@
 		}
 		case AICancel: /* Closed = Cancel */
 		{
+			localFilename = nil;
 			/* File name remains nil and the transfer will therefore be cancelled */
 			finished = YES;
 			break;

@@ -80,7 +80,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	//I've seen a crashlog with a delayed -updateDisplayName causing crashes due to a freed AIMetaContact, so let's cancel any pending updates
 	[[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self];
 	
-	[self.containedObjects release];
+	[_containedObjects release]; _containedObjects = nil;
+	[_listContacts release]; _listContacts = nil;
+	[_listContactsIncludingOfflineAccounts release]; _listContactsIncludingOfflineAccounts = nil;
 
 	[super dealloc];
 }

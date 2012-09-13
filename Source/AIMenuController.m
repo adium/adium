@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// $Id$
 
 #import "AIMenuController.h"
 #import <Adium/AIAccount.h>
@@ -489,6 +488,7 @@
 
 	//Help menu
 	[menuItem_adiumHelp setTitle:AILocalizedString(@"Adium Help",nil)];
+	[menuItem_releaseNotes setTitle:AILocalizedString(@"View Release Notes",nil)];
 	[menuItem_contribute setTitle:AILocalizedString(@"Contribute",nil)];
 	[menuItem_reportABug setTitle:AILocalizedString(@"Report a Bug",nil)];
 	[menuItem_sendFeedback setTitle:AILocalizedString(@"Send Feedback",nil)];

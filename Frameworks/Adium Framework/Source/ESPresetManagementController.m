@@ -19,7 +19,6 @@
 #define	PRESET_DRAG_TYPE @"Adium:PresetDrag"
 
 @interface ESPresetManagementController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName presets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate;
 - (void)configureControlDimming;
 - (void)tableViewSelectionDidChange:(NSNotification *)notification;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -31,45 +30,38 @@
  */
 @implementation ESPresetManagementController
 
+- (void)showOnWindow:(NSWindow *)parentWindow
+{
+	if (parentWindow) {
+		[NSApp beginSheet:self.window
+		   modalForWindow:parentWindow
+			modalDelegate:self
+		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+			  contextInfo:nil];
+
+	} else {
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
+		[NSApp activateIgnoringOtherApps:YES];
+	}
+}
+
+
 /*!
  * @brief Begin managing presets
  *
  * @param inPresets An array of either NSString or NSDictionary objects.
  * @param inNameKey If inPresets contains NSDictionary objects, the key used to look up the name ot present to the user.
- * @param parentWindow A window on which to show the preset manager as a sheet
  * @param inDelegate The delegate for preset management.  It must implement all methods in the ESPresetManagementControllerDelegate informal protocol.
  */
-+ (void)managePresets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey onWindow:(NSWindow *)parentWindow withDelegate:(id)inDelegate
+- (id)initWithPresets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate
 {
-	ESPresetManagementController	*controller;
 	
 	NSParameterAssert([inDelegate respondsToSelector:@selector(renamePreset:toName:inPresets:renamedPreset:)]);
 	NSParameterAssert([inDelegate respondsToSelector:@selector(duplicatePreset:inPresets:createdDuplicate:)]);
 	NSParameterAssert([inDelegate respondsToSelector:@selector(deletePreset:inPresets:)]);
 	
-	//(movePreset:toIndex:referencePresetArray:)
-	controller = [[self alloc] initWithWindowNibName:@"PresetManagement"
-											 presets:inPresets
-										  namedByKey:inNameKey
-										withDelegate:inDelegate];
-	
-	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
-		   modalForWindow:parentWindow
-			modalDelegate:controller
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-
-	} else {
-		[controller showWindow:nil];
-		[[controller window] makeKeyAndOrderFront:nil];
-		[NSApp activateIgnoringOtherApps:YES];
-	}
-}
-
-- (id)initWithWindowNibName:(NSString *)windowNibName presets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate
-{
-    if ((self = [super initWithWindowNibName:windowNibName])) {
+    if ((self = [super initWithWindowNibName:@"PresetManagement"])) {
 		presets = [inPresets retain];
 		nameKey = [inNameKey retain];
 		delegate = [inDelegate retain];
@@ -135,6 +127,8 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {	
     [sheet orderOut:nil];
+	
+	[self autorelease];
 }
 
 /*!
@@ -336,11 +330,11 @@
  *
  * Only allow the drag to start if the delegate responds to @selector(movePreset:toIndex:inPresets:)
  */
-- (BOOL)tableView:(NSTableView *)tv writeRows:(NSArray*)rows toPasteboard:(NSPasteboard*)pboard
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	if ([delegate respondsToSelector:@selector(movePreset:toIndex:inPresets:presetAfterMove:)]) {
 		[tempDragPreset release];
-		tempDragPreset = [[presets objectAtIndex:[[rows objectAtIndex:0] integerValue]] retain];
+		tempDragPreset = [[presets objectAtIndex:[rowIndexes firstIndex]] retain];
 		
 		[pboard declareTypes:[NSArray arrayWithObject:PRESET_DRAG_TYPE] owner:self];
 		[pboard setString:@"Preset" forType:PRESET_DRAG_TYPE]; //Arbitrary state

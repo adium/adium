@@ -450,19 +450,13 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	[contactListView setDesiredHeightPadding:1];
 	
-	//Bubbles special cases
+	// Bubbles special cases
 	pillowsOrPillowsFittedWindowStyle = (windowStyle == AIContactListWindowStyleContactBubbles || windowStyle == AIContactListWindowStyleContactBubbles_Fitted);
+	
 	if (pillowsOrPillowsFittedWindowStyle) {
-		//Treat the padding as spacing
-		int contactSpacing = [[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_SPACING] intValue];
-		
 		/* If we're outline bubbles, insist upon the spacing being sufficient for the outlines. Otherwise, we
 		 * allow drawing glitches as one bubble overlaps the rect of another.
 		 */
-		BOOL	outlineBubble = [[prefDict objectForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE] boolValue];
-		int		outlineBubbleLineWidth = [[prefDict objectForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH] intValue];
-		if (outlineBubble && (outlineBubbleLineWidth > contactSpacing)) contactSpacing = outlineBubbleLineWidth;
-		
 		[contentCell setSplitVerticalSpacing:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_SPACING] intValue]];
 		[contentCell setLeftSpacing:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_LEFT_INDENT] intValue]];
 		[contentCell setRightSpacing:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_RIGHT_INDENT] intValue]];
@@ -728,15 +722,10 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent
 {
-    NSPoint	location;
-    NSInteger		row;
-    id		item;
-	
-    //Get the clicked item
-    location = [outlineView convertPoint:[theEvent locationInWindow] fromView:nil];
-    row = [outlineView rowAtPoint:location];
-    item = [outlineView itemAtRow:row];
-	
+	// Get the clicked item -> row
+    NSPoint	location = [outlineView convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSInteger row = [outlineView rowAtPoint:location];
+
     //Select the clicked row and bring the window forward
     [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
     [[outlineView window] makeKeyAndOrderFront:nil];
@@ -837,8 +826,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 			@"ymsgr://im?to=%@", @"Yahoo! Japan",
 			nil];
 
-		NSEnumerator *itemsEnum = [items objectEnumerator];
-		for (AIProxyListObject *proxyListObject = [itemsEnum nextObject]; proxyListObject; proxyListObject = [itemsEnum nextObject]) {
+		for (AIProxyListObject *proxyListObject in items) {
 			AIListObject *listObject = proxyListObject.listObject;
 			NSString *format;
 

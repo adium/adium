@@ -318,6 +318,8 @@
 									   children:[NSArray arrayWithObject:list]
 									 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
 	
+	purple_request_field_list_clear_selected(field);
+	
 	return result;
 }
 
@@ -510,7 +512,7 @@
 
         
         NSXMLElement *formnode = [NSXMLNode elementWithName:@"form" children:nil attributes:[NSArray arrayWithObjects:
-            [NSXMLNode attributeWithName:@"action" stringValue:@"http://www.adiumx.com/XMPP/form"],
+            [NSXMLNode attributeWithName:@"action" stringValue:@"http://www.adium.im/XMPP/form"],
             [NSXMLNode attributeWithName:@"method" stringValue:@"POST"],nil]];
         [body addChild:formnode];
 		
@@ -706,7 +708,7 @@
         [listener use];
 
     else {
-        if ([[[request URL] absoluteString] isEqualToString:@"http://www.adiumx.com/XMPP/form"]) {
+        if ([[[request URL] absoluteString] isEqualToString:@"http://www.adium.im/XMPP/form"]) {
             NSString *info = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
             NSArray *formfields = [info componentsSeparatedByString:@"&"];
             [info release];

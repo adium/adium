@@ -122,7 +122,7 @@
 
 	//User Icon
 	if (!(currentIcon = [inObject userIcon])) {
-		currentIcon = [NSImage imageNamed:@"DefaultIcon" forClass:[self class]];
+		currentIcon = [NSImage imageNamed:@"default-icon" forClass:[self class]];
 	}
 	
 	/* NSScaleProportionally will lock an animated GIF into a single frame.  We therefore use NSScaleNone if
@@ -418,14 +418,12 @@
     [table setHidesEmptyCells:YES];
 
 	NSMutableAttributedString		*result = [[[NSMutableAttributedString alloc] init] autorelease];
-	NSEnumerator					*enumerator = [profileArray objectEnumerator];
-	NSDictionary					*lineDict;
 	
-	BOOL							shownAnyContent = NO;
+	__block BOOL					shownAnyContent = NO;
 	
-	for (NSInteger row = 0; (lineDict = [enumerator nextObject]); row++) {
+	[profileArray enumerateObjectsUsingBlock:^(id lineDict, NSUInteger row, BOOL *stop) {
 		if ([[lineDict objectForKey:KEY_TYPE] integerValue] == AIUserInfoSectionBreak && shownAnyContent == NO) {
-			continue;
+			return;
 		}
 		
 		NSAttributedString *value = nil, *key = nil;
@@ -505,7 +503,7 @@
 		}
 		
 		shownAnyContent = YES;
-	}
+	}];
 	
 	return result;
 }

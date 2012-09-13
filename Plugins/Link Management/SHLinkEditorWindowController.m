@@ -21,49 +21,47 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 
-#define LINK_EDITOR_NIB_NAME        @"LinkEditor"
+#define LINK_EDITOR_NIB_NAME @"LinkEditor"
 
 @interface SHLinkEditorWindowController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
+
 - (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
 @end
 
 @interface NSObject (SHLinkEditorAdditions)
+
 - (void)linkEditorLinkDidChange:(NSDictionary *)linkDict;
+
 @end
 
 @implementation SHLinkEditorWindowController
 
-
-//Init methods ---------------------------------------------------------------------------------------------------------
 #pragma mark Init methods
-+ (void)showLinkEditorForTextView:(NSTextView *)inTextView onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
+
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	SHLinkEditorWindowController	*editorWindow = [[self alloc] initWithWindowNibName:LINK_EDITOR_NIB_NAME
-																			forTextView:inTextView
-																		notifyingTarget:inTarget];
-	
 	if (parentWindow) {
-		[NSApp beginSheet:[editorWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:editorWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[editorWindow showWindow:nil];
+		[self showWindow:nil];
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
+- (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
 
 {
-    [super initWithWindowNibName:windowNibName];
-
-	textView = [inTextView retain];
-	target = [inTarget retain];
+    if ((self = [super initWithWindowNibName:LINK_EDITOR_NIB_NAME])) {
+		textView = [inTextView retain];
+		target = [inTarget retain];
+	}
 	
 	return self;
 }
@@ -76,8 +74,8 @@
     [super dealloc];
 }
 
-//Window Methods -------------------------------------------------------------------------------------------------------
 #pragma mark Window Methods
+
 - (void)windowDidLoad
 {
 	[button_insert setLocalizedString:AILocalizedString(@"Insert",nil)];
@@ -92,7 +90,7 @@
 		NSString    *linkText;
 		id   	 	linkURL = nil;
 		
-		//Get the selected link (We have to be careful when the selection is at the very end of our text view)
+		// Get the selected link (We have to be careful when the selection is at the very end of our text view)
 		if ([[textView textStorage] length] > 0 && selectedRange.location != NSNotFound && NSMaxRange(selectedRange) <= [[textView textStorage] length]) {
 			linkURL = [[textView textStorage] attribute:NSLinkAttributeName
 												atIndex:selectedRange.location
@@ -100,13 +98,13 @@
 		}
 		
 		if (linkURL) {
-			//If a link exists at our selection, expand the selection to encompass that entire link
+			// If a link exists at our selection, expand the selection to encompass that entire link
 			[textView setSelectedRange:rangeOfLinkAttribute];
 			selectedRange = rangeOfLinkAttribute;
 		} else {
-			//Fill the URL field from the pasteboard if possible
-			NSPasteboard		*pboard = [NSPasteboard generalPasteboard];
-			NSString			*availableType = [pboard availableTypeFromArray:[NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil]];
+			// Fill the URL field from the pasteboard if possible
+			NSPasteboard 	*pboard = [NSPasteboard generalPasteboard];
+			NSString 		*availableType = [pboard availableTypeFromArray:[NSArray arrayWithObjects:NSURLPboardType, NSStringPboardType, nil]];
 			
 			if (availableType) {
 				if ([availableType isEqualToString:NSURLPboardType]) {
@@ -118,17 +116,17 @@
 			}
 
 			if (linkURL) {
-				//Only use the pasteboard if it contains a valid URL; otherwise it most likely is not intended for us.
+				// Only use the pasteboard if it contains a valid URL; otherwise it most likely is not intended for us.
 				if (![AHHyperlinkScanner isStringValidURI:linkURL usingStrict:NO fromIndex:0U withStatus:NULL schemeLength:NULL]) {
 					linkURL = nil;
 				}
 			}
 		}
 		
-		//Get the selected text
+		// Get the selected text
 		linkText = [[textView attributedSubstringFromRange:selectedRange] string];
 		
-		//Place the link title and URL in our panel. Automatically select the URL.
+		// Place the link title and URL in our panel. Automatically select the URL.
 		if (linkURL) {
 			NSString	*tmpString = ([linkURL isKindOfClass:[NSString class]] ? 
 									  (NSString *)linkURL : 
@@ -150,7 +148,7 @@
 			}
 
 		} else if ([linkText length]) {
-			//focus the URL field so that the user can enter an URL right away.
+			// Focus the URL field so that the user can enter an URL right away.
 			[[self window] makeFirstResponder:textView_URL];
 		}
 
@@ -159,41 +157,41 @@
 		}
 	}
 
-    //Turn on URL validation for our textView
+    // Turn on URL validation for our textView
     [textView_URL setContinuousURLValidationEnabled:YES];
 	
 	[scrollView_URL setAlwaysDrawFocusRingIfFocused:YES];
 }
 
-//Window is closing
+// Window is closing
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
 	[self autorelease];
 }
 
-//Called as the sheet closes, dismisses the sheet
+// Called as the sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	[self autorelease];
 }
 
-//Cancel
+// Cancel
 - (IBAction)cancel:(id)sender
 {
     [self closeWindow:sender];
 }
 
-
-//AttributedString Wrangleing Methods ----------------------------------------------------------------------------------
 #pragma mark AttributedString Wrangleing Methods
+
 - (IBAction)acceptURL:(id)sender
 {
 	NSMutableString *urlString = [[textView_URL linkURL] mutableCopy];
 	NSString		*linkString  = [textField_linkText stringValue];
 	NSURL			*URL;
 	
-	//Pre-fix the url if necessary
+	// Pre-fix the url if necessary
 	switch ([textView_URL validationStatus]) {
 		case AH_URL_DEGENERATE:
 			[urlString insertString:@"http://" atIndex:0];
@@ -205,17 +203,17 @@
 			break;
 	}
 
-	//Insert it into the text view
+	// Insert it into the text view
 	if ((URL = [NSURL URLWithString:urlString])) {
 		[self insertLinkTo:URL
 				  withText:linkString
 					inView:textView];
-		//Inform our target of the new link and close up
+		// Inform our target of the new link and close up
 		[self informTargetOfLink];
 		[self closeWindow:nil];
 		
 	} else {
-		//If the URL is invalid enough that we can't create an NSURL, just beep
+		// If the URL is invalid enough that we can't create an NSURL, just beep
 		NSBeep();
 	}
 
@@ -224,26 +222,25 @@
 
 - (IBAction)removeURL:(id)sender
 {
-    id  selectedLink;
     if ([[textView textStorage] length] &&
        [textView selectedRange].location != NSNotFound &&
        [textView selectedRange].location != [[textView textStorage] length]) {
             NSRange selectionRange = [textView selectedRange];
-            //get range
-            selectedLink = [[textView textStorage] attribute:NSLinkAttributeName
-												 atIndex:selectionRange.location
-										  effectiveRange:&selectionRange];
-			//remove the link from it
+            // Get range
+            [[textView textStorage] attribute:NSLinkAttributeName
+									  atIndex:selectionRange.location
+							   effectiveRange:&selectionRange];
+			// Remove the link from it
             [[textView textStorage] removeAttribute:NSLinkAttributeName range:selectionRange];
     }
     [self closeWindow:nil];
 }
 
-//Inform our target of the link currently in our panel
+// Inform our target of the link currently in our panel
 - (void)informTargetOfLink
 {
-	//We need to make sure we're getting copies of these, otherwise the fields will change them later, changing the
-	//copy in our dictionary
+	// We need to make sure we're getting copies of these, otherwise the fields will change them later, changing the
+	// copy in our dictionary
 	NSDictionary	*linkDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[[[textField_linkText stringValue] copy] autorelease], KEY_LINK_TITLE,
 		[textView_URL linkURL], KEY_LINK_URL,
@@ -254,19 +251,19 @@
 	}
 }
 
-//Insert a link into a text view
+// Insert a link into a text view
 - (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView
 {
     NSDictionary				*typingAttributes = [inView typingAttributes];
 	NSTextStorage				*textStorage = [inView textStorage];
 	NSMutableAttributedString	*linkString;
 	
-	//Create the link string
+	// Create the link string
 	linkString = [[[NSMutableAttributedString alloc] initWithString:linkTitle
 														 attributes:typingAttributes] autorelease];
     [linkString addAttribute:NSLinkAttributeName value:linkURL range:NSMakeRange(0,[linkString length])];
     
-	//Insert it into the text view, replacing the current selection
+	// Insert it into the text view, replacing the current selection
 	[[inView undoManager] beginUndoGrouping];
 	[[[inView undoManager] prepareWithInvocationTarget:textStorage]
 				replaceCharactersInRange:NSMakeRange([inView selectedRange].location, [linkString length])
@@ -274,8 +271,8 @@
 
 	[textStorage replaceCharactersInRange:[inView selectedRange] withAttributedString:linkString];
 
-	//If this link was inserted at the end of our text view, add a space and set the formatting back to normal
-	//This prevents the link attribute from bleeding into newly entered text
+	// If this link was inserted at the end of our text view, add a space and set the formatting back to normal
+	// This prevents the link attribute from bleeding into newly entered text
 	if (NSMaxRange([inView selectedRange]) == [textStorage length]) {
 		NSAttributedString	*tmpString = [[[NSAttributedString alloc] initWithString:@" "
 																		  attributes:typingAttributes] autorelease];
@@ -286,7 +283,7 @@
 		[textStorage appendAttributedString:tmpString];
 	}
 	
-	//Notify that a change occurred since NSTextStorage won't do it for us
+	// Notify that a change occurred since NSTextStorage won't do it for us
 	[[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
 														object:inView
 													  userInfo:nil];
@@ -294,21 +291,21 @@
 	[[inView undoManager] endUndoGrouping];
 }
 
-//URL Validation and other Delegate Oddities ---------------------------------------------------------------------------
 #pragma mark URL Validation and other Delegate Oddities
+
 - (void)textDidChange:(NSNotification *)aNotification
 {
-    //validate our URL
+    // Validate our URL
     [textView_URL textDidChange:aNotification];
 	
 	if ([imageView_invalidURLAlert respondsToSelector:@selector(setHidden:)]) {
         [imageView_invalidURLAlert setHidden:[textView_URL isURLValid]];
 
-    } else { //for those stuck in jag, we can't use setHidden
+    } else { // For those stuck in jag, we can't use setHidden
         if ([textView_URL isURLValid]) {
             [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"space" forClass:[self class]]];
         } else {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"ErrorAlert" forClass:[self class]]];
+            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"events-error-alert" forClass:[self class]]];
         }
     }
 }

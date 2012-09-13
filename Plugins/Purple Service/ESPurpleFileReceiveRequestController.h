@@ -20,6 +20,6 @@
 @interface ESPurpleFileReceiveRequestController : NSObject {
 }
 
-+ (ESPurpleFileReceiveRequestController *)showFileReceiveWindowWithDict:(NSDictionary *)inDict;
++ (ESPurpleFileReceiveRequestController *)showFileReceiveWindowWithDict:(NSDictionary *)inDict __attribute__((objc_method_family(new)));
 
 @end

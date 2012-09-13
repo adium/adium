@@ -39,19 +39,26 @@
 @synthesize imageCollectionView, okButton;
 @synthesize icons, iconsData, animatedIconState, animatedIndex, animationTimer, previousIndex;
 
-+ (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow
+- (id)init
 {
-	AIDockIconSelectionSheet *controller = [[self alloc] initWithWindowNibName:@"DockIconSelectionSheet"];
+	if (self = [super initWithWindowNibName:@"DockIconSelectionSheet"]) {
+		
+	}
 	
+	return self;
+}
+
+- (void)openOnWindow:(NSWindow *)parentWindow
+{
 	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:controller
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[controller showWindow:nil];
-		[[controller window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
 }
@@ -119,7 +126,7 @@
 - (void)xtrasChanged:(NSNotification *)notification
 {
 	if (!notification || [[notification object] caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
-		[self setIconsData:[[NSMutableArray alloc] init]];
+		[self setIconsData:[NSMutableArray array]];
 		NSMutableArray *dockIcons = [[NSMutableArray alloc] init];
 		
 		// Fetch the pack previews

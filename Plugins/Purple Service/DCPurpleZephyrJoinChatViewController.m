@@ -59,9 +59,6 @@
 	
 	if (class && [class length]) {
 		NSString	*name;
-		//The chatCreationInfo has keys corresponding to the GHashTable keys and values to match them.
-		chatCreationInfo = [NSMutableDictionary dictionaryWithObject:class
-															  forKey:@"class"];
 
 		//The chatCreationInfo has keys corresponding to the GHashTable keys and values to match them.
 		chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:class,@"class",instance,@"instance",recipient,@"recipient",nil];

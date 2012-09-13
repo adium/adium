@@ -160,7 +160,7 @@
 	
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
-							 URL:@"http://www.adiumx.com"
+							 URL:@"http://www.adium.im"
 						   token:self.sourceToken];	
 	
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
@@ -701,7 +701,7 @@
 }
 
 /*!
- * @brief Open the represented objec'ts user page
+ * @brief Open the represented object's user page
  */
 - (void)openUserPage:(NSMenuItem *)menuItem
 {

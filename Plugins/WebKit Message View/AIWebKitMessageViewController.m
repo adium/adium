@@ -67,6 +67,7 @@
 - (void)processQueuedContent;
 - (void)_processContentObject:(AIContentObject *)content willAddMoreContentObjects:(BOOL)willAddMoreContentObjects;
 - (void)_appendContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar willAddMoreContentObjects:(BOOL)willAddMoreContentObjects replaceLastContent:(BOOL)replaceLastContent;
+- (void)_setDocumentReady;
 
 - (NSString *)_webKitBackgroundImagePathForUniqueID:(NSInteger)uniqueID;
 - (NSString *)_webKitUserIconPathForObject:(AIListObject *)inObject;
@@ -94,14 +95,8 @@
 - (void)contentObjectAdded:(NSNotification *)notification;
 - (void)chatDidFinishAddingUntrackedContent:(NSNotification *)notification;
 - (void)customEmoticonUpdated:(NSNotification *)inNotification;
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)listObjectAttributesChanged:(NSNotification *)notification;
 - (BOOL)zoomImage:(DOMHTMLImageElement *)img;
-@end
-
-@interface DOMDocument (FutureWebKitPublicMethodsIKnow)
-- (DOMNodeList *)getElementsByClassName:(NSString *)className;
-- (DOMNodeList *)querySelectorAll:(NSString *)selectors; // We require 10.5.8/Safari 4, all is well!
 @end
 
 static NSArray *draggedTypes = nil;
@@ -569,6 +564,12 @@ static NSArray *draggedTypes = nil;
 	[chatElement setClassName:chatClassName];
 }
 
+// Set document is ready (DOM ready)
+- (void)_setDocumentReady
+{
+	documentIsReady = YES;
+}
+
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
 /*!
@@ -612,7 +613,7 @@ static NSArray *draggedTypes = nil;
 		NSUInteger	contentQueueCount = 1;
 		NSUInteger	objectsAdded = 0;
 		
-		if (webViewIsReady) {
+		if (webViewIsReady && documentIsReady) {
 			contentQueueCount = contentQueue.count;
 			
 			while (contentQueueCount > 0) {
@@ -838,25 +839,14 @@ static NSArray *draggedTypes = nil;
 	NSString	*path = [imageURL path];
 	
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
-	[savePanel beginSheetForDirectory:nil
-								 file:[path lastPathComponent]
-					   modalForWindow:[webView window]
-						modalDelegate:self
-					   didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-						  contextInfo:[imageURL retain]];
-}
-
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode  contextInfo:(void  *)contextInfo
-{
-	NSURL	*imageURL = (NSURL *)contextInfo;
-
-	if (returnCode ==  NSOKButton) {
-		[[NSFileManager defaultManager] copyItemAtPath:[imageURL absoluteString]
-												toPath:[[sheet URL] absoluteString]
-												 error:NULL];
-	}
-	
-	[imageURL release];
+	savePanel.nameFieldStringValue = [path lastPathComponent];
+	[savePanel beginSheetModalForWindow:[webView window] completionHandler:^(NSInteger result) {
+		if (result ==  NSFileHandlingPanelOKButton) {
+			[[NSFileManager defaultManager] copyItemAtURL:imageURL
+													toURL:savePanel.URL
+													error:nil];
+		}
+	}];
 }
 
 /*!
@@ -985,11 +975,14 @@ static NSArray *draggedTypes = nil;
 }
 
 /*!
- * @brief Add ourself to the window script object bridge when it's safe to do so
+ * @brief Add ourself to the window script object bridge when it's safe to do so. Also injects custom javascript.
  */
 - (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
 {
     [[webView windowScriptObject] setValue:self forKey:@"client"];
+	
+	// Add an event listener for DOM ready and notify back our controller
+	[[webView windowScriptObject] evaluateWebScript:@"document.addEventListener(\"DOMContentLoaded\", function() {window.client.$_setDocumentReady()}, false);"];
 }
 
 //Dragging delegate ----------------------------------------------------------------------------------------------------
@@ -1406,9 +1399,6 @@ static NSArray *draggedTypes = nil;
 - (void)updateServiceIcon
 {
 	DOMDocument *doc = [webView mainFrameDocument];
-	//Old WebKits don't support this... if someone feels like doing it the slower way here, feel free
-	if(![doc respondsToSelector:@selector(getElementsByClassName:)])
-		return; 
 	DOMNodeList  *serviceIconImages = [doc getElementsByClassName:@"serviceIcon"];
 	NSUInteger imagesCount = [serviceIconImages length];
 	
@@ -1642,7 +1632,8 @@ static NSArray *draggedTypes = nil;
 	if (
 		sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:)) ||
 		sel_isEqual(aSelector, @selector(debugLog:)) ||
-		sel_isEqual(aSelector, @selector(zoomImage:))
+		sel_isEqual(aSelector, @selector(zoomImage:)) ||
+		sel_isEqual(aSelector, @selector(_setDocumentReady))
 	)
 		return NO;
 	

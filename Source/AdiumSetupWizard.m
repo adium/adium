@@ -39,6 +39,7 @@ enum{
 
 @interface AdiumSetupWizard ()
 - (void)multipleImportAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)show __attribute__((ns_consumes_self));
 @end
 
 /*!
@@ -56,9 +57,14 @@ enum{
 	
 	setupWizardWindowController = [[self alloc] initWithWindowNibName:@"SetupWizard"];
 	
+	[setupWizardWindowController show];
+}
+
+- (void)show
+{
 	//Configure and show window
-	[setupWizardWindowController showWindow:nil];
-	[[setupWizardWindowController window] orderFront:nil];
+	[self showWindow:nil];
+	[[self window] orderFront:nil];
 }
 
 /*!
@@ -328,7 +334,7 @@ enum{
 /*!
  * @brief The selected service in the account configuration tab view item was changed
  */
-- (void)selectServiceType:(id)sender
+- (IBAction)selectServiceType:(id)sender
 {
 	[self configureAccountSetupForService:[[popUp_services selectedItem] representedObject]];
 }

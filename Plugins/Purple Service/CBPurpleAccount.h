@@ -135,7 +135,7 @@
 
 - (void)removeContact:(AIListContact *)theContact;
 
-- (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict;
+- (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict __attribute__((ns_returns_retained));
 
 - (void)addChat:(AIChat *)chat;
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typing;
@@ -161,7 +161,7 @@
 - (void)destroyFileTransfer:(ESFileTransfer *)fileTransfer;
 - (ESFileTransfer *)newFileTransferObjectWith:(NSString *)destinationUID
 										 size:(unsigned long long)inSize
-							   remoteFilename:(NSString *)remoteFilename;
+							   remoteFilename:(NSString *)remoteFilename __attribute__((objc_method_family(none)));
 
 - (BOOL)allowFileTransferWithListObject:(AIListObject *)inListObject;
 - (BOOL)canSendFolders;

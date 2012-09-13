@@ -286,7 +286,6 @@
     // e.g. "Sun, 06 Nov 1994 08:49:37 GMT"
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	//[dateFormatter setDateFormat:@"%a, %d %b %Y %H:%M:%S GMT"]; // won't work with -init, which uses new (unicode) format behaviour.
-	[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss GMT"];
 	return dateFormatter;
 }
@@ -1067,7 +1066,7 @@
 
 - (NSString *)getRepliesStartingAtPage:(int)pageNum
 {
-    NSString *path = @"statuses/replies.xml";
+    NSString *path = @"statuses/mentions.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (pageNum > 0) {
@@ -1387,7 +1386,7 @@
 
 - (NSString *)getRepliesSinceID:(NSString *)updateID startingAtPage:(int)pageNum
 {
-	NSString *path = @"statuses/replies.xml";
+	NSString *path = @"statuses/mentions.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {

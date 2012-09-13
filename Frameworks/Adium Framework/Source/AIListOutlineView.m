@@ -13,6 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
 #import "AIContactController.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListCell.h>
@@ -27,15 +28,19 @@
 #import "AISCLViewPlugin.h"
 
 @interface AIListOutlineView ()
-- (void)_initListOutlineView;
+
+- (void)AI_initListOutlineView;
+
 @end
 
 @implementation AIListOutlineView
 
 + (void)initialize
 {
-	if (self != [AIListOutlineView class])
+	if (self != [AIListOutlineView class]) {
 		return;
+	}
+
 	[self exposeBinding:@"desiredHeight"];
 	[self exposeBinding:@"totalHeight"];
 }
@@ -43,28 +48,34 @@
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
 	NSSet *superSet = [super keyPathsForValuesAffectingValueForKey:key];
-	if ([key isEqualToString:@"desiredHeight"])
+	
+	if ([key isEqualToString:@"desiredHeight"]) {
 		return [superSet setByAddingObject:@"totalHeight"];
+	}
+
 	return superSet;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    [super initWithCoder:aDecoder];
-    [self _initListOutlineView];
+    if ((self = [super initWithCoder:aDecoder])) {
+		[self AI_initListOutlineView];
+	}
+
     return self;
 }
 
 - (id)initWithFrame:(NSRect)frame
 {
-	
-	[super initWithFrame:frame];
-	[self _initListOutlineView];
-	[self registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListContact",@"AIListObject",nil]];
+	if ((self = [super initWithFrame:frame])) {
+		[self AI_initListOutlineView];
+		[self registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListContact",@"AIListObject",nil]];
+	}
+
 	return self;
 }
 
-- (void)_initListOutlineView
+- (void)AI_initListOutlineView
 {
 	updateShadowsWhileDrawing = NO;
 	
@@ -107,7 +118,7 @@
 	groupsHaveBackground = [[prefDict objectForKey:KEY_LIST_THEME_GROUP_GRADIENT] boolValue];
 }
 
-//Keep our column full width
+// Keep our column full width
 - (void)setFrameSize:(NSSize)newSize
 {
 	[super setFrameSize:newSize];
@@ -130,6 +141,7 @@
 }
 
 #pragma mark Sizing
+
 /*!
  * @brief Get the desired height for the outline view
  *
@@ -157,18 +169,22 @@
 {
 	NSInteger	row;
 	NSInteger	numberOfRows = [self numberOfRows];
-	CGFloat			widestCell = 0;
+	CGFloat		widestCell = 0;
 	id			theDelegate = self.delegate;
 	
-	//Enumerate all rows, find the widest one
+	// Enumerate all rows, find the widest one
 	for (row = 0; row < numberOfRows; row++) {
-		id			item = [self itemAtRow:row];
-		NSCell		*cell = ([theDelegate outlineView:self isGroup:item] ? groupCell : contentCell);
+		id		item = [self itemAtRow:row];
+		NSCell	*cell = ([theDelegate outlineView:self isGroup:item] ? groupCell : contentCell);
 	
 		[theDelegate outlineView:self willDisplayCell:cell forTableColumn:nil item:item];
 		CGFloat	width = [(AIListCell *)cell cellWidth];
-		if (width > widestCell) widestCell = width;
+		
+		if (width > widestCell) {
+			widestCell = width;
+		}
 	}
+
 	return ((widestCell > minimumDesiredWidth) ? widestCell : minimumDesiredWidth);
 }
 
@@ -181,7 +197,10 @@
 }
 
 #pragma mark List object access
-//Return the selected object (to auto-configure the contact menu)
+
+/*!
+ * @brief Return the selected object (to auto-configure the contact menu)
+ */
 - (AIListObject *)listObject
 {
     NSInteger selectedRow = [self selectedRow];
@@ -240,14 +259,15 @@
 }
 
 #pragma mark Group expanding
+
 /*!
  * @brief Expand or collapses groups on mouse down
  */
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	NSPoint	viewPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	NSInteger		row = [self rowAtPoint:viewPoint];
-	id		item = [self itemAtRow:row];
+	NSInteger row = [self rowAtPoint:viewPoint];
+	id item = [self itemAtRow:row];
 	
 	// Let super handle it if it's not a group, or the command key is down (dealing with selection)
 	// Allow clickthroughs for triangle disclosure only.
@@ -256,7 +276,7 @@
 		return;
 	}
 	
-	//Wait for the next event
+	// Wait for the next event
 	NSEvent *nextEvent = [[self window] nextEventMatchingMask:(NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask)
 													untilDate:[NSDate distantFuture]
 													   inMode:NSEventTrackingRunLoopMode
@@ -293,7 +313,7 @@
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {	
-	//From previous implementation - still needed?
+	// From previous implementation - still needed?
 	[[sender draggingDestinationWindow] makeKeyAndOrderFront:self];
 
 	return [super draggingEntered:sender];
@@ -309,7 +329,8 @@
 	return YES;
 }
 
-#pragma mark Copying selected objects via the data source 
+#pragma mark Copying selected objects via the data source
+
 - (IBAction)copy:(id)sender
 {
 	id dataSource = [self dataSource];
@@ -329,6 +350,7 @@
 }
 
 #pragma mark Menu items
+
 - (BOOL) validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
 	if ([anItem action] == @selector(copy:))
@@ -339,6 +361,7 @@
 
 #pragma mark Accessibility
 #if ACCESSIBILITY_DEBUG
+
 - (NSArray *)accessibilityAttributeNames
 {
 	AILogWithSignature(@"names: %@", [super accessibilityAttributeNames]);
@@ -351,7 +374,7 @@
 	return [super accessibilityAttributeValue:attribute];
 	
 }
+
 #endif
 
 @end
-

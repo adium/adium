@@ -18,6 +18,7 @@
 #import <Adium/JVFontPreviewField.h>
 
 @interface AIListLayoutWindowController : AIWindowController <JVFontPreviewFieldDelegate> {
+
 	IBOutlet		NSPopUpButton		*popUp_contactTextAlignment;
 	IBOutlet		NSPopUpButton		*popUp_groupTextAlignment;
 	IBOutlet		NSPopUpButton		*popUp_extendedStatusStyle;
@@ -48,7 +49,7 @@
 	
 	IBOutlet		NSTabView			*tabView_preferences;
 	
-	//Advanced contact bubble options
+	// Advanced contact bubble options
 	IBOutlet		NSTabViewItem		*tabViewItem_advancedContactBubbles;
 	IBOutlet		NSButton			*checkBox_outlineBubbles;
 	IBOutlet		NSButton			*checkBox_drawContactBubblesWithGraadient;
@@ -60,7 +61,8 @@
 	NSString		*layoutName;	
 }
 
-+ (id)editListLayoutWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget;
 - (IBAction)cancel:(id)sender;
 - (IBAction)okay:(id)sender;
 - (void)preferenceChanged:(id)sender;
@@ -68,5 +70,7 @@
 @end
 
 @interface NSObject (AIListLayoutWindowTarget)
+
 - (void)listLayoutEditorWillCloseWithChanges:(BOOL)changes forLayoutNamed:(NSString *)name;
+
 @end

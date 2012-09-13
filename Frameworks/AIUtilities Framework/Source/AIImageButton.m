@@ -114,7 +114,7 @@
 			point.x = maxXOrigin;
 		}
 
-		imageFloater = [[AIFloater floaterWithImage:bigImage styleMask:NSBorderlessWindowMask] retain];
+		imageFloater = [[AIFloater newFloaterWithImage:bigImage styleMask:NSBorderlessWindowMask] retain];
 		[imageFloater setMaxOpacity:1.0f];
 		[imageFloater moveFloaterToPoint:point];
 		[imageFloater setVisible:YES animate:NO];

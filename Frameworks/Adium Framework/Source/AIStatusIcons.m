@@ -20,6 +20,7 @@
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AIStatusIcons
 
@@ -176,7 +177,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 						NSString	*errorMessage;
 						
 						errorMessage = [NSString stringWithFormat:
-							AILocalizedString(@"The active status icon pack \"%@\" installed at \"%@\" is invalid.  It is missing the required status icon \"%@\".  If you received this pack from adiumxtras.com, please contact its author. Your status icon setting will be restored to the default.", nil),
+							AILocalizedString(@"The active status icon pack \"%@\" installed at \"%@\" is invalid.  It is missing the required status icon \"%@\".  If you received this pack from xtras.adium.im, please contact its author. Your status icon setting will be restored to the default.", nil),
 							[[statusIconBasePath lastPathComponent] stringByDeletingPathExtension],
 							statusIconBasePath,
 							defaultStatusName];
@@ -331,10 +332,9 @@ static NSString *statusNameForChat(AIChat *inChat)
 								  @"Idle",
 								  @"Offline",
 								  nil]) {
-			NSString	*anIconPath = [inPath stringByAppendingPathComponent:[previewIconNames objectForKey:iconID]];
 			NSImage		*anIcon;
 			
-			if ((anIcon = [[[NSImage alloc] initWithContentsOfFile:anIconPath] autorelease])) {
+			if ((anIcon = [xtraBundle AI_imageForResource:[previewIconNames objectForKey:iconID]])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 				

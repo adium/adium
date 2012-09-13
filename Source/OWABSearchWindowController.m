@@ -42,7 +42,7 @@
 - (void)buildContactTypeMenu;
 - (void)ensureValidContactTypeSelection;
 - (void)configureForCurrentServiceType;
-- (void)selectServiceType:(id)sender;
+- (IBAction)selectServiceType:(id)sender;
 - (void)_setService:(AIService *)inService;
 - (void)_setPerson:(ABPerson *)inPerson;
 - (void)_setScreenName:(NSString *)inName;
@@ -516,7 +516,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 /*!
  * @brief User selected a new service type
  */
-- (void)selectServiceType:(id)sender
+- (IBAction)selectServiceType:(id)sender
 {	
 	[self _setService:[[popUp_contactType selectedItem] representedObject]];
 	[self configureForCurrentServiceType];

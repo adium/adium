@@ -31,10 +31,15 @@ typedef enum {
 	
 	NSDictionary		*windowControllers;
 	NSDictionary		*uploadInstances;
+	
+	NSMenuItem* contextMenuItem;
+	NSMenuItem* editMenuItem;
 }
 
 @property (copy, nonatomic) NSString *defaultService;
 
+- (void)addUploader:(Class)uploader;
+- (void)removeUploader:(Class)uploader;
 - (void)errorWithMessage:(NSString *)message forChat:(AIChat *)chat;
 - (void)uploadedURL:(NSString *)url forChat:(AIChat *)chat;
 - (void)updateProgress:(NSUInteger)uploaded total:(NSUInteger)total forChat:(AIChat *)chat;

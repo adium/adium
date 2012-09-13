@@ -120,6 +120,7 @@ static int nextChatNumber = 0;
     [chatCreationInfo release]; chatCreationInfo = nil;
     [enteredTextTimer release]; enteredTextTimer = nil;
     [securityDetails release]; securityDetails = nil;
+	[lastMessageDate release]; lastMessageDate = nil;
 	
 	[super dealloc];
 }
@@ -127,8 +128,14 @@ static int nextChatNumber = 0;
 //Big image
 - (NSImage *)chatImage
 {
-	AIListContact 	*listObject = self.listObject;
+	AIListContact 	*listObject = nil;
 	NSImage			*image = nil;
+
+	if (self.isGroupChat) {
+		listObject = (AIListContact *)[adium.contactController existingBookmarkForChat:self];
+	} else {
+		listObject = self.listObject;
+	}
 
 	if (listObject) {
 		image = listObject.parentContact.userIcon;
@@ -143,9 +150,15 @@ static int nextChatNumber = 0;
 //lil image
 - (NSImage *)chatMenuImage
 {
-	AIListObject 	*listObject = self.listObject;
+	AIListObject 	*listObject = nil;
 	NSImage			*chatMenuImage = nil;
 	
+	if (self.isGroupChat) {
+		listObject = (AIListContact *)[adium.contactController existingBookmarkForChat:self];
+	} else {
+		listObject = self.listObject;
+	}
+
 	if (listObject) {
 		chatMenuImage = [AIUserIcons menuUserIconForObject:listObject];
 	} else {
@@ -385,21 +398,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	return AIGroupChatNone;
 }
 
-NSComparisonResult userListSort (id objectA, id objectB, void *context)
-{
-	AIChat *chat = (AIChat *)context;
-	
-	AIGroupChatFlags flagA = highestFlag([chat flagsForContact:objectA]), flagB = highestFlag([chat flagsForContact:objectB]);
-	
-	if(flagA > flagB) {
-		return NSOrderedAscending;
-	} else if (flagA < flagB) {
-		return NSOrderedDescending;
-	} else {
-		return [[chat displayNameForContact:objectA] caseInsensitiveCompare:[chat displayNameForContact:objectB]];
-	}
-}
-
 /*!
  * @brief Resorts our participants
  *
@@ -407,7 +405,17 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  */
 - (void)resortParticipants
 {
-	[participatingContacts sortUsingFunction:userListSort context:self];
+	[participatingContacts sortUsingComparator:^(id objectA, id objectB){
+		AIGroupChatFlags flagA = highestFlag([self flagsForContact:objectA]), flagB = highestFlag([self flagsForContact:objectB]);
+		
+		if(flagA > flagB) {
+			return (NSComparisonResult)NSOrderedAscending;
+		} else if (flagA < flagB) {
+			return (NSComparisonResult)NSOrderedDescending;
+		} else {
+			return [[self displayNameForContact:objectA] localizedCaseInsensitiveCompare:[self displayNameForContact:objectB]];
+		}
+	}];
 }
 
 /*!
@@ -914,7 +922,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 {
 	AIMessageWindowController *windowController = self.chatContainer.windowController;	
 	NSScriptClassDescription *containerClassDesc;
-	NSScriptObjectSpecifier *containerRef;
+	NSScriptObjectSpecifier *containerRef = nil;
 	if (windowController) {
 		containerRef = [[windowController window] objectSpecifier];
 		containerClassDesc = [containerRef keyClassDescription];

@@ -56,10 +56,18 @@
 	return NO;
 }
 - (AIServiceImportance)serviceImportance{
-	return AIServiceSecondary;
+	return AIServicePrimary;
 }
 - (NSString *)userNameLabel{
     return AILocalizedString(@"ICQ Number",nil);    //ICQ#
+}
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://www.icq.com/join/", @"URL for ICQ signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for ICQ", @"Text for ICQ sign up button");
 }
 
 - (void)registerStatuses{

@@ -202,7 +202,8 @@
 	if ([listObject boolValueForProperty:@"showCount"]) {
 		rect = [self drawGroupCountWithFrame:rect];
 	}
-	rect = [self drawDisplayNameWithFrame:rect];
+	
+	[self drawDisplayNameWithFrame:rect];
 }
 
 - (NSRect)drawGroupCountWithFrame:(NSRect)inRect

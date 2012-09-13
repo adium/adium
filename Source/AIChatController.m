@@ -140,8 +140,24 @@
 - (void)adiumWillTerminate:(NSNotification *)inNotification
 {
 	//Every open chat is about to close. We perform the internal closing here rather than calling on the interface controller since the UI need not change.
+	//Also, we don't care for still processing content, the user won't see it anyway, and it can make Adium refuse to quit.
 	while ([openChats count] > 0) {
-		[self closeChat:[openChats anyObject]];
+		AIChat *chat = [[openChats anyObject] retain];
+		
+		if (mostRecentChat == chat) {
+			[mostRecentChat release];
+			mostRecentChat = nil;
+		}
+		
+		//Send out the Chat_WillClose notification
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_WillClose object:chat userInfo:nil];
+		
+		[chat.account closeChat:chat];
+		[openChats removeObject:chat];
+		AILogWithSignature(@"Removed <<%@>> [%@]", chat, openChats);
+		
+		[chat setIsOpen:NO];
+		[chat release];
 	}
 }
 

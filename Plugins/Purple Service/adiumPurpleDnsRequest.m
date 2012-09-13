@@ -102,6 +102,8 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 						   const CFStreamError *streamError,
 						   void *info)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AdiumPurpleDnsRequest *self = (AdiumPurpleDnsRequest *)info;
 	if (streamError && (streamError->error != 0)) {
 		[self lookupFailedWithError:streamError];
@@ -119,6 +121,8 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 			[self lookupFailedWithError:NULL];
 		}
 	}
+	
+	[pool release];
 }
 
 /*!

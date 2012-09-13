@@ -20,18 +20,16 @@
 @class AILocalizationTextField, AILocalizationButton, AIListContact, DCJoinChatViewController;
 
 @interface DCJoinChatWindowController : AIWindowController <AIAccountMenuDelegate> {	
-    IBOutlet		NSPopUpButton   *popUp_service;				//Account selector
-    IBOutlet		NSView			*view_customView;			//View containing service-specific controls
+    IBOutlet NSPopUpButton 	*popUp_service;		// Account selector
+    IBOutlet NSView			*view_customView;	// View containing service-specific controls
 	
-	IBOutlet		AILocalizationTextField		*label_account;
-	IBOutlet		AILocalizationButton		*button_joinChat;
-	IBOutlet		AILocalizationButton		*button_cancel;
+	IBOutlet AILocalizationTextField	*label_account;
+	IBOutlet AILocalizationButton		*button_joinChat;
+	IBOutlet AILocalizationButton		*button_cancel;
 
-	DCJoinChatViewController		*joinChatViewController;				//Current view controller
+	DCJoinChatViewController *joinChatViewController;	// Current view controller
 	
-	AIAccountMenu 					*accountMenu;
-	
-
+	AIAccountMenu *accountMenu;
 }
 
 + (DCJoinChatWindowController *)showJoinChatWindow;

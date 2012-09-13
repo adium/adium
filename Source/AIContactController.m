@@ -100,7 +100,7 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)didSendContent:(NSNotification *)notification;
-- (void)toggleShowGroups:(id)sender;
+- (IBAction)toggleShowGroups:(id)sender;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;
@@ -968,12 +968,6 @@
 	[adium.preferenceController setPreference:[allMetaContactsDict allKeys]
 										 forKey:KEY_FLAT_METACONTACTS
 										  group:PREF_GROUP_CONTACT_LIST];
-}
-
-//Sort list objects alphabetically by their display name
-NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
-{
-	return [objectA.displayName caseInsensitiveCompare:objectB.displayName];
 }
 
 #pragma mark Preference observing

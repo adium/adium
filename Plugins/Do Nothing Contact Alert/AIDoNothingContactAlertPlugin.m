@@ -39,7 +39,7 @@
 
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"Stop sign" forClass:[self class]];
+	return [NSImage imageNamed:@"events-do-nothing" forClass:[self class]];
 }
 
 - (AIActionDetailsPane *)detailsPaneForActionID:(NSString *)actionID

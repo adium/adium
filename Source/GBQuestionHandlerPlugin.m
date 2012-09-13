@@ -105,7 +105,8 @@ typedef enum
 		ret = NO;
 	else
 	{
-		[currentAlert release];
+		// Note: Explicitly not released here: ESTextAndButtonsWindowController will autorelease itself in -windowWillClose:
+		[currentAlert close];
 		currentAlert = nil;
 	}
 	return ret;
@@ -118,7 +119,7 @@ typedef enum
 	{
 		NSDictionary *info = [errorQueue objectAtIndex:0];
 		if(currentAlert == nil)
-			currentAlert = [[ESTextAndButtonsWindowController controller] retain];
+			currentAlert = [[ESTextAndButtonsWindowController alloc] init];
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:AILocalizedString(@"Next", @"Next Button")
 						  alternateButton:AILocalizedString(@"Dismiss All", @"Dismiss All Button")
@@ -137,7 +138,7 @@ typedef enum
 	{
 		NSDictionary *info = [questionQueue objectAtIndex:0];
 		if(currentAlert == nil)
-			currentAlert = [[ESTextAndButtonsWindowController controller] retain];
+			currentAlert = [[ESTextAndButtonsWindowController alloc] init];
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:[info objectForKey:@"Default Button"]
 						  alternateButton:[info objectForKey:@"Alternate Button"]

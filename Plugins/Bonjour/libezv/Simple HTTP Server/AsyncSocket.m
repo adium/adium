@@ -39,7 +39,7 @@ enum AsyncSocketFlags
 @interface AsyncSocket ()
 
 // Socket Implementation
-- (CFSocketRef) createAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr;
+- (CFSocketRef) createAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr __attribute__((cf_returns_retained));
 - (BOOL) createSocketForAddress:(NSData *)remoteAddr error:(NSError **)errPtr;
 - (BOOL) attachSocketsToRunLoop:(NSRunLoop *)runLoop error:(NSError **)errPtr;
 - (BOOL) configureSocketAndReturnError:(NSError **)errPtr;

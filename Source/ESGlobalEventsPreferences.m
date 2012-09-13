@@ -63,6 +63,9 @@
 @end
 
 @implementation ESGlobalEventsPreferences
+- (AIPreferenceCategory)category{
+	return AIPref_Events;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Events";
@@ -203,13 +206,11 @@
 - (NSMenu *)eventPresetsMenu
 {
 	NSMenu			*eventPresetsMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
-	NSEnumerator	*enumerator;
 	NSDictionary	*eventPreset;
 	NSMenuItem		*menuItem;
 	
 	//Built in event presets
-	enumerator = [[plugin builtInEventPresetsArray] objectEnumerator];
-	while ((eventPreset = [enumerator nextObject])) {
+	for (eventPreset in [plugin builtInEventPresetsArray]) {
 		NSString		*name = [eventPreset objectForKey:@"Name"];
 		
 		//Add a menu item for the set
@@ -306,11 +307,11 @@
 		COPY_IN_PARENTHESIS];
 	explanatoryText = AILocalizedString(@"Enter a unique name for this new event set.",nil);
 
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:defaultName
-													explanatoryText:explanatoryText
-														   onWindow:[[self view] window]
-													notifyingTarget:self
-														   userInfo:nil];
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:defaultName
+																									  explanatoryText:explanatoryText
+																									  notifyingTarget:self
+																											 userInfo:nil];
+	[presetNameSheetController showOnWindow:[[self view] window]];
 
 	//Get our event presets menu back to its proper selection
 	[self selectActiveEventInPopUp];
@@ -323,10 +324,10 @@
  */
 - (void)editPresets:(id)sender
 {
-	[ESPresetManagementController managePresets:[plugin storedEventPresetsArray]
-									 namedByKey:@"Name"
-									   onWindow:[[self view] window]
-								   withDelegate:self];
+	ESPresetManagementController *presentManagementController = [[ESPresetManagementController alloc] initWithPresets:[plugin storedEventPresetsArray]
+																										   namedByKey:@"Name"
+																										 withDelegate:self];
+	[presentManagementController showOnWindow:[[self view] window]];
 
 	//Get our event presets menu back to its proper selection
 	[self selectActiveEventInPopUp];
@@ -467,7 +468,6 @@
 			soundMenuItem = (NSMenuItem *)[popUp_soundSet selectedItem];
 
 			AISoundSet		*soundSet = [soundMenuItem representedObject];
-			NSEnumerator	*enumerator;
 			NSString		*key;
 			NSDictionary	*sounds = [soundSet sounds];
 
@@ -477,8 +477,7 @@
 
 			} else {
 				//First, check to see if any sounds which are present within this sound set have been changed
-				enumerator = [sounds keyEnumerator];
-				while ((key = [enumerator nextObject])) {
+				for (key in sounds) {
 					NSDictionary *soundAlert = [ESGlobalEventsPreferencesPlugin soundAlertForKey:key
 																					inSoundsDict:sounds];
 					if (![alertsArray containsObject:soundAlert]) {
@@ -655,11 +654,11 @@
 	defaultName = [NSString stringWithFormat:@"%@ %@", originalPresetName, COPY_IN_PARENTHESIS];
 	explanatoryText = AILocalizedString(@"You are editing a default event set.  Please enter a unique name for your modified set.",nil);
 	
-	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:defaultName
+	ESPresetNameSheetController *presetNameSheetController = [[ESPresetNameSheetController alloc] initWithDefaultName:defaultName
 													explanatoryText:explanatoryText
-														   onWindow:[[self view] window]
 													notifyingTarget:self
 														   userInfo:nil];
+	[presetNameSheetController showOnWindow:[[self view] window]];
 }
 
 - (BOOL)presetNameSheetController:(ESPresetNameSheetController *)controller
@@ -730,14 +729,13 @@
 
 - (void)updateSoundSetSelection
 {
-	NSEnumerator	*enumerator = [[adium.soundController soundSets] objectEnumerator];
     AISoundSet		*soundSet;
 	NSString		*name;
 
 	name = [[[popUp_eventPreset selectedItem] representedObject] objectForKey:KEY_EVENT_SOUND_SET];
 	name = [[name lastPathComponent] stringByDeletingPathExtension];
 
-    while ((soundSet = [enumerator nextObject])) {
+    for (soundSet in [adium.soundController soundSets]) {
 		if ([[soundSet name] isEqualToString:name]) break;
 	}
 
@@ -753,12 +751,10 @@
 - (NSMenu *)_soundSetMenu
 {
     NSMenu			*soundSetMenu = [[NSMenu alloc] init];
-    NSEnumerator	*enumerator = [[adium.soundController soundSets] objectEnumerator];
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-    AISoundSet		*soundSet;
     NSMenuItem		*menuItem, *noneMenuItem = nil;
 
-    while ((soundSet = [enumerator nextObject])) {
+    for (AISoundSet *soundSet in [adium.soundController soundSets]) {
 		menuItem = [[NSMenuItem alloc] initWithTitle:[self _localizedTitle:[soundSet name]]
 											  target:self
 											  action:@selector(selectSoundSet:)
@@ -766,6 +762,7 @@
 								   representedObject:soundSet];
 		
 		if ([[menuItem title] isEqualToString:NONE]) {
+			[noneMenuItem release];
 			noneMenuItem = menuItem;
 
 		} else {

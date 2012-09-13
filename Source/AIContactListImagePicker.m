@@ -27,7 +27,9 @@
 #define ARROW_YOFFSET	3
 
 @interface AIContactListImagePicker ()
+
 - (void)frameDidChange:(NSNotification *)inNotification;
+
 @end
 
 @implementation AIContactListImagePicker
@@ -51,10 +53,9 @@
 	if ((self = [super initWithFrame:inFrame])) {
 		[self configureTracking];
 		imageMenu = nil;
+		maxSize = NSMakeSize(256.0f, 256.0f);
+		shouldUpdateRecentRepository = YES;
 	}
-	
-	maxSize = NSMakeSize(256.0f, 256.0f);
-	shouldUpdateRecentRepository = YES;
 	
 	return self;
 }
@@ -99,7 +100,7 @@
 	[clipPath setLineWidth:1];
 	[clipPath stroke];
 
-	//Ensure we have an even/odd winding rule in effect
+	// Ensure we have an even/odd winding rule in effect
 	[clipPath setWindingRule:NSEvenOddWindingRule];
 	[clipPath addClip];
 	
@@ -109,7 +110,7 @@
 		[[[NSColor blackColor] colorWithAlphaComponent:0.40f] set];
 		[clipPath fill];
 
-		//Draw the arrow
+		// Draw the arrow
 		NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
 		NSRect			frame = [self frame];
 		[arrowPath moveToPoint:NSMakePoint(frame.size.width - ARROW_XOFFSET - ARROW_WIDTH, 
@@ -153,14 +154,15 @@
 	[AIContactListUserPictureMenuController popUpMenuForImagePicker:self];
 }
 
-//Custom mouse down tracking to display our menu and highlight
+// Custom mouse down tracking to display our menu and highlight
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	[self displayPicturePopUpForEvent:theEvent];
 }
 
 #pragma mark Tracking rects
-//Remove old tracking rects when we change superviews
+
+// Remove old tracking rects when we change superviews
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
 	if (trackingTag != -1) {
@@ -200,16 +202,16 @@
 	[self resetCursorRects];
 }
 
-//Reset our cursor tracking
+// Reset our cursor tracking
 - (void)resetCursorRects
 {
-	//Stop any existing tracking
+	// Stop any existing tracking
 	if (trackingTag != -1) {
 		[self removeTrackingRect:trackingTag];
 		trackingTag = -1;
 	}
 	
-	//Add a tracking rect if our superview and window are ready
+	// Add a tracking rect if our superview and window are ready
 	if ([self superview] && [self window]) {
 		NSRect	myFrame = [self frame];
 		NSRect	trackRect = NSMakeRect(0, 0, myFrame.size.width, myFrame.size.height);

@@ -33,7 +33,7 @@
 
 @interface DCInviteToChatPlugin ()
 - (NSMenu *)groupChatMenuForContact:(AIListContact *)contact;
-- (void)dummyTarget:(id)sender;
+- (IBAction)dummyTarget:(id)sender;
 @end
 
 @implementation DCInviteToChatPlugin
@@ -120,8 +120,6 @@
 	NSMenu			*menu_chatMenu = nil;
 	
 	if (contact && ![contact isKindOfClass:[AIListGroup class]] && ![contact isKindOfClass:[AIListBookmark class]]) {
-		NSEnumerator	*enumerator;
-		NSString		*serviceClass;
 		NSDictionary	*serviceDict;
 		NSMutableSet	*addedChats = nil;
 		NSUInteger		currentNumberOfItems, numberOfMenuItems = 0;
@@ -132,8 +130,7 @@
 					   [NSDictionary dictionaryWithObject:contact forKey:contact.service.serviceClass]);
 
 		//Iterate on each service. For an AIListMetacontact, this may be multiple services; for an AIListContact, this will just be a single iteration.
-		enumerator = [serviceDict keyEnumerator];
-		while ((serviceClass = [enumerator nextObject])) {
+		for (NSString *serviceClass in serviceDict) {
 			//Each iteration, if we have more menu items now than before, add a separator item
 			currentNumberOfItems = [menu_chatMenu numberOfItems];
 			if (currentNumberOfItems > numberOfMenuItems) {
@@ -142,10 +139,8 @@
 			}
 			
 			//Loop through all chats
-			NSEnumerator *chatEnumerator = [openChats objectEnumerator];
-			AIChat		*chat;
-			while ((chat = [chatEnumerator nextObject])) {				
-				//Is this the same serviceClass as this contact?				
+			for (AIChat *chat in openChats) {
+				//Is this the same serviceClass as this contact?
 				if (chat.isGroupChat &&
 					[chat.account.service.serviceClass isEqualToString:serviceClass]) {
 					

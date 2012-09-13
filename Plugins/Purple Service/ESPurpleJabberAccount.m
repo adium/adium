@@ -38,6 +38,9 @@
 #import "ESPurpleJabberAccountViewController.h"
 #import "AMPurpleJabberAdHocServer.h"
 #import "AMPurpleJabberAdHocPing.h"
+#import "AIMessageViewController.h"
+#import <Adium/AIMenuControllerProtocol.h>
+#import <AIUtilities/AIMenuAdditions.h>
 
 #define DEFAULT_JABBER_HOST @"@jabber.org"
 
@@ -663,6 +666,27 @@
 - (BOOL)shouldDisplayOutgoingMUCMessages
 {
   return NO;
+}
+
+- (NSMenu *)actionMenuForChat:(AIChat *)chat
+{
+	NSMenu *menu;
+	
+	NSArray *listObjects = chat.chatContainer.messageViewController.selectedListObjects;
+	AIListObject *listObject = nil;
+	
+	if (listObjects.count) {
+		listObject = [listObjects objectAtIndex:0];
+	}
+	
+	menu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
+															  [NSNumber numberWithInteger:Context_Contact_GroupChat_ParticipantAction],		
+															  [NSNumber numberWithInteger:Context_Contact_Manage],
+															  nil]
+											   forListObject:listObject
+													  inChat:chat];
+	
+	return menu;
 }
 
 #pragma mark Status

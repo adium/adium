@@ -40,8 +40,8 @@
 #define BLOCK_GROUP_MENUITEM		[BLOCK_GROUP stringByAppendingEllipsis]
 #define UNBLOCK_GROUP_MENUITEM		[UNBLOCK_GROUP stringByAppendingEllipsis]
 #define TOOLBAR_ITEM_IDENTIFIER		@"BlockParticipants"
-#define TOOLBAR_BLOCK_ICON_KEY		@"Block"
-#define TOOLBAR_UNBLOCK_ICON_KEY	@"Unblock"
+#define TOOLBAR_BLOCK_ICON_KEY		@"msg-block-contact"
+#define TOOLBAR_UNBLOCK_ICON_KEY	@"msg-unblock-contact"
 
 @interface ESBlockingPlugin()
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked;
@@ -99,8 +99,8 @@
 	chatToolbarItems = [[NSMutableSet alloc] init];
 	//cache toolbar icons
 	blockedToolbarIcons = [[NSDictionary alloc] initWithObjectsAndKeys:
-								[NSImage imageNamed:@"block" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
-								[NSImage imageNamed:@"unblock" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"msg-block-contact" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"msg-unblock-contact" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
 								nil];
 	NSToolbarItem	*chatItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_ITEM_IDENTIFIER
 																		label:BLOCK
@@ -206,10 +206,7 @@
 				AIMetaContact *meta = (AIMetaContact *)object;
 									
 				//Enumerate over the various list contacts contained
-				NSEnumerator *enumerator = [[meta uniqueContainedObjects] objectEnumerator];
-				AIListContact *containedContact = nil;
-				
-				while ((containedContact = [enumerator nextObject])) {
+				for (AIListContact *containedContact in meta.uniqueContainedObjects) {
 					AIAccount *account = containedContact.account;
 					if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 						[self _setContact:containedContact isBlocked:shouldBlock];
@@ -296,12 +293,10 @@
 			AIMetaContact *meta = (AIMetaContact *)object;
 								
 			//Enumerate over the various list contacts contained
-			NSEnumerator	*enumerator = [[meta uniqueContainedObjects] objectEnumerator];
-			AIListContact	*contact = nil;
 			NSInteger				votesForBlock = 0;
 			NSInteger				votesForUnblock = 0;
 
-			while ((contact = [enumerator nextObject])) {
+			for (AIListContact *contact in meta.uniqueContainedObjects) {
 				AIAccount<AIAccount_Privacy> *account = (AIAccount<AIAccount_Privacy> *)contact.account;
 				if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 					AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
@@ -392,11 +387,9 @@
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked
 {
 	//We want to block on all accounts with the same service class. If you want someone gone, you want 'em GONE.
-	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:contact.service] objectEnumerator];
-	AIAccount<AIAccount_Privacy>	*account = nil;
 	AIListContact	*sameContact = nil;
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount<AIAccount_Privacy> *account in [adium.accountController accountsCompatibleWithService:contact.service]) {
 		sameContact = [account contactWithUID:contact.UID];
 		if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]){
 			
@@ -606,15 +599,13 @@
  */
 - (IBAction)blockOrUnblockParticipants:(NSToolbarItem *)senderItem
 {
-	NSEnumerator	*windowEnumerator = [[NSApp windows] objectEnumerator];
-	NSWindow		*currentWindow = nil;
 	NSToolbar		*windowToolbar = nil;
 	NSToolbar		*senderToolbar = [senderItem toolbar];
 	AIChat			*activeChatInWindow = nil;
 	NSArray			*participants = nil;
 	
 	//for each open window
-	while ((currentWindow = [windowEnumerator nextObject])) {
+	for (NSWindow *currentWindow in [NSApp windows]) {
 
 		//if it has a toolbar
 		if ((windowToolbar = [currentWindow toolbar])) {
@@ -775,11 +766,7 @@
  */
 - (void)updateToolbarIconOfChat:(AIChat *)chat inWindow:(NSWindow *)window
 {
-	NSToolbar		*toolbar = [window toolbar];
-	NSEnumerator	*enumerator = [[toolbar items] objectEnumerator];
-	NSToolbarItem	*item;
-	
-	while ((item = [enumerator nextObject])) {
+	for (NSToolbarItem *item in window.toolbar.items) {
 		if ([[item itemIdentifier] isEqualToString:TOOLBAR_ITEM_IDENTIFIER]) {
 			[self updateToolbarItem:item forChat:chat];
 			break;

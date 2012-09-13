@@ -23,7 +23,7 @@
 - (void) testLinkedAttributedString
 {
 	NSString *linkLabel = @"Adium";
-	NSString *linkURLString = @"http://adiumx.com/";
+	NSString *linkURLString = @"http://www.adium.im/";
 	NSURL *linkURL = [NSURL URLWithString:linkURLString];
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
@@ -57,7 +57,7 @@
 - (void) testAttributedStringWithLinkedSubstring
 {
 	NSString *linkLabel = @"Download Adium now!";
-	NSString *linkURLString = @"http://adiumx.com/";
+	NSString *linkURLString = @"http://www.adium.im/";
 	NSURL *linkURL = [NSURL URLWithString:linkURLString];
 	NSRange intendedLinkRange = { 9UL, 5UL }; //@"Adium"
 	NSRange linkRange = { 0UL, 0UL };
@@ -89,7 +89,7 @@
 - (void) testAttributedStringWithLinkedEntireStringUsingSubstringMethod
 {
 	NSString *linkLabel = @"Adium";
-	NSString *linkURLString = @"http://adiumx.com/";
+	NSString *linkURLString = @"http://www.adium.im/";
 	NSURL *linkURL = [NSURL URLWithString:linkURLString];
 	NSRange intendedLinkRange = { 0UL, [linkLabel length] };
 	NSRange linkRange = { 0UL, 0UL };
@@ -124,7 +124,7 @@
 - (void) testAttributedStringWithLinkedEmptySubstring
 {
 	NSString *linkLabel = @"Download Adium now!";
-	NSString *linkURLString = @"http://adiumx.com/";
+	NSString *linkURLString = @"http://www.adium.im/";
 	NSURL *linkURL = [NSURL URLWithString:linkURLString];
 	NSRange intendedLinkRange = { 9UL, 0UL }; //@""
 	NSRange linkRange = { 0UL, 0UL };
@@ -157,26 +157,26 @@
 
 - (void) testAttributedStringByConvertingLinksToStrings {
 	NSMutableAttributedString *input = [[[NSMutableAttributedString alloc] initWithString:@"Adium requires Growl."] autorelease];
-	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://www.adium.im/"] range:[[input string] rangeOfString:@"Adium"]];
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
 
 	NSAttributedString *result = nil;
 	STAssertNoThrow(result = [input attributedStringByConvertingLinksToStrings], @"-attributedStringByConvertingLinksToStrings threw an exception");
 	STAssertNotNil(result, @"-attributedStringByConvertingLinksToStrings returned nil");
 
-	STAssertEqualObjects([result string], @"Adium (http://adiumx.com/) requires Growl (http://growl.info/).", @"-attributedStringByConvertingLinksToStrings did not correctly expand the links");
+	STAssertEqualObjects([result string], @"Adium (http://www.adium.im/) requires Growl (http://growl.info/).", @"-attributedStringByConvertingLinksToStrings did not correctly expand the links");
 }
 
 - (void) testAttributedStringByConvertingLinksToURLStrings {
 	NSMutableAttributedString *input = [[[NSMutableAttributedString alloc] initWithString:@"Adium requires Growl."] autorelease];
-	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://www.adium.im/"] range:[[input string] rangeOfString:@"Adium"]];
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
 
 	NSAttributedString *result = nil;
 	STAssertNoThrow(result = [input attributedStringByConvertingLinksToURLStrings], @"-attributedStringByConvertingLinksToURLStrings threw an exception");
 	STAssertNotNil(result, @"-attributedStringByConvertingLinksToURLStrings returned nil");
 
-	STAssertEqualObjects([result string], @"http://adiumx.com/ requires http://growl.info/.", @"-attributedStringByConvertingLinksToURLStrings did not correctly expand the links");
+	STAssertEqualObjects([result string], @"http://www.adium.im/ requires http://growl.info/.", @"-attributedStringByConvertingLinksToURLStrings did not correctly expand the links");
 }
 
 @end

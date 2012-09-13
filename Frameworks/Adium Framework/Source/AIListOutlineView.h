@@ -56,13 +56,14 @@ typedef enum {
 @property (readonly, nonatomic) NSInteger desiredHeight;
 @property (readonly, nonatomic) NSInteger desiredWidth;
 
-//Contact menu
+// Contact menu
 @property (readonly, nonatomic) AIListObject *listObject;
 @property (readonly, nonatomic) NSArray *arrayOfListObjects;
 @property (readonly, nonatomic) NSArray *arrayOfListObjectsWithGroups;
 @property (readonly, nonatomic) AIListContact *firstVisibleListContact;
 
-//Contacts
+// Contacts
+
 /*!
  * @brief Index of the first visible list contact
  *
@@ -81,10 +82,10 @@ typedef enum {
 @property (readwrite, nonatomic, retain) NSColor *highlightColor;
 @property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
 
-//Shadows
+// Shadows
 - (void)setUpdateShadowsWhileDrawing:(BOOL)update;
 
-//Backgrounds
+// Backgrounds
 - (void)setBackgroundImage:(NSImage *)inImage;
 - (void)setBackgroundStyle:(AIBackgroundStyle)inBackgroundStyle;
 - (void)setBackgroundOpacity:(CGFloat)opacity forWindowStyle:(AIContactListWindowStyle)windowStyle;

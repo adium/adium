@@ -57,7 +57,7 @@
 }
 
 /*!
- * @brief A reply link was licked
+ * @brief A reply link was clicked
  *
  * Parse the reply link and set up as appropriate.
  */

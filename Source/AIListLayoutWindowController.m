@@ -24,10 +24,10 @@
 #import <Adium/AIAbstractListController.h>
 #import <Adium/JVFontPreviewField.h>
 
-#define	MAX_ALIGNMENT_CHOICES	10
+#define	MAX_ALIGNMENT_CHOICES 10
 
 @interface AIListLayoutWindowController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget;
+
 - (void)configureControls;
 - (void)configureControlDimming;
 - (void)updateSliderValues;
@@ -39,38 +39,33 @@
 - (NSMenu *)extendedStatusStyleMenu;
 - (NSMenu *)extendedStatusPositionMenu;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+
 @end
 
 @implementation AIListLayoutWindowController
 
-+ (id)editListLayoutWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	AIListLayoutWindowController	*listLayoutWindow = [[self alloc] initWithWindowNibName:@"ListLayoutSheet"
-																					   name:inName
-																			notifyingTarget:inTarget];
-	
 	if (parentWindow) {
-		[NSApp beginSheet:[listLayoutWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:listLayoutWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[listLayoutWindow showWindow:nil];
+		[self showWindow:nil];
 	}
-	
-	return listLayoutWindow;
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget
 {
-    [super initWithWindowNibName:windowNibName];
+    if ((self = [super initWithWindowNibName:@"ListLayoutSheet"])) {
+		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listLayoutEditorWillCloseWithChanges:forLayoutNamed:)]);
 	
-	NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listLayoutEditorWillCloseWithChanges:forLayoutNamed:)]);
-	
-	target = inTarget;
-	layoutName = [inName retain];
-	
+		target = inTarget;
+		layoutName = [inName retain];
+	}
+
 	return self;
 }
 
@@ -80,18 +75,17 @@
     [super dealloc];
 }
 
-
-//Window Methods -------------------------------------------------------------------------------------------------------
 #pragma mark Window Methods
+
 - (void)windowDidLoad
 {
-	//We'll be adding/removing this from our view
+	// We'll be adding/removing this from our view
 	[tabViewItem_advancedContactBubbles retain];
 	
-	//Allow alpha in our color pickers
+	// Allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];	
 
-	//Setup
+	// Setup
 	[fontField_contact setShowPointSize:YES];
 	[fontField_contact setShowFontFace:YES];
 	[fontField_status setShowPointSize:YES];
@@ -102,40 +96,47 @@
 	[self configureControls];
 }
 
-//Called as the sheet closes, dismisses the sheet
+// Called as the sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 	
 	[[NSColorPanel sharedColorPanel] close];
 	
-	//No longer allow alpha in our color pickers
+	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
 	
 	[tabViewItem_advancedContactBubbles autorelease];
 	[self autorelease];
 }
 
-//Cancel
+- (void)windowWillClose:(id)sender
+{
+	[super windowWillClose:sender];
+	
+	[self autorelease];
+}
+
+// Cancel
 - (IBAction)cancel:(id)sender
 {
 	[target listLayoutEditorWillCloseWithChanges:NO forLayoutNamed:layoutName];
 	[self closeWindow:sender];
 }
 
-//Okay
+// Okay
 - (IBAction)okay:(id)sender
 {
 	[target listLayoutEditorWillCloseWithChanges:YES forLayoutNamed:layoutName];
 	[self closeWindow:sender];
 }
 
+#pragma mark Window Methods
 
-//Window Methods -------------------------------------------------------------------------------------------------------
 - (void)configureControls
 {
-	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-	NSInteger				textAlignmentChoices[4];
+	NSDictionary 	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
+	NSInteger 		textAlignmentChoices[4];
 	
 	textAlignmentChoices[0] = NSLeftTextAlignment;
 	textAlignmentChoices[1] = NSCenterTextAlignment;
@@ -143,24 +144,22 @@
 	textAlignmentChoices[3] = -1;
 	
 	[self updateDisplayedTabsFromPrefDict:prefDict];
-	
 	[self updateStatusAndServiceIconMenusFromPrefDict:prefDict];
-	
 	[self updateUserIconMenuFromPrefDict:prefDict];
 	
-	//Context text alignment
+	// Context text alignment
 	[popUp_contactTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
 	[popUp_contactTextAlignment selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]];
 	
-	//Group text alignment
+	// Group text alignment
 	[popUp_groupTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
 	[popUp_groupTextAlignment selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] integerValue]];
-	
-	//Extended Status position
+
+	// Extended Status position
 	[popUp_extendedStatusPosition setMenu:[self extendedStatusPositionMenu]];
 	[popUp_extendedStatusPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue]];
 	
-	//Window style
+	// Window style
 	[popUp_extendedStatusStyle setMenu:[self extendedStatusStyleMenu]];
 	[popUp_extendedStatusStyle selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue]];
 	
@@ -189,12 +188,10 @@
 											 forKey:KEY_LIST_LAYOUT_ALIGNMENT
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
-		NSDictionary	*prefDict;
-		prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
+		NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
 		
 		[self updateStatusAndServiceIconMenusFromPrefDict:prefDict];
 		[self updateUserIconMenuFromPrefDict:prefDict];
-		
 		[self configureControlDimming];
 		
 	} else if (sender == popUp_groupTextAlignment) {
@@ -253,7 +250,7 @@
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 		prefDict  = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-		//Update the status and service icon menus to show/hide the badge options
+		// Update the status and service icon menus to show/hide the badge options
 		[self updateStatusAndServiceIconMenusFromPrefDict:prefDict];
 		[self configureControlDimming];
 		
@@ -330,52 +327,49 @@
         [adium.preferenceController setPreference:[font stringRepresentation]
                                              forKey:KEY_LIST_LAYOUT_CONTACT_FONT
                                               group:PREF_GROUP_LIST_LAYOUT];
-		
 	} else if (field == fontField_status) {
         [adium.preferenceController setPreference:[font stringRepresentation]
                                              forKey:KEY_LIST_LAYOUT_STATUS_FONT
                                               group:PREF_GROUP_LIST_LAYOUT];
-		
 	} else if (field == fontField_group) {
         [adium.preferenceController setPreference:[font stringRepresentation]
                                              forKey:KEY_LIST_LAYOUT_GROUP_FONT
                                               group:PREF_GROUP_LIST_LAYOUT];
-		
 	}
 }
 
 - (void)updateSliderValues
 {
-	NSInteger	iconSize = [slider_userIconSize integerValue];
-	[textField_userIconSize setStringValue:[NSString stringWithFormat:@"%ldx%ld",iconSize,iconSize]];
-	
-	[textField_contactSpacing setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactSpacing integerValue]]];
-	[textField_groupTopSpacing setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_groupTopSpacing integerValue]]];
-	[textField_contactLeftIndent setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactLeftIndent integerValue]]];
-	[textField_contactRightIndent setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactRightIndent integerValue]]];
-	[textField_outlineWidthIndicator setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_outlineWidth integerValue]]];
+	NSInteger iconSize = [slider_userIconSize integerValue];
+	[textField_userIconSize setStringValue:[NSString stringWithFormat:@"%ldx%ld", iconSize,iconSize]];
+	[textField_contactSpacing setStringValue:[NSString stringWithFormat:@"%ldpx", [slider_contactSpacing integerValue]]];
+	[textField_groupTopSpacing setStringValue:[NSString stringWithFormat:@"%ldpx", [slider_groupTopSpacing integerValue]]];
+	[textField_contactLeftIndent setStringValue:[NSString stringWithFormat:@"%ldpx", [slider_contactLeftIndent integerValue]]];
+	[textField_contactRightIndent setStringValue:[NSString stringWithFormat:@"%ldpx", [slider_contactRightIndent integerValue]]];
+	[textField_outlineWidthIndicator setStringValue:[NSString stringWithFormat:@"%ldpx", [slider_outlineWidth integerValue]]];
 }
 
-//Configure control dimming
+// Configure control dimming
 - (void)configureControlDimming
 {
 	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-	NSInteger				windowStyle = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue];
+	NSInteger		windowStyle = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue];
 	
-	//Bubble to fit limitations
+	// Bubble to fit limitations
 	BOOL nonFitted = (windowStyle != AIContactListWindowStyleContactBubbles_Fitted);
+	
 	if (nonFitted) {
-		//For the non-fitted styles, enable and set the proper state
+		// For the non-fitted styles, enable and set the proper state
 		[checkBox_extendedStatusVisible setEnabled:YES];
 		[checkBox_extendedStatusVisible setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_EXT_STATUS] boolValue]];
 	} else {
-		//For the fitted style, disable and set to NO the extendedStatus
+		// For the fitted style, disable and set to NO the extendedStatus
 		[checkBox_extendedStatusVisible setEnabled:NO];
 		[checkBox_extendedStatusVisible setState:NO];
 	}
 	
 	if (nonFitted || ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue] != NSCenterTextAlignment)) {
-		//For non-fitted or non-centered fitted, enable and set the appropriate value
+		// For non-fitted or non-centered fitted, enable and set the appropriate value
 		[checkBox_userIconVisible setEnabled:YES];
 		[checkBox_userIconVisible setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue]];
 		
@@ -386,7 +380,7 @@
 		[checkBox_serviceIconsVisible setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_SERVICE_ICONS] boolValue]];	
 		
 	} else {
-		//For fitted and centered, disable and set to NO
+		// For fitted and centered, disable and set to NO
 		[checkBox_userIconVisible setEnabled:NO];
 		[checkBox_userIconVisible setState:NO];
 		
@@ -397,17 +391,13 @@
 		[checkBox_serviceIconsVisible setState:NO];
 	}
 	
-	
-	
-	
-	//User icon controls
+	// User icon controls
 	[slider_userIconSize setEnabled:([checkBox_userIconVisible state] && [checkBox_userIconVisible isEnabled])];
 	[textField_userIconSize setEnabled:([checkBox_userIconVisible state] && [checkBox_userIconVisible isEnabled])];
 	[popUp_userIconPosition setEnabled:([checkBox_userIconVisible state] && [checkBox_userIconVisible isEnabled])];
 	
-	//Other controls
+	// Other controls
 	BOOL extendedStatusEnabled = ([checkBox_extendedStatusVisible state] && [checkBox_extendedStatusVisible isEnabled]);
-	
 	
 	[popUp_extendedStatusStyle setEnabled:extendedStatusEnabled];
 	[popUp_extendedStatusPosition setEnabled:extendedStatusEnabled];
@@ -421,21 +411,21 @@
 										[checkBox_userIconVisible isEnabled] &&
 										([popUp_userIconPosition numberOfItems] > 0))];
 	
-	//Disable group spacing when not using mockie
+	// Disable group spacing when not using mockie
 	[slider_groupTopSpacing setEnabled:(windowStyle == AIContactListWindowStyleGroupBubbles)];
 	[textField_groupTopSpacing setEnabled:(windowStyle == AIContactListWindowStyleGroupBubbles)];
 	
-	//Contact Bubbles Advanced
+	// Contact Bubbles Advanced
 	
-	//Only enable the outline width slider if outline width is being shown
+	// Only enable the outline width slider if outline width is being shown
 	[slider_outlineWidth setEnabled:[checkBox_outlineBubbles state]];
 }
 
 - (void)updateStatusAndServiceIconMenusFromPrefDict:(NSDictionary *)prefDict
 {
-	NSInteger				statusAndServicePositionChoices[7];
-	BOOL			showUserIcon = [[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue];
-	NSInteger				indexForFinishingChoices = 0;
+	NSInteger	statusAndServicePositionChoices[7];
+	BOOL		showUserIcon = [[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue];
+	NSInteger	indexForFinishingChoices = 0;
 	
 	if ([[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted) {
 		statusAndServicePositionChoices[0] = LIST_POSITION_FAR_LEFT;
@@ -446,32 +436,31 @@
 		indexForFinishingChoices = 4;
 		
 	} else {
-		//For fitted pillows, only show the options which correspond to the text alignment
+		// For fitted pillows, only show the options which correspond to the text alignment
 		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]) {
 			case NSLeftTextAlignment:
 				statusAndServicePositionChoices[0] = LIST_POSITION_FAR_LEFT;
 				statusAndServicePositionChoices[1] = LIST_POSITION_LEFT;
 				indexForFinishingChoices = 2;
 				break;
-				
+
 			case NSRightTextAlignment:
 				statusAndServicePositionChoices[0] = LIST_POSITION_RIGHT;
 				statusAndServicePositionChoices[1] = LIST_POSITION_FAR_RIGHT;
 				indexForFinishingChoices = 2;
-				
 				break;
-			case NSCenterTextAlignment:
 				
+			case NSCenterTextAlignment:
 				break;
 		}	
 	}
 	
-	//Only show the badge choices if we are showing the user icon
+	// Only show the badge choices if we are showing the user icon
 	if (showUserIcon && (indexForFinishingChoices != 0)) {
 		statusAndServicePositionChoices[indexForFinishingChoices] = LIST_POSITION_BADGE_LEFT;
 		statusAndServicePositionChoices[indexForFinishingChoices + 1] = LIST_POSITION_BADGE_RIGHT;
 		statusAndServicePositionChoices[indexForFinishingChoices + 2] = -1;
-		
+
 	} else {
 		statusAndServicePositionChoices[indexForFinishingChoices] = -1;
 		
@@ -481,6 +470,7 @@
 	 * set the preference to whichever option we just 'selected' by default.
 	 */
 	[popUp_statusIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
+	
 	if ([popUp_statusIconPosition numberOfItems] &&
 		![popUp_statusIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION] integerValue]]) {
 		[popUp_statusIconPosition selectItemAtIndex:0];
@@ -490,6 +480,7 @@
 	}
 
 	[popUp_serviceIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
+	
 	if ([popUp_serviceIconPosition numberOfItems] &&
 		![popUp_serviceIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION] integerValue]]) {
 		[popUp_serviceIconPosition selectItemAtIndex:0];
@@ -501,14 +492,14 @@
 
 - (void)updateUserIconMenuFromPrefDict:(NSDictionary *)prefDict
 {
-	NSInteger				userIconPositionChoices[3];
+	NSInteger userIconPositionChoices[3];
 	
 	if ([[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted) {
 		userIconPositionChoices[0] = LIST_POSITION_LEFT;
 		userIconPositionChoices[1] = LIST_POSITION_RIGHT;
 		userIconPositionChoices[2] = -1;
 	} else {
-		//For fitted pillows, only show the options which correspond to the text alignment
+		// For fitted pillows, only show the options which correspond to the text alignment
 		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]) {
 			case NSLeftTextAlignment:
 				userIconPositionChoices[0] = LIST_POSITION_LEFT;
@@ -524,9 +515,8 @@
 				break;
 		}	
 	}
-	
-	
-	//User icon position
+
+	// User icon position
 	[popUp_userIconPosition setMenu:[self positionMenuWithChoices:userIconPositionChoices]];
 	[popUp_userIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION] integerValue]];
 }
@@ -537,11 +527,11 @@
 {
     NSMenu		*alignmentMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSMenuItem	*menuItem;
-    
+
 	NSUInteger	i = 0;
 	
 	while (alignmentChoices[i] != -1) {
-		NSString	*menuTitle = nil;
+		NSString *menuTitle = nil;
 		
 		switch (alignmentChoices[i]) {
 			case NSLeftTextAlignment:	menuTitle = AILocalizedString(@"Left",nil);
@@ -573,7 +563,7 @@
 	NSUInteger	i = 0;
 	
 	while (positionChoices[i] != -1) {
-		NSString	*menuTitle = nil;
+		NSString *menuTitle = nil;
 		
 		switch (positionChoices[i]) {
 			case LIST_POSITION_LEFT:
@@ -662,13 +652,12 @@
 	return extendedStatusStyleMenu;
 }
 
-
 #pragma mark Displayed Tabs
-//Displayed Tabs
+
 - (void)updateDisplayedTabsFromPrefDict:(NSDictionary *)prefDict
 {
-	AIContactListWindowStyle	windowStyle;
-	BOOL				tabViewCurrentHasAdvancedContactBubbles;
+	AIContactListWindowStyle windowStyle;
+	BOOL tabViewCurrentHasAdvancedContactBubbles;
 	
 	windowStyle = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue];
 	tabViewCurrentHasAdvancedContactBubbles = ([[tabView_preferences tabViewItems] containsObjectIdenticalTo:tabViewItem_advancedContactBubbles]);
@@ -680,7 +669,7 @@
 			[tabView_preferences addTabViewItem:tabViewItem_advancedContactBubbles];
 		}
 		
-		//Configure the controls whose state we only care about if we are showing this tab view item
+		// Configure the controls whose state we only care about if we are showing this tab view item
 		BOOL showGroupBubbles = ![[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_HIDE_BUBBLE] boolValue];
 		[checkBox_showGroupBubbles setState:showGroupBubbles];
 		

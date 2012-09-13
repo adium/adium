@@ -90,8 +90,9 @@
 	NSString *defaultGroup = [account preferenceForKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 	[comboBox_subscriptionGroup setStringValue:(defaultGroup ? defaultGroup : @"")];
 	
-	//Hide the register button if the account can't register new accounts
-	[button_register setHidden:![account.service canRegisterNewAccounts]];
+	//Change the register button into sign up if the account can't register new accounts
+	if (![account.service canRegisterNewAccounts])
+		[button_register setAction:@selector(signUpAccount:)];
 	
 	//Set hidden flag of the default group combobox
 	[self subscriptionModeDidChange:nil];

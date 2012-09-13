@@ -24,6 +24,6 @@
 
 + (void)start;
 + (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
-+ (void)closeAuthorizationForUIHandle:(id)handle;
++ (void)closeAuthorizationForUIHandle:(id)__attribute__((ns_consumed))handle;
 
 @end

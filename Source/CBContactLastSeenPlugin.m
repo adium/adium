@@ -45,7 +45,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	/* Update only for contacts whose online status has changed */
-	if ([inObject isKindOfClass:[AIListContact class]]) {
+	if ([inObject isKindOfClass:[AIListContact class]] && !inObject.isStranger) {
 		if ([inModifiedKeys containsObject:@"isOnline"]) {
 			if (inObject.online) {
 				//Either they are online, or we've come online. Either way, update both their status and the time
@@ -110,7 +110,7 @@
 	NSAttributedString	*entry = nil;
 	
 	//Only display for offline contacts
-	if (!inObject.online) {
+	if (!inObject.online && !inObject.isStranger) {
 	
 		lastSeenStatus = [adium.preferenceController preferenceForKey:KEY_LAST_SEEN_STATUS 
 																  group:PREF_GROUP_LAST_SEEN
@@ -124,7 +124,6 @@
 			NSString	*timeElapsedWithDesignation;
 			
 			sinceDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-			[sinceDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 				[sinceDateFormatter setDateFormat:[NSString stringWithFormat:@"%@, %@",
 												   [dateFormatter dateFormat],

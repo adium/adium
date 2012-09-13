@@ -50,7 +50,7 @@
 																		toolTip:AILocalizedString(@"Bookmark the current chat", "tooltip text for Add Bookmark")
 																  		 target:self
 																settingSelector:@selector(setImage:)
-																	itemContent:[NSImage imageNamed:@"bookmark_chat" forClass:[self class] loadLazily:YES]
+																	itemContent:[NSImage imageNamed:@"msg-bookmark-chat" forClass:[self class] loadLazily:YES]
 																		 action:@selector(addBookmark:)
 																		   menu:nil];
 	
@@ -87,9 +87,9 @@
  */
 - (void)addBookmark:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.interfaceController.activeChat
-													  onWindow:[adium.interfaceController.activeChat.chatContainer.windowController window]
-												notifyingTarget:self];
+	AINewBookmarkWindowController *newBookmarkWindowController = [[AINewBookmarkWindowController alloc] initWithChat:adium.interfaceController.activeChat
+																									 notifyingTarget:self];
+	[newBookmarkWindowController showOnWindow:[adium.interfaceController.activeChat.chatContainer.windowController window]];
 }
 
 /*!
@@ -99,9 +99,9 @@
  */
 - (void)addBookmarkContext:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.menuController.currentContextMenuChat
-													  onWindow:[adium.menuController.currentContextMenuChat.chatContainer.windowController window]
-											   notifyingTarget:self];
+	AINewBookmarkWindowController *newBookmarkWindowController = [[AINewBookmarkWindowController alloc] initWithChat:adium.menuController.currentContextMenuChat
+																									 notifyingTarget:self];
+	[newBookmarkWindowController showOnWindow:[adium.menuController.currentContextMenuChat.chatContainer.windowController window]];
 }
 
 // @brief: create a bookmark for the given chat with the given name in the given group

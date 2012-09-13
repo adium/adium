@@ -33,12 +33,12 @@
 	AIEmoticonPack								*selectedEmoticonPack;
 	NSMutableDictionary					*emoticonImageCache;
 
-	NSArray													*dragRows;
+	NSIndexSet										*dragRows;
 	
 	BOOL															viewIsOpen;
 }
 
-+ (void)showEmoticionCustomizationOnWindow:(NSWindow *)parentWindow;
+- (void)openOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 - (void)toggledPackController:(id)packController;
 - (void)emoticonXtrasDidChange;
 
