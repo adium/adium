@@ -72,6 +72,8 @@
 
 #define ALWAYS_RUN_SETUP_WIZARD FALSE
 
+#define AIEarliestLaunchedAdiumVersionKey @"AIEarliestLaunchedAdiumVersion"
+
 static NSString	*prefsCategory;
 
 @interface AIAdium ()
@@ -137,6 +139,8 @@ static NSString	*prefsCategory;
 												   andSelector:@selector(handleURLEvent:withReplyEvent:)
 												 forEventClass:kInternetEventClass
 													andEventID:kAEGetURL];
+	
+	[self noteEarliestLaunchedAdiumVersion];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
@@ -988,6 +992,43 @@ static NSString	*prefsCategory;
 - (NSApplication *)application
 {
 	return [NSApplication sharedApplication];
+}
+
+- (NSString *)earliestLaunchedAdiumVersion
+{
+	return [[NSUserDefaults standardUserDefaults] stringForKey:AIEarliestLaunchedAdiumVersionKey];
+}
+
+- (void)noteEarliestLaunchedAdiumVersion
+{
+	if (![self earliestLaunchedAdiumVersion]) {
+		/* Either Adium has never run before on this machine, or the version which did was < 1.5.4, as that's when we started
+		 * noting the earliest run version
+		 */
+		if ([[NSUserDefaults standardUserDefaults]  boolForKey:@"Adium 1.3.3:Reimported Spotlight Logs"]) {
+			/* This is set by the logging plugin in every version of Adium from 1.3.3 through 1.5.3, so if it's already set,
+			 * Adium 1.3.3 through 1.5.3 have launched previously. Assume 1.5.3 since we can't tell the difference.
+			 */
+			[[NSUserDefaults standardUserDefaults] setObject:@"1.5.3"
+													  forKey:AIEarliestLaunchedAdiumVersionKey];
+			
+		} else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.2.4 deleted blist.xml"]) {
+			/* similar story, so now we're between 1.2.4 and 1.3.2 */
+			[[NSUserDefaults standardUserDefaults] setObject:@"1.3.2"
+													  forKey:AIEarliestLaunchedAdiumVersionKey];
+			
+		} else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {
+			/* similar story, so now we're between 1.0.3 and 1.2.3. Really, you're just now upgrading?! */
+			[[NSUserDefaults standardUserDefaults] setObject:@"1.2.3"
+													  forKey:AIEarliestLaunchedAdiumVersionKey];
+		} else {
+			/* This user has never run Adium, at least not since 1.0.3. Record the current version */
+			[[NSUserDefaults standardUserDefaults] setObject:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey]
+													  forKey:AIEarliestLaunchedAdiumVersionKey];
+			
+		}
+		
+	}
 }
 
 #pragma mark Scripting

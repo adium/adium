@@ -1427,7 +1427,6 @@
 		9E124DEC07D34C7300AA91C5 /* CBGrowlAlertDetailPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */; };
 		9E124DEE07D34C7400AA91C5 /* NEHGrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */; };
 		9E124DF107D34C9100AA91C5 /* GrowlAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DEF07D34C9000AA91C5 /* GrowlAlert.xib */; };
-		9E124DF207D34C9100AA91C5 /* events-growl-alert.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DF007D34C9000AA91C5 /* events-growl-alert.tiff */; };
 		9E125C6607D3571400AA91C5 /* ESBlockingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E125C6407D3571400AA91C5 /* ESBlockingPlugin.m */; };
 		9E1E1DFD0A96741500E16DFC /* LMX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1E1DFC0A96741500E16DFC /* LMX.framework */; };
 		9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1E1DFC0A96741500E16DFC /* LMX.framework */; };
@@ -1489,6 +1488,7 @@
 		C6EE434615C0AA9100A4B96C /* SoundLow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434515C0AA9100A4B96C /* SoundLow@2x.png */; };
 		C6EE434C15C0AB7400A4B96C /* Flap_192@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434B15C0AB7400A4B96C /* Flap_192@2x.png */; };
 		C6EE434E15C0AB7F00A4B96C /* Awake_192@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434D15C0AB7F00A4B96C /* Awake_192@2x.png */; };
+		C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */; };
 		D10A3A2B122C61EF003B5A7E /* msg-source-destination.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D10A3A2A122C61EF003B5A7E /* msg-source-destination.tiff */; };
 		EE147A6D0896B18800A21377 /* ABSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = EE147A6C0896B18700A21377 /* ABSearch.png */; };
 		EE147A790896B32400A21377 /* ABSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE147A780896B32400A21377 /* ABSearch.xib */; };
@@ -3399,6 +3399,8 @@
 		34D369ED08E7544D00E15E40 /* AIColorPickerSliders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIColorPickerSliders.h; path = "Frameworks/Adium Framework/Source/AIColorPickerSliders.h"; sourceTree = "<group>"; };
 		34D369EE08E7544D00E15E40 /* AIColorPickerSliders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIColorPickerSliders.m; path = "Frameworks/Adium Framework/Source/AIColorPickerSliders.m"; sourceTree = "<group>"; };
 		34D43504051ADC10003B2F21 /* DualWindowDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DualWindowDefaults.plist; path = "Plugins/Dual Window Interface/DualWindowDefaults.plist"; sourceTree = "<group>"; };
+		34D7F1E815F85DD300F32F9B /* ChatCyclingDefaults-Old.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ChatCyclingDefaults-Old.plist"; path = "Resources/ChatCyclingDefaults-Old.plist"; sourceTree = "<group>"; };
+		34D7F1E915F85DD300F32F9B /* ChatCyclingDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ChatCyclingDefaults.plist; path = Resources/ChatCyclingDefaults.plist; sourceTree = "<group>"; };
 		34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccount.h; path = "Plugins/Purple Service/AIFacebookXMPPAccount.h"; sourceTree = "<group>"; };
 		34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccount.m; path = "Plugins/Purple Service/AIFacebookXMPPAccount.m"; sourceTree = "<group>"; };
 		34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccountViewController.h; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.h"; sourceTree = "<group>"; };
@@ -4466,7 +4468,6 @@
 		9E124DE907D34C7300AA91C5 /* NEHGrowlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NEHGrowlPlugin.h; path = Source/NEHGrowlPlugin.h; sourceTree = "<group>"; };
 		9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NEHGrowlPlugin.m; path = Source/NEHGrowlPlugin.m; sourceTree = "<group>"; };
 		9E124DEF07D34C9000AA91C5 /* GrowlAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GrowlAlert.xib; path = Resources/GrowlAlert.xib; sourceTree = "<group>"; };
-		9E124DF007D34C9000AA91C5 /* events-growl-alert.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "events-growl-alert.tiff"; path = "Resources/events-growl-alert.tiff"; sourceTree = "<group>"; };
 		9E125C6307D3571400AA91C5 /* ESBlockingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESBlockingPlugin.h; path = Source/ESBlockingPlugin.h; sourceTree = "<group>"; };
 		9E125C6407D3571400AA91C5 /* ESBlockingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESBlockingPlugin.m; path = Source/ESBlockingPlugin.m; sourceTree = "<group>"; };
 		9E1E1DFC0A96741500E16DFC /* LMX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LMX.framework; path = Frameworks/LMX.framework; sourceTree = "<group>"; };
@@ -4548,6 +4549,7 @@
 		C6EE434515C0AA9100A4B96C /* SoundLow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SoundLow@2x.png"; path = "Resources/SoundLow@2x.png"; sourceTree = "<group>"; };
 		C6EE434B15C0AB7400A4B96C /* Flap_192@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flap_192@2x.png"; path = "Resources/Flap_192@2x.png"; sourceTree = "<group>"; };
 		C6EE434D15C0AB7F00A4B96C /* Awake_192@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Awake_192@2x.png"; path = "Resources/Awake_192@2x.png"; sourceTree = "<group>"; };
+		C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "events-notification.tiff"; path = "Resources/events-notification.tiff"; sourceTree = "<group>"; };
 		D10A3A2A122C61EF003B5A7E /* msg-source-destination.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "msg-source-destination.tiff"; path = "Resources/msg-source-destination.tiff"; sourceTree = "<group>"; };
 		D182F1B411DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D182F1B611DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/schema.strings; sourceTree = "<group>"; };
@@ -6693,6 +6695,8 @@
 			children = (
 				34BFE20007E8E11500AD984D /* AIChatCyclingPlugin.m */,
 				34BFE20107E8E11500AD984D /* AIChatCyclingPlugin.h */,
+				34D7F1E815F85DD300F32F9B /* ChatCyclingDefaults-Old.plist */,
+				34D7F1E915F85DD300F32F9B /* ChatCyclingDefaults.plist */,
 			);
 			name = "Chat Cycling";
 			sourceTree = "<group>";
@@ -7269,10 +7273,10 @@
 			children = (
 				9E124DE707D34C7300AA91C5 /* CBGrowlAlertDetailPane.h */,
 				9E124DE807D34C7300AA91C5 /* CBGrowlAlertDetailPane.m */,
-				9E124DEF07D34C9000AA91C5 /* GrowlAlert.xib */,
-				9E124DF007D34C9000AA91C5 /* events-growl-alert.tiff */,
 				9E124DE907D34C7300AA91C5 /* NEHGrowlPlugin.h */,
 				9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */,
+				9E124DEF07D34C9000AA91C5 /* GrowlAlert.xib */,
+				C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
@@ -9571,7 +9575,6 @@
 				342838EE07D2D004004F01C9 /* Shared Dock Icon Images in Resources */,
 				4BB5B78207D2DC4900CFE06F /* pref-status.tiff in Resources */,
 				9E124DF107D34C9100AA91C5 /* GrowlAlert.xib in Resources */,
-				9E124DF207D34C9100AA91C5 /* events-growl-alert.tiff in Resources */,
 				34A6FB2607D6F97B00972830 /* EventSoundContactAlert.xib in Resources */,
 				34A6FB2D07D6F98600972830 /* events-sound-alert.tiff in Resources */,
 				34A6FB2E07D6F98600972830 /* SoundFileIcon.png in Resources */,
@@ -9764,6 +9767,7 @@
 				C6B545A815D338EE0005F1F8 /* SoundFileIcon@2x.png in Resources */,
 				C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */,
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
+				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
