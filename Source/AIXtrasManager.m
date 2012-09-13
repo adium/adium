@@ -19,46 +19,48 @@
 #import "AIXtraPreviewController.h"
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIPathUtilities.h>
-#import <Adium/KNShelfSplitView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
+#import <Adium/AICorePluginLoader.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
-#define DELETE					AILocalizedStringFromTable(@"Delete", @"Buttons", nil)
-#define GET_MORE_XTRAS			AILocalizedStringFromTable(@"Get More Xtras", @"Buttons", "Button in the Xtras Manager to go to xtras.adium.im to get more adiumxtras")
-
-#define MINIMUM_SOURCE_LIST_WIDTH 40
 
 @interface AIXtrasManager ()
-- (void)installToolbar;
 - (void)updateForSelectedCategory;
 - (void)xtrasChanged:(NSNotification *)not;
 @end
 
 @implementation AIXtrasManager
+@synthesize removeXtra, findXtras, togglePluginEnabled;
 
-static AIXtrasManager *manager;
-
-+ (AIXtrasManager *) sharedManager
-{
-	return manager;
+/*!
+ * @brief Preference pane properties
+ */
+- (AIPreferenceCategory)category{
+	return AIPref_Advanced;
+}
+- (NSString *)paneIdentifier{
+	return @"Xtras";
+}
+- (NSString *)paneName{
+    return AILocalizedString(@"Xtras",nil);
+}
+- (NSImage *)paneIcon{
+	return [NSImage imageNamed:@"xtras_duck" forClass:[self class]];
+}
+- (NSString *)nibName{
+    return @"Preferences-Xtras";
 }
 
-- (void)installPlugin
+/*!
+ * @brief Configure the view initially
+ */
+- (void)viewDidLoad
 {
-	manager = self;
-}
-
-- (void)windowDidLoad
-{
-	[window setTitle:AILocalizedString(@"Xtras Manager", "Xtras Manager window title")];
-
-	[self installToolbar];
-
-	[tableView_categories setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+	[findXtras setLocalizedString:AILocalizedString(@"Find More Xtras", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")];
 	
 	AIImageTextCell			*cell;
 	//Configure our tableViews
@@ -77,6 +79,8 @@ static AIXtrasManager *manager;
 	[previewContainerView setAutohidesScrollers:YES];
 	[previewContainerView setBorderType:NSBezelBorder];
 
+	[self showXtras];
+
 	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self updateForSelectedCategory];
@@ -84,37 +88,13 @@ static AIXtrasManager *manager;
 
 - (void)showXtras
 {
-	if (!window) {
-		[self loadXtras];
-		
-		showInfo = NO;
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(xtrasChanged:)
-										   name:AIXtrasDidChangeNotification
-										 object:nil];
-		[NSBundle loadNibNamed:@"XtrasManager" owner:self];
-		[self windowDidLoad];
-	}
-		
-	[window makeKeyAndOrderFront:nil];
-}
-
-- (void)windowWillClose:(NSNotification *)aNotification
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-										  name:AIXtrasDidChangeNotification
-										object:nil];
+	[self loadXtras];
+	showInfo = NO;
 	
-	[categories release]; categories = nil;
-	[toolbarItems release]; toolbarItems = nil;
-
-	//Release top-level nib objects besides the window
-	[view_content release]; view_content = nil;
-	[view_shelf release]; view_shelf = nil;	
-
-	//XXX don't need to do this when this is a window controller
-	window = nil;
+	[[NSNotificationCenter defaultCenter] addObserver:self
+								   selector:@selector(xtrasChanged:)
+									   name:AIXtrasDidChangeNotification
+									 object:nil];
 }
 
 
@@ -129,7 +109,7 @@ static AIXtrasManager *manager;
 
 NSInteger categorySort(id categoryA, id categoryB, void * context)
 {
-	return [[categoryA objectForKey:@"Name"] caseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
+	return [[categoryA objectForKey:@"Name"] localizedCaseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
 }
 
 - (void)loadXtras
@@ -184,9 +164,9 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		[NSImage imageNamed:@"AdiumMenuBarIcons"], @"Image", nil]];
 
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						   [NSNumber numberWithInteger:AIPluginsDirectory], @"Directory",
-						   AILocalizedString(@"Plugins", "AdiumXtras category name"), @"Name",
-						   [NSImage imageNamed:@"AdiumPlugin"], @"Image", nil]];
+		[NSNumber numberWithInteger:AIPluginsDirectory], @"Directory",
+		AILocalizedString(@"Plugins", "AdiumXtras category name"), @"Name",
+		[NSImage imageNamed:@"AdiumPlugin"], @"Image", nil]];
 
 	
 	[categories sortUsingFunction:categorySort context:NULL];
@@ -220,8 +200,18 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 
 - (void)dealloc
 {
-	[categories release];
-    [selectedCategory release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:AIXtrasDidChangeNotification
+												  object:nil];
+	
+	[categories release]; categories = nil;
+	[toolbarItems release]; toolbarItems = nil;
+	
+	//Release top-level nib objects besides the window
+	[view_content release]; view_content = nil;
+	[view_shelf release]; view_shelf = nil;	
+	
+	[selectedCategory release];
 
 	[super dealloc];
 }
@@ -255,6 +245,12 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		[xtraList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	}
 
+	//Show/Hide the plugin enabler for the plugin category
+	if ([[[categories objectAtIndex:[tableView_categories selectedRow]] objectForKey:@"Directory"] integerValue] == AIPluginsDirectory)
+		[togglePluginEnabled setHidden:NO];
+	else
+		[togglePluginEnabled setHidden:YES];
+	
 	[self updatePreview];
 }
 
@@ -353,7 +349,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 							informativeTextWithFormat:((selectionCount > 1) ?
 													   AILocalizedString(@"The selected Xtras will be moved to the Trash.", nil) :
 													   AILocalizedString(@"The selected Xtra will be moved to the Trash.", nil))];
-	[warning beginSheetModalForWindow:window
+	[warning beginSheetModalForWindow:self.view.window
 						modalDelegate:self
 					   didEndSelector:@selector(deleteXtrasAlertDidEnd:returnCode:contextInfo:)
 						  contextInfo:nil];
@@ -367,6 +363,30 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (IBAction)checkForUpdates:(id)sender
 {
 	
+}
+
+- (IBAction)toggleEnable:(id)sender {
+	[[xtraList selectedRowIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+		AIXtraInfo *xtraInfo = [selectedCategory objectAtIndex:idx];
+		
+		if (xtraInfo.enabled)
+			[AICorePluginLoader disablePlugin:xtraInfo.path];
+		else
+			[AICorePluginLoader enablePlugin:xtraInfo.path];
+	}];
+	
+	NSAlert * warning = [NSAlert alertWithMessageText:AILocalizedString(@"You will need to restart Adium", nil)
+										defaultButton:AILocalizedString(@"OK", nil)
+									  alternateButton:nil
+										  otherButton:nil
+							informativeTextWithFormat:AILocalizedString(@"Enabling or disabling plugins requires a restart of Adium.", nil)];
+	[warning beginSheetModalForWindow:self.view.window
+						modalDelegate:nil
+					   didEndSelector:nil
+						  contextInfo:nil];
+	
+	//Reload the plugins to reflect the recent changes
+	[self xtrasChanged:nil];
 }
 
 + (BOOL)createXtraBundleAtPath:(NSString *)path 
@@ -411,7 +431,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	else {
 		AIXtraInfo *xtraInfo = [selectedCategory objectAtIndex:row];
 		[cell setImage:[xtraInfo icon]];
-		[cell setSubString:nil];
+		[cell setSubString:[(AIXtraInfo *)[selectedCategory objectAtIndex:row] version]];
 		[cell setEnabled:[xtraInfo enabled]];
 	}
 }
@@ -431,32 +451,30 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	if (tableView == tableView_categories) {
 		return [[categories objectAtIndex:row] objectForKey:@"Name"];
 	} else {
-		NSString * name = [(AIXtraInfo *)[selectedCategory objectAtIndex:row] name];
-		NSString * version = [(AIXtraInfo *)[selectedCategory objectAtIndex:row] version];
-		NSString * displayString;
-
-		if (name) {
-			if (version)
-				displayString = [NSString stringWithFormat:@"%@ (%@)", name, version];
-			else
-				displayString = [NSString stringWithString:name];
-		} else {
-			displayString = [NSString stringWithString:@""];
-		}
-
-		return displayString;
+		return [(AIXtraInfo *)[selectedCategory objectAtIndex:row] name];
 	}
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	if ([aNotification object] == xtraList) {
-		//int	selectedRow = [xtraList selectedRow];
-		//if ((selectedRow >= 0) && (selectedRow < [selectedCategory count])) {
+		NSInteger selectedRow = [xtraList selectedRow];
+		if ((selectedRow >= 0) && (selectedRow < [selectedCategory count])) {
 			//AIXtraInfo *xtraInfo  = [AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[[selectedCategory objectAtIndex:selectedRow] path]]];
 		//	if ([[xtraList selectedRowIndexes] count] == 1)
 		//		[previewController setXtra:xtraInfo];
-		//}
+			
+			//Update the plugin enabler's title
+			AIXtraInfo *xtraInfo = [selectedCategory objectAtIndex:selectedRow];
+			if (xtraInfo.enabled)
+				[togglePluginEnabled setTitle:AILocalizedString(@"Disable", nil)];
+			else
+				[togglePluginEnabled setTitle:AILocalizedString(@"Enable", nil)];
+			
+			[removeXtra setEnabled:YES];
+		} else {
+			[removeXtra setEnabled:NO];
+		}
 		
 	} else if ([aNotification object] == tableView_categories) {
 		[self updateForSelectedCategory];
@@ -466,86 +484,6 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
 	[self deleteXtra:tableView];
-}
-
-#pragma mark Placeholder until this is a window controller
-- (NSWindow *)window
-{
-	return window;
-}
-
-#pragma mark Toolbar
-
-- (void)installToolbar
-{	
-    NSToolbar 		*toolbar = [[[NSToolbar alloc] initWithIdentifier:@"XtrasManager:Toolbar"] autorelease];
-	
-    [toolbar setDelegate:self];
-    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
-    [toolbar setSizeMode:NSToolbarSizeModeRegular];
-    [toolbar setVisible:YES];
-    [toolbar setAllowsUserCustomization:YES];
-    [toolbar setAutosavesConfiguration:YES];
-    toolbarItems = [[NSMutableDictionary alloc] init];
-	
-	//Delete Logs
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"delete"
-											 label:DELETE
-									  paletteLabel:DELETE
-										   toolTip:AILocalizedString(@"Delete the selection",nil)
-											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageNamed:@"remove" forClass:[self class]]
-											action:@selector(deleteXtra:)
-											  menu:nil];
-
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"getmoreXtras"
-											 label:GET_MORE_XTRAS
-									  paletteLabel:GET_MORE_XTRAS
-										   toolTip:GET_MORE_XTRAS
-											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageNamed:@"xtras_duck" forClass:[self class]]
-											action:@selector(browseXtras:)
-											  menu:nil];
-	
-	[[self window] setToolbar:toolbar];
-}	
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
-{
-    return [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:itemIdentifier];
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
-{
-    return [NSArray arrayWithObjects:@"getmoreXtras", NSToolbarFlexibleSpaceItemIdentifier, @"delete", nil];
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
-{
-    return [[toolbarItems allKeys] arrayByAddingObjectsFromArray:
-		[NSArray arrayWithObjects:NSToolbarSeparatorItemIdentifier,
-			NSToolbarSpaceItemIdentifier,
-			NSToolbarFlexibleSpaceItemIdentifier,
-			NSToolbarCustomizeToolbarItemIdentifier, nil]];
-}
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
-{
-	if ([[theItem itemIdentifier] isEqualToString:@"delete"]) {
-		return ([[xtraList selectedRowIndexes] count] > 0);
-
-	} else {
-		return YES;
-	}
-}
-
-- (CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth
-{
-	return ((proposedWidth > MINIMUM_SOURCE_LIST_WIDTH) ? proposedWidth : MINIMUM_SOURCE_LIST_WIDTH);
 }
 
 @end

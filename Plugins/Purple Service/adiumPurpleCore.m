@@ -155,8 +155,12 @@ void configurePurpleDebugLogging()
 
 static void adiumPurpleCoreDebugInit(void)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AILogWithSignature(@"");
 	configurePurpleDebugLogging();
+	
+	[pool release];
 }
 
 static void associateLibpurpleAccounts(void)
@@ -256,6 +260,8 @@ static void adiumPurpleCoreQuit(void)
 
 static GHashTable *adiumPurpleCoreGetUiInfo(void)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	static GHashTable *ui_info = NULL;
 	if (!ui_info) {
 		ui_info = g_hash_table_new(g_str_hash, g_str_equal);
@@ -282,6 +288,8 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 		 * points, we now use the key used by the offical AIR (Mac/Linux) client. */
 		g_hash_table_insert(ui_info, "prpl-icq-clientkey", "ic1-IIcaJnnNV5xA");
 	}
+	
+	[pool release];
 
 	return ui_info;
 }

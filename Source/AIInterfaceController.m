@@ -43,7 +43,6 @@
 #import <Adium/AISortController.h>
 #import "AIMessageWindowController.h"
 #import "AIMessageTabViewItem.h"
-#import "KNShelfSplitview.h"
 #import <Adium/AIContactList.h>
 #import "AIListOutlineView.h"
 
@@ -217,7 +216,14 @@
 																				action:@selector(toggleContactList:)
 																		 keyEquivalent:@"/"];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Fixed];
-	[adium.menuController addMenuItem:[[menuItem copy] autorelease] toLocation:LOC_Dock_Status];
+	[menuItem release];
+	
+	//Contact list menu item for the dock menu
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
+																	target:self
+																	action:@selector(showContactListAndBringToFront:)
+															 keyEquivalent:@""];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Dock_Status];
 	[menuItem release];
 	
 	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Close Chat","Title for the close chat menu item")
@@ -715,11 +721,9 @@
 	//For all containers but the first, move the chats they contain to the first container
 	while ((containerID = [containerEnumerator nextObject])) {
 		NSArray			*openChats = [[interfacePlugin openChatsInContainerWithID:containerID] copy];
-		NSEnumerator	*chatEnumerator = [openChats objectEnumerator];
-		AIChat			*chat;
 
 		//Move all the chats, providing a target index if chat sorting is enabled
-		while ((chat = [chatEnumerator nextObject])) {
+		for (AIChat *chat in openChats) {
 			[interfacePlugin moveChat:chat
 					toContainerWithID:firstContainerID
 								index:-1];
@@ -1138,9 +1142,9 @@
 			if (windowKey < 10) {
 				windowKeyString = [NSString stringWithFormat:@"%ld", (windowKey)];
 			} else if (windowKey == 10) {
-				windowKeyString = [NSString stringWithString:@"0"];
+				windowKeyString = @"0";
 			} else {
-				windowKeyString = [NSString stringWithString:@""];
+				windowKeyString = @"";
 			}
 			
 			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:chat.displayName

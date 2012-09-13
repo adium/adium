@@ -28,7 +28,7 @@
 - (id)init
 {
     if ((self = [super initWithWindowNibName:@"AIFacebookXMPPOauthWebViewWindow"])) {
-        self.cookies = [[[NSMutableSet alloc] init] autorelease];
+        self.cookies = [[[NSMutableDictionary alloc] init] autorelease];
     }
     return self;
 }
@@ -163,7 +163,10 @@
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response
 {
     NSArray *newCookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:[response URL]];
-    [cookies addObjectsFromArray:newCookies];
+	
+	for (NSHTTPCookie *newCookie in newCookies) {
+		[cookies setObject:newCookie forKey:newCookie.name];
+	}
 }
 
 - (void)addCookiesToRequest:(NSMutableURLRequest *)request
@@ -173,7 +176,7 @@
     NSMutableArray *sentCookies = [NSMutableArray array];
     
     // same origin: domain, port, path.
-    for (NSHTTPCookie *cookie in cookies) {
+    for (NSHTTPCookie *cookie in cookies.allValues) {
         if ([[cookie expiresDate] timeIntervalSinceNow] < 0) {
             //NSLog(@"****** expired: %@", cookie);
             continue;

@@ -1,64 +1,113 @@
 				Adium Version History
 				-----------------------
-Version 1.5 (X/X/2011)
+Version 1.5.4 (XX/XX/XXXX)
+ * Updated the included Growl SDK to 2.0, adding support for Notification Center on 10.8 if Growl is not installed. (#15867)
+ * Updated libotr to 3.2.1, fixing a security vulnerability. (#16122)
+ * Fixed a problem where accepting a group chat invite on Sametime 8.5.1 would crash Adium. (Jere Krischel and Jonathan Rice) (#16114)
+ * Limit the tracking of the last seen time to contacts who are on your contact list.
+ * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. (#16102)
+
+
+Version 1.5.3 (8/12/2012)
+ * Fixed another problem with the transcript viewer causing search to fail when closing and reopening the window. (#13586, #15699)
+ * Fixed a problem with iTunes 10.6.3 on Mac OS X 10.6.8 causing the chat window's toolbar to break. (#16046)
+ * Fixed crash at startup that was meant to be fixed in 1.5.2. (#15787)
+ * Fixed a crash when receiving invalid XML on 10.8. (#16095)
+ * Fixed an issue that caused logging in to Facebook to fail when login approvals are enabled. (#15705)
+ * Icons set for group chat bookmarks will now show up on the tab bar in the chat window. (Andreas Marienborg) (#14484)
+ * Fixed tables not being declared as such via VoiceOver. (Marco Zehe) (#16085)
+ * Fixed a problem with emoticons scaling disproportionately in the yMous message style when using OS X 10.8.
+ * Improved memory use slightly.
+
+
+Version 1.5.2 (7/21/2012)
+ * Fixed an issue where the log indexer would never finish.
+ * Fixed a number of crashes that could occur after closing the Transcript Viewer. (#15984, #15823)
+ * Fixed crash at startup. (#15787)
+ * Fixed crash upon cancelling the "Confirm quit" window. (#15900)
+ * Fixed crash when closing the Novell Groupwise account options. (#16041)
+ * Fixed a problem on retina Macbook Pros causing Adium to send too large user icons to the server, causing disconnects. (#16063)
+ * Updated the Ukrainian localisation. (#16062)
+
+
+Version 1.5.1 (6/7/2012)
+  * Adium is now securely signed with an Apple Developer ID for OS X 10.8 / GateKeeper compatibility.
+  * Updated to libpurple 2.10.4
+    * AIM/ICQ: Fixed communication with buddies containing periods and underscores.
+    * MSN: Fixed messages to offline contacts.
+    * MSN: Switched to MSN protocol version 18, therefore re-enabling Multiple Points of Presence support.
+    * Fixed a number of security issues (see http://pidgin.im/news/security/), small memory leaks, miscellaneous bugs.
+  * Fixed MSN public display names not being set. (Chenguang Li) (#15915)
+  * Adjusted the minimum size of the message window to be 200px. (#15794)
+  * Fixed status indicators in chat windows with only one chat. (#9620)
+  * Increased the size of the focus indicators so that they can be better seen when using overlay scrollbars.
+  * Fixed the transcript viewer not saving the user list size.
+  * Corrected some MSN emoticon shortcuts. (Paul Wilde) (#15926)
+  * Renamed "Send Notification" to "Request Attention". (#15789)
+  * Adjusted the layout of the profile selection window.
+  * Fixed alphabetical contact list sorting involving diacritics such as "å" and "ä" (Rafael Glauber) (#12678)
+  * Made "View Release Notes" localizable. (#15914)
+
+
+Version 1.5 (3/15/2012)
  Major changes
-  * Requires Mac OS X 10.6.8 or later
-  * Requires an Intel Mac
-  * Added 64bit support.
-  * Updated to libpurple 2.10.0
+  * Requires Mac OS X 10.6.8 or later.
+  * Requires an Intel Mac.
+  * Added 64-bit support.
+  * Updated to libpurple 2.10.0.
     * Removed defunct QQ support.
     * Fix double mail notifications on MSN. (#11199)
     * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
-  * Various user interface improvements
+  * Many user interface improvements, including updated look & feel for Mac OS X 10.7+
 
  Address Book integration
-  * Use a token field to specify the format to use for names imported from the Address Book. (#7394)
-  * Added support for Facebook. (#13755)
+  * Made it easier to choose how names imported from the Address Book are displayed. (#7394)
+  * Added support for Facebook in Address Book contact cards. (#13755)
 
- Authorization Requests
+ Authorisation Requests
   * First entry in the list is now auto-selected.
-  * Toolbar items now get disabled when no request is selected.
+  * Toolbar items now behave properly when no request is selected.
 
  Chat Window
   * Rounded user icon in the chat window toolbar. (#3757)
 
  Contact List
-  * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
+  * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion. (#15341, #15480)
   * Improved the logic for the display of tooltips. (Matthew Plough) (#12774)
-  * User picture menu now looks native on Leopard and newer systems. (#11964)
-  * Made the user picture an image well, added drag and drop support.
+  * Updated the menu for selecting your own picture to look natural on current versions of Mac OS X. (#11964)
+  * Added support for drag & drop of an image to your own picture to change it.
   * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (#9908)
   * Fixed the contact list shrinking when closing the search. (#14433)
   * The contact list search now treats whitespace-separated words as keywords. (Paul Vet) (#14354)
   * Added support for blocking/unblocking all contacts in a group. (Conor Branagan) (#2177)
-  * Added a "Deselect All" option to the "Edit" menu. (based on a patch by Tyler Funnell). (#10208)
+  * Added a "Deselect All" option to the "Edit" menu (based on a patch by Tyler Funnell). (#10208)
 
  Dock icon
   * Moved the dock badge to the top right to be consistent with other Mac OS X applications such as Mail. (#13439)
   * Fixed dock badge text becoming too large. (#13088)
   * Removed flashing of the contact name. (#14452)
 
- Encryption
+ Encryption (Off-The-Record)
   * Made it easier to delete a fingerprint. (Aleksei Gorny) (#1654)
   * The "Generate" button is now labelled "Regenerate" when a fingerprint already exists. (Tyler Funnell) (#1128)
-  * Disable Encryption -> Initiate Encrypted OTR Chat menu item if encrypted chat is disabled from settings. (Tyler Funnell) (#7389)
+  * Disable Encryption → Initiate Encrypted OTR Chat menu item if encrypted chat is disabled from settings. (Tyler Funnell) (#7389)
 
  Events and Notifications
   * Added the ability to add timestamps to Growl notifications. (Stuart Connolly) (#9920)
-  * Added a "Do Nothing" event. (#3590).
+  * Added a "Do Nothing" event. (#3590)
   * Added a "Message sent (Group chat)" event. (Will Bowling) (#12316)
   * Added "Message received (Away)" and "Message received (Away Group Chat)" events. (Joshua Stein) (#13278)
   * Added Regex support for mentions. (#12832)
 
- Get Info window
+ "Get Info" window
   * Various visual refinements. (Paul Wilde) (#14441)
   * Removed the service icon from the top of the "Get Info" window's first pane (and from the contact list tooltip). (#14654)
-  * Fixed ghosting artifacts in Events tab (#12237).
+  * Fixed ghosting artifacts in Events tab. (#12237)
 
  Group Chats
-  * Added support for purple images (custom emoticons etc.). (Peter Fung) (#15183)
+  * Added support for in-line images, including custom emoticons, on supported protocols. (Peter Fung) (#15183)
 
- iTunesIntegration
+ iTunes integration
   * Use same menu in menu bar, context menu and toolbar.
   * Fix bug when replacing tokens with empty strings.
   * Make tokens un-localizable.
@@ -69,12 +118,12 @@ Version 1.5 (X/X/2011)
   * Added Imgur as a supported image uploading service. (Shayne Sweeney) (#13186)
   * Removed kl.am as a supported url shortener service. (Shawn Khan) (#14412)
   * Fixed link insertion for NetNewsWire. (#11389)
-  * Added Google Chrome support for link insertion.
+  * Added support for Google Chrome when inserting a link to the active webpage.
 
  Message View
+  * New default message style: Smooth Operator.
   * Fixed message history only showing in the first tab/window on startup under certain circumstances. (#15377)
   * Fixed "Recent messages" still showing with logging. (#12577)
-  * Smooth Operator replaced Stockholm as the default message style
   * Added the "lastFocus" class for message styles to the latest message received while the chat didn't have focus, and "regainedFocus" for the first message received while the chat has regained focus after having previously lost it.
   * Made emoticons between packs more consistent. (#11450)
   * Fixed the ":^)" emoticon being mistakenly interpreted the same as ":-\". (#13924)
@@ -85,27 +134,27 @@ Version 1.5 (X/X/2011)
  * Added ability to change which track information the "iTunes" status displays. (#6373)
 
  Transcript Viewer
-  * Added next/previous buttons for highlighted search terms within a transcript (similar to Safari).
+  * Added "Next"/"Previous" buttons for highlighted search terms within a transcript (similar to Safari).
   * Greatly improved reliability and speed of log indexing and search.
   * Fixed a bug when writing inline images to chat logs. (Peter Fung) (#15186)
 
  User Picture (Contact Icon)
   * Added ability to resize animated gifs that are too large. (#9885)
-  * Image wells for changing user picture support drag & drop and will also open the Image Picker to edit the image if it's too large or not of square shape. (20% off shape)
+  * Image wells for changing user picture support drag & drop and will also open the Image Picker to edit the image if it's too large or not close to being square.
 
  Preferences
   * Fixed some bad user interface behaviour in the "Customise..." sheet for dock  icon in the "Appearance" pane. (#15158)
   * Improved wording and alignment in the "Status" pane. (ctbeiser) (#15370)
 
  AIM
-  * Added a preference for AIM: "allow multiple sign in locations" defaulting to true. (Josh Perry) (#5790)
+  * Added a preference for AIM's "Allow Multiple Sign-In Locations" setting, which defaults to yes. (Josh Perry) (#5790)
   * Fixed crash when sending certain group chat requests. (#15674)
 
  LiveJournal
-  * Restored connectivity by removing the hard-coded server name, they have an SRV record now.
+  * Restored connectivity by removing the hard-coded server name, as the server has an SRV record to allow dynamic configuration.
 
  StatusNet
-  * Allow overriding the 140 character limit for StatusNet. (brion) (#13485)
+  * Messages longer than 140 characters are now allowed. (brion) (#13485)
 
  Twitter
   * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
@@ -125,7 +174,7 @@ Version 1.5 (X/X/2011)
 
  Miscellaneous
   * New "About Adium" dialog. (Thanks to Mike Houben & Paul Wilde for graphics)
-  * Aqualicious Graphite, new contact list theme to match OS X Graphite style.
+  * Added Aqualicious Graphite, new contact list theme to match OS X Graphite style.
   * Updated Growl.framework to 1.3.1.
   * Updated OAuthCustomer to latest (1/29/2012).
   * Updated Fribidi to version 2 (0.19.x)
@@ -136,6 +185,7 @@ Version 1.5 (X/X/2011)
   * Removed "Page Setup..." from the "File" menu. (#15367)
   * Added the "On Accounts" table to the nextKeyView in the 'Add Contact' window. (#14269)
   * Removed import from Fire. (#15366)
+  * More of that 'new car' smell.
   * Updated Adium Help documentation to look native on OS X Lion. (Paul Wilde) (#15357)
   * Added a menu item to view release notes in the help menu. (#8569)
   * Fixed some issues with AppleScript. (Peter Schmitt) (#15234)
@@ -146,7 +196,7 @@ Version 1.5 (X/X/2011)
   * Debug logging: All GLib's errors and messages, and all exceptions are now logged to the Debug Window.
 
  Localisation
-  * Updated translations: Catalan (#15770), Chinese (Traditional), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), French (#15734), German (#15586, #15648, #15733), Greek, Italian (#15810, #15808), Portuguese (Portugal) (#15721), Slovenian (#15772), Swedish (#15726).
+  * Updated translations: Catalan (#15770), Chinese (Traditional), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), French (#15734), German (#15586, #15733), Greek, Italian (#15810, #15808), Portuguese (Portugal) (#15721), Slovenian (#15772), Swedish (#15726).
   * Fixed localisation of a couple of emoticons.
 
 
@@ -257,7 +307,7 @@ Version 1.4.2 (06/13/2011)
   * Fixed two memory leaks. (Adrian Godoroja) (#15047)
   * Fixed "Remove Link" showing up twice in the input box's context menu on 10.6. (Shawn Khan) (#14454)
   * Fixed 1.4 regression where selection of the active voice in the "Speak Event" and "Speak Text" contact alert actions failed. (#14574)
-  * Fixed positioning of selected icon in Recent Icons not being reapplied when icon is reselected. (Adrian Godoroja) (#9908)
+  * Fixed positioning of selected icon in "Recent Icons" not being reapplied when icon is reselected. (Adrian Godoroja) (#9908)
   * Fixed an issue with adding URLs via copy/paste resulting in an invalid link. (#15229)
 
  Localisation
@@ -1214,7 +1264,7 @@ Version 1.1.3 (9/30/2007)
 
 
 Version 1.1.2 (9/3/2007)
- * Added preference to turn off the contact list animations (Preferences->Advanced->Contact List)
+ * Added preference to turn off the contact list animations (Preferences → Advanced → Contact List)
  * Option+Close now closes all other tabs (#7573)
  * Fixed a memory leak and potential visual glitch when viewing tooltips for contacts (#7585)
  * Fixed display of AIM contacts after they return from being mobile via 'forward to mobile'
@@ -2040,7 +2090,7 @@ Version 0.82 (17 June 2005)
  * Fixed a leak when switching between To: contacts on differing services within a metaContact
  * Fixed responder chain in the New Message prompt #260
  * Fixed setting the Offline status state for Auto Away and Fast User Switching
- * Fixed issues with inviting Yahoo contacts to chats while joining them via File->Join Group Chat
+ * Fixed issues with inviting Yahoo contacts to chats while joining them via File → Join Group Chat
  * Fixed a crash when deleting logs in the Log Viewer
  * Fixed "Radioactive Adiumy" and crushed all PNG files to save space #69
  * Fixed a rare hang at launch
@@ -2666,7 +2716,7 @@ Version 0.53 (30 April 2004)
  * Added Webkit Message View (6 distinct styles, or create your own!  Customizable fonts and backgrounds!) [10.3 only]
  * Added "Novell GroupWise" protocol support
  * Added "Yahoo! Japan" protocol support
- * Added support for custom link titles (Edit->Add Link)
+ * Added support for custom link titles (Edit → Add Link)
  * Added support for message sending via aim:goim URLs
  * Added support for placing contact list below all other windows
  * Added support for deleting emoticon packs

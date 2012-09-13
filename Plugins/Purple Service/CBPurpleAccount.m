@@ -2620,8 +2620,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					
 					purple_buddy_icon_get_scale_size(&prpl_info->icon_spec, &width, &height);
 					// Determine the scaled size.  If it's too big, scale to the largest permissable size
-					image = [image imageByScalingToSize:NSMakeSize(width, height)];
-
+					image = [image imageByScalingToSize:NSMakeSize(width, height) DPI:72.0];
+					
 					// Our original data is no longer valid, since we had to scale to a different size
 					imageData = nil;
 					AILog(@"%@: Scaled image to size %@", self, NSStringFromSize([image size]));

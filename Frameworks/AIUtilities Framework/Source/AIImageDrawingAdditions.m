@@ -18,6 +18,11 @@
 #import "AIImageAdditions.h"
 #import "AIBezierPathAdditions.h"
 
+@interface NSScreen (LionCompatibility)
+
+- (CGFloat)backingScaleFactor;
+
+@end
 
 @implementation NSImage (AIImageDrawingAdditions)
 
@@ -46,7 +51,7 @@
 			}
 			
 			// Draw and shift
-			[self compositeToPoint:destRect.origin fromRect:sourceRect operation:NSCompositeSourceOver];
+			[self drawAtPoint:destRect.origin fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0];
 			destRect.origin.x += destRect.size.width;
 		}
 		
@@ -57,6 +62,17 @@
 - (NSImage *)imageByScalingToSize:(NSSize)size
 {
 	return ([self imageByScalingToSize:size fraction:1.0f flipImage:NO proportionally:YES allowAnimation:YES]);
+}
+
+- (NSImage *)imageByScalingToSize:(NSSize)size DPI:(CGFloat)dpi
+{
+	CGFloat backingScaleFactor = dpi / 72.0;
+	
+	if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)]) {
+		backingScaleFactor /= [[NSScreen mainScreen] backingScaleFactor];
+	}
+	
+	return ([self imageByScalingToSize:NSMakeSize(size.width * backingScaleFactor, size.height * backingScaleFactor) fraction:1.0f flipImage:NO proportionally:YES allowAnimation:YES]);
 }
 
 - (NSImage *)imageByFadingToFraction:(CGFloat)delta

@@ -19,24 +19,16 @@
 @interface AIPreferenceContainer : NSObject {
 	NSString			*group;
 	AIListObject		*object;
-
 	NSMutableDictionary	*prefs;
-	NSMutableDictionary	*prefsWithDefaults;
-
 	NSMutableDictionary	*defaults;
 	NSInteger			preferenceChangeDelays;
-	
-	NSMutableDictionary **myGlobalPrefs;
-	NSInteger			*myUsersOfGlobalPrefs;
-	NSTimer				**myTimerForSavingGlobalPrefs;
-	NSString			*globalPrefsName;
 }
 
-+ (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)inGroup object:(AIListObject *)inObject;
++ (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)inGroup object:(AIListObject *)inObject create:(BOOL)create;
 + (void)preferenceControllerWillClose;
 
 //Return a dictionary of preferences and defaults, appropriately merged together
-- (NSDictionary *)dictionary;
+@property (readonly, nonatomic) NSDictionary *dictionary;
 
 //Replace all preferences for this container with the values and keys in inPreferences
 - (void)setPreferences:(NSDictionary *)inPreferences;
@@ -50,6 +42,6 @@
 
 - (void)setPreferenceChangedNotificationsEnabled:(BOOL)inEnbaled;
 
-- (void)setGroup:(NSString *)inGroup;
+@property (readwrite, nonatomic, copy) NSString *group;
 
 @end

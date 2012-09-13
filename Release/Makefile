@@ -17,7 +17,7 @@
 # - make all
 ###########
 
-VERSION=1.5rc5
+VERSION=1.6hg
 BUILD_IN_DEBUG_MODE?=FALSE
 BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
@@ -69,9 +69,9 @@ ifeq ($(NIGHTLY),TRUE)
 endif
 
 ifeq ($(BUILD_IN_DEBUG_MODE),TRUE)
-    BUILDSTYLE=Release-Debug
+	BUILDSTYLE=Release-Debug
 else
-    BUILDSTYLE=Release
+	BUILDSTYLE=Release
 endif
 
 BUILDFLAGS+="BUILDCONFIGURATION=$(BUILDSTYLE)"
@@ -164,7 +164,7 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
 		security unlock-keychain -p `cat ~/adium-password`; \
 	fi
-	codesign -v -s Adium $(ADIUM_DIR)/Adium.app/Contents/MacOS/Adium
+	codesign --verbose --force --sign "Developer ID Application: Instant Messaging Freedom, Inc." --requirements "=designated => anchor apple generic  and identifier \"com.adiumX.adiumX\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))" $(ADIUM_DIR)/Adium.app
 endif
 
 createfolder:
@@ -194,10 +194,35 @@ diskimage:
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
 
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
+	$(eval DSA := $(shell ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem))
+	@echo DSA for Sparkle: $(DSA)
 endif
 
-	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
+	$(eval MDFIVEHASH := $(shell md5 -q $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg))
+	@echo Build finished. $(MDFIVEHASH)
+
+ifeq ($(OFFICIAL_BUILD),TRUE)
+ifeq ($(BETA),TRUE)
+	@echo Add this to beta/index.php:
+	@echo "					array("
+	@echo "					\"ver\" => \"$(VERSION)\","
+	@echo "					\"rev\" => \"`hg parent --template {node\|short}`\","
+	@echo "					\"date\" => \"`date +"%Y-%m-%d"`\","
+	@echo "					\"md5\" => \"$(MDFIVEHASH)\","
+	@echo "					\"dsa\" => \"$(DSA)\""
+	@echo "					),"
+
+	@echo
+	@echo Add this to sparkle/appcast-beta.xml:
+	@echo "	<item>"
+	@echo "	    <title>Adium $(VERSION)</title>"
+	@echo "	    <pubDate>`date +"%a, %d %b %Y %H:%M:%S %z"`</pubDate>"
+	@echo "	    <sparkle:releaseNotesLink>http://beta.adium.im/?notemplate</sparkle:releaseNotesLink>"
+	@echo "	    <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>"
+	@echo "	    <enclosure sparkle:dsaSignature=\"$(DSA)\" sparkle:version=\"$(VERSION)\" url=\"http://download.adium.im/Adium_$(VERSION).dmg\" length=\"`stat -f %z $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`\" type=\"application/octet-stream\"/>"
+	@echo "	</item>"
+endif
+endif
 
 #This is what nightly builds use. Does not update because buildbot does.
 nightly: version clean compile createfolder prepare-release-bundle diskimage
@@ -216,4 +241,4 @@ tarballapp:
 	cd $(BUILD_DIR) && tar zcf $(RELEASE_NAME).tgz Adium*/ && cd ..
 
 tarball:
-	hg archive -t tgz ($TARBALL_DIR).tgz
+	hg archive -t tgz $(TARBALL_DIR).tgz

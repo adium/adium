@@ -117,9 +117,9 @@
     if ((purple_proxy_info_get_type(proxy_info) != PURPLE_PROXY_NONE) && 
         purple_proxy_info_get_host(proxy_info) && strlen(purple_proxy_info_get_host(proxy_info))) {
         /* Proxy servers and client login don't currently get along.  This should be fixed in libpurple, but until then,
-         * just don't use it.
+         * just don't use it, unless the hidden preference is set.
          */
-        purple_account_set_bool(account, "use_clientlogin", FALSE);
+		purple_account_set_bool(account, "use_clientlogin", [[NSUserDefaults standardUserDefaults] boolForKey:@"AIUseClientLoginWithProxies"]);
     }
         
     [super continueConnectWithConfiguredProxy];

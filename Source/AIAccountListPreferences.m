@@ -70,6 +70,9 @@
 /*!
  * @brief Preference pane properties
  */
+- (AIPreferenceCategory)category{
+	return AIPref_General;
+}
 - (NSString *)paneIdentifier
 {
 	return @"Accounts";
@@ -138,7 +141,7 @@
 									 object:nil];
 	
 	[tableView_accountList accessibilitySetOverrideValue:AILocalizedString(@"Accounts", nil)
-											forAttribute:NSAccessibilityRoleDescriptionAttribute];
+											forAttribute:NSAccessibilityTitleAttribute];
 
 	// Start updating the reconnect time if an account is already reconnecting.	
 	[self updateReconnectTime:nil];

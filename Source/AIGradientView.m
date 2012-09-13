@@ -41,10 +41,10 @@
 
 - (void)dealloc
 {
-	startingColor = nil;
-	middleColor = nil;
-	endingColor = nil;
-	backgroundColor = nil;
+	[startingColor release]; startingColor = nil;
+	[middleColor release]; middleColor = nil;
+	[endingColor release]; endingColor = nil;
+	[backgroundColor release]; backgroundColor = nil;
 	
 	[super dealloc];
 }

@@ -56,6 +56,7 @@
 
 #define ADIUM_TRAC_PAGE						@"http://trac.adium.im/"
 #define ADIUM_CONTRIBUTE_PAGE				@"http://trac.adium.im/wiki/Development"
+#define ADIUM_DONATE_PAGE					@"http://adium.im/donate"
 #define ADIUM_REPORT_BUG_PAGE				@"http://trac.adium.im/wiki/ReportingBugs"
 #define ADIUM_FORUM_PAGE					AILocalizedString(@"http://forum.adium.im/","Adium forums page. Localized only if a translated version exists.")
 #define ADIUM_FEEDBACK_PAGE					@"mailto:feedback@adium.im"
@@ -408,7 +409,7 @@ static NSString	*prefsCategory;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_FORUM_PAGE]];
 }
 - (IBAction)showXtras:(id)sender{
-	[[AIXtrasManager sharedManager] showXtras];
+	[preferenceController openPreferencesToCategoryWithIdentifier:@"Xtras"];
 }
 
 - (IBAction)contibutingToAdium:(id)sender
@@ -417,7 +418,8 @@ static NSString	*prefsCategory;
 }
 - (IBAction)donate:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&submit.x=57&submit.y=8&encrypted=-----BEGIN+PKCS7-----%0D%0AMIIHFgYJKoZIhvcNAQcEoIIHBzCCBwMCAQExggEwMIIBLAIBADCBlDCBjjELMAkG%0D%0AA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQw%0D%0AEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UE%0D%0AAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJ%0D%0AKoZIhvcNAQEBBQAEgYAFR5tF%2BRKUV3BS49vJraDG%2BIoWDoZMieUT%2FJJ1Fzjsr511%0D%0Au7hS1F2piJuHuqmm%2F0r8Kf8oaycOo74K3zLmUQ6T6hUS6%2Bh6lZAoIlhI3A1YmqIP%0D%0AdrdY%2FtfKRbWfolDumJ9Mdv%2FzJxPnpdQiTN5K1PMrPYE6GgPWE9WC4V9lqstSmTEL%0D%0AMAkGBSsOAwIaBQAwgZMGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIjtd%2BN9o4ZB6A%0D%0AcIbH8ZjOLmE35xBQ%2F93chtzIcRXHhIQJVpBRCkyJkdTD3libP3F7TgkrLij1DBxg%0D%0AfFlE0V%2FGTk29Ys%2FwsPO7hNs3YSNuSz0HT5F6sa8aXwFtMCE%2FgB1Ha4qdtYY%2BNETJ%0D%0AEETwNMLefjhaBfI%2BnRxl2K2gggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0B%0D%0AAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3Vu%0D%0AdGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9j%0D%0AZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBh%0D%0AbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UE%0D%0ABhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYD%0D%0AVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQI%0D%0AbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZI%0D%0AhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS%2BNdl72T7oKJ4u4uw%2B6aw%0D%0AntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe%2FhJl66%2FRGqrj%0D%0A5rFb08sAABNTzDTiqqNpJeBsYs%2Fc2aiGozptX2RlnBktH%2BSUNpAajW724Nv2Wvhi%0D%0Af6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7%0D%0ABgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYD%0D%0AVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDAS%0D%0ABgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQD%0D%0AFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNV%0D%0AHRMEBTADAQH%2FMA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71%2Bjq6OKidbWFSE%2B%0D%0AQ4FqROvdgIONth%2B8kSK%2F%2FY%2F4ihuE4Ymvzn5ceE3S%2FiBSQQMjyvb%2Bs2TWbQYDwcp1%0D%0A29OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa%2Bu4qect%0D%0AsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYD%0D%0AVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFs%0D%0AIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRww%0D%0AGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkq%0D%0AhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0wNDAzMjUwNDQ0%0D%0AMzRaMCMGCSqGSIb3DQEJBDEWBBRzTAS6zk5cmMeC49IorY8CM%2BkX0TANBgkqhkiG%0D%0A9w0BAQEFAASBgBsyRfMv9mSyoYq00wIB7BmUHFGq5x%2Ffnr8M24XbKjhkyeULk2NC%0D%0As4jbCgaWNg6grvccJtjbvmDskMKt%2BdS%2BEAkeWwm1Zf%2F%2B5u1fMyb5vo1NNcRIs5oq%0D%0A7SvXiLTPRzVqzQdhVs7PoZG0i0RRIb0tMeo1IssZeB2GE5Nsg0D8PwpB%0D%0A-----END+PKCS7-----"]];
+	/* This should be reimplemented as an in-app webview */
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_DONATE_PAGE]];
 }
 
 - (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
@@ -584,8 +586,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIDockIconsDirectory) objectAtIndex:0];
         fileDescription = AILocalizedString(@"dock icon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumIcon";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumSoundset"] == NSOrderedSame) {
@@ -598,8 +600,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumEmoticonset"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIEmoticonsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"emoticon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumEmoticonset";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumScripts"] == NSOrderedSame) {
@@ -610,36 +612,36 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMessageStylesDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"message style",nil);
-		prefsButton = AILocalizedString(@"Open Message Prefs",nil);
-		prefsCategory = @"Messages";
+		prefsButton = AILocalizedString(@"Open Message Style Prefs",nil);
+		prefsCategory = @"Message View";
 		extension = @"AdiumMessageStyle";
 
 	} else if ([extension caseInsensitiveCompare:@"ListLayout"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list layout",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListLayout";
 
 	} else if ([extension caseInsensitiveCompare:@"ListTheme"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list theme",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListTheme";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumServiceIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIServiceIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"service icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumServiceIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumMenuBarIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMenuBarIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"menu bar icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumMenuBarIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumStatusIcons"] == NSOrderedSame) {
@@ -655,8 +657,8 @@ static NSString	*prefsCategory;
 		if (![packName isEqualToString:defaultPackName]) {
 			destination = [AISearchPathForDirectories(AIStatusIconsDirectory) objectAtIndex:0];
 			fileDescription = AILocalizedString(@"status icons",nil);
-			prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-			prefsCategory = @"Appearance";
+			prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+			prefsCategory = @"Icons";
 			extension = @"AdiumStatusIcons";
 
 		} else {
@@ -948,32 +950,20 @@ static NSString	*prefsCategory;
 {
 	static NSString *cachesPath = nil;
 
-	if (!cachesPath) {
-		NSString		*generalAdiumCachesPath;
-		NSFileManager	*defaultManager = NSFileManager.defaultManager;
-
-		generalAdiumCachesPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Caches"] stringByAppendingPathComponent:@"Adium"];
-		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
-
+	static dispatch_once_t setCachesPath;
+	dispatch_once(&setCachesPath, ^{
+		NSFileManager	*defaultManager = [[[NSFileManager alloc] init] autorelease];
+		
+		NSURL *generalCacheURL = [defaultManager URLForDirectory:NSCachesDirectory
+														inDomain:NSUserDomainMask
+											   appropriateForURL:nil create:NO error:nil];
+		cachesPath = [[[generalCacheURL path] stringByAppendingPathComponent:@"Adium"] stringByAppendingPathComponent:self.loginController.currentUser];
+		
 		//Ensure our cache path exists
-		if ([defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
-			//If we have to make directories, try to move old cache files into the new directory
-			BOOL			isDir;
+		[defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	});
 
-			for (NSString *filename in [defaultManager contentsOfDirectoryAtPath:generalAdiumCachesPath error:NULL]) {
-				NSString	*fullPath = [generalAdiumCachesPath stringByAppendingPathComponent:filename];
-				
-				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
-				   (!isDir)) {
-					[defaultManager moveItemAtPath:fullPath
-									  toPath:[cachesPath stringByAppendingPathComponent:filename]
-									 error:NULL];
-				}
-			}
-		}
-	}
-	
-	return cachesPath;
+	return [cachesPath retain];
 }
 
 - (NSString *)pathOfPackWithName:(NSString *)name extension:(NSString *)extension resourceFolderName:(NSString *)folderName

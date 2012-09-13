@@ -242,10 +242,12 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 			//pick the first author for this.  likely a bad idea
 			if (startDate && [otherAuthors count]) {
 				NSString *toUID = [otherAuthors objectAtIndex:0];
-				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[startDate descriptionWithCalendarFormat:@"%Y-%m-%d"
-																												   timeZone:nil
-																													 locale:nil]]
+				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d" allowNaturalLanguage:NO];
+				
+				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[dateFormatter stringFromDate:startDate]]
 							   forKey:(NSString *)kMDItemDisplayName];
+				
+				[dateFormatter release];
 			}
 			[otherAuthors release];
 			
@@ -307,11 +309,29 @@ NSString *killXMLTags(NSString *inString)
 
 NSString *CopyTextContentForXMLLogData(NSData *data) {
     NSString *contentString = nil;
-    NSXMLDocument *xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:NULL];
+	NSError *err;
+    NSXMLDocument *xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
+	
     if (xmlDoc) {
-        NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()" error:NULL];
-		contentString = [contentArray componentsJoinedByString:@" "];
+		NSArray *children = [[xmlDoc rootElement] children];
+		NSMutableArray *messages = [NSMutableArray array];
+		
+		for (NSXMLNode *child in children) {
+			if ([child.name isEqualToString:@"message"]) {
+				[messages addObject:child.stringValue];
+			}
+		}
+		
+		if (messages.count) contentString = [messages componentsJoinedByString:@" "];
+		
         [xmlDoc release];
-    }
+    } else {
+#ifdef AILogWithSignature
+		AILogWithSignature(@"Parsing log failed: %@", err);
+#endif
+	}
+	
+	[contentString retain];
+	
     return contentString;
 }

@@ -267,11 +267,9 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		[permissionsToApply release]; permissionsToApply = nil;
 		return YES;
 	}
-	NSEnumerator *enumerator = [permissionsToApply keyEnumerator];
-	NSString *path;
 	NSDictionary *attributes;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	while ((path = [enumerator nextObject])) {
+	for (NSString *path in permissionsToApply) {
 		/* code that uses the returned key */
 		attributes = [permissionsToApply valueForKey:path];		
 		if (![defaultManager setAttributes:attributes ofItemAtPath:path error:NULL]) {
@@ -289,7 +287,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	/* This should be easy.  We have a url and a location so let's download things to a location! */
 
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:downloadURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-	NSString *value = [NSString stringWithString:@"AppleSingle"];
+	NSString *value = @"AppleSingle";
 	[theRequest addValue:value forHTTPHeaderField:@"Accept-Encoding"];
 	[theRequest setHTTPShouldHandleCookies:NO];
 

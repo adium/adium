@@ -701,7 +701,7 @@
 }
 
 /*!
- * @brief Open the represented objec'ts user page
+ * @brief Open the represented object's user page
  */
 - (void)openUserPage:(NSMenuItem *)menuItem
 {

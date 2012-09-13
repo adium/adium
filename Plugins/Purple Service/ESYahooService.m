@@ -70,6 +70,14 @@
 - (NSString *)userNameLabel{
     return AILocalizedString(@"Yahoo! ID",nil);    //Yahoo! ID
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://edit.yahoo.com/registration", @"URL for Yahoo! signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for Yahoo!", @"Text for Yahoo! sign up button");
+}
 - (void)registerStatuses{
 	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
 							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
