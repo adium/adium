@@ -4398,6 +4398,7 @@
 		76B73B3514BE3BEB00A58BAB /* AIApplescriptRunner-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AIApplescriptRunner-Info.plist"; path = "Plists/AIApplescriptRunner-Info.plist"; sourceTree = SOURCE_ROOT; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
+		76D934A01602450E00F4D2A3 /* Adium.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Adium.entitlements; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
 		76FF925914B524B40043E23B /* AIIRCConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCConsoleController.m; path = "Plugins/Purple Service/AIIRCConsoleController.m"; sourceTree = "<group>"; };
 		76FF926314B62A980043E23B /* AIConsole.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIConsole.nib; path = "Frameworks/Adium Framework/Resources/AIConsole.nib"; sourceTree = "<group>"; };
@@ -5067,6 +5068,7 @@
 		29B97314FDCFA39411CA2CEA /* CocAIMe2 */ = {
 			isa = PBXGroup;
 			children = (
+				76D934A01602450E00F4D2A3 /* Adium.entitlements */,
 				4BE9FFE7055981AB00359B15 /* Adium.pch */,
 				F59DB3D6033EA9CD01A8010A /* AIAdium.h */,
 				F59DB3D7033EA9CD01A8010A /* AIAdium.m */,
@@ -12403,11 +12405,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Adium.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -12415,12 +12420,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Adium.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -12428,6 +12436,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Adium.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
@@ -12437,6 +12447,7 @@
 					RELEASE_BUILD,
 					DEBUG_BUILD,
 				);
+				PROVISIONING_PROFILE = "";
 			};
 			name = "Release-Debug";
 		};
