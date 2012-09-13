@@ -75,17 +75,7 @@
 	NSString	*localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];;
 	BOOL		finished = NO;
 	
-	switch (action) {			
-		case AISaveFile: /* Save */
-		{
-			/* If the file doesn't exist, we're done.  If it does, fall through to AISaveFileAs
-			* triggering a Save As... panel.
-			*/
-			if (![[NSFileManager defaultManager] fileExistsAtPath:localFilename]) {
-				finished = YES;
-				break;
-			}
-		}
+	switch (action) {
 		case AISaveFileAs: /* Save As... */
 		{
 			//Prompt for a location to save

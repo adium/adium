@@ -1458,10 +1458,10 @@ static NSArray *draggedTypes = nil;
 		AIFileTransferAction a;
 		if ([action isEqualToString:@"SaveAs"])
 			a = AISaveFileAs;
-		else if ([action isEqualToString:@"Cancel"]) 
+		else if ([action isEqualToString:@"Cancel"])
 			a = AICancel;
 		else
-			a = AISaveFile;
+			NSAssert(FALSE, @"Saving files doesn't work from the sandbox");
 		
 		[tc handleFileTransferAction:a];
 	}

@@ -18,8 +18,7 @@
 @class ESTextAndButtonsWindowController, ESFileTransfer;
 
 typedef enum {
-	AISaveFile = 0,
-	AISaveFileAs,
+	AISaveFileAs = 1,
 	AICancel
 } AIFileTransferAction;
 
