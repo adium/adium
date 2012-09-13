@@ -427,26 +427,26 @@
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
 {
-  static AIHTMLDecoder * encoderCloseFontTagsAttachmentsAsText = nil;
-  
-  if(!encoderCloseFontTagsAttachmentsAsText) {
-	AIHTMLDecoder *newEncoder = [[AIHTMLDecoder alloc] initWithHeaders:YES
-															  fontTags:YES
-														 closeFontTags:YES
-															 colorTags:YES
-															 styleTags:YES
-														encodeNonASCII:NO
-														  encodeSpaces:NO
-													 attachmentsAsText:YES
-											 onlyIncludeOutgoingImages:YES
-														simpleTagsOnly:NO
-														bodyBackground:NO
-												   allowJavascriptURLs:YES];
-	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTagsAttachmentsAsText);
-	[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
-  }
-  
-  return ([inAttributedString length] ? [encoderCloseFontTagsAttachmentsAsText encodeHTML:inAttributedString imagesPath:nil] : nil);
+	static AIHTMLDecoder *encoderCloseFontTagsAttachmentsAsText = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		encoderCloseFontTagsAttachmentsAsText = [[AIHTMLDecoder alloc] initWithHeaders:YES
+																			  fontTags:YES
+																		 closeFontTags:YES
+																			 colorTags:YES
+																			 styleTags:YES
+																		encodeNonASCII:NO
+																		  encodeSpaces:NO
+																	 attachmentsAsText:YES
+															 onlyIncludeOutgoingImages:YES
+																		simpleTagsOnly:NO
+																		bodyBackground:NO
+																   allowJavascriptURLs:YES];
+		[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
+	});
+	
+	return ([inAttributedString length] ? [encoderCloseFontTagsAttachmentsAsText encodeHTML:inAttributedString imagesPath:nil] : nil);
 }
 
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
