@@ -587,6 +587,11 @@
 	return @"Adium";
 }
 
+- (BOOL)hasNetworkClientEntitlement
+{
+	return YES;
+}
+
 /*!
  * @brief Registration information for Growl
  *
