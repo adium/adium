@@ -455,41 +455,40 @@
 	NSAttributedString	*inAttributedString = inContentMessage.message;
 	NSString			*encodedString;
 	
-  static AIHTMLDecoder * encoderCloseFontTags = nil;
-  static AIHTMLDecoder * encoderGroupChat = nil;
-  
-  if(!(encoderCloseFontTags && encoderGroupChat)) {
-	AIHTMLDecoder *newEncoder = [[AIHTMLDecoder alloc] initWithHeaders:YES
-															  fontTags:YES
-														 closeFontTags:YES
-															 colorTags:YES
-															 styleTags:YES
-														encodeNonASCII:NO
-														  encodeSpaces:NO
-													 attachmentsAsText:NO
-											 onlyIncludeOutgoingImages:YES
-														simpleTagsOnly:NO
-														bodyBackground:NO
-												   allowJavascriptURLs:YES];
-	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderCloseFontTags);
+	static AIHTMLDecoder * encoderCloseFontTags = nil;
+	static AIHTMLDecoder * encoderGroupChat = nil;
 	
-	newEncoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
-											   fontTags:YES
-										  closeFontTags:NO
-											  colorTags:YES
-											  styleTags:YES
-										 encodeNonASCII:NO
-										   encodeSpaces:NO
-									  attachmentsAsText:YES
-							  onlyIncludeOutgoingImages:YES
-										 simpleTagsOnly:YES
-										 bodyBackground:NO
-									allowJavascriptURLs:YES];
-	OSAtomicCompareAndSwapPtrBarrier(nil, (__bridge void*)newEncoder, (void *)&encoderGroupChat);
-	
-	[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
-	[encoderGroupChat setAllowAIMsubprofileLinks:YES];
-  }
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		encoderCloseFontTags = [[AIHTMLDecoder alloc] initWithHeaders:YES
+															 fontTags:YES
+														closeFontTags:YES
+															colorTags:YES
+															styleTags:YES
+													   encodeNonASCII:NO
+														 encodeSpaces:NO
+													attachmentsAsText:NO
+											onlyIncludeOutgoingImages:YES
+													   simpleTagsOnly:NO
+													   bodyBackground:NO
+												  allowJavascriptURLs:YES];
+		encoderGroupChat = [[AIHTMLDecoder alloc] initWithHeaders:NO
+														 fontTags:YES
+													closeFontTags:NO
+														colorTags:YES
+														styleTags:YES
+												   encodeNonASCII:NO
+													 encodeSpaces:NO
+												attachmentsAsText:YES
+										onlyIncludeOutgoingImages:YES
+												   simpleTagsOnly:YES
+												   bodyBackground:NO
+											  allowJavascriptURLs:YES];
+		
+		
+		[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
+		[encoderGroupChat setAllowAIMsubprofileLinks:YES];
+	});
 	
 	if (inListObject) {
 		if (inContentMessage.chat.isSecure &&
