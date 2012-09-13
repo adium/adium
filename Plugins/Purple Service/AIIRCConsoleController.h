@@ -15,19 +15,11 @@
  */
 
 #import <AdiumLibpurple/PurpleCommon.h>
+#import <Adium/AIConsoleController.h>
 
-@interface AMXMLConsoleController : NSObject {
-    IBOutlet NSWindow *xmlConsoleWindow;
-    IBOutlet NSTextView *xmlLogView;
-    IBOutlet NSTextView *xmlInjectView;
-    
+@interface AIIRCConsoleController : AIConsoleController {
     PurpleConnection *gc;
 }
-
-- (IBAction)sendXML:(id)sender;
-- (IBAction)clearLog:(id)sender;
-- (IBAction)showWindow:(id)sender;
-- (void)close;
 
 - (void)setPurpleConnection:(PurpleConnection *)gc;
 @end

@@ -14,14 +14,13 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AMXMLConsoleController.h"
+#import "AIJabberConsoleController.h"
 #import <libpurple/jabber.h>
 #import <AIUtilities/AIAutoScrollView.h>
 
 #define XML_PREFIX @"<?xml version='1.0' encoding='UTF-8' ?>\n"
 
-@interface AMXMLConsoleController ()
-- (void)appendToLog:(NSAttributedString *)astr;
+@interface AIJabberConsoleController ()
 - (PurpleConnection *)gc;
 @end;
 
@@ -29,11 +28,10 @@ static void
 xmlnode_received_cb(PurpleConnection *gc, xmlnode **packet, gpointer this)
 {
 	@autoreleasepool {
-		AMXMLConsoleController *self = (__bridge AMXMLConsoleController *)this;
+		AIJabberConsoleController *self = (__bridge AIJabberConsoleController *)this;
 		
-		if (!this || [self gc] != gc) {
+		if (!this || [self gc] != gc)
 			return;
-		}
 		
 		char *str = xmlnode_to_formatted_str(*packet, NULL);
 		NSString *sstr = [NSString stringWithUTF8String:str];
@@ -46,7 +44,6 @@ xmlnode_received_cb(PurpleConnection *gc, xmlnode **packet, gpointer this)
 		[self appendToLog:astr];
 		
 		g_free(str);
-		
 	}
 }
 
@@ -54,20 +51,18 @@ static void
 xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
 {
 	@autoreleasepool {
-		AMXMLConsoleController *self = (__bridge AMXMLConsoleController *)this;
+		AIJabberConsoleController *self = (__bridge AIJabberConsoleController *)this;
 		xmlnode *node;
 		
-		if (!this || [self gc] != gc) {
+		if (!this || [self gc] != gc)
 			return;
-		}
 		
 		node = ((*packet && strlen(*packet) && ((*packet)[0] == '<')) ?
 				xmlnode_from_str(*packet, -1) :
 				NULL);
 		
-		if (!node) {
+		if (!node)
 			return;
-		}
 		
 		char *str = xmlnode_to_formatted_str(node, NULL);
 		NSString *sstr = [NSString stringWithUTF8String:str];
@@ -81,36 +76,27 @@ xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
 		
 		g_free(str);
 		xmlnode_free(node);
-		
 	}
 }
 
-@implementation AMXMLConsoleController
+@implementation AIJabberConsoleController
 
 - (void)dealloc {
     purple_signals_disconnect_by_handle((__bridge void *)(self));
 }
 
-- (IBAction)sendXML:(id)sender {
-    NSData *rawXMLData = [[xmlInjectView string] dataUsingEncoding:NSUTF8StringEncoding];
+- (IBAction)send:(id)sender {
+    NSData *rawXMLData = [[injectView string] dataUsingEncoding:NSUTF8StringEncoding];
     NSAssert( INT_MAX >= [rawXMLData length],
 						 @"Sending more jabber data value than libpurple can handle.  Abort." );
     jabber_prpl_send_raw(gc, [rawXMLData bytes], (int)[rawXMLData length]);
 
-    // remove from text field
-    [xmlInjectView setString:@""];
-}
-
-- (IBAction)clearLog:(id)sender {
-    [xmlLogView setString:@""];
+    [super send:sender];
 }
 
 - (IBAction)showWindow:(id)sender {
-	if (!xmlConsoleWindow) {
-		//Load the window if it's not already loaded
-		[NSBundle loadNibNamed:@"AMPurpleJabberXMLConsole" owner:self];
-		if (!xmlConsoleWindow) AILog(@"Unable to load AMPurpleJabberXMLConsole!");
-		
+	if (!consoleWindow) {
+		[super showWindow:sender];
 		
 		//Connect to the signals for updating the window
 		PurplePlugin *jabber = purple_find_prpl("prpl-jabber");
@@ -121,27 +107,14 @@ xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
 		purple_signal_connect(jabber, "jabber-sending-text", (__bridge void *)(self),
 							  PURPLE_CALLBACK(xmlnode_sent_cb), (__bridge void *)(self));
 	}
-	
-    [xmlConsoleWindow makeKeyAndOrderFront:sender];
-	[(AIAutoScrollView *)[xmlLogView enclosingScrollView] setAutoScrollToBottom:YES];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	xmlConsoleWindow = nil;
-
+	[super windowWillClose:notification];
+	
 	//We don't need to watch the signals with the window closed
 	purple_signals_disconnect_by_handle((__bridge void *)(self));
-}
-
-- (void)close
-{
-	[xmlConsoleWindow close];
-}
-
-
-- (void)appendToLog:(NSAttributedString*)astr {
-	[[xmlLogView textStorage] appendAttributedString:astr];
 }
 
 - (PurpleConnection*)gc {

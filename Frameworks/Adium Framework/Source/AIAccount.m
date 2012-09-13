@@ -90,6 +90,7 @@ typedef enum
 	Adium_Proxy_Default_HTTP_AS = 'DHTP',
 	Adium_Proxy_Default_SOCKS4_AS = 'DSK4',
 	Adium_Proxy_Default_SOCKS5_AS = 'DSK5',
+    Adium_Proxy_Tor_AS = 'TOS5',
 	Adium_Proxy_None_AS = 'NONE'
 } AdiumProxyTypeApplescript;
 
@@ -1499,6 +1500,8 @@ typedef enum
 			return Adium_Proxy_Default_SOCKS4;
 		case Adium_Proxy_Default_SOCKS5_AS:
 			return Adium_Proxy_Default_SOCKS5;
+        case Adium_Proxy_Tor_AS:
+            return Adium_Proxy_Tor;
 		default:
 			return Adium_Proxy_None;
 	}
@@ -1519,6 +1522,8 @@ typedef enum
 			return Adium_Proxy_Default_SOCKS4_AS;
 		case Adium_Proxy_Default_SOCKS5:
 			return Adium_Proxy_Default_SOCKS5_AS;
+        case Adium_Proxy_Tor:
+            return Adium_Proxy_Tor_AS;
 		default:
 			return Adium_Proxy_None_AS;
 	}

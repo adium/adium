@@ -17,13 +17,13 @@
 #import "AIPreferencePane.h"
 
 @interface AIMessagePreferences : AIPreferencePane {
-	IBOutlet	NSPopUpButton *popUp_sendKeys;
 	IBOutlet	NSPopUpButton *popUp_tabKeys;
 	IBOutlet	NSPopUpButton *popUp_tabPositionMenu;
 	
 	IBOutlet	AILocalizationTextField *label_messages;
+	IBOutlet	AILocalizationTextField *label_chatRestore;
+	IBOutlet	AILocalizationTextField *label_psychic;
 	IBOutlet	AILocalizationTextField *label_tabs;
-	IBOutlet	AILocalizationTextField *label_sendWith;
 	IBOutlet	AILocalizationTextField *label_showTabs;
 	IBOutlet	AILocalizationTextField *label_switchTabs;
 	IBOutlet	AILocalizationTextField *label_recentMessages;

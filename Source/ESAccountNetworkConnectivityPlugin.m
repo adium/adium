@@ -109,7 +109,7 @@
 
 		if (account.enabled &&
 			[account connectivityBasedOnNetworkReachability]) {
-			NSString *host = [account host];
+			NSString *host = ([account proxyType] == Adium_Proxy_Tor ? [account proxyHost] : [account host]);
 			if (host && ![knownHosts containsObject:host]) {
 				[monitor addObserver:self forHost:host];
 				[knownHosts addObject:host];
@@ -160,7 +160,9 @@
 		if (networkIsReachable && [accountsToNotConnect containsObject:account]) {
 			[accountsToNotConnect removeObject:account];
 		} else {
-			if ([[account host] isEqualToString:host]) {
+            NSString *accountHost = ([account proxyType] == Adium_Proxy_Tor ? [account proxyHost] : [account host]);
+            
+			if ([accountHost isEqualToString:host]) {
 				[self handleConnectivityForAccount:account reachable:networkIsReachable];
 			}
 		}
@@ -285,7 +287,7 @@
 			if (account.enabled) {
 				//Start observing for this host if we're not already
 				if ([account connectivityBasedOnNetworkReachability]) {
-					NSString *host = [account host];
+					NSString *host = ([account proxyType] == Adium_Proxy_Tor ? [account proxyHost] : [account host]);
 					AIHostReachabilityMonitor *monitor = [AIHostReachabilityMonitor defaultMonitor];
 	
 					[account setValue:[NSNumber numberWithBool:YES] forProperty:@"isWaitingForNetwork" notify:NotifyNow];
@@ -380,7 +382,7 @@
 	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.enabled &&
 			[account connectivityBasedOnNetworkReachability]) {
-			NSString *host = [account host];
+			NSString *host = ([account proxyType] == Adium_Proxy_Tor ? [account proxyHost] : [account host]);
 			
 			if (host &&
 				![monitor observer:self isObservingHost:host]) {

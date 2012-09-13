@@ -33,7 +33,7 @@
 #import <libpurple/si.h>
 #import <libpurple/chat.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#import "AMXMLConsoleController.h"
+#import "AIJabberConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
 #import "ESPurpleJabberAccountViewController.h"
 #import "AMPurpleJabberAdHocServer.h"
@@ -818,7 +818,7 @@
     [super didConnect];
 	
 	if ([self enableXMLConsole]) {
-		if (!xmlConsoleController) xmlConsoleController = [[AMXMLConsoleController alloc] init];
+		if (!xmlConsoleController) xmlConsoleController = [[AIJabberConsoleController alloc] init];
 		[xmlConsoleController setPurpleConnection:purple_account_get_connection(account)];
 	}
 

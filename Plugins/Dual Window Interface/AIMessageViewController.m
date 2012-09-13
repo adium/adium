@@ -718,10 +718,7 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	if ([group isEqualToString:PREF_GROUP_GENERAL]) {
-		[textView_outgoing setSendOnReturn:[[prefDict objectForKey:SEND_ON_RETURN] boolValue]];
-		[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
-	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
+	if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
 		
 		if (firstTime || [key isEqualToString:KEY_USER_LIST_ON_RIGHT]) {
 			userListOnRight = [[prefDict objectForKey:KEY_USER_LIST_ON_RIGHT] boolValue];
