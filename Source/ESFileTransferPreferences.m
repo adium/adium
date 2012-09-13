@@ -23,12 +23,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESFileTransferPreferences ()
-- (NSMenu *)downloadLocationMenu;
-- (void)buildDownloadLocationMenu;
-- (void)selectOtherDownloadFolder:(id)sender;
-@end
-
 @implementation ESFileTransferPreferences
 //Preference pane properties
 - (AIPreferenceCategory)category{
@@ -78,7 +72,6 @@
 	AIFileTransferAutoAcceptType	autoAcceptType = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT
 																				   group:PREF_GROUP_FILE_TRANSFER] intValue];
 	
-	[self buildDownloadLocationMenu];
 	
 	switch (autoAcceptType) {
 		case AutoAccept_None:
@@ -101,70 +94,11 @@
 - (void)localizePane
 {
 	[label_whenReceivingFiles setLocalizedString:AILocalizedString(@"Receiving files:","File Transfer preferences label")];
-	[label_defaultReceivingFolder setLocalizedString:AILocalizedString(@"Save files to:","File Transfer preferences label")];
-	[label_safeFilesDescription setLocalizedString:AILocalizedString(@"\"Safe\" files include movies, pictures,\nsounds, text documents, and archives.","Description of safe files (files which Adium can open automatically without danger to the user). This description should be on two lines; the lines are separated by \n.")];
 	[label_transferProgress setLocalizedString:AILocalizedString(@"Progress:","File Transfer preferences label")];
 	
-	[checkBox_autoAcceptFiles setLocalizedString:[AILocalizedString(@"Automatically accept files and images","File Transfer preferences") stringByAppendingEllipsis]];
+	[checkBox_autoAcceptFiles setLocalizedString:[AILocalizedString(@"Automatically save files to Downloads","File Transfer preferences") stringByAppendingEllipsis]];
 	[checkBox_autoAcceptOnlyFromCLList setLocalizedString:AILocalizedString(@"only from contacts on my Contact List","File Transfer preferences")];
-	[checkBox_autoOpenFiles setLocalizedString:AILocalizedString(@"Open \"Safe\" files after receiving","File Transfer preferences")];
 	[checkBox_showProgress setLocalizedString:AILocalizedString(@"Show the File Transfers window automatically","File Transfer preferences")];
-	[checkBox_autoClearCompleted setLocalizedString:AILocalizedString(@"Clear completed transfers automatically","File Transfer preferences")];
-}
-
-- (void)buildDownloadLocationMenu
-{
-	[popUp_downloadLocation setMenu:[self downloadLocationMenu]];
-	[popUp_downloadLocation selectItem:[popUp_downloadLocation itemAtIndex:0]];
-}
-
-- (NSMenu *)downloadLocationMenu
-{
-	NSMenu		*menu;
-	NSMenuItem	*menuItem;
-	NSString	*userPreferredDownloadFolder;
-
-	menu = [[NSMenu alloc] init];
-	[menu setAutoenablesItems:NO];
-	
-	//Create the menu item for the current download folder
-	userPreferredDownloadFolder = [adium.preferenceController userPreferredDownloadFolder];
-	menuItem = [[NSMenuItem alloc] initWithTitle:[[NSFileManager defaultManager] displayNameAtPath:userPreferredDownloadFolder]
-																	 target:nil
-																	 action:nil
-															  keyEquivalent:@""];
-	[menuItem setRepresentedObject:userPreferredDownloadFolder];
-	[menuItem setImage:[[[NSWorkspace sharedWorkspace] iconForFile:userPreferredDownloadFolder] imageByScalingForMenuItem]];
-	[menu addItem:menuItem];
-	
-	[menu addItem:[NSMenuItem separatorItem]];
-	
-	//Create the menu item for changing the current download folder
-	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Other",nil) stringByAppendingEllipsis]
-																	 target:self
-																	 action:@selector(selectOtherDownloadFolder:)
-															  keyEquivalent:@""];
-	[menuItem setRepresentedObject:userPreferredDownloadFolder];
-	[menu addItem:menuItem];
-	
-	return menu;
-}
-
-- (void)selectOtherDownloadFolder:(id)sender
-{
-	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	NSString	*userPreferredDownloadFolder = [sender representedObject];
-
-	[openPanel setCanChooseFiles:NO];
-	[openPanel setCanChooseDirectories:YES];
-	openPanel.directoryURL = [NSURL fileURLWithPath:userPreferredDownloadFolder];
-	[openPanel beginSheetModalForWindow:[[self view] window] completionHandler:^(NSInteger result) {
-		if (result == NSFileHandlingPanelOKButton) {
-			[adium.preferenceController setUserPreferredDownloadFolder:openPanel.URL. path];
-		}
-		
-		[self buildDownloadLocationMenu];
-	}];
 }
 
 @end

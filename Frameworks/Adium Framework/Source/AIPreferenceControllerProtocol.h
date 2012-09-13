@@ -65,10 +65,6 @@
 //Defaults
 - (void)registerDefaults:(NSDictionary *)defaultDict forGroup:(NSString *)group;
 - (void)registerDefaults:(NSDictionary *)defaultDict forGroup:(NSString *)group object:(AIListObject *)object;
-
-//Default download location
-- (NSString *)userPreferredDownloadFolder;
-- (void)setUserPreferredDownloadFolder:(NSString *)path;
 @end
 
 @interface NSObject (AIPreferenceObserver)

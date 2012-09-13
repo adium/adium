@@ -71,8 +71,13 @@
  */
 - (void)handleFileTransferAction:(AIFileTransferAction)action
 {
-
-	NSString	*localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];;
+	
+	NSString	*downloadFolder = [[[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory
+																	   inDomain:NSUserDomainMask
+															  appropriateForURL:nil
+																		 create:NO
+																		  error:NULL] path];
+	NSString	*localFilename = [downloadFolder stringByAppendingPathComponent:[fileTransfer remoteFilename]];;
 	BOOL		finished = NO;
 	
 	switch (action) {

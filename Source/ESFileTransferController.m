@@ -58,7 +58,6 @@ static ESFileTransferPreferences *preferences;
 - (void)showProgressWindow:(id)sender;
 - (void)showProgressWindowIfNotOpen:(id)sender;
 - (void)_finishReceiveRequestForFileTransfer:(ESFileTransfer *)fileTransfer localFilename:(NSString *)localFilename;
-- (BOOL)shouldOpenCompleteFileTransfer:(ESFileTransfer *)fileTransfer;
 - (IBAction)contextualMenuSendFile:(id)sender;
 - (IBAction)sendFileToSelectedContact:(id)sender;
 @end
@@ -200,14 +199,18 @@ static ESFileTransferPreferences *preferences;
 
 	if ((autoAcceptType == AutoAccept_All) ||
 	   ((autoAcceptType == AutoAccept_FromContactList) && [listContact isIntentionallyNotAStranger])) {
-		NSString	*preferredDownloadFolder = [adium.preferenceController userPreferredDownloadFolder];
+		NSString	*downloadFolder = [[[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory
+																					inDomain:NSUserDomainMask
+																		   appropriateForURL:nil
+																					  create:NO
+																					   error:NULL] path];
 		NSString	*remoteFilename = [fileTransfer remoteFilename];
 
 		//If the incoming file would become hidden, prefix it with an underscore so it is visible.
 		if ([remoteFilename hasPrefix:@"."]) remoteFilename = [@"_" stringByAppendingString:remoteFilename ];
 
 		//If we should autoaccept, determine the local filename and proceed to accept the request.
-		localFilename = [preferredDownloadFolder stringByAppendingPathComponent:remoteFilename];
+		localFilename = [downloadFolder stringByAppendingPathComponent:remoteFilename];
 		
 		[self _finishReceiveRequestForFileTransfer:fileTransfer
 									 localFilename:[[NSFileManager defaultManager] uniquePathForPath:localFilename]];
@@ -470,11 +473,6 @@ static ESFileTransferPreferences *preferences;
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
 			
-			//The file is complete; if we are supposed to automatically open safe files and this is one, open it
-			if ([self shouldOpenCompleteFileTransfer:fileTransfer]) { 
-				[fileTransfer openFile];
-			}
-			
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"com.apple.DownloadFileFinished"
 																		   object:fileTransfer.localFilename];
 			
@@ -494,21 +492,6 @@ static ESFileTransferPreferences *preferences;
 		default:
 			break;
 	}
-}
-
-- (BOOL)shouldOpenCompleteFileTransfer:(ESFileTransfer *)fileTransfer
-{
-	BOOL	shouldOpen = NO;
-	
-	if (autoOpenSafe &&
-	   ([fileTransfer fileTransferType] == Incoming_FileTransfer)) {
-		
-		if (!safeFileExtensions) safeFileExtensions = SAFE_FILE_EXTENSIONS_SET;		
-
-		shouldOpen = [safeFileExtensions containsObject:[[[fileTransfer localFilename] pathExtension] lowercaseString]];
-	}
-
-	return shouldOpen;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -582,12 +565,6 @@ static ESFileTransferPreferences *preferences;
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	autoAcceptType = [[prefDict objectForKey:KEY_FT_AUTO_ACCEPT] intValue];
-	autoOpenSafe = [[prefDict objectForKey:KEY_FT_AUTO_OPEN_SAFE] boolValue];
-	
-	//If we created a safe file extensions set and no longer need it, desroy it
-	if (!autoOpenSafe && safeFileExtensions) {
-		safeFileExtensions = nil;
-	}
 	
 	showProgressWindow = [[prefDict objectForKey:KEY_FT_SHOW_PROGRESS_WINDOW] boolValue];
 }

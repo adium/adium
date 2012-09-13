@@ -491,57 +491,6 @@
 	return prefContainer;	
 }
 
-//Default download locaiton --------------------------------------------------------------------------------------------
-#pragma mark Default download location
-/*!
- * @brief Get the default download location
- *
- * This will use an Adium-specific preference if set, or the systemwide download location if not
- *
- * @result A full path to the download location
- */
-- (NSString *)userPreferredDownloadFolder
-{
-	NSString	*userPreferredDownloadFolder;
-	
-	userPreferredDownloadFolder = [[self preferenceForKey:@"UserPreferredDownloadFolder"
-													group:PREF_GROUP_GENERAL] stringByExpandingTildeInPath];
-
-	NSFileManager *fm = [NSFileManager defaultManager];
-	if (!userPreferredDownloadFolder) {
-		userPreferredDownloadFolder = [[fm URLForDirectory:NSDownloadsDirectory
-												  inDomain:NSUserDomainMask
-										 appropriateForURL:nil create:YES error:nil] path];
-	}
-
-	//If the existing folder doesn't exist anymore, try to create it falling back to the desktop if that fails
-	BOOL isDir = NO, created = NO;
-	if (userPreferredDownloadFolder && ![fm fileExistsAtPath:userPreferredDownloadFolder isDirectory:&isDir]) {
-		//Try to create the saved folder
-		created = [fm createDirectoryAtPath:userPreferredDownloadFolder withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	if (!isDir && !created) {
-		//Try the desktop
-		userPreferredDownloadFolder = [[fm URLForDirectory:NSDesktopDirectory
-												  inDomain:NSUserDomainMask
-										 appropriateForURL:nil create:YES error:nil] path];
-	}
-
-	return userPreferredDownloadFolder;
-}
-
-/*!
- * @brief Set the location Adium should use for saving files
- *
- * @param A path to an existing folder
- */
-- (void)setUserPreferredDownloadFolder:(NSString *)path
-{
-	[self setPreference:[path stringByAbbreviatingWithTildeInPath]
-				 forKey:@"UserPreferredDownloadFolder"
-				  group:PREF_GROUP_GENERAL];
-}
-
 #pragma mark KVC
 
 static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outKeyPath, NSString **outInternalObjectID)

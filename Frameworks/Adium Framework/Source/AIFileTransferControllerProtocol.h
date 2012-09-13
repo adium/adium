@@ -21,7 +21,6 @@
 #define	PREF_GROUP_FILE_TRANSFER		@"FileTransfer"
 
 #define	KEY_FT_AUTO_ACCEPT				@"FT AutoAccept"
-#define KEY_FT_AUTO_OPEN_SAFE			@"FT AutoOpenSafe"
 #define	KEY_FT_AUTO_CLEAR_COMPLETED		@"FT AutoClearCompleted"
 #define	KEY_FT_SHOW_PROGRESS_WINDOW		@"FT ShowProgressWindow"
 
