@@ -243,8 +243,6 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	// Ensure there is a default keychain which can be accessed
 	SecKeychainRef aKeychainRef = [self copyDefaultSecKeychainRef_error:outError];
 	
-	NSLog(@"lastKnownDefaultKeychain: %p", lastKnownDefaultKeychain);
-
 	if (aKeychainRef) {
 		if (!lastKnownDefaultKeychain ||
 			(aKeychainRef != [lastKnownDefaultKeychain keychainRef])) {
