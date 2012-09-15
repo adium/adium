@@ -53,7 +53,6 @@
 #define KEY_LIST_OBJECT_ID		@"internalObjectID"
 
 @interface NEHGrowlPlugin ()
-- (NSAttributedString *)_growlInformationForUpdate:(BOOL)isUpdate;
 - (NSString *)eventQueueKeyForEventID:(NSString *)eventID
 							   inChat:(AIChat *)chat;
 
