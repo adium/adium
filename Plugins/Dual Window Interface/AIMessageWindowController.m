@@ -754,7 +754,7 @@
 	button = [window standardWindowButton:NSWindowDocumentIconButton];
 	[window setRepresentedURL:[NSURL URLWithString:@"StatusIcon"]];
 	
-	if ([tabView_tabBar isTabBarHidden])
+	if ([tabView_tabBar isTabBarHidden] || [tabView_tabBar numberOfVisibleTabs] < [m_containedChats count])
 		[button setImage:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] icon]];
 	else
 		[button setImage:nil];
