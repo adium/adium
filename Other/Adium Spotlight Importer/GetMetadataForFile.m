@@ -62,7 +62,7 @@ Boolean GetMetadataForFile(void* thisInterface,
 		if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
 			success = GetMetadataForHTMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 		} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-			success = GetMetadataForXMLLog((__bridge_transfer NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
+			success = GetMetadataForXMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
 		} else {
 			NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
 		}
