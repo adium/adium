@@ -1038,7 +1038,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	return [_containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark Contained Contact sorting
