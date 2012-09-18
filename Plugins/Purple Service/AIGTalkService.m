@@ -18,6 +18,7 @@
 #import "AIPurpleGTalkAccount.h"
 #import "AIPurpleGTalkAccountViewController.h"
 #import "AIPurpleGTalkJoinChatViewController.h"
+#import "AIXMPPOAuthAccountViewController.h"
 
 @implementation AIGTalkService
 
@@ -27,7 +28,7 @@
 }
 
 - (AIAccountViewController *)accountViewController{
-    return [AIPurpleGTalkAccountViewController accountViewController];
+    return [AIXMPPOAuthAccountViewController accountViewController];
 }
 
 - (DCJoinChatViewController *)joinChatView{

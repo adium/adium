@@ -9,14 +9,13 @@
 #import <Adium/AIWindowController.h>
 #import <WebKit/WebKit.h>
 
-@class AIFacebookXMPPAccount;
+@class AIPurpleOAuthJabberAccount;
 
-@interface AIFacebookXMPPOAuthWebViewWindowController : AIWindowController {
+@interface AIXMPPOAuthWebViewWindowController : AIWindowController {
     IBOutlet WebView *webView;
 	IBOutlet NSProgressIndicator *spinner;
-    NSMutableDictionary *cookies;
 	
-	AIFacebookXMPPAccount *account;
+	AIPurpleOAuthJabberAccount *account;
 	
 	NSString *autoFillUsername;
 	NSString *autoFillPassword;
@@ -29,7 +28,7 @@
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
 
 @property (nonatomic, retain) NSMutableDictionary *cookies;
-@property (nonatomic, retain) AIFacebookXMPPAccount *account;
+@property (nonatomic, retain) AIPurpleOAuthJabberAccount *account;
 
 @property (nonatomic, retain) NSString *autoFillUsername;
 @property (nonatomic, retain) NSString *autoFillPassword;

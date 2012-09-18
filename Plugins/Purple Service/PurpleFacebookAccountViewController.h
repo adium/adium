@@ -15,9 +15,9 @@
  */
 
 #import "PurpleAccountViewController.h"
-#import "AIFacebookXMPPAccountViewController.h"
+#import "AIXMPPOAuthAccountViewController.h"
 
-@interface PurpleFacebookAccountViewController : AIFacebookXMPPAccountViewController {
+@interface PurpleFacebookAccountViewController : AIXMPPOAuthAccountViewController {
 
 }
 

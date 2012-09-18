@@ -7,7 +7,7 @@
 //
 
 #import "AIFacebookXMPPAccount.h"
-#import "AIFacebookXMPPAccountViewController.h"
+#import "AIXMPPOAuthAccountViewController.h"
 #import <AIUtilities/AIImageAdditions.h>
 
 #import "AIFacebookXMPPService.h"
@@ -21,7 +21,7 @@
 
 - (AIAccountViewController *)accountViewController
 {
-    return [AIFacebookXMPPAccountViewController accountViewController];
+    return [AIXMPPOAuthAccountViewController accountViewController];
 }
 
 - (NSString *)serviceCodeUniqueID{

@@ -6,19 +6,17 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AIFacebookXMPPAccount.h"
-#import "AIFacebookXMPPAccountViewController.h"
+#import "AIPurpleOAuthJabberAccount.h"
+#import "AIXMPPOAuthAccountViewController.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-#import "PurpleFacebookAccount.h"
-
-@interface AIFacebookXMPPAccountViewController ()
+@interface AIXMPPOAuthAccountViewController ()
 - (void)authProgressDidChange:(NSNotification *)notification;
 @end
 
-@implementation AIFacebookXMPPAccountViewController
+@implementation AIXMPPOAuthAccountViewController
 
 @synthesize spinner, textField_OAuthStatus, button_OAuthStart, button_help;
 
@@ -45,7 +43,7 @@
 
 - (NSString *)nibName
 {
-    return @"AIFacebookXMPPAccountView";
+    return @"AIXMPPOAuthAccountView";
 }
 
 /*!
@@ -55,7 +53,7 @@
 {
 	[super configureForAccount:inAccount];
 	
-	if ([[AIFacebookXMPPAccount class] uidIsValidForFacebook:account.UID] &&
+	if ([[AIPurpleOAuthJabberAccount class] uidIsValid:account.UID] &&
 		[adium.accountController passwordForAccount:account].length) {
 		[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
 		[button_OAuthStart setEnabled:NO];
@@ -66,32 +64,32 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(authProgressDidChange:)
-												 name: AIFacebookXMPPAuthProgressNotification
+												 name: AIXMPPAuthProgressNotification
 											   object:inAccount];
 }
 
 - (void) authProgressDidChange:(NSNotification *)notification
 {
-	AIFacebookXMPPAuthProgressStep step = [[notification.userInfo objectForKey:KEY_FB_XMPP_AUTH_STEP] intValue];
+	AIXMPPOAuthProgressStep step = [[notification.userInfo objectForKey:KEY_XMPP_OAUTH_STEP] intValue];
 	
 	switch (step) {
-		case AIFacebookXMPPAuthProgressPromptingUser:
+		case AIXMPPOAuthProgressPromptingUser:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Requesting authorization", nil) stringByAppendingEllipsis]];
 			break;
 			
-		case AIFacebookXMPPAuthProgressContactingServer:
+		case AIXMPPOAuthProgressContactingServer:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Contacting authorization server", nil) stringByAppendingEllipsis]];
 			break;
 
-		case AIFacebookXMPPAuthProgressPromotingForChat:
+		case AIXMPPOAuthProgressPromotingForChat:
 			[textField_OAuthStatus setStringValue:[AILocalizedString(@"Promoting authorization for chat", nil) stringByAppendingEllipsis]];
 			break;
 
-		case AIFacebookXMPPAuthProgressSuccess:
+		case AIXMPPOAuthProgressSuccess:
 			[textField_OAuthStatus setStringValue:AILocalizedString(@"Adium is authorized for Facebook Chat.", nil)];
 			break;
 			
-		case AIFacebookXMPPAuthProgressFailure:
+		case AIXMPPOAuthProgressFailure:
 			[textField_OAuthStatus setStringValue:AILocalizedString(@"Could not complete authorization.", nil)];
 			[button_OAuthStart setEnabled:YES];
 			break;
@@ -106,7 +104,7 @@
 - (IBAction)changedPreference:(id)sender
 {
 	if (sender == button_OAuthStart) {
-		[(AIFacebookXMPPAccount *)account requestFacebookAuthorization];
+		[(AIPurpleOAuthJabberAccount *)account requestAuthorization];
 		[button_OAuthStart setEnabled:NO];
 
 	} else 

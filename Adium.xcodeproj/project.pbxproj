@@ -631,11 +631,6 @@
 		34D0FF8509569FE500DCB678 /* PersonalPreferencesDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D0FF8409569FE500DCB678 /* PersonalPreferencesDefaults.plist */; };
 		34D8153A13B663650022C8C4 /* AIFacebookXMPPAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */; };
 		34D8153B13B663650022C8C4 /* AIFacebookXMPPAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */; };
-		34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */; };
-		34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */; };
-		34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */; };
-		34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */; };
-		34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */; };
 		34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */; };
 		34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */; };
 		34D8154613B663700022C8C4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
@@ -1051,7 +1046,7 @@
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
 		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
-		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
+		5A22D6E214834F44004E15F7 /* AIXMPPOAuthAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIXMPPOAuthAccountView.xib */; };
 		5A27FA7D14A272330063489D /* pref-messagehistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7914A272330063489D /* pref-messagehistory.png */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
 		5A27FA8014A272330063489D /* pref-windowhandling.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7C14A272330063489D /* pref-windowhandling.png */; };
@@ -1367,6 +1362,13 @@
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
 		76889DEF12D3CA40007AEF00 /* Personal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.tiff */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
+		76EA997D1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76EA997A1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindow.xib */; };
+		76EA997E1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EA997B1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.h */; };
+		76EA997F1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EA997C1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.m */; };
+		76EA99821608FDB6002DF1C4 /* AIPurpleOAuthJabberAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EA99801608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.h */; };
+		76EA99831608FDB6002DF1C4 /* AIPurpleOAuthJabberAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EA99811608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.m */; };
+		76EA99861609044E002DF1C4 /* AIXMPPOAuthAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EA998416090449002DF1C4 /* AIXMPPOAuthAccountViewController.h */; };
+		76EA99871609044E002DF1C4 /* AIXMPPOAuthAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EA99851609044A002DF1C4 /* AIXMPPOAuthAccountViewController.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
 		76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FF925914B524B40043E23B /* AIIRCConsoleController.m */; };
 		76FF926414B62A980043E23B /* AIConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = 76FF926314B62A980043E23B /* AIConsole.nib */; };
@@ -1482,6 +1484,7 @@
 		C6A42ABB15C5DD790032FAB3 /* FTProgressStopRollover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6A42AAF15C5DD790032FAB3 /* FTProgressStopRollover@2x.png */; };
 		C6B545A815D338EE0005F1F8 /* SoundFileIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B545A715D338EE0005F1F8 /* SoundFileIcon@2x.png */; };
 		C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B545A915D3390F0005F1F8 /* ABSearch@2x.png */; };
+		C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */; };
 		C6EE433E15C0A9BC00A4B96C /* default-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE433D15C0A9BC00A4B96C /* default-icon@2x.png */; };
 		C6EE434015C0AA4600A4B96C /* emoticonBlank@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE433F15C0AA4600A4B96C /* emoticonBlank@2x.png */; };
 		C6EE434215C0AA6F00A4B96C /* sidebarActionWidget@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434115C0AA6F00A4B96C /* sidebarActionWidget@2x.png */; };
@@ -1489,7 +1492,6 @@
 		C6EE434615C0AA9100A4B96C /* SoundLow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434515C0AA9100A4B96C /* SoundLow@2x.png */; };
 		C6EE434C15C0AB7400A4B96C /* Flap_192@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434B15C0AB7400A4B96C /* Flap_192@2x.png */; };
 		C6EE434E15C0AB7F00A4B96C /* Awake_192@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EE434D15C0AB7F00A4B96C /* Awake_192@2x.png */; };
-		C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */; };
 		D10A3A2B122C61EF003B5A7E /* msg-source-destination.tiff in Resources */ = {isa = PBXBuildFile; fileRef = D10A3A2A122C61EF003B5A7E /* msg-source-destination.tiff */; };
 		EE147A6D0896B18800A21377 /* ABSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = EE147A6C0896B18700A21377 /* ABSearch.png */; };
 		EE147A790896B32400A21377 /* ABSearch.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE147A780896B32400A21377 /* ABSearch.xib */; };
@@ -3404,11 +3406,6 @@
 		34D7F1E915F85DD300F32F9B /* ChatCyclingDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ChatCyclingDefaults.plist; path = Resources/ChatCyclingDefaults.plist; sourceTree = "<group>"; };
 		34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccount.h; path = "Plugins/Purple Service/AIFacebookXMPPAccount.h"; sourceTree = "<group>"; };
 		34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccount.m; path = "Plugins/Purple Service/AIFacebookXMPPAccount.m"; sourceTree = "<group>"; };
-		34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPAccountViewController.h; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.h"; sourceTree = "<group>"; };
-		34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPAccountViewController.m; path = "Plugins/Purple Service/AIFacebookXMPPAccountViewController.m"; sourceTree = "<group>"; };
-		34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIFacebookXMPPOauthWebViewWindow.xib; path = "Plugins/Purple Service/AIFacebookXMPPOauthWebViewWindow.xib"; sourceTree = "<group>"; };
-		34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPOAuthWebViewWindowController.h; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.h"; sourceTree = "<group>"; };
-		34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
 		34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPService.h; path = "Plugins/Purple Service/AIFacebookXMPPService.h"; sourceTree = "<group>"; };
 		34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPService.m; path = "Plugins/Purple Service/AIFacebookXMPPService.m"; sourceTree = "<group>"; };
 		34D8154413B663700022C8C4 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Frameworks/JSONKit/JSONKit.h; sourceTree = "<group>"; };
@@ -3885,7 +3882,7 @@
 		5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdvancedPreferencePane.m; path = "Frameworks/Adium Framework/Source/AIAdvancedPreferencePane.m"; sourceTree = "<group>"; };
 		5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Xtras.xib"; path = "Resources/Preferences-Xtras.xib"; sourceTree = "<group>"; };
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
-		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
+		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
 		5A27FA7914A272330063489D /* pref-messagehistory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagehistory.png"; path = "Resources/pref-messagehistory.png"; sourceTree = "<group>"; };
 		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
 		5A27FA7C14A272330063489D /* pref-windowhandling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-windowhandling.png"; path = "Resources/pref-windowhandling.png"; sourceTree = "<group>"; };
@@ -4392,6 +4389,13 @@
 		76889DEE12D3CA40007AEF00 /* Personal.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Personal.tiff; path = Resources/Personal.tiff; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
+		76EA997A1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIXMPPOAuthWebViewWindow.xib; path = "Plugins/Purple Service/AIXMPPOAuthWebViewWindow.xib"; sourceTree = "<group>"; };
+		76EA997B1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXMPPOAuthWebViewWindowController.h; path = "Plugins/Purple Service/AIXMPPOAuthWebViewWindowController.h"; sourceTree = "<group>"; };
+		76EA997C1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
+		76EA99801608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleOAuthJabberAccount.h; path = "Plugins/Purple Service/AIPurpleOAuthJabberAccount.h"; sourceTree = "<group>"; };
+		76EA99811608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleOAuthJabberAccount.m; path = "Plugins/Purple Service/AIPurpleOAuthJabberAccount.m"; sourceTree = "<group>"; };
+		76EA998416090449002DF1C4 /* AIXMPPOAuthAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXMPPOAuthAccountViewController.h; path = "Plugins/Purple Service/AIXMPPOAuthAccountViewController.h"; sourceTree = "<group>"; };
+		76EA99851609044A002DF1C4 /* AIXMPPOAuthAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXMPPOAuthAccountViewController.m; path = "Plugins/Purple Service/AIXMPPOAuthAccountViewController.m"; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
 		76FF925914B524B40043E23B /* AIIRCConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCConsoleController.m; path = "Plugins/Purple Service/AIIRCConsoleController.m"; sourceTree = "<group>"; };
 		76FF926314B62A980043E23B /* AIConsole.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIConsole.nib; path = "Frameworks/Adium Framework/Resources/AIConsole.nib"; sourceTree = "<group>"; };
@@ -4543,6 +4547,7 @@
 		C6A42AAF15C5DD790032FAB3 /* FTProgressStopRollover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FTProgressStopRollover@2x.png"; path = "Resources/FTProgressStopRollover@2x.png"; sourceTree = "<group>"; };
 		C6B545A715D338EE0005F1F8 /* SoundFileIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SoundFileIcon@2x.png"; path = "Resources/SoundFileIcon@2x.png"; sourceTree = "<group>"; };
 		C6B545A915D3390F0005F1F8 /* ABSearch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ABSearch@2x.png"; path = "Resources/ABSearch@2x.png"; sourceTree = "<group>"; };
+		C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "events-notification.tiff"; path = "Resources/events-notification.tiff"; sourceTree = "<group>"; };
 		C6EE433D15C0A9BC00A4B96C /* default-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "default-icon@2x.png"; path = "Resources/default-icon@2x.png"; sourceTree = "<group>"; };
 		C6EE433F15C0AA4600A4B96C /* emoticonBlank@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "emoticonBlank@2x.png"; path = "Resources/emoticonBlank@2x.png"; sourceTree = "<group>"; };
 		C6EE434115C0AA6F00A4B96C /* sidebarActionWidget@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sidebarActionWidget@2x.png"; path = "Resources/sidebarActionWidget@2x.png"; sourceTree = "<group>"; };
@@ -4550,7 +4555,6 @@
 		C6EE434515C0AA9100A4B96C /* SoundLow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SoundLow@2x.png"; path = "Resources/SoundLow@2x.png"; sourceTree = "<group>"; };
 		C6EE434B15C0AB7400A4B96C /* Flap_192@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flap_192@2x.png"; path = "Resources/Flap_192@2x.png"; sourceTree = "<group>"; };
 		C6EE434D15C0AB7F00A4B96C /* Awake_192@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Awake_192@2x.png"; path = "Resources/Awake_192@2x.png"; sourceTree = "<group>"; };
-		C6BC7F9A15DD666600C5FF52 /* events-notification.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "events-notification.tiff"; path = "Resources/events-notification.tiff"; sourceTree = "<group>"; };
 		D10A3A2A122C61EF003B5A7E /* msg-source-destination.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "msg-source-destination.tiff"; path = "Resources/msg-source-destination.tiff"; sourceTree = "<group>"; };
 		D182F1B411DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D182F1B611DFF23700E33AE2 /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = sk_SK.lproj/schema.strings; sourceTree = "<group>"; };
@@ -4559,7 +4563,7 @@
 		D1B9C01C14C3AEC300D03244 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sl; path = "Plugins/WebKit Message View/Resources/sl.lproj/WebKitPreferencesView.xib"; sourceTree = "<group>"; };
 		D1C1FA2514995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = Resources/en_AU.lproj/AccountProxy.xib; sourceTree = "<group>"; };
 		D1C1FA2614995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = Resources/en_AU.lproj/AIAdvancedInspectorPane.xib; sourceTree = "<group>"; };
-		D1C1FA2714995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = "Plugins/Purple Service/Resources/en_AU.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA2714995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en_AU; path = "Plugins/Purple Service/Resources/en_AU.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
 		D1C1FA2814995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = "Plugins/Twitter Plugin/Resources/en_AU.lproj/AITwitterAccountView.xib"; sourceTree = "<group>"; };
 		D1C1FA2A14995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en_AU; path = Resources/en_AU.lproj/Buttons.strings; sourceTree = "<group>"; };
 		D1C1FA2B14995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = "Plugins/Purple Service/Resources/en_AU.lproj/DCPurpleJabberJoinChatView.xib"; sourceTree = "<group>"; };
@@ -4595,33 +4599,33 @@
 		D1C1FA4C14995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en_AU; path = Resources/en_AU.lproj/Statuses.strings; sourceTree = "<group>"; };
 		D1C1FA4E14995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = Resources/en_AU.lproj/StatusSortConfiguration.xib; sourceTree = "<group>"; };
 		D1C1FA4F14995D98008C94EB /* en_AU */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_AU; path = "Plugins/WebKit Message View/Resources/en_AU.lproj/WebKitPreferencesView.xib"; sourceTree = "<group>"; };
-		D1C1FA5814995DF7008C94EB /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ca; path = "Plugins/Purple Service/Resources/ca.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5914995DF9008C94EB /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = cs; path = "Plugins/Purple Service/Resources/cs.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5A14995DFC008C94EB /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = da; path = "Plugins/Purple Service/Resources/da.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5B14995E01008C94EB /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = de; path = "Plugins/Purple Service/Resources/de.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5C14995E2C008C94EB /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = el_GR; path = "Plugins/Purple Service/Resources/el_GR.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5D14995E31008C94EB /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en_GB; path = "Plugins/Purple Service/Resources/en_GB.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5E14995E36008C94EB /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = es; path = "Plugins/Purple Service/Resources/es.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA5F14995E39008C94EB /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = fi; path = "Plugins/Purple Service/Resources/fi.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6014995E3D008C94EB /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = fr; path = "Plugins/Purple Service/Resources/fr.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6114995E41008C94EB /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = fr_CA; path = "Plugins/Purple Service/Resources/fr_CA.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6214995E46008C94EB /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = hu; path = "Plugins/Purple Service/Resources/hu.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6314995E49008C94EB /* is */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = is; path = "Plugins/Purple Service/Resources/is.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6414995E4C008C94EB /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = it; path = "Plugins/Purple Service/Resources/it.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6514995E4F008C94EB /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ja; path = "Plugins/Purple Service/Resources/ja.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6614995E5F008C94EB /* nb */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = nb; path = "Plugins/Purple Service/Resources/nb.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6714995E62008C94EB /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = nl; path = "Plugins/Purple Service/Resources/nl.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6814995E65008C94EB /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = pl; path = "Plugins/Purple Service/Resources/pl.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6914995E69008C94EB /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = pt_PT; path = "Plugins/Purple Service/Resources/pt_PT.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6A14995E6D008C94EB /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = pt; path = "Plugins/Purple Service/Resources/pt.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6B14995E74008C94EB /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ru; path = "Plugins/Purple Service/Resources/ru.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6C14995E77008C94EB /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6D14995E7A008C94EB /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sv; path = "Plugins/Purple Service/Resources/sv.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6E14995E7C008C94EB /* tr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = tr; path = "Plugins/Purple Service/Resources/tr.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA6F14995E80008C94EB /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = zh_CN; path = "Plugins/Purple Service/Resources/zh_CN.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA7014995E84008C94EB /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = zh_TW; path = "Plugins/Purple Service/Resources/zh_TW.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA7114995E88008C94EB /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sk_SK; path = "Plugins/Purple Service/Resources/sk_SK.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
-		D1C1FA7214995E8E008C94EB /* uk */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = uk; path = "Plugins/Purple Service/Resources/uk.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5814995DF7008C94EB /* ca */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ca; path = "Plugins/Purple Service/Resources/ca.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5914995DF9008C94EB /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = "Plugins/Purple Service/Resources/cs.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5A14995DFC008C94EB /* da */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = da; path = "Plugins/Purple Service/Resources/da.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5B14995E01008C94EB /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = "Plugins/Purple Service/Resources/de.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5C14995E2C008C94EB /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = el_GR; path = "Plugins/Purple Service/Resources/el_GR.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5D14995E31008C94EB /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en_GB; path = "Plugins/Purple Service/Resources/en_GB.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5E14995E36008C94EB /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = "Plugins/Purple Service/Resources/es.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA5F14995E39008C94EB /* fi */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fi; path = "Plugins/Purple Service/Resources/fi.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6014995E3D008C94EB /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = "Plugins/Purple Service/Resources/fr.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6114995E41008C94EB /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr_CA; path = "Plugins/Purple Service/Resources/fr_CA.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6214995E46008C94EB /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = "Plugins/Purple Service/Resources/hu.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6314995E49008C94EB /* is */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = is; path = "Plugins/Purple Service/Resources/is.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6414995E4C008C94EB /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = "Plugins/Purple Service/Resources/it.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6514995E4F008C94EB /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = "Plugins/Purple Service/Resources/ja.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6614995E5F008C94EB /* nb */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb; path = "Plugins/Purple Service/Resources/nb.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6714995E62008C94EB /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = "Plugins/Purple Service/Resources/nl.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6814995E65008C94EB /* pl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pl; path = "Plugins/Purple Service/Resources/pl.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6914995E69008C94EB /* pt_PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt_PT; path = "Plugins/Purple Service/Resources/pt_PT.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6A14995E6D008C94EB /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = "Plugins/Purple Service/Resources/pt.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6B14995E74008C94EB /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = "Plugins/Purple Service/Resources/ru.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6C14995E77008C94EB /* sl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6D14995E7A008C94EB /* sv */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sv; path = "Plugins/Purple Service/Resources/sv.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6E14995E7C008C94EB /* tr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = tr; path = "Plugins/Purple Service/Resources/tr.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA6F14995E80008C94EB /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = "Plugins/Purple Service/Resources/zh_CN.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA7014995E84008C94EB /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = "Plugins/Purple Service/Resources/zh_TW.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA7114995E88008C94EB /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = sk_SK; path = "Plugins/Purple Service/Resources/sk_SK.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
+		D1C1FA7214995E8E008C94EB /* uk */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = uk; path = "Plugins/Purple Service/Resources/uk.lproj/AIXMPPOAuthAccountView.xib"; sourceTree = "<group>"; };
 		D1F92AE214C3A6F6009D7B34 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/DCPurpleJabberJoinChatView.xib"; sourceTree = "<group>"; };
 		D1F92AE414C3A70E009D7B34 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/ESPurpleJabberAccountView.xib"; sourceTree = "<group>"; };
 		D1F92AEE14C3A72C009D7B34 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/ESPurpleAIMAccountView.xib"; sourceTree = "<group>"; };
@@ -5309,7 +5313,6 @@
 				81DAE8710C261E8A00780E4C /* AMPurpleTuneTooltip.m */,
 				347E39DB0A98AA4A00961B0E /* missing_image.png */,
 				77D903500B78CF1000B86C42 /* zhm */,
-				345D689D0F1FD575002F2D01 /* Facebook */,
 				34416060059FC2450019246B /* Gadu-Gadu */,
 				34B3241D09B9FF6900029361 /* IRC */,
 				34416053059FC2270019246B /* Jabber */,
@@ -5386,6 +5389,7 @@
 		34416053059FC2270019246B /* Jabber */ = {
 			isa = PBXGroup;
 			children = (
+				76EA99791608FC24002DF1C4 /* OAuth2 */,
 				34416171059FC55A0019246B /* ESJabberService.h */,
 				34416172059FC55A0019246B /* ESJabberService.m */,
 				344160C3059FC3080019246B /* ESPurpleJabberAccount.h */,
@@ -5397,6 +5401,7 @@
 				344160B5059FC2F50019246B /* ESPurpleJabberAccountViewController.m */,
 				343EB42208086D9200E27095 /* ESPurpleJabberAccountView.xib */,
 				4BB19298079EE90900DAA523 /* PurpleDefaultsJabber.plist */,
+				345D689D0F1FD575002F2D01 /* Facebook */,
 				63125D7A0A75EBBE00303EE9 /* LiveJournal */,
 				A3C0405808D744B200B48CE1 /* Google Talk */,
 				818E96A10C16D443007623BD /* AIJabberConsoleController.h */,
@@ -5571,12 +5576,6 @@
 			children = (
 				34D8153013B663650022C8C4 /* AIFacebookXMPPAccount.h */,
 				34D8153113B663650022C8C4 /* AIFacebookXMPPAccount.m */,
-				5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */,
-				34D8153313B663650022C8C4 /* AIFacebookXMPPAccountViewController.h */,
-				34D8153413B663650022C8C4 /* AIFacebookXMPPAccountViewController.m */,
-				34D8153513B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib */,
-				34D8153613B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h */,
-				34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */,
 				34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */,
 				34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */,
 				97F7B37E14E29BC400A0F6F8 /* facebook-small.png */,
@@ -8090,6 +8089,21 @@
 			name = "HTTP Server";
 			sourceTree = "<group>";
 		};
+		76EA99791608FC24002DF1C4 /* OAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				76EA997A1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindow.xib */,
+				76EA997B1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.h */,
+				76EA997C1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.m */,
+				76EA99801608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.h */,
+				76EA99811608FDB5002DF1C4 /* AIPurpleOAuthJabberAccount.m */,
+				76EA998416090449002DF1C4 /* AIXMPPOAuthAccountViewController.h */,
+				76EA99851609044A002DF1C4 /* AIXMPPOAuthAccountViewController.m */,
+				5A22D6E014834F44004E15F7 /* AIXMPPOAuthAccountView.xib */,
+			);
+			name = OAuth2;
+			sourceTree = "<group>";
+		};
 		76FF925C14B60B4B0043E23B /* Console */ = {
 			isa = PBXGroup;
 			children = (
@@ -8909,13 +8923,14 @@
 				345D68A80F1FD5AA002F2D01 /* PurpleFacebookAccount.h in Headers */,
 				34064D110F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h in Headers */,
 				34D8153A13B663650022C8C4 /* AIFacebookXMPPAccount.h in Headers */,
-				34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */,
-				34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */,
 				34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */,
 				34D8154613B663700022C8C4 /* JSONKit.h in Headers */,
 				34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */,
 				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
 				76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */,
+				76EA997E1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.h in Headers */,
+				76EA99821608FDB6002DF1C4 /* AIPurpleOAuthJabberAccount.h in Headers */,
+				76EA99861609044E002DF1C4 /* AIXMPPOAuthAccountViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9478,8 +9493,8 @@
 				345D68990F1FD56B002F2D01 /* facebook.png in Resources */,
 				345D689A0F1FD56B002F2D01 /* facebook-small.png in Resources */,
 				1150A9960FBE48D600E0BD31 /* ESIRCAccountView.xib in Resources */,
-				34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */,
-				5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */,
+				5A22D6E214834F44004E15F7 /* AIXMPPOAuthAccountView.xib in Resources */,
+				76EA997D1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10062,13 +10077,14 @@
 				345D68A90F1FD5AA002F2D01 /* PurpleFacebookAccount.m in Sources */,
 				34064D100F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m in Sources */,
 				34D8153B13B663650022C8C4 /* AIFacebookXMPPAccount.m in Sources */,
-				34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */,
-				34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */,
 				34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */,
 				34D8154713B663700022C8C4 /* JSONKit.m in Sources */,
 				34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */,
 				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
 				76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */,
+				76EA997F1608FC31002DF1C4 /* AIXMPPOAuthWebViewWindowController.m in Sources */,
+				76EA99831608FDB6002DF1C4 /* AIPurpleOAuthJabberAccount.m in Sources */,
+				76EA99871609044E002DF1C4 /* AIXMPPOAuthAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12032,7 +12048,7 @@
 			name = EmoticonNames.strings;
 			sourceTree = "<group>";
 		};
-		5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */ = {
+		5A22D6E014834F44004E15F7 /* AIXMPPOAuthAccountView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5A22D6E114834F44004E15F7 /* en */,
@@ -12065,7 +12081,7 @@
 				D1C1FA7114995E88008C94EB /* sk_SK */,
 				D1C1FA7214995E8E008C94EB /* uk */,
 			);
-			name = AIFacebookXMPPAccountView.xib;
+			name = AIXMPPOAuthAccountView.xib;
 			sourceTree = "<group>";
 		};
 		5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */ = {

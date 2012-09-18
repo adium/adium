@@ -16,6 +16,8 @@
 
 #import "AIPurpleGTalkAccount.h"
 
+#define ADIUM_APP_ID "853036734951.apps.googleusercontent.com"
+
 @implementation AIPurpleGTalkAccount
 
 - (const char *)purpleAccountName
@@ -82,6 +84,36 @@
 - (BOOL)allowAccountUnregistrationIfSupportedByLibpurple
 {
 	return NO;
+}
+
+//- (NSString *)graphURLForToken:(NSString *)token
+//{
+//	return [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", token];
+//}
+//
+//- (NSString *)promoteURLForToken:(NSString *)token
+//{
+//	return [NSString stringWithFormat:@"https://api.facebook.com/method/auth.promoteSession?access_token=%@&format=JSON", token];
+//}
+
+- (NSString *)authorizeURL
+{
+	return @"https://accounts.google.nl/o/oauth2/auth?"
+	@"client_id=" ADIUM_APP_ID "&"
+	@"redirect_uri=urn:ietf:wg:oauth:2.0:oob&"
+	@"response_type=code&"
+	@"access_type=offline&"
+	@"scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgoogletalk";
+}
+
+- (NSString *)frameURLHost
+{
+	return @"urn:ietf:wg:oauth:2.0:oob";
+}
+
+- (NSString *)frameURLPath
+{
+	return @"";
 }
 
 @end
