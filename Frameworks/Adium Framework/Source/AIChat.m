@@ -1069,7 +1069,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [participatingContacts countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 - (BOOL) canContainObject:(id)obj
