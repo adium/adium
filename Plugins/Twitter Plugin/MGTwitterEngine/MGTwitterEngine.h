@@ -137,6 +137,6 @@
 
 // Adium OAuth additions
 @property (readwrite, nonatomic) BOOL useOAuth;
-@property (readwrite, nonatomic, retain) OAConsumer *consumer;
-@property (readwrite, nonatomic, retain) OAToken *accessToken;
+@property (readwrite, nonatomic) OAConsumer *consumer;
+@property (readwrite, nonatomic) OAToken *accessToken;
 @end

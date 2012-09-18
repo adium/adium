@@ -48,9 +48,8 @@
 }
 
 - (const char*)protocolPlugin;
-- (PurpleAccount*)purpleAccount;
+@property (assign, readwrite) PurpleAccount *purpleAccount;
 - (PurplePluginProtocolInfo *)protocolInfo;
-- (void)setPurpleAccount:(PurpleAccount *)inAccount;
 - (const char *)purpleAccountName;
 
 - (void)createNewPurpleAccount;

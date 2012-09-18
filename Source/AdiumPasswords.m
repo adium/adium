@@ -20,7 +20,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIKeychain.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIStringAdditions.h>
 #import <objc/objc-runtime.h>
 
@@ -192,15 +192,14 @@
 
 - (void)threadedPasswordRetrieval:(NSMutableDictionary *)requestDict
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSString	*password = [self passwordForAccount:[requestDict objectForKey:@"Account"]];
-	if (password)
-		[requestDict setObject:password forKey:@"Password"];
-
-	[self performSelectorOnMainThread:@selector(retrievedPassword:)
-						   withObject:requestDict
-						waitUntilDone:NO];
-	[pool release];
+	@autoreleasepool {
+		NSString *password = [self passwordForAccount:[requestDict objectForKey:@"Account"]];
+		if (password)
+			[requestDict setObject:password forKey:@"Password"];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self retrievedPassword:requestDict];
+		});
+	}
 }
 
 /*!

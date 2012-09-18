@@ -33,12 +33,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[services release]; services = nil;
-	[super dealloc];
-}
-
 /*!
  * @brief Register an AIService instance
  *

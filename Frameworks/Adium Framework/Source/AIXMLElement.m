@@ -28,8 +28,8 @@
 #import <ESDebugAILog.h>
 
 @interface AIXMLElement()
-@property (readwrite, retain, nonatomic) NSMutableArray *attributeNames;
-@property (readwrite, retain, nonatomic) NSMutableArray *attributeValues;
+@property (readwrite, nonatomic) NSMutableArray *attributeNames;
+@property (readwrite, nonatomic) NSMutableArray *attributeValues;
 @end
 
 @implementation AIXMLElement
@@ -48,7 +48,7 @@
 }
 + (id) elementWithName:(NSString *)newName
 {
-	return [[[self alloc] initWithName:newName] autorelease];
+	return [[self alloc] initWithName:newName];
 }
 - (id) initWithName:(NSString *)newName
 {
@@ -77,18 +77,8 @@
 	return nil;
 }
 
-- (void) dealloc
-{
-	[name release];
-	[attributeNames  release];
-	[attributeValues release];
-	[contents release];
-
-	[super dealloc];
-}
-
 - (id) copyWithZone:(NSZone *)zone {
-	AIXMLElement *other = [[AIXMLElement allocWithZone:zone] initWithName:name];
+	AIXMLElement *other = [[AIXMLElement alloc] initWithName:name];
 	other.attributeNames  = [NSMutableArray arrayWithArray:attributeNames];
 	other.attributeValues = [NSMutableArray arrayWithArray:attributeValues];
 	other.selfCloses = selfCloses;
@@ -141,9 +131,9 @@
  */
 - (void)setAttributeNames:(NSArray *)newAttrNames values:(NSArray *)newAttrVals
 {
-	NSAssert2([newAttrNames count] == [newAttrVals count], @"Attribute names and values have different lengths, %ui and %ui respectively", [newAttrNames count], [newAttrVals count]);
+	NSAssert2([newAttrNames count] == [newAttrVals count], @"Attribute names and values have different lengths, %lu and %lu respectively", [newAttrNames count], [newAttrVals count]);
 	NSUInteger numberOfDuplicates = [newAttrNames count] - [[NSSet setWithArray:newAttrNames] count];
-	NSAssert1(numberOfDuplicates == 0, @"Duplicate attributes are not allowed; found %ui duplicate(s)",  numberOfDuplicates);
+	NSAssert1(numberOfDuplicates == 0, @"Duplicate attributes are not allowed; found %lu duplicate(s)",  numberOfDuplicates);
 	
 	[attributeNames setArray:newAttrNames];
 	[attributeValues setArray:newAttrVals];

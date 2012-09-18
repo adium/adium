@@ -58,20 +58,16 @@
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
 	
 	//Reset formatting menu item
-	NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Restore Default Formatting",nil)
+	NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Restore Default Formatting",nil)
 																				 target:self
 																				 action:@selector(restoreDefaultFormat:)
 																		  keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Format_Additions];
-	[menuItem release];
 }
 
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_defaultAttributes release]; _defaultAttributes = nil;
-	
-	[super dealloc];
 }
 
 /*!
@@ -91,7 +87,7 @@
 																			 group:PREF_GROUP_FORMATTING] representedColor];
 				
 		//Build formatting dict
-		_defaultAttributes = [[NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName] retain];
+		_defaultAttributes = [NSMutableDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
 		if (textColor && ![textColor equalToRGBColor:[NSColor textColor]]) {
 			AILog(@"TextColor is %@; -[NSColor textColor] gives %@",textColor,[NSColor textColor]);
 			[_defaultAttributes setObject:textColor forKey:NSForegroundColorAttributeName];	
@@ -111,7 +107,6 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	[_defaultAttributes release];
 	_defaultAttributes = nil;
 }
 

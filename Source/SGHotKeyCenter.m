@@ -34,11 +34,6 @@ static SGHotKeyCenter *sharedCenter = nil;
 	}	
 }
 
-- (void)dealloc {
-  [hotKeys release];
-  [super dealloc];
-}
-
 + (SGHotKeyCenter *)sharedCenter {    
   return sharedCenter;
 }
@@ -47,9 +42,9 @@ static SGHotKeyCenter *sharedCenter = nil;
   //Usually already set by +initialize.
   if (sharedCenter) {
     //The caller expects to receive a new object, so implicitly retain it to balance out the caller's eventual release message.
-    return [sharedCenter retain];
+    return sharedCenter;
   } else {
-    //When not already set, +initialize is our callerâ€“it's creating the shared instance. Let this go through.
+    //When not already set, +initialize is our callerÐit's creating the shared instance. Let this go through.
     return [super allocWithZone:zone];
   }
 }

@@ -30,12 +30,10 @@
 	
 	NSMutableArray				*fingerprintDictArray;
 	AIAccountMenu 				*accountMenu;
-	NSTextField *label_knownFingerprints;
-	NSTextField *label_privateKeys;
 }
 
-@property (assign) IBOutlet NSTextField *label_privateKeys;
-@property (assign) IBOutlet NSTextField *label_knownFingerprints;
+@property (weak) IBOutlet NSTextField *label_privateKeys;
+@property (weak) IBOutlet NSTextField *label_knownFingerprints;
 
 - (IBAction)generate:(id)sender;
 - (IBAction)showFingerprint:(id)sender;

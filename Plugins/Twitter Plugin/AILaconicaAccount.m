@@ -153,15 +153,15 @@
     NSString        *path = [[@"/" stringByAppendingPathComponent:self.apiPath]
                                    stringByAppendingPathComponent:@"statusnet/config.xml"];
     
-	NSURL           *url = [[[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
+	NSURL           *url = [[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
 													 host:self.host
-													 path:path] autorelease];
+													 path:path];
     
     NSURLRequest    *configRequest = [NSURLRequest requestWithURL:url];
     
     if (textLimitConfigDownload) {
         [textLimitConfigDownload cancel];
-        [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+        textLimitConfigDownload = nil;
     }
     
     textLimitConfigDownload = [[NSURLConnection alloc] initWithRequest:configRequest delegate:self];
@@ -195,11 +195,10 @@
         }
         
         if (err != nil)
-            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %ld %@", self.host, [err code], [err localizedDescription]);
 	
-		[configData release]; configData = nil;
-		[config release];
-		[textLimitConfigDownload release]; textLimitConfigDownload = nil;
+		configData = nil;
+		textLimitConfigDownload = nil;
     }
 }
 
@@ -208,9 +207,9 @@
  */
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [textLimitConfigDownload release]; textLimitConfigDownload = nil;
+	textLimitConfigDownload = nil;
     
-    [configData release]; configData = nil;
+    configData = nil;
     
     AILogWithSignature(@"%@",[NSString stringWithFormat:@"Fetch failed: %@", [error localizedDescription]]);
 }
@@ -261,9 +260,7 @@
 		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
 		
-		groupCharacters = [[disallowedCharacters invertedSet] retain];
-		
-		[disallowedCharacters release];	
+		groupCharacters = [disallowedCharacters invertedSet];
 	}
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString

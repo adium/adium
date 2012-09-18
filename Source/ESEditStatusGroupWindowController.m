@@ -23,40 +23,18 @@
 
 @interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESEditStatusGroupWindowController
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-		[self.window makeKeyAndOrderFront:nil];
-	}
-}
 
 - (id)initWithStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget
 {
     if ((self = [super initWithWindowNibName:@"EditStatusGroup"])) {
 		target = inTarget;
-		statusGroup = (inStatusGroup ? [inStatusGroup retain] : [[AIStatusGroup alloc] init]);
+		statusGroup = (inStatusGroup ? inStatusGroup : [[AIStatusGroup alloc] init]);
 	}	
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[statusGroup release];
-	
-	[super dealloc];
 }
 
 - (void)windowDidLoad
@@ -80,30 +58,6 @@
 
 	[super windowDidLoad];
 }
-
-/*!
- * @brief Called before the window is closed
- *
- * As our window is closing, we auto-release this window controller instance.  This allows our editor to function
- * independently without needing a separate object to retain and release it.
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-
-	[self autorelease];
-}
-
-/*!
- * Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
-	
-	[self autorelease];
-}
-
 
 /*!
  * @brief Okay
@@ -137,10 +91,10 @@
 
 - (NSMenu *)groupWithStatusMenu
 {
-	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu *menu = [[NSMenu alloc] init];
 	NSMenuItem *menuItem;
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -150,9 +104,8 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];
 	[menu addItem:menuItem];
-	[menuItem release];
 
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -162,9 +115,8 @@
 													 iconType:AIStatusIconMenu
 													direction:AIIconNormal]];	
 	[menu addItem:menuItem];
-	[menuItem release];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 @end

@@ -24,17 +24,10 @@
 
 @implementation AIGenericViewCell
 
-- (void)dealloc
-{
-	[embeddedView release];
-	[super dealloc];
-}
-
 - (void)setEmbeddedView:(NSView *)inView
 {
 	if (embeddedView != inView) {
-		[embeddedView release];
-		embeddedView = [inView retain];
+		embeddedView = inView;
 	}
 }
 
@@ -42,7 +35,7 @@
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIGenericViewCell *newCell = [super copyWithZone:zone];
-	newCell->embeddedView = [embeddedView retain];
+	newCell->embeddedView = embeddedView;
 
 	return newCell;
 }
@@ -75,7 +68,7 @@
 	NSRect	frame = [embeddedView frame];
 	NSRect	usableFrame = NSMakeRect(0,0,frame.size.width,frame.size.height);
 
-	image = [[[NSImage alloc] initWithSize:frame.size] autorelease];
+	image = [[NSImage alloc] initWithSize:frame.size];
 	[image lockFocus];
 	[embeddedView setNeedsDisplay:YES];
 	[embeddedView drawRect:usableFrame];
@@ -86,7 +79,7 @@
 		NSRect	subUsableFrame = NSMakeRect(0, 0, subFrame.size.width, subFrame.size.height);
 
 		//Cache to an image
-		NSImage	*subImage = [[[NSImage alloc] initWithSize:subFrame.size] autorelease];
+		NSImage	*subImage = [[NSImage alloc] initWithSize:subFrame.size];
 		[subImage lockFocus];
 		[subView drawRect:subUsableFrame];
 		[subImage unlockFocus];

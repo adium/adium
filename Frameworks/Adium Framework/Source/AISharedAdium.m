@@ -27,5 +27,5 @@ void setSharedAdium(id<AIAdium> shared)
 {
     NSCAssert(adium == nil, @"Attempt to set the shared AIAdium instance after it's already been set");
     NSCParameterAssert(shared != nil);
-    adium = [shared retain];
+    adium = shared;
 }

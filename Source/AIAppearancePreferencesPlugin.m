@@ -47,7 +47,7 @@
 																forClass:[self class]] 
 	                              forGroup:PREF_GROUP_APPEARANCE];
 
-	preferences = [(AIAppearancePreferences *)[AIAppearancePreferences preferencePaneForPlugin:self] retain];	
+	preferences = (AIAppearancePreferences *)[AIAppearancePreferences preferencePaneForPlugin:self];	
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(invalidStatusSetActivated:)
@@ -276,7 +276,7 @@
 	NSMutableArray	*setArray = [NSMutableArray array];
 	NSMutableSet	*alreadyAddedArray = [NSMutableSet set];
 	
-    for (NSString *filePath in [adium allResourcesForName:folder withExtensions:extension]) {
+    for (__strong NSString *filePath in [adium allResourcesForName:folder withExtensions:extension]) {
 		NSString		*name;
 		NSBundle		*xtraBundle;
 		NSDictionary 	*themeDict;

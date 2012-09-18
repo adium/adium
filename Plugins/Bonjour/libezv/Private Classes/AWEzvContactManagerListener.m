@@ -106,7 +106,6 @@
 - (void) stopListening {
     if (listenSocket != nil) {
 		[listenSocket closeFile];
-		[listenSocket release];
 		listenSocket = nil;
     }
 }
@@ -138,7 +137,7 @@
 	ipAddr = [NSString stringWithUTF8String:inet_ntoa((&remoteAddress)->sin_addr)];
 
 	AILog(@"%s: Remote IP address (basis of contactIdentifier) is %@", __PRETTY_FUNCTION__, ipAddr);
-	contactIdentifier = [[ipAddr mutableCopy] autorelease];
+	contactIdentifier = [ipAddr mutableCopy];
 	[contactIdentifier replaceOccurrencesOfString:@"."
 		       withString:@"_"
 		       options:NSLiteralSearch
@@ -167,7 +166,6 @@
 			[contact setManager:self];
 			/* save contact in dictionary */
 			[contacts setObject:contact forKey:contactIdentifier];
-			[contact autorelease];
 		}
 	}
 
@@ -182,7 +180,6 @@
 	[stream setDelegate:contact];
 	contact.stream = stream;
 	[stream readAndParse];
-	[stream release];
 
 	return;
 }

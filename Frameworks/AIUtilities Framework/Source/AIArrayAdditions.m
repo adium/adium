@@ -26,16 +26,7 @@
 // Returns an array from the owners bundle with the specified name
 + (NSArray *)arrayNamed:(NSString *)name forClass:(Class)inClass
 {
-    NSBundle		*ownerBundle;
-    NSString		*arrayPath;
-    
-    //Get the bundle
-    ownerBundle = [NSBundle bundleForClass:inClass];
-    
-    //Open the plist file
-    arrayPath = [ownerBundle pathForResource:name ofType:@"plist"];    
-
-    return [[[NSArray alloc] initWithContentsOfFile:arrayPath] autorelease];
+	return [NSArray arrayWithContentsOfURL:[[NSBundle bundleForClass:inClass] URLForResource:name withExtension:@"plist"]];
 }
 
 - (NSComparisonResult)compare:(NSArray *)other
@@ -97,13 +88,6 @@
 @end
 
 @implementation NSMutableArray (ESArrayAdditions)
-
-- (void)addObjectsFromArrayIgnoringDuplicates:(NSArray *)inArray
-{
-	for (id obj in inArray) {
-		if (![self containsObject:obj]) [self addObject:obj];
-	}
-}
 
 - (void)moveObject:(id)object toIndex:(NSUInteger)newIndex
 {

@@ -38,7 +38,7 @@
 - (void)setupObservedValues;
 - (void)updateOrderCache;
 
-@property (nonatomic, assign) AIService *service;
+@property (nonatomic, weak) AIService *service;
 
 @end
 
@@ -58,7 +58,7 @@
 	if ((self = [super init])) {
 		m_groups = [[NSMutableSet alloc] initWithCapacity:1];
 
-		UID = [inUID retain];	
+		UID = inUID;	
 		service = inService;
 		
 		// Delay until the next run loop so bookmarks can instantiate their values first.
@@ -66,26 +66,6 @@
 	}
 
 	return self;
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[UID release]; UID = nil;
-	[internalObjectID release]; internalObjectID = nil;
-	[m_groups release]; m_groups = nil;
-	
-	[listObjectStatusMessage release]; listObjectStatusMessage = nil;
-	[listStateIcon release]; listStateIcon = nil;
-	[listStatusIcon release]; listStatusIcon = nil;
-	[listObjectStatusType release]; listObjectStatusType = nil;
-	[extendedStatus release]; extendedStatus = nil;
-	[listObjectStatusName release]; listObjectStatusName = nil;
-	[webKitUserIconPath release]; webKitUserIconPath = nil;
-
-	[super dealloc];
 }
 
 - (void)setupObservedValues
@@ -122,7 +102,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		internalObjectID = [[AIListObject internalObjectIDForServiceID:self.service.serviceID UID:self.UID] retain];
+		internalObjectID = [AIListObject internalObjectIDForServiceID:self.service.serviceID UID:self.UID];
 	}
 	return internalObjectID;
 }
@@ -171,7 +151,7 @@
 - (NSSet *) groups
 {
 #warning Very inefficient
-	return [[m_groups copy] autorelease];
+	return [m_groups copy];
 }
 
 - (void) addContainingGroup:(AIListGroup *)inGroup
@@ -248,7 +228,7 @@
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
-		AILogWithSignature(@"%@: Moving %@ into %@'s index %i using order index %f (between %@ and %@)",
+		AILogWithSignature(@"%@: Moving %@ into %@'s index %li using order index %f (between %@ and %@)",
 						   container, listObject, container.visibleContainedObjects, idx, 
 						   (nextHighest + nextLowest) / 2, nextObject, previousObject);
 		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2];
@@ -664,7 +644,7 @@
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
 												 group:PREF_GROUP_OBJECT_STATUS_CACHE];
-	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
+	NSMutableDictionary *newDict = (dict ? [dict mutableCopy] : [NSMutableDictionary dictionary]);
 	
 	// Sanity check - are we trying to assign infinity?
 	if (orderIndexForObject == INFINITY) {
@@ -808,7 +788,7 @@
 #pragma mark Debugging
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@>",NSStringFromClass([self class]), self, self.internalObjectID];
+	return [NSString stringWithFormat:@"<%@:%p %@>",NSStringFromClass([self class]), self, self.internalObjectID];
 }
 
 #pragma mark Applescript
@@ -833,7 +813,7 @@
  */
 - (NSTextStorage *)scriptingStatusMessage
 {
-	return [[[NSTextStorage alloc] initWithAttributedString:self.statusMessage] autorelease];
+	return [[NSTextStorage alloc] initWithAttributedString:self.statusMessage];
 }
 
 @end

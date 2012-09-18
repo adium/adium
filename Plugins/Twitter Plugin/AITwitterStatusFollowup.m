@@ -51,13 +51,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)dealloc
-{
-	[references release];
-	
-	[super dealloc];
-}
-
 - (void)imageAdded:(NSNotification *)notification
 {
 	NSDictionary *trim = notification.object;

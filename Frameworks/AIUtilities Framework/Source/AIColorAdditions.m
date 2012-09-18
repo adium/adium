@@ -72,77 +72,77 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 	//the rgb.txt file that comes with Mac OS X 10.3.8 contains 752 entries.
 	//we create 3 autoreleased objects for each one.
 	//best to not pollute our caller's autorelease pool.
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-	
-	for (unsigned i = 0; i < length; ++i) {
-		if (state.inComment) {
-			if (ch[i] == '\n') state.inComment = NO;
-		} else if (ch[i] == '\n') {
-			if (state.prevChar != '\n') { //ignore blank lines
-				if (	! ((state.redStart   != NULL)
-					   && (state.greenStart != NULL)
-					   && (state.blueStart  != NULL)
-					   && (state.nameStart  != NULL)))
-				{
-#if COLOR_DEBUG
-					NSLog(@"Parse error reading rgb.txt file: a non-comment line was encountered that did not have all four of red (%p), green (%p), blue (%p), and name (%p) - index is %u",
-						  state.redStart,
-						  state.greenStart,
-						  state.blueStart,
-						  state.nameStart, i);
-#endif
-					goto end;
-				}
-				
-				NSRange range = {
-					.location = state.nameStart - ch,
-					.length   = (&ch[i]) - state.nameStart,
-				};
-				NSString *name = [NSString stringWithData:[data subdataWithRange:range] encoding:NSUTF8StringEncoding];
-				NSColor *color = [NSColor colorWithCalibratedRed:state.red
-														   green:state.green
-															blue:state.blue
-														   alpha:1.0f];
-				[mutableDict setObject:color forKey:name];
-				NSString *lowercaseName = [name lowercaseString];
-				if (![mutableDict objectForKey:lowercaseName]) {
-					//only add the lowercase version if it isn't already defined
-					[mutableDict setObject:color forKey:lowercaseName];
-				}
+	@autoreleasepool {
+		
+		NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
+		
+		for (unsigned i = 0; i < length; ++i) {
+			if (state.inComment) {
+				if (ch[i] == '\n') state.inComment = NO;
+			} else if (ch[i] == '\n') {
+				if (state.prevChar != '\n') { //ignore blank lines
+					if (	! ((state.redStart   != NULL)
+						   && (state.greenStart != NULL)
+						   && (state.blueStart  != NULL)
+						   && (state.nameStart  != NULL)))
+					{
+	#if COLOR_DEBUG
+						NSLog(@"Parse error reading rgb.txt file: a non-comment line was encountered that did not have all four of red (%p), green (%p), blue (%p), and name (%p) - index is %u",
+							  state.redStart,
+							  state.greenStart,
+							  state.blueStart,
+							  state.nameStart, i);
+	#endif
+						goto end;
+					}
+					
+					NSRange range = {
+						.location = state.nameStart - ch,
+						.length   = (&ch[i]) - state.nameStart,
+					};
+					NSString *name = [NSString stringWithData:[data subdataWithRange:range] encoding:NSUTF8StringEncoding];
+					NSColor *color = [NSColor colorWithCalibratedRed:state.red
+															   green:state.green
+																blue:state.blue
+															   alpha:1.0f];
+					[mutableDict setObject:color forKey:name];
+					NSString *lowercaseName = [name lowercaseString];
+					if (![mutableDict objectForKey:lowercaseName]) {
+						//only add the lowercase version if it isn't already defined
+						[mutableDict setObject:color forKey:lowercaseName];
+					}
 
-				state.redStart = state.greenStart = state.blueStart = state.nameStart = 
-				state.redEnd   = state.greenEnd   = state.blueEnd   = NULL;
-			} //if (prevChar != '\n')
-		} else if ((ch[i] != ' ') && (ch[i] != '\t')) {
-			if (state.prevChar == '\n' && ch[i] == '#') {
-				state.inComment = YES;
-			} else {
-				if (!state.redStart) {
-					state.redStart = &ch[i];
-					state.red = (float)(strtod(state.redStart, (char **)&state.redEnd) / 255.0f);
-				} else if ((!state.greenStart) && state.redEnd && (&ch[i] >= state.redEnd)) {
-					state.greenStart = &ch[i];
-					state.green = (float)(strtod(state.greenStart, (char **)&state.greenEnd) / 255.0f);
-				} else if ((!state.blueStart) && state.greenEnd && (&ch[i] >= state.greenEnd)) {
-					state.blueStart = &ch[i];
-					state.blue = (float)(strtod(state.blueStart, (char **)&state.blueEnd) / 255.0f);
-				} else if ((!state.nameStart) && state.blueEnd && (&ch[i] >= state.blueEnd)) {
-					state.nameStart  = &ch[i];
+					state.redStart = state.greenStart = state.blueStart = state.nameStart = 
+					state.redEnd   = state.greenEnd   = state.blueEnd   = NULL;
+				} //if (prevChar != '\n')
+			} else if ((ch[i] != ' ') && (ch[i] != '\t')) {
+				if (state.prevChar == '\n' && ch[i] == '#') {
+					state.inComment = YES;
+				} else {
+					if (!state.redStart) {
+						state.redStart = &ch[i];
+						state.red = (float)(strtod(state.redStart, (char **)&state.redEnd) / 255.0f);
+					} else if ((!state.greenStart) && state.redEnd && (&ch[i] >= state.redEnd)) {
+						state.greenStart = &ch[i];
+						state.green = (float)(strtod(state.greenStart, (char **)&state.greenEnd) / 255.0f);
+					} else if ((!state.blueStart) && state.greenEnd && (&ch[i] >= state.greenEnd)) {
+						state.blueStart = &ch[i];
+						state.blue = (float)(strtod(state.blueStart, (char **)&state.blueEnd) / 255.0f);
+					} else if ((!state.nameStart) && state.blueEnd && (&ch[i] >= state.blueEnd)) {
+						state.nameStart  = &ch[i];
+					}
 				}
 			}
-		}
-		state.prevChar = ch[i];
-	} //for (unsigned i = 0; i < length; ++i)
-	
-	//why not use -copy? because this is subclass-friendly.
-	//you can call this method on NSMutableDictionary and get a mutable dictionary back.
-	result = [[self alloc] initWithDictionary:mutableDict];
-end:
-	[pool release];
+			state.prevChar = ch[i];
+		} //for (unsigned i = 0; i < length; ++i)
 
-	return [result autorelease];
+		//why not use -copy? because this is subclass-friendly.
+		//you can call this method on NSMutableDictionary and get a mutable dictionary back.
+		result = [[self alloc] initWithDictionary:mutableDict];
+	end:
+
+		return result;
+	}
 }
 
 @end

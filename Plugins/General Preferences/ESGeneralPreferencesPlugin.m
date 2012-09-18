@@ -64,7 +64,7 @@
                                           forGroup:PREF_GROUP_CONFIRMATIONS];
 	
 	//Install our preference view
-	preferences = [(ESGeneralPreferences *)[ESGeneralPreferences preferencePaneForPlugin:self] retain];	
+	preferences = (ESGeneralPreferences *)[ESGeneralPreferences preferencePaneForPlugin:self];	
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 }
@@ -95,14 +95,14 @@
 		if (globalHotKey) {
 			//Unregister the old global hot key if it exists
 			[[SGHotKeyCenter sharedCenter] unregisterHotKey:globalHotKey];
-			[globalHotKey release]; globalHotKey = nil;
+			globalHotKey = nil;
 		}
 		
 		id plistRepresentation = [prefDict objectForKey:KEY_GENERAL_HOTKEY];
 		if (plistRepresentation) {
 			//Register a new one if we want one
 			globalHotKey = [[SGHotKey alloc] initWithIdentifier:KEY_GENERAL_HOTKEY
-													   keyCombo:[[[SGKeyCombo alloc] initWithPlistRepresentation:plistRepresentation] autorelease]];
+													   keyCombo:[[SGKeyCombo alloc] initWithPlistRepresentation:plistRepresentation]];
 			
 			[globalHotKey setTarget:self];
 			[globalHotKey setAction:@selector(hitHotKey:)];

@@ -43,16 +43,15 @@ static BOOL is_leap_year(NSInteger year) {
 	NSString *dateFormat = [(includeTime ? @"%Y-%m-%dT%H:%M:%S" : @"%Y-%m-%d") prepareDateFormatWithTimeSeparator:timeSep];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:dateFormat allowNaturalLanguage:NO];
 	NSString *str = [formatter stringForObjectValue:self];
-	[formatter release];
 	if(includeTime) {
 		NSInteger offset = [[self timeZone] secondsFromGMT];
 		offset /= 60;  //bring down to minutes
 		if(offset == 0)
 			str = [str stringByAppendingString:@"Z"];
 		if(offset < 0)
-			str = [str stringByAppendingFormat:@"-%02d:%02d", -offset / 60, -offset % 60];
+			str = [str stringByAppendingFormat:@"-%02ld:%02ld", -offset / 60, -offset % 60];
 		else
-			str = [str stringByAppendingFormat:@"+%02d:%02d", offset / 60, offset % 60];
+			str = [str stringByAppendingFormat:@"+%02ld:%02ld", offset / 60, offset % 60];
 	}
 	return str;
 }
@@ -107,22 +106,20 @@ static BOOL is_leap_year(NSInteger year) {
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
 		timeString = [formatter stringForObjectValue:self];
-		[formatter release];
 	} else
 		timeString = @"";
 
-	return [NSString stringWithFormat:@"%u-W%02u-%02u%@", year, week, dayOfWeek + 1U, timeString];
+	return [NSString stringWithFormat:@"%lu-W%02lu-%02lu%@", year, week, dayOfWeek + 1U, timeString];
 }
 - (NSString *)ISO8601OrdinalDateStringWithTime:(BOOL)includeTime timeSeparator:(unichar)timeSep {
 	NSString *timeString;
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
 		timeString = [formatter stringForObjectValue:self];
-		[formatter release];
 	} else
 		timeString = @"";
 
-	return [NSString stringWithFormat:@"%u-%03u%@", [self yearOfCommonEra], [self dayOfYear], timeString];
+	return [NSString stringWithFormat:@"%lu-%03lu%@", [self yearOfCommonEra], [self dayOfYear], timeString];
 }
 
 #pragma mark -
@@ -169,7 +166,7 @@ static BOOL is_leap_year(NSInteger year) {
 - (NSString *)prepareDateFormatWithTimeSeparator:(unichar)timeSep {
 	NSString *dateFormat = self;
 	if(timeSep != ':') {
-		NSMutableString *dateFormatMutable = [[dateFormat mutableCopy] autorelease];
+		NSMutableString *dateFormatMutable = [dateFormat mutableCopy];
 		[dateFormatMutable replaceOccurrencesOfString:@":"
 		                               	   withString:[NSString stringWithCharacters:&timeSep length:1U]
 	                                      	  options:NSBackwardsSearch | NSLiteralSearch

@@ -20,8 +20,8 @@
 
 + (NSMutableString *)stringWithContentsOfASCIIFile:(NSString *)path
 {
-	return ([[[NSMutableString alloc] initWithData:[NSData dataWithContentsOfFile:path]
-										  encoding:NSASCIIStringEncoding] autorelease]);
+	return ([[NSMutableString alloc] initWithData:[NSData dataWithContentsOfFile:path]
+										  encoding:NSASCIIStringEncoding]);
 }
 
 - (NSMutableString*)mutableString

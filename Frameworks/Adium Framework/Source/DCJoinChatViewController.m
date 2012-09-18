@@ -34,7 +34,7 @@
 //Create a new join chat view
 + (DCJoinChatViewController *)joinChatView
 {
-	return [[[self alloc] init] autorelease];
+	return [[self alloc] init];
 }
 
 //Init
@@ -55,14 +55,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-	[view release]; view = nil;
-	[account release];
-
-	[super dealloc];
-}
-
 @synthesize view;
 
 //Stubs for subclasses
@@ -78,8 +70,7 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 { 
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain]; 
+		account = inAccount; 
 	}
 }
 
@@ -120,7 +111,7 @@
 			[chat setValue:invitationMessage forProperty:@"InitialInivitationMessage" notify:NotifyNever];
 		}
 		
-		[[NSNotificationCenter defaultCenter] addObserver:[self retain] selector:@selector(chatDidOpen:) name:Chat_DidOpen object:chat];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatDidOpen:) name:Chat_DidOpen object:chat];
 	}
 	
 }
@@ -135,7 +126,7 @@
 		NSMutableDictionary	*inviteUsersDict;
 		NSString			*initialInvitationMessage = [chat valueForProperty:@"InitialInivitationMessage"];
 		
-		inviteUsersDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[contacts mutableCopy] autorelease],@"ContactsToInvite",nil];
+		inviteUsersDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[contacts mutableCopy],@"ContactsToInvite",nil];
 		if (initialInvitationMessage) {
 			[inviteUsersDict setObject:initialInvitationMessage
 								forKey:@"InitialInivitationMessage"];
@@ -155,7 +146,6 @@
 	
 	//We are no longer concerned with the opening of this chat.
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_DidOpen object:chat];
-	[self release];
 }
 
 /*!
@@ -170,13 +160,12 @@
 	NSMutableArray		*contactArray = [userInfo objectForKey:@"ContactsToInvite"];
 
 	if ([contactArray count]) {
-		AIListContact *listContact = [[contactArray objectAtIndex:0] retain];
+		AIListContact *listContact = [contactArray objectAtIndex:0];
 		[contactArray removeObjectAtIndex:0];
 		AILog(@"Inviting %@ to %@", listContact, chat);
 
 		[chat inviteListContact:listContact
 					withMessage:[userInfo objectForKey:@"InitialInivitationMessage"]];
-		[listContact release];
 
 	} else {
 		[inTimer invalidate];

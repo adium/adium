@@ -39,9 +39,9 @@ enum {
 
 @property (nonatomic, copy) NSString *oAuthToken;
 @property (nonatomic, assign) NSUInteger networkState;
-@property (nonatomic, assign) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
-@property (nonatomic, retain) NSURLResponse *connectionResponse;
-@property (nonatomic, retain) NSMutableData *connectionData;
+@property (nonatomic, weak) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
+@property (weak, nonatomic) NSURLResponse *connectionResponse;
+@property (weak, nonatomic) NSMutableData *connectionData;
 
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
@@ -75,14 +75,7 @@ enum {
 
 - (void)dealloc
 {
-    [oAuthWC release];
-    [oAuthToken release];
-    
     [connection cancel];
-    [connectionResponse release];
-    [connectionData release];
-
-    [super dealloc];
 }
 
 #pragma mark Connectivitiy
@@ -281,7 +274,7 @@ enum {
 
 - (void)requestFacebookAuthorization
 {
-	self.oAuthWC = [[[AIFacebookXMPPOAuthWebViewWindowController alloc] init] autorelease];
+	self.oAuthWC = [[AIFacebookXMPPOAuthWebViewWindowController alloc] init];
 	self.oAuthWC.account = self;
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:AIFacebookXMPPAuthProgressNotification
@@ -460,8 +453,8 @@ enum {
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)inConnection
 {
-    NSURLResponse *response = [[[self connectionResponse] retain] autorelease];
-    NSMutableData *data = [[[self connectionData] retain] autorelease];
+    NSURLResponse *response = [self connectionResponse];
+    NSMutableData *data = [self connectionData];
     NSUInteger state = [self networkState]; 
     
     [self setNetworkState:AINoNetworkState];

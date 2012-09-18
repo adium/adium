@@ -76,7 +76,7 @@
 
 	if (iconData) {
 		[AIUserIcons userIconSource:self
-			   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
+			   didDetermineUserIcon:[[NSImage alloc] initWithData:iconData]
 					 asynchronously:NO
 						  forObject:inObject];
 		

@@ -39,19 +39,6 @@
 	return self;
 }
 
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
-
 /*!
  * @brief Setup the window before it is displayed
  */
@@ -75,15 +62,8 @@
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewGroupWindowControllerDidEnd"
 											  object:sheet];
-    [sheet orderOut:nil];
-	[self autorelease];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
 	
-	[self autorelease];
+    [super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 /*!

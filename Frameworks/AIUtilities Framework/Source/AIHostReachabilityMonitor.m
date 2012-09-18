@@ -90,18 +90,14 @@
 - (void)dealloc
 {
 	[hostAndObserverListLock lock];
-	[hosts          release]; hosts          = nil;
-	[observers      release]; observers      = nil;
-	[reachabilities release]; reachabilities = nil;
+	hosts          = nil;
+	observers      = nil;
+	reachabilities = nil;
 	
-	[unconfiguredHostsAndObservers release]; unconfiguredHostsAndObservers = nil;
+	unconfiguredHostsAndObservers = nil;
 	[hostAndObserverListLock unlock];
 
-	[hostAndObserverListLock release];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 #pragma mark -
@@ -118,7 +114,6 @@
 	NSString	*hostCopy = [host copy];
 	[self scheduleReachabilityMonitoringForHost:hostCopy
 									   observer:newObserver];
-	[hostCopy release];
 }
 
 /*!
@@ -142,7 +137,7 @@
 			if ((!host) || ([host isEqualToString:[hosts objectAtIndex:i]])) {
 				[hosts          removeObjectAtIndex:i];
 				[observers      removeObjectAtIndex:i];
-				SCNetworkReachabilityScheduleWithRunLoop((SCNetworkReachabilityRef)[reachabilities objectAtIndex:i],
+				SCNetworkReachabilityScheduleWithRunLoop((__bridge SCNetworkReachabilityRef)[reachabilities objectAtIndex:i],
 														 CFRunLoopGetCurrent(),
 														 kCFRunLoopDefaultMode);
 				[reachabilities removeObjectAtIndex:i];
@@ -209,7 +204,7 @@
 {
 	[hostAndObserverListLock lock];
 
-	NSUInteger i = [reachabilities indexOfObjectIdenticalTo:(id)reachability];
+	NSUInteger i = [reachabilities indexOfObjectIdenticalTo:(__bridge id)reachability];
 	if (i != NSNotFound) {
 		NSString *host = [hosts objectAtIndex:i];
 		id <AIHostReachabilityObserver> observer = [observers objectAtIndex:i];
@@ -221,7 +216,7 @@
 			if (![host isEqualToString:[hosts objectAtIndex:idx]])
 				continue;
 			
-			SCNetworkReachabilityRef otherReachability = (SCNetworkReachabilityRef)[reachabilities objectAtIndex:idx];
+			SCNetworkReachabilityRef otherReachability = (__bridge SCNetworkReachabilityRef)[reachabilities objectAtIndex:idx];
 			SCNetworkConnectionFlags flags;
 
 			if (SCNetworkReachabilityGetFlags(otherReachability, &flags)
@@ -261,7 +256,7 @@ static void hostReachabilityChangedCallback(SCNetworkReachabilityRef target, SCN
  	      (flags & kSCNetworkFlagsIsDirect)             ? 'd' : '-');
 #endif
 	
-	AIHostReachabilityMonitor *self = info;
+	AIHostReachabilityMonitor *self = (__bridge AIHostReachabilityMonitor *)info;
 	[self reachabilityChanged:target];
 }
 
@@ -272,7 +267,7 @@ static void hostReachabilityChangedCallback(SCNetworkReachabilityRef target, SCN
  */
 static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  const CFStreamError *error, void *info)
 {
-	NSDictionary				*infoDict = info;
+	NSDictionary				*infoDict = (__bridge NSDictionary *)info;
 	AIHostReachabilityMonitor	*self = [infoDict objectForKey:@"self"];
 	id							observer = [infoDict objectForKey:@"observer"];
 	NSString					*host = [infoDict objectForKey:@"host"];
@@ -293,7 +288,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 			// Only add 1 observer for IPv6 and one for IPv4.
 			BOOL addedIPv4 = NO, addedIPv6 = NO;
 			
-			for (NSData *saData in (NSArray *)addresses) {
+			for (NSData *saData in (__bridge NSArray *)addresses) {
 				struct sockaddr							*remoteAddr = (struct sockaddr *)saData.bytes;
 				
 				if ((remoteAddr->sa_family == AF_INET && addedIPv4) || (remoteAddr->sa_family == AF_INET6 && addedIPv6)) {
@@ -308,7 +303,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 				SCNetworkReachabilityRef		reachabilityRef;
 				SCNetworkReachabilityContext	reachabilityContext = {
 					.version         = 0,
-					.info            = self,
+					.info            = (__bridge void *)self,
 					.retain          = CFRetain,
 					.release         = CFRelease,
 					.copyDescription = CFCopyDescription,
@@ -340,7 +335,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 														 kCFRunLoopDefaultMode);
 				
 				//Note that we succesfully configured for reachability notifications
-				[self gotReachabilityRef:(SCNetworkReachabilityRef)[(NSObject *)reachabilityRef autorelease]
+				[self gotReachabilityRef:(SCNetworkReachabilityRef)reachabilityRef
 								 forHost:host
 								observer:observer];
 
@@ -351,7 +346,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 			#endif
 					hostReachabilityChangedCallback(reachabilityRef,
 													flags,
-													self);
+													(__bridge void *)self);
 
 				} else {
 					/* Perform an immediate reachability check, since we've just scheduled checks for future changes
@@ -360,12 +355,12 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 					*/
 					CFHostClientContext	hostContext = {
 						.version		 = 0,
-						.info			 = [NSDictionary dictionaryWithObjectsAndKeys:
+						.info			 = (__bridge void *)([NSDictionary dictionaryWithObjectsAndKeys:
 							self, @"self",
 							host, @"host",
 							observer, @"observer",
 							[NSValue valueWithPointer:reachabilityRef], @"reachabilityRef",
-							nil],
+							nil]),
 						.retain			 = CFRetain,
 						.release		 = CFRelease,
 						.copyDescription = CFCopyDescription,
@@ -391,9 +386,9 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 					   (UInt8 *)&flags);
 
 		//Call the reachability changed callback directly
-		hostReachabilityChangedCallback((SCNetworkReachabilityRef)[infoDict objectForKey:@"reachabilityRef"],
+		hostReachabilityChangedCallback((__bridge SCNetworkReachabilityRef)[infoDict objectForKey:@"reachabilityRef"],
 										flags,
-										self);
+										(__bridge void *)self);
 
 		//No further need for this CFHost to be in our run loop
 		CFHostUnscheduleFromRunLoop(theHost,
@@ -419,7 +414,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 	
 	[hosts          addObject:host];
 	[observers      addObject:observer];
-	[reachabilities addObject:(id)reachabilityRef];
+	[reachabilities addObject:(__bridge id)reachabilityRef];
 	
 	//Remove from our unconfigured array
 	[self removeUnconfiguredHost:host
@@ -446,17 +441,17 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 	//Resolve the remote host domain name to an IP asynchronously
 	CFHostClientContext	hostContext = {
 		.version		 = 0,
-		.info			 = [NSDictionary dictionaryWithObjectsAndKeys:
+		.info			 = (__bridge void *)([NSDictionary dictionaryWithObjectsAndKeys:
 							self, @"self",
 							nodename, @"host",
 							observer, @"observer",
-							nil],
+							nil]),
 		.retain			 = CFRetain,
 		.release		 = CFRelease,
 		.copyDescription = CFCopyDescription,
 	};
 	CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault,
-										  (CFStringRef)nodename);
+										  (__bridge CFStringRef)nodename);
 	CFHostSetClient(host,
 					hostResolvedCallback,
 					&hostContext);
@@ -569,7 +564,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
  */
 static void localIPsChangedCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info)
 {
-	AIHostReachabilityMonitor	*self = info;
+	AIHostReachabilityMonitor	*self = (__bridge AIHostReachabilityMonitor *)info;
 	
 	/* Wait one second after receiving the callback, as it seems to be sent in some cases the middle of the change
 	 * rather than after it is complete.
@@ -594,7 +589,7 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 		//Create the CFRunLoopSourceRef we will want to add to our run loop to have
 		//localIPsChangedCallback() called when the IP list changes
 		status = CreateIPAddressListChangeCallbackSCF(localIPsChangedCallback, 
-													  self,
+													  (__bridge void *)(self),
 													  &storeRef,
 													  &ipChangesRunLoopSourceRef);
 		
@@ -639,7 +634,7 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 	NSArray	*oldObservers = [observers copy];
 	
 	[reachabilities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		SCNetworkReachabilityUnscheduleFromRunLoop((SCNetworkReachabilityRef)obj,
+		SCNetworkReachabilityUnscheduleFromRunLoop((__bridge SCNetworkReachabilityRef)obj,
 												   CFRunLoopGetCurrent(),
 												   kCFRunLoopDefaultMode);
 	}];
@@ -658,9 +653,6 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 		[self addObserver:observer
 				  forHost:host];
 	}
-	
-	[oldHosts release];
-	[oldObservers release];
 }
 
 #pragma mark -

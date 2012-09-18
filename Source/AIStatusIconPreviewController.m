@@ -29,14 +29,12 @@
 	NSString *resourcePath = [xtraInfo resourcePath];
 	NSDictionary *iconDict = [[NSDictionary dictionaryWithContentsOfFile:[resourcePath stringByAppendingPathComponent:@"Icons.plist"]] objectForKey:@"List"];
 
-	[statusNames release];
-	statusNames = [[iconDict allKeys] retain];
+	statusNames = [iconDict allKeys];
 
-	[images autorelease];
 	images = [[NSMutableArray alloc] init];
 
 	for (NSString *imageName in [iconDict objectEnumerator]) {
-		NSImage *image = [xtraInfo.bundle AI_imageForResource:imageName];
+		NSImage *image = [xtraInfo.bundle imageForResource:imageName];
 		if (image)
 			[images addObject:image];
 	}
@@ -52,13 +50,11 @@
 	NSTableColumn * column = [[NSTableColumn alloc] initWithIdentifier:@"Status Icon"];
 	[column setMaxWidth:32.0f];
 	[column setMinWidth:32.0f];
-	[column setDataCell:[[[NSImageCell alloc]init]autorelease]];
+	[column setDataCell:[[NSImageCell alloc]init]];
 	[tableView addTableColumn:column];
-	[column release];
 	
 	column = [[NSTableColumn alloc] initWithIdentifier:@"Status Name"];
 	[tableView addTableColumn:column];
-	[column release];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex

@@ -71,13 +71,6 @@
 									 object:nil];
 }
 
-- (void)dealloc
-{
-	[contextualMenuItem release]; contextualMenuItem = nil;
-
-	[super dealloc];
-}
-
 /*!
  * @brief Tooltip label
  *
@@ -151,10 +144,8 @@
 					
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 
 			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 
 			[entryString appendString:@" "];
 		}
@@ -177,15 +168,13 @@
 					
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 			
 			[entryString appendString:@" "];
 			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 		}
 	}
     
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

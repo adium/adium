@@ -67,8 +67,8 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	//Cleanup
-	[containers release]; containers = nil;
-	[delayedContainerShowArray release]; delayedContainerShowArray = nil;
+	containers = nil;
+	delayedContainerShowArray = nil;
 }	
 
 
@@ -143,7 +143,6 @@
 	if ([messageTab windowController] == windowController) {
 		[windowController moveTabViewItem:messageTab toIndex:idx];
 	} else {
-		[messageTab retain];
 		[[messageTab windowController] removeTabViewItem:messageTab silent:YES];
 
 		//Create the container if necessary
@@ -152,7 +151,6 @@
 		}
 
 		[windowController addTabViewItem:messageTab atIndex:idx silent:YES];
-		[messageTab release];
 	}
 }
 
@@ -319,8 +317,6 @@
 		NSRect  oldMessageWindowFrame = [[oldMessageWindowController window] frame];
 		
 		//Remove the tab, which will close the containiner if it becomes empty
-		[tabViewItem retain];
-	
 		[oldMessageWindowController removeTabViewItem:tabViewItem silent:YES];
 		
 		//Spawn a new window (if necessary)
@@ -352,7 +348,6 @@
 		[(AIMessageWindowController *)newMessageWindowController addTabViewItem:tabViewItem atIndex:idx silent:YES]; 
 		[adium.interfaceController chatOrderDidChange];
 		[tabViewItem makeActive:nil];
-		[tabViewItem release];
 	}
 	
 }

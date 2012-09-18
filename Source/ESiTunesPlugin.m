@@ -150,7 +150,6 @@
 - (void)setiTunesCurrentInfo:(NSDictionary *)newInfo
 {
  	if (newInfo != iTunesCurrentInfo) {
- 		[iTunesCurrentInfo release];
  		NSMutableDictionary *mutableNewInfo = [newInfo mutableCopy];
 
 		//If we get a stream title, use that as the track name
@@ -314,7 +313,6 @@
 		[self setiTunesCurrentInfo:[NSDictionary dictionaryWithObjectsAndKeys:KEY_ITUNES_STOPPED, KEY_ITUNES_PLAYER_STATE, nil]];
 	}
 	
-	[playingScript release];
 }
 
 #pragma mark -
@@ -328,7 +326,7 @@
 - (void)createiTunesCurrentTrackStatusState
 {
 	//create an iTunes status of state "Available" with default available status settings
-	AIStatus		   *currentiTunesStatusState = [[AIStatus statusOfType:AIAvailableStatusType] retain];
+	AIStatus		   *currentiTunesStatusState = [AIStatus statusOfType:AIAvailableStatusType];
 	
 	//set status attributes
 	NSAttributedString *trackAndArtist = [NSAttributedString stringWithString:TRIGGER_CURRENT_TRACK];
@@ -340,7 +338,6 @@
 
 	//give it to the AIStatusController
 	[adium.statusController addStatusState:currentiTunesStatusState];
-	[currentiTunesStatusState release];
 }
 
 - (void)updateiTunesCurrentTrackFormat
@@ -389,9 +386,6 @@
 							  nil];
 
     [self fireUpdateiTunesInfo];
-
-	[slashMusicDict release];
-	[conditionalArtistTrackDict release];
 }
 
 #pragma mark -
@@ -452,7 +446,7 @@
 				}
 				
 				//create a attributedstring if it hasn't been created already
-				if (!filteredMessage) filteredMessage = [[inAttributedString mutableCopy] autorelease];
+				if (!filteredMessage) filteredMessage = [inAttributedString mutableCopy];
 				
 				//Perform the replacement
 				[filteredMessage replaceOccurrencesOfString:trigger
@@ -482,7 +476,7 @@
 				
 				//if a mutable attributed string for the string to be filtered doesn't exist, create it. 
 				if (filteredMessage == nil) {
-					filteredMessage = [[inAttributedString mutableCopy] autorelease];	
+					filteredMessage = [inAttributedString mutableCopy];	
 				}
 				
 				//Replace the current trigger with the value we found above
@@ -527,12 +521,12 @@
  */
 - (void)iTunesUpdate:(NSNotification *)aNotification
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSDictionary *newInfo = [aNotification userInfo];
-	[self setiTunesCurrentInfo:newInfo];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		NSDictionary *newInfo = [aNotification userInfo];
+		[self setiTunesCurrentInfo:newInfo];
+		
+	}
 }
 
 /*!
@@ -559,17 +553,7 @@
 
 	//configure the popup button and its menu
 
-    /* XXX Remove after 10.6: Apparently with iTunes 10.6.3 on Mac OS X 10.6.8, the NSIconRefImageRep
-     * that is returned by -iconfForFile: for iTunes fails to encode itself for NSCopying. Make a copy
-     * here via -TIFFRepresentation to avoid this bug.
-     * rdar://11930126 http://trac.adium.im/ticket/16046
-     */
-    if ([NSApp isOnLionOrNewer]) {
-        [button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
-    } else {
-        NSData *imageData = [[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath] TIFFRepresentation];
-	    [button setImage:[[[NSImage alloc] initWithData:imageData] autorelease]];
-    }
+	[button setImage:[[NSWorkspace sharedWorkspace] iconForFile:iTunesPath]];
 	[self createiTunesToolbarItemMenuItems:menu];
 
 	NSToolbarItem * iTunesItem = [AIToolbarUtilities toolbarItemWithIdentifier:KEY_TRIGGERS_TOOLBAR
@@ -588,15 +572,13 @@
 	[button setToolbarItem:iTunesItem];
 	
 	//Add menu to toolbar item (for text mode)
-	NSMenuItem	*mItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenuItem	*mItem = [[NSMenuItem alloc] init];
 	[mItem setSubmenu:menu];
 	[mItem setTitle:STRING_TRIGGERS_TOOLBAR];
 	[iTunesItem setMenuFormRepresentation:mItem];
 	
 	//give it to adium to use
 	[adium.toolbarController registerToolbarItem:iTunesItem forToolbarType:@"TextEntry"];
-	[button release];
-	[menu release];
 }
 
 /*!
@@ -628,8 +610,6 @@
 										 action:@selector(bringiTunesToFront)
 							  representedObject:nil
 										   kind:ALWAYS_ENABLED]];
-	
-	[submenuRoot release];
 }
 
 /*!
@@ -645,7 +625,7 @@
 	[item setRepresentedObject:representedObject];
 	[item setEnabled:YES];
 
-	return [item autorelease];
+	return item;
 }
 
 #pragma mark -
@@ -704,16 +684,13 @@
 	if (![url isEqualToString:ITUNES_ITMS_SEARCH_URL] && [url length]) {
 		urlLabel = [[NSString alloc] initWithFormat:@"%@ - %@", trackName, artist];
 	} else {
-		[url release]; url = nil;
+		url = nil;
 	}
 	
 	//if we have a url, give it to the user as a nice, formatted <a> tag
 	if (url) {
 		NSAttributedString *attributedLink = [[NSAttributedString alloc] initWithAttributedString:[AIHTMLDecoder decodeHTML:[NSString stringWithFormat:@"<A HREF=\"%@\">%@</A>", url, urlLabel]]];
 		[self insertAttributedStringIntoMessageEntryView:attributedLink];
-		[attributedLink release];
-		[url release];
-		[urlLabel release];
 	} else {
 		//the artist name and or the track name is literally @""
 		NSBeep();
@@ -786,8 +763,6 @@
 		if (filteredString && [filteredString length] > 0) {
 			[self insertAttributedStringIntoMessageEntryView:filteredString];
 		}
-		
-		[attributedResult release];
 	}
 }
 
@@ -804,7 +779,6 @@
 		NSAttributedString *attributedResult = [[NSAttributedString alloc] initWithString:inString 
 																			   attributes:[(NSTextView *)responder typingAttributes]];
 		[self insertAttributedStringIntoMessageEntryView:attributedResult];
-		[attributedResult release];
 	}
 }
 
@@ -882,7 +856,7 @@
 								representedObject:TRIGGER_STORE_URL
 											 kind:AUTODISABLES]];
 	
-	return [triggersMenu autorelease];
+	return triggersMenu;
 }
 
 /*!
@@ -897,12 +871,10 @@
 	
 	[menuItem setSubmenu:menuOfTriggers];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Additions];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:STRING_TRIGGERS_MENU target:self action:NULL keyEquivalent:@""];
-	[menuItem setSubmenu:[[menuOfTriggers copy] autorelease]];
+	[menuItem setSubmenu:[menuOfTriggers copy]];
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
-	[menuItem release];
 }
 
 /*!
@@ -959,11 +931,7 @@
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	
 	//Release class variables
-	if (iTunesCurrentInfo) [iTunesCurrentInfo release];
-	if (substitutionDict) [substitutionDict release];
-	if (phraseSubstitutionDict) [phraseSubstitutionDict release];
 	
-	[super dealloc];
 }
 
 @end

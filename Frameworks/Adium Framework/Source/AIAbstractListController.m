@@ -82,8 +82,8 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	if ((self = [super init]))
 	{
-		contactListView = [inContactListView retain];
-		scrollView_contactList = [inScrollView_contactList retain];
+		contactListView = inContactListView;
+		scrollView_contactList = inScrollView_contactList;
 		delegate = inDelegate;
 
 		hideRoot = YES;
@@ -140,24 +140,17 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  */
 - (void)dealloc
 {
-	[contactList release];
 	[contactListView setDelegate:nil];
 	[contactListView setDataSource:nil];
 
-	[contactListView release]; contactListView = nil;
-	[scrollView_contactList release]; scrollView_contactList = nil;
+	scrollView_contactList = nil;
 	
 	if (tooltipTracker) {
 		[tooltipTracker setDelegate:nil];
-		[tooltipTracker release]; tooltipTracker = nil;
+		tooltipTracker = nil;
 	}
 
-	[groupCell release];
-	[contentCell release];
-	
 	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
-
-    [super dealloc];
 }
 
 /*!
@@ -207,14 +200,14 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)configureViewsAndTooltips
 {
 	//Configure the contact list view
-	tooltipTracker = [[AISmoothTooltipTracker smoothTooltipTrackerForView:scrollView_contactList
-															 withDelegate:self] retain];
+	tooltipTracker = [AISmoothTooltipTracker smoothTooltipTrackerForView:scrollView_contactList
+															 withDelegate:self];
 
 	/* The table column will want to interact with a cell. We use an AIMultiCellOutlineView subclass, though,
 	 * so the contentCell and groupCell set in updateLayoutFromPrefDict:andThemeFromPrefDict: will actually be
 	 * the primary actors.
 	 */
-	[[[contactListView tableColumns] objectAtIndex:0] setDataCell:[[[AIListCell alloc] init] autorelease]];
+	[[[contactListView tableColumns] objectAtIndex:0] setDataCell:[[AIListCell alloc] init]];
 	
 	//Targeting
     [contactListView setTarget:self];
@@ -245,7 +238,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)setContactListRoot:(ESObjectWithProperties<AIContainingObject> *)newContactListRoot
 {
 	if (contactList != newContactListRoot) {
-		[contactList release]; contactList = [newContactListRoot retain];
+		contactList = newContactListRoot;
 	}
 
 	[contactListView reloadData];
@@ -328,10 +321,6 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	NSTextAlignment		contentCellAlignment, groupCellAlignment;
 	BOOL				pillowsOrPillowsFittedWindowStyle;
 	
-	//Cells
-	[groupCell release];
-	[contentCell release];
-
 	contentCellAlignment = [[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] intValue];
 	groupCellAlignment = [[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] intValue];
 
@@ -581,7 +570,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	//Redraw the modified object (or the whole list, if object is nil)
 	if (object) {
-		for (AIProxyListObject *proxyObject in [[object.proxyObjects copy] autorelease]) {
+		for (AIProxyListObject *proxyObject in [object.proxyObjects copy]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	} else {
@@ -592,7 +581,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	 * For example, when a contact changes, redraw the metacontact which represents it if appropriate.
 	 */
 	if (object && [object isKindOfClass:[AIListContact class]] && ([(AIListContact *)object parentContact] != object)) {
-		for (AIProxyListObject *proxyObject in [[[(AIListContact *)object parentContact].proxyObjects copy] autorelease]) {
+		for (AIProxyListObject *proxyObject in [[(AIListContact *)object parentContact].proxyObjects copy]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	}
@@ -776,8 +765,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	NSArray *items = [notification object];
 	if (dragItems != items) {
-		[dragItems release];
-		dragItems = [items retain];
+		dragItems = items;
 	}
 
 	// Remove this contact list if from drag & drop operation took the last group away

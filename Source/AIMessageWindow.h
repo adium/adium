@@ -21,6 +21,6 @@
 	id rememberedScriptCommand;
 }
 
-@property (readonly) NSArray *chats;
+@property (weak, readonly) NSArray *chats;
 
 @end
