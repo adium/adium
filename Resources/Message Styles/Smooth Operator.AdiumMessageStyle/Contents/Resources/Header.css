@@ -1,0 +1,229 @@
+@charset "utf-8";
+
+#x-header #x-wrap
+{
+	position: fixed;
+	top: 8px;
+	right: 18px;
+	left: 8px;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240,240, 240, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+	-webkit-border-radius: 5px;
+	height: 56px;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(248, 248, 248, 1), 8px 16px 16px rgba(248, 248, 248, 1);
+	z-index: 100;
+	color: rgba(64, 64, 64, 1);
+	text-align: center;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 11px;
+	opacity: 1;
+	-webkit-transition: opacity .4s linear;
+	min-width: 7em;
+}
+
+#x-header img.x-icon[src*="incoming_icon.png"],
+#x-header img.x-icon[src*="outgoing_icon.png"],
+#x-header .x-iconmask[style*="incoming_icon.png"],
+#x-header .x-iconmask[style*="outgoing_icon.png"]
+{
+	display: none;
+}
+
+#x-header .x-iconmask
+{
+	height: 56px;
+	width: 56px;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, 0))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0))) 0px 16px no-repeat;
+	-webkit-background-size: 56px 16px, 56px 100%;
+	position: absolute;
+	z-index: 104;
+	top: 0px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-radius: 0px;
+}
+
+#x-header img.x-icon
+{
+	-webkit-border-radius: 0px;
+	position: absolute;
+	z-index: 101;
+	width: 56px;
+	min-width: 56px;
+	height: 56px;
+	min-height: 56px;
+	max-width: none;
+	max-height: none;
+	top: 0px;
+}
+
+#x-header .x-icon.x-incoming,
+#x-header .x-iconmask.x-incoming
+{
+	left: 0px;
+	right: auto;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+
+#x-header .x-color
+{
+	height: 56px;
+	width: 5px;
+	display: block;
+	position: absolute;
+	top: 0px;
+	z-index: 101;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .75)), to(rgba(255, 255, 255, .25))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25))) 0px 32px no-repeat;
+	-webkit-background-size: 5px 32px, 5px 100%;
+}
+
+#x-header .x-color.x-incoming
+{
+	left: 56px;
+}
+
+#x-header .x-color.x-outgoing
+{
+	right: 56px;
+}
+
+#x-header .x-icon.x-outgoing,
+#x-header .x-iconmask.x-outgoing
+{
+	right: 0px;
+	left: auto;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+}
+
+#x-header .x-sender
+{
+	font-size: 11px;
+	position: absolute;
+	top: 38px;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 25%;
+}
+
+#x-header .x-sender.x-incoming
+{
+	left: 64px;
+	text-align: left;
+}
+
+#x-header .x-sender.x-outgoing
+{
+	right: 64px;
+	text-align: right;
+}
+
+#x-header .x-date
+{
+	display: block;
+	margin-top: 4px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#x-header .x-time
+{
+	display: block;
+	margin-top: 4px;
+}
+
+#x-header .serviceIcon
+{
+	position: relative;
+	top: 4px;
+}
+
+#x-header img.serviceIcon
+{
+	height: 20px;
+}
+
+/* toggle */
+
+.x-toggle
+{
+	position: fixed;
+	top: 4px;
+	left: 4px;
+	width: 16px;
+	height: 16px;
+	cursor: default;
+	font-size: 21px !important;
+	font-family: "Apple Symbols";
+	z-index: 999;
+	cursor: pointer;
+	opacity: 0;
+	-webkit-transition: opacity .4s linear;
+
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) 0px 0px no-repeat;
+	-webkit-border-radius: 5px;
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .5);
+	color: rgba(64, 64, 64, 1);
+	text-align: center;
+}
+
+.x-toggle:active
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(240, 240, 240, 1)), to(rgba(255, 255, 255, 1))) 0px 0px no-repeat;
+}
+
+body:hover .x-toggle
+{
+	opacity: .5;
+}
+
+#x-header:hover .x-toggle
+{
+	opacity: 1;
+}
+
+#x-hide:before
+{
+	content: "\2299";
+	position: fixed;
+	top: 3px;
+	left: 4px;
+}
+
+#x-hide:hover:before
+{
+	content: "\2296";
+}
+
+#x-hide:active:before
+{
+	content: "\2299";
+}
+
+#x-show:before
+{
+	content: "\2299";
+	position: fixed;
+	top: 3px;
+	left: 4px;
+}
+
+#x-show:hover:before
+{
+	content: "\2295";
+}
+
+#x-show:active:before
+{
+	content: "\2299";
+}

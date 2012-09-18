@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="focus, unread, new, message" />
+<meta name="description" content="Focus" />
+<title>Focus</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="messageview" id="messageview"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Focus</h1>
+	</div>
+	<p>Adium provides indication when a new message has been received in a <a href="Messaging-GroupChat.html">group chat</a> after your tab/window lost focus. Primarily it does so by displaying a red line in the scrollbar (not customizable) but Adium also provides a way for message styles to apply custom styling to messages that were received while focus was lost.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Scrollbar indicators</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>When the window or tab loses focus, a red line is added.</li>
+				<li>You can access the "Jump to Previous Mark", "Jump to Next Mark" and "Jump to Focus Mark" by right-clicking the scroll bar, or from the Display menu.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>In-chat indicators</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium allows message styles to provide their own, in-chat indicators for focus. Whether or not a message style provides it's own in-chat indication of messages received while focus is lost is up to the message style author.</p>
+			<p>There are two varieties of indications available in message styles: indicating the first message received while focus was lost, or indicating each message received while focus was lost. Or both. The message styles bundled with 1.4 (or newer) work like this:</p>
+			<ul>
+				<li>First: Smooth Operator.</li>
+				<li>Each: Gone Dark, minimal_mod, Mockie, Stockholm, yMous</li>
+				<li>Combined: Renkoo</li>
+			</ul>
+			<p>Each message style bundled with 1.4 (or newer) provides a different, style-integrated focus indicator.</p>
+			<ul>
+				<li>Gone Dark uses a background "screen" behind each message received while focus was lost.</li>
+				<li>minimal_mod uses faint grey vertical stripes (extensions of the per-message separators) behind each message received while focus was lost.</li>
+				<li>Mockie uses grey "◦" in the margin (may be left or right) next to each message received while focus was lost.</li>
+				<li>Renkoo uses "+" after the timestamp for each message that arrived while focus was lost a colored background and also uses a "+" with a colored background (matches variant color) after the timestamp for the first message received while focus was lost.</li>
+				<li>Smooth Operator uses a down arrow in the margin to the right of the first message received while focus was lost (matches text color).</li>
+				<li>Stockholm uses a colored capsule at the right edge of each message received while focus was lost.</li>
+				<li>yMous uses a vertical line at the left edge of the chat window for each message received while focus was lost.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Potential for confusion</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>Focus indication (both scrollbar and in-chat) is not removed until the chat window loses focus, and there is no explicit indication for "focus regained".</li>
+				<li>Using styles that provides only an in-chat indicator for the first message received while focus was lost, the presence of a firstFocus indicator does not mean that every following message was received while focus was lost.</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

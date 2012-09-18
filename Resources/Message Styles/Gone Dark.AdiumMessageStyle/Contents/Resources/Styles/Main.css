@@ -1,0 +1,202 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+#Chat
+{
+	overflow: hidden;
+	padding-top: 4px;
+	margin-bottom: 0px;
+}
+
+#topic
+{
+	opacity: 1;
+	-webkit-transition: opacity .1s linear;
+}
+
+#topic:hover
+{
+	opacity: .1;
+}
+
+#x-header
+{
+	display: block;
+	height: 45px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+}
+
+#topic #x-header
+{
+	height: inherit;
+	background: none;
+}
+
+#topic #topicEdit
+{
+	-webkit-background-size: 100% 100%;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	line-height: 1.3em;
+}
+
+#x-headerImage
+{
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	left: 20px;
+	top: 4px;
+	padding: 3px;
+	float: left;
+	-webkit-border-radius: 4px;
+}
+
+#x-headerImage img
+{
+	width: 32px;
+	height: 32px;
+}
+
+#x-headerChatStarted
+{
+	font-size: 10px;
+	position: absolute;
+	left: 68px;
+	top: 6px;
+}
+
+#x-headerChatStarted .x-chatname
+{
+	font-size: 19px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+#x-headerSpace
+{
+	height: 50px;
+}
+
+.x-userName
+{
+	font-size: 1.4em;
+	font-weight: bold;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: -3px;
+}
+
+.x-service
+{
+	position: absolute;
+	right: 20px;
+	margin-top: .5em;
+	font-size: .8em;
+}
+
+.x-content
+{
+	line-height: 1.3em;
+	word-wrap: break-word;
+}
+
+.x-message1 a
+{
+	text-decoration: underline;
+}
+
+.x-contentText
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+.x-divider
+{
+	margin-bottom -1px;
+}
+
+.x-date
+{
+	float: right;
+	font-size: .9em;
+	margin-right: 20px;
+	padding-top: 6px;
+	padding-left: 6px;
+}
+
+.x-message2 a
+{
+	text-decoration: underline;
+}
+
+.x-status
+{
+	text-align: center;
+	padding-top: 4px;
+	padding-bottom: .3em;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: .9em;
+	font-weight: bold;
+}
+
+.x-context
+{
+	opacity: .6;
+}
+
+img.scaledToFitImage
+{
+	width:auto;
+}
+
+.focus .focus
+{
+	background-color: none;
+}
+
+.history.x-status
+{
+	opacity: .6;
+}
+
+#Chat > div:last-of-type
+{
+	padding-bottom: 15px;
+}
+
+.message:not(.x-divider)
+{
+	padding-bottom: 9px;
+}
+
+.x-status + .x-status
+{
+	padding-top: 0px;
+}
+
+.mention .x-content
+{
+	-webkit-background-size: 36px 100%, 36px 100%, 100% 100%;
+}
+
+.mention.x-context
+{
+	opacity: .7;
+}

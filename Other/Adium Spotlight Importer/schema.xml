@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<schema version="1.0" xmlns="http://www.apple.com/metadata"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.apple.com/metadata file:///System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Resources/MetadataSchema.xsd">
+    <note>
+        Custom attributes that this metadata importer supports.  Below
+	is an example of a multivalued string attribute.  Other types
+	are CFNumber, CFDate, CFBoolean and CFData.		      
+    </note>
+    <attributes>
+        <attribute name="com_adiumX_chatSource" multivalued="false" type="CFString"/>
+        <attribute name="com_adiumX_chatDestination" multivalued="false" type="CFString"/>
+        <attribute name="com_adiumX_chatDestinations" multivalued="true" type="CFString"/>		
+        <attribute name="com_adiumX_service" multivalued="false" type="CFString"/>
+    </attributes>
+
+    <types>
+        <type name="com.adiumx.xmllog">
+            <note>
+		The keys that this metadata importer handles.
+            </note>
+            <allattrs>
+	    com_adiumX_chatSource
+		com_adiumX_chatDestinations
+		com_adiumX_service
+            </allattrs>
+            <displayattrs>
+	    com_adiumX_chatSource
+		com_adiumX_chatDestinations
+		com_adiumX_service
+            </displayattrs>
+        </type>
+		
+		<type name="com.adiumx.htmllog">
+            <note>
+		The keys that this metadata importer handles.
+            </note>
+            <allattrs>
+			com_adiumX_chatSource
+			com_adiumX_chatDestination
+			com_adiumX_service
+            </allattrs>
+            <displayattrs>
+			com_adiumX_chatSource
+			com_adiumX_chatDestination
+			com_adiumX_service
+            </displayattrs>
+        </type>
+
+    </types>
+</schema>
+

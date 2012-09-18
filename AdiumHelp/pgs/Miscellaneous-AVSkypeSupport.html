@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="audio, video, voice, webcam, skype" />
+<meta name="description" content="Audio/Video Chat and Skype Support" />
+<title>Audio/video chat and Skype support</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Audio/video chat and Skype support</h1>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Audio and video chat support</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Adium currently does not support Audio Chatting or Video Conferencing. Adium's developers understand that these are highly demanded additions to Adium and may incorporate these at some point in the future.</p>
+	<p>See an <a href="http://adium.im/blog/2009/08/pidgin-2-6-0-and-adium-vv/">Adium blog post on this subject</a> from August 2009.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Skype support</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Yes and no.</p>
+			<p>Yes: The third-party <a href="http://xtras.adium.im/index.php?a=xtras&amp;xtra_id=5011">Skype Plugin</a> allows Adium to use the <a class="ext_link" href="https://developer.skype.com/Docs/ApiDoc">Skype API</a> to display your Skype contacts within Adium and let you chat with them via text-based instant messaging. By the nature of the Skype API, it requires that the Skype program be installed and running.</p>
+			<p>No: It's not supported natively within Adium (i.e., without a plugin). The library that we use to support most protocols, <a href="http://trac.adium.im/wiki/LibPurple">libpurple</a>, doesn't support Skype at all right now, not even for chat. Until it does Adium most likely won't, either.</p>
+			<p>Keep in mind that Skype is a proprietary, closed protocol, so it must be reverse-engineered before third-party clients like Pidgin and Adium can use it. Protocols like OSCAR (which AIM and ICQ are based on) and MSN have already been reverse-engineered, but they're much older than Skype, and reverse-engineering is hard. It will take a long time and won't happen at all unless someone chooses to take interest in it and dedicate significant time to the effort.</p>
+			<p><strong>What about the Skype API?</strong></p>
+			<p>Using the Skype API, as the Skype Plugin does, means that Skype must be running. We don't accept piggybacking on the official client as a substitute.</p>
+			<p><strong>What about SkypeKit?</strong></p>
+			<p>The SkypeKit SDK is not licensed to be used in any open-source software, such as Adium and so needs to be rewritten. <a class="ext_link" href="http://adiumxtras.com/index.php?a=xtras&xtra_id=5011">SkypeKit</a> also needs a skypekit-client program to be running in the background, so it puts us in the same boat as using the Skype API.</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

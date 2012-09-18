@@ -1,0 +1,36 @@
+--- src/srvc_place.c	2005-11-21 10:30:46.000000000 -0800
++++ src/srvc_place.c	2012-08-15 09:07:37.000000000 -0700
+@@ -165,6 +165,7 @@
+   guint16 login_type;
+   guint32 unknown_a;
+   guint32 unknown_b;
++  char *extraname;
+ };
+ 
+ 
+@@ -189,6 +190,7 @@
+   mwIdBlock_clear(&p->idb);
+   g_free(p->login_id);
+   g_free(p->name);
++  g_free(p->extraname);
+   g_free(p);
+ }
+ 
+@@ -394,6 +396,8 @@
+   guint16_get(b, &pm->login_type);
+   guint32_get(b, &pm->unknown_a);
+   guint32_get(b, &pm->unknown_b);
++  //TODO: Since the Notes upgrade, an extra name string is sent to recv_SECTION_LIST(). It might be sent here,
++  //      but since we're only parsing one user, it probably doesn't matter here.
+ 
+   PUT_MEMBER(place, pm);
+   if(srvc->handler && srvc->handler->peerJoined)
+@@ -544,6 +548,7 @@
+     guint16_get(b, &m->login_type);
+     guint32_get(b, &m->unknown_a);
+     guint32_get(b, &m->unknown_b);
++    mwString_get(b, &m->extraname); //new in Notes upgrade, the name appears again at the end now
+ 
+     PUT_MEMBER(place, m);
+   }
+

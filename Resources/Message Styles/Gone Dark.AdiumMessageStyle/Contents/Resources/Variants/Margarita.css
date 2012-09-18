@@ -1,0 +1,56 @@
+@import url("../Styles/Polarized.css");
+
+body
+{
+	background: url("../images/backgroundMargarita.jpg") repeat-y center top #fff fixed;
+}
+
+#x-headerImage
+{
+	background: rgba(122, 170, 18, 1);
+}
+
+#x-headerChatStarted .x-chatname,
+.x-message1 .x-userName,
+.x-message1 .x-date,
+.x-message1 a
+{
+	color: rgba(122, 170, 18, 1);
+}
+
+.x-message1 a:hover
+{
+	color: rgba(92, 140, 0, 1);
+}
+
+.x-content
+{
+	border-top: 3px solid rgba(122, 170, 18, 1);
+	border-bottom: 1px solid rgba(122, 170, 18, 1);
+}
+
+.x-message2 .x-userName,
+.x-message2 .x-date,
+.x-message2 a
+{
+	color: rgba(139, 139, 0, 1);
+}
+
+.x-message2 a:hover
+{
+	color: rgba(109, 109, 0, 1);
+}
+
+.x-message2 .x-content
+{
+	border-top: 3px solid rgba(139, 139, 0, 1);
+	border-bottom: 1px solid rgba(139, 139, 0, 1);
+}
+
+.mention .x-content
+{
+	background:
+		-webkit-gradient(linear, left top, right top, from(rgba(122, 170, 18, .4)), to(rgba(255, 255, 255, .4))) no-repeat,
+		-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, .4)), to(rgba(122, 170, 18, .4))) no-repeat right top,
+		-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 1)), to(rgba(255, 255, 255, 1))) left top;
+}
