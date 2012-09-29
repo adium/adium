@@ -79,6 +79,7 @@ void update_security_details_for_chat(AIChat *chat);
 void send_default_query_to_chat(AIChat *inChat);
 void disconnect_from_chat(AIChat *inChat);
 void disconnect_from_context(ConnContext *context);
+static OtrlMessageAppOps ui_ops;
 TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 
 - (id)init
@@ -528,45 +529,6 @@ static int display_otr_message(const char *accountname, const char *protocol,
 	return 0;
 }
 
-/* Display a notification message for a particular accountname /
- * protocol / username conversation. */
-static void notify_cb(void *opdata, OtrlNotifyLevel level,
-					  const char *accountname, const char *protocol, const char *username,
-					  const char *title, const char *primary, const char *secondary)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIListContact	*listContact = contactFromInfo(accountname, protocol, username);
-	NSString		*displayName = listContact.displayName;
-
-	[adiumOTREncryption notifyWithTitle:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:title]
-																   withUsername:displayName
-														 isWorthOpeningANewChat:NULL]
-								primary:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:primary]
-																   withUsername:displayName
-														 isWorthOpeningANewChat:NULL]
-							  secondary:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:secondary]
-																   withUsername:displayName
-																 isWorthOpeningANewChat:NULL]];
-	[pool release];
-}
-
-/* Display an OTR control message for a particular accountname /
- * protocol / username conversation.  Return 0 if you are able to
- * successfully display it.  If you return non-0 (or if this
- * function is NULL), the control message will be displayed inline,
- * as a received message, or else by using the above notify()
- * callback. */
-static int display_otr_message_cb(void *opdata, const char *accountname,
-								  const char *protocol, const char *username, const char *msg)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	int ret = display_otr_message(accountname, protocol, username, msg);
-	
-	[pool release];
-	
-	return ret;
-}
-
 /* When the list of ConnContexts changes (including a change in
  * state), this is called so the UI can be updated. */
 static void update_context_list_cb(void *opdata)
@@ -596,25 +558,6 @@ static void account_display_name_free_cb(void *opdata, const char *account_displ
 {
 	if (account_display_name)
 		free((char *)account_display_name);
-}
-
-/* Return a newly allocated string containing a human-friendly name
- * for the given protocol id */
-static const char *protocol_name_cb(void *opdata, const char *protocol)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	const char *ret = strdup([[serviceFromServiceID(protocol) shortDescription] UTF8String]);
-	
-	[pool release];
-	
-	return ret;
-}
-
-/* Deallocate a string allocated by protocol_name */
-static void protocol_name_free_cb(void *opdata, const char *protocol_name)
-{
-	if (protocol_name)
-		free((char *)protocol_name);
 }
 
 
@@ -685,16 +628,6 @@ static void still_secure_cb(void *opdata, ConnContext *context, int is_reply)
 	[pool release];
 }
 
-/* Log a message.  The passed message will end in "\n". */
-static void log_message_cb(void *opdata, const char *message)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    AILog(@"otr: %s", (message ? message : "(null)"));
-	
-	[pool release];
-}
-
 /*!
  * @brief Find the maximum message size supported by this protocol.
  *
@@ -735,6 +668,67 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	return ret;
 }
 
+static const char *error_message_cb(void *opdata, ConnContext *context, OtrlErrorCode err_code)
+{
+	NSString *errorMessage = nil;
+	
+	switch (err_code) {
+		case OTRL_ERRCODE_ENCRYPTION_ERROR:
+			errorMessage = AILocalizedStringFromTableInBundle(@"An error occured while encrypting a message", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
+			break;
+		case OTRL_ERRCODE_MSG_NOT_IN_PRIVATE:
+			errorMessage = AILocalizedStringFromTableInBundle(@"Sent encrypted message to somebody who is not in a mutual OTR session", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
+		case OTRL_ERRCODE_MSG_UNREADABLE:
+			errorMessage = AILocalizedStringFromTableInBundle(@"Sent an unreadable encrypted message", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
+		case OTRL_ERRCODE_MSG_MALFORMED:
+			errorMessage = AILocalizedStringFromTableInBundle(@"Message sent is malformed", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
+			
+		default:
+			return NULL;
+	}
+	
+	const char *message_str = strdup([errorMessage UTF8String]);
+	
+	return message_str;
+}
+
+static void error_message_free_cb(void *opdata, const char *err_msg)
+{
+	free((char *)err_msg);
+}
+
+static const char *resent_msg_prefix_cb(void *opdata, ConnContext *context)
+{
+	const char *prefix_str = strdup([AILocalizedStringFromTableInBundle(@"[resent]", @"Prefix used by OTR for resent messages", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil) UTF8String]);
+	
+	return prefix_str;
+}
+
+static void resent_msg_prefix_free_cb(void *opdata, const char *prefix)
+{
+	free((char *)prefix);
+}
+
+static void timer_control_cb(void *opdata, unsigned int interval) {
+	static dispatch_source_t timer = NULL;
+	
+	if (!timer && interval > 0) {
+		timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+		dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC), interval * NSEC_PER_SEC, NSEC_PER_MSEC);
+		
+		dispatch_source_set_event_handler(timer, ^{
+			otrl_message_poll(otrg_plugin_userstate, &ui_ops, opdata);
+		});
+		
+		dispatch_resume(timer);
+	}
+	if (timer && interval == 0) {
+		dispatch_source_cancel(timer);
+		dispatch_release(timer);
+		timer = NULL;
+	}
+}
+
 static OtrlMessageAppOps ui_ops = {
     policy_cb,
     create_privkey_cb,
@@ -750,16 +744,16 @@ static OtrlMessageAppOps ui_ops = {
 	account_display_name_cb,
 	account_display_name_free_cb,
 	NULL,
+	error_message_cb,
+	error_message_free_cb,
+	resent_msg_prefix_cb,
+	resent_msg_prefix_free_cb,
 	NULL,
 	NULL,
 	NULL,
 	NULL,
 	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
+	timer_control_cb,
 };
 
 #pragma mark -
