@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+#################################
+# This script copies nibs of a given language ($1)
+# from a complete Adium.app to the appropriate places in
+# ~/adium
+#
+# Yes, it's ghetto and could be much more flexible.
+#
+# It depends upon the nibCopy script
+#################################
+#
+# The current directory MUST be the Adium app bundle (e.g. Adium.app)
+#################################
+#
+pushd Contents
+
+pushd Resources/$1.lproj
+nibCopy ~/adium/Resources/$1.lproj
+popd
+
+pushd Frameworks
+pushd Adium.framework/Resources/$1.lproj
+nibCopy ~/adium/Frameworks/Adium\ Framework/Resources/$1.lproj
+popd
+pushd AIUtilities.framework/Resources/$1.lproj
+nibCopy ~/adium/Frameworks/AIUtilities\ Framework/Resources/$1.lproj
+popd
+popd
+
+pushd PlugIns
+pushd Gaim.AdiumPlugin/Contents/Frameworks/AdiumLibgaim.framework/Resources/$1.lproj
+nibCopy ~/adium/Plugins/Gaim\ Service/$1.lproj
+popd
+pushd WebKit\ Message\ View.AdiumPlugin/Contents/Resources/$1.lproj
+nibCopy ~/adium/Plugins/WebKit\ Message\ View/$1.proj
+popd
+popd
+
+popd
+
+

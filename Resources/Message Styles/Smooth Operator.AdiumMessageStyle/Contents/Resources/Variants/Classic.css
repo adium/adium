@@ -1,0 +1,544 @@
+@charset "utf-8";
+
+body
+{
+	margin: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(149, 175, 219, 1)), to(rgba(255, 255 ,255, 1))) fixed repeat-x;
+	-webkit-background-size: auto;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	padding: 8px;
+	padding-bottom: 10px;
+}
+
+#Chat div:first-child
+{
+	margin-top: 2px;
+}
+
+.firstFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b07";
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.firstFocus.message:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -8px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b07";
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -24px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.regainedFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.lastFocus > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\2b06";
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.message:not(.consecutive),
+.status:not(.consecutive),
+.event:not(.consecutive)
+{
+	margin-right: 10px;
+	margin-top: 10px;
+	padding-top: 6px;
+	padding-bottom: 4px;
+	padding-right: 5px;
+	-webkit-border-radius: 5px;
+	min-width: 7em;
+}
+
+.message:not(.consecutive)
+{
+	color: rgba(64, 64, 64, 1);
+	-webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, .4);
+	min-height: 30px;
+}
+
+.status:not(.consecutive),
+.event:not(.consecutive)
+{
+	margin-left: 36px;
+	color: rgba(244, 244, 244, 1);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(64, 64, 64, 1)));
+	-webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, .5);
+	padding-left: 12px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.history.status:not(.consecutive),
+.history.event:not(.consecutive)
+{
+	color: rgba(244, 244, 244, .75);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 112, 112, .625)), to(rgba(48, 48, 48, .625)));
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .4);
+}
+
+.message img.x-icon
+{
+	max-width: 32px;
+	max-height: 32px;
+	z-index: 99;
+	margin-top: -2px;
+	position: absolute;
+	left: 12px;
+	-webkit-border-radius: 5px;
+	background: rgba(240, 240, 240, 1);
+}
+
+.history.message .x-icon
+{
+	opacity: .5;
+	background: rgba(240, 240, 240, .5);
+}
+
+.message.hideIcons img.x-icon,
+.IRC.message img.x-icon,
+.consecutive.message img.x-icon,
+.consecutive.message .x-sender,
+.message .x-iconmask
+{
+	display: none !important;
+}
+
+.message .x-wrap
+{
+	margin-left: 36px;
+	margin-top: -2px;
+	margin-bottom: -2px;
+	display: block;
+	padding-top: 2px;
+	padding-left: 12px;
+	padding-bottom: 5px;
+}
+
+.status .x-wrap,
+.event .x-wrap
+{
+	display: block;
+	padding-top: 0px;
+	padding-bottom: 1px;
+	margin-left: .18em;
+}
+
+.consecutive.message .x-wrap
+{
+	padding-top: 0px;
+}
+
+.consecutive.status .x-wrap,
+.consecutive.event .x-wrap
+{
+	padding-top: 5px;
+}
+
+.status.hideIcons,
+.event.hideIcons,
+.message.hideIcons .x-wrap,
+.IRC.status,
+.IRC.event,
+.IRC.message .x-wrap
+{
+	margin-left: 0px;
+}
+
+.incoming .x-sender
+{
+	color: rgba(168, 0, 40, 1);
+}
+
+.outgoing .x-sender
+{
+	color: rgba(0, 16, 144, 1);
+}
+
+.history.message.incoming .x-sender
+{
+	color: rgba(168, 0, 40, .5);
+}
+
+.history.message.outgoing .x-sender
+{
+	color: rgba(0, 16, 144, .5);
+}
+
+.x-sender
+{
+	font-weight: bold;
+	display: block;
+	padding-bottom: 3px;
+	margin-left: .18em;
+}
+
+.message.hideIcons .x-sender,
+.IRC.message .x-sender
+{
+	color: rgba(64, 64, 64, 1) !important;
+}
+
+.history.message.hideIcons .x-sender,
+.IRC.history.message .x-sender
+{
+	color: rgba(64, 64, 64, .5) !important;
+}
+
+.x-ltime
+{
+	display: none;
+}
+
+.x-rtime
+{
+	float: right;
+	color: rgba(184, 184, 184, 1);
+	font-size: .9em;
+	padding-left: 10px;
+	margin-top: .12em;
+}
+
+.message.history .x-rtime
+{
+	color: rgba(152, 152, 152, 1);
+}
+
+.message.x-hover .x-rtime,
+.message.history.x-hover .x-rtime
+{
+	color: rgba(120, 120, 120, 1);
+}
+
+.status .x-rtime,
+.event .x-rtime
+{
+	color: rgba(244, 244, 244, .75);
+}
+
+.message .x-mark
+{
+	font-size: 1.2em;
+	margin-left: -.74em;
+	margin-top: -.17em;
+	letter-spacing: -.2em;
+	font-family: Lucida Grande;
+	float: left;
+}
+
+.message .x-mark:before
+{
+	content: "\2023\2023";
+}
+
+.message:not(.history) .x-mark
+{
+	color: rgba(208, 208, 208, 1) !important;
+}
+
+.message.history .x-mark
+{
+	color: rgba(176, 176, 176, .5) !important;
+}
+
+.status .x-mark,
+.event .x-mark
+{
+	display: none;
+}
+
+.message.hideIcons .x-mark,
+.status.hideIcons .x-mark,
+.event.hideIcons .x-mark,
+.IRC .x-mark
+{
+	left: 10px;
+}
+
+.message .x-message
+{
+	display: block;
+	margin-left: .18em;
+}
+
+.status .x-message
+{
+	word-wrap: break-word;
+	padding-top: 20px;
+}
+
+.message.history.x-hover .x-message
+{
+	color: rgba(112, 112, 112, 1);
+}
+
+.message.history .x-message
+{
+	color: rgba(136, 136, 136, 1);
+}
+
+img.emoticon
+{
+	vertical-align: top;
+}
+
+.history img.emoticon
+{
+	opacity: .4;
+}
+
+a,
+a:link
+{
+	color: inherit;
+	text-decoration: underline;
+}
+
+a:hover
+{
+	border-bottom: 1px solid;
+}
+
+a:active
+{
+	border-bottom: 2px solid;
+}
+
+img.fullSizeImage
+{
+	width: auto;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+	max-height: 10px;
+}
+
+.message.mention .x-message:before
+{
+	position: absolute;
+	margin-top: -1px;
+	font-family: AppleGothic;
+	content: "\23af";
+	right: 4px;
+	font-size: 12px;
+	content: "\2605";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.history.message.mention .x-message:before
+{
+	position: absolute;
+	margin-top: -1px;
+	font-family: AppleGothic;
+	content: "\23af";
+	right: 4px;
+	font-size: 12px;
+	content: "\2605";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+	opacity: .5;
+}
+
+.message.hideIcons .x-color,
+.IRC.message .x-color
+{
+	display: block;
+	width: 5px;
+	height: 18px;
+	position: absolute;
+	left: 12px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	z-index: 99;
+	margin-top: -2px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .75)), to(rgba(255, 255, 255, .25)));
+}
+
+.history.message .x-color
+{
+	opacity: .5;
+}
+
+.status .x-color,
+.event .x-color,
+.consecutive .x-color
+{
+	display: none !important;
+}
+
+.message.showIcons:not(.IRC) .x-color[src*="buddy_icon.png"]
+{
+	display: block;
+	width: 32px;
+	height: 32px;
+	-webkit-border-radius: 5px;
+	position: absolute;
+	left: 12px;
+	z-index: 99;
+	margin-top: -2px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25)));
+	-webkit-mask-box-image: url(../adiumy-mask.png);
+}
+
+.message
+{
+	background: none !important;
+}
+
+.message:not(.consecutive)
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) !important;
+}
+
+.message:not(.consecutive).x-hover
+{
+	background: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 255, 255, 1)), to(rgba(240, 240, 240, 1))) !important;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, .4);
+}
+
+.message:not(.consecutive).history
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(232, 232, 232, .75)), to(rgba(208, 208, 208, .75))) !important;
+}
+
+.message:not(.consecutive).history.x-hover
+{
+	background: -webkit-gradient(linear, left bottom, left top, from(rgba(232, 232, 232, .75)), to(rgba(208, 208, 208, .75))) !important;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, .4);
+}
+
+/* header */
+
+#x-wrap
+{
+	-webkit-box-shadow: 0px 4px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(149, 175, 219, 1), -8px -8px 8px rgba(149, 175, 219, 1), -8px 16px 16px rgba(163, 185, 223, 1), 8px 16px 16px rgba(163, 185, 223, 1) !important;
+}
+
+#x-header .x-iconmask
+{
+	height: 48px !important;
+	width: 48px !important;
+	top: 4px !important;
+}
+
+#x-header img.x-icon
+{
+	position: absolute;
+	background: rgba(240, 240, 240, 1);
+	-webkit-border-radius: 5px !important;
+	width: 48px !important;
+	min-width: 48px !important;
+	height: 48px !important;
+	min-height: 48px !important;
+	top: 4px !important;
+}
+
+#x-header .x-icon.x-incoming
+{
+	left: 4px !important;
+}
+
+#x-header .x-icon.x-outgoing
+{
+	right: 4px !important;
+}
+
+#x-header .x-sender.x-incoming {
+	left: 56px !important;
+	color: rgba(168, 0, 40, 1);
+}
+
+#x-header .x-sender.x-outgoing {
+	right: 56px !important;
+	color: rgba(0, 16, 144, 1);
+}
+
+#x-wrap .x-iconmask,
+#x-wrap:not(.IRC) .x-color
+{
+	display: none !important;
+}
+
+#x-wrap.IRC img.x-icon,
+#x-wrap.IRC .x-iconmask
+{
+	display: none;
+}
+
+#x-wrap.IRC .x-sender.x-incoming
+{
+	left: 8px !important;
+}
+
+#x-wrap.IRC .x-sender.x-outgoing
+{
+	right: 8px !important;
+}
+
+#x-wrap.IRC .x-color.x-incoming
+{
+	left: 0px !important;
+	-webkit-border-top-left-radius: 5px !important;
+	-webkit-border-bottom-left-radius: 5px !important;
+}
+
+#x-wrap.IRC .x-color.x-outgoing
+{
+	right: 0px !important;
+	-webkit-border-top-right-radius: 5px !important;
+	-webkit-border-bottom-right-radius: 5px !important;
+}

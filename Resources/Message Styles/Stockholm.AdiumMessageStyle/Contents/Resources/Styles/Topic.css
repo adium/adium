@@ -1,0 +1,56 @@
+#topic
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	padding-top: .4em;
+	padding-bottom: .6em;
+	white-space: nowrap;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 95%, 1)), to(hsla(0, 0%, 95%, 1))) left top no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 60%, 1)), to(hsla(0, 0%, 60%, 1))) left bottom no-repeat,
+
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, 1)), to(hsla(0, 0%, 80%, 1))) left top no-repeat;
+	-webkit-background-size:
+		100% 1px,
+		100% 1px,
+
+		100% 100%;
+	z-index: 999;
+}
+
+#topic:hover
+{
+	max-height: 100%;
+	white-space: normal;
+}
+
+#topic #topicEdit
+{
+	padding-right: 6px;
+	padding-left: 6px;
+	display: block;
+	font-weight: bold;
+	color: black;
+	text-shadow: rgba(255, 255, 255, 1) 0px 1px 1px;
+	font-size: 1em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#topic:hover
+{
+	max-height: 100%;
+	white-space: normal;
+}
+
+#topic:hover #topicEdit
+{
+	min-height: 1em;
+}
+
+#topic #topicEdit a
+{
+	color: dark grey;
+}

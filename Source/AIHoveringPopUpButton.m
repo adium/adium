@@ -1,0 +1,306 @@
+/* 
+ * Adium is the legal property of its developers, whose names are listed in the copyright file included
+ * with this source distribution.
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+#import "AIHoveringPopUpButton.h"
+#import "AIHoveringPopUpButtonCell.h"
+
+@interface AIHoveringPopUpButton ()
+- (void)frameDidChange:(NSNotification *)inNotification;
+@end
+
+@implementation AIHoveringPopUpButton
+
++ (void)initialize {
+	if (self == [AIHoveringPopUpButton class])
+		[self setCellClass:[AIHoveringPopUpButtonCell class]];
+}
+
+- (void)initHoveringPopUpButton
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(frameDidChange:)
+												 name:NSViewFrameDidChangeNotification
+											   object:self];
+	[self setPostsFrameChangedNotifications:YES];
+
+	trackingTag = -1;
+	[self resetCursorRects];
+
+	highlightOnHoverAndClick = YES;
+}
+
+- (id)initWithFrame:(NSRect)inFrame
+{
+	if ((self = [super initWithFrame:inFrame])) {
+		[self initHoveringPopUpButton];
+	}
+
+	return self;
+}
+
+- (void)awakeFromNib
+{
+	if ([[AIHoveringPopUpButton superclass] instancesRespondToSelector:@selector(awakeFromNib)]) {
+        [super awakeFromNib];
+	}
+
+	[self initHoveringPopUpButton];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	AIHoveringPopUpButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
+	
+	[newButton setMenu:[[[self menu] copy] autorelease]];
+	
+	return newButton;
+}
+
+//silly NSControl...
+- (void)setMenu:(NSMenu *)menu {
+	[super setMenu:menu];
+	[[self cell] setMenu:menu];
+}
+
+- (void)setDoubleAction:(SEL)inDoubleAction
+{
+	doubleAction = inDoubleAction;
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	if (trackingTag != -1) {
+		[self removeTrackingRect:trackingTag];
+		trackingTag = -1;
+	}
+	
+	[super dealloc];
+}
+
+//Mouse Tracking -------------------------------------------------------------------------------------------------------
+#pragma mark Mouse Tracking
+//Custom mouse down tracking to display our menu and highlight
+- (void)mouseDown:(NSEvent *)theEvent
+{
+	if (![self menu]) {
+		if (doubleAction && (([theEvent clickCount] % 2) == 0)) {
+			[[self target] performSelector:doubleAction
+								withObject:self];
+		} else {
+			[super mouseDown:theEvent];
+		}
+
+	} else {
+		if ([self isEnabled]) {
+			[self highlight:YES];
+				
+			[self setNeedsDisplay:YES];
+
+			//2 pt down, 1 pt to the left.
+			NSPoint point = [self convertPoint:[self bounds].origin toView:nil];
+			point.y -= NSHeight([self frame]) + 2;
+			point.x -= 1;
+			
+			NSEvent *event = [NSEvent mouseEventWithType:[theEvent type]
+												location:point
+										   modifierFlags:[theEvent modifierFlags]
+											   timestamp:[theEvent timestamp]
+											windowNumber:[[theEvent window] windowNumber]
+												 context:[theEvent context]
+											 eventNumber:[theEvent eventNumber]
+											  clickCount:[theEvent clickCount]
+												pressure:[theEvent pressure]];
+			[NSMenu popUpContextMenu:[self menu] withEvent:event forView:self];
+			
+			[self mouseUp:[[NSApplication sharedApplication] currentEvent]];
+		}
+	}
+}
+
+/*!
+ * @brief Only pass on a highlight message if we're highlighting on click or this is turning off a highlight
+ */
+- (void)highlight:(BOOL)inFlag
+{
+	if (!inFlag || highlightOnHoverAndClick) {
+		[super highlight:inFlag];
+	}
+}
+
+//Remove highlight on mouse up
+- (void)mouseUp:(NSEvent *)theEvent
+{
+	[self highlight:NO];
+	[super mouseUp:theEvent];
+}
+
+//Ignore dragging
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+	//Empty
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+	NSRect	myFrame = [self frame];
+	myFrame.size.width = [[self cell] trackingWidth];
+
+	if (NSPointInRect(aPoint, myFrame)) {
+		return [super hitTest:aPoint];
+	} else {
+		return nil;
+	}
+}
+
+/*!
+ * @brief Set the title
+ */
+- (void)setTitle:(NSString *)inTitle
+{
+	[[self cell] setTitle:inTitle];
+	[self setNeedsDisplay:YES];
+
+	[self resetCursorRects];
+}
+
+- (void)setFont:(NSFont *)inFont
+{
+	[[self cell] setFont:inFont];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)setImage:(NSImage *)inImage
+{
+	[[self cell] setImage:inImage];
+	[self setNeedsDisplay:YES];
+	
+	[self resetCursorRects];	
+}
+
+- (void)setHighlightOnHoverAndClick:(BOOL)inHighlightOnHoverAndClick
+{
+	highlightOnHoverAndClick = inHighlightOnHoverAndClick;
+	
+	//If we are not going to highlight, ensure we're not currently doing so
+	if (!highlightOnHoverAndClick) {
+		[[self cell] setHovered:NO animate:NO];
+		[self setNeedsDisplay:YES];
+	}
+}
+
+#pragma mark Tracking rects
+//Remove old tracking rects when we change superviews
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+	if (trackingTag != -1) {
+		[self removeTrackingRect:trackingTag];
+		trackingTag = -1;
+	}
+	
+	[super viewWillMoveToSuperview:newSuperview];
+}
+
+- (void)viewDidMoveToSuperview
+{
+	[super viewDidMoveToSuperview];
+	
+	[self resetCursorRects];
+}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+	if (trackingTag != -1) {
+		[self removeTrackingRect:trackingTag];
+		trackingTag = -1;
+	}
+	
+	[super viewWillMoveToWindow:newWindow];
+}
+
+- (void)viewDidMoveToWindow
+{
+	[super viewDidMoveToWindow];
+	
+	[self resetCursorRects];
+}
+
+- (void)frameDidChange:(NSNotification *)inNotification
+{
+	[self resetCursorRects];
+}
+
+- (NSRect)trackingRect
+{
+	return NSMakeRect(0, 0, [[self cell] trackingWidth], [self frame].size.height);
+}
+
+//Reset our cursor tracking
+- (void)resetCursorRects
+{
+	//Stop any existing tracking
+	if (trackingTag != -1) {
+		[self removeTrackingRect:trackingTag];
+		trackingTag = -1;
+	}
+	
+	//Add a tracking rect if our superview and window are ready
+	if ([self superview] && [self window]) {
+		NSRect	myFrame = [self frame];
+		NSRect	trackRect = [self trackingRect];
+		
+		if (trackRect.size.width > myFrame.size.width) {
+			trackRect.size.width = myFrame.size.width;
+		}
+
+		NSPoint	localPoint = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]]
+									   fromView:nil];
+		BOOL	mouseInside = NSPointInRect(localPoint, trackRect);
+
+		trackingTag = [self addTrackingRect:trackRect owner:self userData:nil assumeInside:mouseInside];
+		if (mouseInside) {
+			[self mouseEntered:nil];
+		} else {
+			[self mouseExited:nil];			
+		}
+	}
+}
+
+//Cursor entered our view
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+	if (highlightOnHoverAndClick && ![[self cell] hovered]) {
+		[[self cell] setHovered:YES animate:YES];
+		[self setNeedsDisplay:YES];
+	}
+
+	[super mouseEntered:theEvent];
+}
+
+
+//Cursor left our view
+- (void)mouseExited:(NSEvent *)theEvent
+{
+	if (highlightOnHoverAndClick && [[self cell] hovered]) {
+		[[self cell] setHovered:NO animate:YES];
+		[self setNeedsDisplay:YES];
+	}
+	
+	[super mouseExited:theEvent];
+}
+
+@end

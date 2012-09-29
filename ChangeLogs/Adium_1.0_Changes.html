@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Changes in Adium X 1.0</title>
+<meta content="application/xhtml+xml; charset=US-ASCII; format=fixed" http-equiv="Content-Type" />
+</head>
+<body>
+
+<h1 id="ChangesinAdiumX1.0">Changes in Adium X 1.0</h1>
+
+<h2 id="SelectedMajorChanges">Selected Major Changes</h2>
+<ul><li>Added global user profile and buddy icon settings. (Personal Preferences)</li>
+<li>General Account improvements. Accounts can now be disabled when not in in use, and friends can now sign on from your Adium without saving their information.</li>
+<li>Added an Xtras manager for better browsing and removing of Xtras.</li>
+<li>Major improvements in privacy settings.</li>
+<li>Improvements to the default look and feel of Adium.</li>
+<li>iTunes integration is much faster, and updates as soon as the song changes.</li>
+<li>Redesigned Chat Transcript (Log) Viewer</li>
+<li>Optional dock-like hiding of the contact list</li>
+<li>Requires Mac OS X 10.3.9 or later (Universal Binary)
+</li></ul>
+
+<h2 id="Xtras">Xtras</h2>
+<ul><li>A new Xtras Manager has been introduced (<a class="assigned ticket" href="http://trac.adiumx.com/ticket/1459" title="Xtras Manager (assigned)">#1459</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/539" title="Selecting a deleted Message Style in Preferences causes Adium to freeze (closed)">#539</a>)</li>
+<li>New default Xtras (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3134" title="Review included and default xtras and settings (closed)">#3134</a>):
+<ul><li>Stockholm (message view)</li>
+<li>Tokyo Train Station (soundset, now default) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1614" title="Find/Make a New Default Soundset (aka Default Soundset Isn't Pretty) (closed)">#1614</a>)</li>
+<li>iBubble (status icons) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1997" title="Add iBubble status icons (closed)">#1997</a>)</li>
+<li>Aqualicious (contact list)</li>
+<li>Chat Bubbles (status icons) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2084" title="Release chat bubbles as an Xtra (closed)">#2084</a>)
+</li></ul></li><li>Fixed the MSN sunglasses emoticon (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1579" title="sunglass emoticons to and from msn are wrong (closed)">#1579</a>)</li>
+<li>Improved the preview and menu for emoticons (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2522" title="Emoticon preview should take SSRIs (closed)">#2522</a>)</li>
+<li>Fixed installation location on case-sensitive file-systems (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2178" title="Plug-ins installed into the wrong directory on HFSX partitions. (closed)">#2178</a>)</li>
+<li>Updated Eclipse message style (<a class="reopened ticket" href="http://trac.adiumx.com/ticket/627" title="Selecting text at beginning of line auto-selects timestamp/previous line (reopened)">#627</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/729" title="Eclipse message view does not show content of away messages when buddy's  ... (closed)">#729</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/999" title="Odd username wrap in Eclipse message style (closed)">#999</a>)</li>
+<li>Resolved problem where "Show Headers" would crash Adium (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2473" title="Adium crashes when &#34;Show header&#34; is left checked in Messages preferences (closed)">#2473</a>)</li>
+<li>Implemented graceful upgrading of existing Xtras where possible (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3980" title="Upgrade code for new xtras/removed xtras (closed)">#3980</a>)
+</li></ul>
+
+<h2 id="Events">Events</h2>
+<ul><li>Dock icon now stops bouncing/flashing properly (<a class="closed ticket" href="http://trac.adiumx.com/ticket/205" title="dock icon won't stop bouncing (closed)">#205</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/269" title="Display Name Won't Stop Flashing (closed)">#269</a>)</li>
+<li>Added a Contact Requests Authorization global event (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2291" title="jabber authorization option (closed)">#2291</a>)</li>
+<li>Added preferences to control dock icon movement (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1707" title="Dock flapping/movement is questionable now (closed)">#1707</a>)</li>
+<li>Added preference to control Dock icon animation (flapping) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/541" title="Preference to control Dock icon animation for Events (closed)">#541</a>)</li>
+<li>Removed output device preference (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1442" title="Remove &#34;Play through device&#34; pref (closed)">#1442</a>)
+</li></ul>
+
+<h2 id="Privacy19">Privacy (<a class="closed ticket" href="http://trac.adiumx.com/ticket/19" title="Improve blocking and privacy setting support (closed)">#19</a>)</h2>
+<ul><li>Added Privacy Settings window, with more flexible blocking options (<a class="closed ticket" href="http://trac.adiumx.com/ticket/913" title="need a blocked/unblock list. checkboxes, etc. (closed)">#913</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/129" title="Block all users not on contact list (closed)">#129</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/920" title="Clean up blocking API (closed)">#920</a>)</li>
+<li>Displays a visual indication of blocked users (<a class="closed ticket" href="http://trac.adiumx.com/ticket/344" title="Need visual notification of blocked users (closed)">#344</a>)</li>
+<li>Block Contact Toolbar Item (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1117" title="Block Contact Toolbar Icon (closed)">#1117</a>)</li>
+<li>Fixed blocking a person on only one account when you had them listed on multiple accounts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2051" title="Blocking a user only blocks them on one account when signed into multiple  ... (closed)">#2051</a>)</li>
+<li>&#x2318;&#x2325;B is now a shortcut for block contact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3739" title="Add Command B or the like (closed)">#3739</a>)</li>
+<li>Closing the authorization request window will dismiss the request with no answer (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3479" title="Do not force users to respond to authorization requests (closed)">#3479</a>)
+</li></ul>
+
+<h2 id="UserInterface">User Interface</h2>
+<ul><li>Awesome new application icon and Preferences toolbar icons from Adam Betts</li>
+<li>Added integrated Help system</li>
+<li>Add Buddy button in the message window toolbar (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2" title="Add Buddy button (closed)">#2</a>)</li>
+<li>Disabled "New Chat" when offline (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2265" title="New Chat while offline causes crash (closed)">#2265</a>)</li>
+<li>Clarified "Add account" menu in Accounts prefs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/421" title="add accounts menu confuses novice users (closed)">#421</a>)</li>
+<li>Removed title from the About window (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3901" title="About window shouldn't have title (closed)">#3901</a>)</li>
+<li>Dialog box to authorize contacts now has the affirmative, not the negative, answer as the default button (<a class="closed ticket" href="http://trac.adiumx.com/ticket/112" title="Authorize dialog has incorrect button as default. (closed)">#112</a>)</li>
+<li>Confirm quit if file transfers or unread messages are present (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3087" title="Quit Dialogue If File Transfers Are Active (closed)">#3087</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2733" title="confirm quit (closed)">#2733</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4231" title="Option for confirmation on closing window when there's tabs open (closed)">#4231</a>)</li>
+<li>Fixed an odd flickering issue on several scrollbars (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2111" title="Away message entry -- scrollbar -- incorrect behavior (closed)">#2111</a>)</li>
+<li>Improved the contrast of text entry cursors with nonstandard background colors (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2262" title="Text Cursors in the Text Fields are not pleasant in invert (closed)">#2262</a>)</li>
+<li>Fixed the title of the Contact Info window for metacontacts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1055" title="(null) in Get Info window (closed)">#1055</a>)</li>
+<li>Alert boxes no longer steal keyboard focus (but do still come to the front so that you can read them) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/270" title="Error messages / Pop-up windows should not steal focus. (closed)">#270</a>)</li>
+<li>Added key commands like Safari's for switching tabs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/280" title="Create parity with Safari's tab switch keyboard commands (closed)">#280</a>)</li>
+<li>Made error messages non-gender-specific (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2623" title="Error message assumes sex of user. (closed)">#2623</a>)</li>
+<li>The background color for profiles can now be changed (<a class="closed ticket" href="http://trac.adiumx.com/ticket/922" title="color background in profile (closed)">#922</a>)</li>
+<li>Background colors can now be added and read in profiles and statuses.</li>
+<li>Improved the wording of the delete group dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2017" title="Re-word the &#34;Remove $group_name&#34; dialog (closed)">#2017</a>)</li>
+<li>Fixed an overlapping button (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2933" title="IM Chat Window Link Sheet Dialog (closed)">#2933</a>)</li>
+<li>Added more popcorn to the general preferences.</li>
+<li>Added a contextual menu for tabs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1595" title="right click to close tabs (closed)">#1595</a>)</li>
+<li>Added a contextual menu to make sandwiches tastier. for tabs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1595" title="right click to close tabs (closed)">#1595</a>)
+<ul><li>Clarified naming for Close Chat menu item (<a class="closed ticket" href="http://trac.adiumx.com/ticket/759" title="Renaming of Close / Close Chat (closed)">#759</a>)
+</li></ul></li><li>Showing an encryption fingerprint does not open multiple windows when clicked more than once (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2580" title="'Show Fingerprint...' should only launch one window (closed)">#2580</a>)</li>
+<li>Added global keystroke to activate Adium (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1958" title="Universal Keyboard Shortcut for &#34;Read Unread&#34; (closed)">#1958</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/3727" title="Global Keyboard Shortcut keys (closed)">#3727</a>)</li>
+<li>Added a "Show Offline Group" item to the View menu (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2366" title="Group Offline Contact in Seperate Offline Group (closed)">#2366</a>)</li>
+<li>Contact notes can now be cleared (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2398" title="&#34;Notes&#34; section of Get Info -&gt; Settings can not be &#34;erased&#34; (closed)">#2398</a>)</li>
+<li>Scroll bar in Info window sometimes didn't appear when it was supposed to (<a class="closed ticket" href="http://trac.adiumx.com/ticket/97" title="Get info window missing scroll bar (closed)">#97</a>)</li>
+<li>Reworded Send Later dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2278" title="Slight language change to Send Later dialog (closed)">#2278</a>)</li>
+<li>File transfer Window no longer requires AppleGothic font (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2300" title="Arrows in File Transfer Window require the AppleGothic font (closed)">#2300</a>)</li>
+<li>Corrected spelling of emoticon name "Sticking out tongue" (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3235" title="Typo in default emoticon (closed)">#3235</a>)</li>
+<li>Get Info on groups no longer shows Info or Accounts tabs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2788" title="Unnecessary tabs in the group info window (closed)">#2788</a>)</li>
+<li>Links with .eu in them now work (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2987" title=".eu TLD not recognized as valid (closed)">#2987</a>)</li>
+<li>Fixed a bug when setting buddy icon and getting incorrect size (<a class="closed ticket" href="http://trac.adiumx.com/ticket/793" title="does not set the correct image size for buddy pictures (closed)">#793</a>)</li>
+<li>When switching the active tab by clicking on a tab's icon, we now update the icon to the close icon, since that's what a second click will do (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2791" title="Tab icon doesn't update on tab switch (closed)">#2791</a>)</li>
+<li>Display Growl notifications when invited to a group chat (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3276" title="Growl notification for jabber groupchat invitations. (closed)">#3276</a>)</li>
+<li>The status window now works correctly on single and dual monitor systems (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3079" title="Status window: stretched / malformed on non-main dual-monitor (closed)">#3079</a></li>
+<li>Can now delete own buddy picture (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3325" title="cannot delete own buddy picture (closed)">#3325</a>)</li>
+<li>Status icons in the status window now update when you change the active status icon pack (<a class="closed ticket" href="http://trac.adiumx.com/ticket/4325" title="Current Status Window Updating Bug (closed)">#4325</a>)</li>
+<li>Improved keyboard support for Join Chat dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2853" title="keyboard navigation to &#34;account&#34; select box in &#34;join a chat&#34; (closed)">#2853</a>)
+</li></ul>
+
+<h2 id="Messages">Messages</h2>
+<ul><li>Resolved issue where the Mockie display truncated the protocol name (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2014" title="icq missing &#34;q&#34; in message view (closed)">#2014</a>)</li>
+<li>Message view window can now be transparent (<a class="closed ticket" href="http://trac.adiumx.com/ticket/131" title="message viewing window partially transparent (closed)">#131</a>)</li>
+<li>File transfer requests are now displayed inline in the message view. The exact appearance can be customized by the message style (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2197" title="Automatically accept files: file xfer popup and taking focus from the  ... (closed)">#2197</a>)</li>
+<li>Added support for Kopete additions to the message style format such as %senderColor%, %messageDirection%, and %senderStatusIcon% (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3132" title="Support Kopete additions to message style format (closed)">#3132</a>)</li>
+<li>Improved handling of /me (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1162" title="Incoming /me emotes don't work when sent from non-Adium clients. (closed)">#1162</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2920" title="Difference in /me rendering (closed)">#2920</a>)</li>
+<li>Improved automatic linking in messages (<a class="closed ticket" href="http://trac.adiumx.com/ticket/249" title="Overzealous URL-ification in 0.8svn (closed)">#249</a>)</li>
+<li>Added replacement tokens (aka keywords) for MSN display names (<a class="closed ticket" href="http://trac.adiumx.com/ticket/239" title="Keyword replacement to show MSN display name (closed)">#239</a>)</li>
+<li>Dragging and dropping .textClipping files into the message view now works (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1689" title="Adium does not paste content of .textClipping (closed)">#1689</a>)</li>
+<li>Fixed &#x2318;-keys for cursor movement in custom status window (<a class="closed ticket" href="http://trac.adiumx.com/ticket/255" title="Use standard cursor positioning keyboard shortcuts in custom status  ... (closed)">#255</a>)</li>
+<li>Fixed an issue for when a tab inside the message window wouldn't change width to represent a changed alias (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1056" title="tab doesn't change width when changing alias (closed)">#1056</a>) </li>
+<li>Improved support for the Webdings font in messages (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3048" title="symbol fix still not working in .89 (closed)">#3048</a>)</li>
+<li>Direct-IM images may now be scaled firefox-style by the message style</li>
+<li>XHTML styles now accepted from incoming messages (<a class="closed ticket" href="http://trac.adiumx.com/ticket/440" title="font color bug when using jabber (closed)">#440</a>)</li>
+<li>Message view windows won't reopen doubly when an incoming message is received at the exact moment of the close attempt (<a class="closed ticket" href="http://trac.adiumx.com/ticket/460" title="Message Window Reopens When Closing It During Incoming Message (closed)">#460</a>)</li>
+<li>Buddy icons displayed in the message view now update when changed (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3440" title="message windows header image wont update if user changes picture (closed)">#3440</a>)</li>
+<li>"No icon" setting (<a class="closed ticket" href="http://trac.adiumx.com/ticket/483" title="disabling AIM account icons (closed)">#483</a>)</li>
+<li>Emoticon text equivalents are not expanded to emoticon images inside of URLs (e.g. the ":/" in "<a href="http://www.adiumx.com/">http://www.adiumx.com/</a>") (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2761" title="Emotion icon will display in a URL into one message (closed)">#2761</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/721" title="Smilies displaying mid-word (closed)">#721</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2634" title="Emoticons in status (French version) (closed)">#2634</a>)</li>
+<li>Now with 200% more cowbell</li>
+<li>Added client.debugLog() javascript function, logs messages to Console</li>
+<li>Template.html now uses the HTML4 strict doctype</li>
+<li>Images are now scaled down in the input area (<a class="closed ticket" href="http://trac.adiumx.com/ticket/611" title="Direct IM Image Thumbnails (closed)">#611</a>)</li>
+<li>Dragging &amp; dropping text or a URL onto a buddy in the contact list now sends the text or URL to the buddy (<a class="closed ticket" href="http://trac.adiumx.com/ticket/860" title="Allow drag and drop of text, URL's, and files onto contacts on contact  ... (closed)">#860</a>)</li>
+<li>We no longer auto-reply to messages sent while you were offline (<a class="closed ticket" href="http://trac.adiumx.com/ticket/4174" title="No auto-respond to messages sent while offline, please. (closed)">#4174</a>)</li>
+<li>A horizontal ellipsis after a link is now separated from the link (e.g. <a class="ext-link" href="http://www.adiumx.com"><span class="icon">http://www.adiumx.com</span></a>...) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1183" title="rendering of URL's fooled by trailing periods... (closed)">#1183</a>)</li>
+<li>Paste retains bold/italics/underline/font/size etc. but strips colors, alignment, images, etc. (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1740" title="Formatting does not get reset after dragging an article from NetNewsWire (closed)">#1740</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2880" title="Paste happy mediums: paste, paste with formatting, paste and match style (closed)">#2880</a>)</li>
+<li>Added a new paste item, Paste with Colors and Images, which does a traditional paste with rich text operation (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2880" title="Paste happy mediums: paste, paste with formatting, paste and match style (closed)">#2880</a>)</li>
+<li>Language for spelling checker is now remembered for each contact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2409" title="Sticky spellchecker language setting (closed)">#2409</a>)</li>
+<li>Fixed a bug where the contact and account pop-ups got cut out if the window is too small (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1015" title="From menu in message window for a meta-contact gets cut off when window  ... (closed)">#1015</a>)</li>
+<li>Dragged URLs from Safari and OmniWeb now appear with the window's title (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1739" title="Adium doesn't handle URLs from other applications consistantly (closed)">#1739</a>)</li>
+<li>Support messaging contacts not present on your contact list from any account (<a class="closed ticket" href="http://trac.adiumx.com/ticket/701" title="Can't send from multiple accounts to a buddy not in buddy list (closed)">#701</a>)</li>
+<li>Italics are no longer sticky (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2904" title="Italics is 'sticky' when it should not be (closed)">#2904</a>)</li>
+<li>Improved the Edit Link contextual menu item on 10.4 (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3169" title="Duplicate Edit Link item (closed)">#3169</a>)</li>
+<li>You can now paste a link into the inputline, without the URL being stripped (<a class="closed ticket" href="http://trac.adiumx.com/ticket/532" title="Can't paste links into an inputline (closed)">#532</a>)</li>
+<li>Improved handling of incorrectly made message styles
+</li></ul>
+
+<h2 id="ContactList">Contact List</h2>
+<ul><li>Fixed an issue that would cause the contact list to shrink (<a class="closed ticket" href="http://trac.adiumx.com/ticket/296" title="Contact list is shrunk... (closed)">#296</a>)</li>
+<li>Group names are now truncated in the middle (e.g. &ldquo;Adium users&rdquo;&rarr;&ldquo;Adiu&hellip;sers&rdquo;) rather than the end (e.g. &ldquo;Adium &hellip;&rdquo;) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2589" title="Group Name display will cut off information of available contacts in that  ... (closed)">#2589</a>)</li>
+<li>Add Buddy button in authorization dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2" title="Add Buddy button (closed)">#2</a>)</li>
+<li>Added a dock-like autohiding ability for the contact list (many tickets)</li>
+<li>The highlight color of the contact list is now customizable (<a class="closed ticket" href="http://trac.adiumx.com/ticket/102" title="Highlighting color of contact in Contact List is not customizable (closed)">#102</a>)</li>
+<li>Your buddy icon and display name can now be changed via the contact list (<a class="closed ticket" href="http://trac.adiumx.com/ticket/543" title="Changing own display picture made easier. (closed)">#543</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1701" title="More flexibility in changing User Icons on the fly (closed)">#1701</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2345" title="Seeing my own nickname (closed)">#2345</a>)</li>
+<li>Empty and new groups are now shown as intended (<a class="closed ticket" href="http://trac.adiumx.com/ticket/21" title="Improve behavior with showing empty groups (closed)">#21</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/26" title="Improve behavior with adding new groups (closed)">#26</a>)</li>
+<li>Offline contacts are now displayed by default (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1665" title="&#34;display of offline contacts&#34; has wrong default (closed)">#1665</a>)</li>
+<li>Buddy icons in the contact list are now slightly rounded (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3460" title="Rounded contact images (closed)">#3460</a>)</li>
+<li>File transfers can now be initiated by dragging folders/files onto a contact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1747" title="File transfer by drag and drop in the message window (closed)">#1747</a>)</li>
+<li>Made the scrollbar on the contact list narrower</li>
+<li>Fixed a bug where a custom buddy icon wasn't properly saved after quit (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1934" title="contact icons always revert to original after having been manually changed  ... (closed)">#1934</a>)</li>
+<li>Improved the appearance of dragging contacts on the contact list (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3232" title="Improve CL dragging visuals (closed)">#3232</a>)</li>
+<li>With no contacts online, borderless windows correctly hide themselves (<a class="closed ticket" href="http://trac.adiumx.com/ticket/296" title="Contact list is shrunk... (closed)">#296</a>)</li>
+<li>Increased the spacing for group bubbles styles (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2025" title="Max &#34;mockie spacing&#34; is too low (closed)">#2025</a>)</li>
+<li>Selection in the contact list is now maintained when the list changes (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2281" title="keep buddies selected (closed)">#2281</a>)</li>
+<li>You can now hide the display name, buddy icon, and status selection at the top of regular styles (<a class="closed ticket" href="http://trac.adiumx.com/ticket/450" title="Hide Status Menu In Contact List (closed)">#450</a>)</li>
+<li>Keyboard focus is no longer stolen when the contact list unhides (<a class="closed ticket" href="http://trac.adiumx.com/ticket/612" title="Contact list can steal focus when it unhides (closed)">#612</a>)</li>
+<li>Improved repositioning when the screen resolution changes (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2172" title="Improve contact list positioning when switching resolutions (closed)">#2172</a>)</li>
+<li>Contact list was off-screen in multiple-monitor configurations (<a class="closed ticket" href="http://trac.adiumx.com/ticket/93" title="Adium contact list is off screen in different multiple monitor setups (closed)">#93</a>)</li>
+<li>Fixed issue when showing offline contacts with auto-resize (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1080" title="Contact list Auto-resize issue (closed)">#1080</a>)</li>
+<li>Borderless contact list now closes if no contact are online (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1139" title="Contact List displays an empty, transparent frame when the last online  ... (closed)">#1139</a>)</li>
+<li>When moving a metacontact, all the contacts therein really do move now (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2077" title="Contacts may not actually move (closed)">#2077</a>)</li>
+<li>Fixed disappearance of the standard contact list on launch or immediately after opened when Adium was in the background (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2320" title="Contact List Disappears When Switching To Another App (closed)">#2320</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1995" title="buddy list doesn't appear until app is made active (closed)">#1995</a>)</li>
+<li>Adding a contact who is already in the contact list is now verboten (<a class="closed ticket" href="http://trac.adiumx.com/ticket/50" title="Adding contact that already exists (closed)">#50</a>)</li>
+<li>Fixed issue saving color opacity of theme colors (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3316" title="Themes: Color Opacity isn't saved (closed)">#3316</a>)</li>
+<li>Metacontacts no longer mess up contact list sorting (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3751" title="Combined contacts lead to broken contact list sort (closed)">#3751</a>)</li>
+<li>Corrected an issue that could cause status message not to be updated in the contact list (<a class="closed ticket" href="http://trac.adiumx.com/ticket/665" title="Status messages borked in buddy lists (closed)">#665</a>)</li>
+<li>Added ability to see yourself in the contact list (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2887" title="Own display name in Contact List (closed)">#2887</a>)</li>
+<li>Added a tooltip explaining that background images only work in the regular window and borderless (i.e. non-bubble) contact list styles (<a class="closed ticket" href="http://trac.adiumx.com/ticket/431" title="selecting a background image for contact list is ineffective in bubble  ... (closed)">#431</a>)</li>
+<li>Searching for contacts in the contact list is easier (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3163" title="Search for buddy in contact list (closed)">#3163</a>)</li>
+<li>Maximum contact list width now refers to the inside portion, not the entire window including scrollbars (<a class="closed ticket" href="http://trac.adiumx.com/ticket/640" title="Adium contact list scroll bar appearing within maximum width instead of  ... (closed)">#640</a>)
+</li></ul>
+
+<h2 id="Status">Status</h2>
+<ul><li>Resolved performance issues when adding or changing statuses (<a class="closed ticket" href="http://trac.adiumx.com/ticket/716" title="performance issues with &gt; 100 saved aways (closed)">#716</a>)</li>
+<li>Statuses can now be grouped in folders and sub-folders (<a class="closed ticket" href="http://trac.adiumx.com/ticket/101" title="Support for grouping away messages / states (closed)">#101</a>)</li>
+<li>Standard keyboard shortcuts in the custom status window (<a class="closed ticket" href="http://trac.adiumx.com/ticket/255" title="Use standard cursor positioning keyboard shortcuts in custom status  ... (closed)">#255</a>)</li>
+<li>Mute checkbox now works with all statuses (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2449" title="mute sounds checkbox in the status creation window (closed)">#2449</a>)</li>
+<li>Added the ability to mute by status, without using the status window (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1165" title="Mute sounds while not away. (closed)">#1165</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1738" title="Allow custom &#34;Mute while Away&#34; options per away message (closed)">#1738</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2509" title="Mute while busy and trouble with contact list (closed)">#2509</a>)</li>
+<li>Fixed auto-reconnection on wake (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1420" title="Adium doesn't wake up with my laptop (closed)">#1420</a>)</li>
+<li>Fixed a crash when returning from away (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2137" title="Adium 0.86 crashes when returning from away. (closed)">#2137</a>)</li>
+<li>The menu duck now indicates current status with a badge (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1445" title="EMD color changes based on status (closed)">#1445</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2015" title="&#34;Status Menu Item&#34; (menu extra) should be skinnable. (closed)">#2015</a>)</li>
+<li>Restored ability to keep the Away Status Window visible when Adium is in background; added other options (<a class="closed ticket" href="http://trac.adiumx.com/ticket/615" title="Always Show Status Window (closed)">#615</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/708" title="Away status window - Always-on-top missing (closed)">#708</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2118" title="Remove always-on-topness from Current Status window. (closed)">#2118</a>)</li>
+<li>Added ability to enable and disable accounts; disabled accounts won't automatically connect (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1415" title="Revisit account connectivity (closed)">#1415</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1641" title="Active/inactive accounts (closed)">#1641</a>)</li>
+<li>Sound for &ldquo;You connect&rdquo; now won't play again after &lt; 5 seconds since the previous time (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2915" title="Connection sound plays multiple times (closed)">#2915</a>)</li>
+<li>Fixed overlapping problem due to Apple Graphics update (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1522" title="Log Away Message causes overlap onto buddy list with new Apple Graphics  ... (closed)">#1522</a>)</li>
+<li>Added the ability to pick a random status (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3336" title="Away message preference to auto-rotate Away message (closed)">#3336</a>)</li>
+<li>Automatically set Idle status once the screensaver becomes active (<a class="closed ticket" href="http://trac.adiumx.com/ticket/577" title="[Request] Away Message when Screensaver is Active (closed)">#577</a>)
+</li></ul>
+
+<h2 id="Filetransfer">File transfer</h2>
+<ul><li>Folders are compressed automatically (<a class="closed ticket" href="http://trac.adiumx.com/ticket/86" title="auto compression of file transfers does not work (closed)">#86</a>)</li>
+<li>Automatically rename incoming files whose desired filename is already taken (<a class="closed ticket" href="http://trac.adiumx.com/ticket/734" title="Auto-name accepted incoming file transfers when a file of the same name  ... (closed)">#734</a>)
+</li></ul>
+
+<h2 id="iTunesIntegration">iTunes Integration</h2>
+<ul><li>Improved the speed of the iTunes integration (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2352" title="CPU Spiking (lookupd) (closed)">#2352</a>)</li>
+<li>Improved integration of iTunes with status settings</li>
+<li>Added an eighth note (&amp;#x266b;) which functions as an iTunes music store link in statuses.</li>
+<li>iTunes scripts no longer have an impact on CPU usage (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2352" title="CPU Spiking (lookupd) (closed)">#2352</a>)
+</li></ul>
+
+<h2 id="ChatTranscripts">Chat Transcripts</h2>
+<ul><li>Redesigned Chat Transcript Viewer (previously called Log Viewer) with grouping of combined contacts and better search capabilities</li>
+<li>New XML-based logging format (<a class="closed ticket" href="http://trac.adiumx.com/ticket/38" title="Log format and viewer rewrite (closed)">#38</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/13" title="Printing from the log viewer (closed)">#13</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/265" title="Log viewer does not support phrase searching (closed)">#265</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1224" title="Metacontacts log viewer enhancement (closed)">#1224</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4332" title="log viewer : bring back scroll bar to go up/down, or left/right in logs  ... (closed)">#4332</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4334" title="log viewer : the column on the right can't be resized. (closed)">#4334</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4271" title="log viewer : contacts column  :  light blue background and 1px separation  ... (closed)">#4271</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4272" title="log viewer : contacts column : need to redraw is as we resize it, not  ... (closed)">#4272</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4273" title="log viewer : contacts column : make it wider, because now we have to  ... (closed)">#4273</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4274" title="log viewer : contacts column : swap name and email (closed)">#4274</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4277" title="log viewer : contacts column : small icon (like a duck ? :-)) before the  ... (closed)">#4277</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4321" title="Log Viewer still crashes on 10.3 with 1.0 alphas (closed)">#4321</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4323" title="log viewer : can't customize toolbar (right click has no effect) (closed)">#4323</a>)</li>
+<li>Message history is now faster and draws directly from logs, rather than being stored separately</li>
+<li>Transcript Viewer now defaults to Context based searches
+</li></ul><p>
+ 
+</p>
+
+
+<h2 id="Misc">Misc</h2>
+<ul><li>Adium now only supports Mac OS X 10.3.9 and later.</li>
+<li>New software update system (SparklePlus, a version of Andy Matuschak's Sparkle modified by Tom Harrington)</li>
+<li>First-run Setup Assistant (<a class="closed ticket" href="http://trac.adiumx.com/ticket/9" title="Setup assistant (closed)">#9</a>)</li>
+<li>"Check spelling as you type" preference is saved (<a class="closed ticket" href="http://trac.adiumx.com/ticket/768" title="&#34;Check spelling as you type&#34; doesn't stick (closed)">#768</a>)</li>
+<li>Added the auto-linkification of the <a class="ext-link" href="notes://"><span class="icon">notes://</span></a> protocol (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3622" title="Add support for making URIs other than http[s]:// clickable (closed)">#3622</a>)</li>
+<li>Added tooltip to "-" button (removes a contact from the currently-viewed metacontact) (<a class="closed ticket" href="http://trac.adiumx.com/ticket/201" title="Meta-Contacts Draw Seperate button functionality unclear (closed)">#201</a>)</li>
+<li>Consulted the Vorlon</li>
+<li>"Contact Icon" toolbar item now updates when it should (<a class="closed ticket" href="http://trac.adiumx.com/ticket/230" title="'Contact Icon' button does not update often enough (closed)">#230</a>)</li>
+<li>Improved support for case-sensitive HFSX filesystems (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2178" title="Plug-ins installed into the wrong directory on HFSX partitions. (closed)">#2178</a>)</li>
+<li>Improved support for screen names with spaces in them (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2231" title="Screename Space Error (closed)">#2231</a>)</li>
+<li>Can now Get Info on contacts who aren't on your contact list (<a class="closed ticket" href="http://trac.adiumx.com/ticket/193" title="Get Info (closed)">#193</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2424" title="Cannot view AIM away messages or profiles without adding contact to buddy  ... (closed)">#2424</a>)</li>
+<li>Improved Insert Link From Safari to recognise other browsers (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1099" title="Insert Link from Safari should support choosing link if several web  ... (closed)">#1099</a>)</li>
+<li>Crash Reporter no longer submits crash reports if a newer version is available (<a class="closed ticket" href="http://trac.adiumx.com/ticket/65" title="Old versions suck (closed)">#65</a>)
+</li></ul>
+
+<h2 id="Dock">Dock</h2>
+<ul><li>The dock icon now has the preference to display the number of unviewed messages (<a class="reopened ticket" href="http://trac.adiumx.com/ticket/730" title="Dock icon badge (reopened)">#730</a>)</li>
+<li>Fixed a bug with dock icons not showing up (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3056" title="dock icons are not working in Adium .89 (closed)">#3056</a>)
+</li></ul>
+
+<h2 id="ProtocolAdditionsandFixes">Protocol Additions and Fixes</h2>
+<h3 id="AIMgenerallyincludes.MacandICQ">AIM (generally includes .Mac and ICQ)</h3>
+<ul><li>File Transfer improvements (<a class="closed ticket" href="http://trac.adiumx.com/ticket/4" title="AIM file transfer instability/not working (closed)">#4</a>)</li>
+<li>Direct Connect improvements</li>
+<li>Fixed an Address Book related rate limiting error (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1770" title="Rate Limiting Error when sending email via Apple Mail. (closed)">#1770</a>)</li>
+<li>Fixed sending circumflex accents over AIM (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1601" title="circumflex accent  (closed)">#1601</a>)</li>
+<li>Added support for group chat invitation messages</li>
+<li>Fixed sending group chat invitations to iChat (<a class="closed ticket" href="http://trac.adiumx.com/ticket/798" title="iChat doesn't get AIM group invites (closed)">#798</a>)</li>
+<li>Fixed "(null)" in Get Info when viewing a metacontact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1055" title="(null) in Get Info window (closed)">#1055</a>)</li>
+<li>Fixed blocking (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1136" title="Blocking over AIM does not work (closed)">#1136</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2051" title="Blocking a user only blocks them on one account when signed into multiple  ... (closed)">#2051</a>)</li>
+<li>Fixed "malformed data message" error when sending circumflex accents (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1601" title="circumflex accent  (closed)">#1601</a>)</li>
+<li>Fixed viewing profiles (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2413" title="Profile not able to display (closed)">#2413</a>)</li>
+<li>Fixed ability to select which account messages a non-meta contact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2573" title="No way to select account used when contacting an AIM-based user (closed)">#2573</a>)</li>
+<li>You can now block more than one user at a time (<a class="closed ticket" href="http://trac.adiumx.com/ticket/536" title="Blocking Serveral users (closed)">#536</a>)</li>
+<li>Fixed a bug where Adium didn't view the spaces, if any, in a screenname that's not on your buddy list when you're having a conversation with them (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2231" title="Screename Space Error (closed)">#2231</a>)</li>
+<li>Properly display the online time of contacts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2488" title="Buddy list tooltips are not properly updating &#34;Online Since:&#34; data (closed)">#2488</a>)</li>
+<li>Similarly named AIM and .Mac accounts now no longer confuse accounts when adding contacts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3157" title=".Mac and AOL accounts show same names when adding contacts (closed)">#3157</a>)
+</li></ul><h3 id="a.Mac">.Mac</h3>
+<ul><li>&ldquo;@mac.com&rdquo; suffix is no longer required when creating accounts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2132" title=".mac conflict with OTR (closed)">#2132</a>, others)</li>
+<li>name@mac.com is no longer displayed as a link in tooltips (<a class="closed ticket" href="http://trac.adiumx.com/ticket/869" title="Don't show &#34;xx@mac.com&#34; as link in contact list tooltip (closed)">#869</a>)</li>
+<li>Fixed a bug where Adium asked for a password even when it had the correct one (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2319" title="i have an issue connecting to my .mac account (closed)">#2319</a>)
+</li></ul><h3 id="Bonjour">Bonjour</h3>
+<ul><li>Login as Invisible works now (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2296" title="Yahoo Login AS Invisible (closed)">#2296</a>, others)</li>
+<li>Bonjour no longer disconnects when a contact sends a message with a line-break (<a class="closed ticket" href="http://trac.adiumx.com/ticket/48" title="Line break in bonjour disconnect (closed)">#48</a>)</li>
+<li>A reasonable default name is filled in for new Bonjour accounts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1182" title="No default user name for new Bonjour accounts (closed)">#1182</a>)</li>
+<li>Events are squelched for awhile after connect (18 seconds, to be exact) to avoid floods of notifications (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1996" title="Too Many Growl Notifications on Login Due to Bonjour (closed)">#1996</a>)
+</li></ul><h3 id="ICQ">ICQ</h3>
+<ul><li>Improved handling of non-ASCII character sets (<a class="closed ticket" href="http://trac.adiumx.com/ticket/505" title="icq messages and russian charset (closed)">#505</a>, <a class="reopened ticket" href="http://trac.adiumx.com/ticket/1426" title="ICQ, Chinese user's info (reopened)">#1426</a>)</li>
+<li>Improved handling of messages coming from iChat (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3166" title="Bad messages from iChat Users (closed)">#3166</a>)</li>
+<li>IP address no longer publicly displayed (<a class="reopened ticket" href="http://trac.adiumx.com/ticket/3740" title="ICQ discloses IP addresses (reopened)">#3740</a>)
+</li></ul><h3 id="JabberincludesGoogleTalkandLiveJournalTalk">Jabber (includes Google Talk and LiveJournal Talk)</h3>
+<ul><li>Fixed bug where authorized contacts couldn't see your status (<a class="closed ticket" href="http://trac.adiumx.com/ticket/61" title="Authorization hiding issues (closed)">#61</a>)</li>
+<li>Now saves the last server used in the join group chat dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/802" title="Auto save of server name in Jabber join group chat (closed)">#802</a>)</li>
+<li>Added buddy icon support for Jabber (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1632" title="jabber service does not show user icons (closed)">#1632</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1330" title="Jabber avatar icons not visible in Exodus (closed)">#1330</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/1632" title="jabber service does not show user icons (closed)">#1632</a>)</li>
+<li>No longer need to restart Adium when changing resources (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1355" title="Changing Jabber resource requires restart (closed)">#1355</a>)</li>
+<li>Fixed messages from yourself in group chats not appearing in logs (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1881" title="jabber group chat history missing messages from self (closed)">#1881</a>)</li>
+<li>Fixed typing notification for GTalk (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1993" title="broken typing notification and new mail notification on jabber and gtalk (closed)">#1993</a>)</li>
+<li>Fixed a situation in which the tag &lt;html&gt; could appear in messages (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3058" title="&lt;html&gt; in xhtml-im Messages (Jabber) (closed)">#3058</a>)</li>
+<li>Fixed a bug where Adium did not disconnect from the server (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3441" title="0.89 cannot disconnect from XMPP Services (closed)">#3441</a>)</li>
+<li>Now prompts to register the account if authentication failed (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3752" title="Cannot register Jabber accounts with Adium (closed)">#3752</a>)</li>
+<li>Fixed a parsing error in sent messages where there was a &lt;html&gt; tag inside the &lt;body&gt; tag (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3814" title="parsing error in sent messages: html-tag inside body-tag (closed)">#3814</a>)</li>
+<li>Added the ability to set priority (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3882" title="jabber priority (closed)">#3882</a>)</li>
+<li>Fixed a bug which prevented registering accounts on Wildfire-based Jabber servers (<a class="closed ticket" href="http://trac.adiumx.com/ticket/4216" title="Error registering jabber accounts on wildfire servers (closed)">#4216</a>)</li>
+<li>New mail notifications checkbox now disabled on Jabber, respected on GTalk (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1301" title="'Display new mail notifications' option does not work with Gmail (closed)">#1301</a>)
+</li></ul><h3 id="MeanwhileSametime">Meanwhile/Sametime</h3>
+<ul><li>Contact list did not keep added users (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2060" title="Contacts list does not keep added users (closed)">#2060</a>)
+</li></ul><h3 id="MSN">MSN</h3>
+<ul><li>Deleted MSN contacts remain deleted (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1778" title="Deleted MSN contacts keep on coming back (closed)">#1778</a>)</li>
+<li>Adium now fetches the MSN display name from the server (<a class="closed ticket" href="http://trac.adiumx.com/ticket/196" title="for msn - get alias from msn server (closed)">#196</a>)</li>
+<li>Removed preference for MSN "Conversation closed" notices (<a class="closed ticket" href="http://trac.adiumx.com/ticket/37" title="Evaluate advanced preferences (closed)">#37</a>)</li>
+<li>Adium can now receive custom MSN emoticons </li>
+<li>Fixed "%0D" after a URL when a newline character comes after it (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1085" title="Some URLs gets a %0D suffix (closed)">#1085</a>)</li>
+<li>MSN display name no longer preferred over real status messages from other accounts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1022" title="MSN Display Name (as extended status) takes precedence over Yahoo! status  ... (closed)">#1022</a>)</li>
+<li>Display name, rather than account name, used in message view (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1628" title="Show MSN display name in Coversation Window. (closed)">#1628</a>)
+</li></ul><h3 id="Gadu-Gadu">Gadu-Gadu</h3>
+<ul><li>Fixed a crash when using gadu-gadu (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2455" title="adium_input_add crashes when given invalid socket (closed)">#2455</a>)</li>
+<li>Status support (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3803" title="Gadu Gadu is better through Jabber - please improve it (closed)">#3803</a>)
+</li></ul><h3 id="Yahoo">Yahoo!</h3>
+<ul><li>Yahoo account names can now be entered with an @yahoo.com suffix</li>
+<li>Yahoo! users can now return from idle status (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2453" title="Yahoo: 1.0svn can't come back from idle (closed)">#2453</a>)</li>
+<li>Added support for <a class="ext-link" href="ymsgr://im?to="><span class="icon">ymsgr://im?to=</span></a> links (<a class="closed ticket" href="http://trac.adiumx.com/ticket/3107" title="support for alternate ymsgr: links (closed)">#3107</a>)</li>
+<li>Added Stealth (semi-invisibility) support (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1349" title="semi-invisibility (stealth in YM) (closed)">#1349</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/4006" title="stealth mode invisibility as yahoo messenger features (closed)">#4006</a>)</li>
+<li>Now able to log in as invisible (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2296" title="Yahoo Login AS Invisible (closed)">#2296</a>)</li>
+<li>Incoming message colors are properly ignored (<a class="closed ticket" href="http://trac.adiumx.com/ticket/4184" title="Message Colors NOT turning off on Incoming Messages with Yahoo (closed)">#4184</a>)
+</li></ul><h3 id="Zephyr">Zephyr</h3>
+<ul><li>Added configuration notes at <a class="ext-link" href="http://trac.adiumx.com/wiki/Zephyr"><span class="icon">http://trac.adiumx.com/wiki/Zephyr</span></a> (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2079" title="Zephyr issues (closed)">#2079</a>)
+</li></ul>
+
+<h2 id="Localization">Localization</h2>
+<ul><li>Australian English localization added (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2585" title="New localisation - Australian English (closed)">#2585</a>)</li>
+<li>Finnish localization added</li>
+<li>Updated and improved all existing localizations (Catalan, Danish, Dutch, French, German, Italian, Japanese, Norwegian, russian, Spanish, Swedish, Turkish, Czech, Icelandic, Polish, Simplified Chinese, and Traditional Chinese)</li>
+<li>Fixed localizability of the OTR error message when attempting to message in a chat in which the other side has already ended encryption (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2623" title="Error message assumes sex of user. (closed)">#2623</a>)</li>
+<li>Allow localization of shared dock icon images (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2843" title="Spanish &#34;Away&#34; indication in Dock newly broken in 0.88 (closed)">#2843</a>)</li>
+<li>Allow non-ASCII characters in the "insert link" dialog (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2362" title="Can't Insert the Link (Chinese version) (closed)">#2362</a>)
+</li></ul>
+
+<h2 id="AddressBook">Address Book</h2>
+<ul><li>New contextual menu items in Address Book for sending IMs with Adium. Scripts to accomplish this are automatically installed to ~/Library/Address Book Plug-Ins (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2353" title="Install Address Book plugins on first launch (closed)">#2353</a>)</li>
+<li>Adium now looks in the Yahoo! field of Address Book contacts for Yahoo! Japan accounts (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2469" title="Use Yahoo IM field in addressbook for Yahoo jp users (closed)">#2469</a>)</li>
+<li>Clarified and explained option to consolidate buddies from Address Book (<a class="closed ticket" href="http://trac.adiumx.com/ticket/139" title="Unchecking AB Consolidate Kills Meta Buddies (closed)">#139</a>)</li>
+<li>New contextual menu item on contacts: "Add To Address Book" (<a class="closed ticket" href="http://trac.adiumx.com/ticket/345" title="Add a &#34;Add Contact To Addressbook&#34; (closed)">#345</a>)</li>
+<li>Don't clobber picture in My Card with some account's buddy icon (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1683" title="&#34;my&#34; addressbook icon shouldn't get overwritten (closed)">#1683</a>)</li>
+<li>Improved performance of Address Book updating (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1751" title="Mail/Address Book Hang (closed)">#1751</a>)</li>
+<li>Middle names are now imported (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1118" title="Adium does not import the Middle name from Address Book entries. (closed)">#1118</a>)</li>
+<li>We now set contacts' icons back to their real icons (from AB images) when &ldquo;Use Address book images as contacts' icons&rdquo; is unchecked (<a class="closed ticket" href="http://trac.adiumx.com/ticket/91" title="Contact icon overwrite problem (possibly) (closed)">#91</a>)
+</li></ul>
+
+<h2 id="AppleScript"><a class="wiki" href="http://trac.adiumx.com/wiki/AppleScript">AppleScript</a></h2>
+<ul><li>Improved <a class="wiki" href="http://trac.adiumx.com/wiki/AppleScript">AppleScript</a> support (<a class="closed ticket" href="http://trac.adiumx.com/ticket/574" title="Improving Applescript support (closed)">#574</a>)</li>
+<li>Fixed a crash (<a class="closed ticket" href="http://trac.adiumx.com/ticket/485" title="Crash somehow related to AppleScript (closed)">#485</a>)</li>
+<li>Fixed lockups caused by <a class="wiki" href="http://trac.adiumx.com/wiki/AppleScript">AppleScript</a> (<a class="closed ticket" href="http://trac.adiumx.com/ticket/634" title="Adium locks up after a forced disconnect (closed)">#634</a>)</li>
+<li>Fixed typing latency caused by <a class="wiki" href="http://trac.adiumx.com/wiki/AppleScript">AppleScript</a> (<a class="closed ticket" href="http://trac.adiumx.com/ticket/202" title="Lag while typing (closed)">#202</a>)
+</li></ul>
+
+<h2 id="OTR">OTR</h2>
+<ul><li>OTR now works for .Mac accounts for which the @mac.com isn't listed (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2132" title=".mac conflict with OTR (closed)">#2132</a>)</li>
+<li>Fixed gender neutrality of the OTR error message when attempting to message in a chat in which the other side has already ended encryption (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2623" title="Error message assumes sex of user. (closed)">#2623</a>)</li>
+<li>Fixed a bug where the OTR status did not update after switching to a different contact of a meta contact (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2895" title="OTR status does not update after switch between different &#34;real&#34; contacts  ... (closed)">#2895</a>)
+</li></ul>
+
+<h2 id="PerformanceandMemory">Performance and Memory</h2>
+<ul><li>Fixed a leak of an NSColor (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2258" title="NSColor leak on changing contact list types (closed)">#2258</a>)</li>
+<li>Emoticons are now preloaded in a background thread</li>
+<li>Fixed a rare threadlock on startup (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1980" title="Beachball on startup; never connects (closed)">#1980</a>)</li>
+<li>Fixed a memory leak in AIKeychain (<a class="closed ticket" href="http://trac.adiumx.com/ticket/692" title="AIKeychain leaks memory (closed)">#692</a>)</li>
+<li>Fixed a potential threadlock at launch (<a class="closed ticket" href="http://trac.adiumx.com/ticket/1980" title="Beachball on startup; never connects (closed)">#1980</a>)</li>
+<li>Fixed the crash when hitting Return in the away status window when accounts are not all in the same status (<a class="closed ticket" href="http://trac.adiumx.com/ticket/2137" title="Adium 0.86 crashes when returning from away. (closed)">#2137</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2420" title="Returning from away with new messages causes crash. (closed)">#2420</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2626" title="Return button in away window crashes (closed)">#2626</a>, <a class="closed ticket" href="http://trac.adiumx.com/ticket/2692" title="Adium Crashes after Returning from Away (closed)">#2692</a>)</li>
+<li>Fixed some unnecessary memory use
+</li></ul>
+
+</body></html>

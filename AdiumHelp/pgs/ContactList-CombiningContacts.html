@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="contacts, meta, metacontacts, combine" />
+<meta name="description" content="Combining Contacts" />
+<title>Combining contacts</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="combining" id="combining"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Combining contacts</h1>
+	</div>
+	<p>Adium allows you to combine multiple contacts into one entry (a "Combined Contact," called a 'metacontact' by our developers) on your contact list,. This is extremely useful when one of your contacts has multiple user names or a user name on multiple services.</p>
+	<p>For instance, if you have the following user names on your contact list:</p>
+	<ul>
+		<li>adiumuser</li>
+		<li>adiumuser@hotmail.com</li>
+		<li>adiumuser34</li>
+	</ul>
+	<p>all belonging to the same individual, you can combine them into a single entry so that all you see is:</p>
+	<ul>
+		<li>Adium User</li>
+	</ul>
+	<p>The result is smaller, easier to manage contact list.  This combined contact will also be respected in the <a href="Messaging-TranscriptViewer.html">Chat Transcripts Viewer</a>.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Combining contacts automatically</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Your Mac OS X Address Book is the easiest way to combine contacts. Adium will look for a card with at least one of your contacts' usernames on it; if it finds such a card, any other usernames that are on both your contact list and the AB card will be combined into a metacontact automatically.</p>
+			<p>This is turned on by default, and it works without your intervention. If, for some reason, you don't want Address Book integration, you can turn it off in the Advanced pane of Adium's Preferences.</p>
+			<ul>
+				<li><i><strong>Note:</strong></i> Automatic combining based on the Address Book doesn't preclude manual combining. You can always combine contacts manually if you want; this is described in the next section.</li>
+			</ul>
+			<p>See <a href="AdvancedFeatures-AddressBookIntegration.html">Address Book integration</a> for details.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Combining contacts manually</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>To combine two or more contacts, simply drag one onto the other. If you have a &quot;borderless&quot; contact list, you'll need to hold down <strong>Command (⌘)</strong> in order to initiate the drag.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Separating combined contacts</h3>
+		</div>
+		<div class="taskboxtext">
+			<ol>
+				<li>Select the combined contact in your <strong>Contact List</strong>.</li>
+				<li>Choose <strong>Get Info</strong> from the <strong>Contact</strong> menu.</li>
+				<li>Select the desired contact from the expanded meta-contact in the contact list.</li>
+				<li>Drag the contact outside of the meta and into another group. (Again, if you have a &quot;borderless&quot; contact list, you'll need to hold down <strong>Command (⌘)</strong> in order to initiate the drag.)</li>
+			</ol>
+			<ul>
+				<li><i><strong>Note:</strong></i> If a single Apple Address Book card has the contacts listed together, this process will only remain in effect until Adium is restarted. This occurs because Adium automatically creates combined contacts based on this Address Book information.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>How combined contacts work</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>To chat with a combined contact, simply double click the contact's entry in your list as normal. When the chat opens, you will see a bar at the top of the message window which allows you to choose which name you want to message. Adium will automatically pick the name you messaged last; if this is still correct, simply send as normal and the bar will disappear after your first message.</p>
+			<p>Once a message window is open with a contact, you can alternatively click on the Source/Destination option in the toolbar (if the toolbar is active - the default set of toolbar buttons includes the Source/Destination button). When you click on the Source/Destination option, the bar at the top of the message window will open so you can choose which name you to send a message to or from.</p>
+			<p>You can specify the priority of the contained contacts by reordering them in the <strong>Contact List</strong> while the Contact Inspector is open. Higher in the list is higher priority; higher priority indicates such things as which contact's away message will be shown in the contact list and tooltips if differing away messages are set for the individual contacts.</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

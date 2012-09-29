@@ -1,0 +1,101 @@
+@charset "utf-8";
+
+.x-color
+{
+	background-color: hsla(0, 0%, 0%, 1) !important;
+}
+
+.history .x-color
+{
+	background-color: hsla(0, 0%, 15%, 1) !important;
+}
+
+/*----------*/
+
+.outgoing,
+.outgoing.consecutive.message .x-sender:after
+{
+	color: hsla(120, 42%, 46%, 1) !important;
+}
+
+.outgoing .x-color
+{
+	color: hsla(120, 42%, 46%, 1) !important;
+}
+
+.outgoing:hover,
+.outgoing:hover .x-color,
+.outgoing:hover .x-message,
+.outgoing:hover.consecutive.message:not(.mention) .x-sender:after,
+.outgoing.x-hover,
+.outgoing.x-hover .x-color,
+.outgoing.x-hover .x-message,
+.outgoing.x-hover.consecutive.message:not(.mention) .x-sender:after
+{
+	color: hsla(120, 42%, 61%, 1) !important;
+}
+
+/*----------*/
+
+.incoming,
+.incoming.consecutive.message:not(.mention) .x-sender:after
+{
+	color: hsla(240, 92%, 79%, 1) !important;
+}
+
+.incoming .x-color
+{
+	color: hsla(240, 92%, 79%, 1) !important;
+}
+
+.x-hover > .x-color
+{
+	background-color: hsla(0, 0%, 15%, 1) !important;
+}
+
+.history.x-hover > .x-color
+{
+	background-color: hsla(0, 0%, 20%, 1) !important;
+}
+
+.incoming.mention .x-message
+{
+	border-right-color: hsla(240, 92%, 79%, 1) !important;
+}
+
+.incoming:hover,
+.incoming:hover .x-color,
+.incoming:not(.mention):hover .x-message,
+.incoming:hover.consecutive.message:not(.mention) .x-sender:after,
+.incoming.x-hover,
+.incoming.x-hover .x-color,
+.incoming:not(.mention).x-hover .x-message,
+.incoming.x-hover.consecutive.message:not(.mention) .x-sender:after
+{
+	color: hsla(240, 92%, 86%, 1) !important;
+}
+
+.mention > .x-mention
+{
+	background: hsla(240, 92%, 74%, 1) !important;
+}
+
+.mention:hover > .x-mention,
+.mention.x-hover > .x-mention
+{
+	background: hsla(240, 92%, 81%, 1) !important;
+}
+
+/*----------*/
+
+.status .x-color,
+.event .x-color
+{
+	color: hsla(0, 0%, 50%, 1) !important;
+}
+
+.status:hover .x-color,
+.event:hover .x-color
+{
+	color: hsla(0, 0%, 60%, 1) !important;
+}

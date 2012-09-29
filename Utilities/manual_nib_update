@@ -1,0 +1,59 @@
+#!/bin/sh
+####
+#
+# Usage: From the directory above the .lproj folders:
+# manual_nib_update NIB_NAME
+#
+# NIB_NAME should not include the .nib extension and should
+# have its new form in the English.lproj folder
+####
+
+NIBNAME=$1
+ORIGINAL_NIBNAME=$1-original
+NEW_NIBNAME=$1-new
+
+for lang in \
+Catalan \
+Danish \
+Dutch \
+French \
+German \
+Italian \
+Japanese \
+Norwegian \
+Russian \
+Spanish \
+Swedish \
+cs \
+is \
+pt_BR \
+zh_CN \
+zh_TW \
+; do
+
+if [ -d $lang.lproj ] ; then
+    # Keep the original around for its localization, our entire goal
+    mkdir $lang.lproj/$NIBNAME-original.nib
+    cp $lang.lproj/$NIBNAME.nib/*.nib $lang.lproj/$NIBNAME-original.nib
+    
+    # Copy the English nib in
+    cp English.lproj/$NIBNAME.nib/*.nib $lang.lproj/$NIBNAME.nib
+    cd $lang.lproj
+    
+    # Bring the previous translations over into a NEW_NIBNAME nib
+    nibtool -O -L $ORIGINAL_NIBNAME.nib > d.d
+    nibtool -d d.d -O -W $NEW_NIBNAME.nib $NIBNAME.nib
+    
+    # Copy NEW_NIBNAME's nib files into NIBNAME. This is to avoid smashing .svn folders
+    cp $NEW_NIBNAME.nib/*.nib $NIBNAME.nib
+    
+    # Cleanup
+    rm d.d
+    rm -rf $ORIGINAL_NIBNAME.nib
+    rm -rf $NEW_NIBNAME.nib
+    rm $NIBNAME.nib/info.nib
+    cd ..
+	echo Updated $lang
+fi
+
+done

@@ -1,0 +1,61 @@
+@import url("../Styles/Regular.css");
+
+body
+{
+	background: url("../images/backgroundUndersea.jpg") repeat-y center top #000 fixed;
+}
+
+#x-headerImage
+{
+	background: rgba(0, 161, 255, 1);
+}
+
+#x-headerChatStarted .x-chatname,
+.x-message1 .x-userName,
+.x-message1 .x-date,
+.x-message1 a
+{
+	color: rgba(0, 161, 255, 1);
+}
+
+.x-message1 a:hover
+{
+	color: rgba(30, 191, 255, 1);
+}
+
+.x-content
+{
+	border-top: 3px solid rgba(0, 161, 255, 1);
+	border-bottom: 1px solid rgba(0, 161, 255, 1);
+}
+
+.mention .x-content
+{
+	background:
+		-webkit-gradient(linear, left top, right top, from(rgba(0, 161, 255, 1)), to(rgba(32, 32, 32, 1))) no-repeat,
+		-webkit-gradient(linear, left top, right top, from(rgba(32, 32, 32, 1)), to(rgba(0, 161, 255, 1))) no-repeat right top,
+		-webkit-gradient(linear, left top, right top, from(rgba(32, 32, 32, 1)), to(rgba(32, 32, 32, 1))) left top;
+}
+
+.mention .x-divider
+{
+	border-top: 2px groove rgba(0, 161, 255, .3);
+}
+
+.x-message2 .x-userName,
+.x-message2 .x-date,
+.x-message2 a
+{
+	color: rgba(127, 173, 205, 1);
+}
+
+.x-message2 a:hover
+{
+	color: rgba(157, 203, 235, 1);
+}
+
+.x-message2 .x-content
+{
+	border-top: 3px solid rgba(127, 173, 205, 1);
+	border-bottom: 1px solid rgba(127, 173, 205, 1);
+}

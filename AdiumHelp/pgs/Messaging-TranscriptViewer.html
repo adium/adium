@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="message, history, log" />
+<meta name="description" content="Review past conversation and delete them." />
+<title>Chat Transcript Viewer</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="history-logs" id="history-logs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Chat Transcript Viewer</h1>
+	</div>
+	<p>Adium's storage of past messages consists of two components: full chat logs and most recent messages in the chat window, called message history.</p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>How do I view my chat logs?</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>There are three methods to opening up the chat logs window:</p>
+			<ol>
+				<li>Choose <strong>&quot;Chat Transcript Viewer&quot;</strong> in the <strong>Window</strong> menu.</li>
+				<li>Click the <strong>Clock</strong> icon in the chat window's toolbar.</li>
+				<li>Select a contact from the Contact list, then choose <strong>&quot;View Chat Transcripts&quot;</strong> in the <strong>Contact</strong> menu.</li>
+			</ol>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>How do I disable chat logging?</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>Open the <strong>Preferences</strong> pane from the <strong>Adium</strong> menu.</li>
+				<li>Uncheck <strong>&quot;Log messages&quot;</strong> under the <strong>General</strong> tab.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>How do I control message history (chat context)?</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>Open the <strong>Preferences</strong> pane from the <strong>Adium</strong> menu.</li>
+				<li>Type the number <strong>&quot;Show Recent Messages&quot;</strong> under the <strong>General</strong> tab.</li>
+				<li>Of course, this depends upon chat transcripts, so if you disable message logging, no message history will be kept.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Where does Adium store my transcripts?</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>Your home folder → Library → Application Support → Adium 2.0 → Users → Default → Logs.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Recovering deleted transcripts from the trash</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>First: <b>Don't panic!</b> The Delete button just moves the transcripts to the Trash, so look there first. You may still have them.</p>
+			<p>Move them to your Logs folder:</p>
+			<ol>
+				<li>Press ⇧⌘H. This opens your Home folder.</li>
+				<li>Navigate to Library/Application Support/Adium 2.0/Users/Default/Logs.</li>
+				<li>The contents of that folder are subfolders, one per account; the contents of each subfolder are more subfolders, one per contact. So, for example, if your AIM username is jdoe and you have a contact named jsmith, the logs folder will contain a folder named “AIM.jdoe” that contains a subfolder named “jsmith”.</li>
+				<li>Move each chatlog file from the Trash to the appropriate subfolder of the Logs folder. (It is important that you put it in the right folder. Otherwise, Adium won't be able to find those transcripts correctly in the Transcript Viewer window.)</li>
+			</ol>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>If you don't still have the transcripts in your trash</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>This procedure requires that you be running Mac OS X Leopard, and that you have Time Machine enabled and at least one backup from before the deletion.</p>
+			<ul>
+				<li>Press ⇧⌘H. This opens your Home folder.</li>
+				<li>Navigate to Library/Application Support/Adium 2.0/Users/Default/Logs.</li>
+				<li>Launch Time Machine. By default, it's in your Dock. If you removed it from your Dock, you can still access it using Spotlight (at the far right end of the menu bar).</li>
+				<li>Go back in time and recover the missing files.</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Reindexing transcripts (i.e. when search is broken)</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>When Adium is no longer showing up all results when searching your chat transcripts, you can manually reindex them with File → Import → Reindex Adium Logs.</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>
