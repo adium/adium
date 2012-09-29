@@ -342,7 +342,7 @@ static ConnContext* contextForChat(AIChat *chat)
     username = [chat.listObject.UID UTF8String];
 	
     context = otrl_context_find(otrg_plugin_userstate,
-								username, accountname, proto, 0, NULL,
+								username, accountname, proto, OTRL_INSTAG_BEST, 0, NULL,
 								NULL, NULL);
 	
 	return context;
@@ -627,7 +627,7 @@ static void new_fingerprint_cb(void *opdata, OtrlUserState us,
 	ConnContext			*context;
 	
 	context = otrl_context_find(us, username, accountname,
-								protocol, 0, NULL, NULL, NULL);
+								protocol, OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
 	
 	if (context == NULL/* || context->msgstate != OTRL_MSGSTATE_ENCRYPTED*/) {
 		NSLog(@"otrg_adium_dialog_unknown_fingerprint: Ack!");
@@ -740,20 +740,26 @@ static OtrlMessageAppOps ui_ops = {
     create_privkey_cb,
     is_logged_in_cb,
     inject_message_cb,
-    notify_cb,
-    display_otr_message_cb,
     update_context_list_cb,
-    protocol_name_cb,
-    protocol_name_free_cb,
     new_fingerprint_cb,
     write_fingerprints_cb,
     gone_secure_cb,
     gone_insecure_cb,
     still_secure_cb,
-    log_message_cb,
 	max_message_size_cb,
 	account_display_name_cb,
 	account_display_name_free_cb,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
 };
 
 #pragma mark -
@@ -771,9 +777,12 @@ static OtrlMessageAppOps ui_ops = {
 	
     if (!username || !originalMessage)
 		return;
-
+	
+	ConnContext		*context = contextForChat(inContentMessage.chat);
+	
     err = otrl_message_sending(otrg_plugin_userstate, &ui_ops, /* opData */ NULL,
-							   accountname, protocol, username, originalMessage, /* tlvs */ NULL, &fullOutgoingMessage,
+							   accountname, protocol, username, OTRL_INSTAG_BEST, originalMessage, /* tlvs */ NULL, &fullOutgoingMessage,
+							   OTRL_FRAGMENT_SEND_ALL_BUT_LAST, &context,
 							   /* add_appdata cb */NULL, /* appdata */ NULL);
 
     if (err && fullOutgoingMessage == NULL) {
@@ -781,22 +790,11 @@ static OtrlMessageAppOps ui_ops = {
 		[inContentMessage setEncodedMessage:nil];
 
     } else if (fullOutgoingMessage) {
-		/* We got a message to send. Fragment it, saving the last fragment so Adium has something to do (and therefore
-		 * knows that a message is really being sent.
-		 */
-		char *lastFragmentOfMessage = NULL;
-
-		ConnContext		*context = contextForChat(inContentMessage.chat);
-
-		otrl_message_fragment_and_send(&ui_ops, /* opData */ NULL, context,
-											 fullOutgoingMessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, &lastFragmentOfMessage);
-
 		//This new message is what should be sent to the remote contact
-		[inContentMessage setEncodedMessage:[NSString stringWithUTF8String:lastFragmentOfMessage]];
+		[inContentMessage setEncodedMessage:[NSString stringWithUTF8String:originalMessage]];
 
 		//We're now done with the messages allocated by OTR
 		otrl_message_free(fullOutgoingMessage);
-		otrl_message_free(lastFragmentOfMessage);
     }
 }
 
@@ -859,7 +857,7 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 	 */
     res = otrl_message_receiving(otrg_plugin_userstate, &ui_ops, NULL,
 								 accountname, protocol, username, message,
-								 &newMessage, &tlvs, NULL, NULL);
+								 &newMessage, &tlvs, NULL, NULL, NULL);
 	
 	if (!newMessage && !res) {
 		//Use the original mesage; this was not an OTR-related message
@@ -892,7 +890,7 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 	/* Keep track of our current progress in the Socialist Millionaires'
      * Protocol. */
 	ConnContext *context = otrl_context_find(otrg_plugin_userstate, username,
-											 accountname, protocol, 0, NULL, NULL, NULL);
+											 accountname, protocol, OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
     if (context) {
 		NextExpectedSMP nextMsg = context->smstate->nextExpected;
 		
@@ -1059,7 +1057,7 @@ void send_default_query_to_chat(AIChat *inChat)
 void disconnect_from_context(ConnContext *context)
 {
     otrl_message_disconnect(otrg_plugin_userstate, &ui_ops, NULL,
-							context->accountname, context->protocol, context->username);
+							context->accountname, context->protocol, context->username, OTRL_INSTAG_BEST);
 	gone_insecure_cb(NULL, context);
 }
 
