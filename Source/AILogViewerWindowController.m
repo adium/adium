@@ -293,7 +293,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 //Init our log filtering tree
 - (void)initLogFiltering
 {
-    NSMutableDictionary		*toDict = [NSMutableDictionary dictionary];
     NSString				*basePath = [AILoggerPlugin logBasePath];
     NSString				*fromUID, *serviceClass;
 
@@ -302,7 +301,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     for (NSString *folderName in [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:basePath error:NULL] sortedArrayUsingSelector:@selector(compare:)]) {
 		if (![folderName isEqualToString:@".DS_Store"]) { // avoid the directory info
 			AILogFromGroup  *logFromGroup;
-			NSMutableSet	*toSetForThisService;
 			NSArray         *serviceAndFromUIDArray;
 			
 			/* Determine the service and fromUID - should be SERVICE.ACCOUNT_NAME
@@ -326,21 +324,10 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 			//Store logFromGroup on a key in the form "SERVICE.ACCOUNT_NAME"
 			[logFromGroupDict setObject:logFromGroup forKey:folderName];
 
-			//To processing
-			if (!(toSetForThisService = [toDict objectForKey:serviceClass])) {
-				toSetForThisService = [NSMutableSet set];
-				[toDict setObject:toSetForThisService
-						   forKey:serviceClass];
-			}
-
 			//Add the 'to' for each grouping on this account
 			for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
-				NSString	*currentTo;
-
-				if ((currentTo = [currentToGroup to])) {
-					//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
-					[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
-				}
+				//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
+				[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
 			}
 
 			[logFromGroup release];
