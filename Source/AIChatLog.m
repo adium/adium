@@ -53,10 +53,11 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 	NSArray *serviceAndFromUIDArray = [serviceAndFromUID componentsSeparatedByString:@"."];
 	
 	if ([serviceAndFromUIDArray count] >= 2) {
-		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, [serviceAndFromUIDArray objectAtIndex:0]);
+		NSString *serviceString = [serviceAndFromUIDArray objectAtIndex:0];
+		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, serviceString);
 		
 		//Use substringFromIndex so we include the rest of the string in the case of a UID with a . in it
-		fromUID = [serviceAndFromUID substringFromIndex:([serviceClass length] + 1)]; //One off for the '.'
+		fromUID = [serviceAndFromUID substringFromIndex:([serviceString length] + 1)]; //One off for the '.'
 
 	} else {
 		//Fallback: blank non-nil serviceClass; folderName as the fromUID
