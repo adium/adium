@@ -140,7 +140,7 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 	 * here and there.
 	 */
 	err = SSLHandshake(cdsa_data->ssl_ctx);
-    if (err == errSSLBadRecordMac) {
+    if (err == errSSLPeerBadRecordMac) {
         /*
          * try explicitly forcing TLS 1.0/SSL 3.0 to (maybe) make buggy servers work
          */
