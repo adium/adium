@@ -68,31 +68,29 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 	};
 	
 	NSDictionary *result = nil;
+	NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
 	
 	//the rgb.txt file that comes with Mac OS X 10.3.8 contains 752 entries.
 	//we create 3 autoreleased objects for each one.
 	//best to not pollute our caller's autorelease pool.
 	@autoreleasepool {
-		
-		NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
-		
 		for (unsigned i = 0; i < length; ++i) {
 			if (state.inComment) {
 				if (ch[i] == '\n') state.inComment = NO;
 			} else if (ch[i] == '\n') {
 				if (state.prevChar != '\n') { //ignore blank lines
 					if (	! ((state.redStart   != NULL)
-						   && (state.greenStart != NULL)
-						   && (state.blueStart  != NULL)
-						   && (state.nameStart  != NULL)))
+							   && (state.greenStart != NULL)
+							   && (state.blueStart  != NULL)
+							   && (state.nameStart  != NULL)))
 					{
-	#if COLOR_DEBUG
+#if COLOR_DEBUG
 						NSLog(@"Parse error reading rgb.txt file: a non-comment line was encountered that did not have all four of red (%p), green (%p), blue (%p), and name (%p) - index is %u",
 							  state.redStart,
 							  state.greenStart,
 							  state.blueStart,
 							  state.nameStart, i);
-	#endif
+#endif
 						goto end;
 					}
 					
@@ -111,8 +109,8 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 						//only add the lowercase version if it isn't already defined
 						[mutableDict setObject:color forKey:lowercaseName];
 					}
-
-					state.redStart = state.greenStart = state.blueStart = state.nameStart = 
+					
+					state.redStart = state.greenStart = state.blueStart = state.nameStart =
 					state.redEnd   = state.greenEnd   = state.blueEnd   = NULL;
 				} //if (prevChar != '\n')
 			} else if ((ch[i] != ' ') && (ch[i] != '\t')) {
@@ -135,14 +133,14 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 			}
 			state.prevChar = ch[i];
 		} //for (unsigned i = 0; i < length; ++i)
-
-		//why not use -copy? because this is subclass-friendly.
-		//you can call this method on NSMutableDictionary and get a mutable dictionary back.
-		result = [[self alloc] initWithDictionary:mutableDict];
-	end:
-
-		return result;
 	}
+	
+	//why not use -copy? because this is subclass-friendly.
+	//you can call this method on NSMutableDictionary and get a mutable dictionary back.
+	result = [[self alloc] initWithDictionary:mutableDict];
+end:
+	
+	return result;
 }
 
 @end
