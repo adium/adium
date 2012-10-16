@@ -51,6 +51,8 @@ static GList *connections = NULL;
 #define PURPLE_SSL_CDSA_DATA(gsc) ((PurpleSslCDSAData *)gsc->private_data)
 #define PURPLE_SSL_CONNECTION_IS_VALID(gsc) (g_list_find(connections, (gsc)) != NULL)
 
+#define PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND "ssl_cdsa_buggy_tls_workaround"
+
 /*
  * query_cert_chain - callback for letting the user review the certificate before accepting it
  *
@@ -130,6 +132,7 @@ static void
 ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 {
 	PurpleSslConnection *gsc = (PurpleSslConnection *)data;
+	PurpleAccount *account = gsc->account;
 	PurpleSslCDSAData *cdsa_data = PURPLE_SSL_CDSA_DATA(gsc);
     OSStatus err;
 	
@@ -140,66 +143,22 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 	 * here and there.
 	 */
 	err = SSLHandshake(cdsa_data->ssl_ctx);
-    if (err == errSSLPeerBadRecordMac) {
+    if (err == errSSLPeerBadRecordMac
+		&& !purple_account_get_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false)
+		&& !strcmp(purple_account_get_protocol_id(account),"prpl-jabber")) {
         /*
-         * try explicitly forcing TLS 1.0/SSL 3.0 to (maybe) make buggy servers work
+         * Set a flag so we know to explicitly disable TLS 1.1 and 1.2 on our next (immediate) connection attempt for this account.
+         * Some XMPP servers use buggy TLS stacks that incorrectly report their capabilities, which breaks things with 10.8's new support
+         * for TLS 1.1 and 1.2.
          */
-        purple_debug_info("cdsa", "SSLHandshake reported bad MAC, forcing TLS 1.0/SSL 3.0\n");
-        
-        ssl_cdsa_close(gsc);
-        ssl_cdsa_create_context(gsc);
-        cdsa_data = PURPLE_SSL_CDSA_DATA(gsc);
-        
-        OSStatus protoErr;
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocolAll, false);
-        if (protoErr != noErr) {
-            fprintf(stderr, "cdsa: failed to disable protocols: error %d\n",(int)protoErr);
-            purple_debug_error("cdsa", "failed to disable protocols: error %d\n",(int)protoErr);
-            if (gsc->error_cb != NULL)
-                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-                              gsc->connect_cb_data);
-            
-            purple_ssl_close(gsc);
-            return;
-        }
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
-        if (protoErr != noErr) {
-            fprintf(stderr, "cdsa: failed to enable TLS 1.0: error %d\n",(int)protoErr);
-            purple_debug_error("cdsa", "failed to enable TLS 1.0: error %d\n",(int)protoErr);
-            if (gsc->error_cb != NULL)
-                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-                              gsc->connect_cb_data);
-            
-            purple_ssl_close(gsc);
-            return;
-        }
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
-        if (protoErr != noErr) {
-            fprintf(stderr, "cdsa: failed to enable SSL 3.0: error %d\n",(int)protoErr);
-            purple_debug_error("cdsa", "failed to enable SSL 3.0: error %d\n",(int)protoErr);
-            if (gsc->error_cb != NULL)
-                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-                              gsc->connect_cb_data);
-            
-            purple_ssl_close(gsc);
-            return;
-        }
-        
-        purple_debug_info("cdsa", "retrying SSLHandshake\n");
-        err = SSLHandshake(cdsa_data->ssl_ctx);
-        if (err != noErr) {
-            if(err == errSSLWouldBlock)
-                return;
-            fprintf(stderr,"cdsa: SSLHandshake failed after forcing protocol versions with error %d\n",(int)err);
-            purple_debug_error("cdsa", "SSLHandshake failed after forcing protocol versions with error %d\n",(int)err);
-            if (gsc->error_cb != NULL)
-                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
-                              gsc->connect_cb_data);
-            
-            purple_ssl_close(gsc);
-            return;
-        }
-        purple_debug_info("cdsa", "SSLHandshake succeeded after forcing protocol versions, continuing ssl_connect\n");
+        purple_debug_info("cdsa", "SSLHandshake reported that the server rejected our MAC, which most likely means it lied about the TLS versions it supports.");
+        purple_debug_info("cdsa", "Setting a flag in this account to only use TLS 1.0 and below on the next connection attempt.");
+    
+        purple_account_set_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, true);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED, gsc->connect_cb_data);
+        purple_ssl_close(gsc);
+        return;
     } else if (err != noErr) {
 		if(err == errSSLWouldBlock)
 			return;
@@ -347,6 +306,7 @@ static OSStatus SocketWrite(
 static void
 ssl_cdsa_create_context(gpointer data) {
     PurpleSslConnection *gsc = (PurpleSslConnection *)data;
+    PurpleAccount *account = gsc->account;
 	PurpleSslCDSAData *cdsa_data;
     OSStatus err;
     
@@ -442,6 +402,24 @@ ssl_cdsa_create_context(gpointer data) {
         
         purple_ssl_close(gsc);
         return;
+    }
+    
+    if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false)) {
+        purple_debug_info("cdsa", "Explicitly disabling TLS 1.1 and above to try and work around buggy TLS stacks\n");
+        
+        OSStatus protoErr;
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocolAll, false);
+        if (protoErr != noErr) {
+            purple_debug_error("cdsa", "SSLSetProtocolVersionEnabled failed to disable protocols\n");
+            if (gsc->error_cb != NULL)
+                gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED, gsc->connect_cb_data);
+            purple_ssl_close(gsc);
+            return;
+        }
+        
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol2, true);
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
+        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
     
     if(gsc->host) {
