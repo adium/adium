@@ -162,7 +162,7 @@
 	
 	ConnContext *context = otrl_context_find(otrg_get_userstate(),
 											 [who UTF8String], [account.internalObjectID UTF8String],
-											 [account.service.serviceCodeUniqueID UTF8String], OTRL_INSTAG_BEST,
+											 [account.service.serviceCodeUniqueID UTF8String], OTRL_INSTAG_RECENT,
 											 0, NULL, NULL, NULL);
     Fingerprint *fprint;
     BOOL oldtrust;
