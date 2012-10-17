@@ -1359,6 +1359,8 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
+		765F5D67162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D65162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.m */; };
+		765F5D6F162F357E00C57904 /* AIOTRSMPSecretQuestionWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D6E162F357E00C57904 /* AIOTRSMPSecretQuestionWindowController.xib */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
 		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
 		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
@@ -4384,6 +4386,9 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		765F5D64162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSecretQuestionWindowController.h; path = Source/AIOTRSMPSecretQuestionWindowController.h; sourceTree = "<group>"; };
+		765F5D65162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSecretQuestionWindowController.m; path = Source/AIOTRSMPSecretQuestionWindowController.m; sourceTree = "<group>"; };
+		765F5D6E162F357E00C57904 /* AIOTRSMPSecretQuestionWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSecretQuestionWindowController.xib; path = Resources/AIOTRSMPSecretQuestionWindowController.xib; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
@@ -5164,6 +5169,9 @@
 				341BD55A0965E97F00CF83F5 /* ESOTRUnknownFingerprintController.h */,
 				341BD55B0965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m */,
 				341BD5660965E99200CF83F5 /* OTRCommon.h */,
+				765F5D64162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.h */,
+				765F5D65162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.m */,
+				765F5D6E162F357E00C57904 /* AIOTRSMPSecretQuestionWindowController.xib */,
 			);
 			name = OTR;
 			sourceTree = "<group>";
@@ -9769,6 +9777,7 @@
 				C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */,
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
 				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
+				765F5D6F162F357E00C57904 /* AIOTRSMPSecretQuestionWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10418,6 +10427,7 @@
 				5A4BD52513F8653D00A4D3F7 /* ESContactListAdvancedPreferences.m in Sources */,
 				5A4BD55413F86A6200A4D3F7 /* AIMessagePreferences.m in Sources */,
 				5A5EC831154649140043FFAA /* AIPreferenceCollectionItem.m in Sources */,
+				765F5D67162F30E800C57904 /* AIOTRSMPSecretQuestionWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
