@@ -1361,6 +1361,8 @@
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
 		765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */; };
 		765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */; };
+		765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */; };
+		765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
 		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
 		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
@@ -4389,6 +4391,9 @@
 		765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSecretAnswerWindowController.h; path = Source/AIOTRSMPSecretAnswerWindowController.h; sourceTree = "<group>"; };
 		765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSecretAnswerWindowController.m; path = Source/AIOTRSMPSecretAnswerWindowController.m; sourceTree = "<group>"; };
 		765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSecretAnswerWindowController.xib; path = Resources/AIOTRSMPSecretAnswerWindowController.xib; sourceTree = "<group>"; };
+		765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSharedSecretWindowController.xib; path = Resources/AIOTRSMPSharedSecretWindowController.xib; sourceTree = "<group>"; };
+		765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSharedSecretWindowController.h; path = Source/AIOTRSMPSharedSecretWindowController.h; sourceTree = "<group>"; };
+		765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSharedSecretWindowController.m; path = Source/AIOTRSMPSharedSecretWindowController.m; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
@@ -5172,6 +5177,9 @@
 				765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */,
 				765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */,
 				765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */,
+				765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */,
+				765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */,
+				765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */,
 			);
 			name = OTR;
 			sourceTree = "<group>";
@@ -9778,6 +9786,7 @@
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
 				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
 				765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */,
+				765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10428,6 +10437,7 @@
 				5A4BD55413F86A6200A4D3F7 /* AIMessagePreferences.m in Sources */,
 				5A5EC831154649140043FFAA /* AIPreferenceCollectionItem.m in Sources */,
 				765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */,
+				765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
