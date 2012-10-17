@@ -36,8 +36,11 @@
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)
 #define	TITLE_MAKE_INSECURE		AILocalizedString(@"Cancel Encrypted Chat",nil)
 #define TITLE_SHOW_DETAILS		[AILocalizedString(@"Show Details",nil) stringByAppendingEllipsis]
-#define TITLE_VERIFY			[AILocalizedString(@"Verify",nil) stringByAppendingEllipsis]
-#define	TITLE_ENCRYPTION_OPTIONS AILocalizedString(@"Encryption Settings",nil)
+#define TITLE_VERIFY			AILocalizedString(@"Verify",nil)
+#define TITLE_VERIFY_MANUALLY	[AILocalizedString(@"Manually",nil) stringByAppendingEllipsis]
+#define TITLE_VERIFY_SHARED_SECRET		[AILocalizedString(@"Using Shared Secret",nil) stringByAppendingEllipsis]
+#define TITLE_VERIFY_SECRET_QUESTION	[AILocalizedString(@"Using Secret Question",nil) stringByAppendingEllipsis]
+#define	TITLE_ENCRYPTION_OPTIONS	AILocalizedString(@"Encryption Settings",nil)
 #define TITLE_ABOUT_ENCRYPTION	[AILocalizedString(@"About Encryption",nil) stringByAppendingEllipsis]
 
 #define TITLE_ENCRYPTION		AILocalizedString(@"Encryption",nil)
@@ -416,7 +419,9 @@
 				break;
 				
 			case AISecureMessagingMenu_ShowDetails:
-			case AISecureMessagingMenu_Verify:
+			case AISecureMessagingMenu_VerifyManually:
+			case AISecureMessagingMenu_VerifyQuestion:
+			case AISecureMessagingMenu_VerifySharedSecret:
 				//Only enable show details if the chat is secure
 				return [chat isSecure];
 				break;
@@ -458,11 +463,38 @@
 		[_secureMessagingMenu addItem:item];
 
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
+										   target:nil
+										   action:nil
+									keyEquivalent:@""] autorelease];
+		[item setTag:AISecureMessagingMenu_Verify];
+		NSMenu *verifySubmenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+		[item setSubmenu:verifySubmenu];
+		
+		[_secureMessagingMenu addItem:item];
+		
+		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_MANUALLY
 										   target:self
 										   action:@selector(verify:)
 									keyEquivalent:@""] autorelease];
-		[item setTag:AISecureMessagingMenu_Verify];
-		[_secureMessagingMenu addItem:item];
+		[item setTag:AISecureMessagingMenu_VerifyManually];
+		
+		[verifySubmenu addItem:item];
+		
+		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SECRET_QUESTION
+										   target:self
+										   action:@selector(verify:)
+									keyEquivalent:@""] autorelease];
+		[item setTag:AISecureMessagingMenu_VerifyQuestion];
+		
+		[verifySubmenu addItem:item];
+		
+		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SHARED_SECRET
+										   target:self
+										   action:@selector(verify:)
+									keyEquivalent:@""] autorelease];
+		[item setTag:AISecureMessagingMenu_VerifySharedSecret];
+		
+		[verifySubmenu addItem:item];
 		
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
 										   target:nil
