@@ -2,30 +2,30 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11G63</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2843</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>NSPopUpButton</string>
-			<string>NSButton</string>
-			<string>NSMenu</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSMenuItem</string>
 			<string>NSBox</string>
-			<string>NSTabView</string>
+			<string>NSButton</string>
+			<string>NSButtonCell</string>
 			<string>NSCustomObject</string>
-			<string>NSTabViewItem</string>
-			<string>NSView</string>
 			<string>NSCustomView</string>
-			<string>NSTextField</string>
+			<string>NSMenu</string>
+			<string>NSMenuItem</string>
+			<string>NSPopUpButton</string>
 			<string>NSPopUpButtonCell</string>
+			<string>NSTabView</string>
+			<string>NSTabViewItem</string>
+			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
+			<string>NSView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -216,25 +216,7 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="315057812">
-								<reference key="NSMenu" ref="123450384"/>
-								<string key="NSTitle">Nad ostatními okny</string>
-								<string key="NSKeyEquiv"/>
-								<int key="NSKeyEquivModMask">1048576</int>
-								<int key="NSMnemonicLoc">2147483647</int>
-								<int key="NSState">1</int>
-								<object class="NSCustomResource" key="NSOnImage" id="589868088">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuCheckmark</string>
-								</object>
-								<object class="NSCustomResource" key="NSMixedImage" id="597550957">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuMixedState</string>
-								</object>
-								<string key="NSAction">_popUpItemAction:</string>
-								<int key="NSTag">1</int>
-								<reference key="NSTarget" ref="648432122"/>
-							</object>
+							<nil key="NSMenuItem"/>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="123450384">
 								<object class="NSMutableString" key="NSTitle">
@@ -242,9 +224,27 @@
 								</object>
 								<object class="NSMutableArray" key="NSMenuItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="315057812"/>
+									<object class="NSMenuItem" id="315057812">
+										<reference key="NSMenu" ref="123450384"/>
+										<string key="NSTitle">Nad ostatními okny</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<object class="NSCustomResource" key="NSOnImage" id="589868088">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuCheckmark</string>
+										</object>
+										<object class="NSCustomResource" key="NSMixedImage" id="597550957">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuMixedState</string>
+										</object>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">1</int>
+										<reference key="NSTarget" ref="648432122"/>
+									</object>
 								</object>
 							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<int key="NSPreferredEdge">3</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -381,7 +381,19 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<nil key="NSMenuItem"/>
+							<object class="NSMenuItem" key="NSMenuItem" id="260769933">
+								<reference key="NSMenu" ref="565200201"/>
+								<string key="NSTitle">Přezdívka</string>
+								<string key="NSKeyEquiv"/>
+								<int key="NSKeyEquivModMask">1048576</int>
+								<int key="NSMnemonicLoc">2147483647</int>
+								<int key="NSState">1</int>
+								<reference key="NSOnImage" ref="589868088"/>
+								<reference key="NSMixedImage" ref="597550957"/>
+								<string key="NSAction">_popUpItemAction:</string>
+								<int key="NSTag">1</int>
+								<reference key="NSTarget" ref="250529975"/>
+							</object>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="565200201">
 								<object class="NSMutableString" key="NSTitle">
@@ -389,18 +401,7 @@
 								</object>
 								<object class="NSMutableArray" key="NSMenuItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<object class="NSMenuItem" id="260769933">
-										<reference key="NSMenu" ref="565200201"/>
-										<string key="NSTitle">Přezdívka</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="589868088"/>
-										<reference key="NSMixedImage" ref="597550957"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<int key="NSTag">1</int>
-										<reference key="NSTarget" ref="250529975"/>
-									</object>
+									<reference ref="260769933"/>
 									<object class="NSMenuItem" id="42655120">
 										<reference key="NSMenu" ref="565200201"/>
 										<string key="NSTitle">Přezdívka (skut. jméno)</string>
@@ -584,17 +585,15 @@
 						<string key="NSFrame">{{-2, 142}, {334, 153}}</string>
 						<reference key="NSSuperview" ref="97777641"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="673023347"/>
+						<reference key="NSNextKeyView" ref="276418137"/>
 						<object class="NSMutableArray" key="NSTabViewItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSTabViewItem" id="967513559">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="673023347">
-									<reference key="NSNextResponder" ref="253734282"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
-									<reference key="NSSuperview" ref="253734282"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="253734282"/>
 								</object>
 								<string key="NSLabel">Rozhovory</string>
@@ -604,7 +603,7 @@
 							<object class="NSTabViewItem" id="319082437">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="276418137">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="253734282"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -613,6 +612,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{14, 2}, {207, 18}}</string>
 											<reference key="NSSuperview" ref="276418137"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="253734282"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="1020229675">
@@ -633,6 +633,8 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
+									<reference key="NSSuperview" ref="253734282"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="885657101"/>
 								</object>
 								<string key="NSLabel">Skupinové rozhovory</string>
@@ -640,14 +642,14 @@
 								<reference key="NSTabView" ref="253734282"/>
 							</object>
 						</object>
-						<reference key="NSSelectedTabViewItem" ref="967513559"/>
+						<reference key="NSSelectedTabViewItem" ref="319082437"/>
 						<reference key="NSFont" ref="935961938"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="673023347"/>
+							<reference ref="276418137"/>
 						</object>
 					</object>
 				</object>
@@ -1374,7 +1376,7 @@
 					<string>81.IBPluginDependency</string>
 					<string>95.IBPluginDependency</string>
 				</object>
-				<object class="NSMutableArray" key="dict.values">
+				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1473,7 +1475,7 @@
 							<string>window_anchorOnLeftSide</string>
 							<string>window_anchorOnRightSide</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSView</string>
 							<string>NSView</string>
@@ -1490,7 +1492,7 @@
 							<string>window_anchorOnLeftSide</string>
 							<string>window_anchorOnRightSide</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">view_anchorToLeftSide</string>
@@ -1527,7 +1529,7 @@
 							<string>window_anchorOnLeftSide</string>
 							<string>window_anchorOnRightSide</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSView</string>
 							<string>NSView</string>
@@ -1544,7 +1546,7 @@
 							<string>window_anchorOnLeftSide</string>
 							<string>window_anchorOnRightSide</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">view_anchorToLeftSide</string>
@@ -1590,7 +1592,7 @@
 							<string>plugin</string>
 							<string>view</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>NSView</string>
@@ -1603,7 +1605,7 @@
 							<string>plugin</string>
 							<string>view</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">plugin</string>
@@ -1643,7 +1645,7 @@
 							<string>tabViewItem_regular</string>
 							<string>tabView_messageType</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSButton</string>
 							<string>NSButton</string>
@@ -1682,7 +1684,7 @@
 							<string>tabViewItem_regular</string>
 							<string>tabView_messageType</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">autohide_tabBar</string>
@@ -1763,7 +1765,7 @@
 							<string>toggleFindPanel:</string>
 							<string>willAdjustSubviews:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
 							<string>RBSplitView</string>
@@ -1782,7 +1784,7 @@
 							<string>toggleFindPanel:</string>
 							<string>willAdjustSubviews:</string>
 						</object>
-						<object class="NSMutableArray" key="dict.values">
+						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">adiumPrint:</string>
@@ -1879,10 +1881,10 @@
 				<string>NSMenuMixedState</string>
 				<string>NSSwitch</string>
 			</object>
-			<object class="NSMutableArray" key="dict.values">
+			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{9, 8}</string>
-				<string>{7, 2}</string>
+				<string>{11, 11}</string>
+				<string>{10, 3}</string>
 				<string>{15, 15}</string>
 			</object>
 		</object>
