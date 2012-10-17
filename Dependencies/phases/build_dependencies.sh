@@ -146,6 +146,7 @@ build_meanwhile() {
 	# Fixes accepting group chat invites from the standard Sametime client.
 	# Thanks to Jere Krischel and Jonathan Rice.
 	fwdpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0 || true
+	fwdpatch "$ROOTDIR/patches/Meanwhile-session.c.diff" -p0 || true
 	
 	if needsconfigure $@; then
 	(
@@ -180,6 +181,7 @@ build_meanwhile() {
 	revpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0
 	revpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0
 	revpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0
+	revpatch "$ROOTDIR/patches/Meanwhile-session.c.diff" -p0
 	
 	quiet popd
 }

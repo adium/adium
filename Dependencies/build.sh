@@ -162,8 +162,8 @@ if [ "$DISTCC_HOSTS" != "" ]; then
 	eval `$DEVELOPER/usr/bin/pump --startup`
 else
 	# Try to find the right gcc, even when XCode4 is installed
-	export CC="clang"
-	export CXX="clang"
+	export CC="xcrun clang"
+	export CXX="xcrun clang"
 	export CCAS="$CC"
 	export OBJC="$CC"
 fi

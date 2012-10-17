@@ -22,6 +22,11 @@
 
 #include <dispatch/dispatch.h>
 
+// This one is missing from the 10.6 headers...
+#ifndef NSEC_PER_MSEC
+#define NSEC_PER_MSEC (NSEC_PER_SEC / 1000)
+#endif
+
 //#define PURPLE_SOCKET_DEBUG
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing

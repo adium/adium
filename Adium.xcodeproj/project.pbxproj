@@ -1355,6 +1355,8 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
+		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
+		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
 		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
 		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
@@ -1659,6 +1661,7 @@
 				11EE1CD00CDD01120097F246 /* libgmodule.framework in Copy Frameworks */,
 				11EE1CD10CDD01120097F246 /* libgobject.framework in Copy Frameworks */,
 				11EE1CD20CDD01120097F246 /* libgthread.framework in Copy Frameworks */,
+				7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */,
 				11EE1CD30CDD01120097F246 /* libintl.framework in Copy Frameworks */,
 				11EE1CD40CDD01120097F246 /* libmeanwhile.framework in Copy Frameworks */,
 				11EE1CD50CDD01120097F246 /* libpurple.framework in Copy Frameworks */,
@@ -4387,6 +4390,7 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
@@ -4781,6 +4785,7 @@
 				9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */,
 				76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */,
 				76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */,
+				7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8162,6 +8167,7 @@
 		979AA6A914D59EF3008730DF /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				7664EAA4162E086A008CF995 /* libffi.framework */,
 				76731DE015F90538007728C3 /* libgcrypt.framework */,
 				76731DE115F90538007728C3 /* libgpgerror.framework */,
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,

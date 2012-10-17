@@ -122,6 +122,19 @@
 	return supportedPropertyKeys;
 }
 
+- (PurpleAccount *)purpleAccount
+{
+	if (!account) {
+		/* Lets be optimistic and hope they've fixed their buggy server today.
+		 * Do this here, so we only do it once for every run of Adium.
+		 */
+		account = [super purpleAccount];
+		purple_account_set_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false);
+	}
+	
+	return account;
+}
+
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
@@ -481,7 +494,13 @@
 		[self serverReportedInvalidPassword];
 		shouldAttemptReconnect = AIReconnectImmediately;
 	}
- 
+#ifdef HAVE_CDSA
+	else if (purple_account_get_bool([self purpleAccount],PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND,false) &&
+			 [*disconnectionError isEqualToString:[NSString stringWithUTF8String:_("SSL Handshake Failed")]]) {
+		AILog(@"%@: Reconnecting immediately to try to work around buggy TLS stacks",self);
+		shouldAttemptReconnect = AIReconnectNormally;
+	}
+#endif
 	return shouldAttemptReconnect;
 }
 

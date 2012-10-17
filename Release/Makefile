@@ -18,7 +18,7 @@
 ###########
 
 VERSION=1.7hg
-BUILD_IN_DEBUG_MODE?=FALSE
+BUILD_IN_DEBUG_MODE?=TRUE
 BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
 
@@ -164,6 +164,7 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
 		security unlock-keychain -p `cat ~/adium-password`; \
 	fi
+	codesign --verbose --force --sign "Developer ID Application: Instant Messaging Freedom, Inc." --requirements "=designated => anchor apple generic  and identifier \"com.adiumX.adiumX\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))" $(ADIUM_DIR)/Adium.app/Contents/Resources/AdiumApplescriptRunner
 	codesign --verbose --force --sign "Developer ID Application: Instant Messaging Freedom, Inc." --requirements "=designated => anchor apple generic  and identifier \"com.adiumX.adiumX\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))" $(ADIUM_DIR)/Adium.app
 endif
 
