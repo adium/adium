@@ -33,13 +33,16 @@
 {
     [super windowDidLoad];
     
-	[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to answer the following secret question to verify your identity:", nil), contact.UID]];
-	[label_question setStringValue:secretQuestion ?: @""];
+	[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to answer the following secret question to confirm your identity:", nil), contact.UID]];
+	
+	NSAttributedString *question = [[[NSAttributedString alloc] initWithString:secretQuestion ?: @""] autorelease];
+	
+	[[field_question textStorage] setAttributedString:question];
 }
 
 - (IBAction)okay:(id)sender
 {
-	handler([field_answer stringValue]);
+	handler([[field_answer textStorage] string]);
 	
 	[self close];
 	[self release];

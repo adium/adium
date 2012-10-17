@@ -31,12 +31,12 @@
 {
     [super windowDidLoad];
     
-	[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to verify your identity by giving your shared secret:", nil), contact.UID]];
+	[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to confirm your identity by giving your shared secret:", nil), contact.UID]];
 }
 
 - (IBAction)okay:(id)sender
 {
-	handler([field_secret stringValue]);
+	handler([[field_secret textStorage] string]);
 	
 	[self close];
 	[self release];
