@@ -36,7 +36,8 @@
 #import "ESOTRPreferences.h"
 #import "ESOTRUnknownFingerprintController.h"
 #import "OTRCommon.h"
-#import "AIOTRSMPSecretQuestionWindowController.h"
+#import "AIOTRSMPSecretAnswerWindowController.h"
+#import "AIOTRSMPSharedSecretWindowController.h"
 
 #import <stdlib.h>
 
@@ -713,22 +714,31 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event,
 					ConnContext *context, unsigned short progress_percent,
 					char *question)
 {
+	AIListContact *listContact = contactForContext(context);
+	
 	switch (smp_event) {
 		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
 			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question]
-																																 from:contactForContext(context)
-																													completionHandler:^(NSString *answer){
-																														otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-																													}];
+from:listContact completionHandler:^(NSString *answer){
+				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+			}];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
-			[questionController.window becomeKeyWindow];
 			
 			break;
 		}
+		case OTRL_SMPEVENT_ASK_FOR_SECRET: {
+			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:listContact completionHandler:^(NSString *answer){
+				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+			}];
+			
+			[questionController showWindow:nil];
+			[questionController.window orderFront:nil];
+		}
 		case OTRL_SMPEVENT_FAILURE: {
 			AILogWithSignature(@"SMP verification failed");
+			break;
 		}
 			
 		default:

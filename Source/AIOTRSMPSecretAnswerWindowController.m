@@ -8,10 +8,6 @@
 
 #import "AIOTRSMPSecretAnswerWindowController.h"
 
-@interface AIOTRSMPSecretAnswerWindowController ()
-
-@end
-
 @implementation AIOTRSMPSecretAnswerWindowController
 
 - (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer))inHandler
