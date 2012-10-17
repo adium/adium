@@ -41,6 +41,7 @@
 
 #define PRIVKEY_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
 #define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
+#define INSTAG_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.instag"] UTF8String]
 
 #define CLOSED_CONNECTION_MESSAGE "has closed his private connection to you"
 
@@ -729,6 +730,50 @@ static void timer_control_cb(void *opdata, unsigned int interval) {
 	}
 }
 
+static void
+handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event,
+				  ConnContext *context, const char *message,
+				  gcry_error_t err)
+{
+	AILogWithSignature(@"Something happened in this conversation: %s", message);
+	
+	AIListContact *listContact = contactForContext(context);
+	AIChat *chat = chatForContext(context);
+	
+	switch (msg_event) {
+		case OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED:
+			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+			
+			AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
+																   withSource:listContact
+																  destination:chat.account
+																		 date:nil
+																	  message:[AIHTMLDecoder decodeHTML:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"The following message was received <b>unencrypted:</b> %s", @"libotr error message", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), message]]
+																	autoreply:NO];
+			
+			[adium.contentController receiveContentObject:messageObject];
+			break;
+			
+		case OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE:
+			AILogWithSignature(@"Received an OTR message for a different instance. We will silently ignore it: %s", message);
+			break;
+		
+		case OTRL_MSGEVENT_LOG_HEARTBEAT_RCVD:
+		case OTRL_MSGEVENT_LOG_HEARTBEAT_SENT:
+			AILogWithSignature(@"I'm still alive");
+			break;
+			
+		default:
+			break;
+	}
+}
+
+void create_instag_cb(void *opdata, const char *accountname,
+					const char *protocol)
+{
+	otrl_instag_generate(otrg_plugin_userstate, INSTAG_PATH, accountname, protocol);
+}
+
 static OtrlMessageAppOps ui_ops = {
     policy_cb,
     create_privkey_cb,
@@ -743,16 +788,16 @@ static OtrlMessageAppOps ui_ops = {
 	max_message_size_cb,
 	account_display_name_cb,
 	account_display_name_free_cb,
-	NULL,
+	NULL /* received_symkey */,
 	error_message_cb,
 	error_message_free_cb,
 	resent_msg_prefix_cb,
 	resent_msg_prefix_free_cb,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
-	NULL,
+	NULL /* handle_smp_event */,
+	handle_msg_event_cb,
+	create_instag_cb,
+	NULL /* convert_msg */,
+	NULL /* convert_free */,
 	timer_control_cb,
 };
 
@@ -785,7 +830,7 @@ static OtrlMessageAppOps ui_ops = {
 
     } else if (fullOutgoingMessage) {
 		//This new message is what should be sent to the remote contact
-		[inContentMessage setEncodedMessage:[NSString stringWithUTF8String:originalMessage]];
+		[inContentMessage setEncodedMessage:[NSString stringWithUTF8String:fullOutgoingMessage]];
 
 		//We're now done with the messages allocated by OTR
 		otrl_message_free(fullOutgoingMessage);
