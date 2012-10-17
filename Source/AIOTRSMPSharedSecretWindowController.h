@@ -12,7 +12,7 @@
 
 @interface AIOTRSMPSharedSecretWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
-	IBOutlet	NSTextField *field_secret;
+	IBOutlet	NSTextView	*field_secret;
 	
 	AIListContact *contact;
 	void(^handler)(NSString *secret);

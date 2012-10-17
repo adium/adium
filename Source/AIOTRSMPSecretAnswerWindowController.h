@@ -12,8 +12,8 @@
 
 @interface AIOTRSMPSecretAnswerWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
-	IBOutlet	NSTextField *label_question;
-	IBOutlet	NSTextField	*field_answer;
+	IBOutlet	NSTextView	*field_question;
+	IBOutlet	NSTextView	*field_answer;
 	
 	NSString *secretQuestion;
 	AIListContact *contact;

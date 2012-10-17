@@ -710,9 +710,7 @@ void create_instag_cb(void *opdata, const char *accountname,
 }
 
 static void
-handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event,
-					ConnContext *context, unsigned short progress_percent,
-					char *question)
+handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, unsigned short progress_percent, char *question)
 {
 	AIListContact *listContact = contactForContext(context);
 	
@@ -736,9 +734,29 @@ from:listContact completionHandler:^(NSString *answer){
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
 		}
-		case OTRL_SMPEVENT_FAILURE: {
-			AILogWithSignature(@"SMP verification failed");
+		case OTRL_SMPEVENT_CHEATED:
+		case OTRL_SMPEVENT_ERROR:
+		/* case OTRL_SMPEVENT_FAILURE: */ // I'm not actually sure what this event indicates, but it's not fatal failure of SMP.
+		case OTRL_SMPEVENT_ABORT: {
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Failed to verify %@'s identity.", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
+			
+			AIChat *chat = chatForContext(context);
+			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+										   ofType:@"encryption"
+										   inChat:chat];
 			break;
+		}
+		case OTRL_SMPEVENT_SUCCESS: {
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Successfully verified %@'s identity.", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
+			
+			AIChat *chat = chatForContext(context);
+			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+										   ofType:@"encryption"
+										   inChat:chat];
+			otrg_plugin_write_fingerprints();
+			otrg_ui_update_keylist();
 		}
 			
 		default:
