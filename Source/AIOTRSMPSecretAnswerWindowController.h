@@ -1,5 +1,5 @@
 //
-//  AIOTRSMPSecretQuestionWindowController.h
+//  AIOTRSMPSecretAnswerWindowController.h
 //  Adium
 //
 //  Created by Thijs Alkemade on 17-10-12.
@@ -10,7 +10,7 @@
 #import <Adium/AIWindowController.h>
 #import <Adium/AIListContact.h>
 
-@interface AIOTRSMPSecretQuestionWindowController : AIWindowController {
+@interface AIOTRSMPSecretAnswerWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextField *label_question;
 	IBOutlet	NSTextField	*field_answer;
