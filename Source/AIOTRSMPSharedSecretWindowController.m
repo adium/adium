@@ -7,6 +7,7 @@
 //
 
 #import "AIOTRSMPSharedSecretWindowController.h"
+#import <AIUtilities/AIImageAdditions.h>
 
 @implementation AIOTRSMPSharedSecretWindowController
 
@@ -32,8 +33,10 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+	
+	[imageView_lock setImage:[NSImage imageNamed:@"lock-locked" forClass:[adium class]]];
     
-	if (isInitiator)
+	if (!isInitiator)
 		[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to confirm your identity by giving your shared secret:", nil), contact.UID]];
 	else
 		[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"Enter a shared secret to use to verify %@'s identity:", nil), contact.UID]];
@@ -49,7 +52,7 @@
 
 - (IBAction)cancel:(id)sender
 {
-	handler(nil);
+	if (!isInitiator) handler(nil);
 	
 	[self close];
 	[self release];
