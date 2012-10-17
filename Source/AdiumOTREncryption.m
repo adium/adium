@@ -663,7 +663,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event,
 																   withSource:listContact
 																  destination:chat.account
 																		 date:nil
-																	  message:[AIHTMLDecoder decodeHTML:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"The following message was received <b>unencrypted:</b> %s", @"libotr error message", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), message]]
+																	  message:[AIHTMLDecoder decodeHTML:[AILocalizedStringFromTableInBundle(@"The following message was <b>not encrypted</b>: ", @"libotr error message", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil) stringByAppendingString:[NSString stringWithUTF8String:message]]]
 																	autoreply:NO];
 			
 			[adium.contentController receiveContentObject:messageObject];
@@ -677,7 +677,25 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event,
 		case OTRL_MSGEVENT_LOG_HEARTBEAT_SENT:
 			AILogWithSignature(@"I'm still alive");
 			break;
+		case OTRL_MSGEVENT_RCVDMSG_UNRECOGNIZED:
+		case OTRL_MSGEVENT_RCVDMSG_MALFORMED:
+		case OTRL_MSGEVENT_RCVDMSG_NOT_IN_PRIVATE:
+		case OTRL_MSGEVENT_RCVDMSG_UNREADABLE: {
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"An encrypted message from %@ could not be decrypted.", @"libotr error message", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
 			
+			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+										   ofType:@"encryption"
+										   inChat:chat];
+		}
+		case OTRL_MSGEVENT_CONNECTION_ENDED: {
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ is no longer using encryption; you should cancel encryption on your side.", @"Message when the remote contact cancels his half of an encrypted conversation. %@ will be a name.", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
+			
+			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+										   ofType:@"encryption"
+										   inChat:chat];
+		}
 		default:
 			break;
 	}
@@ -832,71 +850,6 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 
 	if (newMessage)
 		otrl_message_free(newMessage);
-
-    tlv = otrl_tlv_find(tlvs, OTRL_TLV_DISCONNECTED);
-    if (tlv) {
-		/* Notify the user that the other side disconnected. */
-		
-		NSString *localizedMessage = [NSString stringWithFormat:AILocalizedString(@"%s is no longer using encryption; you should cancel encryption on your side.", "Message when the remote contact cancels his half of an encrypted conversation. %s will be a name."), username];
-		AIChat *chat = [adium.chatController chatWithContact:inListContact];
-		
-		if (chat) {
-			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
-										   ofType:@"encryption"
-										   inChat:chat];
-		}
-
-		otrg_ui_update_keylist();
-    }
-
-	/* Keep track of our current progress in the Socialist Millionaires'
-     * Protocol. */
-	ConnContext *context = otrl_context_find(otrg_plugin_userstate, username,
-											 accountname, protocol, OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
-    if (context) {
-		NextExpectedSMP nextMsg = context->smstate->nextExpected;
-		
-		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP1);
-		if (tlv) {
-			if (nextMsg != OTRL_SMP_EXPECT1)
-				otrg_plugin_abort_smp(context);
-			else {
-				otrg_dialogue_respond_socialist_millionaires(context);
-			}
-		}
-		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP2);
-		if (tlv) {
-			if (nextMsg != OTRL_SMP_EXPECT2)
-				otrg_plugin_abort_smp(context);
-			else {
-				otrg_dialog_update_smp(context, 0.6f);
-				context->smstate->nextExpected = OTRL_SMP_EXPECT4;
-			}
-		}
-		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP3);
-		if (tlv) {
-			if (nextMsg != OTRL_SMP_EXPECT3)
-				otrg_plugin_abort_smp(context);
-			else {
-				otrg_dialog_update_smp(context, 1.0f);
-				context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-			}
-		}
-		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP4);
-		if (tlv) {
-			if (nextMsg != OTRL_SMP_EXPECT4)
-				otrg_plugin_abort_smp(context);
-			else {
-				otrg_dialog_update_smp(context, 1.0f);
-				context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-			}
-		}
-		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP_ABORT);
-		if (tlv) {
-			otrg_dialog_update_smp(context, 0.0f);
-			context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-		}
-	}
 
     otrl_tlv_free(tlvs);
 	
