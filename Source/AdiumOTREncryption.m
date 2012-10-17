@@ -716,10 +716,12 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 	
 	switch (smp_event) {
 		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
-			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question]
-from:listContact completionHandler:^(NSString *answer){
-				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-			}];
+			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question] from:listContact completionHandler:^(NSString *answer,NSString *_question){
+				if(!answer) {
+					otrl_message_abort_smp(otrg_get_userstate(), &ui_ops, opdata, context);
+				} else
+					otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+			} isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
@@ -729,7 +731,7 @@ from:listContact completionHandler:^(NSString *answer){
 		case OTRL_SMPEVENT_ASK_FOR_SECRET: {
 			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:listContact completionHandler:^(NSString *answer){
 				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-			}];
+			} isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
@@ -889,6 +891,31 @@ static OtrlMessageAppOps ui_ops = {
 
 	[ESOTRUnknownFingerprintController showVerifyFingerprintPromptWithResponseInfo:responseInfo];	
 }
+
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	ConnContext		*context = contextForChat(inChat);
+	
+	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:@"" from:inChat.listObject completionHandler:^(NSString *answer, NSString *question) {
+		otrl_message_initiate_smp_q(otrg_get_userstate(), &ui_ops, NULL, context, (const char *)[question UTF8String], (const unsigned char *)[answer UTF8String], answer.length);
+	} isInitiator:TRUE];
+	
+	[windowController showWindow:nil];
+	[windowController.window orderFront:nil];
+}
+
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	ConnContext		*context = contextForChat(inChat);
+	
+	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:inChat.listObject completionHandler:^(NSString *answer) {
+		otrl_message_initiate_smp(otrg_get_userstate(), &ui_ops, NULL, context, (const unsigned char *)[answer UTF8String], answer.length);
+	} isInitiator:TRUE];
+	
+	[windowController showWindow:nil];
+	[windowController.window orderFront:nil];
+}
+
 
 /*!
  * @brief Adium will begin terminating

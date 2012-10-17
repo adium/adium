@@ -32,6 +32,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContentControllerProtocol.h>
 
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)
 #define	TITLE_MAKE_INSECURE		AILocalizedString(@"Cancel Encrypted Chat",nil)
@@ -316,7 +317,21 @@
 {
 	AIChat	*chat = adium.interfaceController.activeChat;
 	
-	[chat.account promptToVerifyEncryptionIdentityInChat:chat];	
+	[adium.contentController promptToVerifyEncryptionIdentityInChat:chat];
+}
+
+- (IBAction)verifyQuestion:(id)sender
+{
+	AIChat	*chat = adium.interfaceController.activeChat;
+	
+	[adium.contentController questionVerifyEncryptionIdentityInChat:chat];
+}
+
+- (IBAction)verifyShared:(id)sender
+{
+	AIChat	*chat = adium.interfaceController.activeChat;
+	
+	[adium.contentController sharedVerifyEncryptionIdentityInChat:chat];
 }
 
 - (IBAction)showAbout:(id)sender
@@ -482,7 +497,7 @@
 		
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SECRET_QUESTION
 										   target:self
-										   action:@selector(verify:)
+										   action:@selector(verifyQuestion:)
 									keyEquivalent:@""] autorelease];
 		[item setTag:AISecureMessagingMenu_VerifyQuestion];
 		
@@ -490,7 +505,7 @@
 		
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SHARED_SECRET
 										   target:self
-										   action:@selector(verify:)
+										   action:@selector(verifyShared:)
 									keyEquivalent:@""] autorelease];
 		[item setTag:AISecureMessagingMenu_VerifySharedSecret];
 		
