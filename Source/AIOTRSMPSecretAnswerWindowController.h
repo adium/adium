@@ -13,8 +13,10 @@
 @interface AIOTRSMPSecretAnswerWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextField	*label_answer;
+	IBOutlet	NSTextField	*label_tips;
 	IBOutlet	NSTextView	*field_question;
 	IBOutlet	NSTextView	*field_answer;
+	IBOutlet	NSImageView	*imageView_lock;
 	
 	BOOL isInitiator;
 	NSString *secretQuestion;
