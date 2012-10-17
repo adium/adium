@@ -1064,7 +1064,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	return [participatingContacts countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 - (BOOL) canContainObject:(id)obj
