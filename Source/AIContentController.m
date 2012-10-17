@@ -807,6 +807,16 @@
 	[adiumEncryptor promptToVerifyEncryptionIdentityInChat:inChat];
 }
 
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor questionVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor sharedVerifyEncryptionIdentityInChat:inChat];
+}
+
 #pragma mark -
 /*!
  * @brief Is the passed chat currently receiving content?

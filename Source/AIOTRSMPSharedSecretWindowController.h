@@ -14,12 +14,13 @@
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextView	*field_secret;
 	
+	BOOL isInitiator;
 	AIListContact *contact;
 	void(^handler)(NSString *secret);
 }
 
 - (IBAction)okay:(id)sender;
 - (IBAction)cancel:(id)sender;
-- (id)initFrom:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer))inHandler;
+- (id)initFrom:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer))inHandler isInitiator:(BOOL)inInitiator;
 
 @end
