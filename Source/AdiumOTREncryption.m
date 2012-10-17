@@ -36,6 +36,7 @@
 #import "ESOTRPreferences.h"
 #import "ESOTRUnknownFingerprintController.h"
 #import "OTRCommon.h"
+#import "AIOTRSMPSecretQuestionWindowController.h"
 
 #import <stdlib.h>
 
@@ -707,6 +708,34 @@ void create_instag_cb(void *opdata, const char *accountname,
 	otrl_instag_generate(otrg_plugin_userstate, INSTAG_PATH, accountname, protocol);
 }
 
+static void
+handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event,
+					ConnContext *context, unsigned short progress_percent,
+					char *question)
+{
+	switch (smp_event) {
+		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
+			AIOTRSMPSecretQuestionWindowController *questionController = [[AIOTRSMPSecretQuestionWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question]
+																																	 from:contactForContext(context)
+																														completionHandler:^(NSString *answer){
+																															otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+																														}];
+			
+			[questionController showWindow:nil];
+			[questionController.window orderFront:nil];
+			[questionController.window becomeKeyWindow];
+			
+			break;
+		}
+		case OTRL_SMPEVENT_FAILURE: {
+			AILogWithSignature(@"SMP verification failed");
+		}
+			
+		default:
+			break;
+	}
+}
+
 static OtrlMessageAppOps ui_ops = {
     policy_cb,
     create_privkey_cb,
@@ -726,7 +755,7 @@ static OtrlMessageAppOps ui_ops = {
 	error_message_free_cb,
 	resent_msg_prefix_cb,
 	resent_msg_prefix_free_cb,
-	NULL /* handle_smp_event */,
+	handle_smp_event_cb,
 	handle_msg_event_cb,
 	create_instag_cb,
 	NULL /* convert_msg */,
@@ -768,47 +797,6 @@ static OtrlMessageAppOps ui_ops = {
 		//We're now done with the messages allocated by OTR
 		otrl_message_free(fullOutgoingMessage);
     }
-}
-
-/* Abort the SMP protocol.  Used when malformed or unexpected messages
- * are received. */
-static void otrg_plugin_abort_smp(ConnContext *context)
-{
-	otrl_message_abort_smp(otrg_plugin_userstate, &ui_ops, NULL, context);
-}
-
-/* Start the Socialist Millionaires' Protocol over the current connection,
- * using the given initial secret. */
-void otrg_plugin_start_smp(ConnContext *context,
-						   const unsigned char *secret, size_t secretlen)
-{
-    otrl_message_initiate_smp(otrg_plugin_userstate, &ui_ops, NULL,
-							  context, secret, secretlen);	
-}
-
-/* Continue the Socialist Millionaires' Protocol over the current connection,
- * using the given initial secret (ie finish step 2). */
-void otrg_plugin_continue_smp(ConnContext *context,
-							  const unsigned char *secret, size_t secretlen)
-{
-	otrl_message_respond_smp(otrg_plugin_userstate, &ui_ops, NULL,
-							 context, secret, secretlen);
-}
-
-/* Show a dialog asking the user to respond to an SMP secret sent by a remote contact.
- * Our user should enter the same secret entered by the remote contact. */
-static void otrg_dialogue_respond_socialist_millionaires(ConnContext *context)
-{
-    if (context == NULL || context->msgstate != OTRL_MSGSTATE_ENCRYPTED)
-		return;
-
-	/* XXX Implement me - prompt to respond to a secret, and then call
-	 * otrg_plugin_continue_smp() with the secret and the appropriate context */
-}
-
-static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
-{
-	/* SMP status update */
 }
 
 - (NSString *)decryptIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount
