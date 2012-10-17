@@ -715,11 +715,11 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event,
 {
 	switch (smp_event) {
 		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
-			AIOTRSMPSecretQuestionWindowController *questionController = [[AIOTRSMPSecretQuestionWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question]
-																																	 from:contactForContext(context)
-																														completionHandler:^(NSString *answer){
-																															otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-																														}];
+			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question]
+																																 from:contactForContext(context)
+																													completionHandler:^(NSString *answer){
+																														otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+																													}];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];

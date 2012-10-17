@@ -1,22 +1,22 @@
 //
-//  AIOTRSMPSecretQuestionWindowController.m
+//  AIOTRSMPSecretAnswerWindowController.m
 //  Adium
 //
 //  Created by Thijs Alkemade on 17-10-12.
 //  Copyright (c) 2012 The Adium Team. All rights reserved.
 //
 
-#import "AIOTRSMPSecretQuestionWindowController.h"
+#import "AIOTRSMPSecretAnswerWindowController.h"
 
-@interface AIOTRSMPSecretQuestionWindowController ()
+@interface AIOTRSMPSecretAnswerWindowController ()
 
 @end
 
-@implementation AIOTRSMPSecretQuestionWindowController
+@implementation AIOTRSMPSecretAnswerWindowController
 
 - (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer))inHandler
 {
-	if (self = [super initWithWindowNibName:@"AIOTRSMPSecretQuestionWindowController"]) {
+	if (self = [super initWithWindowNibName:@"AIOTRSMPSecretAnswerWindowController"]) {
 		secretQuestion = [inQuestion retain];
 		contact = [inContact retain];
 		handler = Block_copy(inHandler);
