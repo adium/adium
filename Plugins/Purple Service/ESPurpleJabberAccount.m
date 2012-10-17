@@ -503,7 +503,7 @@
 	else if (purple_account_get_bool([self purpleAccount],PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND,false) &&
 			 [*disconnectionError isEqualToString:[NSString stringWithUTF8String:_("SSL Handshake Failed")]]) {
 		AILog(@"%@: Reconnecting immediately to try to work around buggy TLS stacks",self);
-		shouldAttemptReconnect = AIReconnectImmediately;
+		shouldAttemptReconnect = AIReconnectNormally;
 	}
 #endif
 	return shouldAttemptReconnect;
