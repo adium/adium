@@ -395,12 +395,22 @@ void otrg_plugin_create_privkey(const char *accountname,
 	[ESOTRPrivateKeyGenerationWindowController startedGeneratingForIdentifier:identifier];
 	
     /* Generate the key */
-    otrl_privkey_generate(otrg_plugin_userstate, PRIVKEY_PATH,
-						  accountname, protocol);
-    otrg_ui_update_keylist();
+	void *newkeyp;
+    otrl_privkey_generate_start(otrg_get_userstate(),
+						  accountname, protocol, &newkeyp);
 	
-    /* Mark the dialog as done. */
-	[ESOTRPrivateKeyGenerationWindowController finishedGeneratingForIdentifier:identifier];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		otrl_privkey_generate_calculate(newkeyp);
+		
+		dispatch_sync(dispatch_get_main_queue(), ^{
+			otrl_privkey_generate_finish(otrg_get_userstate(), newkeyp, PRIVKEY_PATH);
+			
+			otrg_ui_update_keylist();
+			
+			/* Mark the dialog as done. */
+			[ESOTRPrivateKeyGenerationWindowController finishedGeneratingForIdentifier:identifier];
+		});
+	});
 }
 
 /* Create a private key for the given accountname/protocol if
