@@ -79,7 +79,7 @@ static int nextChatNumber = 0;
 		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
 
-		AILog(@"[AIChat: %x initForAccount]",self);
+		AILog(@"[AIChat: %p initForAccount]",self);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector(contentObjectAdded:) 
@@ -879,7 +879,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[account setTopic:inTopic forChat:self];
 		}
 	} else {
-		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
+		AILogWithSignature(@"Attempt to topic when account doesn't support it.");
 	}
 }
 

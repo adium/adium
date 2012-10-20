@@ -295,7 +295,7 @@
 											 defaultButton:AILocalizedString(@"Close", nil)
 										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
 											   otherButton:nil
-								 informativeTextWithFormat:question];
+								 informativeTextWithFormat:@"%@", question];
 			
 			[alert setShowsSuppressionButton:YES];
 			[[alert suppressionButton] setTitle:suppressionText];

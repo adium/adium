@@ -105,7 +105,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//Create a purple account if one does not already exist
 	if (!account) {
 		[self createNewPurpleAccount];
-		AILog(@"Created PurpleAccount 0x%x with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount %p with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	}
 	
     return account;
@@ -1597,7 +1597,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 		if (account->perm_deny != privacyType) {
 			account->perm_deny = privacyType;
 			serv_set_permit_deny(purple_account_get_connection(account));
-			AILog(@"Set privacy options for %@ (%x %x) to %i",
+			AILog(@"Set privacy options for %@ (%p %p) to %i",
 				  self,account,purple_account_get_connection(account),account->perm_deny);
 
 			[self setPreference:[NSNumber numberWithInteger:option]
@@ -1605,7 +1605,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 						  group:GROUP_ACCOUNT_STATUS];			
 		}
 	} else {
-		AILog(@"Couldn't set privacy options for %@ (%x %x)",self,account,purple_account_get_connection(account));
+		AILog(@"Couldn't set privacy options for %@ (%p %p)",self,account,purple_account_get_connection(account));
 	}
 }
 
@@ -2081,7 +2081,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	AILog(@"************ %@ --step-- %i",self.UID,[step integerValue]);
+	AILog(@"************ %@ --step-- %li",self.UID,[step integerValue]);
 }
 
 /*!
@@ -2111,7 +2111,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//-[SLPurpleCocoaAdapter addAdiumAccount:] should have immediately called back on setPurpleAccount. It's bad if it didn't.
 	if (account) {
-		AILog(@"Created PurpleAccount 0x%x with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount %p with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	} else {
 		AILog(@"Unable to create Libpurple account with name %s and protocol plugin %s",
 			  self.purpleAccountName, [self protocolPlugin]);
@@ -2642,7 +2642,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								 * to nil and we'll continue below to convert the image. */
 								buddyIconData = imageData;
 								
-								AILog(@"%@: Trying to use original GIF data, %i bytes", self, [buddyIconData length]);
+								AILog(@"%@: Trying to use original GIF data, %li bytes", self, [buddyIconData length]);
 								
 								if (!buddyIconData) {
 									AILog(@"%@: Failed to use original GIF", self);
@@ -2664,9 +2664,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								if ([buddyIconData length] > maxFileSize) {
 									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
 									
-									AILog(@"%@: GIF too large, use a still JPEG of %i bytes", self, [buddyIconData length]);
+									AILog(@"%@: GIF too large, use a still JPEG of %li bytes", self, [buddyIconData length]);
 								} else {
-									AILog(@"%@: Resized GIF, new file size %i!", self, [buddyIconData length]);
+									AILog(@"%@: Resized GIF, new file size %li!", self, [buddyIconData length]);
 								}
 								
 								if (buddyIconData)
@@ -2711,7 +2711,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 						size_t maxFileSize = prpl_info->icon_spec.max_filesize;
 						
 						if (maxFileSize > 0 && ([buddyIconData length] > maxFileSize)) {
-							AILog(@"%@: Image %i is larger than %i!", self, [buddyIconData length], maxFileSize);
+							AILog(@"%@: Image %li is larger than %zi!", self, [buddyIconData length], maxFileSize);
 							
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
@@ -2726,7 +2726,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			}
 		}
 
-		AILogWithSignature(@"%@: Setting icon data of length %i", self, [buddyIconData length]);
+		AILogWithSignature(@"%@: Setting icon data of length %li", self, [buddyIconData length]);
 		[purpleAdapter setBuddyIcon:buddyIconData onAccount:self];
 	}
 	

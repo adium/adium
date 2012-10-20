@@ -195,7 +195,7 @@
         }
         
         if (err != nil)
-            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %ld %@", self.host, [err code], [err localizedDescription]);
 	
 		[configData release]; configData = nil;
 		[config release];

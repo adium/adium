@@ -1124,7 +1124,7 @@
 		[self.enclosingScrollView setBackgroundColor:[NSColor controlBackgroundColor]];
 	}
 	
-	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
+	NSString *counterText = [NSString stringWithFormat:@"%ld", currentCount];
 	
 	if (characterCounterPrefix) {
 		counterText = [NSString stringWithFormat:@"%@%@", characterCounterPrefix, counterText];
@@ -1593,7 +1593,7 @@
 		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
 		
 		//Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString

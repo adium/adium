@@ -346,7 +346,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 										defaultButton:AILocalizedString(@"Delete", nil)
 									  alternateButton:AILocalizedString(@"Cancel", nil)
 										  otherButton:nil
-							informativeTextWithFormat:((selectionCount > 1) ?
+							informativeTextWithFormat:@"%@", ((selectionCount > 1) ?
 													   AILocalizedString(@"The selected Xtras will be moved to the Trash.", nil) :
 													   AILocalizedString(@"The selected Xtra will be moved to the Trash.", nil))];
 	[warning beginSheetModalForWindow:self.view.window

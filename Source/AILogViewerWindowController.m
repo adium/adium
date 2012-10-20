@@ -665,7 +665,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [resultsLock lock];
     NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
-	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
+	AILog(@"refreshResultsSearchIsComplete: %i (count is %li)",searchIsComplete,count);
 	
 	if (searchIsComplete &&
 		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
@@ -1123,7 +1123,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	[textView_content scrollRangeToVisible:scrollTo];
 	[textView_content setSelectedRange:scrollTo];
 
-	[textField_findCount setStringValue:[NSString stringWithFormat:@"%d/%d", currentMatch, [matches count]]];
+	[textField_findCount setStringValue:[NSString stringWithFormat:@"%ld/%ld", currentMatch, [matches count]]];
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
@@ -1668,7 +1668,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				 */
 				theLog = [[logToGroupDict objectForKey:toPath] logAtPath:path];
 				if (!theLog) {
-					AILog(@"_logContentFilter: %x's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
+					AILog(@"_logContentFilter: %p's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
 				}
 				[resultsLock lock];
 				if ((theLog != nil) &&
@@ -1736,7 +1736,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
+		AILogWithSignature(@"Search ID %li: %@", searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1762,7 +1762,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILogWithSignature(@"Search ID %i): finished", searchID);
+		AILogWithSignature(@"Search ID %li): finished", searchID);
     }
 	
     //Cleanup

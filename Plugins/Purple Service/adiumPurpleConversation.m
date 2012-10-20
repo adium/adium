@@ -549,7 +549,7 @@ static void adiumPurpleConvCustomSmileyWrite(PurpleConversation *conv, const cha
 									const guchar *data, gsize size)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AILog(@"%s: Write Custom Smiley %s (%x %i)",purple_conversation_get_name(conv),smile,data,size);
+	AILog(@"%s: Write Custom Smiley %s (%p %lu)",purple_conversation_get_name(conv),smile,data,size);
 
 	[accountLookup(purple_conversation_get_account(conv)) chat:chatLookupFromConv(conv)
 					 setCustomEmoticon:[NSString stringWithUTF8String:smile]

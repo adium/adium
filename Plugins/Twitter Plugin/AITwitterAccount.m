@@ -243,7 +243,7 @@
 		
 		
 		if(!timelineBookmark) {
-			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
+			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@", self,
 				  self.timelineChatName, newTimelineChat,
 				  [adium.contactController groupWithUID:self.timelineGroupName]);
 		}
@@ -1150,7 +1150,7 @@
 - (void)periodicUpdate
 {
 	if (pendingUpdateCount) {
-		AILogWithSignature(@"%@ Update already in progress. Count = %d", self, pendingUpdateCount);
+		AILogWithSignature(@"%@ Update already in progress. Count = %ld", self, pendingUpdateCount);
 		return;
 	}
 	
@@ -1710,7 +1710,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d updates", self, queuedUpdates.count);
+		AILogWithSignature(@"%@ Displaying %ld updates", self, queuedUpdates.count);
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
@@ -1783,7 +1783,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d DMs", self, queuedDM.count);
+		AILogWithSignature(@"%@ Displaying %ld DMs", self, queuedDM.count);
 		
 		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		
@@ -2383,7 +2383,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			if (users.count > 0) {
 				
-				AILogWithSignature(@"%@ User info pull, Users count: %d", self, users.count);
+				AILogWithSignature(@"%@ User info pull, Users count: %ld", self, users.count);
 				
 				for (NSDictionary *user in users) {
 					
