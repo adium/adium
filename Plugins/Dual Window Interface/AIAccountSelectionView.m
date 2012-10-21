@@ -22,8 +22,8 @@
 -(void)drawRect:(NSRect)aRect
 {
     NSBezierPath *path = [NSBezierPath bezierPathWithRect:self.bounds];
-    [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.80f alpha:1.0f]
-                                  endColor:[NSColor colorWithCalibratedWhite:0.95f alpha:1.0f]];
+    [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]
+                                  endColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
     
     path = [NSBezierPath bezierPath];
     
@@ -32,7 +32,7 @@
     [path moveToPoint:NSMakePoint(NSMinX(self.bounds), NSMinY(self.bounds))];
     [path lineToPoint:NSMakePoint(NSMaxX(self.bounds), NSMinY(self.bounds))];
     
-    [[NSColor colorWithCalibratedWhite:0.65f alpha:1.0f] setStroke];
+    [[NSColor colorWithCalibratedWhite:0.45f alpha:1.0f] setStroke];
     [path stroke];
 }
 
