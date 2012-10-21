@@ -1414,7 +1414,8 @@
     }
     
     [NSAnimationContext endGrouping];
-    [self _updateTextEntryViewHeight];
+    
+    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.1];
 }
 
 @end
