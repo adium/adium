@@ -1394,22 +1394,26 @@
     }
     
     NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
+    
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:0.05];
     if (splitViewSize.height != NSHeight(splitView_verticalSplit.frame)) {
         [splitView_verticalSplit.animator setFrameSize:splitViewSize];
     }
     
-    [view_topBars setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
-    [view_topBars setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
+    [view_topBars.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
+    [view_topBars.animator setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
     
     yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
         if (![existingController.view isHidden]) {
-            [existingController.view setFrameOrigin:NSMakePoint(0.0f, yPosition)];
-            [existingController.view setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
+            [existingController.view.animator setFrameOrigin:NSMakePoint(0.0f, yPosition)];
+            [existingController.view.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
             yPosition += NSHeight(existingController.view.frame);
         }
     }
     
+    [NSAnimationContext endGrouping];
     [self _updateTextEntryViewHeight];
 }
 
