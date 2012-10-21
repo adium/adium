@@ -651,18 +651,20 @@ static int nextChatNumber = 0;
 	//Send any file we were told to send to every participating list object (anyone remember the AOL mass mailing zareW scene?)
 	if (fileURL && fileURL.path.length) {
 		
+        for (AIListContact *listContact in self.containedObjects) {
 			AIListContact   *targetFileTransferContact;
 			
 			//Make sure we know where we are sending the file by finding the best contact for
 			//sending CONTENT_FILE_TRANSFER_TYPE.
 			if ((targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
-																						forListContact:self.listObject])) {
+                                                                                      forListContact:listContact])) {
 				[adium.fileTransferController sendFile:[fileURL path]
-										   toListContact:targetFileTransferContact];
+                                         toListContact:targetFileTransferContact];
 			} else {
 				AILogWithSignature(@"No contact available to receive files to %@", self.listObject);
 				NSBeep();
-		}
+            }
+        }
 	}
 	
 	return nil;
