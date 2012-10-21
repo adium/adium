@@ -24,10 +24,15 @@
     NSBezierPath *path = [NSBezierPath bezierPathWithRect:self.bounds];
     [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.80f alpha:1.0f]
                                   endColor:[NSColor colorWithCalibratedWhite:0.95f alpha:1.0f]];
+    
     path = [NSBezierPath bezierPath];
+    
+    [path setLineWidth:2.0f];
+    
     [path moveToPoint:NSMakePoint(NSMinX(self.bounds), NSMinY(self.bounds))];
     [path lineToPoint:NSMakePoint(NSMaxX(self.bounds), NSMinY(self.bounds))];
-    [[NSColor blackColor] setStroke];
+    
+    [[NSColor colorWithCalibratedWhite:0.65f alpha:1.0f] setStroke];
     [path stroke];
 }
 
