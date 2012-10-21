@@ -1366,6 +1366,9 @@
 		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
 		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
+		767870CE16334AA700BD0E4D /* AIAccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767870CD16334AA600BD0E4D /* AIAccountSelectionViewController.m */; };
+		767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */; };
+		767870E51634139600BD0E4D /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767870E71634139600BD0E4D /* AIAccountSelectionTopBar.xib */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
 		76889DEF12D3CA40007AEF00 /* Profile.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Profile.tiff */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
@@ -4392,6 +4395,11 @@
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
 		76731DE115F90538007728C3 /* libgpgerror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgpgerror.framework; path = Frameworks/libgpgerror.framework; sourceTree = "<group>"; };
+		767870CC16334AA600BD0E4D /* AIAccountSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAccountSelectionViewController.h; path = Source/AIAccountSelectionViewController.h; sourceTree = "<group>"; };
+		767870CD16334AA600BD0E4D /* AIAccountSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAccountSelectionViewController.m; path = Source/AIAccountSelectionViewController.m; sourceTree = "<group>"; };
+		767870E21634045C00BD0E4D /* AIMessageViewTopBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewTopBarController.h; path = Source/AIMessageViewTopBarController.h; sourceTree = "<group>"; };
+		767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewTopBarController.m; path = Source/AIMessageViewTopBarController.m; sourceTree = "<group>"; };
+		767870E61634139600BD0E4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIAccountSelectionTopBar.xib; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
 		76889DEE12D3CA40007AEF00 /* Profile.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Profile.tiff; path = Resources/Profile.tiff; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
@@ -7065,6 +7073,9 @@
 			children = (
 				4B25494603F6A32700A8010A /* AIAccountSelectionView.h */,
 				4B25494703F6A32700A8010A /* AIAccountSelectionView.m */,
+				767870E71634139600BD0E4D /* AIAccountSelectionTopBar.xib */,
+				767870CC16334AA600BD0E4D /* AIAccountSelectionViewController.h */,
+				767870CD16334AA600BD0E4D /* AIAccountSelectionViewController.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -8664,6 +8675,8 @@
 				348C47150D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.h */,
 				348C47160D3B20BE00FB6E7A /* AIMessageWindowOutgoingScrollView.m */,
 				5A1FEA601334549300C14951 /* MessageView.xib */,
+				767870E21634045C00BD0E4D /* AIMessageViewTopBarController.h */,
+				767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -9775,6 +9788,7 @@
 				C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */,
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
 				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
+				767870E51634139600BD0E4D /* AIAccountSelectionTopBar.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10424,6 +10438,8 @@
 				5A4BD52513F8653D00A4D3F7 /* ESContactListAdvancedPreferences.m in Sources */,
 				5A4BD55413F86A6200A4D3F7 /* AIMessagePreferences.m in Sources */,
 				5A5EC831154649140043FFAA /* AIPreferenceCollectionItem.m in Sources */,
+				767870CE16334AA700BD0E4D /* AIAccountSelectionViewController.m in Sources */,
+				767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12173,6 +12189,15 @@
 				5A80CCA3121F5A7B00D0670A /* uk */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		767870E71634139600BD0E4D /* AIAccountSelectionTopBar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				767870E61634139600BD0E4D /* en */,
+			);
+			name = AIAccountSelectionTopBar.xib;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

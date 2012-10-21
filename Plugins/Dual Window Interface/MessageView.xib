@@ -2,28 +2,28 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12A154q</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2429</string>
-		<string key="IBDocument.AppKitVersion">1162.3</string>
-		<string key="IBDocument.HIToolboxVersion">604.00</string>
+		<string key="IBDocument.SystemVersion">11G56</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2429</string>
+			<string key="NS.object.0">2843</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSScroller</string>
-			<string>NSSplitView</string>
-			<string>NSButton</string>
-			<string>NSScrollView</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
 			<string>NSBox</string>
-			<string>NSOutlineView</string>
+			<string>NSButton</string>
+			<string>NSButtonCell</string>
 			<string>NSCustomObject</string>
 			<string>NSCustomView</string>
+			<string>NSOutlineView</string>
+			<string>NSScrollView</string>
+			<string>NSScroller</string>
+			<string>NSSplitView</string>
 			<string>NSTableColumn</string>
-			<string>NSView</string>
 			<string>NSTextField</string>
+			<string>NSTextFieldCell</string>
+			<string>NSView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -57,65 +57,11 @@
 									<object class="NSCustomView" id="687025598">
 										<reference key="NSNextResponder" ref="465253647"/>
 										<int key="NSvFlags">271</int>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSBox" id="632298351">
-												<reference key="NSNextResponder" ref="687025598"/>
-												<int key="NSvFlags">6</int>
-												<array class="NSMutableArray" key="NSSubviews">
-													<object class="NSView" id="739771638">
-														<reference key="NSNextResponder" ref="632298351"/>
-														<int key="NSvFlags">274</int>
-														<string key="NSFrame">{{1, 1}, {479, 0}}</string>
-														<reference key="NSSuperview" ref="632298351"/>
-														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="351509238"/>
-													</object>
-												</array>
-												<string key="NSFrameSize">{481, 1}</string>
-												<reference key="NSSuperview" ref="687025598"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="739771638"/>
-												<string key="NSOffsets">{0, 0}</string>
-												<object class="NSTextFieldCell" key="NSTitleCell">
-													<int key="NSCellFlags">67108864</int>
-													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">Box</string>
-													<object class="NSFont" key="NSSupport" id="523686606">
-														<string key="NSName">LucidaGrande</string>
-														<double key="NSSize">13</double>
-														<int key="NSfFlags">1044</int>
-													</object>
-													<object class="NSColor" key="NSBackgroundColor" id="71900893">
-														<int key="NSColorSpace">6</int>
-														<string key="NSCatalogName">System</string>
-														<string key="NSColorName">textBackgroundColor</string>
-														<object class="NSColor" key="NSColor" id="784917762">
-															<int key="NSColorSpace">3</int>
-															<bytes key="NSWhite">MQA</bytes>
-														</object>
-													</object>
-													<object class="NSColor" key="NSTextColor">
-														<int key="NSColorSpace">3</int>
-														<bytes key="NSWhite">MCAwLjgwMDAwMDAxMTkAA</bytes>
-													</object>
-												</object>
-												<reference key="NSContentView" ref="739771638"/>
-												<int key="NSBorderType">1</int>
-												<int key="NSBoxType">4</int>
-												<int key="NSTitlePosition">0</int>
-												<bool key="NSTransparent">NO</bool>
-												<object class="NSColor" key="NSBorderColor2" id="33147168">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC42NjY2NjY2NjY3IDAuNjY2NjY2NjY2NyAwLjY2NjY2NjY2NjcAA</bytes>
-												</object>
-												<reference key="NSFillColor2" ref="33147168"/>
-											</object>
-										</array>
 										<string key="NSFrame">{{0, 302}, {481, 59}}</string>
 										<reference key="NSSuperview" ref="465253647"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="632298351"/>
-										<string key="NSClassName">AIAccountSelectionView</string>
+										<reference key="NSNextKeyView" ref="351509238"/>
+										<string key="NSClassName">NSView</string>
 									</object>
 									<object class="NSSplitView" id="351509238">
 										<reference key="NSNextResponder" ref="465253647"/>
@@ -173,7 +119,6 @@
 																				<reference key="NSSuperview" ref="60130733"/>
 																				<reference key="NSWindow"/>
 																				<reference key="NSNextKeyView" ref="657097854"/>
-																				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																				<reference key="NSTarget" ref="60130733"/>
 																				<string key="NSAction">_doScroller:</string>
 																				<double key="NSCurValue">1</double>
@@ -186,7 +131,6 @@
 																				<reference key="NSSuperview" ref="60130733"/>
 																				<reference key="NSWindow"/>
 																				<reference key="NSNextKeyView" ref="916213062"/>
-																				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																				<int key="NSsFlags">1</int>
 																				<reference key="NSTarget" ref="60130733"/>
 																				<string key="NSAction">_doScroller:</string>
@@ -201,9 +145,6 @@
 																		<reference key="NSVScroller" ref="881321079"/>
 																		<reference key="NSHScroller" ref="657097854"/>
 																		<reference key="NSContentView" ref="916213062"/>
-																		<double key="NSMinMagnification">0.25</double>
-																		<double key="NSMaxMagnification">4</double>
-																		<double key="NMagnification">1</double>
 																	</object>
 																</array>
 																<string key="NSFrameSize">{345, 264}</string>
@@ -240,7 +181,10 @@
 																				<reference key="NSWindow"/>
 																				<reference key="NSNextKeyView" ref="662114219"/>
 																				<reference key="NSDocView" ref="662114219"/>
-																				<reference key="NSBGColor" ref="33147168"/>
+																				<object class="NSColor" key="NSBGColor" id="33147168">
+																					<int key="NSColorSpace">1</int>
+																					<bytes key="NSRGB">MC42NjY2NjY2NjY3IDAuNjY2NjY2NjY2NyAwLjY2NjY2NjY2NjcAA</bytes>
+																				</object>
 																				<int key="NScvFlags">6</int>
 																			</object>
 																			<object class="NSScroller" id="949636887">
@@ -250,7 +194,6 @@
 																				<reference key="NSSuperview" ref="1006380680"/>
 																				<reference key="NSWindow"/>
 																				<reference key="NSNextKeyView" ref="60271943"/>
-																				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																				<reference key="NSTarget" ref="1006380680"/>
 																				<string key="NSAction">_doScroller:</string>
 																				<double key="NSCurValue">1</double>
@@ -263,7 +206,6 @@
 																				<reference key="NSSuperview" ref="1006380680"/>
 																				<reference key="NSWindow"/>
 																				<reference key="NSNextKeyView" ref="382054263"/>
-																				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																				<int key="NSsFlags">1</int>
 																				<reference key="NSTarget" ref="1006380680"/>
 																				<string key="NSAction">_doScroller:</string>
@@ -278,9 +220,6 @@
 																		<reference key="NSVScroller" ref="949636887"/>
 																		<reference key="NSHScroller" ref="559917187"/>
 																		<reference key="NSContentView" ref="382054263"/>
-																		<double key="NSMinMagnification">0.25</double>
-																		<double key="NSMaxMagnification">4</double>
-																		<double key="NMagnification">1</double>
 																	</object>
 																</array>
 																<string key="NSFrame">{{0, 265}, {345, 38}}</string>
@@ -339,7 +278,15 @@
 																		<double key="NSSize">11</double>
 																		<int key="NSfFlags">3100</int>
 																	</object>
-																	<reference key="NSBackgroundColor" ref="71900893"/>
+																	<object class="NSColor" key="NSBackgroundColor" id="71900893">
+																		<int key="NSColorSpace">6</int>
+																		<string key="NSCatalogName">System</string>
+																		<string key="NSColorName">textBackgroundColor</string>
+																		<object class="NSColor" key="NSColor" id="784917762">
+																			<int key="NSColorSpace">3</int>
+																			<bytes key="NSWhite">MQA</bytes>
+																		</object>
+																	</object>
 																	<object class="NSColor" key="NSTextColor">
 																		<int key="NSColorSpace">3</int>
 																		<bytes key="NSWhite">MCAwLjgwMDAwMDAxMTkAA</bytes>
@@ -389,7 +336,6 @@
 																		<reference key="NSColor" ref="78591470"/>
 																	</object>
 																</object>
-																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															</object>
 															<object class="NSButton" id="282711289">
 																<reference key="NSNextResponder" ref="561723111"/>
@@ -403,7 +349,11 @@
 																	<int key="NSCellFlags">-2080374784</int>
 																	<int key="NSCellFlags2">134217728</int>
 																	<string key="NSContents"/>
-																	<reference key="NSSupport" ref="523686606"/>
+																	<object class="NSFont" key="NSSupport" id="523686606">
+																		<string key="NSName">LucidaGrande</string>
+																		<double key="NSSize">13</double>
+																		<int key="NSfFlags">1044</int>
+																	</object>
 																	<reference key="NSControlView" ref="282711289"/>
 																	<int key="NSButtonFlags">-2033434624</int>
 																	<int key="NSButtonFlags2">162</int>
@@ -416,7 +366,6 @@
 																	<int key="NSPeriodicDelay">400</int>
 																	<int key="NSPeriodicInterval">75</int>
 																</object>
-																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 															</object>
 														</array>
 														<string key="NSFrameSize">{136, 21}</string>
@@ -441,7 +390,6 @@
 																		<reference key="NSWindow"/>
 																		<reference key="NSNextKeyView" ref="990929380"/>
 																		<bool key="NSEnabled">YES</bool>
-																		<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																		<object class="_NSCornerView" key="NSCornerView">
 																			<nil key="NSNextResponder"/>
 																			<int key="NSvFlags">-2147483392</int>
@@ -526,7 +474,6 @@
 																<reference key="NSSuperview" ref="652921259"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="282731645"/>
-																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																<reference key="NSTarget" ref="652921259"/>
 																<string key="NSAction">_doScroller:</string>
 																<double key="NSPercent">0.78195488452911377</double>
@@ -538,7 +485,6 @@
 																<reference key="NSSuperview" ref="652921259"/>
 																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="561723111"/>
-																<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																<int key="NSsFlags">1</int>
 																<reference key="NSTarget" ref="652921259"/>
 																<string key="NSAction">_doScroller:</string>
@@ -554,9 +500,6 @@
 														<reference key="NSHScroller" ref="282731645"/>
 														<reference key="NSContentView" ref="697712038"/>
 														<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
-														<double key="NSMinMagnification">0.25</double>
-														<double key="NSMaxMagnification">4</double>
-														<double key="NMagnification">1</double>
 													</object>
 												</array>
 												<string key="NSFrame">{{346, 0}, {136, 303}}</string>
@@ -692,14 +635,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_accountSelection</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="687025598"/>
-					</object>
-					<int key="connectionID">163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">performAction</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="282711289"/>
@@ -737,6 +672,14 @@
 						<reference key="destination" ref="60130733"/>
 					</object>
 					<int key="connectionID">186</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view_topBars</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="687025598"/>
+					</object>
+					<int key="connectionID">187</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1015,17 +958,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">162</int>
 						<reference key="object" ref="687025598"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="632298351"/>
-						</array>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="472278389"/>
 						<string key="objectName">Account Selection View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">164</int>
-						<reference key="object" ref="632298351"/>
-						<reference key="parent" ref="687025598"/>
-						<string key="objectName">Box - Box</string>
 					</object>
 				</array>
 			</object>
@@ -1048,7 +983,6 @@
 				<string key="153.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="159.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="162.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="164.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="165.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="173.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="174.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1084,26 +1018,10 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">186</int>
+			<int key="maxID">187</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">AIAccountSelectionView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIAccountSelectionView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIAlternatingRowOutlineView</string>
-					<string key="superclassName">AIOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIAlternatingRowOutlineView.h</string>
-					</object>
-				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">AIAutoScrollView</string>
 					<string key="superclassName">NSScrollView</string>
@@ -1118,14 +1036,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIGradientView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIListOutlineView</string>
-					<string key="superclassName">AIMultiCellOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIListOutlineView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1174,9 +1084,9 @@
 						<string key="splitView_verticalSplit">NSSplitView</string>
 						<string key="textView_outgoing">AIMessageEntryTextView</string>
 						<string key="userListView">AIListOutlineView</string>
-						<string key="view_accountSelection">AIAccountSelectionView</string>
 						<string key="view_contents">NSView</string>
 						<string key="view_messages">NSView</string>
+						<string key="view_topBars">NSView</string>
 						<string key="view_userList">NSView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1220,16 +1130,16 @@
 							<string key="name">userListView</string>
 							<string key="candidateClassName">AIListOutlineView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="view_accountSelection">
-							<string key="name">view_accountSelection</string>
-							<string key="candidateClassName">AIAccountSelectionView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="view_contents">
 							<string key="name">view_contents</string>
 							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="view_messages">
 							<string key="name">view_messages</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_topBars">
+							<string key="name">view_topBars</string>
 							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="view_userList">
@@ -1242,91 +1152,6 @@
 						<string key="minorKey">./Classes/AIMessageViewController.h</string>
 					</object>
 				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIMessageWindowOutgoingScrollView</string>
-					<string key="superclassName">NSScrollView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIMessageWindowOutgoingScrollView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIMultiCellOutlineView</string>
-					<string key="superclassName">AIVariableHeightOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIMultiCellOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIOutlineView</string>
-					<string key="superclassName">NSOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AISendingTextView</string>
-					<string key="superclassName">AITextViewWithPlaceholder</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">sendContent:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">sendContent:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">sendContent:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AISendingTextView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AITextViewWithPlaceholder</string>
-					<string key="superclassName">NSTextView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AITextViewWithPlaceholder.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIUserListOutlineView</string>
-					<string key="superclassName">AIListOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIUserListOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIVariableHeightOutlineView</string>
-					<string key="superclassName">AIAlternatingRowOutlineView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIVariableHeightOutlineView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">selectServiceType:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">selectServiceType:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">selectServiceType:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSObject.h</string>
-					</object>
-				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1334,10 +1159,6 @@
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
