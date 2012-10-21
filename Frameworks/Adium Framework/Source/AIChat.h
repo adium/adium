@@ -97,21 +97,13 @@ typedef enum {
 	AIChatInvalidNumberOfArguments
 } AIChatErrorType;
 
-@interface AIChat : ESObjectWithProperties <AIContainingObject> {
+@interface AIChat : ESObjectWithProperties {
 	AIAccount			*account;
 	NSDate				*dateOpened;
 	BOOL				isOpen;
-	BOOL				isGroupChat;
 	BOOL				hasSentOrReceivedContent;
 
 	NSMutableArray		*pendingOutgoingContentObjects;
-	
-	BOOL				hideUserIconAndStatus;
-	BOOL				showJoinLeave;
-	
-	NSMutableDictionary	*participatingContactsFlags;
-	NSMutableDictionary	*participatingContactsAliases;
-	NSMutableArray		*participatingContacts;
 	
 	AIListContact		*preferredContact;
 	NSString			*name;
@@ -120,13 +112,9 @@ typedef enum {
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL				expanded;
-	
 	BOOL				enableTypingNotifications;
 	
 	NSMutableSet		*customEmoticons;
-	
-	NSDate				*lastMessageDate;
 	
 	// Former properties
 	NSImage				*tabStateIcon;
@@ -141,12 +129,12 @@ typedef enum {
 	NSInteger			ourTypingState;
 	
 	NSDictionary		*securityDetails;
-	
-	NSString			*topic;
-    AIListContact		*topicSetter;
+    
+    AIListContact       *_listObject;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;
+- (id)initForAccount:(AIAccount *)inAccount;
 
 @property (readwrite, nonatomic, retain) AIAccount *account;
 
@@ -167,25 +155,9 @@ typedef enum {
 
 - (void)setDisplayName:(NSString *)inDisplayName;
 
-// Group chat participants.
-- (NSString *)displayNameForContact:(AIListObject *)contact;
-- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
-- (NSString *)aliasForContact:(AIListObject *)contact;
-- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
-- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
-- (void)removeSavedValuesForContactUID:(NSString *)contactUID;
-
-- (void)resortParticipants;
-
-- (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify;
-- (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify;
-- (void)removeAllParticipatingContactsSilently;
-- (void)removeObject:(AIListObject *)inObject;
-
 //
 @property (readwrite, nonatomic, retain) AIListContact *listObject;
 @property (readwrite, nonatomic, assign) AIListContact *preferredListObject;
-- (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
 
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject;
 - (void)finishedSendingContentObject:(AIContentObject *)inObject;
@@ -209,15 +181,6 @@ typedef enum {
 - (BOOL)isListContactIgnored:(AIListObject *)inContact;
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
-@property (readwrite, nonatomic) BOOL isGroupChat;
-@property (readwrite, nonatomic) BOOL showJoinLeave;
-
-@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
-@property (readonly, nonatomic) BOOL supportsTopic;
-
-- (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
-- (void)setTopic:(NSString *)inTopic;
-
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
 @property (readonly, nonatomic) NSMutableSet *customEmoticons;
 
@@ -229,6 +192,8 @@ typedef enum {
 
 @property (readonly, nonatomic) BOOL shouldLog;
 
-@property (readwrite, copy, nonatomic) NSDate *lastMessageDate;
+// Compatibility. I don't like this here.
+- (NSArray *)containedObjects;
+- (BOOL)isGroupChat;
 
 @end

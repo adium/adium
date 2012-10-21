@@ -1052,7 +1052,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					[attributeValues addObject:@"true"];
 				}
 				
-				NSString *displayName = [chat displayNameForContact:content.source];
+				NSString *displayName;
+                
+                if (chat.isGroupChat)
+                    displayName = [(AIGroupChat *)chat displayNameForContact:content.source];
+                else
+                    displayName = content.source.displayName;
 				
 				if (![[[content source] UID] isEqualToString:displayName]) {
 					[attributeKeys addObject:@"alias"];
@@ -1080,7 +1085,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				AIListObject	*actualObject = nil;
 				
 				if (content.source) {
-					for(AIListContact *participatingListObject in chat) {
+					for(AIListContact *participatingListObject in [chat containedObjects]) {
 						if ([participatingListObject parentContact] == retardedMetaObject) {
 							actualObject = participatingListObject;
 							break;

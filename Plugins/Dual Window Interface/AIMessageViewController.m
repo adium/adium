@@ -851,14 +851,14 @@
 {
 	NSMutableArray *contacts = [NSMutableArray array];
 	
-	for (AIListContact *listContact in self.chat) {
+	for (AIListContact *listContact in (AIGroupChat *)self.chat) {
 		// Add to the list if it matches: (1) The display name for the chat (alias fallback to default display name), 
 		// (2) The UID, or (3) the display name
-		if ([[self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
+		if ([[(AIGroupChat *)self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
 			[contacts addObject:listContact];
-			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
+			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [(AIGroupChat *)self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
 		}
 	}
 	
@@ -899,7 +899,7 @@
 		// For each matching contact:
 		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
 			// Complete the chat alias.
-			NSString *completion = [self.chat aliasForContact:listContact];
+			NSString *completion = [(AIGroupChat *)self.chat aliasForContact:listContact];
 			
 			// Otherwise, complete the UID (if we're completing UIDs for this chat) or the display name.
 			if (!completion)
@@ -1044,7 +1044,7 @@
 		userListController = [[ESChatUserListController alloc] initWithContactListView:userListView
 																		  inScrollView:scrollView_userList 
 																			  delegate:self];
-		[userListController setContactListRoot:chat];
+		[userListController setContactListRoot:(AIGroupChat *)chat];
 		[userListController updateLayoutFromPrefDict:layoutDict andThemeFromPrefDict:themeDict];
 		[userListController setHideRoot:YES];
 	}
@@ -1058,7 +1058,8 @@
  */
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification
 {
-	[chat resortParticipants];
+    if (chat.isGroupChat)
+        [(AIGroupChat *)chat resortParticipants];
 
 	/* Even if we're not viewing the user list, we can't risk it keeping stale information about potentially released objects */
 	[userListController reloadData];
@@ -1072,13 +1073,13 @@
 {
 	NSString *userCount = nil;
 	
-	if (self.chat.containedObjects.count == 1) {
+	if (((AIGroupChat *)self.chat).containedObjects.count == 1) {
 		userCount = AILocalizedString(@"1 user", nil);
 	} else {
 		userCount = AILocalizedString(@"%u users", nil);
 	}
 	
-	[label_userCount setStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
+	[label_userCount setStringValue:[NSString stringWithFormat:userCount, ((AIGroupChat *)self.chat).containedObjects.count]];
 }
 
 /*!

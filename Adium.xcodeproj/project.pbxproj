@@ -1371,6 +1371,8 @@
 		767870E51634139600BD0E4D /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 767870E71634139600BD0E4D /* AIAccountSelectionTopBar.xib */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
 		76889DEF12D3CA40007AEF00 /* Profile.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Profile.tiff */; };
+		76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */ = {isa = PBXBuildFile; fileRef = 76A79E0916349477007A0497 /* AIGroupChat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A79E0A16349477007A0497 /* AIGroupChat.m */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
 		76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FF925914B524B40043E23B /* AIIRCConsoleController.m */; };
@@ -4402,6 +4404,8 @@
 		767870E61634139600BD0E4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIAccountSelectionTopBar.xib; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
 		76889DEE12D3CA40007AEF00 /* Profile.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Profile.tiff; path = Resources/Profile.tiff; sourceTree = "<group>"; };
+		76A79E0916349477007A0497 /* AIGroupChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChat.h; path = "Frameworks/Adium Framework/Source/AIGroupChat.h"; sourceTree = "<group>"; };
+		76A79E0A16349477007A0497 /* AIGroupChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChat.m; path = "Frameworks/Adium Framework/Source/AIGroupChat.m"; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
@@ -8569,6 +8573,8 @@
 				63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */,
 				34111A5D06BE1B370005AF5C /* ESObjectWithProperties.h */,
 				34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */,
+				76A79E0916349477007A0497 /* AIGroupChat.h */,
+				76A79E0A16349477007A0497 /* AIGroupChat.m */,
 			);
 			name = "Contacts & Chats";
 			sourceTree = "<group>";
@@ -9064,6 +9070,7 @@
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
+				76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10548,6 +10555,7 @@
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
 				76FF926814B62AB80043E23B /* AIConsoleController.m in Sources */,
 				5AEE60011602BAE200304672 /* AIBoolToControlTextColorTransformer.m in Sources */,
+				76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

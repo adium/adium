@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIAccount.h>
+#import <Adium/AIGroupChat.h>
 #import "MGTwitterEngine/MGTwitterEngine.h"
 
 typedef enum {
@@ -180,7 +181,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *tokenAccessURL;
 @property (readonly, nonatomic) NSString *tokenAuthorizeURL;
 
-@property (readonly, nonatomic) AIChat *timelineChat;
+@property (readonly, nonatomic) AIGroupChat *timelineChat;
 
 - (NSString *)errorMessageForError:(NSError *)error;
 
@@ -202,6 +203,6 @@ typedef enum {
 						statusID:(NSString *)statusID
 						 context:(NSString *)context;
 
-- (void)updateTimelineChat:(AIChat *)timelineChat;
+- (void)updateTimelineChat:(AIGroupChat *)timelineChat;
 
 @end

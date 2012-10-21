@@ -387,11 +387,11 @@ AIListContact* contactLookupFromIMConv(PurpleConversation *conv)
 	return nil;
 }
 
-AIChat* groupChatLookupFromConv(PurpleConversation *conv)
+AIGroupChat* groupChatLookupFromConv(PurpleConversation *conv)
 {
-	AIChat *chat;
+	AIGroupChat *chat;
 	
-	chat = (AIChat *)conv->ui_data;
+	chat = (AIGroupChat *)conv->ui_data;
 	if (!chat) {
 		NSString *name = [NSString stringWithUTF8String:purple_conversation_get_name(conv)];
 		
@@ -533,10 +533,11 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 			g_free(destination);
 			
 		} else {
+            AIGroupChat *groupChat = (AIGroupChat *)chat;
 			//Otherwise, we have a multiuser chat.
 			
 			//All multiuser chats should have a non-nil name.
-			NSString	*chatName = chat.name;
+			NSString	*chatName = groupChat.name;
 			if (chatName) {
 				const char *name = [chatName UTF8String];
 				
@@ -607,8 +608,8 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 						}
 					}
 					
-					if (chat.lastMessageDate) {
-						NSTimeInterval lastMessageInterval = [chat.lastMessageDate timeIntervalSince1970];
+					if (groupChat.lastMessageDate) {
+						NSTimeInterval lastMessageInterval = [groupChat.lastMessageDate timeIntervalSince1970];
 						NSString *historySince = [[NSDate dateWithTimeIntervalSince1970:lastMessageInterval + 1]
                                                   descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%SZ"
                                                                        timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]

@@ -88,7 +88,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return YES;
 }
 
-- (BOOL)openChat:(AIChat *)chat
+- (BOOL)openChat:(AIGroupChat *)chat
 {
 	chat.hideUserIconAndStatus = YES;
 	
@@ -454,7 +454,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 /*!
  * @brief Our flags in a chat
  */
-- (AIGroupChatFlags)flagsInChat:(AIChat *)chat
+- (AIGroupChatFlags)flagsInChat:(AIGroupChat *)chat
 {
 	NSString *ourUID = [NSString stringWithUTF8String:purple_normalize(self.purpleAccount, [self.displayName UTF8String])];
 	

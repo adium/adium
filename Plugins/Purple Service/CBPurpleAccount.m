@@ -776,7 +776,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 //Chats ------------------------------------------------------------
 #pragma mark Chats
-- (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat
+- (void)removeUser:(NSString *)contactName fromChat:(AIGroupChat *)chat
 {
 	if (!chat)
 		return;
@@ -802,14 +802,14 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
-- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat
+- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIGroupChat *)chat
 {
 	for (NSString *contactName in usersArray) {
 		[self removeUser:contactName fromChat:chat];
 	}
 }
 
-- (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded
+- (void)updateUserListForChat:(AIGroupChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded
 {
 	NSMutableArray *newListObjects = [NSMutableArray array];
 	
@@ -863,7 +863,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
     return groupChatFlags;
 }
 
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIChat *)chat
+- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat
 {
 	[chat removeSavedValuesForContactUID:oldUID];
 	
@@ -907,7 +907,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 
 
 - (void)updateUser:(NSString *)user
-		   forChat:(AIChat *)chat
+		   forChat:(AIGroupChat *)chat
 			 flags:(PurpleConvChatBuddyFlags)flags 
 			 alias:(NSString *)alias
 		attributes:(NSDictionary *)attributes
@@ -1088,7 +1088,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 }
 
 
-- (AIChat *)chatWithName:(NSString *)name identifier:(id)identifier
+- (AIGroupChat *)chatWithName:(NSString *)name identifier:(id)identifier
 {
 	return [adium.chatController chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
 }
@@ -1119,7 +1119,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	[chat setValue:nil forProperty:@"accountJoined" notify:NotifyNow];
 }
 
-- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
+- (void)updateTopic:(NSString *)inTopic forChat:(AIGroupChat *)chat withSource:(NSString *)source
 {	
 	// Update (not set) the chat's topic
 	[chat updateTopic:inTopic withSource:[self contactWithUID:source]];

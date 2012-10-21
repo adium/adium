@@ -134,7 +134,7 @@
     textLimitConfigDownload = nil;
 	[self queryTextLimit];
     
-	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+	AIGroupChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 															onAccount:self];
 	if (timelineChat) {
 		[self updateTimelineChat: timelineChat];
