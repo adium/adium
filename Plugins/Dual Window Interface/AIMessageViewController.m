@@ -145,16 +145,15 @@
 		}
         
         [view_topBars setFrameSize:NSMakeSize(view_topBars.frame.size.width, 0.0f)];
-        NSRect verticalFrame = splitView_verticalSplit.frame;
-        verticalFrame.size.height = NSHeight(view_contents.frame) - NSMinY(verticalFrame) - 2;
-        verticalFrame.size.width = NSWidth(view_contents.frame);
-        [splitView_verticalSplit setFrame:verticalFrame];
-        
+        [splitView_verticalSplit setFrameSize:view_contents.frame.size];
+
         AIAccountSelectionViewController *sourceDestination = [[AIAccountSelectionViewController alloc] init];
+
+        sourceDestination.view.hidden = TRUE;
         
         [self addTopBarController:sourceDestination];
         [sourceDestination setChat:chat];
-        
+
         [sourceDestination release];
         
         [self _updateTextEntryViewHeight];
@@ -1345,12 +1344,9 @@
 {
     [topBarControllers addObject:newController];
     [view_topBars addSubview:newController.view];
-    
-    newController.view.hidden = TRUE;
-    
-    [self unhideTopBarController:newController];
-    
     newController.owner = self;
+    
+    [self didResizeTopbarController:newController];
 }
 
 - (void)removeTopBarController:(AIMessageViewTopBarController *)controller
@@ -1396,13 +1392,13 @@
         if (!existingController.view.isHidden) yPosition += NSHeight(existingController.view.frame);
     }
     
-    NSRect verticalFrame = splitView_verticalSplit.frame;
-    verticalFrame.size.height = NSHeight(view_contents.frame) - yPosition;
-    verticalFrame.size.width = NSWidth(view_contents.frame);
-    [splitView_verticalSplit.animator setFrame:verticalFrame];
+    NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
+    if (splitViewSize.height != NSHeight(splitView_verticalSplit.frame)) {
+        [splitView_verticalSplit.animator setFrameSize:splitViewSize];
+    }
     
     [view_topBars setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
-    [view_topBars setFrameOrigin:NSMakePoint(NSMinX(verticalFrame), NSMaxY(verticalFrame))];
+    [view_topBars setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
     
     yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
