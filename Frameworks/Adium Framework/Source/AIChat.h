@@ -113,6 +113,7 @@ typedef enum {
 	NSMutableSet		*ignoredListContacts;
 	
 	BOOL				enableTypingNotifications;
+	BOOL				hideUserIconAndStatus;
 	
 	NSMutableSet		*customEmoticons;
 	
@@ -191,6 +192,8 @@ typedef enum {
 @property (readonly, nonatomic) NSMenu *actionMenu;
 
 @property (readonly, nonatomic) BOOL shouldLog;
+
+@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 
 // Compatibility. I don't like this here.
 - (NSArray *)containedObjects;

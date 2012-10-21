@@ -149,7 +149,7 @@
 
         AIAccountSelectionViewController *sourceDestination = [[AIAccountSelectionViewController alloc] init];
 
-        sourceDestination.view.hidden = TRUE;
+        [sourceDestination.view setHidden:TRUE];
         
         [self addTopBarController:sourceDestination];
         [sourceDestination setChat:chat];
@@ -1366,9 +1366,9 @@
 {
     NSParameterAssert([topBarControllers containsObject:controller]);
     
-    if (controller.view.isHidden) return;
+    if ([controller.view isHidden]) return;
     
-    controller.view.hidden = TRUE;
+    [controller.view setHidden:TRUE];
     
     [self didResizeTopbarController:controller];
 }
@@ -1377,9 +1377,9 @@
 {
     NSParameterAssert([topBarControllers containsObject:controller]);
     
-    if (!controller.view.isHidden) return;
+    if (![controller.view isHidden]) return;
     
-    controller.view.hidden = FALSE;
+    [controller.view setHidden:FALSE];
     
     [self didResizeTopbarController:controller];
 }
@@ -1390,7 +1390,7 @@
     
     CGFloat yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers) {
-        if (!existingController.view.isHidden) yPosition += NSHeight(existingController.view.frame);
+        if (![existingController.view isHidden]) yPosition += NSHeight(existingController.view.frame);
     }
     
     NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
@@ -1403,7 +1403,7 @@
     
     yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
-        if (!existingController.view.isHidden) {
+        if (![existingController.view isHidden]) {
             [existingController.view setFrameOrigin:NSMakePoint(0.0f, yPosition)];
             [existingController.view setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
             yPosition += NSHeight(existingController.view.frame);

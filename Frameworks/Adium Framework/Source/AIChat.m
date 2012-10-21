@@ -54,6 +54,7 @@
 static int nextChatNumber = 0;
 
 @synthesize listObject = _listObject;
+@synthesize hideUserIconAndStatus;
 
 + (id)chatForAccount:(AIAccount *)inAccount
 {

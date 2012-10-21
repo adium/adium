@@ -24,7 +24,6 @@
 	NSMutableDictionary	*participatingContactsAliases;
 	NSMutableArray		*participatingContacts;
 	
-	BOOL				hideUserIconAndStatus;
 	BOOL				showJoinLeave;
 	BOOL				expanded;
     
@@ -33,7 +32,6 @@
 
 @property (readwrite, nonatomic) BOOL showJoinLeave;
 
-@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 @property (readonly, nonatomic) BOOL supportsTopic;
 
 - (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;

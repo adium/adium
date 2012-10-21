@@ -40,7 +40,7 @@
 
 static int nextChatNumber = 0;
 
-@synthesize lastMessageDate, showJoinLeave, hideUserIconAndStatus;
+@synthesize lastMessageDate, showJoinLeave;
 
 - (id)initForAccount:(AIAccount *)inAccount
 {
