@@ -661,7 +661,7 @@ static int nextChatNumber = 0;
 				[adium.fileTransferController sendFile:[fileURL path]
                                          toListContact:targetFileTransferContact];
 			} else {
-				AILogWithSignature(@"No contact available to receive files to %@", self.listObject);
+				AILogWithSignature(@"No contact available to receive files to %@", listContact);
 				NSBeep();
             }
         }
