@@ -22,6 +22,7 @@
 #import "AIMessageWindowOutgoingScrollView.h"
 #import "AIGradientView.h"
 #import "AIAccountSelectionViewController.h"
+#import "AIRejoinGroupChatViewController.h"
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
@@ -74,6 +75,7 @@
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)gotFilteredMessageToSendLater:(NSAttributedString *)filteredMessage receivingContext:(NSMutableDictionary *)alertDict;
 - (void)outgoingTextViewDesiredSizeDidChange:(NSNotification *)notification;
+- (void)chatStatusChanged:(NSNotification *)notification;
 @end
 
 @implementation AIMessageViewController
@@ -106,17 +108,20 @@
 		
 		//Register for the various notification we need
 		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(sendMessage:) 
-										   name:Interface_SendEnteredMessage
-										 object:chat];
+                                                 selector:@selector(sendMessage:)
+                                                     name:Interface_SendEnteredMessage
+                                                   object:chat];
 		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(didSendMessage:)
-										   name:Interface_DidSendEnteredMessage 
-										 object:chat];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-									   selector:@selector(chatParticipatingListObjectsChanged:)
-										   name:Chat_ParticipatingListObjectsChanged
-										 object:chat];
+                                                 selector:@selector(didSendMessage:)
+                                                     name:Interface_DidSendEnteredMessage
+                                                   object:chat];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(chatParticipatingListObjectsChanged:)
+                                                     name:Chat_ParticipatingListObjectsChanged
+                                                   object:chat];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
+                                                     name:Chat_StatusChanged
+                                                   object:chat];
 
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
@@ -1416,6 +1421,19 @@
     [NSAnimationContext endGrouping];
     
     [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.1];
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+    NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
+    
+    // Only show the bar if this was a groupchat that was parted, while the account is still online.
+    if (chat.isGroupChat &&
+        [keys containsObject:@"accountJoined"] &&
+        ![chat boolValueForProperty:@"accountJoined"]) {
+        AIRejoinGroupChatViewController *rejoinChatController = [[AIRejoinGroupChatViewController alloc] init];
+        [self addTopBarController:rejoinChatController];
+	}
 }
 
 @end
