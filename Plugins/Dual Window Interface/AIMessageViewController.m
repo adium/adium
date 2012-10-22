@@ -60,13 +60,13 @@
 - (void)_configureTextEntryView;
 - (void)_updateTextEntryViewHeight;
 - (CGFloat)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMinimum;
-- (void)_showUserListView;
-- (void)_hideUserListView;
+- (void)_showUserListViewAnimate:(BOOL)useAnimation;
+- (void)_hideUserListViewAnimate:(BOOL)useAnimation;
 - (void)_configureUserList;
 - (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum;
 - (void)saveUserListMinimumSize;
 - (BOOL)userListInitiallyVisible;
-- (void)setUserListVisible:(BOOL)inVisible;
+- (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation;
 - (void)updateUserCount;
 
 - (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
@@ -129,7 +129,7 @@
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
 		 */
-		[self setUserListVisible:(chat.isGroupChat && [self userListInitiallyVisible])];
+		[self setUserListVisible:(chat.isGroupChat && [self userListInitiallyVisible]) animate:NO];
 		
 		[self chatParticipatingListObjectsChanged:nil];
 		
@@ -953,12 +953,12 @@
 /*!
  * @brief Set visibility of the user list
  */
-- (void)setUserListVisible:(BOOL)inVisible
+- (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation
 {
 	if (inVisible) {
-		[self _showUserListView];
+		[self _showUserListViewAnimate:useAnimation];
 	} else {
-		[self _hideUserListView];
+		[self _hideUserListViewAnimate:useAnimation];
 	}
 	
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:inVisible]
@@ -982,7 +982,7 @@
 - (void)toggleUserList
 {
 	if (chat.isGroupChat)
-		[self setUserListVisible:![self userListVisible]];
+		[self setUserListVisible:![self userListVisible] animate:YES];
 }
 
 - (void)toggleUserListSide
@@ -1000,34 +1000,68 @@
 /*!
  * @brief Show the user list
  */
-- (void)_showUserListView
+- (void)_showUserListViewAnimate:(BOOL)useAnimation
 {
 	if (chat.isGroupChat && view_userList.superview == nil) {
 		[splitView_verticalSplit addSubview:[view_userList autorelease]];
 	}
 	[self updateUserCount];
 	[userListController reloadData];
-
+	
 	[view_userList setHidden:NO];
-	//Manually set the divider's position otherwise view_userList will shrink
-	[splitView_verticalSplit setPosition:[self _userListViewDividerPositionIgnoringUserMinimum:NO]
-						ofDividerAtIndex:0];
-	[splitView_verticalSplit adjustSubviews];
+	
+	CGFloat newPosition = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+	
+	if (useAnimation) {
+		NSView *view0 = [splitView_verticalSplit.subviews objectAtIndex:0];
+		NSView *view1 = [splitView_verticalSplit.subviews objectAtIndex:1];
+		
+		NSRect view0TargetFrame = NSMakeRect(view0.frame.origin.x, view0.frame.origin.y, newPosition - splitView_verticalSplit.dividerThickness, view0.frame.size.height);
+		NSRect view1TargetFrame = NSMakeRect(newPosition, view1.frame.origin.y, NSMaxX(view1.frame) - newPosition, view1.frame.size.height);
+		
+		[NSAnimationContext beginGrouping];
+		[[NSAnimationContext currentContext] setDuration:0.1];
+		
+		[view0.animator setFrame:view0TargetFrame];
+		[view1.animator setFrame:view1TargetFrame];
+		[NSAnimationContext endGrouping];
+	} else {
+		[splitView_verticalSplit setPosition:newPosition ofDividerAtIndex:0];
+	}
+	
+	[splitView_verticalSplit performSelector:@selector(adjustSubviews) withObject:nil afterDelay:0.2];
 }
 
 /*!
  * @brief Hide the user list.
  */
-- (void)_hideUserListView
+- (void)_hideUserListViewAnimate:(BOOL)useAnimation
 {
 	if (!chat.isGroupChat) {
 		NSRect frame = view_userList.frame;
 		frame.size.width = 0;
-		view_userList.frame = frame;
+		[view_userList setFrame:frame];
 		[view_userList retain];
 		[view_userList removeFromSuperview];
 	}
-	[view_userList setHidden:YES];
+	
+	userListMinWidth = NSWidth(view_userList.frame);
+	CGFloat newPosition = NSWidth(splitView_verticalSplit.frame);
+	
+	if (useAnimation) {
+		NSRect view0TargetFrame = NSMakeRect(view_messages.frame.origin.x, view_messages.frame.origin.y, newPosition, view_messages.frame.size.height);
+		NSRect view1TargetFrame = NSMakeRect(newPosition, view_userList.frame.origin.y, 0.0f, view_userList.frame.size.height);
+		
+		[NSAnimationContext beginGrouping];
+		[[NSAnimationContext currentContext] setDuration:0.1];
+		[view_messages setFrame:view0TargetFrame];
+		[view_userList.animator setFrame:view1TargetFrame];
+		[view_userList.animator setHidden:YES];
+		[NSAnimationContext endGrouping];
+	} else {
+		[view_userList setHidden:YES];
+	}
+	
 	[splitView_verticalSplit adjustSubviews];
 }
 
@@ -1162,13 +1196,7 @@
  */
 - (void)splitViewWillResizeSubviews:(NSNotification *)aNotification
 {
-	if ([aNotification object] == splitView_verticalSplit) {
-		if (NSWidth(view_userList.frame) > 0) {
-			userListMinWidth = NSWidth(view_userList.frame);
-			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
-			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
-		}
-	} else if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
+	if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
 		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
 }
@@ -1186,7 +1214,7 @@
 	}
 }
 
-/* 
+/*
  * @brief Keep the userlist and text entry view the same size when the window is resized.
  */
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -1229,6 +1257,10 @@
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
+			
+			userListMinWidth = NSWidth(view_userList.frame);
+			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 		
 		// divition between text entry and message view
 		} else if (splitView == splitView_textEntryHorizontal) {
