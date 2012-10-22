@@ -15,9 +15,9 @@
  */
 
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
-#import "AIAccountSelectionView.h"
+#import "AITopBarGradientView.h"
 
-@implementation AIAccountSelectionView
+@implementation AITopBarGradientView
 
 -(void)drawRect:(NSRect)aRect
 {

@@ -1019,7 +1019,7 @@
 		4BD6753606001E0F0049CAF7 /* AIMessageTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BACB70203C8CB5E00A8010A /* AIMessageTabViewItem.m */; };
 		4BD6753806001E100049CAF7 /* AIMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F570A5CE03704D3D01A8010A /* AIMessageViewController.m */; };
 		4BD6753A06001E110049CAF7 /* AIMessageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793982033E756E01A8010A /* AIMessageWindowController.m */; };
-		4BD6753E06001E140049CAF7 /* AIAccountSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25494703F6A32700A8010A /* AIAccountSelectionView.m */; };
+		4BD6753E06001E140049CAF7 /* AITopBarGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B25494703F6A32700A8010A /* AITopBarGradientView.m */; };
 		4BD6755406001E1E0049CAF7 /* DualWindowDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D43504051ADC10003B2F21 /* DualWindowDefaults.plist */; };
 		4BD6756B06001E320049CAF7 /* EventSoundDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4BA5325D050FC5E800A8010A /* EventSoundDefaults.plist */; };
 		4BD6758206001E430049CAF7 /* ErrorMessageHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AC0EEC03B5BF1000A80202 /* ErrorMessageHandlerPlugin.m */; };
@@ -3691,8 +3691,8 @@
 		4B191D890611C10800E8A4E7 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		4B22E15C085CAE2E001864DE /* AIAbstractListObjectMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAbstractListObjectMenu.h; path = "Frameworks/Adium Framework/Source/AIAbstractListObjectMenu.h"; sourceTree = "<group>"; };
 		4B22E15D085CAE2F001864DE /* AIAbstractListObjectMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAbstractListObjectMenu.m; path = "Frameworks/Adium Framework/Source/AIAbstractListObjectMenu.m"; sourceTree = "<group>"; };
-		4B25494603F6A32700A8010A /* AIAccountSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAccountSelectionView.h; path = "Plugins/Dual Window Interface/AIAccountSelectionView.h"; sourceTree = "<group>"; };
-		4B25494703F6A32700A8010A /* AIAccountSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAccountSelectionView.m; path = "Plugins/Dual Window Interface/AIAccountSelectionView.m"; sourceTree = "<group>"; };
+		4B25494603F6A32700A8010A /* AITopBarGradientView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AITopBarGradientView.h; path = "Plugins/Dual Window Interface/AITopBarGradientView.h"; sourceTree = "<group>"; };
+		4B25494703F6A32700A8010A /* AITopBarGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITopBarGradientView.m; path = "Plugins/Dual Window Interface/AITopBarGradientView.m"; sourceTree = "<group>"; };
 		4B28DDAB0599FED200343093 /* AIAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAccountViewController.h; path = "Frameworks/Adium Framework/Source/AIAccountViewController.h"; sourceTree = "<group>"; };
 		4B28DDAC0599FED200343093 /* AIAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAccountViewController.m; path = "Frameworks/Adium Framework/Source/AIAccountViewController.m"; sourceTree = "<group>"; };
 		4B292D3007A9C8E100C5F882 /* AIStatusController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIStatusController.h; path = Source/AIStatusController.h; sourceTree = "<group>"; };
@@ -7080,8 +7080,8 @@
 		4BCFEC5803F5718700A8010A /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				4B25494603F6A32700A8010A /* AIAccountSelectionView.h */,
-				4B25494703F6A32700A8010A /* AIAccountSelectionView.m */,
+				4B25494603F6A32700A8010A /* AITopBarGradientView.h */,
+				4B25494703F6A32700A8010A /* AITopBarGradientView.m */,
 				76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */,
 				76AA110A1635585E00A6EC4B /* AIAccountSelectionViewController.h */,
 				76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */,
@@ -10168,7 +10168,7 @@
 				4BD6753606001E0F0049CAF7 /* AIMessageTabViewItem.m in Sources */,
 				4BD6753806001E100049CAF7 /* AIMessageViewController.m in Sources */,
 				4BD6753A06001E110049CAF7 /* AIMessageWindowController.m in Sources */,
-				4BD6753E06001E140049CAF7 /* AIAccountSelectionView.m in Sources */,
+				4BD6753E06001E140049CAF7 /* AITopBarGradientView.m in Sources */,
 				4BD6758206001E430049CAF7 /* ErrorMessageHandlerPlugin.m in Sources */,
 				4BD6758406001E440049CAF7 /* ErrorMessageWindowController.m in Sources */,
 				4BAA1B550632EF0000D8B92C /* ESPanelAlertDetailPane.m in Sources */,

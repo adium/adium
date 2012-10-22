@@ -19,7 +19,7 @@
 
 @class AIChat;
 
-@interface AIAccountSelectionView : NSView {
+@interface AITopBarGradientView : NSView {
 
 }
 
