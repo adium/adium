@@ -25,8 +25,8 @@
     AIChat *chat;
 }
 
-@property (assign) AIMessageViewController *owner;
-@property (retain) AIChat *chat;
+@property (nonatomic, weak) AIMessageViewController *owner;
+@property (nonatomic, retain) AIChat *chat;
 
 - (IBAction)close:(id)sender;
 

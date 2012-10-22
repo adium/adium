@@ -31,7 +31,8 @@
 {
     self = [super initWithNibName:@"AIRejoinGroupChatTopBar" bundle:[NSBundle bundleForClass:[AIRejoinGroupChatViewController class]]];
     if (self) {
-        // Initialization code here.
+		[label_description setStringValue:AILocalizedString(@"You have parted the channel", @"Description in bar at the top of parted channels")];
+		[button_rejoin setStringValue:AILocalizedString(@"Rejoin", @"Button in the bar at the top of parted channels to rejoin")];
     }
     
     return self;

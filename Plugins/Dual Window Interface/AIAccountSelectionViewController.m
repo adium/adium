@@ -50,7 +50,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [accountMenu release];
     [contactMenu release];
-    [chat release];
     
     [super dealloc];
 }
