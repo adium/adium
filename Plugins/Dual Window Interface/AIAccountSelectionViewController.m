@@ -127,8 +127,8 @@
     
     [owner unhideTopBarController:self];
     
-    [self.view setFrameSize:NSMakeSize(NSWidth(self.view.superview.frame), 30 * ((choicesForAccount ? 1 : 0) + (choicesForContact ? 1 : 0)))];
-    [view_backgroundView setBoundsOrigin:NSMakePoint(0.0f, choicesForContact ? 0.0f : -30.0f)];
+    [self.view setFrameSize:NSMakeSize(NSWidth(self.view.superview.frame), 29.0 * ((choicesForAccount ? 1 : 0) + (choicesForContact ? 1 : 0)))];
+    [view_backgroundView setBoundsOrigin:NSMakePoint(0.0f, choicesForContact ? 0.0f : -29.0f)];
     
     [owner didResizeTopbarController:self];
 }
