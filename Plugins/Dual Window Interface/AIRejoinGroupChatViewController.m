@@ -37,14 +37,46 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super dealloc];
+}
+
 - (IBAction)rejoin:(id)sender
 {
-    AIGroupChat *chat = (AIGroupChat *)owner.chat;
-    
     [chat.account setShouldBeOnline:YES];
     
-    if ([chat.account rejoinChat:chat])
+    [chat.account rejoinChat:chat];
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+    NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
+    
+    // Remove ourselves if the chat rejoined.
+    if ([keys containsObject:@"accountJoined"] &&
+        [chat boolValueForProperty:@"accountJoined"]) {
         [owner removeTopBarController:self];
+	}
+}
+
+- (void)setChat:(AIChat *)inChat
+{
+    if (chat) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:Chat_StatusChanged
+                                                      object:chat];
+    }
+    
+    [chat release];
+    
+    chat = [inChat retain];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
+                                                 name:Chat_StatusChanged
+                                               object:chat];
 }
 
 @end

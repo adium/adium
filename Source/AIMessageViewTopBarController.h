@@ -15,14 +15,19 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <Adium/AIChat.h>
 
 @class AIMessageViewController;
 
 @interface AIMessageViewTopBarController : NSViewController {
     AIMessageViewController *owner;
+    
+    AIChat *chat;
 }
 
 @property (assign) AIMessageViewController *owner;
+@property (retain) AIChat *chat;
+
 - (IBAction)close:(id)sender;
 
 @end

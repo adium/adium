@@ -19,7 +19,7 @@
 
 @implementation AIMessageViewTopBarController
 
-@synthesize owner;
+@synthesize owner, chat;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +29,13 @@
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [chat release];
+    
+    [super dealloc];
 }
 
 - (IBAction)close:(id)sender

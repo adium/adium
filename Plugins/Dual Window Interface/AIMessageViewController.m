@@ -157,7 +157,6 @@
         [sourceDestination.view setHidden:TRUE];
         
         [self addTopBarController:sourceDestination];
-        [sourceDestination setChat:chat];
 
         [sourceDestination release];
         
@@ -1351,6 +1350,7 @@
     [topBarControllers addObject:newController];
     [view_topBars addSubview:newController.view];
     newController.owner = self;
+    newController.chat = self.chat;
     
     [self didResizeTopbarController:newController];
 }

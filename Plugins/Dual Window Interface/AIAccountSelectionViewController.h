@@ -32,12 +32,9 @@
 	
 	AIAccountMenu		*accountMenu;
 	AIContactMenu		*contactMenu;
-	AIChat				*chat;
     
     BOOL                choicesForContact;
     BOOL                choicesForAccount;
 }
-
-- (void)setChat:(AIChat *)chat;
 
 @end
