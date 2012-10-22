@@ -15,7 +15,6 @@
  */
 
 #import "AIMessageViewController.h"
-#import "AIAccountSelectionView.h"
 #import "AIMessageWindowController.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import "AIDualWindowInterfacePlugin.h"

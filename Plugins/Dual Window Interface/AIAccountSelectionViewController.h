@@ -15,7 +15,7 @@
  */
 
 #import "AIMessageViewTopBarController.h"
-#import "AIAccountSelectionView.h"
+#import "AITopBarGradientView.h"
 
 #import <Adium/AIAccountMenu.h>
 #import <Adium/AIContactMenu.h>
@@ -23,7 +23,7 @@
 #import <Adium/AIChat.h>
 
 @interface AIAccountSelectionViewController : AIMessageViewTopBarController <AIAccountMenuDelegate, AIContactMenuDelegate> {
-    IBOutlet AIAccountSelectionView *view_backgroundView;
+    IBOutlet AITopBarGradientView *view_backgroundView;
     IBOutlet NSPopUpButton		*popUp_accounts;
 	IBOutlet NSTextField		*label_accounts;
     
