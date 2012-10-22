@@ -15,12 +15,12 @@
  */
 #import <Adium/AIListContactCell.h>
 
-@class AIChat;
+@class AIGroupChat;
 
 @interface AIListContactGroupChatCell : AIListContactCell {
-	AIChat	*chat;
+	AIGroupChat	*chat;
 }
 
-@property (readwrite, nonatomic) AIChat *chat;
+@property (readwrite, nonatomic) AIGroupChat *chat;
 
 @end

@@ -149,12 +149,8 @@
 }
 
 - (void)download:(NSURLDownload *)inDownload didFailWithError:(NSError *)error {
-	NSString	*errorMsg;
-
-	errorMsg = [NSString stringWithFormat:AILocalizedString(@"An error occurred while downloading this Xtra: %@.",nil),[error localizedDescription]];
-	
 	NSBeginAlertSheet(AILocalizedString(@"Xtra Downloading Error",nil), AILocalizedString(@"Cancel",nil), nil, nil, window, self,
-					 NULL, @selector(sheetDidDismiss:returnCode:contextInfo:), nil, errorMsg);
+					 NULL, @selector(sheetDidDismiss:returnCode:contextInfo:), nil, AILocalizedString(@"An error occurred while downloading this Xtra: %@.",nil), [error localizedDescription]);
 }
 
 - (void)setQuarantineProperties:(NSDictionary *)dict forDirectory:(FSRef *)dir

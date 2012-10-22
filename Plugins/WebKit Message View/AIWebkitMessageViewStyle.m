@@ -21,6 +21,7 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIContentMessage.h>
@@ -343,7 +344,7 @@
 	NSString *headerContent = @"";
 	if (showHeader) {
 		if (chat.isGroupChat) {
-			headerContent = (chat.supportsTopic ? TOPIC_MAIN_DIV : @"");
+			headerContent = (((AIGroupChat *)chat).supportsTopic ? TOPIC_MAIN_DIV : @"");
 		} else if (headerHTML) {
 			headerContent = headerHTML;
 		}
@@ -895,13 +896,18 @@
 		
 		//Use [content source] directly rather than the potentially-metaContact theSource
 		NSString *formattedUID = nil;
-		if ([content.chat aliasForContact:contentSource]) {
-			formattedUID = [content.chat aliasForContact:contentSource];
+        if (content.chat.isGroupChat && [(AIGroupChat *)content.chat aliasForContact:contentSource]) {
+			formattedUID = [(AIGroupChat *)content.chat aliasForContact:contentSource];
 		} else {
 			formattedUID = contentSource.formattedUID;
 		}
 
-		NSString *displayName = [content.chat displayNameForContact:contentSource];
+		NSString *displayName;
+        
+        if (content.chat.isGroupChat)
+            displayName = [(AIGroupChat *)content.chat displayNameForContact:contentSource];
+        else
+            displayName = content.source.displayName;
 		
 		[inString replaceKeyword:@"%status%"
 					  withString:@""];

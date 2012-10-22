@@ -388,7 +388,7 @@
 			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
 			
-		if (chat && [chat isGroupChat]) {
+		if (chat && chat.isGroupChat) {
 			title = [NSString stringWithFormat:@"%@ (%@)", title, [chat displayName]];
 		}
 			

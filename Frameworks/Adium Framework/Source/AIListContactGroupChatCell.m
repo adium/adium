@@ -15,7 +15,7 @@
  */
 
 #import "AIListContactGroupChatCell.h"
-#import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIGroupChatStatusIcons.h>
 #import <Adium/AIStatusIcons.h>
 

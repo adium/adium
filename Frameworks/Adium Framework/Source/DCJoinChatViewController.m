@@ -164,7 +164,7 @@
 		[contactArray removeObjectAtIndex:0];
 		AILog(@"Inviting %@ to %@", listContact, chat);
 
-		[chat inviteListContact:listContact
+		[(AIGroupChat *)chat inviteListContact:listContact
 					withMessage:[userInfo objectForKey:@"InitialInivitationMessage"]];
 
 	} else {

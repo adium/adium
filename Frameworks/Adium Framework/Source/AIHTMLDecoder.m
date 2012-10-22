@@ -1942,14 +1942,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			NSSize imageSize = [attachmentImage size];
 			[string appendFormat:@"<img %@src=\"%@%@\" alt=\"%@\" width=\"%i\" height=\"%i\">",
 				imageClassTag,
-				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%f", [[NSDate date] timeIntervalSince1970]] : @""),
+				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", (unsigned int)[[NSDate date] timeIntervalSince1970]] : @""),
 				altName,
 				(int)imageSize.width, (int)imageSize.height];
 
 		} else {
 			[string appendFormat:@"<img %@src=\"%@%@\" alt=\"%@\">",
 				imageClassTag,
-				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%f", [[NSDate date] timeIntervalSince1970]] : @""),
+				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", (unsigned int)[[NSDate date] timeIntervalSince1970]] : @""),
 				altName];
 		}
 	}

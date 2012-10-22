@@ -1033,7 +1033,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 						[attributeValues addObject:@"true"];
 					}
 					
-					NSString *displayName = [chat displayNameForContact:content.source];
+					NSString *displayName;
+					if (chat.isGroupChat)
+						displayName = [(AIGroupChat *)chat displayNameForContact:content.source];
+					else
+						displayName = content.source.displayName;
 					
 					if (![[[content source] UID] isEqualToString:displayName]) {
 						[attributeKeys addObject:@"alias"];
@@ -1580,7 +1584,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				}
 				
 				dispatch_group_enter(closingIndexGroup);
-				
 				dispatch_group_leave(logIndexingGroup);
 				
 				dispatch_group_notify(logIndexingGroup, searchIndexQueue, ^{

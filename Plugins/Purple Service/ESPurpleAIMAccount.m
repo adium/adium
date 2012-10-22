@@ -177,7 +177,7 @@
 
 #pragma mark Group chat
 
-- (void)addUser:(NSString *)contactName toChat:(AIChat *)chat newArrival:(NSNumber *)newArrival
+- (void)addUser:(NSString *)contactName toChat:(AIGroupChat *)chat newArrival:(NSNumber *)newArrival
 {
 	AIListContact *listContact;
 	

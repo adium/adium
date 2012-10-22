@@ -19,6 +19,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 
 @implementation AIContentMessage
 
@@ -67,7 +68,7 @@
 	[classes addObject:@"message"];
 	if(isAutoreply) [classes addObject:@"autoreply"];
 	if(self.chat.isGroupChat) {
-		AIGroupChatFlags flags = [self.chat flagsForContact:(AIListContact *)self.source];
+		AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForContact:(AIListContact *)self.source];
 		if (flags & AIGroupChatOp)
 			[classes addObject:@"op"];
 		if (flags & AIGroupChatHalfOp)
@@ -82,7 +83,9 @@
 
 - (NSString *)senderPrefix
 {
-	AIGroupChatFlags flags = [self.chat flagsForContact:(AIListContact *)self.source];
+    if (!self.chat.isGroupChat) return @"";
+    
+	AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForContact:(AIListContact *)self.source];
 	
 	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
 		return @"~";

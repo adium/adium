@@ -18,6 +18,7 @@
 #import "ESWebView.h"
 #import "AIWebKitMessageViewPlugin.h"
 #import <Adium/AIChat.h>
+#import "AIPreviewChat.h"
 
 @implementation AIWebKitPreviewMessageViewController
 
@@ -33,7 +34,9 @@
 
 - (void)setIsGroupChat:(BOOL)groupChat
 {
-	chat.isGroupChat = groupChat;
+	NSAssert([chat isKindOfClass:[AIPreviewChat class]], @"Can't promote chat %@ to group chat", chat);
+
+	((AIPreviewChat *)chat).isGroupChat = groupChat;
 	preferenceGroup = [plugin preferenceGroupForChat:chat];
 }
 

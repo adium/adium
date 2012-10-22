@@ -97,21 +97,13 @@ typedef enum {
 	AIChatInvalidNumberOfArguments
 } AIChatErrorType;
 
-@interface AIChat : ESObjectWithProperties <AIContainingObject> {
+@interface AIChat : ESObjectWithProperties {
 	AIAccount			*account;
 	NSDate				*dateOpened;
 	BOOL				isOpen;
-	BOOL				isGroupChat;
 	BOOL				hasSentOrReceivedContent;
 
 	NSMutableArray		*pendingOutgoingContentObjects;
-	
-	BOOL				hideUserIconAndStatus;
-	BOOL				showJoinLeave;
-	
-	NSMutableDictionary	*participatingContactsFlags;
-	NSMutableDictionary	*participatingContactsAliases;
-	NSMutableArray		*participatingContacts;
 	
 	AIListContact		*__weak preferredContact;
 	NSString			*name;
@@ -120,20 +112,15 @@ typedef enum {
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL				expanded;
-	
 	BOOL				enableTypingNotifications;
+	BOOL				hideUserIconAndStatus;
 	
 	NSMutableSet		*customEmoticons;
-	
-	NSDate				*lastMessageDate;
 	
 	// Former properties
 	NSImage				*tabStateIcon;
 	
 	NSDictionary		*chatCreationInfo;
-	
-	BOOL				accountJoined;
 	
 	NSInteger			unviewedMention;
 	NSInteger			unviewedContent;
@@ -143,14 +130,12 @@ typedef enum {
 	NSInteger			ourTypingState;
 	
 	NSDictionary		*securityDetails;
-	
-	BOOL				secureMessagingLastEncryptedState;
-	
-	NSString			*topic;
-    AIListContact		*topicSetter;
+    
+    AIListContact       *_listObject;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;
+- (id)initForAccount:(AIAccount *)inAccount;
 
 @property (readwrite, nonatomic, strong) AIAccount *account;
 
@@ -171,30 +156,14 @@ typedef enum {
 
 - (void)setDisplayName:(NSString *)inDisplayName;
 
-// Group chat participants.
-- (NSString *)displayNameForContact:(AIListObject *)contact;
-- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
-- (NSString *)aliasForContact:(AIListObject *)contact;
-- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
-- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
-- (void)removeSavedValuesForContactUID:(NSString *)contactUID;
-
-- (void)resortParticipants;
-
-- (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify;
-- (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify;
-- (void)removeAllParticipatingContactsSilently;
-- (void)removeObject:(AIListObject *)inObject;
-
 //
 @property (readwrite, nonatomic, strong) AIListContact *listObject;
 @property (readwrite, nonatomic, weak) AIListContact *preferredListObject;
-- (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
 
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject;
 - (void)finishedSendingContentObject:(AIContentObject *)inObject;
 
-@property (readwrite, nonatomic, strong) NSString *name; 
+@property (readwrite, nonatomic, strong) NSString *name;
 @property (readwrite, nonatomic, strong) id identifier;
 
 @property (weak, readonly, nonatomic) NSString *uniqueChatID;
@@ -213,26 +182,21 @@ typedef enum {
 - (BOOL)isListContactIgnored:(AIListObject *)inContact;
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
-@property (readwrite, nonatomic) BOOL isGroupChat;
-@property (readwrite, nonatomic) BOOL showJoinLeave;
-
-@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
-@property (readonly, nonatomic) BOOL supportsTopic;
-
-- (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
-- (void)setTopic:(NSString *)inTopic;
-
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
 @property (readonly, nonatomic) NSMutableSet *customEmoticons;
 
 - (void)receivedError:(NSNumber *)type;
 
-@property (unsafe_unretained, readonly, nonatomic) id <AIChatContainer> chatContainer;
+@property (readonly, nonatomic) id <AIChatContainer> chatContainer;
 
-@property (weak, readonly, nonatomic) NSMenu *actionMenu;
+@property (readonly, nonatomic) NSMenu *actionMenu;
 
 @property (readonly, nonatomic) BOOL shouldLog;
 
-@property (readwrite, copy, nonatomic) NSDate *lastMessageDate;
+@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
+
+// Compatibility. I don't like this here.
+- (NSArray *)containedObjects;
+- (BOOL)isGroupChat;
 
 @end
