@@ -155,7 +155,7 @@
 
         [sourceDestination.view setHidden:TRUE];
         
-        [self addTopBarController:sourceDestination];
+		[self performSelector:@selector(addTopBarController:) withObject:sourceDestination afterDelay:.2f];
 
         [sourceDestination release];
         
