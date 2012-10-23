@@ -1065,7 +1065,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					AIListObject	*actualObject = nil;
 					
 					if (content.source) {
-						for(AIListContact *participatingListObject in chat) {
+						for(AIListContact *participatingListObject in chat.containedObjects) {
 							if ([participatingListObject parentContact] == retardedMetaObject) {
 								actualObject = participatingListObject;
 								break;
