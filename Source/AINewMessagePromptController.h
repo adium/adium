@@ -18,12 +18,16 @@
 #import "AINewMessageSearchField.h"
 #import "AINewMessageTableView.h"
 
-@interface AINewMessagePromptController : AIWindowController <NSTableViewDataSource, NSTableViewDelegate, NSControlTextEditingDelegate> {
+@interface AINewMessagePromptController : AIWindowController <NSTableViewDataSource, NSTableViewDelegate, NSControlTextEditingDelegate, AIAccountMenuDelegate> {
 	IBOutlet	NSTextField	*label_from;
 	IBOutlet	NSTextField	*label_to;
 	
 	IBOutlet	NSButton	*button_okay;
 	IBOutlet	NSButton	*button_cancel;
+	
+	AIAccountMenu 			*accountMenu;
+	AIAccount				*account;
+	IBOutlet	NSButton	*popup_account;
 	
 	IBOutlet	AINewMessageSearchField	*field_search;
 	IBOutlet	AINewMessageTableView	*table_results;

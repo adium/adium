@@ -19,6 +19,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
+#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import "AIUserIcons.h"
@@ -68,6 +69,15 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	sharedNewMessageInstance = nil;
 }
 
+- (void)dealloc
+{
+	[accountMenu release];
+	[results release];
+	[account release];
+	
+	[super dealloc];
+}
+
 /*!
  * @brief Window did load
  */
@@ -86,6 +96,10 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results setDelegate:self];
 	[table_results setDoubleAction:@selector(okay:)];
 	[table_results setTarget:self];
+	
+	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+											  submenuType:AIAccountNoSubmenu
+										   showTitleVerbs:NO] retain];
 }
 
 /*!
@@ -93,7 +107,15 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
  */
 - (IBAction)okay:(id)sender
 {
-	AIListContact *contact = [[results objectAtIndex:[table_results selectedRow]] objectForKey:@"Contact"];
+	AIListContact *contact;
+	
+	if (account && table_results.selectedRow == results.count) {
+		contact = [adium.contactController contactWithService:account.service
+													  account:account
+														  UID:[field_search stringValue]];
+	} else {
+		contact = [[results objectAtIndex:[table_results selectedRow]] objectForKey:@"Contact"];
+	}
 	
 	AIChat *chat = [adium.chatController chatWithContact:contact];
 	
@@ -102,7 +124,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[self closeWindow:nil];
 }
 
-- (void)closeWindow:(id)sender
+- (IBAction)closeWindow:(id)sender
 {
 	[field_search setStringValue:@""];
 	
@@ -119,7 +141,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	return @"NewMessagePrompt";
 }
 
-- (NSInteger)string:(NSMutableAttributedString *)astring matchesQuery:(NSString *)query
+- (NSInteger)_string:(NSMutableAttributedString *)astring matchesQuery:(NSString *)query
 {
 	NSRange matchRange = NSMakeRange(0, astring.length);
 	NSInteger i;
@@ -132,9 +154,16 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		
 		if (newRange.location == NSNotFound) return NSNotFound;
 		
+		// Try to approximate Xcode's colors.
 		[astring addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:NSUnderlineStyleSingle], NSUnderlineStyleAttributeName,
-								[NSColor colorWithCalibratedRed:244.0f / 255.0f green:241.0f / 255.0f blue:197.0f / 255.0f alpha:1.0f], NSBackgroundColorAttributeName,
-								[NSColor colorWithCalibratedRed:237.0 / 255.0f green:204.0 / 255.0f blue:0.0f alpha:1.0f], NSUnderlineColorAttributeName, nil] range:newRange];
+								[NSColor colorWithCalibratedRed:244.0f / 255.0f
+														  green:241.0f / 255.0f
+														   blue:197.0f / 255.0f
+														  alpha:1.0f], NSBackgroundColorAttributeName,
+								[NSColor colorWithCalibratedRed:237.0 / 255.0f
+														  green:204.0 / 255.0f
+														   blue:0.0f
+														  alpha:1.0f], NSUnderlineColorAttributeName, nil] range:newRange];
 		
 		score += newRange.location - matchRange.location;
 		
@@ -162,12 +191,17 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	NSMutableArray *matches = [NSMutableArray array];
 	
 	for (AIListContact *contact in contacts) {
+		if (account && contact.account != account) continue;
 		if (!contact.account.enabled) continue;
 		
-		NSMutableAttributedString *UID = [[[NSMutableAttributedString alloc] initWithString:contact.UID attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0f] forKey:NSFontAttributeName]] autorelease];
+		NSMutableAttributedString *UID = [[[NSMutableAttributedString alloc] initWithString:contact.UID
+																				 attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0f]
+																														forKey:NSFontAttributeName]] autorelease];
 		NSMutableAttributedString *displayName = [[[NSMutableAttributedString alloc] initWithString:contact.displayName] autorelease];
 		
-		NSInteger score = MIN([self string:UID matchesQuery:query], [self string:displayName matchesQuery:query]);
+		NSInteger UIDScore = [self _string:UID matchesQuery:query];
+		NSInteger nameScore = [self _string:displayName matchesQuery:query];
+		NSInteger score = MIN(UIDScore, nameScore);
 		
 		if (score != NSNotFound) {
 			[matches addObject:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"Contact",
@@ -177,6 +211,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	}
 	
 	[results release];
+	
 	results = [[matches sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [[obj1 objectForKey:@"Value"] compare:[obj2 objectForKey:@"Value"]];
 	}] retain];
@@ -184,13 +219,57 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results reloadData];
 }
 
+#pragma mark Table view
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return results.count;
+	if (account && [field_search stringValue].length)
+		return results.count + 1;
+	else
+		return results.count;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+	// As a last item, we include the literal query if only one account was selected.
+	if (row == results.count) {
+		if ([[tableColumn identifier] isEqualToString:@"icon"]) {
+			return [AIServiceIcons serviceIconForObject:account
+												   type:AIServiceIconLarge
+											  direction:AIIconNormal];
+		} else {
+			NSMutableAttributedString *astring = [[NSMutableAttributedString alloc] initWithString:@"\n"];
+			
+			[astring appendString:[field_search stringValue] withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:11.0f], NSFontAttributeName, [NSNumber numberWithInteger:NSUnderlineStyleSingle], NSUnderlineStyleAttributeName,
+																			 [NSColor colorWithCalibratedRed:244.0f / 255.0f
+																									   green:241.0f / 255.0f
+																										blue:197.0f / 255.0f
+																									   alpha:1.0f], NSBackgroundColorAttributeName,
+																			 [NSColor colorWithCalibratedRed:237.0 / 255.0f
+																									   green:204.0 / 255.0f
+																										blue:0.0f
+																									   alpha:1.0f], NSUnderlineColorAttributeName, nil]];
+			NSTextAttachment		*attachment;
+			NSTextAttachmentCell	*cell;
+			NSImage					*serviceIcon = [[AIServiceIcons serviceIconForObject:account
+																		type:AIStatusIconTab
+																   direction:AIIconNormal] imageByScalingToSize:NSMakeSize(11, 11)];
+			
+			cell = [[NSTextAttachmentCell alloc] init];
+			[cell setImage:serviceIcon];
+			
+			attachment = [[NSTextAttachment alloc] init];
+			[attachment setAttachmentCell:cell];
+			[cell release];
+			
+			[astring appendString:@" " withAttributes:nil];
+			[astring appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[attachment release];
+			
+			return  [astring autorelease];
+		}
+	}
+	
 	AIListObject *listObject = [[results objectAtIndex:row] objectForKey:@"Contact"];
 	
 	if ([[tableColumn identifier] isEqualToString:@"icon"]) {
@@ -253,12 +332,15 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	}
 }
 
+// Move the selection in the table
 - (void)move:(NSInteger)diff
 {
 	NSInteger selectedRow = [table_results selectedRow];
 	[table_results selectRowIndexes:[NSIndexSet indexSetWithIndex:selectedRow + diff] byExtendingSelection:NO];
 	[table_results scrollRowToVisible:selectedRow + diff];
 }
+
+#pragma mark Text field
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)command
 {
@@ -284,6 +366,55 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 - (void)controlTextDidEndEditing:(NSNotification *)obj
 {
 	[table_results setNeedsDisplay];
+}
+
+#pragma mark Account menu
+
+// Account menu delegate
+- (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
+{
+	[popup_account setMenu:[inAccountMenu menu]];
+}
+
+- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
+{
+	return inAccount.online;
+}
+
+- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
+{
+	[account release];
+	account = [inAccount retain];
+	
+	[self textUpdated:nil];
+	
+}
+
+- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu
+{
+	NSMenuItem *anyItem = nil;
+	int numberOfOnlineAccounts = 0;
+	
+	for (AIAccount *anAccount in adium.accountController.accounts) {
+		if ([self accountMenu:inAccountMenu shouldIncludeAccount:anAccount]) {
+			account = [anAccount retain];
+			numberOfOnlineAccounts += 1;
+			if (numberOfOnlineAccounts > 1) {
+				[account release];
+				account = nil;
+				anyItem = [[[NSMenuItem alloc] initWithTitle:
+							AILocalizedStringFromTableInBundle(@"Any",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil)
+													  action:nil
+											   keyEquivalent:@""] autorelease];
+				break;
+			}
+		}
+	}
+	
+	return anyItem;
 }
 
 @end
