@@ -121,11 +121,15 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	
 	[adium.interfaceController openChat:chat];
 	
+	[adium.interfaceController setActiveChat:chat];
+	
 	[self closeWindow:nil];
 }
 
-- (IBAction)closeWindow:(id)sender
+- (void)windowWillClose:(id)sender
 {
+	[super windowWillClose:sender];
+	
 	[field_search setStringValue:@""];
 	
 	[results release];
@@ -133,7 +137,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	
 	[table_results reloadData];
 	
-	[super closeWindow:sender];
+	[[self class] destroySharedInstance];
 }
 
 - (NSString *)lastAccountIDKey
