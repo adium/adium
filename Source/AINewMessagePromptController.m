@@ -68,15 +68,6 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	sharedNewMessageInstance = nil;
 }
 
-- (void)dealloc
-{
-	[accountMenu release];
-	[results release];
-	[account release];
-	
-	[super dealloc];
-}
-
 /*!
  * @brief Window did load
  */
@@ -96,9 +87,9 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results setDoubleAction:@selector(okay:)];
 	[table_results setTarget:self];
 	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
-											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
+											 submenuType:AIAccountNoSubmenu
+										  showTitleVerbs:NO];
 }
 
 /*!
@@ -131,7 +122,6 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	
 	[field_search setStringValue:@""];
 	
-	[results release];
 	results = nil;
 	
 	[table_results reloadData];
@@ -182,8 +172,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	NSString *query = [field_search stringValue];
 	
 	if (query.length < 2) {
-		[results release];
-		results = [[NSArray array] retain];
+		results = [NSArray array];
 		[table_results reloadData];
 		
 		return;
@@ -197,10 +186,10 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		if (account && contact.account != account) continue;
 		if (!contact.account.enabled) continue;
 		
-		NSMutableAttributedString *UID = [[[NSMutableAttributedString alloc] initWithString:contact.UID
+		NSMutableAttributedString *UID = [[NSMutableAttributedString alloc] initWithString:contact.UID
 																				 attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0f]
-																														forKey:NSFontAttributeName]] autorelease];
-		NSMutableAttributedString *displayName = [[[NSMutableAttributedString alloc] initWithString:contact.displayName] autorelease];
+																														forKey:NSFontAttributeName]];
+		NSMutableAttributedString *displayName = [[NSMutableAttributedString alloc] initWithString:contact.displayName];
 		
 		NSInteger UIDScore = [self _string:UID matchesQuery:query];
 		NSInteger nameScore = [self _string:displayName matchesQuery:query];
@@ -213,11 +202,9 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		}
 	}
 	
-	[results release];
-	
-	results = [[matches sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+	results = [matches sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [[obj1 objectForKey:@"Value"] compare:[obj2 objectForKey:@"Value"]];
-	}] retain];
+	}];
 	
 	[table_results reloadData];
 }
@@ -263,13 +250,11 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 			
 			[astring appendString:@" " withAttributes:nil];
 			[astring appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 			
-			return  [astring autorelease];
+			return  astring;
 		}
 	}
 	
@@ -303,10 +288,8 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 			
 			[result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 			[result appendString:@" " withAttributes:nil];
 		}
 		
@@ -324,14 +307,12 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 			
 			[result appendString:@" " withAttributes:nil];
 			[result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 		}
 		
-		return [result autorelease];
+		return result;
 	}
 }
 
@@ -386,8 +367,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
 {
-	[account release];
-	account = [inAccount retain];
+	account = inAccount;
 	
 	[self textUpdated:nil];
 	
@@ -400,18 +380,17 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	
 	for (AIAccount *anAccount in adium.accountController.accounts) {
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:anAccount]) {
-			account = [anAccount retain];
+			account = anAccount;
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				[account release];
 				account = nil;
-				anyItem = [[[NSMenuItem alloc] initWithTitle:
-							AILocalizedStringFromTableInBundle(@"Any",
-															   nil,
-															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
-															   nil)
-													  action:nil
-											   keyEquivalent:@""] autorelease];
+				anyItem = [[NSMenuItem alloc] initWithTitle:
+						   AILocalizedStringFromTableInBundle(@"Any",
+															  nil,
+															  [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															  nil)
+													 action:nil
+											  keyEquivalent:@""];
 				break;
 			}
 		}
