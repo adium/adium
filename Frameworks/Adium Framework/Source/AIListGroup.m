@@ -348,7 +348,7 @@
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackbuf count:(NSUInteger)len
 {
-	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [_containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark Applescript
