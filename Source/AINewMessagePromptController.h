@@ -15,10 +15,25 @@
  */
 
 #import "AIAccountPlusFieldPromptController.h"
+#import "AINewMessageSearchField.h"
+#import "AINewMessageTableView.h"
 
-@interface AINewMessagePromptController : AIAccountPlusFieldPromptController {    
+@interface AINewMessagePromptController : AIWindowController <NSTableViewDataSource, NSTableViewDelegate, NSControlTextEditingDelegate> {
 	IBOutlet	NSTextField	*label_from;
 	IBOutlet	NSTextField	*label_to;
+	
+	IBOutlet	NSButton	*button_okay;
+	IBOutlet	NSButton	*button_cancel;
+	
+	IBOutlet	AINewMessageSearchField	*field_search;
+	IBOutlet	AINewMessageTableView	*table_results;
+	
+	NSArray *results;
 }
+
+- (IBAction)textUpdated:(id)sender;
++ (id)createSharedInstance;
++ (id)sharedInstance;
+- (void)move:(NSInteger)diff;
 
 @end
