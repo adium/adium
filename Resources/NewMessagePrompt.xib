@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.SystemVersion">12C54</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2843</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
@@ -50,7 +50,7 @@
 			<object class="NSWindowTemplate" id="65469044">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{463, 428}, {455, 345}}</string>
+				<string key="NSWindowRect">{{463, 428}, {450, 328}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle"/>
 				<string key="NSWindowClass">NSWindow</string>
@@ -58,7 +58,7 @@
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{156.19800000000001, 5}</string>
+				<string key="NSWindowContentMinSize">{260, 180}</string>
 				<object class="NSView" key="NSWindowView" id="475194834">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -66,7 +66,7 @@
 						<object class="NSButton" id="908480541">
 							<reference key="NSNextResponder" ref="475194834"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{346, 13}, {95, 32}}</string>
+							<string key="NSFrame">{{341, 13}, {95, 32}}</string>
 							<reference key="NSSuperview" ref="475194834"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -94,7 +94,7 @@
 						<object class="NSButton" id="609432773">
 							<reference key="NSNextResponder" ref="475194834"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{251, 13}, {95, 32}}</string>
+							<string key="NSFrame">{{246, 13}, {95, 32}}</string>
 							<reference key="NSSuperview" ref="475194834"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="908480541"/>
@@ -118,7 +118,7 @@
 						<object class="NSSearchField" id="35607775">
 							<reference key="NSNextResponder" ref="475194834"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{7, 316}, {441, 22}}</string>
+							<string key="NSFrame">{{7, 298}, {436, 22}}</string>
 							<reference key="NSSuperview" ref="475194834"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="340761095"/>
@@ -199,7 +199,7 @@
 										<object class="NSTableView" id="873154579">
 											<reference key="NSNextResponder" ref="447086285"/>
 											<int key="NSvFlags">4352</int>
-											<string key="NSFrameSize">{455, 216}</string>
+											<string key="NSFrameSize">{450, 190}</string>
 											<reference key="NSSuperview" ref="447086285"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1035036399"/>
@@ -304,7 +304,7 @@
 											<int key="NSTableViewGroupRowStyle">1</int>
 										</object>
 									</array>
-									<string key="NSFrame">{{1, 1}, {455, 216}}</string>
+									<string key="NSFrame">{{1, 1}, {450, 190}}</string>
 									<reference key="NSSuperview" ref="340761095"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="873154579"/>
@@ -349,7 +349,7 @@
 									<double key="NSPercent">0.99758454106280192</double>
 								</object>
 							</array>
-							<string key="NSFrame">{{-1, 90}, {457, 218}}</string>
+							<string key="NSFrame">{{-1, 99}, {452, 192}}</string>
 							<reference key="NSSuperview" ref="475194834"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="892141472"/>
@@ -366,7 +366,7 @@
 						<object class="NSPopUpButton" id="542931200">
 							<reference key="NSNextResponder" ref="475194834"/>
 							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{79, 58}, {359, 26}}</string>
+							<string key="NSFrame">{{79, 58}, {354, 26}}</string>
 							<reference key="NSSuperview" ref="475194834"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="609432773"/>
@@ -466,13 +466,13 @@
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
 					</array>
-					<string key="NSFrameSize">{455, 345}</string>
+					<string key="NSFrameSize">{450, 328}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="35607775"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
-				<string key="NSMinSize">{156.19800000000001, 27}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSMinSize">{260, 202}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -990,20 +990,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AINewMessagePromptController</string>
 					<string key="superclassName">AIWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="okay:">id</string>
-						<string key="textUpdated:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="okay:">
-							<string key="name">okay:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="textUpdated:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">textUpdated:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">textUpdated:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">textUpdated:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="button_cancel">NSButton</string>
 						<string key="button_okay">NSButton</string>
