@@ -31,7 +31,7 @@
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 
 /*
  * glib, unfortunately, identifies all sources and timers via unsigned 32 bit tags. We would like to map them to dispatch_source_t objects.
@@ -98,7 +98,7 @@ gboolean adium_source_remove(guint tag) {
 	
     removeSourceForTag(tag);
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 	dispatch_release(src);
 #endif
 	

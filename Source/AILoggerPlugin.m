@@ -320,7 +320,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
 	dispatch_group_wait(loggerPluginGroup, DISPATCH_TIME_FOREVER);
 
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 	dispatch_release(dirtyLogSetMutationQueue);
 	dispatch_release(searchIndexQueue);
 	dispatch_release(activeAppendersMutationQueue);

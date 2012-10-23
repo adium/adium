@@ -60,13 +60,13 @@
 		xpc_object_t argObject = xpc_string_create([argument UTF8String]);
 		
 		xpc_array_set_value(array, XPC_ARRAY_APPEND, argObject);
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 		xpc_release(argObject);
 #endif
 	}
 	
 	xpc_dictionary_set_value(obj, "arguments", array);
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 	xpc_release(array);
 #endif
 	
@@ -78,7 +78,7 @@
 		}
 	});
 	
-#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_8
 	xpc_release(obj);
 #endif
 }
