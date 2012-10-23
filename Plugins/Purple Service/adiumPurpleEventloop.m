@@ -31,6 +31,8 @@
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing
 
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+
 /*
  * glib, unfortunately, identifies all sources and timers via unsigned 32 bit tags. We would like to map them to dispatch_source_t objects.
  * So: we make a CFDictionary with all null callbacks (hash on the value of the integer, cast to a void*, and don't retain/release anything).
@@ -58,6 +60,30 @@ static inline void removeSourceForTag(guint tag) {
     CFDictionaryRemoveValue(sourceInfoDict(), (void *)tag);
 }
 
+#else
+
+static inline NSMutableDictionary *sourceInfoDict() {
+    static NSMutableDictionary * _sourceInfoDict;
+    static dispatch_once_t sourceInfoDictToken;
+	
+    dispatch_once(&sourceInfoDictToken, ^{
+		_sourceInfoDict = [[NSMutableDictionary alloc] init];
+	});
+	
+    return _sourceInfoDict;
+}
+
+static inline dispatch_source_t sourceForTag(guint tag) {
+    return [sourceInfoDict() objectForKey:@(tag)];
+}
+static inline void setSourceForTag(dispatch_source_t source, guint tag) {
+	[sourceInfoDict() setObject:source forKey:@(tag)];
+}
+static inline void removeSourceForTag(guint tag) {
+	[sourceInfoDict() removeObjectForKey:@(tag)];
+}
+#endif
+
 gboolean adium_source_remove(guint tag) {
 	dispatch_source_t src = sourceForTag(tag);
     
@@ -72,7 +98,9 @@ gboolean adium_source_remove(guint tag) {
 	
     removeSourceForTag(tag);
 
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
 	dispatch_release(src);
+#endif
 	
 	return success;
 }

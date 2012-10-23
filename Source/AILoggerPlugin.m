@@ -319,17 +319,30 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_group_wait(closingIndexGroup, DISPATCH_TIME_FOREVER);
 	dispatch_group_wait(logAppendingGroup, DISPATCH_TIME_FOREVER);
 	dispatch_group_wait(loggerPluginGroup, DISPATCH_TIME_FOREVER);
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
+	dispatch_release(dirtyLogSetMutationQueue);
+	dispatch_release(searchIndexQueue);
+	dispatch_release(activeAppendersMutationQueue);
+	dispatch_release(logIndexingGroup);
+	dispatch_release(closingIndexGroup);
+	dispatch_release(addToSearchKitQueue);
+	dispatch_release(logAppendingGroup);
+	dispatch_release(ioQueue);
+	dispatch_release(jobSemaphore);
+	dispatch_release(loggerPluginGroup);
+#endif
 	
-	dispatch_release(dirtyLogSetMutationQueue); dirtyLogSetMutationQueue = nil;
-	dispatch_release(searchIndexQueue); searchIndexQueue = nil;
-	dispatch_release(activeAppendersMutationQueue); activeAppendersMutationQueue = nil;
-	dispatch_release(logIndexingGroup); logIndexingGroup = nil;
-	dispatch_release(closingIndexGroup); closingIndexGroup = nil;
-	dispatch_release(addToSearchKitQueue); addToSearchKitQueue = nil;
-	dispatch_release(logAppendingGroup); logAppendingGroup = nil;
-	dispatch_release(ioQueue); ioQueue = nil;
-	dispatch_release(jobSemaphore); jobSemaphore = nil;
-	dispatch_release(loggerPluginGroup); loggerPluginGroup = nil;
+	dirtyLogSetMutationQueue = nil;
+	searchIndexQueue = nil;
+	activeAppendersMutationQueue = nil;
+	logIndexingGroup = nil;
+	closingIndexGroup = nil;
+	addToSearchKitQueue = nil;
+	logAppendingGroup = nil;
+	ioQueue = nil;
+	jobSemaphore = nil;
+	loggerPluginGroup = nil;
 }
 #pragma mark AILoggerPlugin Plubic Methods
 //Paths

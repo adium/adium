@@ -60,12 +60,15 @@
 		xpc_object_t argObject = xpc_string_create([argument UTF8String]);
 		
 		xpc_array_set_value(array, XPC_ARRAY_APPEND, argObject);
-		
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
 		xpc_release(argObject);
+#endif
 	}
 	
 	xpc_dictionary_set_value(obj, "arguments", array);
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
 	xpc_release(array);
+#endif
 	
 	xpc_connection_send_message_with_reply(applescriptRunner, obj, dispatch_get_main_queue(), ^(xpc_object_t reply){
 		if (target && selector) {
@@ -75,7 +78,9 @@
 		}
 	});
 	
+#if __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_8
 	xpc_release(obj);
+#endif
 }
 
 @end
