@@ -87,6 +87,11 @@ gboolean adium_timeout_remove(guint tag) {
  */
 guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
+	if (!function) {
+		NSLog(@"addTimer INVALID: function is NULL, nothing to do; returning tag %i",sourceId+1);
+		return ++sourceId;
+	}
+	
 	dispatch_source_t src;
 	guint tag;
 	
@@ -101,8 +106,8 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
     dispatch_source_set_event_handler(src, ^{
 		@autoreleasepool {
 
-			if (sourceForTag(tag)) {
-				if (!function || !function(data)) {
+			if (__builtin_expect(sourceForTag(tag) != NULL, 1)) {
+				if (!function(data)) {
 					adium_timeout_remove(tag);
 				}
 			} else {
@@ -135,6 +140,11 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 		NSLog(@"INVALID: fd was %i; returning tag %i",fd,sourceId+1);
 		return ++sourceId;
 	}
+	
+	if (!func) {
+		NSLog(@"adium_input_add INVALID: func is NULL, nothing to do; returning tag %i",sourceId+1);
+		return ++sourceId;
+	}
 
 	dispatch_source_t src;
 	guint tag;
@@ -152,7 +162,7 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 	
     dispatch_source_set_event_handler(src, ^{
 		@autoreleasepool {
-			if (func) func(user_data, fd, condition);
+			func(user_data, fd, condition);
 		}
     });
 		
