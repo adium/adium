@@ -568,6 +568,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">label_account</string>
+						<reference key="source" ref="853528324"/>
+						<reference key="destination" ref="210405386"/>
+					</object>
+					<int key="connectionID">103</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="65469044"/>
 						<reference key="destination" ref="853528324"/>
@@ -918,7 +926,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">102</int>
+			<int key="maxID">103</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1004,8 +1012,7 @@
 						<string key="button_cancel">NSButton</string>
 						<string key="button_okay">NSButton</string>
 						<string key="field_search">AINewMessageSearchField</string>
-						<string key="label_from">NSTextField</string>
-						<string key="label_to">NSTextField</string>
+						<string key="label_account">NSTextField</string>
 						<string key="popup_account">NSButton</string>
 						<string key="table_results">AINewMessageTableView</string>
 					</dictionary>
@@ -1022,12 +1029,8 @@
 							<string key="name">field_search</string>
 							<string key="candidateClassName">AINewMessageSearchField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="label_from">
-							<string key="name">label_from</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_to">
-							<string key="name">label_to</string>
+						<object class="IBToOneOutletInfo" key="label_account">
+							<string key="name">label_account</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="popup_account">

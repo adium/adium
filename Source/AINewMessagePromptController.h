@@ -19,12 +19,10 @@
 #import "AINewMessageTableView.h"
 
 @interface AINewMessagePromptController : AIWindowController <NSTableViewDataSource, NSTableViewDelegate, NSControlTextEditingDelegate, AIAccountMenuDelegate> {
-	IBOutlet	NSTextField	*label_from;
-	IBOutlet	NSTextField	*label_to;
-	
 	IBOutlet	NSButton	*button_okay;
 	IBOutlet	NSButton	*button_cancel;
 	
+	IBOutlet	NSTextField	*label_account;
 	AIAccountMenu 			*accountMenu;
 	AIAccount				*account;
 	IBOutlet	NSButton	*popup_account;

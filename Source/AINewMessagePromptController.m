@@ -85,10 +85,8 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 {
 	[super windowDidLoad];
 	
-	[label_from setLocalizedString:AILocalizedString(@"From:",nil)];
-	[label_to setLocalizedString:AILocalizedString(@"To:",nil)];
-	
 	[button_okay setLocalizedString:AILocalizedStringFromTable(@"Message", @"Buttons", "Button title to open a message window the specific contact from the 'New Chat' window")];
+	[button_cancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 	
 	[[self window] setTitle:AILocalizedString(@"New Message",nil)];
 	
@@ -97,6 +95,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results setDoubleAction:@selector(okay:)];
 	[table_results setTarget:self];
 	
+	[label_account setLocalizedString:AILocalizedString(@"Account:", nil)];
 	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
 										   showTitleVerbs:NO] retain];
@@ -406,11 +405,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			if (numberOfOnlineAccounts > 1) {
 				[account release];
 				account = nil;
-				anyItem = [[[NSMenuItem alloc] initWithTitle:
-							AILocalizedStringFromTableInBundle(@"Any",
-															   nil,
-															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
-															   nil)
+				anyItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Any", @"New message window label to show contacts for 'Any' account.")
 													  action:nil
 											   keyEquivalent:@""] autorelease];
 				break;
