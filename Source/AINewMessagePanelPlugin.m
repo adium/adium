@@ -62,7 +62,7 @@
  */
 - (void)newMessage:(id)sender
 {
-	[AINewMessagePromptController showPrompt];
+	[[AINewMessagePromptController sharedInstance] showWindow:nil];
 }
 
 - (BOOL)validateMenuItem:(id)menuItem

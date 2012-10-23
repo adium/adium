@@ -1353,6 +1353,9 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
+		761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D587F1636C60100210B12 /* AINewMessageTableView.m */; };
+		761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */; };
+		761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58851636F94200210B12 /* AINewMessageSearchField.m */; };
 		765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
@@ -4395,6 +4398,12 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		761D587E1636C60100210B12 /* AINewMessageTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageTableView.h; path = Source/AINewMessageTableView.h; sourceTree = "<group>"; };
+		761D587F1636C60100210B12 /* AINewMessageTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageTableView.m; path = Source/AINewMessageTableView.m; sourceTree = "<group>"; };
+		761D58811636EDE100210B12 /* AINewMessageTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageTextFieldCell.h; path = Source/AINewMessageTextFieldCell.h; sourceTree = "<group>"; };
+		761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageTextFieldCell.m; path = Source/AINewMessageTextFieldCell.m; sourceTree = "<group>"; };
+		761D58841636F94200210B12 /* AINewMessageSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageSearchField.h; path = Source/AINewMessageSearchField.h; sourceTree = "<group>"; };
+		761D58851636F94200210B12 /* AINewMessageSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageSearchField.m; path = Source/AINewMessageSearchField.m; sourceTree = "<group>"; };
 		765F5DC61635934400C57904 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIRejoinGroupChatTopBar.xib; sourceTree = "<group>"; };
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
@@ -6817,10 +6826,16 @@
 			isa = PBXGroup;
 			children = (
 				34E0EA0B07CC53FE00A82198 /* AINewMessagePanelPlugin.m */,
-				34E0EA0C07CC53FE00A82198 /* AINewMessagePromptController.m */,
 				34E0EA0D07CC53FE00A82198 /* AINewMessagePanelPlugin.h */,
 				34E0EA0E07CC53FE00A82198 /* AINewMessagePromptController.h */,
+				34E0EA0C07CC53FE00A82198 /* AINewMessagePromptController.m */,
 				34E0EA0707CC53EC00A82198 /* NewMessagePrompt.xib */,
+				761D587E1636C60100210B12 /* AINewMessageTableView.h */,
+				761D587F1636C60100210B12 /* AINewMessageTableView.m */,
+				761D58811636EDE100210B12 /* AINewMessageTextFieldCell.h */,
+				761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */,
+				761D58841636F94200210B12 /* AINewMessageSearchField.h */,
+				761D58851636F94200210B12 /* AINewMessageSearchField.m */,
 			);
 			name = "New Message Panel";
 			sourceTree = "<group>";
@@ -10457,6 +10472,9 @@
 				767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */,
 				76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */,
 				76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */,
+				761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */,
+				761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */,
+				761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
