@@ -52,13 +52,13 @@
 						<reference key="NSNextKeyView" ref="1004149543"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="264179379">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">272630784</int>
+							<int key="NSCellFlags">67108864</int>
+							<int key="NSCellFlags2">272629760</int>
 							<string key="NSContents">Type text and drag name elements to create a custom name format.</string>
-							<object class="NSFont" key="NSSupport" id="892759057">
+							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">12</double>
-								<int key="NSfFlags">16</int>
+								<double key="NSSize">11</double>
+								<int key="NSfFlags">3100</int>
 							</object>
 							<reference key="NSControlView" ref="1043803574"/>
 							<object class="NSColor" key="NSBackgroundColor" id="314505115">
@@ -294,6 +294,7 @@
 									<object class="NSTokenField" id="235196032">
 										<reference key="NSNextResponder" ref="462640365"/>
 										<int key="NSvFlags">268</int>
+										<array class="NSMutableArray" key="NSSubviews"/>
 										<set class="NSMutableSet" key="NSDragTypes">
 											<string>NSStringPboardType</string>
 										</set>
@@ -348,6 +349,7 @@
 									<object class="NSTokenField" id="766790085">
 										<reference key="NSNextResponder" ref="462640365"/>
 										<int key="NSvFlags">268</int>
+										<array class="NSMutableArray" key="NSSubviews"/>
 										<set class="NSMutableSet" key="NSDragTypes">
 											<string>NSStringPboardType</string>
 										</set>
@@ -415,7 +417,11 @@
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Name elements</string>
-							<reference key="NSSupport" ref="892759057"/>
+							<object class="NSFont" key="NSSupport">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">12</double>
+								<int key="NSfFlags">16</int>
+							</object>
 							<reference key="NSBackgroundColor" ref="345160299"/>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">3</int>
@@ -567,6 +573,7 @@
 						<string key="NSFrame">{{125, 19}, {457, 18}}</string>
 						<reference key="NSSuperview" ref="1056980084"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="582364491">
 							<int key="NSCellFlags">-2080374784</int>
