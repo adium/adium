@@ -54,7 +54,7 @@ TLDs            ({ccTLD}|{sTLD}|{uTLD}|arpa|local)
 %{
 /*The Unicode standard, version 4.1, table 3-6, says that the highest byte that will occur in a valid UTF-8 sequence is 0xF4.*/
 %}
-userAndPass     [^:@]+(:[^:@]+)?
+userAndPass     [^:@[:space:]]+(:[^:@[:space:]]+)?
 singleDomain    [_[:alnum:]\x80-\xf4-]+
 
 urlPath         \/[^[:space:]]*
@@ -74,7 +74,7 @@ ipv6URL         \[{ipv6Address}](:[0-9]+)?{urlPath}?
 userAtDomain	[^:@\/[:space:]]+\@{singleDomain}(\.{singleDomain})*
 mailSpec        {userAtDomain}\.{TLDs}
 
-%option noyywrap nounput noinput 8bit caseless never-interactive reentrant warn prefix="AH"
+%option noyywrap nounput noinput 8bit caseless align nodefault never-interactive reentrant warn prefix="AH"
 
 %x CANONICAL TENTATIVE
 %%
