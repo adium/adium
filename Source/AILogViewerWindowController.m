@@ -44,6 +44,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITableViewAdditions.h>
@@ -1908,9 +1909,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			NSImage		*image;
 			
 			serviceClass = [theLog serviceClass];
-			image = [AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
+			image = [[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
 													 type:AIServiceIconSmall
-												direction:AIIconNormal];
+												direction:AIIconNormal] imageByScalingForMenuItem];
 			value = (image ? image : blankImage);
 		}
     }
@@ -2130,15 +2131,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else if ([item isKindOfClass:[AIListContact class]]) {
 		NSImage	*image = [AIUserIcons listUserIconForContact:(AIListContact *)item
 														size:NSMakeSize(16,16)];
-		if (!image) image = [AIServiceIcons serviceIconForObject:(AIListContact *)item
+		if (!image) image = [[AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped];
+													   direction:AIIconFlipped] imageByScalingForMenuItem];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
-		[cell setImage:[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
+		[cell setImage:[[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
 														type:AIServiceIconSmall
-												   direction:AIIconNormal]];
+												   direction:AIIconFlipped] imageByScalingForMenuItem]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
