@@ -2324,14 +2324,14 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 														toolTip:AILocalizedString(@"Search or filter logs",nil)
 														 target:self
 												settingSelector:@selector(setView:)
-													itemContent:view_SearchField
+													itemContent:searchField_logs
 														 action:@selector(updateSearch:)
 														   menu:nil];
 	if ([toolbarItem respondsToSelector:@selector(setVisibilityPriority:)]) {
 		[toolbarItem setVisibilityPriority:(NSToolbarItemVisibilityPriorityHigh + 1)];
 	}
-	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([view_SearchField frame]))];
-	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([view_SearchField frame]))];
+	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([searchField_logs frame]))];
+	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([searchField_logs frame]))];
 	[toolbarItems setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
 
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:DATE_ITEM_IDENTIFIER
