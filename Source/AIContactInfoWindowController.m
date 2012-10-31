@@ -42,7 +42,7 @@
 
 //Defines for the image files used by the toolbar segments
 #define INFO_SEGMENT_IMAGE (@"get-info-profile.tiff")
-#define ADDRESS_BOOK_SEGMENT_IMAGE (@"get-info-addressbook.tiff")
+#define ADDRESS_BOOK_SEGMENT_IMAGE (@"get-info-address-book.tiff")
 #define EVENTS_SEGMENT_IMAGE (@"get-info-events.tiff")
 #define ADVANCED_SEGMENT_IMAGE (@"get-info-advanced.tiff")
 

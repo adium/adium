@@ -78,10 +78,10 @@
 #define HIDE_TIMESTAMPS					AILocalizedString(@"Hide Timestamps",nil)
 #define SHOW_TIMESTAMPS					AILocalizedString(@"Show Timestamps",nil)
 
-#define IMAGE_EMOTICONS_OFF				@"emoticon32"
-#define IMAGE_EMOTICONS_ON				@"emoticon32_transparent"
-#define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
-#define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
+#define IMAGE_EMOTICONS_OFF				@"emoticon"
+#define IMAGE_EMOTICONS_ON				@"emoticon-sleep"
+#define IMAGE_TIMESTAMPS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_TIMESTAMPS_ON				@"transcripts-timestamp-in"
 
 #define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
 #define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
@@ -2313,7 +2313,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
                                                toolTip:AILocalizedString(@"Delete the selection",nil)
                                                 target:self
                                        settingSelector:@selector(setImage:)
-                                           itemContent:[NSImage imageNamed:@"remove" forClass:[self class]]
+                                           itemContent:[NSImage imageNamed:@"transcripts-remove" forClass:[self class]]
                                                 action:@selector(deleteSelection:)
                                                   menu:nil];
 	
