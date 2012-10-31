@@ -13,7 +13,7 @@
 	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithString:testString];
 	AHMarkedHyperlink	*ahLink = [scanner nextURI];
 	
-	STAssertNotNil(ahLink.URL, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
+	STAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
 	STAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URIString, @"in context: '%@'", testString);
 }
 
@@ -218,6 +218,8 @@
 	[self testLaxContext:@"foo (bar) %@" withURI:@"http://example.com/path/to/url.html"];
 	
 	[self testLaxContext:@"%@ doesn't link." withURI:@"http://developer.apple.com/library/iOS/#documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaObjects/CocoaObjects.html#//apple_ref/doc/uid/TP40002974-CH4-SW3"];
+    [self testLaxContext:@"foo (bar: %@)" withURI:@"http://example.com/path/to/url_(other)"];
+    [self testLaxContext:@"foo [bar: %@]" withURI:@"http://example.com/path/to/url_(other)"];
 }
 
 - (void)testCompositeContext {
