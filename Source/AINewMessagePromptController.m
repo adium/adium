@@ -75,10 +75,8 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 {
 	[super windowDidLoad];
 	
-	[label_from setLocalizedString:AILocalizedString(@"From:",nil)];
-	[label_to setLocalizedString:AILocalizedString(@"To:",nil)];
-	
 	[button_okay setLocalizedString:AILocalizedStringFromTable(@"Message", @"Buttons", "Button title to open a message window the specific contact from the 'New Chat' window")];
+	[button_cancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 	
 	[[self window] setTitle:AILocalizedString(@"New Message",nil)];
 	
@@ -87,6 +85,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results setDoubleAction:@selector(okay:)];
 	[table_results setTarget:self];
 	
+	[label_account setLocalizedString:AILocalizedString(@"Account:", nil)];
 	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											 submenuType:AIAccountNoSubmenu
 										  showTitleVerbs:NO];
@@ -185,6 +184,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	for (AIListContact *contact in contacts) {
 		if (account && contact.account != account) continue;
 		if (!contact.account.enabled) continue;
+		if (contact.isStranger) continue;
 		
 		NSMutableAttributedString *UID = [[NSMutableAttributedString alloc] initWithString:contact.UID
 																				 attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0f]
@@ -198,7 +198,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		if (score != NSNotFound) {
 			[matches addObject:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"Contact",
 								[NSNumber numberWithInteger:score], @"Value",
-								UID, @"UID", displayName, @"DisplayName", nil]];
+								UID, @"UID", displayName, @"DisplayName", contact.account.UID, @"From", nil]];
 		}
 	}
 	
@@ -258,13 +258,13 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		}
 	}
 	
-	AIListObject *listObject = [[results objectAtIndex:row] objectForKey:@"Contact"];
+	AIListContact *listContact = [[results objectAtIndex:row] objectForKey:@"Contact"];
 	
 	if ([[tableColumn identifier] isEqualToString:@"icon"]) {
-		NSImage *userIcon = [AIUserIcons userIconForObject:listObject];
+		NSImage *userIcon = [AIUserIcons userIconForObject:listContact];
 		
 		if (!userIcon) {
-			userIcon = [AIServiceIcons serviceIconForObject:listObject
+			userIcon = [AIServiceIcons serviceIconForObject:listContact
 													   type:AIServiceIconLarge
 												  direction:AIIconNormal];
 		}
@@ -276,7 +276,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		[result appendAttributedString:[[results objectAtIndex:row] objectForKey:@"DisplayName"]];
 		[result appendString:@"\n" withAttributes:nil];
 		
-		NSImage *statusIcon = [[AIStatusIcons statusIconForListObject:listObject
+		NSImage *statusIcon = [[AIStatusIcons statusIconForListObject:listContact
 																 type:AIStatusIconTab
 															direction:AIIconNormal] imageByScalingToSize:NSMakeSize(11, 11)];
 		if (statusIcon) {
@@ -295,8 +295,33 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		
 		[result appendAttributedString:[[results objectAtIndex:row] objectForKey:@"UID"]];
 		
-		NSImage *serviceIcon = [[AIServiceIcons serviceIconForObject:listObject type:AIServiceIconSmall direction:AIIconNormal]
+		NSImage *serviceIcon = [[AIServiceIcons serviceIconForObject:listContact type:AIServiceIconSmall direction:AIIconNormal]
 								imageByScalingToSize:NSMakeSize(11, 11)];
+		
+		if (serviceIcon) {
+			NSTextAttachment		*attachment;
+			NSTextAttachmentCell	*cell;
+			
+			cell = [[NSTextAttachmentCell alloc] init];
+			[cell setImage:serviceIcon];
+			
+			attachment = [[NSTextAttachment alloc] init];
+			[attachment setAttachmentCell:cell];
+			
+			[result appendString:@" " withAttributes:nil];
+			[result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+		}
+
+		[result appendString:@" – " withAttributes:nil];
+		
+		[result appendString:[[results objectAtIndex:row] objectForKey:@"From"] withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:11.0f],
+																								NSFontAttributeName, nil]];
+		
+		// The account's icon
+		serviceIcon = [[AIServiceIcons serviceIconForObject:listContact.account
+													   type:AIServiceIconSmall
+												  direction:AIIconNormal]
+					   imageByScalingToSize:NSMakeSize(11, 11)];
 		
 		if (serviceIcon) {
 			NSTextAttachment		*attachment;
@@ -384,13 +409,9 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
 				account = nil;
-				anyItem = [[NSMenuItem alloc] initWithTitle:
-						   AILocalizedStringFromTableInBundle(@"Any",
-															  nil,
-															  [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
-															  nil)
-													 action:nil
-											  keyEquivalent:@""];
+				anyItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Any", @"New message window label to show contacts for 'Any' account.")
+													  action:nil
+											   keyEquivalent:@""];
 				break;
 			}
 		}

@@ -144,7 +144,7 @@
 
 	//Register our toolbar item
 	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
-	[button setImage:[NSImage imageNamed:@"emoticon32" forClass:[self class] loadLazily:YES]];
+	[button setImage:[NSImage imageNamed:@"emoticon" forClass:[self class] loadLazily:YES]];
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_EMOTICON_IDENTIFIER
 														   label:TITLE_EMOTICON
 													paletteLabel:TITLE_INSERT_EMOTICON

@@ -44,6 +44,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITableViewAdditions.h>
@@ -77,10 +78,10 @@
 #define HIDE_TIMESTAMPS					AILocalizedString(@"Hide Timestamps",nil)
 #define SHOW_TIMESTAMPS					AILocalizedString(@"Show Timestamps",nil)
 
-#define IMAGE_EMOTICONS_OFF				@"emoticon32"
-#define IMAGE_EMOTICONS_ON				@"emoticon32_transparent"
-#define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
-#define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
+#define IMAGE_EMOTICONS_OFF				@"emoticon"
+#define IMAGE_EMOTICONS_ON				@"emoticon-sleep"
+#define IMAGE_TIMESTAMPS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_TIMESTAMPS_ON				@"transcripts-timestamp-in"
 
 #define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
 #define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
@@ -1861,9 +1862,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			NSImage		*image;
 			
 			serviceClass = [theLog serviceClass];
-			image = [AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
+			image = [[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
 													 type:AIServiceIconSmall
-												direction:AIIconNormal];
+												direction:AIIconNormal] imageByScalingForMenuItem];
 			value = (image ? image : blankImage);
 		}
     }
@@ -2083,15 +2084,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else if ([item isKindOfClass:[AIListContact class]]) {
 		NSImage	*image = [AIUserIcons listUserIconForContact:(AIListContact *)item
 														size:NSMakeSize(16,16)];
-		if (!image) image = [AIServiceIcons serviceIconForObject:(AIListContact *)item
+		if (!image) image = [[AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped];
+													   direction:AIIconFlipped] imageByScalingForMenuItem];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
-		[cell setImage:[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
+		[cell setImage:[[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
 														type:AIServiceIconSmall
-												   direction:AIIconNormal]];
+												   direction:AIIconFlipped] imageByScalingForMenuItem]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
@@ -2265,7 +2266,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
                                                toolTip:AILocalizedString(@"Delete the selection",nil)
                                                 target:self
                                        settingSelector:@selector(setImage:)
-                                           itemContent:[NSImage imageNamed:@"remove" forClass:[self class]]
+                                           itemContent:[NSImage imageNamed:@"transcripts-remove" forClass:[self class]]
                                                 action:@selector(deleteSelection:)
                                                   menu:nil];
 	
@@ -2277,14 +2278,14 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 														toolTip:AILocalizedString(@"Search or filter logs",nil)
 														 target:self
 												settingSelector:@selector(setView:)
-													itemContent:view_SearchField
+													itemContent:searchField_logs
 														 action:@selector(updateSearch:)
 														   menu:nil];
 	if ([toolbarItem respondsToSelector:@selector(setVisibilityPriority:)]) {
 		[toolbarItem setVisibilityPriority:(NSToolbarItemVisibilityPriorityHigh + 1)];
 	}
-	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([view_SearchField frame]))];
-	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([view_SearchField frame]))];
+	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([searchField_logs frame]))];
+	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([searchField_logs frame]))];
 	[toolbarItems setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
 
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:DATE_ITEM_IDENTIFIER

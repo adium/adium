@@ -70,7 +70,7 @@
     return @"Preferences-ContactList";
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"pref-contactList" forClass:[AIPreferenceWindowController class]];
+	return [NSImage imageNamed:@"pref-contact-list" forClass:[AIPreferenceWindowController class]];
 }
 
 /*!

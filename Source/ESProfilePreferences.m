@@ -52,7 +52,7 @@
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"Profile" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-profile" forClass:[self class]];
 }
 
 /*!

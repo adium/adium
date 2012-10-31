@@ -39,7 +39,7 @@
     return @"Preferences-MessageAlerts";
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"pref-messagealerts" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-message-alerts" forClass:[self class]];
 }
 
 #pragma mark Display

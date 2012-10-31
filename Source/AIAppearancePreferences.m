@@ -71,7 +71,7 @@ typedef enum {
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-appearance" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-icons" forClass:[self class]];
 }
 
 /*!

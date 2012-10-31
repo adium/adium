@@ -74,7 +74,7 @@ ipv6URL         \[{ipv6Address}](:[0-9]+)?{urlPath}?
 userAtDomain	[^:@\/[:space:]]+\@{singleDomain}(\.{singleDomain})*
 mailSpec        {userAtDomain}\.{TLDs}
 
-%option noyywrap nounput noinput 8bit caseless align nodefault never-interactive reentrant warn prefix="AH"
+%option noyywrap nounput noinput 8bit caseless align never-interactive reentrant warn prefix="AH"
 
 %x CANONICAL TENTATIVE
 %%
