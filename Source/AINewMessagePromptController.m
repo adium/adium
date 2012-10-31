@@ -196,6 +196,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	for (AIListContact *contact in contacts) {
 		if (account && contact.account != account) continue;
 		if (!contact.account.enabled) continue;
+		if (contact.isStranger) continue;
 		
 		NSMutableAttributedString *UID = [[[NSMutableAttributedString alloc] initWithString:contact.UID
 																				 attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11.0f]
@@ -209,7 +210,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		if (score != NSNotFound) {
 			[matches addObject:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"Contact",
 								[NSNumber numberWithInteger:score], @"Value",
-								UID, @"UID", displayName, @"DisplayName", nil]];
+								UID, @"UID", displayName, @"DisplayName", contact.account.UID, @"From", nil]];
 		}
 	}
 	
@@ -273,13 +274,13 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		}
 	}
 	
-	AIListObject *listObject = [[results objectAtIndex:row] objectForKey:@"Contact"];
+	AIListContact *listContact = [[results objectAtIndex:row] objectForKey:@"Contact"];
 	
 	if ([[tableColumn identifier] isEqualToString:@"icon"]) {
-		NSImage *userIcon = [AIUserIcons userIconForObject:listObject];
+		NSImage *userIcon = [AIUserIcons userIconForObject:listContact];
 		
 		if (!userIcon) {
-			userIcon = [AIServiceIcons serviceIconForObject:listObject
+			userIcon = [AIServiceIcons serviceIconForObject:listContact
 													   type:AIServiceIconLarge
 												  direction:AIIconNormal];
 		}
@@ -291,7 +292,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		[result appendAttributedString:[[results objectAtIndex:row] objectForKey:@"DisplayName"]];
 		[result appendString:@"\n" withAttributes:nil];
 		
-		NSImage *statusIcon = [[AIStatusIcons statusIconForListObject:listObject
+		NSImage *statusIcon = [[AIStatusIcons statusIconForListObject:listContact
 																 type:AIStatusIconTab
 															direction:AIIconNormal] imageByScalingToSize:NSMakeSize(11, 11)];
 		if (statusIcon) {
@@ -312,8 +313,35 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 		
 		[result appendAttributedString:[[results objectAtIndex:row] objectForKey:@"UID"]];
 		
-		NSImage *serviceIcon = [[AIServiceIcons serviceIconForObject:listObject type:AIServiceIconSmall direction:AIIconNormal]
+		NSImage *serviceIcon = [[AIServiceIcons serviceIconForObject:listContact type:AIServiceIconSmall direction:AIIconNormal]
 								imageByScalingToSize:NSMakeSize(11, 11)];
+		
+		if (serviceIcon) {
+			NSTextAttachment		*attachment;
+			NSTextAttachmentCell	*cell;
+			
+			cell = [[NSTextAttachmentCell alloc] init];
+			[cell setImage:serviceIcon];
+			
+			attachment = [[NSTextAttachment alloc] init];
+			[attachment setAttachmentCell:cell];
+			[cell release];
+			
+			[result appendString:@" " withAttributes:nil];
+			[result appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[attachment release];
+		}
+		
+		[result appendString:@" – " withAttributes:nil];
+		
+		[result appendString:[[results objectAtIndex:row] objectForKey:@"From"] withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:11.0f],
+																								NSFontAttributeName, nil]];
+		
+		// The account's icon
+		serviceIcon = [[AIServiceIcons serviceIconForObject:listContact.account
+													   type:AIServiceIconSmall
+												  direction:AIIconNormal]
+					   imageByScalingToSize:NSMakeSize(11, 11)];
 		
 		if (serviceIcon) {
 			NSTextAttachment		*attachment;
