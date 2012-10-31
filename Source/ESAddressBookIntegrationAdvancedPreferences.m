@@ -66,7 +66,7 @@
     return @"Preferences-AddressBookIntegration";
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"AddressBook" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-address-book" forClass:[self class]];
 }
 
 /*!
