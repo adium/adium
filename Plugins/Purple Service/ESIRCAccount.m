@@ -560,8 +560,10 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	AIOperationRequirement req = (AIOperationRequirement)menuItem.tag;
 	AIChat *chat = adium.interfaceController.activeChat;
 	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
-		
-	AIGroupChatFlags flags = [self flagsInChat:chat];
+	
+	if (!chat.isGroupChat) return YES;
+	
+	AIGroupChatFlags flags = [self flagsInChat:(AIGroupChat *)chat];
 	
 	switch (req) {
 		case AIRequiresHalfop:
