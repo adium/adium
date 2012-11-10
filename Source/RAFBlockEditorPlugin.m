@@ -31,21 +31,14 @@
 											   keyEquivalent:@"p"];
 	[blockEditorMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask | NSCommandKeyMask)];
 	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
+	
+	//Install our preference view
+	preferences = [(RAFBlockEditorWindowController *)[RAFBlockEditorWindowController preferencePaneForPlugin:self] retain];
 }
 
 - (void)uninstallPlugin
 {
 	[blockEditorMenuItem release];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-	for (AIAccount *account in adium.accountController.accounts) {
-		if(account.online && [account conformsToProtocol:@protocol(AIAccount_Privacy)])
-			return YES;
-	}
-
-	return NO;
 }
 
 - (IBAction)showEditor:(id)sender

@@ -1,5 +1,34 @@
 				Adium Version History
 				-----------------------
+Version 1.6 (X/X/X)
+ Major changes
+  * New preferences layout
+  * Added high-resolution resources for "Retina Display" support
+  * Updated to libpurple x.y.z.
+    * Added SASL authentication support. (#14478)
+
+ Plugins
+  * Added support for adding image upload services. (#15865) (Félix Cloutier)
+
+ Preferences
+  * Changed preferences layout to resemble OS X's System Preferences.
+  * Moved a bunch of preferences around for more consistency dissolving the "Advanced" preference pane and its sub-sections.
+  * Made Privacy Settings a preference pane.
+  * Made the Xtras Manager a preference pane.
+  * Renamed "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
+  * Contact list: Added a preference for maximum contact list height. (#4815)
+  * General: Removed "Send Messages with:" option. (#15369)
+  * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
+
+ Transcript Viewer
+  * Added full screen support. (##16120) (Paul Wilde)
+
+  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
+
+ * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+
+(#13824) (#14081) (#15161) (#13330) (#14079)
+
 Version 1.5.4 (11/4/2012)
  * Updated the included Growl SDK to 2.0, adding support for Notification Center on 10.8 if Growl is not installed. (#15867)
  * Updated libotr to 3.2.1, fixing a security vulnerability. (#16122)

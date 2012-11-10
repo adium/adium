@@ -134,7 +134,7 @@
     textLimitConfigDownload = nil;
 	[self queryTextLimit];
     
-	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+	AIGroupChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 															onAccount:self];
 	if (timelineChat) {
 		[self updateTimelineChat: timelineChat];
@@ -195,7 +195,7 @@
         }
         
         if (err != nil)
-            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %ld %@", self.host, [err code], [err localizedDescription]);
 	
 		[configData release]; configData = nil;
 		[config release];

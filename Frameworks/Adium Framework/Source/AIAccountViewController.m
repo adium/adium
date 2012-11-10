@@ -216,6 +216,9 @@
 		NSString	*savedPassword = [adium.accountController passwordForAccount:account];
 		[textField_password setStringValue:[savedPassword length] ? savedPassword : @""];
 		
+		//Account sign up button text
+		[button_SignUp setTitle:[service accountSetupLabel]];
+		
 		//User alias (display name)
 		NSString *alias = [[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString] string];
 		[textField_alias setStringValue:(alias ? alias : @"")];
@@ -336,6 +339,17 @@
 - (IBAction)changedPreference:(id)sender
 {
 	//Empty
+}
+
+/*!
+ * @brief Invoked when the account sign up button is clicked
+ *
+ * This method is invoked when the account sign up button is clicked. It defaults to opening the account sign up URL
+ * in the default browser, but can be used to override this behaviour.
+ */
+- (IBAction)signUpAccount:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[account.service serviceAccountSetupURL]];
 }
 
 /*!
