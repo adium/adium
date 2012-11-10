@@ -48,7 +48,7 @@ cat "$file" \
 			</body>|g' \
 			| sed 's|<a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a>|<a class="navleftsty" href="../">Adium Help</a> <a class="navleftsty" href="http://adium.im/screencasts/">Adium Videos</a> <a class="navleftsty active" href="AdiumDocumentation.html">Adium Documentation</a>|g' \
 			| sed 's|</title>| - Adium Documentation</title>|g' \
-			| sed 's|<div id="pagetitle">|<div id="pagetitle"> <a href="../"> <h3><img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" />Adium Help</a> \&gt; <a href="AdiumDocumentation.html">Adium Documentation</a> \&gt;</h3> |g' \
+			| sed 's|<div id="pagetitle">|<div id="pagetitle"> <h3><span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="/help" itemprop="url"><img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /><span itemprop="title">Adium Help</span></a></span> \&gt; <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="AdiumDocumentation.html" itemprop="url"><span itemprop="title">Adium Documentation</span></a></span> \&gt; </h3> |g' \
 			 > "$1/pgs/$(basename $file)"
 done
 
