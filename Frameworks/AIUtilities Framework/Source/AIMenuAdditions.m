@@ -20,34 +20,34 @@
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
 
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(NSInteger)tag
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
 	[theMenuItem setTag:tag];
 	
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode representedObject:(id)object
 {
-    NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
+    NSMenuItem	*theMenuItem = [[NSMenuItem alloc] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];
     [theMenuItem setRepresentedObject:object];
 
     [self addItem:theMenuItem];
     
-    return [theMenuItem autorelease];
+    return theMenuItem;
 }
 
 - (void)removeAllItemsButFirst
@@ -119,11 +119,9 @@
 	NSMenu	*menu = [self menu];
 	NSInteger		idx = [menu indexOfItem:self];
 
-	[self retain];
 	[menu removeItemAtIndex:idx];
 	[self setKeyEquivalent:@""];
 	[menu insertItem:self atIndex:idx];
-	[self release];
 }
 
 - (NSComparisonResult)titleCompare:(NSMenuItem *)inMenuItem
@@ -157,10 +155,10 @@
 {
 	if (itemA == itemB) return;
 
-	NSMenu	*menuA  = [[itemA retain] menu];
+	NSMenu	*menuA  = [itemA menu];
 	NSInteger		 indexA = menuA ? [menuA indexOfItem:itemA] : -1;
 
-	NSMenu	*menuB  = [[itemB retain] menu];
+	NSMenu	*menuB  = [itemB menu];
 	NSInteger		 indexB = menuB ? [menuB indexOfItem:itemB] : -1;
 
 	if ((menuA == menuB) && (indexA < indexB)) {
@@ -194,16 +192,12 @@
     NSMenuItem  *primaryItem = [containingMenu itemAtIndex:(menuItemIndex-1)];
 	
 	//Remove the primary item and readd it
-	[primaryItem retain];
 	[containingMenu removeItemAtIndex:(menuItemIndex-1)];
 	[containingMenu insertItem:primaryItem atIndex:(menuItemIndex-1)];
-	[primaryItem release];
 	
 	//Remove the alternate item and readd it
-	[alternateItem retain];
     [containingMenu removeItemAtIndex:menuItemIndex];
     [containingMenu insertItem:alternateItem atIndex:menuItemIndex];
-	[alternateItem release];
 }
 
 @end

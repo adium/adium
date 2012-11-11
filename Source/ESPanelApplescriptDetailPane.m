@@ -55,7 +55,7 @@
  */
 - (void)viewWillClose
 {
-	[scriptPath release]; scriptPath = nil;
+	scriptPath = nil;
 }
 
 /*!
@@ -104,8 +104,7 @@
 {
 	NSString	*scriptName;
 	
-	[scriptPath release];
-	scriptPath = [inPath retain];
+	scriptPath = inPath;
 	
 	//Update the display for this name
 	scriptName = [[scriptPath lastPathComponent] stringByDeletingPathExtension];

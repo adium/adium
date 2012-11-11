@@ -49,7 +49,7 @@
 
 - (id)initWithAccount:(AIAccount*)ac alert:(NSAlert*)al;
 
-@property (readwrite, retain, nonatomic) id userData;
+@property (readwrite, nonatomic) id userData;
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
@@ -60,15 +60,9 @@
 - (id)initWithAccount:(AIAccount*)ac alert:(NSAlert*)al {
 	if((self = [super init])) {
 		account = ac;
-		alert = [al retain];
+		alert = al;
 	}
 	return self;
-}
-
-- (void)dealloc {
-	[alert release];
-	[userData release];
-	[super dealloc];
 }
 
 @synthesize userData;
@@ -124,28 +118,24 @@ typedef enum
 
 - (void)dealloc
 {
-	[formattedUID release]; formattedUID = nil;
-	[accountStatus release]; accountStatus = nil;
-	[waitingToReconnect release]; waitingToReconnect = nil;
-	[connectionProgressString release]; connectionProgressString = nil;
-	[currentDisplayName release]; currentDisplayName = nil;
+	formattedUID = nil;
+	accountStatus = nil;
+	waitingToReconnect = nil;
+	connectionProgressString = nil;
+	currentDisplayName = nil;
 
-    [lastDisconnectionError release];
-    [delayedUpdateStatusTargets release];
-    [delayedUpdateStatusTimer invalidate]; [delayedUpdateStatusTimer release];
+    [delayedUpdateStatusTimer invalidate]; 
 
     /* Our superclass releases internalObjectID in its dealloc, so we should set it to nil when do.
      * We could just depend upon its implementation, but this is more robust.
      */
-    [internalObjectID release]; internalObjectID = nil; 
+    internalObjectID = nil; 
 
     [self _stopAttributedRefreshTimer];
-    [autoRefreshingKeys release]; autoRefreshingKeys = nil;
+    autoRefreshingKeys = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [adium.preferenceController unregisterPreferenceObserver:self];
-
-	[super dealloc];
 }
 
 /*!
@@ -270,8 +260,11 @@ typedef enum
 
 - (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion
 {
-	//Will be released in alertForAccountDeletion:didReturn:
-	return [[AIAccountDeletionDialog alloc] initWithAccount:self alert:[self alertForAccountDeletion]];
+	if (!confirmationDialogForAccountDeletion) {
+		confirmationDialogForAccountDeletion = [[AIAccountDeletionDialog alloc] initWithAccount:self alert:[self alertForAccountDeletion]];
+	}
+	
+	return confirmationDialogForAccountDeletion;
 }
 
 /*!
@@ -304,8 +297,8 @@ typedef enum
 	if(returnCode == NSAlertDefaultReturn) {
 		[self performDelete];
 	}
-
-	[(AIAccountDeletionDialog*)dialog release];
+	
+	confirmationDialogForAccountDeletion = nil;
 }
 
 /*!
@@ -460,7 +453,7 @@ typedef enum
 - (NSImage *)userIcon
 {
 	NSData	*iconData = [self userIconData];
-	return (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
+	return (iconData ? [[NSImage alloc] initWithData:iconData] : nil);
 }
 
 @synthesize isTemporary;
@@ -1062,10 +1055,10 @@ typedef enum
 	AIService *theService = self.service;
 	NSScriptObjectSpecifier *containerRef = [theService objectSpecifier];
 
-	return [[[NSUniqueIDSpecifier alloc]
+	return [[NSUniqueIDSpecifier alloc]
 			 initWithContainerClassDescription:[containerRef keyClassDescription]
 			 containerSpecifier:containerRef key:@"accounts"
-			 uniqueID:[self scriptingInternalObjectID]] autorelease];
+			 uniqueID:[self scriptingInternalObjectID]];
 }
 
 /**
@@ -1207,7 +1200,7 @@ typedef enum
 			return nil;
 		}
 		//this can take a while...
-		NSMutableArray *newParticipants = [[[NSMutableArray alloc] init] autorelease];
+		NSMutableArray *newParticipants = [[NSMutableArray alloc] init];
 		for (int i=0;i<[participants count];i++) {
 			[newParticipants addObject:[[participants objectAtIndex:i] objectsByEvaluatingSpecifier]];
 		}
@@ -1270,7 +1263,7 @@ typedef enum
 		}
 	} else {
 		if ([currentStatus mutabilityType] != AITemporaryEditableStatusState) {
-			currentStatus = [[currentStatus mutableCopy] autorelease];
+			currentStatus = [currentStatus mutableCopy];
 			[currentStatus setMutabilityType:AITemporaryEditableStatusState];
 		}
 		[currentStatus setStatusType:type];
@@ -1291,7 +1284,7 @@ typedef enum
 	AIStatus *currentStatus = self.statusState;
 	
 	if ([currentStatus mutabilityType] != AITemporaryEditableStatusState) {
-		currentStatus = [[currentStatus mutableCopy] autorelease];
+		currentStatus = [currentStatus mutableCopy];
 		[currentStatus setMutabilityType:AITemporaryEditableStatusState];
 	}	
 	

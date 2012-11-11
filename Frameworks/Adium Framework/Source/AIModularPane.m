@@ -21,13 +21,13 @@
 //Return a new modular pane
 + (AIModularPane *)modularPane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 //Return a new modular pane, passing plugin
 + (AIModularPane *)modularPaneForPlugin:(id)inPlugin
 {
-    return [[[self alloc] initForPlugin:inPlugin] autorelease];
+    return [[self alloc] initForPlugin:inPlugin];
 }
 
 //Init, passing plugin
@@ -73,7 +73,7 @@
 {
 	if (view) {
 		[self viewWillClose];
-		[view release]; view = nil;
+		view = nil;
 	}
 }
 

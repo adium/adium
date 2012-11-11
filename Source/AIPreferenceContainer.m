@@ -68,13 +68,13 @@ static NSString *globalPrefsNameForObject(AIListObject *object) {
 }
 #define globalPrefsName globalPrefsNameForObject(object)
 
-static NSMutableDictionary **globalPrefsPtrForObject(AIListObject *object) {
+static NSMutableDictionary * __strong *globalPrefsPtrForObject(AIListObject *object) {
     if (!object) return NULL;
     return [object isKindOfClass:[AIAccount class]] ? &accountPrefs : &objectPrefs;
 }
 #define myGlobalPrefs globalPrefsPtrForObject(object)
 
-static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
+static NSTimer * __strong *globalPrefsSaveTimerForObject(AIListObject *object) {
     if (!object) return NULL;
     return [object isKindOfClass:[AIAccount class]] ? &timer_savingOfAccountCache : &timer_savingOfObjectCache;
 }
@@ -84,7 +84,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 {
     BOOL found = YES;
     if (inObject) {
-        NSMutableDictionary **prefs = globalPrefsPtrForObject(inObject);
+        NSMutableDictionary * __strong *prefs = globalPrefsPtrForObject(inObject);
         if (!*prefs) {
             [self loadGlobalPrefsForObject:inObject];
             prefs = globalPrefsPtrForObject(inObject);
@@ -95,7 +95,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
     }
 
     if (inObject && !found && !create) return nil;
-	return [[[self alloc] initForGroup:inGroup object:inObject] autorelease];
+	return [[self alloc] initForGroup:inGroup object:inObject];
 }
 
 + (void)preferenceControllerWillClose
@@ -108,7 +108,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 		 * We've done our final save, though; don't let the timer fire again.
 		 */
 		[timer_savingOfObjectCache invalidate];
-		[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
+		timer_savingOfObjectCache = nil;
 	}
 
 	//If a save of the account prefs is pending, perform it immediately since we are quitting
@@ -119,28 +119,18 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 		 * We've done our final save, though; don't let the timer fire again.
 		 */		
 		[timer_savingOfAccountCache invalidate];
-		[timer_savingOfAccountCache release]; timer_savingOfObjectCache = nil;
+		timer_savingOfObjectCache = nil;
 	}
 }
 
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject
 {
 	if ((self = [super init])) {
-		group = [inGroup retain];
-		object = [inObject retain];
+		group = inGroup;
+		object = inObject;
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[defaults release];
-    [prefs release];
-	[group release];
-	[object release];
-
-	[super dealloc];
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
@@ -197,10 +187,10 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 	
 	//We want to load a mutable dictioanry of mutable dictionaries.
 	if (data) {
-		*myGlobalPrefs = [[NSPropertyListSerialization propertyListFromData:data 
+		*myGlobalPrefs = [NSPropertyListSerialization propertyListFromData:data 
 														   mutabilityOption:NSPropertyListMutableContainers 
 																	 format:NULL 
-														   errorDescription:&errorString] retain];
+														   errorDescription:&errorString];
 	}
 	
 	/* Log any error */
@@ -248,12 +238,12 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 		if (object) {
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
-			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
+			prefs = [*myGlobalPrefs objectForKey:globalPrefsKey];
 
 		} else {
-			prefs = [[NSMutableDictionary dictionaryAtPath:userDirectory
+			prefs = [NSMutableDictionary dictionaryAtPath:userDirectory
 												  withName:group
-													create:YES] retain];
+													create:YES];
 		}
 	}
 	
@@ -266,12 +256,12 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 - (NSDictionary *)dictionary
 {
     NSDictionary *myPrefs = self.prefs;
-    if (!defaults) return [[myPrefs copy] autorelease];
+    if (!defaults) return [myPrefs copy];
     
     NSMutableDictionary *prefsWithDefaults = [defaults mutableCopy];
     //Add our own preferences to the defaults dictionary to get a dict with the set keys overriding the default keys
     if (myPrefs) [prefsWithDefaults addEntriesFromDictionary:myPrefs];
-    return [prefsWithDefaults autorelease];
+    return prefsWithDefaults;
 }
 
 /*!
@@ -364,7 +354,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
-	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
+	NSDictionary *immutablePrefsToWrite = [[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES];
 	/* Data verification */
 #ifdef PREFERENCE_CONTAINER_DEBUG
 //	{
@@ -389,9 +379,9 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 		abort();
 	}
 	if (inTimer == timer_savingOfObjectCache) {
-			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
+			timer_savingOfObjectCache = nil;
 	} else if (inTimer == timer_savingOfAccountCache) {
-			[timer_savingOfAccountCache release]; timer_savingOfAccountCache = nil;
+			timer_savingOfAccountCache = nil;
 	}
 }
 
@@ -414,11 +404,11 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 			}
 #endif
 
-			*myTimerForSavingGlobalPrefs = [[NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
+			*myTimerForSavingGlobalPrefs = [NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
 																			 target:self
 																		   selector:@selector(performObjectPrefsSave:)
 																		   userInfo:*myGlobalPrefs
-																			repeats:NO] retain];
+																			repeats:NO];
 		}
 
 

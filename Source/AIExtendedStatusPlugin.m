@@ -43,7 +43,7 @@
 {
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_LAYOUT];
 	
-	whitespaceAndNewlineCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] retain];
+	whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 }
 
 /*!
@@ -111,7 +111,7 @@
 																usingFilterType:AIFilterContactList
 																	  direction:AIFilterIncoming
 																		context:inObject];
-			statusMessage = [[[[filteredMessage string] stringByTrimmingCharactersInSet:whitespaceAndNewlineCharacterSet] mutableCopy] autorelease];
+			statusMessage = [[[filteredMessage string] stringByTrimmingCharactersInSet:whitespaceAndNewlineCharacterSet] mutableCopy];
 
 			//Incredibly long status messages are slow to size, so we crop them to a reasonable length
 			NSInteger statusMessageLength = [statusMessage length];

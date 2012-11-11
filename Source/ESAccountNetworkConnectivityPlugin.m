@@ -81,17 +81,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[accountsToConnect    release];
-	[accountsToNotConnect release];
-
-	[super dealloc];
-}
-
-/*!
  * @brief Adium finished launching
  *
  * Attempt to autoconnect accounts if shift is not being pressed
@@ -142,8 +131,6 @@
 		
 		[accountsToConnect removeObject:account];
 	}
-	
-	[knownHosts release];
 	
 	//Watch for future changes to our account list
 	[[NSNotificationCenter defaultCenter] addObserver:self

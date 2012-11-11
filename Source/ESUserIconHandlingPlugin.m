@@ -149,7 +149,6 @@
 	[button setCornerRadius:3.0f];
 	[button setToolbarItem:toolbarItem];
 	[button setImage:[NSImage imageNamed:@"default-icon" forClass:[self class] loadLazily:YES]];
-	[button release];
 
 	//Register our toolbar item
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
@@ -170,9 +169,9 @@
 		NSMenuItem	*menuFormRepresentation, *blankMenuItem;
 		NSMenu		*menu;
 
-		menuFormRepresentation = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		menuFormRepresentation = [[NSMenuItem alloc] init];
 
-		menu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+		menu = [[NSMenu alloc] init];
 		[menu setDelegate:self];
 		[menu setAutoenablesItems:NO];
 
@@ -183,7 +182,6 @@
 		[blankMenuItem setRepresentedObject:item];
 		[blankMenuItem setEnabled:YES];
 		[menu addItem:blankMenuItem];
-		[blankMenuItem release];
 
 		[menuFormRepresentation setSubmenu:menu];
 		[menuFormRepresentation setTitle:[item label]];
@@ -237,7 +235,7 @@
 {
 	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
 	if ([toolbarItems containsObject:item]) {
-		[item setView:nil];
+		
 		[toolbarItems removeObject:item];
 		[validatedItems removeObject:item];
 
@@ -340,7 +338,7 @@
 	NSMenuItem *menuItem = [menu itemAtIndex:0];
 	NSToolbarItem	*toolbarItem = [menuItem representedObject];
 
-	[menuItem setImage:[[[(AIImageButton *)[toolbarItem view] image] copy] autorelease]];
+	[menuItem setImage:[[(AIImageButton *)[toolbarItem view] image] copy]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

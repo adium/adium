@@ -72,11 +72,7 @@
 
 - (void) dealloc
 {
-	[inspectorContentView release];
-	
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-
-	[super dealloc];
 }
 
 
@@ -224,10 +220,6 @@
 		[text addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(textLength, [text length] - textLength)];
 	}
     [text addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(textLength, [text length] - textLength)];
-	
-    [style release];
-    [block release];
-	
 }
 
 
@@ -244,7 +236,7 @@
 		//If one or more contacts are online, skip offline ones
 		if (metaContact.online && !listContact.online) continue;
 
-		for (NSDictionary *lineDict in listContact.profileArray) {
+		for (__strong NSDictionary *lineDict in listContact.profileArray) {
 			NSString *key = [lineDict objectForKey:KEY_KEY];
 			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] intValue];
 			NSInteger insertionIndex = -1;
@@ -273,7 +265,7 @@
 					if ([existingValues containsObject:[lineDict valueForKey:KEY_VALUE]])
 						continue;
 
-					for (NSValue *prevDictValue in [[previousDictValuesOnThisKey copy] autorelease]) {
+					for (NSValue *prevDictValue in [previousDictValuesOnThisKey copy]) {
 						NSDictionary		*prevDict = [prevDictValue nonretainedObjectValue];
 						NSMutableDictionary *newDict = [prevDict mutableCopy];
 						AIListContact *ownerOfPrevDict = [[ownershipDict objectForKey:prevDictValue] nonretainedObjectValue];
@@ -297,15 +289,14 @@
 						[ownershipDict removeObjectForKey:prevDictValue];
 						[ownershipDict setObject:[NSValue valueWithNonretainedObject:newDict]
 										  forKey:[NSValue valueWithNonretainedObject:ownerOfPrevDict]];
-						[newDict release];
 					}
 					
 					NSMutableDictionary *newDict = [lineDict mutableCopy];
 					[newDict setObject:[NSString stringWithFormat:AILocalizedString(@"%@'s %@", "(name)'s (information type), e.g. tekjew's status"),
 										listContact.formattedUID,
 										key]
-								forKey:KEY_KEY];					
-					lineDict = [newDict autorelease];
+								forKey:KEY_KEY];
+					lineDict = newDict;
 					
 					[previousDictValuesOnThisKey addObject:[NSValue valueWithNonretainedObject:lineDict]];
 
@@ -394,7 +385,7 @@
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
 		profileArray = [self metaContactProfileArrayForContact:(AIMetaContact *)inObject];
 	} else {
-		profileArray = [[[(AIListContact *)inObject profileArray] mutableCopy] autorelease];
+		profileArray = [[(AIListContact *)inObject profileArray] mutableCopy];
 	}
 
 	if (!profileArray) profileArray = [NSMutableArray array];
@@ -411,13 +402,13 @@
 	[self removeDuplicateEntriesFromProfileArray:profileArray];
 	
 	// Create the table
-	NSTextTable		*table = [[[NSTextTable alloc] init] autorelease];
+	NSTextTable		*table = [[NSTextTable alloc] init];
 	
 	[table setNumberOfColumns:2];
     [table setLayoutAlgorithm:NSTextTableAutomaticLayoutAlgorithm];
     [table setHidesEmptyCells:YES];
 
-	NSMutableAttributedString		*result = [[[NSMutableAttributedString alloc] init] autorelease];
+	NSMutableAttributedString		*result = [[NSMutableAttributedString alloc] init];
 	
 	__block BOOL					shownAnyContent = NO;
 	

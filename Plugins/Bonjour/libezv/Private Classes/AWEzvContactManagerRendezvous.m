@@ -78,7 +78,7 @@
 - (void)breakdownServiceController;
 - (DNSServiceRef)serviceRef;
 
-@property (readonly, nonatomic) AWEzvContactManager *contactManager;
+@property (weak, readonly, nonatomic) AWEzvContactManager *contactManager;
 
 @end // Interface ServiceController
 
@@ -188,7 +188,7 @@ void image_register_reply (
 		    /* Length of txt record in bytes, 0 for NULL txt record */ TXTRecordGetLength(&txtRecord) , 
 		    /* Txt record properly formatted, may be NULL */ TXTRecordGetBytesPtr(&txtRecord) ,
 		    /* Call back function, may be NULL */ register_reply,
-			/* Application context pointer, may be null */ self
+			/* Application context pointer, may be null */ (__bridge void *)(self)
 	);
 
 	if (dnsError == kDNSServiceErr_NoError) {		
@@ -214,12 +214,12 @@ void image_register_reply (
 {
 	AILogWithSignature(@"isDisconnecting");
 
-	[fServiceBrowser release]; fServiceBrowser = nil;
+	fServiceBrowser = nil;
 
 	// Remove Resolvers, this also deallocates the DNSServiceReferences
 	if (fDomainBrowser != nil) {
 		AILogWithSignature(@"Releasing %@",fDomainBrowser);
-		[fDomainBrowser release]; fDomainBrowser = nil;
+		fDomainBrowser = nil;
 
 		avDNSReference = nil;
 		imageServiceRef = nil;
@@ -385,7 +385,7 @@ void image_register_reply (
 		CC_SHA1_Init(&ctx);
 		CC_SHA1_Update(&ctx, [JPEGData bytes], (CC_LONG)[JPEGData length]);
 		CC_SHA1_Final(digest, &ctx);
-		imagehash = [[NSData dataWithBytes:digest length:20] retain];
+		imagehash = [NSData dataWithBytes:digest length:20];
 		AILogWithSignature(@"Will update with hash %@; length is %lu", imagehash, [JPEGData length]);
 		[self updatePHSH];
 	} else {
@@ -396,7 +396,7 @@ void image_register_reply (
 - (void) updatePHSH
 {
 	if (imagehash != nil) {
-		[userAnnounceData setField:@"phsh" content:[imagehash autorelease]];
+		[userAnnounceData setField:@"phsh" content:imagehash];
 		// Announce to network
 		[self updateAnnounceInfo];
 	} else {
@@ -409,10 +409,7 @@ void image_register_reply (
 // Start browsing the network for new rendezvous clients
 - (void) startBrowsing
 {
-	[fServiceBrowser release]; fServiceBrowser = nil;
-
-	// Destroy old contact dictionary if one exists
-	[contacts release];
+	fServiceBrowser = nil;
 
 	// Allocate new contact dictionary
 	contacts = [[NSMutableDictionary alloc] init];
@@ -427,7 +424,7 @@ void image_register_reply (
 	                                  /* Registration type */ "_presence._tcp",
 	                                  /* Domain, may be null for default */ NULL,
 	                                  /* CallBack function */ handle_av_browse_reply,
-	                                  /* Context, may be null */ self);
+	                                  /* Context, may be null */ (__bridge void *)(self));
 
 	if (avBrowseError == kDNSServiceErr_NoError) {
 		fServiceBrowser = [[ServiceController alloc] initWithServiceRef:browsRef forContactManager:self];
@@ -441,8 +438,8 @@ void image_register_reply (
 // Stop looking for new rendezvous clients
 - (void)stopBrowsing
 {
-	AILogWithSignature(@"fServiceBrowser is %@ (retain count %li)", fServiceBrowser, [fServiceBrowser retainCount]);
-	[fServiceBrowser release]; fServiceBrowser = nil;
+	AILogWithSignature(@"fServiceBrowser is %@)", fServiceBrowser);
+	fServiceBrowser = nil;
 }
 
 // Handle a message from our browser
@@ -473,7 +470,6 @@ void image_register_reply (
 		contact.manager = self;
 		// Save contact in dictionary
 		[contacts setObject:contact forKey:replyNameString];
-		[contact autorelease];
 
 		// Resolve contact
 		DNSServiceRef resolveRef;
@@ -487,14 +483,13 @@ void image_register_reply (
 			/* Registration type */ "_presence._tcp" /* replyType */,
 			/* Domain */ replyDomain,
 			/* Callback */ resolve_reply,
-			/* Contxt, may be NULL */ contact
+			/* Contxt, may be NULL */ (__bridge void *)contact
 		);
 
 		if (resolveRefError == kDNSServiceErr_NoError) {
 			ServiceController *serviceResolver = [[ServiceController alloc] initWithServiceRef:resolveRef forContactManager:self];
 			[contact setResolveServiceController:serviceResolver];
 			[[contact resolveServiceController] addToCurrentRunLoop];
-			[serviceResolver release];
 
 		} else {
 			[[client client] reportError:@"Could not search for TXT records" ofLevel:AWEzvConnectionError];
@@ -524,13 +519,12 @@ void image_register_reply (
 	DNSServiceRef		serviceRef;
 
 	err = DNSServiceQueryRecord( &serviceRef, (DNSServiceFlags) 0, interface, [host UTF8String], 
-	                             kDNSServiceType_A, kDNSServiceClass_IN, AddressQueryRecordReply, contact);
+	                             kDNSServiceType_A, kDNSServiceClass_IN, AddressQueryRecordReply, (__bridge void *)contact);
 	
 	if (err == kDNSServiceErr_NoError) {
 		ServiceController *temp = [[ServiceController alloc] initWithServiceRef:serviceRef forContactManager:self];
 		[contact setAddressServiceController:temp];
 		[[contact addressServiceController] addToCurrentRunLoop];
-		[temp release];
 	} else {
 		[[client client] reportError:@"Error finding adress for contact" ofLevel:AWEzvError];
 	}
@@ -553,7 +547,6 @@ void image_register_reply (
 			contact.manager = self;
 			// Save contact in dictionary
 			[contacts setObject:contact forKey:contact.uniqueID];
-			[contact autorelease];
 
 		} else {
 			[[client client] reportError:@"Contact to update not in dictionary and has bad identifier" ofLevel:AWEzvError];
@@ -593,7 +586,7 @@ void image_register_reply (
 		[contact setImageServiceController: nil];
 	}
 	
-	AILogWithSignature(@"%@ -> %@ (%i)", [NSData dataWithBytes:data length:dataLen], [[[NSImage alloc] initWithData:[NSData dataWithBytes:data length:dataLen]] autorelease], dataLen);
+	AILogWithSignature(@"%@ -> %@ (%i)", [NSData dataWithBytes:data length:dataLen], [[NSImage alloc] initWithData:[NSData dataWithBytes:data length:dataLen]], dataLen);
 	
 	if (dataLen != 0 ) {
 		// We have an image
@@ -629,7 +622,6 @@ void image_register_reply (
 			contact.manager = self;
 			// Save contact in dictionary
 			[contacts setObject:contact forKey:contact.uniqueID];
-			[contact autorelease];
 		} else {
 			[[client client] reportError:@"Contact to update not in dictionary and has bad identifier" ofLevel:AWEzvError];
 		}
@@ -661,10 +653,10 @@ void image_register_reply (
 		if (nick == nil) {
 			nick = [rendezvousData getField:@"last"];
 		} else {
-			mutableNick = [[nick mutableCopy] autorelease];
+			mutableNick = [nick mutableCopy];
 			[mutableNick appendString:@" "];
 			[mutableNick appendString:[rendezvousData getField:@"last"]];
-			nick = [[mutableNick copy] autorelease];
+			nick = [mutableNick copy];
 		}
 	} else if (nick == nil) {
 	    nick = @"Unnamed contact";
@@ -712,13 +704,12 @@ void image_register_reply (
 
 			NSString *dnsname = [NSString stringWithFormat:@"%@%s", contact.uniqueID,"._presence._tcp.local."];
 			err = DNSServiceQueryRecord( &serviceRef, (DNSServiceFlags) 0, interface, [dnsname UTF8String], 
-			                            kDNSServiceType_NULL, kDNSServiceClass_IN, ImageQueryRecordReply, contact);
+			                            kDNSServiceType_NULL, kDNSServiceClass_IN, ImageQueryRecordReply, (__bridge void *)contact);
 			if ( err == kDNSServiceErr_NoError) {
 				ServiceController *temp = [[ServiceController alloc] initWithServiceRef:serviceRef forContactManager:self];
 				AILogWithSignature(@"requesting image with %@", temp);
 				[contact setImageServiceController:temp];
 				[[contact imageServiceController] addToCurrentRunLoop];
-				[temp release];
 			} else {
 				[contact setImageHash: NULL];
 				[[client client] reportError:@"Error finding image for contact" ofLevel:AWEzvError];
@@ -753,8 +744,7 @@ void image_register_reply (
 - (void)setInstanceName:(NSString *)newName
 {
 	if (avInstanceName != newName) {
-		[avInstanceName release];
-		avInstanceName = [newName retain];
+		avInstanceName = newName;
 	}
 }
 
@@ -805,13 +795,12 @@ void image_register_reply (
 
 void register_reply(DNSServiceRef sdRef, DNSServiceFlags flags, DNSServiceErrorType errorCode, const char *name, const char *regtype, const char *domain, void *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AWEzvContactManager *self = context;
-	[self setInstanceName:[NSString stringWithUTF8String:name]];
-	[self regCallBack:errorCode];
-	
-	[pool release];
+	@autoreleasepool {
+		AWEzvContactManager *self = (__bridge AWEzvContactManager *)context;
+		[self setInstanceName:[NSString stringWithUTF8String:name]];
+		[self regCallBack:errorCode];
+		
+	}
 }
 
 void image_register_reply( 
@@ -821,16 +810,16 @@ void image_register_reply(
 	DNSServiceErrorType errorCode, 
 	void *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	if (errorCode != kDNSServiceErr_NoError) {
-		AWEzvLog(@"error %d registering image record", errorCode);
-	} else {
-		AWEzvContactManager *self = context;
-		[self updatePHSH];
+	@autoreleasepool {
+		
+		if (errorCode != kDNSServiceErr_NoError) {
+			AWEzvLog(@"error %d registering image record", errorCode);
+		} else {
+			AWEzvContactManager *self = (__bridge AWEzvContactManager *)context;
+			[self updatePHSH];
+		}
+		
 	}
-	
-	[pool release];
 }
 
 #pragma mark mDNS Browse Callback
@@ -849,19 +838,19 @@ void handle_av_browse_reply(DNSServiceRef sdRef,
 							const char *replyDomain,
 							void *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	// Received a browser reply from DNSServiceBrowse for av, now must handle processing the list of results
-	if (errorCode == kDNSServiceErr_NoError) {
-		AWEzvContactManager *self = context;
-	    if (![[self myInstanceName] isEqualToString:[NSString stringWithUTF8String:serviceName]]) {
-			[self browseResultwithFlags:flags onInterface:interfaceIndex name:serviceName type:regtype domain:replyDomain av:YES];
+	@autoreleasepool {
+		
+		// Received a browser reply from DNSServiceBrowse for av, now must handle processing the list of results
+		if (errorCode == kDNSServiceErr_NoError) {
+			AWEzvContactManager *self = (__bridge AWEzvContactManager *)context;
+			if (![[self myInstanceName] isEqualToString:[NSString stringWithUTF8String:serviceName]]) {
+				[self browseResultwithFlags:flags onInterface:interfaceIndex name:serviceName type:regtype domain:replyDomain av:YES];
+			}
+		} else {
+			AWEzvLog(@"Error browsing");
 		}
-	} else {
-		AWEzvLog(@"Error browsing");
+		
 	}
-	
-	[pool release];
 }
 
 #pragma mark mDNS Resolve Callback
@@ -882,22 +871,22 @@ void resolve_reply( DNSServiceRef sdRef,
 					const unsigned char *txtRecord, 
 					void *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	if (errorCode == kDNSServiceErr_NoError) {
-		// Use TXTRecord methods to resolve this
-		AWEzvContact	*contact = context;
-		AWEzvContactManager *self = [contact manager];
-		// AWEzvLog(@"Would update contact");
-		AWEzvRendezvousData *data;
-		data = [[[AWEzvRendezvousData alloc] initWithTXTRecordRef:txtRecord length:txtLen] autorelease];
-		[self findAddressForContact:contact withHost:[NSString stringWithUTF8String:hosttarget] withInterface:interfaceIndex];
-		[self updateContact:contact withData:data withHost:[NSString stringWithUTF8String:hosttarget] withInterface:interfaceIndex withPort:ntohs(port) av:YES];
-	} else {
-		AWEzvLog(@"Error resolving records");
+	@autoreleasepool {
+		
+		if (errorCode == kDNSServiceErr_NoError) {
+			// Use TXTRecord methods to resolve this
+			AWEzvContact	*contact = (__bridge AWEzvContact *)context;
+			AWEzvContactManager *self = [contact manager];
+			// AWEzvLog(@"Would update contact");
+			AWEzvRendezvousData *data;
+			data = [[AWEzvRendezvousData alloc] initWithTXTRecordRef:txtRecord length:txtLen];
+			[self findAddressForContact:contact withHost:[NSString stringWithUTF8String:hosttarget] withInterface:interfaceIndex];
+			[self updateContact:contact withData:data withHost:[NSString stringWithUTF8String:hosttarget] withInterface:interfaceIndex withPort:ntohs(port) av:YES];
+		} else {
+			AWEzvLog(@"Error resolving records");
+		}
+		
 	}
-	
-	[pool release];
 }
 
 #pragma mark mDNS Address Callback
@@ -907,15 +896,14 @@ void AddressQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, ui
 							uint16_t rdlen, const void *rdata, uint32_t ttl, void *context )
 // DNSServiceQueryRecord callback used to look up IP addresses.
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AWEzvContact	*contact = context;
-	AWEzvContactManager *self = [contact manager];
-
-	[self updateAddressForContact:contact addr:rdata addrLen:rdlen host:fullname interfaceIndex:interfaceIndex
-							 more:((flags & kDNSServiceFlagsMoreComing) != 0)];
-
-	[pool release];
+	@autoreleasepool {
+		AWEzvContact	*contact = (__bridge AWEzvContact *)context;
+		AWEzvContactManager *self = [contact manager];
+		
+		[self updateAddressForContact:contact addr:rdata addrLen:rdlen host:fullname interfaceIndex:interfaceIndex
+								 more:((flags & kDNSServiceFlagsMoreComing) != 0)];
+		
+	}
 }
 
 #pragma mark mDNS Image Callback
@@ -925,17 +913,16 @@ void ImageQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, uint
 							uint16_t rdlen, const void *rdata, uint32_t ttl, void *context)
 // DNSServiceQueryRecord callback used to look up buddy icon.
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AWEzvContact	*contact = context;
-	AWEzvContactManager *self = [contact manager];
-	if (errorCode == kDNSServiceErr_NoError) {
-		if (flags & kDNSServiceFlagsAdd) {
-			[self updateImageForContact:contact data:rdata dataLen:rdlen more:((flags & kDNSServiceFlagsMoreComing) != 0)];
+	@autoreleasepool {
+		AWEzvContact	*contact = (__bridge AWEzvContact *)context;
+		AWEzvContactManager *self = [contact manager];
+		if (errorCode == kDNSServiceErr_NoError) {
+			if (flags & kDNSServiceFlagsAdd) {
+				[self updateImageForContact:contact data:rdata dataLen:rdlen more:((flags & kDNSServiceFlagsMoreComing) != 0)];
+			}
 		}
+		
 	}
-	
-	[pool release];
 }
 
 #pragma mark Service Controller
@@ -949,44 +936,40 @@ void ImageQueryRecordReply(DNSServiceRef serviceRef, DNSServiceFlags flags, uint
 static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info)
 // CFRunloop callback that notifies dns_sd when new data appears on a DNSServiceRef's socket.
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	ServiceController *self = (ServiceController *)info;
-	AILogWithSignature(@"Processing result for %@", self);
-
-	DNSServiceErrorType err = DNSServiceProcessResult([self serviceRef]);
-	
-	if (err != kDNSServiceErr_NoError) {
-		if ((err == kDNSServiceErr_Unknown) && !data) {
-			// Try to accept(2) a connection. May be the cause of a hang on Tiger; see #7887.
-			int socketFD = CFSocketGetNative(s);
-			int childFD = accept(socketFD, /*addr*/ NULL, /*addrlen*/ NULL);
-			AILog(@"%@: Service ref %p received an unknown error with no data; perhaps mDNSResponder crashed? Result of calling accept(2) on fd %d is %d; will disconnect with error",
-				  self, [self serviceRef], socketFD, childFD);
-			// We don't actually *want* a connection, so close the socket immediately.
-			if (childFD > -1) {
-				close(childFD);
+	@autoreleasepool {
+		ServiceController *self = (__bridge ServiceController *)info;
+		AILogWithSignature(@"Processing result for %@", self);
+		
+		DNSServiceErrorType err = DNSServiceProcessResult([self serviceRef]);
+		
+		if (err != kDNSServiceErr_NoError) {
+			if ((err == kDNSServiceErr_Unknown) && !data) {
+				// Try to accept(2) a connection. May be the cause of a hang on Tiger; see #7887.
+				int socketFD = CFSocketGetNative(s);
+				int childFD = accept(socketFD, /*addr*/ NULL, /*addrlen*/ NULL);
+				AILog(@"%@: Service ref %p received an unknown error with no data; perhaps mDNSResponder crashed? Result of calling accept(2) on fd %d is %d; will disconnect with error",
+					  self, [self serviceRef], socketFD, childFD);
+				// We don't actually *want* a connection, so close the socket immediately.
+				if (childFD > -1) {
+					close(childFD);
+				}
+				
+				[[self contactManager] serviceControllerReceivedFatalError:self];
+				[self breakdownServiceController];
+				
+			} else {
+				AILog(@"DNSServiceProcessResult() for socket descriptor %d returned an error! %d with CFSocketCallBackType %ld and data %s\n",
+					  DNSServiceRefSockFD(info), err, type, data);
 			}
-
-			[self retain];
-			[[self contactManager] serviceControllerReceivedFatalError:self];
-			[self breakdownServiceController];
-			[self release];
-
-		} else {
-			AILog(@"DNSServiceProcessResult() for socket descriptor %d returned an error! %d with CFSocketCallBackType %ld and data %s\n",
-			DNSServiceRefSockFD(info), err, type, data);
 		}
 	}
-	
-	[pool release];
 }
 
 - (id) initWithServiceRef:(DNSServiceRef) ref forContactManager:(AWEzvContactManager *)inContactManager
 {
 	if ((self = [super init])) {
 		fServiceRef = ref;
-		contactManager = [inContactManager retain];
+		contactManager = inContactManager;
 	}
 
 	return self;
@@ -995,7 +978,7 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 - (boolean_t) addToCurrentRunLoop
 // Add the service to the current runloop. Returns non-zero on success.
 {
-	CFSocketContext	ctx = { 1, self, NULL, NULL, NULL };
+	CFSocketContext	ctx = { 1, (__bridge void *)(self), NULL, NULL, NULL };
 
 	fSocketRef = CFSocketCreateWithNative(kCFAllocatorDefault, DNSServiceRefSockFD(fServiceRef),
 										kCFSocketReadCallBack, ProcessSockData, &ctx);
@@ -1029,8 +1012,6 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 	AILogWithSignature(@"%@", self);
 
 	[self breakdownServiceController];
-
-	[super dealloc];
 }
 
 - (void)breakdownServiceController
@@ -1057,7 +1038,7 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 		fServiceRef = NULL;
 	}
 
-	[contactManager release]; contactManager = nil;
+	contactManager = nil;
 }
 
 @end // Implementation ServiceController

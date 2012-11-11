@@ -55,8 +55,6 @@
 		[self removeTrackingRect:resetImageTrackingTag];
 		resetImageTrackingTag = -1;
 	}
-	
-	[super dealloc];
 }
 
 

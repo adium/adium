@@ -44,14 +44,13 @@
  */
 - (id)copyWithZone:(NSZone *)zone
 {
-	return [self retain];
+	return self;
 }
 
 - (id)mutableCopy
 {
 	AIStatusItem *miniMe = [[[self class] alloc] init];
 	
-	[miniMe->statusDict release];
 	miniMe->statusDict = [statusDict mutableCopy];
 	
 	//Clear the unique ID for this new status, since it should not share our ID.
@@ -98,16 +97,6 @@
 	}
 	
 	return self;
-}
-
-/*!
-* @brief Deallocate
- */
-- (void)dealloc
-{
-	[statusDict release];
-	
-	[super dealloc];
 }
 
 - (NSString *)title
@@ -209,8 +198,8 @@
 	NSNumber	*nextUniqueStatusID;
 
 	//Retain and autorelease since we'll be replacing this value (and therefore releasing it) via the preferenceController.
-	nextUniqueStatusID = [[[adium.preferenceController preferenceForKey:@"TopStatusID"
-																	group:PREF_GROUP_SAVED_STATUS] retain] autorelease];
+	nextUniqueStatusID = [adium.preferenceController preferenceForKey:@"TopStatusID"
+																	group:PREF_GROUP_SAVED_STATUS];
 	if (!nextUniqueStatusID) nextUniqueStatusID = [NSNumber numberWithInt:1];
 
 	[adium.preferenceController setPreference:[NSNumber numberWithInt:([nextUniqueStatusID intValue] + 1)]
@@ -273,8 +262,7 @@
 - (void)setContainingStatusGroup:(AIStatusGroup *)inStatusGroup
 {
 	if (containingStatusGroup != inStatusGroup) {
-		[containingStatusGroup release];
-		containingStatusGroup = [inStatusGroup retain];
+		containingStatusGroup = inStatusGroup;
 	}
 }
 
@@ -294,10 +282,10 @@
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
-	return [[[NSUniqueIDSpecifier alloc]
+	return [[NSUniqueIDSpecifier alloc]
 			 initWithContainerClassDescription:containerClassDesc
 			 containerSpecifier:nil key:@"statuses"
-			 uniqueID:[self uniqueStatusID]] autorelease];
+			 uniqueID:[self uniqueStatusID]];
 }
 
 - (AIStatusTypeApplescript)statusTypeApplescript

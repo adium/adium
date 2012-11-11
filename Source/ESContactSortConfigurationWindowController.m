@@ -52,7 +52,7 @@ static ESContactSortConfigurationWindowController   *sharedSortConfigInstance = 
 		//Configuring for a controller which has no configuration view...
 		if (sharedSortConfigInstance) {
 			[sharedSortConfigInstance closeWindow:nil];
-			[sharedSortConfigInstance autorelease]; sharedSortConfigInstance = nil;
+			sharedSortConfigInstance = nil;
 		}
 	}
 	
@@ -98,7 +98,7 @@ static ESContactSortConfigurationWindowController   *sharedSortConfigInstance = 
 {
 	[super windowWillClose:sender];
 
-	[sharedSortConfigInstance autorelease]; sharedSortConfigInstance = nil;
+	sharedSortConfigInstance = nil;
 }
 
 @end

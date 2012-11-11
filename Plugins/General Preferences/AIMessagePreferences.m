@@ -175,7 +175,7 @@
 			 keyEquivalent:@""
 					   tag:AIBraces];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (NSMenu *)tabPositionMenu
@@ -206,7 +206,7 @@
 			 keyEquivalent:@""
 					   tag:AdiumTabPositionRight];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (BOOL)chatHistoryDisplayActive
@@ -221,20 +221,11 @@
 										group:@"Message Context Display"];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet orderOut:nil];
-	[sheet.windowController release];
-}
 - (IBAction)configureLogCertainAccounts:(id)sender
 {
 	AILogByAccountWindowController *windowController = [[AILogByAccountWindowController alloc] initWithWindowNibName:@"AILogByAccountWindow"];
 	
-	[NSApp beginSheet:windowController.window
-	   modalForWindow:self.view.window
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[windowController showOnWindow:self.view.window];
 }
 
 @end

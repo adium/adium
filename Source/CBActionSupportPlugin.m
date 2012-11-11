@@ -54,7 +54,8 @@
 	    [inAttributedString length] &&
 	    [[inAttributedString string] rangeOfString:@"/me "
 										   options:NSCaseInsensitiveSearch].location == 0 ) {
-		NSMutableAttributedString *ourAttributedString = [[inAttributedString mutableCopy] autorelease];
+
+		NSMutableAttributedString *ourAttributedString = [inAttributedString mutableCopy];
 		[ourAttributedString replaceCharactersInRange:NSMakeRange(0, 4)
 										   withString:@""];
 		[ourAttributedString addAttribute:AIActionMessageAttributeName

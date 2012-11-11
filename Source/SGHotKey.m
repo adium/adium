@@ -18,13 +18,6 @@
 @synthesize action;
 @synthesize hotKeyID;
 
-- (void)dealloc {
-  [identifier release];
-  [name release];
-  [keyCombo release];
-  [super dealloc];
-}
-
 - (id)init {
   return [self initWithIdentifier:nil keyCombo:nil];
 }
@@ -60,7 +53,7 @@
   if (theKeyCombo == nil)
     theKeyCombo = [SGKeyCombo clearKeyCombo];
   
-  keyCombo = [theKeyCombo retain];
+  keyCombo = theKeyCombo;
 }
 
 - (NSString *)description {

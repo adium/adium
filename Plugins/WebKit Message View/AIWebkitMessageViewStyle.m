@@ -129,14 +129,14 @@
 
 + (id)messageViewStyleFromBundle:(NSBundle *)inBundle
 {
-	return [[[self alloc] initWithBundle:inBundle] autorelease];
+	return [[self alloc] initWithBundle:inBundle];
 }
 
 + (id)messageViewStyleFromPath:(NSString *)path
 {
 	NSBundle *styleBundle = [NSBundle bundleWithPath:[path stringByExpandingBundlePath]];
 	if(styleBundle)
-		return [[[self alloc] initWithBundle:styleBundle] autorelease];
+		return [[self alloc] initWithBundle:styleBundle];
 	return nil;
 }
 
@@ -146,11 +146,10 @@
 - (id)initWithBundle:(NSBundle *)inBundle
 {
 	if ((self = [super init])) {
-		styleBundle = [inBundle retain];
-		stylePath = [[styleBundle resourcePath] retain];
+		styleBundle = inBundle;
+		stylePath = [styleBundle resourcePath];
         
 		if ([self reloadStyle] == FALSE) {
-            [self release];
             return nil;
         }
 	}
@@ -219,26 +218,26 @@
 - (void)releaseResources
 {
 	//Templates
-	[headerHTML release];
-	[footerHTML release];
-	[baseHTML release];
-	[contentHTML release];
-	[contentInHTML release];
-	[nextContentInHTML release];
-	[contextInHTML release];
-	[nextContextInHTML release];
-	[contentOutHTML release];
-	[nextContentOutHTML release];
-	[contextOutHTML release];
-	[nextContextOutHTML release];
-	[statusHTML release];	
-	[fileTransferHTML release];
-	[topicHTML release];
-		
-	[customBackgroundPath release];
-	[customBackgroundColor release];
+	headerHTML = nil;
+	footerHTML = nil;
+	baseHTML = nil;
+	contentHTML = nil;
+	contentInHTML = nil;
+	nextContentInHTML = nil;
+	contextInHTML = nil;
+	nextContextInHTML = nil;
+	contentOutHTML = nil;
+	nextContentOutHTML = nil;
+	contextOutHTML = nil;
+	nextContextOutHTML = nil;
+	statusHTML = nil;
+	fileTransferHTML = nil;
+	topicHTML = nil;
 	
-	[userIconMask release];
+	customBackgroundPath = nil;
+	customBackgroundColor = nil;
+	
+	userIconMask = nil;
 }
 
 /*!
@@ -246,20 +245,9 @@
  */
 - (void)dealloc
 {	
-	[styleBundle release];
-	[stylePath release];
-
 	[self releaseResources];
-	[timeStampFormatter release];
 	
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver: self];
-	
-	[statusIconPathCache release];
-	[timeFormatterCache release];
-
-	self.activeVariant = nil;
-	
-	[super dealloc];
 }
 
 @synthesize bundle = styleBundle;
@@ -280,7 +268,7 @@
 		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 		
 		if(senderColorsFile)
-			validSenderColors = [[senderColorsFile componentsSeparatedByString:@":"] retain];
+			validSenderColors = [senderColorsFile componentsSeparatedByString:@":"];
 		
 		checkedSenderColors = YES;
 	}
@@ -329,8 +317,6 @@
 	if (!format || [format length] == 0) {
 		format = [NSDateFormatter localizedDateFormatStringShowingSeconds:NO showingAMorPM:NO];
 	}
-
-	[timeStampFormatter release];
 
 	if ([format rangeOfString:@"%"].location != NSNotFound) {
 		/* Support strftime-style format strings, which old message styles may use */
@@ -404,7 +390,7 @@
 		}
 
 	} else if([[content type] isEqualToString:CONTENT_FILE_TRANSFER_TYPE]) {
-		template = [[fileTransferHTML mutableCopy] autorelease];
+		template = [fileTransferHTML mutableCopy];
 	} else if ([[content type] isEqualToString:CONTENT_TOPIC_TYPE]) {
 		template = topicHTML;
 	}
@@ -422,7 +408,7 @@
 	if (mutableTemplate)
 		[self fillKeywords:mutableTemplate forContent:content similar:contentIsSimilar];
 	
-	return [mutableTemplate autorelease];
+	return mutableTemplate;
 }
 
 /*!
@@ -435,9 +421,9 @@
 	//Load the style's templates
 	//We can't use NSString's initWithContentsOfFile here.  HTML files are interpreted in the defaultCEncoding
 	//(which varies by system) when read that way.  We want to always interpret the files as UTF8.
-	headerHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Header" ofType:@"html"]] retain];
-	footerHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Footer" ofType:@"html"]] retain];
-	topicHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Topic" ofType:@"html"]] retain];
+	headerHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Header" ofType:@"html"]];
+	footerHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Footer" ofType:@"html"]];
+	topicHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Topic" ofType:@"html"]];
 	baseHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Template" ofType:@"html"]];
 	
 	//Starting with version 1, styles can choose to not include template.html.  If the template is not included 
@@ -456,7 +442,7 @@
 			 * clicking works once, then the text doesn't allow a return click. This is an improvement compared
 			 * to fully broken behavior in which the return click shows a missing-image placeholder.
 			 */
-			NSMutableString *imageSwapFixedBaseHTML = [[baseHTML mutableCopy] autorelease];
+			NSMutableString *imageSwapFixedBaseHTML = [baseHTML mutableCopy];
 			[imageSwapFixedBaseHTML replaceOccurrencesOfString:
 			 @"		function imageCheck() {\n"
 			 "			node = event.target;\n"
@@ -527,48 +513,47 @@
 		}
 		
 	}
-	[baseHTML retain];
 	
 	//Content Templates
-	contentHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html"]] retain];
-	contentInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Incoming"]] retain];
-	nextContentInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Incoming"]] retain];
-	contentOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Outgoing"]] retain];
-	nextContentOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Outgoing"]] retain];
+	contentHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html"]];
+	contentInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Incoming"]];
+	nextContentInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Incoming"]];
+	contentOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Outgoing"]];
+	nextContentOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Outgoing"]];
 	
 	//Message history
-	contextInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Incoming"]] retain];
-	nextContextInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Incoming"]] retain];
-	contextOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Outgoing"]] retain];
-	nextContextOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Outgoing"]] retain];
+	contextInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Incoming"]];
+	nextContextInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Incoming"]];
+	contextOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Outgoing"]];
+	nextContextOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Outgoing"]];
 	
 	//Fall back to Resources/Content.html if Incoming isn't present
-	if (!contentInHTML) contentInHTML = [contentHTML retain];
+	if (!contentInHTML) contentInHTML = contentHTML;
 	
 	//Fall back to Content if NextContent doesn't need to use different HTML
-	if (!nextContentInHTML) nextContentInHTML = [contentInHTML retain];
+	if (!nextContentInHTML) nextContentInHTML = contentInHTML;
 	
 	//Fall back to Content if Context isn't present
-	if (!nextContextInHTML) nextContextInHTML = [nextContentInHTML retain];
-	if (!contextInHTML) contextInHTML = [contentInHTML retain];
+	if (!nextContextInHTML) nextContextInHTML = nextContentInHTML;
+	if (!contextInHTML) contextInHTML = contentInHTML;
 	
 	//Fall back to Content if Context isn't present
-	if (!nextContextOutHTML && nextContentOutHTML) nextContextOutHTML = [nextContentOutHTML retain];
-	if (!contextOutHTML && contentOutHTML) contextOutHTML = [contentOutHTML retain];
+	if (!nextContextOutHTML && nextContentOutHTML) nextContextOutHTML = nextContentOutHTML;
+	if (!contextOutHTML && contentOutHTML) contextOutHTML = contentOutHTML;
 	
 	//Fall back to Content if Context isn't present
-	if (!nextContextOutHTML) nextContextOutHTML = [nextContextInHTML retain];
-	if (!contextOutHTML) contextOutHTML = [contextInHTML retain];
+	if (!nextContextOutHTML) nextContextOutHTML = nextContextInHTML;
+	if (!contextOutHTML) contextOutHTML = contextInHTML;
 	
 	//Fall back to Incoming if Outgoing doesn't need to be different
-	if (!contentOutHTML) contentOutHTML = [contentInHTML retain];
-	if (!nextContentOutHTML) nextContentOutHTML = [nextContentInHTML retain];
+	if (!contentOutHTML) contentOutHTML = contentInHTML;
+	if (!nextContentOutHTML) nextContentOutHTML = nextContentInHTML;
 	
 	//Status
-	statusHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Status" ofType:@"html"]] retain];
+	statusHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Status" ofType:@"html"]];
 	
 	//Fall back to Resources/Incoming/Content.html if Status isn't present
-	if (!statusHTML) statusHTML = [contentInHTML retain];
+	if (!statusHTML) statusHTML = contentInHTML;
 	
 	//TODO: make a generic Request message, rather than having this ft specific one
 	NSMutableString *fileTransferHTMLTemplate;
@@ -593,7 +578,7 @@
 	if (!combineConsecutive) contentIsSimilar = NO;
 	
 	//Fetch the correct template and substitute keywords for the passed content
-	newHTML = [[[self completedTemplateForContent:content similar:contentIsSimilar] mutableCopy] autorelease];
+	newHTML = [[self completedTemplateForContent:content similar:contentIsSimilar] mutableCopy];
 	
 	//BOM scripts vary by style version
 	if (!usingCustomTemplateHTML && styleVersion >= 4) {
@@ -775,9 +760,8 @@
 
 	__block NSString *shortTimeString;
 	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *dateFormatter){
-		shortTimeString = (date ? [[dateFormatter stringFromDate:date] retain] : @"");
+		shortTimeString = (date ? [dateFormatter stringFromDate:date] : @"");
 	}];
-	[shortTimeString autorelease];
 	
 	[inString replaceKeyword:@"%shortTime%"
 				  withString:shortTimeString];
@@ -858,7 +842,6 @@
 							[dateFormatter setDateFormat:timeFormat];
 						}
 						[timeFormatterCache setObject:dateFormatter forKey:timeFormat];
-						[dateFormatter release];
 					}
 					
 					[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
@@ -1284,8 +1267,6 @@
 				
 				[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
 												withString:[dateFormatter stringFromDate:[chat dateOpened]]];
-				[dateFormatter release];
-				
 			}
 		}
 	} while (range.location != NSNotFound);
@@ -1303,7 +1284,7 @@
 			NSMutableString *bodyTag = nil;
 
 			if (allowsCustomBackground && (customBackgroundPath || customBackgroundColor)) {				
-				bodyTag = [[[NSMutableString alloc] init] autorelease];
+				bodyTag = [[NSMutableString alloc] init];
 				
 				if (customBackgroundPath) {
 					if ([customBackgroundPath length]) {

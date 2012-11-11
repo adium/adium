@@ -47,13 +47,10 @@
 	BOOL									showInfo; //YES = info, NO = preview
 	
 	NSMutableDictionary						*toolbarItems;
-	NSButton *findXtras;
-	NSButton *togglePluginEnabled;
-	NSButton *removeXtra;
 }
-@property (assign) IBOutlet NSButton *removeXtra;
-@property (assign) IBOutlet NSButton *findXtras;
-@property (assign) IBOutlet NSButton *togglePluginEnabled;
+@property (weak) IBOutlet NSButton *removeXtra;
+@property (weak) IBOutlet NSButton *findXtras;
+@property (weak) IBOutlet NSButton *togglePluginEnabled;
 
 - (void) showXtras;
 - (void) loadXtras;

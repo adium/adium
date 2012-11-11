@@ -34,14 +34,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[inspectorContentView release];
-	[alertsController release];
-	
-	[super dealloc];
-}
-
 -(NSString *)nibName
 {
 	return EVENTS_NIB_NAME;

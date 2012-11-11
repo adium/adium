@@ -292,8 +292,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 					[tempSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
 					//remove any characters *in* the replacement string from the trimming set
 					[tempSet removeCharactersInString:replacementString];
-					[endingSetDict setObject:[[tempSet immutableCopy] autorelease] forKey:replacementString];
-					[tempSet release];
+					[endingSetDict setObject:[tempSet immutableCopy] forKey:replacementString];
 					endingTrimSet = [endingSetDict objectForKey:replacementString];
 				}
 
@@ -378,9 +377,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		if (currentLocationNeedsUpdate) {
 			*currentLocation += 1;
 		}
-		
-		[candidateEmoticons release];
-		[candidateEmoticonTextEquivalents release];
 	}
 
 	return originalEmoticonLocation;
@@ -438,7 +434,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 						}
 						
 						[newEmoticonIndex setObject:subIndex forKey:firstCharacterString];
-						[subIndex release];
 						
 						//Place the emoticon into that index (If it isn't already in there)
 						if (![subIndex containsObject:emoticon]) {
@@ -449,8 +444,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 			}
 			
 			//Use our new index and character set for processing emoticons in this message
-			emoticonIndex = [newEmoticonIndex autorelease];
-			emoticonStartCharacterSet = [newEmoticonStartCharacterSet autorelease];
+			emoticonIndex = newEmoticonIndex;
+			emoticonStartCharacterSet = newEmoticonStartCharacterSet;
 		}
 
 	} else if ([context isKindOfClass:[AIListContact class]]) {
@@ -478,7 +473,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 										isMessage:isMessage];
     }
 
-    return (newMessage ? [newMessage autorelease] : inMessage);
+    return (newMessage ? newMessage : inMessage);
 }
 
 - (AIEmoticon *) _bestReplacementFromEmoticons:(NSArray *)candidateEmoticons
@@ -582,10 +577,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
     
     //Save changes
     [packDict setObject:disabledArray forKey:KEY_EMOTICON_DISABLED];
-	[disabledArray release];
 
     [adium.preferenceController setPreference:packDict forKey:packKey group:PREF_GROUP_EMOTICONS];
-	[packDict release];
 }
 
 //Returns the disabled emoticons in a pack
@@ -753,13 +746,13 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 	//It's most likely quicker to create an empty array here than to do nil checks each time through the sort function
 	if (!packOrderingArray)
 		packOrderingArray = [NSArray array];
-	[packArray sortUsingFunction:packSortFunction context:packOrderingArray];
+	[packArray sortUsingFunction:packSortFunction context:(__bridge void *)packOrderingArray];
 }
 
 NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 {
-	NSInteger packAIndex = [(NSArray *)packOrderingArray indexOfObject:[packA name]];
-	NSInteger packBIndex = [(NSArray *)packOrderingArray indexOfObject:[packB name]];
+	NSInteger packAIndex = [(__bridge NSArray *)packOrderingArray indexOfObject:[packA name]];
+	NSInteger packBIndex = [(__bridge NSArray *)packOrderingArray indexOfObject:[packB name]];
 	
 	BOOL notFoundA = (packAIndex == NSNotFound);
 	BOOL notFoundB = (packBIndex == NSNotFound);
@@ -808,7 +801,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 	NSMutableCharacterSet	*tmpEmoticonHintCharacterSet = [[NSMutableCharacterSet alloc] init];
 	NSMutableCharacterSet	*tmpEmoticonStartCharacterSet = [[NSMutableCharacterSet alloc] init];
 
-	[_emoticonIndexDict release]; _emoticonIndexDict = [[NSMutableDictionary alloc] init];
+	_emoticonIndexDict = [[NSMutableDictionary alloc] init];
     
     //Process all the text equivalents of each active emoticon
     for (AIEmoticon *emoticon in self.activeEmoticons) {
@@ -840,7 +833,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
                     if (!(subIndex = [_emoticonIndexDict objectForKey:firstCharacterString])) {
                         subIndex = [[NSMutableArray alloc] init];
                         [_emoticonIndexDict setObject:subIndex forKey:firstCharacterString];
-                        [subIndex release];
                     }
                     
                     //Place the emoticon into that index (If it isn't already in there)
@@ -863,11 +855,9 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
         }
     }
 
-	[_emoticonHintCharacterSet release]; _emoticonHintCharacterSet = [tmpEmoticonHintCharacterSet immutableCopy];
-	[tmpEmoticonHintCharacterSet release];
+	_emoticonHintCharacterSet = [tmpEmoticonHintCharacterSet immutableCopy];
 
-    [_emoticonStartCharacterSet release]; _emoticonStartCharacterSet = [tmpEmoticonStartCharacterSet immutableCopy];
-	[tmpEmoticonStartCharacterSet release];
+    _emoticonStartCharacterSet = [tmpEmoticonStartCharacterSet immutableCopy];
 
 	//After building all the subIndexes, sort them by length here
 }
@@ -886,19 +876,19 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 //Reset the active emoticons cache
 - (void)resetActiveEmoticons
 {
-    [_activeEmoticonPacks release]; _activeEmoticonPacks = nil;
+    _activeEmoticonPacks = nil;
     
-    [_activeEmoticons release]; _activeEmoticons = nil;
+    _activeEmoticons = nil;
     
-    [_emoticonHintCharacterSet release]; _emoticonHintCharacterSet = nil;
-    [_emoticonStartCharacterSet release]; _emoticonStartCharacterSet = nil;
-    [_emoticonIndexDict release]; _emoticonIndexDict = nil;
+    _emoticonHintCharacterSet = nil;
+    _emoticonStartCharacterSet = nil;
+    _emoticonIndexDict = nil;
 }
 
 //Reset the available emoticons cache
 - (void)resetAvailableEmoticons
 {
-    [_availableEmoticonPacks release]; _availableEmoticonPacks = nil;
+    _availableEmoticonPacks = nil;
     [self resetActiveEmoticons];
 }
 

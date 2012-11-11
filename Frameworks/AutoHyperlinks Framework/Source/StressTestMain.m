@@ -17,25 +17,23 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	StressTest *test = [[[StressTest alloc] initWithSelector:@selector(testStress)] autorelease];
-	SenTestRun *run = [[[SenTestRun alloc] initWithTest:test] autorelease];
-
-	NSDate *startDate, *endDate;
-
-	startDate = [NSDate date];
-	[run start];
-	while (numIterations--) {
-		[test performTest:run];
+	@autoreleasepool {
+		StressTest *test = [[[StressTest alloc] initWithSelector:@selector(testStress)] autorelease];
+		SenTestRun *run = [[[SenTestRun alloc] initWithTest:test] autorelease];
+		
+		NSDate *startDate, *endDate;
+		
+		startDate = [NSDate date];
+		[run start];
+		while (numIterations--) {
+			[test performTest:run];
+		}
+		[run stop];
+		endDate = [NSDate date];
+		
+		BOOL success = [run hasSucceeded];
+		NSLog(@"Test %@ in %f seconds", success ? @"succeeded" : @"failed", [endDate timeIntervalSinceDate:startDate]);
+		
+		return success ? EXIT_SUCCESS : EXIT_FAILURE;
 	}
-	[run stop];
-	endDate = [NSDate date];
-
-	BOOL success = [run hasSucceeded];
-	NSLog(@"Test %@ in %f seconds", success ? @"succeeded" : @"failed", [endDate timeIntervalSinceDate:startDate]);
-
-	[pool drain]; //Glug glug glug
-
-	return success ? EXIT_SUCCESS : EXIT_FAILURE;
 }

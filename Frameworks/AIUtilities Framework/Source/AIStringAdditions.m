@@ -163,11 +163,11 @@ enum {
 
 + (id)stringWithData:(NSData *)data encoding:(NSStringEncoding)encoding
 {
-	return [[[self alloc] initWithData:data encoding:encoding] autorelease];
+	return [[self alloc] initWithData:data encoding:encoding];
 }
 + (id)stringWithBytes:(const void *)inBytes length:(unsigned)inLength encoding:(NSStringEncoding)inEncoding
 {
-	return [[[self alloc] initWithBytes:inBytes length:inLength encoding:inEncoding] autorelease];
+	return [[self alloc] initWithBytes:inBytes length:inLength encoding:inEncoding];
 }
 
 + (id)ellipsis
@@ -187,7 +187,7 @@ enum {
 
 	for (i = 0 ; i < length ; i++) {
 		/* Offset by the desired amount */
-		[newString appendFormat:@"%c",([self characterAtIndex:i] + offset)];
+		[newString appendFormat:@"%C",(unichar)([self characterAtIndex:i] + offset)];
 	}
 	
 	return newString;
@@ -203,7 +203,7 @@ enum {
 	NSRange				range = NSMakeRange(0, 0);
 	
 	outName = [self mutableCopy];
-	CFStringLowercase((CFMutableStringRef)outName, /*locale*/ NULL);
+	CFStringLowercase((__bridge CFMutableStringRef)outName, /*locale*/ NULL);
 	len = [outName length];
 	
 	while (pos < len) {
@@ -224,7 +224,7 @@ enum {
 		}
 	}
 	
-	return [outName autorelease];
+	return outName;
 }
 
 #define BUNDLE_STRING	@"$$BundlePath$$"
@@ -233,7 +233,7 @@ enum {
     if ([self hasPrefix:BUNDLE_STRING]) {
         return [[[[NSBundle mainBundle] bundlePath] stringByExpandingTildeInPath] stringByAppendingString:[self substringFromIndex:[BUNDLE_STRING length]]];
     } else {
-        return [[self copy] autorelease];
+        return [self copy];
     }
 }
 
@@ -244,7 +244,7 @@ enum {
     if ([self hasPrefix:bundlePath]) {
         return [BUNDLE_STRING stringByAppendingString:[self substringFromIndex:[bundlePath length]]];
     } else {
-        return [[self copy] autorelease];
+        return [self copy];
     }
 }
 
@@ -258,7 +258,7 @@ enum {
 		returnString = [[self substringToIndex:length-1] stringByAppendingString:[NSString ellipsis]];
 	} else {
 		//We don't need to truncate, so don't append an ellipsis
-		returnString = [[self copy] autorelease];
+		returnString = [self copy];
 	}
 	
 	return (returnString);
@@ -280,7 +280,7 @@ enum {
 
 	[string replaceOccurrencesOfString:@"/" withString:@"-" options:NSLiteralSearch range:NSMakeRange(0, length)];
 
-	return [string autorelease];
+	return string;
 }
 
 //- (NSString *)stringByEncodingURLEscapes
@@ -426,7 +426,7 @@ enum {
 		sourceIndex++;
 	}
 
-	return [[[NSString alloc] initWithBytes:destPtr length:destIndex encoding:NSASCIIStringEncoding] autorelease];
+	return [[NSString alloc] initWithBytes:destPtr length:destIndex encoding:NSASCIIStringEncoding];
 }
 
 //stringByDecodingURLEscapes
@@ -502,7 +502,7 @@ enum {
 		destIndex++;
 	}
 
-	return [[[NSString alloc] initWithBytes:destPtr length:destIndex encoding:NSASCIIStringEncoding] autorelease];
+	return [[NSString alloc] initWithBytes:destPtr length:destIndex encoding:NSASCIIStringEncoding];
 }
 
 - (NSString *)string
@@ -546,11 +546,11 @@ enum {
 			nil];
 	}
 
-	return [(NSString *)CFXMLCreateStringByEscapingEntities(kCFAllocatorDefault, (CFStringRef)self, (CFDictionaryRef)realEntities) autorelease];
+	return (__bridge_transfer NSString *)CFXMLCreateStringByEscapingEntities(kCFAllocatorDefault, (__bridge CFStringRef)self, (__bridge CFDictionaryRef)realEntities);
 }
 - (NSString *)stringByUnescapingFromXMLWithEntities:(NSDictionary *)entities
 {
-	return [(NSString *)CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, (CFStringRef)self, (CFDictionaryRef)entities) autorelease];
+	return (__bridge_transfer NSString *)CFXMLCreateStringByUnescapingEntities(kCFAllocatorDefault, (__bridge CFStringRef)self, (__bridge CFDictionaryRef)entities);
 }
 
 #ifndef BSD_LICENSE_ONLY
@@ -742,10 +742,10 @@ return nil; \
 	NSString	*uuidStr;
 	
 	uuid = CFUUIDCreate(NULL);
-	uuidStr = (NSString *)CFUUIDCreateString(NULL, uuid);
+	uuidStr = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
 	CFRelease(uuid);
 	
-	return [uuidStr autorelease];
+	return uuidStr;
 }
 
 + (NSString *)stringWithCGFloat:(CGFloat)f maxDigits:(NSUInteger)numDigits
@@ -778,7 +778,7 @@ return nil; \
 	if (!lineBreakCharacterSet) {
 		static const unichar lineBreakCharacters[numberOfLineBreakCharacters] = { LINE_FEED, FORM_FEED, CARRIAGE_RETURN, NEXT_LINE, LINE_SEPARATOR, PARAGRAPH_SEPARATOR };
 
-		lineBreakCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithCharacters:lineBreakCharacters length:numberOfLineBreakCharacters]] retain];
+		lineBreakCharacterSet = [NSCharacterSet characterSetWithCharactersInString:[NSString stringWithCharacters:lineBreakCharacters length:numberOfLineBreakCharacters]];
 	}
 
 	return lineBreakCharacterSet;
@@ -840,7 +840,7 @@ return nil; \
 		substringRange.length = lineBreakRange.location - searchRange.location;
 
 		[lines addObject:[self substringWithRange:substringRange]];
-		if (separatorObj) [lines addObject:[[separatorObj copy] autorelease]];
+		if (separatorObj) [lines addObject:[separatorObj copy]];
 
 		searchRange.location = (lineBreakRange.location + lineBreakRange.length);
 		searchRange.length = selfLength - searchRange.location;
@@ -889,13 +889,13 @@ return nil; \
 	// RFC 2396:
 	//       reserved    = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |	"$" | ","
 	
-	NSString *string = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-																		   (CFStringRef)self, 
+	NSString *string = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+																		   (__bridge CFStringRef)self, 
 																		   NULL,
 																		   (CFStringRef)@";/?:@&=+$",
 																		   kCFStringEncodingUTF8);
 
-	return [string autorelease];
+	return string;
 }
 
 @end

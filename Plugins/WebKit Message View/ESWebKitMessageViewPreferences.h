@@ -53,17 +53,12 @@
 	ESWebView								*preview;
 	
 	BOOL							viewIsOpen;
-	
-	NSButton *checkBox_customNameFormatting;
-	NSPopUpButton *popUp_nameFormat;
-	NSPopUpButton *popUp_timeStampFormat;
-	NSPopUpButton *popUp_minimumFontSize;
 }
 
-@property (assign) IBOutlet NSButton *checkBox_customNameFormatting;
-@property (assign) IBOutlet NSPopUpButton *popUp_nameFormat;
-@property (assign) IBOutlet NSPopUpButton *popUp_timeStampFormat;
-@property (assign) IBOutlet NSPopUpButton *popUp_minimumFontSize;
+@property (weak) IBOutlet NSButton *checkBox_customNameFormatting;
+@property (weak) IBOutlet NSPopUpButton *popUp_nameFormat;
+@property (weak) IBOutlet NSPopUpButton *popUp_timeStampFormat;
+@property (weak) IBOutlet NSPopUpButton *popUp_minimumFontSize;
 
 /*!
  *	@brief Rebuild our styles menu when installed message styles change
@@ -75,7 +70,7 @@
  */
 - (IBAction)resetDisplayFontToDefault:(id)sender;
 
-@property (readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
+@property (weak, readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
 @property (readonly, nonatomic) AIWebkitStyleType currentTab;
 
 @end

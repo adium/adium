@@ -72,7 +72,7 @@
     [adium.interfaceController registerContactListController:self];
 	
 	//Install our preference view
-	advancedPreferences = [(ESContactListAdvancedPreferences *)[ESContactListAdvancedPreferences preferencePane] retain];
+	advancedPreferences = (ESContactListAdvancedPreferences *)[ESContactListAdvancedPreferences preferencePane];
 	
 	attachSubmenu = [[NSMenu alloc] init];
 	[attachSubmenu setDelegate:self];
@@ -149,20 +149,7 @@
 
 - (void)dealloc
 {	
-	[attachMenuItem release];
-	[detachMenuItem release];
-	
 	[attachSubmenu setDelegate:nil];
-	[attachSubmenu release];
-	
-	[contactLists release];
-	
-	[menuItem_allowDetach release];
-	[menuItem_previousDetached release];
-	[menuItem_nextDetached release];
-	[menuItem_consolidate release];
-	
-	[super dealloc];
 }
 
 //Contact List Windows -------------------------------------------------------------------------------------------------
@@ -210,7 +197,7 @@
 {
 	AIContactList *object = [notification object];
 	
-	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
+	for (AIListWindowController *windowController in [contactLists copy]) {
 		if (windowController.listController.contactList == object) {
 			[self closeContactList:windowController];
 			return;
@@ -288,7 +275,7 @@
 - (void)closeDetachedContactLists
 {
 	// Close all other windows
-	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
+	for (AIListWindowController *windowController in [contactLists copy]) {
 		[self closeContactList:windowController];
 	}
 }
@@ -301,7 +288,6 @@
 	AIListWindowController *windowController = [notification object]; 
 	
 	if (windowController == defaultController) {
-		[defaultController release];
 		defaultController = nil;
 	} else {
 		//Return the groups in this detached contact list to the main contact list
@@ -524,7 +510,7 @@
 
 	hasLoaded = NO;
 	[defaultController close];
-	[defaultController release]; defaultController = nil;
+	defaultController = nil;
 
 	[self showContactListAndBringToFront:isVisibleAndMain];
 }
@@ -538,7 +524,7 @@
 {		
 	NSMutableArray *detachedWindowsDicts = [[NSMutableArray alloc] init];
 
-	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
+	for (AIListWindowController *windowController in [contactLists copy]) {
 		NSMutableDictionary *dict = [NSDictionary dictionaryWithObject:[[[windowController contactList] containedObjects] valueForKey:@"UID"]
 																forKey:DETACHED_WINDOW_GROUPS];
 		[detachedWindowsDicts addObject:dict];
@@ -548,7 +534,6 @@
 	[adium.preferenceController setPreference:detachedWindowsDicts
 										 forKey:DETACHED_WINDOWS
 										  group:PREF_DETACHED_GROUPS];
-	[detachedWindowsDicts release];
 }
 
 /*!
@@ -559,9 +544,9 @@
 - (void)loadDetachedGroups
 {
 	if (!defaultController && windowStyle == AIContactListWindowStyleStandard) {
-		defaultController = [[AIStandardListWindowController listWindowControllerForContactList:adium.contactController.contactList] retain];
+		defaultController = [AIStandardListWindowController listWindowControllerForContactList:adium.contactController.contactList];
 	} else if (!defaultController) {
-		defaultController = [[AIBorderlessListWindowController listWindowControllerForContactList:adium.contactController.contactList] retain];
+		defaultController = [AIBorderlessListWindowController listWindowControllerForContactList:adium.contactController.contactList];
 	}
 	
 	if (!hasLoaded) {

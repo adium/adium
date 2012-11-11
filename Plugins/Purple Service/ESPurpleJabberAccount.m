@@ -105,11 +105,6 @@
 - (void)dealloc
 {
 	[xmlConsoleController close];
-	[xmlConsoleController release];
-	[adhocServer release];
-	[gateways release];
-
-	[super dealloc];
 }
 
 - (NSSet *)supportedPropertyKeys
@@ -229,7 +224,7 @@
     NSString *resource = [self preferenceForKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS];
     
     if(resource == nil || [resource length] == 0)
-        resource = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
+        resource = (__bridge_transfer NSString*)SCDynamicStoreCopyLocalHostName(NULL);
     
 	return resource;
 }
@@ -350,10 +345,10 @@
 			}
 			// fallthrough
 		case 1: // always accept
-			[[self purpleAdapter] doAuthRequestCbValue:[[[dict objectForKey:@"authorizeCB"] retain] autorelease] withUserDataValue:[[[dict objectForKey:@"userData"] retain] autorelease]];
+			[[self purpleAdapter] doAuthRequestCbValue:[dict objectForKey:@"authorizeCB"] withUserDataValue:[dict objectForKey:@"userData"]];
 			break;
 		case 3: // always deny
-			[[self purpleAdapter] doAuthRequestCbValue:[[[dict objectForKey:@"denyCB"] retain] autorelease] withUserDataValue:[[[dict objectForKey:@"userData"] retain] autorelease]];
+			[[self purpleAdapter] doAuthRequestCbValue:[dict objectForKey:@"denyCB"] withUserDataValue:[dict objectForKey:@"userData"]];
 			break;
 		default: // ask (should be 0)
 			return [super authorizationRequestWithDict:dict];
@@ -483,7 +478,7 @@
 	return nil;
 }
 
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError
 {
 	AIReconnectDelayType shouldAttemptReconnect = [super shouldAttemptReconnectAfterDisconnectionError:disconnectionError];
 
@@ -630,7 +625,7 @@
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary
 {
 	if (![[chatCreationDictionary objectForKey:@"handle"] length]) {
-		NSMutableDictionary *dict = [[chatCreationDictionary mutableCopy] autorelease];
+		NSMutableDictionary *dict = [chatCreationDictionary mutableCopy];
 		
 		[dict setObject:self.displayName
 				 forKey:@"handle"];
@@ -813,7 +808,7 @@
 	if(atsign.location != NSNotFound)
 		[super removeContact:theContact];
 	else {
-		for (NSDictionary *gatewaydict in [[gateways copy] autorelease]) {
+		for (NSDictionary *gatewaydict in [gateways copy]) {
 			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:theContact.UID]) {
 				[[self purpleAdapter] removeUID:theContact.UID onAccount:self fromGroup:[gatewaydict objectForKey:@"remoteGroup"]];
 				
@@ -835,7 +830,6 @@
 }
 
 - (void)didConnect {
-	[gateways release];
 	gateways = [[NSMutableArray alloc] init];
 
 	[adhocServer addCommand:@"ping" delegate:(id<AMPurpleJabberAdHocServerDelegate>)[AMPurpleJabberAdHocPing class] name:@"Ping"];
@@ -854,12 +848,12 @@
 - (void)didDisconnect {
 	[xmlConsoleController setPurpleConnection:NULL];
 	
-	[discoveryBrowserController release]; discoveryBrowserController = nil;
-	[adhocServer release]; adhocServer = nil;
+	discoveryBrowserController = nil;
+	adhocServer = nil;
 
 	[super didDisconnect];
 
-	[gateways release]; gateways = nil;
+	gateways = nil;
 }
 
 - (IBAction)showXMLConsole:(id)sender {
@@ -924,17 +918,14 @@
 			[removeItem setTarget:self];
 			[removeItem setRepresentedObject:gateway];
 			[submenu addItem:removeItem];
-			[removeItem release];
 			
 			[mitem setSubmenu:submenu];
-			[submenu release];
 			[mitem setRepresentedObject:gateway];
 			[mitem setImage:[AIStatusIcons statusIconForListObject:gateway
 															  type:AIStatusIconTab
 														 direction:AIIconNormal]];
 			[mitem setTarget:self];
 			[menu addObject:mitem];
-			[mitem release];
 		}
         [menu addObject:[NSMenuItem separatorItem]];
 	}
@@ -951,7 +942,6 @@
 															 keyEquivalent:@""];
 		[xmlConsoleMenuItem setTarget:self];
 		[menu addObject:xmlConsoleMenuItem];
-		[xmlConsoleMenuItem release];
 	}
 
 	NSMenuItem *discoveryBrowserMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Discovery Browser",nil)
@@ -959,9 +949,8 @@
 															   keyEquivalent:@""];
     [discoveryBrowserMenuItem setTarget:self];
     [menu addObject:discoveryBrowserMenuItem];
-    [discoveryBrowserMenuItem release];
 	
-    return [menu autorelease];
+    return menu;
 }
 
 - (void)registerGateway:(NSMenuItem*)mitem {
@@ -995,8 +984,6 @@
 		// now, remove them from the roster
 		[self removeContacts:gatewayContacts
 				  fromGroups:removeGroups.allObjects];
-		
-		[gatewayContacts release];
 		
 		// finally, remove the gateway itself
 		[self removeContact:gateway];

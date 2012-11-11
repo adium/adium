@@ -94,12 +94,11 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 
 - (void) start:(NSNotification *)dummy {
 	//Contact list menu item
-	NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Debug Window",nil)
+	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Debug Window",nil)
 																				target:self
 																				action:@selector(showDebugWindow:)
 																		 keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Adium_About];
-	[menuItem release];
 	
 	//Restore the debug window if it was open when we quit last time
 	if ([[adium.preferenceController preferenceForKey:KEY_DEBUG_WINDOW_OPEN
@@ -124,11 +123,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 
 - (void)dealloc
 {
-	[debugLogArray release];
 	[debugLogFile closeFile];
-	[debugLogFile release];
-
-	[super dealloc];
 }
 
 - (void)showDebugWindow:(id)sender
@@ -164,7 +159,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 			[self debugLogFile];
 			
 		} else {
-			[debugLogFile release]; debugLogFile = nil;
+			debugLogFile = nil;
 		}
 	}
 }

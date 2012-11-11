@@ -37,8 +37,6 @@
 - (void)_localizeTabViewItemLabels;
 - (void)saveConfiguration;
 - (void)configureControlDimming;
-
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!
@@ -48,48 +46,17 @@
 @implementation AIEditAccountWindowController
 
 /*!
- * @brief Begin editing
- *
- * @param parentWindow A window on which to show the edit account window as a sheet.  If nil, account editing takes place in an independent window.
- */
-- (void)showOnWindow:(id)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
-
-/*!
  * @brief Init the window controller
  */
 - (id)initWithAccount:(AIAccount *)inAccount notifyingTarget:(id)inTarget
 {
 	if ((self = [super initWithWindowNibName:@"EditAccountSheet"])) {
-		account = [inAccount retain];
+		account = inAccount;
 		notifyTarget = inTarget;
 		userIconData = nil;
 		didDeleteUserIcon = NO;
 	}
 	return self;
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[account release];
-	[accountViewController release];
-	[accountProxyController release];
-	[userIconData release]; userIconData = nil;
-
-	[super dealloc];
 }
 
 /*!
@@ -142,24 +109,6 @@
 	[super showWindow:sender];
 	if([notifyTarget respondsToSelector:@selector(editAccountWindow:didOpenForAccount:)])
 		[notifyTarget editAccountWindow:[self window] didOpenForAccount:account];
-}
-
-/*!
- * @brief Window is closing
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-	[self autorelease];
-}
-
-/*!
- * @brief Called as the user list edit sheet closes, dismisses the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
-	[self autorelease];
 }
 
 - (void)configureControlDimming
@@ -216,7 +165,7 @@
 	BOOL enableUserIcon = ([[matrix_userIcon selectedCell] tag] == 1);
 
 	if (!enableUserIcon) {
-		[userIconData release]; userIconData = nil;
+		userIconData = nil;
 		didDeleteUserIcon = YES;
 	}
 
@@ -248,7 +197,7 @@
 	NSInteger		newHeight = baseHeight, newWidth = baseWidth;
 
 	//Configure our account and proxy view controllers
-	accountViewController = [[inAccount.service accountViewController] retain];
+	accountViewController = [inAccount.service accountViewController];
 	[accountViewController configureForAccount:inAccount];
 
 	accountProxyController = ([inAccount.service supportsProxySettings] ?
@@ -356,7 +305,7 @@
 {
     //Close any currently open controllers
     [view_accountSetup removeAllSubviews];
-    [accountViewController release]; accountViewController = nil;
+	accountViewController = nil;
 }
 
 /*!
@@ -376,7 +325,7 @@
 #pragma mark AIImageViewWithImagePicker Delegate
 - (void)deleteInImageViewWithImagePicker:(AIImageViewWithImagePicker *)sender
 {
-	[userIconData release]; userIconData = nil;
+	userIconData = nil;
 	didDeleteUserIcon = YES;
 
 	//User icon - restore to the default icon
@@ -388,8 +337,7 @@
 
 - (void)imageViewWithImagePicker:(AIImageViewWithImagePicker *)sender didChangeToImageData:(NSData *)imageData
 {
-	[userIconData release];
-	userIconData = [imageData retain];
+	userIconData = imageData;
 	
 	if (!userIconData) {
 		//If we got a nil user icon, that means the icon was deleted

@@ -58,15 +58,15 @@ static int nextChatNumber = 0;
 
 + (id)chatForAccount:(AIAccount *)inAccount
 {
-    return [[[self alloc] initForAccount:inAccount] autorelease];
+    return [[self alloc] initForAccount:inAccount];
 }
 
 - (id)initForAccount:(AIAccount *)inAccount
 {
     if ((self = [super init])) {
 		name = nil;
-		account = [inAccount retain];
-		dateOpened = [[NSDate date] retain];
+		account = inAccount;
+		dateOpened = [NSDate date];
 		uniqueChatID = nil;
 		ignoredListContacts = nil;
 		isOpen = NO;
@@ -78,29 +78,6 @@ static int nextChatNumber = 0;
 	}
 
     return self;
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	AILog(@"[%@ dealloc]",self);
-
-	[account release];
-	[dateOpened release];
-    [_listObject release];
-	[ignoredListContacts release];
-	[pendingOutgoingContentObjects release];
-	[uniqueChatID release]; uniqueChatID = nil;
-	[customEmoticons release]; customEmoticons = nil;
-	
-	[tabStateIcon release]; tabStateIcon = nil;
-    [chatCreationInfo release]; chatCreationInfo = nil;
-    [enteredTextTimer release]; enteredTextTimer = nil;
-    [securityDetails release]; securityDetails = nil;
-	
-	[super dealloc];
 }
 
 //Big image
@@ -151,8 +128,7 @@ static int nextChatNumber = 0;
 - (void)setAccount:(AIAccount *)inAccount
 {
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 		
 		//The uniqueChatID may depend upon the account, so clear it
 		[self clearUniqueChatID];
@@ -293,8 +269,7 @@ static int nextChatNumber = 0;
 - (void)setListObject:(AIListContact *)inListObject
 {
 	if (inListObject != self.listObject) {
-        [_listObject release];
-        _listObject = [inListObject retain];
+        _listObject = inListObject;
         
 		//Clear any local caches relying on the list object
 		[self clearListObjectStatuses];
@@ -308,7 +283,7 @@ static int nextChatNumber = 0;
 - (NSString *)uniqueChatID
 {
 	if (!uniqueChatID) {
-        uniqueChatID = [self.listObject.internalObjectID retain];
+        uniqueChatID = self.listObject.internalObjectID;
 
 		if (!uniqueChatID) {
 			uniqueChatID = [[NSString alloc] initWithFormat:@"UnknownChat.%i", nextChatNumber++];
@@ -321,7 +296,7 @@ static int nextChatNumber = 0;
 
 - (void)clearUniqueChatID
 {
-	[uniqueChatID release]; uniqueChatID = nil;
+	uniqueChatID = nil;
 }
 
 - (NSString *)internalObjectID
@@ -549,9 +524,9 @@ static int nextChatNumber = 0;
 		containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
 	}
 	
-	return [[[NSUniqueIDSpecifier allocWithZone:[self zone]]
+	return [[NSUniqueIDSpecifier alloc]
 		initWithContainerClassDescription:containerClassDesc
-		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]] autorelease];
+		containerSpecifier:containerRef key:@"chats" uniqueID:[self uniqueChatID]];
 }
 
 - (unsigned int)index

@@ -80,7 +80,7 @@
 	}
 	
 	if (!channelStart) {
-		channelStart = [[NSCharacterSet characterSetWithCharactersInString:@"#"] retain];
+		channelStart = [NSCharacterSet characterSetWithCharactersInString:@"#"];
 	}
 	
 	if (!validValues) {
@@ -155,7 +155,7 @@
 	
 	[newString endEditing];
 	
-	return [newString autorelease];
+	return newString;
 }
 
 /*!

@@ -74,7 +74,7 @@
  */
 - (id)initWithUID:(NSString *)inUID internalObjectID:(NSString *)inInternalObjectID service:(AIService *)inService
 {
-	internalObjectID = [inInternalObjectID retain];
+	internalObjectID = inInternalObjectID;
 
     if ((self = [super initWithUID:inUID service:inService])) {
 		isTemporary = NO;
@@ -85,8 +85,8 @@
 		static NSDictionary	*defaults = nil;
 		
 		if (!defaults) {
-			defaults = [[NSDictionary dictionaryNamed:ACCOUNT_DEFAULTS
-											 forClass:[AIAccount class]] retain];
+			defaults = [NSDictionary dictionaryNamed:ACCOUNT_DEFAULTS
+											 forClass:[AIAccount class]];
 		}
 		
 		[adium.preferenceController registerDefaults:defaults
@@ -286,8 +286,7 @@
 
 	//Set our UID first (since self.formattedUID uses the UID as necessary)
 	if (![newProposedUID isEqualToString:self.UID]) {
-		[UID release];
-		UID = [newProposedUID retain];
+		UID = newProposedUID;
 
 		//Inform the account controller of the changed UID
 		[adium.accountController accountDidChangeUID:self];
@@ -351,17 +350,17 @@
 	
 	if (silenceAllContactUpdatesTimer) {
 		[silenceAllContactUpdatesTimer invalidate];
-		[silenceAllContactUpdatesTimer release]; silenceAllContactUpdatesTimer = nil;
+		silenceAllContactUpdatesTimer = nil;
 	}
-    silenceAllContactUpdatesTimer = [[NSTimer scheduledTimerWithTimeInterval:interval
+    silenceAllContactUpdatesTimer = [NSTimer scheduledTimerWithTimeInterval:interval
 																	  target:self
 																	selector:@selector(_endSilenceAllUpdates)
 																	userInfo:nil
-																	 repeats:NO] retain];
+																	 repeats:NO];
 }
 - (void)_endSilenceAllUpdates
 {
-	[silenceAllContactUpdatesTimer release]; silenceAllContactUpdatesTimer = nil;
+	silenceAllContactUpdatesTimer = nil;
     silentAndDelayed = NO;
 }
 
@@ -380,11 +379,11 @@
 		[self delayedUpdateContactStatus:inContact];
 		
 		//Guard against subsequent updates
-		delayedUpdateStatusTimer = [[NSTimer scheduledTimerWithTimeInterval:[self delayedUpdateStatusInterval]
+		delayedUpdateStatusTimer = [NSTimer scheduledTimerWithTimeInterval:[self delayedUpdateStatusInterval]
 																	 target:self
 																   selector:@selector(_delayedUpdateStatusTimer:)
 																   userInfo:nil
-																	repeats:YES] retain];
+																	repeats:YES];
 	} else {
 		//If there is an outstanding delay, set this contact as the target
 		if (!delayedUpdateStatusTargets) delayedUpdateStatusTargets = [[NSMutableArray alloc] init];
@@ -401,10 +400,10 @@
 
 	/* If we're done, release the array and stop the repeating timer */
 	if (![delayedUpdateStatusTargets count]) {
-		[delayedUpdateStatusTargets release]; delayedUpdateStatusTargets = nil;
+		delayedUpdateStatusTargets = nil;
 
 		[delayedUpdateStatusTimer invalidate];
-		[delayedUpdateStatusTimer release]; delayedUpdateStatusTimer = nil;		
+		delayedUpdateStatusTimer = nil;		
 	}
 }
 
@@ -536,7 +535,7 @@
 	} else if ([key isEqualToString:KEY_USER_ICON]) {
 		NSData *originalData = [self userIconData];
 
-		[self setAccountUserImage:(originalData ? [[[NSImage alloc] initWithData:originalData] autorelease] : nil)
+		[self setAccountUserImage:(originalData ? [[NSImage alloc] initWithData:originalData] : nil)
 						 withData:originalData];
 	}
 }
@@ -730,7 +729,7 @@
 - (void)setPasswordTemporarily:(NSString *)inPassword
 {
 	if (password != inPassword) {
-		[password release]; password = [inPassword retain];
+		password = inPassword;
 	}	
 }
 
@@ -985,11 +984,11 @@
 - (void)_startAttributedRefreshTimer
 {
 	if (!attributedRefreshTimer) {
-		attributedRefreshTimer = [[NSTimer scheduledTimerWithTimeInterval:FILTERED_STRING_REFRESH
+		attributedRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:FILTERED_STRING_REFRESH
 																   target:self
 																 selector:@selector(_refreshAttributedStrings:) 
 																 userInfo:nil
-																  repeats:YES] retain];
+																  repeats:YES];
 	}
 }
 
@@ -1000,7 +999,6 @@
 {
 	if (attributedRefreshTimer) {
 		[attributedRefreshTimer invalidate];
-		[attributedRefreshTimer release];
 		attributedRefreshTimer = nil;
 	}
 }
@@ -1026,7 +1024,7 @@
 	if ([dynamicKeys count]) {
 		NSString        *key;
 		
-		for (key in [[dynamicKeys copy] autorelease]) {
+		for (key in [dynamicKeys copy]) {
 			[self updateStatusForKey:key];
 		}
 		
@@ -1178,7 +1176,7 @@
 													withSource:nil
 												   destination:chat.account
 														  date:[NSDate date]
-													   message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have connected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
+													   message:[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have connected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")]
 													  withType:@"connected"];
 	
 	[eventMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
@@ -1349,7 +1347,7 @@
 															 withSource:chat.account
 															destination:chat.account
 																   date:[NSDate date]
-																message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have disconnected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
+																message:[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have disconnected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")]
 															   withType:@"disconnected"];
 			
 			[newStatusMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
@@ -1460,8 +1458,7 @@
     }
         
 	if (lastDisconnectionError != inError) {
-		[lastDisconnectionError release];
-		lastDisconnectionError = [inError retain];
+		lastDisconnectionError = inError;
 	}
 }
 
@@ -1471,7 +1468,7 @@
  * Subclasses should return AIReconnectImmediately for invalid passwords or situations where immediate reconnect is possible,
  * AIReconnectNormally to use the builtin exponential reconnect delay, and AIReconnectNever on unrecoverable errors.
  */
-- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
+- (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString * __strong *)disconnectionError
 {
 	return AIReconnectNormally;
 }

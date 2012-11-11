@@ -34,7 +34,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Growl/Growl.h>
 
 //#define GROWL_DEBUG 1
@@ -94,13 +94,6 @@
 									 object:nil];
 	
 	queuedEvents = [[NSMutableDictionary alloc] init];
-}
-
-- (void)dealloc
-{
-	[queuedEvents release]; queuedEvents = nil;
-	
-	[super dealloc];
 }
 
 /*!
@@ -447,7 +440,6 @@
 		
         description = [NSString stringWithFormat:AILocalizedString(@"[%@] %@", "A Growl notification with a timestamp. The first %@ is the timestamp, the second is the main string"), [timeStampFormatter stringFromDate:dateStamp], description];
 		
-        [timeStampFormatter release];
 	}
     
 	
@@ -461,7 +453,7 @@
 									usingFilterType:AIFilterContactList
 									direction:AIFilterIncoming
 									context:listObject] string];
-		statusMessage = [[[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+		statusMessage = [[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy];
 		
 		/* If the message contains line breaks, start it on a new line */
 		description = [NSString stringWithFormat:@"%@:%@%@",

@@ -85,7 +85,7 @@ typedef enum {
 @end
 
 @interface AIListObject : ESObjectWithProperties {
-	AIService			*service;
+	AIService			*__weak service;
 	
 	NSString			*UID;
 	NSString			*internalObjectID;
@@ -101,6 +101,9 @@ typedef enum {
 	
 	NSImage				*listStateIcon;
 	NSImage				*listStatusIcon;
+	
+	BOOL				isOnline;
+	BOOL				alwaysVisible;
 	
 	NSInteger			unviewedContent;
 	NSInteger			unviewedMention;
@@ -120,8 +123,8 @@ typedef enum {
 
 //Identifying information
 @property (readonly, nonatomic) NSString *UID;
-@property (readonly, assign, nonatomic) AIService *service;
-@property (readonly, nonatomic) NSString *internalObjectID;
+@property (readonly, weak, nonatomic) AIService *service;
+@property (weak, readonly, nonatomic) NSString *internalObjectID;
 + (NSString *)internalObjectIDForServiceID:(NSString *)inServiceID UID:(NSString *)inUID;
 
 //Visibility
@@ -129,31 +132,31 @@ typedef enum {
 
 //Grouping
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
-@property (readonly, nonatomic) NSSet *containingObjects;
+@property (weak, readonly, nonatomic) NSSet *containingObjects;
 @property (readonly, copy, nonatomic) NSSet *groups;
 - (void)removeContainingGroup:(AIListGroup *)group;
 - (void)addContainingGroup:(AIListGroup *)group;
 - (void)removeFromGroup:(AIListObject <AIContainingObject> *)group;
 
 //Display
-@property (readonly, nonatomic) NSString *formattedUID;
+@property (weak, readonly, nonatomic) NSString *formattedUID;
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify;
-@property (readonly, nonatomic) NSString *longDisplayName;
+@property (weak, readonly, nonatomic) NSString *longDisplayName;
 
 //Prefs
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)groupName;
 - (void)setPreferences:(NSDictionary *)prefs inGroup:(NSString *)group;
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
-@property (readonly, nonatomic) NSString *pathToPreferences;
+@property (weak, readonly, nonatomic) NSString *pathToPreferences;
 
 //Key-Value pairing
 @property (readonly, nonatomic) BOOL online;
 
-@property (readonly, nonatomic) NSString *statusName;
+@property (weak, readonly, nonatomic) NSString *statusName;
 @property (readonly, nonatomic) AIStatusType statusType;
 - (void)setStatusWithName:(NSString *)statusName statusType:(AIStatusType)statusType notify:(NotifyTiming)notify;
-@property (readonly, nonatomic) NSAttributedString *statusMessage;
-@property (readonly, nonatomic) NSString *statusMessageString;
+@property (weak, readonly, nonatomic) NSAttributedString *statusMessage;
+@property (weak, readonly, nonatomic) NSString *statusMessageString;
 - (void)setStatusMessage:(NSAttributedString *)statusMessage notify:(NotifyTiming)notify;
 - (void)setBaseAvailableStatusAndNotify:(NotifyTiming)notify;
 @property (readonly, nonatomic) AIStatusSummary statusSummary;
@@ -164,22 +167,22 @@ typedef enum {
 @property (readonly, nonatomic) BOOL isMobile;
 @property (readonly, nonatomic) BOOL isBlocked;
 
-@property (readwrite, nonatomic, retain) NSString *displayName;
+@property (readwrite, nonatomic, strong) NSString *displayName;
 
-@property (readonly, nonatomic) NSString *phoneticName;
+@property (weak, readonly, nonatomic) NSString *phoneticName;
 
-@property (readwrite, nonatomic, retain) NSString *notes;
+@property (readwrite, nonatomic, strong) NSString *notes;
 
 @property (readonly, nonatomic) NSInteger idleTime;
 
-@property (readonly, nonatomic) NSImage *userIcon;
-@property (readonly, nonatomic) NSImage *menuIcon;
-@property (readonly, nonatomic) NSImage *statusIcon;
-@property (readonly, nonatomic) NSData *userIconData;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *userIcon;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *menuIcon;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *statusIcon;
+@property (weak, readonly, nonatomic) NSData *userIconData;
 - (void)setUserIconData:(NSData *)inData;
 
 //For use only by subclasses
-@property (readonly, nonatomic) NSImage *internalUserIcon;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *internalUserIcon;
 
 //mutableOwnerArray delegate and methods
 - (void)listObject:(AIListObject *)listObject mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(AIListObject *)inOwner priorityLevel:(float)priority;
