@@ -34,7 +34,7 @@
 #define ENC_INDEX_KEY @"encIndex"
 #define ENC_CHAR_KEY @"encChar"
 
-#define MIN_LINK_LENGTH 4
+#define MIN_LINK_LENGTH 0
 
 @interface AHHyperlinkScanner (PRIVATE)
 - (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
