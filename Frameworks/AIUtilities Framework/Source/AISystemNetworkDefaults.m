@@ -14,13 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <CoreServices/CoreServices.h>
-#import <CoreFoundation/CoreFoundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "AISystemNetworkDefaults.h"
 #import "AIKeychain.h"
-#import "AIApplicationAdditions.h"
-#import "AIStringUtilities.h"
 
 @implementation AISystemNetworkDefaults
 

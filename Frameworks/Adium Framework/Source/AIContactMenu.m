@@ -22,7 +22,6 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AIContactList.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @interface AIContactMenu ()

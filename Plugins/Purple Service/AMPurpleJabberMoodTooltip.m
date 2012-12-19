@@ -17,7 +17,6 @@
 #import "AMPurpleJabberMoodTooltip.h"
 #import "ESPurpleJabberAccount.h"
 #import <Adium/AIListContact.h>
-#import <libpurple/blist.h>
 
 @implementation AMPurpleJabberMoodTooltip
 

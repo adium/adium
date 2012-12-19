@@ -26,9 +26,7 @@
  */
 
 #import "AHHyperlinkScanner.h"
-#import "AHLinkLexer.h"
 #import "AHMarkedHyperlink.h"
-#import <libkern/OSAtomic.h>
 
 #define DEFAULT_URL_SCHEME @"http://"
 #define ENC_INDEX_KEY @"encIndex"

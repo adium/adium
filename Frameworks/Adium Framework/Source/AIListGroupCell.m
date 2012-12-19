@@ -17,9 +17,6 @@
 #import <Adium/AIListGroupCell.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIListObject.h>
-#import <Adium/ESObjectWithProperties.h>
-#import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIGradientAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 
 #define FLIPPY_TEXT_PADDING		4

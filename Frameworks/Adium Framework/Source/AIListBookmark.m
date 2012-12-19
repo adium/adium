@@ -15,15 +15,10 @@
  */
 
 #import "AIListBookmark.h"
-#import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContactList.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 

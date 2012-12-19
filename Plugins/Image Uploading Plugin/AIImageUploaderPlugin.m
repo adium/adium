@@ -20,14 +20,12 @@
 #import "AIImageUploaderWindowController.h"
 
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIChat.h>
 
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 
 @interface AIImageUploaderPlugin()
 - (NSImage *)currentImage;

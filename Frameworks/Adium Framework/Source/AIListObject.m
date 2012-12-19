@@ -22,8 +22,6 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <Adium/AIContactObserverManager.h>
-#import <Adium/AIContactHidingController.h>
 #import <Adium/AIStatus.h>
 
 #define DisplayName			@"Display Name"

@@ -20,7 +20,6 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

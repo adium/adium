@@ -16,10 +16,8 @@
 
 #import "AIDockIconSelectionSheet.h"
 #import "AIDockController.h"
-#import "AIAppearancePreferencesPlugin.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <Adium/AIIconState.h>
-#import <Adium/AIDockControllerProtocol.h>
 
 #define PREF_GROUP_DOCK_ICON	@"Dock Icon"
 #define DEFAULT_DOCK_ICON_NAME	@"Adiumy Green"

@@ -16,8 +16,6 @@
 
 #import "AITwitterStatusFollowup.h"
 #import "AITwitterAccount.h"
-#import <Adium/AIChat.h>
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @interface AITwitterStatusFollowup()

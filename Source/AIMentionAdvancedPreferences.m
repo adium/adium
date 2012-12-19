@@ -18,7 +18,6 @@
 #import "AIPreferenceWindowController.h"
 
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 
 @interface AIMentionAdvancedPreferences()
 - (void)saveTerms;

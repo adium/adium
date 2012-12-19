@@ -16,27 +16,17 @@
 
 #import "AIAdvancedInspectorPane.h"
 #import "AINewGroupWindowController.h"
-#import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIArrayAdditions.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AILocalizationTextField.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AIStringAdditions.h>
-
-#import <Adium/AIAccountMenu.h>
-#import <Adium/AIContactMenu.h>
 
 #define ADVANCED_NIB_NAME (@"AIAdvancedInspectorPane")
 

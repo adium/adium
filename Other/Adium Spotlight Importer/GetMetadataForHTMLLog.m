@@ -17,8 +17,6 @@
 #import "GetMetadataForHTMLLog.h"
 #import "GetMetadataForHTMLLog-Additions.h"
 
-#include <sys/stat.h>
-
 #import "scandate.h"
 
 static char *gaim_markup_strip_html(const char *str);

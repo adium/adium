@@ -17,7 +17,6 @@
 #import "AIGroupChat.h"
 #import "AIContactControllerProtocol.h"
 #import "AIListContact.h"
-#import "AIListObject.h"
 #import "AIServiceIcons.h"
 #import "AIUserIcons.h"
 #import "AIContentTopic.h"

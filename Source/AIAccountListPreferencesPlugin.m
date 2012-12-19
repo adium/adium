@@ -16,8 +16,6 @@
 
 #import "AIAccountListPreferencesPlugin.h"
 #import "AIAccountListPreferences.h"
-#import <Adium/AIMenuControllerProtocol.h>
-#import <AIUtilities/AIMenuAdditions.h>
 
 /*!
  * @class AIAccountListPreferencesPlugin

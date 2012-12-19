@@ -15,13 +15,11 @@
  */
 
 #import "AIMessageAliasPlugin.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
 
 @interface AIMessageAliasPlugin ()

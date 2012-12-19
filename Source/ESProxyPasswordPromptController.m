@@ -15,10 +15,7 @@
  */
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import "ESProxyPasswordPromptController.h"
-#import <AIUtilities/AIURLAdditions.h>
 
 #define PROXY_PASSWORD_PROMPT_NIB		@"ProxyPasswordPrompt"
 #define	PROXY_PASSWORD_REQUIRED			AILocalizedString(@"Accessing Proxy","Proxy password prompt window title")

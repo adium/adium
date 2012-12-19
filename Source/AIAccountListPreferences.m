@@ -16,27 +16,17 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIAccountListPreferences.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import "AIStatusController.h"
 #import "AIEditAccountWindowController.h"
-#import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIImageTextCell.h>
-#import <AIUtilities/AIVerticallyCenteredTextCell.h>
-#import <AIUtilities/AITableViewAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
-#import <Adium/AIStatusMenu.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
-#import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define MINIMUM_ROW_HEIGHT				34

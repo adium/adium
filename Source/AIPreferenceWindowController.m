@@ -15,17 +15,7 @@
  */
 
 #import "AIPreferenceWindowController.h"
-#import "AIPreferencePane.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIModularPaneCategoryView.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageTextCell.h>
-#import <AIUtilities/AIAutoScrollView.h>
-#import <AIUtilities/AIViewAdditions.h>
-#import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIWindowControllerAdditions.h>
-#import "AIPreferenceCollectionView.h"
 #import "AIHighlightingTextField.h"
 
 #define SUGGESTION_ENTRY_HEIGHT 17

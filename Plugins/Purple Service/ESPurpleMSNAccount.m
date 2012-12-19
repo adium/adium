@@ -16,14 +16,10 @@
 
 #import "ESPurpleMSNAccount.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIService.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>

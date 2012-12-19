@@ -16,15 +16,11 @@
 
 #import <Adium/AIContentControllerProtocol.h>
 #import "AIMentionEventPlugin.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIGroupChat.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import "AIContentTopic.h"
 
 

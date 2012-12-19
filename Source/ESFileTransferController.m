@@ -19,10 +19,8 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import "ESFileTransferPreferences.h"
 #import "ESFileTransferProgressWindowController.h"
 #import "ESFileTransferRequestPromptController.h"
@@ -35,10 +33,8 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
 #import "ESFileTransfer.h"
-#import <Adium/AIWindowController.h>
 
 #define SEND_FILE					AILocalizedString(@"Send File",nil)
 #define SEND_FILE_WITH_ELLIPSIS		[SEND_FILE stringByAppendingEllipsis]

@@ -17,7 +17,6 @@
 #import "ESOTRPreferences.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>

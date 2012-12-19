@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import "AINewContactWindowController.h"
 #import "AINewGroupWindowController.h"
 #import "OWABSearchWindowController.h"
@@ -27,11 +26,8 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AILocalizationTextField.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
-#import <AddressBook/ABPerson.h>
 
 #define ADD_CONTACT_PROMPT_NIB	@"AddContact"
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)

@@ -23,17 +23,13 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIService.h>
 #import <Adium/JVFontPreviewField.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>

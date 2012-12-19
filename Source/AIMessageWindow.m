@@ -15,9 +15,7 @@
  */
 
 #import "AIMessageWindow.h"
-#import "AIClickThroughThemeDocumentButton.h"
 #import "AIMessageWindowController.h"
-#import "AIInterfaceControllerProtocol.h"
 
 /*!
  * @class AIMessageWindow

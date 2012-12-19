@@ -16,28 +16,18 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentTopic.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/AIContactHidingController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AISortController.h>
 
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #import "AIMessageWindowController.h"
-#import "AIMessageWindow.h"
-#import "AIInterfaceControllerProtocol.h"
-#import "AIWebKitMessageViewController.h"
 #import "AILoggerPlugin.h"
 
 

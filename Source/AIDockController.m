@@ -16,12 +16,8 @@
 
 
 #import "AIDockController.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIIconState.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import "AIStatus.h"

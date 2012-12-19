@@ -21,8 +21,6 @@
 #import <Adium/AIAccount.h>
 #import <libpurple/jabber.h>
 
-#import "AIAdium.h"
-
 @implementation AMPurpleJabberServiceDiscoveryBrowsing
 
 - (id)initWithAccount:(AIAccount *)_account purpleConnection:(PurpleConnection *)_gc;

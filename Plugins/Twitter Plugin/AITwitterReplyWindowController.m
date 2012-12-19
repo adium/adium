@@ -17,7 +17,6 @@
 #import "AITwitterReplyWindowController.h"
 #import "AITwitterAccount.h"
 #import "AIURLHandlerPlugin.h"
-#import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIStringAdditions.h>
 

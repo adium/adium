@@ -9,7 +9,6 @@
 #import "PurpleFacebookAccount.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIFacebookXMPPService.h"
-#import "AIFacebookXMPPAccount.h"
 
 #import <Adium/AILoginControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>

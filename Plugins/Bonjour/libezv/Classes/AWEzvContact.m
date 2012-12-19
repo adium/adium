@@ -38,12 +38,8 @@
 #import "AWEzvContactManager.h"
 #import "AWEzvContactManagerRendezvous.h"
 #import "AWEzv.h"
-#import "EKEzvFileTransfer.h"
 #import "EKEzvIncomingFileTransfer.h"
 
-#import <sys/types.h>
-#import <sys/socket.h>
-#import <netinet/in.h>
 #import <arpa/inet.h>
 
 @implementation AWEzvContact

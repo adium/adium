@@ -9,7 +9,6 @@
 #import <Carbon/Carbon.h>
 #import "SGHotKeyCenter.h"
 #import "SGHotKey.h"
-#import "SGKeyCombo.h"
 
 OSType const kHotKeySignature = 'SGHk';
 

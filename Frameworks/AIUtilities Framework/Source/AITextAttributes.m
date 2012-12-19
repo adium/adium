@@ -19,7 +19,6 @@
 */
 
 #import "AITextAttributes.h"
-#import "AIApplicationAdditions.h"
 #import "AIFontManagerAdditions.h"
 
 #define FONT_DEFAULT_NAME	@"Helvetica"

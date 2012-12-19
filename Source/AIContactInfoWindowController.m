@@ -15,22 +15,9 @@
  */
 
 #import "AIContactInfoWindowController.h"
-#import "AIContactInfoImageViewWithImagePicker.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIModularPaneCategoryView.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListOutlineView.h>
-#import <Adium/AIService.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageViewWithImagePicker.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AITabViewAdditions.h>
 #import <QuartzCore/QuartzCore.h>
 
 #define	CONTACT_INFO_NIB				@"ContactInfoInspector"			//Filename of the contact info nib

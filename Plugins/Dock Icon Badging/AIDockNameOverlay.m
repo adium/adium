@@ -2,7 +2,6 @@
 #import "AIDockController.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAbstractListController.h>

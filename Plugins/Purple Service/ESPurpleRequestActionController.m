@@ -17,7 +17,6 @@
 #import "ESPurpleRequestActionController.h"
 #import <AdiumLibpurple/PurpleCommon.h>
 #import "adiumPurpleRequest.h"
-#import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "ESTextAndButtonsWindowController.h"
 #import <Adium/AIHTMLDecoder.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>

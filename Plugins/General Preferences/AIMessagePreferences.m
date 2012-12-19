@@ -17,12 +17,9 @@
 #import "AIMessagePreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import "AIMessageWindowController.h"
 #import "AILogByAccountWindowController.h"
-#import "AIWebKitMessageViewPlugin.h"
 
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"

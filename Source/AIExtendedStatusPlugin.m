@@ -15,10 +15,7 @@
  */
 
 #import "AIExtendedStatusPlugin.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIAbstractListController.h>

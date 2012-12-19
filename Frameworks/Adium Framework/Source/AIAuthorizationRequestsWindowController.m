@@ -18,7 +18,6 @@
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIAccountControllerProtocol.h>

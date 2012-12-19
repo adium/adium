@@ -1,9 +1,6 @@
-#import <Cocoa/Cocoa.h>
 #import <SenTestingKit/SenTestingKit.h>
 #import "StressTest.h"
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <sysexits.h>
 
 int main(int argc, char **argv) {

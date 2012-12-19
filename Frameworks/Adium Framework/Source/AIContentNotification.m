@@ -15,7 +15,6 @@
  */
 
 #import "AIContentNotification.h"
-#import <Adium/AIContentEvent.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIAccount.h>
 

@@ -16,9 +16,7 @@
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIGroupChat.h>
 
 @implementation AIContentMessage

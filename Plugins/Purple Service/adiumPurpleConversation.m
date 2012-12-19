@@ -16,9 +16,6 @@
 
 #import "adiumPurpleConversation.h"
 
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>

@@ -15,12 +15,9 @@
  */
 
 #import <Adium/AIChat.h>
-#import <Adium/AIContentTyping.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AIStatusIcons
 

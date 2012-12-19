@@ -16,8 +16,6 @@
 
 #import "AIAddressBookUserIconSource.h"
 #import "AIAddressBookController.h"
-#import <AddressBook/AddressBook.h>
-#import <Adium/AIUserIcons.h>
 #import <Adium/AIMetaContact.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 

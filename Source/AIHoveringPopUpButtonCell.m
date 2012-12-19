@@ -17,7 +17,6 @@
 #import "AIHoveringPopUpButtonCell.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
 #define LEFT_MARGIN		5

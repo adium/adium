@@ -20,11 +20,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIEditStateWindowController.h>
-#import <Adium/AIStatusIcons.h>
-#import <Adium/AISocialNetworkingStatusMenu.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

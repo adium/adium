@@ -17,7 +17,6 @@
 #import "ESFileTransferProgressRow.h"
 #import "ESFileTransferProgressView.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
-#import <AIUtilities/AIRolloverButton.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 

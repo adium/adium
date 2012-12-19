@@ -19,21 +19,15 @@
 #import "AIDockIconSelectionSheet.h"
 #import "AIEmoticonPack.h"
 #import "AIEmoticonPreferences.h"
-#import "AIListLayoutWindowController.h"
-#import "AIListThemeWindowController.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AIAbstractListController.h>
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIEmoticonControllerProtocol.h>
 #import <Adium/AIIconState.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/ESPresetManagementController.h>
-#import <Adium/ESPresetNameSheetController.h>
 #import "AIMenuBarIcons.h"
 
 typedef enum {

@@ -21,14 +21,11 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AICharacterSetAdditions.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentEvent.h>
 
 #define EMOTICON_DEFAULT_PREFS				@"EmoticonDefaults"

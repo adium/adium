@@ -17,10 +17,8 @@
 #import "ESAwayStatusWindowPlugin.h"
 #import "ESAwayStatusWindowController.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import "AISoundController.h"
 #import "AIStatusController.h"
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 
 @interface ESAwayStatusWindowPlugin ()
 - (void)processStatusUpdate;

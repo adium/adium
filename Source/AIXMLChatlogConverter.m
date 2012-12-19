@@ -20,7 +20,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>

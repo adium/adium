@@ -15,8 +15,6 @@
  */
 
 #import "AITwitterURLParser.h"
-#import "AITwitterAccount.h"
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @implementation AITwitterURLParser

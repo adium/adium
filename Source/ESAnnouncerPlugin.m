@@ -18,7 +18,6 @@
 #import "ESAnnouncerPlugin.h"
 #import "ESAnnouncerSpeakEventAlertDetailPane.h"
 #import "ESAnnouncerSpeakTextAlertDetailPane.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>

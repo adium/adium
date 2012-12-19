@@ -16,7 +16,6 @@
 
 #import "ESPurpleICQAccountViewController.h"
 #import "ESPurpleICQAccount.h"
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 				   
 @implementation ESPurpleICQAccountViewController

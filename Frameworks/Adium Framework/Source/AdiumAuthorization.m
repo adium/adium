@@ -17,7 +17,6 @@
 #import "AdiumAuthorization.h"
 #import <Adium/AIAuthorizationRequestsWindowController.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListContact.h>

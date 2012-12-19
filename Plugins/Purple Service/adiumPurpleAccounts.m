@@ -15,7 +15,6 @@
  */
 
 #import "adiumPurpleAccounts.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AdiumAuthorization.h>
 
 /* A buddy we already have added us to their buddy list. */

@@ -7,7 +7,6 @@
 //
 
 #import "SGHotKey.h"
-#import "SGKeyCombo.h"
 
 @implementation SGHotKey
 

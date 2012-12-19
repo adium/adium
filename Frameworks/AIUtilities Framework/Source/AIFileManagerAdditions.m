@@ -16,8 +16,6 @@
 
 #import "AIFileManagerAdditions.h"
 #import "AIStringAdditions.h"
-#import <sys/types.h>
-#import <unistd.h>
 
 
 @implementation NSFileManager (AIFileManagerAdditions)

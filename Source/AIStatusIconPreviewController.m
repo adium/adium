@@ -15,7 +15,6 @@
  */
 
 #import "AIStatusIconPreviewController.h"
-#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AIStatusIconPreviewController
 

@@ -16,13 +16,7 @@
 
 #import "AIPurpleCertificateTrustWarningAlert.h"
 #import <SecurityInterface/SFCertificateTrustPanel.h>
-#import <Security/SecureTransport.h>
-#import <Security/SecPolicySearch.h>
-#import <Security/SecPolicy.h>
-#import <Security/oidsalg.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import "ESPurpleJabberAccount.h"
-#import "AIPurpleGTalkAccount.h"
 
 //#define ALWAYS_SHOW_TRUST_WARNING
 

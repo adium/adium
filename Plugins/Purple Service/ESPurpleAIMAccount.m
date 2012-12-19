@@ -17,12 +17,7 @@
 #import "ESPurpleAIMAccount.h"
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIService.h>
-#import <Adium/AIContentMessage.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 

@@ -17,17 +17,13 @@
 #import "ESPurpleJabberAccount.h"
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIStatusIcons.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIService.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <libpurple/si.h>
@@ -40,7 +36,6 @@
 #import "AMPurpleJabberAdHocPing.h"
 #import "AIMessageViewController.h"
 #import <Adium/AIMenuControllerProtocol.h>
-#import <AIUtilities/AIMenuAdditions.h>
 
 #define DEFAULT_JABBER_HOST @"@jabber.org"
 

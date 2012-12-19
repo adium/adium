@@ -18,14 +18,10 @@
 
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import "AdiumChatEvents.h"
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIGroupChat.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>

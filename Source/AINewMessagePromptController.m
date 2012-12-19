@@ -16,11 +16,8 @@
 
 #import "AINewMessagePromptController.h"
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import "AIUserIcons.h"
 #import "AIServiceIcons.h"

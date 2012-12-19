@@ -16,10 +16,7 @@
 
 #import <Adium/AIAccountMenu.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>

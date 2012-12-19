@@ -16,7 +16,6 @@
 
 #import "AIIRCConsoleController.h"
 #import <libpurple/irc.h>
-#import <AIUtilities/AIAutoScrollView.h>
 
 @interface AIIRCConsoleController ()
 - (PurpleConnection *)gc;

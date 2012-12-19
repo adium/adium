@@ -15,12 +15,9 @@
  */
 
 #import "AdiumSound.h"
-#import "AISoundController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISleepNotification.h>
 #import <CoreAudio/AudioHardware.h>
-#import <CoreServices/CoreServices.h>
-#import <sys/sysctl.h>
 
 #define SOUND_DEFAULT_PREFS				@"SoundPrefs"
 #define MAX_CACHED_SOUNDS				4			//Max cached sounds

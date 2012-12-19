@@ -17,9 +17,7 @@
 #import "ESEditStatusGroupWindowController.h"
 #import "AIStatusController.h"
 #import <Adium/AIStatusGroup.h>
-#import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 
 @interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;

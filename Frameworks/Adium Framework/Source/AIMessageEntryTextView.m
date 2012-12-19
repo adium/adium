@@ -16,25 +16,19 @@
 
 #import <Adium/AIChat.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMessageEntryTextView.h>
-#import <Adium/ESFileWrapperExtension.h>
 #import <Adium/AITextAttachmentExtension.h>
 
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentContext.h>
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
-#import <AIUtilities/AIBezierPathAdditions.h>
-#import <Adium/AIContactControllerProtocol.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 

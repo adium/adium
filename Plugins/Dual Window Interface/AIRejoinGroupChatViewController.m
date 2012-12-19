@@ -15,9 +15,7 @@
  */
 
 #import "AIRejoinGroupChatViewController.h"
-#import "AIBundleAdditions.h"
 #import <Adium/AIGroupChat.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIAbstractAccount.h>
 #import "AIMessageViewController.h"
 

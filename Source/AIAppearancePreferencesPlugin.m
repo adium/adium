@@ -17,14 +17,11 @@
 #import "AIAppearancePreferencesPlugin.h"
 #import "AIAppearancePreferences.h"
 #import "AIDockController.h"
-#import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AIServiceIcons.h>
 #import "AIMenuBarIcons.h"
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
 #import "AIXtrasManager.h"
 
 #define APPEARANCE_DEFAULT_PREFS 	@"AppearanceDefaults"

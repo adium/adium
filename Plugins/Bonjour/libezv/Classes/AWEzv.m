@@ -42,8 +42,6 @@
 #import "AWEzvContactManagerRendezvous.h"
 #import "AWEzvContactManagerListener.h"
 
-#import "AWEzvSupportRoutines.h"
-
 @implementation AWEzv
 - (id) initWithClient:(id <AWEzvClientProtocol, NSObject>)newClient 
 {

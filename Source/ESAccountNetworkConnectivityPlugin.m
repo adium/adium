@@ -15,13 +15,10 @@
  */
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import "ESAccountNetworkConnectivityPlugin.h"
 #import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AIHostReachabilityMonitor.h>
 #import <AIUtilities/AISleepNotification.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 
 @interface ESAccountNetworkConnectivityPlugin ()
 - (void)handleConnectivityForAccount:(AIAccount *)account reachable:(BOOL)reachable;

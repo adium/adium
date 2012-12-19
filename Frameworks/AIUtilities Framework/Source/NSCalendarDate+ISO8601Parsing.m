@@ -14,9 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <ctype.h>
-#import <string.h>
-
 #import "NSCalendarDate+ISO8601Parsing.h"
 
 #ifndef DEFAULT_TIME_SEPARATOR

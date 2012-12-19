@@ -16,28 +16,17 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIListObject.h>
 #import "CBStatusMenuItemPlugin.h"
-#import "CBStatusMenuItemController.h"
-#import "AIMenuBarIcons.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListBookmark.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIContactHidingController.h>
-#import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "AIStatus.h"
 // For the KEY_SHOW_OFFLINE_CONTACTS and PREF_GROUP_CONTACT_LIST_DISPLAY
-#import "AIContactController.h"
 #import "AIInterfaceController.h"
 
 #define STATUS_ITEM_MARGIN 8

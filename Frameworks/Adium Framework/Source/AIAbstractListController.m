@@ -20,18 +20,15 @@
 #import <Adium/AIListCell.h>
 #import <Adium/AIListContactBubbleCell.h>
 #import <Adium/AIListContactBubbleToFitCell.h>
-#import <Adium/AIListContactCell.h>
 #import <Adium/AIListContactGroupChatCell.h>
 #import <Adium/AIListContactMockieCell.h>
 #import <Adium/AIListGroupBubbleCell.h>
 #import <Adium/AIListGroupBubbleToFitCell.h>
-#import <Adium/AIListGroupCell.h>
 #import <Adium/AIListGroupMockieCell.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIContactList.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIUserIcons.h>
@@ -42,13 +39,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
-#import "AIMessageWindowController.h"
-#import "DCInviteToChatWindowController.h"
-#import "AIChatController.h"
 #import "AISCLViewPlugin.h"
-#import "AICoreComponentLoader.h"
-
-#import "AIProxyListObject.h"
 
 #ifdef DEBUG_BUILD
 #import <Foundation/NSDebug.h>

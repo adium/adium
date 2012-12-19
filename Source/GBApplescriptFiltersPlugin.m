@@ -26,9 +26,6 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIHTMLDecoder.h>
 
-#import <sys/errno.h>
-#import <string.h>
-
 #define TITLE_INSERT_SCRIPT		AILocalizedString(@"Insert Script",nil)
 #define SCRIPT_BUNDLE_EXTENSION	@"AdiumScripts"
 #define SCRIPTS_PATH_NAME		@"Scripts"

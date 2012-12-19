@@ -21,15 +21,9 @@
 #import "AITwitterURLHandler.h"
 #import "AIURLHandlerPlugin.h"
 #import <AIUtilities/AIURLAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AIMessageEntryTextView.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 
 @interface AITwitterURLHandler ()

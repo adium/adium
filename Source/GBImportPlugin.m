@@ -18,7 +18,6 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import "BGICImportController.h"
-#import "AILoggerPlugin.h"
 
 @interface GBImportPlugin ()
 - (void)importIChat:(id)sender;

@@ -17,20 +17,15 @@
 #import "ESSecureMessagingPlugin.h"
 #import "AdiumOTREncryption.h"
 
-#import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/MVMenuButton.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)

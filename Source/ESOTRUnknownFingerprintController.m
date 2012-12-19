@@ -19,8 +19,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import "AIHTMLDecoder.h"
-#import <Adium/AIServiceIcons.h>
-#import <Adium/AIAccountControllerProtocol.h>
 
 #import "AdiumOTREncryption.h"
 

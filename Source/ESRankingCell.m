@@ -16,7 +16,6 @@
 
 #import "ESRankingCell.h"
 #import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIBezierPathAdditions.h>
 
 @implementation ESRankingCell
 

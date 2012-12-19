@@ -20,22 +20,14 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
-
-#import <Growl/Growl.h>
 
 //#define GROWL_DEBUG 1
 

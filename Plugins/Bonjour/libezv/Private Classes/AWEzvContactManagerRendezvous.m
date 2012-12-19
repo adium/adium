@@ -34,12 +34,10 @@
 #import "AWEzvContactManagerRendezvous.h"
 #import "AWEzv.h"
 #import "AWEzvPrivate.h"
-#import "AWEzvContact.h"
 #import "AWEzvContactPrivate.h"
 #import "AWEzvRendezvousData.h"
 #import "AWEzvSupportRoutines.h"
 
-#import <dns_sd.h>
 #import <CommonCrypto/CommonDigest.h>
 
 /* One of the stupidest things I've ever met. Doing DNS lookups using the standard
@@ -50,19 +48,7 @@
  */
 #define BIND_8_COMPAT 1
 
-#import <sys/types.h>
-#import <sys/socket.h>
-#import <netinet/in.h>
-#import <arpa/nameser.h>
 #import <arpa/inet.h>
-#import <netdb.h>
-#import <resolv.h>
-#import <errno.h>
-#import <ctype.h>
-#import <string.h>
-#import <stdlib.h>
-
-#import <SystemConfiguration/SystemConfiguration.h>
 
 // The ServiceController manages cleanup of DNSServiceRef & runloop info for an outstanding request
 @interface ServiceController : NSObject

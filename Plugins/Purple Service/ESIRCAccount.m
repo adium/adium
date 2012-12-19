@@ -16,7 +16,6 @@
 
 #import "ESIRCAccount.h"
 #import <Adium/AIHTMLDecoder.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMenuControllerProtocol.h>

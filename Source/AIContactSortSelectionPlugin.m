@@ -24,7 +24,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AISortController.h>
 
 #define CONTACT_SORTING_DEFAULT_PREFS	@"SortingDefaults"
 #define CONFIGURE_SORT_MENU_TITLE		[AILocalizedString(@"Configure Sorting",nil) stringByAppendingEllipsis]

@@ -19,14 +19,12 @@
 #import "AIMessageWindow.h"
 #import "AIURLHandlerPlugin.h"
 #import "AIAccountControllerProtocol.h"
-#import "AIUtilities/AIArrayAdditions.h"
 #import "AIInterfaceControllerProtocol.h"
 #import "AIStatus.h"
 #import "AIStatusGroup.h"
 #import "AIStatusControllerProtocol.h"
 #import "AIChatControllerProtocol.h"
 #import "AIContactControllerProtocol.h"
-#import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 
 @implementation AIApplication

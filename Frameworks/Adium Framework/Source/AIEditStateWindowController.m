@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIEditStateWindowController.h>
-#import <Adium/AIStatus.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>

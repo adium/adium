@@ -15,7 +15,6 @@
  */
 
 #import "AdiumPasswords.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>

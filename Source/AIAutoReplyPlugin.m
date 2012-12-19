@@ -15,15 +15,12 @@
  */
 
 #import "AIAutoReplyPlugin.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import "AIStatusController.h"
-#import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIContentObject.h>
 
 @interface AIAutoReplyPlugin ()
 - (void)didReceiveContent:(NSNotification *)notification;

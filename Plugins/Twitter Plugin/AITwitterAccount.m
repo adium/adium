@@ -17,7 +17,6 @@
 #import "AITwitterAccount.h"
 #import "AITwitterURLParser.h"
 #import "AITwitterReplyWindowController.h"
-#import "MGTwitterEngine/MGTwitterEngine.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -26,14 +25,11 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatus.h>

@@ -25,12 +25,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIVariableHeightOutlineView.h>
-#import <AIUtilities/AIVerticallyCenteredTextCell.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageTextCell.h>
 
 #define PREF_GROUP_EVENT_PRESETS	@"Event Presets"
 #define CUSTOM_TITLE				AILocalizedString(@"Custom",nil)

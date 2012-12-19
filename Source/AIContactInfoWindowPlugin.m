@@ -27,7 +27,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIChat.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

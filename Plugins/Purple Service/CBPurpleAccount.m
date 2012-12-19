@@ -18,33 +18,20 @@
 
 #import "PurpleService.h"
 
-#import <libpurple/notify.h>
-#import <libpurple/cmds.h>
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentTopic.h>
-#import <Adium/AIContentEvent.h>
 #import <Adium/AIContentContext.h>
-#import <Adium/AIContentNotification.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
-#import <Adium/AIWindowController.h>
 #import <Adium/AIEmoticon.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
@@ -55,14 +42,9 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
-#import <AIUtilities/AISystemNetworkDefaults.h>
 #import <Adium/AdiumAuthorization.h>
-#import <Adium/AIMediaControllerProtocol.h>
 
 #import "ESiTunesPlugin.h"
-#import "AMPurpleTuneTooltip.h"
-#import "adiumPurpleRequest.h"
-#import "adiumPurpleMedia.h"
 #import "AIDualWindowInterfacePlugin.h"
 
 #ifdef HAVE_CDSA

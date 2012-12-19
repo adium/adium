@@ -14,25 +14,12 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import "AISoundController.h"
 #import <ShortcutRecorder/SRRecorderControl.h>
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
-#import "SGHotKeyCenter.h"
-#import "SGHotKey.h"
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
-#import <Adium/AIServiceIcons.h>
-#import <Adium/AIStatusIcons.h>
-#import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import "AILogByAccountWindowController.h"
 #import "AIURLHandlerPlugin.h"
 #import "AIURLHandlerWindowController.h"
 

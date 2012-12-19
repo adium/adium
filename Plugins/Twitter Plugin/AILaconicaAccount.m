@@ -16,7 +16,6 @@
 
 #import "AILaconicaAccount.h"
 #import "AITwitterURLParser.h"
-#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIChatControllerProtocol.h>
 
 @interface AITwitterAccount()

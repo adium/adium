@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactIdlePlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIListObject.h>

@@ -16,7 +16,6 @@
 
 #import "ESPurpleZephyrAccountViewController.h"
 #import "ESPurpleZephyrAccount.h"
-#import <Adium/AIAccount.h>
 
 @implementation ESPurpleZephyrAccountViewController
 

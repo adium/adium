@@ -19,14 +19,11 @@
 
 #import <Adium/AIService.h>
 #import <Adium/AIServiceMenu.h>
-#import <Adium/AIServiceIcons.h>
 #import "AIAddressBookController.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
-#import <AddressBook/AddressBook.h>
 #import <AddressBook/ABPeoplePickerView.h>
-#import <AddressBook/ABPerson.h>
 
 #define AB_SEARCH_NIB	@"ABSearch"
 

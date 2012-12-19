@@ -14,25 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
 
 #import <Adium/AIListGroup.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIMetaContact.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatus.h>
 
 #import "AIStatusController.h"
@@ -41,7 +33,6 @@
 #import "AIHoveringPopUpButton.h"
 #import "AIContactListImagePicker.h"
 #import "AIContactListNameButton.h"
-#import "AIContactController.h"
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 

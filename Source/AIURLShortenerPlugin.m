@@ -18,7 +18,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AutoHyperlinks/AHHyperlinkScanner.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>

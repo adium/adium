@@ -15,13 +15,11 @@
  */
 
 #import "AIDualWindowInterfacePlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIMessageTabViewItem.h"
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIChatControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <Adium/AIChat.h>
 
 #define ADIUM_UNIQUE_CONTAINER			@"ADIUM_UNIQUE_CONTAINER"
 

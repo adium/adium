@@ -16,9 +16,7 @@
 
 #import "AITwitterActionsHTMLFilter.h"
 #import "AITwitterAccount.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
 
 @implementation AITwitterActionsHTMLFilter
 

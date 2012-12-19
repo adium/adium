@@ -18,8 +18,6 @@
 
 #import <AIUtilities/AIStringAdditions.h>
 
-#import <AIUtilities/AIStringAdditions.h>
-
 @interface AIImageUploaderWindowController()
 - (id)initWithWindowNibName:(NSString *)nibName
 				   delegate:(id)inDelegate

@@ -16,8 +16,6 @@
 
 #import "AIEventsInspectorPane.h"
 #import <Adium/AIListObject.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/ESContactAlertsViewController.h>
 
 #define EVENTS_NIB_NAME (@"AIEventsInspectorPane")

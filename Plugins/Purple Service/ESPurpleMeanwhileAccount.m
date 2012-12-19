@@ -15,9 +15,7 @@
  */
 
 #import "ESPurpleMeanwhileAccount.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 

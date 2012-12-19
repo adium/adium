@@ -15,17 +15,14 @@
  */
 
 #import <Adium/AIAbstractAccount.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
 #import <Adium/ESFileTransfer.h>
 #import "AIStatusItem.h"
 #import "AIStatus.h"
-#import "AdiumAccounts.h"
 #import "AILoggerPlugin.h"
 
 #import <Adium/AIContactControllerProtocol.h>
@@ -36,7 +33,6 @@
 #import "AIChatControllerProtocol.h"
 #import "AIMessageWindowController.h"
 #import "AIMessageWindow.h"
-#import "AIInterfaceControllerProtocol.h"
 #import "AIStatusControllerProtocol.h"
 
 #define NEW_ACCOUNT_DISPLAY_TEXT			AILocalizedString(@"<New Account>", "Placeholder displayed as the name of a new account")

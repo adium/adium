@@ -24,11 +24,9 @@
 
 #import "AILinkTrackingController.h"
 #import "AIFlexibleLink.h"
-#import "AICursorAdditions.h"
 #import "AITooltipUtilities.h"
 #import "AIStringUtilities.h"
 #import "AIMenuAdditions.h"
-#import "AIApplicationAdditions.h"
 
 #define COPY_LINK   AILocalizedStringFromTableInBundle(@"Copy Link", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "Copy the link to the clipboard")
 

@@ -14,8 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIPreferencePane.h>
-
 #define PREFERENCE_VIEW_NIB		@"PreferenceView"	//Filename of the preference view nib
 
 @implementation AIPreferencePane

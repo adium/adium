@@ -18,7 +18,6 @@
 #import "AIDockController.h"
 #import "ESDockAlertDetailPane.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <Adium/AILocalizationTextField.h>
 
 @interface ESDockAlertDetailPane ()
 - (NSMenuItem *)menuItemForBehavior:(AIDockBehavior)behavior withName:(NSString *)name;

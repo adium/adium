@@ -15,7 +15,6 @@
  */
 
 #import "ESApplescriptabilityController.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import "ESSafariLinkToolbarItemPlugin.h"
 #import <AIUtilities/AIToolbarUtilities.h>

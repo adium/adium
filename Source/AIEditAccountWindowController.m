@@ -21,13 +21,10 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITabViewAdditions.h>
 #import <AIUtilities/AIViewAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountViewController.h>
 #import <Adium/AIService.h>
-#import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 
 @interface AIEditAccountWindowController ()
 - (void)_addCustomViewAndTabsForAccount:(AIAccount *)inAccount;

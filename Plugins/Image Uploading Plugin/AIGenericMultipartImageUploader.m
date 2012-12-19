@@ -17,9 +17,6 @@
 #import "AIGenericMultipartImageUploader.h"
 
 #import <Adium/AIChat.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIProgressDataUploader.h>
 #import <AIUtilities/AIImageAdditions.h>
 
 #define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96"

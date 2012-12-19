@@ -15,7 +15,6 @@
  */
 
 #import "AIBundleAdditions.h"
-#import "AIApplicationAdditions.h"
 
 @implementation NSBundle (AIBundleAdditions)
 

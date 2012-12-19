@@ -42,9 +42,8 @@
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AISharedWriterQueue.h>
 #define BSD_LICENSE_ONLY 1
-#import <AIUtilities/AIStringAdditions.h>
+
 #import <sys/stat.h>
-#import <unistd.h>
 
 #define XML_APPENDER_BLOCK_SIZE 4096
 

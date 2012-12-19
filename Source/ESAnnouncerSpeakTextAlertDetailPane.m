@@ -16,7 +16,6 @@
 
 #import "ESAnnouncerSpeakTextAlertDetailPane.h"
 #import "ESAnnouncerPlugin.h"
-#import <Adium/AILocalizationTextField.h>
 
 /*!
  * @class ESAnnouncerSpeakTextAlertDetailPane

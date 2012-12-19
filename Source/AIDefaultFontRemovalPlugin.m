@@ -16,7 +16,6 @@
 
 #import "AIDefaultFontRemovalPlugin.h"
 #import <AIUtilities/AIFontAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
 
 @implementation AIDefaultFontRemovalPlugin
 - (void)installPlugin

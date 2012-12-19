@@ -22,9 +22,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import "AIServiceMenu.h"
 #import <Adium/AIService.h>
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringFormatter.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import "AIHTMLDecoder.h"
 
 #define ACCOUNT_SETUP_IDENTIFIER	@"account_setup"

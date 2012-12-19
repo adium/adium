@@ -8,11 +8,8 @@
 
 #import "AIFacebookXMPPAccount.h"
 #import "AIFacebookXMPPAccountViewController.h"
-#import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
-
-#import "PurpleFacebookAccount.h"
 
 @interface AIFacebookXMPPAccountViewController ()
 - (void)authProgressDidChange:(NSNotification *)notification;

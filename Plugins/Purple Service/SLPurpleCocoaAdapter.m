@@ -15,36 +15,22 @@
  */
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
-#import "CBPurpleAccount.h"
-#import "CBPurpleServicePlugin.h"
 #import "adiumPurpleCore.h"
 #import "adiumPurpleEventloop.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 
-#import <Adium/AIAccount.h>
 #import <Adium/AICorePluginLoader.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/AIContactObserverManager.h>
 #import <AIUtilities/AIImageAdditions.h>
-
-#import <CoreFoundation/CoreFoundation.h>
-#import <libpurple/libpurple.h>
-#import <glib.h>
-#import <stdlib.h>
 
 #import "ESPurpleAIMAccount.h"
 #import "CBPurpleOscarAccount.h"
-
-#import "ESiTunesPlugin.h"
 
 #import "adiumPurpleAccounts.h"
 

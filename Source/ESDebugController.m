@@ -19,11 +19,6 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-#import <fcntl.h>  //open(2)
-#import <unistd.h> //close(2)
-#import <errno.h>  //errno
-#import <string.h> //strerror(3)
-
 #import <objc/objc-runtime.h>
 
 #import <ExceptionHandling/NSExceptionHandler.h>

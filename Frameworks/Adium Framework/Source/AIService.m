@@ -18,7 +18,6 @@
 #import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIAccountViewController.h>
-#import "AICreateCommand.h"
 
 #define ADIUM_ACCOUNT_CREATION_PAGE @"http://trac.adium.im/wiki/CreatingAnAccount#Sigingupforanaccount"
 

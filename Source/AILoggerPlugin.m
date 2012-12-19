@@ -28,32 +28,22 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
-#import <Adium/AIContentStatus.h>
-#import <Adium/AIContentEvent.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIService.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 
-#import <libkern/OSAtomic.h>
-
 #import "AILogFileUpgradeWindowController.h"
-
-#import "AdiumSpotlightImporter.h"
 
 #pragma mark Defines
 #pragma mark -

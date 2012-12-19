@@ -17,22 +17,18 @@
 // the iTunes track changes.
 
 #import "ESiTunesPlugin.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import "AIStatusController.h"
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/MVMenuButton.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIStatus.h>
 #import <WebKit/WebKit.h>
-#import <AIUtilities/AIApplicationAdditions.h>
 
 #define STRING_TRIGGERS_MENU		AILocalizedString(@"Insert iTunes Token", "Label used for edit and contextual menus of iTunes triggers")
 #define STRING_TRIGGERS_TOOLBAR		AILocalizedString(@"iTunes","Label for iTunes toolbar menu item.")

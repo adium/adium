@@ -29,14 +29,12 @@
 #import "ESRankingCell.h" 
 
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
 
 #import <AIUtilities/AIArrayAdditions.h>

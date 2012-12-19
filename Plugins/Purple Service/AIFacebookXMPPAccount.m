@@ -8,26 +8,15 @@
 
 #import "AIFacebookXMPPAccount.h"
 #import "AIFacebookXMPPService.h"
-#import <Adium/AIStatus.h>
-#import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import "adiumPurpleCore.h"
 #import <libpurple/jabber.h>
-#import "ESPurpleJabberAccount.h"
 #import "auth_fb.h"
-#import "auth.h"
-
-#import <AIUtilities/AIKeychain.h>
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "JSONKit.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPasswordPromptController.h>
-#import <Adium/AIService.h>
-
-#import <libpurple/auth.h>
-#import "auth_fb.h"
 
 enum {
     AINoNetworkState,

@@ -20,10 +20,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
 
 #define KEY_DISABLE_TYPING_NOTIFICATIONS		@"Disable Typing Notifications"

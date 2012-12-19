@@ -21,9 +21,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 
 /* libotr headers */
-#import <libotr/proto.h>
-#import <libotr/context.h>
-#import <libotr/message.h>
 
 @interface ESOTRFingerprintDetailsWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forFingerprintDict:(NSDictionary *)inFingerprintDict;

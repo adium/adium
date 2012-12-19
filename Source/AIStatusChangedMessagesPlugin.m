@@ -19,7 +19,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentStatus.h>
 
 #define	CONTACT_STATUS_UPDATE_COALESCING_KEY	@"Contact Status Update"

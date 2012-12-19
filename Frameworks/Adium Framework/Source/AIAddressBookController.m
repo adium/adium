@@ -15,14 +15,11 @@
  */
 
 #import "AIAddressBookController.h"
-#import <Adium/AIControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>

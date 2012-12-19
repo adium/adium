@@ -22,7 +22,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -30,12 +29,9 @@
 #import <Adium/AIStatus.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 #import <AIUtilities/AIImageAdditions.h>
 
 #import <AIUtilities/AIStringAdditions.h>
-
-#import <libkern/OSAtomic.h>
 
 #define DELAYED_UPDATE_INTERVAL			2.0
 

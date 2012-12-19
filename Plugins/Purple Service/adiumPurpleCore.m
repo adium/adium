@@ -21,24 +21,19 @@
 #import "adiumPurpleConnection.h"
 #import "adiumPurpleConversation.h"
 #import "adiumPurpleDnsRequest.h"
-#import "adiumPurpleEventloop.h"
 #import "adiumPurpleFt.h"
 #import "adiumPurpleNotify.h"
 #import "adiumPurplePrivacy.h"
 #import "adiumPurpleRequest.h"
 #import "adiumPurpleRoomlist.h"
 #import "adiumPurpleSignals.h"
-#import "adiumPurpleWebcam.h"
 #import "adiumPurpleCertificateTrustWarning.h"
 
-#import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AILibpurplePlugin.h"
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
 #warning This include and the jabber_auth_add_mech() will be part of the FacebookXMPP account's initialization
-#import "auth.h"
 
 
 #pragma mark Debug

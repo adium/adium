@@ -24,8 +24,6 @@
 
 //Old school
 #import <Adium/AIListContact.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <Adium/AIAccountControllerProtocol.h>
 
 //omg crawsslinkz
 #import "AILoggerPlugin.h"
@@ -34,9 +32,7 @@
 #import <LMX/LMXParser.h>
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import "unistd.h"
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIHTMLDecoder.h>
 
 #define RESTORED_CHAT_CONTEXT_LINE_NUMBER 50

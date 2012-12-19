@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIDebugControllerProtocol.h>
-#import <stdarg.h>
 #import <execinfo.h>
 
 #ifdef DEBUG_BUILD

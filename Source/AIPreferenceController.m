@@ -19,17 +19,11 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 
 #import "AIPreferenceWindowController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
-#import "AIPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)

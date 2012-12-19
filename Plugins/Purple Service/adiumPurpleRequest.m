@@ -18,8 +18,6 @@
 #import "adiumPurpleRequest.h"
 #import "ESPurpleRequestActionController.h"
 #import "ESPurpleRequestWindowController.h"
-#import "ESPurpleFileReceiveRequestController.h"
-#import "AILibpurplePlugin.h"
 #import "AMPurpleRequestFieldsController.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
@@ -30,8 +28,6 @@
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 
-#import <libintl/libintl.h>
-
 /*
  * Purple requires us to return a handle from each of the request functions.  This handle is passed back to use in 
  * adiumPurpleRequestClose() if the request window is no longer valid -- for example, a chat invitation window is open,
@@ -41,7 +37,6 @@
  */
  
 //Jabber registration
-#import <libpurple/jabber.h>
 
 /* resolved id for Meanwhile */
 struct resolved_id {

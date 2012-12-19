@@ -21,7 +21,6 @@
 #import "AIAttributedStringAdditions.h"
 #import "AIColorAdditions.h"
 #import "AITextAttributes.h"
-#import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
 
 NSString *AIFontFamilyAttributeName = @"AIFontFamily";

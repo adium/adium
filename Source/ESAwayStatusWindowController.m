@@ -19,9 +19,6 @@
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIStatusIcons.h>
-#import <Adium/AIServiceIcons.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AITableViewAdditions.h>

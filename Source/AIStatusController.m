@@ -17,16 +17,12 @@
 #import "AIStatusController.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AISoundControllerProtocol.h>
 
-#import <Adium/AIContactControllerProtocol.h>
 #import "AdiumIdleManager.h"
 
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>

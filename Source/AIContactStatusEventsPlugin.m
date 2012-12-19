@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactStatusEventsPlugin.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>

@@ -18,7 +18,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AITextAttachmentAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 
 #define ICON_WIDTH	64
 #define ICON_HEIGHT	64

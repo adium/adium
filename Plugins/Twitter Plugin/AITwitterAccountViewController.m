@@ -19,8 +19,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
 
-#import "AITwitterAccountOAuthSetup.h"
-
 #define BUTTON_TEXT_ALLOW_ACCESS		AILocalizedString(@"Allow Adium access", nil)
 
 @interface AITwitterAccountViewController()

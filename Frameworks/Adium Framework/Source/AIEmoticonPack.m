@@ -16,7 +16,6 @@
 
 #import <Adium/AIEmoticon.h>
 #import <Adium/AIEmoticonPack.h>
-#import <Adium/AIEmoticonControllerProtocol.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 

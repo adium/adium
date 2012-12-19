@@ -17,9 +17,7 @@
 #import "ESFileTransferProgressRow.h"
 #import "ESFileTransferProgressView.h"
 #import "ESFileTransferProgressWindowController.h"
-#import <Adium/AIListObject.h>
 #import <Adium/AIUserIcons.h>
-#import "ESFileTransfer.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 

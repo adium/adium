@@ -26,7 +26,6 @@
 #import "AIDockController.h"
 #import "AIEmoticonController.h"
 //#import "AIExceptionController.h"
-#import "AIInterfaceController.h"
 #import "AILoginController.h"
 #import "AIMenuController.h"
 #import "AIPreferenceController.h"
@@ -37,10 +36,7 @@
 #import "ESContactAlertsController.h"
 #import "ESFileTransferController.h"
 #import "LNAboutBoxController.h"
-#import "AIXtrasManager.h"
 #import "AdiumSetupWizard.h"
-#import "ESTextAndButtonsWindowController.h"
-#import "AIAppearancePreferences.h"
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AISharedWriterQueue.h>

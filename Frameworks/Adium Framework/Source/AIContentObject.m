@@ -17,8 +17,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIHTMLDecoder.h>
 
 @implementation AIContentObject

@@ -17,7 +17,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIAccountProxySettings.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <Adium/AIAccount.h>
 
 @interface AIAccountProxySettings ()

@@ -20,7 +20,6 @@
 #import "ESGlobalEventsPreferencesPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AISoundSet.h>
 
 #define	NEW_PRESET_NAME				AILocalizedString(@"New Event Set",nil)

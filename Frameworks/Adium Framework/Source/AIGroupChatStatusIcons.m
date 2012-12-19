@@ -17,7 +17,6 @@
 #import "AIGroupChatStatusIcons.h"
 
 #import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIBundleAdditions.h>
 
 @interface AIGroupChatStatusIcons()
 + (NSURL *)currentPackURL;

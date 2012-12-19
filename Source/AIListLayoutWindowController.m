@@ -19,10 +19,7 @@
 #import "AISCLViewPlugin.h"
 #import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
-#import <Adium/AIAbstractListController.h>
-#import <Adium/JVFontPreviewField.h>
 
 #define	MAX_ALIGNMENT_CHOICES 10
 

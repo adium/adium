@@ -30,17 +30,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "AWEzvContactManager.h"
-#import "AWEzvSupportRoutines.h"
 #import "AWEzvContact.h"
 #import "AWEzvContactPrivate.h"
-#import "AWEzvXMLStream.h"
 #import "AWEzv.h"
 
 /* socket functions */
-#import <sys/socket.h>
-#import <netinet/in.h>
 #import <arpa/inet.h>
-#import <unistd.h>
 
 #define	MAXBACKLOG	5
 

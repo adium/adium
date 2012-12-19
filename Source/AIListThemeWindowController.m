@@ -19,8 +19,6 @@
 #import "AITextColorPreviewView.h"
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <Adium/AIAbstractListController.h>
 #import <Adium/AIListOutlineView.h>
 
 @interface AIListThemeWindowController ()

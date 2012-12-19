@@ -24,16 +24,11 @@
 #import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
-#import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIContentStatus.h>
 #import <Adium/AIHTMLDecoder.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusIcons.h>
 

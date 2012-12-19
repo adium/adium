@@ -19,14 +19,9 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIService.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import "AIHTMLDecoder.h"
 
@@ -35,9 +30,6 @@
 #import "ESOTRPrivateKeyGenerationWindowController.h"
 #import "ESOTRPreferences.h"
 #import "ESOTRUnknownFingerprintController.h"
-#import "OTRCommon.h"
-
-#import <stdlib.h>
 
 #define PRIVKEY_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
 #define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]

@@ -15,12 +15,9 @@
  */
 #import "AINewBookmarkWindowController.h"
 #import "AINewGroupWindowController.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIChat.h>
-#import <Adium/AIServiceMenu.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

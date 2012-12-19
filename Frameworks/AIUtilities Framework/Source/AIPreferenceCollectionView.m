@@ -15,7 +15,6 @@
  */
 
 #import "AIPreferenceCollectionView.h"
-#import "AIPreferencePane.h"
 
 
 @implementation AIPreferenceCollectionView

@@ -21,7 +21,6 @@
 #import "AIImageDrawingAdditions.h"
 #import "AIImageAdditions.h"
 #import "AIFileManagerAdditions.h"
-#import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
 
 #import "IKRecentPicture.h" //10.5+, private

@@ -16,7 +16,6 @@
 
 #import <AIUtilities/AIImageTextCell.h>
 #import "AIStatusItemView.h"
-#import "AIImageTextCellView.h"
 
 @implementation AIStatusItemView
 

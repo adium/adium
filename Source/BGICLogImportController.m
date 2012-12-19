@@ -23,11 +23,9 @@
 #import <Adium/AILoginControllerProtocol.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 // InstantMessage and other iChat transcript classes are from Spiny Software's Logorrhea, used with permission.
 #import "InstantMessage.h"
-#import "Presentity.h"
 
 //#define LOG_TO_TEST
 #define TEST_LOGGING_LOCATION [@"~/Desktop/testLog" stringByExpandingTildeInPath]

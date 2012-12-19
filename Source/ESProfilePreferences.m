@@ -23,7 +23,6 @@
 #import <AIUtilities/AIDelayedTextField.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageViewWithImagePicker.h>
 
 @interface ESProfilePreferences ()
 - (void)fireProfileChangesImmediately;

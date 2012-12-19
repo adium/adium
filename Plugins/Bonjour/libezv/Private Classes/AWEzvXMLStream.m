@@ -39,7 +39,6 @@
 #import "AWEzvContactManagerRendezvous.h"
 
 #define XMLCALL
-#import <expat.h> 
 
 /* XML Function prototypes */
 void xml_start_element	(void *userData,

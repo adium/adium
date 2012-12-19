@@ -27,15 +27,11 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 
 #import <Adium/AITextAttachmentExtension.h>
-#import <Adium/ESFileWrapperExtension.h>
 #import <Adium/AIXMLElement.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
-
-#import <CoreServices/CoreServices.h>
 
 int HTMLEquivalentForFontSize(int fontSize);
 

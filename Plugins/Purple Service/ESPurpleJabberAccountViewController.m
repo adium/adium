@@ -15,8 +15,6 @@
  */
 
 #import "ESPurpleJabberAccountViewController.h"
-#import <Adium/AIAccount.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIService.h>
 #import <Adium/AIContactList.h>
 #import <SystemConfiguration/SystemConfiguration.h>

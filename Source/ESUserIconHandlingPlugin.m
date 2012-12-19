@@ -16,20 +16,14 @@
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import "ESUserIconHandlingPlugin.h"
-#import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageButton.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIServiceIcons.h>
 
 #define	TOOLBAR_ITEM_TAG	-999

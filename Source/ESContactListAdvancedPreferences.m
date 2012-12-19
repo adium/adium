@@ -16,17 +16,13 @@
 
 #import "ESContactListAdvancedPreferences.h"
 #import "AISCLViewPlugin.h"
-#import "AIAppearancePreferencesPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "AIPreferenceWindowController.h"
-#import "AIListWindowController.h"
 #import "AIListLayoutWindowController.h"
 #import "AIListThemeWindowController.h"
 #import <Adium/AIDockControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/ESPresetManagementController.h>
 #import <Adium/ESPresetNameSheetController.h>

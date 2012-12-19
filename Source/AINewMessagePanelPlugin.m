@@ -18,9 +18,7 @@
 #import "AINewMessagePromptController.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

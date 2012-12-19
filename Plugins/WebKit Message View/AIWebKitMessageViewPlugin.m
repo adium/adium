@@ -16,10 +16,8 @@
 
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIWebKitMessageViewController.h"
-#import "AIWebKitMessageViewPlugin.h"
 #import "ESWebKitMessageViewPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIBundleAdditions.h>
 #import "AIWebkitMessageViewStyle.h"
 #import <Adium/AIChat.h>
 #import <AIUtilities/AIStringAdditions.h>

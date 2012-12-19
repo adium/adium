@@ -16,7 +16,6 @@
 
 #import "ESPurpleYahooAccountViewController.h"
 #import "ESPurpleYahooAccount.h"
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 

@@ -15,13 +15,9 @@
  */
 
 #import "AdiumMessageEvents.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListGroup.h>
 
 @interface AdiumMessageEvents()

@@ -15,7 +15,6 @@
  */
 
 #import "AIImageAdditions.h"
-#import "AIBundleAdditions.h"
 
 @interface NSImage (AIImageAdditions_PRIVATE)
 

@@ -18,8 +18,6 @@
 #import "AIMessageTabViewItem.h"
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
-#import "AIContactController.h"
-#import "AIDualWindowInterfacePlugin.h"
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>

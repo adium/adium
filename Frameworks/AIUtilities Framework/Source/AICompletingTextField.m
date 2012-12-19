@@ -15,7 +15,6 @@
  */
 
 #import "AICompletingTextField.h"
-#import "AIAttributedStringAdditions.h"
 #import "AIStringAdditions.h"
 
 @interface NSTextField (AITextFieldAdditions)

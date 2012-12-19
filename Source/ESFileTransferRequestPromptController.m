@@ -19,8 +19,6 @@
 #import "ESFileTransfer.h"
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 @interface ESFileTransferRequestPromptController ()
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer

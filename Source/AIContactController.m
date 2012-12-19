@@ -17,33 +17,23 @@
 #import "AIContactController.h"
 
 #import "AISCLViewPlugin.h"
-#import <Adium/AIContactHidingController.h>
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AISortController.h>
-#import <Adium/AIUserIcons.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIContactList.h>
 

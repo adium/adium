@@ -17,15 +17,9 @@
 #import "AIAbstractListController.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactStatusColoringPlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentTyping.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListBookmark.h>
 

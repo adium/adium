@@ -17,8 +17,6 @@
 #import "RAFBlockEditorPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIAccountControllerProtocol.h>
 
 @implementation RAFBlockEditorPlugin
 

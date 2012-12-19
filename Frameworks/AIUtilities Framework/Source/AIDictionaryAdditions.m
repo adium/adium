@@ -19,7 +19,6 @@
 */
 
 #import "AIDictionaryAdditions.h"
-#import "AIFileManagerAdditions.h"
 #import "AISharedWriterQueue.h"
 
 @implementation NSDictionary (AIDictionaryAdditions)

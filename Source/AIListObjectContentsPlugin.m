@@ -16,11 +16,8 @@
 
 #import "AIListObjectContentsPlugin.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIAbstractListController.h>

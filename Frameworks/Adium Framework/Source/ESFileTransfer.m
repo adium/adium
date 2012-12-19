@@ -18,7 +18,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIChat.h>
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>

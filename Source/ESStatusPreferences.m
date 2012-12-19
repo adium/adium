@@ -25,7 +25,6 @@
 #import <Adium/AIStatusMenu.h>
 #import <Adium/AIStatusGroup.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIVerticallyCenteredTextCell.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>

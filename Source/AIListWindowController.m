@@ -17,20 +17,12 @@
 #import "AIListWindowController.h"
 
 #import "AISCLViewPlugin.h"
-#import	<Adium/AIListOutlineView.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIDockControllerProtocol.h>
-#import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIFunctions.h>
-#import <AIUtilities/AIWindowControllerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIProxyListObject.h>
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>

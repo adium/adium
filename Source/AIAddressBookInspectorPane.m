@@ -18,7 +18,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIDelayedTextField.h>
 
 #define ADDRESS_BOOK_NIB_NAME (@"AIAddressBookInspectorPane")

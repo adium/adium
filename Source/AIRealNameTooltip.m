@@ -17,8 +17,6 @@
 #import "AIRealNameTooltip.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIGroupChatStatusIcons.h>
-#import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 
 @implementation AIRealNameTooltip

@@ -23,32 +23,22 @@
  */
 
 #import "AWBonjourAccount.h"
-#import "AWEzv.h"
 #import "AWEzvContact.h"
 #import "EKEzvFileTransfer.h"
 #import "EKEzvOutgoingFileTransfer.h"
-#import "AWEzvDefines.h"
-#import "AWBonjourPlugin.h"
 #import "AWEzvSupportRoutines.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIContentTyping.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
-#import <Adium/ESFileTransfer.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
-#import <Adium/AIFileTransferControllerProtocol.h>
 
 @interface AWBonjourAccount ()
 - (NSString *)UIDForContact:(AWEzvContact *)contact;

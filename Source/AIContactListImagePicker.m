@@ -15,9 +15,6 @@
  */
 
 #import "AIContactListImagePicker.h"
-#import <Adium/AIAccount.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import "AIContactListUserPictureMenuController.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
 

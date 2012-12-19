@@ -15,7 +15,6 @@
  */
 
 #import "AIChatLog.h"
-#import "AILoginController.h"
 #import "AILogViewerWindowController.h"
 #import "AILoggerPlugin.h"
 #import "AICalendarDate.h"

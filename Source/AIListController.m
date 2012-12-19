@@ -20,30 +20,19 @@
 #import "AIMessageViewController.h"
 #import <Adium/AIChat.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AISortController.h>
-#import <Adium/ESFileTransfer.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListBookmark.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIListOutlineView.h>
 #import <Adium/AIProxyListObject.h>
 #import <Adium/AITextAttachmentExtension.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
 
-#import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define EDGE_CATCH_X						40.0f
 #define EDGE_CATCH_Y						40.0f

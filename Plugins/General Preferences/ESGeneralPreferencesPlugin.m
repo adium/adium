@@ -28,14 +28,10 @@
  it also makes it much more difficult to ensure a consistent look/feel to the preferences.
 */
 
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AISendingTextView.h>
-#import <Adium/AIServiceIcons.h>
-#import <Adium/AIStatusIcons.h>
 
 #import "SGHotKey.h"
 #import "SGHotKeyCenter.h"

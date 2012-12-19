@@ -16,7 +16,6 @@
 
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
-#import "SHAutoValidatingTextView.h"
 #import "SHLinkEditorWindowController.h"
 #import "SHLinkManagementPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>

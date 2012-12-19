@@ -21,12 +21,10 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIService.h>
 
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>

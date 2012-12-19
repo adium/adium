@@ -18,10 +18,7 @@
 
 #import <libpurple/internal.h>
 #import <libpurple/debug.h>
-#import <libpurple/plugin.h>
-#import <libpurple/sslconn.h>
 #import <libpurple/version.h>
-#import <libpurple/signals.h>
 
 #define SSL_CDSA_PLUGIN_ID "ssl-cdsa"
 

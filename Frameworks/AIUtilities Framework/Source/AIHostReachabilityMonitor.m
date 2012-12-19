@@ -18,8 +18,6 @@
 #import "AISleepNotification.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <arpa/inet.h>
-#import <netdb.h>
-#import <netinet/in.h>
 
 #define CONNECTIVITY_DEBUG FALSE
 

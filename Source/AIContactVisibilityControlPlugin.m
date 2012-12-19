@@ -20,13 +20,8 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
-#import "AIContactController.h"
 
 #define HIDE_CONTACTS_MENU_TITLE		AILocalizedString(@"Hide Certain Contacts",nil)
 #define HIDE_OFFLINE_MENU_TITLE			AILocalizedString(@"Hide Offline Contacts",nil)

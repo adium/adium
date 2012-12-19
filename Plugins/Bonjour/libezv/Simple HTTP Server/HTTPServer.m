@@ -1,10 +1,6 @@
 #import "AsyncSocket.h"
 #import "HTTPServer.h"
-#import "HTTPAuthenticationRequest.h"
 #import "EKEzvOutgoingFileTransfer.h"
-#import <SystemConfiguration/SystemConfiguration.h>
-
-#import <stdlib.h>
 
 // Define the various timeouts (in seconds) for various parts of the HTTP process
 #define READ_TIMEOUT        -1

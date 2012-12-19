@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <Adium/AIAccount.h>
@@ -24,7 +23,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
 #import "AIAccountSelectionViewController.h"
 #import "AIMessageViewController.h"
 

@@ -15,15 +15,10 @@
  */
 
 #import "AIXtrasManager.h"
-#import "AIXtraInfo.h"
-#import "AIXtraPreviewController.h"
-#import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIPathUtilities.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AICorePluginLoader.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")

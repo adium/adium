@@ -17,7 +17,6 @@
 #import "adiumPurpleCertificateTrustWarning.h"
 #import "AIPurpleCertificateTrustWarningAlert.h"
 
-#import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import "ESPurpleJabberAccount.h"
 

@@ -17,13 +17,9 @@
 #import <Adium/AIListCell.h>
 
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIProxyListObject.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIListOutlineView.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 
 #import <Adium/AIStatusControllerProtocol.h>

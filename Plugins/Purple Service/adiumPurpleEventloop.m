@@ -15,12 +15,7 @@
  */
 
 #import "adiumPurpleEventloop.h"
-#import <poll.h>
-#import <unistd.h>
 #import <sys/socket.h>
-#import <sys/select.h>
-
-#include <dispatch/dispatch.h>
 
 // This one is missing from the 10.6 headers...
 #ifndef NSEC_PER_MSEC

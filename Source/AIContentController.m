@@ -23,35 +23,18 @@
 #import "AdiumMessageEvents.h"
 #import "AdiumContentFiltering.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIContentNotification.h>
-#import <Adium/AIContentEvent.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIMetaContact.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AITextAttachmentExtension.h>
-#import <AIUtilities/AIArrayAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITextAttachmentAdditions.h>
-#import <AIUtilities/AITextAttributes.h>
-#import <AIUtilities/AIImageAdditions.h>
 
 @interface AIContentController ()
 - (void)finishReceiveContentObject:(AIContentObject *)inObject;

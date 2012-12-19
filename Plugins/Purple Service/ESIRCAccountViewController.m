@@ -16,8 +16,6 @@
 
 #import "ESIRCAccountViewController.h"
 #import "ESIRCAccount.h"
-#import "AIService.h"
-#import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 

@@ -21,7 +21,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AISoundSet.h>
-#import <Adium/AILocalizationTextField.h>
 
 #define PLAY_A_SOUND			AILocalizedString(@"Play a sound",nil)
 #define KEY_DEFAULT_SOUND_DICT	@"Default Sound Dict"

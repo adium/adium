@@ -15,16 +15,12 @@
  */
 
 #import "AIURLHandlerWindowController.h"
-#import "AIPreferenceWindowController.h"
 
 #import <AIUtilities/AIImageTextCell.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 
 @interface AIURLHandlerWindowController()
 - (void)configureTableView;

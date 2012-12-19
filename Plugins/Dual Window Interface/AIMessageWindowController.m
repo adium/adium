@@ -15,7 +15,6 @@
  */
 
 #import "AIDualWindowInterfacePlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import "AIMessageTabViewItem.h"
 #import "AIMessageViewController.h"
@@ -23,19 +22,13 @@
 #import "AIDockController.h"
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIArrayAdditions.h>
-#import <AIUtilities/AIWindowAdditions.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMOverflowPopUpButton.h>
 #import <PSMTabBarControl/PSMAdiumTabStyle.h>
-#import <PSMTabBarControl/PSMTabStyle.h>
 #import "AIMessageTabSplitView.h"
 #import <Adium/AIStatusIcons.h>
 #import "AIInterfaceController.h"

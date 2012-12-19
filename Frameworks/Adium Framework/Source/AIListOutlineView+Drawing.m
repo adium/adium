@@ -16,8 +16,6 @@
 
 #import "AIListOutlineView+Drawing.h"
 #import <Adium/AIListCell.h>
-#import <AIUtilities/AIGradientAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
 #import <Adium/AIListGroup.h>
 
 @interface AIListOutlineView (AIListOutlineView_Drawing_Private)

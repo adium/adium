@@ -15,13 +15,10 @@
  */
 
 #import <Adium/AIStatus.h>
-#import <Adium/AIStatusIcons.h>
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIHTMLDecoder.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 
 @implementation AIStatus

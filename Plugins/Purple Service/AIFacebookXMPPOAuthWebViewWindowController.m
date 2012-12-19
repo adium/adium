@@ -10,7 +10,6 @@
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "AIFacebookXMPPAccountViewController.h"
 #import "AIFacebookXMPPAccount.h"
-#import "JSONKit.h"
 
 @interface AIFacebookXMPPOAuthWebViewWindowController ()
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response;

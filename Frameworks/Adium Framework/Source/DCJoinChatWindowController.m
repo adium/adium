@@ -17,8 +17,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AILocalizationButton.h>
 #import <Adium/AIService.h>
 #import <Adium/DCJoinChatViewController.h>
 #import <Adium/DCJoinChatWindowController.h>

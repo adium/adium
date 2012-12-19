@@ -21,7 +21,6 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContactList.h>
-#import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIUserIcons.h>
@@ -31,8 +30,6 @@
 
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
-
-#import <AvailabilityMacros.h>
 
 #import "AIAddressBookController.h"
 
