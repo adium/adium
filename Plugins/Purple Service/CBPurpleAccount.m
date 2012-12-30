@@ -1115,23 +1115,6 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 											   withOwner:self];
 }
 
-- (void)updateForChat:(AIChat *)chat type:(NSNumber *)type
-{
-	AIChatUpdateType	updateType = [type intValue];
-	NSString			*key = nil;
-	switch (updateType) {
-		case AIChatTimedOut:
-		case AIChatClosedWindow:
-			break;
-	}
-	
-	if (key) {
-		[chat setValue:[NSNumber numberWithBool:YES] forProperty:key notify:NotifyNow];
-		[chat setValue:nil forProperty:key notify:NotifyNever];
-		
-	}
-}
-
 - (void)errorForChat:(AIChat *)chat type:(NSNumber *)type
 {
 	[chat receivedError:type];

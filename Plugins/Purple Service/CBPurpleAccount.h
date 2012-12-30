@@ -135,7 +135,6 @@
 
 - (void)addChat:(AIChat *)chat;
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typing;
-- (void)updateForChat:(AIChat *)chat type:(NSNumber *)type;
 - (AIChat *)chatWithContact:(AIListContact *)contact identifier:(id)identifier;
 - (void)chatWasDestroyed:(AIChat *)chat;
 - (void)chatJoinDidFail:(AIChat *)chat;

@@ -42,11 +42,6 @@
 #define KEY_TOPIC_SETTER @"topicSetter"
 
 typedef enum {
-	AIChatTimedOut = 0,
-	AIChatClosedWindow
-} AIChatUpdateType;
-
-typedef enum {
 	AIChatCanNotSendMessage = 0,
 	AIChatMayNotBeAbleToSendMessage,
 	AIChatCanSendMessageNow,
