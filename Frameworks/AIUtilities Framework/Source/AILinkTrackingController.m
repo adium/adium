@@ -342,7 +342,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
         [[NSCursor arrowCursor] set]; //Restore the regular cursor
         
         if (showTooltip) {
-            [AITooltipUtilities showTooltipWithString:nil onWindow:nil atPoint:NSMakePoint(0,0) orientation:TooltipAbove]; //Hide the tooltip
+            [AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:TooltipAbove]; //Hide the tooltip
 			
             hoveredLink = nil;
             hoveredString = nil;
