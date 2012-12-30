@@ -141,11 +141,7 @@
 - (NSBundle *)defaultMessageStyleBundleBasedOnFailedIdentifier:(NSString *)identifier
 {
 	NSDictionary *styles = [self availableMessageStyles];
-	NSBundle	 *defaultMessageStyleBundle = nil;
-
-	if (!defaultMessageStyleBundle) {
-		defaultMessageStyleBundle = [styles objectForKey:KEY_WEBKIT_STYLE];
-	}
+	NSBundle	 *defaultMessageStyleBundle = [styles objectForKey:KEY_WEBKIT_STYLE];
 
 	if (!defaultMessageStyleBundle) {
 		defaultMessageStyleBundle = [[styles allValues] lastObject];

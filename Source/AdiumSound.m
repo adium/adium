@@ -178,7 +178,6 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 		}
 		
 		//Load and cache the sound
-		NSError *error = nil;
 		sound = [[NSSound alloc] initWithContentsOfFile:inPath byReference:NO];
 		if (sound) {
 			//Insert the player at the front of our cache
@@ -189,8 +188,6 @@ static OSStatus systemOutputDeviceDidChange(AudioObjectID inObjectID, UInt32 inN
 			[sound setVolume:customVolume];
 			
 			[self configureAudioContextForSound:sound];
-		} else {
-			AILogWithSignature(@"Error loading %@: %@", inPath, error);
 		}
 		
     } else {

@@ -139,7 +139,7 @@
     unviewedContent = [inContact integerValueForProperty:KEY_UNVIEWED_CONTENT];
 
     //Unviewed content
-    if ((!color && !labelColor) && (unviewedContentEnabled && unviewedContent)) {
+    if (unviewedContentEnabled && unviewedContent) {
 		/* Use the unviewed content settings if:
 		 *	- we aren't flashing or
 		 *  - every other flash. */

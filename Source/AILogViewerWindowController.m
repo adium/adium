@@ -301,9 +301,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 			//Add the 'to' for each grouping on this account
 			for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
-				NSString	*currentTo;
-
-				if ((currentTo = [currentToGroup to])) {
+				if ([currentToGroup to]) {
 					//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
 					[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
 				}
