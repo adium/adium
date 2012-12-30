@@ -39,7 +39,7 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:@"DockIconSelectionSheet"]) {
+	if ((self = [super initWithWindowNibName:@"DockIconSelectionSheet"])) {
 		
 	}
 	

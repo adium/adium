@@ -60,7 +60,7 @@
 			 target:(id)inTarget
 		   userInfo:(id)inUserInfo
 {
-	if (self = [self init]) {
+	if ((self = [self init])) {
 		[self changeWindowToTitle:inTitle
 					defaultButton:inDefaultButton
 				  alternateButton:inAlternateButton
@@ -78,7 +78,7 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB]) {
+	if ((self = [super initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB])) {
 		
 	}
 	

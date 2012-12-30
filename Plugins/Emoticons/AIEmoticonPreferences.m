@@ -46,7 +46,7 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:@"EmoticonPrefs"]) {
+	if ((self = [super initWithWindowNibName:@"EmoticonPrefs"])) {
 		
 	}
 	

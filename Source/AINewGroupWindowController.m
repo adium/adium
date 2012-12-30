@@ -32,7 +32,7 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:ADD_GROUP_PROMPT_NIB]) {
+	if ((self = [super initWithWindowNibName:ADD_GROUP_PROMPT_NIB])) {
 		
 	}
 	
