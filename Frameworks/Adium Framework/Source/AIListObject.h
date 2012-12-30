@@ -99,20 +99,6 @@ typedef enum {
 	// Former properties
 	NSAttributedString	*listObjectStatusMessage;
 	
-	NSImage				*listStateIcon;
-	NSImage				*listStatusIcon;
-	
-	BOOL				isOnline;
-	BOOL				alwaysVisible;
-	
-	NSInteger			unviewedContent;
-	NSInteger			unviewedMention;
-	
-	NSNumber			*listObjectStatusType;
-	
-	NSString			*extendedStatus;
-	NSString			*listObjectStatusName;
-	
 	NSString			*webKitUserIconPath;
 }
 

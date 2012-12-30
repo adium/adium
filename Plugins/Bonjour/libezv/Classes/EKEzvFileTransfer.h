@@ -20,7 +20,6 @@ typedef enum {
 	EKFileTransferDirection direction;
 	
 	float percentComplete;
-	float previousPercentComplete;
 	int status;
 	
 	NSString *localFilename;

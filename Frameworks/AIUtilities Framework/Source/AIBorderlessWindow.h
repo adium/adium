@@ -24,7 +24,6 @@
 
 	NSRect	windowFrame;
 
-	BOOL	docked;
 	BOOL	inLeftMouseEvent;
 	BOOL	moveable;
 }

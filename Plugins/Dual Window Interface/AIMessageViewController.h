@@ -55,9 +55,6 @@
     
 	AIMessageWindowController				*messageWindowController;
 	
-	//menuitem
-	NSMenuItem				*showHide;
-
     AIChat					*chat;
 	BOOL					suppressSendLaterPrompt;
 	CGFloat					entryMinHeight;

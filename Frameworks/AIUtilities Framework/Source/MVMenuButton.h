@@ -23,7 +23,6 @@
  */
 @interface MVMenuButton : NSButton <NSCopying> {
 	NSImage				*bigImage;
-	NSImage				*smallImage;
 	NSToolbarItem 		*__weak toolbarItem;
 	NSBezierPath 		*arrowPath;
 	

@@ -112,23 +112,13 @@ typedef enum {
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL				enableTypingNotifications;
 	BOOL				hideUserIconAndStatus;
 	
 	NSMutableSet		*customEmoticons;
 	
 	// Former properties
-	NSImage				*tabStateIcon;
-	
 	NSDictionary		*chatCreationInfo;
-	
-	NSInteger			unviewedMention;
-	NSInteger			unviewedContent;
-	
-	NSTimer				*enteredTextTimer;
-	
-	NSInteger			ourTypingState;
-	
+
 	NSDictionary		*securityDetails;
     
     AIListContact       *_listObject;

@@ -32,7 +32,6 @@
 	BOOL								saveGroupingChanges;
 	
 	BOOL								expanded;			//Exanded/Collapsed state of this object
-	BOOL								isExpandable;
 }
 
 //The objectID is unique to a meta contact and is used as the UID for purposes of AIListContact inheritance

@@ -187,16 +187,9 @@ typedef enum {
 	NSString				*formattedUID;
 	
 	AIStatus				*accountStatus;
-	BOOL					isConnecting;
 	NSDate					*waitingToReconnect;
-	BOOL					isDisconnecting;
-	
-	BOOL					isWaitingForNetwork;
-	
-	NSInteger				connectionProgressPercent;
+
 	NSString				*connectionProgressString;
-	
-	BOOL					mustPromptForPasswordOnNextConnect;
 	
 	NSString				*currentDisplayName;
 	

@@ -52,7 +52,6 @@ typedef enum
 	NSDictionary	*toolbarItems;
 	NSMutableArray	*m_containedChats;
 	
-	BOOL			toolbar_selectedTabChanged;
 	NSToolbar *toolbar;
 }
 

@@ -34,7 +34,6 @@ typedef enum {
 
 	NSImage				*backgroundImage;
 	CGFloat				backgroundFade;
-	BOOL				_drawBackground;
 	AIBackgroundStyle	backgroundStyle;
 	AIContactListWindowStyle windowStyle;
 	
@@ -49,8 +48,6 @@ typedef enum {
 	
 	CGFloat				minimumDesiredWidth;
 	BOOL	 			desiredHeightPadding;
-
-	NSArray				*draggedItems;
 }
 
 @property (readonly, nonatomic) NSInteger desiredHeight;

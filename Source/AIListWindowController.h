@@ -60,19 +60,16 @@ typedef enum {
 	BOOL								slideOnlyInBackground;
 	// refers to the GUI preference.  Sometimes this is expressed as dock-like 
 	// sliding instead, sometimes as orderOut:-type hiding.
-	BOOL								windowShouldBeVisibleInBackground; 
 	BOOL								showOnAllSpaces;
 
 	// used by the "show contact list" event behavior to prevent the contact list
 	// from hiding during the amount of time it is to be shown
 	BOOL								preventHiding;
 	BOOL								overrodeWindowLevel;
-	NSInteger							previousWindowLevel;
 
 	//this needs to be stored because we turn the shadow off when the window slides offscreen
 	BOOL								listHasShadow; 
 	
-	BOOL								permitSlidingInForeground;
 	AIRectEdgeMask						windowSlidOffScreenEdgeMask;
 	NSScreen							*windowLastScreen;
 	NSTimer								*slideWindowIfNeededTimer;

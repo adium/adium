@@ -18,8 +18,6 @@
 @interface DCInviteToChatPlugin : AIPlugin {
 	NSMenuItem		*menuItem_inviteToChat;
 	NSMenuItem		*menuItem_inviteToChatContext;
-		
-	BOOL			shouldRebuildChatList;
 }
 
 - (IBAction)inviteToChat:(id)sender;

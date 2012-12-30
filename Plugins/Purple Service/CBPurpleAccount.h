@@ -32,8 +32,6 @@
 {   	
     PurpleAccount         *account;
 
-	NSMutableDictionary	*customEmoticonWaitingDict;
-
 	NSMutableArray		*permittedContactsArray;
 	NSMutableArray		*deniedContactsArray;	
 	

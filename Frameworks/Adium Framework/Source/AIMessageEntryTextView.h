@@ -53,8 +53,6 @@
 	NSMutableArray		*pushArray;
 	BOOL                 pushIndicatorVisible;
 	NSButton			*pushIndicator;
-	NSMenu              *pushMenu;
-	NSDictionary		*defaultTypingAttributes;
 
 	NSSize               lastPostedSize;
 	NSSize               _desiredSizeCached;

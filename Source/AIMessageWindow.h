@@ -18,7 +18,6 @@
 
 @interface AIMessageWindow : AIDockingWindow {
 	NSArray *chats;
-	id rememberedScriptCommand;
 }
 
 @property (weak, readonly) NSArray *chats;
