@@ -51,9 +51,11 @@ enum{
  */
 + (void)runWizard
 {
-	AdiumSetupWizard *setupWizardWindowController;
-	
-	setupWizardWindowController = [[self alloc] initWithWindowNibName:@"SetupWizard"];
+	static AdiumSetupWizard *setupWizardWindowController = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		setupWizardWindowController = [[self alloc] initWithWindowNibName:@"SetupWizard"];
+	});
 	
 	[setupWizardWindowController show];
 }
