@@ -69,7 +69,6 @@
 - (void)denyBlock:(id)sender;
 - (void)ignore:(id)sender;
 - (void)ignoreBlock:(id)sender;
-- (void)authorize:(id)sender;
 - (void)authorizeAdd:(id)sender;
 @end
 

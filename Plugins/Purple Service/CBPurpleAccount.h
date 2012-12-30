@@ -56,8 +56,6 @@
 - (void)createNewPurpleAccount;
 
 - (void)dealloc;
-- (NSSet *)supportedPropertyKeys;
-- (void)updateStatusForKey:(NSString *)key;
 - (NSDictionary *)defaultProperties;
 - (NSString *)unknownGroupName;
 - (AIService *)_serviceForUID:(NSString *)contactUID;

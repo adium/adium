@@ -55,7 +55,6 @@ typedef enum {
 - (void)setRemoteFilename:(NSString *)aRemoteFilename;
 - (NSString *)url;
 - (void)setUrl:(NSString *)anUrl;
-- (NSString *)mimeType;
 - (void)setMimeType:(NSString *)aMimeType;
 - (id)accountData;
 - (void)setAccountData:(id)anAccountData;

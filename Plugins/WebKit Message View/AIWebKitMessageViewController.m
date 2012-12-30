@@ -79,7 +79,6 @@
 - (BOOL)shouldHandleDragWithPasteboard:(NSPasteboard *)pasteboard;
 - (void)enqueueContentObject:(AIContentObject *)contentObject;
 - (void)debugLog:(NSString *)message;
-- (void)processQueuedContent;
 - (NSString *)webviewSource;
 - (void) setIsGroupChat:(BOOL) flag;
 
