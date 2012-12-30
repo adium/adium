@@ -349,11 +349,9 @@
 	if ([adium.contactAlertsController isMessageEvent:eventID] &&
 		[userInfo respondsToSelector:@selector(objectForKey:)] &&
 		[userInfo objectForKey:@"AIContentObject"]) {
-        AIListObject	*source = [contentObject source];
 		contentObject = [userInfo objectForKey:@"AIContentObject"];
 		chat = [userInfo objectForKey:@"AIChat"];
-		
-		if (source) listObject = source;
+		listObject = [contentObject source] ?: listObject;
 	}
 	
 	[clickContext setObject:eventID
