@@ -28,14 +28,11 @@
 #import "AIStringUtilities.h"
 #import "AIMenuAdditions.h"
 
-#define COPY_LINK   AILocalizedStringFromTableInBundle(@"Copy Link", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "Copy the link to the clipboard")
-
 @interface AILinkTrackingController ()
 - (id)initForView:(NSView *)inControlView withTextStorage:(NSTextStorage *)inTextStorage layoutManager:(NSLayoutManager *)inLayoutManager textContainer:(NSTextContainer *)inTextContainer;
 - (void)_beginCursorTrackingInRect:(NSRect)visibleRect withOffset:(NSPoint)offset;
 - (void)_endCursorTracking;
 - (void)_setMouseOverLink:(AIFlexibleLink *)inHoveredLink atPoint:(NSPoint)inPoint;
-- (void)copyLink:(id)sender;
 @end
 
 BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, NSUInteger arraySize, BOOL flipped);
@@ -377,32 +374,4 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize)
     return newArray;
 }
 
-- (NSArray *)menuItemsForEvent:(NSEvent *)theEvent withOffset:(NSPoint)offset
-{
-	NSMutableArray	*menuItemsArray = nil;
-    NSURL			*linkURL = nil;
-
-    //If a linKURL was created, add menu items for it to the menuItemsArray
-    if (linkURL) {
-        NSMenuItem  *menuItem;
-        
-        menuItemsArray = [[NSMutableArray alloc] init];
-        menuItem = [[NSMenuItem alloc] initWithTitle:COPY_LINK
-                                               target:self
-                                               action:@selector(copyLink:)
-                                        keyEquivalent:@""];
-        [menuItem setRepresentedObject:linkURL];
-        [menuItemsArray addObject:menuItem];
-    }
-
-    return menuItemsArray;
-}
-
-//Copy the absolute URL to the clipboard
-- (void)copyLink:(id)sender
-{
-    NSAttributedString *copyString = [[NSAttributedString alloc] initWithString:[(NSURL *)[sender representedObject] absoluteString] attributes:nil];
-    [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSRTFPboardType] owner:nil];
-    [[NSPasteboard generalPasteboard] setData:[copyString RTFFromRange:NSMakeRange(0,[copyString length]) documentAttributes:nil] forType:NSRTFPboardType];
-}
 @end

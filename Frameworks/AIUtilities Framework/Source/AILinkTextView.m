@@ -105,25 +105,4 @@
     [linkTrackingController setShowTooltip:inShowTooltip];
 }
 
-- (NSMenu *)menuForEvent:(NSEvent *)theEvent
-{
-	NSMenu	*menu;
-	NSArray	*linkMenuItems;
-	
-	menu = [super menuForEvent:theEvent];
-	
-	linkMenuItems = [linkTrackingController menuItemsForEvent:theEvent withOffset:NSMakePoint(0,0)];
-	
-	if ([linkMenuItems count]) {
-		if (!menu) menu = [[NSMenu alloc] init];
-		
-		[linkMenuItems enumerateObjectsWithOptions:NSEnumerationReverse
-										usingBlock:^(id menuItem, NSUInteger idx, BOOL *stop) {
-			[menu insertItem:menuItem atIndex:0];
-		}];
-	}
-	
-	return menu;
-}
-
 @end
