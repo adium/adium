@@ -309,6 +309,15 @@
 	[label_advanced setStringValue:AILocalizedString(@"Advanced", nil)];
 	[button_showAll setStringValue:AILocalizedString(@"Show All", nil)];
 	
+	[[generalCV enclosingScrollView] accessibilitySetOverrideValue:AILocalizedString(@"Preference panes", nil)
+													  forAttribute:NSAccessibilityDescriptionAttribute];
+	[[appearanceCV enclosingScrollView] accessibilitySetOverrideValue:AILocalizedString(@"Preference panes", nil)
+														 forAttribute:NSAccessibilityDescriptionAttribute];
+	[[eventsCV enclosingScrollView] accessibilitySetOverrideValue:AILocalizedString(@"Preference panes", nil)
+													 forAttribute:NSAccessibilityDescriptionAttribute];
+	[[advancedCV enclosingScrollView] accessibilitySetOverrideValue:AILocalizedString(@"Preference panes", nil)
+													   forAttribute:NSAccessibilityDescriptionAttribute];
+	
 	//Resize the last collection view and window
 	NSUInteger advCount = [advancedPaneArray count];
 	NSUInteger advColumns = [advancedCV maxNumberOfColumns];
