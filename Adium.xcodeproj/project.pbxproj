@@ -1043,6 +1043,7 @@
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
+		5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */; };
@@ -3894,6 +3895,8 @@
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
 		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
+		5A445956169118C60078AB0A /* AIPreferenceCVPrototypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceCVPrototypeView.h; path = Source/AIPreferenceCVPrototypeView.h; sourceTree = "<group>"; };
+		5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCVPrototypeView.m; path = Source/AIPreferenceCVPrototypeView.m; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
 		5A4BD48813F859EF00A4D3F7 /* Preferences-WindowHandling.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-WindowHandling.xib"; path = "Resources/Preferences-WindowHandling.xib"; sourceTree = "<group>"; };
@@ -6466,6 +6469,8 @@
 				F57938BB033E739101A8010A /* AIPreferenceWindowController.m */,
 				344839970BC8644C0083723B /* AIAdvancedPreferencesPlugin.h */,
 				344839980BC8644C0083723B /* AIAdvancedPreferencesPlugin.m */,
+				5A445956169118C60078AB0A /* AIPreferenceCVPrototypeView.h */,
+				5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -10486,6 +10491,7 @@
 				761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */,
 				761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */,
 				761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */,
+				5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

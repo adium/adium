@@ -95,6 +95,15 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (void)didSelectItem:(id)item
+{
+	//We have to check the represented object because NSCollectionView doesn't have indexOfObject
+	if ([[self content] indexOfObject:[item representedObject]] != NSNotFound) {
+		if ([[self delegate] respondsToSelector:@selector(preferenceCollectionView:didSelectItem:)])
+			[[self delegate] preferenceCollectionView:self didSelectItem:item];
+	}
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	id highlightItems = ^(NSUInteger anIndex, BOOL *stop) {
