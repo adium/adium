@@ -65,7 +65,7 @@
         }
     }
 
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

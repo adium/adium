@@ -27,14 +27,13 @@
   //  NSDictionary *attributes;
 	
 //	attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor grayColor], NSForegroundColorAttributeName, nil];
-	[self setPlaceholder:[[[NSAttributedString alloc] initWithString:inPlaceholderString
-														  attributes:nil] autorelease]];
+	[self setPlaceholder:[[NSAttributedString alloc] initWithString:inPlaceholderString
+														  attributes:nil]];
 }
 
 - (void)setPlaceholder:(NSAttributedString *)inPlaceholder
 {
 	if (inPlaceholder != placeholder) {
-		[placeholder release];
 		
 		NSMutableAttributedString	*tempPlaceholder = [inPlaceholder mutableCopy];
 		[tempPlaceholder addAttribute:NSForegroundColorAttributeName value:[NSColor grayColor] range:NSMakeRange(0, [tempPlaceholder length])];
@@ -48,13 +47,6 @@
 - (NSAttributedString *)placeholder
 {
     return placeholder;
-}
-
-- (void)dealloc
-{
-	[placeholder release];
-	
-	[super dealloc];
 }
 
 - (void)drawRect:(NSRect)rect

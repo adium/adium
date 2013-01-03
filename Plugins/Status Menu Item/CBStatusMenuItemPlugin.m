@@ -52,7 +52,7 @@
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[itemController release]; itemController = nil;
+	itemController = nil;
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group
@@ -64,12 +64,12 @@
 	if ([[prefDict objectForKey:KEY_STATUS_MENU_ITEM_ENABLED] boolValue]) {
 		//If it hasn't been created yet, create it. It will be created visible.
 		if (!itemController) {
-			itemController = [[CBStatusMenuItemController statusMenuItemController] retain];
+			itemController = [CBStatusMenuItemController statusMenuItemController];
 		}		
 	} else {
 		// NSTimer retains its target, so we need to invalidate any timers the controller has going on.
 		[itemController invalidateTimers];
-		[itemController autorelease]; itemController = nil;
+		itemController = nil;
 	}
 }
 

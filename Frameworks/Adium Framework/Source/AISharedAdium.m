@@ -14,8 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AISharedAdium.h>
-
 id<AIAdium> adium = nil;
 
 /*!
@@ -27,5 +25,5 @@ void setSharedAdium(id<AIAdium> shared)
 {
     NSCAssert(adium == nil, @"Attempt to set the shared AIAdium instance after it's already been set");
     NSCParameterAssert(shared != nil);
-    adium = [shared retain];
+    adium = shared;
 }

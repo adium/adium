@@ -19,23 +19,14 @@
 
 @implementation AIMessageTabSplitView
 
-- (void)dealloc
-{
-	[leftColor release];
-	[rightColor release];
-	[super dealloc];
-}
-
 - (void)setLeftColor:(NSColor *)inLeftColor rightColor:(NSColor *)inRightColor
 {
 	if (leftColor != inLeftColor) {
-		[leftColor release];
-		leftColor = [inLeftColor retain];
+		leftColor = inLeftColor;
 	}
 
 	if (rightColor != inRightColor) {
-		[rightColor release];
-		rightColor = [inRightColor retain];
+		rightColor = inRightColor;
 	}
 	
 	[self setNeedsDisplay:YES];

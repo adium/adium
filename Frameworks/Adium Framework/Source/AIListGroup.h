@@ -24,9 +24,6 @@
 	NSMutableArray		*_containedObjects;	//Manually ordered array of contents
 	BOOL									expanded;			//Exanded/Collapsed state of this object
 	BOOL									loadedExpanded;
-	
-	// Former properties
-	NSString			*countText;
 }
 
 - (id)initWithUID:(NSString *)inUID;
@@ -41,6 +38,6 @@
 //Visibility
 @property (readonly, nonatomic) NSUInteger visibleCount;
 
-@property (readonly, nonatomic) AIContactList *contactList;
+@property (weak, readonly, nonatomic) AIContactList *contactList;
 
 @end

@@ -17,40 +17,24 @@
 
 #import "AIContentController.h"
 
+#import "AIStatus.h"
 #import "AdiumTyping.h"
 #import "AdiumFormatting.h"
 #import "AdiumMessageEvents.h"
 #import "AdiumContentFiltering.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIContentNotification.h>
-#import <Adium/AIContentEvent.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIMetaContact.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AITextAttachmentExtension.h>
-#import <AIUtilities/AIArrayAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITextAttachmentAdditions.h>
-#import <AIUtilities/AITextAttributes.h>
-#import <AIUtilities/AIImageAdditions.h>
 
 @interface AIContentController ()
 - (void)finishReceiveContentObject:(AIContentObject *)inObject;
@@ -112,20 +96,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[objectsBeingReceived release]; objectsBeingReceived = nil;
-	[adiumTyping release]; adiumTyping = nil;
-	[adiumFormatting release]; adiumFormatting = nil;
-	[adiumContentFiltering release]; adiumContentFiltering = nil;
-	[adiumEncryptor release];
-
-    [super dealloc];
-}
-
-/*!
  * @brief Set the encryptor
  *
  * NB: We must _always_ have an encryptor.
@@ -134,8 +104,7 @@
 {
 	NSParameterAssert([inEncryptor conformsToProtocol:@protocol(AdiumMessageEncryptor)]);
 
-	[adiumEncryptor release];
-	adiumEncryptor = [inEncryptor retain];
+	adiumEncryptor = inEncryptor;
 }
 
 
@@ -631,7 +600,7 @@
 
 				if (shouldSendAttachmentAsFile) {
 					if (!newAttributedString) {
-						newAttributedString = [[attributedMessage mutableCopy] autorelease];
+						newAttributedString = [attributedMessage mutableCopy];
 						currentAttributedString = newAttributedString;
 					}
 					
@@ -848,7 +817,7 @@
  */
 - (NSMenu *)encryptionMenuNotifyingTarget:(id)target withDefault:(BOOL)withDefault
 {
-	NSMenu		*encryptionMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu		*encryptionMenu = [[NSMenu alloc] init];
 	NSMenuItem	*menuItem;
 
 	[encryptionMenu setTitle:ENCRYPTION_MENU_TITLE];
@@ -860,7 +829,6 @@
 	
 	[menuItem setTag:EncryptedChat_Never];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats as requested",nil)
 										  target:target
@@ -869,7 +837,6 @@
 	
 	[menuItem setTag:EncryptedChat_Manually];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats automatically",nil)
 										  target:target
@@ -878,7 +845,6 @@
 	
 	[menuItem setTag:EncryptedChat_Automatically];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Force encryption and refuse plaintext",nil)
 										  target:target
@@ -887,7 +853,6 @@
 	
 	[menuItem setTag:EncryptedChat_RejectUnencryptedMessages];
 	[encryptionMenu addItem:menuItem];
-	[menuItem release];
 	
 	if (withDefault) {
 		[encryptionMenu addItem:[NSMenuItem separatorItem]];
@@ -899,10 +864,9 @@
 		
 		[defaultMenuItem setTag:EncryptedChat_Default];
 		[encryptionMenu addItem:defaultMenuItem];
-		[defaultMenuItem release];
 	}
 	
-	return [encryptionMenu autorelease];
+	return encryptionMenu;
 }
 
 @end

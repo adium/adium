@@ -16,27 +16,17 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIAccountListPreferences.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import "AIStatusController.h"
 #import "AIEditAccountWindowController.h"
-#import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIImageTextCell.h>
-#import <AIUtilities/AIVerticallyCenteredTextCell.h>
-#import <AIUtilities/AITableViewAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
-#import <Adium/AIStatusMenu.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
-#import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define MINIMUM_ROW_HEIGHT				34
@@ -120,13 +110,13 @@
 	[button_addOrRemoveAccount setMenuIndicatorShown:YES forSegment:0];
 	
 	//Set ourselves up for Account Menus
-	accountMenu_options = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu_options = [AIAccountMenu accountMenuWithDelegate:self
 													  submenuType:AIAccountOptionsSubmenu
-												   showTitleVerbs:NO] retain];
+												   showTitleVerbs:NO];
 	
-	accountMenu_status = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu_status = [AIAccountMenu accountMenuWithDelegate:self
 													 submenuType:AIAccountStatusSubmenu
-												  showTitleVerbs:NO] retain];
+												  showTitleVerbs:NO];
 
 	//Observe status icon pack changes
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -155,20 +145,14 @@
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[accountArray release]; accountArray = nil;
-	[requiredHeightDict release]; requiredHeightDict = nil;
-	[accountMenu_options release]; accountMenu_options = nil;
-	[accountMenu_status release]; accountMenu_status = nil;
+	accountArray = nil;
+	requiredHeightDict = nil;
+	accountMenu_options = nil;
+	accountMenu_status = nil;
 	
 	// Cancel our auto-refreshing reconnect countdown.
 	[reconnectTimeUpdater invalidate];
-	[reconnectTimeUpdater release]; reconnectTimeUpdater = nil;
-}
-
-- (void)dealloc
-{
-	[accountArray release];
-	[super dealloc];
+	reconnectTimeUpdater = nil;
 }
 
 /*!
@@ -382,7 +366,6 @@
 	[cell setDrawsImageAfterMainString:YES];
     [[tableView_accountList tableColumnWithIdentifier:@"name"] setDataCell:cell];
 	[cell setLineBreakMode:NSLineBreakByWordWrapping];
-	[cell release];
 
     cell = [[AIImageTextCell alloc] init];
     [cell setFont:[NSFont systemFontOfSize:13]];
@@ -391,7 +374,6 @@
     [[tableView_accountList tableColumnWithIdentifier:@"status"] setDataCell:cell];
 	[cell accessibilitySetOverrideValue:[NSNumber numberWithBool:YES]
 						   forAttribute:NSAccessibilityEnabledAttribute];
-	[cell release];
     
 	[tableView_accountList sizeToFit];
 
@@ -412,8 +394,7 @@
 - (void)accountListChanged:(NSNotification *)notification
 {
     //Update our list of accounts
-    [accountArray release];
-	accountArray = [adium.accountController.accounts retain];
+	accountArray = adium.accountController.accounts;
 
 	//Refresh the account table
 	[tableView_accountList reloadData];
@@ -427,7 +408,7 @@
  */
 - (NSMenu *)menuForRowIndexes:(NSIndexSet *)indexes
 {
-	NSMenu			*statusMenu = nil, *optionsMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu			*statusMenu = nil, *optionsMenu = [[NSMenu alloc] init];
 	NSMenuItem		*statusMenuItem = nil;
 	NSArray			*accounts = [accountArray objectsAtIndexes:indexes];
 	AIAccount		*account;
@@ -557,7 +538,7 @@
 {
 	if (row >= 0 && row < [accountArray count]) {
 		AIAccount		*account = [accountArray objectAtIndex:row];
-		NSMenu			*optionsMenu = [[[NSMenu alloc] init] autorelease];
+		NSMenu			*optionsMenu = [[NSMenu alloc] init];
 		NSMenu			*accountOptionsMenu = [[accountMenu_options menuItemForAccount:account] submenu];
 
 		NSMenuItem	*statusMenuItem = [optionsMenu addItemWithTitle:AILocalizedString(@"Set Status", "Used in the context menu for the accounts list for the sub menu to set status in.")
@@ -566,7 +547,7 @@
 													  keyEquivalent:@""];
 
 		//We can't put the submenu into our menu directly or otherwise modify the accountMenu_status, as we may want to use it again
-		[statusMenuItem setSubmenu:[[[[accountMenu_status menuItemForAccount:account] submenu] copy] autorelease]];
+		[statusMenuItem setSubmenu:[[[accountMenu_status menuItemForAccount:account] submenu] copy]];
 		
 		if (!account.online && ![account boolValueForProperty:@"isConnecting"] && [self statusMessageForAccount:account]) {
 			[optionsMenu addItemWithTitle:AILocalizedString(@"Copy Error Message","Menu Item for the context menu of an account in the accounts list")
@@ -600,7 +581,7 @@
 		//Add account options
 		for (NSMenuItem *menuItem in [accountOptionsMenu itemArray]) {
 			//Use copies of the menu items rather than moving the actual items, as we may want to use them again
-			[optionsMenu addItem:[[menuItem copy] autorelease]];
+			[optionsMenu addItem:[menuItem copy]];
 		}
 
 		return optionsMenu;
@@ -625,14 +606,14 @@
 	}
 
 	if (moreUpdatesNeeded && reconnectTimeUpdater == nil) {
-		reconnectTimeUpdater = [[NSTimer scheduledTimerWithTimeInterval:1.0
+		reconnectTimeUpdater = [NSTimer scheduledTimerWithTimeInterval:1.0
 																 target:self 
 															   selector:@selector(updateReconnectTime:) 
 															   userInfo:nil
-																repeats:YES] retain];
+																repeats:YES];
 	} else if (!moreUpdatesNeeded && reconnectTimeUpdater != nil) {
 		[reconnectTimeUpdater invalidate];
-		[reconnectTimeUpdater release]; reconnectTimeUpdater = nil;
+		reconnectTimeUpdater = nil;
 	}
 }
 
@@ -712,7 +693,7 @@
 		statusMessage = [[account valueForProperty:@"connectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"connectionProgressPercent"] doubleValue]];
 	} else if ([account lastDisconnectionError] && ![account boolValueForProperty:@"isOnline"] && ![account boolValueForProperty:@"isConnecting"]) {
 		// If there's an error and we're not online and not connecting
-		NSMutableString *returnedMessage = [[[account lastDisconnectionError] mutableCopy] autorelease];
+		NSMutableString *returnedMessage = [[account lastDisconnectionError] mutableCopy];
 		
 		// Replace the LibPurple error prefixes
 		[returnedMessage replaceOccurrencesOfString:@"Could not establish a connection with the server:\n"
@@ -776,9 +757,6 @@
 		if (combinedHeight > necessaryHeight) {
 			necessaryHeight = combinedHeight;
 		}
-		
-		[subStringTitle release];
-		[mainTitle release];
 	}
 	
 	// Cache the height value
@@ -793,7 +771,7 @@
 {
 	NSInteger accountNumber;
 
-	[requiredHeightDict release]; requiredHeightDict = [[NSMutableDictionary alloc] init];
+	requiredHeightDict = [[NSMutableDictionary alloc] init];
 
 	for (accountNumber = 0; accountNumber < [accountArray count]; accountNumber++) {
 		[self calculateHeightForRow:accountNumber];

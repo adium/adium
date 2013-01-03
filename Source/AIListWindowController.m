@@ -17,28 +17,20 @@
 #import "AIListWindowController.h"
 
 #import "AISCLViewPlugin.h"
-#import	<Adium/AIListOutlineView.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIDockControllerProtocol.h>
-#import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIFunctions.h>
-#import <AIUtilities/AIWindowControllerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIProxyListObject.h>
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIContactHidingController.h>
-#import <AIUtilities/AIOSCompatibility.h>
 
+#import "AIAutoScrollView.h"
 #import "AISearchFieldCell.h"
 
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
@@ -88,7 +80,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 
 + (AIListWindowController *)listWindowControllerForContactList:(id<AIContainingObject>)contactList
 {
-	return [[[self alloc] initWithContactList:contactList] autorelease];
+	return [[self alloc] initWithContactList:contactList];
 }
 
 - (id)initWithContactList:(id<AIContainingObject>)contactList
@@ -124,8 +116,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 - (void)setContactList:(id<AIContainingObject>)inContactList
 {
 	if (inContactList != contactListRoot) {
-		[contactListRoot release];
-		contactListRoot = [inContactList retain];
+		contactListRoot = inContactList;
 	}
 }
 
@@ -146,20 +137,13 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	
 	[filterBarAnimation stopAnimation];
 	[filterBarAnimation setDelegate:nil];
-	self.filterBarAnimation = nil;
-	
-	[filterBarPreviouslySelected release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[windowAnimation stopAnimation];
 	[windowAnimation setDelegate:nil];
-	self.windowAnimation = nil;
 	
 	[contactListController close];
-	[windowLastScreen release];
-
-	[super dealloc];
 }
 
 - (NSString *)adiumFrameAutosaveName
@@ -261,7 +245,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[super windowWillClose:notification];
 
 	//Invalidate the dock-like hiding timer
-	[slideWindowIfNeededTimer invalidate]; [slideWindowIfNeededTimer release];
+	[slideWindowIfNeededTimer invalidate];
 
     //Stop observing
 	[adium.preferenceController unregisterPreferenceObserver:self];
@@ -293,7 +277,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
-// A "stationary" window stays pinned to the desktop during Expos≈Ω
+// A "stationary" window stays pinned to the desktop during Exposé
 - (void)setCollectionBehaviorOfWindow:(NSWindow *)window showOnAllSpaces:(BOOL)allSpaces isStationary:(BOOL)stationary
 {
 	NSWindowCollectionBehavior behavior = NSWindowCollectionBehaviorDefault;
@@ -338,16 +322,16 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
-				slideWindowIfNeededTimer = [[NSTimer scheduledTimerWithTimeInterval:DOCK_HIDING_MOUSE_POLL_INTERVAL
+				slideWindowIfNeededTimer = [NSTimer scheduledTimerWithTimeInterval:DOCK_HIDING_MOUSE_POLL_INTERVAL
 																			 target:self
 																		   selector:@selector(slideWindowIfNeeded:)
 																		   userInfo:nil
-																			repeats:YES] retain];
+																			repeats:YES];
 			}
 
 		} else if (slideWindowIfNeededTimer) {
             [slideWindowIfNeededTimer invalidate];
-			[slideWindowIfNeededTimer release]; slideWindowIfNeededTimer = nil;
+			slideWindowIfNeededTimer = nil;
 		}
 
 		[contactListController setShowTooltips:[[prefDict objectForKey:KEY_CL_SHOW_TOOLTIPS] boolValue]];
@@ -475,9 +459,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		
 		// let this happen at the beginning of the next runloop. The View needs to configure itself before we start forcing it to a size.
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-			[contactListController contactListDesiredSizeChanged];
-			[pool release];
+			@autoreleasepool {
+				[contactListController contactListDesiredSizeChanged];
+			}
 		});
 		
 		if (!firstTime) {
@@ -526,7 +510,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			
 			//Background Image
 			if (imagePath && [imagePath length] && [[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_ENABLED] boolValue]) {
-				[contactListView setBackgroundImage:[[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease]];
+				[contactListView setBackgroundImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
 			} else {
 				[contactListView setBackgroundImage:nil];
 			}
@@ -599,13 +583,10 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
     //In response to windowShouldClose, the interface controller releases us.  At that point, no one would be retaining
 	//this instance of AIContactListWindowController, and we would be deallocated.  The call to [self window] will
 	//crash if we are deallocated.  A dirty, but functional fix is to temporarily retain ourself here.
-    [self retain];
 
     if ([self windowShouldClose:nil]) {
         [[self window] close];
     }
-
-    [self release];
 }
 
 - (void)makeActive:(id)sender
@@ -650,7 +631,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		currentScreenFrame.size.height -= [[NSApp mainMenu] menuBarHeight];
 	}
 
-	//Ensure the window is displaying at the proper level and expos√É¬© setting
+	//Ensure the window is displaying at the proper level and exposé setting
 	[self setWindowLevel:levelForAIWindowLevel(windowLevel)];	
 }
 
@@ -676,7 +657,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		if ([[NSScreen screens] containsObject:windowLastScreen]) {
 			windowScreen = windowLastScreen;
 		} else {
-			[windowLastScreen release]; windowLastScreen = nil;
+			windowLastScreen = nil;
 			windowScreen = [NSScreen mainScreen];
 		}
 	}
@@ -723,7 +704,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	NSArray *screens = [NSScreen screens];
 	NSInteger numScreens = [screens count];
 	
-	[screenSlideBoundaryRectDictionary release];
 	screenSlideBoundaryRectDictionary = [[NSMutableDictionary alloc] initWithCapacity:numScreens];
 
 	if (numScreens > 0) {
@@ -819,7 +799,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 			
 			/* If we're hiding the window (generally) but now sliding it off screen, set it to kCGBackstopMenuLevel and don't
-			 * let it participate in expos√É¬©.
+			 * let it participate in exposé.
 			 */
 			if (overrodeWindowLevel &&
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
@@ -1061,7 +1041,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
 																object:nil];
 			
-			[filterBarPreviouslySelected release]; filterBarPreviouslySelected = nil;
+			filterBarPreviouslySelected = nil;
 			
 			filterBarIsVisible = NO;
 		} else {
@@ -1074,7 +1054,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			// Bring the contact list to front, in case the find command was triggered from another window like the info inspector
 			[[self window] makeKeyAndOrderFront:nil];
 			
-			filterBarPreviouslySelected = [[contactListView arrayOfSelectedItems] retain];
+			filterBarPreviouslySelected = [contactListView arrayOfSelectedItems];
 			
 			filterBarIsVisible = YES;
 		}
@@ -1142,12 +1122,12 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		self.windowAnimation = nil;
 	}
 
-	self.windowAnimation = [[[NSViewAnimation alloc] initWithViewAnimations:
+	self.windowAnimation = [[NSViewAnimation alloc] initWithViewAnimations:
 							 [NSArray arrayWithObject:
 							  [NSDictionary dictionaryWithObjectsAndKeys:
 							   myWindow, NSViewAnimationTargetKey,
 							   [NSValue valueWithRect:frame], NSViewAnimationEndFrameKey,
-							   nil]]] autorelease];
+							   nil]]];
 	[windowAnimation setFrameRate:0.0f];
 	[windowAnimation setDuration:0.25f];
 	[windowAnimation setDelegate:self];
@@ -1254,8 +1234,7 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 
 	[self setSavedFrame:newWindowFrame];
 
-	[windowLastScreen release];
-	windowLastScreen = [[window screen] retain];
+	windowLastScreen = [window screen];
 
 	NSRect screenSlideBoundaryRect = [[screenSlideBoundaryRectDictionary objectForKey:[NSValue valueWithNonretainedObject:windowLastScreen]] rectValue];
 
@@ -1295,7 +1274,7 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 			[self moveWindowToPoint:oldFrame.origin];
 		}
 		
-		[windowLastScreen release];	windowLastScreen = nil;
+		windowLastScreen = nil;
 	}
 }
 
@@ -1622,10 +1601,10 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	targetViewDict = [NSDictionary dictionaryWithObjectsAndKeys:targetView, NSViewAnimationTargetKey,
 					  [NSValue valueWithRect:targetFrame], NSViewAnimationEndFrameKey, nil];
 	
-	self.filterBarAnimation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:
+	self.filterBarAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:
 																				targetViewDict,
 																				filterBarDict,
-																				nil]] autorelease];
+																				nil]];
 	[filterBarAnimation setDuration:duration];
 	[filterBarAnimation setAnimationBlockingMode:NSAnimationBlocking];
 	[filterBarAnimation setDelegate:self];

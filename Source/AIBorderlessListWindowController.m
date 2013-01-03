@@ -17,9 +17,6 @@
 #import "AIBorderlessListWindowController.h"
 #import "AIBorderlessListController.h"
 
-#import <Adium/AIListOutlineView.h>
-#import <Adium/AIAbstractListController.h>
-
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
 @implementation AIBorderlessListWindowController

@@ -54,12 +54,11 @@
 	self.pane = aPane;
 	
 	NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:aString];
-	NSMutableParagraphStyle *mutParaStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *mutParaStyle = [[NSMutableParagraphStyle alloc] init];
 	[mutParaStyle setFirstLineHeadIndent:15.0];
 	[attrStr addAttributes:[NSDictionary dictionaryWithObject:mutParaStyle forKey:NSParagraphStyleAttributeName]
 					 range:NSMakeRange(0,[attrStr length])];
 	[super setObjectValue:attrStr];
-	[attrStr release];
 }
 
 @end
