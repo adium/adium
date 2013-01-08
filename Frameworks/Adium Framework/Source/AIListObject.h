@@ -164,7 +164,7 @@ typedef enum {
 @property (unsafe_unretained, readonly, nonatomic) NSImage *userIcon;
 @property (unsafe_unretained, readonly, nonatomic) NSImage *menuIcon;
 @property (unsafe_unretained, readonly, nonatomic) NSImage *statusIcon;
-@property (weak, readonly, nonatomic) NSData *userIconData;
+@property (weak, readwrite, nonatomic) NSData *userIconData;
 - (void)setUserIconData:(NSData *)inData;
 
 //For use only by subclasses

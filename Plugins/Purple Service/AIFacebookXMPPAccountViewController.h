@@ -20,7 +20,7 @@
 
 @property (weak) IBOutlet NSProgressIndicator *spinner;
 @property (weak) IBOutlet NSTextField *textField_OAuthStatus;
-@property (weak) IBOutlet NSButton *button_OAuthStart;
+@property (weak) IBOutlet AILocalizationButton *button_OAuthStart;
 @property (weak) IBOutlet NSButton *button_help;
 
 - (IBAction)showHelp:(id)sender;

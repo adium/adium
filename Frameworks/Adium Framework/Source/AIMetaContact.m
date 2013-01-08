@@ -30,7 +30,7 @@
 //#define META_TYPE_DEBUG TRUE
 
 @interface AIListContact ()
-@property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
+@property (readwrite, nonatomic, weak) AIMetaContact *metaContact;
 - (void)setContainingObject:(AIListGroup *)inGroup;
 @end
 
