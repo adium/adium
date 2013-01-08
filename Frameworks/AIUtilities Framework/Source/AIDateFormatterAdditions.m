@@ -36,13 +36,6 @@
 + (dispatch_queue_t)localizedFormatterQueue;
 @end
 
-typedef enum {
-    NONE,
-    SECONDS,
-    AMPM,
-    BOTH
-} StringType;
-
 @interface AIDateFormatterCache : NSObject
 {
 	NSDateFormatter *localizedDateFormatter;

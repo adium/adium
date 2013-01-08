@@ -49,9 +49,6 @@
 - (void)deleteAlert;
 @end
 
-int alertAlphabeticalSort(id objectA, id objectB, void *context);
-int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
-
 //#define HEIGHT_DEBUG
 
 @implementation ESContactAlertsViewController
