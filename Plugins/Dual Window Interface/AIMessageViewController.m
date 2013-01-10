@@ -36,8 +36,6 @@
 #import <AIUtilities/AIBundleAdditions.h>
 #import <AIUtilities/AIOSCompatibility.h>
 
-#import <PSMTabBarControl/NSBezierPath_AMShading.h>
-
 //Heights and Widths
 #define MESSAGE_VIEW_MIN_HEIGHT_RATIO		0.5f					// Mininum height ratio of the message view
 #define MESSAGE_VIEW_MIN_WIDTH_RATIO		0.5f					// Mininum width ratio of the message view
