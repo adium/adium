@@ -35,6 +35,8 @@ typedef enum {
 
 - (void)requestSecureOTRMessaging:(BOOL)inSecureMessaging inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 
 - (void)prefsShouldUpdatePrivateKeyList;
 - (void)prefsShouldUpdateFingerprintsList;

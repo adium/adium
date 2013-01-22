@@ -281,7 +281,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *aboutEncryption;
 - (void)requestSecureMessaging:(BOOL)inSecureMessaging
 						inChat:(AIChat *)inChat;
-- (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 
 /*!
  * @brief Can the account send images inline within a chat?

@@ -1353,6 +1353,10 @@
 		761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D587F1636C60100210B12 /* AINewMessageTableView.m */; };
 		761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */; };
 		761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58851636F94200210B12 /* AINewMessageSearchField.m */; };
+		765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */; };
+		765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */; };
+		765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */; };
+		765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */; };
 		765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
@@ -4398,6 +4402,12 @@
 		761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageTextFieldCell.m; path = Source/AINewMessageTextFieldCell.m; sourceTree = "<group>"; };
 		761D58841636F94200210B12 /* AINewMessageSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageSearchField.h; path = Source/AINewMessageSearchField.h; sourceTree = "<group>"; };
 		761D58851636F94200210B12 /* AINewMessageSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageSearchField.m; path = Source/AINewMessageSearchField.m; sourceTree = "<group>"; };
+		765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSecretAnswerWindowController.h; path = Source/AIOTRSMPSecretAnswerWindowController.h; sourceTree = "<group>"; };
+		765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSecretAnswerWindowController.m; path = Source/AIOTRSMPSecretAnswerWindowController.m; sourceTree = "<group>"; };
+		765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSecretAnswerWindowController.xib; path = Resources/AIOTRSMPSecretAnswerWindowController.xib; sourceTree = "<group>"; };
+		765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSharedSecretWindowController.xib; path = Resources/AIOTRSMPSharedSecretWindowController.xib; sourceTree = "<group>"; };
+		765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSharedSecretWindowController.h; path = Source/AIOTRSMPSharedSecretWindowController.h; sourceTree = "<group>"; };
+		765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSharedSecretWindowController.m; path = Source/AIOTRSMPSharedSecretWindowController.m; sourceTree = "<group>"; };
 		765F5DC61635934400C57904 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIRejoinGroupChatTopBar.xib; sourceTree = "<group>"; };
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
@@ -5204,6 +5214,12 @@
 				341BD55A0965E97F00CF83F5 /* ESOTRUnknownFingerprintController.h */,
 				341BD55B0965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m */,
 				341BD5660965E99200CF83F5 /* OTRCommon.h */,
+				765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */,
+				765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */,
+				765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */,
+				765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */,
+				765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */,
+				765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */,
 			);
 			name = OTR;
 			sourceTree = "<group>";
@@ -9819,6 +9835,8 @@
 				C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */,
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
 				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
+				765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */,
+				765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */,
 				76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */,
 				765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */,
 				C63BF3BE1637605400FF162B /* SRSnapback@2x.png in Resources */,
@@ -10485,6 +10503,8 @@
 				5A4BD52513F8653D00A4D3F7 /* ESContactListAdvancedPreferences.m in Sources */,
 				5A4BD55413F86A6200A4D3F7 /* AIMessagePreferences.m in Sources */,
 				5A5EC831154649140043FFAA /* AIPreferenceCollectionItem.m in Sources */,
+				765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */,
+				765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */,
 				767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */,
 				76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */,
 				76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */,
