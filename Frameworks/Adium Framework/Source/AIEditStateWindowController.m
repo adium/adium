@@ -37,7 +37,7 @@
 - (void)setAccount:(AIAccount *)inAccount;
 - (void)configureForAccountAndWorkingStatusState;
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)notifyOfStateChange;
 @end
 
@@ -253,7 +253,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 /*!
  * Invoked as the sheet closes, dismiss the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	//Stop tracking with the controllerDict
 	NSNumber	*targetHash = [NSNumber numberWithUnsignedInteger:[target hash]];
