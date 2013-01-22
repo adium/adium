@@ -15,6 +15,7 @@
  */
 
 #import "AIPreferenceCollectionItem.h"
+#import "AIPreferenceCVPrototypeView.h"
 
 @implementation AIPreferenceCollectionItem
 @synthesize image = _image;
@@ -51,6 +52,12 @@
 	
 	if (flag != old)
 		self.image = nil;
+}
+
+- (void)setRepresentedObject:(id)representedObject
+{
+	[super setRepresentedObject:representedObject];
+	[(AIPreferenceCVPrototypeView *)self.view setItem:self];
 }
 
 @end

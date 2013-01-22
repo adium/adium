@@ -27,6 +27,7 @@
 #import <Adium/AIFileTransferControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIContentObject.h>
@@ -514,7 +515,7 @@ static NSArray *draggedTypes = nil;
 	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"adium://%@/adium", [messageStyle.bundle bundleIdentifier]]];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateForChat:chat] baseURL:baseURL];
 
-	if(chat.isGroupChat && chat.supportsTopic) {
+	if(chat.isGroupChat && ((AIGroupChat *)chat).supportsTopic) {
 		// Force a topic update, so we set our topic appropriately.
 		[self updateTopic];
 	}
@@ -1192,7 +1193,7 @@ static NSArray *draggedTypes = nil;
 				 * be displaying as changed.
 				 */
 				
-				for (AIListContact *participatingListObject in chat) {
+				for (AIListContact *participatingListObject in [chat containedObjects]) {
 					if ([participatingListObject parentContact] == inObject) {
 						actualObject = participatingListObject;
 						break;
@@ -1501,7 +1502,7 @@ static NSArray *draggedTypes = nil;
 		[self updateTopic];
 		
 		// Tell the chat to set the topic.
-		[chat setTopic:topicChange];
+		[(AIGroupChat *)chat setTopic:topicChange];
 	}
 }
 

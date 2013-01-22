@@ -624,7 +624,7 @@
 				NSString *questionQualifier = [NSString stringWithFormat:AILocalizedString(@"%d contacts", nil), 
 											   activeChatInWindow.containedObjects.count];
 				
-				if(activeChatInWindow.containedObjects.count == 1) {
+				if(((AIGroupChat *)activeChatInWindow).containedObjects.count == 1) {
 					questionQualifier = [[activeChatInWindow.containedObjects objectAtIndex:0] displayName];
 				}
 				

@@ -21,6 +21,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
@@ -349,16 +350,13 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 
 		//Add an SSL icon if the account is encrypted.
 		if ([account encrypted]) {
-			NSBundle *securityInterfaceFramework = [NSBundle bundleWithIdentifier:@"com.apple.securityinterface"];
-			if (!securityInterfaceFramework) securityInterfaceFramework = [NSBundle bundleWithPath:@"/System/Library/Frameworks/SecurityInterface.framework"];
+			NSImage	*SSLIcon = [[NSImage imageForSSL] copy];
+			NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+			NSMutableAttributedString *title = nil;
 
-			NSString					*path = [securityInterfaceFramework pathForImageResource:@"CertSmallStd"];
-			NSFileWrapper				*fileWrapper = nil;
-			NSTextAttachment			*textAttachment = nil;
-			NSMutableAttributedString	*title = nil;
-			
-			fileWrapper = [[NSFileWrapper alloc] initWithPath:path];
-			textAttachment = [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
+			[SSLIcon imageByScalingForMenuItem];
+			[textAttachment setAttachmentCell:[[[NSTextAttachmentCell alloc] initImageCell:SSLIcon] autorelease]];
+			[SSLIcon release];
 
 			title = [plainTitle mutableCopy];
 
@@ -376,7 +374,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			
 			[title release];
 			[textAttachment release];
-			[fileWrapper release];
 		} else {
 			[menuItem setAttributedTitle:plainTitle];
 		}

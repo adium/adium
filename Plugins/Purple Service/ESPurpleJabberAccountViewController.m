@@ -236,8 +236,7 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 								 defaultButton:AILocalizedString(@"OK",nil)
 							   alternateButton:nil
 								   otherButton:nil
-					 informativeTextWithFormat:[NSString stringWithFormat:
-												AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL]] runModal];
+					 informativeTextWithFormat:AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL] runModal];
 			} else {				
 				MachineLocation loc;
 				ReadLocation(&loc);

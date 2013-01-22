@@ -386,7 +386,7 @@ void image_register_reply (
 		CC_SHA1_Update(&ctx, [JPEGData bytes], (CC_LONG)[JPEGData length]);
 		CC_SHA1_Final(digest, &ctx);
 		imagehash = [[NSData dataWithBytes:digest length:20] retain];
-		AILogWithSignature(@"Will update with hash %@; length is %u", imagehash, [JPEGData length]);
+		AILogWithSignature(@"Will update with hash %@; length is %lu", imagehash, [JPEGData length]);
 		[self updatePHSH];
 	} else {
 		[[client client] reportError:@"Error adding image record" ofLevel:AWEzvWarning];
@@ -441,7 +441,7 @@ void image_register_reply (
 // Stop looking for new rendezvous clients
 - (void)stopBrowsing
 {
-	AILogWithSignature(@"fServiceBrowser is %@ (retain count %i)", fServiceBrowser, [fServiceBrowser retainCount]);
+	AILogWithSignature(@"fServiceBrowser is %@ (retain count %li)", fServiceBrowser, [fServiceBrowser retainCount]);
 	[fServiceBrowser release]; fServiceBrowser = nil;
 }
 
@@ -974,7 +974,7 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 			[self release];
 
 		} else {
-			AILog(@"DNSServiceProcessResult() for socket descriptor %d returned an error! %d with CFSocketCallBackType %d and data %s\n",
+			AILog(@"DNSServiceProcessResult() for socket descriptor %d returned an error! %d with CFSocketCallBackType %ld and data %s\n",
 			DNSServiceRefSockFD(info), err, type, data);
 		}
 	}

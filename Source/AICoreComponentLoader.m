@@ -135,7 +135,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"RAFBlockEditorPlugin",
 		@"SMContactListShowBehaviorPlugin",
 		@"ESiTunesPlugin",
-		@"ESPersonalPreferencesPlugin",
+		@"ESProfilePreferencesPlugin",
 		@"OWSpellingPerContactPlugin",
 		@"GBQuestionHandlerPlugin",
 		@"AINulRemovalPlugin",

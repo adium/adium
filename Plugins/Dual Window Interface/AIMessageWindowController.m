@@ -295,7 +295,7 @@
 											 defaultButton:AILocalizedString(@"Close", nil)
 										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
 											   otherButton:nil
-								 informativeTextWithFormat:question];
+								 informativeTextWithFormat:@"%@", question];
 			
 			[alert setShowsSuppressionButton:YES];
 			[[alert suppressionButton] setTitle:suppressionText];
@@ -680,7 +680,7 @@
 	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != idx) {
-		NSMutableArray *cells = [tabView_tabBar cells];
+		NSMutableArray *cells = [[tabView_tabBar cells] mutableCopy];
 		
 		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
@@ -1020,7 +1020,6 @@
 	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[[(PSMTabBarControl *)[tabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
@@ -1030,20 +1029,20 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = contentFrame.size.height;
 			break;
 		case AdiumTabPositionTop:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = 21;
 			break;
 		case AdiumTabPositionLeft:
 			offset->width = 0;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 		case AdiumTabPositionRight:
 			offset->width = [tabView_tabBar frame].origin.x;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 	}
 	
@@ -1067,19 +1066,19 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= 22;
 			break;
 		case AdiumTabPositionTop:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= NSHeight([[[newController window] contentView] frame]) + 1;
 			break;
 		case AdiumTabPositionLeft:
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 			break;
 		case AdiumTabPositionRight:
 			point.x -= NSMinX([tabView_tabBar frame]);
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 	}
 	
 	//set the origin point of the new window

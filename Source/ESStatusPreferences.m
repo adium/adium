@@ -340,9 +340,6 @@
 				numberOfItems++;
 			}
 		}
-
-		NSString *message = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to delete %lu saved status items?",nil),
-							 numberOfItems];
 		
 		//Warn if deleting a group containing status items
 		NSBeginAlertSheet(AILocalizedString(@"Status Deletion Confirmation",nil),
@@ -351,7 +348,7 @@
 						  [[self view] window], self,
 						  @selector(sheetDidEnd:returnCode:contextInfo:), NULL,
 						  [selectedItems retain],
-						  message);
+						  AILocalizedString(@"Are you sure you want to delete %lu saved status items?", nil), numberOfItems);
 	}
 }
 

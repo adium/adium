@@ -88,7 +88,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return YES;
 }
 
-- (BOOL)openChat:(AIChat *)chat
+- (BOOL)openChat:(AIGroupChat *)chat
 {
 	chat.hideUserIconAndStatus = YES;
 	
@@ -325,6 +325,14 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	// Realname (for connecting)
 	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: self.defaultRealname;
 	purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
+	
+	// Use SASL
+	BOOL useSASL = [[self preferenceForKey:KEY_IRC_USE_SASL group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(self.purpleAccount, "sasl", useSASL);
+	
+	
+	BOOL insecureSASLPlain = [[self preferenceForKey:KEY_IRC_INSECURE_SASL_PLAIN group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(self.purpleAccount, "auth_plain_in_clear", insecureSASLPlain);
 }
 
 /*!
@@ -446,7 +454,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 /*!
  * @brief Our flags in a chat
  */
-- (AIGroupChatFlags)flagsInChat:(AIChat *)chat
+- (AIGroupChatFlags)flagsInChat:(AIGroupChat *)chat
 {
 	NSString *ourUID = [NSString stringWithUTF8String:purple_normalize(self.purpleAccount, [self.displayName UTF8String])];
 	
@@ -552,8 +560,10 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	AIOperationRequirement req = (AIOperationRequirement)menuItem.tag;
 	AIChat *chat = adium.interfaceController.activeChat;
 	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
-		
-	AIGroupChatFlags flags = [self flagsInChat:chat];
+	
+	if (!chat.isGroupChat) return YES;
+	
+	AIGroupChatFlags flags = [self flagsInChat:(AIGroupChat *)chat];
 	
 	switch (req) {
 		case AIRequiresHalfop:

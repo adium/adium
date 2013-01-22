@@ -44,6 +44,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITableViewAdditions.h>
@@ -77,10 +78,10 @@
 #define HIDE_TIMESTAMPS					AILocalizedString(@"Hide Timestamps",nil)
 #define SHOW_TIMESTAMPS					AILocalizedString(@"Show Timestamps",nil)
 
-#define IMAGE_EMOTICONS_OFF				@"emoticon32"
-#define IMAGE_EMOTICONS_ON				@"emoticon32_transparent"
-#define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
-#define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
+#define IMAGE_EMOTICONS_OFF				@"emoticon"
+#define IMAGE_EMOTICONS_ON				@"emoticon-sleep"
+#define IMAGE_TIMESTAMPS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_TIMESTAMPS_ON				@"transcripts-timestamp-in"
 
 #define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
 #define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
@@ -292,7 +293,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 //Init our log filtering tree
 - (void)initLogFiltering
 {
-    NSMutableDictionary		*toDict = [NSMutableDictionary dictionary];
     NSString				*basePath = [AILoggerPlugin logBasePath];
     NSString				*fromUID, *serviceClass;
 
@@ -301,7 +301,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     for (NSString *folderName in [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:basePath error:NULL] sortedArrayUsingSelector:@selector(compare:)]) {
 		if (![folderName isEqualToString:@".DS_Store"]) { // avoid the directory info
 			AILogFromGroup  *logFromGroup;
-			NSMutableSet	*toSetForThisService;
 			NSArray         *serviceAndFromUIDArray;
 			
 			/* Determine the service and fromUID - should be SERVICE.ACCOUNT_NAME
@@ -325,21 +324,10 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 			//Store logFromGroup on a key in the form "SERVICE.ACCOUNT_NAME"
 			[logFromGroupDict setObject:logFromGroup forKey:folderName];
 
-			//To processing
-			if (!(toSetForThisService = [toDict objectForKey:serviceClass])) {
-				toSetForThisService = [NSMutableSet set];
-				[toDict setObject:toSetForThisService
-						   forKey:serviceClass];
-			}
-
 			//Add the 'to' for each grouping on this account
 			for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
-				NSString	*currentTo;
-
-				if ((currentTo = [currentToGroup to])) {
-					//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
-					[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
-				}
+				//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
+				[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
 			}
 
 			[logFromGroup release];
@@ -665,7 +653,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [resultsLock lock];
     NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
-	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
+	AILog(@"refreshResultsSearchIsComplete: %i (count is %li)",searchIsComplete,count);
 	
 	if (searchIsComplete &&
 		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
@@ -1123,7 +1111,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	[textView_content scrollRangeToVisible:scrollTo];
 	[textView_content setSelectedRange:scrollTo];
 
-	[textField_findCount setStringValue:[NSString stringWithFormat:@"%d/%d", currentMatch, [matches count]]];
+	[textField_findCount setStringValue:[NSString stringWithFormat:@"%ld/%ld", currentMatch, [matches count]]];
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
@@ -1668,7 +1656,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				 */
 				theLog = [[logToGroupDict objectForKey:toPath] logAtPath:path];
 				if (!theLog) {
-					AILog(@"_logContentFilter: %x's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
+					AILog(@"_logContentFilter: %p's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
 				}
 				[resultsLock lock];
 				if ((theLog != nil) &&
@@ -1736,7 +1724,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
+		AILogWithSignature(@"Search ID %li: %@", searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1762,7 +1750,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILogWithSignature(@"Search ID %i): finished", searchID);
+		AILogWithSignature(@"Search ID %li): finished", searchID);
     }
 	
     //Cleanup
@@ -1908,9 +1896,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			NSImage		*image;
 			
 			serviceClass = [theLog serviceClass];
-			image = [AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
+			image = [[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
 													 type:AIServiceIconSmall
-												direction:AIIconNormal];
+												direction:AIIconNormal] imageByScalingForMenuItem];
 			value = (image ? image : blankImage);
 		}
     }
@@ -2130,15 +2118,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else if ([item isKindOfClass:[AIListContact class]]) {
 		NSImage	*image = [AIUserIcons listUserIconForContact:(AIListContact *)item
 														size:NSMakeSize(16,16)];
-		if (!image) image = [AIServiceIcons serviceIconForObject:(AIListContact *)item
+		if (!image) image = [[AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped];
+													   direction:AIIconFlipped] imageByScalingForMenuItem];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
-		[cell setImage:[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
+		[cell setImage:[[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
 														type:AIServiceIconSmall
-												   direction:AIIconNormal]];
+												   direction:AIIconFlipped] imageByScalingForMenuItem]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
@@ -2312,7 +2300,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
                                                toolTip:AILocalizedString(@"Delete the selection",nil)
                                                 target:self
                                        settingSelector:@selector(setImage:)
-                                           itemContent:[NSImage imageNamed:@"remove" forClass:[self class]]
+                                           itemContent:[NSImage imageNamed:@"transcripts-remove" forClass:[self class]]
                                                 action:@selector(deleteSelection:)
                                                   menu:nil];
 	
@@ -2324,14 +2312,14 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 														toolTip:AILocalizedString(@"Search or filter logs",nil)
 														 target:self
 												settingSelector:@selector(setView:)
-													itemContent:view_SearchField
+													itemContent:searchField_logs
 														 action:@selector(updateSearch:)
 														   menu:nil];
 	if ([toolbarItem respondsToSelector:@selector(setVisibilityPriority:)]) {
 		[toolbarItem setVisibilityPriority:(NSToolbarItemVisibilityPriorityHigh + 1)];
 	}
-	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([view_SearchField frame]))];
-	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([view_SearchField frame]))];
+	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([searchField_logs frame]))];
+	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([searchField_logs frame]))];
 	[toolbarItems setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
 
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:DATE_ITEM_IDENTIFIER

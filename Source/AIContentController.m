@@ -375,7 +375,7 @@
 			}
 			
 			//Did send content
-			[adium.contactAlertsController generateEvent:[chat isGroupChat] ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
+			[adium.contactAlertsController generateEvent:chat.isGroupChat ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
 											 forListObject:listObject
 												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 							  previouslyPerformedActionIDs:nil];

@@ -19,6 +19,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 
 /*!
  * @class AIServiceMenu
@@ -92,9 +93,9 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 																				action:@selector(selectServiceType:) 
 																		 keyEquivalent:@""];
 				[menuItem setRepresentedObject:service];
-				[menuItem setImage:[AIServiceIcons serviceIconForService:service
+				[menuItem setImage:[[AIServiceIcons serviceIconForService:service
 																	type:AIServiceIconSmall
-															   direction:AIIconNormal]];
+															   direction:AIIconNormal] imageByScalingForMenuItem]];
 				[menuItemArray addObject:menuItem];
 				[menuItem release];
 			}

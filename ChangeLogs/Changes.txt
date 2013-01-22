@@ -1,12 +1,45 @@
 				Adium Version History
 				-----------------------
-Version 1.5.4 (XX/XX/XXXX)
- * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. (#16102)
- * Limit the tracking of the last seen time to contacts who are on your contact list.
+Version 1.6 (X/X/X)
+ Major changes
+  * New preferences layout
+  * Added high-resolution resources for "Retina Display" support
+  * Updated to libpurple x.y.z.
+    * Added SASL authentication support. (#14478)
+
+ Plugins
+  * Added support for adding image upload services. (#15865) (Félix Cloutier)
+
+ Preferences
+  * Changed preferences layout to resemble OS X's System Preferences.
+  * Moved a bunch of preferences around for more consistency dissolving the "Advanced" preference pane and its sub-sections.
+  * Made Privacy Settings a preference pane.
+  * Made the Xtras Manager a preference pane.
+  * Renamed "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
+  * Contact list: Added a preference for maximum contact list height. (#4815)
+  * General: Removed "Send Messages with:" option. (#15369)
+  * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
+
+ Transcript Viewer
+  * Added full screen support. (##16120) (Paul Wilde)
+
+  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
+
+ * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+
+(#13824) (#14081) (#15161) (#13330) (#14079)
+
+Version 1.5.4 (11/4/2012)
  * Updated the included Growl SDK to 2.0, adding support for Notification Center on 10.8 if Growl is not installed. (#15867)
  * Updated libotr to 3.2.1, fixing a security vulnerability. (#16122)
- * Fixed a problem where accepting a group chat invite on Sametime 8.5.1 would crash Adium. (Jere Krischel and Jonathan Rice) (#16114)
+ * Updated libpurple to 2.10.6.
+ * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. (#16102)
+ * Improved disk usage: limit the tracking of the "last seen" time to contacts who are on your contact list.
+ * Fixed a problem where accepting a group chat invite on Sametime 8.5.1 would crash Adium. (Jonathan Rice and Jere Krischel) (#16114)
  * Fixed a problem where accepting a group chat invite on HipChat's XMPP server would crash Adium. (#16007)
+ * Fixed a problem preventing Adium from executing Applescripts when Gatekeeper is enabled.
+ * Added routines to make Secure Transport (on 10.8 and above) work around buggy TLS implementations in certain older XMPP servers. (#16081)
+ * Updated translations: British English, Czech, Danish (#16196), Dutch (#16220), French (#16207), Italian (#16218), Norwegian (Bokmål) (#16219), Portuguese (Portugal) (#16211), Slovakian (#16194), Turkish.
 
 
 Version 1.5.3 (8/12/2012)
@@ -18,7 +51,7 @@ Version 1.5.3 (8/12/2012)
  * Icons set for group chat bookmarks will now show up on the tab bar in the chat window. (Andreas Marienborg) (#14484)
  * Fixed tables not being declared as such via VoiceOver. (Marco Zehe) (#16085)
  * Fixed a problem with emoticons scaling disproportionately in the yMous message style when using OS X 10.8.
- * Improved memory use slightly.
+ * Improved memory usage slightly.
 
 
 Version 1.5.2 (7/21/2012)

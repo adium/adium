@@ -44,7 +44,7 @@
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
 
-- (void)updateTimelineChat:(AIChat *)timelineChat;
+- (void)updateTimelineChat:(AIGroupChat *)timelineChat;
 
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
 							 tweetID:(NSString *)tweetID
@@ -243,7 +243,7 @@
 		
 		
 		if(!timelineBookmark) {
-			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
+			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@", self,
 				  self.timelineChatName, newTimelineChat,
 				  [adium.contactController groupWithUID:self.timelineGroupName]);
 		}
@@ -412,7 +412,7 @@
 	AIChat *chat = [notification object];
 	
 	if(chat.isGroupChat && chat.account == self) {
-		[self updateTimelineChat:chat];
+		[self updateTimelineChat:(AIGroupChat *)chat];
 	}	
 }
 
@@ -876,9 +876,9 @@
  *
  * If the timeline chat is not already active, it is created.
  */
-- (AIChat *)timelineChat
+- (AIGroupChat *)timelineChat
 {
-	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+	AIGroupChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 															onAccount:self];
 	
 	if (!timelineChat) {
@@ -896,7 +896,7 @@
  * 
  * Remove the userlist
  */
-- (void)updateTimelineChat:(AIChat *)timelineChat
+- (void)updateTimelineChat:(AIGroupChat *)timelineChat
 {
 	// Disable the user list on the chat.
 	if (timelineChat.chatContainer.chatViewController.userListVisible) {
@@ -1150,7 +1150,7 @@
 - (void)periodicUpdate
 {
 	if (pendingUpdateCount) {
-		AILogWithSignature(@"%@ Update already in progress. Count = %d", self, pendingUpdateCount);
+		AILogWithSignature(@"%@ Update already in progress. Count = %ld", self, pendingUpdateCount);
 		return;
 	}
 	
@@ -1710,7 +1710,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d updates", self, queuedUpdates.count);
+		AILogWithSignature(@"%@ Displaying %ld updates", self, queuedUpdates.count);
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
@@ -1719,7 +1719,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		BOOL trackContent = [[self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 		
-		AIChat *timelineChat = self.timelineChat;
+		AIGroupChat *timelineChat = self.timelineChat;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
@@ -1783,7 +1783,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d DMs", self, queuedDM.count);
+		AILogWithSignature(@"%@ Displaying %ld DMs", self, queuedDM.count);
 		
 		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		
@@ -2383,7 +2383,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			if (users.count > 0) {
 				
-				AILogWithSignature(@"%@ User info pull, Users count: %d", self, users.count);
+				AILogWithSignature(@"%@ User info pull, Users count: %ld", self, users.count);
 				
 				for (NSDictionary *user in users) {
 					

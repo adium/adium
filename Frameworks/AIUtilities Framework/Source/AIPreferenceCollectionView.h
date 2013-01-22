@@ -32,6 +32,8 @@
 @property (retain, nonatomic) NSMutableIndexSet *matchedSearchIndexes;
 @property (assign, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
 
+- (void)didSelectItem:(id)item;
+
 @end
 
 @protocol AIPreferenceCollectionViewDelegate <NSObject>

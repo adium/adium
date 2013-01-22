@@ -42,7 +42,7 @@
     return @"Preferences-WindowHandling";
 }
 - (NSImage *)paneIcon{
-	return [NSImage imageNamed:@"pref-windowhandling" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-window-handling" forClass:[self class]];
 }
 
 - (void)viewDidLoad

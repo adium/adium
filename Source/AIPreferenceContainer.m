@@ -179,7 +179,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 	if (error) {
 		NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
 			  [error domain], (long)[error code], [error userInfo]);
-		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %li: %@)", objectPrefsPath, error,
 						   [error domain], [error code], [error userInfo]);
 		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
 			while (!data) {
@@ -188,7 +188,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 											  options:NSUncachedRead
 												error:&error];
 				if (error) {
-					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %li: %@)", objectPrefsPath, error,
 									   [error domain], [error code], [error userInfo]);
 				}	
 			}
@@ -210,7 +210,7 @@ static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
 	}
 	
 #ifdef PREFERENCE_CONTAINER_DEBUG
-	AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
+	AILogWithSignature(@"I read in %@ with %li items", globalPrefsName, [*myGlobalPrefs count]);
 #endif
 	
 	/* If we don't get a dictionary, create a new one */

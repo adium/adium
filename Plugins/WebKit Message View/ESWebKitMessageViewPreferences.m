@@ -25,7 +25,7 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentEvent.h>
@@ -762,7 +762,7 @@
 	type = [chatDict objectForKey:@"Type"];
 	if ([type isEqualToString:@"IM"]) {
 		if ((UID = [chatDict objectForKey:@"Destination UID"])) {
-			[inChat addParticipatingListObject:[participants objectForKey:UID] notify:YES];
+			inChat.listObject = [participants objectForKey:UID];
 		}
 		if ((UID = [chatDict objectForKey:@"Source UID"])) {
 			[inChat setAccount:(AIAccount *)[participants objectForKey:UID]];

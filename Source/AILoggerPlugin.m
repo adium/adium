@@ -439,7 +439,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 			
 			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
 				_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+				AILogWithSignature(@"Opened index %p from %@",_index,logIndexURL);
 				
 				if (!_index) {
 					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
@@ -469,7 +469,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (CFDictionaryRef)textAnalysisProperties);
 
 				if (_index) {
-					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+					AILogWithSignature(@"Created a new log index %p at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
 					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
 					dispatch_sync(dirtyLogSetMutationQueue, ^{
@@ -1052,7 +1052,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					[attributeValues addObject:@"true"];
 				}
 				
-				NSString *displayName = [chat displayNameForContact:content.source];
+				NSString *displayName;
+                
+                if (chat.isGroupChat)
+                    displayName = [(AIGroupChat *)chat displayNameForContact:content.source];
+                else
+                    displayName = content.source.displayName;
 				
 				if (![[[content source] UID] isEqualToString:displayName]) {
 					[attributeKeys addObject:@"alias"];
@@ -1080,7 +1085,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				AIListObject	*actualObject = nil;
 				
 				if (content.source) {
-					for(AIListContact *participatingListObject in chat) {
+					for(AIListContact *participatingListObject in [chat containedObjects]) {
 						if ([participatingListObject parentContact] == retardedMetaObject) {
 							actualObject = participatingListObject;
 							break;
@@ -1331,7 +1336,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			__block __typeof__(self) bself = self;
 			dispatch_sync(dirtyLogSetMutationQueue, ^{
 				[bself.dirtyLogSet addObjectsFromArray:[NSArray arrayWithContentsOfFile:[bself _dirtyLogSetPath]]];
-				AILogWithSignature(@"Loaded dirty log set with %i logs",[bself.dirtyLogSet count]);
+				AILogWithSignature(@"Loaded dirty log set with %li logs",[bself.dirtyLogSet count]);
 			});      
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
@@ -1455,7 +1460,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		__block UInt32  lastUpdate = TickCount();
 		__block SInt32  unsavedChanges = 0;
 		
-		AILogWithSignature(@"Cleaning %i dirty logs", [localLogSet count]);
+		AILogWithSignature(@"Cleaning %li dirty logs", [localLogSet count]);
 		
 		[localLogSet retain];
 		
@@ -1607,7 +1612,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				
 				[bself _flushIndex:searchIndex];
 				
-				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
+				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %li and a count of %li",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				
@@ -1692,7 +1697,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
-                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
+                AILogWithSignature(@"**** %@ Releasing its index %p (%ld)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
 				SKIndexClose(bself->logIndex);
 				bself->logIndex = nil;
 			}
