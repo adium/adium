@@ -58,8 +58,8 @@ enum segments {
 
 @interface NSWindow (FakeLeopardAdditions)
 - (void)setAutorecalculatesContentBorderThickness:(BOOL)autorecalculateContentBorderThickness forEdge:(NSRectEdge)edge;
-- (float)contentBorderThicknessForEdge:(NSRectEdge)edge;
-- (void)setContentBorderThickness:(float)borderThickness forEdge:(NSRectEdge)edge;
+- (CGFloat)contentBorderThicknessForEdge:(NSRectEdge)edge;
+- (void)setContentBorderThickness:(CGFloat)borderThickness forEdge:(NSRectEdge)edge;
 @end
 
 @implementation AIContactInfoWindowController
