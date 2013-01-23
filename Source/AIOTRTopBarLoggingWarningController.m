@@ -61,7 +61,7 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	if ([key isEqualToString:KEY_LOGGER_SECURE_CHATS] || [key isEqualToString:KEY_LOGGER_CERTAIN_ACCOUNTS]
-		|| [key isEqualToString:KEY_LOGGER_OBJECT_DISABLE]) {
+		|| [key isEqualToString:KEY_LOGGER_OBJECT_DISABLE] || [key isEqualToString:KEY_LOGGER_ENABLE]) {
 		if (chat.shouldLog) {
 			[owner unhideTopBarController:self];
 		} else {
