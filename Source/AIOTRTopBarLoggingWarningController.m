@@ -17,6 +17,7 @@
 #import "AIOTRTopBarLoggingWarningController.h"
 #import "AIMessageViewController.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import "AIStringAdditions.h"
 
 #import "AILoggerPlugin.h"
 
@@ -38,6 +39,9 @@
 																 green:.95
 																  blue:.5
 																 alpha:1.0];
+		
+		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but still logged by you. Your security might be at risk.", nil)];
+		[button_configure setStringValue:[AILocalizedString(@"Configure", nil) stringByAppendingEllipsis]];
 		
 		[adium.preferenceController registerPreferenceObserver:self
 													  forGroup:PREF_GROUP_LOGGING];

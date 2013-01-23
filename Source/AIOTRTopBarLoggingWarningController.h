@@ -19,6 +19,9 @@
 
 @interface AIOTRTopBarLoggingWarningController : AIMessageViewTopBarController {
 	IBOutlet AITopBarGradientView *view_backgroundView;
+	IBOutlet NSTextField    *label_description;
+	IBOutlet NSButton       *button_configure;
+
 }
 
 - (IBAction)configureLogging:(id)sender;
