@@ -35,34 +35,34 @@
 			<object class="NSCustomObject" id="1004">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSCustomView" id="495947813">
+			<object class="NSCustomView" id="1007350400">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">266</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSCustomView" id="715919500">
-						<reference key="NSNextResponder" ref="495947813"/>
+					<object class="NSCustomView" id="747214177">
+						<reference key="NSNextResponder" ref="1007350400"/>
 						<int key="NSvFlags">290</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="NSButton" id="840528027">
-								<reference key="NSNextResponder" ref="715919500"/>
+							<object class="NSButton" id="285036237">
+								<reference key="NSNextResponder" ref="747214177"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{401, 4}, {72, 19}}</string>
-								<reference key="NSSuperview" ref="715919500"/>
+								<string key="NSFrame">{{390, 4}, {83, 19}}</string>
+								<reference key="NSSuperview" ref="747214177"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="NSEnabled">YES</bool>
-								<object class="NSButtonCell" key="NSCell" id="227781480">
+								<object class="NSButtonCell" key="NSCell" id="892265290">
 									<int key="NSCellFlags">-2080374784</int>
 									<int key="NSCellFlags2">134217728</int>
-									<string key="NSContents">Configure</string>
+									<string key="NSContents">Configure...</string>
 									<object class="NSFont" key="NSSupport">
 										<string key="NSName">LucidaGrande</string>
 										<double key="NSSize">12</double>
 										<int key="NSfFlags">16</int>
 									</object>
 									<string key="NSCellIdentifier">_NS:9</string>
-									<reference key="NSControlView" ref="840528027"/>
+									<reference key="NSControlView" ref="285036237"/>
 									<int key="NSButtonFlags">-2038153216</int>
 									<int key="NSButtonFlags2">164</int>
 									<string key="NSAlternateContents"/>
@@ -72,16 +72,16 @@
 								</object>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
-							<object class="NSTextField" id="49463977">
-								<reference key="NSNextResponder" ref="715919500"/>
+							<object class="NSTextField" id="723249328">
+								<reference key="NSNextResponder" ref="747214177"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{7, 7}, {549, 17}}</string>
-								<reference key="NSSuperview" ref="715919500"/>
+								<reference key="NSSuperview" ref="747214177"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="840528027"/>
+								<reference key="NSNextKeyView" ref="285036237"/>
 								<string key="NSReuseIdentifierKey">_NS:1535</string>
 								<bool key="NSEnabled">YES</bool>
-								<object class="NSTextFieldCell" key="NSCell" id="644426224">
+								<object class="NSTextFieldCell" key="NSCell" id="3853440">
 									<int key="NSCellFlags">68157504</int>
 									<int key="NSCellFlags2">71304192</int>
 									<string key="NSContents">Your conversation is encrypted, but still logged by you. Your security might be at risk.</string>
@@ -91,7 +91,7 @@
 										<int key="NSfFlags">1044</int>
 									</object>
 									<string key="NSCellIdentifier">_NS:1535</string>
-									<reference key="NSControlView" ref="49463977"/>
+									<reference key="NSControlView" ref="723249328"/>
 									<object class="NSColor" key="NSBackgroundColor">
 										<int key="NSColorSpace">6</int>
 										<string key="NSCatalogName">System</string>
@@ -115,16 +115,16 @@
 							</object>
 						</array>
 						<string key="NSFrameSize">{480, 30}</string>
-						<reference key="NSSuperview" ref="495947813"/>
+						<reference key="NSSuperview" ref="1007350400"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="49463977"/>
+						<reference key="NSNextKeyView" ref="723249328"/>
 						<string key="NSClassName">AITopBarGradientView</string>
 					</object>
 				</array>
 				<string key="NSFrameSize">{480, 30}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="715919500"/>
+				<reference key="NSNextKeyView" ref="747214177"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="NSClassName">NSView</string>
 			</object>
@@ -135,7 +135,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="495947813"/>
+						<reference key="destination" ref="1007350400"/>
 					</object>
 					<int key="connectionID">18</int>
 				</object>
@@ -143,7 +143,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view_backgroundView</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="715919500"/>
+						<reference key="destination" ref="747214177"/>
 					</object>
 					<int key="connectionID">19</int>
 				</object>
@@ -151,9 +151,25 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">configureLogging:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="840528027"/>
+						<reference key="destination" ref="285036237"/>
 					</object>
 					<int key="connectionID">20</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">label_description</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="723249328"/>
+					</object>
+					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">button_configure</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="285036237"/>
+					</object>
+					<int key="connectionID">22</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -184,46 +200,46 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
-						<reference key="object" ref="495947813"/>
+						<reference key="object" ref="1007350400"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="715919500"/>
+							<reference ref="747214177"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">4</int>
-						<reference key="object" ref="715919500"/>
+						<reference key="object" ref="747214177"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="840528027"/>
-							<reference ref="49463977"/>
+							<reference ref="723249328"/>
+							<reference ref="285036237"/>
 						</array>
-						<reference key="parent" ref="495947813"/>
+						<reference key="parent" ref="1007350400"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="840528027"/>
+						<reference key="object" ref="285036237"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="227781480"/>
+							<reference ref="892265290"/>
 						</array>
-						<reference key="parent" ref="715919500"/>
+						<reference key="parent" ref="747214177"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
-						<reference key="object" ref="227781480"/>
-						<reference key="parent" ref="840528027"/>
+						<reference key="object" ref="892265290"/>
+						<reference key="parent" ref="285036237"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
-						<reference key="object" ref="49463977"/>
+						<reference key="object" ref="723249328"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="644426224"/>
+							<reference ref="3853440"/>
 						</array>
-						<reference key="parent" ref="715919500"/>
+						<reference key="parent" ref="747214177"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
-						<reference key="object" ref="644426224"/>
-						<reference key="parent" ref="49463977"/>
+						<reference key="object" ref="3853440"/>
+						<reference key="parent" ref="723249328"/>
 					</object>
 				</array>
 			</object>
@@ -244,7 +260,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">20</int>
+			<int key="maxID">22</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -345,17 +361,25 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">view_backgroundView</string>
-						<string key="NS.object.0">AITopBarGradientView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">view_backgroundView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button_configure">NSButton</string>
+						<string key="label_description">NSTextField</string>
+						<string key="view_backgroundView">AITopBarGradientView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button_configure">
+							<string key="name">button_configure</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_description">
+							<string key="name">label_description</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="view_backgroundView">
 							<string key="name">view_backgroundView</string>
 							<string key="candidateClassName">AITopBarGradientView</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AIOTRTopBarLoggingWarningController.h</string>
