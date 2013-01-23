@@ -26,9 +26,12 @@
 	IBOutlet	NSButton		*button_showFingerprint;
 	IBOutlet	NSButton		*button_forgetFingerprint;
 	
+	IBOutlet	NSSearchField	*field_filter;
+	
 	BOOL						viewIsOpen;
 	
 	NSMutableArray				*fingerprintDictArray;
+	NSMutableArray				*filteredFingerprintDictArray;
 	AIAccountMenu 				*accountMenu;
 	NSTextField *label_knownFingerprints;
 	NSTextField *label_privateKeys;
@@ -40,6 +43,7 @@
 - (IBAction)generate:(id)sender;
 - (IBAction)showFingerprint:(id)sender;
 - (IBAction)forgetFingerprint:(id)sender;
+- (IBAction)filter:(id)sender;
 
 - (void)updateFingerprintsList;
 - (void)updatePrivateKeyList;
