@@ -972,16 +972,6 @@ void update_security_details_for_chat(AIChat *inChat)
 		NSMutableDictionary	*fullSecurityDetailsDict;
 		
 		if (securityDetailsDict) {
-			
-			NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
-			NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
-			
-			if (newEncryptionStatus != EncryptionStatus_None && oldEncryptionStatus == EncryptionStatus_None && [inChat shouldLog]) {
-				AIOTRTopBarLoggingWarningController *warningController = [[AIOTRTopBarLoggingWarningController alloc] init];
-				AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
-				[mvc addTopBarController:warningController];
-			}
-			
 			NSString				*format, *description;
 			fullSecurityDetailsDict = [[securityDetailsDict mutableCopy] autorelease];
 			
@@ -1014,9 +1004,20 @@ void update_security_details_for_chat(AIChat *inChat)
 			fullSecurityDetailsDict = nil;	
 		}
 		
+		
+		NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
+		
 		[inChat setSecurityDetails:fullSecurityDetailsDict];
+		
+		NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
+		
+		if (newEncryptionStatus != EncryptionStatus_None && oldEncryptionStatus == EncryptionStatus_None && inChat.shouldLog) {
+			AIOTRTopBarLoggingWarningController *warningController = [[AIOTRTopBarLoggingWarningController alloc] init];
+			AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
+			[mvc addTopBarController:warningController];
+		}
 	}
-}	
+}
 
 #pragma mark -
 
