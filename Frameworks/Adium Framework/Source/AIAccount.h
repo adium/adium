@@ -30,12 +30,12 @@
 #define KEY_ACCOUNT_CHECK_MAIL		@"Check Mail"
 #define KEY_ENABLED					@"Enabled"
 #define KEY_AUTOCONNECT				@"AutoConnect"
+#define KEY_ACCOUNT_REGISTER_ON_CONNECT @"Register on Connect"
 
 //NSData archive of an NSAttributedString
 #define KEY_ACCOUNT_DISPLAY_NAME	@"FullNameAttr"
 
 #define	Adium_RequestImmediateDynamicContentUpdate			@"Adium_RequestImmediateDynamicContentUpdate"
-#define AIAccountUsernameAndPasswordRegisteredNotification	@"AIAccountUsernameAndPasswordRegisteredNotification"
 
 //Proxy
 #define KEY_ACCOUNT_PROXY_ENABLED		@"Proxy Enabled"

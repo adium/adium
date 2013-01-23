@@ -24,7 +24,6 @@
 	IBOutlet	NSTextField		*textField_priorityAvailable;
 	IBOutlet	NSTextField		*textField_priorityAway;
 	IBOutlet	NSTextField		*textField_ftProxies;
-	IBOutlet	NSButton		*checkBox_useTLS;
 	IBOutlet	NSButton		*checkBox_forceOldSSL;
 	IBOutlet	NSButton		*checkBox_requireTLS;
 	IBOutlet	NSButton		*checkBox_checkCertificates;
@@ -33,21 +32,19 @@
 	IBOutlet	NSTextField		*textField_subscriptionModeLabel;
 	IBOutlet	NSComboBox		*comboBox_subscriptionGroup;
 
-	IBOutlet	NSButton		*button_register;
+	IBOutlet	NSButton		*checkBox_register;
 
 	IBOutlet	NSPanel			*window_registerServer;
 	IBOutlet	NSTableView		*tableview_servers;
-	IBOutlet	NSTextField		*textField_registerServerName;
-	IBOutlet	NSTextField		*textField_registerServerPort;
 	IBOutlet	NSTextView		*textView_serverDescription;
 	IBOutlet	NSButton		*button_serverHomepage;
 
 	NSArray *servers;
 }
 
-- (IBAction)registerNewAccount:(id)sender;
-- (IBAction)registerCancel:(id)sender;
-- (IBAction)registerRequestAccount:(id)sender;
+- (IBAction)findServer:(id)sender;
+- (IBAction)findServerCancel:(id)sender;
+- (IBAction)findServerAccept:(id)sender;
 
 - (IBAction)subscriptionModeDidChange:(id)sender;
 
