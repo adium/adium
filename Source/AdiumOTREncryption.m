@@ -32,7 +32,6 @@
 
 #import <AIUtilities/AIStringAdditions.h>
 
-#import "ESOTRPrivateKeyGenerationWindowController.h"
 #import "ESOTRPreferences.h"
 #import "ESOTRUnknownFingerprintController.h"
 #import "OTRCommon.h"
@@ -388,20 +387,28 @@ static OtrlPolicy policy_cb(void *opdata, ConnContext *context)
 /* Generate a private key for the given accountname/protocol */
 void otrg_plugin_create_privkey(const char *accountname,
 								const char *protocol)
-{	
-	AIAccount	*account = accountFromAccountID(accountname);
-	AIService	*service = serviceFromServiceID(protocol);
+{
+	static BOOL alreadyGenerating = FALSE;
+	static dispatch_queue_t keyGenerationQueue = NULL;
+	static dispatch_once_t onceToken;
 	
-	NSString	*identifier = [NSString stringWithFormat:@"%@ (%@)",account.formattedUID, [service shortDescription]];
+	dispatch_once(&onceToken, ^{
+		keyGenerationQueue = dispatch_queue_create("im.adium.OTR.KeyGenerationQueue", NULL);
+	});
 	
-	[ESOTRPrivateKeyGenerationWindowController startedGeneratingForIdentifier:identifier];
+	if (alreadyGenerating) {
+		AILogWithSignature(@"A key generation is already running. Canceling");
+		return;
+	}
 	
     /* Generate the key */
 	void *newkeyp;
     otrl_privkey_generate_start(otrg_get_userstate(),
-						  accountname, protocol, &newkeyp);
+								accountname, protocol, &newkeyp);
+	alreadyGenerating = TRUE;
 	
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+	dispatch_async(keyGenerationQueue, ^{
+		AILogWithSignature(@"Generating a new private key");
 		otrl_privkey_generate_calculate(newkeyp);
 		
 		dispatch_sync(dispatch_get_main_queue(), ^{
@@ -409,8 +416,9 @@ void otrg_plugin_create_privkey(const char *accountname,
 			
 			otrg_ui_update_keylist();
 			
-			/* Mark the dialog as done. */
-			[ESOTRPrivateKeyGenerationWindowController finishedGeneratingForIdentifier:identifier];
+			AILogWithSignature(@"Done.");
+			
+			alreadyGenerating = FALSE;
 		});
 	});
 }
