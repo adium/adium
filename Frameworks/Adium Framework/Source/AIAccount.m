@@ -1024,6 +1024,10 @@ typedef enum
 {
 	BOOL shouldLog = ![self isTemporary];
 	
+	if (shouldLog) {
+		shouldLog = [[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE group:PREF_GROUP_LOGGING] boolValue];
+	}
+	
 	if(shouldLog && [[adium.preferenceController preferenceForKey:KEY_LOGGER_CERTAIN_ACCOUNTS group:PREF_GROUP_LOGGING] boolValue]) {
 		shouldLog = ![[self preferenceForKey:KEY_LOGGER_OBJECT_DISABLE
 									   group:PREF_GROUP_LOGGING] boolValue];
