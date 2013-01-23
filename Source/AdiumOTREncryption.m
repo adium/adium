@@ -38,6 +38,8 @@
 #import "OTRCommon.h"
 #import "AIOTRSMPSecretAnswerWindowController.h"
 #import "AIOTRSMPSharedSecretWindowController.h"
+#import "AIOTRTopBarLoggingWarningController.h"
+#import "AIMessageViewController.h"
 
 #import <stdlib.h>
 
@@ -251,7 +253,7 @@ static NSDictionary* details_for_context(ConnContext *context)
 	securityDetailsDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSString stringWithUTF8String:their_hash], @"Their Fingerprint",
 		[NSString stringWithUTF8String:our_hash], @"Our Fingerprint",
-		[NSNumber numberWithInteger:encryptionStatus], @"EncryptionStatus",
+		@(encryptionStatus), @"EncryptionStatus",
 		account, @"AIAccount",
 		[NSString stringWithUTF8String:context->username], @"who",
 		[NSString stringWithUTF8String:sess1], (sess1_outgoing ? @"Outgoing SessionID" : @"Incoming SessionID"),
@@ -970,6 +972,16 @@ void update_security_details_for_chat(AIChat *inChat)
 		NSMutableDictionary	*fullSecurityDetailsDict;
 		
 		if (securityDetailsDict) {
+			
+			NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
+			NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
+			
+			if (newEncryptionStatus != EncryptionStatus_None && oldEncryptionStatus == EncryptionStatus_None && [inChat shouldLog]) {
+				AIOTRTopBarLoggingWarningController *warningController = [[AIOTRTopBarLoggingWarningController alloc] init];
+				AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
+				[mvc addTopBarController:warningController];
+			}
+			
 			NSString				*format, *description;
 			fullSecurityDetailsDict = [[securityDetailsDict mutableCopy] autorelease];
 			

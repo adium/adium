@@ -1372,6 +1372,8 @@
 		76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */; };
 		76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */; };
 		76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */; };
+		76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */; };
+		76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
 		76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FF925914B524B40043E23B /* AIIRCConsoleController.m */; };
@@ -4424,6 +4426,9 @@
 		76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAccountSelectionViewController.m; path = "Plugins/Dual Window Interface/AIAccountSelectionViewController.m"; sourceTree = "<group>"; };
 		76AA110E163558B200A6EC4B /* AIRejoinGroupChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRejoinGroupChatViewController.h; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.h"; sourceTree = "<group>"; };
 		76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRejoinGroupChatViewController.m; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.m"; sourceTree = "<group>"; };
+		76B8B8E916AF3A46009126FE /* AIOTRTopBarLoggingWarningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRTopBarLoggingWarningController.h; path = Source/AIOTRTopBarLoggingWarningController.h; sourceTree = "<group>"; };
+		76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRTopBarLoggingWarningController.m; path = Source/AIOTRTopBarLoggingWarningController.m; sourceTree = "<group>"; };
+		76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRTopBarLoggingWarningController.xib; path = Source/AIOTRTopBarLoggingWarningController.xib; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
@@ -5220,6 +5225,9 @@
 				765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */,
 				765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */,
 				765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */,
+				76B8B8E916AF3A46009126FE /* AIOTRTopBarLoggingWarningController.h */,
+				76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */,
+				76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */,
 			);
 			name = OTR;
 			sourceTree = "<group>";
@@ -9854,6 +9862,7 @@
 				C613B1111640C370006683FF /* pref-profile.tiff in Resources */,
 				C613B143164112B3006683FF /* events-dock-name.tiff in Resources */,
 				C613B1451641210B006683FF /* events-contact.tiff in Resources */,
+				76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10512,6 +10521,7 @@
 				761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */,
 				761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */,
 				5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */,
+				76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
