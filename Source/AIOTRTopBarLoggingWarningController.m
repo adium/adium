@@ -15,7 +15,10 @@
  */
 
 #import "AIOTRTopBarLoggingWarningController.h"
+#import "AIMessageViewController.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
+
+#import "AILoggerPlugin.h"
 
 @implementation AIOTRTopBarLoggingWarningController
 
@@ -35,14 +38,61 @@
 																 green:.95
 																  blue:.5
 																 alpha:1.0];
+		
+		[adium.preferenceController registerPreferenceObserver:self
+													  forGroup:PREF_GROUP_LOGGING];
     }
     
     return self;
 }
 
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
+	
+	[super dealloc];
+}
+
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	if ([key isEqualToString:KEY_LOGGER_SECURE_CHATS] || [key isEqualToString:KEY_LOGGER_CERTAIN_ACCOUNTS]
+		|| [key isEqualToString:KEY_LOGGER_OBJECT_DISABLE]) {
+		if (chat.shouldLog) {
+			[owner unhideTopBarController:self];
+		} else {
+			[owner hideTopBarController:self];
+		}
+	}
+}
+
 - (IBAction)configureLogging:(id)sender
 {
 	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Messages"];
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+    NSArray	*modifiedKeys = [[notification userInfo] objectForKey:@"Keys"];
+	
+    if ([modifiedKeys containsObject:@"securityDetails"]) {
+		if ([[[chat securityDetails] objectForKey:@"EncryptionStatus"] integerValue] == EncryptionStatus_None
+			|| !chat.shouldLog) {
+			[owner removeTopBarController:self];
+		}
+    }
+}
+
+- (void)setChat:(AIChat *)inChat
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[chat release];
+	chat = [inChat retain];
+	
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
+                                                 name:Chat_StatusChanged
+                                               object:chat];
 }
 
 @end
