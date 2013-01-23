@@ -78,8 +78,8 @@
 {
 	[label_privateKeys setStringValue:AILocalizedString(@"Private Keys:", nil)];
 	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints:", nil)];
-	[button_forgetFingerprint setTitle:AILocalizedString(@"Forget Fingerprint", nil)];
-	[button_showFingerprint setTitle:[AILocalizedString(@"Show Fingerprint", nil) stringByAppendingEllipsis]];
+	[button_forgetFingerprint setTitle:AILocalizedString(@"Delete", nil)];
+	[button_showFingerprint setTitle:[AILocalizedString(@"Show", nil) stringByAppendingEllipsis]];
 	[button_generate setTitle:AILocalizedString(@"Generate", nil)];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"UID"] headerCell] setStringValue:AILocalizedString(@"Name", nil)];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"Status"] headerCell] setStringValue:AILocalizedString(@"Status", nil)];
@@ -102,6 +102,7 @@
 - (void)dealloc
 {
 	[fingerprintDictArray release]; fingerprintDictArray = nil;
+	[filteredFingerprintDictArray release]; filteredFingerprintDictArray = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
@@ -122,6 +123,8 @@
 
 		[fingerprintDictArray release];
 		fingerprintDictArray = [[NSMutableArray alloc] init];
+		[filteredFingerprintDictArray release];
+		filteredFingerprintDictArray = [fingerprintDictArray retain];
 		
 		for (context = otrg_plugin_userstate->context_root; context != NULL;
 			 context = context->next) {
@@ -241,7 +244,7 @@
 {
 	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	if (selectedRow != -1) {
-		NSDictionary	*fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
+		NSDictionary	*fingerprintDict = [filteredFingerprintDictArray objectAtIndex:selectedRow];
 		[ESOTRFingerprintDetailsWindowController showDetailsForFingerprintDict:fingerprintDict];
 	}
 }
@@ -254,25 +257,69 @@
 {
 	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	if (selectedRow >= 0) {
-		NSDictionary *fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
+		NSDictionary *fingerprintDict = [filteredFingerprintDictArray objectAtIndex:selectedRow];
 		Fingerprint	*fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
 		
 		otrg_ui_forget_fingerprint(fingerprint);
 	}
 }
 
+- (IBAction)filter:(id)sender
+{
+	AILogWithSignature(@"Filtering");
+	NSString *needle = [field_filter stringValue];
+	
+	if (needle.length == 0) {
+		[filteredFingerprintDictArray release];
+		filteredFingerprintDictArray = [fingerprintDictArray retain];
+		
+		[tableView_fingerprints reloadData];
+		
+		return;
+	}
+
+	[filteredFingerprintDictArray release];
+	filteredFingerprintDictArray = [[NSMutableArray array] retain];
+	
+	for (NSDictionary *dict in fingerprintDictArray) {
+		if ([[dict objectForKey:@"UID"] rangeOfString:needle
+											  options:NSCaseInsensitiveSearch
+												range:NSMakeRange(0, [[dict objectForKey:@"UID"] length])
+											   locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+		if ([[dict objectForKey:@"Status"] rangeOfString:needle
+												 options:NSCaseInsensitiveSearch
+												   range:NSMakeRange(0, [[dict objectForKey:@"Status"] length])
+												  locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+		if ([[dict objectForKey:@"FingerprintString"] rangeOfString:needle
+															options:NSCaseInsensitiveSearch
+															  range:NSMakeRange(0, [[dict objectForKey:@"FingerprintString"] length])
+															 locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+	}
+	
+	[tableView_fingerprints reloadData];
+}
+
 //Fingerprint tableview ------------------------------------------------------------------------------------------------
 #pragma mark Fingerprint tableview
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	return [fingerprintDictArray count];
+	return [filteredFingerprintDictArray count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-	if ((rowIndex >= 0) && (rowIndex < [fingerprintDictArray count])) {
+	if ((rowIndex >= 0) && (rowIndex < [filteredFingerprintDictArray count])) {
 		NSString		*identifier = [aTableColumn identifier];
-		NSDictionary	*fingerprintDict = [fingerprintDictArray objectAtIndex:rowIndex];
+		NSDictionary	*fingerprintDict = [filteredFingerprintDictArray objectAtIndex:rowIndex];
 		
 		if ([identifier isEqualToString:@"UID"]) {
 			return [fingerprintDict objectForKey:@"UID"];
