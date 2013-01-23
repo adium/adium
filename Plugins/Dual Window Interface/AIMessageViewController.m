@@ -1424,19 +1424,22 @@
     
     CGFloat yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers) {
-        if (![existingController.view isHidden]) yPosition += NSHeight(existingController.view.frame);
+        if (![existingController.view isHidden]) {
+			yPosition += NSHeight(existingController.view.frame);
+			[existingController.view setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
+		}
     }
     
     NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
     
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.05];
+    [[NSAnimationContext currentContext] setDuration:0.2];
     if (splitViewSize.height != NSHeight(splitView_verticalSplit.frame)) {
-        [splitView_verticalSplit.animator setFrameSize:splitViewSize];
+        [splitView_verticalSplit setFrameSize:splitViewSize];
     }
     
-    [view_topBars.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
-    [view_topBars.animator setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
+    [view_topBars setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
+    [view_topBars setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
     
     yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
@@ -1449,7 +1452,7 @@
     
     [NSAnimationContext endGrouping];
     
-    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.4];
 }
 
 - (void)chatStatusChanged:(NSNotification *)notification
