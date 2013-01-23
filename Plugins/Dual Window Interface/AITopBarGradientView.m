@@ -14,18 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <PSMTabBarControl/NSBezierPath_AMShading.h>
 #import "AITopBarGradientView.h"
 
 @implementation AITopBarGradientView
 
 -(void)drawRect:(NSRect)aRect
 {
-    NSBezierPath *path = [NSBezierPath bezierPathWithRect:self.bounds];
-    [path linearGradientFillWithStartColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]
-                                  endColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
-    
-    path = [NSBezierPath bezierPath];
+	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]
+														 endingColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
+	[gradient drawInRect:self.bounds angle:90.0];
+	
+    NSBezierPath *path = [NSBezierPath bezierPath];
     
     [path setLineWidth:2.0f];
     

@@ -88,9 +88,11 @@
 	NSString *defaultGroup = [account preferenceForKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 	[comboBox_subscriptionGroup setStringValue:(defaultGroup ? defaultGroup : @"")];
 	
-	//Change the register button into sign up if the account can't register new accounts
-	if (![account.service canRegisterNewAccounts])
-		[button_register setAction:@selector(signUpAccount:)];
+	if (inAccount.UID.length > 0) {
+		[checkBox_register setHidden:TRUE];
+		[checkBox_register setState:NSOffState];
+		[button_signUp setHidden:TRUE];
+	}
 	
 	//Set hidden flag of the default group combobox
 	[self subscriptionModeDidChange:nil];
@@ -102,15 +104,15 @@
     [super saveConfiguration];
 	
 	//Connection security
-	[account setPreference:[NSNumber numberWithBool:[checkBox_forceOldSSL state]]
+	[account setPreference:@([checkBox_forceOldSSL state])
 					forKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:[NSNumber numberWithBool:[checkBox_requireTLS state]]
-								   forKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:[NSNumber numberWithBool:[checkBox_checkCertificates state]]
+	[account setPreference:@([checkBox_requireTLS state])
+					forKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:@([checkBox_checkCertificates state])
 					forKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:[NSNumber numberWithBool:[checkBox_allowPlaintext state]]
+	[account setPreference:@([checkBox_allowPlaintext state])
 					forKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS];
-
+	
 	//Resource
 	[account setPreference:([[textField_resource stringValue] length] ? [textField_resource stringValue] : nil)
 					forKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS];
@@ -128,19 +130,23 @@
 					forKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
 	
 	//Priority
-	[account setPreference:([textField_priorityAvailable integerValue] ? [NSNumber numberWithInteger:[textField_priorityAvailable integerValue]] : nil)
+	[account setPreference:([textField_priorityAvailable integerValue] ? @([textField_priorityAvailable integerValue]) : nil)
 					forKey:KEY_JABBER_PRIORITY_AVAILABLE
 					 group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:([textField_priorityAway integerValue] ? [NSNumber numberWithInteger:[textField_priorityAway integerValue]] : nil)
+	[account setPreference:([textField_priorityAway integerValue] ? @([textField_priorityAway integerValue]) : nil)
 					forKey:KEY_JABBER_PRIORITY_AWAY
 					 group:GROUP_ACCOUNT_STATUS];
 
 	//Subscription Behavior
-	[account setPreference:([[popup_subscriptionBehavior selectedItem] tag] ? [NSNumber numberWithInteger:[[popup_subscriptionBehavior selectedItem] tag]] : nil)
+	[account setPreference:([[popup_subscriptionBehavior selectedItem] tag] ? @([[popup_subscriptionBehavior selectedItem] tag]) : nil)
 					forKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR
 					 group:GROUP_ACCOUNT_STATUS];
 	[account setPreference:([[comboBox_subscriptionGroup stringValue] length] ? [comboBox_subscriptionGroup stringValue] : nil)
 					forKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
+	
+	[account setPreference:@([checkBox_register state])
+					forKey:KEY_ACCOUNT_REGISTER_ON_CONNECT
+					 group:GROUP_ACCOUNT_STATUS];
 }
 
 - (IBAction)subscriptionModeDidChange:(id)sender {
@@ -212,9 +218,10 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	return NSOrderedAscending;
 }
 
-- (IBAction)registerNewAccount:(id)sender {
+- (IBAction)findServer:(id)sender {
 	if(!servers) {
 		NSError *err = NULL;
+#warning Should not be synchronous. Bad.
 		NSXMLDocument *serverfeed = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
 																		 options:0
 																		   error:&err];
@@ -270,13 +277,12 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 						distance = [NSNumber numberWithDouble:d];
 					}
 					
-					[(NSMutableArray*)servers addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						[title stringValue], @"servername",
-						(description ? (id)[description stringValue] : (id)[NSNull null]), @"description",
-						distance, @"distance",
-						domain, @"domain",
-						homepage, @"homepage", // might be nil
-						nil]];
+					[(NSMutableArray*)servers addObject:
+					 @{ @"servername" : [title stringValue],
+					 @"description" : (description ? (id)[description stringValue] : (id)[NSNull null]),
+					 @"distance" : distance,
+					 @"domain" : domain,
+					 @"homepage" : (homepage ?: (id)[NSNull null]) }];
 				}
 				
 				[(NSMutableArray*)servers sortUsingFunction:compareByDistance context:nil];
@@ -309,12 +315,10 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
 	NSDictionary *serverInfo = [servers objectAtIndex:[tableview_servers selectedRow]];
-	NSString *servername = [serverInfo objectForKey:@"domain"];
-	[textField_registerServerName setStringValue:servername];
-	[textField_registerServerPort setStringValue:@""];
+
 	[textView_serverDescription setString:[serverInfo objectForKey:@"description"]];
 	
-	[button_serverHomepage setEnabled:[serverInfo objectForKey:@"homepage"] != nil];
+	[button_serverHomepage setEnabled:[serverInfo objectForKey:@"homepage"] != [NSNull null]];
 }
 
 - (IBAction)visitServerHomepage:(id)sender {
@@ -323,40 +327,48 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	[[NSWorkspace sharedWorkspace] openURL:[serverInfo objectForKey:@"homepage"]];
 }
 
-- (IBAction)registerCancel:(id)sender {
+- (IBAction)findServerCancel:(id)sender {
 	[window_registerServer orderOut:nil];
 	[NSApp endSheet:window_registerServer];
 }
 
-- (IBAction)registerRequestAccount:(id)sender {
+- (IBAction)findServerAccept:(id)sender {
+	NSDictionary *serverInfo = [servers objectAtIndex:[tableview_servers selectedRow]];
+	
 	[[sender window] makeFirstResponder:nil]; // apply all changes
-	
-	if([[textField_registerServerName stringValue] length] == 0) {
-		NSBeep();
-		return;
-	}
-	
-	[account setPreference:[NSNumber numberWithInteger:[textField_registerServerPort integerValue]]
-					forKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS];
-
-	NSString *newUID;
-	if ([[textField_accountUID stringValue] length]) {
-		NSRange atLocation = [[textField_accountUID stringValue] rangeOfString:@"@" options:NSLiteralSearch];
-		if (atLocation.location == NSNotFound)
-			newUID = [NSString stringWithFormat:@"%@@%@",[textField_accountUID stringValue], [textField_registerServerName stringValue]];
-		else
-			newUID = [NSString stringWithFormat:@"%@@%@",[[textField_accountUID stringValue] substringToIndex:atLocation.location], [textField_registerServerName stringValue]];
-	} else {
-		newUID = [NSString stringWithFormat:@"nobody@%@",[textField_registerServerName stringValue]];
-	}
-
-	[account filterAndSetUID:newUID];
 	
 	[window_registerServer orderOut:nil];
 	[NSApp endSheet:window_registerServer];
 	
-	[account performRegisterWithPassword:[textField_password stringValue]];
-	[self didBeginRegistration];
+	[account setPreference:@(5222)
+					forKey:KEY_CONNECT_PORT
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	NSString *newUID;
+	
+	if ([[textField_accountUID stringValue] length]) {
+		NSRange atLocation = [[textField_accountUID stringValue] rangeOfString:@"@" options:NSLiteralSearch];
+		if (atLocation.location == NSNotFound)
+			newUID = [NSString stringWithFormat:@"%@@%@", [textField_accountUID stringValue],
+					  [serverInfo objectForKey:@"domain"]];
+		else
+			newUID = [NSString stringWithFormat:@"%@@%@", [[textField_accountUID stringValue] substringToIndex:atLocation.location],
+					  [serverInfo objectForKey:@"domain"]];
+		
+		[account filterAndSetUID:newUID];
+		[textField_accountUID setStringValue:account.UID];
+	} else {
+		NSString *nobody = AILocalizedString(@"nobody", nil);
+		newUID = [NSString stringWithFormat:@"%@@%@", nobody, [serverInfo objectForKey:@"domain"]];
+		
+		[account filterAndSetUID:newUID];
+		[textField_accountUID setStringValue:account.UID];
+		[textField_accountUID selectText:self];
+		NSText *fieldEditor = [textField_accountUID.window fieldEditor:YES forObject:textField_accountUID];
+		[fieldEditor setSelectedRange:NSMakeRange(0, [nobody length])];
+	}
+	
+	[checkBox_register setState:NSOnState];
 }
 
 @end

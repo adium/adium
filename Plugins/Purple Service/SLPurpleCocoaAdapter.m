@@ -1380,6 +1380,8 @@ GList *createListFromDictionary(NSDictionary *arguments)
 {
 	PurpleAccount	*account = accountLookupFromAdiumAccount(adiumAccount);
 	GList			*attrs = createListFromDictionary(arguments);
+	BOOL shouldRegister = [[adiumAccount preferenceForKey:KEY_ACCOUNT_REGISTER_ON_CONNECT
+													group:GROUP_ACCOUNT_STATUS] boolValue];
 
 	AILog(@"Setting status on %p (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
 		  statusID, [isActive boolValue], arguments);
@@ -1392,13 +1394,14 @@ GList *createListFromDictionary(NSDictionary *arguments)
 		//This status is an online status, but the account is not connected or connecting
 
 		//Ensure the account is enabled
-		if (!purple_account_get_enabled(account, "Adium")) {
+		if (!purple_account_get_enabled(account, "Adium") && !shouldRegister) {
 			purple_account_set_enabled(account, "Adium", YES);
 		}
 
 		//Now connect the account
-		purple_account_connect(account);
-	}	
+		if (shouldRegister) [self registerAccount:adiumAccount];
+		else purple_account_connect(account);
+	}
 }
 
 - (void)setSongInformation:(NSDictionary *)arguments onAccount:(id)adiumAccount

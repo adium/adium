@@ -164,7 +164,25 @@
 			if ([adium.contactAlertsController isMessageEvent:eventID] &&
 				[userInfo objectForKey:@"AIContentObject"]) {
 				AIContentMessage	*content = [userInfo objectForKey:@"AIContentObject"];
-				message = [[[content message] attributedStringByConvertingAttachmentsToStrings] string];
+				NSMutableAttributedString *convertedMessage = [[[content message] attributedStringByConvertingAttachmentsToStrings] mutableCopy];
+				[convertedMessage enumerateAttribute:NSLinkAttributeName
+											 inRange:NSMakeRange(0, [convertedMessage length])
+											 options:0
+										  usingBlock:^(id value, NSRange range, BOOL *stop) {
+											  NSURL *url = nil;
+											  NSString *string = nil;
+											  if ([value isKindOfClass:[NSURL class]]) {
+												  url = value;
+												  string = [url absoluteString];
+											  } else if ([value isKindOfClass:[NSString class]]) {
+												  url = [NSURL URLWithString:value];
+												  string = value;
+											  }
+											  if ([string isEqualToString:[[convertedMessage string] substringWithRange:range]]) {
+												  [convertedMessage replaceCharactersInRange:range withString:[NSString stringWithFormat:AILocalizedString(@"link to %@", "replacement text for a link when reading a received message, %@ is the host"), [url host]]];
+											  }
+										  }];
+				message = [convertedMessage string];
 				
 			} else {
 				message = [adium.contactAlertsController naturalLanguageDescriptionForEventID:eventID

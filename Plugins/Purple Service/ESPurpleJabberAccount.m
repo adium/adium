@@ -352,32 +352,6 @@
 	return NULL;
 }
 
-- (void)purpleAccountRegistered:(BOOL)success
-{
-	if(success && [self.service accountViewController]) {
-		const char *usernamestr = purple_account_get_username(account);
-		NSString *username;
-		if (usernamestr) {
-			NSString *userWithResource = [NSString stringWithUTF8String:usernamestr];
-			NSRange slashrange = [userWithResource rangeOfString:@"/"];
-			if(slashrange.location != NSNotFound)
-				username = [userWithResource substringToIndex:slashrange.location];
-			else
-				username = userWithResource;
-		} else
-			username = (id)[NSNull null];
-
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
-												  object:self
-												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-													username, @"username",
-													pw, @"password",
-													nil]];
-	}
-}
-
 /*!
  * @brief Re-create the chat's join options.
  */
