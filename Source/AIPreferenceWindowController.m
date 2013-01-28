@@ -646,7 +646,6 @@
 			NSString *paneName = [[(NSURL *)foundURLs[i] pathComponents] objectAtIndex:1];
 			AIPreferencePane *pane = [panes objectForKey:paneName];
 			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", [NSNumber numberWithFloat:foundScores[i]], @"score", nil]];
-			[(NSURL *)foundURLs[i] release];
 			NSUInteger idx = [generalPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
 				[generalIndexes addIndex:idx];
