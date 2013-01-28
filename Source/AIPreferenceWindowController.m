@@ -624,7 +624,6 @@
 	SKSearchRef search = SKSearchCreate (skIndex,
 										 (CFStringRef) query,
 										 kSKSearchOptionDefault);
-	[(id) search autorelease];
 	int kSearchMax = 20;
 	CFURLRef foundURLs[kSearchMax];
 	SKDocumentID foundDocIDs[kSearchMax];
