@@ -277,7 +277,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
-// A "stationary" window stays pinned to the desktop during Exposé
+// A "stationary" window stays pinned to the desktop during Expos√©
 - (void)setCollectionBehaviorOfWindow:(NSWindow *)window showOnAllSpaces:(BOOL)allSpaces isStationary:(BOOL)stationary
 {
 	NSWindowCollectionBehavior behavior = NSWindowCollectionBehaviorDefault;
@@ -631,7 +631,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		currentScreenFrame.size.height -= [[NSApp mainMenu] menuBarHeight];
 	}
 
-	//Ensure the window is displaying at the proper level and exposé setting
+	//Ensure the window is displaying at the proper level and expos√© setting
 	[self setWindowLevel:levelForAIWindowLevel(windowLevel)];	
 }
 
@@ -799,7 +799,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 			
 			/* If we're hiding the window (generally) but now sliding it off screen, set it to kCGBackstopMenuLevel and don't
-			 * let it participate in exposé.
+			 * let it participate in expos√©.
 			 */
 			if (overrodeWindowLevel &&
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
