@@ -21,15 +21,9 @@
 #import "AITwitterURLHandler.h"
 #import "AIURLHandlerPlugin.h"
 #import <AIUtilities/AIURLAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AIMessageEntryTextView.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 
 @interface AITwitterURLHandler ()
@@ -140,11 +134,11 @@
 		if (![textView.string hasPrefix:prefix]) {
 			NSMutableAttributedString *newString;
 			if (textView.attributedString.length > 0){
-				newString = [[[textView.attributedString attributedSubstringFromRange:NSMakeRange(0, 1)] mutableCopy] autorelease];
+				newString = [[textView.attributedString attributedSubstringFromRange:NSMakeRange(0, 1)] mutableCopy];
 				[newString replaceCharactersInRange:NSMakeRange(0, 1) withString:prefix];
 			}
 			else
-				newString = [[[NSMutableAttributedString alloc] initWithString:prefix attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+				newString = [[NSMutableAttributedString alloc] initWithString:prefix attributes:[adium.contentController defaultFormattingAttributes]];
 			
 			[newString appendAttributedString:textView.attributedString];
 			[textView setAttributedString:newString];

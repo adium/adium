@@ -15,14 +15,6 @@
  */
 
 typedef enum {
-    AIButtonActive = 0,
-    AIButtonPressed,
-    AIButtonUnknown,
-    AIButtonDisabled,
-    AIButtonHovered
-} AICloseButtonState;
-
-typedef enum {
 	AIUnknownFileType = -9999,
 	AITIFFFileType = NSTIFFFileType,
     AIBMPFileType = NSBMPFileType,

@@ -14,8 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Foundation/Foundation.h>
-
 #ifndef DEFAULT_TIME_SEPARATOR
 #	define DEFAULT_TIME_SEPARATOR ':'
 #endif
@@ -43,7 +41,6 @@ static BOOL is_leap_year(NSInteger year) {
 	NSString *dateFormat = [(includeTime ? @"%Y-%m-%dT%H:%M:%S" : @"%Y-%m-%d") prepareDateFormatWithTimeSeparator:timeSep];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:dateFormat allowNaturalLanguage:NO];
 	NSString *str = [formatter stringForObjectValue:self];
-	[formatter release];
 	if(includeTime) {
 		NSInteger offset = [[self timeZone] secondsFromGMT];
 		offset /= 60;  //bring down to minutes
@@ -107,7 +104,6 @@ static BOOL is_leap_year(NSInteger year) {
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
 		timeString = [formatter stringForObjectValue:self];
-		[formatter release];
 	} else
 		timeString = @"";
 
@@ -118,7 +114,6 @@ static BOOL is_leap_year(NSInteger year) {
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
 		timeString = [formatter stringForObjectValue:self];
-		[formatter release];
 	} else
 		timeString = @"";
 
@@ -169,7 +164,7 @@ static BOOL is_leap_year(NSInteger year) {
 - (NSString *)prepareDateFormatWithTimeSeparator:(unichar)timeSep {
 	NSString *dateFormat = self;
 	if(timeSep != ':') {
-		NSMutableString *dateFormatMutable = [[dateFormat mutableCopy] autorelease];
+		NSMutableString *dateFormatMutable = [dateFormat mutableCopy];
 		[dateFormatMutable replaceOccurrencesOfString:@":"
 		                               	   withString:[NSString stringWithCharacters:&timeSep length:1U]
 	                                      	  options:NSBackwardsSearch | NSLiteralSearch

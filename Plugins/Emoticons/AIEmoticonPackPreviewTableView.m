@@ -43,8 +43,8 @@
 	//and then draw the cell into it at the regular size.  This way the cell can overflow its bounds as normal and not
 	//spill outside the drag image.
 	rowRect = [self rectOfRow:firstRow];
-	image = [[[NSImage alloc] initWithSize:NSMakeSize(rowRect.size.width,
-													  rowRect.size.height*count + [self intercellSpacing].height*(count-1))] autorelease];
+	image = [[NSImage alloc] initWithSize:NSMakeSize(rowRect.size.width,
+													  rowRect.size.height*count + [self intercellSpacing].height*(count-1))];
 	
 	//Draw
 	[image lockFocus];

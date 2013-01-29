@@ -20,7 +20,6 @@
 
 @interface ESTextAndButtonsWindowController ()
 - (void)configureWindow;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESTextAndButtonsWindowController
@@ -61,7 +60,7 @@
 			 target:(id)inTarget
 		   userInfo:(id)inUserInfo
 {
-	if (self = [self init]) {
+	if ((self = [self init])) {
 		[self changeWindowToTitle:inTitle
 					defaultButton:inDefaultButton
 				  alternateButton:inAlternateButton
@@ -79,25 +78,11 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB]) {
+	if ((self = [super initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB])) {
 		
 	}
 	
 	return self;
-}
-
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-		
-	} else {
-		[self show];
-	}
 }
 
 - (id)initWithTitle:(NSString *)inTitle
@@ -154,27 +139,16 @@
 					 target:(id)inTarget
 				   userInfo:(id)inUserInfo
 {
-	[title release];
-	[defaultButton release];
-	[alternateButton release];
-	[otherButton release];
-	[suppression release];
-	[messageHeader release];
-	[message release];
-	[target release];
-	[userInfo release];
-	[image release];
-	
-	title = [inTitle retain];
-	defaultButton = [inDefaultButton retain];
-	alternateButton = ([inAlternateButton length] ? [inAlternateButton retain] : nil);
-	otherButton = ([inOtherButton length] ? [inOtherButton retain] : nil);
-	suppression = ([inSuppression length] ? [inSuppression retain] : nil);
-	messageHeader = ([inMessageHeader length] ? [inMessageHeader retain] : nil);
-	message = [inMessage retain];
-	target = [inTarget retain];
-	userInfo = [inUserInfo retain];
-	image = [inImage retain];
+	title = inTitle;
+	defaultButton = inDefaultButton;
+	alternateButton = ([inAlternateButton length] ? inAlternateButton : nil);
+	otherButton = ([inOtherButton length] ? inOtherButton : nil);
+	suppression = ([inSuppression length] ? inSuppression : nil);
+	messageHeader = ([inMessageHeader length] ? inMessageHeader : nil);
+	message = inMessage;
+	target = inTarget;
+	userInfo = inUserInfo;
+	image = inImage;
 
 	userClickedButton = NO;
 	allowsCloseWithoutResponse = YES;
@@ -203,8 +177,7 @@
 - (void)setImage:(NSImage *)inImage;
 {
 	if (inImage != image) {
-		[image release];
-		image = [inImage retain];
+		image = inImage;
 		[imageView setImage:image];
 	}
 }
@@ -262,22 +235,10 @@
  */
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
-	
-	[self autorelease];
-	
 	//Release our target immediately to avoid a potential mutual retain (if the target is retaining us)
-	[target release]; target = nil;
-}
-
-/*!
- * @brief Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
+	target = nil;
 	
-	[self autorelease];
+	[super windowWillClose:sender];
 }
 
 /*!
@@ -524,22 +485,6 @@
 	} else {
 		return NO;
 	}
-}
-
-
-- (void)dealloc
-{
-	[title release];
-	[defaultButton release];
-	[target release];
-	[alternateButton release];
-	[otherButton release];
-	[messageHeader release];
-	[message release];
-	[userInfo release];
-	[image release];
-
-	[super dealloc];
 }
 
 @end

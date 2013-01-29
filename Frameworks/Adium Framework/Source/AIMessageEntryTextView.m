@@ -16,25 +16,19 @@
 
 #import <Adium/AIChat.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMessageEntryTextView.h>
-#import <Adium/ESFileWrapperExtension.h>
 #import <Adium/AITextAttachmentExtension.h>
 
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentContext.h>
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
-#import <AIUtilities/AIBezierPathAdditions.h>
-#import <Adium/AIContactControllerProtocol.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 
@@ -78,11 +72,6 @@
 @implementation  AISimpleTextView
 
 @synthesize string;
-- (void)dealloc
-{
-	[string release];
-	[super dealloc];
-}
 
 - (void)drawRect:(NSRect)rect 
 {
@@ -202,15 +191,8 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
-	[savedTextColor release];
-	[characterCounter release];
-	[characterCounterPrefix release];
-    [chat release];
-    [associatedView release];
-    [historyArray release]; historyArray = nil;
-    [pushArray release]; pushArray = nil;
-
-    [super dealloc];
+    historyArray = nil;
+    pushArray = nil;
 }
 
 - (void) setDelegate:(id<AIMessageEntryTextViewDelegate>)del
@@ -366,8 +348,6 @@
 
 		[newTypingAttributes removeObjectForKey:NSLinkAttributeName];
 		[self setTypingAttributes:newTypingAttributes];
-
-		[newTypingAttributes release];
 	}
 }
 
@@ -380,7 +360,7 @@
 		NSUndoManager	*undoManager = [self undoManager];
 		[undoManager registerUndoWithTarget:self
 								   selector:@selector(setAttributedString:)
-									 object:[[[self textStorage] copy] autorelease]];
+									 object:[[self textStorage] copy]];
 		[undoManager setActionName:AILocalizedString(@"Clear", nil)];
 
 		[self setString:@""];
@@ -548,8 +528,6 @@
 		[self setTypingAttributes:attributes];
 	}
 
-	[attributes release];
-	
 	[self scrollRangeToVisible:[self selectedRange]];
 }
 
@@ -606,7 +584,6 @@
 			NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 			attributedString = [[NSMutableAttributedString alloc] initWithString:string
 																	  attributes:[self typingAttributes]];
-			[string release];
 			
 		} else {
 			@try {
@@ -627,7 +604,6 @@
 					NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 					attributedString = [[NSMutableAttributedString alloc] initWithString:string
 																			  attributes:[self typingAttributes]];
-					[string release];
 				} else {
 					attributedString = nil;
 				}
@@ -660,7 +636,6 @@
 		//Notify that we changed our text
 		[[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
 															object:self];
-		[attributedString release];
 
 	} else if ([FILES_AND_IMAGES_TYPES containsObject:type] ||
 			   [type isEqualToString:NSURLPboardType]) {
@@ -677,8 +652,6 @@
 		[self setTypingAttributes:attributes];
 	}
 
-	[attributes release];	
-	
 	[self scrollRangeToVisible:[self selectedRange]];
 }
 
@@ -706,8 +679,7 @@
 			[chat removeObserver:self forKeyPath:@"Character Counter Prefix"];
 		}
 		
-        [chat release];
-        chat = [inChat retain];	
+        chat = inChat;	
 		
 		// We only need to update our observation state for group chats.
 		if(chat.isGroupChat) {
@@ -838,7 +810,7 @@
 {
     if (currentHistoryLocation == 0) {
 		//Store current message
-        [historyArray replaceObjectAtIndex:0 withObject:[[[self textStorage] copy] autorelease]];
+        [historyArray replaceObjectAtIndex:0 withObject:[[self textStorage] copy]];
     }
 	
     if (currentHistoryLocation < [historyArray count]-1) {
@@ -868,7 +840,7 @@
 	NSAttributedString	*textStorage = [self textStorage];
 	
 	//Add to history if there is text being sent
-	[historyArray insertObject:[[textStorage copy] autorelease] atIndex:1];
+	[historyArray insertObject:[textStorage copy] atIndex:1];
 	if ([historyArray count] > MAX_HISTORY) {
 		[historyArray removeLastObject];
 	}
@@ -908,7 +880,7 @@
 - (void)pushContent
 {
 	if ([[self textStorage] length] != 0 && pushPopEnabled) {
-		[pushArray addObject:[[[self textStorage] copy] autorelease]];
+		[pushArray addObject:[[self textStorage] copy]];
 		[self setString:@""];
 		[self _setPushIndicatorVisible:YES];
 	}
@@ -931,7 +903,7 @@
 - (void)swapContent
 {
 	if (pushPopEnabled) {
-		NSAttributedString *tempMessage = [[[self textStorage] copy] autorelease];
+		NSAttributedString *tempMessage = [[self textStorage] copy];
 				
 		if ([pushArray count]) {
 			[self popContent];
@@ -952,7 +924,7 @@
 	static NSImage	*pushIndicatorImage = nil;
 	
 	//
-	if (!pushIndicatorImage) pushIndicatorImage = [[NSImage imageNamed:@"stackImage" forClass:[self class]] retain];
+	if (!pushIndicatorImage) pushIndicatorImage = [NSImage imageNamed:@"stackImage" forClass:[self class]];
 
     if (visible && !pushIndicatorVisible) {
         pushIndicatorVisible = visible;
@@ -995,7 +967,7 @@
 		}
 		//Remove indicator
         [pushIndicator removeFromSuperview];
-        [pushIndicator release]; pushIndicator = nil;
+        pushIndicator = nil;
 		
 		[self positionPushIndicator];
     }
@@ -1059,7 +1031,6 @@
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:[self superview]];
 		}
 
-		[characterCounter release];
 		characterCounter = nil;
 		
 		// Reposition the push indicator, if necessary.
@@ -1076,8 +1047,7 @@
 - (void)setCharacterCounterPrefix:(NSString *)prefix
 {
 	if(prefix != characterCounterPrefix) {
-		[characterCounterPrefix release];
-		characterCounterPrefix = [prefix retain];
+		characterCounterPrefix = prefix;
 	}
 }
 
@@ -1103,7 +1073,7 @@
 	NSInteger currentCount = (maxCharacters - [inputString length]);
 
 	if(maxCharacters && currentCount < 0) {
-		savedTextColor = [[self textColor] retain];
+		savedTextColor = [self textColor];
 		
 		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983f
 													  saturation:0.43f
@@ -1134,7 +1104,6 @@
 																attributes:[adium.contentController defaultFormattingAttributes]];
 	[characterCounter setString:label];
 	[characterCounter setFrameSize:label.size];
-	[label release];
 
 	//Reposition the character counter.
 	[self positionCharacterCounter];
@@ -1207,7 +1176,7 @@
 	BOOL			addedOurLinkItems = NO;
 
 	if ((contextualMenu = [super menuForEvent:theEvent])) {
-		contextualMenu = [[contextualMenu copy] autorelease];
+		contextualMenu = [contextualMenu copy];
 
 		NSMenuItem	*editLinkItem = nil;
 		for (NSMenuItem *menuItem in contextualMenu.itemArray) {
@@ -1226,13 +1195,13 @@
 				[NSNumber numberWithInt:Context_TextView_LinkEditing]]];
 			
 			for (NSMenuItem *menuItem in linkItemsMenu.itemArray) {
-				[contextualMenu insertItem:[[menuItem copy] autorelease] atIndex:editIndex++];
+				[contextualMenu insertItem:[menuItem copy] atIndex:editIndex++];
 			}
 			
 			addedOurLinkItems = YES;
 		}
 	} else {
-		contextualMenu = [[[NSMenu alloc] init] autorelease];
+		contextualMenu = [[NSMenu alloc] init];
 	}
 
 	//Retrieve the items which should be added to the bottom of the default menu
@@ -1249,7 +1218,7 @@
 		for (NSMenuItem *menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
-			NSMenuItem	*menuItemCopy = [[menuItem copy] autorelease];
+			NSMenuItem	*menuItemCopy = [menuItem copy];
 			if (submenu && [submenu respondsToSelector:@selector(delegate)]) {
 				[[menuItemCopy submenu] setDelegate:[submenu delegate]];
 			}
@@ -1367,7 +1336,6 @@
 		//The pasteboard contains image data with no corresponding file.
 		NSImage	*image = [[NSImage alloc] initWithPasteboard:pasteboard];
 		[self addAttachmentOfImage:image];
-		[image release];			
 	}	
 }
 
@@ -1548,8 +1516,6 @@
 	
 	//Insert an attributed string into the text at the current insertion point
 	[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
-	
-	[attachment release];
 }
 
 /*!
@@ -1565,7 +1531,6 @@
 	//Insert an attributed string into the text at the current insertion point
 	[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
 	
-	[attachment release];
 }
 
 /*!
@@ -1577,7 +1542,6 @@
 	
 	[attachment setHasAlternate:NO];
 	[attachment setAttachmentCell:cell];
-	[cell release];
 	
 	return [NSAttributedString attributedStringWithAttachment:attachment];
 }
@@ -1587,13 +1551,13 @@
  */
 - (NSAttributedString *)attributedStringWithAITextAttachmentExtensionsFromRTFDData:(NSData *)data
 {
-	NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithRTFD:data
-																				documentAttributes:NULL] autorelease];
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithRTFD:data
+																				documentAttributes:NULL];
 	if ([attributedString length] && [attributedString containsAttachments]) {
 		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unichar)NSAttachmentCharacter];
 		
 		//Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString
@@ -1631,7 +1595,6 @@
 
 				//Insert an attributed string into the text at the current insertion point
 				replacement = [self attributedStringWithTextAttachmentExtension:textAttachment];
-				[textAttachment release];
 				
 				//Remove the NSTextAttachment, replacing it the AITextAttachmentExtension
 				[attributedString replaceCharactersInRange:attachmentRange
@@ -1670,7 +1633,6 @@
 	[typingAttributes setObject:backgroundColor forKey:AIBodyColorAttributeName];
 	[typingAttributes setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 	[self setTypingAttributes:typingAttributes];
-	[typingAttributes release];	
 
 	[[self textStorage] edited:NSTextStorageEditedAttributes
 						 range:selectedRange

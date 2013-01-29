@@ -34,7 +34,6 @@ typedef enum {
 
 	NSImage				*backgroundImage;
 	CGFloat				backgroundFade;
-	BOOL				_drawBackground;
 	AIBackgroundStyle	backgroundStyle;
 	AIContactListWindowStyle windowStyle;
 	
@@ -49,18 +48,16 @@ typedef enum {
 	
 	CGFloat				minimumDesiredWidth;
 	BOOL	 			desiredHeightPadding;
-
-	NSArray				*draggedItems;
 }
 
 @property (readonly, nonatomic) NSInteger desiredHeight;
 @property (readonly, nonatomic) NSInteger desiredWidth;
 
 // Contact menu
-@property (readonly, nonatomic) AIListObject *listObject;
-@property (readonly, nonatomic) NSArray *arrayOfListObjects;
-@property (readonly, nonatomic) NSArray *arrayOfListObjectsWithGroups;
-@property (readonly, nonatomic) AIListContact *firstVisibleListContact;
+@property (weak, readonly, nonatomic) AIListObject *listObject;
+@property (weak, readonly, nonatomic) NSArray *arrayOfListObjects;
+@property (weak, readonly, nonatomic) NSArray *arrayOfListObjectsWithGroups;
+@property (weak, readonly, nonatomic) AIListContact *firstVisibleListContact;
 
 // Contacts
 

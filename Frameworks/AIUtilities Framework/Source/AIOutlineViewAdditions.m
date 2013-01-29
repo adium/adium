@@ -15,7 +15,6 @@
  */
 
 #import "AIOutlineViewAdditions.h"
-#import "AIApplicationAdditions.h"
 
 @implementation NSOutlineView (AIOutlineViewAdditions)
 

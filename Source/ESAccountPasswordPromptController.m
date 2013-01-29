@@ -18,7 +18,6 @@
 #import "ESAccountPasswordPromptController.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 
 #define ACCOUNT_PASSWORD_PROMPT_NIB		@"PasswordPrompt"
 #define	ACCOUNT_PASSWORD_REQUIRED		AILocalizedString(@"Connecting Account","Password prompt window title")
@@ -76,17 +75,10 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 							 notifyingTarget:inTarget
 									selector:inSelector
 									 context:inContext])) {
-		account = [inAccount retain];
+		account = inAccount;
 	}
 
     return self;
-}
-
-- (void)dealloc
-{
-    [account release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -96,11 +88,11 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
  */
 - (void)windowWillClose:(id)sender
 {
+	[super windowWillClose:sender];
+
 	NSString	*identifier = account.internalObjectID;
 
 	[passwordPromptControllerDict removeObjectForKey:identifier];
-
-	[super windowWillClose:sender];
 }
 
 /*!

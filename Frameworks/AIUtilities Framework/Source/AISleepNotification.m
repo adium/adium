@@ -14,9 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <mach/mach_port.h>
-#import <mach/mach_interface.h>
-#import <mach/mach_init.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
 #import <IOKit/IOMessage.h>
 #import "AISleepNotification.h"

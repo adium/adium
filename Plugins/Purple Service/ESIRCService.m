@@ -19,7 +19,6 @@
 #import "ESIRCAccountViewController.h"
 #import "ESIRCJoinChatViewController.h"
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AICharacterSetAdditions.h>
 
 @implementation ESIRCService
@@ -67,9 +66,8 @@
 	
 	[allowedCharacters addCharactersInString:@"[]\\`_^{|}-"];
 	returnSet = [allowedCharacters immutableCopy];
-	[allowedCharacters release];
 
-	return [returnSet autorelease];
+	return returnSet;
 }
 - (BOOL)caseSensitive{
 	return NO;

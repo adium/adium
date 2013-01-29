@@ -26,7 +26,6 @@
 #import "AIDockController.h"
 #import "AIEmoticonController.h"
 //#import "AIExceptionController.h"
-#import "AIInterfaceController.h"
 #import "AILoginController.h"
 #import "AIMenuController.h"
 #import "AIPreferenceController.h"
@@ -37,10 +36,7 @@
 #import "ESContactAlertsController.h"
 #import "ESFileTransferController.h"
 #import "LNAboutBoxController.h"
-#import "AIXtrasManager.h"
 #import "AdiumSetupWizard.h"
-#import "ESTextAndButtonsWindowController.h"
-#import "AIAppearancePreferences.h"
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AISharedWriterQueue.h>
@@ -174,109 +170,108 @@ static NSString	*prefsCategory;
 //Called by the login controller when a user has been selected, continue logging in
 - (void)completeLogin
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
-	/* Init the controllers.
-	 * Menu and interface controllers are created by MainMenu.nib when it loads.
-	 */
-	preferenceController = [[AIPreferenceController alloc] init];
-	toolbarController = [[AIToolbarController alloc] init];
-	debugController = [[ESDebugController alloc] init];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AIEnableDebugLogging"])
-		AIEnableDebugLogging();
-	contactAlertsController = [[ESContactAlertsController alloc] init];
-	soundController = [[AISoundController alloc] init];
-	emoticonController = [[AIEmoticonController alloc] init];
-	accountController = [[AIAccountController alloc] init];
-	contactController = [[AIContactController alloc] init];
-	[AIContactHidingController sharedController];
-	[AdiumAuthorization start];
-	chatController = [[AIChatController alloc] init];
-	contentController = [[AIContentController alloc] init];
-	dockController = [[AIDockController alloc] init];
-	fileTransferController = [[ESFileTransferController alloc] init];
-	applescriptabilityController = [[ESApplescriptabilityController alloc] init];
-	statusController = [[AIStatusController alloc] init];
-	
-	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
-	[preferenceController controllerDidLoad];
-	[debugController controllerDidLoad];
-	[pool release];
+		/* Init the controllers.
+		 * Menu and interface controllers are created by MainMenu.nib when it loads.
+		 */
+		preferenceController = [[AIPreferenceController alloc] init];
+		toolbarController = [[AIToolbarController alloc] init];
+		debugController = [[ESDebugController alloc] init];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AIEnableDebugLogging"])
+			AIEnableDebugLogging();
+		contactAlertsController = [[ESContactAlertsController alloc] init];
+		soundController = [[AISoundController alloc] init];
+		emoticonController = [[AIEmoticonController alloc] init];
+		accountController = [[AIAccountController alloc] init];
+		contactController = [[AIContactController alloc] init];
+		[AIContactHidingController sharedController];
+		[AdiumAuthorization start];
+		chatController = [[AIChatController alloc] init];
+		contentController = [[AIContentController alloc] init];
+		dockController = [[AIDockController alloc] init];
+		fileTransferController = [[ESFileTransferController alloc] init];
+		applescriptabilityController = [[ESApplescriptabilityController alloc] init];
+		statusController = [[AIStatusController alloc] init];
+		
+		//Finish setting up the preference controller before the components and plugins load so they can read prefs 
+		[preferenceController controllerDidLoad];
+		[debugController controllerDidLoad];
+	}
 
 	//Plugins and components should always init last, since they rely on everything else.
-	pool = [[NSAutoreleasePool alloc] init];
-	componentLoader = [[AICoreComponentLoader alloc] init];
-	pluginLoader = [[AICorePluginLoader alloc] init];
-	[pool release];
+	@autoreleasepool {
+		componentLoader = [[AICoreComponentLoader alloc] init];
+		pluginLoader = [[AICorePluginLoader alloc] init];
+	}
 
 	//Finish initing
-	pool = [[NSAutoreleasePool alloc] init];
-	[menuController controllerDidLoad];			//Loaded by nib
-	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
-	
-	[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
-	[ESAddressBookIntegrationAdvancedPreferences preferencePane];
-	
-	[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
-	[interfaceController controllerDidLoad];	//Loaded by nib
-	[pool release];
-
-	pool = [[NSAutoreleasePool alloc] init];
-	[toolbarController controllerDidLoad];
-	[contactAlertsController controllerDidLoad];
-	[soundController controllerDidLoad];
-	[emoticonController controllerDidLoad];
-	[chatController controllerDidLoad];
-	[contentController controllerDidLoad];
-	[dockController controllerDidLoad];
-	[fileTransferController controllerDidLoad];
-	[pool release];
-
-	pool = [[NSAutoreleasePool alloc] init];
-	[applescriptabilityController controllerDidLoad];
-	[statusController controllerDidLoad];
-
-	//Open the preferences if we were unable to because application:openFile: was called before we got here
-	[self openAppropriatePreferencesIfNeeded];
-
-	//If no accounts are setup, run the setup wizard
-	if (accountController.accounts.count == 0 || ALWAYS_RUN_SETUP_WIZARD) {
-		[AdiumSetupWizard runWizard];
+	@autoreleasepool {
+		[menuController controllerDidLoad];			//Loaded by nib
+		[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
+		
+		[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
+		[ESAddressBookIntegrationAdvancedPreferences preferencePane];
+		
+		[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
+		[interfaceController controllerDidLoad];	//Loaded by nib
 	}
 
-	//Process any delayed URL events 
-	if (queuedURLEvents) {
-		for (NSString *eventString in queuedURLEvents) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
+	@autoreleasepool {
+		[toolbarController controllerDidLoad];
+		[contactAlertsController controllerDidLoad];
+		[soundController controllerDidLoad];
+		[emoticonController controllerDidLoad];
+		[chatController controllerDidLoad];
+		[contentController controllerDidLoad];
+		[dockController controllerDidLoad];
+		[fileTransferController controllerDidLoad];
+	}
+
+	@autoreleasepool {
+		[applescriptabilityController controllerDidLoad];
+		[statusController controllerDidLoad];
+
+		//Open the preferences if we were unable to because application:openFile: was called before we got here
+		[self openAppropriatePreferencesIfNeeded];
+
+		//If no accounts are setup, run the setup wizard
+		if (accountController.accounts.count == 0 || ALWAYS_RUN_SETUP_WIZARD) {
+			[AdiumSetupWizard runWizard];
 		}
-		[queuedURLEvents release]; queuedURLEvents = nil;
-	}
-	
-	//If we were asked to open a log at launch, do it now
-	if (queuedLogPathToShow) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
-												 object:queuedLogPathToShow];
-		[queuedLogPathToShow release];
-	}
-	
-	completedApplicationLoad = YES;
-	
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-														selector:@selector(systemTimeZoneDidChange:)
-															name:@"NSSystemTimeZoneDidChangeDistributedNotification"
-														  object:nil];
-	
-	//Broadcast our presence
-	connection = [[NSConnection alloc] init];
-	[connection setRootObject:self];
-	[connection registerName:@"com.adiumX.adiumX"];
 
-	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
-	[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
-	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
-	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+		//Process any delayed URL events 
+		if (queuedURLEvents) {
+			for (NSString *eventString in queuedURLEvents) {
+				[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
+			}
+			queuedURLEvents = nil;
+		}
+		
+		//If we were asked to open a log at launch, do it now
+		if (queuedLogPathToShow) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
+													 object:queuedLogPathToShow];
+		}
+		
+		completedApplicationLoad = YES;
+		
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(systemTimeZoneDidChange:)
+																name:@"NSSystemTimeZoneDidChangeDistributedNotification"
+															  object:nil];
+		
+		//Broadcast our presence
+		connection = [[NSConnection alloc] init];
+		[connection setRootObject:self];
+		[connection registerName:@"com.adiumX.adiumX"];
 
-	[pool release];
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+		[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+
+	}
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -296,33 +291,42 @@ static NSString	*prefsCategory;
 																	group:@"Confirmations"] boolValue];
 	
 	NSString	*questionToAsk = [NSString string];
-	SEL			questionSelector = nil;
+	void (^responseHandler)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) = nil;
 
 	NSApplicationTerminateReply allowQuit = NSTerminateNow;
 	
 	switch (confirmationType) {
-		case AIQuitConfirmAlways:
-			questionSelector = @selector(confirmQuitQuestion:userInfo:suppression:);
+		case AIQuitConfirmAlways: {
+			responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+				[self confirmQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+			} copy];
 			
 			allowQuit = NSTerminateLater;
 			break;
-			
-		case AIQuitConfirmSelective:
+		}
+		case AIQuitConfirmSelective: {
 			if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
 				questionToAsk = (([chatController unviewedContentCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d unread messages.",@"Quit Confirmation"), [chatController unviewedContentCount]] : AILocalizedString(@"You have an unread message.",@"Quit Confirmation"));
-				questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self unreadQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
 				questionToAsk = (([fileTransferController activeTransferCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d file transfers in progress.",@"Quit Confirmation"), [fileTransferController activeTransferCount]] : AILocalizedString(@"You have a file transfer in progress.",@"Quit Confirmation"));
-				questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self fileTransferQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			} else if ([[chatController openChats] count] > 0 && confirmOpenChats) {
 				questionToAsk = (([[chatController openChats] count] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d open chats.",@"Quit Confirmation"), [[chatController openChats] count]] : AILocalizedString(@"You have an open chat.",@"Quit Confirmation"));
-				questionSelector = @selector(openChatQuitQuestion:userInfo:suppression:);
+				responseHandler = [^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+					[self openChatQuitQuestion:[NSNumber numberWithInteger:ret] userInfo:userInfo suppression:[NSNumber numberWithBool:suppressed]];
+				} copy];
 				allowQuit = NSTerminateLater;
 			}
 
 			break;
+        }
 	}
 	
 	if (allowQuit == NSTerminateLater) {
@@ -335,9 +339,7 @@ static NSString	*prefsCategory;
 									alternateButton:AILocalizedString(@"Cancel", nil)
 										otherButton:nil
 										 suppression:AILocalizedString(@"Don't ask again", nil)
-											 target:self
-										   selector:questionSelector
-										   userInfo:nil];
+									responseHandler:responseHandler];
 	}
 
 	return allowQuit;
@@ -349,7 +351,7 @@ static NSString	*prefsCategory;
 	//Take no action if we didn't complete the application load
 	if (!completedApplicationLoad) return;
 	
-	[connection release]; connection = nil;
+	connection = nil;
 
 	isQuitting = YES;
 
@@ -557,7 +559,7 @@ static NSString	*prefsCategory;
 													 object:filename];
 		} else {
 			//Queue the request until Adium is done launching if Adium is not ready
-			[queuedLogPathToShow release]; queuedLogPathToShow = [filename retain];
+			queuedLogPathToShow = filename;
 		}
 		
 		//Don't continue to the xtras installation code. Return YES because we handled the open.
@@ -566,8 +568,8 @@ static NSString	*prefsCategory;
 	
 	/* Installation of Xtras below this point */
 
-	[prefsCategory release]; prefsCategory = nil;
-    [advancedPrefsName release]; advancedPrefsName = nil;
+	prefsCategory = nil;
+    advancedPrefsName = nil;
 
     /* Specify a file extension and a human-readable description of what the files of this type do
 	 * We reassign the extension so that regardless of its original case we end up with the case we want; this allows installation of
@@ -738,8 +740,8 @@ static NSString	*prefsCategory;
 			}
 		} else {
 			//If the user didn't press the "open prefs" button, clear the pref opening information
-			[prefsCategory release]; prefsCategory = nil;
-			[advancedPrefsName release]; advancedPrefsName = nil;
+			prefsCategory = nil;
+			advancedPrefsName = nil;
 		}
 		
     } else {
@@ -770,7 +772,7 @@ static NSString	*prefsCategory;
 	if (prefsCategory) {
 		[preferenceController openPreferencesToCategoryWithIdentifier:prefsCategory];
 		
-		[prefsCategory release]; prefsCategory = nil;
+		prefsCategory = nil;
 	}
 }
 
@@ -787,9 +789,9 @@ static NSString	*prefsCategory;
 	
     //Determine the preferences path if neccessary
 	if (!_preferencesFolderPath) {
-		_preferencesFolderPath = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:PORTABLE_ADIUM_KEY] stringByExpandingTildeInPath] retain];
+		_preferencesFolderPath = [[[[NSBundle mainBundle] infoDictionary] objectForKey:PORTABLE_ADIUM_KEY] stringByExpandingTildeInPath];
 		if (!_preferencesFolderPath)
-			_preferencesFolderPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Adium 2.0"] retain];
+			_preferencesFolderPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Adium 2.0"];
 	}
 	
 	return _preferencesFolderPath;
@@ -956,7 +958,7 @@ static NSString	*prefsCategory;
 
 	static dispatch_once_t setCachesPath;
 	dispatch_once(&setCachesPath, ^{
-		NSFileManager	*defaultManager = [[[NSFileManager alloc] init] autorelease];
+		NSFileManager	*defaultManager = [[NSFileManager alloc] init];
 		
 		NSURL *generalCacheURL = [defaultManager URLForDirectory:NSCachesDirectory
 														inDomain:NSUserDomainMask
@@ -967,7 +969,7 @@ static NSString	*prefsCategory;
 		[defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	});
 
-	return [cachesPath retain];
+	return cachesPath;
 }
 
 - (NSString *)pathOfPackWithName:(NSString *)name extension:(NSString *)extension resourceFolderName:(NSString *)folderName
@@ -1195,7 +1197,7 @@ typedef enum {
         // Nothing to do here
         return parts;
     }
-    s = [[[version substringToIndex:1] mutableCopy] autorelease];
+    s = [[version substringToIndex:1] mutableCopy];
     oldType = [self typeOfCharacter:s];
     n = [version length] - 1;
     for (i = 1; i <= n; ++i) {
@@ -1205,7 +1207,6 @@ typedef enum {
             // We've reached a new segment
 	    NSString *aPart = [[NSString alloc] initWithString:s];
             [parts addObject:aPart];
-	    [aPart release];
             [s setString:character];
         } else {
             // Add character to string and continue

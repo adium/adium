@@ -65,7 +65,7 @@
 		3496A81D07CE69270055BBAB /* AutoHyperlinks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AutoHyperlinks.h; path = Source/AutoHyperlinks.h; sourceTree = "<group>"; };
 		3496A81E07CE69270055BBAB /* AHLinkLexer.l */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.lex; name = AHLinkLexer.l; path = Source/AHLinkLexer.l; sourceTree = "<group>"; };
 		3496A81F07CE69270055BBAB /* AHMarkedHyperlink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AHMarkedHyperlink.h; path = Source/AHMarkedHyperlink.h; sourceTree = "<group>"; };
-		3496A82007CE69270055BBAB /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AHHyperlinkScanner.m; path = Source/AHHyperlinkScanner.m; sourceTree = "<group>"; };
+		3496A82007CE69270055BBAB /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AHHyperlinkScanner.m; path = Source/AHHyperlinkScanner.m; sourceTree = "<group>"; };
 		3496A82107CE69270055BBAB /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AHHyperlinkScanner.h; path = Source/AHHyperlinkScanner.h; sourceTree = "<group>"; };
 		3496A82207CE69270055BBAB /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AHMarkedHyperlink.m; path = Source/AHMarkedHyperlink.m; sourceTree = "<group>"; };
 		7E0CF1AF11769E6100EDC305 /* AutoHyperlinks.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = AutoHyperlinks.xcconfig; path = xcconfigs/AutoHyperlinks.xcconfig; sourceTree = "<group>"; };
@@ -399,7 +399,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = AH;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The Adium Team";
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
@@ -616,6 +616,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = AutoHyperlinks;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
@@ -855,6 +856,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = AutoHyperlinks;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
@@ -877,6 +879,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = AutoHyperlinks;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = "-Wall";

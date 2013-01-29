@@ -19,12 +19,6 @@
 
 @implementation AISearchFieldCell
 
-- (void)dealloc
-{
-	[backgroundColor release];
-	[super dealloc];
-}
-
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	if (backgroundColor) {
@@ -42,8 +36,7 @@
 	[searchField setTextColor:(inTextColor ? inTextColor : [NSColor blackColor])];
 
 	if (backgroundColor != inBackgroundColor) {
-		[backgroundColor release];
-		backgroundColor = [inBackgroundColor retain];
+		backgroundColor = inBackgroundColor;
 	}
 }
 

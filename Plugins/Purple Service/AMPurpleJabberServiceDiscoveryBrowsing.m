@@ -21,8 +21,6 @@
 #import <Adium/AIAccount.h>
 #import <libpurple/jabber.h>
 
-#import "AIAdium.h"
-
 @implementation AMPurpleJabberServiceDiscoveryBrowsing
 
 - (id)initWithAccount:(AIAccount *)_account purpleConnection:(PurpleConnection *)_gc;
@@ -38,9 +36,6 @@
 
 - (void)dealloc {
 	[browsers makeObjectsPerformSelector:@selector(close)];
-	[browsers release];
-	[rootnode release];
-	[super dealloc];
 }
 
 - (IBAction)browse:(id)sender
@@ -59,7 +54,6 @@
 																													   purpleConnection:gc
 																																   node:rootnode];
 	[browsers addObject:browser];
-	[browser release];
 }
 
 @end

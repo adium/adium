@@ -18,7 +18,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIGroupChatStatusIcons.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 
 /*!
@@ -87,10 +86,8 @@
 				
 				attachment = [[NSTextAttachment alloc] init];
 				[attachment setAttachmentCell:cell];
-				[cell release];
 				
 				[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-				[attachment release];
 				
 				[entry appendString:@" " withAttributes:nil];
 			}
@@ -105,8 +102,6 @@
 				[entry appendString:@")" withAttributes:nil];
 			}
 		}
-		
-		[entry autorelease];
 	}
 	
 	return entry;
