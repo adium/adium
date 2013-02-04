@@ -15,8 +15,6 @@
  */
 
 #import "ESPurpleJabberAccountViewController.h"
-#import <Adium/AIAccount.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIService.h>
 #import <Adium/AIContactList.h>
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -61,7 +59,7 @@
 	//Resource
 	NSString *resource = [account preferenceForKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS];
 	if (!resource)
-		resource = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
+		resource = (__bridge_transfer NSString*)SCDynamicStoreCopyLocalHostName(NULL);
 	if (!resource)
 		resource = @"";	
 	[textField_resource setStringValue:resource];
@@ -160,10 +158,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[window_registerServer release];
-	[servers release];
-
-	[super dealloc];
 }
 
 #pragma mark group combobox datasource
@@ -228,9 +222,9 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	if(!servers) {
 		NSError *err = NULL;
 #warning Should not be synchronous. Bad.
-		NSXMLDocument *serverfeed = [[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
+		NSXMLDocument *serverfeed = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
 																		 options:0
-																		   error:&err] autorelease];
+																		   error:&err];
 		if(err) {
 			[[NSAlert alertWithError:err] runModal];
 		} else {

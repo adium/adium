@@ -18,8 +18,7 @@
 
 @interface AIGroupChat : AIChat <AIContainingObject> {
 	NSString			*topic;
-    AIListContact		*topicSetter;
-	
+
 	NSMutableDictionary	*participatingContactsFlags;
 	NSMutableDictionary	*participatingContactsAliases;
 	NSMutableArray		*participatingContacts;

@@ -24,6 +24,6 @@
 	ESTextAndButtonsWindowController	*currentAlert;
 }
 
-- (void)handleQuestion:(NSNotification *)notification;
++ (void)handleQuestion:(NSDictionary *)questionDict;
 
 @end

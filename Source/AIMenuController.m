@@ -20,7 +20,6 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -223,8 +222,7 @@
 	BOOL		separatorItem;
 
 	//Remember what our menu is configured for
-	[currentContextMenuObject release];
-	currentContextMenuObject = [inObject retain];
+	currentContextMenuObject = inObject;
 
 	//Get the pre-created contextual menu items
 	workingMenu = [self contextualMenuWithLocations:inLocationArray usingMenu:contextualMenu];
@@ -259,8 +257,7 @@
 	BOOL		separatorItem;
 	
 	//Remember what our menu is configured for
-	[currentContextMenuChat release];
-	currentContextMenuChat = [inChat retain];
+	currentContextMenuChat = inChat;
 	
 	//Get the pre-created contextual menu items
 	workingMenu = [self contextualMenuWithLocations:inLocationArray usingMenu:contextualMenu];
@@ -277,8 +274,7 @@
 
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forListObject:(AIListObject *)inObject inChat:(AIChat *)inChat
 {
-	[currentContextMenuChat release];
-	currentContextMenuChat = [inChat retain];
+	currentContextMenuChat = inChat;
 	
 	return [self contextualMenuWithLocations:inLocationArray forListObject:inObject];
 }
@@ -504,7 +500,7 @@
  */
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
-	NSArray *menuItems = [[[menu itemArray] copy] autorelease];
+	NSArray *menuItems = [[menu itemArray] copy];
 	NSMenuItem *menuItem;
 	for (menuItem in menuItems) {
 		id target = [menuItem target];

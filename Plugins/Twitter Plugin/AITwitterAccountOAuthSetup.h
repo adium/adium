@@ -36,13 +36,13 @@ typedef enum {
 	OAConsumer	*consumer;
 	OAToken		*requestToken;
 	
-	NSString	*verifier;
+	__unsafe_unretained NSString	*verifier;
 }
 
 - (id)initWithDelegate:(id <AITwitterAccountOAuthSetupDelegate>)inDelegate
 			forAccount:(AITwitterAccount *)inAccount;
 
-@property (retain, nonatomic) NSString *verifier;
+@property (assign, nonatomic) NSString *verifier;
 
 - (void)beginSetup;
 - (void)fetchAccessToken;

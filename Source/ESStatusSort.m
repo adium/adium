@@ -18,8 +18,6 @@
 #import "ESStatusSort.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIListObject.h>
-#import <Adium/AILocalizationTextField.h>
-#import <Adium/AIContactList.h>
 
 #define STATUS_SORT_DEFAULT_PREFS   @"StatusSortDefaults"
 
@@ -308,7 +306,7 @@ static NSInteger  sizeOfSortOrder;
 		
 		//Ensure the mobile item is in our sort order array, as the old defaults didn't include it
 		if ([sortOrderArray indexOfObject:[NSNumber numberWithInteger:Mobile]] == NSNotFound) {
-			NSMutableArray	*newSortOrderArray = [[sortOrderArray mutableCopy] autorelease];
+			NSMutableArray	*newSortOrderArray = [sortOrderArray mutableCopy];
 			[newSortOrderArray addObject:[NSNumber numberWithInteger:Mobile]];
 			
 			[adium.preferenceController setPreference:newSortOrderArray
@@ -551,8 +549,6 @@ static NSInteger  sizeOfSortOrder;
 		[tableView reloadData];
 		
 		[adium.contactController sortContactList];
-
-		[sortOrderPref release];
 	}
 	
    	

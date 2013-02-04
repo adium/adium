@@ -31,5 +31,6 @@
 }
 
 @property (assign) CGFloat cornerRadius;
+@property (strong, nonatomic) AIFloater *imageFloater;
 
 @end

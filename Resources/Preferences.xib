@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
+		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3079</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
@@ -76,9 +76,11 @@
 							<string key="NSToolbarItemPaletteLabel">Search</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSSearchField" key="NSToolbarItemView" id="484924492">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{0, 14}, {96, 22}}</string>
+								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSearchFieldCell" key="NSCell" id="989409491">
 									<int key="NSCellFlags">342884416</int>
@@ -165,9 +167,11 @@
 							<string key="NSToolbarItemPaletteLabel">Show All</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSSegmentedControl" key="NSToolbarItemView" id="346899390">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{0, 14}, {81, 25}}</string>
+								<string key="NSFrame">{{0, 14}, {77, 25}}</string>
+								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSSegmentedCell" key="NSCell" id="1030261791">
@@ -185,14 +189,14 @@
 									</array>
 									<int key="NSSelectedSegment">-1</int>
 									<int key="NSTrackingMode">2</int>
-									<int key="NSSegmentStyle">2</int>
+									<int key="NSSegmentStyle">4</int>
 								</object>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
 							<nil key="NSToolbarItemImage"/>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
-							<string key="NSToolbarItemMinSize">{81, 25}</string>
+							<string key="NSToolbarItemMinSize">{77, 25}</string>
 							<string key="NSToolbarItemMaxSize">{81, 25}</string>
 							<bool key="NSToolbarItemEnabled">YES</bool>
 							<bool key="NSToolbarItemAutovalidates">YES</bool>
@@ -827,7 +831,7 @@
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 			<object class="NSView" id="680653249">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSImageView" id="184967249">
@@ -843,6 +847,7 @@
 						</set>
 						<string key="NSFrame">{{28, 38}, {32, 32}}</string>
 						<reference key="NSSuperview" ref="680653249"/>
+						<reference key="NSWindow"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="539048852">
 							<int key="NSCellFlags">134217728</int>
@@ -864,6 +869,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{-3, 11}, {94, 28}}</string>
 						<reference key="NSSuperview" ref="680653249"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="184967249"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="834103842">
@@ -883,6 +889,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{88, 70}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="824477982"/>
 			</object>
 			<object class="NSCollectionViewItem" id="768600824"/>
@@ -1943,11 +1951,11 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<real value="3200" key="NS.object.0"/>
+			<real value="4000" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>

@@ -111,9 +111,8 @@
     __block NSString    *dateString;
 	
 	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *dateFormatter){
-		dateString =  [[dateFormatter stringFromDate:[NSCalendarDate calendarDate]] retain];
+		dateString =  [dateFormatter stringFromDate:[NSCalendarDate calendarDate]];
 	}];
-	[dateString autorelease];
 	
 	NSString	*alertText = [[details objectForKey:KEY_ALERT_TEXT] lastPathComponent];
 
@@ -207,7 +206,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-error-alert" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-error-alert" forClass:[self class]];
 	return eventImage;
 }
 

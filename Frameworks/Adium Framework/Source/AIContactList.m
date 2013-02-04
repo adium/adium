@@ -15,10 +15,8 @@
  */
 
 #import <Adium/AIContactList.h>
-#import <Adium/AISortController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListBookmark.h>
 
 @interface AIListGroup()
 - (void)removeObject:(AIListObject *)inObject;

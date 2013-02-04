@@ -16,7 +16,6 @@
 
 #import "AIIRCConsoleController.h"
 #import <libpurple/irc.h>
-#import <AIUtilities/AIAutoScrollView.h>
 
 @interface AIIRCConsoleController ()
 - (PurpleConnection *)gc;
@@ -25,7 +24,7 @@
 static void
 text_received_cb(PurpleConnection *gc, char **text, gpointer this)
 {
-    AIIRCConsoleController *self = (AIIRCConsoleController *)this;
+    AIIRCConsoleController *self = (__bridge AIIRCConsoleController *)this;
 	char *salvagedString = purple_utf8_salvage(*text);
     
     if (!this || [self gc] != gc)
@@ -43,13 +42,12 @@ text_received_cb(PurpleConnection *gc, char **text, gpointer this)
     NSAttributedString *astr = [[NSAttributedString alloc] initWithString:sstr
                                                                attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Courier" size:12], NSFontAttributeName, nil]];
     [self appendToLog:astr];
-    [astr release];
 }
 
 static void
 text_sent_cb(PurpleConnection *gc, char **text, gpointer this)
 {
-    AIIRCConsoleController *self = (AIIRCConsoleController *)this;
+    AIIRCConsoleController *self = (__bridge AIIRCConsoleController *)this;
 	char *salvagedString = purple_utf8_salvage(*text);
 
     if (!this || [self gc] != gc)
@@ -68,15 +66,12 @@ text_sent_cb(PurpleConnection *gc, char **text, gpointer this)
                                                                attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName,
 																		   [NSFont fontWithName:@"Courier" size:12], NSFontAttributeName, nil]];
     [self appendToLog:astr];
-    [astr release];
 }
 
 @implementation AIIRCConsoleController
 
 - (void)dealloc {
-    purple_signals_disconnect_by_handle(self);
-    
-    [super dealloc];
+    purple_signals_disconnect_by_handle((__bridge void *)(self));
 }
 
 - (IBAction)send:(id)sender {
@@ -99,17 +94,17 @@ text_sent_cb(PurpleConnection *gc, char **text, gpointer this)
 		PurplePlugin *irc = purple_find_prpl("prpl-irc");
 		if (!irc) AILog(@"Unable to locate irc prpl");
 		
-		purple_signal_connect(irc, "irc-receiving-text", self,
-							  PURPLE_CALLBACK(text_received_cb), self);
-		purple_signal_connect(irc, "irc-sending-text", self,
-							  PURPLE_CALLBACK(text_sent_cb), self);
+		purple_signal_connect(irc, "irc-receiving-text", (__bridge void *)(self),
+							  PURPLE_CALLBACK(text_received_cb), (__bridge void *)(self));
+		purple_signal_connect(irc, "irc-sending-text", (__bridge void *)(self),
+							  PURPLE_CALLBACK(text_sent_cb), (__bridge void *)(self));
 	}
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
 	//We don't need to watch the signals with the window closed
-	purple_signals_disconnect_by_handle(self);
+	purple_signals_disconnect_by_handle((__bridge void *)(self));
 	
 	[super windowWillClose:notification];
 }

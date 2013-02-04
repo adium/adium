@@ -15,15 +15,12 @@
  */
 
 #import "AIAutoReplyPlugin.h"
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import "AIStatusController.h"
-#import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIContentObject.h>
 
 @interface AIAutoReplyPlugin ()
 - (void)didReceiveContent:(NSNotification *)notification;
@@ -77,9 +74,6 @@
 - (void)dealloc
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[receivedAutoReply release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -95,7 +89,7 @@
 	   [inModifiedKeys containsObject:@"accountStatus"]) {
 			
 		//Reset our list of contacts who have already received an auto-reply
-		[receivedAutoReply release]; receivedAutoReply = [[NSMutableSet alloc] init];
+		receivedAutoReply = [[NSMutableSet alloc] init];
 		
 		//Don't want to remove from the new set any chats which previously closed and are pending removal
 		[NSObject cancelPreviousPerformRequestsWithTarget:self];
@@ -155,7 +149,7 @@
 	if (autoReply) {
 		if (!supportsAutoreply) {
 			//Tthe service isn't natively expecting an autoresponse, so make it a bit clearer what's going on
-			NSMutableAttributedString *mutableAutoReply = [[autoReply mutableCopy] autorelease];
+			NSMutableAttributedString *mutableAutoReply = [autoReply mutableCopy];
 			[mutableAutoReply replaceCharactersInRange:NSMakeRange(0, 0) 
 											withString:AILocalizedString(@"(Autoreply) ", 
 												"Prefix to place before autoreplies on services which do not natively support them")];

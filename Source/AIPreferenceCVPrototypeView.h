@@ -15,9 +15,9 @@
  */
 
 @interface AIPreferenceCVPrototypeView : NSView {
-	NSCollectionViewItem *item;
+	__weak NSCollectionViewItem *item;
 }
 
-@property (assign) NSCollectionViewItem *item;
+@property (weak) NSCollectionViewItem *item;
 
 @end

@@ -10,7 +10,6 @@
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
 #import "AIFacebookXMPPAccountViewController.h"
 #import "AIFacebookXMPPAccount.h"
-#import "JSONKit.h"
 
 @interface AIFacebookXMPPOAuthWebViewWindowController ()
 - (void)addCookiesFromResponse:(NSHTTPURLResponse *)response;
@@ -28,21 +27,14 @@
 - (id)init
 {
     if ((self = [super initWithWindowNibName:@"AIFacebookXMPPOauthWebViewWindow"])) {
-        self.cookies = [[[NSMutableDictionary alloc] init] autorelease];
+        self.cookies = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-	self.account = nil;
-	self.cookies = nil;
-	
 	[self.webView close];
-	self.webView = nil;
-	self.spinner = nil;
-    
-    [super dealloc];
 }
 
 - (NSString *)adiumFrameAutosaveName
@@ -77,7 +69,7 @@
 
 - (NSDictionary*)parseURLParams:(NSString *)query {
 	NSArray *pairs = [query componentsSeparatedByString:@"&"];
-	NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	for (NSString *pair in pairs) {
 		NSArray *kv = [pair componentsSeparatedByString:@"="];
 		NSString *val = [[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -129,7 +121,7 @@
     if (redirectResponse) {
         [self addCookiesFromResponse:(id)redirectResponse];
     }
-    NSMutableURLRequest *mutableRequest = [[request mutableCopy] autorelease];
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
     [mutableRequest setHTTPShouldHandleCookies:NO];
     [self addCookiesToRequest:mutableRequest];
 	
@@ -214,7 +206,7 @@
         [sentCookies addObject:cookie];
     }
     
-    NSMutableDictionary *headers = [[[request allHTTPHeaderFields] mutableCopy] autorelease];
+    NSMutableDictionary *headers = [[request allHTTPHeaderFields] mutableCopy];
     [headers setValuesForKeysWithDictionary:[NSHTTPCookie requestHeaderFieldsWithCookies:sentCookies]];
     [request setAllHTTPHeaderFields:headers];
 }

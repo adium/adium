@@ -10,8 +10,6 @@
 
 #import "NSData+Base64.h"
 
-#import <Foundation/Foundation.h>
-
 static char encodingTable[64] = {
 		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
 		'Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f',
@@ -22,7 +20,7 @@ static char encodingTable[64] = {
 
 + (NSData *) dataWithBase64EncodedString:(NSString *) string {
 	NSData *result = [[NSData alloc] initWithBase64EncodedString:string];
-	return [result autorelease];
+	return result;
 }
 
 - (id) initWithBase64EncodedString:(NSString *) string {
