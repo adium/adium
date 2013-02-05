@@ -1,15 +1,15 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
@@ -81,7 +81,7 @@
 }
 @end
 
-//The old code built the paths itself, which follows the filesystem's case sensitivity, so some noobs named stuff wrong. 
+//The old code built the paths itself, which follows the filesystem's case sensitivity, so some noobs named stuff wrong.
 //NSBundle is always case sensitive, so those styles broke (they were already broken on case sensitive hfsx)
 //These methods only check for the all-lowercase variant, so are not suitable for general purpose use.
 @interface NSBundle (StupidCompatibilityHack)
@@ -143,7 +143,7 @@
 	if ((self = [super init])) {
 		styleBundle = inBundle;
 		stylePath = [styleBundle resourcePath];
-        
+
 		if ([self reloadStyle] == FALSE) {
             return nil;
         }
@@ -155,7 +155,7 @@
 - (BOOL) reloadStyle
 {
 	[self releaseResources];
-	
+
 	/* Our styles are versioned so we can change how they work without breaking compatibility.
 	 *
 	 * Version 0: Initial Webkit Version
@@ -173,7 +173,7 @@
 	 *			  HTML filters in are now supported in Adium's content filter system; filters can assume Version 4 or later.
 	 */
 	styleVersion = [[styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue];
-	
+
     /* Refuse to load a version whose minimum compatible version is greater than the latest version we know about; that
      * indicates this is a style FROM THE FUTURE, and we can't risk corrupting our own timeline.
      */
@@ -187,23 +187,23 @@
 
 	//Pre-fetch our templates
 	[self _loadTemplates];
-	
+
 	//Style flags
 	allowsCustomBackground = ![[styleBundle objectForInfoDictionaryKey:@"DisableCustomBackground"] boolValue];
 	transparentDefaultBackground = [[styleBundle objectForInfoDictionaryKey:@"DefaultBackgroundIsTransparent"] boolValue];
-	
+
 	combineConsecutive = ![[styleBundle objectForInfoDictionaryKey:@"DisableCombineConsecutive"] boolValue];
-	
+
 	NSNumber *tmpNum = [styleBundle objectForInfoDictionaryKey:@"ShowsUserIcons"];
 	allowsUserIcons = (tmpNum ? [tmpNum boolValue] : YES);
-	
+
 	//User icon masking
 	NSString *tmpName = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_USER_ICON_MASK];
 	if (tmpName) userIconMask = [[NSImage alloc] initWithContentsOfFile:[stylePath stringByAppendingPathComponent:tmpName]];
-	
+
 	NSNumber *allowsColorsNumber = [styleBundle objectForInfoDictionaryKey:@"AllowTextColors"];
 	allowsColors = (allowsColorsNumber ? [allowsColorsNumber boolValue] : YES);
-    
+
     return YES;
 }
 
@@ -228,10 +228,10 @@
 	statusHTML = nil;
 	fileTransferHTML = nil;
 	topicHTML = nil;
-	
+
 	customBackgroundPath = nil;
 	customBackgroundColor = nil;
-	
+
 	userIconMask = nil;
 }
 
@@ -239,9 +239,9 @@
  *	@brief Deallocate
  */
 - (void)dealloc
-{	
+{
 	[self releaseResources];
-	
+
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver: self];
 }
 
@@ -261,13 +261,13 @@
 	if(!checkedSenderColors) {
 		NSURL *url = [NSURL fileURLWithPath:[stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"]];
 		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
-		
+
 		if(senderColorsFile)
 			validSenderColors = [senderColorsFile componentsSeparatedByString:@":"];
-		
+
 		checkedSenderColors = YES;
 	}
-	
+
 	return validSenderColors;
 }
 
@@ -282,7 +282,7 @@
 {
 	NSString *defaultFontFamily = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_DEFAULT_FONT_FAMILY];
 	if (!defaultFontFamily) defaultFontFamily = [[NSFont systemFontOfSize:0] familyName];
-	
+
 	return defaultFontFamily;
 }
 
@@ -291,7 +291,7 @@
 	NSNumber *defaultFontSize = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_DEFAULT_FONT_SIZE];
 
 	if (!defaultFontSize) defaultFontSize = [NSNumber numberWithInteger:[[NSFont systemFontOfSize:0] pointSize]];
-	
+
 	return defaultFontSize;
 }
 
@@ -344,7 +344,7 @@
 			headerContent = headerHTML;
 		}
 	}
-	
+
 	//Old styles may be using an old custom 4 parameter baseHTML.  Styles version 3 and higher should
 	//be using the bundled (or a custom) 5 parameter baseHTML.
 	if ((styleVersion < 3) && usingCustomTemplateHTML) {
@@ -353,7 +353,7 @@
 			[self pathForVariant:self.activeVariant],									//Variant path
 			headerContent,
 			(footerHTML ? footerHTML : @"")];
-	} else {		
+	} else {
 		templateHTML = [NSMutableString stringWithFormat:baseHTML,						//Template
 			[[NSURL fileURLWithPath:stylePath] absoluteString],							//Base path
 			styleVersion < 3 ? @"" : @"@import url( \"main.css\" );",					//Import main.css for new enough styles
@@ -368,7 +368,7 @@
 - (NSString *)templateForContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar
 {
 	NSString	*template;
-	
+
 	//Get the correct template for what we're inserting
 	if ([[content type] isEqualToString:CONTENT_MESSAGE_TYPE]) {
 		if ([content isOutgoing]) {
@@ -376,7 +376,7 @@
 		} else {
 			template = (contentIsSimilar ? nextContentInHTML : contentInHTML);
 		}
-	
+
 	} else if ([[content type] isEqualToString:CONTENT_CONTEXT_TYPE]) {
 		if ([content isOutgoing]) {
 			template = (contentIsSimilar ? nextContextOutHTML : contextOutHTML);
@@ -392,17 +392,17 @@
 	else {
 		template = statusHTML;
 	}
-	
+
 	return template;
 }
 
 - (NSString *)completedTemplateForContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar
 {
 	NSMutableString *mutableTemplate = [[self templateForContent:content similar:contentIsSimilar] mutableCopy];
-	
+
 	if (mutableTemplate)
 		[self fillKeywords:mutableTemplate forContent:content similar:contentIsSimilar];
-	
+
 	return mutableTemplate;
 }
 
@@ -412,7 +412,7 @@
  *	This needs to be called before either baseTemplate or templateForContent is called
  */
 - (void)_loadTemplates
-{		
+{
 	//Load the style's templates
 	//We can't use NSString's initWithContentsOfFile here.  HTML files are interpreted in the defaultCEncoding
 	//(which varies by system) when read that way.  We want to always interpret the files as UTF8.
@@ -420,20 +420,20 @@
 	footerHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Footer" ofType:@"html"]];
 	topicHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Topic" ofType:@"html"]];
 	baseHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Template" ofType:@"html"]];
-	
-	//Starting with version 1, styles can choose to not include template.html.  If the template is not included 
+
+	//Starting with version 1, styles can choose to not include template.html.  If the template is not included
 	//Adium's default will be used.  This is preferred since any future template updates will apply to the style
-	if ((!baseHTML || [baseHTML length] == 0) && styleVersion >= 1) {		
+	if ((!baseHTML || [baseHTML length] == 0) && styleVersion >= 1) {
 		baseHTML = [NSString stringWithContentsOfUTF8File:[[NSBundle bundleForClass:[self class]] semiCaseInsensitivePathForResource:@"Template" ofType:@"html"]];
 		usingCustomTemplateHTML = NO;
 	} else {
 		usingCustomTemplateHTML = YES;
-		
+
 		NSAssert(baseHTML != nil, @"The impossible happened!");
-		
+
 		if ([baseHTML rangeOfString:@"function imageCheck()" options:NSLiteralSearch].location != NSNotFound) {
 			/* This doesn't quite fix image swapping on styles with broken image swapping due to custom HTML templates,
-			 * but it improves it. For some reason, the result of using our normal template.html functions is that 
+			 * but it improves it. For some reason, the result of using our normal template.html functions is that
 			 * clicking works once, then the text doesn't allow a return click. This is an improvement compared
 			 * to fully broken behavior in which the return click shows a missing-image placeholder.
 			 */
@@ -506,50 +506,50 @@
 													   options:NSLiteralSearch];
 			baseHTML = imageSwapFixedBaseHTML;
 		}
-		
+
 	}
-	
+
 	//Content Templates
 	contentHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html"]];
 	contentInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Incoming"]];
 	nextContentInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Incoming"]];
 	contentOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Outgoing"]];
 	nextContentOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Outgoing"]];
-	
+
 	//Message history
 	contextInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Incoming"]];
 	nextContextInHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Incoming"]];
 	contextOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Outgoing"]];
 	nextContextOutHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Outgoing"]];
-	
+
 	//Fall back to Resources/Content.html if Incoming isn't present
 	if (!contentInHTML) contentInHTML = contentHTML;
-	
+
 	//Fall back to Content if NextContent doesn't need to use different HTML
 	if (!nextContentInHTML) nextContentInHTML = contentInHTML;
-	
+
 	//Fall back to Content if Context isn't present
 	if (!nextContextInHTML) nextContextInHTML = nextContentInHTML;
 	if (!contextInHTML) contextInHTML = contentInHTML;
-	
+
 	//Fall back to Content if Context isn't present
 	if (!nextContextOutHTML && nextContentOutHTML) nextContextOutHTML = nextContentOutHTML;
 	if (!contextOutHTML && contentOutHTML) contextOutHTML = contentOutHTML;
-	
+
 	//Fall back to Content if Context isn't present
 	if (!nextContextOutHTML) nextContextOutHTML = nextContextInHTML;
 	if (!contextOutHTML) contextOutHTML = contextInHTML;
-	
+
 	//Fall back to Incoming if Outgoing doesn't need to be different
 	if (!contentOutHTML) contentOutHTML = contentInHTML;
 	if (!nextContentOutHTML) nextContentOutHTML = nextContentInHTML;
-	
+
 	//Status
 	statusHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Status" ofType:@"html"]];
-	
+
 	//Fall back to Resources/Incoming/Content.html if Status isn't present
 	if (!statusHTML) statusHTML = contentInHTML;
-	
+
 	//TODO: make a generic Request message, rather than having this ft specific one
 	NSMutableString *fileTransferHTMLTemplate;
 	fileTransferHTMLTemplate = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"FileTransferRequest" ofType:@"html"]] mutableCopy];
@@ -568,13 +568,13 @@
 {
 	NSMutableString	*newHTML;
 	NSString		*script;
-	
+
 	//If combining of consecutive messages has been disabled, we treat all content as non-similar
 	if (!combineConsecutive) contentIsSimilar = NO;
-	
+
 	//Fetch the correct template and substitute keywords for the passed content
 	newHTML = [[self completedTemplateForContent:content similar:contentIsSimilar] mutableCopy];
-	
+
 	//BOM scripts vary by style version
 	if (!usingCustomTemplateHTML && styleVersion >= 4) {
 		/* If we're using the built-in template HTML, we know that it supports our most modern scripts */
@@ -585,7 +585,7 @@
 		} else {
 			script = (contentIsSimilar ? APPEND_NEXT_MESSAGE : APPEND_MESSAGE);
 		}
-		
+
 	} else  if (styleVersion >= 3) {
 		if (willAddMoreContentObjects) {
 			script = (contentIsSimilar ? APPEND_NEXT_MESSAGE_NO_SCROLL : APPEND_MESSAGE_NO_SCROLL);
@@ -594,10 +594,10 @@
 		}
 	} else if (styleVersion >= 1) {
 		script = (contentIsSimilar ? APPEND_NEXT_MESSAGE : APPEND_MESSAGE);
-		
+
 	} else {
 		if (usingCustomTemplateHTML && [content isKindOfClass:[AIContentStatus class]]) {
-			/* Old styles with a custom template.html had Status.html files without 'insert' divs coupled 
+			/* Old styles with a custom template.html had Status.html files without 'insert' divs coupled
 			 * with a APPEND_NEXT_MESSAGE_WITH_SCROLL script which assumes one exists.
 			 */
 			script = APPEND_MESSAGE_WITH_SCROLL;
@@ -605,8 +605,8 @@
 			script = (contentIsSimilar ? APPEND_NEXT_MESSAGE_WITH_SCROLL : APPEND_MESSAGE_WITH_SCROLL);
 		}
 	}
-	
-	return [NSString stringWithFormat:script, [self _escapeStringForPassingToScript:newHTML]]; 
+
+	return [NSString stringWithFormat:script, [self _escapeStringForPassingToScript:newHTML]];
 }
 
 - (NSString *)scriptForChangingVariant
@@ -627,22 +627,22 @@
  *	@brief Escape a string for passing to our BOM scripts
  */
 - (NSMutableString *)_escapeStringForPassingToScript:(NSMutableString *)inString
-{	
+{
 	// We need to escape a few things to get our string to the javascript without trouble
-	[inString replaceOccurrencesOfString:@"\\" 
-							  withString:@"\\\\" 
-								 options:NSLiteralSearch];
-	
-	[inString replaceOccurrencesOfString:@"\"" 
-							  withString:@"\\\"" 
-								 options:NSLiteralSearch];
-		
-	[inString replaceOccurrencesOfString:@"\n" 
-							  withString:@"" 
+	[inString replaceOccurrencesOfString:@"\\"
+							  withString:@"\\\\"
 								 options:NSLiteralSearch];
 
-	[inString replaceOccurrencesOfString:@"\r" 
-							  withString:@"<br>" 
+	[inString replaceOccurrencesOfString:@"\""
+							  withString:@"\\\""
+								 options:NSLiteralSearch];
+
+	[inString replaceOccurrencesOfString:@"\n"
+							  withString:@""
+								 options:NSLiteralSearch];
+
+	[inString replaceOccurrencesOfString:@"\r"
+							  withString:@"<br>"
 								 options:NSLiteralSearch];
 
 	return inString;
@@ -653,7 +653,7 @@
 - (NSArray *)availableVariants
 {
 	NSMutableArray	*availableVariants = [NSMutableArray array];
-	
+
 	//Build an array of all variant names
 	for (NSString *path in [styleBundle pathsForResourcesOfType:@"css" inDirectory:@"Variants"]) {
 		[availableVariants addObject:[[path lastPathComponent] stringByDeletingPathExtension]];
@@ -664,21 +664,30 @@
 	if (styleVersion < 3) {
 		[availableVariants addObject:[self noVariantName]];
 	}
-	
+
 	//Alphabetize the variants
 	[availableVariants sortUsingSelector:@selector(localizedStandardCompare:)];
-	
+
 	return availableVariants;
 }
 
 - (NSString *)pathForVariant:(NSString *)variant
 {
-	//Styles before version 3 stored the default variant in main.css, and not in the variants folder.
-	if (styleVersion < 3 && [variant isEqualToString:[self noVariantName]]) {
-		return @"main.css";
-	} else {
-		return [NSString stringWithFormat:@"Variants/%@.css",variant];
+	//mvv > 2 and (variant exists and not nil)
+	if (styleVersion > 2 && (![variant isEqualToString:[self noVariantName]] && variant != nil )) { 		return [NSString stringWithFormat:@"Variants/%@.css",variant];
 	}
+	// mvv > 2 and variant does not exist
+	else if (styleVersion > 2 && ([variant isEqualToString:[self noVariantName]] || variant == nil )) {
+		return @"";
+	}
+
+	//Styles before version 3 stored the default variant in main.css, and not in the variants folder.
+	else if (styleVersion < 3 && [variant isEqualToString:[self noVariantName]]) {
+		return @"main.css";
+	}
+
+	// Secure Return
+	return @"";
 }
 
 /*!
@@ -693,7 +702,7 @@
 + (NSString *)noVariantNameForBundle:(NSBundle *)inBundle
 {
 	NSString	*noVariantName = [inBundle objectForInfoDictionaryKey:@"DisplayNameForNoVariant"];
-	return noVariantName ? noVariantName : AILocalizedString(@"Normal","Normal style variant menu item");	
+	return noVariantName ? noVariantName : AILocalizedString(@"Normal","Normal style variant menu item");
 }
 
 - (NSString *)defaultVariant
@@ -703,8 +712,8 @@
 
 + (NSString *)defaultVariantForBundle:(NSBundle *)inBundle
 {
-	return [[inBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue] < 3 ? 
-		   [self noVariantNameForBundle:inBundle] : 
+	return [[inBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue] < 3 ?
+		   [self noVariantNameForBundle:inBundle] :
 		   [inBundle objectForInfoDictionaryKey:@"DefaultVariant"];
 }
 
@@ -722,10 +731,10 @@
 	/*
 		htmlEncodedMessage is only encoded correctly for AIContentMessages
 		but we do it up here so that we can check for RTL/LTR text below without
-		having to encode the message twice. This is less than ideal 
+		having to encode the message twice. This is less than ideal
 	 */
 	NSString		*htmlEncodedMessage = [AIHTMLDecoder encodeHTML:[content message]
-															headers:NO 
+															headers:NO
 														   fontTags:showIncomingFonts
 												 includingColorTags:(allowsColors && showIncomingColors)
 													  closeFontTags:YES
@@ -739,7 +748,7 @@
 													 simpleTagsOnly:NO
 													 bodyBackground:NO
 										        allowJavascriptURLs:NO];
-	
+
 	if (styleVersion >= 4)
 		htmlEncodedMessage = [adium.contentController filterHTMLString:htmlEncodedMessage
 															   direction:[content isOutgoing] ? AIFilterOutgoing : AIFilterIncoming
@@ -748,16 +757,16 @@
 	//date
 	if ([content respondsToSelector:@selector(date)])
 		date = [(AIContentMessage *)content date];
-	
+
 	//Replacements applicable to any AIContentObject
-	[inString replaceKeyword:@"%time%" 
+	[inString replaceKeyword:@"%time%"
 				  withString:(date ? [timeStampFormatter stringFromDate:date] : @"")];
 
 	__block NSString *shortTimeString;
 	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *dateFormatter){
 		shortTimeString = (date ? [dateFormatter stringFromDate:date] : @"");
 	}];
-	
+
 	[inString replaceKeyword:@"%shortTime%"
 				  withString:shortTimeString];
 
@@ -766,7 +775,7 @@
 		[inString replaceKeyword:@"%senderStatusIcon%"
 					  withString:[self statusIconPathForListObject:theSource]];
 	}
-	
+
 	//Replaces %localized{x}% with a a localized version of x, searching the style's localizations, and then Adium's localizations
 	do{
 		range = [inString rangeOfString:@"%localized{"];
@@ -775,7 +784,7 @@
 			endRange = [inString rangeOfString:@"}%" options:NSLiteralSearch range:NSMakeRange(NSMaxRange(range), [inString length] - NSMaxRange(range))];
 			if (endRange.location != NSNotFound && endRange.location > NSMaxRange(range)) {
 				NSString *untranslated = [inString substringWithRange:NSMakeRange(NSMaxRange(range), (endRange.location - NSMaxRange(range)))];
-				
+
 				NSString *translated = [styleBundle localizedStringForKey:untranslated
 																	value:untranslated
 																	table:nil];
@@ -789,9 +798,9 @@
 																			table:nil];
 					}
 				}
-				
-				
-				[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
+
+
+				[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange)
 											withString:translated];
 			}
 		}
@@ -802,16 +811,16 @@
 
 	[inString replaceKeyword:@"%messageClasses%"
 				  withString:[(contentIsSimilar ? @"consecutive " : @"") stringByAppendingString:[[content displayClasses] componentsJoinedByString:@" "]]];
-	
+
 	[inString replaceKeyword:@"%senderColor%"
 				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:self.validSenderColors]];
-	
+
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
 	BOOL isRTL = ([htmlEncodedMessage rangeOfString:@"<div dir=\"rtl\">"
                                             options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound);
 	[inString replaceKeyword:@"%messageDirection%"
 				  withString:(isRTL ? @"rtl" : @"ltr")];
-	
+
 	//Replaces %time{x}% with a timestamp formatted like x (using NSDateFormatter)
 	do{
 		range = [inString rangeOfString:@"%time{"];
@@ -826,7 +835,7 @@
 						[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(flushTimeFormatterCache:) name:@"AppleTimePreferencesChangedNotification" object:nil];
 					}
 					NSString *timeFormat = [inString substringWithRange:NSMakeRange(NSMaxRange(range), (endRange.location - NSMaxRange(range)))];
-					
+
 					NSDateFormatter *dateFormatter = [timeFormatterCache objectForKey:timeFormat];
 					if (!dateFormatter) {
 						if ([timeFormat rangeOfString:@"%"].location != NSNotFound) {
@@ -838,44 +847,44 @@
 						}
 						[timeFormatterCache setObject:dateFormatter forKey:timeFormat];
 					}
-					
-					[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
+
+					[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange)
 												withString:[dateFormatter stringFromDate:date]];
-					
+
 				} else
 					[inString deleteCharactersInRange:NSUnionRange(range, endRange)];
-				
+
 			}
 		}
 	} while (range.location != NSNotFound);
-	
+
 	do{
 		range = [inString rangeOfString:@"%userIconPath%"];
 		if (range.location != NSNotFound) {
 			NSString    *userIconPath;
 			NSString	*replacementString;
-			
+
 			userIconPath = [theSource valueForProperty:KEY_WEBKIT_USER_ICON];
 			if (!userIconPath) {
 				userIconPath = [theSource valueForProperty:@"UserIconPath"];
 			}
-			
+
 			if (showUserIcons && userIconPath) {
 				replacementString = [NSString stringWithFormat:@"file://%@", userIconPath];
-				
+
 			} else {
 				replacementString = ([content isOutgoing]
-									 ? @"Outgoing/buddy_icon.png" 
+									 ? @"Outgoing/buddy_icon.png"
 									 : @"Incoming/buddy_icon.png");
 			}
-			
+
 			[inString safeReplaceCharactersInRange:range withString:replacementString];
 		}
 	} while (range.location != NSNotFound);
-	
-	[inString replaceKeyword:@"%service%" 
+
+	[inString replaceKeyword:@"%service%"
 				  withString:[content.chat.account.service shortDescription]];
-	
+
 	[inString replaceKeyword:@"%serviceIconPath%"
 				  withString:[AIServiceIcons pathForServiceIconForServiceID:content.chat.account.service.serviceID
 																	   type:AIServiceIconLarge]];
@@ -888,7 +897,7 @@
 
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
-		
+
 		//Use [content source] directly rather than the potentially-metaContact theSource
 		NSString *formattedUID = nil;
         if (content.chat.isGroupChat && [(AIGroupChat *)content.chat aliasForContact:contentSource]) {
@@ -898,24 +907,24 @@
 		}
 
 		NSString *displayName;
-        
+
         if (content.chat.isGroupChat)
             displayName = [(AIGroupChat *)content.chat displayNameForContact:contentSource];
         else
             displayName = content.source.displayName;
-		
+
 		[inString replaceKeyword:@"%status%"
 					  withString:@""];
 
-		[inString replaceKeyword:@"%senderScreenName%" 
+		[inString replaceKeyword:@"%senderScreenName%"
 					  withString:[(formattedUID ?
 								   formattedUID :
 								   displayName) stringByEscapingForXMLWithEntities:nil]];
-		 
-        
+
+
 		[inString replaceKeyword:@"%senderPrefix%"
 					  withString:((AIContentMessage *)content).senderPrefix];
-		
+
 		do{
 			range = [inString rangeOfString:@"%sender%"];
 			if (range.location != NSNotFound) {
@@ -952,7 +961,7 @@
 							if (!senderDisplay) {
 								AILog(@"XXX we don't have a sender for %@ (%@)", content, [content message]);
 								NSLog(@"Enormous error: we don't have a sender for %@ (%@)", content, [content message]);
-								
+
 								// This shouldn't happen.
 								senderDisplay = @"(unknown)";
 							}
@@ -961,15 +970,15 @@
 				} else {
 					senderDisplay = displayName;
 				}
-				
+
 				if ([(AIContentMessage *)content isAutoreply]) {
 					senderDisplay = [NSString stringWithFormat:@"%@ %@",senderDisplay,AILocalizedString(@"(Autoreply)","Short word inserted after the sender's name when displaying a message which was an autoresponse")];
 				}
-					
+
 				[inString safeReplaceCharactersInRange:range withString:[senderDisplay stringByEscapingForXMLWithEntities:nil]];
 			}
 		} while (range.location != NSNotFound);
-        
+
 		do {
 			range = [inString rangeOfString:@"%senderDisplayName%"];
 			if (range.location != NSNotFound) {
@@ -979,7 +988,7 @@
 				if (!serversideDisplayName) {
 					serversideDisplayName = theSource.displayName;
 				}
-				
+
 				[inString safeReplaceCharactersInRange:range
 											withString:[serversideDisplayName stringByEscapingForXMLWithEntities:nil]];
 			}
@@ -994,12 +1003,12 @@
 				if (endRange.location != NSNotFound && endRange.location > NSMaxRange(range)) {
 					NSString *transparency = [inString substringWithRange:NSMakeRange(NSMaxRange(range),
 																					  (endRange.location - NSMaxRange(range)))];
-					
+
 					if (allowTextBackgrounds && showIncomingColors) {
 						NSString *thisIsATemporaryString;
 						unsigned rgb = 0, red, green, blue;
 						NSScanner *hexcode;
-						thisIsATemporaryString = [AIHTMLDecoder encodeHTML:[content message] headers:NO 
+						thisIsATemporaryString = [AIHTMLDecoder encodeHTML:[content message] headers:NO
 																  fontTags:NO
 														includingColorTags:NO
 															 closeFontTags:NO
@@ -1030,8 +1039,8 @@
 				} else if (endRange.location == NSMaxRange(range)) {
 					if (allowTextBackgrounds && showIncomingColors) {
 						NSString *thisIsATemporaryString;
-						
-						thisIsATemporaryString = [AIHTMLDecoder encodeHTML:[content message] headers:NO 
+
+						thisIsATemporaryString = [AIHTMLDecoder encodeHTML:[content message] headers:NO
 																  fontTags:NO
 														includingColorTags:NO
 															 closeFontTags:NO
@@ -1045,17 +1054,17 @@
 															simpleTagsOnly:NO
 															bodyBackground:YES
 													   allowJavascriptURLs:NO];
-						[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
+						[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange)
 													withString:[NSString stringWithFormat:@"#%@", thisIsATemporaryString]];
 					} else {
 						[inString deleteCharactersInRange:NSUnionRange(range, endRange)];
-					}	
+					}
 				}
 			}
 		} while (range.location != NSNotFound);
 
 		if ([content isKindOfClass:[ESFileTransfer class]]) { //file transfers are an AIContentMessage subclass
-		
+
 			ESFileTransfer *transfer = (ESFileTransfer *)content;
 			NSString *fileName = [[transfer remoteFilename] stringByEscapingForXMLWithEntities:nil];
 			NSString *fileTransferID = [[transfer uniqueID] stringByEscapingForXMLWithEntities:nil];
@@ -1073,13 +1082,13 @@
 
 			[inString replaceKeyword:@"%fileName%"
 						  withString:fileName];
-			
+
 			[inString replaceKeyword:@"%saveFileHandler%"
 						  withString:[NSString stringWithFormat:@"client.handleFileTransfer('Save', '%@')", fileTransferID]];
-			
+
 			[inString replaceKeyword:@"%saveFileAsHandler%"
 						  withString:[NSString stringWithFormat:@"client.handleFileTransfer('SaveAs', '%@')", fileTransferID]];
-			
+
 			[inString replaceKeyword:@"%cancelRequestHandler%"
 						  withString:[NSString stringWithFormat:@"client.handleFileTransfer('Cancel', '%@')", fileTransferID]];
 		}
@@ -1092,24 +1101,24 @@
 									options:NSLiteralSearch
 									  range:NSMakeRange(range.location + htmlEncodedMessage.length,
 														inString.length - range.location - htmlEncodedMessage.length)];
-		} 
-		
+		}
+
 		// Topic replacement (if applicable)
 		if ([content isKindOfClass:[AIContentTopic class]]) {
 			range = [inString rangeOfString:@"%topic%"];
-			
+
 			if (range.location != NSNotFound) {
 				[inString safeReplaceCharactersInRange:range withString:[NSString stringWithFormat:TOPIC_INDIVIDUAL_WRAPPER, htmlEncodedMessage]];
 			}
-		}		
+		}
 	} else if ([content isKindOfClass:[AIContentStatus class]]) {
 		NSString	*statusPhrase;
 		BOOL		replacedStatusPhrase = NO;
-		
-		[inString replaceKeyword:@"%status%" 
+
+		[inString replaceKeyword:@"%status%"
 				  withString:[[(AIContentStatus *)content status] stringByEscapingForXMLWithEntities:nil]];
-		
-		[inString replaceKeyword:@"%statusSender%" 
+
+		[inString replaceKeyword:@"%statusSender%"
 				  withString:[theSource.displayName stringByEscapingForXMLWithEntities:nil]];
 
 		[inString replaceKeyword:@"%senderScreenName%"
@@ -1125,13 +1134,13 @@
 			do{
 				range = [inString rangeOfString:@"%statusPhrase%"];
 				if (range.location != NSNotFound) {
-					[inString safeReplaceCharactersInRange:range 
+					[inString safeReplaceCharactersInRange:range
 												withString:[statusPhrase stringByEscapingForXMLWithEntities:nil]];
 					replacedStatusPhrase = YES;
 				}
 			} while (range.location != NSNotFound);
 		}
-		
+
 		//Message (must do last)
 		range = [inString rangeOfString:@"%message%"];
 		if (range.location != NSNotFound) {
@@ -1142,7 +1151,7 @@
 				messageString = @"";
 			} else {
 				messageString = [AIHTMLDecoder encodeHTML:[content message]
-												  headers:NO 
+												  headers:NO
 												 fontTags:NO
 									   includingColorTags:NO
 											closeFontTags:YES
@@ -1157,7 +1166,7 @@
 										   bodyBackground:NO
 									  allowJavascriptURLs:NO];
 			}
-			
+
 			[inString safeReplaceCharactersInRange:range withString:messageString];
 		}
 	}
@@ -1168,7 +1177,7 @@
 - (NSMutableString *)fillKeywordsForBaseTemplate:(NSMutableString *)inString chat:(AIChat *)chat
 {
 	NSRange	range;
-	
+
 	[inString replaceKeyword:@"%chatName%"
 				  withString:[chat.displayName stringByEscapingForXMLWithEntities:nil]];
 
@@ -1176,46 +1185,46 @@
 	if(!sourceName) sourceName = @" ";
 	[inString replaceKeyword:@"%sourceName%"
 				  withString:sourceName];
-	
+
 	NSString *destinationName = chat.listObject.displayName;
 	if (!destinationName) destinationName = chat.displayName;
 	[inString replaceKeyword:@"%destinationName%"
 				  withString:destinationName];
-	
+
 	NSString *serversideDisplayName = chat.listObject.serversideDisplayName;
 	if (!serversideDisplayName) serversideDisplayName = chat.displayName;
 	[inString replaceKeyword:@"%destinationDisplayName%"
 				  withString:[serversideDisplayName stringByEscapingForXMLWithEntities:nil]];
-		
+
 	AIListContact	*listObject = chat.listObject;
 	NSString		*iconPath = nil;
-	
+
 	[inString replaceKeyword:@"%incomingColor%"
 				  withString:[NSColor representedColorForObject:listObject.UID withValidColors:self.validSenderColors]];
-	
+
 	[inString replaceKeyword:@"%outgoingColor%"
 				  withString:[NSColor representedColorForObject:chat.account.UID withValidColors:self.validSenderColors]];
-	
+
 	if (listObject) {
 		iconPath = [listObject valueForProperty:KEY_WEBKIT_USER_ICON];
 		if (!iconPath)
 			iconPath = [listObject valueForProperty:@"UserIconPath"];
-		
+
 		/* We couldn't get an icon... but perhaps we can for a parent contact */
 		if (!iconPath &&
 			[listObject isKindOfClass:[AIListContact class]] &&
 			([(AIListContact *)listObject parentContact] != listObject)) {
 			iconPath = [[(AIListContact *)listObject parentContact] valueForProperty:KEY_WEBKIT_USER_ICON];
 			if (!iconPath)
-				iconPath = [[(AIListContact *)listObject parentContact] valueForProperty:@"UserIconPath"];			
-		}		
+				iconPath = [[(AIListContact *)listObject parentContact] valueForProperty:@"UserIconPath"];
+		}
 	}
 	[inString replaceKeyword:@"%incomingIconPath%"
 				  withString:(iconPath ? iconPath : @"incoming_icon.png")];
 
 	AIListObject	*account = chat.account;
 	iconPath = nil;
-	
+
 	if (account) {
 		iconPath = [account valueForProperty:KEY_WEBKIT_USER_ICON];
 		if (!iconPath)
@@ -1226,21 +1235,21 @@
 
 	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:account.service.serviceID
 																		  type:AIServiceIconLarge];
-	
+
 	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"%@\" alt=\"%@\" title=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [account.service shortDescription], [account.service shortDescription]];
-	
-	[inString replaceKeyword:@"%service%" 
+
+	[inString replaceKeyword:@"%service%"
 				  withString:[account.service shortDescription]];
-	
+
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];
-	
+
 	[inString replaceKeyword:@"%serviceIconPath%"
 				  withString:serviceIconPath];
-	
+
 	[inString replaceKeyword:@"%timeOpened%"
 				  withString:[timeStampFormatter stringFromDate:[chat dateOpened]]];
-	
+
 	//Replaces %time{x}% with a timestamp formatted like x (using NSDateFormatter)
 	do{
 		range = [inString rangeOfString:@"%timeOpened{"];
@@ -1248,9 +1257,9 @@
 			NSRange endRange;
 			endRange = [inString rangeOfString:@"}%" options:NSLiteralSearch range:NSMakeRange(NSMaxRange(range), [inString length] - NSMaxRange(range))];
 
-			if (endRange.location != NSNotFound && endRange.location > NSMaxRange(range)) {				
+			if (endRange.location != NSNotFound && endRange.location > NSMaxRange(range)) {
 				NSString		*timeFormat = [inString substringWithRange:NSMakeRange(NSMaxRange(range), (endRange.location - NSMaxRange(range)))];
-				
+
 				NSDateFormatter *dateFormatter;
 				if ([timeFormat rangeOfString:@"%"].location != NSNotFound) {
 					/* Support strftime-style format strings, which old message styles may use */
@@ -1259,28 +1268,28 @@
 					dateFormatter = [[NSDateFormatter alloc] init];
 					[dateFormatter setDateFormat:timeFormat];
 				}
-				
-				[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
+
+				[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange)
 												withString:[dateFormatter stringFromDate:[chat dateOpened]]];
 			}
 		}
 	} while (range.location != NSNotFound);
-	
+
 	[NSDateFormatter withLocalizedDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 		[inString replaceKeyword:@"%dateOpened%"
 					  withString:[dateFormatter stringFromDate:[chat dateOpened]]];
 	}];
-	
+
 	//Background
 	{
 		range = [inString rangeOfString:@"==bodyBackground=="];
-		
+
 		if (range.location != NSNotFound) { //a backgroundImage tag is not required
 			NSMutableString *bodyTag = nil;
 
-			if (allowsCustomBackground && (customBackgroundPath || customBackgroundColor)) {				
+			if (allowsCustomBackground && (customBackgroundPath || customBackgroundColor)) {
 				bodyTag = [[NSMutableString alloc] init];
-				
+
 				if (customBackgroundPath) {
 					if ([customBackgroundPath length]) {
 						switch (customBackgroundType) {
@@ -1310,18 +1319,18 @@
 					[bodyTag appendString:[NSString stringWithFormat:@"background-color: rgba(%ld, %ld, %ld, %f); ", (NSInteger)(red * 255.0), (NSInteger)(green * 255.0), (NSInteger)(blue * 255.0), alpha]];
 				}
  			}
-			
+
 			//Replace the body background tag
  			[inString safeReplaceCharactersInRange:range withString:(bodyTag ? (NSString *)bodyTag : @"")];
  		}
  	}
-	
+
 	if ([inString rangeOfString:@"%variant%"].location != NSNotFound) {
 		/* Per #12702, don't allow spaces in the variant name, as otherwise it becomes multiple css classes */
 		[inString replaceKeyword:@"%variant%"
 					  withString:[self.activeVariant stringByReplacingOccurrencesOfString:@" " withString:@"_"]];
 	}
-	
+
 	return inString;
 }
 
