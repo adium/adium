@@ -90,8 +90,8 @@
 		NSString    *linkText;
 		id   	 	linkURL = nil;
 		
-		// Get the selected link (We have to be careful when the selection is at the very end of our text view)
-		if ([[textView textStorage] length] > 0 && selectedRange.location != NSNotFound && NSMaxRange(selectedRange) <= [[textView textStorage] length]) {
+		// Text is selected if the selected range is greater than 0!
+		if (selectedRange.length > 0) {
 			linkURL = [[textView textStorage] attribute:NSLinkAttributeName
 												atIndex:selectedRange.location
 										 effectiveRange:&rangeOfLinkAttribute];
