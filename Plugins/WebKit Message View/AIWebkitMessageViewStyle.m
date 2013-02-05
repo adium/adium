@@ -674,7 +674,8 @@
 - (NSString *)pathForVariant:(NSString *)variant
 {
 	//mvv > 2 and (variant exists and not nil)
-	if (styleVersion > 2 && (![variant isEqualToString:[self noVariantName]] && variant != nil )) { 		return [NSString stringWithFormat:@"Variants/%@.css",variant];
+	if (styleVersion > 2 && (![variant isEqualToString:[self noVariantName]] && variant != nil )) {
+		return [NSString stringWithFormat:@"Variants/%@.css",variant];
 	}
 	// mvv > 2 and variant does not exist
 	else if (styleVersion > 2 && ([variant isEqualToString:[self noVariantName]] || variant == nil )) {
