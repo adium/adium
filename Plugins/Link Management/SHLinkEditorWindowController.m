@@ -297,17 +297,7 @@
 {
     // Validate our URL
     [textView_URL textDidChange:aNotification];
-	
-	if ([imageView_invalidURLAlert respondsToSelector:@selector(setHidden:)]) {
-        [imageView_invalidURLAlert setHidden:[textView_URL isURLValid]];
-
-    } else { // For those stuck in jag, we can't use setHidden
-        if ([textView_URL isURLValid]) {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"space" forClass:[self class]]];
-        } else {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"events-error-alert" forClass:[self class]]];
-        }
-    }
+    [imageView_invalidURLAlert setHidden:[textView_URL isURLValid]];
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
