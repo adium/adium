@@ -261,13 +261,13 @@
 	if(!checkedSenderColors) {
 		NSURL *url = [NSURL fileURLWithPath:[stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"]];
 		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
-
+        
 		if(senderColorsFile)
 			validSenderColors = [senderColorsFile componentsSeparatedByString:@":"];
-
+        
 		checkedSenderColors = YES;
 	}
-
+    
 	return validSenderColors;
 }
 
@@ -673,20 +673,25 @@
 
 - (NSString *)pathForVariant:(NSString *)variant
 {
-	//mvv > 2 and (variant exists and not nil)
-	if (styleVersion > 2 && (![variant isEqualToString:[self noVariantName]] && variant != nil )) {
-		return [NSString stringWithFormat:@"Variants/%@.css",variant];
+	if (styleVersion > 2) {
+        //mvv > 2 and (variant exists and not nil)
+        if (![variant isEqualToString:[self noVariantName]] && variant != nil ) {
+            return [NSString stringWithFormat:@"Variants/%@.css",variant];
+        }
+        // mvv > 2 and variant does not exist
+    	else if (([variant isEqualToString:[self noVariantName]] || variant == nil )) {
+            return @"";
+        }
 	}
-	// mvv > 2 and variant does not exist
-	else if (styleVersion > 2 && ([variant isEqualToString:[self noVariantName]] || variant == nil )) {
-		return @"";
-	}
-
-	//Styles before version 3 stored the default variant in main.css, and not in the variants folder.
+    //Styles before version 3 stored the default variant in main.css, and not in the variants folder.
 	else if (styleVersion < 3 && [variant isEqualToString:[self noVariantName]]) {
 		return @"main.css";
 	}
-
+    //Old styles still support varients, so we need to make sure we return them if they exist.
+    else if (variant != nil) {
+        return [NSString stringWithFormat:@"Variants/%@.css",variant];
+    }
+    
 	// Secure Return
 	return @"";
 }
