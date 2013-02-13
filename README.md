@@ -32,6 +32,7 @@ Based on the [libpurple](http://trac.adium.im/wiki/LibPurple) protocol library, 
 - [Adium 1.3.10](http://adiumx.cachefly.net/Adium_1.3.10.dmg): Mac OS X 10.4
 - [Adium 1.0.6](http://adiumx.cachefly.net/Adium_1.0.6.dmg): Mac OS X 10.3.9
 - [Adium X 0.89.1](http://adiumx.cachefly.net/AdiumX_0.89.1.dmg): Mac OS X 10.2.x and older
+
 Adium X 0.88 up to Adium 1.4.5 are Universal applications which run natively on both PowerPC- and Intel-based Macintosh computers. Adium 1.5 and up require an Intel based computer.
 
 See our [Supported OS Policy](http://trac.adium.im/wiki/SupportedOSPolicy) for more information.
