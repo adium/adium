@@ -43,7 +43,7 @@ static SGHotKeyCenter *sharedCenter = nil;
     //The caller expects to receive a new object, so implicitly retain it to balance out the caller's eventual release message.
     return sharedCenter;
   } else {
-    //When not already set, +initialize is our callerÐit's creating the shared instance. Let this go through.
+    //When not already set, +initialize is our callerâ€“it's creating the shared instance. Let this go through.
     return [super allocWithZone:zone];
   }
 }

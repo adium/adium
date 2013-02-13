@@ -627,8 +627,11 @@
 			idx = [advancedPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
 				[advancedIndexes addIndex:idx];
+			CFRelease(foundURLs[i]);
 		}
 	}
+	
+	CFRelease(search);
 	
 	//Highlight matches in the collection views
 	generalCV.matchedSearchIndexes = generalIndexes;
