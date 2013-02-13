@@ -141,7 +141,7 @@
 	[button_addGroup setLocalizedString:AILocalizedString(@"Add Group", nil)];
 	[button_editState setLocalizedString:AILocalizedString(@"Edit", nil)];
 	
-	[checkBox_idle setLocalizedString:AILocalizedString(@"Let others know I am idle after", nil)];
+	[checkBox_idle setLocalizedString:AILocalizedString(@"Set idle after", nil)];
 	[label_inactivity setLocalizedString:AILocalizedString(@"minutes of inactivity", nil)];
 	
 	[checkBox_autoAway setLocalizedString:AILocalizedString(@"After", nil)];
