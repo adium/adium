@@ -138,10 +138,28 @@
 	[tabItem_status setLabel:AILocalizedString(@"Saved Statuses", nil)];
 	[tabItem_settings setLabel:AILocalizedString(@"Settings", nil)];
 	
-	[button_addGroup setLocalizedString:AILocalizedString(@"Add Group", nil)];
-	[button_editState setLocalizedString:AILocalizedString(@"Edit", nil)];
+	{
+		NSRect newFrame, oldFrame;
+		oldFrame = [button_addGroup frame];
+		[button_addGroup setTitle:AILocalizedString(@"Add Group", nil)];
+		[button_addGroup sizeToFit];
+		newFrame = [button_addGroup frame];
+		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
+		newFrame.origin.x = oldFrame.origin.x;
+		[button_addGroup setFrame:newFrame];
+	}
+	{
+		NSRect newFrame, oldFrame;
+		oldFrame = [button_editState frame];
+		[button_editState setTitle:AILocalizedStringFromTable(@"Edit", @"Buttons", "Verb 'edit' on a button")];
+		[button_editState sizeToFit];
+		newFrame = [button_editState frame];
+		if (newFrame.size.width < oldFrame.size.width) newFrame.size.width = oldFrame.size.width;
+		newFrame.origin.x = oldFrame.origin.x + oldFrame.size.width - newFrame.size.width;
+		[button_editState setFrame:newFrame];
+	}
 	
-	[checkBox_idle setLocalizedString:AILocalizedString(@"Let others know I am idle after", nil)];
+	[checkBox_idle setLocalizedString:AILocalizedString(@"Set idle after", nil)];
 	[label_inactivity setLocalizedString:AILocalizedString(@"minutes of inactivity", nil)];
 	
 	[checkBox_autoAway setLocalizedString:AILocalizedString(@"After", nil)];

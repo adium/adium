@@ -861,7 +861,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 			.tag    = tags,
 			.format = formats,
 		};
-		
+		SecKeychainItemFreeContent( NULL, passwordBytes );
 		err = SecKeychainItemCopyAttributesAndData(item,
 												   &info,
 												   /* itemClass */ NULL,
