@@ -201,101 +201,127 @@
 
 #pragma mark account creation
 
-static NSComparisonResult compareByDistance(id one, id two, void*context) {
-	NSNumber *dist1obj = [one objectForKey:@"distance"];
-	NSNumber *dist2obj = [two objectForKey:@"distance"];
-	
-	if((id)dist2obj == [NSNull null]) {
-		if((id)dist1obj == [NSNull null])
-			return NSOrderedSame;
-		return NSOrderedAscending;
-	}
-	if((id)dist1obj == [NSNull null])
-		return NSOrderedDescending;
-	
-	CGFloat dist1 = (CGFloat)[dist1obj doubleValue];
-	CGFloat dist2 = (CGFloat)[dist2obj doubleValue];
-	
-	if(fabs(dist1 - dist2) < 0.000001)
-		return NSOrderedSame;
-	
-	if(dist1 > dist2)
-		return NSOrderedDescending;
-	return NSOrderedAscending;
-}
-
 - (IBAction)findServer:(id)sender {
 	if(!servers) {
-		NSError *err = NULL;
-#warning Should not be synchronous. Bad.
-		NSXMLDocument *serverfeed = [[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
-																		 options:0
-																		   error:&err] autorelease];
-		if(err) {
-			[[NSAlert alertWithError:err] runModal];
-		} else {
-			NSXMLElement *root = [serverfeed rootElement];
-			NSArray *items = [root elementsForName:@"item"];
-			
-			if(!root || !items || ![[root name] isEqualToString:@"query"]) {
-				
-				[[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
-								 defaultButton:AILocalizedString(@"OK",nil)
-							   alternateButton:nil
-								   otherButton:nil
-					 informativeTextWithFormat:AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL] runModal];
-			} else {				
-				MachineLocation loc;
-				ReadLocation(&loc);
-				
-				CGFloat latitude = (CGFloat)(FractToFloat(loc.latitude)*(M_PI/2.0));
-				CGFloat longitude = (CGFloat)(FractToFloat(loc.longitude)*(M_PI/2.0));
-				
-				servers = [[NSMutableArray alloc] init];
-				
-				for (NSXMLElement *item in items) {
-					NSXMLElement *title = [[item elementsForName:@"domain"] lastObject];
-					if(!title)
-						continue;
-					NSXMLElement *description = [[item elementsForName:@"description"] lastObject];
-					NSXMLElement *latitudeNode  = [[item elementsForName:@"latitude"] lastObject];
-					NSXMLElement *longitudeNode = [[item elementsForName:@"longitude"] lastObject];
-					NSString *domain = [[item attributeForName:@"jid"] stringValue];
-					NSString *homepageStr = [[[item elementsForName:@"homepage"] lastObject] stringValue];
-					NSURL *homepage = homepageStr?[NSURL URLWithString:homepageStr]:nil;
-					
-					id distance = [NSNull null];
-					if (latitudeNode && longitudeNode) {
-						/* Calculate the distance between the computer and the xmpp server in km
-						 * Note that this assumes that the earth is a perfect sphere
-						 * If it turns out to be flat or doughnut-shaped, this will not work!
-						 */
-						
-						CGFloat latitude2 = (CGFloat)([[latitudeNode stringValue] doubleValue] * (M_PI/180.0));
-						CGFloat longitude2 = (CGFloat)([[longitudeNode stringValue] doubleValue] * (M_PI/180.0));
-						
-						CGFloat d_lat = AIsin((latitude2 - latitude)/2.0f);
-						CGFloat d_long = AIsin((longitude2 - longitude)/2.0f);
-						CGFloat a = d_lat*d_lat + AIcos(latitude)*AIcos(latitude2)*d_long*d_long;
-						CGFloat c = 2*AIatan2(AIsqrt(a),AIsqrt(1.0f-a));
-						CGFloat d = 6372.797f*c; // mean earth radius
-						
-						distance = [NSNumber numberWithDouble:d];
-					}
-					
-					[(NSMutableArray*)servers addObject:
-					 @{ @"servername" : [title stringValue],
-					 @"description" : (description ? (id)[description stringValue] : (id)[NSNull null]),
-					 @"distance" : distance,
-					 @"domain" : domain,
-					 @"homepage" : (homepage ?: (id)[NSNull null]) }];
-				}
-				
-				[(NSMutableArray*)servers sortUsingFunction:compareByDistance context:nil];
-				
-				[tableview_servers reloadData];
-			}
-		}
+		NSURLRequest *serversRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:SERVERFEEDRSSURL]
+														cachePolicy:NSURLRequestUseProtocolCachePolicy
+													timeoutInterval:30];
+		
+		
+		NSOperationQueue *serverFeedQueue = [[NSOperationQueue alloc] init];
+		[serverFeedQueue setName:@"im.adium.XMPPServerFeedQueue"];
+		
+		[NSURLConnection sendAsynchronousRequest:serversRequest
+										   queue:serverFeedQueue
+							   completionHandler:^(NSURLResponse *response, NSData *serverfeedData, NSError *err) {
+								   [serverFeedQueue autorelease];
+								   
+								   if(err) {
+									   dispatch_async(dispatch_get_main_queue(), ^{
+										   [[NSAlert alertWithError:err] runModal];
+									   });
+									   return;
+								   }
+								   
+								   NSXMLDocument *serverfeed = [[[NSXMLDocument alloc] initWithData:serverfeedData
+																							options:0
+																							  error:&err] autorelease];
+								   if (err) {
+									   dispatch_async(dispatch_get_main_queue(), ^{
+										   [[NSAlert alertWithError:err] runModal];
+									   });
+									   return;
+								   }
+								   
+								   NSXMLElement *root = [serverfeed rootElement];
+								   NSArray *items = [root elementsForName:@"item"];
+								   
+								   if(!root || !items || ![[root name] isEqualToString:@"query"]) {
+									   dispatch_async(dispatch_get_main_queue(), ^{
+										   [[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
+															defaultButton:AILocalizedString(@"OK",nil)
+														  alternateButton:nil
+															  otherButton:nil
+												informativeTextWithFormat:AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL] runModal];
+									   });
+								   } else {
+									   __block MachineLocation loc;
+									   
+									   dispatch_sync(dispatch_get_main_queue(), ^{
+										   ReadLocation(&loc);
+									   });
+									   
+									   CGFloat latitude = (CGFloat)(FractToFloat(loc.latitude)*(M_PI/2.0));
+									   CGFloat longitude = (CGFloat)(FractToFloat(loc.longitude)*(M_PI/2.0));
+									   
+									   servers = [[NSMutableArray alloc] init];
+									   
+									   for (NSXMLElement *item in items) {
+										   NSXMLElement *title = [[item elementsForName:@"domain"] lastObject];
+										   if(!title)
+											   continue;
+										   NSXMLElement *description = [[item elementsForName:@"description"] lastObject];
+										   NSXMLElement *latitudeNode  = [[item elementsForName:@"latitude"] lastObject];
+										   NSXMLElement *longitudeNode = [[item elementsForName:@"longitude"] lastObject];
+										   NSString *domain = [[item attributeForName:@"jid"] stringValue];
+										   NSString *homepageStr = [[[item elementsForName:@"homepage"] lastObject] stringValue];
+										   NSURL *homepage = homepageStr?[NSURL URLWithString:homepageStr]:nil;
+										   
+										   id distance = [NSNull null];
+										   if (latitudeNode && longitudeNode) {
+											   /* Calculate the distance between the computer and the xmpp server in km
+												* Note that this assumes that the earth is a perfect sphere
+												* If it turns out to be flat or doughnut-shaped, this will not work!
+												*/
+											   
+											   CGFloat latitude2 = (CGFloat)([[latitudeNode stringValue] doubleValue] * (M_PI/180.0));
+											   CGFloat longitude2 = (CGFloat)([[longitudeNode stringValue] doubleValue] * (M_PI/180.0));
+											   
+											   CGFloat d_lat = AIsin((latitude2 - latitude)/2.0f);
+											   CGFloat d_long = AIsin((longitude2 - longitude)/2.0f);
+											   CGFloat a = d_lat*d_lat + AIcos(latitude)*AIcos(latitude2)*d_long*d_long;
+											   CGFloat c = 2*AIatan2(AIsqrt(a),AIsqrt(1.0f-a));
+											   CGFloat d = 6372.797f*c; // mean earth radius
+											   
+											   distance = @(d);
+										   }
+										   
+										   [(NSMutableArray*)servers addObject:
+											@{ @"servername" : [title stringValue],
+											@"description" : (description ? (id)[description stringValue] : (id)[NSNull null]),
+											@"distance" : distance,
+											@"domain" : domain,
+											@"homepage" : (homepage ?: (id)[NSNull null]) }];
+									   }
+									   
+									   [(NSMutableArray*)servers sortUsingComparator:^NSComparisonResult(id one, id two) {
+										   NSNumber *dist1obj = [one objectForKey:@"distance"];
+										   NSNumber *dist2obj = [two objectForKey:@"distance"];
+										   
+										   if((id)dist2obj == [NSNull null]) {
+											   if((id)dist1obj == [NSNull null])
+												   return NSOrderedSame;
+											   return NSOrderedAscending;
+										   }
+										   if((id)dist1obj == [NSNull null])
+											   return NSOrderedDescending;
+										   
+										   CGFloat dist1 = (CGFloat)[dist1obj doubleValue];
+										   CGFloat dist2 = (CGFloat)[dist2obj doubleValue];
+										   
+										   if(fabs(dist1 - dist2) < 0.000001)
+											   return NSOrderedSame;
+										   
+										   if(dist1 > dist2)
+											   return NSOrderedDescending;
+										   return NSOrderedAscending;
+									   }];
+									   
+									   dispatch_async(dispatch_get_main_queue(), ^{
+										   [tableview_servers reloadData];
+									   });
+								   }
+							   }];
 	}
 	
 	[NSApp beginSheet:window_registerServer
