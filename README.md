@@ -7,11 +7,11 @@
 
 ## About Adium ##
 
-Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](http://www.gnu.org/licenses/licenses.html#GPL) and developed by [the Adium team](http://trac.adium.im/wiki/AdiumTeam).</p>
-Based on the [libpurple](http://trac.adium.im/wiki/LibPurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
+Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](http://www.gnu.org/licenses/licenses.html#GPL) and developed by [the Adium team](https://trac.adium.im/wiki/AdiumTeam).</p>
+Based on the [libpurple](https://trac.adium.im/wiki/LibPurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
 
 ## Notable Features ##
-* Open Source, so everyone can see how Adium works and [help improve it](http://trac.adium.im/wiki/Development)
+* Open Source, so everyone can see how Adium works and [help improve it](https://trac.adium.im/wiki/Development)
 * Support for a wide range of different Instant Messaging services (see the [full list](http://adium.im/help/pgs/Accounts-ListOfServices.html))
 * A delightful UI
   * [Tabbed chat windows](http://adium.im/help/pgs/Messaging-TabbedMessaging.html)
@@ -20,11 +20,11 @@ Based on the [libpurple](http://trac.adium.im/wiki/LibPurple) protocol library, 
 	* [WebKit Message View](http://adium.im/help/pgs/Messaging-MessageView.html):  Theme your chat windows
 * [Combined Contacts](http://adium.im/help/pgs/ContactList-CombiningContacts.html): Merge your contacts so that each one represents a person, not an account
 * A sophisticated events system (including [Growl notifications](http://adium.im/help/pgs/AdvancedFeatures-GrowlSupport.html))
-* [OTR Encryption](http://trac.adium.im/wiki/OTREncryption)
+* [OTR Encryption](https://trac.adium.im/wiki/OTREncryption)
 * [File Transfer](http://adium.im/help/pgs/AdvancedFeatures-FileTransfer.html)
 * [Xtras](http://adium.im/help/pgs/AdvancedFeatures-AdiumXtras.html) and many, many other customization options
-* A beautiful icon, the "[Adiumy](http://trac.adium.im/wiki/Adiumy)" duck
-* [Translations](http://trac.adium.im/wiki/Translations): Adium speaks 27 different languages
+* A beautiful icon, the "[Adiumy](https://trac.adium.im/wiki/Adiumy)" duck
+* [Translations](https://trac.adium.im/wiki/Translations): Adium speaks 27 different languages
 
 ## System requirements ##
 - **Adium 1.5 or later**: Mac OS X 10.6.8 or newer, an Apple-branded Macintosh computer
@@ -35,10 +35,10 @@ Based on the [libpurple](http://trac.adium.im/wiki/LibPurple) protocol library, 
 
 Adium X 0.88 up to Adium 1.4.5 are Universal applications which run natively on both PowerPC- and Intel-based Macintosh computers. Adium 1.5 and up require an Intel based computer.
 
-See our [Supported OS Policy](http://trac.adium.im/wiki/SupportedOSPolicy) for more information.
+See our [Supported OS Policy](https://trac.adium.im/wiki/SupportedOSPolicy) for more information.
 
 ## Contributing ##
-See [our own wiki](http://trac.adium.im/wiki/Development) for ways you can contribute to Adium.
+See [our own wiki](https://trac.adium.im/wiki/Development) for ways you can contribute to Adium.
 
 ## Adium Contact information ##
  * http://adium.im/
