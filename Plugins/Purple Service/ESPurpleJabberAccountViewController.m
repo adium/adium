@@ -208,18 +208,12 @@
 													timeoutInterval:30];
 		
 		
-		NSOperationQueue *serverFeedQueue = [[NSOperationQueue alloc] init];
-		[serverFeedQueue setName:@"im.adium.XMPPServerFeedQueue"];
-		
 		[NSURLConnection sendAsynchronousRequest:serversRequest
-										   queue:serverFeedQueue
+										   queue:[NSOperationQueue mainQueue]
 							   completionHandler:^(NSURLResponse *response, NSData *serverfeedData, NSError *err) {
-								   [serverFeedQueue autorelease];
 								   
 								   if(err) {
-									   dispatch_async(dispatch_get_main_queue(), ^{
-										   [[NSAlert alertWithError:err] runModal];
-									   });
+									   [[NSAlert alertWithError:err] runModal];
 									   return;
 								   }
 								   
@@ -227,9 +221,7 @@
 																							options:0
 																							  error:&err] autorelease];
 								   if (err) {
-									   dispatch_async(dispatch_get_main_queue(), ^{
-										   [[NSAlert alertWithError:err] runModal];
-									   });
+									   [[NSAlert alertWithError:err] runModal];
 									   return;
 								   }
 								   
@@ -237,19 +229,15 @@
 								   NSArray *items = [root elementsForName:@"item"];
 								   
 								   if(!root || !items || ![[root name] isEqualToString:@"query"]) {
-									   dispatch_async(dispatch_get_main_queue(), ^{
-										   [[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
-															defaultButton:AILocalizedString(@"OK",nil)
-														  alternateButton:nil
-															  otherButton:nil
-												informativeTextWithFormat:AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL] runModal];
-									   });
+									   [[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
+														defaultButton:AILocalizedString(@"OK",nil)
+													  alternateButton:nil
+														  otherButton:nil
+											informativeTextWithFormat:AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL] runModal];
 								   } else {
-									   __block MachineLocation loc;
+									   MachineLocation loc;
 									   
-									   dispatch_sync(dispatch_get_main_queue(), ^{
-										   ReadLocation(&loc);
-									   });
+									   ReadLocation(&loc);
 									   
 									   CGFloat latitude = (CGFloat)(FractToFloat(loc.latitude)*(M_PI/2.0));
 									   CGFloat longitude = (CGFloat)(FractToFloat(loc.longitude)*(M_PI/2.0));
@@ -317,9 +305,7 @@
 										   return NSOrderedAscending;
 									   }];
 									   
-									   dispatch_async(dispatch_get_main_queue(), ^{
-										   [tableview_servers reloadData];
-									   });
+									   [tableview_servers reloadData];
 								   }
 							   }];
 	}
