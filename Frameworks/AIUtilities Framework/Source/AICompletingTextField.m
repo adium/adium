@@ -15,7 +15,6 @@
  */
 
 #import "AICompletingTextField.h"
-#import "AIAttributedStringAdditions.h"
 #import "AIStringAdditions.h"
 
 @interface NSTextField (AITextFieldAdditions)
@@ -76,14 +75,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-    [stringSet release];
-	[impliedCompletionDictionary release];
-	
-    [super dealloc];
-}
-
 //Sets the minimum string length required before completion kicks in
 - (void)setMinStringLength:(int)length
 {
@@ -98,10 +89,9 @@
 //Set the strings that this field will use to auto-complete
 - (void)setCompletingStrings:(NSArray *)strings
 {
-    [stringSet release];
-    stringSet = [[NSMutableSet setWithArray:strings] retain];
+    stringSet = [NSMutableSet setWithArray:strings];
 	
-	[impliedCompletionDictionary release]; impliedCompletionDictionary = nil;
+	impliedCompletionDictionary = nil;
 }
 
 //Adds a string to the existing string list
@@ -217,8 +207,6 @@
     }
 
 	NSArray *sortedArray = [possibleCompletions sortedArrayUsingSelector:@selector(compareLength:)];
-	
-	[possibleCompletions release];
 	
 	if ([sortedArray count] > 0){
 		return [sortedArray objectAtIndex:0];

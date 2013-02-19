@@ -31,7 +31,6 @@
 - (void)dealloc
 {
 	AILogWithSignature(@"");
-	[super dealloc];
 }
 
 @end

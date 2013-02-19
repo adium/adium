@@ -22,7 +22,7 @@
 #define DROP_HIGHLIGHT_HEIGHT_MARGIN 1.0f
 
 @interface AIListCell : NSCell {
-	AIListOutlineView	*controlView;
+	AIListOutlineView	*__weak controlView;
     AIProxyListObject	*proxyObject;
     BOOL				isGroup;
 	
@@ -52,13 +52,13 @@
 
 - (void)setProxyListObject:(AIProxyListObject *)inObject;
 @property (readonly, nonatomic) BOOL isGroup;
-@property (readwrite, assign, nonatomic) AIListOutlineView *controlView;
+@property (readwrite, weak, nonatomic) AIListOutlineView *controlView;
 
 //Display options
-@property (readwrite, retain, nonatomic) NSFont *font;
+@property (readwrite, nonatomic) NSFont *font;
 @property (readwrite, nonatomic) NSTextAlignment textAlignment;
-@property (readwrite, retain, nonatomic) NSColor *textColor;
-@property (readwrite, retain, nonatomic) NSColor *invertedTextColor;
+@property (readwrite, nonatomic) NSColor *textColor;
+@property (readwrite, nonatomic) NSColor *invertedTextColor;
 
 //Cell sizing and padding
 - (void) setSplitVerticalSpacing:(int) inSpacing;
@@ -83,15 +83,15 @@
 - (void)drawBackgroundWithFrame:(NSRect)rect;
 - (void)drawContentWithFrame:(NSRect)rect;
 - (void)drawDropHighlightWithFrame:(NSRect)rect;
-@property (readonly, nonatomic) NSAttributedString *displayName;
+@property (weak, readonly, nonatomic) NSAttributedString *displayName;
 @property (readonly, nonatomic) NSSize displayNameSize;
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect;
-@property (readonly, nonatomic) NSString *labelString;
-@property (readonly, nonatomic) NSMutableDictionary *labelAttributes;
-@property (readonly, nonatomic) NSDictionary *additionalLabelAttributes;
+@property (weak, readonly, nonatomic) NSString *labelString;
+@property (weak, readonly, nonatomic) NSMutableDictionary *labelAttributes;
+@property (weak, readonly, nonatomic) NSDictionary *additionalLabelAttributes;
 @property (readonly, nonatomic) BOOL cellIsSelected;
 @property (readonly, nonatomic) BOOL drawGridBehindCell;
-@property (readonly, nonatomic) NSColor *backgroundColor;
+@property (weak, readonly, nonatomic) NSColor *backgroundColor;
 
 @property (readwrite, nonatomic) BOOL shouldShowAlias;
 

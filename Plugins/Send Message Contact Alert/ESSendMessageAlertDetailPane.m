@@ -52,18 +52,18 @@
 
 	[button_useAnotherAccount setLocalizedString:AILocalizedString(@"Use another account if necessary",nil)];
 	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 							   submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 	//Update 'from' menu
 	[popUp_messageFrom setMenu:[accountMenu menu]];
 }
 
 - (void)viewWillClose
 {
-	[toContact release]; toContact = nil;
-	[accountMenu release]; accountMenu = nil;
-	[contactMenu release]; contactMenu = nil;
+	toContact = nil;
+	accountMenu = nil;
+	contactMenu = nil;
 }
 
 //Configure for the action
@@ -79,7 +79,7 @@
 	if (!destObject) destObject = inObject;
 		
 	//Configure the destination menu
-	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:nil] retain];
+	contactMenu = [AIContactMenu contactMenuWithDelegate:self forContactsInObject:nil];
 	
 	if (destObject && [destObject isKindOfClass:[AIListContact class]]) {
 		[self setDestinationContact:(AIListContact *)destObject];
@@ -138,7 +138,7 @@
 		NSMenuItem	*firstMenuItem;
 		AIAccount	*preferredAccount;
 		
-		[toContact release]; toContact = [inContact retain];
+		toContact = inContact;
 		
 		//NSPopUpButton doesn't handle submenus well at all. We put a blank menu item at the top of our
 		//menu when we created it. We can now change its attributes to affect the way the unclicked button

@@ -26,8 +26,6 @@
 @protocol GrowlApplicationBridgeDelegate;
 
 @interface NEHGrowlPlugin : AIPlugin <AIActionHandler, GrowlApplicationBridgeDelegate> {
-	BOOL showWhileAway;
-	
 	NSMutableDictionary	*queuedEvents;
 }
 

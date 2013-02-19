@@ -18,7 +18,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AutoHyperlinks/AHHyperlinkScanner.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -47,23 +46,23 @@
 	[shortenerSubMenu setDelegate:self];
 	
 	// Edit menu
-	menuItem = [[[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
+	menuItem = [[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
 										   target:self
 										   action:@selector(shortenLink)
 									keyEquivalent:@"K"
-										  keyMask:NSCommandKeyMask] autorelease];
+										  keyMask:NSCommandKeyMask];
 	
 	[menuItem setSubmenu:shortenerSubMenu];
 	
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Links];
 	
 	// Context menu
-	menuItem = [[[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
+	menuItem = [[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
 										   target:self
 										   action:@selector(shortenLink)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 	
-	[menuItem setSubmenu:[[shortenerSubMenu copy] autorelease]];
+	[menuItem setSubmenu:[shortenerSubMenu copy]];
 	
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
 	
@@ -73,11 +72,6 @@
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-}
-
-- (void)dealloc
-{	
-	[super dealloc];
 }
 
 #pragma mark Preferences
@@ -277,7 +271,7 @@
 		[attrs setObject:shortenedURL forKey:NSLinkAttributeName];
 		
 		[textView.textStorage replaceCharactersInRange:selectedRange
-								  withAttributedString:[[[NSAttributedString alloc] initWithString:shortenedURL attributes:attrs] autorelease]];
+								  withAttributedString:[[NSAttributedString alloc] initWithString:shortenedURL attributes:attrs]];
 		
 		// Select the inserted URL
 		textView.selectedRange = NSMakeRange(selectedRange.location, shortenedURL.length);

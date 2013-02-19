@@ -31,16 +31,10 @@
 - (void)setBackgroundImage:(NSImage *)inImage
 {
 	if (backgroundImage != inImage) {
-		[backgroundImage release];
-		backgroundImage = [inImage retain];	
+		backgroundImage = inImage;	
 	}
 	
 	[self setNeedsDisplay:YES];
-}
-
-- (void) dealloc {
-	[backgroundImage release]; backgroundImage = nil;
-	[super dealloc];
 }
 
 - (void)setTransparentRect:(NSRect)inTransparentRect

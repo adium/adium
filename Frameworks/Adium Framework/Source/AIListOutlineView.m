@@ -20,12 +20,8 @@
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIProxyListObject.h>
-#import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
-#import "AISCLViewPlugin.h"
 
 @interface AIListOutlineView ()
 
@@ -96,17 +92,8 @@
 {	
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
-	[backgroundImage release];
-	[backgroundColor release];
-	[_backgroundColorWithOpacity release];
-	[highlightColor release];
-	[rowColor release];
-	[_rowColorWithOpacity release];
-	 
 	[self unregisterDraggedTypes];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group 

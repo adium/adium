@@ -19,8 +19,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
 
-#import "AITwitterAccountOAuthSetup.h"
-
 #define BUTTON_TEXT_ALLOW_ACCESS		AILocalizedString(@"Allow Adium access", nil)
 
 @interface AITwitterAccountViewController()
@@ -48,7 +46,7 @@
 
 - (void)awakeFromNib
 {
-	NSMenu *intervalMenu = [[[NSMenu alloc] init] autorelease];
+	NSMenu *intervalMenu = [[NSMenu alloc] init];
 
 	[intervalMenu addItemWithTitle:AILocalizedString(@"never", "Update tweets: never")
 							target:self
@@ -101,8 +99,7 @@
 
 - (void)dealloc
 {
-	[OAuthSetup release]; OAuthSetup = nil;
-	[super dealloc];
+	OAuthSetup = nil;
 }
 
 /*!
@@ -121,7 +118,6 @@
 			
 			[OAuthSetup fetchAccessToken];
 		} else {
-			[OAuthSetup release];
 			
 			OAuthSetup = [[AITwitterAccountOAuthSetup alloc] initWithDelegate:self
 																   forAccount:(AITwitterAccount *)account];
@@ -213,7 +209,7 @@
 {
 	[super saveConfiguration];
 	
-	[OAuthSetup release]; OAuthSetup = nil;
+	OAuthSetup = nil;
 	
 	[account setPreference:popUp_updateInterval.selectedItem.representedObject
 					forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL
@@ -342,7 +338,7 @@
 
 - (void)completedOAuthSetup
 {
-	[OAuthSetup release]; OAuthSetup = nil;
+	 OAuthSetup = nil;
 	OAuthSetupStep = AIOAuthStepFailure;	
 }
 

@@ -15,7 +15,6 @@
  */
 
 #import "AIDateFormatterAdditions.h"
-#import "AIApplicationAdditions.h"
 #import "AIDateAdditions.h"
 #import "AIStringUtilities.h"
 
@@ -36,13 +35,6 @@
 + (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm;
 + (dispatch_queue_t)localizedFormatterQueue;
 @end
-
-typedef enum {
-    NONE,
-    SECONDS,
-    AMPM,
-    BOTH
-} StringType;
 
 @interface AIDateFormatterCache : NSObject
 {

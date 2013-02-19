@@ -17,8 +17,6 @@
 #import "AISoundController.h"
 #import "ESAnnouncerAbstractDetailPane.h"
 #import "ESAnnouncerPlugin.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AILocalizationButton.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 
@@ -191,12 +189,12 @@
  */
 - (NSMenu *)voicesMenu
 {
-	NSMenu			*voicesMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*voicesMenu = [[NSMenu alloc] init];
 	
-	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Use System Default",nil)
+	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Use System Default",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[voicesMenu addItem:menuItem];
 	[voicesMenu addItem:[NSMenuItem separatorItem]];
 
@@ -206,15 +204,15 @@
 		[voices setObject:[[NSSpeechSynthesizer attributesForVoice:voiceID] objectForKey:NSVoiceName] forKey:voiceID];
 	}
 	for (NSString *voiceID in rawVoices) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[voices objectForKey:voiceID]
+		menuItem = [[NSMenuItem alloc] initWithTitle:[voices objectForKey:voiceID]
 																					  target:nil
 																					  action:nil
-																			   keyEquivalent:@""] autorelease];
+																			   keyEquivalent:@""];
 		[menuItem setRepresentedObject:voiceID];
 		[voicesMenu addItem:menuItem];
 	}
 	
-	return [voicesMenu autorelease];
+	return voicesMenu;
 }
 
 /*!

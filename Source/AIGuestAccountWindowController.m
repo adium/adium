@@ -50,13 +50,6 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	[[self window] setTitle:AILocalizedString(@"Connect Guest Account", "Title for the window shown when adding a guest (temporary) account")];
 }
 
-- (void)dealloc
-{
-	[account release];
-	
-	[super dealloc];
-}
-
 - (void)windowDidLoad
 {
 	[super windowDidLoad];
@@ -77,7 +70,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 {
 	[super windowWillClose:sender];
 	
-	[sharedGuestAccountWindowController autorelease]; sharedGuestAccountWindowController = nil;
+	sharedGuestAccountWindowController = nil;
 }
 
 - (AIService *)service
@@ -98,15 +91,14 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 - (AIAccount *)account
 {
 	if (!account) {
-		account = [[adium.accountController createAccountWithService:self.service
-																   UID:self.UID] retain];
+		account = [adium.accountController createAccountWithService:self.service
+																   UID:self.UID];
 	} else {
 		if ((self.service != account.service) ||
 			(![self.UID isEqualToString:account.UID])) {
-			[account release];
 
-			account = [[adium.accountController createAccountWithService:self.service
-																	   UID:self.UID] retain];
+			account = [adium.accountController createAccountWithService:self.service
+																	   UID:self.UID];
 		}
 	}
 	
@@ -154,8 +146,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 {
 	//If the AIEditAccountWindowController changes the account object, update to follow suit
 	if (inAccount != account) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 	}
 	
 	//Make sure our UID is still accurate

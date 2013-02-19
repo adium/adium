@@ -115,7 +115,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-+ (BOOL)lockAllKeychains_error:(out NSError **)outError;
++ (BOOL)lockAllKeychains_error:(__strong NSError **)outError;
 
 /*!	@brief Locks the user's default keychain.
  *
@@ -124,7 +124,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-+ (BOOL)lockDefaultKeychain_error:(out NSError **)outError;
++ (BOOL)lockDefaultKeychain_error:(__strong NSError **)outError;
 
 /*!	@brief Unlocks the user's default keychain.
  *
@@ -136,7 +136,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
-+ (BOOL)unlockDefaultKeychain_error:(out NSError **)outError;
++ (BOOL)unlockDefaultKeychain_error:(__strong NSError **)outError;
 
 /*!	@brief Unlocks the user's default keychain with a specific password.
  *
@@ -146,7 +146,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
-+ (BOOL)unlockDefaultKeychainWithPassword:(NSString *)password error:(out NSError **)outError;
++ (BOOL)unlockDefaultKeychainWithPassword:(NSString *)password error:(__strong NSError **)outError;
 
 /*!	@brief Returns whether Keychain Services should use its user interface.
  *
@@ -155,7 +155,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c YES if user interaction is allowed; \c NO if not, or if an error occurred.
  */
-+ (BOOL)allowsUserInteraction_error:(out NSError **)outError;
++ (BOOL)allowsUserInteraction_error:(__strong NSError **)outError;
 
 /*!	@brief Sets whether Keychain Services should use its user interface.
  *
@@ -164,14 +164,14 @@
  *	@param flag \c YES if user interaction should be allowed; \c NO if not.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-+ (BOOL)setAllowsUserInteraction:(BOOL)flag error:(out NSError **)outError;
++ (BOOL)setAllowsUserInteraction:(BOOL)flag error:(__strong NSError **)outError;
 
 /*!	@brief Returns the version of the Keychain Services API.
  *	Wraps \c SecKeychainGetVersion.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return A version number. As of Mac OS X 10.4.6, the current version is \c SEC_KEYCHAIN_SETTINGS_VERS1.
  */
-+ (u_int32_t)keychainServicesVersion_error:(out NSError **)outError;
++ (u_int32_t)keychainServicesVersion_error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -186,7 +186,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return An \c AIKeychain instance that wraps the current default keychain.
  */
-+ (AIKeychain *)defaultKeychain_error:(out NSError **)outError;
++ (AIKeychain *)defaultKeychain_error:(__strong NSError **)outError;
 
 /*!	@brief	Sets the default keychain.
  *
@@ -200,7 +200,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-+ (BOOL)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(out NSError **)outError;
++ (BOOL)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(__strong NSError **)outError;
 
 /*!	@brief Loads a keychain from a file.
  *
@@ -210,7 +210,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return A shiny new autoreleased \c AIKeychain.
  */
-+ (AIKeychain *)keychainWithContentsOfFile:(NSString *)path error:(out NSError **)outError;
++ (AIKeychain *)keychainWithContentsOfFile:(NSString *)path error:(__strong NSError **)outError;
 
 /*!	@brief Loads a keychain from a file.
  *
@@ -220,7 +220,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return A shiny new \c AIKeychain.
  */
-- (id)initWithContentsOfFile:(NSString *)path error:(out NSError **)outError;
+- (id)initWithContentsOfFile:(NSString *)path error:(__strong NSError **)outError;
 
 /*!	@brief Creates a new keychain from scratch.
  *
@@ -233,7 +233,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@result A shiny new autoreleased \c AIKeychain.
  */
-+ (AIKeychain *)keychainWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError;
++ (AIKeychain *)keychainWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(__strong NSError **)outError;
 
 /*!	@brief Creates a new keychain from scratch.
  *
@@ -250,7 +250,7 @@
 		  password:(NSString *)password //can be nil if promptUser is true
 		promptUser:(BOOL)prompt
 	 initialAccess:(SecAccessRef)initialAccess //can be NULL
-			 error:(out NSError **)outError;
+			 error:(__strong NSError **)outError;
 
 /*!	@brief Creates a new \c AIKeychain wrapper for an existing keychain object.
  *
@@ -280,7 +280,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-- (BOOL)getSettings:(out struct SecKeychainSettings *)outSettings error:(out NSError **)outError;
+- (BOOL)getSettings:(out struct SecKeychainSettings *)outSettings error:(__strong NSError **)outError;
 
 /*!	@brief Sets the current settings of the keychain.
  *
@@ -290,7 +290,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-- (BOOL)setSettings:( in struct SecKeychainSettings *)newSettings error:(out NSError **)outError;
+- (BOOL)setSettings:( in struct SecKeychainSettings *)newSettings error:(__strong NSError **)outError;
 
 /*!	@brief Gets the current status (locked state and writability) of the keychain.
  *
@@ -299,7 +299,7 @@
  *	@return The status of the keychain, as a bit-mask.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-- (SecKeychainStatus)status_error:(out NSError **)outError;
+- (SecKeychainStatus)status_error:(__strong NSError **)outError;
 
 /*!	@brief Gets the path to the keychain file.
  *
@@ -314,7 +314,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \a outBuf.
  */
-- (char *)getPathFileSystemRepresentation:(out char *)outBuf length:(inout u_int32_t *)outLength error:(out NSError **)outError;
+- (char *)getPathFileSystemRepresentation:(out char *)outBuf length:(inout u_int32_t *)outLength error:(__strong NSError **)outError;
 
 /*!	@brief Gets the path to the keychain file as an \c NSString.
  *
@@ -334,7 +334,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c BOOL (Success/Failure)
  */
-- (BOOL)lockKeychain_error:(out NSError **)outError;
+- (BOOL)lockKeychain_error:(__strong NSError **)outError;
 
 /*!	@brief Unlocks the keychain.
  *
@@ -347,7 +347,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
-- (BOOL)unlockKeychain_error:(out NSError **)outError;
+- (BOOL)unlockKeychain_error:(__strong NSError **)outError;
 
 /*!	@brief Unlocks the keychain with a specific password.
  *
@@ -361,7 +361,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
-- (BOOL)unlockKeychainWithPassword:(NSString *)password error:(out NSError **)outError;
+- (BOOL)unlockKeychainWithPassword:(NSString *)password error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -377,7 +377,7 @@
  *
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-- (BOOL)deleteKeychain_error:(out NSError **)outError;
+- (BOOL)deleteKeychain_error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -417,7 +417,7 @@
 				   protocol:(SecProtocolType)protocol
 		 authenticationType:(SecAuthenticationType)authType
 			   keychainItem:(out SecKeychainItemRef *)outKeychainItem
-					  error:(out NSError **)outError;
+					  error:(__strong NSError **)outError;
 
 /*!	@brief Adds an Internet password (convenience version).
  *
@@ -438,7 +438,7 @@
 				  forServer:(NSString *)server
 					account:(NSString *)account
 				   protocol:(SecProtocolType)protocol
-					  error:(out NSError **)outError;
+					  error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -470,7 +470,7 @@
 								   protocol:(SecProtocolType)protocol
 						 authenticationType:(SecAuthenticationType)authType
 							   keychainItem:(out SecKeychainItemRef *)outKeychainItem
-									  error:(out NSError **)outError;
+									  error:(__strong NSError **)outError;
 
 /*!	@brief Retrieves an Internet password (convenience version).
  *
@@ -489,7 +489,7 @@
 - (NSString *)internetPasswordForServer:(NSString *)server
 								account:(NSString *)account
 							   protocol:(SecProtocolType)protocol
-								  error:(out NSError **)outError;
+								  error:(__strong NSError **)outError;
 
 /*!	@brief Retrieves an Internet password (dictionary method).
  *
@@ -501,7 +501,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  *	@return A dictionary containing two keys: @"Username" (account), @"Password". If no matching keychain item exists, \c nil is returned.
  */
-- (NSDictionary *)dictionaryFromKeychainForServer:(NSString *)server protocol:(SecProtocolType)protocol error:(out NSError **)outError;
+- (NSDictionary *)dictionaryFromKeychainForServer:(NSString *)server protocol:(SecProtocolType)protocol error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -536,7 +536,7 @@
 				   protocol:(SecProtocolType)protocol
 		 authenticationType:(SecAuthenticationType)authType
 			   keychainItem:(out SecKeychainItemRef *)outKeychainItem
-					  error:(out NSError **)outError;
+					  error:(__strong NSError **)outError;
 
 /*!	@brief Adds, changes, or deletes an Internet password (convenience version).
  *
@@ -559,7 +559,7 @@
 				  forServer:(NSString *)server
 					account:(NSString *)account
 				   protocol:(SecProtocolType)protocol
-					  error:(out NSError **)outError;
+					  error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -587,7 +587,7 @@
 							   protocol:(SecProtocolType)protocol
 					 authenticationType:(SecAuthenticationType)authType
 						   keychainItem:(out SecKeychainItemRef *)outKeychainItem
-								  error:(out NSError **)outError;
+								  error:(__strong NSError **)outError;
 
 /*!	@brief Deletes an Internet password (convenience version).
  *
@@ -603,7 +603,7 @@
 - (BOOL)deleteInternetPasswordForServer:(NSString *)server
 								account:(NSString *)account
 							   protocol:(SecProtocolType)protocol
-								  error:(out NSError **)outError;
+								  error:(__strong NSError **)outError;
 
 #pragma mark -
 
@@ -626,7 +626,7 @@
 				forService:(NSString *)service
 				   account:(NSString *)account
 			  keychainItem:(out SecKeychainItemRef *)outKeychainItem
-					 error:(out NSError **)outError;
+					 error:(__strong NSError **)outError;
 
 /*!	@brief Retrieves a generic password.
  *
@@ -645,7 +645,7 @@
 - (NSString *)findGenericPasswordForService:(NSString *)service
 									account:(NSString *)account
 							   keychainItem:(out SecKeychainItemRef *)outKeychainItem
-									  error:(out NSError **)outError;
+									  error:(__strong NSError **)outError;
 
 /*!	@brief Deletes a Generic password (convenience version).
  *
@@ -656,7 +656,7 @@
  */
 - (BOOL)deleteGenericPasswordForService:(NSString *)service
 								account:(NSString *)account
-								  error:(out NSError **)outError;
+								  error:(__strong NSError **)outError;
 
 #pragma mark -
 
