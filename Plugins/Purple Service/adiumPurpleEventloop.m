@@ -69,10 +69,10 @@ static inline NSMutableDictionary *sourceInfoDict() {
 }
 
 static inline dispatch_source_t sourceForTag(guint tag) {
-    return [sourceInfoDict() objectForKey:@(tag)];
+    return (__bridge dispatch_source_t)([sourceInfoDict() objectForKey:@(tag)]);
 }
 static inline void setSourceForTag(dispatch_source_t source, guint tag) {
-	[sourceInfoDict() setObject:source forKey:@(tag)];
+	[sourceInfoDict() setObject:(__bridge id)(source) forKey:@(tag)];
 }
 static inline void removeSourceForTag(guint tag) {
 	[sourceInfoDict() removeObjectForKey:@(tag)];
