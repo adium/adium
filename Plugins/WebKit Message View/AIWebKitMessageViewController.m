@@ -873,9 +873,9 @@ static NSArray *draggedTypes = nil;
 				(tag == WebMenuItemTagReload)) {
 				[webViewMenuItems removeObjectIdenticalTo:menuItem];
 			} else {
-				//This isn't as nice; there's no tag available. Use the localization from WebKit to look at the title.
-				AILogWithSignature(@"Comparing [menuItem title] = %@ with NSLocalizedStringFromTableInBundle(@\"Open Link\", nil, [NSBundle bundleForClass:[WebView class]], nil) = %@", [menuItem title], NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleForClass:[WebView class]], nil));
-				if ([[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleForClass:[WebView class]], nil)])
+				//This isn't as nice; there's no tag available. Use the localization from WebKit/WebCore, where it seems to be for some other people (#16101), to look at the title.
+				if ([[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleForClass:[WebView class]], nil)] ||
+					[[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleWithIdentifier:@"com.apple.WebCore"], nil)])
 					[webViewMenuItems removeObjectIdenticalTo:menuItem];
 			}
 		}
