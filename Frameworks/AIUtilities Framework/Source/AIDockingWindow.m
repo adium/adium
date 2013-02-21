@@ -75,10 +75,8 @@
 	dockingEnabled = YES;
 	
 	// Disable Lion windows restore feature
-	// XXX - Remove the check on 10.7+
-	if ([self respondsToSelector:@selector(setRestorable:)]) {
-        [self setRestorable:NO]; // Remove on UI rewrite
-    }
+	// XXX: Remove on UI rewrite
+	[self setRestorable:NO];
 }
 
 //Stop observing movement

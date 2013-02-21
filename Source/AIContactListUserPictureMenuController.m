@@ -73,11 +73,7 @@
 		[imageCollectionView setMaxNumberOfColumns:5];
 		[imageCollectionView setMaxNumberOfRows:2];
 		[imageCollectionView setMaxItemSize:NSMakeSize(36.0f, 36.0f)];
-		// Disable elastic scroll
-		// Remove the check on 10.7+
-		if ([[imageCollectionView enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
-			[[imageCollectionView enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
-		}
+		[[imageCollectionView enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
 		
 		NSMutableArray *pictures = [self recentSmallPictures];
 		NSSize pictureSize = NSMakeSize(32.0f, 32.0f);

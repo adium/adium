@@ -362,10 +362,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		}
 		
 		/* Avoid the bouncing effect when scrolling on Lion. This looks very bad when using a borderless window.
-		 * TODO: (10.7+) remove this if
 		 */
-		if (windowStyle != AIContactListWindowStyleStandard && [scrollView_contactList respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
-			[scrollView_contactList setVerticalScrollElasticity:1]; // NSScrollElasticityNone
+		if (windowStyle != AIContactListWindowStyleStandard) {
+			[scrollView_contactList setVerticalScrollElasticity:NSScrollElasticityNone];
 		}
 
 		if (autoResizeHorizontally) {

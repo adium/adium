@@ -51,8 +51,8 @@ __unsafe_unretained	NSColor *color;
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	//Use -scrollerWidthForControlSize:scrollerStyle: on 10.7+
-	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
+	
+	CGFloat width =  [[self class] scrollerWidthForControlSize:[self controlSize] scrollerStyle:[self scrollerStyle]];
 	
 	CGFloat scale = [self scaleToContentView];
 	[transform scaleXBy:( sFlags.isHoriz ? scale : 1.f ) yBy:( sFlags.isHoriz ? 1.f : scale )];
