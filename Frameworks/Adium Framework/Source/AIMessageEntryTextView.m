@@ -319,6 +319,14 @@
 				[super keyDown:inEvent];				
 			} 
 
+		} else if (inChar == NSEnterCharacter || inChar == NSCarriageReturnCharacter) {
+			//Make shift+enter work the same as option+enter
+			if (flags & NSShiftKeyMask) {
+				[super insertLineBreak:self];
+			} else {
+				[super keyDown:inEvent];
+			}
+			
 		} else {
 			[super keyDown:inEvent];
 		}
@@ -1124,7 +1132,7 @@
 		[self.enclosingScrollView setBackgroundColor:[NSColor controlBackgroundColor]];
 	}
 	
-	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
+	NSString *counterText = [NSString stringWithFormat:@"%ld", currentCount];
 	
 	if (characterCounterPrefix) {
 		counterText = [NSString stringWithFormat:@"%@%@", characterCounterPrefix, counterText];
@@ -1380,8 +1388,7 @@
 	NSString *myType = [[pasteboard types] firstObjectCommonWithArray:FILES_AND_IMAGES_TYPES];
 	NSString *superclassType = [[pasteboard types] firstObjectCommonWithArray:PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY];
 	
-	if (myType &&
-		(!superclassType || ([[pasteboard types] indexOfObject:myType] < [[pasteboard types] indexOfObject:superclassType]))) {
+	if (myType && !superclassType) {
 		[self addAttachmentsFromPasteboard:pasteboard];
 		
 		success = YES;		
@@ -1542,38 +1549,15 @@
  */
 - (void)addAttachmentOfPath:(NSString *)inPath
 {
-	if ([[inPath pathExtension] caseInsensitiveCompare:@"textClipping"] == NSOrderedSame) {
-		inPath = [inPath stringByAppendingString:@"/..namedfork/rsrc"];
-
-		NSData *data = [NSData dataWithContentsOfFile:inPath];
-		if (data) {
-			data = [data subdataWithRange:NSMakeRange(260, [data length] - 260)];
-			
-			NSAttributedString *clipping = [[[NSAttributedString alloc] initWithRTF:data documentAttributes:nil] autorelease];
-			if (clipping) {
-				NSDictionary	*attributes = [[self typingAttributes] copy];
-				
-				[self insertText:clipping];
-
-				if (attributes) {
-					[self setTypingAttributes:attributes];
-				}
-				
-				[attributes release];
-			}
-		}
-
-	} else {
-		AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
-		[attachment setPath:inPath];
-		[attachment setString:[inPath lastPathComponent]];
-		[attachment setShouldSaveImageForLogging:YES];
-		
-		//Insert an attributed string into the text at the current insertion point
-		[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
-		
-		[attachment release];
-	}
+	AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
+	[attachment setPath:inPath];
+	[attachment setString:[inPath lastPathComponent]];
+	[attachment setShouldSaveImageForLogging:YES];
+	
+	//Insert an attributed string into the text at the current insertion point
+	[self insertText:[self attributedStringWithTextAttachmentExtension:attachment]];
+	
+	[attachment release];
 }
 
 /*!
@@ -1617,7 +1601,7 @@
 		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
 		
 		//Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString

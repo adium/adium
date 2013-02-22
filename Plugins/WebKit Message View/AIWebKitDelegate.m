@@ -238,8 +238,12 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 
 - (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
 {
-	NSMutableURLRequest *newRequest = [request mutableCopy];
-	[newRequest setHTTPShouldHandleCookies:NO];
-	return [newRequest autorelease];
+	NSString *scheme = request.URL.scheme;
+	
+	if (!([scheme isEqualToString:@"adium"] || [scheme isEqualToString:@"file"])) {
+		return nil;
+	}
+	
+	return request;
 }
 @end

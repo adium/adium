@@ -99,7 +99,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 			if (!message || ![message length]) {
 				message = [adium.chatController defaultInvitationMessageForRoom:chat.name account:chat.account];
 			}
-			[chat inviteListContact:(AIListContact *)contact withMessage:message];
+			[(AIGroupChat *)chat inviteListContact:(AIListContact *)contact withMessage:message];
 		}
 	}	
 	
@@ -191,7 +191,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 			if (!message || ![message length]) {
 				message = [adium.chatController defaultInvitationMessageForRoom:chat.name account:chat.account];
 			}
-			[chat inviteListContact:inContact withMessage:message];
+			[(AIGroupChat *)chat inviteListContact:inContact withMessage:message];
 		}
 	}	
 	

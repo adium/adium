@@ -60,9 +60,7 @@
 - (void)_initSendingTextView
 {
 	returnArray = [[NSMutableArray alloc] init];
-	sendOnReturn = YES;
 	nextIsReturn = NO;
-	sendOnEnter = YES;
 	nextIsEnter = NO;
 	optionPressedWithNext = NO;
 	target = nil;
@@ -79,9 +77,6 @@
 
 //If true we will invoke selector on target when a send key is pressed
 @synthesize sendingEnabled;
-
-@synthesize sendOnReturn;
-@synthesize sendOnEnter;
 
 - (void)setTarget:(id)inTarget action:(SEL)inSelector
 {
@@ -114,8 +109,7 @@
         theString = [aString string];
     }
 	
-	if ((sendingEnabled) &&
-		((nextIsReturn && sendOnReturn) || (nextIsEnter && sendOnEnter)) &&
+	if ((sendingEnabled) && nextIsReturn &&
 		([theString hasSuffix:@"\n"] && !optionPressedWithNext)) {
 		
 		//Make sure we insert any applicable text first
@@ -146,17 +140,10 @@
 		
         if ([theEvent type] == NSKeyDown) {
 			unichar lastChar = [[theEvent charactersIgnoringModifiers] lastCharacter];
-            if (lastChar == NSCarriageReturnCharacter) {
-                nextIsEnter = NO;
+            if (lastChar == NSCarriageReturnCharacter || lastChar == NSEnterCharacter) {
 				nextIsReturn = YES;
 
 				optionPressedWithNext = ([theEvent modifierFlags] & NSAlternateKeyMask) != 0;
-				
-            } else if (lastChar == NSEnterCharacter) {
-                nextIsReturn = NO;
-                nextIsEnter = YES;
-				
-                optionPressedWithNext = ([theEvent modifierFlags] & NSAlternateKeyMask) != 0;
             }
         }
 		

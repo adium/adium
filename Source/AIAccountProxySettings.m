@@ -258,6 +258,7 @@
 	[proxyMenu addItem:[self _proxyMenuItemWithTitle:AILocalizedString(@"Systemwide HTTP Settings",nil) tag:Adium_Proxy_Default_HTTP]];
 	[proxyMenu addItem:[self _proxyMenuItemWithTitle:@"SOCKS4" tag:Adium_Proxy_SOCKS4]];
 	[proxyMenu addItem:[self _proxyMenuItemWithTitle:@"SOCKS5" tag:Adium_Proxy_SOCKS5]];
+    [proxyMenu addItem:[self _proxyMenuItemWithTitle:AILocalizedString(@"Tor (SOCKS5)",nil) tag:Adium_Proxy_Tor]];
 	[proxyMenu addItem:[self _proxyMenuItemWithTitle:@"HTTP" tag:Adium_Proxy_HTTP]];
 	
 	return [proxyMenu autorelease];

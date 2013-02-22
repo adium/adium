@@ -378,7 +378,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	
 	[iconImage lockFocus];
 	
-	[systemIcon compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
+	[systemIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	
 	CGFloat line = ((NSWidth(bottomRight) / 15) + ((NSHeight(bottomRight) / 15) / 2));
 	NSRect	circleRect = NSMakeRect(NSMinX(bottomRight),

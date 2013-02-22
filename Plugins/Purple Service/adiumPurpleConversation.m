@@ -18,6 +18,7 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -549,7 +550,7 @@ static void adiumPurpleConvCustomSmileyWrite(PurpleConversation *conv, const cha
 									const guchar *data, gsize size)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AILog(@"%s: Write Custom Smiley %s (%x %i)",purple_conversation_get_name(conv),smile,data,size);
+	AILog(@"%s: Write Custom Smiley %s (%p %lu)",purple_conversation_get_name(conv),smile,data,size);
 
 	[accountLookup(purple_conversation_get_account(conv)) chat:chatLookupFromConv(conv)
 					 setCustomEmoticon:[NSString stringWithUTF8String:smile]
@@ -573,7 +574,7 @@ static gboolean adiumPurpleConvJoin(PurpleConversation *conv, const char *name,
 									GHashTable *users)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIChat *chat = groupChatLookupFromConv(conv);
+	AIGroupChat *chat = groupChatLookupFromConv(conv);
     [pool drain];
 	// We return TRUE if we want to hide it.
 	return !chat.showJoinLeave;
@@ -583,7 +584,7 @@ static gboolean adiumPurpleConvLeave(PurpleConversation *conv, const char *name,
 									 const char *reason, GHashTable *users)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIChat *chat = groupChatLookupFromConv(conv);
+	AIGroupChat *chat = groupChatLookupFromConv(conv);
     [pool drain];
 	
 	// We return TRUE if we want to hide it.

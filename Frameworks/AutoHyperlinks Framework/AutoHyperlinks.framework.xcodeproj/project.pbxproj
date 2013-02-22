@@ -40,8 +40,8 @@
 		7ED4FDC80E002652004C5F4B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA3B04D0DD11627002A18D1 /* SenTestingKit.framework */; };
 		7ED4FDC90E002652004C5F4B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		7ED4FDE70E00273E004C5F4B /* ThreadedStressTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FDBA0E00258F004C5F4B /* ThreadedStressTest.m */; };
-		7EF1C0220DDC846B00CFC182 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF1C0210DDC846B00CFC182 /* MainMenu.nib */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		9758B588154871DE0002D1BD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9758B585154871C40002D1BD /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,10 +95,10 @@
 		7ED4FDBA0E00258F004C5F4B /* ThreadedStressTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThreadedStressTest.m; path = UnitTests/ThreadedStressTest.m; sourceTree = SOURCE_ROOT; };
 		7ED4FDBB0E0025DA004C5F4B /* ThreadedStressTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThreadedStressTestMain.m; path = Source/ThreadedStressTestMain.m; sourceTree = "<group>"; };
 		7ED4FDD00E002653004C5F4B /* AHThreadedStressTester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AHThreadedStressTester; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EF1C0210DDC846B00CFC182 /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = LinkDriver/MainMenu.nib; sourceTree = "<group>"; };
 		7EF1C0410DDC8F3600CFC182 /* LinkDriver.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkDriver.pch; path = LinkDriver/LinkDriver.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* AutoHyperlinks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoHyperlinks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9758B585154871C40002D1BD /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = LinkDriver/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,11 +277,11 @@
 		7EB5500B0DDC8030000DC0D6 /* LinkDriver */ = {
 			isa = PBXGroup;
 			children = (
+				9758B585154871C40002D1BD /* MainMenu.xib */,
 				7EB550120DDC80DB000DC0D6 /* LinkDriver-Info.plist */,
 				7EB5501F0DDC813D000DC0D6 /* LinkDriverMain.m */,
 				7EB551480DDC8272000DC0D6 /* LinkDriverWindowController.h */,
 				7EB551490DDC8272000DC0D6 /* LinkDriverWindowController.m */,
-				7EF1C0210DDC846B00CFC182 /* MainMenu.nib */,
 				7EF1C0410DDC8F3600CFC182 /* LinkDriver.pch */,
 			);
 			name = LinkDriver;
@@ -398,7 +398,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0420;
+				CLASSPREFIX = AH;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "The Adium Team";
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -426,7 +428,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EF1C0220DDC846B00CFC182 /* MainMenu.nib in Resources */,
+				9758B588154871DE0002D1BD /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +603,7 @@
 		34C57363093E5E6E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -630,6 +633,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -655,6 +659,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
@@ -679,6 +684,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -700,6 +706,7 @@
 		7EB550130DDC80DB000DC0D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -721,6 +728,7 @@
 		7EB550150DDC80DB000DC0D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -740,6 +748,7 @@
 		7EB550160DDC80DB000DC0D6 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "LinkDriver/LinkDriver-Info.plist";
@@ -832,6 +841,7 @@
 		DA8A8084085549EE00F24BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -854,6 +864,7 @@
 		DA8A8085085549EE00F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

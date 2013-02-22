@@ -370,22 +370,16 @@
 	if (!upgradedAccounts || ![upgradedAccounts boolValue]) {
 		[userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"Adium:Account Prefs Upgraded for 1.0"];
 
-		AIAccount		*account;
-		NSEnumerator	*enumerator, *keyEnumerator;
-		NSString		*key;
-
 		//Adium 0.8x would store @"" in preferences which we now want to be able to inherit global values if they don't have a value.
 		NSSet	*keysWeNowUseGlobally = [NSSet setWithObjects:KEY_ACCOUNT_DISPLAY_NAME, @"textProfile", nil];
 
 		NSCharacterSet	*whitespaceAndNewlineCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
-		keyEnumerator = [keysWeNowUseGlobally objectEnumerator];
-		while ((key = [keyEnumerator nextObject])) {
+		for (NSString *key in keysWeNowUseGlobally) {
 			NSAttributedString	*firstAttributedString = nil;
 			BOOL				allOnThisKeyAreTheSame = YES;
 
-			enumerator = [[self accounts] objectEnumerator];
-			while ((account = [enumerator nextObject])) {
+			for (AIAccount *account in self.accounts) {
 				NSAttributedString *attributedString = [[account preferenceForKey:key
 																			group:GROUP_ACCOUNT_STATUS] attributedString];
 				if (attributedString && ![attributedString length]) {
@@ -419,8 +413,7 @@
 													  group:GROUP_ACCOUNT_STATUS];
 				
 				//And remove it from all accounts
-				enumerator = [[self accounts] objectEnumerator];
-				while ((account = [enumerator nextObject])) {
+				for (AIAccount *account in self.accounts) {
 					[account setPreference:nil
 									forKey:key
 									 group:GROUP_ACCOUNT_STATUS];

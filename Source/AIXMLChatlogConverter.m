@@ -197,7 +197,7 @@
         }
     }    
         
-    NSArray *elements = [xmlDoc nodesForXPath:@"//message | //status" error:&err];
+    NSArray *elements = [xmlDoc nodesForXPath:@"//message | //action | //status" error:&err];
     if (!elements) {
         goto ohno;
     }
@@ -207,7 +207,7 @@
      
         NSDictionary *attributes = [element AIAttributesAsDictionary];
         
-        if ([type isEqualToString:@"message"]) {
+        if ([type isEqualToString:@"message"] || [type isEqualToString:@"action"]) {
             NSString *senderAlias = [[attributes objectForKey:@"alias"] stringValue];
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
             NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
@@ -284,7 +284,16 @@
                                                                           direction:(sentMessage ? AIFilterOutgoing : AIFilterIncoming)
                                                                             context:nil];				
             }
-            [output appendAttributedString:attributedMessage];
+			
+			if ([type isEqualToString:@"action"]) {
+				NSMutableAttributedString *ourAttributedString = [[attributedMessage mutableCopy] autorelease];
+				[ourAttributedString replaceCharactersInRange:NSMakeRange(0, 0) withString:@"*"];
+				[ourAttributedString replaceCharactersInRange:NSMakeRange([ourAttributedString length], 0) withString:@"*"];
+				[output appendAttributedString:ourAttributedString];
+			} else {
+				[output appendAttributedString:attributedMessage];
+			}
+			
             [output appendAttributedString:newlineAttributedString];
         } else if ([type isEqualToString:@"status"]) {
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
