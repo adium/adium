@@ -547,6 +547,8 @@
 		[_trackingAreas addObject:tA];
 		
 		y -= SUGGESTION_ENTRY_HEIGHT;
+		
+		[item release];
 	}
 	
 	[suggestionsWindow setFrame:frame display:NO];

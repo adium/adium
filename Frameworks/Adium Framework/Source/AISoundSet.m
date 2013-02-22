@@ -57,6 +57,7 @@
 	if ((self = [super init])) {
 		//Return nil if we can't load our sound set
 		if (!inPath || ![inPath length] || ![self _loadSoundSetFromPath:inPath]) {
+			[self release];
 			return nil;
 		}
 

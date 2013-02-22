@@ -1462,6 +1462,8 @@
         ![chat boolValueForProperty:@"accountJoined"]) {
         AIRejoinGroupChatViewController *rejoinChatController = [[AIRejoinGroupChatViewController alloc] init];
         [self addTopBarController:rejoinChatController];
+		
+		[rejoinChatController release];
 	}
 }
 

@@ -122,7 +122,7 @@
 
 - (void)outlineViewSelectionDidChangeDelayed;
 - (void)openChatOnDoubleAction:(id)sender;
-- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(NSArray *)__attribute__((ns_consumed)) contextInfo;
 NSInteger compareRectLocation(id obj1, id obj2, void *context);
 
 - (void)setNavBarHidden:(NSNumber *)hide;
@@ -2605,7 +2605,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	[self rebuildIndices];
 }
 
-- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(NSArray *)__attribute__((ns_consumed)) contextInfo;
 {
 	NSArray *selectedLogs = (NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
