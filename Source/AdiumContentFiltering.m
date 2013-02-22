@@ -36,15 +36,6 @@
 	return self;
 }
 
-- (void)dealloc
-{	
-	[stringsRequiringPolling release];
-	[delayedFilteringDict release];
-
-	[super dealloc];
-}
-
-
 //Content Filtering ----------------------------------------------------------------------------------------------------
 #pragma mark Content Filtering
 /*!
@@ -217,7 +208,7 @@
 	
 	//If we're passed previouslyPerformedFilters, use them as a starting point for performedFilters
 	if (filtersToSkip) {
-		performedFilters = [[filtersToSkip mutableCopy] autorelease];
+		performedFilters = [filtersToSkip mutableCopy];
 	} else {
 		performedFilters = [NSMutableArray array];
 	}

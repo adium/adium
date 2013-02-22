@@ -22,8 +22,7 @@
     NSString                *name;
     NSArray                 *textEquivalents;
 	AIEmoticonPack			*pack;
-	NSString				*serviceClass;
-	
+
     BOOL                    enabled;
 	BOOL					imageLoaded;
     

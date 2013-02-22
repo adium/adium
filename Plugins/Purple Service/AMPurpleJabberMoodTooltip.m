@@ -17,7 +17,6 @@
 #import "AMPurpleJabberMoodTooltip.h"
 #import "ESPurpleJabberAccount.h"
 #import <Adium/AIListContact.h>
-#import <libpurple/blist.h>
 
 @implementation AMPurpleJabberMoodTooltip
 
@@ -57,7 +56,7 @@
 				else
 					str = [NSString stringWithUTF8String:mood];
 				
-				return [[[NSAttributedString alloc] initWithString:str attributes:nil] autorelease];
+				return [[NSAttributedString alloc] initWithString:str attributes:nil];
 			}
 		}
 	}

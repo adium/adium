@@ -16,9 +16,7 @@
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIGroupChat.h>
 
 @implementation AIContentMessage
@@ -31,12 +29,12 @@
 			message:(NSAttributedString *)inMessage
 		  autoreply:(BOOL)inAutoReply
 {
-    return [[[self alloc] initWithChat:inChat
+    return [[self alloc] initWithChat:inChat
 								source:inSource
 						   destination:inDest
 								  date:inDate
 							   message:inMessage
-							 autoreply:inAutoReply] autorelease];
+							 autoreply:inAutoReply];
 }
 
 //Content Identifier
@@ -60,16 +58,6 @@
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	if (encodedMessage)
-		[encodedMessage release];
-	if (encodedMessageAccountData)
-		[encodedMessageAccountData release];
-	
-	[super dealloc];
 }
 
 - (NSMutableArray *)displayClasses

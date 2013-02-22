@@ -37,8 +37,6 @@ typedef enum {
 	NSRect					previousWindowRect;
 
 	AIDockToBottomType 		dockToBottomOfScreen;
-
-	BOOL					needsAutoResize;
 }
 
 - (id)initWithContactList:(id<AIContainingObject>)aContactList

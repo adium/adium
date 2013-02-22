@@ -15,10 +15,8 @@
  */
 
 #import "AdiumChatEvents.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListGroup.h>
 
@@ -232,7 +230,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-message" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-message" forClass:[self class]];
 	return eventImage;
 }
 

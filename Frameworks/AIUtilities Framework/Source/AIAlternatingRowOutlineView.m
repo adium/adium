@@ -23,9 +23,7 @@
  */
 
 #import "AIAlternatingRowOutlineView.h"
-#import "AIOutlineView.h"
 #import "AIGradientAdditions.h"
-#import "AIColorAdditions.h"
 
 @interface AIAlternatingRowOutlineView ()
 - (void)initAlternatingRowOutlineView;
@@ -59,16 +57,8 @@
 	[self setUsesAlternatingRowBackgroundColors:NO];
 	drawsBackground = YES;
 	drawsGradientSelection = NO;
-	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0f/255.0f) green:(243.0f/255.0f) blue:(254.0f/255.0f) alpha:1.0f] retain];
+	alternatingRowColor = [NSColor colorWithCalibratedRed:(237.0f/255.0f) green:(243.0f/255.0f) blue:(254.0f/255.0f) alpha:1.0f];
 }
-
-- (void)dealloc
-{
-	[alternatingRowColor release];
-
-	[super dealloc];
-}
-
 
 //Configuring ----------------------------------------------------------------------
 
@@ -87,8 +77,7 @@
 - (void)setAlternatingRowColor:(NSColor *)color
 {
 	if (color != alternatingRowColor) {
-		[alternatingRowColor release];
-		alternatingRowColor = [color retain];
+		alternatingRowColor = color;
 		[self setNeedsDisplay:YES];
 	}
 }

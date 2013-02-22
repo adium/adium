@@ -57,7 +57,7 @@
 	
 	// Background
 	if (([backgroundEnabled state] != NSOffState) && backgroundGradientColor) {
-		[[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] autorelease] drawInRect:rect angle:90.0f];
+		[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] drawInRect:rect angle:90.0f];
 	} else {
 		NSColor *backColor = (backColorOverride ? backColorOverride : [backgroundColor color]);
 		
@@ -69,7 +69,7 @@
 
 	// Shadow
 	if (([textShadowColorEnabled state] != NSOffState) && [textShadowColor color]) {
-		textShadow = [[[NSShadow alloc] init] autorelease];
+		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
 		[textShadow setShadowBlurRadius:2.0f];
 		[textShadow setShadowColor:[textShadowColor color]];
@@ -91,8 +91,8 @@
 																	textShadow, NSShadowAttributeName,
 																	nil];
 	
-	sample = [[[NSAttributedString alloc] initWithString:AILocalizedString(@"Sample",nil)
-											  attributes:attributes] autorelease];
+	sample = [[NSAttributedString alloc] initWithString:AILocalizedString(@"Sample",nil)
+											  attributes:attributes];
 	sampleSize = [sample size];
 
 	[sample drawInRect:NSIntegralRect(NSMakeRect(rect.origin.x + ((rect.size.width - sampleSize.width) / 2.0f),
@@ -101,18 +101,12 @@
 												 sampleSize.height))];
 }
 
-- (void)dealloc
-{
-	[backColorOverride release];
-	[super dealloc];
-}
 
 // Overrides. Pass nil to disable
 - (void)setBackColorOverride:(NSColor *)inColor
 {
 	if (backColorOverride != inColor) {
-		[backColorOverride release];
-		backColorOverride = [inColor retain];
+		backColorOverride = inColor;
 	}
 }
 

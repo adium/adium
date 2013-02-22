@@ -25,7 +25,7 @@
 {
 	NSString *titlecaseString = [self capitalizedString];
 	NSArray *components = [titlecaseString componentsSeparatedByString:@" "];
-	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString *result = [[NSMutableString alloc] init];
 	for (id loopItem in components)
 		[result appendString:loopItem];
 	return result;

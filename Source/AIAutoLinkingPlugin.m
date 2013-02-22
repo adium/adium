@@ -15,7 +15,6 @@
  */
 
 #import "AIAutoLinkingPlugin.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <AutoHyperlinks/AutoHyperlinks.h>
  
 /*!
@@ -53,8 +52,8 @@
 	NSUInteger					stringLength = [replacementMessage length];
 
 	if([AHHyperlinkScanner isStringValidURI:[replacementMessage string] usingStrict:YES fromIndex:NULL withStatus:NULL schemeLength:NULL]){
-		NSString *linkString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-													(CFStringRef)[replacementMessage string],
+		NSString *linkString = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+													(__bridge CFStringRef)[replacementMessage string],
 													(CFStringRef)@"#%",
 													NULL,
 													kCFStringEncodingUTF8);
@@ -64,7 +63,6 @@
 									value:linkURL
 									range:NSMakeRange(0, [replacementMessage length])];
 		}
-		[linkString release];
 	}
 	
 	for (NSInteger i = 0; i < stringLength; i += linkRange.length) {
@@ -82,7 +80,7 @@
 		}
 	}
 	
-    return [replacementMessage autorelease];
+    return replacementMessage;
 }
 
 /*!

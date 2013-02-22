@@ -36,26 +36,19 @@
 @implementation AIOutlineViewAnimation
 + (AIOutlineViewAnimation *)listObjectAnimationWithDictionary:(NSDictionary *)inDict delegate:(AIAnimatingListOutlineView *)inOutlineView
 {
-	return [[[self alloc] initWithDictionary:inDict delegate:inOutlineView] autorelease];
+	return [[self alloc] initWithDictionary:inDict delegate:inOutlineView];
 }
 
 - (id)initWithDictionary:(NSDictionary *)inDict delegate:(AIAnimatingListOutlineView <NSAnimationDelegate> *)inOutlineView
 {
 	if ((self = [super initWithDuration:LIST_OBJECT_ANIMATION_DURATION animationCurve:NSAnimationEaseInOut])) {
-		dict = [inDict retain];
+		dict = inDict;
 
 		[self setDelegate:inOutlineView];
 		[self setAnimationBlockingMode:NSAnimationNonblocking];
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[dict release];
-
-	[super dealloc];
 }
 
 /*!
