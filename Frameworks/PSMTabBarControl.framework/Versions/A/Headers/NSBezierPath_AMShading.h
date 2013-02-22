@@ -12,8 +12,8 @@
 
 @interface NSBezierPath (AMShading)
 
-- (void)customHorizontalFillWithCallbacks:(CGFunctionCallbacks)functionCallbacks firstColor:(NSColor *)firstColor secondColor:(NSColor *)secondColor;
-- (void)customVerticalFillWithCallbacks:(CGFunctionCallbacks)functionCallbacks firstColor:(NSColor *)firstColor secondColor:(NSColor *)secondColor;
+- (void)customHorizontalFillWithCallbacks:(CGFunctionCallbacks) functionCallbacks firstColor:(NSColor *)firstColor secondColor:(NSColor *)secondColor;
+- (void)customVerticalFillWithCallbacks:(CGFunctionCallbacks) functionCallbacks firstColor:(NSColor *)firstColor secondColor:(NSColor *)secondColor;
 
 - (void)linearGradientFillWithStartColor:(NSColor *)startColor endColor:(NSColor *)endColor;
 - (void)linearVerticalGradientFillWithStartColor:(NSColor *)startColor endColor:(NSColor *)endColor;

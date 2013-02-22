@@ -20,6 +20,7 @@
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AIStatusIcons
 
@@ -331,10 +332,9 @@ static NSString *statusNameForChat(AIChat *inChat)
 								  @"Idle",
 								  @"Offline",
 								  nil]) {
-			NSString	*anIconPath = [inPath stringByAppendingPathComponent:[previewIconNames objectForKey:iconID]];
 			NSImage		*anIcon;
 			
-			if ((anIcon = [[[NSImage alloc] initWithContentsOfFile:anIconPath] autorelease])) {
+			if ((anIcon = [xtraBundle AI_imageForResource:[previewIconNames objectForKey:iconID]])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 				

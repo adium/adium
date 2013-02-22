@@ -248,7 +248,7 @@
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
-		AILogWithSignature(@"%@: Moving %@ into %@'s index %i using order index %f (between %@ and %@)",
+		AILogWithSignature(@"%@: Moving %@ into %@'s index %li using order index %f (between %@ and %@)",
 						   container, listObject, container.visibleContainedObjects, idx, 
 						   (nextHighest + nextLowest) / 2, nextObject, previousObject);
 		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2];
@@ -808,7 +808,7 @@
 #pragma mark Debugging
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@>",NSStringFromClass([self class]), self, self.internalObjectID];
+	return [NSString stringWithFormat:@"<%@:%p %@>",NSStringFromClass([self class]), self, self.internalObjectID];
 }
 
 #pragma mark Applescript

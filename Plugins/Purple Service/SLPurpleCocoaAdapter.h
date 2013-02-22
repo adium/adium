@@ -15,6 +15,7 @@
  */
 
 #import <libpurple/libpurple.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIContentNotification.h>
 #import <AdiumLibpurple/PurpleCommon.h>
@@ -106,7 +107,7 @@ void *adium_purple_get_handle(void);
 PurpleConversation *existingConvLookupFromChat(AIChat *chat);
 PurpleConversation *convLookupFromChat(AIChat *chat, id adiumAccount);
 AIChat *imChatLookupFromConv(PurpleConversation *conv);
-AIChat *groupChatLookupFromConv(PurpleConversation *conv);
+AIGroupChat *groupChatLookupFromConv(PurpleConversation *conv);
 AIChat *existingChatLookupFromConv(PurpleConversation *conv);
 AIChat *chatLookupFromConv(PurpleConversation *conv);
 AIListContact *contactLookupFromIMConv(PurpleConversation *conv);

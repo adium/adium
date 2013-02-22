@@ -216,6 +216,9 @@
 		NSString	*savedPassword = [adium.accountController passwordForAccount:account];
 		[textField_password setStringValue:[savedPassword length] ? savedPassword : @""];
 		
+		//Account sign up button text
+		[button_signUp setTitle:[service accountSetupLabel]];
+		
 		//User alias (display name)
 		NSString *alias = [[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString] string];
 		[textField_alias setStringValue:(alias ? alias : @"")];
@@ -244,14 +247,6 @@
 		//Encryption
 		[popUp_encryption selectItemWithTag:[[account preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																		   group:GROUP_ENCRYPTION] intValue]];
-		
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-											  name:AIAccountUsernameAndPasswordRegisteredNotification
-											object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(usernameAndPasswordRegistered:)
-										   name:AIAccountUsernameAndPasswordRegisteredNotification
-										 object:inAccount];
 	}
 }
 
@@ -339,6 +334,17 @@
 }
 
 /*!
+ * @brief Invoked when the account sign up button is clicked
+ *
+ * This method is invoked when the account sign up button is clicked. It defaults to opening the account sign up URL
+ * in the default browser, but can be used to override this behaviour.
+ */
+- (IBAction)signUpAccount:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[account.service serviceAccountSetupURL]];
+}
+
+/*!
  * @brief Dictionary mapping Adium preference keys to exposed binding keys
  *
  * The objects of the dictionary should be Adium preference keys
@@ -379,31 +385,6 @@
 	} else {
 		return [super valueForKey:key];
 	}
-}
-
-#pragma mark Registration
-- (void)didBeginRegistration
-{
-	[progressIndicator_registering setHidden:NO];
-	[progressIndicator_registering startAnimation:self];
-	[textField_registering setHidden:NO];
-}
-
-- (void)usernameAndPasswordRegistered:(NSNotification*)notification
-{
-	[[textField_accountUID window] makeFirstResponder:nil];
-
-	id username = [[notification userInfo] objectForKey:@"username"];
-	id password = [[notification userInfo] objectForKey:@"password"];
-
-	if (username != [NSNull null])
-		[textField_accountUID setStringValue:username];
-	if (password != [NSNull null])
-		[textField_password setStringValue:password];
-	
-	[progressIndicator_registering stopAnimation:self];
-	[progressIndicator_registering setHidden:YES];
-	[textField_registering setHidden:YES];
 }
 
 #pragma mark Localization

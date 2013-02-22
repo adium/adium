@@ -192,9 +192,9 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
 	//Iterate over the elements of the log path array.
-	NSEnumerator *pathsEnumerator = [logPaths objectEnumerator];
-	NSString *logPath = nil;
-	while (linesLeftToFind > 0 && (logPath = [pathsEnumerator nextObject])) {
+	for (NSString *logPath in logPaths) {
+		if (linesLeftToFind <= 0)
+			break;
 		//If it's not a .chatlog, ignore it.
 		if (![logPath hasSuffix:@".chatlog"])
 			continue;
@@ -318,14 +318,14 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			[file closeFile];
 			
 			//Add our locals to the outer array; we're probably looping again.
-			AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
+			AILog(@"Context: %li messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
 			[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 			linesLeftToFind -= [outerFoundContentContexts count];
 		}
 	}
 	
 	if (linesLeftToFind > 0) {
-		AILogWithSignature(@"Unable to find %d logs for %@; we needed %d more", linesToDisplay, chat, linesLeftToFind);
+		AILogWithSignature(@"Unable to find %ld logs for %@; we needed %ld more", linesToDisplay, chat, linesLeftToFind);
 	}
 	
 	return outerFoundContentContexts;
@@ -338,7 +338,8 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	NSMutableDictionary *contextInfo = [parser contextInfo];
 	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
 	
-	if ([elementName isEqualToString:@"message"] || ([[contextInfo valueForKey:@"AlsoAllowStatus"] boolValue] && [elementName isEqualToString:@"status"])) {
+	if ([elementName isEqualToString:@"message"] || [elementName isEqualToString:@"action"] ||
+		([[contextInfo valueForKey:@"AlsoAllowStatus"] boolValue] && [elementName isEqualToString:@"status"])) {
 		[elementStack insertObject:[AIXMLElement elementWithName:elementName] atIndex:0U];
 	}
 	else if ([elementStack count]) {
@@ -371,7 +372,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 		NSMutableArray	*foundMessages = [contextInfo objectForKey:@"FoundMessages"];
 		NSInteger	 *linesLeftToFind = [[contextInfo objectForKey:@"LinesLeftToFindValue"] pointerValue];
 		
-		if ([elementName isEqualToString:@"message"]) {
+		if ([elementName isEqualToString:@"message"] || [elementName isEqualToString:@"action"]) {
 			//A message element has started!
 			//This means that we have all of this message now, and therefore can create a single content object from the AIXMLElement tree and then throw away that tree.
 			//This saves memory when a message element contains many elements (since each one is represented by an AIXMLElement sub-tree in the AIXMLElement tree, as opposed to a simple NSAttributeRun in the NSAttributedString of the content object).
@@ -412,6 +413,10 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 																   date:timeVal
 																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:[element contentsAsXMLString]]
 															  autoreply:(autoreplyAttribute && [autoreplyAttribute caseInsensitiveCompare:@"true"] == NSOrderedSame)];
+				
+				//Properly style /me-type messages
+				if ([elementName isEqualToString:@"action"])
+					[message addDisplayClass:@"action"];
 				
 				//Don't log this object
 				[message setPostProcessContent:NO];
