@@ -15,7 +15,6 @@
  */
 
 #import "AIWindowAdditions.h"
-#import "AIApplicationAdditions.h"
 
 @implementation NSWindow (AIWindowAdditions)
 

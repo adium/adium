@@ -74,7 +74,7 @@
  *
  *	@return	A string containing the message encoded to some sort of marked-up (or plain) source code, such as HTML source code.
  */
-@property (readwrite, nonatomic, retain) NSString *encodedMessage;
+@property (readwrite, nonatomic) NSString *encodedMessage;
 
 /*!	@brief	The object associated with this method for an account's benefit.
  *
@@ -82,7 +82,7 @@
  *
  *	@return	The object associated with this message.
  */
-@property (readwrite, nonatomic, retain) id encodedMessageAccountData;
+@property (readwrite, nonatomic) id encodedMessageAccountData;
 
 /*!
  * @brief The prefix string for the sender of this message.
@@ -91,6 +91,6 @@
  *
  * This is returned based on the user's flags in a group chat. For a normal chat, this is an empty string.
  */
-@property (readonly, nonatomic) NSString *senderPrefix;
+@property (weak, readonly, nonatomic) NSString *senderPrefix;
 
 @end

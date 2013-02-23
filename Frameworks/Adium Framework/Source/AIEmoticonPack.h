@@ -19,7 +19,6 @@
     NSString			*path;
     NSString			*name;
 	NSString			*serviceClass;
-	NSString			*emoticonLocation;
     NSMutableArray		*emoticonArray;
 	NSArray				*enabledEmoticonArray;
     BOOL				enabled;

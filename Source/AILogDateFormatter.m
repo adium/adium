@@ -41,7 +41,7 @@
 				[mutableString appendString:[super stringForObjectValue:date]];
 				[self setDateStyle:dateStyle];
 	
-				returnValue = [mutableString autorelease];
+				returnValue = mutableString;
 			}
 
 		} else {

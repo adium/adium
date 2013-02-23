@@ -16,10 +16,7 @@
 
 #import <Adium/AIStatusControllerProtocol.h>
 #import "ESPurpleICQAccount.h"
-#import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIContentMessage.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
 
 @implementation ESPurpleICQAccount
 - (const char *)protocolPlugin

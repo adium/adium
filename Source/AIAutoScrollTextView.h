@@ -16,7 +16,6 @@
 
 @interface AIAutoScrollTextView : NSTextView {
 	NSTimer			*scrollTimer;
-	NSTimer			*eventLoopScrollTimer;
 	CGFloat			scrollLocation;
 	NSInteger		maxScroll;
 }

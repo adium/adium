@@ -31,7 +31,6 @@
  */
 
 #import "AWEzvSupportRoutines.h"
-#import <stdarg.h>
 
 void AWEzvLog (NSString *format, ...) {
     va_list ap;

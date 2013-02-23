@@ -27,12 +27,12 @@
 		   message:(NSAttributedString *)inMessage
 		  withType:(NSString *)inStatus
 {
-    return [[[self alloc] initWithChat:inChat
+    return [[self alloc] initWithChat:inChat
 								source:inSource
 						   destination:inDest
 								  date:inDate
 							   message:inMessage
-							  withType:inStatus] autorelease];
+							  withType:inStatus];
 }
 
 //init
@@ -49,20 +49,10 @@
 		trackContent = NO;
 		
 		//Store source and dest
-		statusType = [inStatus retain];
+		statusType = inStatus;
 	}
 	
 	return self;
-}
-
-//Dealloc
-- (void)dealloc
-{
-	[statusType release]; statusType = nil;
-	[loggedMessage release]; loggedMessage = nil;
-	[coalescingKey release]; coalescingKey = nil;
-
-	[super dealloc];
 }
 
 - (NSMutableArray *)displayClasses

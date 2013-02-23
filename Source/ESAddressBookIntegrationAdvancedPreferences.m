@@ -16,9 +16,6 @@
 
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
 #import <Adium/AIAddressBookController.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AILocalizationTextField.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
@@ -129,14 +126,6 @@
 	[checkBox_preferABImages setLocalizedString:AILocalizedString(@"Even if the contact already has a contact icon",nil)];
 	[checkBox_syncAutomatic setLocalizedString:AILocalizedString(@"Overwrite Address Book images with contacts' icons",nil)];
 	[checkBox_metaContacts setLocalizedString:AILocalizedString(@"Combine contacts listed on a single card",nil)];
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[super dealloc];
 }
 
 /*!
@@ -344,7 +333,7 @@
 
 - (NSMenu *)tokenField:(NSTokenField *)tokenField menuForRepresentedObject:(id)representedObject
 {
-	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	NSMenu *menu = [[NSMenu alloc] init];
 	
 	if (!representedObject)
 		return nil;
@@ -419,7 +408,7 @@
 			}
 		}
 		
-		[tokens addObject:[[[string substringWithRange:NSMakeRange(start, i - start)] mutableCopy] autorelease]];
+		[tokens addObject:[[string substringWithRange:NSMakeRange(start, i - start)] mutableCopy]];
 	}
 	
 	return tokens;

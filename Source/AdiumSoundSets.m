@@ -15,7 +15,6 @@
  */
 
 #import "AdiumSoundSets.h"
-#import "AISoundController.h"
 #import "AISoundSet.h"
 
 #define SOUNDSET_RESOURCE_PATH			@"Sounds"

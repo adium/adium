@@ -15,13 +15,11 @@
  */
 
 #import "AIMessageAliasPlugin.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
 
 @interface AIMessageAliasPlugin ()
@@ -62,10 +60,9 @@
 			NSString	*linkURLString;
 			
 			if ([linkURL isKindOfClass:[NSURL class]]) {
-				linkURLString = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
-																					   (CFStringRef)[(NSURL *)linkURL absoluteString],
+				linkURLString = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
+																					   (__bridge CFStringRef)[(NSURL *)linkURL absoluteString],
 																					   /* characters to leave escaped */ CFSTR(""));
-				[linkURLString autorelease];
 				
 			} else {
 				linkURLString = (NSString *)linkURL;
@@ -81,10 +78,10 @@
 					NSString	*escapedLinkURLString;
 					NSString	*charactersToLeaveUnescaped = @"#";
 					
-					if (!filteredMessage) filteredMessage = [[inAttributedString mutableCopy] autorelease];
-					escapedLinkURLString = (NSString *)CFURLCreateStringByAddingPercentEscapes(/* allocator */ kCFAllocatorDefault,
-																							   (CFStringRef)result,
-																							   (CFStringRef)charactersToLeaveUnescaped,
+					if (!filteredMessage) filteredMessage = [inAttributedString mutableCopy];
+					escapedLinkURLString = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(/* allocator */ kCFAllocatorDefault,
+																							   (__bridge CFStringRef)result,
+																							   (__bridge CFStringRef)charactersToLeaveUnescaped,
 																							   /* legal characters to escape */ NULL,
 																							   kCFStringEncodingUTF8);
 					newURL = [NSURL URLWithString:escapedLinkURLString];
@@ -94,7 +91,6 @@
 												value:newURL
 												range:scanRange];
 					}
-					[escapedLinkURLString release];
 				}
 			}
 		}
@@ -160,7 +156,7 @@
 		}
 
 		if (replacement) {
-			if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
+			if (!newAttributedString) newAttributedString = [attributedString mutableCopy];
 			
 			[newAttributedString replaceOccurrencesOfString:@"%n"
 												 withString:replacement
@@ -174,11 +170,10 @@
 		NSCalendarDate	*currentDate = [NSCalendarDate calendarDate];
 		__block NSString *calendarFormat;
 		[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
-			calendarFormat = [[dateFormatter dateFormat] retain];
+			calendarFormat = [dateFormatter dateFormat];
 		}];
-		[calendarFormat autorelease];
 
-		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
+		if (!newAttributedString) newAttributedString = [attributedString mutableCopy];
 		
 		[newAttributedString replaceOccurrencesOfString:@"%d"
 											 withString:[currentDate descriptionWithCalendarFormat:calendarFormat]
@@ -190,7 +185,7 @@
 	if ([self string:str containsValidKeyword:@"%t"]) {
 		NSCalendarDate 	*currentDate = [NSCalendarDate calendarDate];
 		
-		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
+		if (!newAttributedString) newAttributedString = [attributedString mutableCopy];
 
 		[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *localDateFormatter){
 			[newAttributedString replaceOccurrencesOfString:@"%t"
