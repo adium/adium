@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
+#import <Adium/AIGroupChat.h>
 
 @protocol AIChatController_Private;
 @class AIChat, AIAccount, AIListContact;
@@ -32,13 +33,13 @@
 - (AIChat *)chatWithContact:(AIListContact *)inContact;
 - (AIChat *)existingChatWithContact:(AIListContact *)inContact;
 - (AIChat *)existingChatWithUniqueChatID:(NSString *)uniqueChatID;
-- (AIChat *)chatWithName:(NSString *)inName 
+- (AIGroupChat *)chatWithName:(NSString *)inName 
 			  identifier:(id)identifier
 			   onAccount:(AIAccount *)account
 		chatCreationInfo:(NSDictionary *)chatCreationInfo;
 
-- (AIChat *)existingChatWithIdentifier:(id)identifier onAccount:(AIAccount *)account;
-- (AIChat *)existingChatWithName:(NSString *)name onAccount:(AIAccount *)account;
+- (AIGroupChat *)existingChatWithIdentifier:(id)identifier onAccount:(AIAccount *)account;
+- (AIGroupChat *)existingChatWithName:(NSString *)name onAccount:(AIAccount *)account;
 
 - (BOOL)closeChat:(AIChat *)inChat;
 - (void)accountDidCloseChat:(AIChat *)inChat;

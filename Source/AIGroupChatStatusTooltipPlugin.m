@@ -69,7 +69,7 @@
 		
 		BOOL shouldAppendNewline = NO;
 		
-		for (AIChat *chat in groupChats) {
+		for (AIGroupChat *chat in groupChats) {
 			NSImage *chatImage = [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForContact:inObject]];
 			
 			if (shouldAppendNewline) {

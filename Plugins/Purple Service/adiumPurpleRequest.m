@@ -386,7 +386,7 @@ static void *adiumPurpleRequestFile(const char *title, const char *filename,
 				 * and we do, in fact, want to send. Call the OK callback immediately.
 				 */
 				if (xfer->local_filename != NULL && xfer->filename != NULL) {
-					AILog(@"PURPLE_XFER_SEND: %x (%s)",xfer,xfer->local_filename);
+					AILog(@"PURPLE_XFER_SEND: %p (%s)",xfer,xfer->local_filename);
 					((PurpleRequestFileCb)ok_cb)(user_data, xfer->local_filename);
 				} else {
 					((PurpleRequestFileCb)cancel_cb)(user_data, xfer->local_filename);

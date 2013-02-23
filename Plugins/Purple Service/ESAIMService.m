@@ -56,5 +56,13 @@
 - (NSString *)userNameLabel{
     return AILocalizedString(@"Screen Name",nil); //ScreenName
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://new.aol.com/", @"URL for AIM signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for AIM", @"Text for AIM sign up button");
+}
 
 @end
