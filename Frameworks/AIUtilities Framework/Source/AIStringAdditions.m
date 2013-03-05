@@ -187,7 +187,7 @@ enum {
 
 	for (i = 0 ; i < length ; i++) {
 		/* Offset by the desired amount */
-		[newString appendFormat:@"%C",([self characterAtIndex:i] + offset)];
+		[newString appendFormat:@"%c",([self characterAtIndex:i] + offset)];
 	}
 	
 	return newString;
@@ -585,7 +585,7 @@ enum {
 	do { \
 		if (i == buflen) { \
 			buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
-			if (!buf) { \
+			if (buf == NULL) { \
 				NSLog(@"in stringByEscapingForShell: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 				free(myBuf); \
 				return nil; \
@@ -702,9 +702,8 @@ return nil; \
 
 - (NSString *)volumePath
 {
-	NSEnumerator *pathEnum = [[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] objectEnumerator];
 	NSString *volumePath;
-	while ((volumePath = [pathEnum nextObject])) {
+	for (volumePath in [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths]) {
 		if ([self hasPrefix:[volumePath stringByAppendingString:@"/"]])
 			break;
 	}
@@ -756,7 +755,7 @@ return nil; \
 	//^-----^   <-Returns this substring. (Trailing zeroes are deleted.)
 	//42.000000
 	//^^        <-Returns this substring (everything before the decimal point) for a whole number.
-	NSString *format = numDigits ? [NSString stringWithFormat:@"%%.%uf", numDigits] : @"%f";
+	NSString *format = numDigits ? [NSString stringWithFormat:@"%%.%luf", numDigits] : @"%f";
 	NSString *str = [NSString stringWithFormat:format, (double)f];
 	NSUInteger i = [str length];
 	while (i-- > 0) {

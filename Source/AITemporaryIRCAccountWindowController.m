@@ -78,7 +78,7 @@
 	
 	[textField_explanation setStringValue:[NSString stringWithFormat:AILocalizedString(@"You need to create a new IRC account to connect to irc://%@%@/%@:", nil),
 										   server,
-										   (port == 6667 ? @"" : [NSString stringWithFormat:@":%d", port]),
+										   (port == 6667 ? @"" : [NSString stringWithFormat:@":%ld", port]),
 										   channel]];
 	
 	[textField_server setStringValue:server];

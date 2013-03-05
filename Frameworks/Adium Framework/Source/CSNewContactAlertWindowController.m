@@ -148,11 +148,7 @@
 
 	// Remove the single-fire option for global
 	if (configureForGlobal) {
-		if ([checkbox_oneTime respondsToSelector:@selector(setHidden:)]) {
-			[checkbox_oneTime setHidden:YES];
-		} else {
-			[checkbox_oneTime setFrame:NSZeroRect];
-		}
+		[checkbox_oneTime setHidden:YES];
 	}
 	
 	// Set things up for the current event
@@ -200,13 +196,9 @@
 // Configure window for our current event dict
 - (void)configureForEvent
 {
-	NSEnumerator 	*enumerator;
-	NSMenuItem 		*menuItem;
-
 	// Select the correct event
 	NSString	*eventID = [alert objectForKey:KEY_EVENT_ID];
-	enumerator = [[popUp_event itemArray] objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (NSMenuItem *menuItem in [popUp_event itemArray]) {
 		if ([eventID isEqualToString:[menuItem representedObject]]) {
 			[popUp_event selectItem:menuItem];
 			break;
@@ -215,8 +207,7 @@
 	
 	// Select the correct action
 	NSString *actionID = [alert objectForKey:KEY_ACTION_ID];
-	enumerator = [[popUp_action itemArray] objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (NSMenuItem *menuItem in [popUp_action itemArray]) {
 		if ([actionID isEqualToString:[menuItem representedObject]]) {
 			[popUp_action selectItem:menuItem];
 			break;

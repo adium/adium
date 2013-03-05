@@ -23,6 +23,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import "AIContentTopic.h"
 
@@ -74,7 +75,7 @@
 	NSString *messageString = [inAttributedString string];
 			
 	AIAccount *account = (AIAccount *)message.destination;
-	NSString *contactAlias = [chat aliasForContact:[account contactWithUID:account.UID]];
+	NSString *contactAlias = [(AIGroupChat *)chat aliasForContact:[account contactWithUID:account.UID]];
 	
 	// XXX When we fix user lists to contain accounts, fix this too.
 	NSArray *myPredicates = [NSArray arrayWithObjects:

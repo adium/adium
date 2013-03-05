@@ -68,7 +68,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"pref-contactList" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-contact-list" forClass:[self class]];
 }
 
 /*!
