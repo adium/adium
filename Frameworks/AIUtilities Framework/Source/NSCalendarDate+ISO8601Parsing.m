@@ -14,9 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <ctype.h>
-#import <string.h>
-
 #import "NSCalendarDate+ISO8601Parsing.h"
 
 #ifndef DEFAULT_TIME_SEPARATOR
@@ -579,12 +576,11 @@ static BOOL is_leap_year(NSInteger year) {
 							static NSInteger lastUsedSecondsFromGMT = NSNotFound;
 							static NSTimeZone *lastUsedTimeZone;
 							if (secondsFromGMT == lastUsedSecondsFromGMT)
-								timeZone = [[lastUsedTimeZone retain] autorelease];
+								timeZone = lastUsedTimeZone;
 							else
 								timeZone = [NSTimeZone timeZoneForSecondsFromGMT:secondsFromGMT];
 							lastUsedSecondsFromGMT = secondsFromGMT;
-							[lastUsedTimeZone autorelease];
-							lastUsedTimeZone = [timeZone retain];
+							lastUsedTimeZone = timeZone;
 						}
 				}
 			}

@@ -17,7 +17,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import "ESPurpleYahooAccount.h"
-#import "ESPurpleYahooAccountViewController.h"
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>

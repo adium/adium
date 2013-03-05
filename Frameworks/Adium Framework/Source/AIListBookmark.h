@@ -30,13 +30,11 @@
 
 	NSString			*password;
 	NSString			*name;
-	
-	NSString			*unreadStatus;
 }
 
 - (id)initWithChat:(AIChat *)inChat;
 
-@property (retain, nonatomic)	NSString *password;
+@property (nonatomic)	NSString *password;
 @property (readonly, nonatomic)	NSString *name;
 @property (readonly, nonatomic)	NSDictionary *chatCreationDictionary;
 

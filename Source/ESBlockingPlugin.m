@@ -29,7 +29,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIChat.h>
 
 #define BLOCK						AILocalizedString(@"Block","Block Contact menu item")
 #define UNBLOCK						AILocalizedString(@"Unblock","Unblock Contact menu item")
@@ -129,10 +128,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[chatToolbarItems release];
-	[blockedToolbarIcons release];
-	[blockContactMenuItem release];
-	[blockContactContextualMenuItem release];
 }
 
 /*!

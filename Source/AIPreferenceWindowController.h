@@ -25,19 +25,6 @@
  * preference controller sorted by category.
  */
 @interface AIPreferenceWindowController : NSWindowController <NSWindowDelegate, AIPreferenceCollectionViewDelegate> {
-	NSArray *generalPaneArray;
-	NSArray *appearancePaneArray;
-	NSArray *eventsPaneArray;
-	NSArray *advancedPaneArray;
-	AIPreferenceCollectionView *generalCV;
-	AIPreferenceCollectionView *appearanceCV;
-	AIPreferenceCollectionView *eventsCV;
-	AIPreferenceCollectionView *advancedCV;
-	NSArrayController *generalController;
-	NSArrayController *appearanceController;
-	NSArrayController *eventsController;
-	NSArrayController *advancedController;
-	
 	SKIndexRef skIndex;
 	BOOL completePosting;
 	BOOL commandHandling;
@@ -48,17 +35,8 @@
 	id _localMouseDownEventMonitor;
 	id _lostFocusObserver;
 	id _localMouseUpEventHandler;
-	NSWindow *window;
 
-	NSView *allPanes;
 	NSMutableDictionary *panes;
-	NSView *itemPrototypeView;
-	NSSearchField *searchField;
-	NSTextField *label_general;
-	NSTextField *label_advanced;
-	NSTextField *label_events;
-	NSTextField *label_appearance;
-	NSSegmentedControl *button_showAll;
 	AIHighlightingTextField *_selectedView;
 	
 	NSMenu *paneMenu;
@@ -74,22 +52,22 @@
 @property (assign) IBOutlet AIPreferenceCollectionView *appearanceCV;
 @property (assign) IBOutlet AIPreferenceCollectionView *eventsCV;
 @property (assign) IBOutlet AIPreferenceCollectionView *advancedCV;
-@property (assign) IBOutlet NSArrayController *generalController;
-@property (assign) IBOutlet NSArrayController *appearanceController;
-@property (assign) IBOutlet NSArrayController *eventsController;
-@property (assign) IBOutlet NSArrayController *advancedController;
+@property (weak) IBOutlet NSArrayController *generalController;
+@property (weak) IBOutlet NSArrayController *appearanceController;
+@property (weak) IBOutlet NSArrayController *eventsController;
+@property (weak) IBOutlet NSArrayController *advancedController;
 
-@property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSView *allPanes;
+@property (strong) IBOutlet NSWindow *window;
+@property (strong) IBOutlet NSView *allPanes;
 @property (assign) IBOutlet NSView *itemPrototypeView;
 
 @property (assign) IBOutlet NSSearchField *searchField;
 
-@property (assign) IBOutlet NSTextField *label_general;
-@property (assign) IBOutlet NSTextField *label_advanced;
-@property (assign) IBOutlet NSTextField *label_events;
-@property (assign) IBOutlet NSTextField *label_appearance;
-@property (assign) IBOutlet NSSegmentedControl *button_showAll;
+@property (weak) IBOutlet NSTextField *label_general;
+@property (weak) IBOutlet NSTextField *label_advanced;
+@property (weak) IBOutlet NSTextField *label_events;
+@property (weak) IBOutlet NSTextField *label_appearance;
+@property (weak) IBOutlet NSSegmentedControl *button_showAll;
 
 
 + (void)openPreferenceWindow;

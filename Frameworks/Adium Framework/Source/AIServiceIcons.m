@@ -16,7 +16,6 @@
 
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIAccountControllerProtocol.h>
 
 static NSMutableDictionary	*serviceIcons[NUMBER_OF_SERVICE_ICON_TYPES][NUMBER_OF_ICON_DIRECTIONS];
@@ -100,14 +99,13 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 		} else {
 			AIService *service = [adium.accountController firstServiceWithServiceID:serviceID];
 			if (service) {
-				serviceIcon = [[service defaultServiceIconOfType:iconType] retain];
+				serviceIcon = [service defaultServiceIconOfType:iconType];
 			}
 		}
 
 		if (serviceIcon) {
 			if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
 			[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
-			[serviceIcon release];
 		} else {
 			//Attempt to load the default service icon
 			serviceIcon = [self defaultServiceIconForType:iconType serviceID:serviceID];
@@ -128,17 +126,13 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 	NSDictionary	*serviceIconDict = [NSDictionary dictionaryWithContentsOfFile:[inPath stringByAppendingPathComponent:@"Icons.plist"]];
 
 	if (serviceIconDict && [[serviceIconDict objectForKey:@"AdiumSetVersion"] intValue] == 1) {
-		[serviceIconBasePath release];
-		serviceIconBasePath = [inPath retain];
+		serviceIconBasePath = inPath;
 
-		[serviceIconNames[AIServiceIconSmall] release];
-		serviceIconNames[AIServiceIconSmall] = [[serviceIconDict objectForKey:@"Interface-Small"] retain];
+		serviceIconNames[AIServiceIconSmall] = [serviceIconDict objectForKey:@"Interface-Small"];
 
-		[serviceIconNames[AIServiceIconLarge] release];
-		serviceIconNames[AIServiceIconLarge] = [[serviceIconDict objectForKey:@"Interface-Large"] retain];
+		serviceIconNames[AIServiceIconLarge] = [serviceIconDict objectForKey:@"Interface-Large"];
 
-		[serviceIconNames[AIServiceIconList] release];
-		serviceIconNames[AIServiceIconList] = [[serviceIconDict objectForKey:@"List"] retain];
+		serviceIconNames[AIServiceIconList] = [serviceIconDict objectForKey:@"List"];
 
 		//Clear out the service icon cache
 		int i, j;
@@ -180,7 +174,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			NSString	*anIconPath = [inPath stringByAppendingPathComponent:[previewIconNames objectForKey:iconID]];
 			NSImage		*anIcon;
 
-			if ((anIcon = [[[NSImage alloc] initWithContentsOfFile:anIconPath] autorelease])) {
+			if ((anIcon = [[NSImage alloc] initWithContentsOfFile:anIconPath])) {
 				NSSize	anIconSize = [anIcon size];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 
@@ -210,7 +204,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 		[image unlockFocus];
 	}
 
-	return [image autorelease];
+	return image;
 }
 
 #pragma mark Default loading
@@ -255,7 +249,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			if ((thisServiceIconImageName = [defaultServiceIconNames objectForKey:serviceID])) {
 				NSString		*iconPath = [defaultPath stringByAppendingPathComponent:thisServiceIconImageName];
 				
-				defaultServiceIcon = [[[NSImage alloc] initWithContentsOfFile:iconPath] autorelease];
+				defaultServiceIcon = [[NSImage alloc] initWithContentsOfFile:iconPath];
 			}
 		}
 	}

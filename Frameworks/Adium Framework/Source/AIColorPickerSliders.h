@@ -18,15 +18,6 @@
 @interface NSColorPickerSliders:NSColorPicker <NSColorPickingCustom>
 {
     id sliderModePopUp;
-    id slidersView;
-    id greySliders;
-    id rgbSliders;
-    id hsbSliders;
-    id cmykSliders;
-    id currViewObject;
-    id sliderContainer;
-    id colorProfileButton;
-    int modeMask;
 }
 
 - (void)_setupProfileUI;

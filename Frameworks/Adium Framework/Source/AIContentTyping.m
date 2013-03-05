@@ -25,7 +25,7 @@
 
 + (id)typingContentInChat:(AIChat *)inChat withSource:(id)inSource destination:(id)inDest typingState:(AITypingState)inTypingState
 {
-    return [[[self alloc] initWithChat:inChat source:inSource destination:inDest typingState:inTypingState] autorelease];
+    return [[self alloc] initWithChat:inChat source:inSource destination:inDest typingState:inTypingState];
 }
 
 - (id)initWithChat:(AIChat *)inChat source:(id)inSource destination:(id)inDest typingState:(AITypingState)inTypingState
@@ -42,11 +42,6 @@
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
 }
 
 //Content Identifier

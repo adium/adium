@@ -68,8 +68,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSViewFrameDidChangeNotification 
 												  object:nil];
-
-    [super dealloc];
 }
 
 //Auto Scrolling ---------------------------------------------------------------

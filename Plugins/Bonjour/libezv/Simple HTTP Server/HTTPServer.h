@@ -23,8 +23,6 @@
 - (id)delegate;
 - (void)setDelegate:(id)newDelegate;
 
-- (EKEzvOutgoingFileTransfer *)transfer;
-
 - (NSURL *)documentRoot;
 - (void)setDocumentRoot:(NSURL *)value;
 

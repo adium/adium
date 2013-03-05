@@ -50,7 +50,6 @@
 	BOOL send;
 	BOOL receive;
 	BOOL inDiv;
-	BOOL inLogSpan;	
 }
 
 #define AIElementClassAttributeName		@"AIElementClass"

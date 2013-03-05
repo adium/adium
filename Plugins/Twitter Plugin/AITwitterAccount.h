@@ -165,23 +165,23 @@ typedef enum {
 	NSMutableDictionary	*pendingRequests;
 }
 
-@property (readonly, nonatomic) NSString *timelineChatName;
-@property (readonly, nonatomic) NSString *timelineGroupName;
-@property (readonly, nonatomic) NSString *apiPath;
-@property (readonly, nonatomic) NSString *sourceToken;
-@property (readonly, nonatomic) NSString *defaultServer;
+@property (weak, readonly, nonatomic) NSString *timelineChatName;
+@property (weak, readonly, nonatomic) NSString *timelineGroupName;
+@property (weak, readonly, nonatomic) NSString *apiPath;
+@property (weak, readonly, nonatomic) NSString *sourceToken;
+@property (weak, readonly, nonatomic) NSString *defaultServer;
 
 @property (readonly, nonatomic) int maxChars;
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) BOOL supportsCursors;
-@property (readonly, nonatomic) NSString *consumerKey;
-@property (readonly, nonatomic) NSString *secretKey;
-@property (readonly, nonatomic) NSString *tokenRequestURL;
-@property (readonly, nonatomic) NSString *tokenAccessURL;
-@property (readonly, nonatomic) NSString *tokenAuthorizeURL;
+@property (weak, readonly, nonatomic) NSString *consumerKey;
+@property (weak, readonly, nonatomic) NSString *secretKey;
+@property (weak, readonly, nonatomic) NSString *tokenRequestURL;
+@property (weak, readonly, nonatomic) NSString *tokenAccessURL;
+@property (weak, readonly, nonatomic) NSString *tokenAuthorizeURL;
 
-@property (readonly, nonatomic) AIGroupChat *timelineChat;
+@property (weak, readonly, nonatomic) AIGroupChat *timelineChat;
 
 - (NSString *)errorMessageForError:(NSError *)error;
 

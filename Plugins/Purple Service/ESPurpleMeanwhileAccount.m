@@ -15,9 +15,7 @@
  */
 
 #import "ESPurpleMeanwhileAccount.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 
@@ -89,8 +87,8 @@ extern const char *mwServiceAware_getText(void *, void *);
 	statusMessageString = (statusMessageText ? [NSString stringWithUTF8String:statusMessageText] : nil);
 
 	if (statusMessageString && [statusMessageString length]) {
-		buddyStatusMessage = [[[NSAttributedString alloc] initWithString:statusMessageString
-														 attributes:nil] autorelease];
+		buddyStatusMessage = [[NSAttributedString alloc] initWithString:statusMessageString
+														 attributes:nil];
 	}
 
 	return buddyStatusMessage;

@@ -17,7 +17,6 @@
 #import "AIGroupChat.h"
 #import "AIContactControllerProtocol.h"
 #import "AIListContact.h"
-#import "AIListObject.h"
 #import "AIServiceIcons.h"
 #import "AIUserIcons.h"
 #import "AIContentTopic.h"
@@ -63,16 +62,7 @@ static int nextChatNumber = 0;
 
 - (void)dealloc
 {
-	[topic release]; [topicSetter release];
-    
 	[self removeAllParticipatingContactsSilently];
-    
-    [lastMessageDate release];
-	[participatingContacts release];
-	[participatingContactsFlags release];
-	[participatingContactsAliases release];
-    
-    [super dealloc];
 }
 
 - (NSImage *)chatImage
@@ -346,7 +336,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	
 	[participatingContacts addObjectsFromArray:contacts];
 	[adium.chatController chat:self addedListContacts:contacts notify:notify];
-	[contacts release];
 }
 
 - (BOOL)addObject:(AIListObject *)inObject
@@ -404,9 +393,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	if ([self containsObject:inObject]) {
 		AIListContact *contact = (AIListContact *)inObject; //if we contain it, it has to be an AIListContact
 		
-		//make sure removing it from the array doesn't deallocate it immediately, since we need it for -chat:removedListContact:
-		[inObject retain];
-		
 		[participatingContacts removeObject:inObject];
 		
 		[self removeSavedValuesForContactUID:inObject.UID];
@@ -421,8 +407,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[adium.contactController accountDidStopTrackingContact:contact];
 			[[AIContactObserverManager sharedManager] endListObjectNotificationsDelaysImmediately];
 		}
-		
-		[inObject release];
 	}
 }
 
@@ -441,13 +425,13 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
-    
+	
 	[participatingContacts removeAllObjects];
 	[participatingContactsFlags removeAllObjects];
 	[participatingContactsAliases removeAllObjects];
-    
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
-                                                        object:self];
+														object:self];
 }
 
 @synthesize expanded;
@@ -462,9 +446,9 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	return self.countOfContainedObjects;
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackbuf count:(NSUInteger)len
 {
-	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [participatingContacts countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 - (BOOL) canContainObject:(id)obj

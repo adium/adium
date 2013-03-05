@@ -54,7 +54,7 @@ static	AITooltipOrientation	tooltipOrientation;
 //Tooltips
 + (void)showTooltipWithString:(NSString *)inString onWindow:(NSWindow *)inWindow atPoint:(NSPoint)inPoint orientation:(AITooltipOrientation)inOrientation
 {
-    [self showTooltipWithAttributedString:[[[NSAttributedString alloc] initWithString:inString] autorelease] 
+    [self showTooltipWithAttributedString:[[NSAttributedString alloc] initWithString:inString] 
 								 onWindow:inWindow 
 								  atPoint:inPoint 
 							  orientation:inOrientation];
@@ -109,7 +109,7 @@ static	AITooltipOrientation	tooltipOrientation;
 		   !(inTitle == tooltipTitle) || 
 		   !(inImage == tooltipImage)) { //we don't exist or something changed
 
-			[tooltipTitle release]; tooltipTitle = [inTitle retain];
+			tooltipTitle = inTitle;
 
 			if (inTitle) {
                 [[textView_tooltipTitle textStorage] replaceCharactersInRange:NSMakeRange(0,[[textView_tooltipTitle textStorage] length])
@@ -118,7 +118,7 @@ static	AITooltipOrientation	tooltipOrientation;
                 [[textView_tooltipTitle textStorage] deleteCharactersInRange:NSMakeRange(0,[[textView_tooltipTitle textStorage] length])];            
             }
 
-            [tooltipBody release]; tooltipBody = [inBody retain];
+            tooltipBody = inBody;
             if (inBody) {
                 [[textView_tooltipBody textStorage] replaceCharactersInRange:NSMakeRange(0,[[textView_tooltipBody textStorage] length])
 														withAttributedString:tooltipBody];
@@ -126,7 +126,7 @@ static	AITooltipOrientation	tooltipOrientation;
                 [[textView_tooltipBody textStorage] deleteCharactersInRange:NSMakeRange(0,[[textView_tooltipBody textStorage] length])];
             }
             
-            [tooltipImage release]; tooltipImage = [inImage retain];
+            tooltipImage = inImage;
 
 			imageOnRight = inImageOnRight;
 			[view_tooltipImage setImage:tooltipImage];
@@ -198,12 +198,10 @@ static	AITooltipOrientation	tooltipOrientation;
 
 		layoutManager = [[NSLayoutManager alloc] init];
 		[textStorage_tooltipTitle addLayoutManager:layoutManager];
-		[layoutManager release];
 
 		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0f)];
 		[container setLineFragmentPadding:1.0f]; //so widths will caclulate properly
 		[layoutManager addTextContainer:container];
-		[container release];
 
 		textView_tooltipTitle = [[NSTextView alloc] initWithFrame:NSZeroRect textContainer:container];
 		[textView_tooltipTitle setSelectable:NO];
@@ -218,12 +216,10 @@ static	AITooltipOrientation	tooltipOrientation;
 		
 		layoutManager = [[NSLayoutManager alloc] init];
 		[textStorage_tooltipBody addLayoutManager:layoutManager];
-		[layoutManager release];
 		
 		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0f)];
 		[container setLineFragmentPadding:0.0f]; //so widths will caclulate properly
 		[layoutManager addTextContainer:container];
-		[container release];
 
 		textView_tooltipBody = [[NSTextView alloc] initWithFrame:NSZeroRect textContainer:container];
 		[textView_tooltipBody setSelectable:NO];
@@ -267,18 +263,18 @@ static	AITooltipOrientation	tooltipOrientation;
 
 + (void)_reallyCloseTooltip
 {
-    [textView_tooltipBody release];  textView_tooltipBody = nil;
-    [textView_tooltipTitle release]; textView_tooltipTitle = nil;
-	[textStorage_tooltipBody release]; textStorage_tooltipBody = nil;
-	[textStorage_tooltipTitle release]; textStorage_tooltipTitle = nil;
-    [view_tooltipImage release];     view_tooltipImage = nil;
-    [tooltipWindow release];         tooltipWindow = nil;
-    [tooltipBody release];           tooltipBody = nil;
-    [tooltipTitle release];          tooltipTitle = nil;
-    [tooltipImage release];          tooltipImage = nil;
+    textView_tooltipBody = nil;
+    textView_tooltipTitle = nil;
+	textStorage_tooltipBody = nil;
+	textStorage_tooltipTitle = nil;
+    view_tooltipImage = nil;
+    tooltipWindow = nil;
+    tooltipBody = nil;
+    tooltipTitle = nil;
+    tooltipImage = nil;
     tooltipPoint = NSZeroPoint;
 	
-	[fadeOutAnimation release]; fadeOutAnimation = nil;
+	fadeOutAnimation = nil;
 }
 
 + (void)_sizeTooltip
@@ -293,7 +289,7 @@ static	AITooltipOrientation	tooltipOrientation;
 	
 	static dispatch_once_t setTitleAndBodyMarginLineColor;
 	dispatch_once(&setTitleAndBodyMarginLineColor, ^{
-		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
+		titleAndBodyMarginLineColor = [[NSColor grayColor] colorWithAlphaComponent:.7f];
 	});
 
     if (hasTitle) {
