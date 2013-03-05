@@ -228,7 +228,7 @@
 		//Server Port
 		NSNumber	*port = [account preferenceForKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS];
 		if (port) {
-			[textField_connectPort setIntValue:[port intValue]];
+			[textField_connectPort setStringValue:[NSString stringWithFormat:@"%d", [port intValue]]];
 		} else {
 			[textField_connectPort setStringValue:@""];
 		}
