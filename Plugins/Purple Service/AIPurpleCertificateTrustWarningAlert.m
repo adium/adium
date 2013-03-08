@@ -105,6 +105,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 			NSUInteger newCertHash = [(__bridge NSData *)data hash];
 			
 			if (oldCertHash == newCertHash) {
+				CFRelease(data);
 				query_cert_cb(true, userdata);
 				return;
 			}
