@@ -1350,6 +1350,9 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
+		761CE33916F9087C000EE361 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761CE33816F9087C000EE361 /* Cocoa.framework */; };
+		761CE34E16F90950000EE361 /* AIDockTilePlugin.docktileplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */; };
+		761CE35416F90A03000EE361 /* AIDockTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 761CE35316F90A03000EE361 /* AIDockTile.m */; };
 		761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D587F1636C60100210B12 /* AINewMessageTableView.m */; };
 		761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */; };
 		761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58851636F94200210B12 /* AINewMessageSearchField.m */; };
@@ -1638,6 +1641,13 @@
 			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D;
 			remoteInfo = "Setup Build Directory";
 		};
+		761CE34F16F9098E000EE361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 761CE33516F9087C000EE361;
+			remoteInfo = AIDockTilePlugin;
+		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -1731,6 +1741,16 @@
 				637864550F9BE1AB0040DEDA /* AutoHyperlinks.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		761CE34D16F90938000EE361 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				761CE34E16F90950000EE361 /* AIDockTilePlugin.docktileplugin in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F51BCD3E0A156281000FDC06 /* Copy Spotlight Importer */ = {
@@ -4392,6 +4412,15 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIDockTilePlugin.docktileplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		761CE33816F9087C000EE361 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		761CE33B16F9087C000EE361 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		761CE33C16F9087C000EE361 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		761CE33D16F9087C000EE361 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		761CE34016F9087D000EE361 /* AIDockTilePlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AIDockTilePlugin-Info.plist"; sourceTree = "<group>"; };
+		761CE34416F9087D000EE361 /* AIDockTilePlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AIDockTilePlugin-Prefix.pch"; sourceTree = "<group>"; };
+		761CE35216F90A03000EE361 /* AIDockTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockTile.h; path = Source/AIDockTile.h; sourceTree = "<group>"; };
+		761CE35316F90A03000EE361 /* AIDockTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDockTile.m; path = Source/AIDockTile.m; sourceTree = "<group>"; };
 		761D587E1636C60100210B12 /* AINewMessageTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageTableView.h; path = Source/AINewMessageTableView.h; sourceTree = "<group>"; };
 		761D587F1636C60100210B12 /* AINewMessageTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageTableView.m; path = Source/AINewMessageTableView.m; sourceTree = "<group>"; };
 		761D58811636EDE100210B12 /* AINewMessageTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageTextFieldCell.h; path = Source/AINewMessageTextFieldCell.h; sourceTree = "<group>"; };
@@ -4862,6 +4891,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		761CE33316F9087C000EE361 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				761CE33916F9087C000EE361 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -5094,6 +5131,7 @@
 				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
 				6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */,
 				633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */,
+				761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5117,6 +5155,8 @@
 				312ED3D80C7E89CC00A6BDA9 /* Unit tests */,
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				63C7E0280FAF9B7D00B310AC /* xcconfigs */,
+				761CE33E16F9087C000EE361 /* Dock Tile */,
+				761CE33716F9087C000EE361 /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = CocAIMe2;
@@ -8144,6 +8184,53 @@
 			name = "HTTP Server";
 			sourceTree = "<group>";
 		};
+		761CE33716F9087C000EE361 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				761CE33816F9087C000EE361 /* Cocoa.framework */,
+				761CE33A16F9087C000EE361 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		761CE33A16F9087C000EE361 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				761CE33B16F9087C000EE361 /* AppKit.framework */,
+				761CE33C16F9087C000EE361 /* CoreData.framework */,
+				761CE33D16F9087C000EE361 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		761CE33E16F9087C000EE361 /* Dock Tile */ = {
+			isa = PBXGroup;
+			children = (
+				761CE35116F909C1000EE361 /* Source */,
+				761CE33F16F9087D000EE361 /* Supporting Files */,
+			);
+			name = "Dock Tile";
+			path = "Other/Adium Dock Tile Plugin";
+			sourceTree = SOURCE_ROOT;
+		};
+		761CE33F16F9087D000EE361 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				761CE34016F9087D000EE361 /* AIDockTilePlugin-Info.plist */,
+				761CE34416F9087D000EE361 /* AIDockTilePlugin-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		761CE35116F909C1000EE361 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				761CE35216F90A03000EE361 /* AIDockTile.h */,
+				761CE35316F90A03000EE361 /* AIDockTile.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
 		76FF925C14B60B4B0043E23B /* Console */ = {
 			isa = PBXGroup;
 			children = (
@@ -9280,6 +9367,7 @@
 				34BD9D24053146CC000AB133 /* Resources */,
 				34BD9D57053146CC000AB133 /* Frameworks */,
 				F51BCD3E0A156281000FDC06 /* Copy Spotlight Importer */,
+				761CE34D16F90938000EE361 /* CopyFiles */,
 				34BD9D5F053146CC000AB133 /* Copy Frameworks */,
 				4BF2E91F067CB76300743318 /* Copy Built-in Xtras */,
 				34BD9D6A053146CC000AB133 /* Copy AdiumPlugins */,
@@ -9289,6 +9377,7 @@
 				81F9D1DF0A7F81A5004A35BD /* PBXBuildRule */,
 			);
 			dependencies = (
+				761CE35016F9098E000EE361 /* PBXTargetDependency */,
 				11F6CB2E109BC6AC0070022D /* PBXTargetDependency */,
 				639DF9E30F97E687003C9A32 /* PBXTargetDependency */,
 				349C31630867D199000BF883 /* PBXTargetDependency */,
@@ -9357,6 +9446,23 @@
 			name = "Spotlight Importer";
 			productName = "Spotlight Importer";
 			productReference = 633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */;
+			productType = "com.apple.product-type.bundle";
+		};
+		761CE33516F9087C000EE361 /* AIDockTilePlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 761CE34B16F9087D000EE361 /* Build configuration list for PBXNativeTarget "AIDockTilePlugin" */;
+			buildPhases = (
+				761CE33216F9087C000EE361 /* Sources */,
+				761CE33316F9087C000EE361 /* Frameworks */,
+				761CE33416F9087C000EE361 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AIDockTilePlugin;
+			productName = AIDockTilePlugin;
+			productReference = 761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -9433,6 +9539,7 @@
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
 				312ED3C90C7E875B00A6BDA9 /* Unit tests */,
 				633D4FA30F9D3073004F491E /* Spotlight Importer */,
+				761CE33516F9087C000EE361 /* AIDockTilePlugin */,
 			);
 		};
 /* End PBXProject section */
@@ -9891,6 +9998,13 @@
 				633D4FC20F9D3116004F491E /* schema.xml in Resources */,
 				633D514F0F9D31BE004F491E /* InfoPlist.strings in Resources */,
 				633D51500F9D31BE004F491E /* schema.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		761CE33416F9087C000EE361 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10714,6 +10828,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		761CE33216F9087C000EE361 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				761CE35416F90A03000EE361 /* AIDockTile.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -10776,6 +10898,11 @@
 			isa = PBXTargetDependency;
 			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
 			targetProxy = 63DE4C520F9C77D50034ED3A /* PBXContainerItemProxy */;
+		};
+		761CE35016F9098E000EE361 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 761CE33516F9087C000EE361 /* AIDockTilePlugin */;
+			targetProxy = 761CE34F16F9098E000EE361 /* PBXContainerItemProxy */;
 		};
 		F5B17CDF0A16C767004AE99E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -12410,6 +12537,109 @@
 			};
 			name = "Release-Debug";
 		};
+		761CE34516F9087D000EE361 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AIDockTilePlugin/AIDockTilePlugin-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AIDockTilePlugin/AIDockTilePlugin-Info.plist";
+				INSTALL_PATH = Contents/PlugIns;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = docktileplugin;
+			};
+			name = Debug;
+		};
+		761CE34616F9087D000EE361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AIDockTilePlugin/AIDockTilePlugin-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AIDockTilePlugin/AIDockTilePlugin-Info.plist";
+				INSTALL_PATH = Contents/PlugIns;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = docktileplugin;
+			};
+			name = Release;
+		};
+		761CE34716F9087D000EE361 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AIDockTilePlugin/AIDockTilePlugin-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "AIDockTilePlugin/AIDockTilePlugin-Info.plist";
+				INSTALL_PATH = Contents/PlugIns;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = docktileplugin;
+			};
+			name = "Release-Debug";
+		};
 		DADE8E00085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
@@ -12612,6 +12842,16 @@
 				633D4FA60F9D3077004F491E /* Debug */,
 				633D4FA70F9D3077004F491E /* Release */,
 				633D4FA80F9D3077004F491E /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		761CE34B16F9087D000EE361 /* Build configuration list for PBXNativeTarget "AIDockTilePlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				761CE34516F9087D000EE361 /* Debug */,
+				761CE34616F9087D000EE361 /* Release */,
+				761CE34716F9087D000EE361 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
