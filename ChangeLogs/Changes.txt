@@ -10,17 +10,6 @@ Version 1.6 (X/X/X)
  Accessibility
   * Fixed tabs not being spoken by VoiceOver. (#16088)
 
-Version 1.5.6 (3/XX/2013)
- * Fix a crash on startup on 10.6.8.
- * Fix a crash when accepting or canceling the certificate verification dialog. (#16280)
-
-Version 1.5.5 (2/24/2013)
- * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
- * Fixed "Add Link..." when the cursor is at the end of the line. (#16200)
- * Made sure the "Open Link" menu item in the chat window's context menu gets removed for other translations than English as well. Clicking the menu item wouldn't open the link in your default browser but in the chat window itself. (#16101)
- * Fixed reference to an image. (Detmud) (#16301)
- * Updated Spanish translation. (#16291)
-
  Chat window
   * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
   * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
@@ -57,16 +46,30 @@ Version 1.5.5 (2/24/2013)
 
   * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
 
- * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+  * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
 
-"Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
-"Text Clip Support" (#14081)
-"Allow /me action to be logged the way it is passed to the message view" (#13330)
-"if an action ends in a colon, the colon will be emotified" (#14079)
-"Improve "New Chat..." dialogue" (#14285)
-Sandboxed message styles. (#15324)
-Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
-"Proxy bypass when registered jabber handle" (#15957)
+- "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
+- "Text Clip Support" (#14081)
+- "Allow /me action to be logged the way it is passed to the message view" (#13330)
+- "if an action ends in a colon, the colon will be emotified" (#14079)
+- "Improve "New Chat..." dialogue" (#14285)
+- Sandboxed message styles. (#15324)
+- Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
+- "Proxy bypass when registered jabber handle" (#15957)
+
+
+Version 1.5.6 (3/XX/2013)
+ * Fix a crash on startup on 10.6.8.
+ * Fix a crash when accepting or canceling the certificate verification dialog. (#16280)
+ * Fix a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
+Version 1.5.5 (2/24/2013)
+ * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
+ * Fixed "Add Link..." when the cursor is at the end of the line. (#16200)
+ * Made sure the "Open Link" menu item in the chat window's context menu gets removed for other translations than English as well. Clicking the menu item wouldn't open the link in your default browser but in the chat window itself. (#16101)
+ * Fixed reference to an image. (Detmud) (#16301)
+ * Updated Spanish translation. (#16291)
+
 
 Version 1.5.4 (11/7/2012)
  * Updated the included Growl SDK to 2.0, adding support for Notification Center on 10.8 if Growl is not installed. (#15867)
