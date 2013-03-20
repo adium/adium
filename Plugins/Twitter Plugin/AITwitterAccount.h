@@ -1,22 +1,22 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIGroupChat.h>
-#import "MGTwitterEngine/MGTwitterEngine.h"
+#import "STTwitterAPIWrapper.h"
 
 typedef enum {
 	AITwitterUnknownType = 0,
@@ -112,9 +112,9 @@ typedef enum {
 #define AITwitterNotificationPostedStatus		@"AITwitterNotificationPostedStatus"
 
 // Status Updates
-#define TWITTER_STATUS_ID					@"id"
+#define TWITTER_STATUS_ID					@"id_str"
 #define TWITTER_STATUS_REPLY_UID			@"in_reply_to_screen_name"
-#define TWITTER_STATUS_REPLY_ID				@"in_reply_to_status_id"
+#define TWITTER_STATUS_REPLY_ID				@"in_reply_to_status_id_str"
 #define TWITTER_STATUS_CREATED				@"created_at"
 #define TWITTER_STATUS_USER					@"user"
 #define TWITTER_STATUS_UID					@"screen_name"
@@ -124,7 +124,6 @@ typedef enum {
 // Direct Messages
 #define TWITTER_DM_ID						@"id"
 #define TWITTER_DM_CREATED					@"created_at"
-#define TWITTER_DM_SENDER					@"sender"
 #define TWITTER_DM_SENDER_UID				@"sender_screen_name"
 #define TWITTER_DM_RECIPIENT_UID			@"recipient_screen_name"
 #define TWITTER_DM_TEXT						@"text"
@@ -135,16 +134,14 @@ typedef enum {
 #define TWITTER_INFO_DISPLAY_NAME			@"name"
 #define TWITTER_INFO_UID					@"screen_name"
 #define TWITTER_INFO_ICON					@"profile_image_url"
-#define TWITTER_INFO_PREVIOUS_CURSOR		@"previous_cursor"
-#define TWITTER_INFO_NEXT_CURSOR			@"next_cursor"
 
 // Rate Limit
-#define TWITTER_RATE_LIMIT_HOURLY_LIMIT		@"hourly-limit"
-#define TWITTER_RATE_LIMIT_REMAINING		@"remaining-hits"
-#define TWITTER_RATE_LIMIT_RESET_SECONDS	@"reset-time-in-seconds"
+#define TWITTER_RATE_LIMIT					@"limit"
+#define TWITTER_RATE_LIMIT_REMAINING		@"remaining"
+#define TWITTER_RATE_LIMIT_RESET_SECONDS	@"reset"
 
-@interface AITwitterAccount : AIAccount <MGTwitterEngineDelegate> {
-	MGTwitterEngine		*twitterEngine;
+@interface AITwitterAccount : AIAccount {
+	STTwitterAPIWrapper	*twitterEngine;
 	NSTimer				*updateTimer;
 	
 	BOOL				updateAfterSend;
@@ -165,23 +162,23 @@ typedef enum {
 	NSMutableDictionary	*pendingRequests;
 }
 
-@property (readonly, nonatomic) NSString *timelineChatName;
-@property (readonly, nonatomic) NSString *timelineGroupName;
-@property (readonly, nonatomic) NSString *apiPath;
-@property (readonly, nonatomic) NSString *sourceToken;
-@property (readonly, nonatomic) NSString *defaultServer;
+@property (weak, readonly, nonatomic) NSString *timelineChatName;
+@property (weak, readonly, nonatomic) NSString *timelineGroupName;
+@property (weak, readonly, nonatomic) NSString *apiPath;
+@property (weak, readonly, nonatomic) NSString *sourceToken;
+@property (weak, readonly, nonatomic) NSString *defaultServer;
 
 @property (readonly, nonatomic) int maxChars;
 @property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) BOOL supportsCursors;
-@property (readonly, nonatomic) NSString *consumerKey;
-@property (readonly, nonatomic) NSString *secretKey;
-@property (readonly, nonatomic) NSString *tokenRequestURL;
-@property (readonly, nonatomic) NSString *tokenAccessURL;
-@property (readonly, nonatomic) NSString *tokenAuthorizeURL;
+@property (weak, readonly, nonatomic) NSString *consumerKey;
+@property (weak, readonly, nonatomic) NSString *secretKey;
+@property (weak, readonly, nonatomic) NSString *tokenRequestURL;
+@property (weak, readonly, nonatomic) NSString *tokenAccessURL;
+@property (weak, readonly, nonatomic) NSString *tokenAuthorizeURL;
 
-@property (readonly, nonatomic) AIGroupChat *timelineChat;
+@property (weak, readonly, nonatomic) AIGroupChat *timelineChat;
 
 - (NSString *)errorMessageForError:(NSError *)error;
 
