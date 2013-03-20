@@ -36,6 +36,7 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIContentEvent.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import "STTwitterOAuth.h"
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
@@ -53,11 +54,6 @@
 - (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)label
 									  linkDestination:(NSString *)destination
 											linkClass:(NSString *)attributeName;
-
-- (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
-- (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
-- (NSDictionary *)dictionaryForRequestID:(NSString *)requestID;
-- (void)clearRequestTypeForRequestID:(NSString *)requestID;
 
 - (void)periodicUpdate;
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType;
@@ -142,58 +138,67 @@
 {
 	[super connect];
 	
-	twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
-	
-	[twitterEngine setClientName:@"Adium"
-						 version:[NSApp applicationVersion]
-							 URL:@"http://www.adium.im"
-						   token:self.sourceToken];	
-	
-	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
-	
-	[twitterEngine setUsesSecureConnection:self.useSSL];
-	
-	if (self.useOAuth) {
-		if (!self.passwordWhileConnected.length) {
-			/* If we weren't able to retrieve the 'password', we can't proceed with oauth - we stored the oauth
-			 * http response body in the keychain as the password.
-			 *
-			 * Note that this can happen not only if Adium isn't authorized but also if it *is* authorized but the
-			 * keychain was inaccessible - e.g. keychain access wasn't allowed after an upgrade. Hm.
-			 */
-			[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
-			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"AIEditAccount"
-																object:self];
-			
-			[self didDisconnect];
-			
-			// Don't try and connect.
-			return;
-			
-		} else {
-			twitterEngine.useOAuth = YES;
-			
-			OAToken *token = [[OAToken alloc] initWithHTTPResponseBody:self.passwordWhileConnected];
-			OAConsumer *consumer = [[OAConsumer alloc] initWithKey:self.consumerKey secret:self.secretKey];
-			
-			twitterEngine.accessToken = token;
-			twitterEngine.consumer = consumer;
-		}
-	} else {
-		[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
-	}
-	
-	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.APIDomain);
-	
-	NSString *requestID = [twitterEngine checkUserCredentials];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterValidateCredentials forRequestID:requestID withDictionary:nil];
-	} else {
-		[self setLastDisconnectionError:AILocalizedString(@"Unable to connect to server", nil)];
+	if (!self.passwordWhileConnected.length) {
+		/* If we weren't able to retrieve the 'password', we can't proceed with oauth - we stored the oauth
+		 * http response body in the keychain as the password.
+		 *
+		 * Note that this can happen not only if Adium isn't authorized but also if it *is* authorized but the
+		 * keychain was inaccessible - e.g. keychain access wasn't allowed after an upgrade. Hm.
+		 */
+		[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AIEditAccount"
+															object:self];
+		
 		[self didDisconnect];
+		
+		// Don't try and connect.
+		return;
+		
 	}
+	
+	NSDictionary *oauth = [self.passwordWhileConnected parametersDictionary];
+
+	NSString *oauthToken = [oauth objectForKey:@"oauth_token"];
+	NSString *oauthSecret = [oauth objectForKey:@"oauth_token_secret"];
+	
+	twitterEngine = [STTwitterAPIWrapper twitterAPIWithOAuthConsumerName:@"Adium"
+															 consumerKey:self.consumerKey
+														  consumerSecret:self.secretKey
+															  oauthToken:oauthToken
+														oauthTokenSecret:oauthSecret];
+	
+	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.userName);
+	
+	[twitterEngine verifyCredentialsWithSuccessBlock:^(id response) {
+		if ([response isKindOfClass:[NSDictionary class]])
+			[self userInfoReceived:(NSDictionary *)response forRequest:AITwitterValidateCredentials];
+		
+		if ([[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+			// If we load our follows as contacts, do so now.
+			
+			// Delay updates on initial login.
+			[self silenceAllContactUpdatesForInterval:18.0];
+			// Grab our user list.
+			[twitterEngine getFriendsForScreenName:self.UID
+									   successBlock:^(NSArray *friends) {
+										   [self userInfoReceived:@{ @"friends" : friends } forRequest:AITwitterInitialUserInfo];
+										   
+										   if ([self boolValueForProperty:@"isConnecting"]) {
+											   // Trigger our normal update routine.
+											   [self didConnect];
+										   }
+									   } errorBlock:^(NSError *error) {
+										   [self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
+										   [self didDisconnect];
+									   }];
+		} else {
+			// If we don't load follows as contacts, we've finished connecting (fast, wasn't it?)
+			[self didConnect];
+		}
+	} errorBlock:^(NSError *error) {
+		[self requestFailed:AITwitterValidateCredentials withError:error userInfo:nil];
+	}];
 }
 
 /*!
@@ -333,7 +338,7 @@
  */
 - (BOOL)encrypted
 {
-	return (self.online && [twitterEngine usesSecureConnection]);
+	return self.online;
 }
 
 /*!
@@ -464,13 +469,50 @@
  */
 - (void)setSocialNetworkingStatusMessage:(NSAttributedString *)inStatusMessage
 {
-	NSString *requestID = [twitterEngine sendUpdate:[inStatusMessage string]];
-	
-	if(requestID) {
-		[self setRequestType:AITwitterSendUpdate
-				forRequestID:requestID
-			  withDictionary:nil];
-	}
+	[self sendUpdate:inStatusMessage.string forChat:nil];
+	AILogWithSignature(@"%@ Sending social networking update %@", self, inStatusMessage);
+}
+
+/*!
+ * @brief Send a tweet
+ */
+- (void)sendUpdate:(NSString *)inStatusMessage forChat:(AIChat *)chat {
+	[twitterEngine postStatusUpdate:inStatusMessage
+				  inReplyToStatusID:[chat valueForProperty:@"TweetInReplyToStatusID"]
+							placeID:nil
+								lat:nil
+								lon:nil
+					   successBlock:^(NSDictionary *status) {
+						   [adium.contentController displayEvent:AILocalizedString(@"Tweet successfully sent.", nil)
+														  ofType:@"tweet"
+														  inChat:self.timelineChat];
+						   
+						   [[NSNotificationCenter defaultCenter] postNotificationName:AITwitterNotificationPostedStatus
+																			   object:status
+																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
+						   
+						   NSDictionary *retweet = [status valueForKey:TWITTER_STATUS_RETWEET];
+						   NSString *text = [[status objectForKey:TWITTER_STATUS_TEXT] stringByEscapingForXMLWithEntities:nil];
+
+						   if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+							   text = [[NSString stringWithFormat:@"RT @%@: %@",
+																  [[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+																  [retweet objectForKey:TWITTER_STATUS_TEXT]] stringByEscapingForXMLWithEntities:nil];
+						   }
+
+						   if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
+								   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {
+							   AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+
+							   availableStatus.statusMessage = [NSAttributedString stringWithString:text];
+							   [adium.statusController setActiveStatusState:availableStatus];
+						   }
+
+						   if (updateAfterSend)
+							   [self performSelector:@selector(periodicUpdate) withObject:nil afterDelay:0.0];
+					   } errorBlock:^(NSError *error) {
+						   [self requestFailed:AITwitterSendUpdate withError:error userInfo:@{ @"Chat" : chat }];
+	}];
 }
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
@@ -487,44 +529,27 @@
  */
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	NSString *requestID;
-	
-	if(inContentMessage.chat.isGroupChat) {
-		requestID = [twitterEngine sendUpdate:inContentMessage.encodedMessage
-									inReplyTo:[inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"]];
+	if (inContentMessage.chat.isGroupChat) {
+		[self sendUpdate:inContentMessage.encodedMessage forChat:inContentMessage.chat];
+		inContentMessage.displayContent = NO;
+
+		AILogWithSignature(@"%@ Sending update [in reply to %@]: %@", self, [inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"], inContentMessage.encodedMessage);
+	} else {
+		[twitterEngine postDirectMessage:inContentMessage.encodedMessage
+									  to:inContentMessage.destination.UID
+							successBlock:^(NSDictionary *dm) {
+								[queuedOutgoingDM addObject:dm];
+								[self displayQueuedUpdatesForRequestType:AITwitterDirectMessageSend];
+							} errorBlock:^(NSError *error) {
+								[self requestFailed:AITwitterDirectMessageSend withError:error userInfo:@{ @"Chat" : inContentMessage.chat }];
+							}];
+			
+		inContentMessage.displayContent = NO;
 		
-		if(requestID) {
-			[self setRequestType:AITwitterSendUpdate
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
-															 forKey:@"Chat"]];
-			
-			inContentMessage.displayContent = NO;
-			
-			AILogWithSignature(@"%@ Sending update [in reply to %@]: %@", self, [inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"], inContentMessage.encodedMessage);
-		}
-		
-	} else {		
-		requestID = [twitterEngine sendDirectMessage:inContentMessage.encodedMessage
-												  to:inContentMessage.destination.UID];
-		
-		if(requestID) {
-			[self setRequestType:AITwitterDirectMessageSend
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
-															 forKey:@"Chat"]];
-			
-			inContentMessage.displayContent = NO;
-			
-			AILogWithSignature(@"%@ Sending DM to %@: %@", self, inContentMessage.destination.UID, inContentMessage.encodedMessage);
-		}
+		AILogWithSignature(@"%@ Sending DM to %@: %@", self, inContentMessage.destination.UID, inContentMessage.encodedMessage);
 	}
 	
-	if (!requestID) {
-		AILogWithSignature(@"%@ Message immediate fail.", self);
-	}
-	
-	return (requestID != nil);
+	return YES;
 }
 
 /*!
@@ -539,13 +564,82 @@
 		return;
 	}
 	
-	NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
-	
-	if(requestID) {
-		[self setRequestType:AITwitterProfileUserInfo
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
-	}
+	[twitterEngine getUserInformationFor:inContact.UID
+							successBlock:^(NSDictionary *thisUserInfo) {
+								if (thisUserInfo) {
+									NSArray *keyNames = [NSArray arrayWithObjects:@"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
+									NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
+															  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
+															  AILocalizedString(@"Followers", nil), AILocalizedString(@"Updates", nil), nil];
+									
+									__block NSMutableArray *profileArray = [NSMutableArray array];
+									
+									for (NSUInteger idx = 0; idx < keyNames.count; idx++) {
+										NSString			*keyName = [keyNames objectAtIndex:idx];
+										id		   unattributedValue = [thisUserInfo objectForKey:keyName];
+										NSString		*stringValue = nil;
+										if ([unattributedValue isKindOfClass:[NSNumber class]])
+											stringValue = [(NSNumber *)unattributedValue stringValue];
+										else if ([unattributedValue isKindOfClass:[NSNumber class]])
+											stringValue = unattributedValue;
+										
+										if (stringValue) {
+											NSString			*readableName = [readableNames objectAtIndex:idx];
+											NSAttributedString	*value;
+											
+											if([keyName isEqualToString:@"friends_count"]) {
+												value = [NSAttributedString attributedStringWithLinkLabel:stringValue
+																						  linkDestination:[self addressForLinkType:AITwitterLinkFriends userID:inContact.UID statusID:nil context:nil]];
+											} else if ([keyName isEqualToString:@"followers_count"]) {
+												value = [NSAttributedString attributedStringWithLinkLabel:stringValue
+																						  linkDestination:[self addressForLinkType:AITwitterLinkFollowers userID:inContact.UID statusID:nil context:nil]];
+											} else if ([keyName isEqualToString:@"statuses_count"]) {
+												value = [NSAttributedString attributedStringWithLinkLabel:stringValue
+																						  linkDestination:[self addressForLinkType:AITwitterLinkUserPage userID:inContact.UID statusID:nil context:nil]];
+											} else {
+												value = [NSAttributedString stringWithString:stringValue];
+											}
+											
+											[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
+										}
+									}
+									
+									AILogWithSignature(@"%@ Updating profileArray for user %@", self, inContact);
+									
+									// Grab their statuses.
+									[twitterEngine getUserTimelineWithScreenName:inContact.UID
+																		   count:TWITTER_UPDATE_USER_INFO_COUNT
+																	successBlock:^(NSArray *statuses) {
+																		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, inContact);
+																		
+																		for (NSDictionary *update in statuses) {
+																			NSAttributedString *message;
+																			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
+																			NSString *text = [update objectForKey:TWITTER_STATUS_TEXT];
+																			
+																			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+																				text = [NSString stringWithFormat:@"RT @%@: %@",
+																						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+																						[retweet objectForKey:TWITTER_STATUS_TEXT]];
+																			}
+																			
+																			message = [self parseMessage:text
+																								 tweetID:[update objectForKey:TWITTER_STATUS_ID]
+																								  userID:inContact.UID
+																						   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
+																						inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
+																			
+																			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
+																		}
+																		
+																		[inContact setProfileArray:profileArray notify:NotifyNow];
+																	} errorBlock:^(NSError *error) {
+																		[self requestFailed:AITwitterProfileUserInfo withError:error userInfo:@{ @"ListContact" : inContact }];
+																	}];
+								}
+							} errorBlock:^(NSError *error) {
+								[self requestFailed:AITwitterProfileUserInfo withError:error userInfo:@{ @"ListContact" : inContact }];
+							}];
 }
 
 /*!
@@ -560,21 +654,16 @@
  * @brief Update the Twitter profile
  */
 - (void)setProfileName:(NSString *)name
-				   url:(NSString*)url
+				   url:(NSString *)url
 			  location:(NSString *)location
 		   description:(NSString *)description
 {
-	NSString *requestID = [twitterEngine updateProfileName:name
-													 email:nil
-													   url:url
-												  location:location
-											   description:description];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterProfileSelf
-				forRequestID:requestID
-			  withDictionary:nil];
-	}
+	[twitterEngine postUpdateProfile:@{ @"name" : name, @"url" : url, @"location" : location, @"description" : description }
+						successBlock:^(NSDictionary *status) {
+							[self userInfoReceived:status forRequest:AITwitterProfileSelf];
+						} errorBlock:^(NSError *error) {
+							[self requestFailed:AITwitterProfileSelf withError:error userInfo:nil];
+						}];
 }
 
 #pragma mark OAuth
@@ -663,7 +752,7 @@
 															  keyEquivalent:@""];
 	[menuItem setImage:serviceIcon];
 	[menuItem setRepresentedObject:inContact];
-	[menuItemArray addObject:menuItem];	
+	[menuItemArray addObject:menuItem];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
 																	 target:self
@@ -711,39 +800,21 @@
 	BOOL enableNotification = menuItem.tag;
 	AIListContact *contact = menuItem.representedObject;
 	
-	NSString *requestID = nil;
-	
-	BOOL initialFailure = NO;
-	
-	if (enableNotification) {
-		requestID = [twitterEngine enableNotificationsFor:contact.UID];
-		
-		if (requestID) {
-			[self setRequestType:AITwitterNotificationEnable
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact", nil]];
-		} else {
-			initialFailure = YES;
-		}
-		
-	} else {
-		requestID = [twitterEngine disableNotificationsFor:contact.UID];
-		
-		if (requestID) {
-			[self setRequestType:AITwitterNotificationDisable
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact", nil]];
-		} else {
-			initialFailure = YES;
-		}
-	}
-	
-	if (initialFailure) {
-		[adium.interfaceController handleErrorMessage:(enableNotification ?
-													   AILocalizedString(@"Unable to Enable Notifications", nil) :
-													   AILocalizedString(@"Unable to Disable Notifications", nil))
-									  withDescription:AILocalizedString(@"Unable to connect to the Twitter server.", nil)];
-	}
+	[twitterEngine postUpdateNotifications:enableNotification
+							 forScreenName:contact.UID
+							  successBlock:^(NSDictionary *relationship) {
+								  NSString *status = (enableNotification ?
+													  AILocalizedString(@"Notifications Enabled", nil) :
+													  AILocalizedString(@"Notifications Disabled", nil));
+								  [adium.interfaceController handleMessage:status
+														   withDescription:[NSString stringWithFormat:(enableNotification ?
+																									   AILocalizedString(@"You will now receive device notifications for %@.", nil) :
+																									   AILocalizedString(@"You will no longer receive device notifications for %@.", nil)),
+																			contact.UID]
+														   withWindowTitle:status];
+							  } errorBlock:^(NSError *error) {
+								  [self requestFailed:(enableNotification ? AITwitterNotificationEnable : AITwitterNotificationDisable) withError:error userInfo:@{ @"ListContact" : contact }];
+							  }];
 }
 
 /*!
@@ -830,14 +901,38 @@
  */
 - (void)getRateLimitAmount
 {
-	NSString *requestID = [twitterEngine getRateLimitStatus];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterRateLimitStatus
-				forRequestID:requestID
-			  withDictionary:nil];
-	}
-	
+	[twitterEngine getRateLimitsForResources:@[ @"users", @"statuses", @"friendships", @"direct_messages" ]
+								successBlock:^(NSDictionary *rateLimits) {
+									NSMutableString *formattedString = [NSMutableString string];
+									[rateLimits[@"resources"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+										if ([obj isKindOfClass:[NSDictionary class]]) {
+											__block BOOL displayedHeader = NO;
+											[obj enumerateKeysAndObjectsUsingBlock:^(id subKey, id subObj, BOOL *subStop) {
+												NSDate *resetDate = [NSDate dateWithTimeIntervalSince1970:[[subObj objectForKey:TWITTER_RATE_LIMIT_RESET_SECONDS] intValue]];
+												
+												int limit = [[subObj objectForKey:TWITTER_RATE_LIMIT] intValue];
+												int remaining = [[subObj objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue];
+												NSString *resource = [subKey stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"/%@/", key]
+																									   withString:@""];
+												if (remaining < limit) {
+													if (!displayedHeader) {
+														[formattedString appendFormat:@"%@:\n", key];
+														displayedHeader = YES;
+													}
+													[formattedString appendFormat:@"\t%@: %d/%d for %@\n", resource,
+													 remaining, limit,
+													 [NSDateFormatter stringForTimeInterval:[resetDate timeIntervalSinceNow]
+																			 showingSeconds:YES
+																				abbreviated:YES
+																			   approximated:NO]];
+												}
+											}];
+										}
+									}];
+									[[NSAlert alertWithMessageText:AILocalizedString(@"Current Twitter rate limits", "Message in the rate limits status window") defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", formattedString] beginSheetModalForWindow:nil modalDelegate:nil didEndSelector:nil contextInfo:nil];
+								} errorBlock:^(NSError *error) {
+									[self requestFailed:AITwitterRateLimitStatus withError:error userInfo:nil];
+								}];
 }
 
 #pragma mark Contact handling
@@ -929,20 +1024,26 @@
 {
 	// If we don't already have an icon for the user...
 	if(![listContact boolValueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON]) {
-		NSString *fileName = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-		
-		url = [[url stringByDeletingLastPathComponent] stringByAppendingPathComponent:fileName];
+		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
 		// Grab the user icon and set it as their serverside icon.
-		NSString *requestID = [twitterEngine getImageAtURL:url];
-		
-		if(requestID) {
-			[self setRequestType:AITwitterUserIconPull
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
-		}
-		
-		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+		NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+		NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+		[NSURLConnection sendAsynchronousRequest:imageRequest
+										   queue:[NSOperationQueue currentQueue]
+							   completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+								   NSImage *image = [[NSImage alloc] initWithData:data];
+								   
+								   if (image) {
+									   AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
+									   [listContact setServersideIconData:[image TIFFRepresentation]
+																   notify:NotifyLater];
+									   
+									   [listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+								   } else {
+									   [self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+								   }
+							   }];
 	}
 }
 
@@ -950,17 +1051,17 @@
  * @brief Unfollow the requested contacts.
  */
 - (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
-{	
+{
 	for (AIListContact *object in objects) {
-		NSString *requestID = [twitterEngine disableUpdatesFor:object.UID];
-		
 		AILogWithSignature(@"%@ Requesting unfollow for: %@", self, object.UID);
-		
-		if(requestID) {
-			[self setRequestType:AITwitterRemoveFollow
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:object forKey:@"ListContact"]];
-		}	
+		[twitterEngine postUnfollow:object.UID
+					   successBlock:^(NSDictionary *user) {
+						   for (NSString *groupName in object.remoteGroupNames) {
+							   [object removeRemoteGroupName:groupName];
+						   }
+					   } errorBlock:^(NSError *error) {
+						   [self requestFailed:AITwitterRemoveFollow withError:error userInfo:@{ @"ListContact" : UID }];
+					   }];
 	}
 }
 
@@ -997,58 +1098,14 @@
 		AILogWithSignature(@"Not adding contact %@ to group %@, it's me!", contact.UID, group.UID);
 		return;
 	}
-	
-	NSString	*requestID = [twitterEngine enableUpdatesFor:contact.UID];
-	
+
 	AILogWithSignature(@"%@ Requesting follow for: %@", self, contact.UID);
-	
-	if(requestID) {	
-		NSString	*updateRequestID = [twitterEngine getUserInformationFor:contact.UID];
-		
-		if (updateRequestID) {
-			[self setRequestType:AITwitterAddFollow
-					forRequestID:updateRequestID
-				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact.UID, @"UID", nil]];
-		}
-	}
-}
-
-#pragma mark Request cataloguing
-/*!
- * @brief Set the type and optional dictionary for a request ID
- *
- * Sets the AITwitterRequestType for a particular request ID, so when the request finishes we can identify what it is for.
- * Optionally sets a dictionary which can be retrieved in association with the request type.
- */
-- (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info
-{
-	[pendingRequests setObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:type], @"Type",
-								info, @"Info", nil]
-						forKey:requestID];
-}
-
-/*!
- * @brief Get the request type for a request ID
- */
-- (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID
-{
-	return [(NSNumber *)[[pendingRequests objectForKey:requestID] objectForKey:@"Type"] intValue];
-}
-
-/*!
- * @brief Get the dictionary associated with a request ID
- */
-- (NSDictionary *)dictionaryForRequestID:(NSString *)requestID
-{
-	return (NSDictionary *)[[pendingRequests objectForKey:requestID] objectForKey:@"Info"];
-}
-
-/*!
- * @brief Remove a request ID's saved information.
- */
-- (void)clearRequestTypeForRequestID:(NSString *)requestID
-{
-	[pendingRequests removeObjectForKey:requestID];
+	[twitterEngine postFollow:contact.UID
+				 successBlock:^(NSDictionary *friend) {
+					 [self userInfoReceived:@{ @"friends" : friend } forRequest:AITwitterAddFollow];
+				 } errorBlock:^(NSError *error) {
+					 [self requestFailed:AITwitterAddFollow withError:error userInfo:@{ @"UID" : contact.UID }];
+				 }];
 }
 
 #pragma mark Preference updating
@@ -1056,7 +1113,7 @@
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	[super preferencesChangedForGroup:group key:key object:object preferenceDict:prefDict firstTime:firstTime];
-	
+
 	// We only care about our changes.
 	if (object != self) {
 		return;
@@ -1066,18 +1123,15 @@
 		if([key isEqualToString:KEY_USER_ICON]) {
 			// Avoid pushing an icon update which we just downloaded.
 			if(![self boolValueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON]) {
-				NSString *requestID = [twitterEngine updateProfileImage:[prefDict objectForKey:KEY_USER_ICON]];
-				
-				if(requestID) {
-					AILogWithSignature(@"%@ Pushing self icon update", self);
-					
-					[self setRequestType:AITwitterProfileSelf
-							forRequestID:requestID
-						  withDictionary:nil];
-				}
+				AILogWithSignature(@"%@ Pushing self icon update", self);
+				[twitterEngine postUpdateProfileImage:[prefDict objectForKey:KEY_USER_ICON]
+										 successBlock:^(NSDictionary *myInfo) {
+											 [self userInfoReceived:myInfo forRequest:AITwitterProfileSelf];
+										 } errorBlock:^(NSError *error) {
+											 [self requestFailed:AITwitterProfileSelf withError:error userInfo:nil];
+										 }];
+				[self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 			}
-			
-			[self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		}
 	}
 	
@@ -1106,27 +1160,18 @@
 				// Delay updates when loading our contacts list.
 				[self silenceAllContactUpdatesForInterval:18.0];
 				// Grab our user list.
-				NSString	*requestID;
-				NSString	*friendRequestType;
-				if (self.supportsCursors) {
-					requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtCursor:-1];
-					friendRequestType = @"Cursor";
-				} else {
-					requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
-					friendRequestType = @"Page";
-				}
-				
-				if (requestID) {
-					[self setRequestType:AITwitterInitialUserInfo
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:friendRequestType]];
-				}
+				[twitterEngine getFriendsForScreenName:self.UID
+										successBlock:^(NSArray *friends) {
+											[self userInfoReceived:@{ @"friends" : friends } forRequest:AITwitterInitialUserInfo];
+										} errorBlock:^(NSError *error) {
+											[self requestFailed:AITwitterInitialUserInfo withError:error userInfo:nil];
+										}];
 			} else {
 				[[self timelineChat] removeAllParticipatingContactsSilently];
 				[self removeAllContacts];
 			}
 		}
-	}	
+	}
 }
 
 #pragma mark Periodic update scheduler
@@ -1140,68 +1185,58 @@
 		return;
 	}
 	
-	NSString	*requestID;
-	NSString	*lastID;
-	
-	// We haven't completed the timeline nor replies. This lets us know if we should display statuses.
-	followedTimelineCompleted = repliesCompleted = NO;
-	futureTimelineLastID = futureRepliesLastID = nil;
-	
 	// Prevent triggering this update routine multiple times.
 	pendingUpdateCount = 3;
 	
 	// We haven't printed error messages for this set.
 	timelineErrorMessagePrinted = NO;
-	
+
 	[queuedUpdates removeAllObjects];
 	[queuedDM removeAllObjects];
 	
 	AILogWithSignature(@"%@ Periodic update fire", self);
 	
-	// Pull direct messages	
+	NSString	*lastID;
+	
+	// Pull direct messages
 	lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
 							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
-	requestID = [twitterEngine getDirectMessagesSinceID:lastID startingAtPage:1];
+	[twitterEngine getDirectMessagesSinceID:lastID
+									  count:TWITTER_UPDATE_DM_COUNT
+							   successBlock:^(NSArray *statuses) {
+								   [self directMessagesReceived:statuses forRequest:AITwitterUpdateDirectMessage];
+							   } errorBlock:^(NSError *error) {
+								   [self requestFailed:AITwitterUpdateDirectMessage withError:error userInfo:nil];
+							   }];
 	
-	if (requestID) {
-		[self setRequestType:AITwitterUpdateDirectMessage
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
-	} else {
-		--pendingUpdateCount;
-	}
+	// We haven't completed the timeline nor replies. This lets us know if we should display statuses.
+	followedTimelineCompleted = repliesCompleted = NO;
+	futureTimelineLastID = futureRepliesLastID = nil;
 	
 	// Pull followed timeline
 	lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
-	requestID = [twitterEngine getFollowedTimelineFor:nil
-											  sinceID:lastID
-									   startingAtPage:1
-												count:(lastID ? TWITTER_UPDATE_TIMELINE_COUNT : TWITTER_UPDATE_TIMELINE_COUNT_FIRST_RUN)];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterUpdateFollowedTimeline
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
-	} else {
-		--pendingUpdateCount;
-	}
+	[twitterEngine getHomeTimelineSinceID:lastID
+									count:TWITTER_UPDATE_TIMELINE_COUNT
+							 successBlock:^(NSArray *statuses) {
+								 [self statusesReceived:statuses forRequest:AITwitterUpdateFollowedTimeline];
+							 } errorBlock:^(NSError *error) {
+								 [self requestFailed:AITwitterUpdateFollowedTimeline withError:error userInfo:nil];
+							 }];
 	
 	// Pull the replies feed	
 	lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
-	requestID = [twitterEngine getRepliesSinceID:lastID startingAtPage:1];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterUpdateReplies
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
-	} else {
-		--pendingUpdateCount;
-	}
+	[twitterEngine getMentionsTimelineSinceID:lastID
+										count:TWITTER_UPDATE_REPLIES_COUNT
+								 successBlock:^(NSArray *statuses) {
+									 [self statusesReceived:statuses forRequest:AITwitterUpdateReplies];
+								 } errorBlock:^(NSError *error) {
+									 [self requestFailed:AITwitterUpdateReplies withError:error userInfo:nil];
+								 }];
 }
 
 #pragma mark Message Display
@@ -1213,8 +1248,7 @@
 	switch (error.code) {
 		case 400:
 			// Bad Request: your request is invalid, and we'll return an error message that tells you why.
-			// This is the status code returned if you've exceeded the rate limit. 
-			return AILocalizedString(@"You've exceeded the rate limit.", nil);
+			return AILocalizedString(@"The request is invalid.", nil);
 			break;
 			
 		case 401:
@@ -1230,6 +1264,11 @@
 		case 404:
 			// Not Found: either you're requesting an invalid URI or the resource in question doesn't exist (ex: no such user). 
 			return AILocalizedString(@"Requested resource not found.", nil);
+			break;
+			
+		case 429:
+			// This is the status code returned if you've exceeded the rate limit.
+			return AILocalizedString(@"You've exceeded the rate limit.", nil);
 			break;
 			
 		case 500:
@@ -1301,15 +1340,12 @@
  */
 - (BOOL)retweetTweet:(NSString *)tweetID
 {
-	NSString *requestID = [twitterEngine retweetUpdate:tweetID];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterSendUpdate
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
-	} else {
-		[self.timelineChat receivedError:[NSNumber numberWithInt:AIChatMessageSendingConnectionError]];
-	}
+	[twitterEngine postStatusRetweetWithID:tweetID
+							  successBlock:^(NSDictionary *status) {
+								  [self statusesReceived:@[status] forRequest:AITwitterSendUpdate];
+							  } errorBlock:^(NSError *error) {
+								  [self requestFailed:AITwitterSendUpdate withError:error userInfo:@{ @"Chat" : self.timelineChat }];
+							  }];
 	
 	return YES;
 }
@@ -1322,19 +1358,59 @@
  */
 - (void)toggleFavoriteTweet:(NSString *)tweetID
 {
-	NSString *requestID = [twitterEngine markUpdate:tweetID asFavorite:YES];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterFavoriteYes
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
-	} else {
-		AIChat *timelineChat = self.timelineChat;
-		
-		[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
-									   ofType:@"favorite"
-									   inChat:timelineChat];
-	}
+	[self markTweet:tweetID asFavorite:YES];
+}
+
+- (void)markTweet:(NSString *)tweetID asFavorite:(BOOL)favorite
+{
+	[twitterEngine postFavoriteState:favorite
+						 forStatusID:tweetID
+						successBlock:^(NSDictionary *status) {
+							AIChat *timelineChat = self.timelineChat;
+							NSString *message;
+							
+							// Use HTML for the status message since it's just easier to localize that way.
+							if (favorite) {
+								message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is now a favorite.", nil);
+							} else {
+								message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is no longer a favorite.", nil);
+							}
+							
+							NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
+							
+							
+							message = [NSString stringWithFormat:message,
+									   [self addressForLinkType:AITwitterLinkStatus
+														 userID:userID
+													   statusID:[status objectForKey:TWITTER_STATUS_ID]
+														context:nil],
+									   [self addressForLinkType:AITwitterLinkUserPage
+														 userID:userID
+													   statusID:nil
+														context:nil],
+									   userID];
+							
+							NSAttributedString *attributedMessage = [[AIHTMLDecoder decoder] decodeHTML:message withDefaultAttributes:nil];
+							
+							AIContentEvent *content = [AIContentEvent eventInChat:timelineChat
+																	   withSource:nil
+																	  destination:self
+																			 date:[NSDate date]
+																		  message:attributedMessage
+																		 withType:@"favorite"];
+							
+							content.postProcessContent = NO;
+							content.coalescingKey = @"favorite";
+							
+							[adium.contentController receiveContentObject:content];
+						} errorBlock:^(NSError *error) {
+							if (error.code == 403) {
+								// We've attempted to add or remove when we already have it marked as such. Try the opposite.
+								[self markTweet:tweetID asFavorite:!favorite];
+							} else {
+								[self requestFailed:(favorite ? AITwitterFavoriteYes : AITwitterFavoriteNo) withError:error userInfo:nil];
+							}
+						}];
 }
 
 /*!
@@ -1344,19 +1420,16 @@
  */
 - (void)destroyTweet:(NSString *)tweetID
 {
-	NSString *requestID = [twitterEngine deleteUpdate:tweetID];
-	
-	if(requestID) {
-		[self setRequestType:AITwitterDestroyStatus
-				forRequestID:requestID
-			  withDictionary:nil];
-	} else {
-		AIChat *timelineChat = self.timelineChat;
-		
-		[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
-									   ofType:@"delete"
-									   inChat:timelineChat];
-	}
+	[twitterEngine postDestroyStatusWithID:tweetID
+							  successBlock:^(NSDictionary *status) {
+								  [adium.contentController displayEvent:AILocalizedString(@"Your tweet has been successfully deleted.", nil)
+																 ofType:@"delete"
+																 inChat:self.timelineChat];
+							  } errorBlock:^(NSError *error) {
+								  [adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete. %@", nil), [self errorMessageForError:error]]
+																 ofType:@"delete"
+																 inChat:self.timelineChat];
+							  }];
 }
 
 /*!
@@ -1367,20 +1440,22 @@
 - (void)destroyDirectMessage:(NSString *)messageID
 					 forUser:(NSString *)userID
 {
-	NSString *requestID = [twitterEngine deleteDirectMessage:messageID];
-	AIListContact *contact = [self contactWithUID:userID];
-	
-	if(requestID) {
-		[self setRequestType:AITwitterDestroyDM
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:contact forKey:@"ListContact"]];
-	} else {
-		AIChat *chat = [adium.chatController chatWithContact:contact];
-		
-		[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
-									   ofType:@"delete"
-									   inChat:chat];
-	}	
+	[twitterEngine postDestroyDirectMessageWithID:messageID
+									 successBlock:^(NSDictionary *dm) {
+										 AIListContact *contact = [self contactWithUID:userID];
+										 AIChat *chat = [adium.chatController chatWithContact:contact];
+										 
+										 [adium.contentController displayEvent:AILocalizedString(@"The direct message has been successfully deleted.", nil)
+																		ofType:@"delete"
+																		inChat:chat];
+									 } errorBlock:^(NSError *error) {
+										 AIListContact *contact = [self contactWithUID:userID];
+										 AIChat *chat = [adium.chatController chatWithContact:contact];
+										 
+										 [adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"The direct message failed to delete. %@", nil), [self errorMessageForError:error]]
+																		ofType:@"delete"
+																		inChat:chat];
+									 }];
 }
 
 /*!
@@ -1455,7 +1530,7 @@
 	
 	message = [self linkifiedAttributedStringFromString:message];
 	
-	BOOL replyTweet = (replyTweetID.length);
+	BOOL replyTweet = (replyTweetID.length > 0);
 	BOOL tweetLink = (tweetID.length && userID.length);
 	
 	if (replyTweet || tweetLink) {
@@ -1724,7 +1799,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			id fromObject = nil;
 			
-			if(![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
+			if (![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
 				// Update the user's status message
@@ -1773,7 +1848,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		
 		for (NSDictionary *message in sortedQueuedDM) {
-			NSDate			*date = [message objectForKey:TWITTER_DM_CREATED];
+			NSDate			*date = [NSDate dateWithNaturalLanguageString:[message objectForKey:TWITTER_DM_CREATED]];
 			NSString		*text = [message objectForKey:TWITTER_DM_TEXT];
 			NSString		*fromUID = [message objectForKey:TWITTER_DM_SENDER_UID];
 			NSString		*toUID = [message objectForKey:TWITTER_DM_RECIPIENT_UID];
@@ -1810,52 +1885,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	}
 }
 
-#pragma mark MGTwitterEngine Delegate Methods
-/*!
- * @brief A request was successful
- *
- * We only care about requests succeeding if they aren't specifically handled in another location.
- */
-- (void)requestSucceeded:(NSString *)identifier
-{
-	// If a request succeeds and we think we're offline, call ourselves online.
-	if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
-		[self didDisconnect];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterRemoveFollow) {
-		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-		
-		for (NSString *groupName in listContact.remoteGroupNames) {
-			[listContact removeRemoteGroupName:groupName];
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyStatus) {
-		AIChat *timelineChat = self.timelineChat;
-		
-		[adium.contentController displayEvent:AILocalizedString(@"Your tweet has been successfully deleted.", nil)
-									   ofType:@"delete"
-									   inChat:timelineChat];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyDM) {
-		AIListContact *contact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-		AIChat *chat = [adium.chatController chatWithContact:contact];
-		
-		[adium.contentController displayEvent:AILocalizedString(@"The direct message has been successfully deleted.", nil)
-									   ofType:@"delete"
-									   inChat:chat];		
-	}
-}
-
+#pragma mark Response Handling
 /*!
  * @brief A request failed
  *
  * If it's a fatal error, we need to kill the session and retry. Otherwise, twitter's reliability is
  * pretty terrible, so let's ignore errors for the most part.
  */
-- (void)requestFailed:(NSString *)identifier withError:(NSError *)error
-{	
-	switch ([self requestTypeForRequestID:identifier]) {
+- (void)requestFailed:(AITwitterRequestType)identifier withError:(NSError *)error userInfo:(NSDictionary *)userInfo
+{
+	switch (identifier) {
 		case AITwitterDirectMessageSend:
 		case AITwitterSendUpdate:
 		{
-			AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
+			AIChat	*chat = [userInfo objectForKey:@"Chat"];
 			
 			if (chat) {
 				[chat receivedError:[NSNumber numberWithInt:AIChatMessageSendingConnectionError]];
@@ -1869,14 +1912,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[self didDisconnect];
 			break;
 			
-		case AITwitterInitialUserInfo:
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
-			[self didDisconnect];
-			break;
-			
 		case AITwitterUserIconPull:
 		{
-			AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			AIListContact *listContact = [userInfo objectForKey:@"ListContact"];
 			
 			// Image pull failed, flag ourselves as needing to try again.
 			[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
@@ -1920,12 +1958,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if(error.code == 404) {
 				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
 											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@, the user does not exist.", nil),
-															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
+															   [userInfo objectForKey:@"UID"],
 															   self.explicitFormattedUID]];
 			} else {
 				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
 											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@. %@",nil),
-															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
+															   [userInfo objectForKey:@"UID"],
 															   self.explicitFormattedUID,
 															   [self errorMessageForError:error]]];
 			}
@@ -1934,13 +1972,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		case AITwitterRemoveFollow:
 			[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Remove Contact", nil)
 										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to remove %@ on account %@. %@", nil),
-														   ((AIListContact *)[[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"]).UID,
+														   ((AIListContact *)[userInfo objectForKey:@"ListContact"]).UID,
 														   self.explicitFormattedUID,
 														   [self errorMessageForError:error]]];
 			break;
 			
 		case AITwitterValidateCredentials:
-			if(error.code == 401) {	
+			if(error.code == 401) {
 				if(self.useOAuth) {
 					[self setPasswordTemporarily:nil];
 					[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
@@ -1964,29 +2002,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		case AITwitterFavoriteNo:
 		{
 			AIChat *timelineChat = self.timelineChat;
-			
-			if (error.code == 403) {
-				// We've attempted to add or remove when we already have it marked as such. Try the opposite.
-				BOOL addAsFavorite = ([self requestTypeForRequestID:identifier] == AITwitterFavoriteNo);
-				NSString *tweetID = [[self dictionaryForRequestID:identifier] objectForKey:@"tweetID"];
-				
-				NSString *requestID = [twitterEngine markUpdate:tweetID
-													 asFavorite:addAsFavorite];
-				
-				if (requestID) {
-					[self setRequestType:(addAsFavorite ? AITwitterFavoriteYes : AITwitterFavoriteNo)
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
-				} else {
-					[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
-												   ofType:@"favorite"
-												   inChat:timelineChat];
-				}
-			} else {
 				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Attempt to favorite tweet failed. %@", nil), [self errorMessageForError:error]]
 											   ofType:@"favorite"
-											   inChat:timelineChat];				
-			}
+											   inChat:timelineChat];
 			
 			break;
 		}
@@ -1994,8 +2012,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		case AITwitterNotificationEnable:
 		case AITwitterNotificationDisable:
 		{
-			BOOL			enableNotification = ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable);
-			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			BOOL			enableNotification = (identifier == AITwitterNotificationEnable);
+			AIListContact	*listContact = [userInfo objectForKey:@"ListContact"];
 			
 			[adium.interfaceController handleErrorMessage:(enableNotification ?
 														   AILocalizedString(@"Unable to Enable Notifications", nil) :
@@ -2003,636 +2021,241 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change notification setting for %@. %@", nil), listContact.UID, [self errorMessageForError:error]]];
 			break;
 		}
-			
 		case AITwitterDestroyStatus:
-		{
-			AIChat *timelineChat = self.timelineChat;
-			
-			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete. %@", nil), [self errorMessageForError:error]]
-										   ofType:@"delete"
-										   inChat:timelineChat];
-			break;
-		}
-			
 		case AITwitterDestroyDM:
-		{
-			AIListContact *contact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-			AIChat *chat = [adium.chatController chatWithContact:contact];
-			
-			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"The direct message failed to delete. %@", nil), [self errorMessageForError:error]]
-										   ofType:@"delete"
-										   inChat:chat];	
-			break;
-		}
-			
 		case AITwitterUnknownType:
 		case AITwitterRateLimitStatus:
 		case AITwitterProfileSelf:
 		case AITwitterSelfUserIconPull:
 		case AITwitterProfileUserInfo:
 		case AITwitterProfileStatusUpdates:
+		case AITwitterInitialUserInfo:
 			// While we don't handle the errors, it's a good idea to not have a "default" just to prevent accidentally letting something
 			// we should really handle slip through.
 			break;
-			
 	}
 	
-	AILogWithSignature(@"%@ Request failed (%@ - %u) - %@", self, identifier, [self requestTypeForRequestID:identifier], error);
-	
-	[self clearRequestTypeForRequestID:identifier];
+	AILogWithSignature(@"%@ Request failed (%u) - %@", self, identifier, error);
 }
 
 /*!
  * @brief Status updates received
  */
-- (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)identifier
+- (void)statusesReceived:(NSArray *)statuses forRequest:(AITwitterRequestType)identifier
 {
-	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline ||
-	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
+	if(identifier == AITwitterUpdateFollowedTimeline ||
+	   identifier == AITwitterUpdateReplies) {
 		NSString *lastID;
 		
-		BOOL nextPageNecessary = NO;
-		
-		if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
+		if(identifier == AITwitterUpdateFollowedTimeline) {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-			
-			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT - 5);
 		} else {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-			
-			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT - 5);
 		}
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
-		NSString *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
+		NSString *largestTweet = nil;
 		
-		// The largest ID is first, compare.
-		if (statuses.count) {
-			NSString *tweetID = [[statuses objectAtIndex:0] objectForKey:TWITTER_STATUS_ID];
-			if (!largestTweet || [largestTweet compare:tweetID options:NSNumericSearch] == NSOrderedAscending) {
-				largestTweet = tweetID;
-			}
+		if (statuses.count)
+			largestTweet = [[statuses objectAtIndex:0] objectForKey:TWITTER_STATUS_ID];
+		
+		//Convert the TWITTER_STATUS_CREATED datestrings to NSDates
+		NSMutableArray *ms = (__bridge_transfer NSMutableArray *)CFPropertyListCreateDeepCopy(kCFAllocatorDefault, (__bridge CFArrayRef)statuses, kCFPropertyListMutableContainers);
+		[ms enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			[obj setObject:[NSDate dateWithNaturalLanguageString:[obj objectForKey:TWITTER_STATUS_CREATED]]
+					forKey:TWITTER_STATUS_CREATED];
+		}];
+		
+		[queuedUpdates addObjectsFromArray:ms];
+		
+		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@", self, lastID, largestTweet);
+		
+		if (identifier == AITwitterUpdateFollowedTimeline) {
+			followedTimelineCompleted = YES;
+			futureTimelineLastID = largestTweet;
+		} else if (identifier == AITwitterUpdateReplies) {
+			repliesCompleted = YES;
+			futureRepliesLastID = largestTweet;
 		}
 		
-		[queuedUpdates addObjectsFromArray:statuses];
+		--pendingUpdateCount;
 		
-		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", self, lastID, largestTweet, nextPageNecessary);
+		AILogWithSignature(@"%@ Followed completed: %d Replies completed: %d", self, followedTimelineCompleted, repliesCompleted);
 		
-		// See if we need to pull more updates.
-		if (nextPageNecessary) {
-			int	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
-			NSString	*requestID;
-			
-			if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
-				requestID = [twitterEngine getFollowedTimelineFor:nil
-														  sinceID:lastID
-												   startingAtPage:nextPage
-															count:TWITTER_UPDATE_TIMELINE_COUNT];
-				
-				AILogWithSignature(@"%@ Pulling additional timeline page %d", self, nextPage);
-				
-				if (requestID) {
-					[self setRequestType:AITwitterUpdateFollowedTimeline
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page", 
-										  largestTweet, @"LargestTweet", nil]];
-				} else {
-					// Gracefully fail: remove all stored objects.
-					AILogWithSignature(@"%@ Immediate timeline fail", self);
-					--pendingUpdateCount;
-					[queuedUpdates removeAllObjects];
-				}
-				
-			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-				requestID = [twitterEngine getRepliesSinceID:lastID startingAtPage:nextPage];
-				
-				AILogWithSignature(@"%@ Pulling additional replies page %d", self, nextPage);
-				
-				if (requestID) {
-					[self setRequestType:AITwitterUpdateReplies
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page",
-										  largestTweet, @"LargestTweet", nil]];
-				} else {
-					// Gracefully fail: remove all stored objects.
-					AILogWithSignature(@"%@ Immediate reply fail", self);
-					--pendingUpdateCount;
-					[queuedUpdates removeAllObjects];
-				}
-			}
-		} else {
-			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
-				followedTimelineCompleted = YES;
-				futureTimelineLastID = largestTweet;
-			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-				repliesCompleted = YES;
-				futureRepliesLastID = largestTweet;
-			}
-			
-			--pendingUpdateCount;
-			
-			AILogWithSignature(@"%@ Followed completed: %d Replies completed: %d", self, followedTimelineCompleted, repliesCompleted);
-			
-			if (followedTimelineCompleted && repliesCompleted) {
-				if (queuedUpdates.count) {
-					// Set the "last pulled" for the timeline and replies, since we've completed both.
-					if(futureRepliesLastID) {
-						AILogWithSignature(@"%@ futureRepliesLastID = %@", self, futureRepliesLastID);
-						
-						[self setPreference:futureRepliesLastID
-									 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
-									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-						
-						futureRepliesLastID = nil;
-					}
+		if (followedTimelineCompleted && repliesCompleted) {
+			if (queuedUpdates.count) {
+				// Set the "last pulled" for the timeline and replies, since we've completed both.
+				if(futureRepliesLastID) {
+					AILogWithSignature(@"%@ futureRepliesLastID = %@", self, futureRepliesLastID);
 					
-					if(futureTimelineLastID) {
-						AILogWithSignature(@"%@ futureTimelineLastID = %@", self, futureTimelineLastID);
-						
-						[self setPreference:futureTimelineLastID
-									 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
-									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-						
-						futureTimelineLastID = nil;
-					}
-					
-					[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
-				}
-				
-				if (![self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES]) {
-					[self setPreference:[NSNumber numberWithBool:YES]
-								 forKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE
+					[self setPreference:futureRepliesLastID
+								 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+					
+					futureRepliesLastID = nil;
 				}
-			}
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileStatusUpdates) {
-		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-		
-		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
-		
-		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, listContact);
-		
-		for (NSDictionary *update in statuses) {
-			NSAttributedString *message;
-			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
-			NSString *text = [update objectForKey:TWITTER_STATUS_TEXT];
-			
-			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-				text = [NSString stringWithFormat:@"RT @%@: %@",
-						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-						[retweet objectForKey:TWITTER_STATUS_TEXT]];
-			}
-			
-			message = [self parseMessage:text
-								 tweetID:[update objectForKey:TWITTER_STATUS_ID]
-								  userID:listContact.UID
-						   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
-						inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
-			
-			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
-		}
-		
-		[listContact setProfileArray:profileArray notify:NotifyNow];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
-		if (updateAfterSend) {
-			[self periodicUpdate];
-		}
-		
-		if (statuses.count) {
-			[adium.contentController displayEvent:AILocalizedString(@"Tweet successfully sent.", nil)
-										   ofType:@"tweet"
-										   inChat:self.timelineChat];
-		}
-		
-		for(NSDictionary *update in statuses) {
-			[[NSNotificationCenter defaultCenter] postNotificationName:AITwitterNotificationPostedStatus
-																object:update
-															  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
-			
-			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
-			NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByEscapingForXMLWithEntities:nil];
-			
-			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-				text = [[NSString stringWithFormat:@"RT @%@: %@",
-						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-						[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByEscapingForXMLWithEntities:nil];
-			}
-			
-			if([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
-			   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {
-				AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
 				
-				availableStatus.statusMessage = [NSAttributedString stringWithString:text];
-				[adium.statusController setActiveStatusState:availableStatus];
-			}
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes ||
-			   [self requestTypeForRequestID:identifier] == AITwitterFavoriteNo) {
-		AIChat *timelineChat = self.timelineChat;
-		
-		for (NSDictionary *status in statuses) {
-			NSString *message;
-			
-			// Use HTML for the status message since it's just easier to localize that way.
-			
-			if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes) {
-				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is now a favorite.", nil);
-			} else {
-				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is no longer a favorite.", nil);
+				if(futureTimelineLastID) {
+					AILogWithSignature(@"%@ futureTimelineLastID = %@", self, futureTimelineLastID);
+					
+					[self setPreference:futureTimelineLastID
+								 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+					
+					futureTimelineLastID = nil;
+				}
+				
+				[self displayQueuedUpdatesForRequestType:identifier];
 			}
 			
-			NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
-			
-			
-			message = [NSString stringWithFormat:message,
-					   [self addressForLinkType:AITwitterLinkStatus
-										 userID:userID
-									   statusID:[status objectForKey:TWITTER_STATUS_ID]
-										context:nil],
-					   [self addressForLinkType:AITwitterLinkUserPage
-										 userID:userID
-									   statusID:nil
-										context:nil],
-					   userID];
-			
-			NSAttributedString *attributedMessage = [[AIHTMLDecoder decoder] decodeHTML:message withDefaultAttributes:nil];
-			
-			AIContentEvent *content = [AIContentEvent eventInChat:timelineChat
-													   withSource:nil
-													  destination:self
-															 date:[NSDate date]
-														  message:attributedMessage
-														 withType:@"favorite"];
-			
-			content.postProcessContent = NO;
-			content.coalescingKey = @"favorite";
-			
-			[adium.contentController receiveContentObject:content];
+			if (![self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES]) {
+				[self setPreference:[NSNumber numberWithBool:YES]
+							 forKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+			}
 		}
 	}
-	
-	[self clearRequestTypeForRequestID:identifier];
 }
 
 /*!
  * @brief Direct messages received
  */
-- (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)identifier
-{	
-	if ([self requestTypeForRequestID:identifier] == AITwitterUpdateDirectMessage) {		
+- (void)directMessagesReceived:(NSArray *)messages forRequest:(AITwitterRequestType)identifier
+{
+	if (identifier == AITwitterUpdateDirectMessage) {		
 		NSString *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
 											group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
 		BOOL nextPageNecessary = (lastID && messages.count >= TWITTER_UPDATE_DM_COUNT);
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
-		NSString *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
+		NSString *largestTweet = nil;
 		
-		// The largest ID is first, compare.
-		if (messages.count) {
-			NSString *tweetID = [[messages objectAtIndex:0] objectForKey:TWITTER_DM_ID];
-			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
-				largestTweet = tweetID;
-			}
-		}
+		if (messages.count)
+			largestTweet = [[messages objectAtIndex:0] objectForKey:TWITTER_DM_ID];
 		
 		[queuedDM addObjectsFromArray:messages];
 		
 		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", self, lastID, largestTweet, nextPageNecessary);
 		
-		if(nextPageNecessary) {
-			int	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
+		--pendingUpdateCount;
+		
+		if (largestTweet) {
+			AILogWithSignature(@"%@ Largest DM pulled = %@", self, largestTweet);
 			
-			NSString	*requestID = [twitterEngine getDirectMessagesSinceID:lastID
-														   startingAtPage:nextPage];
-			
-			AILogWithSignature(@"%@ Pulling additional DM page %d", self, nextPage);
-			
-			if(requestID) {
-				[self setRequestType:AITwitterUpdateDirectMessage
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page",
-									  largestTweet, @"LargestTweet", nil]];
-			} else {
-				// Gracefully fail: remove all stored objects.
-				AILogWithSignature(@"%@ Immediate DM pull fail", self);
-				--pendingUpdateCount;
-				[queuedDM removeAllObjects];
-			}
-		} else {		
-			--pendingUpdateCount;
-			
-			if (largestTweet) {
-				AILogWithSignature(@"%@ Largest DM pulled = %@", self, largestTweet);
-				
-				[self setPreference:largestTweet
-							 forKey:TWITTER_PREFERENCE_DM_LAST_ID
-							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-			}
-			
-			// On first load, don't display any direct messages. Just ge the largest ID.
-			if (queuedDM.count && lastID) {
-				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
-			} else {
-				[queuedDM removeAllObjects];		
-			}
+			[self setPreference:largestTweet
+						 forKey:TWITTER_PREFERENCE_DM_LAST_ID
+						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend) {
-		[queuedOutgoingDM addObjectsFromArray:messages];
-		[self displayQueuedUpdatesForRequestType:AITwitterDirectMessageSend];
+		
+		// On first load, don't display any direct messages. Just ge the largest ID.
+		if (queuedDM.count && lastID) {
+			[self displayQueuedUpdatesForRequestType:identifier];
+		} else {
+			[queuedDM removeAllObjects];
+		}
 	}
-	
-	[self clearRequestTypeForRequestID:identifier];
 }
 
 /*!
  * @brief User information received
  */
-- (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
-{	
-	if (([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo ||
-		 [self requestTypeForRequestID:identifier] == AITwitterAddFollow) &&
-		[[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+- (void)userInfoReceived:(NSDictionary *)userInfo forRequest:(AITwitterRequestType)identifier
+{
+	if (identifier == AITwitterInitialUserInfo ||
+		identifier == AITwitterAddFollow) {
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
-		
-		BOOL nextPageNecessary = NO;
-		long long nextCursor = 0;
-		
-		for (NSDictionary *info in userInfo) {
-			// Iterate users and next_cursor (previous_cursor is not used yet)
+
+		NSArray *users = [userInfo objectForKey:@"friends"];
+		AILogWithSignature(@"%@ User info pull, Users count: %ld", self, users.count);
+		for (NSDictionary *user in users) {
+			// Iterate users
+			NSString *twitterInfoUID = [user objectForKey:TWITTER_INFO_UID];
 			
-			NSArray *users = [info objectForKey:@"users"];
-			
-			if (users.count > 0) {
+			if (twitterInfoUID) {
 				
-				AILogWithSignature(@"%@ User info pull, Users count: %ld", self, users.count);
+				AIListContact *listContact = [self contactWithUID:twitterInfoUID];
 				
-				for (NSDictionary *user in users) {
-					
-					NSString *twitterInfoUID = [user objectForKey:TWITTER_INFO_UID];
-					
-					if (twitterInfoUID) {
-						
-						AIListContact *listContact = [self contactWithUID:twitterInfoUID];
-						
-						// If the user isn't in a group, set them in the Twitter group.
-						if (listContact.countOfRemoteGroupNames == 0) {
-							[listContact addRemoteGroupName:self.timelineGroupName];
-						}
-						
-						// Grab the Twitter display name and set it as the remote alias.
-						if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]]) {
-							[listContact setServersideAlias:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]
-												   silently:silentAndDelayed];
-						}
-						
-						// Grab the user icon and set it as their serverside icon.
-						[self updateUserIcon:[user objectForKey:TWITTER_INFO_ICON] forContact:listContact];
-						
-						// Set the user as available.
-						[listContact setStatusWithName:nil
-											statusType:AIAvailableStatusType
-												notify:NotifyLater];
-						
-						// Set the user's status message to their current twitter status text
-						NSString *statusText = [[user objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT];
-						if (!statusText) //nil if they've never tweeted
-							statusText = @"";
-						[listContact setStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]] notify:NotifyLater];
-						
-						// Set the user as online.
-						[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
-						
-						[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];
-						AILogWithSignature(@"%@ User info pull, Next page necessary: %d", self, nextPageNecessary);
-					}
-				}	
-			}			
-			
-			NSString *nextCursorString = [info objectForKey:TWITTER_INFO_NEXT_CURSOR];
-			
-			if (([nextCursorString length] > 0) && self.supportsCursors) {
-				nextCursor = [nextCursorString longLongValue];
-				nextPageNecessary = (nextCursor > 0) ? YES:NO;
-			} else if (!self.supportsCursors) {
-				nextPageNecessary = (userInfo.count >= 100);
+				// If the user isn't in a group, set them in the Twitter group.
+				if (listContact.countOfRemoteGroupNames == 0) {
+					[listContact addRemoteGroupName:self.timelineGroupName];
+				}
+				
+				// Grab the Twitter display name and set it as the remote alias.
+				if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]]) {
+					[listContact setServersideAlias:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]
+										   silently:silentAndDelayed];
+				}
+				
+				// Grab the user icon and set it as their serverside icon.
+				[self updateUserIcon:[user objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				
+				// Set the user as available.
+				[listContact setStatusWithName:nil
+									statusType:AIAvailableStatusType
+										notify:NotifyLater];
+				
+				// Set the user's status message to their current twitter status text
+				NSString *statusText = [[user objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT];
+				if (!statusText) //nil if they've never tweeted
+					statusText = @"";
+				[listContact setStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]] notify:NotifyLater];
+				
+				// Set the user as online.
+				[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
+				
+				[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];
 			}
 		}
 		
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+	} else if (identifier == AITwitterValidateCredentials ||
+		identifier == AITwitterProfileSelf) {
+		[self filterAndSetUID:[userInfo objectForKey:TWITTER_INFO_UID]];
 		
-		if (nextPageNecessary) {
-			if (self.supportsCursors) {
-				NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtCursor:nextCursor];
-				if (requestID) {
-					[self setRequestType:AITwitterInitialUserInfo
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLongLong:nextCursor]
-																	 forKey:@"Cursor"]];
-				} else { 
-					[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [additional fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
-					[self didDisconnect];
-				}
-			} else {
-				int			nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
-				NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:nextPage];
-				if (requestID) {
-					[self setRequestType:AITwitterInitialUserInfo
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:nextPage]
-																	 forKey:@"Page"]];
-				} else { 
-					[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [additional fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
-					[self didDisconnect];
-				}
-			}
-			AILogWithSignature(@"%@ Pulling additional user info page", self);
-			
-		} else if ([self boolValueForProperty:@"isConnecting"]) {			
-			// Trigger our normal update routine.
-			[self didConnect];
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
-		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
-		
-		if (thisUserInfo) {	
-			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-			
-			NSArray *keyNames = [NSArray arrayWithObjects:@"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
-			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
-									  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
-									  AILocalizedString(@"Followers", nil), AILocalizedString(@"Updates", nil), nil];
-			
-			NSMutableArray *profileArray = [NSMutableArray array];
-			
-			for (NSUInteger idx = 0; idx < keyNames.count; idx++) {
-				NSString			*keyName = [keyNames objectAtIndex:idx];
-				NSString			*unattributedValue = [thisUserInfo objectForKey:keyName];
-				
-				if(![unattributedValue isEqualToString:@""]) {
-					NSString			*readableName = [readableNames objectAtIndex:idx];
-					NSAttributedString	*value;
-					
-					if([keyName isEqualToString:@"friends_count"]) {
-						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkFriends userID:listContact.UID statusID:nil context:nil]];
-					} else if ([keyName isEqualToString:@"followers_count"]) {
-						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkFollowers userID:listContact.UID statusID:nil context:nil]];
-					} else if ([keyName isEqualToString:@"statuses_count"]) {
-						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkUserPage userID:listContact.UID statusID:nil context:nil]];
-					} else {
-						value = [NSAttributedString stringWithString:unattributedValue];
-					}
-					
-					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
-				}
-			}
-			
-			AILogWithSignature(@"%@ Updating profileArray for user %@", self, listContact);
-			
-			[listContact setProfileArray:profileArray notify:NotifyNow];
-			
-			// Grab their statuses.
-			NSString *requestID = [twitterEngine getUserTimelineFor:listContact.UID since:nil startingAtPage:0 count:TWITTER_UPDATE_USER_INFO_COUNT];
-			
-			if (requestID) {
-				[self setRequestType:AITwitterProfileStatusUpdates
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
-			}
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials ||
-			   [self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
-		for (NSDictionary *info in userInfo) {
-			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
-			
-			if (requestID) {
-				[self setRequestType:AITwitterSelfUserIconPull
-						forRequestID:requestID
-					  withDictionary:nil];
-			}
-			
-			[self filterAndSetUID:[info objectForKey:TWITTER_INFO_UID]];
-			
-			if ([info objectForKey:@"name"]) {
-				[self setPreference:[[NSAttributedString stringWithString:[info objectForKey:@"name"]] dataRepresentation]
-							 forKey:KEY_ACCOUNT_DISPLAY_NAME
-							  group:GROUP_ACCOUNT_STATUS];		
-			}
-			
-			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
-			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
-			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
-			[self setValue:[info objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
-			[self notifyOfChangedPropertiesSilently:NO];
+		if ([userInfo objectForKey:@"name"]) {
+			[self setPreference:[[NSAttributedString stringWithString:[userInfo objectForKey:@"name"]] dataRepresentation]
+						 forKey:KEY_ACCOUNT_DISPLAY_NAME
+						  group:GROUP_ACCOUNT_STATUS];
 		}
 		
+		[self setValue:[userInfo objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
+		[self setValue:[userInfo objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
+		[self setValue:[userInfo objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
+		[self setValue:[userInfo objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
 		
-		if([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-			// Our UID is definitely set; grab our friends.
-			
-			if ([[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
-				// If we load our follows as contacts, do so now.
-				
-				// Delay updates on initial login.
-				[self silenceAllContactUpdatesForInterval:18.0];
-				// Grab our user list.
-				NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtCursor:-1];
-				
-				if (requestID) {
-					[self setRequestType:AITwitterInitialUserInfo
-							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:-1] forKey:@"Cursor"]];
-				} else {
-					[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", nil)];
-					[self didDisconnect];
-				}
-			} else {
-				// If we don't load follows as contacts, we've finished connecting (fast, wasn't it?)
-				[self didConnect];
-			}
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable ||
-			   [self requestTypeForRequestID:identifier] == AITwitterNotificationDisable) {
-		BOOL			enableNotification = ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable);
-		AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
-		for (NSDictionary *info in userInfo) {		
-			[adium.interfaceController handleMessage:(enableNotification ?
-													  AILocalizedString(@"Notifications Enabled", nil) :
-													  AILocalizedString(@"Notifications Disabled", nil))
-									 withDescription:[NSString stringWithFormat:(enableNotification ?
-																				 AILocalizedString(@"You will now receive device notifications for %@.", nil) :
-																				 AILocalizedString(@"You will no longer receive device notifications for %@.", nil)),
-													  listContact.UID]
-									 withWindowTitle:(enableNotification ?
-													  AILocalizedString(@"Notifications Enabled", nil) :
-													  AILocalizedString(@"Notifications Disabled", nil))];
-		}
+		NSString *imageURL = [userInfo objectForKey:TWITTER_INFO_ICON];
+		NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+		[NSURLConnection sendAsynchronousRequest:imageRequest
+										   queue:[NSOperationQueue currentQueue]
+							   completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
+								   NSImage *image = [[NSImage alloc] initWithData:data];
+								   
+								   if (image) {
+									   AILogWithSignature(@"Updated self icon for %@", self);
+									   
+									   // Set a property so that we don't re-send the image we're just now downloading.
+									   [self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+									   
+									   [self setPreference:[NSNumber numberWithBool:YES]
+													forKey:KEY_USE_USER_ICON
+													 group:GROUP_ACCOUNT_STATUS];
+									   
+									   [self setPreference:[image TIFFRepresentation]
+													forKey:KEY_USER_ICON
+													 group:GROUP_ACCOUNT_STATUS];
+									   
+									   [self notifyOfChangedPropertiesSilently:NO];
+									   
+									   [self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+								   } else {
+									   [self requestFailed:AITwitterSelfUserIconPull withError:error userInfo:nil];
+								   }
+							   }];
 	}
-	
-	[self clearRequestTypeForRequestID:identifier];
-}
-
-/*!
- * @brief Miscellaneous information received
- */
-- (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier
-{
-	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
-		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
-		NSDate *resetDate = [NSDate dateWithTimeIntervalSince1970:[[rateLimit objectForKey:TWITTER_RATE_LIMIT_RESET_SECONDS] intValue]];
-		
-		[adium.interfaceController handleMessage:AILocalizedString(@"Current Twitter rate limit", "Message in the rate limit status window")
-								 withDescription:[NSString stringWithFormat:AILocalizedString(@"You have %d/%d more requests for %@.", "The first %d is the number of requests, the second is the total number of requests per hour. The %@ is the duration of time until the count resets."),
-												  [[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue],
-												  [[rateLimit objectForKey:TWITTER_RATE_LIMIT_HOURLY_LIMIT] intValue],
-												  [NSDateFormatter stringForTimeInterval:[resetDate timeIntervalSinceNow]
-																		  showingSeconds:YES
-																			 abbreviated:YES
-																			approximated:NO]]
-								 withWindowTitle:AILocalizedString(@"Rate Limit Status", nil)];
-	}
-	
-	[self clearRequestTypeForRequestID:identifier];
-}
-
-/*!
- * @brief Requested image received
- */
-- (void)imageReceived:(NSImage *)image forRequest:(NSString *)identifier
-{
-	if([self requestTypeForRequestID:identifier] == AITwitterUserIconPull) {
-		AIListContact		*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-		
-		AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
-		
-		[listContact setServersideIconData:[image TIFFRepresentation]
-									notify:NotifyLater];
-		
-		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-	} else if([self requestTypeForRequestID:identifier] == AITwitterSelfUserIconPull) {
-		AILogWithSignature(@"Updated self icon for %@", self);
-		
-		// Set a property so we don't re-send thie image we're just now downloading.
-		[self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-		
-		[self setPreference:[NSNumber numberWithBool:YES]
-					 forKey:KEY_USE_USER_ICON
-					  group:GROUP_ACCOUNT_STATUS];
-		
-		
-		[self setPreference:[image TIFFRepresentation]
-					 forKey:KEY_USER_ICON
-					  group:GROUP_ACCOUNT_STATUS];
-	}
-	
-	[self clearRequestTypeForRequestID:identifier];
 }
 
 @end

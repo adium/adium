@@ -15,9 +15,9 @@
  */
 
 #import <Adium/AIAccountViewController.h>
-#import "AITwitterAccountOAuthSetup.h"
+#import "STTwitterOAuth.h"
 
-@interface AITwitterAccountViewController : AIAccountViewController <AITwitterAccountOAuthSetupDelegate> {
+@interface AITwitterAccountViewController : AIAccountViewController {
 	// Setup - OAuth
 	IBOutlet	NSTabView		*tabView_authenticationType;
 	IBOutlet	NSTabViewItem	*tabViewItem_basicAuthentication;
@@ -49,8 +49,7 @@
 	IBOutlet	NSTextField		*textField_description;
 
 	// OAuth setup
-	AITwitterAccountOAuthSetup	*OAuthSetup;
-	AIOAuthSetupStep			OAuthSetupStep;
+	STTwitterOAuth				*OAuthSetup;
 }
 
 @end
