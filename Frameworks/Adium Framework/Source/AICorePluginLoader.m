@@ -35,13 +35,17 @@
 #define CONFIRMED_PLUGINS				@"Confirmed Plugins"
 #define CONFIRMED_PLUGINS_VERSION		@"Confirmed Plugin Version"
 
+#define IS_JS_PLUGIN					@"AIJavaScriptPlugin"
+#define JS_PLUGIN_FILENAME				@"AIJavaScriptPluginFileName"
+
 //#define PLUGIN_LOAD_TIMING
 #ifdef PLUGIN_LOAD_TIMING
 NSTimeInterval aggregatePluginLoadingTime = 0.0;
 #endif
 
 static	NSMutableDictionary	*pluginDict = nil;
-static	NSMutableSet		*pluginBundleIdentifiers = nil;	
+static	NSMutableSet		*pluginBundleIdentifiers = nil;
+static	NSMutableDictionary *jsPluginDict = nil;
 static  NSMutableArray		*deferredPluginPaths = nil;
 
 @interface AICorePluginLoader ()
@@ -60,6 +64,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	if (self == [AICorePluginLoader class]) {
 		pluginDict = [[NSMutableDictionary alloc] init];
 		pluginBundleIdentifiers = [[NSMutableSet alloc] init];
+		jsPluginDict = [[NSMutableDictionary alloc] init];
 	}
 }
 
@@ -205,25 +210,33 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 				return;
 			}
 			
-			Class principalClass = [pluginBundle principalClass];
-			if (principalClass) {
-				plugin = [[principalClass alloc] init];
+			if ([[pluginBundle.infoDictionary valueForKey:IS_JS_PLUGIN] boolValue]) {
+				NSString *identifier = [pluginBundle bundleIdentifier];
+				NSString *fileName = [pluginBundle.infoDictionary valueForKey:JS_PLUGIN_FILENAME];
+				NSString *path = [[pluginBundle resourcePath] stringByAppendingPathComponent:fileName];
+				
+				[jsPluginDict setObject:path forKey:identifier];
 			} else {
-				NSLog(@"Failed to obtain principal class from plugin \"%@\" (\"%@\")! infoDictionary: %@",
-					  [pluginPath lastPathComponent],
-					  pluginPath,
-					  [pluginBundle infoDictionary]);
-			}
-			
-			if (plugin) {
-				[plugin installPlugin];
-				[inPluginArray addObject:plugin];
-				[pluginDict setObject:plugin forKey:NSStringFromClass(principalClass)];
-				[pluginBundleIdentifiers addObject:[pluginBundle bundleIdentifier]];
-
-				[plugin release];
-			} else {
-				NSLog(@"Failed to initialize Plugin \"%@\" (\"%@\")!",[pluginPath lastPathComponent],pluginPath);
+				Class principalClass = [pluginBundle principalClass];
+				if (principalClass) {
+					plugin = [[principalClass alloc] init];
+				} else {
+					NSLog(@"Failed to obtain principal class from plugin \"%@\" (\"%@\")! infoDictionary: %@",
+						  [pluginPath lastPathComponent],
+						  pluginPath,
+						  [pluginBundle infoDictionary]);
+				}
+				
+				if (plugin) {
+					[plugin installPlugin];
+					[inPluginArray addObject:plugin];
+					[pluginDict setObject:plugin forKey:NSStringFromClass(principalClass)];
+					[pluginBundleIdentifiers addObject:[pluginBundle bundleIdentifier]];
+					
+					[plugin release];
+				} else {
+					NSLog(@"Failed to initialize Plugin \"%@\" (\"%@\")!",[pluginPath lastPathComponent],pluginPath);
+				}
 			}
 		} else {
 				NSLog(@"Failed to open Plugin \"%@\"!",[pluginPath lastPathComponent]);
@@ -293,7 +306,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	NSBundle *pluginBundle = [NSBundle bundleWithPath:pluginPath];
 	NSArray *pluginArchs = [pluginBundle executableArchitectures];
 	
-	return [pluginArchs containsObject:[NSNumber numberWithInteger:CURRENT_BUNDLE_ARCH]];
+	return [[pluginBundle.infoDictionary valueForKey:IS_JS_PLUGIN] boolValue] || [pluginArchs containsObject:[NSNumber numberWithInteger:CURRENT_BUNDLE_ARCH]];
 }
 
 + (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath
@@ -370,6 +383,10 @@ static  NSMutableArray		*deferredPluginPaths = nil;
  */
 - (id <AIPlugin>)pluginWithClassName:(NSString *)className {
 	return [pluginDict objectForKey:className];
+}
+
++ (NSArray *)jsPlugins {
+	return [jsPluginDict allValues];
 }
 
 @end

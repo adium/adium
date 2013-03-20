@@ -27,4 +27,19 @@
     return [[[request URL] scheme] isEqualToString:@"adium"];
 }
 
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request
+{
+	return request;
+}
+
+- (void)startLoading
+{
+	[self.client URLProtocolDidFinishLoading:self];
+}
+
+- (void)stopLoading
+{
+	
+}
+
 @end

@@ -21,6 +21,7 @@
 #import "AIWebKitDelegate.h"
 #import "ESFileTransferRequestPromptController.h"
 #import "ESWebView.h"
+#import "AICorePluginLoader.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
@@ -512,7 +513,7 @@ static NSArray *draggedTypes = nil;
 	// We need to pass a local URL to allow LocalStorage from the WebView.
 	// The hostname-part determines the namespace, which we seperate per style.
 	// The path-part may not end in a /, as directories don't get local permissions.
-	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"adium://%@/adium", [messageStyle.bundle bundleIdentifier]]];
+	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"adium://%@.adiummessagestyle/adium", [messageStyle.bundle bundleIdentifier]]];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateForChat:chat] baseURL:baseURL];
 
 	if(chat.isGroupChat && ((AIGroupChat *)chat).supportsTopic) {
@@ -818,6 +819,7 @@ static NSArray *draggedTypes = nil;
 
 - (void)webViewIsReady{
 	webViewIsReady = YES;
+	[self loadPlugins];
 	[self setupMarkedScroller];
 	[self setIsGroupChat:chat.isGroupChat];
 	[self processQueuedContent];
@@ -1504,6 +1506,23 @@ static NSArray *draggedTypes = nil;
 		
 		// Tell the chat to set the topic.
 		[(AIGroupChat *)chat setTopic:topicChange];
+	}
+}
+
+- (void)loadPlugins
+{
+	NSArray *jsPlugins = [AICorePluginLoader jsPlugins];
+	
+	for (NSString *jsPluginPath in jsPlugins) {
+		NSURL *jsPluginURL = [NSURL fileURLWithPath:jsPluginPath];
+		DOMDocument *domDocument = [webView mainFrameDocument];
+		DOMElement *scriptElement = [domDocument createElement:@"script"];
+		
+		[scriptElement setAttribute:@"type" value:@"text/javascript"];
+		[scriptElement setAttribute:@"src" value:[jsPluginURL absoluteString]];
+		
+		DOMElement *headElement = (DOMElement*)[[domDocument getElementsByTagName:@"head"] item:0];
+		[headElement appendChild:scriptElement];
 	}
 }
 

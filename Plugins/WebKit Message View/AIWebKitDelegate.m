@@ -239,11 +239,27 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 - (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
 {
 	NSString *scheme = request.URL.scheme;
+	NSString *host = request.URL.host;
 	
-	if (!([scheme isEqualToString:@"adium"] || [scheme isEqualToString:@"file"])) {
-		return nil;
+	// Stupid scripts use "//example.com/" as a trick to load either https or http depending on the origin.
+	// This doesn't work for our webview of course, as those live in adium://. So we're going to prepend "https".
+	if (![scheme isEqualToString:@"https"] && ![scheme isEqualToString:@"http"]
+		&& host && !([host isEqualToString:@""] || [host isEqualToString:@"localhost"]) && ![host hasSuffix:@".adiummessagestyle"]) {
+		NSMutableURLRequest *newRequest = [[request mutableCopy] autorelease];
+		NSMutableString *URLString = [[request.URL absoluteString] mutableCopy];
+		
+		[URLString replaceCharactersInRange:NSMakeRange(0, scheme.length) withString:@"https"];
+		
+		NSURL *newURL = [NSURL URLWithString:URLString];
+		
+		scheme = @"https";
+		[newRequest setURL:newURL];
+		request = newRequest;
 	}
 	
+	// TODO: check whitelist
+
+	AILogWithSignature(@"%@", request);
 	return request;
 }
 @end
