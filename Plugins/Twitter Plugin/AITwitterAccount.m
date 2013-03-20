@@ -172,11 +172,11 @@
 	
 	[twitterEngine release];
 	
-	twitterEngine = [STTwitterAPIWrapper twitterAPIWithOAuthConsumerName:@"Adium"
-															 consumerKey:self.consumerKey
-														  consumerSecret:self.secretKey
-															  oauthToken:oauthToken
-														oauthTokenSecret:oauthSecret];
+	twitterEngine = [[STTwitterAPIWrapper twitterAPIWithOAuthConsumerName:@"Adium"
+															  consumerKey:self.consumerKey
+														   consumerSecret:self.secretKey
+															   oauthToken:oauthToken
+														 oauthTokenSecret:oauthSecret] retain];
 	
 	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.userName);
 	
@@ -582,7 +582,7 @@
 															  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
 															  AILocalizedString(@"Followers", nil), AILocalizedString(@"Updates", nil), nil];
 									
-									__block NSMutableArray *profileArray = [[NSMutableArray array] autorelease];
+									__block NSMutableArray *profileArray = [[NSMutableArray array] retain];
 									
 									for (NSUInteger idx = 0; idx < keyNames.count; idx++) {
 										NSString			*keyName = [keyNames objectAtIndex:idx];
