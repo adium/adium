@@ -26,7 +26,7 @@
 	CFStringRef path = CFPreferencesCopyAppValue(CFSTR("DockTilePath"), CFSTR("com.adiumX.adiumX"));
 	
 	if (!path) {
-		NSLog(@"DockTilePath not found.");
+		NSLog(@"AIDockTilePlugin: DockTilePath not found.");
 		return;
 	}
 	
@@ -42,8 +42,6 @@
 
 - (void)launchDebug
 {
-	NSLog(@"Now pretend Adium is launching in debug mode");
-	
 	NSString *path = [[NSBundle bundleForClass:[self class]] bundlePath];
 	
 	NSMutableArray *pathComponents = [[[path pathComponents] mutableCopy] autorelease];
@@ -53,9 +51,7 @@
 	[pathComponents removeLastObject];
 	
 	NSString *adiumPath = [[[NSString pathWithComponents:pathComponents] stringByAppendingPathComponent:@"MacOS"] stringByAppendingPathComponent:@"Adium"];
-	
-	NSLog(@"Launching Adium from %@", adiumPath);
-	
+		
 	NSTask *adiumTask = [[[NSTask alloc] init] autorelease];
 	
 	[adiumTask setLaunchPath:adiumPath];

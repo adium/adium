@@ -121,7 +121,7 @@
 #endif
 
 #ifndef DEBUG_BUILD
-	// If we're not in a debug build, activate debug logging if checked, or if the user passed --debug
+	// If we're not in a debug build, activate debug logging if checked.
 	if (checkBox_debugMode.state == NSOnState) {
 		AIEnableDebugLogging();
 	}
