@@ -79,7 +79,6 @@ static void AIApplescriptRunner_peer_event_handler(xpc_connection_t peer, xpc_ob
 					}
 					
 					[containerEvent setParamDescriptor:arguments forKeyword:keyDirectObject];
-					[arguments release];
 				}
 				
 				//Execute the event
@@ -99,8 +98,6 @@ static void AIApplescriptRunner_peer_event_handler(xpc_connection_t peer, xpc_ob
 		xpc_connection_send_message(connection, reply);
 		
 		xpc_release(reply);
-		
-		[appleScript release];
 	}
 }
 

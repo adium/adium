@@ -1631,19 +1631,19 @@
 			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D;
 			remoteInfo = "Setup Build Directory";
 		};
-		76B73B3114BE2A5200A58BAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 76B73B1D14BE287D00A58BAB;
-			remoteInfo = AIApplescriptRunner;
-		};
 		761CE34F16F9098E000EE361 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 761CE33516F9087C000EE361;
 			remoteInfo = AIDockTilePlugin;
+		};
+		76B73B3114BE2A5200A58BAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76B73B1D14BE287D00A58BAB;
+			remoteInfo = AIApplescriptRunner;
 		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1740,16 +1740,6 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76B73B2F14BE294900A58BAB /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/XPCServices;
-			dstSubfolderSpec = 1;
-			files = (
-				76B73B3014BE29AB00A58BAB /* im.adium.AIApplescriptRunner.xpc in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		761CE34D16F90938000EE361 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1757,6 +1747,16 @@
 			dstSubfolderSpec = 13;
 			files = (
 				761CE34E16F90950000EE361 /* AIDockTilePlugin.docktileplugin in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76B73B2F14BE294900A58BAB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/XPCServices;
+			dstSubfolderSpec = 1;
+			files = (
+				76B73B3014BE29AB00A58BAB /* im.adium.AIApplescriptRunner.xpc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4888,19 +4888,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76B73B1B14BE287D00A58BAB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76B73B2114BE287D00A58BAB /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		761CE33316F9087C000EE361 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				761CE33916F9087C000EE361 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76B73B1B14BE287D00A58BAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76B73B2114BE287D00A58BAB /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8177,15 +8177,6 @@
 			name = "HTTP Server";
 			sourceTree = "<group>";
 		};
-		76B73B2214BE287D00A58BAB /* AIApplescriptRunner */ = {
-			isa = PBXGroup;
-			children = (
-				76B73B3514BE3BEB00A58BAB /* AIApplescriptRunner-Info.plist */,
-				76B73B3314BE3B9400A58BAB /* AIApplescriptRunner.m */,
-			);
-			path = AIApplescriptRunner;
-			sourceTree = "<group>";
-		};
 		761CE33716F9087C000EE361 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -8193,6 +8184,7 @@
 				761CE33A16F9087C000EE361 /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<unknown>";
 		};
 		761CE33A16F9087C000EE361 /* Other Frameworks */ = {
 			isa = PBXGroup;
@@ -8230,6 +8222,15 @@
 				761CE35316F90A03000EE361 /* AIDockTile.m */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		76B73B2214BE287D00A58BAB /* AIApplescriptRunner */ = {
+			isa = PBXGroup;
+			children = (
+				76B73B3514BE3BEB00A58BAB /* AIApplescriptRunner-Info.plist */,
+				76B73B3314BE3B9400A58BAB /* AIApplescriptRunner.m */,
+			);
+			path = AIApplescriptRunner;
 			sourceTree = "<group>";
 		};
 		76FF925C14B60B4B0043E23B /* Console */ = {
@@ -9433,23 +9434,6 @@
 			productReference = 633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */;
 			productType = "com.apple.product-type.bundle";
 		};
-		76B73B1D14BE287D00A58BAB /* AIApplescriptRunner */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 76B73B2B14BE287D00A58BAB /* Build configuration list for PBXNativeTarget "AIApplescriptRunner" */;
-			buildPhases = (
-				76B73B1A14BE287D00A58BAB /* Sources */,
-				76B73B1B14BE287D00A58BAB /* Frameworks */,
-				76B73B1C14BE287D00A58BAB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AIApplescriptRunner;
-			productName = AIApplescriptRunner;
-			productReference = 76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */;
-			productType = "com.apple.product-type.bundle";
-		};
 		761CE33516F9087C000EE361 /* AIDockTilePlugin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 761CE34B16F9087D000EE361 /* Build configuration list for PBXNativeTarget "AIDockTilePlugin" */;
@@ -9465,6 +9449,23 @@
 			name = AIDockTilePlugin;
 			productName = AIDockTilePlugin;
 			productReference = 761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		76B73B1D14BE287D00A58BAB /* AIApplescriptRunner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76B73B2B14BE287D00A58BAB /* Build configuration list for PBXNativeTarget "AIApplescriptRunner" */;
+			buildPhases = (
+				76B73B1A14BE287D00A58BAB /* Sources */,
+				76B73B1B14BE287D00A58BAB /* Frameworks */,
+				76B73B1C14BE287D00A58BAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AIApplescriptRunner;
+			productName = AIApplescriptRunner;
+			productReference = 76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -10002,14 +10003,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76B73B1C14BE287D00A58BAB /* Resources */ = {
+		761CE33416F9087C000EE361 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		761CE33416F9087C000EE361 /* Resources */ = {
+		76B73B1C14BE287D00A58BAB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -10826,19 +10827,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		76B73B1A14BE287D00A58BAB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76B73B3414BE3B9400A58BAB /* AIApplescriptRunner.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		761CE33216F9087C000EE361 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				761CE35416F90A03000EE361 /* AIDockTile.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76B73B1A14BE287D00A58BAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76B73B3414BE3B9400A58BAB /* AIApplescriptRunner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10900,15 +10901,15 @@
 			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
 			targetProxy = 63DE4C520F9C77D50034ED3A /* PBXContainerItemProxy */;
 		};
-		76B73B3214BE2A5200A58BAB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 76B73B1D14BE287D00A58BAB /* AIApplescriptRunner */;
-			targetProxy = 76B73B3114BE2A5200A58BAB /* PBXContainerItemProxy */;
-		};
 		761CE35016F9098E000EE361 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 761CE33516F9087C000EE361 /* AIDockTilePlugin */;
 			targetProxy = 761CE34F16F9098E000EE361 /* PBXContainerItemProxy */;
+		};
+		76B73B3214BE2A5200A58BAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76B73B1D14BE287D00A58BAB /* AIApplescriptRunner */;
+			targetProxy = 76B73B3114BE2A5200A58BAB /* PBXContainerItemProxy */;
 		};
 		F5B17CDF0A16C767004AE99E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -12522,51 +12523,12 @@
 			};
 			name = "Release-Debug";
 		};
-		76B73B2C14BE287D00A58BAB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
-				MACH_O_TYPE = mh_execute;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = xpc;
-			};
-			name = Debug;
-		};
 		761CE34516F9087D000EE361 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -12592,31 +12554,6 @@
 				WRAPPER_EXTENSION = docktileplugin;
 			};
 			name = Debug;
-		};
-		76B73B2D14BE287D00A58BAB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
-				MACH_O_TYPE = mh_execute;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = xpc;
-			};
-			name = Release;
 		};
 		761CE34616F9087D000EE361 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -12625,6 +12562,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -12650,31 +12588,6 @@
 			};
 			name = Release;
 		};
-		76B73B2E14BE287D00A58BAB /* Release-Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
-				MACH_O_TYPE = mh_execute;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = xpc;
-			};
-			name = "Release-Debug";
-		};
 		761CE34716F9087D000EE361 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12682,6 +12595,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -12704,6 +12618,99 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = docktileplugin;
+			};
+			name = "Release-Debug";
+		};
+		76B73B2C14BE287D00A58BAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xpc;
+			};
+			name = Debug;
+		};
+		76B73B2D14BE287D00A58BAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xpc;
+			};
+			name = Release;
+		};
+		76B73B2E14BE287D00A58BAB /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Plists/AIApplescriptRunner-Info.plist";
+				MACH_O_TYPE = mh_execute;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "im.adium.$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xpc;
 			};
 			name = "Release-Debug";
 		};
@@ -12900,22 +12907,22 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		76B73B2B14BE287D00A58BAB /* Build configuration list for PBXNativeTarget "AIApplescriptRunner" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				76B73B2C14BE287D00A58BAB /* Debug */,
-				76B73B2D14BE287D00A58BAB /* Release */,
-				76B73B2E14BE287D00A58BAB /* Release-Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		761CE34B16F9087D000EE361 /* Build configuration list for PBXNativeTarget "AIDockTilePlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				761CE34516F9087D000EE361 /* Debug */,
 				761CE34616F9087D000EE361 /* Release */,
 				761CE34716F9087D000EE361 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		76B73B2B14BE287D00A58BAB /* Build configuration list for PBXNativeTarget "AIApplescriptRunner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76B73B2C14BE287D00A58BAB /* Debug */,
+				76B73B2D14BE287D00A58BAB /* Release */,
+				76B73B2E14BE287D00A58BAB /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
