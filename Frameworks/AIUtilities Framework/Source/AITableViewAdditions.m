@@ -15,7 +15,6 @@
  */
 
 #import "AITableViewAdditions.h"
-#import "AIApplicationAdditions.h"
 #import <objc/objc-class.h>
 
 @implementation NSTableView (AITableViewAdditions)

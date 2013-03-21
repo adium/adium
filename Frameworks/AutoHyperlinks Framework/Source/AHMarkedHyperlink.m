@@ -129,7 +129,7 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AHMarkedHyperlink   *newLink = [[[self class] allocWithZone:zone] initWithString:[self.URL absoluteString]
+	AHMarkedHyperlink   *newLink = [[[self class] alloc] initWithString:[self.URL absoluteString]
 	                                                            withValidationStatus:self.validationStatus
 	                                                                    parentString:self.parentString
 	                                                                        andRange:self.range];

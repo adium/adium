@@ -28,7 +28,6 @@
 @interface AWBonjourAccount : AIAccount <AWEzvClientProtocol, AIAccount_Files> {
     AWEzv				*libezv;
     NSMutableSet		*libezvContacts;
-    NSString			*savedAwayMessage;
 }
 
 - (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer;

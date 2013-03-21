@@ -15,22 +15,9 @@
  */
 
 #import "AIContactInfoWindowController.h"
-#import "AIContactInfoImageViewWithImagePicker.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIModularPaneCategoryView.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListOutlineView.h>
-#import <Adium/AIService.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageViewWithImagePicker.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AITabViewAdditions.h>
 #import <QuartzCore/QuartzCore.h>
 
 #define	CONTACT_INFO_NIB				@"ContactInfoInspector"			//Filename of the contact info nib
@@ -71,8 +58,8 @@ enum segments {
 
 @interface NSWindow (FakeLeopardAdditions)
 - (void)setAutorecalculatesContentBorderThickness:(BOOL)autorecalculateContentBorderThickness forEdge:(NSRectEdge)edge;
-- (float)contentBorderThicknessForEdge:(NSRectEdge)edge;
-- (void)setContentBorderThickness:(float)borderThickness forEdge:(NSRectEdge)edge;
+- (CGFloat)contentBorderThicknessForEdge:(NSRectEdge)edge;
+- (void)setContentBorderThickness:(CGFloat)borderThickness forEdge:(NSRectEdge)edge;
 @end
 
 @implementation AIContactInfoWindowController
@@ -122,7 +109,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 {
 	if (sharedContactInfoInstance) {
 		[sharedContactInfoInstance closeWindow:nil];
-		[sharedContactInfoInstance release]; sharedContactInfoInstance = nil;
+		sharedContactInfoInstance = nil;
 	}
 }
 
@@ -133,13 +120,11 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 
 	[self setDisplayedListObject:nil];
 
-	[displayedObject release]; displayedObject = nil;
-	[loadedContent release]; loadedContent = nil;
-	[contentController release]; contentController = nil;
+	displayedObject = nil;
+	loadedContent = nil;
+	contentController = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 
@@ -154,11 +139,11 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	
 	//If we are on Leopard, we want our panel to have a finder-esque look.
 
-	contentController = [[AIContactInfoContentController defaultInfoContentController] retain];
+	contentController = [AIContactInfoContentController defaultInfoContentController];
 
 	if(!loadedContent) {
 		//Load the content array from the content controller.
-		loadedContent = [[contentController loadedPanes] retain];
+		loadedContent = [contentController loadedPanes];
 	}
 	
 	//Monitor the selected contact
@@ -200,10 +185,10 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedColumn]]
 										  forKey:KEY_INFO_SELECTED_CATEGORY
 										   group:PREF_GROUP_WINDOW_POSITIONS];
-	
-	[sharedContactInfoInstance autorelease]; sharedContactInfoInstance = nil;
 
 	[super windowWillClose:inNotification];
+	
+	sharedContactInfoInstance = nil;
 }
 
 /*
@@ -268,9 +253,8 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 		if (inObject)
 			[notificationUserInfo setObject:inObject
 									 forKey:KEY_NEW_INSPECTED_OBJECT];
-		[displayedObject release];
 
-		displayedObject = [inObject retain];
+		displayedObject = inObject;
 
 		if (!deallocating) {
 			//Ensure our window is loaded
@@ -353,7 +337,6 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	//Start it
 	[viewAnim startAnimation];
 	
-	[viewAnim release];
 }
 
 -(void)animateViewOut:(NSView *)aView;
@@ -376,8 +359,6 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	
 	//Start it
 	[viewAnim startAnimation];
-	
-	[viewAnim release];
 }
 
 

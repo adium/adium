@@ -14,20 +14,18 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIModularPane.h>
-
 @implementation AIModularPane
 
 //Return a new modular pane
 + (AIModularPane *)modularPane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 //Return a new modular pane, passing plugin
 + (AIModularPane *)modularPaneForPlugin:(id)inPlugin
 {
-    return [[[self alloc] initForPlugin:inPlugin] autorelease];
+    return [[self alloc] initForPlugin:inPlugin];
 }
 
 //Init, passing plugin
@@ -73,7 +71,7 @@
 {
 	if (view) {
 		[self viewWillClose];
-		[view release]; view = nil;
+		view = nil;
 	}
 }
 

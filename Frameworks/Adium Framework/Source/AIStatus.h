@@ -43,7 +43,7 @@ typedef enum {
 + (AIStatus *)statusWithDictionary:(NSDictionary *)inDictionary;
 + (AIStatus *)statusOfType:(AIStatusType)inStatusType;
 
-@property (readwrite, nonatomic, retain) NSAttributedString *statusMessage;
+@property (readwrite, nonatomic) NSAttributedString *statusMessage;
 
 @property (readwrite, nonatomic, copy) NSString *statusMessageString;
 
@@ -51,13 +51,13 @@ typedef enum {
 
 - (NSString *)statusMessageTooltipString;
 
-@property (readwrite, nonatomic, retain) NSAttributedString *autoReply;
+@property (readwrite, nonatomic) NSAttributedString *autoReply;
 - (void)setAutoReplyString:(NSString *)autoReplyString;
 
 @property (readwrite, nonatomic) BOOL hasAutoReply;
 @property (readwrite, nonatomic) BOOL autoReplyIsStatusMessage;
 
-@property (readwrite, nonatomic, retain) NSString *statusName;
+@property (readwrite, nonatomic) NSString *statusName;
 
 @property (readwrite, nonatomic) BOOL shouldForceInitialIdleTime;
 @property (readwrite, nonatomic) double forcedInitialIdleTime;

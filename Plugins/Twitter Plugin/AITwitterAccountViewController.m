@@ -46,8 +46,8 @@
 
 - (void)awakeFromNib
 {
-	NSMenu *intervalMenu = [[[NSMenu alloc] init] autorelease];
-	
+	NSMenu *intervalMenu = [[NSMenu alloc] init];
+
 	[intervalMenu addItemWithTitle:AILocalizedString(@"never", "Update tweets: never")
 							target:self
 							action:nil
@@ -99,8 +99,7 @@
 
 - (void)dealloc
 {
-	[OAuthSetup release]; OAuthSetup = nil;
-	[super dealloc];
+	OAuthSetup = nil;
 }
 
 /*!
@@ -135,18 +134,18 @@
 															consumerKey:[(AITwitterAccount *)account consumerKey]
 														 consumerSecret:[(AITwitterAccount *)account secretKey]];
 			[OAuthSetup postTokenRequest:^(NSURL *url, NSString *oauthToken) {
-				// We have a request token, ask user to authorize.
-				[[NSWorkspace sharedWorkspace] openURL:url];
-				
-				[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, enter the PIN code in the field above.", nil)
-						  withColor:nil
-					  buttonEnabled:YES
-						 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
-				
-				[textField_OAuthVerifier setHidden:NO];
-				[progressIndicator setHidden:YES];
-				[progressIndicator stopAnimation:nil];
-			}
+								// We have a request token, ask user to authorize.
+								[[NSWorkspace sharedWorkspace] openURL:url];
+								
+								[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, enter the PIN code in the field above.", nil)
+										  withColor:nil
+									  buttonEnabled:YES
+										 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
+								
+								[textField_OAuthVerifier setHidden:NO];
+								[progressIndicator setHidden:YES];
+								[progressIndicator stopAnimation:nil];
+							}
 						   oauthCallback:nil
 							  errorBlock:errorBlock];
 		} else {
@@ -256,7 +255,7 @@
 {
 	[super saveConfiguration];
 	
-	[OAuthSetup release]; OAuthSetup = nil;
+	OAuthSetup = nil;
 	
 	[account setPreference:popUp_updateInterval.selectedItem.representedObject
 					forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL
@@ -304,7 +303,7 @@
 
 - (void)completedOAuthSetup
 {
-	[OAuthSetup release]; OAuthSetup = nil;
+	OAuthSetup = nil;
 }
 
 @end

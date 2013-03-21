@@ -30,7 +30,6 @@
 @interface DCMessageContextDisplayPlugin : AIPlugin {	
 	BOOL							isObserving;
 	BOOL							shouldDisplay;
-	BOOL							dimRecentContext;
 	NSInteger						linesToDisplay;
 }
 

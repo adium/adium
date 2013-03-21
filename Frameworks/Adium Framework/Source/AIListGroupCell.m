@@ -16,9 +16,7 @@
 
 #import <Adium/AIListGroupCell.h>
 #import <Adium/AIListOutlineView.h>
-#import <Adium/ESObjectWithProperties.h>
-#import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIGradientAdditions.h>
+#import <Adium/AIListObject.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 
 #define FLIPPY_TEXT_PADDING		4
@@ -31,11 +29,11 @@
 {
 	AIListGroupCell *newCell = [super copyWithZone:zone];
 	
-	newCell->shadowColor = [shadowColor retain];
-	newCell->backgroundColor = [backgroundColor retain];
-	newCell->gradientColor = [gradientColor retain];
-	newCell->_gradient = [_gradient retain];
-	newCell->layoutManager = [layoutManager retain];
+	newCell->shadowColor = shadowColor;
+	newCell->backgroundColor = backgroundColor;
+	newCell->gradientColor = gradientColor;
+	newCell->_gradient = _gradient;
+	newCell->layoutManager = layoutManager;
 	newCell->drawsGradientEdges = drawsGradientEdges;
 	
 	return newCell;
@@ -59,13 +57,7 @@
 //Dealloc
 - (void)dealloc
 {
-	[shadowColor release];
-	[backgroundColor release];
-	[gradientColor release];
-	[layoutManager release];
-
 	[self flushGradientCache];
-	[super dealloc];
 }
 
 
@@ -75,10 +67,9 @@
 - (void)setShadowColor:(NSColor *)inColor
 {
 	if (inColor != shadowColor) {
-		[shadowColor release];
-		shadowColor = [inColor retain];
+		shadowColor = inColor;
 	}
-	[labelAttributes release]; labelAttributes = nil;
+	labelAttributes = nil;
 }
 - (NSColor *)shadowColor{
 	return shadowColor;
@@ -93,12 +84,10 @@
 - (void)setBackgroundColor:(NSColor *)inBackgroundColor gradientColor:(NSColor *)inGradientColor
 {
 	if (inBackgroundColor != backgroundColor) {
-		[backgroundColor release];
-		backgroundColor = [inBackgroundColor retain];
+		backgroundColor = inBackgroundColor;
 	}
 	if (inGradientColor != gradientColor) {
-		[gradientColor release];
-		gradientColor = [inGradientColor retain];
+		gradientColor = inGradientColor;
 	}
 	
 	//Reset gradient cache
@@ -145,7 +134,6 @@
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"countText"]
 																		attributes:[self labelAttributes]];
 		width += AIceil([countText size].width) + 1;
-		[countText release];
 	}
 	
 	return width + 1;
@@ -233,8 +221,6 @@
 										  rect.origin.y + half,
 										  rect.size.width,
 										  countSize.height)];
-			
-		[groupCount release];
 		
 		inRect.size.width -= countSize.width + GROUP_COUNT_PADDING;
 	}
@@ -271,7 +257,7 @@
 		labelAttributes = super.labelAttributes;
 		
 		if (shadowColor) {
-			NSShadow	*textShadow = [[[NSShadow alloc] init] autorelease];
+			NSShadow	*textShadow = [[NSShadow alloc] init];
 			
 			[textShadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
 			[textShadow setShadowBlurRadius:2.0f];
@@ -283,8 +269,8 @@
 	
 	static NSMutableParagraphStyle *leftParagraphStyleWithTruncatingMiddle = nil;
 	if (!leftParagraphStyleWithTruncatingMiddle) {
-		leftParagraphStyleWithTruncatingMiddle = [[NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
-																			  lineBreakMode:NSLineBreakByTruncatingMiddle] retain];
+		leftParagraphStyleWithTruncatingMiddle = [NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
+																			  lineBreakMode:NSLineBreakByTruncatingMiddle];
 	}
 
 	[leftParagraphStyleWithTruncatingMiddle setMaximumLineHeight:(float)labelFontHeight];
@@ -302,7 +288,6 @@
 - (NSImage *)cachedGradient:(NSSize)inSize
 {
 	if (!_gradient || !NSEqualSizes(inSize,_gradientSize)) {
-		[_gradient release];
 		_gradient = [[NSImage alloc] initWithSize:inSize];
 		_gradientSize = inSize;
 		
@@ -346,13 +331,13 @@
 //Group background gradient
 - (NSGradient *)backgroundGradient
 {
-	return [[[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:gradientColor] autorelease];
+	return [[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:gradientColor];
 }
 
 //Reset gradient cache
 - (void)flushGradientCache
 {
-	[_gradient release]; _gradient = nil;
+	_gradient = nil;
 }
 
 @end
