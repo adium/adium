@@ -914,7 +914,7 @@
 	[twitterEngine getRateLimitsForResources:@[ @"users", @"statuses", @"friendships", @"direct_messages" ]
 								successBlock:^(NSDictionary *rateLimits) {
 									NSMutableString *formattedString = [NSMutableString string];
-									[rateLimits[@"resources"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+									[[rateLimits objectForKey:@"resources"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 										if ([obj isKindOfClass:[NSDictionary class]]) {
 											__block BOOL displayedHeader = NO;
 											[obj enumerateKeysAndObjectsUsingBlock:^(id subKey, id subObj, BOOL *subStop) {
@@ -939,7 +939,11 @@
 											}];
 										}
 									}];
-									[[NSAlert alertWithMessageText:AILocalizedString(@"Current Twitter rate limits", "Message in the rate limits status window") defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", formattedString] beginSheetModalForWindow:nil modalDelegate:nil didEndSelector:nil contextInfo:nil];
+									[[NSAlert alertWithMessageText:AILocalizedString(@"Current Twitter rate limits", "Message in the rate limits status window")
+													 defaultButton:nil
+												   alternateButton:nil
+													   otherButton:nil
+										 informativeTextWithFormat:@"%@", formattedString] beginSheetModalForWindow:nil modalDelegate:nil didEndSelector:nil contextInfo:nil];
 								} errorBlock:^(NSError *error) {
 									[self requestFailed:AITwitterRateLimitStatus withError:error userInfo:nil];
 								}];
