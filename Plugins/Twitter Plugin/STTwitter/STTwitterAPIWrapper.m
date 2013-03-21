@@ -351,7 +351,7 @@ id removeNull(id rootObject);
     
     NSString *resource = [NSString stringWithFormat:@"statuses/retweet/%@.json", statusID];
     
-    [_oauth postResource:resource parameters:nil successBlock:^(id response) {
+    [_oauth postResource:resource parameters:@{@"id": statusID} successBlock:^(id response) {
         successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
