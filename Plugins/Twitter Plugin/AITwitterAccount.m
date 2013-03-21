@@ -180,9 +180,9 @@
 	
 	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.userName);
 	
-	[twitterEngine verifyCredentialsWithSuccessBlock:^(id response) {
-		if ([response isKindOfClass:[NSDictionary class]])
-			[self userInfoReceived:(NSDictionary *)response forRequest:AITwitterValidateCredentials];
+	[twitterEngine getAccountVerifyCredentialsSkipStatus:YES
+											successBlock:^(NSDictionary *myInfo) {
+		[self userInfoReceived:myInfo forRequest:AITwitterValidateCredentials];
 		
 		if ([[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
 			// If we load our follows as contacts, do so now.
