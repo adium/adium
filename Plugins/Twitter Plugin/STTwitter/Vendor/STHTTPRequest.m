@@ -36,6 +36,31 @@ static NSMutableDictionary *sharedCredentialsStorage = nil;
 
 @implementation STHTTPRequest
 
+@synthesize connection = _connection;
+@synthesize responseData = _responseData;
+@synthesize responseStringEncodingName = _responseStringEncodingName;
+@synthesize responseHeaders = _responseHeaders;
+@synthesize url = _url;
+@synthesize error = _error;
+@synthesize POSTFilePath = _POSTFilePath;
+@synthesize POSTFileData = _POSTFileData;
+@synthesize POSTFileMimeType = _POSTFileMimeType;
+@synthesize POSTFileName = _POSTFileName;
+@synthesize POSTFileParameter = _POSTFileParameter;
+@synthesize uploadProgressBlock = _uploadProgressBlock;
+@synthesize completionBlock = _completionBlock;
+@synthesize errorBlock = _errorBlock;
+@synthesize postDataEncoding = _postDataEncoding;
+@synthesize POSTDictionary = _POSTDictionary;
+@synthesize POSTData = _POSTData;
+@synthesize requestHeaders = _requestHeaders;
+@synthesize responseStatus = _responseStatus;
+@synthesize responseString = _responseString;
+@synthesize forcedResponseEncoding = _forcedResponseEncoding;
+@synthesize encodePOSTDictionary = _encodePOSTDictionary;
+@synthesize timeoutSeconds = _timeoutSeconds;
+@synthesize addCredentialsToURL = _addCredentialsToURL;
+
 #pragma mark Initializers
 
 + (STHTTPRequest *)requestWithURL:(NSURL *)url {

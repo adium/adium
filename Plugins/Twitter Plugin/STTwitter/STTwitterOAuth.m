@@ -38,6 +38,18 @@
 
 @implementation STTwitterOAuth
 
+@synthesize username = _username;
+@synthesize password = _password;
+@synthesize oauthConsumerName = _oauthConsumerName;
+@synthesize oauthConsumerKey = _oauthConsumerKey;
+@synthesize oauthConsumerSecret = _oauthConsumerSecret;
+@synthesize oauthRequestToken = _oauthRequestToken;
+@synthesize oauthRequestTokenSecret = _oauthRequestTokenSecret;
+@synthesize oauthAccessToken = _oauthAccessToken;
+@synthesize oauthAccessTokenSecret = _oauthAccessTokenSecret;
+@synthesize testOauthNonce = _testOauthNonce;
+@synthesize testOauthTimestamp = _testOauthTimestamp;
+
 - (void)dealloc {
     [_username release];
     [_password release];
@@ -276,8 +288,8 @@
         
         NSURL *url = [NSURL URLWithString:s];
         
-        self.oauthRequestToken = d[@"oauth_token"];
-        self.oauthRequestTokenSecret = d[@"oauth_token_secret"]; // unused
+        self.oauthRequestToken = [d objectForKey:@"oauth_token"];
+        self.oauthRequestTokenSecret = [d objectForKey:@"oauth_token_secret"]; // unused
         
         successBlock(url, _oauthRequestToken);
         
@@ -303,10 +315,10 @@
         
         // https://api.twitter.com/oauth/authorize?oauth_token=OAUTH_TOKEN&oauth_token_secret=OAUTH_TOKEN_SECRET&user_id=USER_ID&screen_name=SCREEN_NAME
         
-        self.oauthAccessToken = dict[@"oauth_token"];
-        self.oauthAccessTokenSecret = dict[@"oauth_token_secret"];
+        self.oauthAccessToken = [dict objectForKey:@"oauth_token"];
+        self.oauthAccessTokenSecret = [dict objectForKey:@"oauth_token_secret"];
         
-        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
+        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, [dict objectForKey:@"user_id"], [dict objectForKey:@"screen_name"]);
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -333,10 +345,10 @@
         
         // https://api.twitter.com/oauth/authorize?oauth_token=OAUTH_TOKEN&oauth_token_secret=OAUTH_TOKEN_SECRET&user_id=USER_ID&screen_name=SCREEN_NAME
         
-        self.oauthAccessToken = dict[@"oauth_token"];
-        self.oauthAccessTokenSecret = dict[@"oauth_token_secret"];
+        self.oauthAccessToken = [dict objectForKey:@"oauth_token"];
+        self.oauthAccessTokenSecret = [dict objectForKey:@"oauth_token_secret"];
                 
-        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
+        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, [dict objectForKey:@"user_id"], [dict objectForKey:@"screen_name"]);
 
     } errorBlock:^(NSError *error) {
         errorBlock(error);
@@ -554,7 +566,7 @@
         NSArray *kv = [s componentsSeparatedByString:@"="];
         NSAssert([kv count] == 2, @"-- bad length");
         if([kv count] != 2) continue;
-        [ma addObject:@{kv[0] : kv[1]}];
+        [ma addObject:@{[kv objectAtIndex:0] : [kv objectAtIndex:1]}];
     }
     
     return ma;
@@ -603,7 +615,7 @@
             continue;
         }
         
-        [md setObject:keyValue[1] forKey:keyValue[0]];
+        [md setObject:[keyValue objectAtIndex:1] forKey:[keyValue objectAtIndex:0]];
     }
     
     return md;

@@ -16,6 +16,11 @@
 
 @implementation STTwitterAppOnly
 
+@synthesize consumerKey = _consumerKey;
+@synthesize consumerSecret = _consumerSecret;
+@synthesize bearerToken = _bearerToken;
+
+
 - (void)dealloc {
     [_consumerKey release];
     [_consumerSecret release];

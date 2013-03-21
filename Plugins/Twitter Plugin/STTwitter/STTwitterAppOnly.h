@@ -10,7 +10,9 @@
 #import "STTwitterOAuthProtocol.h"
 
 @interface STTwitterAppOnly : NSObject <STTwitterOAuthProtocol> {
-    
+	NSString *_consumerKey;
+	NSString *_consumerSecret;
+	NSString *_bearerToken;
 }
 
 @property (nonatomic, retain) NSString *consumerKey;

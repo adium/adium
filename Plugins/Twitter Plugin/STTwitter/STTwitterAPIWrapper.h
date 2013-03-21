@@ -20,7 +20,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "STTwitterOAuth.h"
 /*
  Partial Objective-C front-end for https://dev.twitter.com/docs/api/1.1
  */
@@ -42,7 +42,11 @@
  https://dev.twitter.com/blog/new-withheld-content-fields-api-responses
  */
 
-@interface STTwitterAPIWrapper : NSObject
+@interface STTwitterAPIWrapper : NSObject {
+	NSObject <STTwitterOAuthProtocol> *_oauth;
+	NSString *_consumerName;
+	NSString *_userName;
+}
 
 + (STTwitterAPIWrapper *)twitterAPIWithOAuthConsumerName:(NSString *)consumerName
                                              consumerKey:(NSString *)consumerKey

@@ -18,6 +18,10 @@ id removeNull(id rootObject);
 
 @implementation STTwitterAPIWrapper
 
+@synthesize oauth = _oauth;
+@synthesize consumerName = _consumerName;
+@synthesize userName = _userName;
+
 #if TARGET_OS_IPHONE
 #else
 
@@ -183,8 +187,8 @@ id removeNull(id rootObject);
 	if (!mparams)
 		mparams = [NSMutableDictionary new];
 	
-    if (optionalSinceID) mparams[@"since_id"] = optionalSinceID;
-	if (optionalCount != NSNotFound) mparams[@"count"] = [@(optionalCount) stringValue];
+    if (optionalSinceID) [mparams setObject:optionalSinceID forKey:@"since_id"];
+	if (optionalCount != NSNotFound) [mparams setObject:[@(optionalCount) stringValue] forKey:@"count"];
 	
 	__block NSMutableArray *statuses = [NSMutableArray new];
 	__block void (^requestHandler)(id response) = nil;
@@ -200,7 +204,7 @@ id removeNull(id rootObject);
 			if (lastID) {
 				NSUInteger maxID = [[NSDecimalNumber decimalNumberWithString:lastID] unsignedIntegerValue];
 				if (maxID != NSNotFound)
-					mparams[@"max_id"] = [@(--maxID) stringValue];
+					[mparams setObject:[@(--maxID) stringValue] forKey:@"max_id"];
 			}
 			
 			[_oauth getResource:timeline parameters:mparams
@@ -293,16 +297,16 @@ id removeNull(id rootObject);
     NSMutableDictionary *md = [NSMutableDictionary dictionaryWithObject:status forKey:@"status"];
     
     if(optionalExistingStatusID) {
-        md[@"in_reply_to_status_id"] = optionalExistingStatusID;
+        [md setObject:optionalExistingStatusID forKey:@"in_reply_to_status_id"];
     }
     
     if(optionalPlaceID) {
-        md[@"place_id"] = optionalPlaceID;
-        md[@"display_coordinates"] = @"true";
+        [md setObject:optionalPlaceID forKey:@"place_id"];
+        [md setObject:@"true" forKey:@"display_coordinates"];
     } else if(optionalLat && optionalLon) {
-        md[@"lat"] = optionalLat;
-        md[@"lon"] = optionalLon;
-        md[@"display_coordinates"] = @"true";
+        [md setObject:optionalLat forKey:@"lat"];
+        [md setObject:optionalLon forKey:@"lon"];
+        [md setObject:@"true" forKey:@"display_coordinates"];
     }
     
     [_oauth postResource:@"statuses/update.json" parameters:md successBlock:^(id response) {
@@ -326,16 +330,16 @@ id removeNull(id rootObject);
     NSMutableDictionary *md = [[ @{ @"status":status, @"media[]":data, @"postDataKey":@"media[]" } mutableCopy] autorelease];
     
     if(optionalExistingStatusID) {
-        md[@"in_reply_to_status_id"] = optionalExistingStatusID;
+        [md setObject:optionalExistingStatusID forKey:@"in_reply_to_status_id"];
     }
     
     if(optionalPlaceID) {
-        md[@"place_id"] = optionalPlaceID;
-        md[@"display_coordinates"] = @"true";
+        [md setObject:optionalPlaceID forKey:@"place_id"];
+        [md setObject:@"true" forKey:@"display_coordinates"];
     } else if(optionalLat && optionalLon) {
-        md[@"lat"] = optionalLat;
-        md[@"lon"] = optionalLon;
-        md[@"display_coordinates"] = @"true";
+        [md setObject:optionalLat forKey:@"lat"];
+        [md setObject:optionalLon forKey:@"lon"];
+        [md setObject:@"true" forKey:@"display_coordinates"];
     }
     
     [_oauth postResource:@"statuses/update_with_media.json" parameters:md successBlock:^(id response) {
@@ -431,7 +435,7 @@ id removeNull(id rootObject);
 		if (response) {
 			[ids addObjectsFromArray:[response objectForKey:@"users"]];
 			cursor = [[response objectForKey:@"next_cursor_str"] copy];
-			d[@"cursor"] = cursor;
+			[d setObject:cursor forKey:@"cursor"];
 		}
 		
 		if ([cursor isEqualToString:@"0"]) {
@@ -487,7 +491,7 @@ id removeNull(id rootObject);
 				   successBlock:(void(^)(NSDictionary *relationship))successBlock
 					 errorBlock:(void(^)(NSError *error))errorBlock {
 	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObject:screenName forKey:@"screen_name"];
-	d[@"device"] = notify ? @"true" : @"false";
+	[d setObject:notify ? @"true" : @"false" forKey:@"device"];
     
     [_oauth getResource:@"friendships/update.json" parameters:d successBlock:^(id response) {
         successBlock(removeNull(response));
