@@ -270,7 +270,7 @@ id removeNull(id rootObject);
     
 	//Twitter returns an unauthenticated error if parameters is nil.
     [_oauth postResource:resource parameters:@{ @"id" : statusID } successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -306,7 +306,7 @@ id removeNull(id rootObject);
     }
     
     [_oauth postResource:@"statuses/update.json" parameters:md successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -339,7 +339,7 @@ id removeNull(id rootObject);
     }
     
     [_oauth postResource:@"statuses/update_with_media.json" parameters:md successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -352,7 +352,7 @@ id removeNull(id rootObject);
     NSString *resource = [NSString stringWithFormat:@"statuses/retweet/%@.json", statusID];
     
     [_oauth postResource:resource parameters:nil successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -367,7 +367,7 @@ id removeNull(id rootObject);
     NSDictionary *d = @{@"q" : q};
     
     [_oauth getResource:@"search/tweets.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -385,7 +385,7 @@ id removeNull(id rootObject);
 	if (optionalCount != NSNotFound) [md setObject:[@(optionalCount) stringValue] forKey:@"count"];
     
     [_oauth getResource:@"direct_messages.json" parameters:md successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -397,7 +397,7 @@ id removeNull(id rootObject);
 	NSDictionary *d = @{@"id" : dmID};
     
     [_oauth postResource:@"direct_messages/destroy.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -411,7 +411,7 @@ id removeNull(id rootObject);
     [md setObject:screenName forKey:@"screen_name"];
     
     [_oauth postResource:@"direct_messages/new.json" parameters:md successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -435,7 +435,7 @@ id removeNull(id rootObject);
 		}
 		
 		if ([cursor isEqualToString:@"0"]) {
-			successBlock(ids);
+			successBlock(removeNull(ids));
 		} else {
 			[_oauth getResource:resource parameters:d successBlock:requestHandler
 					 errorBlock:errorBlock];
@@ -464,7 +464,7 @@ id removeNull(id rootObject);
 	NSDictionary *d = @{@"screen_name" : screenName};
     
     [_oauth getResource:@"friendships/create.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -476,7 +476,7 @@ id removeNull(id rootObject);
 	NSDictionary *d = @{@"screen_name" : screenName};
     
     [_oauth getResource:@"friendships/destroy.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -490,7 +490,7 @@ id removeNull(id rootObject);
 	d[@"device"] = notify ? @"true" : @"false";
     
     [_oauth getResource:@"friendships/update.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -517,7 +517,7 @@ id removeNull(id rootObject);
     NSDictionary *d = @{@"skip_status" : (skipStatus ? @"true" : @"false")};
     
     [_oauth getResource:@"account/verify_credentials.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -527,7 +527,7 @@ id removeNull(id rootObject);
 			 successBlock:(void(^)(NSDictionary *myInfo))successBlock
 			   errorBlock:(void(^)(NSError *error))errorBlock {
 	[_oauth postResource:@"account/update_profile.json" parameters:profileData successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -540,7 +540,7 @@ id removeNull(id rootObject);
 	[md setObject:@"image" forKey:@"postDataKey"];
     
     [_oauth postResource:@"account/update_profile_image.json" parameters:md successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -552,7 +552,7 @@ id removeNull(id rootObject);
 	NSDictionary *d = @{@"screen_name" : screenName};
     
     [_oauth getResource:@"users/show.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -566,7 +566,7 @@ id removeNull(id rootObject);
                               errorBlock:(void(^)(NSError *error))errorBlock {
     
     [_oauth getResource:@"favorites/list.json" parameters:nil successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -584,7 +584,7 @@ id removeNull(id rootObject);
     NSDictionary *d = @{@"id" : statusID};
     
     [_oauth postResource:resource parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -610,7 +610,7 @@ id removeNull(id rootObject);
         
         NSArray *places = [response valueForKeyPath:@"result.places"];
         
-        successBlock(places);
+        successBlock(removeNull(places));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -629,7 +629,7 @@ id removeNull(id rootObject);
         
         NSArray *places = [response valueForKeyPath:@"result.places"];
         
-        successBlock(places);
+        successBlock(removeNull(places));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -647,7 +647,7 @@ id removeNull(id rootObject);
         
         NSArray *places = [response valueForKeyPath:@"result.places"];
         
-        successBlock(places);
+        successBlock(removeNull(places));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -665,7 +665,7 @@ id removeNull(id rootObject);
         
         NSArray *places = [response valueForKeyPath:@"result.places"];
         
-        successBlock(places);
+        successBlock(removeNull(places));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -691,7 +691,7 @@ id removeNull(id rootObject);
     }
         
     [_oauth getResource:@"users/report_spam.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];    
@@ -707,7 +707,7 @@ id removeNull(id rootObject);
 	if (resources)
 		d = @{ @"resources" : [resources componentsJoinedByString:@","] };
 	[_oauth getResource:@"application/rate_limit_status.json" parameters:d successBlock:^(id response) {
-        successBlock(response);
+        successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
