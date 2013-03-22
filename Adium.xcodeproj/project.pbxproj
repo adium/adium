@@ -3898,6 +3898,7 @@
 		5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCVPrototypeView.m; path = Source/AIPreferenceCVPrototypeView.m; sourceTree = "<group>"; };
 		5A4B77E716FBDDC600DF398C /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.m"; sourceTree = "<group>"; };
 		5A4B77E816FBDDC700DF398C /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.h"; sourceTree = "<group>"; };
+		5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dock Tile Plugin.xcconfig"; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
 		5A4BD48813F859EF00A4D3F7 /* Preferences-WindowHandling.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-WindowHandling.xib"; path = "Resources/Preferences-WindowHandling.xib"; sourceTree = "<group>"; };
@@ -8102,6 +8103,7 @@
 				63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */,
 				63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */,
 				63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */,
+				5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */,
 			);
 			path = xcconfigs;
 			sourceTree = "<group>";
@@ -12359,7 +12361,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12367,7 +12368,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12375,7 +12375,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12383,11 +12382,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Debug;
 		};
@@ -12395,11 +12389,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Release;
 		};
@@ -12407,11 +12396,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = "Release-Debug";
 		};
@@ -12440,7 +12424,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12448,7 +12431,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12456,7 +12438,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12464,7 +12445,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12472,7 +12452,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12480,7 +12459,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12488,7 +12466,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12496,7 +12473,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12504,110 +12480,27 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
 		761CE34516F9087D000EE361 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Info.plist";
-				INSTALL_PATH = Contents/PlugIns;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = docktileplugin;
 			};
 			name = Debug;
 		};
 		761CE34616F9087D000EE361 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Info.plist";
-				INSTALL_PATH = Contents/PlugIns;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = docktileplugin;
 			};
 			name = Release;
 		};
 		761CE34716F9087D000EE361 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Other/Adium Dock Tile Plugin/AIDockTilePlugin-Info.plist";
-				INSTALL_PATH = Contents/PlugIns;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = docktileplugin;
 			};
 			name = "Release-Debug";
 		};
@@ -12615,7 +12508,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12623,7 +12515,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12631,7 +12522,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12639,13 +12529,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-					"\"$(SRCROOT)/build/Debug\"",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Debug;
 		};
@@ -12653,14 +12536,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-					"\"$(SRCROOT)/build/Debug\"",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Release;
 		};
@@ -12668,17 +12543,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-					"\"$(SRCROOT)/build/Debug\"",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					RELEASE_BUILD,
-					DEBUG_BUILD,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = "Release-Debug";
 		};
@@ -12707,8 +12571,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = Debug;
 		};
@@ -12716,8 +12578,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = Release;
 		};
@@ -12725,8 +12585,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = "Release-Debug";
 		};
@@ -12734,7 +12592,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12742,7 +12599,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12750,7 +12606,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
