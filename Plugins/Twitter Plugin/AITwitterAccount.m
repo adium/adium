@@ -1041,23 +1041,25 @@
 		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
 		// Grab the user icon and set it as their serverside icon.
-		NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-		NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
-		[NSURLConnection sendAsynchronousRequest:imageRequest
-										   queue:[NSOperationQueue currentQueue]
-							   completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
-								   NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
-								   
-								   if (image) {
-									   AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
-									   [listContact setServersideIconData:[image TIFFRepresentation]
-																   notify:NotifyLater];
-									   
-									   [listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-								   } else {
-									   [self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
-								   }
-							   }];
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+			NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+			NSError *error = nil;
+			NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
+			NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
+			
+			if (image) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
+					[listContact setServersideIconData:[image TIFFRepresentation]
+												notify:NotifyLater];
+					
+					[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+				});
+			} else {
+				[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+			}
+		});
 	}
 }
 
@@ -2241,35 +2243,36 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[self setValue:[userInfo objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
 		[self setValue:[userInfo objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
 		
-		
-		NSString *imageURL = [userInfo objectForKey:TWITTER_INFO_ICON];
-		NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
-		[NSURLConnection sendAsynchronousRequest:imageRequest
-										   queue:[NSOperationQueue currentQueue]
-							   completionHandler:^(NSURLResponse *resp, NSData *data, NSError *error) {
-								   NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
-								   
-								   if (image) {
-									   AILogWithSignature(@"Updated self icon for %@", self);
-									   
-									   // Set a property so that we don't re-send the image we're just now downloading.
-									   [self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-									   
-									   [self setPreference:[NSNumber numberWithBool:YES]
-													forKey:KEY_USE_USER_ICON
-													 group:GROUP_ACCOUNT_STATUS];
-									   
-									   [self setPreference:[image TIFFRepresentation]
-													forKey:KEY_USER_ICON
-													 group:GROUP_ACCOUNT_STATUS];
-									   
-									   [self notifyOfChangedPropertiesSilently:NO];
-									   
-									   [self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-								   } else {
-									   [self requestFailed:AITwitterSelfUserIconPull withError:error userInfo:nil];
-								   }
-							   }];
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+			NSString *imageURL = [userInfo objectForKey:TWITTER_INFO_ICON];
+			NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+			NSError *error = nil;
+			NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
+			NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
+			
+			if (image) {
+				dispatch_async(dispatch_get_main_queue(), ^{
+					AILogWithSignature(@"Updated self icon for %@", self);
+					
+					// Set a property so that we don't re-send the image we're just now downloading.
+					[self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+					
+					[self setPreference:[NSNumber numberWithBool:YES]
+								 forKey:KEY_USE_USER_ICON
+								  group:GROUP_ACCOUNT_STATUS];
+					
+					[self setPreference:[image TIFFRepresentation]
+								 forKey:KEY_USER_ICON
+								  group:GROUP_ACCOUNT_STATUS];
+					
+					[self notifyOfChangedPropertiesSilently:NO];
+					
+					[self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+				});
+			} else {
+				[self requestFailed:AITwitterSelfUserIconPull withError:error userInfo:nil];
+			}
+		});
 	}
 }
 

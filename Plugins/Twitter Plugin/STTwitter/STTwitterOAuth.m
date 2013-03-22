@@ -10,6 +10,7 @@
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
 #import "NSData+Base64.h"
+#import "JSONKit.h"
 
 #include <CommonCrypto/CommonHMAC.h>
 
@@ -435,7 +436,7 @@
     r.completionBlock = ^(NSDictionary *headers, NSString *body) {
         
         NSError *jsonError = nil;
-        id json = [NSJSONSerialization JSONObjectWithData:r.responseData options:NSJSONReadingMutableLeaves error:&jsonError];
+        id json = [r.responseData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&jsonError];
         
         if(json == nil) {
             errorBlock(jsonError);
@@ -487,7 +488,7 @@
     r.completionBlock = ^(NSDictionary *headers, NSString *body) {
         
         NSError *jsonError = nil;
-        id json = [NSJSONSerialization JSONObjectWithData:r.responseData options:NSJSONReadingMutableLeaves error:&jsonError];
+		id json = [r.responseData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&jsonError];
         
         if(json == nil) {
             successBlock(body); // response is not necessarily json, eg. https://api.twitter.com/oauth/request_token
