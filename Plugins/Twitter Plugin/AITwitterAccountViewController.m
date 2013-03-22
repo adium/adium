@@ -131,9 +131,10 @@
 		};
 		
 		if ([textField_OAuthVerifier.stringValue isEqualToString:@""]) {
-			OAuthSetup = [STTwitterOAuth twitterServiceWithConsumerName:@"Adium"
-															consumerKey:[(AITwitterAccount *)account consumerKey]
-														 consumerSecret:[(AITwitterAccount *)account secretKey]];
+			[OAuthSetup release];
+			OAuthSetup = [[STTwitterOAuth twitterServiceWithConsumerName:@"Adium"
+															 consumerKey:[(AITwitterAccount *)account consumerKey]
+														  consumerSecret:[(AITwitterAccount *)account secretKey]] retain];
 			[OAuthSetup postTokenRequest:^(NSURL *url, NSString *oauthToken) {
 				// We have a request token, ask user to authorize.
 				[[NSWorkspace sharedWorkspace] openURL:url];
