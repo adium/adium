@@ -9,12 +9,9 @@
 #import "STTwitterOAuth.h"
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
+#import "NSData+Base64.h"
 
 #include <CommonCrypto/CommonHMAC.h>
-
-@interface NSData (Base64)
-- (NSString *)base64Encoding; // private API
-@end
 
 @interface STTwitterOAuth ()
 
@@ -600,7 +597,7 @@
     unsigned char buf[CC_SHA1_DIGEST_LENGTH];
     CCHmac(kCCHmacAlgSHA1, [key UTF8String], [key length], [self UTF8String], [self length], buf);
     NSData *data = [NSData dataWithBytes:buf length:CC_SHA1_DIGEST_LENGTH];
-    return [data base64Encoding];
+    return [data base64EncodedString];
 }
 
 - (NSDictionary *)parametersDictionary {
@@ -628,35 +625,5 @@
     return [self st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-@end
-
-@implementation NSData (STTwitterOAuth)
-
-- (NSString *)base64EncodedString {
-
-#if TARGET_OS_IPHONE
-    return [self base64Encoding]; // private API
-#else
-
-    CFDataRef retval = NULL;
-    SecTransformRef encodeTrans = SecEncodeTransformCreate(kSecBase64Encoding, NULL);
-    if (encodeTrans == NULL) return nil;
-    
-    if (SecTransformSetAttribute(encodeTrans, kSecTransformInputAttributeName, (CFDataRef)self, NULL)) {
-        retval = SecTransformExecute(encodeTrans, NULL);
-    }
-    CFRelease(encodeTrans);
-    
-    NSString *s = [[NSString alloc] initWithData:(NSData *)retval encoding:NSUTF8StringEncoding];
-    
-    if(retval) {
-        CFRelease(retval);
-    }
-    
-    return [s autorelease];
-    
-#endif
-
-}
 @end
 

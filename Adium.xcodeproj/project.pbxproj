@@ -1037,6 +1037,7 @@
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */; };
+		5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B77E716FBDDC600DF398C /* NSData+Base64.m */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */; };
@@ -3895,6 +3896,8 @@
 		5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STHTTPRequest.m; path = "Plugins/Twitter Plugin/STTwitter/Vendor/STHTTPRequest.m"; sourceTree = "<group>"; };
 		5A445956169118C60078AB0A /* AIPreferenceCVPrototypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceCVPrototypeView.h; path = Source/AIPreferenceCVPrototypeView.h; sourceTree = "<group>"; };
 		5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCVPrototypeView.m; path = Source/AIPreferenceCVPrototypeView.m; sourceTree = "<group>"; };
+		5A4B77E716FBDDC600DF398C /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.m"; sourceTree = "<group>"; };
+		5A4B77E816FBDDC700DF398C /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.h"; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
 		5A4BD48813F859EF00A4D3F7 /* Preferences-WindowHandling.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-WindowHandling.xib"; path = "Resources/Preferences-WindowHandling.xib"; sourceTree = "<group>"; };
@@ -7324,6 +7327,8 @@
 		5A3B4D6A16D878AB00903E40 /* STTwitter */ = {
 			isa = PBXGroup;
 			children = (
+				5A4B77E716FBDDC600DF398C /* NSData+Base64.m */,
+				5A4B77E816FBDDC700DF398C /* NSData+Base64.h */,
 				5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */,
 				5A0D236916F4C7BC005DF211 /* STTwitterAppOnly.h */,
 				5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */,
@@ -10571,6 +10576,7 @@
 				5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */,
 				5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */,
 				5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */,
+				5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

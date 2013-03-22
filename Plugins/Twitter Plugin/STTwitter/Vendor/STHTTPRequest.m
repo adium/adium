@@ -7,6 +7,7 @@
 //
 
 #import "STHTTPRequest.h"
+#import "NSData+Base64.h"
 
 #define DEBUG 0
 
@@ -28,10 +29,6 @@ static NSMutableDictionary *sharedCredentialsStorage = nil;
 @property (nonatomic, retain) NSString *POSTFileMimeType;
 @property (nonatomic, retain) NSString *POSTFileName;
 @property (nonatomic, retain) NSString *POSTFileParameter;
-@end
-
-@interface NSData (Base64)
-- (NSString *)base64Encoding; // private API
 @end
 
 @implementation STHTTPRequest
@@ -385,7 +382,7 @@ static NSMutableDictionary *sharedCredentialsStorage = nil;
     if(credentialForHost) {
         NSString *authString = [NSString stringWithFormat:@"%@:%@", credentialForHost.user, credentialForHost.password];
         NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
         [request addValue:authValue forHTTPHeaderField:@"Authorization"];
     }
     
