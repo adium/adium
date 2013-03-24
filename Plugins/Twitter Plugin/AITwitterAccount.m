@@ -47,7 +47,7 @@
 							 userID:(NSString *)userID
 					  inReplyToUser:(NSString *)replyUserID
 				   inReplyToTweetID:(NSString *)replyTweetID;
-- (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
+- (NSAttributedString *)parseDirectMessage:(NSDictionary *)inMessage
 									withID:(NSString *)dmID
 								  fromUser:(NSString *)sourceUID;
 - (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)label
@@ -1710,15 +1710,16 @@
 /*!
  * @brief Parse a direct message
  */
-- (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
+- (NSAttributedString *)parseDirectMessage:(NSDictionary *)inMessage
 									withID:(NSString *)dmID
 								  fromUser:(NSString *)sourceUID
 {
-	NSAttributedString *message;
+	NSString *message = [[inMessage objectForKey:TWITTER_DM_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+	NSMutableAttributedString *mutableMessage = [[NSMutableAttributedString alloc] initWithString:message];
 	
-	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
-	
-	NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+	NSDictionary *entities = [inMessage objectForKey:@"entities"];
+	NSArray *hashtags = [entities objectForKey:@"hashtags"];
+	NSArray *users = [entities objectForKey:@"user_mentions"];
 	[self linkifyEntities:users inString:&mutableMessage forLinkType:AITwitterLinkUserPage];
 	[self linkifyEntities:hashtags inString:&mutableMessage forLinkType:AITwitterLinkSearchHash];
 	
@@ -1729,7 +1730,7 @@
 	NSString *linkAddress = [self addressForLinkType:AITwitterLinkDestroyDM
 											  userID:sourceUID
 											statusID:dmID
-											 context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
+											 context:[message stringByAddingPercentEscapesForAllCharacters]];
 	
 	[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
 															   linkDestination:linkAddress
@@ -1742,7 +1743,7 @@
 								   [NSNumber numberWithBool:YES], AIHiddenMessagePartAttributeName, nil]
 							range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 	
-	return mutableMessage;
+	return [mutableMessage autorelease];
 }
 
 
@@ -1871,7 +1872,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		for (NSDictionary *message in sortedQueuedDM) {
 			NSDate			*date = [NSDate dateWithNaturalLanguageString:[message objectForKey:TWITTER_DM_CREATED]];
-			NSString		*text = [message objectForKey:TWITTER_DM_TEXT];
 			NSString		*fromUID = [message objectForKey:TWITTER_DM_SENDER_UID];
 			NSString		*toUID = [message objectForKey:TWITTER_DM_RECIPIENT_UID];
 			
@@ -1894,7 +1894,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 																		withSource:source
 																	   destination:destination
 																			  date:date
-																		   message:[self parseDirectMessage:text
+																		   message:[self parseDirectMessage:message
 																									 withID:[message objectForKey:TWITTER_DM_ID]
 																								   fromUser:chat.listObject.UID]
 																		 autoreply:NO];
