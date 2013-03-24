@@ -15,7 +15,6 @@
  */
 
 #import "AITwitterAccount.h"
-#import "AITwitterURLParser.h"
 #import "AITwitterReplyWindowController.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -43,11 +42,11 @@
 
 - (void)updateTimelineChat:(AIGroupChat *)timelineChat;
 
-- (NSAttributedString *)parseMessage:(NSString *)inMessage
-							 tweetID:(NSString *)tweetID
-							  userID:(NSString *)userID
-					   inReplyToUser:(NSString *)replyUserID
-					inReplyToTweetID:(NSString *)replyTweetID;
+- (NSAttributedString *)parseStatus:(NSDictionary *)inStatus
+							tweetID:(NSString *)tweetID
+							 userID:(NSString *)userID
+					  inReplyToUser:(NSString *)replyUserID
+				   inReplyToTweetID:(NSString *)replyTweetID;
 - (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
 									withID:(NSString *)dmID
 								  fromUser:(NSString *)sourceUID;
@@ -623,21 +622,11 @@
 																		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, inContact);
 																		
 																		for (NSDictionary *update in statuses) {
-																			NSAttributedString *message;
-																			NSDictionary *retweet = [update valueForKey:TWITTER_STATUS_RETWEET];
-																			NSString *text = [update objectForKey:TWITTER_STATUS_TEXT];
-																			
-																			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-																				text = [NSString stringWithFormat:@"RT @%@: %@",
-																						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-																						[retweet objectForKey:TWITTER_STATUS_TEXT]];
-																			}
-																			
-																			message = [self parseMessage:text
-																								 tweetID:[update objectForKey:TWITTER_STATUS_ID]
-																								  userID:inContact.UID
-																						   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
-																						inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
+																			NSAttributedString *message = [self parseStatus:update
+																													tweetID:[update objectForKey:TWITTER_STATUS_ID]
+																													 userID:inContact.UID
+																											  inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
+																										   inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
 																			
 																			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
 																		}
@@ -1328,7 +1317,7 @@
 	} else if (linkType == AITwitterLinkUserPage) {
 		address = [NSString stringWithFormat:@"https://twitter.com/%@", userID];
 	} else if (linkType == AITwitterLinkSearchHash) {
-		address = [NSString stringWithFormat:@"http://search.twitter.com/search?q=%%23%@", context];
+		address = [NSString stringWithFormat:@"http://twitter.com/search?q=%%23%@", context];
 	} else if (linkType == AITwitterLinkReply) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=reply&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkRetweet) {
@@ -1496,63 +1485,89 @@
 /*!
  * @brief Parse an attributed string into a linkified version.
  */
-- (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
-{
-	NSAttributedString *attributedString;
-	
-	static NSCharacterSet *usernameCharacters = nil;
-	static NSCharacterSet *hashCharacters = nil;
-	
-	if (!usernameCharacters) {
-		usernameCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"] retain];
-	}
-	
-	if (!hashCharacters) {
-		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
-		[disallowedCharacters removeCharactersInString:@"_"];
+- (void)linkifyEntities:(NSArray *)entities inString:(NSMutableAttributedString **)inString forLinkType:(AITwitterLinkType)linkType {
+	[entities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *text = @"";
+		NSString *userID = nil;
+		NSString *context = nil;
+		if (linkType == AITwitterLinkUserPage) {
+			userID = [obj objectForKey:@"screen_name"];
+			text = [NSString stringWithFormat:@"@%@", userID];
+		} else if (linkType == AITwitterLinkSearchHash) {
+			context = [obj objectForKey:@"text"];
+			text = [NSString stringWithFormat:@"#%@", context];
+		}
 		
-		hashCharacters = [[disallowedCharacters invertedSet] retain];
-	
-		[disallowedCharacters release];
-	}
-	
-	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
-															forPrefixCharacter:@"@"
-																   forLinkType:AITwitterLinkUserPage
-																	forAccount:self
-															 validCharacterSet:usernameCharacters];
-	
-	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
-															forPrefixCharacter:@"#"
-																   forLinkType:AITwitterLinkSearchHash
-																	forAccount:self
-															 validCharacterSet:hashCharacters];
-	
-	return attributedString;
+		NSString *linkURL = [self addressForLinkType:linkType
+											  userID:userID
+											statusID:nil
+											 context:context];
+		
+		[*inString replaceOccurrencesOfString:text
+								   withString:text
+								   attributes:@{ NSLinkAttributeName : linkURL }
+									  options:NSCaseInsensitiveSearch
+										range:NSMakeRange(0, [*inString length])];
+	}];
 }
 
 /*!
  * @brief Parses a Twitter message into an attributed string
  */
-- (NSAttributedString *)parseMessage:(NSString *)inMessage
-							 tweetID:(NSString *)tweetID
-							  userID:(NSString *)userID
-					   inReplyToUser:(NSString *)replyUserID
-					inReplyToTweetID:(NSString *)replyTweetID
+- (NSAttributedString *)parseStatus:(NSDictionary *)inStatus
+							tweetID:(NSString *)tweetID
+							 userID:(NSString *)userID
+					  inReplyToUser:(NSString *)replyUserID
+				   inReplyToTweetID:(NSString *)replyTweetID
 {
-	NSAttributedString *message;
+	NSMutableAttributedString *mutableMessage;
+	NSDictionary    *retweet = [inStatus objectForKey:TWITTER_STATUS_RETWEET];
 	
-	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
+	if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+		NSString *text = [[retweet objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+		mutableMessage = [[NSMutableAttributedString alloc] initWithString:text];
+		[mutableMessage replaceCharactersInRange:NSMakeRange(0, 0)
+									  withString:[NSString stringWithFormat:@"RT @%@: ",
+										[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]]];
+	} else {
+		NSString *text = [[inStatus objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+		mutableMessage = [[NSMutableAttributedString alloc] initWithString:text];
+	}
 	
-	message = [self linkifiedAttributedStringFromString:message];
+	//Extract hashtags, users, and URLs
+	NSDictionary *entities = [inStatus objectForKey:@"entities"];
+	NSArray *hashtags = [entities objectForKey:@"hashtags"];
+	NSArray *urls = [entities objectForKey:@"urls"];
+	NSArray *users = [entities objectForKey:@"user_mentions"];
+	NSArray *media = [entities objectForKey:@"media"];
+
+	[self linkifyEntities:users inString:&mutableMessage forLinkType:AITwitterLinkUserPage];
+	[self linkifyEntities:hashtags inString:&mutableMessage forLinkType:AITwitterLinkSearchHash];
+	[urls enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *linkURL = [obj objectForKey:@"url"];
+		NSString *expandedURL = [obj objectForKey:@"expanded_url"];
+		[mutableMessage replaceOccurrencesOfString:linkURL
+										withString:expandedURL
+										attributes:@{ NSLinkAttributeName : linkURL }
+										   options:NSLiteralSearch
+											 range:NSMakeRange(0, mutableMessage.length)];
+	}];
+	[media enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		NSString *linkURL = [obj objectForKey:@"url"];
+		NSString *displayURL = [obj objectForKey:@"display_url"];
+		[mutableMessage replaceOccurrencesOfString:linkURL
+										withString:displayURL
+										attributes:@{ NSLinkAttributeName : linkURL }
+										   options:NSLiteralSearch
+											 range:NSMakeRange(0, mutableMessage.length)];
+	}];
+	
+	NSString *message = [mutableMessage string];
 	
 	BOOL replyTweet = (replyTweetID.length > 0);
 	BOOL tweetLink = (tweetID.length && userID.length);
 	
 	if (replyTweet || tweetLink) {
-		NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
-		
 		NSUInteger startIndex = message.length;
 		
 		[mutableMessage appendString:@"  (" withAttributes:nil];
@@ -1566,9 +1581,9 @@
 													statusID:replyTweetID
 													 context:nil];
 			
-			if([inMessage hasPrefix:@"@"] &&
-			   inMessage.length >= replyUserID.length + 1 &&
-			   [replyUserID isCaseInsensitivelyEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
+			if([message hasPrefix:@"@"] &&
+			   message.length >= replyUserID.length + 1 &&
+			   [replyUserID isCaseInsensitivelyEqualToString:[message substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
 				// If the message has a "@" prefix, it's a proper in_reply_to_status_id if the usernames match. Set a link appropriately.
 				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
 										range:NSMakeRange(0, replyUserID.length + 1)];
@@ -1616,7 +1631,7 @@
 				linkAddress = [self addressForLinkType:AITwitterLinkQuote
 												userID:userID
 											  statusID:tweetID
-											   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
+											   context:[message stringByAddingPercentEscapesForAllCharacters]];
 				
 #define PILCROW_SIGN @"\u00B6"
 				
@@ -1648,7 +1663,7 @@
 				linkAddress = [self addressForLinkType:AITwitterLinkDestroyStatus
 												userID:userID
 											  statusID:tweetID
-											   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
+											   context:[message stringByAddingPercentEscapesForAllCharacters]];
 				
 				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
 																		   linkDestination:linkAddress
@@ -1686,9 +1701,9 @@
 									   [NSNumber numberWithBool:YES], AIHiddenMessagePartAttributeName, nil]
 								range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 		
-		return mutableMessage;
+		return [mutableMessage autorelease];
 	} else {
-		return message;
+		return [[[NSAttributedString alloc] initWithString:message] autorelease];
 	}
 }
 
@@ -1703,9 +1718,9 @@
 	
 	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
 	
-	message = [self linkifiedAttributedStringFromString:message];
-	
 	NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+	[self linkifyEntities:users inString:&mutableMessage forLinkType:AITwitterLinkUserPage];
+	[self linkifyEntities:hashtags inString:&mutableMessage forLinkType:AITwitterLinkSearchHash];
 	
 	NSUInteger startIndex = message.length;
 	
@@ -1801,18 +1816,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		for (NSDictionary *status in sortedQueuedUpdates) {
-			NSDictionary    *retweet = [status objectForKey:TWITTER_STATUS_RETWEET];
-			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
-			
-			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-				text = [NSString stringWithFormat:@"RT @%@: %@",
-						[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-						[retweet objectForKey:TWITTER_STATUS_TEXT]];
-			}
+			NSString *contactUID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
+			NSAttributedString *message = [self parseStatus:status
+													tweetID:[status objectForKey:TWITTER_STATUS_ID]
+													 userID:contactUID
+											  inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
+										   inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
-			
-			NSString *contactUID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
 			id fromObject = nil;
 			
@@ -1820,7 +1831,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
 				// Update the user's status message
-				[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
+				[listContact setStatusMessage:message
 									   notify:NotifyNow];
 				
 				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
@@ -1831,12 +1842,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			} else {
 				fromObject = (id)self;
 			}
-			
-			NSAttributedString *message = [self parseMessage:text
-													 tweetID:[status objectForKey:TWITTER_STATUS_ID]
-													  userID:contactUID
-											   inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
-											inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																	withSource:fromObject
