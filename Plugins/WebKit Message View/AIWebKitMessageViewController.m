@@ -656,9 +656,11 @@ static NSArray *draggedTypes = nil;
         
         if (objectsAdded > 0) {
             [webView stringByEvaluatingJavaScriptFromString:
-             @"var evt = document.createEvent(\"Event\");\n"
+             @"window.setTimeout(function () {\n"
+			 @"var evt = document.createEvent(\"Event\");\n"
              @"evt.initEvent(\"contentAdded\", true, true);\n"
-             @"document.dispatchEvent(evt);"];
+             @"document.dispatchEvent(evt);"
+			 @"}, 100);"];
         }
 		
 		//If there is still content to process (the webview wasn't ready), we'll try again after a brief delay
