@@ -20,7 +20,19 @@
  ...
  */
 
-@interface STTwitterOAuth : NSObject <STTwitterOAuthProtocol>
+@interface STTwitterOAuth : NSObject <STTwitterOAuthProtocol> {
+	NSString *_username;
+	NSString *_password;
+	NSString *_oauthConsumerName;
+	NSString *_oauthConsumerKey;
+	NSString *_oauthConsumerSecret;
+	NSString *_oauthRequestToken;
+	NSString *_oauthRequestTokenSecret;
+	NSString *_oauthAccessToken;
+	NSString *_oauthAccessTokenSecret;
+	NSString *_testOauthNonce;
+	NSString *_testOauthTimestamp;
+}
 
 + (STTwitterOAuth *)twitterServiceWithConsumerName:(NSString *)consumerName
                                        consumerKey:(NSString *)consumerKey

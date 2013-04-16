@@ -9,12 +9,10 @@
 #import "STTwitterOAuth.h"
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
+#import "NSData+Base64.h"
+#import "JSONKit.h"
 
 #include <CommonCrypto/CommonHMAC.h>
-
-@interface NSData (Base64)
-- (NSString *)base64Encoding; // private API
-@end
 
 @interface STTwitterOAuth ()
 
@@ -37,6 +35,18 @@
 @end
 
 @implementation STTwitterOAuth
+
+@synthesize username = _username;
+@synthesize password = _password;
+@synthesize oauthConsumerName = _oauthConsumerName;
+@synthesize oauthConsumerKey = _oauthConsumerKey;
+@synthesize oauthConsumerSecret = _oauthConsumerSecret;
+@synthesize oauthRequestToken = _oauthRequestToken;
+@synthesize oauthRequestTokenSecret = _oauthRequestTokenSecret;
+@synthesize oauthAccessToken = _oauthAccessToken;
+@synthesize oauthAccessTokenSecret = _oauthAccessTokenSecret;
+@synthesize testOauthNonce = _testOauthNonce;
+@synthesize testOauthTimestamp = _testOauthTimestamp;
 
 - (void)dealloc {
     [_username release];
@@ -276,8 +286,8 @@
         
         NSURL *url = [NSURL URLWithString:s];
         
-        self.oauthRequestToken = d[@"oauth_token"];
-        self.oauthRequestTokenSecret = d[@"oauth_token_secret"]; // unused
+        self.oauthRequestToken = [d objectForKey:@"oauth_token"];
+        self.oauthRequestTokenSecret = [d objectForKey:@"oauth_token_secret"]; // unused
         
         successBlock(url, _oauthRequestToken);
         
@@ -303,10 +313,10 @@
         
         // https://api.twitter.com/oauth/authorize?oauth_token=OAUTH_TOKEN&oauth_token_secret=OAUTH_TOKEN_SECRET&user_id=USER_ID&screen_name=SCREEN_NAME
         
-        self.oauthAccessToken = dict[@"oauth_token"];
-        self.oauthAccessTokenSecret = dict[@"oauth_token_secret"];
+        self.oauthAccessToken = [dict objectForKey:@"oauth_token"];
+        self.oauthAccessTokenSecret = [dict objectForKey:@"oauth_token_secret"];
         
-        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
+        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, [dict objectForKey:@"user_id"], [dict objectForKey:@"screen_name"]);
     } errorBlock:^(NSError *error) {
         errorBlock(error);
     }];
@@ -333,10 +343,10 @@
         
         // https://api.twitter.com/oauth/authorize?oauth_token=OAUTH_TOKEN&oauth_token_secret=OAUTH_TOKEN_SECRET&user_id=USER_ID&screen_name=SCREEN_NAME
         
-        self.oauthAccessToken = dict[@"oauth_token"];
-        self.oauthAccessTokenSecret = dict[@"oauth_token_secret"];
+        self.oauthAccessToken = [dict objectForKey:@"oauth_token"];
+        self.oauthAccessTokenSecret = [dict objectForKey:@"oauth_token_secret"];
                 
-        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, dict[@"user_id"], dict[@"screen_name"]);
+        successBlock(_oauthAccessToken, _oauthAccessTokenSecret, [dict objectForKey:@"user_id"], [dict objectForKey:@"screen_name"]);
 
     } errorBlock:^(NSError *error) {
         errorBlock(error);
@@ -426,7 +436,7 @@
     r.completionBlock = ^(NSDictionary *headers, NSString *body) {
         
         NSError *jsonError = nil;
-        id json = [NSJSONSerialization JSONObjectWithData:r.responseData options:NSJSONReadingMutableLeaves error:&jsonError];
+        id json = [r.responseData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&jsonError];
         
         if(json == nil) {
             errorBlock(jsonError);
@@ -478,10 +488,10 @@
     r.completionBlock = ^(NSDictionary *headers, NSString *body) {
         
         NSError *jsonError = nil;
-        id json = [NSJSONSerialization JSONObjectWithData:r.responseData options:NSJSONReadingMutableLeaves error:&jsonError];
+		id json = [r.responseData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&jsonError];
         
         if(json == nil) {
-            errorBlock(jsonError);
+            successBlock(body); // response is not necessarily json, eg. https://api.twitter.com/oauth/request_token
             return;
         }
         
@@ -554,7 +564,7 @@
         NSArray *kv = [s componentsSeparatedByString:@"="];
         NSAssert([kv count] == 2, @"-- bad length");
         if([kv count] != 2) continue;
-        [ma addObject:@{kv[0] : kv[1]}];
+        [ma addObject:@{[kv objectAtIndex:0] : [kv objectAtIndex:1]}];
     }
     
     return ma;
@@ -588,7 +598,7 @@
     unsigned char buf[CC_SHA1_DIGEST_LENGTH];
     CCHmac(kCCHmacAlgSHA1, [key UTF8String], [key length], [self UTF8String], [self length], buf);
     NSData *data = [NSData dataWithBytes:buf length:CC_SHA1_DIGEST_LENGTH];
-    return [data base64Encoding];
+    return [data base64EncodedString];
 }
 
 - (NSDictionary *)parametersDictionary {
@@ -603,7 +613,7 @@
             continue;
         }
         
-        [md setObject:keyValue[1] forKey:keyValue[0]];
+        [md setObject:[keyValue objectAtIndex:1] forKey:[keyValue objectAtIndex:0]];
     }
     
     return md;
@@ -616,35 +626,5 @@
     return [self st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-@end
-
-@implementation NSData (STTwitterOAuth)
-
-- (NSString *)base64EncodedString {
-
-#if TARGET_OS_IPHONE
-    return [self base64Encoding]; // private API
-#else
-
-    CFDataRef retval = NULL;
-    SecTransformRef encodeTrans = SecEncodeTransformCreate(kSecBase64Encoding, NULL);
-    if (encodeTrans == NULL) return nil;
-    
-    if (SecTransformSetAttribute(encodeTrans, kSecTransformInputAttributeName, (CFDataRef)self, NULL)) {
-        retval = SecTransformExecute(encodeTrans, NULL);
-    }
-    CFRelease(encodeTrans);
-    
-    NSString *s = [[NSString alloc] initWithData:(NSData *)retval encoding:NSUTF8StringEncoding];
-    
-    if(retval) {
-        CFRelease(retval);
-    }
-    
-    return [s autorelease];
-    
-#endif
-
-}
 @end
 

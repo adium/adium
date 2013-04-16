@@ -9,12 +9,14 @@
 #import "STTwitterAppOnly.h"
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
-
-@interface NSData (Base64)
-- (NSString *)base64Encoding; // private API
-@end
+#import "NSData+Base64.h"
 
 @implementation STTwitterAppOnly
+
+@synthesize consumerKey = _consumerKey;
+@synthesize consumerSecret = _consumerSecret;
+@synthesize bearerToken = _bearerToken;
+
 
 - (void)dealloc {
     [_consumerKey release];
@@ -98,7 +100,7 @@
     NSString *encodedConsumerSecret = [consumerSecret st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *bearerTokenCredentials = [NSString stringWithFormat:@"%@:%@", encodedConsumerToken, encodedConsumerSecret];
     NSData *data = [bearerTokenCredentials dataUsingEncoding:NSUTF8StringEncoding];
-    return [data base64Encoding];
+    return [data base64EncodedString];
 }
 
 - (void)verifyCredentialsWithSuccessBlock:(void(^)(NSString *username))successBlock

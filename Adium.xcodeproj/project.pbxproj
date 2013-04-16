@@ -107,17 +107,12 @@
 		112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 112E7FA50FC86BB400657119 /* AITwitterActionsHTMLFilter.m */; };
 		1130EA99109B445500FB3454 /* pref-defaultclient.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1130EA98109B445500FB3454 /* pref-defaultclient.tiff */; };
 		1130EA9D109B445D00FB3454 /* pref-mention.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1130EA9B109B445D00FB3454 /* pref-mention.tiff */; };
-		113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891820F6B6AFF00A7D7DC /* AILaconicaService.m */; };
-		1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */; };
-		1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */; };
-		113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */; };
 		113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892250F6B70CA00A7D7DC /* laconica-small.png */; };
 		113892280F6B70CA00A7D7DC /* laconica.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892260F6B70CA00A7D7DC /* laconica.png */; };
 		113900B10F85BEF60081A418 /* AIURLHandlerPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 113900B00F85BEF60081A418 /* AIURLHandlerPreferences.xib */; };
 		113900B40F85BF880081A418 /* AIURLHandlerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113900B30F85BF880081A418 /* AIURLHandlerWindowController.m */; };
 		1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */; };
 		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
-		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
 		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
 		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.xib */; };
@@ -1033,6 +1028,7 @@
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */; };
+		5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B77E716FBDDC600DF398C /* NSData+Base64.m */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */; };
@@ -1847,8 +1843,6 @@
 		1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCChannelLinker.m; path = Source/AIIRCChannelLinker.m; sourceTree = "<group>"; };
 		113E06A910D0ABA0005D5B9A /* adiumPurpleMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = adiumPurpleMedia.m; path = "Plugins/Purple Service/adiumPurpleMedia.m"; sourceTree = "<group>"; };
 		113E06AE10D0ABE3005D5B9A /* adiumPurpleMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = adiumPurpleMedia.h; path = "Plugins/Purple Service/adiumPurpleMedia.h"; sourceTree = "<group>"; };
-		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
-		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
 		1147FCC210D1CB4C004E9E8D /* AIMediaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaWindowController.h; path = Source/AIMediaWindowController.h; sourceTree = "<group>"; };
 		1147FCC310D1CB4C004E9E8D /* AIMediaWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMediaWindowController.m; path = Source/AIMediaWindowController.m; sourceTree = "<group>"; };
 		1147FCC710D1CB83004E9E8D /* AIMediaWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = AIMediaWindow.xib; path = Resources/AIMediaWindow.xib; sourceTree = "<group>"; };
@@ -3898,6 +3892,9 @@
 		5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STHTTPRequest.m; path = "Plugins/Twitter Plugin/STTwitter/Vendor/STHTTPRequest.m"; sourceTree = "<group>"; };
 		5A445956169118C60078AB0A /* AIPreferenceCVPrototypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceCVPrototypeView.h; path = Source/AIPreferenceCVPrototypeView.h; sourceTree = "<group>"; };
 		5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCVPrototypeView.m; path = Source/AIPreferenceCVPrototypeView.m; sourceTree = "<group>"; };
+		5A4B77E716FBDDC600DF398C /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.m"; sourceTree = "<group>"; };
+		5A4B77E816FBDDC700DF398C /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.h"; sourceTree = "<group>"; };
+		5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dock Tile Plugin.xcconfig"; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
 		5A4BD48813F859EF00A4D3F7 /* Preferences-WindowHandling.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-WindowHandling.xib"; path = "Resources/Preferences-WindowHandling.xib"; sourceTree = "<group>"; };
@@ -5055,8 +5052,6 @@
 				11BD73D20F5A54BB007D438A /* twitter.png */,
 				EFB1C3120DDBDA3100B3973D /* AITwitterIMPlugin.h */,
 				EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */,
-				113F269E0F5CC03F00954772 /* AITwitterURLParser.h */,
-				113F269F0F5CC03F00954772 /* AITwitterURLParser.m */,
 				112523170F5F7F86003FC58A /* AITwitterURLHandler.h */,
 				112523180F5F7F86003FC58A /* AITwitterURLHandler.m */,
 				11F738FA0F58D19B00B3285B /* AITwitterPlugin.h */,
@@ -7319,6 +7314,8 @@
 		5A3B4D6A16D878AB00903E40 /* STTwitter */ = {
 			isa = PBXGroup;
 			children = (
+				5A4B77E716FBDDC600DF398C /* NSData+Base64.m */,
+				5A4B77E816FBDDC700DF398C /* NSData+Base64.h */,
 				5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */,
 				5A0D236916F4C7BC005DF211 /* STTwitterAppOnly.h */,
 				5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */,
@@ -8090,6 +8087,7 @@
 				63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */,
 				63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */,
 				63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */,
+				5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */,
 			);
 			path = xcconfigs;
 			sourceTree = "<group>";
@@ -10520,13 +10518,8 @@
 				11F738F90F58D18700B3285B /* AITwitterService.m in Sources */,
 				11F738FC0F58D19B00B3285B /* AITwitterPlugin.m in Sources */,
 				11F739020F58D1C400B3285B /* AITwitterAccountViewController.m in Sources */,
-				113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */,
 				112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */,
 				1109661A0F61D3E70064CA0E /* AITwitterReplyWindowController.m in Sources */,
-				113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */,
-				1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */,
-				1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */,
-				113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */,
 				1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */,
 				11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */,
 				112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */,
@@ -10571,6 +10564,7 @@
 				5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */,
 				5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */,
 				5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */,
+				5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12360,7 +12354,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12368,7 +12361,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12376,7 +12368,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12384,11 +12375,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Debug;
 		};
@@ -12396,11 +12382,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Release;
 		};
@@ -12408,11 +12389,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = "Release-Debug";
 		};
@@ -12420,7 +12396,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12428,7 +12403,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12436,7 +12410,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12444,7 +12417,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12452,7 +12424,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12460,7 +12431,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12468,7 +12438,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12476,7 +12445,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12484,12 +12452,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
 		761CE34516F9087D000EE361 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -12522,6 +12490,7 @@
 		};
 		761CE34616F9087D000EE361 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -12555,6 +12524,7 @@
 		};
 		761CE34716F9087D000EE361 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -12683,7 +12653,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12691,7 +12660,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12699,7 +12667,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -12772,8 +12739,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = Debug;
 		};
@@ -12781,8 +12746,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = Release;
 		};
@@ -12790,8 +12753,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Setup Build Directory";
 			};
 			name = "Release-Debug";
 		};
@@ -12799,7 +12760,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -12807,7 +12767,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -12815,7 +12774,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = "Release-Debug";
 		};

@@ -90,6 +90,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
+	CFRelease(trustRef);
 }
 
 - (IBAction)showWindow:(id)sender {
@@ -248,9 +249,6 @@ static SecPolicyRef SSLSecPolicyCopy()
 			CFRelease(data);
 		}
 	}
-
-	CFRelease(trustRef);
-	trustRef = NULL;
 	
 	[parentWindow performClose:nil];
 }

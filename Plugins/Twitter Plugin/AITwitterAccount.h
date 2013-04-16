@@ -193,7 +193,7 @@ typedef enum {
 - (void)destroyDirectMessage:(NSString *)messageID
 					 forUser:(NSString *)userID;
 
-- (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString;
+- (void)linkifyEntities:(NSArray *)entities inString:(NSMutableAttributedString **)inString forLinkType:(AITwitterLinkType)linkType;
 
 - (NSString *)addressForLinkType:(AITwitterLinkType)linkType
 						  userID:(NSString *)userID
