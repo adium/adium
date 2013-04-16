@@ -1703,6 +1703,8 @@ static NSArray *draggedTypes = nil;
         [adium.contentController registerHTMLContentFilter:contentFilter
                                                  direction:AIFilterOutgoing];
     }
+	
+	[contentFilter release];
 }
 
 /*
