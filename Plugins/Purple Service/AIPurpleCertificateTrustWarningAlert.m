@@ -97,7 +97,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
+	CFRelease(trustRef);
+	
 	[hostname release];
+	
 	[super dealloc];
 }
 
@@ -309,8 +312,6 @@ static SecPolicyRef SSLSecPolicyCopy()
 	}
 
 	[trustpanel release];
-	CFRelease(trustRef);
-	trustRef = NULL;
 
 	[parentWindow performClose:nil];
 	
