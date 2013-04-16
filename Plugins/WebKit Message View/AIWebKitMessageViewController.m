@@ -15,6 +15,7 @@
  */
 
 #import "AIWebKitMessageViewController.h"
+#import "AIJSHTMLContentFilter.h"
 #import "AIWebKitMessageViewStyle.h"
 #import "AIWebKitMessageViewPlugin.h"
 #import "ESWebKitMessageViewPreferences.h"
@@ -38,6 +39,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
+#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIHTMLDecoder.h>
@@ -123,6 +125,7 @@ static NSArray *draggedTypes = nil;
 		contentQueue = [[NSMutableArray alloc] init];
 		objectIconPathDict = [[NSMutableDictionary alloc] init];
 		objectsWithUserIconsArray = [[NSMutableArray alloc] init];
+        jsContentFilters = [[NSMutableArray alloc] init];
 		shouldReflectPreferenceChanges = NO;
 		storedContentObjects = nil;
 		/* If we receive content before gaining focus, we'll want to know the first content received is the first to be
@@ -219,6 +222,8 @@ static NSArray *draggedTypes = nil;
 
 	//Release the chat
 	[chat release]; chat = nil;
+    
+    [jsContentFilters release]; jsContentFilters = nil;
 	
 	//Release the marked scroller
 	[self.markedScroller release];
@@ -623,7 +628,7 @@ static NSArray *draggedTypes = nil;
 				
 				//Display the content
 				AIContentObject *content = [contentQueue objectAtIndex:0];
-				[self _processContentObject:content 
+				[self _processContentObject:content
 				  willAddMoreContentObjects:willAddMoreContent];
 				
 				//If we are going to reflect preference changes, store this content object
@@ -648,6 +653,13 @@ static NSArray *draggedTypes = nil;
 				[webView stringByEvaluatingJavaScriptFromString:scrollToBottomScript];
 			}
 		}
+        
+        if (objectsAdded > 0) {
+            [webView stringByEvaluatingJavaScriptFromString:
+             @"var evt = document.createEvent(\"Event\");\n"
+             @"evt.initEvent(\"contentAdded\", true, true);\n"
+             @"document.dispatchEvent(evt);"];
+        }
 		
 		//If there is still content to process (the webview wasn't ready), we'll try again after a brief delay
 		if (contentQueueCount) {
@@ -670,7 +682,7 @@ static NSArray *draggedTypes = nil;
 	BOOL			replaceLastContent = NO;
 
 	/*
-	 If the day has changed since our last message (or if there was no previous message and 
+	 If the day has changed since our last message (or if there was no previous message and
 	 we are about to display context), insert a date line.
 	 */
 	if ((!previousContent && [content isKindOfClass:[AIContentContext class]]) ||
@@ -1654,11 +1666,43 @@ static NSArray *draggedTypes = nil;
 		sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:)) ||
 		sel_isEqual(aSelector, @selector(debugLog:)) ||
 		sel_isEqual(aSelector, @selector(zoomImage:)) ||
-		sel_isEqual(aSelector, @selector(_setDocumentReady))
+		sel_isEqual(aSelector, @selector(_setDocumentReady)) ||
+		sel_isEqual(aSelector, @selector(registerHTMLContentFilter:direction:priority:))
 	)
 		return NO;
 	
 	return YES;
+}
+
+- (void)registerHTMLContentFilter:(WebScriptObject *)filter direction:(NSString *)direction priority:(NSNumber *)priority
+{
+    AIJSHTMLContentFilter *contentFilter = [[AIJSHTMLContentFilter alloc] init];
+    contentFilter.view = webView;
+    contentFilter.func = filter;
+    contentFilter.chat = chat;
+    contentFilter.priority = [priority doubleValue];
+    
+    [jsContentFilters addObject:contentFilter];
+    
+    BOOL incoming = FALSE, outgoing = FALSE;
+    
+    if ([direction isEqualToString:@"both"]) {
+        incoming = TRUE;
+        outgoing = TRUE;
+    } else if ([direction isEqualToString:@"incoming"]) {
+        incoming = TRUE;
+    } else if ([direction isEqualToString:@"outgoing"]) {
+        outgoing = TRUE;
+    }
+    
+    if (incoming) {
+        [adium.contentController registerHTMLContentFilter:contentFilter
+                                                 direction:AIFilterIncoming];
+    }
+    if (outgoing) {
+        [adium.contentController registerHTMLContentFilter:contentFilter
+                                                 direction:AIFilterOutgoing];
+    }
 }
 
 /*
@@ -1675,6 +1719,7 @@ static NSArray *draggedTypes = nil;
 	if (sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:))) return @"handleFileTransfer";
 	if (sel_isEqual(aSelector, @selector(debugLog:))) return @"debugLog";
 	if (sel_isEqual(aSelector, @selector(zoomImage:))) return @"zoomImage";
+    if (sel_isEqual(aSelector, @selector(registerHTMLContentFilter:direction:priority:))) return @"registerFilter";
 	return @"";
 }
 

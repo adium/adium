@@ -52,6 +52,8 @@
 	//Focus tracking
 	BOOL						nextMessageFocus;
 	BOOL                        nextMessageRegainedFocus;
+    
+    NSMutableArray              *jsContentFilters;
 }
 
 /*!

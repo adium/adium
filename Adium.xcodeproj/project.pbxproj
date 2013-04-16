@@ -1350,6 +1350,8 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.xib */; };
+		7616273C16FF5E230051A792 /* AIJSHTMLContentFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7616273B16FF5E230051A792 /* AIJSHTMLContentFilter.m */; };
+		7616274116FF81540051A792 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7616274016FF81540051A792 /* JavaScriptCore.framework */; };
 		761CE33916F9087C000EE361 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761CE33816F9087C000EE361 /* Cocoa.framework */; };
 		761CE34E16F90950000EE361 /* AIDockTilePlugin.docktileplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */; };
 		761CE35416F90A03000EE361 /* AIDockTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 761CE35316F90A03000EE361 /* AIDockTile.m */; };
@@ -4412,6 +4414,9 @@
 		6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvIncomingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvIncomingFileTransfer.m; sourceTree = SOURCE_ROOT; };
 		6FB330A30C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EKEzvOutgoingFileTransfer.h; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.h; sourceTree = SOURCE_ROOT; };
 		6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EKEzvOutgoingFileTransfer.m; path = Plugins/Bonjour/libezv/Classes/EKEzvOutgoingFileTransfer.m; sourceTree = SOURCE_ROOT; };
+		7616273A16FF5E230051A792 /* AIJSHTMLContentFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIJSHTMLContentFilter.h; path = "Plugins/WebKit Message View/AIJSHTMLContentFilter.h"; sourceTree = "<group>"; };
+		7616273B16FF5E230051A792 /* AIJSHTMLContentFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIJSHTMLContentFilter.m; path = "Plugins/WebKit Message View/AIJSHTMLContentFilter.m"; sourceTree = "<group>"; };
+		7616274016FF81540051A792 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = ../../../../../../System/Library/Frameworks/JavaScriptCore.framework; sourceTree = "<group>"; };
 		761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIDockTilePlugin.docktileplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		761CE33816F9087C000EE361 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		761CE33B16F9087C000EE361 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -4851,6 +4856,7 @@
 				76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */,
 				76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */,
 				7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */,
+				7616274116FF81540051A792 /* JavaScriptCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8196,6 +8202,7 @@
 		761CE33A16F9087C000EE361 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7616274016FF81540051A792 /* JavaScriptCore.framework */,
 				761CE33B16F9087C000EE361 /* AppKit.framework */,
 				761CE33C16F9087C000EE361 /* CoreData.framework */,
 				761CE33D16F9087C000EE361 /* Foundation.framework */,
@@ -8423,6 +8430,8 @@
 				3470663806015FB6004F0D20 /* WebKit Additions */,
 				347065E406015DC5004F0D20 /* WebKit Defaults.plist */,
 				348EE1B3080A57480015E0FC /* WebKitPreferencesView.xib */,
+				7616273A16FF5E230051A792 /* AIJSHTMLContentFilter.h */,
+				7616273B16FF5E230051A792 /* AIJSHTMLContentFilter.m */,
 			);
 			name = "WebKit Message View";
 			sourceTree = "<group>";
@@ -10606,6 +10615,7 @@
 				761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */,
 				761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */,
 				5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */,
+				7616273C16FF5E230051A792 /* AIJSHTMLContentFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
