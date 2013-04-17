@@ -2249,55 +2249,6 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	return reconnectDelayType;
 }
 
-#pragma mark Registering
-- (void)performRegisterWithPassword:(NSString *)inPassword
-{
-	//Save the new password
-	if (inPassword && ![password isEqualToString:inPassword]) {
-		[password release]; password = [inPassword retain];
-	}
-
-	//Ensure we have a purple account if one does not already exist
-	[self purpleAccount];
-	
-	//We are connecting
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isConnecting" notify:NotifyNow];
-	
-	//Make sure our settings are correct
-	[self configurePurpleAccountNotifyingTarget:self selector:@selector(continueRegisterWithConfiguredPurpleAccount)];
-}
-
-- (void)continueRegisterWithConfiguredProxy
-{
-	//Set password and connect
-	purple_account_set_password(account, [password UTF8String]);
-	
-	AILog(@"Adium: Register: %@ initiating connection.",self.UID);
-	
-	[purpleAdapter registerAccount:self];
-}
-
-- (void)continueRegisterWithConfiguredPurpleAccount
-{
-	//Configure libpurple's proxy settings; continueConnectWithConfiguredProxy will be called once we are ready
-	[self configureAccountProxyNotifyingTarget:self selector:@selector(continueRegisterWithConfiguredProxy)];
-}
-
-- (void)purpleAccountRegistered:(BOOL)success
-{
-	if (success && [self.service accountViewController]) {
-		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
-												  object:self
-												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-													username, @"username",
-													pw, @"password",
-													nil]];
-	}
-}
-
 //Account Status ------------------------------------------------------------------------------------------------------
 #pragma mark Account Status
 //Properties this account supports

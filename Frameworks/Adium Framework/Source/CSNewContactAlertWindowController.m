@@ -148,11 +148,7 @@
 
 	// Remove the single-fire option for global
 	if (configureForGlobal) {
-		if ([checkbox_oneTime respondsToSelector:@selector(setHidden:)]) {
-			[checkbox_oneTime setHidden:YES];
-		} else {
-			[checkbox_oneTime setFrame:NSZeroRect];
-		}
+		[checkbox_oneTime setHidden:YES];
 	}
 	
 	// Set things up for the current event

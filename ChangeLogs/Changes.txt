@@ -3,9 +3,27 @@
 Version 1.6 (X/X/X)
  Major changes
   * New preferences layout
-  * Added high-resolution resources for "Retina Display" support
+  * "Retina Display" support
   * Updated to libpurple x.y.z.
     * Added SASL authentication support. (#14478)
+
+ Accessibility
+  * Fixed tabs not being spoken by VoiceOver. (#16088)
+
+ Chat window
+  * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
+  * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
+
+ Contact list
+  * Fixed an issue with contact list positioning. (#11278)
+  * Fixed an issue with contact list animation during search. (#16018)
+
+ "Retina Display" support
+  * Added high-resolution assets. (#15931, ##16067)
+  * Fixed high-resolution assets not being scaled correctly in context menus. (#16143)
+  * Added for support for high-resolution emoticons in the Message View. (Detmud) (#16221)
+  * Fixed visual glitches on bottom tabs. (#16074)
+  * Fixed visual glitches affecting the Transcript Viewer search bar. (#16053)
 
  Plugins
   * Added support for adding image upload services. (#15865) (Félix Cloutier)
@@ -13,23 +31,49 @@ Version 1.6 (X/X/X)
  Preferences
   * Changed preferences layout to resemble OS X's System Preferences.
   * Moved a bunch of preferences around for more consistency dissolving the "Advanced" preference pane and its sub-sections.
-  * Made Privacy Settings a preference pane.
+  * Made Privacy Settings a preference pane. (#8307)
   * Made the Xtras Manager a preference pane.
-  * Renamed "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
+  * Renamed the "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
   * Contact list: Added a preference for maximum contact list height. (#4815)
   * General: Removed "Send Messages with:" option. (#15369)
   * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
+  * Encryption: Made text selectable in the "Show Fingerprint..." window. (#15082)
 
  Transcript Viewer
   * Added full screen support. (##16120) (Paul Wilde)
 
+----
+
   * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
 
- * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+  * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
 
-(#13824) (#14081) (#15161) (#13330) (#14079)
+- "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
+- "Text Clip Support" (#14081)
+- "Allow /me action to be logged the way it is passed to the message view" (#13330)
+- "if an action ends in a colon, the colon will be emotified" (#14079)
+- "Improve "New Chat..." dialogue" (#14285)
+- Sandboxed message styles. (#15324)
+- Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
+- "Proxy bypass when registered jabber handle" (#15957)
 
-Version 1.5.4 (11/4/2012)
+Version 1.5.7 (XX/XX/20XX)
+ * Fix a bug that could cause SSL connections to be closed prematurely. (#16356)
+
+Version 1.5.6 (3/18/2013)
+ * Fix a crash on startup on 10.6.8.
+ * Fix a crash when accepting or canceling the certificate verification dialog. (#16280)
+ * Fix a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
+Version 1.5.5 (2/24/2013)
+ * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
+ * Fixed "Add Link..." when the cursor is at the end of the line. (#16200)
+ * Made sure the "Open Link" menu item in the chat window's context menu gets removed for other translations than English as well. Clicking the menu item wouldn't open the link in your default browser but in the chat window itself. (#16101)
+ * Fixed reference to an image. (Detmud) (#16301)
+ * Updated Spanish translation. (#16291)
+
+
+Version 1.5.4 (11/7/2012)
  * Updated the included Growl SDK to 2.0, adding support for Notification Center on 10.8 if Growl is not installed. (#15867)
  * Updated libotr to 3.2.1, fixing a security vulnerability. (#16122)
  * Updated libpurple to 2.10.6.

@@ -79,9 +79,14 @@
 - (void)uninstallPlugin
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
+	[adium.menuController removeMenuItem:dockStatusMenuRoot];
+
 	[accountMenu release]; accountMenu = nil;
 	[statusMenu release]; statusMenu = nil;
+	[dockStatusMenuRoot release]; dockStatusMenuRoot = nil;
+	[currentMenuItemArray release]; currentMenuItemArray = nil;
+	[installedMenuItems release]; installedMenuItems = nil;
+	[socialNetworkingMenuItem release]; socialNetworkingMenuItem = nil;
 }
 
 /*!

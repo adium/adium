@@ -851,6 +851,20 @@ static NSArray *draggedTypes = nil;
 }
 
 /*!
+ * @brief Search the selected text with DDG, similar to the Search with Google option that's included by default.
+ */
+- (void)searchDDG
+{
+	DOMRange *range = [webView selectedDOMRange];
+	NSString *query = [[range toString] stringByAddingPercentEscapesForAllCharacters];
+	
+	if (query && query.length > 0) {
+		NSURL *ddgURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://duckduckgo.com/?q=%@", query]];
+		[[NSWorkspace sharedWorkspace] openURL:ddgURL];
+	}
+}
+
+/*!
  * @brief Append our own menu items to the webview's contextual menus
  */
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
@@ -873,9 +887,10 @@ static NSArray *draggedTypes = nil;
 				(tag == WebMenuItemTagReload)) {
 				[webViewMenuItems removeObjectIdenticalTo:menuItem];
 			} else {
-				//This isn't as nice; there's no tag available. Use the localization from WebKit to look at the title.
-				if ([[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleForClass:[WebView class]], nil)])
-					[webViewMenuItems removeObjectIdenticalTo:menuItem];					
+				//This isn't as nice; there's no tag available. Use the localization from WebKit/WebCore, where it seems to be for some other people (#16101), to look at the title.
+				if ([[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleForClass:[WebView class]], nil)] ||
+					[[menuItem title] isEqualToString:NSLocalizedStringFromTableInBundle(@"Open Link", nil, [NSBundle bundleWithIdentifier:@"com.apple.WebCore"], nil)])
+					[webViewMenuItems removeObjectIdenticalTo:menuItem];
 			}
 		}
 	}
@@ -970,6 +985,13 @@ static NSArray *draggedTypes = nil;
 										  action:@selector(clearView)
 								   keyEquivalent:@""];
 	[webViewMenuItems addObject:menuItem];
+	[menuItem release];
+	
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Search with DuckDuckGo", nil)
+										  target:self
+										  action:@selector(searchDDG)
+								   keyEquivalent:@""];
+	[webViewMenuItems insertObject:menuItem atIndex:1];
 	[menuItem release];
 	
 	return webViewMenuItems;

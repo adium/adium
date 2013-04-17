@@ -230,17 +230,18 @@ static OSStatus SocketRead(
             switch(theErr) {
                 case ENOENT:
                     /* connection closed */
-                    rtn = errSSLClosedGraceful; 
+                    rtn = errSSLClosedGraceful;
                     break;
                 case ECONNRESET:
                     rtn = errSSLClosedAbort;
                     break;
+				case 0:
                 case EAGAIN:
                     rtn = errSSLWouldBlock;
                     break;
                 default:
-                    fprintf(stderr,"SocketRead: read(%lu) error %d\n", 
-                             (unsigned long)bytesToGo, theErr);
+                    fprintf(stderr,"SocketRead: read(%lu) error %d\n",
+							(unsigned long)bytesToGo, theErr);
                     rtn = errSSLFatalAlert;
                     break;
             }
