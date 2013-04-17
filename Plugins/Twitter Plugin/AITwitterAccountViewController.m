@@ -1,15 +1,15 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
@@ -18,8 +18,6 @@
 #import "AITwitterAccountViewController.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccountControllerProtocol.h>
-
-#import "AITwitterAccountOAuthSetup.h"
 
 #define BUTTON_TEXT_ALLOW_ACCESS		AILocalizedString(@"Allow Adium access", nil)
 
@@ -49,7 +47,7 @@
 - (void)awakeFromNib
 {
 	NSMenu *intervalMenu = [[[NSMenu alloc] init] autorelease];
-
+	
 	[intervalMenu addItemWithTitle:AILocalizedString(@"never", "Update tweets: never")
 							target:self
 							action:nil
@@ -61,7 +59,7 @@
 							action:nil
 					 keyEquivalent:@""
 				 representedObject:[NSNumber numberWithInt:2]];
-
+	
 	[intervalMenu addItemWithTitle:AILocalizedString(@"every 5 minutes", "Update tweets: every 5 minutes")
 							target:self
 							action:nil
@@ -115,18 +113,64 @@
 	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
 	
 	if(sender == button_OAuthStart) {
-		if (OAuthSetupStep == AIOAuthStepRequestToken) {
-			OAuthSetup.verifier = textField_OAuthVerifier.stringValue;
-			textField_OAuthVerifier.stringValue = @"";
+		void (^errorBlock)(NSError *);
+		errorBlock = ^(NSError *error) {
+			// Failed in some way. sad. :(
+			AILog(@"There was an error authorizing with Twitter: %@", error);
 			
-			[OAuthSetup fetchAccessToken];
-		} else {
+			[self setStatusText:AILocalizedString(@"An error occured while trying to gain access. Please try again.", nil)
+					  withColor:[NSColor redColor]
+				  buttonEnabled:YES
+					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
+			
+			[textField_OAuthVerifier setHidden:YES];
+			[progressIndicator setHidden:YES];
+			[progressIndicator stopAnimation:nil];
+			
+			[self completedOAuthSetup];
+		};
+		
+		if ([textField_OAuthVerifier.stringValue isEqualToString:@""]) {
 			[OAuthSetup release];
-			
-			OAuthSetup = [[AITwitterAccountOAuthSetup alloc] initWithDelegate:self
-																   forAccount:(AITwitterAccount *)account];
-			
-			[OAuthSetup beginSetup];
+			OAuthSetup = [[STTwitterOAuth twitterServiceWithConsumerName:@"Adium"
+															 consumerKey:[(AITwitterAccount *)account consumerKey]
+														  consumerSecret:[(AITwitterAccount *)account secretKey]] retain];
+			[OAuthSetup postTokenRequest:^(NSURL *url, NSString *oauthToken) {
+				// We have a request token, ask user to authorize.
+				[[NSWorkspace sharedWorkspace] openURL:url];
+				
+				[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, enter the PIN code in the field above.", nil)
+						  withColor:nil
+					  buttonEnabled:YES
+						 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
+				
+				[textField_OAuthVerifier setHidden:NO];
+				[progressIndicator setHidden:YES];
+				[progressIndicator stopAnimation:nil];
+			}
+						   oauthCallback:nil
+							  errorBlock:errorBlock];
+		} else {
+			[OAuthSetup postAccessTokenRequestWithPIN:textField_OAuthVerifier.stringValue
+										 successBlock:^(NSString *oauthToken, NSString *oauthTokenSecret, NSString *userID, NSString *screenName) {
+											 // We have an access token, hoorah!
+											 
+											 textField_password.stringValue = [NSString stringWithFormat:@"oauth_token=%@&oauth_token_secret=%@", oauthToken, oauthTokenSecret];
+											 
+											 [self setStatusText:AILocalizedString(@"Success! Adium now has access to your account. Click OK below.", nil)
+													   withColor:nil
+												   buttonEnabled:NO
+													  buttonText:nil];
+											 
+											 [textField_OAuthVerifier setHidden:YES];
+											 [progressIndicator setHidden:YES];
+											 [progressIndicator stopAnimation:nil];
+											 
+											 [account setLastDisconnectionError:nil];
+											 [account setValue:[NSNumber numberWithBool:YES] forProperty:@"Reconnect After Edit" notify:NotifyNever];
+											 
+											 [self completedOAuthSetup];
+										 } errorBlock:errorBlock];
 		}
 	}
 }
@@ -150,7 +194,7 @@
 					  withColor:[NSColor redColor]
 				  buttonEnabled:YES
 					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
-		
+			
 		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
 			[self setStatusText:AILocalizedString(@"Adium currently has access to your account.", nil)
 					  withColor:nil
@@ -178,17 +222,17 @@
 	
 	BOOL updateGlobal = [[account preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	[checkBox_updateGlobalStatus setState:updateGlobal];
-
+	
 	BOOL updateGlobalIncludesReplies = [[account preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	[checkBox_updateGlobalIncludeReplies setState:updateGlobalIncludesReplies];
 	
 	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
-
+	
 	BOOL loadContacts = [[account preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	[checkBox_loadContacts setState:loadContacts];
 	
 	// Personal
-
+	
 	textField_name.stringValue = [account valueForProperty:@"Profile Name"] ?: @"";
 	textField_url.stringValue = [account valueForProperty:@"Profile URL"] ?: @"";
 	textField_location.stringValue = [account valueForProperty:@"Profile Location"] ?: @"";
@@ -248,7 +292,7 @@
 {
 	textField_OAuthStatus.stringValue = text ?: @"";
 	textField_OAuthStatus.textColor = color ?: [NSColor controlTextColor];
-
+	
 	[button_OAuthStart setEnabled:enabled];
 	
 	if(buttonText) {
@@ -259,91 +303,9 @@
 	}
 }
 
-#pragma mark OAuth setup delegate
-
-- (void)OAuthSetup:(AITwitterAccountOAuthSetup *)setup
-	 changedToStep:(AIOAuthSetupStep)setupStep
-		 withToken:(OAToken *)token
-	  responseBody:(NSString *)responseBody
-{
-	AILogWithSignature(@"Step %u", setupStep);
-	
-	OAuthSetupStep = setupStep;
-	
-	switch (OAuthSetupStep) {
-		case AIOAuthStepStart:
-		case AIOAuthStepVerifyingRequest:
-			// Just starting or verifying a token, fetching a request token
-			[self setStatusText:@""
-					  withColor:nil
-				  buttonEnabled:YES
-					 buttonText:nil];
-			
-			[textField_OAuthVerifier setHidden:YES];
-			[progressIndicator setHidden:NO];
-			[progressIndicator startAnimation:nil];
-			
-			break;
-			
-		case AIOAuthStepRequestToken:
-			// We have a request token, ask user to authorize.			
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?oauth_token=%@",
-																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
-																		 token.key]]];
-
-			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, enter the PIN code in the field above.", nil)
-					  withColor:nil
-				  buttonEnabled:YES
-					 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
-
-			[textField_OAuthVerifier setHidden:NO];
-			[progressIndicator setHidden:YES];
-			[progressIndicator stopAnimation:nil];
-			
-			break;
-			
-		case AIOAuthStepAccessToken:
-			// We have an access token, hoorah!
-			textField_password.stringValue = responseBody;
-			
-			[self setStatusText:AILocalizedString(@"Success! Adium now has access to your account. Click OK below.", nil)
-					  withColor:nil
-				  buttonEnabled:NO
-					 buttonText:nil];
-			
-			[textField_OAuthVerifier setHidden:YES];
-			[progressIndicator setHidden:YES];
-			[progressIndicator stopAnimation:nil];
-			
-			[account setLastDisconnectionError:nil];
-			[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Reconnect After Edit" notify:NotifyNever];
-
-			[self completedOAuthSetup];			
-			
-			break;
-			
-		case AIOAuthStepFailure:
-			// Failed in some way. sad. :(
-
-			[self setStatusText:AILocalizedString(@"An error occured while trying to gain access. Please try again.", nil)
-					  withColor:[NSColor redColor]
-				  buttonEnabled:YES
-					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
-			
-			[textField_OAuthVerifier setHidden:YES];
-			[progressIndicator setHidden:YES];
-			[progressIndicator stopAnimation:nil];
-			
-			[self completedOAuthSetup];
-			
-			break;
-	}
-}
-
 - (void)completedOAuthSetup
 {
 	[OAuthSetup release]; OAuthSetup = nil;
-	OAuthSetupStep = AIOAuthStepFailure;	
 }
 
 @end

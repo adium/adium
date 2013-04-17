@@ -585,7 +585,7 @@ enum {
 	do { \
 		if (i == buflen) { \
 			buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
-			if (!buf) { \
+			if (buf == NULL) { \
 				NSLog(@"in stringByEscapingForShell: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 				free(myBuf); \
 				return nil; \

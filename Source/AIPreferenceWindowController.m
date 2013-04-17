@@ -547,6 +547,8 @@
 		[_trackingAreas addObject:tA];
 		
 		y -= SUGGESTION_ENTRY_HEIGHT;
+		
+		[item release];
 	}
 	
 	[suggestionsWindow setFrame:frame display:NO];
@@ -624,7 +626,6 @@
 	SKSearchRef search = SKSearchCreate (skIndex,
 										 (CFStringRef) query,
 										 kSKSearchOptionDefault);
-	[(id) search autorelease];
 	int kSearchMax = 20;
 	CFURLRef foundURLs[kSearchMax];
 	SKDocumentID foundDocIDs[kSearchMax];
@@ -647,7 +648,6 @@
 			NSString *paneName = [[(NSURL *)foundURLs[i] pathComponents] objectAtIndex:1];
 			AIPreferencePane *pane = [panes objectForKey:paneName];
 			[results addObject:[NSDictionary dictionaryWithObjectsAndKeys:[(NSURL *)foundURLs[i] lastPathComponent], @"title", pane, @"pane", [NSNumber numberWithFloat:foundScores[i]], @"score", nil]];
-			[(NSURL *)foundURLs[i] release];
 			NSUInteger idx = [generalPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
 				[generalIndexes addIndex:idx];
@@ -660,8 +660,11 @@
 			idx = [advancedPaneArray indexOfObject:pane];
 			if (idx != NSNotFound)
 				[advancedIndexes addIndex:idx];
+			CFRelease(foundURLs[i]);
 		}
 	}
+	
+	CFRelease(search);
 	
 	//Highlight matches in the collection views
 	generalCV.matchedSearchIndexes = generalIndexes;

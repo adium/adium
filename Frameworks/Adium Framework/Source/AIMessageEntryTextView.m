@@ -319,6 +319,14 @@
 				[super keyDown:inEvent];				
 			} 
 
+		} else if (inChar == NSEnterCharacter || inChar == NSCarriageReturnCharacter) {
+			//Make shift+enter work the same as option+enter
+			if (flags & NSShiftKeyMask) {
+				[super insertLineBreak:self];
+			} else {
+				[super keyDown:inEvent];
+			}
+			
 		} else {
 			[super keyDown:inEvent];
 		}

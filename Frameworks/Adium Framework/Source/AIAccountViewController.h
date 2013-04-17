@@ -34,7 +34,7 @@
 	IBOutlet	NSTextField		*textField_accountUID;			//UID field
 	IBOutlet	NSTextField		*label_password;				//Label on the password field
 	IBOutlet	NSTextField		*textField_password;			//Password field
-	IBOutlet	NSButton		*button_SignUp;					//Sign up for account
+	IBOutlet	NSButton		*button_signUp;					//Sign up for account
 	IBOutlet	NSTextField		*textField_connectHost;			//Connect host
 	IBOutlet	NSTextField		*textField_connectPort;			//Connect port
 	IBOutlet	NSTextField		*textField_alias;				//User alias (or display name)
@@ -49,10 +49,7 @@
 	
 	IBOutlet	NSTextField		*label_encryption;				//Label for the encryption preference
 	IBOutlet	NSPopUpButton	*popUp_encryption;				//Encryption preference
-	
-	IBOutlet	NSProgressIndicator *progressIndicator_registering;
-	IBOutlet	NSTextField			*textField_registering;
-	
+		
 	//Instance variables
     AIAccount			*account;
 	NSMutableDictionary	*changedPrefDict;
@@ -69,9 +66,6 @@
 - (IBAction)signUpAccount:(id)sender;
 - (NSString *)nibName;
 - (void)saveConfiguration;
-
-- (void)didBeginRegistration;
-- (void)usernameAndPasswordRegistered:(NSNotification*)notification;
 
 @end
 

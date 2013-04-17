@@ -605,7 +605,7 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 							   kCFRunLoopDefaultMode);
 		}
 		
-		CFRelease(storeRef);
+		if (storeRef) CFRelease(storeRef);
 	}
 }
 

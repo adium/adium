@@ -680,7 +680,7 @@
 	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != idx) {
-		NSMutableArray *cells = [[tabView_tabBar cells] mutableCopy];
+		NSMutableArray *cells = [[[tabView_tabBar cells] mutableCopy] autorelease];
 		
 		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
