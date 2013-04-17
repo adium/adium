@@ -859,7 +859,7 @@ static NSArray *draggedTypes = nil;
 	NSString *query = [[range toString] stringByAddingPercentEscapesForAllCharacters];
 	
 	if (query && query.length > 0) {
-		NSURL *ddgURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://duckduckgo.com/?q=%@", query]];
+		NSURL *ddgURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://duckduckgo.com/?q=%@&t=adium", query]];
 		[[NSWorkspace sharedWorkspace] openURL:ddgURL];
 	}
 }
@@ -987,12 +987,16 @@ static NSArray *draggedTypes = nil;
 	[webViewMenuItems addObject:menuItem];
 	[menuItem release];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Search with DuckDuckGo", nil)
-										  target:self
-										  action:@selector(searchDDG)
-								   keyEquivalent:@""];
-	[webViewMenuItems insertObject:menuItem atIndex:1];
-	[menuItem release];
+	for (NSMenuItem *searchItem in defaultMenuItems) {
+		if ([searchItem tag] == WebMenuItemTagSearchWeb) {
+			menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Search with DuckDuckGo", nil)
+												  target:self
+												  action:@selector(searchDDG)
+										   keyEquivalent:@""];
+			[webViewMenuItems insertObject:menuItem atIndex:[webViewMenuItems indexOfObject:searchItem] + 1];
+			[menuItem release];
+		}
+	}
 	
 	return webViewMenuItems;
 }
