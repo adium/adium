@@ -1,0 +1,56 @@
+@import url("../Styles/Polarized.css");
+
+body
+{
+	background: url("../images/backgroundFirelight.jpg") repeat-y center top #fff fixed;
+}
+
+#x-headerImage
+{
+	background: rgba(187, 34, 34, 1);
+}
+
+#x-headerChatStarted .x-chatname,
+.x-message1 .x-userName,
+.x-message1 .x-date,
+.x-message1 a
+{
+	color: rgba(187, 34, 34, 1);
+}
+
+.x-message1 a:hover
+{
+	color: rgba(157, 4, 4, 1);
+}
+
+.x-content
+{
+	border-top: 3px solid rgba(187, 34, 34, 1);
+	border-bottom: 1px solid rgba(187, 34, 34, 1);
+}
+
+.x-message2 .x-userName,
+.x-message2 .x-date,
+.x-message2 a
+{
+	color: rgba(167, 134, 34, 1);
+}
+
+.x-message2 a:hover
+{
+	color: rgba(137, 104, 04, 1);
+}
+
+.x-message2 .x-content
+{
+	border-top: 3px solid rgba(167, 134, 34, 1);
+	border-bottom: 1px solid rgba(167, 134, 34, 1);
+}
+
+.mention .x-content
+{
+	background:
+		-webkit-gradient(linear, left top, right top, from(rgba(187, 34, 34, .3)), color-stop(.1, rgba(187, 34, 34, .3)), to(rgba(255, 255, 255, .3))) no-repeat,
+		-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, .3)), color-stop(.9, rgba(187, 34, 34, .3)), to(rgba(187, 34, 34, .3))) no-repeat right top,
+		-webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 1)), to(rgba(255, 255, 255, 1))) left top;
+}

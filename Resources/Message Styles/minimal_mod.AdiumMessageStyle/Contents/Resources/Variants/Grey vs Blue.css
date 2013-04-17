@@ -1,0 +1,31 @@
+.incoming:not(.history) .x-sender,
+.incoming:not(.history) a,
+#Chat:not(.groupchat) .status .x-message,
+#Chat:not(.groupchat) .status a,
+#Chat:not(.groupchat) .event .x-message,
+#Chat:not(.groupchat) .event a
+{
+	color: hsla(210, 100%, 50%, 1) !important;
+}
+
+.outgoing:not(.history) .x-sender,
+.outgoing:not(.history) a
+{
+	color: hsla(0, 0%, 60%, 1) !important;
+}
+
+.history.incoming .x-sender,
+.history.incoming a,
+#Chat:not(.groupchat) .history.status .x-message,
+#Chat:not(.groupchat) .history.status a,
+#Chat:not(.groupchat) .history.event .x-message,
+#Chat:not(.groupchat) .history.event a
+{
+	color: hsla(210, 80%, 80%, 1) !important;
+}
+
+.history.outgoing .x-sender,
+.history.outgoing a
+{
+	color: hsla(0, 0%, 74%, 1) !important;
+}

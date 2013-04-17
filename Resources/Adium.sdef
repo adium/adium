@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Adium Terminology">
+	<suite name="Adium Suite" code="Adum" description="AppleScript support for Adium">
+		<value-type name="TIFF picture" code="TIFF">
+			<cocoa class="NSData"/>
+		</value-type>
+		<class name="application" code="capp" description="Adium's application class">
+			<cocoa class="AIApplication" />
+			<property name="name" code="pnam" type="text" access="r" description="The name of the application."/>
+			<property name="frontmost" code="pisf" type="boolean" access="r" description="Is this the frontmost (active) application?">
+				<cocoa key="isActive"/>
+			</property>
+			<property name="version" code="vers" type="text" access="r" description="The version of the application."/>
+			<property name="active chat" code="Pcht" type="chat" access="r" description="The frontmost chat."/>
+			
+			<property name="global status" code="Pgst" type="status" access="rw" description="The global status. This is the status that the most online accounts are currently using; it will only be an offline status if no accounts are online. Setting it changes the status for all accounts.">
+			     <cocoa key="globalStatus"/>
+			 </property>
+			
+			<element type="account" />
+			<element type="contact" />
+			<element type="contact group" />
+			<element type="service" />
+			<element type="window">
+				<cocoa key="orderedWindows" />
+			</element>
+			<element type="chat window" />
+			<element type="chat" />
+			<element type="status" />
+
+			<responds-to name="go online">
+				<cocoa method="scriptingGoOnline:"/>
+			</responds-to>
+			<responds-to name="go available">
+				<cocoa method="scriptingGoAvailable:"/>
+			</responds-to>
+			<responds-to name="go offline">
+				<cocoa method="scriptingGoOffline:"/>
+			</responds-to>
+			<responds-to name="go away">
+				<cocoa method="scriptingGoAway:"/>
+			</responds-to>
+			<responds-to name="go invisible">
+				<cocoa method="scriptingGoInvisible:"/>
+			</responds-to>
+			<responds-to name="GetURL">
+				<cocoa method="scriptingGetURL:"/>
+			</responds-to>
+		</class>
+		<class name="service" code="Csrv" description="An Adium service (a.k.a. chat protocol)">
+			<cocoa class="AIService" />
+			<property name="name" code="pnam" type="text" access="r" description="The name of the service.">
+				<cocoa key="serviceID" />
+			</property>
+			<property name="image" code="Pimg" type="TIFF picture" access="r" description="The image associated with this service." />
+			<element type="account" />
+		</class>
+		<class name="window" code="cwin" description="A window in Adium">
+			<cocoa class="NSWindow" />
+			<property name="name" code="pnam" type="text" access="r" description="The title of this window">
+				<cocoa key="scriptingTitle" />
+			</property>
+			<property name="id" code="ID  " type="integer" access="r" description="The unique identifier of the window.">
+				<cocoa key="uniqueID"/>
+			</property>
+			<property name="index" code="pidx" type="integer" description="The index of the window, ordered front to back.">
+				<cocoa key="orderedIndex"/>
+			</property>
+			<property name="bounds" code="pbnd" type="rectangle" description="The bounding rectangle of the window.">
+				<cocoa key="boundsAsQDRect"/>
+			</property>
+			<property name="closeable" code="hclb" type="boolean" access="r" description="Whether the window has a close box.">
+				<cocoa key="hasCloseBox"/>
+			</property>
+			<property name="minimizable" code="ismn" type="boolean" access="r" description="Whether the window can be minimized.">
+				<cocoa key="isMiniaturizable"/>
+			</property>
+			<property name="minimized" code="pmnd" type="boolean" description="Whether the window is currently minimized.">
+				<cocoa key="isMiniaturized"/>
+			</property>
+			<property name="resizable" code="prsz" type="boolean" access="r" description="Whether the window can be resized.">
+				<cocoa key="isResizable"/>
+			</property>
+			<property name="visible" code="pvis" type="boolean" description="Whether the window is currently visible.">
+				<cocoa key="isVisible"/>
+			</property>
+			<property name="zoomable" code="iszm" type="boolean" access="r" description="Whether the window can be zoomed.">
+				<cocoa key="isZoomable"/>
+			</property>
+			<property name="zoomed" code="pzum" type="boolean" description="Whether the window is currently zoomed.">
+				<cocoa key="isZoomed"/>
+			</property>
+		</class>
+		<class name="chat window" code="Ctwn" description="A window that contains chats" inherits="window">
+			<cocoa class="AIMessageWindow" />
+			<element type="chat" />
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+		</class>
+		<class name="chat" code="Chat" description="A chat in Adium">
+			<cocoa class="AIChat" />
+			<property name="name" code="pnam" type="text" access="r" description="The name of the chat">
+				<cocoa key="scriptingName" />
+			</property>
+			<property name="ID" code="ID  " type="text" access="r" description="The unique identifier of the chat.">
+				<cocoa key="uniqueChatID"/>
+			</property>
+			<property name="account" code="Cact" type="account" access="r" description="The account associated with this chat">
+				<cocoa key="scriptingAccount" />
+			</property>
+            <property name="date opened" code="CDop" type="date" access="r" description="The date and time at which this chat was opened">
+            	<cocoa key="dateOpened" />
+            </property>
+			<property name="index" code="pidx" type="integer" access="r" description="The index of this tab in the chat window" />
+			<property name="window" code="cwin" type="window" access="r" description="The window this chat is in" />
+			<property name="unread message count" code="Pumc" type="integer" access="r" description="The number of unread messages for this chat">
+				<cocoa key="unviewedContentCount" />
+			</property>
+			
+			<element type="contact">
+				<cocoa key="containedObjects" />
+			</element>
+			
+			<responds-to name="close">
+				<cocoa method="handleCloseScriptCommand:"/>
+			</responds-to>
+			<responds-to name="send">
+				<cocoa method="sendScriptCommand:"/>
+			</responds-to>
+			<responds-to command="become active">
+			    <cocoa method="goActiveScriptCommand:"/>
+			</responds-to>
+		</class>
+		<enumeration name="status types" code="Esta">
+			<enumerator name="offline" code="Soff" description="Account is offline."/>
+			<enumerator name="available" code="Sonl" description="Account is online."/>
+			<enumerator name="away" code="Sawy" description="Account is away."/>
+			<enumerator name="invisible" code="Sinv" description="Account is invisible."/>
+		</enumeration>
+		<enumeration name="proxy types" code="Epxt">
+			<enumerator name="HTTP proxy" code="HTTP" description="An HTTP proxy."/>
+			<enumerator name="SOCKS4 proxy" code="SCK4" description="A SOCKS 4 proxy."/>
+			<enumerator name="SOCKS5 proxy" code="SCK5" description="A SOCKS 5 proxy."/>
+			<enumerator name="default HTTP proxy" code="DHTP" description="The system-wide HTTP proxy."/>
+			<enumerator name="default SOCKS4 proxy" code="DSK4" description="The system-wide SOCKS4 proxy."/>
+			<enumerator name="default SOCKS5 proxy" code="DSK5" description="The system-wide SOCKS5 proxy."/>
+			<enumerator name="no proxy" code="NONE" description="No proxy configured."/>
+		</enumeration>
+		<class name="account" code="Cact" description="An account in Adium">
+			<cocoa class="AIAccount" />
+			<property name="id" code="ID  " type="integer" access="r" description="The unique ID associated with this account">
+				<cocoa key="scriptingInternalObjectID" />
+			</property>
+			<property name="name" code="pnam" type="text" access="r" description="The name of this account">
+				<cocoa key="scriptingUID" />
+			</property>
+			<property name="display name" code="Pdnm" type="text" access="rw" description="The display name of this account"/>
+			<property name="service" code="Csrv" type="service" access="r" description="The service this account is registered under" />
+			<property name="enabled" code="Penb" type="boolean" access="rw" description="Whether or not this account is enabled" />
+			<property name="host" code="Phst" type="text" access="r" description="The host this account is connected to" />
+			<property name="port" code="Pprt" type="integer" access="r" description="The port this account is connected to" />
+			<property name="status" code="Csts" type="status" access="rw" description="The current status on the account.">
+				<cocoa key="statusState" />
+			</property>
+			<property name="status type" code="Psts" type="status types" access="rw" description="The type of the current status. Setting this creates a temporary status.">
+				<cocoa key="scriptingStatusType" />
+			</property>
+			<property name="status message" code="Pasm" type="rich text" access="rw" description="The message associated with the current status. Setting this creates a temporary status.">
+				<cocoa key="scriptingStatusMessage" />
+			</property>
+			<property name="image" code="Pimg" type="TIFF picture" access="rw" description="The image associated with this account.">
+				<cocoa key="userIconData" />
+			</property>
+			
+			<!-- Technically, by the scripting interface guidelines, a proxy should be its own class. However, I don't see that as useful outside of AS, so I'm just going to implement this here. -applmak-->
+			<property name="proxy enabled" code="Ppxe" type="boolean" access="rw" description="Whether or not a proxy is enabled for this account." />
+			<property name="proxy type" code="Ppxt" type="proxy types" access="rw" description="The type of this proxy.">
+				<cocoa key="scriptingProxyType" />
+			</property>
+			<property name="proxy host" code="Ppxh" type="text" access="rw" description="The proxy host." />
+			<property name="proxy port" code="Ppxp" type="integer" access="rw" description="The port that should be used to connect to the proxy." />
+			<property name="proxy username" code="Ppxu" type="text" access="rw" description="The username that should be used to connect to the proxy." />
+			<property name="proxy password" code="Ppxx" type="text" access="rw" description="The password that should be used to connect to the proxy." />
+			
+			<element type="contact" />
+			
+			<responds-to name="go online">
+				<cocoa method="scriptingGoOnline:"/>
+			</responds-to>
+			<responds-to name="go available">
+				<cocoa method="scriptingGoAvailable:"/>
+			</responds-to>
+			<responds-to name="go offline">
+				<cocoa method="scriptingGoOffline:"/>
+			</responds-to>
+			<responds-to name="go away">
+				<cocoa method="scriptingGoAway:"/>
+			</responds-to>
+			<responds-to name="go invisible">
+				<cocoa method="scriptingGoInvisible:"/>
+			</responds-to>
+		</class>
+		<class name="contact group" code="Cgrp" description="A contact group">
+			<cocoa class="AIListGroup" />
+			<property name="name" code="pnam" type="text" access="rw" description="The name of this contact group.">
+				<cocoa key="UID" />
+			</property>
+			<property name="visible" code="pvis" type="boolean" access="r" description="The visibility of this group.">
+				<cocoa key="visible" />
+			</property>
+			<element type="contact" />
+		</class>
+		<class name="contact" code="Ccnt" description="A contact">
+			<cocoa class="AIListContact" />
+			<property name="account" code="Cact" type="account" access="r" description="The account associated with this contact" />
+			<property name="group" code="Pgrp" type="contact group" access="r" description="The group associated with this contact">
+				<cocoa key="parentGroup" />
+			</property>
+			<property name="name" code="pnam" type="text" access="r" description="The name of this contact">
+				<cocoa key="UID" />
+			</property>
+			<property name="ID" code="ID  " type="text" access="r" description="The opaque unique identifier of the contact">
+				<cocoa key="internalObjectID" />
+			</property>			
+			<property name="display name" code="Pdnm" type="text" access="rw" description="The display name or alias associated with this contact." />
+			<property name="notes" code="Pnts" type="text" access="rw" description="The user-defined notes for this contact."/>
+			<property name="idle time" code="Pidl" type="integer" access="r" description="The time this contact has been idle." />
+			<property name="status type" code="Psts" type="status types" access="r" description="The current status of this contact">
+				<cocoa key="scriptingStatusType" />
+			</property>
+			<property name="status message" code="Pasm" type="rich text" access="r" description="The custom status message for this contact.">
+				<cocoa key="scriptingStatusMessage" />
+			</property>
+			<property name="image" code="Pimg" type="TIFF picture" access="rw" description="The image associated with this contact.">
+				<cocoa key="userIconData" />
+			</property>
+			<property name="blocked" code="Pblk" type="boolean" access="rw" description="Whether or not this contact is marked as blocked.">
+				<cocoa key="scriptingBlocked" />
+			</property>
+		</class>
+		<class name="status" plural="statuses" code="Csts" description="A saved status in Adium">
+			<cocoa class="AIStatus" />
+			<property name="title" code="Pttl" type="text" access="rw" description="The title of the status.">
+				<cocoa key="scriptingTitle" />
+			</property>
+			<property name="status type" code="Psts" type="status types" access="rw" description="The type of this status.">
+				<cocoa key="statusTypeApplescript"/>
+			</property>
+			<property name="status message" code="Pasm" type="rich text" access="rw" description="The custom status message.">
+				<cocoa key="scriptingMessage"/>
+			</property>
+			<property name="autoreply" code="Paut" type="rich text" access="rw" description="The message to auto reply">
+				<cocoa key="scriptingAutoreply"/>
+			</property>
+			<property name="id" code="ID  " type="integer" access="r" description="The unique ID of the status">
+			     <cocoa key="uniqueStatusID"/>
+            </property>
+            <property name="saved" code="Psav" type="boolean" access="rw" description="Whether this status is temporary or not">
+            	<cocoa key="scriptingMutabilityType"/>
+            </property>
+		</class>
+		<command name="close" code="coreclos" description="Close a document.">
+			<cocoa class="NSCloseCommand"/>
+			<direct-parameter type="specifier" description="the document(s) or window(s) to close."/>
+		</command>
+
+		<command name="go online" code="Adumgoon" description="Changes the status of an account.">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The account that should connect" type="account" />
+			<parameter name="with message" code="Pmsg" description="The custom status message." type="rich text" optional="yes">
+				<cocoa key="WithMessage"/>
+			</parameter>
+		</command>
+		<command name="go available" code="Adumgoav" description="Changes the status of an account.">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The account that should become available" type="account" />
+			<parameter name="with message" code="Pmsg" description="The custom status message." type="rich text" optional="yes">
+				<cocoa key="WithMessage"/>
+			</parameter>
+		</command>
+		<command name="go offline" code="Adumgoof" description="Changes the status of an account.">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The account that should disconnect" type="account" />
+			<parameter name="with message" code="Pmsg" description="The custom status message." type="rich text" optional="yes">
+				<cocoa key="WithMessage"/>
+			</parameter>
+		</command>
+		<command name="go away" code="Adumgoaw" description="Changes the status of an account.">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The account that should go away" type="account" />
+			<parameter name="with message" code="Pmsg" description="The custom status message." type="rich text" optional="yes">
+				<cocoa key="WithMessage"/>
+			</parameter>
+		</command>
+		<command name="go invisible" code="Adumgoin" description="Changes the status of an account.">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The account that should become invisible" type="account" />
+			<parameter name="with message" code="Pmsg" description="The custom status message." type="rich text" optional="yes">
+				<cocoa key="WithMessage"/>
+			</parameter>
+		</command>
+		<command name="GetURL" code="GURLGURL" description="Tells Adium to open the specified chat, in URL form">
+			<cocoa class="NSScriptCommand" />
+			<direct-parameter description="The URL of the chat" type="text"/>
+		</command>
+		<command name="count" code="corecnte" description="Return the number elements of a particular class within an object.">
+			<cocoa class="NSCountCommand"/>
+			<direct-parameter description="the object whose elements are to be counted" type="specifier"/>
+			<parameter name="each" code="kocl" description="The class of objects to be counted." type="type" optional="yes">
+				<cocoa key="ObjectClass"/>
+			</parameter>
+			<result description="the number of elements" type="integer"/>
+		</command>
+		<command name="delete" code="coredelo" description="Delete an object.">
+			<cocoa class="NSDeleteCommand"/>
+			<direct-parameter description="the object to delete" type="specifier"/>
+		</command>
+		<command name="exists" code="coredoex" description="Verify if an object exists.">
+			<cocoa class="NSExistsCommand"/>
+			<direct-parameter description="the object in question" type="specifier"/>
+			<result description="true if it exists, false if not" type="boolean"/>
+		</command>
+  		<command name="make" code="corecrel" description="Make a new object.">
+			<cocoa class="AICreateCommand"/>
+			<parameter name="new" code="kocl" description="The class of the new object." type="type">
+				<cocoa key="ObjectClass"/>
+			</parameter>
+			<parameter name="at" code="insh" description="The location at which to insert the object." type="location specifier" optional="yes">
+				<cocoa key="Location"/>
+			</parameter>
+			<parameter name="with data" code="data" description="The initial data for the object." type="any" optional="yes">
+				<cocoa key="ObjectData"/>
+			</parameter>
+			<parameter name="with properties" code="prdt" description="The initial values for properties of the object." type="record" optional="yes">
+				<cocoa key="KeyDictionary"/>
+			</parameter>
+			<parameter name="with contacts" code="Pwct" description="The contacts needed for creating a chat or group." type="list of contact" optional="yes">
+				<cocoa key="withContacts"/>
+			</parameter>
+			<parameter name="new chat window" code="Pncw" description="If this is true, then a new chat window will be created when creating a chat." type="boolean" optional="yes">
+				<cocoa key="newChatWindow"/>
+			</parameter>
+			<parameter name="in window" code="Piwd" description="If set, will create the new chat within the passed chat window" type="chat window" optional="yes">
+			    <cocoa key="inWindow"/>
+			</parameter>
+			<result description="to the new object" type="specifier"/>
+		</command>
+		
+		<command name="move" code="coremove" description="Move object(s) to a new location.">
+			<cocoa class="AIMoveCommand"/>
+			<direct-parameter type="specifier" description="the object(s) to move"/>
+			<parameter name="to" code="insh" type="location specifier" description="The new location for the object(s).">
+				<cocoa key="ToLocation"/>
+			</parameter>
+			<result type="specifier" description="the moved object(s)"/>
+		</command>
+		
+		<command name="send" code="Adumsend" description="Send text or a file to some contact.">
+			<cocoa class="NSScriptCommand"/>
+			<direct-parameter type="chat" description="The chat that mimics the entry... yada yada"/>
+			<parameter name="message" code="Smsg" description="The message to send" type="text" optional="yes">
+				<cocoa key="message"/>
+			</parameter>
+			<parameter name="with file" code="Sfil" description="A file to attach" type="file" optional="yes">
+				<cocoa key="withFile"/>
+			</parameter>
+		</command>
+		
+		<command name="become active" code="Adumactv" description="Set a chat to active.">
+			<cocoa class="NSScriptCommand"/>
+			<direct-parameter type="chat" description="The chat that should become active."/>
+		</command>
+	</suite>
+	
+	<suite name="Text Suite" code="TEXT" description="A set of basic classes for text processing.">
+		<cocoa name="NSTextSuite"/>
+
+		<value-type name="color" code="cRGB">
+			<cocoa class="NSColor"/>
+		</value-type>
+
+		<class name="rich text" plural="rich text" code="ricT" description="Rich (styled) text">
+			<cocoa class="NSTextStorage"/>
+			<!-- this "type" element and the ones that follow, while they
+				contradict the DTD, are NOT errors.	Cocoa Scripting in 10.4 uses them to accomplish certain type conversions. -->
+			<type type="text"/>
+			<property name="color" code="colr" type="color" description="The color of the first character.">
+				<cocoa key="foregroundColor"/>
+			</property>
+			<property name="font" code="font" type="text" description="The name of the font of the first character.">
+				<cocoa key="fontName"/>
+			</property>
+			<property name="size" code="ptsz" type="integer" description="The size in points of the first character.">
+				<cocoa key="fontSize"/>
+			</property>
+			<element type="character"/>
+			<element type="paragraph"/>
+			<element type="word"/>
+			<element type="attribute run"/>
+			<element type="attachment"/>
+		</class>
+
+		<class name="character" code="cha " description="This subdivides the text into characters.">
+			<cocoa class="NSTextStorage"/>
+			<type type="text"/>
+			<property name="color" code="colr" type="color" description="The color of the first character.">
+				<cocoa key="foregroundColor"/>
+			</property>
+			<property name="font" code="font" type="text" description="The name of the font of the first character.">
+				<cocoa key="fontName"/>
+			</property>
+			<property name="size" code="ptsz" type="integer" description="The size in points of the first character.">
+				<cocoa key="fontSize"/>
+			</property>
+			<element type="character"/>
+			<element type="paragraph"/>
+			<element type="word"/>
+			<element type="attribute run"/>
+			<element type="attachment"/>
+		</class>
+
+		<class name="paragraph" code="cpar" description="This subdivides the text into paragraphs.">
+			<cocoa class="NSTextStorage"/>
+			<type type="text"/>
+			<property name="color" code="colr" type="color" description="The color of the first character.">
+				<cocoa key="foregroundColor"/>
+			</property>
+			<property name="font" code="font" type="text" description="The name of the font of the first character.">
+				<cocoa key="fontName"/>
+			</property>
+			<property name="size" code="ptsz" type="integer" description="The size in points of the first character.">
+				<cocoa key="fontSize"/>
+			</property>
+			<element type="character"/>
+			<element type="paragraph"/>
+			<element type="word"/>
+			<element type="attribute run"/>
+			<element type="attachment"/>
+		</class>
+
+		<class name="word" code="cwor" description="This subdivides the text into words.">
+			<cocoa class="NSTextStorage"/>
+			<type type="text"/>
+			<property name="color" code="colr" type="color" description="The color of the first character.">
+				<cocoa key="foregroundColor"/>
+			</property>
+			<property name="font" code="font" type="text" description="The name of the font of the first character.">
+				<cocoa key="fontName"/>
+			</property>
+			<property name="size" code="ptsz" type="integer" description="The size in points of the first character.">
+				<cocoa key="fontSize"/>
+			</property>
+			<element type="character"/>
+			<element type="paragraph"/>
+			<element type="word"/>
+			<element type="attribute run"/>
+			<element type="attachment"/>
+		</class>
+
+		<class name="attribute run" code="catr" description="This subdivides the text into chunks that all have the same attributes.">
+			<cocoa class="NSTextStorage"/>
+			<type type="text"/>
+			<property name="color" code="colr" type="color" description="The color of the first character.">
+				<cocoa key="foregroundColor"/>
+			</property>
+			<property name="font" code="font" type="text" description="The name of the font of the first character.">
+				<cocoa key="fontName"/>
+			</property>
+			<property name="size" code="ptsz" type="integer" description="The size in points of the first character.">
+				<cocoa key="fontSize"/>
+			</property>
+			<element type="character"/>
+			<element type="paragraph"/>
+			<element type="word"/>
+			<element type="attribute run"/>
+			<element type="attachment"/>
+		</class>
+
+		<class name="attachment" code="atts" inherits="rich text" description="Represents an inline text attachment. This class is used mainly for make commands.">
+			<cocoa class="NSAttachmentTextStorage"/>
+			<property name="file name" code="atfn" type="text" description="The path to the file for the attachment">
+				<cocoa key="filename"/>
+			</property>
+		</class>
+
+	</suite>
+
+</dictionary>

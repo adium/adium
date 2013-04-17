@@ -1,0 +1,115 @@
+#Chat
+{
+	display: table;
+}
+
+.x-container:not(.consecutive)
+{
+	border-top: none;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.x-container
+{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+#insert,
+.message,
+.status,
+.event
+{
+	display: table-row;
+}
+
+.x-icon,
+.x-sender,
+.x-message,
+.x-time
+{
+	display: table-cell !important;
+	border-top: 1px solid rgba(0, 0, 0, .1);
+	padding-top: 4px;
+	padding-bottom: 2px;
+	margin-left: 0px !important;
+}
+
+.x-sender,
+.x-time
+{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.x-sender
+{
+	max-width: 10.2em;
+	padding-right: 4px;
+	padding-left: 4px;
+}
+
+.status .x-sender:after,
+.event .x-sender:after
+{
+	color: rgb(192, 192, 192) !important;
+	content: "<-->";
+}
+
+.x-time
+{
+	padding-left: 16px;
+	padding-right: 4px;
+	float: none;
+}
+
+.message.consecutive .x-message
+{
+	padding-top: 4px;
+}
+
+.x-message
+{
+	padding-right: 8px;
+	padding-left: 4px;
+	width: 100%;
+}
+
+#insert
+{
+	padding-bottom: 2px;
+}
+
+.x-buddyicon
+{
+	display: none;
+}
+
+.focus,
+.focus.mention,
+.mention,
+.mention.history
+{
+	background: none;
+}
+
+.mention .x-time
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .75)), to(rgba(0, 0, 0, .75))) 0px 0px no-repeat;
+	-webkit-background-size: 10px 100%;
+}
+
+.focus .x-sender
+{
+	background: rgba(240, 240, 240, .5);
+}
+
+.action .x-sender,
+.x-filetransfer .x-sender
+{
+	text-align: right;
+}

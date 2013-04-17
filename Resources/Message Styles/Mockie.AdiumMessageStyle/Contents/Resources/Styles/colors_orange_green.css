@@ -1,0 +1,93 @@
+body,
+#topic
+{
+	background-color: rgba(242, 251, 238, .8);
+}
+
+.status .x-wrap,
+.event .x-wrap
+{
+	background-color: rgba(245, 253, 241, .8);
+}
+
+.incoming .x-buddyicon
+{
+	background: rgba(255, 124, 0, .2);
+}
+
+.incoming .x-sender,
+.incoming a:hover
+{
+	background: rgba(255, 124, 0, 1);
+}
+
+.incoming.history .x-sender,
+.incoming.history a:hover
+{
+	background: rgba(249, 188, 120, 1);
+}
+
+.focus.mention .x-message:before,
+.mention .x-message:before,
+.incoming .x-time,
+.incoming a
+{
+	color: rgba(255, 124, 0, 1);
+}
+
+.incoming.history .x-time
+{
+	color: rgba(249, 188, 120, 1);
+}
+
+.incoming .x-message
+{
+	background: rgba(244, 225, 190, .9);
+	border-top: 1px solid rgba(255, 124, 0, 1);
+}
+
+.incoming.history .x-message,
+.incoming.consecutive:not(.firstFocus) .x-message
+{
+	border-top: 1px solid rgba(249, 188, 120, 1);
+}
+
+.outgoing .x-buddyicon
+{
+	background: rgba(102, 204, 50, .2);
+}
+
+.outgoing .x-sender,
+.outgoing a:hover
+{
+	background: rgba(102, 204, 50, 1);
+}
+
+.outgoing.history .x-sender,
+.outgoing.history a:hover
+{
+	background: rgba(172, 228, 145, 1);
+}
+
+.outgoing .x-time,
+.outgoing a
+{
+	color: rgba(102, 204, 50, 1);
+}
+
+.outgoing.history .x-time
+{
+	color: rgba(172, 228, 145, 1);
+}
+
+.outgoing .x-message
+{
+	background: rgba(213, 241, 200, .9);
+	border-top: 1px solid rgba(102, 204, 50, 1);
+}
+
+.outgoing.history .x-message,
+.outgoing.consecutive:not(.firstFocus) .x-message
+{
+	border-top: 1px solid rgba(172, 228, 145, 1);
+}
