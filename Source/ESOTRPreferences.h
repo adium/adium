@@ -19,7 +19,7 @@
 
 @interface ESOTRPreferences : AIPreferencePane <AIAccountMenuDelegate, NSTableViewDelegate, NSTableViewDataSource> {
 	IBOutlet	NSPopUpButton	*popUp_accounts;
-	IBOutlet	NSButton		*button_generate;
+	IBOutlet	AILocalizationButton	*button_generate;
 	IBOutlet	NSTextField		*textField_privateKey;
 	
 	IBOutlet	NSTableView		*tableView_fingerprints;

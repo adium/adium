@@ -916,9 +916,16 @@ static OtrlMessageAppOps ui_ops = {
 {
 	ConnContext		*context = contextForChat(inChat);
 	
-	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:@"" from:inChat.listObject completionHandler:^(NSString *answer, NSString *question) {
-		otrl_message_initiate_smp_q(otrg_get_userstate(), &ui_ops, NULL, context, (const char *)[question UTF8String], (const unsigned char *)[answer UTF8String], answer.length);
-	} isInitiator:TRUE];
+	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:@""
+																													   from:inChat.listObject
+																										  completionHandler:^(NSString *answer, NSString *question) {
+		otrl_message_initiate_smp_q(otrg_get_userstate(),
+									&ui_ops, NULL, context,
+									(const char *)[question UTF8String],
+									(const unsigned char *)[answer UTF8String],
+									answer.length);
+	}
+																												isInitiator:TRUE];
 	
 	[windowController showWindow:nil];
 	[windowController.window orderFront:nil];
@@ -928,9 +935,15 @@ static OtrlMessageAppOps ui_ops = {
 {
 	ConnContext		*context = contextForChat(inChat);
 	
-	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:inChat.listObject completionHandler:^(NSString *answer) {
-		otrl_message_initiate_smp(otrg_get_userstate(), &ui_ops, NULL, context, (const unsigned char *)[answer UTF8String], answer.length);
-	} isInitiator:TRUE];
+	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:inChat.listObject
+																								  completionHandler:^(NSString *answer) {
+		otrl_message_initiate_smp(otrg_get_userstate(),
+								  &ui_ops, NULL,
+								  context,
+								  (const unsigned char *)[answer UTF8String],
+								  answer.length);
+	}
+																										isInitiator:TRUE];
 	
 	[windowController showWindow:nil];
 	[windowController.window orderFront:nil];
