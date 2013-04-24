@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2844</string>
+			<string key="NS.object.0">3084</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSButton</string>
@@ -257,8 +257,8 @@
 					</object>
 					<object class="NSButton" id="346757463">
 						<reference key="NSNextResponder" ref="261192207"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{414, 261}, {97, 32}}</string>
+						<int key="NSvFlags">270</int>
+						<string key="NSFrame">{{414, 261}, {111, 32}}</string>
 						<reference key="NSSuperview" ref="261192207"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="152864849"/>
@@ -266,7 +266,7 @@
 						<object class="NSButtonCell" key="NSCell" id="9745553">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Generate</string>
+							<string key="NSContents">Regenerate</string>
 							<reference key="NSSupport" ref="970377140"/>
 							<reference key="NSControlView" ref="346757463"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -688,13 +688,13 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="365143233"/>
 							<reference ref="152864849"/>
-							<reference ref="346757463"/>
 							<reference ref="246614867"/>
 							<reference ref="953884195"/>
 							<reference ref="41604946"/>
 							<reference ref="590488253"/>
 							<reference ref="476167500"/>
 							<reference ref="944557168"/>
+							<reference ref="346757463"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -927,7 +927,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">78</int>
+			<int key="maxID">79</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1030,7 +1030,7 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="button_forgetFingerprint">NSButton</string>
-						<string key="button_generate">NSButton</string>
+						<string key="button_generate">AILocalizationButton</string>
 						<string key="button_showFingerprint">NSButton</string>
 						<string key="field_filter">NSSearchField</string>
 						<string key="label_knownFingerprints">NSTextField</string>
@@ -1046,7 +1046,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="button_generate">
 							<string key="name">button_generate</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">AILocalizationButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="button_showFingerprint">
 							<string key="name">button_showFingerprint</string>

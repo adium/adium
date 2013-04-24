@@ -80,9 +80,10 @@
 	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints:", nil)];
 	[button_forgetFingerprint setTitle:AILocalizedString(@"Delete", nil)];
 	[button_showFingerprint setTitle:[AILocalizedString(@"Show", nil) stringByAppendingEllipsis]];
-	[button_generate setTitle:AILocalizedString(@"Generate", nil)];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"UID"] headerCell] setStringValue:AILocalizedString(@"Name", nil)];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"Status"] headerCell] setStringValue:AILocalizedString(@"Status", nil)];
+	
+	// button_generate already got localized when -updatePrivateKeyList got called.
 }
 
 - (void)viewWillClose
@@ -211,10 +212,10 @@
 													   fingerprint_buf, accountname, protocol);
 				
 				if (fingerprint) {
-					[button_generate setTitle:AILocalizedString(@"Regenerate", nil)];
+					[button_generate setLocalizedString:AILocalizedString(@"Regenerate", nil)];
 					fingerprintString = [NSString stringWithFormat:AILocalizedString(@"Fingerprint: %.80s",nil), fingerprint];
 				} else {
-					[button_generate setTitle:AILocalizedString(@"Generate", nil)];
+					[button_generate setLocalizedString:AILocalizedString(@"Generate", nil)];
 					fingerprintString = AILocalizedString(@"No private key present", "Message to show in the Encryption OTR preferences when an account is selected which does not have a private key");
 				}
 			}
@@ -233,8 +234,30 @@
 {
 	AIAccount	*account = ([popUp_accounts numberOfItems] ? [[popUp_accounts selectedItem] representedObject] : nil);
 	
-	otrg_plugin_create_privkey([account.internalObjectID UTF8String],
-							   [account.service.serviceCodeUniqueID UTF8String]);
+	if (account) {
+		const char		*accountname = [account.internalObjectID UTF8String];
+		const char		*protocol = [account.service.serviceCodeUniqueID UTF8String];
+		char			*fingerprint;
+		OtrlUserState	otrg_plugin_userstate;
+		
+		if ((otrg_plugin_userstate = otrg_get_userstate())){
+			char fingerprint_buf[45];
+			fingerprint = otrl_privkey_fingerprint(otrg_plugin_userstate,
+												   fingerprint_buf, accountname, protocol);
+			
+			if (fingerprint) {
+				NSAlert *deleteKeyAlert = [NSAlert alertWithMessageText:AILocalizedString(@"Are you sure you want to generate a new OTR key?", nil)
+														  defaultButton:AILocalizedString(@"Cancel", nil)
+														alternateButton:AILocalizedString(@"Delete", nil)
+															otherButton:nil
+											  informativeTextWithFormat:AILocalizedString(@"This will permanently delete your old key and all your contacts will need to verify your fingerprint again.", "Message when regenerating an OTR key")];
+				if ([deleteKeyAlert runModal] == NSAlertDefaultReturn) return;
+			}
+		}
+		
+		otrg_plugin_create_privkey([account.internalObjectID UTF8String],
+								   [account.service.serviceCodeUniqueID UTF8String]);
+	}
 }
 
 /*!
