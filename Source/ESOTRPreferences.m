@@ -149,16 +149,14 @@
 					
 					switch (trustLevel) {
 						case TRUST_NOT_PRIVATE:
-							state = AILocalizedString(@"Not private",nil);
+						case TRUST_FINISHED:
+							state = AILocalizedString(@"No OTR session active",nil);
 							break;
 						case TRUST_UNVERIFIED:
 							state = AILocalizedString(@"Unverified",nil);
 							break;
 						case TRUST_PRIVATE:
-							state = AILocalizedString(@"Private",nil);
-							break;
-						case TRUST_FINISHED:
-							state = AILocalizedString(@"Finished",nil);
+							state = AILocalizedString(@"Verified",nil);
 							break;
 						default:
 							state = @"";
