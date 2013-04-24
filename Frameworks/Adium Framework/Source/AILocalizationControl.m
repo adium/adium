@@ -116,9 +116,8 @@
 		newFrame.size.width += 8;
 	}
 	
-	//Only use integral widths to keep alignment correct;
-	//round up as an extra pixel of whitespace never hurt anybody
-	newFrame.size.width = AIround(NSWidth(newFrame) + 0.5f);
+	//Only use integral widths to keep alignment correct
+	newFrame.size.width = AIround(NSWidth(newFrame));
 	
 	//Enforce a minimum width of the original frame width
 //	NSLog(@"%@: new is %@; original is %@",inStringValue,NSStringFromRect(newFrame),NSStringFromRect(originalFrame));
@@ -143,9 +142,8 @@
 				newFrame.origin.x -= ((NSMaxX(newFrame) + 17) - windowMaxX);
 			}
 
-			//Only use integral origins to keep alignment correct;
-			//round up as an extra pixel of whitespace never hurt anybody
-			newFrame.origin.x = AIround(newFrame.origin.x + 0.5f);			
+			//Only use integral origins to keep alignment correct
+			newFrame.origin.x = AIround(newFrame.origin.x);
 			break;
 		}
 		case NSLeftTextAlignment:
