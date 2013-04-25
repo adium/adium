@@ -2150,8 +2150,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSString *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
 											group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
-		BOOL nextPageNecessary = (lastID && messages.count >= TWITTER_UPDATE_DM_COUNT);
-		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
 		NSString *largestTweet = nil;
 		
@@ -2160,7 +2158,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		[queuedDM addObjectsFromArray:messages];
 		
-		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", self, lastID, largestTweet, nextPageNecessary);
+		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@", self, lastID, largestTweet);
 		
 		--pendingUpdateCount;
 		
