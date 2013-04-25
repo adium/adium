@@ -263,7 +263,7 @@
 	
 	//Draw our original image as 50% transparent
 	[dragImage lockFocus];
-	[[self image] dissolveToPoint:NSZeroPoint fraction:0.5f];
+	[[self image] drawAtPoint:NSZeroPoint fromRect:NSMakeRect(0, 0, self.image.size.width, self.image.size.height) operation:NSCompositeCopy fraction:0.5f];
 	[dragImage unlockFocus];
 	
 	//We want the image to resize
