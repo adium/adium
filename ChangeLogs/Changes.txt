@@ -1,17 +1,20 @@
 				Adium Version History
 				-----------------------
+
 Version 1.6 (X/X/X)
  Major changes
   * New preferences layout
   * "Retina Display" support
   * Updated to libpurple x.y.z.
     * Added SASL authentication support. (#14478)
+  * Updated PSMTabBarControl tab framework.
+  * Updated Sparkle updating framework.
 
  Accessibility
   * Fixed tabs not being spoken by VoiceOver. (#16088)
 
  Chat window
-  * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
+  * Fixed various visual glitches with tabs related to dragging and dropping chat windows. (#16281, #15414, #15518, #16305)
   * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
 
  Contact list
@@ -41,6 +44,7 @@ Version 1.6 (X/X/X)
 
  Transcript Viewer
   * Added full screen support. (##16120) (Paul Wilde)
+  * Added sender name colouring support with a toggle that defaults to off. (#12352) (Ariel Chinn)
 
 ----
 
@@ -57,13 +61,19 @@ Version 1.6 (X/X/X)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
 
+
+   * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
+
+
 Version 1.5.7 (XX/XX/20XX)
  * Fix a bug that could cause SSL connections to be closed prematurely. (#16356)
+
 
 Version 1.5.6 (3/18/2013)
  * Fix a crash on startup on 10.6.8.
  * Fix a crash when accepting or canceling the certificate verification dialog. (#16280)
  * Fix a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
 
 Version 1.5.5 (2/24/2013)
  * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
