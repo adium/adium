@@ -111,6 +111,10 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 {
 	return [[categoryA objectForKey:@"Name"] localizedCaseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
 }
+NSInteger xtraSort(id xtra1, id xtra2, void * context)
+{
+	return [[(AIXtraInfo *)xtra1 name] localizedCaseInsensitiveCompare:[(AIXtraInfo *)xtra2 name]];
+}
 
 - (void)loadXtras
 {
@@ -192,9 +196,11 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 				[xtraInfo setEnabled:NO];
 				[contents addObject:xtraInfo];
 			}
-		}		
+		}
 	}
-
+	
+	[contents sortUsingFunction:xtraSort context:NULL];
+	
 	return contents;
 }
 
