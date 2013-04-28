@@ -27,6 +27,7 @@
 #import <Adium/AICorePluginLoader.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
+#define XTRAS_LAST_CATEGORY_KEY @"Xtras Last Category"
 
 @interface AIXtrasManager ()
 - (void)updateForSelectedCategory;
@@ -81,7 +82,11 @@
 
 	[self showXtras];
 
-	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	NSUInteger lastCategory = [[adium.preferenceController preferenceForKey:XTRAS_LAST_CATEGORY_KEY group:PREF_GROUP_GENERAL] integerValue];
+	if (lastCategory < categories.count)
+		[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:lastCategory] byExtendingSelection:NO];
+	else
+		[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self updateForSelectedCategory];
 }
@@ -250,6 +255,9 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 	if ([xtraList numberOfRows]) {
 		[xtraList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	}
+	
+	//Save the last viewed category
+	[adium.preferenceController setPreference:[NSString stringWithFormat:@"%ld", [tableView_categories selectedRow]] forKey:XTRAS_LAST_CATEGORY_KEY group:PREF_GROUP_GENERAL];
 	
 	[self updatePreview];
 }
