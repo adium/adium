@@ -191,8 +191,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
  */
 - (void)updateTopic:(NSString *)inTopic withSource:(NSString *)nick
 {
-	NSParameterAssert([nick isKindOfClass:[NSString class]]);
-	
 	AIListContact *contact = [self contactForNick:nick];
 	
 	[self setValue:inTopic forProperty:KEY_TOPIC notify:NotifyNow];
