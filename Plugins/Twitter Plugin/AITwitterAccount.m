@@ -988,7 +988,10 @@
 	}
 	
 	// Update the participant list.
-	[timelineChat addParticipatingListObjects:self.contacts notify:NotifyNow];
+	for (AIListContact *contact in self.contacts) {
+		[timelineChat addParticipatingNick:contact.UID notify:NotifyNow];
+		[timelineChat setContact:contact forNick:contact.UID];
+	}
 	
 	NSNumber *max = nil;
 	if (self.maxChars > 0) {
@@ -1826,7 +1829,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			
-			id fromObject = nil;
+			AIListObject *fromObject = nil;
 			
 			if (![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
@@ -1837,15 +1840,17 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
 				
-				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+				[timelineChat addParticipatingNick:listContact.UID notify:NotifyNow];
+				[timelineChat setContact:listContact forNick:listContact.UID];
 				
-				fromObject = (id)listContact;
+				fromObject = listContact;
 			} else {
-				fromObject = (id)self;
+				fromObject = self;
 			}
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																	withSource:fromObject
+																	sourceNick:fromObject.UID
 																   destination:self
 																		  date:date
 																	   message:message
@@ -1892,6 +1897,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if(chat && source && destination) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:source
+																		sourceNick:source.UID
 																	   destination:destination
 																			  date:date
 																		   message:[self parseDirectMessage:message

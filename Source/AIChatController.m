@@ -961,9 +961,10 @@
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
 		 */
-		for (AIListContact *inContact in inObjects) {
-			if (![inContact.account.UID isEqualToString:inContact.UID]) {
-				[adiumChatEvents chat:chat addedListContact:inContact];
+		for (NSString *nick in inObjects) {
+			AIListContact *contact = (AIListContact *)[(AIGroupChat *)chat contactForNick:nick];
+			if (![contact.account.UID isEqualToString:contact.UID]) {
+				[adiumChatEvents chat:chat addedListContact:contact];
 			}
 		}
 	}

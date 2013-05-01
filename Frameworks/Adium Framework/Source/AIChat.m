@@ -641,6 +641,7 @@ static int nextChatNumber = 0;
 		AIContentMessage	*messageContent;
 		messageContent = [AIContentMessage messageInChat:self
 											  withSource:self.account
+											  sourceNick:nil
 											 destination:self.listObject
 													date:nil
 												 message:attributedMessage

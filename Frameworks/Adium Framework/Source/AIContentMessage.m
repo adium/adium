@@ -23,7 +23,6 @@
 
 @implementation AIContentMessage
 
-//Create a content message
 + (id)messageInChat:(AIChat *)inChat
 		 withSource:(id)inSource
 		destination:(id)inDest
@@ -31,8 +30,27 @@
 			message:(NSAttributedString *)inMessage
 		  autoreply:(BOOL)inAutoReply
 {
+	return [[[self alloc] initWithChat:inChat
+								source:inSource
+							sourceNick:nil
+						   destination:inDest
+								  date:inDate
+							   message:inMessage
+							 autoreply:inAutoReply] autorelease];
+}
+
+//Create a content message
++ (id)messageInChat:(AIChat *)inChat
+		 withSource:(id)inSource
+		 sourceNick:(NSString *)inSourceNick
+		destination:(id)inDest
+			   date:(NSDate *)inDate
+			message:(NSAttributedString *)inMessage
+		  autoreply:(BOOL)inAutoReply
+{
     return [[[self alloc] initWithChat:inChat
 								source:inSource
+							sourceNick:inSourceNick
 						   destination:inDest
 								  date:inDate
 							   message:inMessage
@@ -48,12 +66,13 @@
 //Init
 - (id)initWithChat:(AIChat *)inChat
 			source:(id)inSource
+		sourceNick:(NSString *)inSourceNick
 	   destination:(id)inDest
 			  date:(NSDate *)inDate
 		   message:(NSAttributedString *)inMessage
 		 autoreply:(BOOL)inAutoReply
 {
-	if ((self = [super initWithChat:inChat source:inSource destination:inDest date:inDate message:inMessage])) {
+	if ((self = [super initWithChat:inChat source:inSource sourceNick:inSourceNick destination:inDest date:inDate message:inMessage])) {
 		isAutoreply = inAutoReply;
 		encodedMessage = nil;
 		encodedMessageAccountData = nil;
@@ -78,7 +97,7 @@
 	[classes addObject:@"message"];
 	if(isAutoreply) [classes addObject:@"autoreply"];
 	if(self.chat.isGroupChat) {
-		AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForContact:(AIListContact *)self.source];
+		AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForNick:self.sourceNick];
 		if (flags & AIGroupChatOp)
 			[classes addObject:@"op"];
 		if (flags & AIGroupChatHalfOp)
@@ -95,7 +114,7 @@
 {
     if (!self.chat.isGroupChat) return @"";
     
-	AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForContact:(AIListContact *)self.source];
+	AIGroupChatFlags flags = [(AIGroupChat *)self.chat flagsForNick:self.sourceNick];
 	
 	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
 		return @"~";

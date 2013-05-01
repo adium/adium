@@ -75,13 +75,12 @@
 	NSString *messageString = [inAttributedString string];
 			
 	AIAccount *account = (AIAccount *)message.destination;
-	NSString *contactAlias = [(AIGroupChat *)chat aliasForContact:[account contactWithUID:account.UID]];
-	
+		
 	// XXX When we fix user lists to contain accounts, fix this too.
 	NSArray *myPredicates = [NSArray arrayWithObjects:
 							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]], 
 							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]], 
-							 /* can be nil */ contactAlias? [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [contactAlias stringByEscapingForRegexp]]] : nil,
+							 /* can be nil */ message.sourceNick ? [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [message.sourceNick stringByEscapingForRegexp]]] : nil,
 							 nil];
 	
 	myPredicates = [myPredicates arrayByAddingObjectsFromArray:self.mentionPredicates];

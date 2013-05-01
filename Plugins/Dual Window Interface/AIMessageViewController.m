@@ -848,22 +848,23 @@
 	return charRange;
 }
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord
 {
-	NSMutableArray *contacts = [NSMutableArray array];
+	NSMutableArray *nicks = [NSMutableArray array];
 	
-	for (AIListContact *listContact in (AIGroupChat *)self.chat) {
+	for (NSString *nick in (AIGroupChat *)self.chat) {
+		AIListContact *listContact = [(AIGroupChat *)self.chat contactForNick:nick];
 		// Add to the list if it matches: (1) The display name for the chat (alias fallback to default display name), 
 		// (2) The UID, or (3) the display name
-		if ([[(AIGroupChat *)self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
+		if ([nick rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
-			[contacts addObject:listContact];
-			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [(AIGroupChat *)self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
+			[nicks addObject:nick];
+			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, nick, listContact.UID, listContact.formattedUID, listContact.displayName);
 		}
 	}
 	
-	return contacts;
+	return nicks;
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)idx
@@ -898,13 +899,14 @@
 		completions = [NSMutableArray array];
 		
 		// For each matching contact:
-		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
+		for (NSString *nick in [self nicksMatchingBeginningString:partialWord]) {
 			// Complete the chat alias.
-			NSString *completion = [(AIGroupChat *)self.chat aliasForContact:listContact];
+			NSString *completion = nick;
 			
 			// Otherwise, complete the UID (if we're completing UIDs for this chat) or the display name.
-			if (!completion)
-				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+#warning Fix this for nicksMatchingBeginningString
+//			if (!completion)
+//				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
 			
 			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
 		}

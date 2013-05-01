@@ -409,6 +409,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 				
 				AIContentMessage *message = [messageClass messageInChat:chat 
 															 withSource:(sentByMe ? account : listContact)
+															 sourceNick:[attributes objectForKey:@"alias"] ? : [attributes objectForKey:@"sender"]
 															destination:(sentByMe ? (chat.isGroupChat ? nil : chat.listObject) : account)
 																   date:timeVal
 																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:[element contentsAsXMLString]]

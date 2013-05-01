@@ -456,10 +456,8 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
  */
 - (AIGroupChatFlags)flagsInChat:(AIGroupChat *)chat
 {
-	NSString *ourUID = [NSString stringWithUTF8String:purple_normalize(self.purpleAccount, [self.displayName UTF8String])];
-	
 	// XXX Once we don't create a fake contact for ourself, we should do this the right way.
-	return [chat flagsForContact:[self contactWithUID:ourUID]];
+	return [chat flagsForNick:self.displayName];
 }
 
 #pragma mark Action Menu

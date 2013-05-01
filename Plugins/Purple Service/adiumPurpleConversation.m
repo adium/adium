@@ -102,6 +102,7 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 			if (normalizedUID.length) {
 				messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
 							   normalizedUID, @"Source",
+							   [NSString stringWithUTF8String:who], @"SourceNick",
 							   purpleMessageFlags, @"PurpleMessageFlags",
 							   date, @"Date",nil];
 				
@@ -367,9 +368,9 @@ static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *
 		
 		// Ignore newAlias and set the alias to newName
 		
-		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:get_real_name_for_account_conv_buddy(account, conv, (char *)oldName)
-																		newName:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
-																	   newAlias:[NSString stringWithUTF8String:newName]
+		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:[NSString stringWithUTF8String:oldName]
+																		newNick:[NSString stringWithUTF8String:newName]
+																		 newUID:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
 																		  flags:cb->flags
 																		 inChat:groupChatLookupFromConv(conv)];
 	}
@@ -385,8 +386,8 @@ static void adiumPurpleConvChatRemoveUsers(PurpleConversation *conv, GList *user
 
 		GList *l;
 		for (l = users; l != NULL; l = l->next) {
-			NSString *normalizedUID = get_real_name_for_account_conv_buddy(account, conv, (char *)l->data);
-			[usersArray addObject:normalizedUID];
+			NSString *nick = [NSString stringWithUTF8String:l->data];
+			[usersArray addObject:nick];
 		}
 
 		[accountLookup(account) removeUsersArray:usersArray
@@ -420,10 +421,10 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	// We use cb->name for the alias field, since libpurple sets the one we're after (the chat name) formatted correctly inside.
 	NSString *name = cb->name ? [NSString stringWithUTF8String:cb->name] : nil;
 	
-	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
+	[adiumAccount updateUser:[NSString stringWithUTF8String:user] // get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
 					   flags:cb->flags
-					   alias:name
+					newAlias:name
 				  attributes:attributes];
     [pool drain];
 }

@@ -71,6 +71,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	}
     if ((self = [super initWithChat:aChat
 							 source:s
+						 sourceNick:nil
 						destination:d
 							   date:[NSDate date]
 							message:[[[NSAttributedString alloc] initWithString:@""] autorelease]
