@@ -15,7 +15,6 @@
  */
 
 #import "AICachedUserIconSource.h"
-#import <Adium/AIUserIcons.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 
@@ -76,11 +75,10 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 - (id)init
 {
 	if (sharedCachedUserIconSourceInstance) {
-		[self release];
-		return [sharedCachedUserIconSourceInstance retain];
+		return sharedCachedUserIconSourceInstance;
 	} else {
 		if ((self = [super init])) {
-			sharedCachedUserIconSourceInstance = [self retain];
+			sharedCachedUserIconSourceInstance = self;
 		}
 	}
 	
@@ -106,7 +104,7 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 		
 		if (iconData) {
 			[AIUserIcons userIconSource:self
-				   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
+				   didDetermineUserIcon:[[NSImage alloc] initWithData:iconData]
 						 asynchronously:NO
 							  forObject:inObject];
 		}
@@ -128,7 +126,7 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 		NSData				*cachedImage;
 		
 		if ((cachedImage = [[NSData alloc] initWithContentsOfFile:cachedImagePath])) {
-			return [cachedImage autorelease];
+			return cachedImage;
 		}
 	}	
 	

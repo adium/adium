@@ -1,10 +1,6 @@
 #import "AsyncSocket.h"
 #import "HTTPServer.h"
-#import "HTTPAuthenticationRequest.h"
 #import "EKEzvOutgoingFileTransfer.h"
-#import <SystemConfiguration/SystemConfiguration.h>
-
-#import <stdlib.h>
 
 // Define the various timeouts (in seconds) for various parts of the HTTP process
 #define READ_TIMEOUT        -1
@@ -70,13 +66,6 @@
 	
 	// Stop the server if it's running
 	[self stop];
-	
-	// Release all instance variables
-	[documentRoot release];
-	[asyncSocket release];
-	[connections release];
-	
-	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +100,6 @@
 {
     if (![documentRoot isEqual:value])
 	{
-        [documentRoot release];
         documentRoot = [value copy];
     }
 }
@@ -158,8 +146,7 @@
 - (void)setTransfer:(EKEzvOutgoingFileTransfer *)newTransfer{
 	if (transfer !=newTransfer)
 	{
-		[transfer release];
-		transfer = [newTransfer retain];
+		transfer = newTransfer;
 	}
 }
 - (EKEzvOutgoingFileTransfer *)transfer{
@@ -222,7 +209,6 @@
 	
 	id newConnection = [[connectionClass alloc] initWithAsyncSocket:newSocket forServer:self];
 	[connections addObject:newConnection];
-	[newConnection release];
 }
 
 /**
@@ -264,7 +250,7 @@
 	if ((self = [super init]))
 	{
 		// Take over ownership of the socket
-		asyncSocket = [newSocket retain];
+		asyncSocket = newSocket;
 		[asyncSocket setDelegate:self];
 		
 		// Store reference to server
@@ -288,10 +274,7 @@
 **/
 - (void)dealloc
 {
-	[asyncSocket release];
 	if (request) CFRelease(request);
-		
-	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -311,13 +294,13 @@
 //	NSString *requestVersion = [(NSString *)CFHTTPMessageCopyVersion(request) autorelease];
 //	NSURL *requestURI = [(NSURL *)CFHTTPMessageCopyRequestURL(request) autorelease];
 
-	NSString *encoding = [(NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Accept-Encoding")) autorelease];
+	NSString *encoding = (__bridge_transfer NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Accept-Encoding"));
 	bool isAppleSingle = NO;
 	if ([encoding isEqualToString:@"AppleSingle"]) {
 		isAppleSingle = YES;
 	}
 	
-	NSString *connection = [(NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Connection")) autorelease];
+	NSString *connection = (__bridge_transfer NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Connection"));
 	bool isKeepAlive = NO;
 	if ([connection isEqualToString:@"keep-alive"]) {
 		isKeepAlive = YES;
@@ -327,14 +310,14 @@
 	
 	// Check the HTTP version
 	// If it's anything but HTTP version 1.1, we don't support it
-	NSString *version = [(NSString *)CFHTTPMessageCopyVersion(request) autorelease];
+	NSString *version = (__bridge_transfer NSString *)CFHTTPMessageCopyVersion(request);
     if (!version || ![version isEqualToString:(NSString *)kCFHTTPVersion1_1]) {
 		//NSLog(@"HTTP Server: Error 505 - Version Not Supported");
 		
 		// Status Code 505 - Version Not Supported
-        CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 505, NULL, (CFStringRef)version);
+        CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 505, NULL, (__bridge CFStringRef)version);
 		CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), CFSTR("0"));
-        NSData *responseData = [(NSData *)CFHTTPMessageCopySerializedMessage(response) autorelease];
+        NSData *responseData = (__bridge_transfer NSData *)CFHTTPMessageCopySerializedMessage(response);
 		[asyncSocket writeData:responseData withTimeout:WRITE_ERROR_TIMEOUT tag:HTTP_RESPONSE];
 		CFRelease(response);
 		[[server transfer] userFailedDownload];
@@ -343,14 +326,14 @@
 	
 	// Check HTTP method
 	// If no method was passed, issue a Bad Request response
-    NSString *method = [(NSString *)CFHTTPMessageCopyRequestMethod(request) autorelease];
+    NSString *method = (__bridge_transfer NSString *)CFHTTPMessageCopyRequestMethod(request);
     if (!method) {
 		//NSLog(@"HTTP Server: Error 400 - Bad Request");
 		
 		// Status Code 400 - Bad Request
         CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, NULL, kCFHTTPVersion1_1);
 		CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), CFSTR("0"));
-        NSData *responseData = [(NSData *)CFHTTPMessageCopySerializedMessage(response) autorelease];
+        NSData *responseData = (__bridge_transfer NSData *)CFHTTPMessageCopySerializedMessage(response);
 		[asyncSocket writeData:responseData withTimeout:WRITE_ERROR_TIMEOUT tag:HTTP_RESPONSE];
         CFRelease(response);
 		[[server transfer] userFailedDownload];
@@ -358,7 +341,7 @@
 	}
 	
 	// Extract requested URI
-	NSURL *uri = [(NSURL *)CFHTTPMessageCopyRequestURL(request) autorelease];
+	NSURL *uri = (__bridge_transfer NSURL *)CFHTTPMessageCopyRequestURL(request);
 	
 	// Respond properly to HTTP 'GET' and 'HEAD' commands
     if ([method isEqualToString:@"GET"] || [method isEqualToString:@"HEAD"]) {
@@ -376,7 +359,7 @@
         CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, NULL, kCFHTTPVersion1_1);
 		[self setHeaderFields:response forURI:[uri relativeString] appleSingle: isAppleSingle keepAlive:isKeepAlive];
 		NSString *contentLength = [NSString stringWithFormat:@"%li", [data length]];
-        CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), (CFStringRef)contentLength);
+        CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), (__bridge CFStringRef)contentLength);
 
 		//NSDictionary *responseHeaders = [(NSDictionary *)CFHTTPMessageCopyAllHeaderFields(response) autorelease];
 		// NSLog(@"Sending Headers - %@", responseHeaders);
@@ -386,14 +369,14 @@
 		// If they issue a 'GET' command, we need to include the file
 		if ([method isEqual:@"HEAD"])
 		{
-			NSData *responseData = [(NSData *)CFHTTPMessageCopySerializedMessage(response) autorelease];
+			NSData *responseData = (__bridge_transfer NSData *)CFHTTPMessageCopySerializedMessage(response);
 			[asyncSocket writeData:responseData withTimeout:WRITE_HEAD_TIMEOUT tag:HTTP_RESPONSE];
         } else {
 			// Previously, we would use the CFHTTPMessageSetBody method here.
 			// This caused problems, however, if the data was large.
 			// For example, if the data represented a 500 MB movie on the disk, this method would thrash the OS!
 			
-			NSData *responseData = [(NSData *)CFHTTPMessageCopySerializedMessage(response) autorelease];
+			NSData *responseData = (__bridge_transfer NSData *)CFHTTPMessageCopySerializedMessage(response);
 			[asyncSocket writeData:responseData withTimeout:WRITE_HEAD_TIMEOUT tag:HTTP_PARTIAL_RESPONSE];
 			[asyncSocket writeData:data withTimeout:WRITE_BODY_TIMEOUT tag:HTTP_RESPONSE];
 		}
@@ -406,7 +389,7 @@
 	
 	// Status code 405 - Method Not Allowed
     CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 405, NULL, kCFHTTPVersion1_1);
-    NSData *responseData = [(NSData *)CFHTTPMessageCopySerializedMessage(response) autorelease];
+    NSData *responseData = (__bridge_transfer NSData *)CFHTTPMessageCopySerializedMessage(response);
 	[asyncSocket writeData:responseData withTimeout:WRITE_ERROR_TIMEOUT tag:HTTP_RESPONSE];
     CFRelease(response);
 
@@ -449,7 +432,6 @@
 			} else {
 				[data appendData: fileData];
 			}
-			[fileData release];
 		}
 	}
 	return data;
@@ -464,7 +446,7 @@
 	CFHTTPMessageSetHeaderFieldValue(response,CFSTR("Connection"),CFSTR("close"));
 	if (isAppleSingle)
 		CFHTTPMessageSetHeaderFieldValue(response,CFSTR("Content-Encoding"),CFSTR("AppleSingle"));
-	CFHTTPMessageSetHeaderFieldValue(response,CFSTR("Date"),(CFStringRef)[[NSDate date] description]);
+	CFHTTPMessageSetHeaderFieldValue(response,CFSTR("Date"),(__bridge CFStringRef)[[NSDate date] description]);
 	CFHTTPMessageSetHeaderFieldValue(response,CFSTR("Server"),CFSTR("Fez (Mac OS X)"));
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

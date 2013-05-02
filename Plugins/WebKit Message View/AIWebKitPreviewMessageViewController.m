@@ -29,24 +29,21 @@
 
 - (void)dealloc
 {
-	[preferencesChangedDelegate release]; preferencesChangedDelegate = nil;
-
-	[super dealloc];
+	preferencesChangedDelegate = nil;
 }
 
 - (void)setIsGroupChat:(BOOL)groupChat
 {
-    NSAssert([chat isKindOfClass:[AIPreviewChat class]], @"Can't promote chat %@ to group chat", chat);
-    
+	NSAssert([chat isKindOfClass:[AIPreviewChat class]], @"Can't promote chat %@ to group chat", chat);
+
 	((AIPreviewChat *)chat).isGroupChat = groupChat;
-	preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
+	preferenceGroup = [plugin preferenceGroupForChat:chat];
 }
 
 - (void)setPreferencesChangedDelegate:(id)inDelegate
 {
 	if (inDelegate != preferencesChangedDelegate) {
-		[preferencesChangedDelegate release];
-		preferencesChangedDelegate = [inDelegate retain];
+		preferencesChangedDelegate = inDelegate;
 		
 		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY
 														   key:nil

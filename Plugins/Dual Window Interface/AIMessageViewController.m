@@ -16,7 +16,6 @@
 
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
-#import "ESGeneralPreferencesPlugin.h"
 #import "AIDualWindowInterfacePlugin.h"
 #import "AIMessageWindowOutgoingScrollView.h"
 #import "AIGradientView.h"
@@ -33,8 +32,6 @@
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIBundleAdditions.h>
-#import <AIUtilities/AIOSCompatibility.h>
 
 //Heights and Widths
 #define MESSAGE_VIEW_MIN_HEIGHT_RATIO		0.5f					// Mininum height ratio of the message view
@@ -82,7 +79,7 @@
  */
 + (AIMessageViewController *)messageDisplayControllerForChat:(AIChat *)inChat
 {
-    return [[[self alloc] initForChat:inChat] autorelease];
+    return [[self alloc] initForChat:inChat];
 }
 
 
@@ -94,7 +91,7 @@
     if ((self = [super init])) {
 		AIListContact	*contact;
 		//Init
-		chat = [inChat retain];
+		chat = inChat;
 		contact = chat.listObject;
 		userListController = nil;
 		suppressSendLaterPrompt = NO;
@@ -154,8 +151,6 @@
         [sourceDestination.view setHidden:TRUE];
         
 		[self performSelector:@selector(addTopBarController:) withObject:sourceDestination afterDelay:.2f];
-
-        [sourceDestination release];
         
         [self _updateTextEntryViewHeight];
 	}
@@ -186,23 +181,17 @@
 	if (contact && initialBaseWritingDirection != [textView_outgoing baseWritingDirection])
 		[contact setBaseWritingDirection:[textView_outgoing baseWritingDirection]];
 
-	[chat release]; chat = nil;
+	chat = nil;
 
 	//remove observers
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[messageDisplayController messageViewIsClosing];
-    [messageDisplayController release];
-	[userListController release];
 	
 	//release menuItem
-	[showHide release];
-	[view_contents release]; view_contents = nil;
-	[undoManager release]; undoManager = nil;
-
-    [topBarControllers release]; topBarControllers = nil;
-    
-    [super dealloc];
+	view_contents = nil;
+	undoManager = nil;
+	topBarControllers = nil;
 }
 
 - (void)saveUserListMinimumSize
@@ -230,7 +219,7 @@
 		[userListController contactListWillBeRemovedFromWindow];
 	}
 	
-	[messageWindowController release]; messageWindowController = nil;
+	messageWindowController = nil;
 }
 
 - (void)messageViewAddedToWindowController:(AIMessageWindowController *)inWindowController
@@ -240,8 +229,7 @@
 	}
 	
 	if (inWindowController != messageWindowController) {
-		[messageWindowController release];
-		messageWindowController = [inWindowController retain];
+		messageWindowController = inWindowController;
 	}
 }
 
@@ -290,7 +278,7 @@
 - (void)_configureMessageDisplay
 {
 	//Create the message view
-	messageDisplayController = [[adium.interfaceController messageDisplayControllerForChat:chat] retain];
+	messageDisplayController = [adium.interfaceController messageDisplayControllerForChat:chat];
 
 	[scrollView_messages setDocumentView:[messageDisplayController messageView]];
 	[[scrollView_messages documentView] setFrame:[scrollView_messages visibleRect]];
@@ -382,7 +370,6 @@
 												 date:nil //created for us by AIContentMessage
 											  message:outgoingAttributedString
 											autoreply:NO];
-			[outgoingAttributedString release];
 			
 			if ([adium.contentController sendContentObject:message]) {
 				[[NSNotificationCenter defaultCenter] postNotificationName:Interface_DidSendEnteredMessage 
@@ -399,7 +386,7 @@
 			NSImage *icon = ([listObject userIcon] ? [listObject userIcon] : [AIServiceIcons serviceIconForObject:listObject
 																											 type:AIServiceIconLarge
 																										direction:AIIconNormal]);
-			icon = [[icon copy] autorelease];
+			icon = [icon copy];
 			[icon setScalesWhenResized:NO];
 			[alert setIcon:icon];
 			[alert setAlertStyle:NSInformationalAlertStyle];
@@ -461,10 +448,9 @@
 			[dontSendButton setKeyEquivalentModifierMask:0];
 			
 			[alert beginSheetModalForWindow:[view_contents window]
-							  modalDelegate:[self retain] /* Will release after the sheet ends */
+							  modalDelegate:self /* Will release after the sheet ends */
 							 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                                contextInfo:[[NSNumber numberWithInteger:messageSendingAbility] retain] /* Will release after the sheet ends */];
-			[alert release];
+                                contextInfo:(__bridge_retained void *)([NSNumber numberWithInteger:messageSendingAbility]) /* Will release after the sheet ends */];
 		}
     }
 }
@@ -474,7 +460,7 @@
  */ 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	AIChatSendingAbilityType messageSendingAbility = [(NSNumber *)contextInfo intValue];
+	AIChatSendingAbilityType messageSendingAbility = [(__bridge NSNumber *)contextInfo intValue];
 
 	switch (returnCode) {
 		case NSAlertFirstButtonReturn:
@@ -505,10 +491,6 @@
 		case NSAlertThirdButtonReturn: /* Don't Send */
 			break;
 	}
-	
-	//Retained when the alert was created to guard against a crash if the chat tab being closed while we are open
-	[self release];
-	[(NSNumber *)contextInfo release];
 }
 
 /*!
@@ -551,7 +533,7 @@
 		
 		[alertDict setObject:listContact forKey:@"TEMP-ListContact"];
 		
-		[adium.contentController filterAttributedString:[[[textView_outgoing textStorage] copy] autorelease]
+		[adium.contentController filterAttributedString:[[textView_outgoing textStorage] copy]
 										  usingFilterType:AIFilterContent
 												direction:AIFilterOutgoing
 											filterContext:listContact
@@ -575,13 +557,12 @@
 	detailsDict = [alertDict objectForKey:@"ActionDetails"];
 	[detailsDict setObject:[filteredMessage dataRepresentation] forKey:@"Message"];
 
-	listContact = [[alertDict objectForKey:@"TEMP-ListContact"] retain];
+	listContact = [alertDict objectForKey:@"TEMP-ListContact"];
 	[alertDict removeObjectForKey:@"TEMP-ListContact"];
 	
 	[adium.contactAlertsController addAlert:alertDict 
 								 toListObject:listContact
 							 setAsNewDefaults:NO];
-	[listContact release];
 }
 
 //Text Entry -----------------------------------------------------------------------------------------------------------
@@ -659,11 +640,8 @@
 	[self _updateTextEntryViewHeight];
 	
 	// Disable elastic scroll
-	// Remove the check on 10.7+
 	// Not sure why it won't work in AIMessageEntryTextView
-	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
-		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
-	}
+	[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
 }
 
 /*!
@@ -885,7 +863,7 @@
 		
 		// If we need to add a prefix, insert it into the text, then call [textView complete:] again; return early with no completions.
 		if (prefix.length > 0) {
-			[textView.textStorage insertAttributedString:[[[NSAttributedString alloc] initWithString:prefix] autorelease] atIndex:charRange.location];
+			[textView.textStorage insertAttributedString:[[NSAttributedString alloc] initWithString:prefix] atIndex:charRange.location];
 			[textView complete:nil];
 			return nil;
 		}
@@ -1003,7 +981,7 @@
 - (void)_showUserListViewAnimate:(BOOL)useAnimation
 {
 	if (chat.isGroupChat && view_userList.superview == nil) {
-		[splitView_verticalSplit addSubview:[view_userList autorelease]];
+		[splitView_verticalSplit addSubview:view_userList];
 	}
 	[self updateUserCount];
 	[userListController reloadData];
@@ -1040,8 +1018,7 @@
 	if (!chat.isGroupChat) {
 		NSRect frame = view_userList.frame;
 		frame.size.width = 0;
-		[view_userList setFrame:frame];
-		[view_userList retain];
+		view_userList.frame = frame;
 		[view_userList removeFromSuperview];
 	}
 	
@@ -1464,8 +1441,6 @@
         ![chat boolValueForProperty:@"accountJoined"]) {
         AIRejoinGroupChatViewController *rejoinChatController = [[AIRejoinGroupChatViewController alloc] init];
         [self addTopBarController:rejoinChatController];
-		
-		[rejoinChatController release];
 	}
 }
 

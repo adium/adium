@@ -42,11 +42,6 @@
 #define KEY_TOPIC_SETTER @"topicSetter"
 
 typedef enum {
-	AIChatTimedOut = 0,
-	AIChatClosedWindow
-} AIChatUpdateType;
-
-typedef enum {
 	AIChatCanNotSendMessage = 0,
 	AIChatMayNotBeAbleToSendMessage,
 	AIChatCanSendMessageNow,
@@ -105,30 +100,20 @@ typedef enum {
 
 	NSMutableArray		*pendingOutgoingContentObjects;
 	
-	AIListContact		*preferredContact;
+	AIListContact		*__weak preferredContact;
 	NSString			*name;
 	NSString			*uniqueChatID;
 	id					identifier;
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL				enableTypingNotifications;
 	BOOL				hideUserIconAndStatus;
 	
 	NSMutableSet		*customEmoticons;
 	
 	// Former properties
-	NSImage				*tabStateIcon;
-	
 	NSDictionary		*chatCreationInfo;
-	
-	NSInteger			unviewedMention;
-	NSInteger			unviewedContent;
-	
-	NSTimer				*enteredTextTimer;
-	
-	NSInteger			ourTypingState;
-	
+
 	NSDictionary		*securityDetails;
     
     AIListContact       *_listObject;
@@ -137,10 +122,10 @@ typedef enum {
 + (id)chatForAccount:(AIAccount *)inAccount;
 - (id)initForAccount:(AIAccount *)inAccount;
 
-@property (readwrite, nonatomic, retain) AIAccount *account;
+@property (readwrite, nonatomic, strong) AIAccount *account;
 
 @property (readonly, nonatomic) NSDate *dateOpened;
-@property (readwrite, nonatomic, retain) NSDictionary *chatCreationDictionary;
+@property (readwrite, nonatomic, strong) NSDictionary *chatCreationDictionary;
 
 @property (readwrite, nonatomic) BOOL isOpen;
 
@@ -157,21 +142,21 @@ typedef enum {
 - (void)setDisplayName:(NSString *)inDisplayName;
 
 //
-@property (readwrite, nonatomic, retain) AIListContact *listObject;
-@property (readwrite, nonatomic, assign) AIListContact *preferredListObject;
+@property (readwrite, nonatomic, strong) AIListContact *listObject;
+@property (readwrite, nonatomic, weak) AIListContact *preferredListObject;
 
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject;
 - (void)finishedSendingContentObject:(AIContentObject *)inObject;
 
-@property (readwrite, nonatomic, retain) NSString *name; 
-@property (readwrite, nonatomic, retain) id identifier;
+@property (readwrite, nonatomic, strong) NSString *name;
+@property (readwrite, nonatomic, strong) id identifier;
 
-@property (readonly, nonatomic) NSString *uniqueChatID;
+@property (weak, readonly, nonatomic) NSString *uniqueChatID;
 
-@property (readonly, nonatomic) NSImage *chatImage;
-@property (readonly, nonatomic) NSImage *chatMenuImage;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *chatImage;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *chatMenuImage;
 
-@property (readwrite, nonatomic, retain) NSDictionary *securityDetails;
+@property (readwrite, nonatomic, strong) NSDictionary *securityDetails;
 @property (readonly, nonatomic) BOOL isSecure;
 @property (readonly, nonatomic) AIEncryptionStatus encryptionStatus;
 @property (readonly, nonatomic) BOOL supportsSecureMessagingToggling;
