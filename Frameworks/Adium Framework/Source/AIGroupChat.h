@@ -46,7 +46,7 @@
 - (void)setContact:(AIListContact *)contact forNick:(NSString *)nick;
 - (void)changeNick:(NSString *)from to:(NSString *)to;
 - (void)removeSavedValuesForNick:(NSString *)nick;
-- (NSArray *)nicksForContact:(AIListContact *)contact;
+- (NSArray *)nicksForContact:(AIListObject *)contact;
 
 - (void)addParticipatingNick:(NSString *)inObject notify:(BOOL)notify;
 - (void)addParticipatingNicks:(NSArray *)inObjects notify:(BOOL)notify;

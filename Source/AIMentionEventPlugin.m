@@ -67,23 +67,25 @@
 		return inAttributedString;
 	
 	AIContentMessage *message = (AIContentMessage *)context;
-	AIChat *chat = message.chat;
 	
-	if(!chat.isGroupChat || message.isOutgoing)
+	if(!message.chat.isGroupChat || message.isOutgoing)
 		return inAttributedString;
-		
-	NSString *messageString = [inAttributedString string];
-			
-	AIAccount *account = (AIAccount *)message.destination;
-		
-	// XXX When we fix user lists to contain accounts, fix this too.
-	NSArray *myPredicates = [NSArray arrayWithObjects:
-							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]], 
-							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]], 
-							 /* can be nil */ message.sourceNick ? [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [message.sourceNick stringByEscapingForRegexp]]] : nil,
-							 nil];
 	
-	myPredicates = [myPredicates arrayByAddingObjectsFromArray:self.mentionPredicates];
+	AIGroupChat *chat = (AIGroupChat *)message.chat;
+	NSString *messageString = [inAttributedString string];
+	AIAccount *account = (AIAccount *)message.destination;
+	
+	// XXX When we fix user lists to contain accounts, fix this too.
+	NSMutableArray *myPredicates = [NSMutableArray arrayWithObjects:
+									[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]],
+									[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]],
+									nil];
+	
+	for (NSString *nick in [chat nicksForContact:account]) {
+		[myPredicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [nick stringByEscapingForRegexp]]]];
+	}
+	
+	[myPredicates addObjectsFromArray:self.mentionPredicates];
 	
 	for(NSPredicate *predicate in myPredicates) {
 		if([predicate evaluateWithObject:messageString]) {
@@ -94,7 +96,7 @@
 			break;
 		}
 	}
-
+	
 	return inAttributedString;
 }
 

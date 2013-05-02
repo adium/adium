@@ -314,7 +314,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	[participatingNicksContacts removeObjectForKey:nick];
 }
 
-- (NSArray *)nicksForContact:(AIListContact *)contact
+- (NSArray *)nicksForContact:(AIListObject *)contact
 {
 	NSMutableArray *nicks = [NSMutableArray array];
 	
