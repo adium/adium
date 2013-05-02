@@ -25,6 +25,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AICorePluginLoader.h>
+#import <Sparkle/Sparkle.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
 #define XTRAS_LAST_CATEGORY_KEY @"Xtras Last Category"
@@ -381,16 +382,29 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 	
 	NSAlert * warning = [NSAlert alertWithMessageText:AILocalizedString(@"You will need to restart Adium", nil)
 										defaultButton:AILocalizedString(@"OK", nil)
-									  alternateButton:nil
+									  alternateButton:AILocalizedString(@"Restart Adium now", nil)
 										  otherButton:nil
-							informativeTextWithFormat:AILocalizedString(@"Enabling or disabling Xtras requires a restart of Adium.", nil)];
+							informativeTextWithFormat:AILocalizedString(@"The changes will be made after a restart of Adium.", nil)];
 	[warning beginSheetModalForWindow:self.view.window
-						modalDelegate:nil
-					   didEndSelector:nil
+						modalDelegate:self
+					   didEndSelector:@selector(relaunchAlertDidEnd:returnCode:contextInfo:)
 						  contextInfo:nil];
 	
 	//Reload the plugins to reflect the recent changes
 	[self xtrasChanged:nil];
+}
+
+- (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertAlternateReturn) {
+		NSString *launcherSource = [[NSBundle bundleForClass:[SUUpdater class]]  pathForResource:@"finish_installation" ofType:@"app"];
+		NSString *relaunchToolPath = [launcherSource stringByAppendingPathComponent:@"Contents/MacOS/finish_installation"];
+		NSString *processID = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
+		NSString *appPath = [[NSBundle mainBundle] bundlePath];
+		
+		[NSTask launchedTaskWithLaunchPath:relaunchToolPath arguments:[NSArray arrayWithObjects:appPath, appPath, processID, nil]];
+		[NSApp terminate:self];
+	}
 }
 
 + (BOOL)createXtraBundleAtPath:(NSString *)path
