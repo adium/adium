@@ -1850,7 +1850,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																	withSource:fromObject
-																	sourceNick:fromObject.UID
+																	sourceNick:fromObject.displayName
 																   destination:self
 																		  date:date
 																	   message:message
@@ -1897,7 +1897,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if(chat && source && destination) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:source
-																		sourceNick:source.UID
+																		sourceNick:source.displayName
 																	   destination:destination
 																			  date:date
 																		   message:[self parseDirectMessage:message
