@@ -212,6 +212,8 @@ id removeNull(id rootObject);
 					 errorBlock:errorBlock];
 		} else {
 			successBlock(removeNull(statuses));
+			[mparams release];
+			[statuses release];
 		}
 	} copy] autorelease];
 	
@@ -440,6 +442,7 @@ id removeNull(id rootObject);
 		
 		if ([cursor isEqualToString:@"0"]) {
 			successBlock(removeNull(ids));
+			[ids release]; ids = nil;
 		} else {
 			[_oauth getResource:resource parameters:d successBlock:requestHandler
 					 errorBlock:errorBlock];
