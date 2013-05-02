@@ -67,7 +67,7 @@
 - (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation;
 - (void)updateUserCount;
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord;
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)gotFilteredMessageToSendLater:(NSAttributedString *)filteredMessage receivingContext:(NSMutableDictionary *)alertDict;
@@ -803,7 +803,7 @@
 #pragma mark Autocompletion
 - (BOOL)canTabCompleteForPartialWord:(NSString *)partialWord
 {
-	return ([self contactsMatchingBeginningString:partialWord].count > 0 ||
+	return ([self nicksMatchingBeginningString:partialWord].count > 0 ||
 			[self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound);
 }
 

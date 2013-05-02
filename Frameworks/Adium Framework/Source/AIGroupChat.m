@@ -430,7 +430,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 
 - (void)removeObjectAfterAccountStopsTracking:(NSString *)object
 {
-	assert(FALSE);
+	[self removeObject:object];
 }
 
 - (void)removeAllParticipatingContactsSilently

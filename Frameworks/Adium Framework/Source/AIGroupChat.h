@@ -18,7 +18,7 @@
 
 @interface AIGroupChat : AIChat <AIContainingObject> {
 	NSString			*topic;
-    AIListContact		*topicSetter;
+    NSString			*topicSetter;
 	
 	NSMutableDictionary	*participatingNicksFlags;
 	NSMutableDictionary	*participatingNicksContacts;
@@ -40,12 +40,6 @@
 @property (readwrite, copy, nonatomic) NSDate *lastMessageDate;
 
 // Group chat participants.
-//- (NSString *)displayNameForContact:(AIListObject *)contact;
-//- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
-//- (NSString *)aliasForContact:(AIListObject *)contact;
-//- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
-//- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
-
 - (AIListContact *)contactForNick:(NSString *)nick;
 - (AIGroupChatFlags)flagsForNick:(NSString *)nick;
 - (void)setFlags:(AIGroupChatFlags)flags forNick:(NSString *)nick;
