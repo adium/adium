@@ -22,18 +22,6 @@ id removeNull(id rootObject);
 @synthesize consumerName = _consumerName;
 @synthesize userName = _userName;
 
-#if TARGET_OS_IPHONE
-#else
-
-- (id)init {
-    self = [super init];
-	
-    return self;
-}
-
-
-#endif
-
 + (STTwitterAPIWrapper *)twitterAPIWithOAuthConsumerName:(NSString *)consumerName
                                              consumerKey:(NSString *)consumerKey
                                           consumerSecret:(NSString *)consumerSecret
@@ -160,8 +148,14 @@ id removeNull(id rootObject);
 /**/
 
 - (void)profileImageFor:(NSString *)screenName
-				successBlock:(void(^)(NSImage *image))successBlock
-				  errorBlock:(void(^)(NSError *error))errorBlock {
+
+#if TARGET_OS_IPHONE
+           successBlock:(void(^)(UIImage *image))successBlock
+#else
+           successBlock:(void(^)(NSImage *image))successBlock
+#endif
+
+             errorBlock:(void(^)(NSError *error))errorBlock {
 	[self getUserInformationFor:screenName
 				   successBlock:^(NSDictionary *response) {
 					   NSString *imageURL = [response objectForKey:@"profile_image_url"];
@@ -169,7 +163,13 @@ id removeNull(id rootObject);
 					   NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
 					   
 					   NSData *imageData = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:nil];
-					   successBlock([[NSImage alloc] initWithData:imageData]);
+                       
+#if TARGET_OS_IPHONE
+					   successBlock([[[UIImage alloc] initWithData:imageData] autorelease]);
+#else
+					   successBlock([[[NSImage alloc] initWithData:imageData] autorelease]);
+#endif
+                       
 				   } errorBlock:^(NSError *error) {
 					   errorBlock(error);
 				   }];
@@ -471,7 +471,7 @@ id removeNull(id rootObject);
 		errorBlock:(void(^)(NSError *error))errorBlock {
 	NSDictionary *d = @{@"screen_name" : screenName};
     
-    [_oauth getResource:@"friendships/create.json" parameters:d successBlock:^(id response) {
+    [_oauth postResource:@"friendships/create.json" parameters:d successBlock:^(id response) {
         successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
@@ -483,7 +483,7 @@ id removeNull(id rootObject);
 		  errorBlock:(void(^)(NSError *error))errorBlock {
 	NSDictionary *d = @{@"screen_name" : screenName};
     
-    [_oauth getResource:@"friendships/destroy.json" parameters:d successBlock:^(id response) {
+    [_oauth postResource:@"friendships/destroy.json" parameters:d successBlock:^(id response) {
         successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
@@ -497,7 +497,7 @@ id removeNull(id rootObject);
 	NSMutableDictionary *d = [NSMutableDictionary dictionaryWithObject:screenName forKey:@"screen_name"];
 	[d setObject:notify ? @"true" : @"false" forKey:@"device"];
     
-    [_oauth getResource:@"friendships/update.json" parameters:d successBlock:^(id response) {
+    [_oauth postResource:@"friendships/update.json" parameters:d successBlock:^(id response) {
         successBlock(removeNull(response));
     } errorBlock:^(NSError *error) {
         errorBlock(error);
@@ -541,7 +541,11 @@ id removeNull(id rootObject);
     }];
 }
 
+#if TARGET_OS_IPHONE
+- (void)postUpdateProfileImage:(UIImage *)newImage
+#else
 - (void)postUpdateProfileImage:(NSImage *)newImage
+#endif
 				  successBlock:(void(^)(NSDictionary *myInfo))successBlock
 					errorBlock:(void(^)(NSError *error))errorBlock {
 	NSMutableDictionary *md = [NSMutableDictionary dictionaryWithObject:newImage forKey:@"image"];

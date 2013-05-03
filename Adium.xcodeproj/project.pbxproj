@@ -1361,6 +1361,7 @@
 		76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */; };
 		76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
+		76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
 		76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FF925914B524B40043E23B /* AIIRCConsoleController.m */; };
 		76FF926414B62A980043E23B /* AIConsole.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76FF926314B62A980043E23B /* AIConsole.xib */; };
@@ -4420,6 +4421,10 @@
 		76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRejoinGroupChatViewController.m; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.m"; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
+		76FBDAC51733B9C900C9F10B /* STTwitterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterHTML.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterHTML.h"; sourceTree = "<group>"; };
+		76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterHTML.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterHTML.m"; sourceTree = "<group>"; };
+		76FBDAC71733B9C900C9F10B /* STTwitterOAuthOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterOAuthOSX.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterOAuthOSX.h"; sourceTree = "<group>"; };
+		76FBDAC81733B9C900C9F10B /* STTwitterOAuthOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterOAuthOSX.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterOAuthOSX.m"; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
 		76FF925914B524B40043E23B /* AIIRCConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCConsoleController.m; path = "Plugins/Purple Service/AIIRCConsoleController.m"; sourceTree = "<group>"; };
 		76FF926314B62A980043E23B /* AIConsole.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIConsole.xib; path = "Frameworks/Adium Framework/Resources/AIConsole.xib"; sourceTree = "<group>"; };
@@ -7330,6 +7335,10 @@
 				5A3B4D7116D878AB00903E40 /* STTwitterOAuth.h */,
 				5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */,
 				5A3B4D7516D878AB00903E40 /* STTwitterOAuthProtocol.h */,
+				76FBDAC51733B9C900C9F10B /* STTwitterHTML.h */,
+				76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */,
+				76FBDAC71733B9C900C9F10B /* STTwitterOAuthOSX.h */,
+				76FBDAC81733B9C900C9F10B /* STTwitterOAuthOSX.m */,
 				5A3B4D7616D878AC00903E40 /* Vendor */,
 			);
 			name = STTwitter;
@@ -10565,6 +10574,7 @@
 				5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */,
 				5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */,
 				5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */,
+				76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
