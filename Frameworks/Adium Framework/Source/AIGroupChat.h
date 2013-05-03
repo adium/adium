@@ -59,4 +59,6 @@
 
 - (NSString *)visibleObjectAtIndex:(NSUInteger)idx;
 
+- (NSString *)displayNameForContact:(AIListObject *)contact __attribute__((deprecated));
+
 @end

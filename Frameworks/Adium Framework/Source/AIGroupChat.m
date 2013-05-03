@@ -504,4 +504,25 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
     return YES;
 }
 
+
+#pragma mark 1.5 compat
+
+- (NSString *)displayNameForContact:(AIListObject *)contact
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSLog(@"-displayNameForContact: is deprecated in Adium 1.6 and above. Use -nicksForContact: or track participants by nickname. This message will be logged only once.");
+		AILogWithSignature(@"-displayNameForContact: is deprecated in Adium 1.6 and above. Use -nicksForContact: or track participants by nickname. This message will be logged only once.");
+		AILogBacktrace();
+	});
+	
+	for (NSString *nick in participatingNicks) {
+		if ([[participatingNicksContacts objectForKey:nick] isEqualTo:contact]) {
+			return nick;
+		}
+	}
+	
+	return nil;
+}
+
 @end
