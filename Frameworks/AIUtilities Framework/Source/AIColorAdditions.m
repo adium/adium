@@ -151,27 +151,9 @@ end:
 
 + (NSDictionary *)colorNamesDictionary
 {
-	if (!RGBColorValues) {
-		RGBColorValues = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-						  [NSColor colorWithHTMLString:@"#000"],    @"black",
-						  [NSColor colorWithHTMLString:@"#c0c0c0"], @"silver",
-						  [NSColor colorWithHTMLString:@"#808080"], @"gray",
-						  [NSColor colorWithHTMLString:@"#808080"], @"grey",
-						  [NSColor colorWithHTMLString:@"#fff"],    @"white",
-						  [NSColor colorWithHTMLString:@"#800000"], @"maroon",
-						  [NSColor colorWithHTMLString:@"#f00"],    @"red",
-						  [NSColor colorWithHTMLString:@"#800080"], @"purple",
-						  [NSColor colorWithHTMLString:@"#f0f"],    @"fuchsia",
-						  [NSColor colorWithHTMLString:@"#008000"], @"green",
-						  [NSColor colorWithHTMLString:@"#0f0"],    @"lime",
-						  [NSColor colorWithHTMLString:@"#808000"], @"olive",
-						  [NSColor colorWithHTMLString:@"#ff0"],    @"yellow",
-						  [NSColor colorWithHTMLString:@"#000080"], @"navy",
-						  [NSColor colorWithHTMLString:@"#00f"],    @"blue",
-						  [NSColor colorWithHTMLString:@"#008080"], @"teal",
-						  [NSColor colorWithHTMLString:@"#0ff"],    @"aqua",
-						  [NSColor colorWithHTMLString:@"#4b0082"], @"indigo",
-						  nil];
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		RGBColorValues = [[NSMutableDictionary alloc] init];
 		NSArray *paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:defaultRGBTxtLocation1 error:NULL];
 		for (NSString *middlePath in paths) {
 			NSString *path = [defaultRGBTxtLocation1 stringByAppendingPathComponent:[middlePath stringByAppendingPathComponent:defaultRGBTxtLocation2]];
@@ -184,7 +166,29 @@ end:
 				break;
 			}
 		}
-	}
+		[RGBColorValues addEntriesFromDictionary:@{
+		 @"black": [NSColor colorWithHTMLString:@"#000"],
+		 @"silver": [NSColor colorWithHTMLString:@"#c0c0c0"],
+		 @"gray": [NSColor colorWithHTMLString:@"#808080"],
+		 @"grey": [NSColor colorWithHTMLString:@"#808080"],
+		 @"white": [NSColor colorWithHTMLString:@"#fff"],
+		 @"maroon": [NSColor colorWithHTMLString:@"#800000"],
+		 @"red": [NSColor colorWithHTMLString:@"#f00"],
+		 @"purple": [NSColor colorWithHTMLString:@"#800080"],
+		 @"fuchsia": [NSColor colorWithHTMLString:@"#f0f"],
+		 @"green": [NSColor colorWithHTMLString:@"#008000"],
+		 @"lime": [NSColor colorWithHTMLString:@"#0f0"],
+		 @"olive": [NSColor colorWithHTMLString:@"#808000"],
+		 @"yellow": [NSColor colorWithHTMLString:@"#ff0"],
+		 @"navy": [NSColor colorWithHTMLString:@"#000080"],
+		 @"blue": [NSColor colorWithHTMLString:@"#00f"],
+		 @"teal": [NSColor colorWithHTMLString:@"#008080"],
+		 @"aqua": [NSColor colorWithHTMLString:@"#0ff"],
+		 @"indigo": [NSColor colorWithHTMLString:@"#4b0082"],
+		 @"crimson": [NSColor colorWithHTMLString:@"#dc143c"]
+		 }];
+	});
+	
 	return RGBColorValues;
 }
 
