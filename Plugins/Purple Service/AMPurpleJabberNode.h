@@ -31,6 +31,9 @@
 	NSString *node;
 	NSString *name;
 	
+	NSString *infoIqId;
+	NSString *discoIqId;
+	
 	NSArray *items;
 	NSSet *features;
 	NSArray *identities;
@@ -48,6 +51,8 @@
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, copy, nonatomic) NSString *jid;
 @property (readonly, copy, nonatomic) NSString *node;
+@property (copy, nonatomic) NSString *infoIqId;
+@property (copy, nonatomic) NSString *discoIqId;
 @property (readonly, nonatomic) NSArray *items;
 @property (readonly, retain, nonatomic) NSSet *features;
 @property (readonly, retain, nonatomic) NSArray *identities;
