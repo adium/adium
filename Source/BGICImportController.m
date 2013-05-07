@@ -52,7 +52,7 @@
 	[importDetails setStringValue:[AILocalizedString(@"Gathering list of transcripts", nil) stringByAppendingEllipsis]];
 	[loggingPanes selectTabViewItemWithIdentifier:@"import"];
 	[cancelImportButton setHidden:NO];
-	fullDump = [[[NSFileManager defaultManager] subpathsAtPath:ICHAT_LOCATION] retain];
+	fullDump = [[NSFileManager defaultManager] subpathsAtPath:ICHAT_LOCATION];
 	dumpCount = [fullDump count];
 	dumpLoop = 0;
 	currentStep--;
@@ -284,7 +284,7 @@
 {
 	AIStatus *newStatus = [AIStatus statusOfType:(shouldBeAway ? AIAwayStatusType : AIAvailableStatusType)];
 	[newStatus setTitle:statusString];
-	[newStatus setStatusMessage:[[[NSAttributedString alloc] initWithString:statusString] autorelease]];
+	[newStatus setStatusMessage:[[NSAttributedString alloc] initWithString:statusString]];
 	[newStatus setAutoReplyIsStatusMessage:(shouldBeAway ? YES : NO)];
 	[newStatus setShouldForceInitialIdleTime:NO];
 	
@@ -472,14 +472,6 @@
 		[proceedButton setEnabled:NO];
 		[self performSelector:@selector(deleteAllFromiChat) withObject:nil afterDelay:0.3];
 	}
-}
-
--(void)dealloc
-{
-	[fullDump release];
-	[logImporter release];
-
-	[super dealloc];
 }
 
 @end

@@ -12,27 +12,27 @@
 @class AIFacebookXMPPAccount;
 
 @interface AIFacebookXMPPOAuthWebViewWindowController : AIWindowController {
-    IBOutlet WebView *webView;
-	IBOutlet NSProgressIndicator *spinner;
+    __unsafe_unretained IBOutlet WebView *webView;
+	__unsafe_unretained IBOutlet NSProgressIndicator *spinner;
     NSMutableDictionary *cookies;
 	
-	AIFacebookXMPPAccount *account;
+	__unsafe_unretained AIFacebookXMPPAccount *account;
 	
-	NSString *autoFillUsername;
-	NSString *autoFillPassword;
+	__unsafe_unretained NSString *autoFillUsername;
+	__unsafe_unretained NSString *autoFillPassword;
     BOOL     isMigrating;
     
     BOOL notifiedAccount;
 }
 
-@property (nonatomic, retain) IBOutlet WebView *webView;
-@property (nonatomic, retain) IBOutlet NSProgressIndicator *spinner;
+@property (nonatomic, assign) IBOutlet WebView *webView;
+@property (nonatomic, assign) IBOutlet NSProgressIndicator *spinner;
 
-@property (nonatomic, retain) NSMutableDictionary *cookies;
-@property (nonatomic, retain) AIFacebookXMPPAccount *account;
+@property (nonatomic, strong) NSMutableDictionary *cookies;
+@property (nonatomic, assign) AIFacebookXMPPAccount *account;
 
-@property (nonatomic, retain) NSString *autoFillUsername;
-@property (nonatomic, retain) NSString *autoFillPassword;
+@property (nonatomic, assign) NSString *autoFillUsername;
+@property (nonatomic, assign) NSString *autoFillPassword;
 @property (nonatomic)         BOOL     isMigrating;
 
 @end

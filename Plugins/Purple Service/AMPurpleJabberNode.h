@@ -34,9 +34,9 @@
 	NSString *infoIqId;
 	NSString *discoIqId;
 	
-	NSArray *items;
-	NSSet *features;
-	NSArray *identities;
+	NSArray *__weak items;
+	NSSet *__weak features;
+	NSArray *__weak identities;
 	
 	AMPurpleJabberNode *commands;
 	
@@ -51,12 +51,12 @@
 @property (readonly, copy, nonatomic) NSString *name;
 @property (readonly, copy, nonatomic) NSString *jid;
 @property (readonly, copy, nonatomic) NSString *node;
+@property (weak, readonly, nonatomic) NSArray *items;
+@property (weak, readonly, nonatomic) NSSet *features;
+@property (weak, readonly, nonatomic) NSArray *identities;
+@property (weak, readonly, nonatomic) NSArray *commands;
 @property (copy, nonatomic) NSString *infoIqId;
 @property (copy, nonatomic) NSString *discoIqId;
-@property (readonly, nonatomic) NSArray *items;
-@property (readonly, retain, nonatomic) NSSet *features;
-@property (readonly, retain, nonatomic) NSArray *identities;
-@property (readonly, nonatomic) NSArray *commands;
 
 - (void)addDelegate:(id<AMPurpleJabberNodeDelegate>)delegate;
 - (void)removeDelegate:(id<AMPurpleJabberNodeDelegate>)delegate;

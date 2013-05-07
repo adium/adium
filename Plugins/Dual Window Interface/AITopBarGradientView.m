@@ -23,7 +23,6 @@
 	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]
 														 endingColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
 	[gradient drawInRect:self.bounds angle:90.0];
-	[gradient release];
 	
     NSBezierPath *path = [NSBezierPath bezierPath];
     

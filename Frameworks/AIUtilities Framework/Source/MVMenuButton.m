@@ -24,15 +24,14 @@
 
 @implementation MVMenuButton
 
+@synthesize toolbarItem, controlSize, drawsArrow;
+
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
 		//Default configure
-		bigImage    = nil;
-		toolbarItem = nil;
-		arrowPath   = nil;
-		drawsArrow  = YES;
-		controlSize = NSRegularControlSize;
+		self.drawsArrow  = YES;
+		self.controlSize = NSRegularControlSize;
 		[self setBordered:NO];
 		[self setButtonType:NSMomentaryChangeButton];
 	}
@@ -42,27 +41,18 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	MVMenuButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
+	MVMenuButton	*newButton = [[[self class] alloc] initWithFrame:[self frame]];
 
 	//Copy our config
-	[newButton setControlSize:controlSize];
-	[newButton setImage:bigImage];
-	[newButton setDrawsArrow:drawsArrow];
+	newButton.controlSize = self.controlSize;
+	newButton.image = bigImage;
+	newButton.drawsArrow = drawsArrow;
 
 	//Copy super's config
-	[newButton setMenu:[[[self menu] copy] autorelease]];
+	[newButton setMenu:[[self menu] copy]];
 	
 	return newButton;
 }
-
-- (void)dealloc
-{
-	[bigImage release];
-	[arrowPath release];
-	
-	[super dealloc];
-}
-
 
 //Configure ------------------------------------------------------------------------------------------------------------
 #pragma mark Configure
@@ -100,19 +90,14 @@
 	}
 	
 	//Reset the popup arrow path cache, we'll need to re-calculate it for the new size
-	[arrowPath release]; arrowPath = nil;
-}
-- (NSControlSize)controlSize
-{
-	return controlSize;
+	arrowPath = nil;
 }
 
 //Big Image (This is the one that should be called to configure this button)
 - (void)setImage:(NSImage *)inImage
 {
 	if (bigImage != inImage) {
-	   [bigImage release];
-	   bigImage = [inImage retain];
+	   bigImage = inImage;
     }
 	
 	//Update our control size and the displayed image
@@ -122,27 +107,6 @@
 {
 	return bigImage;
 }
-
-//Containing toolbar Item
-- (void)setToolbarItem:(NSToolbarItem *)item
-{
-	toolbarItem = item;
-}
-- (NSToolbarItem *)toolbarItem
-{
-	return toolbarItem;
-}
-
-//Popup arrow Drawing
-- (void)setDrawsArrow:(BOOL)inDraw
-{
-	drawsArrow = inDraw;
-}
-- (BOOL)drawsArrow
-{
-	return drawsArrow;
-}
-
 
 //Drawing --------------------------------------------------------------------------------------------------------------
 #pragma mark Drawing
@@ -164,7 +128,7 @@
 	if (!arrowPath) {
 		NSRect	frame = [self frame];
 		
-		arrowPath = [[NSBezierPath bezierPath] retain];
+		arrowPath = [NSBezierPath bezierPath];
 		
 		if (controlSize == NSRegularControlSize) {
 			[arrowPath moveToPoint:NSMakePoint(NSWidth(frame)-9, NSHeight(frame)-5)];

@@ -16,7 +16,6 @@
 
 #import "ESIRCAccount.h"
 #import <Adium/AIHTMLDecoder.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMenuControllerProtocol.h>
@@ -62,10 +61,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 - (void)dealloc
 {
 	[consoleController close];
-	[consoleController release];
 	consoleController = nil;
-	
-	[super dealloc];
 }
 
 #pragma mark IRC-ism overloads
@@ -142,7 +138,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	
 	PurpleConversation *conv = fakeConversation(self.purpleAccount);
 	
-	for (NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
+	for (__strong NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
 												group:GROUP_ACCOUNT_STATUS] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
 		if ([command hasPrefix:@"/"]) {
 			command = [command substringFromIndex:1];
@@ -478,7 +474,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 															 keyEquivalent:@""];
 		[xmlConsoleMenuItem setTarget:self];
 		
-		return [[NSArray arrayWithObject:[xmlConsoleMenuItem autorelease]] arrayByAddingObjectsFromArray:[super accountActionMenuItems]];
+		return [[NSArray arrayWithObject:xmlConsoleMenuItem] arrayByAddingObjectsFromArray:[super accountActionMenuItems]];
 	}
 	
 	return [super accountActionMenuItems];

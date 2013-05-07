@@ -24,11 +24,11 @@
 	if ( [coder allowsKeyedCoding] ) {
 		_showPointSize = [coder decodeBoolForKey:@"showPointSize"];
 		_showFontFace = [coder decodeBoolForKey:@"showFontFace"];
-		_actualFont = [[coder decodeObjectForKey:@"actualFont"] retain];
+		_actualFont = [coder decodeObjectForKey:@"actualFont"];
 	} else {
 		[coder decodeValueOfObjCType:@encode( char ) at:&_showPointSize];
 		[coder decodeValueOfObjCType:@encode( char ) at:&_showFontFace];
-		_actualFont = [[coder decodeObject] retain];
+		_actualFont = [coder decodeObject];
 	}
 	return self;
 }
@@ -44,12 +44,6 @@
 		[coder encodeValueOfObjCType:@encode( char ) at:&_showFontFace];
 		[coder encodeObject:_actualFont];
 	}
-}
-
-- (void) dealloc {
-	[_actualFont release];
-	_actualFont = nil;
-	[super dealloc];
 }
 
 - (void) changeFont:(id) sender {
@@ -109,12 +103,12 @@
 		[super setFont:[[NSFontManager sharedFontManager] convertFont:_actualFont toSize:11.0f]];
 		
 		if (_showPointSize) {
-			text = [[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %.0f", (_showFontFace ? [_actualFont displayName] : [_actualFont familyName]), [_actualFont pointSize]]] autorelease];
+			text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %.0f", (_showFontFace ? [_actualFont displayName] : [_actualFont familyName]), [_actualFont pointSize]]];
 		} else {
-			text = [[[NSMutableAttributedString alloc] initWithString:( _showFontFace ? [_actualFont displayName] : [_actualFont familyName] )] autorelease];
+			text = [[NSMutableAttributedString alloc] initWithString:( _showFontFace ? [_actualFont displayName] : [_actualFont familyName] )];
 		}
 		
-		NSMutableParagraphStyle *paraStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle *paraStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		
 		[paraStyle setMinimumLineHeight:NSHeight([self bounds])];
 		[paraStyle setMaximumLineHeight:NSHeight([self bounds])];
@@ -137,8 +131,7 @@
 {
 	if (!font) return;
 	
-	[_actualFont autorelease];
-	_actualFont = [font retain];
+	_actualFont = font;
 	
 	[self updateDisplayedFont];
 }

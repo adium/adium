@@ -17,39 +17,23 @@
 #import "AIPreferencePane.h"
 
 @interface AIWindowHandlingPreferences : AIPreferencePane {
-	AILocalizationTextField *label_statusWindow;
-	AILocalizationTextField *label_chatWindows;
-	AILocalizationTextField *label_contactList;
-	AILocalizationTextField *label_autoHide;
-	AILocalizationTextField *label_show;
-	AILocalizationTextField *label_order;
-	
-	NSPopUpButton *popUp_chatWindowPosition;
-	NSPopUpButton *popUp_contactListWindowPosition;
-	NSMatrix *matrix_hiding;
-	
-	AILocalizationButton *checkBox_hideOnScreenEdgesOnlyInBackground;
-	AILocalizationButton *checkBox_showOnAllSpaces;
-	AILocalizationButton *checkBox_hideInBackground;
-	AILocalizationButton *checkBox_statusWindowHideInBackground;
-	AILocalizationButton *checkBox_statusWindowAlwaysOnTop;
 }
 
-@property (assign) IBOutlet AILocalizationTextField *label_contactList;
-@property (assign) IBOutlet AILocalizationTextField *label_autoHide;
-@property (assign) IBOutlet AILocalizationTextField *label_statusWindow;
-@property (assign) IBOutlet AILocalizationTextField *label_chatWindows;
-@property (assign) IBOutlet AILocalizationTextField *label_show;
-@property (assign) IBOutlet AILocalizationTextField *label_order;
+@property (weak) IBOutlet AILocalizationTextField *label_contactList;
+@property (weak) IBOutlet AILocalizationTextField *label_autoHide;
+@property (weak) IBOutlet AILocalizationTextField *label_statusWindow;
+@property (weak) IBOutlet AILocalizationTextField *label_chatWindows;
+@property (weak) IBOutlet AILocalizationTextField *label_show;
+@property (weak) IBOutlet AILocalizationTextField *label_order;
 
-@property (assign) IBOutlet NSPopUpButton *popUp_chatWindowPosition;
-@property (assign) IBOutlet NSPopUpButton *popUp_contactListWindowPosition;
-@property (assign) IBOutlet NSMatrix *matrix_hiding;
+@property (weak) IBOutlet NSPopUpButton *popUp_chatWindowPosition;
+@property (weak) IBOutlet NSPopUpButton *popUp_contactListWindowPosition;
+@property (weak) IBOutlet NSMatrix *matrix_hiding;
 
-@property (assign) IBOutlet AILocalizationButton *checkBox_hideOnScreenEdgesOnlyInBackground;
-@property (assign) IBOutlet AILocalizationButton *checkBox_showOnAllSpaces;
-@property (assign) IBOutlet AILocalizationButton *checkBox_hideInBackground;
-@property (assign) IBOutlet AILocalizationButton *checkBox_statusWindowHideInBackground;
-@property (assign) IBOutlet AILocalizationButton *checkBox_statusWindowAlwaysOnTop;
+@property (weak) IBOutlet AILocalizationButton *checkBox_hideOnScreenEdgesOnlyInBackground;
+@property (weak) IBOutlet AILocalizationButton *checkBox_showOnAllSpaces;
+@property (weak) IBOutlet AILocalizationButton *checkBox_hideInBackground;
+@property (weak) IBOutlet AILocalizationButton *checkBox_statusWindowHideInBackground;
+@property (weak) IBOutlet AILocalizationButton *checkBox_statusWindowAlwaysOnTop;
 
 @end

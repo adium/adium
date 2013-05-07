@@ -46,6 +46,6 @@
  */
 @property (readwrite, nonatomic, copy) NSString *coalescingKey;
 @property (readonly, nonatomic) NSString *status;
-@property (readwrite, nonatomic, retain) NSAttributedString *loggedMessage;
+@property (readwrite, nonatomic) NSAttributedString *loggedMessage;
 
 @end

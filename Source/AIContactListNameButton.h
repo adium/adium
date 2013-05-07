@@ -18,11 +18,9 @@
 
 @interface AIContactListNameButton : AIHoveringPopUpButton <NSTextFieldDelegate> {
 	NSTextField	*textField_editor;
-	id			editTarget;
-	SEL			editSelector;
-	id			editUserInfo;
+	void (^continuation)(NSString *);
 }
 
-- (void)editNameStartingWithString:(NSString *)startingString notifyingTarget:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+- (void)editNameStartingWithString:(NSString *)startingString continuation:(void (^)(NSString *newString))continuation;
 
 @end

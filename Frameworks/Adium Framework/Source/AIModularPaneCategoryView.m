@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIModularPaneCategoryView.h>
-#import <Adium/AIPreferencePane.h>
 
 #define FRAME_PADDING_OFFSET					2
 #define TAB_PADDING_OFFSET						65
