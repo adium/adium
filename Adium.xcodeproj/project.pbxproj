@@ -1355,6 +1355,7 @@
 		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
+		769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */; };
 		76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */ = {isa = PBXBuildFile; fileRef = 76A79E0916349477007A0497 /* AIGroupChat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A79E0A16349477007A0497 /* AIGroupChat.m */; };
 		76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */; };
@@ -4412,6 +4413,7 @@
 		767870E21634045C00BD0E4D /* AIMessageViewTopBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewTopBarController.h; path = Source/AIMessageViewTopBarController.h; sourceTree = "<group>"; };
 		767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewTopBarController.m; path = Source/AIMessageViewTopBarController.m; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
+		769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AMPurpleJabberDiscoveryBrowser.xib; path = "Plugins/Purple Service/AMPurpleJabberDiscoveryBrowser.xib"; sourceTree = "<group>"; };
 		76A79E0916349477007A0497 /* AIGroupChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChat.h; path = "Frameworks/Adium Framework/Source/AIGroupChat.h"; sourceTree = "<group>"; };
 		76A79E0A16349477007A0497 /* AIGroupChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChat.m; path = "Frameworks/Adium Framework/Source/AIGroupChat.m"; sourceTree = "<group>"; };
 		76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIAccountSelectionTopBar.xib; path = "Plugins/Dual Window Interface/AIAccountSelectionTopBar.xib"; sourceTree = "<group>"; };
@@ -5642,6 +5644,7 @@
 		346545090C8F69280046ED68 /* Discovery Browsing */ = {
 			isa = PBXGroup;
 			children = (
+				769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */,
 				81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */,
 				81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */,
 				3465451A0C8F6A670046ED68 /* AMPurpleJabberServiceDiscoveryBrowserController.h */,
@@ -9627,6 +9630,7 @@
 				1150A9960FBE48D600E0BD31 /* ESIRCAccountView.xib in Resources */,
 				34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */,
 				5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */,
+				769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
