@@ -295,7 +295,6 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
 	
-	assert(discoIqId == NULL);
 	self.discoIqId = [NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++];
 	
 	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:self.discoIqId]];
@@ -324,7 +323,6 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
 	
-	assert(infoIqId == NULL);
 	self.infoIqId = [NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++];
 	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:self.infoIqId]];
 	
