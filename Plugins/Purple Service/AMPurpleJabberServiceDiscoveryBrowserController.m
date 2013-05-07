@@ -311,8 +311,12 @@ static NSImage *det_triangle_closed = nil;
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	BOOL expanded = [outlineView isItemExpanded:item];
 	if (expanded && [item items] == nil) {
-		if (!downloadprogress)
-			downloadprogress = [[NSBundle bundleForClass:[self class]] AI_imageForResource:@"downloadprogress"];
+		
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			downloadprogress = [[[NSBundle bundleForClass:[self class]] AI_imageForResource:@"downloadprogress"] retain];
+		});
+		
 		NSSize imgsize = [downloadprogress size];
 		NSImage *img = [[NSImage alloc] initWithSize:imgsize];
 		NSAffineTransform *transform = [NSAffineTransform transform];
