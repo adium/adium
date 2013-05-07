@@ -22,12 +22,12 @@ static NSUInteger iqCounter = 0;
 @property (readwrite, copy, nonatomic) NSString *name;
 @property (readwrite, copy, nonatomic) NSString *jid;
 @property (readwrite, copy, nonatomic) NSString *node;
-@property (weak, readwrite, nonatomic) NSSet *features;
-@property (weak, readwrite, nonatomic) NSArray *identities;
+@property (readwrite, nonatomic) NSSet *features;
+@property (readwrite, nonatomic) NSArray *identities;
 @property (readwrite, nonatomic, strong) AMPurpleJabberNode *commandsNode;
 @property (readwrite, assign, nonatomic) PurpleConnection *gc;
 @property (readwrite, nonatomic, strong) NSMutableArray *delegates;
-@property (weak, readwrite, nonatomic) NSArray *itemsArray;
+@property (readwrite, nonatomic) NSArray *itemsArray;
 @end
 
 static CFArrayCallBacks nonretainingArrayCallbacks = {
