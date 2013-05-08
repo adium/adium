@@ -92,15 +92,18 @@
 		 * If we have an attribMsg and a titleString, use the titleString as the window title.
 		 * If we just have the titleString (and no attribMsg), it is our message, and the window has no title.
 		 */
-		requestController = [[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:title
+		requestController = [[ESTextAndButtonsWindowController alloc] initWithTitle:title
 																				   defaultButton:defaultButton
 																				 alternateButton:alternateButton
 																					 otherButton:otherButton
-																						onWindow:nil
 																			   withMessageHeader:messageHeader
 																					  andMessage:attributedMessage
 																						  target:self
-																						userInfo:infoDict] retain];
+																						userInfo:infoDict];
+		// We retain it once more, as showOnWindow will (eventually) do a release.
+		[requestController retain];
+		[requestController showOnWindow:nil];
+		
 		if ([infoDict objectForKey:@"Image"])
 			[requestController setImage:[infoDict objectForKey:@"Image"]];
 

@@ -134,7 +134,7 @@
     textLimitConfigDownload = nil;
 	[self queryTextLimit];
     
-	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+	AIGroupChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 															onAccount:self];
 	if (timelineChat) {
 		[self updateTimelineChat: timelineChat];
@@ -153,9 +153,9 @@
     NSString        *path = [[@"/" stringByAppendingPathComponent:self.apiPath]
                                    stringByAppendingPathComponent:@"statusnet/config.xml"];
     
-	NSURL           *url = [[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
-                                                    host:self.host
-                                                    path:path];
+	NSURL           *url = [[[NSURL alloc] initWithScheme:(self.useSSL ? @"https" : @"http")
+													 host:self.host
+													 path:path] autorelease];
     
     NSURLRequest    *configRequest = [NSURLRequest requestWithURL:url];
     
@@ -195,9 +195,10 @@
         }
         
         if (err != nil)
-            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %d %@", self.host, [err code], [err localizedDescription]);
+            AILogWithSignature(@"Failed fetching StatusNet server config for %@: %ld %@", self.host, [err code], [err localizedDescription]);
 	
 		[configData release]; configData = nil;
+		[config release];
 		[textLimitConfigDownload release]; textLimitConfigDownload = nil;
     }
 }

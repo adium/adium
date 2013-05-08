@@ -31,7 +31,7 @@
 	NSValue			*userDataValue;
 }
 
-+ (ESPurpleRequestWindowController *)showInputWindowWithDict:(NSDictionary *)infoDict;
++ (ESPurpleRequestWindowController *)showInputWindowWithDict:(NSDictionary *)infoDict __attribute__((objc_method_family(new)));
 - (id)initWithWindowNibName:(NSString *)windowNibName withDict:(NSDictionary *)infoDict multiline:(BOOL)multiline;
 - (IBAction)pressedButton:(id)sender;
 

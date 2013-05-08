@@ -27,7 +27,7 @@
 #define MESSAGE	AILocalizedString(@"Message", nil)
 
 @interface AIStandardToolbarItemsPlugin ()
-- (void)showSourceDestinationPicker:(NSToolbarItem *)toolbarItem;
+- (IBAction)showSourceDestinationPicker:(NSToolbarItem *)toolbarItem;
 @end
 
 /*!
@@ -51,7 +51,7 @@
 										  toolTip:AILocalizedString(@"If multiple accounts can send to this contact or this is a combined contact, change the source and/or destination of this chat", nil)
 										   target:self
 								  settingSelector:@selector(setImage:)
-									  itemContent:[NSImage imageNamed:@"source-destination" forClass:[self class] loadLazily:YES]
+									  itemContent:[NSImage imageNamed:@"msg-source-destination" forClass:[self class] loadLazily:YES]
 										   action:@selector(showSourceDestinationPicker:)
 											 menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];

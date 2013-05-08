@@ -57,28 +57,27 @@ typedef enum {
 	BOOL				allowsCloseWithoutResponse; //Is it okay to close without clicking a button?
 }
 
-+ (id)showTextAndButtonsWindowWithTitle:(NSString *)inTitle
-						  defaultButton:(NSString *)inDefaultButton
-						alternateButton:(NSString *)inAlternateButton
-							otherButton:(NSString *)inOtherButton
-							suppression:(NSString *)inSuppression
-							   onWindow:(NSWindow *)parentWindow
-					  withMessageHeader:(NSString *)inMessageHeader
-							 andMessage:(NSAttributedString *)inMessage
-								  image:(NSImage *)inImage
-								 target:(id)inTarget
-							   userInfo:(id)inUserInfo;
+- (id)initWithTitle:(NSString *)inTitle
+	  defaultButton:(NSString *)inDefaultButton
+	alternateButton:(NSString *)inAlternateButton
+		otherButton:(NSString *)inOtherButton
+		suppression:(NSString *)inSuppression
+  withMessageHeader:(NSString *)inMessageHeader
+		 andMessage:(NSAttributedString *)inMessage
+			  image:(NSImage *)inImage
+			 target:(id)inTarget
+		   userInfo:(id)inUserInfo;
 
-+ (id)showTextAndButtonsWindowWithTitle:(NSString *)inTitle
-						  defaultButton:(NSString *)inDefaultButton
-						alternateButton:(NSString *)inAlternateButton
-							otherButton:(NSString *)inOtherButton
-							   onWindow:(NSWindow *)parentWindow
-					  withMessageHeader:(NSString *)inMessageHeader
-							 andMessage:(NSAttributedString *)inMessage
-								 target:(id)inTarget
-							   userInfo:(id)inUserInfo;
-+ (id)controller;
+- (id)initWithTitle:(NSString *)inTitle
+	  defaultButton:(NSString *)inDefaultButton
+	alternateButton:(NSString *)inAlternateButton
+		otherButton:(NSString *)inOtherButton
+  withMessageHeader:(NSString *)inMessageHeader
+		 andMessage:(NSAttributedString *)inMessage
+			 target:(id)inTarget
+		   userInfo:(id)inUserInfo;
+
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 
 - (void)changeWindowToTitle:(NSString *)inTitle
 			  defaultButton:(NSString *)inDefaultButton

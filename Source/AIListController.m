@@ -286,6 +286,10 @@
 	screenFrame = [currentScreen frame]; 
 	visibleScreenFrame = [currentScreen visibleFrame];
 	
+	//Store the window's rect for when we unresize vertically
+	if (NSEqualRects(previousWindowRect, NSZeroRect) || previousWindowRect.origin.x != windowFrame.origin.x)
+		previousWindowRect = windowFrame;
+	
     //Width
 	if (useDesiredWidth) {
 		if (forcedWindowWidth != -1) {
@@ -350,11 +354,31 @@
 
 	//Height
 	if (useDesiredHeight) {
-		//Subtract the current size of the view from our frame
-		newWindowFrame.size.height -= viewFrame.size.height;
-
-		//Now, figure out how big the view wants to be and add that to our frame
-		newWindowFrame.size.height += desiredHeight;
+		if (forcedWindowHeight != -1) {
+			//If auto-sizing is disabled, use the specified height
+			newWindowFrame.size.height = forcedWindowHeight;
+		} else {
+			/* Using vertical auto-sizing, so find and determine our new height
+			 *
+			 * First, subtract the current size of the view from our frame
+			 */
+			newWindowFrame.size.height -= viewFrame.size.height;
+			
+			//Now, figure out how big the view wants to be and add that to our frame
+			newWindowFrame.size.height += desiredHeight;
+			
+			//Don't get bigger than our maxWindowHeight
+			if (newWindowFrame.size.height > maxWindowHeight) {
+				newWindowFrame.size.height = maxWindowHeight;
+			} else if (newWindowFrame.size.height < 0) {
+				newWindowFrame.size.height = 0;
+			}
+		}
+		
+		//Don't set a height smaller than the toolbar
+		CGFloat windowHeight = NSHeight(windowFrame);
+		CGFloat contentHeight = NSHeight([theWindow.contentView frame]);
+		newWindowFrame.size.height = MAX(windowHeight - contentHeight, NSHeight(newWindowFrame));
 
 		//Vertical positioning and size if we are placed on a screen
 		if (NSHeight(newWindowFrame) >= NSHeight(boundingFrame)) {
@@ -364,8 +388,11 @@
 		} else {
 			//A non-full height window is anchored to the appropriate screen edge
 			if (dockToBottomOfScreen == AIDockToBottom_No) {
-				//If the user did not dock to the bottom in any way last, the origin should move up
-				newWindowFrame.origin.y = NSMaxY(windowFrame) - NSHeight(newWindowFrame);
+				//If the user did not dock to the bottom in any way last, the origin should move towards the saved origin
+				if (NSMinX(previousWindowRect) == NSMinX(windowFrame) && NSMaxY(previousWindowRect) < NSMaxY(windowFrame))
+					newWindowFrame.origin.y = NSMaxY(previousWindowRect) - NSHeight(newWindowFrame);
+				else
+					newWindowFrame.origin.y = NSMaxY(windowFrame) - NSHeight(newWindowFrame);
 			} else {
 				//If the user did dock (either to the full screen or the visible screen), the origin should remain in place.
 				newWindowFrame.origin.y = NSMinY(windowFrame);	
@@ -404,7 +431,7 @@
 	return newWindowFrame;
 }
 
-@synthesize autoResizeHorizontally, autoResizeVertically, autoResizeHorizontallyWithIdleTime, minWindowSize, maxWindowWidth, forcedWindowWidth;
+@synthesize autoResizeHorizontally, autoResizeVertically, autoResizeHorizontallyWithIdleTime, minWindowSize, maxWindowWidth, forcedWindowWidth, maxWindowHeight, forcedWindowHeight;
 
 //Content Updating -----------------------------------------------------------------------------------------------------
 #pragma mark Content Updating
@@ -423,7 +450,7 @@
 		[contactListView reloadData];
 	} else {
 		for (AIProxyListObject *proxyObject in object.proxyObjects) {
-            if ([proxyObject.listObject isExpanded])
+            if ([(AIListObject<AIContainingObject> *)proxyObject.listObject isExpanded])
                 [contactListView reloadItem:proxyObject reloadChildren:YES];
             else
                 [contactListView reloadItem:proxyObject reloadChildren:NO];

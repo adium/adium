@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// $Id$
 
 #import "AIAccountController.h"
 
@@ -226,9 +225,9 @@
 #pragma mark Editing
 - (void)editAccount:(AIAccount *)account onWindow:(NSWindow *)window notifyingTarget:(id)target
 {
-	[AIEditAccountWindowController editAccount:account
-									  onWindow:window
-							   notifyingTarget:target];	
+	AIEditAccountWindowController *accountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:account
+																									notifyingTarget:target];
+	[accountWindowController showOnWindow:window];
 }
 
 @end

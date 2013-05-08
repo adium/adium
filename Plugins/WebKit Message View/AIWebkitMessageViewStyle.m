@@ -21,6 +21,7 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIContentMessage.h>
@@ -336,7 +337,6 @@
 		timeStampFormatter = [[NSDateFormatter alloc] initWithDateFormat:format allowNaturalLanguage:NO];
 	} else {
 		timeStampFormatter = [[NSDateFormatter alloc] init];
-		[timeStampFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[timeStampFormatter setDateFormat:format];
 	}
 }
@@ -358,7 +358,7 @@
 	NSString *headerContent = @"";
 	if (showHeader) {
 		if (chat.isGroupChat) {
-			headerContent = (chat.supportsTopic ? TOPIC_MAIN_DIV : @"");
+			headerContent = (((AIGroupChat *)chat).supportsTopic ? TOPIC_MAIN_DIV : @"");
 		} else if (headerHTML) {
 			headerContent = headerHTML;
 		}
@@ -447,6 +447,8 @@
 		usingCustomTemplateHTML = NO;
 	} else {
 		usingCustomTemplateHTML = YES;
+		
+		NSAssert(baseHTML != nil, @"The impossible happened!");
 		
 		if ([baseHTML rangeOfString:@"function imageCheck()" options:NSLiteralSearch].location != NSNotFound) {
 			/* This doesn't quite fix image swapping on styles with broken image swapping due to custom HTML templates,
@@ -635,7 +637,7 @@
 - (NSString *)scriptForScrollingAfterAddingMultipleContentObjects
 {
 	if ((styleVersion >= 3) || !usingCustomTemplateHTML) {
-		return @"alignChat(true);";
+		return @"if (this.AI_viewScrolledOnLoad != undefined) {alignChat(nearBottom());} else {this.AI_viewScrolledOnLoad = true; alignChat(true);}";
 	}
 
 	return nil;
@@ -646,7 +648,7 @@
  */
 - (NSMutableString *)_escapeStringForPassingToScript:(NSMutableString *)inString
 {	
-	//We need to escape a few things to get our string to the javascript without trouble
+	// We need to escape a few things to get our string to the javascript without trouble
 	[inString replaceOccurrencesOfString:@"\\" 
 							  withString:@"\\\\" 
 								 options:NSLiteralSearch];
@@ -853,7 +855,6 @@
 							dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
 						} else {
 							dateFormatter = [[NSDateFormatter alloc] init];
-							[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 							[dateFormatter setDateFormat:timeFormat];
 						}
 						[timeFormatterCache setObject:dateFormatter forKey:timeFormat];
@@ -912,13 +913,18 @@
 		
 		//Use [content source] directly rather than the potentially-metaContact theSource
 		NSString *formattedUID = nil;
-		if ([content.chat aliasForContact:contentSource]) {
-			formattedUID = [content.chat aliasForContact:contentSource];
+        if (content.chat.isGroupChat && content.sourceNick) {
+			formattedUID = content.sourceNick;
 		} else {
 			formattedUID = contentSource.formattedUID;
 		}
 
-		NSString *displayName = [content.chat displayNameForContact:contentSource];
+		NSString *displayName;
+        
+        if (content.chat.isGroupChat)
+            displayName = content.sourceNick;
+        else
+            displayName = content.source.displayName;
 		
 		[inString replaceKeyword:@"%status%"
 					  withString:@""];
@@ -1273,7 +1279,6 @@
 					dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
 				} else {
 					dateFormatter = [[NSDateFormatter alloc] init];
-					[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
 					[dateFormatter setDateFormat:timeFormat];
 				}
 				

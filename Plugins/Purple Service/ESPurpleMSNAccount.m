@@ -352,7 +352,7 @@
 
 			while (friendlyNameUTF8String &&
 				   strlen(purple_url_encode(friendlyNameUTF8String)) > BUDDY_ALIAS_MAXLEN) {
-				AILog(@"Shortening because %s (max len %i) [%s] len (%i) > %i",
+				AILog(@"Shortening because %s (max len %li) [%s] len (%zi) > %i",
 					  friendlyNameUTF8String, currentMaxNumberOfPreEncodedCharacters,
 					  purple_url_encode(friendlyNameUTF8String),strlen(purple_url_encode(friendlyNameUTF8String)),
 					  BUDDY_ALIAS_MAXLEN);
@@ -361,7 +361,8 @@
 				currentMaxNumberOfPreEncodedCharacters -= 10;
 			}
 
-			purple_account_set_alias(account, friendlyNameUTF8String);
+            purple_account_set_alias(account, friendlyNameUTF8String);
+            purple_account_set_public_alias(account, friendlyNameUTF8String, NULL, NULL);
 
 			[lastFriendlyNameChange release];
 			lastFriendlyNameChange = [now retain];

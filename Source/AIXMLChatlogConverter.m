@@ -26,6 +26,7 @@
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIColorAdditions.h> 
 
 #define PREF_GROUP_WEBKIT_MESSAGE_DISPLAY		@"WebKit Message Display"
 #define KEY_WEBKIT_USE_NAME_FORMAT				@"Use Custom Name Format"
@@ -109,7 +110,7 @@
         result = [converter readData:xmlData withOptions:options retrying:NO];
     } @catch (NSException *e) {
         NSLog(@"Error \"%@\" parsing log file at %@.", e, filePath);
-        return [[[NSAttributedString alloc] initWithString:@"Sorry, there was an error parsing this transcript. It may be corrupt."] autorelease];
+        return [[[NSAttributedString alloc] initWithString:AILocalizedString(@"Sorry, there was an error parsing this transcript. It may be corrupt.", nil)] autorelease];
     }
     return result;
 }
@@ -180,24 +181,25 @@
     
     BOOL showTimestamps = [[options objectForKey:@"showTimestamps"] boolValue];
 	BOOL showEmoticons = [[options objectForKey:@"showEmoticons"] boolValue];
+	BOOL showSendercolors = [[options objectForKey:@"showSenderColors"] boolValue];
     
     NSXMLElement *chatElement = [[xmlDoc nodesForXPath:@"//chat" error:&err] lastObject];
     
     NSDictionary *chatAttributes = [chatElement AIAttributesAsDictionary];
     NSString *mySN = [[chatAttributes objectForKey:@"account"] stringValue];
     NSString *service = [[chatAttributes objectForKey:@"service"] stringValue];
-    
+
     NSString *myDisplayName = nil;
     
     for (AIAccount *account in adium.accountController.accounts) {
         if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
             [account.service.serviceID isEqualToString:service]) {
-            myDisplayName = [account.displayName retain];
+            myDisplayName = [[account.displayName retain] autorelease];
             break;
         }
     }    
         
-    NSArray *elements = [xmlDoc nodesForXPath:@"//message | //status" error:&err];
+    NSArray *elements = [xmlDoc nodesForXPath:@"//message | //action | //status" error:&err];
     if (!elements) {
         goto ohno;
     }
@@ -207,7 +209,7 @@
      
         NSDictionary *attributes = [element AIAttributesAsDictionary];
         
-        if ([type isEqualToString:@"message"]) {
+        if ([type isEqualToString:@"message"] || [type isEqualToString:@"action"]) {
             NSString *senderAlias = [[attributes objectForKey:@"alias"] stringValue];
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
             NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
@@ -229,7 +231,11 @@
                 //Find an account if one exists, and use its name
                 displayName = (myDisplayName ? myDisplayName : sender);
             } else {
-                AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				__block AIListObject *listObject;
+				
+				dispatch_sync(dispatch_get_main_queue(), ^{
+					listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+				});
                 
                 displayName = listObject.displayName;
                 longDisplayName = [listObject longDisplayName];
@@ -265,11 +271,13 @@
 				timestampStr = [[dateFormatter stringFromDate:date] retain];
 			}];
 			
-				
+			NSString *senderColor = (!sentMessage ? [NSColor representedColorForObject:sender withValidColors:nil] : @"#007F00");
+			
             [output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
-                                                                    @"<div class=\"%@\">%@<span class=\"sender\">%@%@:</span></div> ",
+                                                                    @"<div class=\"%@\">%@<span class=\"sender\"%@>%@%@:</span></div> ",
                                                                     (sentMessage ? @"send" : @"receive"),
                                                                     (showTimestamps ? [NSString stringWithFormat:@"<span class=\"timestamp\">%@</span> ", timestampStr] : @""),
+																	(showSendercolors ? [NSString stringWithFormat:@" style=\"color: %@\"", senderColor] : @""),
                                                                     shownSender, (autoResponse ? AILocalizedString(@" (Autoreply)", nil) : @"")]]];
 			[timestampStr release];
 			
@@ -280,7 +288,16 @@
                                                                           direction:(sentMessage ? AIFilterOutgoing : AIFilterIncoming)
                                                                             context:nil];				
             }
-            [output appendAttributedString:attributedMessage];
+			
+			if ([type isEqualToString:@"action"]) {
+				NSMutableAttributedString *ourAttributedString = [[attributedMessage mutableCopy] autorelease];
+				[ourAttributedString replaceCharactersInRange:NSMakeRange(0, 0) withString:@"*"];
+				[ourAttributedString replaceCharactersInRange:NSMakeRange([ourAttributedString length], 0) withString:@"*"];
+				[output appendAttributedString:ourAttributedString];
+			} else {
+				[output appendAttributedString:attributedMessage];
+			}
+			
             [output appendAttributedString:newlineAttributedString];
         } else if ([type isEqualToString:@"status"]) {
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];

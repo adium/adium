@@ -68,11 +68,6 @@
 - (void)_relayoutWindow;
 @end
 
-//Used to squelch compiler warnings on this private call
-@interface NSWindow (AISecretWindowDocumentIconAdditions)
-- (void)addDocumentIconButton;
-@end
-
 @implementation AIMessageWindowController
 
 //Create a new message window controller
@@ -99,7 +94,6 @@
 		containerName = [inName retain];
 		containerID = [inContainerID retain];
 		m_containedChats = [[NSMutableArray alloc] init];
-		hasShownDocumentButton = NO;
 		
 		//Load our window
 		myWindow = [self window];
@@ -153,8 +147,9 @@
 
     [tabView_tabBar setDelegate:nil];
 
-	[self.containedChats release];
+	[m_containedChats release];
 	[toolbarItems release];
+	[toolbar release];
 	[containerName release];
 	[containerID release];
 
@@ -300,7 +295,7 @@
 											 defaultButton:AILocalizedString(@"Close", nil)
 										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
 											   otherButton:nil
-								 informativeTextWithFormat:question];
+								 informativeTextWithFormat:@"%@", question];
 			
 			[alert setShowsSuppressionButton:YES];
 			[[alert suppressionButton] setTitle:suppressionText];
@@ -341,9 +336,6 @@
  */
 - (void)windowWillClose:(id)sender
 {
-    NSEnumerator			*enumerator;
-    AIMessageTabViewItem	*tabViewItem;
-	
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
 		CGFloat widthToStore;
 		if ([tabView_tabBar isTabBarHidden]) {
@@ -363,10 +355,10 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
-	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
-    while ((tabViewItem = [enumerator nextObject])) {
-		[adium.interfaceController closeChat:tabViewItem.chat];
-	}
+	[[tabView_messages tabViewItems] enumerateObjectsWithOptions:NSEnumerationReverse
+													  usingBlock:^(id tabViewItem, NSUInteger idx, BOOL *stop) {
+		[adium.interfaceController closeChat:[(AIMessageTabViewItem *)tabViewItem chat]];
+	}];
 
 	//Chats have all closed, set active to nil, let the interface know we closed.  We should skip this step if our
 	//window is no longer visible, since in that case another window will have already became active.
@@ -408,14 +400,24 @@
 		
 		[self _updateWindowTitleAndIcon];
 
-		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
-		NSInteger				level = NSNormalWindowLevel;
+		AIWindowLevel windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
+		NSInteger level;
 		
 		switch (windowLevel) {
-			case AINormalWindowLevel: level = NSNormalWindowLevel; break;
-			case AIFloatingWindowLevel: level = NSFloatingWindowLevel; break;
-			case AIDesktopWindowLevel: level = kCGDesktopWindowLevel; break;
+			case AINormalWindowLevel:
+				level = NSNormalWindowLevel;
+				break;
+			case AIFloatingWindowLevel:
+				level = NSFloatingWindowLevel;
+				break;
+			case AIDesktopWindowLevel:
+				level = kCGDesktopWindowLevel;
+				break;
+			default:
+				level = NSNormalWindowLevel;
+				break;
 		}
+		
 		[window setLevel:level];
 		[window setHidesOnDeactivate:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
     }
@@ -589,6 +591,12 @@
 	return tabPosition;
 }
 
+//Prevent the document popup since we aren't using an actual file
+- (BOOL)window:(NSWindow *)window shouldPopUpDocumentPathMenu:(NSMenu *)menu
+{
+	return NO;
+}
+
 //Contained Chats ------------------------------------------------------------------------------------------------------
 #pragma mark Contained Chats
 //Add a tab view item container at the end of the tabs (without changing the current selection)
@@ -672,7 +680,7 @@
 	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != idx) {
-		NSMutableArray *cells = [tabView_tabBar cells];
+		NSMutableArray *cells = [[[tabView_tabBar cells] mutableCopy] autorelease];
 		
 		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
@@ -693,14 +701,9 @@
 
 - (void)_reloadContainedChats
 {
-	NSEnumerator			*enumerator;
-	AIMessageTabViewItem	*tabViewItem;
-
 	//Update our contained chats array to mirror the order of the tabs
 	[m_containedChats release]; m_containedChats = [[NSMutableArray alloc] init];
-	enumerator = [[tabView_messages tabViewItems] objectEnumerator];
-	
-	while ((tabViewItem = [enumerator nextObject])) {
+	for (AIMessageTabViewItem *tabViewItem in [tabView_messages tabViewItems]) {
 		[tabViewItem setWindowController:self];
 		[m_containedChats addObject:[tabViewItem chat]];
 	}
@@ -748,26 +751,13 @@
 	if (title) [window setTitle:title];
 	
 	//Window Icon (We display state in the window title if tabs are not visible)
-	if (!hasShownDocumentButton) {
-		if ([window respondsToSelector:@selector(addDocumentIconButton)]) {
-			[window addDocumentIconButton];
-		}
-		hasShownDocumentButton = YES;
-	}
-
 	button = [window standardWindowButton:NSWindowDocumentIconButton];
-		  
-	if ([tabView_tabBar isTabBarHidden]) {
-		NSImage *image = [(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] stateIcon];
-		if (image != [button image]) {
-			[button setImage:image];
-		}
-
-	} else {
-		if ([button image]) {
-			[button setImage:nil];
-		}
-	}
+	[window setRepresentedURL:[NSURL URLWithString:@"StatusIcon"]];
+	
+	if ([tabView_tabBar isTabBarHidden] || [tabView_tabBar numberOfVisibleTabs] < [m_containedChats count])
+		[button setImage:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] icon]];
+	else
+		[button setImage:nil];
 }
 
 - (AIChat *)activeChat
@@ -1017,7 +1007,7 @@
 	NSPoint tabOrigin = [tabView frame].origin;
 	tabOrigin.x += 10;
 	tabOrigin.y += 13;
-	[tabViewImage compositeToPoint:tabOrigin operation:NSCompositeSourceOver];
+	[tabViewImage drawAtPoint:tabOrigin fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	[viewImage unlockFocus];
 	
 	//draw over where the tab bar would usually be
@@ -1030,7 +1020,6 @@
 	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[[(PSMTabBarControl *)[tabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
@@ -1040,20 +1029,20 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = contentFrame.size.height;
 			break;
 		case AdiumTabPositionTop:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = 21;
 			break;
 		case AdiumTabPositionLeft:
 			offset->width = 0;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 		case AdiumTabPositionRight:
 			offset->width = [tabView_tabBar frame].origin.x;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 	}
 	
@@ -1077,19 +1066,19 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= 22;
 			break;
 		case AdiumTabPositionTop:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= NSHeight([[[newController window] contentView] frame]) + 1;
 			break;
 		case AdiumTabPositionLeft:
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 			break;
 		case AdiumTabPositionRight:
 			point.x -= NSMinX([tabView_tabBar frame]);
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 	}
 	
 	//set the origin point of the new window
@@ -1305,7 +1294,7 @@
 - (void)_configureToolbar
 {
 //	NSToolbar *toolbar; change this if need be
-    toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW] autorelease];
+    toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_MESSAGE_WINDOW];
 	
     [toolbar setDelegate:self];
     [toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
@@ -1372,11 +1361,9 @@
 - (void)removeToolbarItemWithIdentifier:(NSString*)identifier
 {
 	NSArray			*itemArray = [toolbar items];
-	NSEnumerator	*enumerator = [itemArray objectEnumerator];
-	NSToolbarItem	*item;
 	NSInteger		idx = NSNotFound;
 
-	while ((item = [enumerator nextObject])) {
+	for (NSToolbarItem *item in itemArray) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {
 			idx = [itemArray indexOfObject:item];
 			break;

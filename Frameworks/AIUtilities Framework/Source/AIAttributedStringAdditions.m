@@ -289,13 +289,13 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     if ([self length] && [self containsAttachments]) {
         NSInteger							currentLocation = 0;
         NSRange						attachmentRange;
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
 		
         //find attachment
         attachmentRange = [[self string] rangeOfString:attachmentCharacterString
 											   options:0 
 												 range:NSMakeRange(currentLocation,
-																   [self length] - currentLocation)];
+																   [self length])];
 		
         while (attachmentRange.length != 0) { //if we found an attachment
 			NSTextAttachment	*attachment = [self attribute:NSAttachmentAttributeName
@@ -370,9 +370,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 	BOOL hasLineThrough = NO, hasUnderline = NO;
 
-	NSEnumerator *keysEnum = [attrs keyEnumerator];
-	NSString *key;
-	while ((key = [keysEnum nextObject])) {
+	for (NSString *key in attrs) {
 		if ([key isEqualToString:NSUnderlineStyleAttributeName]) {
 			hasUnderline = YES;
 		} else if ([key isEqualToString:NSStrikethroughStyleAttributeName]) {

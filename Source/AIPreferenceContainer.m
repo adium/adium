@@ -26,7 +26,7 @@
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject;
 - (void)save;
 @property (readonly, nonatomic) NSMutableDictionary *prefs;
-- (void) loadGlobalPrefs;
++ (void) loadGlobalPrefsForObject:(AIListObject *)object;
 
 //Lazily sets up our pref dict if needed
 - (void) setPrefValue:(id)val forKey:(id)key;
@@ -62,8 +62,39 @@ static NSTimer				*timer_savingOfAccountCache = nil;
  */
 @implementation AIPreferenceContainer
 
-+ (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)inGroup object:(AIListObject *)inObject
+static NSString *globalPrefsNameForObject(AIListObject *object) {
+    if (!object) return NULL;
+    return [object isKindOfClass:[AIAccount class]] ? @"AccountPrefs" : @"ByObjectPrefs";
+}
+#define globalPrefsName globalPrefsNameForObject(object)
+
+static NSMutableDictionary **globalPrefsPtrForObject(AIListObject *object) {
+    if (!object) return NULL;
+    return [object isKindOfClass:[AIAccount class]] ? &accountPrefs : &objectPrefs;
+}
+#define myGlobalPrefs globalPrefsPtrForObject(object)
+
+static NSTimer **globalPrefsSaveTimerForObject(AIListObject *object) {
+    if (!object) return NULL;
+    return [object isKindOfClass:[AIAccount class]] ? &timer_savingOfAccountCache : &timer_savingOfObjectCache;
+}
+#define myTimerForSavingGlobalPrefs globalPrefsSaveTimerForObject(object)
+
++ (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)inGroup object:(AIListObject *)inObject create:(BOOL)create
 {
+    BOOL found = YES;
+    if (inObject) {
+        NSMutableDictionary **prefs = globalPrefsPtrForObject(inObject);
+        if (!*prefs) {
+            [self loadGlobalPrefsForObject:inObject];
+            prefs = globalPrefsPtrForObject(inObject);
+        }
+        
+        NSString *globalPrefsKey = [inObject.internalObjectID safeFilenameString];
+        found = (nil != [*prefs objectForKey:globalPrefsKey]);
+    }
+
+    if (inObject && !found && !create) return nil;
 	return [[[self alloc] initForGroup:inGroup object:inObject] autorelease];
 }
 
@@ -97,18 +128,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	if ((self = [super init])) {
 		group = [inGroup retain];
 		object = [inObject retain];
-		if (object) {
-			if ([object isKindOfClass:[AIAccount class]]) {
-				myGlobalPrefs = &accountPrefs;
-				myTimerForSavingGlobalPrefs = &timer_savingOfAccountCache;
-				globalPrefsName = @"AccountPrefs";
-				
-			} else {
-				myGlobalPrefs = &objectPrefs;
-				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
-				globalPrefsName = @"ByObjectPrefs";
-			}
-		}
 	}
 
 	return self;
@@ -116,11 +135,11 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 - (void)dealloc
 {
-	[defaults release]; defaults = nil;
+	[defaults release];
+    [prefs release];
 	[group release];
 	[object release];
-	[globalPrefsName release]; globalPrefsName = nil;
-	
+
 	[super dealloc];
 }
 
@@ -131,7 +150,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 #pragma mark Defaults
 
-@synthesize defaults;
+@synthesize defaults, group;
 
 /*!
  * @brief Register defaults
@@ -143,14 +162,11 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	if (!defaults) defaults = [[NSMutableDictionary alloc] init];
 	
 	[defaults addEntriesFromDictionary:inDefaults];
-	
-	//Clear the cached defaults dictionary so it will be recreated as needed
-	[prefsWithDefaults release]; prefsWithDefaults = nil;
 }
 
 #pragma mark Get and set
 
-- (void) loadGlobalPrefs
++ (void) loadGlobalPrefsForObject:(AIListObject *)object
 {
 	NSAssert(*myGlobalPrefs == nil, @"Attempting to load global prefs when they're already loaded");
 	NSString	*objectPrefsPath = [[adium.loginController.userDirectory stringByAppendingPathComponent:globalPrefsName] stringByAppendingPathExtension:@"plist"];
@@ -163,7 +179,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	if (error) {
 		NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
 			  [error domain], (long)[error code], [error userInfo]);
-		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %li: %@)", objectPrefsPath, error,
 						   [error domain], [error code], [error userInfo]);
 		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
 			while (!data) {
@@ -172,7 +188,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 											  options:NSUncachedRead
 												error:&error];
 				if (error) {
-					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %li: %@)", objectPrefsPath, error,
 									   [error domain], [error code], [error userInfo]);
 				}	
 			}
@@ -194,7 +210,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	}
 	
 #ifdef PREFERENCE_CONTAINER_DEBUG
-	AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
+	AILogWithSignature(@"I read in %@ with %li items", globalPrefsName, [*myGlobalPrefs count]);
 #endif
 	
 	/* If we don't get a dictionary, create a new one */
@@ -230,9 +246,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		NSString	*userDirectory = adium.loginController.userDirectory;
 		
 		if (object) {
-			if (!(*myGlobalPrefs))
-				[self loadGlobalPrefs];
-
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
@@ -252,20 +265,13 @@ static NSTimer				*timer_savingOfAccountCache = nil;
  */
 - (NSDictionary *)dictionary
 {
-	if (!prefsWithDefaults) {
-		//Add our own preferences to the defaults dictionary to get a dict with the set keys overriding the default keys
-		if (defaults) {
-			prefsWithDefaults = [defaults mutableCopy];
-			NSDictionary *prefDict = self.prefs;
-			if (prefDict)
-				[prefsWithDefaults addEntriesFromDictionary:prefDict];
-
-		} else {
-			prefsWithDefaults = [self.prefs retain];
-		}
-	}
-
-	return prefsWithDefaults;
+    NSDictionary *myPrefs = self.prefs;
+    if (!defaults) return [[myPrefs copy] autorelease];
+    
+    NSMutableDictionary *prefsWithDefaults = [defaults mutableCopy];
+    //Add our own preferences to the defaults dictionary to get a dict with the set keys overriding the default keys
+    if (myPrefs) [prefsWithDefaults addEntriesFromDictionary:myPrefs];
+    return [prefsWithDefaults autorelease];
 }
 
 /*!
@@ -276,7 +282,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 - (void)setValue:(id)value forKey:(NSString *)key
 {
 	BOOL	valueChanged = YES;
-	/* Comparing pointers, numbers, and strings is far cheapear than writing out to disk;
+	/* Comparing pointers, numbers, and strings is far cheaper than writing out to disk;
 	 * check to see if we don't need to change anything at all. However, we still want to post notifications
 	 * for observers that we were set.
 	 */
@@ -287,13 +293,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	[self willChangeValueForKey:key];
 
 	if (valueChanged) {
-		//Clear the cached defaults dictionary so it will be recreated as needed
-		if (value)
-			[prefsWithDefaults setValue:value forKey:key];
-		else {
-			[prefsWithDefaults autorelease]; prefsWithDefaults = nil;
-		}
-		
 		[self setPrefValue:value forKey:key];		
 	}
 
@@ -309,7 +308,10 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 - (id)valueForKey:(NSString *)key
 {
-	return [[self dictionary] valueForKey:key];
+    id result = nil;
+    result = [self.prefs objectForKey:key];
+    if (!result) result = [self.defaults objectForKey:key];
+    return result;
 }
 
 /*!
@@ -328,7 +330,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 - (id)defaultValueForKey:(NSString *)key
 {
-	return [[self defaults] valueForKey:key];
+	return [self.defaults valueForKey:key];
 }
 
 /*!
@@ -375,7 +377,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 //		if (theDict && [theDict count] > 0 && [immutablePrefsToWrite count] == 0)
 //		{
 //			NSLog(@"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
-//			*((int*)0xdeadbeef) = 42;
+//			abort();
 //		}
 //	}
 #endif
@@ -384,7 +386,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
 	} else {
 		NSLog(@"Attempted to write an empty ByObject Prefs. Uh oh!");
-		*((int*)0xdeadbeef) = 42;
+		abort();
 	}
 	if (inTimer == timer_savingOfObjectCache) {
 			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
@@ -423,14 +425,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	} else {
 		//Save the preference change immediately
 		[self.prefs writeToPath:adium.loginController.userDirectory withName:group];
-	}
-}
-
-- (void)setGroup:(NSString *)inGroup
-{
-	if (group != inGroup) {
-		[group release];
-		group = [inGroup retain];
 	}
 }
 

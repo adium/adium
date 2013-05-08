@@ -335,6 +335,14 @@
 				[super keyDown:inEvent];				
 			} 
 
+		} else if (inChar == NSEnterCharacter || inChar == NSCarriageReturnCharacter) {
+			//Make shift+enter work the same as option+enter
+			if (flags & NSShiftKeyMask) {
+				[super insertLineBreak:self];
+			} else {
+				[super keyDown:inEvent];
+			}
+			
 		} else {
 			[super keyDown:inEvent];
 		}
@@ -1165,7 +1173,7 @@
 		[self.enclosingScrollView setBackgroundColor:[NSColor controlBackgroundColor]];
 	}
 	
-	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
+	NSString *counterText = [NSString stringWithFormat:@"%ld", currentCount];
 	
 	if (characterCounterPrefix) {
 		counterText = [NSString stringWithFormat:@"%@%@", characterCounterPrefix, counterText];
@@ -1433,8 +1441,7 @@
 	NSString *myType = [[pasteboard types] firstObjectCommonWithArray:FILES_AND_IMAGES_TYPES];
 	NSString *superclassType = [[pasteboard types] firstObjectCommonWithArray:PASS_TO_SUPERCLASS_DRAG_TYPE_ARRAY];
 	
-	if (myType &&
-		(!superclassType || ([[pasteboard types] indexOfObject:myType] < [[pasteboard types] indexOfObject:superclassType]))) {
+	if (myType && !superclassType) {
 		[self addAttachmentsFromPasteboard:pasteboard];
 		
 		success = YES;		
@@ -1675,13 +1682,13 @@
 		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
 		
 		// Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString
 														   options:0 
 															 range:NSMakeRange(currentLocation,
-																			   [attributedString length] - currentLocation)];
+																			   [attributedString length])];
 		while (attachmentRange.length != 0) {
 			// Found an attachment in at attachmentRange.location
 			NSTextAttachment	*attachment = [attributedString attribute:NSAttachmentAttributeName

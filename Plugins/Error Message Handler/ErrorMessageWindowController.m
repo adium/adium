@@ -16,22 +16,24 @@
 
 #import "ErrorMessageWindowController.h"
 
-#define MAX_ERRORS			80				//The max # of errors to display
+#define MAX_ERRORS				80				// The max # of errors to display
 #define MAX_ERROR_FRAME_HEIGHT	300
-#define	ERROR_WINDOW_NIB	@"ErrorWindow"	//Filename of the error window nib
+#define	ERROR_WINDOW_NIB		@"ErrorWindow"	// Filename of the error window nib
 
 @interface ErrorMessageWindowController ()
+
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (void)dealloc;
 - (void)refreshErrorDialog;
 - (void)windowDidLoad;
+
 @end
 
 @implementation ErrorMessageWindowController
 
-/* sharedInstance
-*   returns the shared instance of AIErrorController
-*/
+/* SharedInstance
+ * Returns the shared instance of AIErrorController
+ */
 static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 + (id)errorMessageWindowController
@@ -53,11 +55,11 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 - (void)displayError:(NSString *)inTitle withDescription:(NSString *)inDesc withTitle:(NSString *)inWindowTitle;
 {
 	if (inTitle && inDesc && inWindowTitle) {
-		//force the window to load
+		// Force the window to load
 		[sharedErrorMessageInstance window];
 		
-		//add the error
-		if ([errorTitleArray count] < MAX_ERRORS) { //Stop logging errors after too many
+		// Add the error
+		if ([errorTitleArray count] < MAX_ERRORS) { // Stop logging errors after too many
 			[errorTitleArray addObject:inTitle];
 			[errorDescArray addObject:inDesc];
 			[errorWindowTitleArray addObject:inWindowTitle];
@@ -69,10 +71,10 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 - (IBAction)okay:(id)sender
 {
-    if ([errorTitleArray count] == 1) { //close the error dialog
+    if ([errorTitleArray count] == 1) { // Close the error dialog
         [self closeWindow:nil];
 
-    } else { //remove the first error and display the next one
+    } else { // Remove the first error and display the next one
         [errorTitleArray removeObjectAtIndex:0];
         [errorDescArray removeObjectAtIndex:0];
         [errorWindowTitleArray removeObjectAtIndex:0];
@@ -83,21 +85,19 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 - (IBAction)okayToAll:(id)sender
 {
-    //close the error dialog
+    // Close the error dialog
     [self closeWindow:nil];
 }
 
-
-// Private --------------------------------------------------------------------------------
 #pragma mark Private
+
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
-    //init
-    [super initWithWindowNibName:windowNibName];
-
-    errorTitleArray = [[NSMutableArray alloc] init];
-    errorDescArray =  [[NSMutableArray alloc] init];
-    errorWindowTitleArray = [[NSMutableArray alloc] init];
+    if ((self = [super initWithWindowNibName:windowNibName])) {
+    	errorTitleArray = [[NSMutableArray alloc] init];
+    	errorDescArray =  [[NSMutableArray alloc] init];
+    	errorWindowTitleArray = [[NSMutableArray alloc] init];
+	}
 
     return self;
 }
@@ -115,11 +115,11 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 {
     NSRect	frame = [[self window] frame];
 
-    //Display the current error title
+    // Display the current error title
 	NSString	*title = [errorTitleArray objectAtIndex:0];
     [textView_errorTitle setString:title];
 
-	//Resize the window frame to fit the error title
+	// Resize the window frame to fit the error title
 	[textView_errorTitle sizeToFit];
 	CGFloat	titleHeightChange = [textView_errorTitle frame].size.height - [scrollView_errorTitle documentVisibleRect].size.height;
 	
@@ -131,13 +131,12 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 	frame.size.height += titleHeightChange;
 	frame.origin.y -= titleHeightChange;
 	
-	//Display the message
+	// Display the message
 	[textView_errorInfo setString:[errorDescArray objectAtIndex:0]];
 
-	//Resize the window frame to fit the error message
+	// Resize the window frame to fit the error message
 	[textView_errorInfo sizeToFit];
 	CGFloat errorInfoChange = [textView_errorInfo frame].size.height - [scrollView_errorInfo documentVisibleRect].size.height;
-
 	NSRect errorInfoFrame = [scrollView_errorInfo frame];
 	
 	if (errorInfoChange + NSHeight(errorInfoFrame) > MAX_ERROR_FRAME_HEIGHT) {
@@ -146,18 +145,17 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 	
 	errorInfoFrame.size.height += errorInfoChange;
 	errorInfoFrame.origin.y -= errorInfoChange;
-	//Also move it down to keep it from overlapping the title
+	// Also move it down to keep it from overlapping the title
 	errorInfoFrame.origin.y -= titleHeightChange;
 	[scrollView_errorInfo setFrame:errorInfoFrame];
 
 	frame.size.height += errorInfoChange;
     frame.origin.y -= errorInfoChange;
 	
-	//Perform the window resizing as needed
+	// Perform the window resizing as needed
 	[[self window] setFrame:frame display:YES animate:YES];
 
-
-    //Display the current error count
+    // Display the current error count
     if ([errorTitleArray count] == 1) {
 		[button_dismissAll setHidden:YES];
         [[self window] setTitle:[errorWindowTitleArray objectAtIndex:0]];
@@ -165,7 +163,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 		[[self window] makeFirstResponder:button_okay];
     } else {
 		[button_dismissAll setHidden:NO];
-        [[self window] setTitle:[NSString stringWithFormat:@"%@ (x%i)",[errorWindowTitleArray objectAtIndex:0],[errorTitleArray count]]];
+        [[self window] setTitle:[NSString stringWithFormat:@"%@ (x%li)",[errorWindowTitleArray objectAtIndex:0],[errorTitleArray count]]];
         [button_okay setTitle:AILocalizedString(@"Next",nil)];
 		[button_dismissAll setTitle:AILocalizedString(@"Dismiss All", @"Used in the error window; closes all open errors.")];
 		[[self window] makeFirstResponder:button_dismissAll];
@@ -174,10 +172,10 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
     [[self window] makeKeyAndOrderFront:nil];
 }
 
-// called after the about window loads, so we can set up the window before it's displayed
+// Called after the about window loads, so we can set up the window before it's displayed
 - (void)windowDidLoad
 {
-    //Setup the textviews
+    // Setup the textviews
     [textView_errorTitle setHorizontallyResizable:NO];
     [textView_errorTitle setVerticallyResizable:YES];
     [textView_errorTitle setDrawsBackground:NO];
@@ -188,16 +186,16 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
     [textView_errorInfo setDrawsBackground:NO];
     [scrollView_errorInfo setDrawsBackground:NO];
 	
-	//Center
+	// Center
 	[[self window] center];
 }
 
-// called as the window closes
+// Called as the window closes
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
 	
-    //release the window controller (ourself)
+    // Release the window controller (ourself)
     sharedErrorMessageInstance = nil;
     [self autorelease];
 }

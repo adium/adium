@@ -13,7 +13,7 @@ sniff_libpurple_version() {
 		if [[ '' != ${version} ]] ; then
 			LIBPURPLE_VERSION="${LIBPURPLE_VERSION}.${version}"
 		fi
-	done < "${ROOTDIR}/source/im.pidgin.adium/libpurple/version.h"
+	done < "${ROOTDIR}/source/libpurple/libpurple/version.h"
 	LIBPURPLE_VERSION="0.${LIBPURPLE_VERSION:3}"
 }
 
@@ -23,33 +23,15 @@ sniff_libpurple_version() {
 fetch_libpurple() {
 	quiet pushd "$ROOTDIR/source"
 	
-	if [ -d "im.pidgin.adium" ]; then
-		
+	if [ -d "libpurple" ]; then
 		status "Pulling latest changes to libpurple"
-		cd "im.pidgin.adium"
-		$MTN pull
-		$MTN update ${MTN_UPDATE_PARAM}
-		
+		cd "libpurple"
+		$HG pull
+
+		status "Updating libpurple with ${HG_UPDATE_PARAM}"
+		$HG update ${HG_UPDATE_PARAM}
 	else
-		
-		quiet mkdir "im.pidgin.adium"
-		cd "im.pidgin.adium"
-	
-		status "Downloading bootstrap database for libpurple"
-		curl -LOf "http://developer.pidgin.im/static/pidgin.mtn.bz2"
-	
-		status "Extracting bootstrap database"
-		bzip2 -d "pidgin.mtn.bz2"
-	
-		status "Migrating database to new schema"
-		$MTN db -d "pidgin.mtn" migrate
-	
-		status "Pulling updates to monotone database"
-		$MTN -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
-	
-		status "Checking out im.pidgin.adium branch"
-		$MTN -d "pidgin.mtn" co -b "im.pidgin.adium" .
-	
+		$HG clone -b adium "http://hg.adium.im/libpurple/" libpurple
 	fi
 	
 	quiet popd
@@ -62,7 +44,7 @@ build_libpurple() {
 	if $DOWNLOAD_LIBPURPLE; then
 	  fetch_libpurple
 	fi
-	if [ ! -d "$ROOTDIR/source/im.pidgin.adium" ]; then
+	if [ ! -d "$ROOTDIR/source/libpurple" ]; then
 	  error "libpurple checkout not found; use --download-libpurple"
 	  exit 1;
 	fi
@@ -75,7 +57,7 @@ build_libpurple() {
 	quiet mkdir -p "$ROOTDIR/build/include/sasl"
 	log cp -f "$ROOTDIR/source/cyrus-sasl/include/"*.h "$ROOTDIR/build/include/sasl"
 	
-	quiet pushd "$ROOTDIR/source/im.pidgin.adium"
+	quiet pushd "$ROOTDIR/source/libpurple"
 	
 	PROTOCOLS="bonjour,gg,irc,jabber,msn,myspace,novell,oscar,"
 	PROTOCOLS+="sametime,simple,yahoo,zephyr"
@@ -124,10 +106,10 @@ build_libpurple() {
 				$KERBEROS"
 		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
 			        -DHAVE_OPENSSL -fno-common -DHAVE_ZLIB" \
-			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0 -lz" \
+			"$BASE_LDFLAGS -lsasl2 -lz" \
 			"${CONFIG_CMD}" \
-			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
-			"${ROOTDIR}/source/im.pidgin.adium/config.h"
+			"${ROOTDIR}/source/libpurple/libpurple/purple.h" \
+			"${ROOTDIR}/source/libpurple/config.h"
 	)
 	fi
 	
@@ -136,28 +118,28 @@ build_libpurple() {
 	log make install
 	
 	status "Copying internal libpurple headers"
-	log cp -f "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/oscar.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/snactypes.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/peer.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/cmds.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/internal.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/msn/"*.h \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/yahoo/"*.h \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/buddylist.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/gg.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/search.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/auth.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/bosh.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/buddy.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/caps.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/jutil.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/presence.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/si.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/jabber.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/iq.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/namespaces.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/irc/irc.h" \
-		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/lib/libgadu.h" \
+	log cp -f "$ROOTDIR/source/libpurple/libpurple/protocols/oscar/oscar.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/oscar/snactypes.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/oscar/peer.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/cmds.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/internal.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/msn/"*.h \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/yahoo/"*.h \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/gg/buddylist.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/gg/gg.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/gg/search.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/auth.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/bosh.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/buddy.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/caps.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/jutil.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/presence.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/si.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/jabber.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/iq.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/jabber/namespaces.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/irc/irc.h" \
+		  "$ROOTDIR/source/libpurple/libpurple/protocols/gg/lib/libgadu.h" \
 		  "$ROOTDIR/build/include/libpurple"
 	
 	quiet popd

@@ -39,31 +39,48 @@ static CFArrayCallBacks nonretainingArrayCallbacks = {
 @implementation AMPurpleJabberNode
 
 static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	AMPurpleJabberNode *self = (AMPurpleJabberNode*)this;
 	
 	// we're receiving *all* packets, so let's filter out those that don't concern us
 	const char *from = xmlnode_get_attrib(*packet, "from");
-	if (!from)
+	if (!from) {
+		[pool release];
 		return;
-	if (!(*packet)->name)
+	}
+	if (!(*packet)->name){
+		[pool release];
 		return;
+	}
 	const char *type = xmlnode_get_attrib(*packet, "type");
-	if (!type || (strcmp(type, "result") && strcmp(type, "error")))
+	if (!type || (strcmp(type, "result") && strcmp(type, "error"))){
+		[pool release];
 		return;
-	if (strcmp((*packet)->name, "iq"))
+	}
+	if (strcmp((*packet)->name, "iq")){
+		[pool release];
 		return;
-	if (![[NSString stringWithUTF8String:from] isEqualToString:self.jid])
+	}
+	if (![[NSString stringWithUTF8String:from] isEqualToString:self.jid]){
+		[pool release];
 		return;
+	}
 	xmlnode *query = xmlnode_get_child_with_namespace(*packet,"query","http://jabber.org/protocol/disco#info");
 	if (query) {
-		if (self.features || self.identities)
+		if (self.features || self.identities) {
+			[pool release];
 			return; // we already have that information
-		
+		}
 		const char *queryNode = xmlnode_get_attrib(query,"node");
-		if ((self.node && !queryNode) || (!self.node && queryNode))
+		if ((self.node && !queryNode) || (!self.node && queryNode)){
+			[pool release];
 			return;
-		if (queryNode && ![[NSString stringWithUTF8String:queryNode] isEqualToString:self.node])
+		}
+		if (queryNode && ![[NSString stringWithUTF8String:queryNode] isEqualToString:self.node]){
+			[pool release];
 			return;
+		}
 		
 		// it's us, fill in features and identities
 		NSMutableArray *identities = [NSMutableArray array];
@@ -117,19 +134,26 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 				[self.commandsNode fetchItems];
 			}
 		}
+		[pool release];
 		return;
 	}
 	
 	query = xmlnode_get_child_with_namespace(*packet,"query","http://jabber.org/protocol/disco#items");
 	if (query) {
-		if (self.itemsArray)
+		if (self.itemsArray) {
+			[pool release];
 			return; // we already have that info
+		}
 		
 		const char *checkNode = xmlnode_get_attrib(query,"node");
-		if ((self.node && !checkNode) || (!self.node && checkNode))
+		if ((self.node && !checkNode) || (!self.node && checkNode)) {
+			[pool release];
 			return;
-		if (checkNode && ![[NSString stringWithUTF8String:checkNode] isEqualToString:self.node])
+		}
+		if (checkNode && ![[NSString stringWithUTF8String:checkNode] isEqualToString:self.node]){ 
+			[pool release];
 			return;
+		}
 		
 		// it's us, create the subnodes
 		NSMutableArray *newItems = [NSMutableArray array];
@@ -174,6 +198,31 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 				[delegate jabberNodeGotItems:self];
 		}
 	}
+	
+	if (strcmp(type, "error") == 0) {
+		const char *iqId = xmlnode_get_attrib(*packet, "id");
+		
+		if ([[NSString stringWithUTF8String:iqId] isEqualToString:self.discoIqId]) {
+			
+			self.itemsArray = @[];
+			
+			for (id delegate in self.delegates) {
+				if ([delegate respondsToSelector:@selector(jabberNodeGotItems:)])
+					[delegate jabberNodeGotItems:self];
+			}
+		} else if ([[NSString stringWithUTF8String:iqId] isEqualToString:self.infoIqId]) {
+			
+			self.identities = @[];
+			self.features = [NSSet set];
+			
+			for (id delegate in self.delegates) {
+				if ([delegate respondsToSelector:@selector(jabberNodeGotInfo:)])
+					[delegate jabberNodeGotInfo:self];
+			}
+		}
+	}
+	
+	[pool release];
 }
 
 - (id)initWithJID:(NSString*)_jid node:(NSString*)_node name:(NSString*)_name connection:(PurpleConnection*)_gc {
@@ -233,6 +282,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	[name release];
 	[commands release];
 	[delegates release];
+	[discoIqId release];
+	[infoIqId release];
 	[super dealloc];
 }
 
@@ -243,7 +294,10 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
-	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++]]];
+	
+	self.discoIqId = [NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++];
+	
+	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:self.discoIqId]];
 	
 	NSXMLElement *query = [NSXMLNode elementWithName:@"query"];
 	[query addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://jabber.org/protocol/disco#items"]];
@@ -268,7 +322,9 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
-	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%lu",[self className], iqCounter++]]];
+	
+	self.infoIqId = [NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++];
+	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:self.infoIqId]];
 	
 	NSXMLElement *query = [NSXMLNode elementWithName:@"query"];
 	[query addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://jabber.org/protocol/disco#info"]];
@@ -308,7 +364,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	return [commands items];
 }
 
-@synthesize commandsNode = commands, itemsArray = items, identities, features, node, jid, name, gc, delegates;
+@synthesize commandsNode = commands, itemsArray = items, identities, features, node, jid, name, gc, delegates, infoIqId, discoIqId;
 
 - (void)addDelegate:(id<AMPurpleJabberNodeDelegate>)delegate {
 	[delegates addObject:delegate];

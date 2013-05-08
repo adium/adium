@@ -48,74 +48,77 @@
  *
  * @see AITextAndButtonsReturnCode
  *
- * @result A retained <tt>ESTextAndButtonsWindowController</tt> which will handle releasing itself when the window is finished.
+ * @result A initialized <tt>ESTextAndButtonsWindowController</tt>.
  */
-+ (id)showTextAndButtonsWindowWithTitle:(NSString *)inTitle
-						  defaultButton:(NSString *)inDefaultButton
-						alternateButton:(NSString *)inAlternateButton
-							otherButton:(NSString *)inOtherButton
-							suppression:(NSString *)inSuppression
-							   onWindow:(NSWindow *)parentWindow
-					  withMessageHeader:(NSString *)inMessageHeader
-							 andMessage:(NSAttributedString *)inMessage
-								  image:(NSImage *)inImage
-								 target:(id)inTarget
-							   userInfo:(id)inUserInfo
+- (id)initWithTitle:(NSString *)inTitle
+	  defaultButton:(NSString *)inDefaultButton
+	alternateButton:(NSString *)inAlternateButton
+		otherButton:(NSString *)inOtherButton
+		suppression:(NSString *)inSuppression
+  withMessageHeader:(NSString *)inMessageHeader
+		 andMessage:(NSAttributedString *)inMessage
+			  image:(NSImage *)inImage
+			 target:(id)inTarget
+		   userInfo:(id)inUserInfo
 {
-	ESTextAndButtonsWindowController	*controller;
-	
-	controller = [[self alloc] initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB];
-	[controller changeWindowToTitle:inTitle
-					  defaultButton:inDefaultButton
-					alternateButton:inAlternateButton
-						otherButton:inOtherButton
-						suppression:inSuppression
-				  withMessageHeader:inMessageHeader
-						 andMessage:inMessage
-							  image:inImage
-							 target:inTarget
-						   userInfo:inUserInfo];
-	
-	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
-		   modalForWindow:parentWindow
-			modalDelegate:controller
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-
-	} else {
-		[controller show];
+	if (self = [self init]) {
+		[self changeWindowToTitle:inTitle
+					defaultButton:inDefaultButton
+				  alternateButton:inAlternateButton
+					  otherButton:inOtherButton
+					  suppression:inSuppression
+				withMessageHeader:inMessageHeader
+					   andMessage:inMessage
+							image:inImage
+						   target:inTarget
+						 userInfo:inUserInfo];
 	}
 	
-	return controller;
+	return self;
 }
 
-+ (id)showTextAndButtonsWindowWithTitle:(NSString *)inTitle
+- (id)init
+{
+	if (self = [super initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB]) {
+		
+	}
+	
+	return self;
+}
+
+- (void)showOnWindow:(NSWindow *)parentWindow
+{
+	if (parentWindow) {
+		[NSApp beginSheet:self.window
+		   modalForWindow:parentWindow
+			modalDelegate:self
+		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+			  contextInfo:nil];
+		
+	} else {
+		[self show];
+	}
+}
+
+- (id)initWithTitle:(NSString *)inTitle
 						  defaultButton:(NSString *)inDefaultButton
 						alternateButton:(NSString *)inAlternateButton
 							otherButton:(NSString *)inOtherButton
-							   onWindow:(NSWindow *)parentWindow
 					  withMessageHeader:(NSString *)inMessageHeader
 							 andMessage:(NSAttributedString *)inMessage
 								 target:(id)inTarget
 							   userInfo:(id)inUserInfo
 {
-	return [self showTextAndButtonsWindowWithTitle:inTitle
-									 defaultButton:inDefaultButton
-								   alternateButton:inAlternateButton
-									   otherButton:inOtherButton
-									   suppression:nil
-										  onWindow:parentWindow
-								 withMessageHeader:inMessageHeader
-										andMessage:inMessage
-											 image:nil
-											target:inTarget
-										  userInfo:inUserInfo];
-}
-
-+ (id)controller
-{
-	return [[self alloc] initWithWindowNibName:TEXT_AND_BUTTONS_WINDOW_NIB];
+	return [self initWithTitle:inTitle
+				 defaultButton:inDefaultButton
+			   alternateButton:inAlternateButton
+				   otherButton:inOtherButton
+				   suppression:nil
+			 withMessageHeader:inMessageHeader
+					andMessage:inMessage
+						 image:nil
+						target:inTarget
+					  userInfo:inUserInfo];
 }
 
 /*!
@@ -273,6 +276,8 @@
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
+	
+	[self autorelease];
 }
 
 /*!
@@ -326,11 +331,7 @@
 		NSRect scrollFrame = [scrollView_message frame];
 		
 		//Remove the header area
-		if ([scrollView_messageHeader respondsToSelector:@selector(setHidden:)]) {
-			[scrollView_messageHeader setHidden:YES];
-		} else {
-			[scrollView_messageHeader setFrame:NSZeroRect];	
-		}
+		[scrollView_messageHeader setHidden:YES];
 		
 		//verticalChange is how far we can move our message area up since we don't have a messageHeader
 		CGFloat verticalChange = (messageHeaderFrame.size.height +
@@ -385,8 +386,7 @@
 	}
 	
 	//Set the default button
-	NSRect newFrame, oldFrame;
-	oldFrame = [button_default frame];
+	NSRect newFrame;
 
 	[button_default setTitle:(defaultButton ? defaultButton : AILocalizedString(@"OK",nil))];
 	[button_default sizeToFit];
@@ -404,8 +404,6 @@
 	
 	//Set the alternate button if we were provided one, otherwise hide it
 	if (alternateButton) {
-		oldFrame = [button_alternate frame];
-
 		[button_alternate setTitle:alternateButton];
 		[button_alternate sizeToFit];
 		
@@ -422,8 +420,8 @@
 		//Set the other button if we were provided one, otherwise hide it
 		if (otherButton) {
 			[window setFrame:windowFrame display:NO animate:NO];
-
-			oldFrame = [button_other frame];
+			
+			NSRect oldFrame = [button_other frame];
 
 			[button_other setTitle:otherButton];
 

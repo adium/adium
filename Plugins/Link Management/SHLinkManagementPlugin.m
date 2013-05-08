@@ -32,8 +32,8 @@
 @interface SHLinkManagementPlugin ()
 - (BOOL)textViewSelectionIsLink:(NSTextView *)textView;
 - (void)registerToolbarItem;
-- (void)editFormattedLink:(id)sender;
-- (void)removeFormattedLink:(id)sender;
+- (IBAction)editFormattedLink:(id)sender;
+- (IBAction)removeFormattedLink:(id)sender;
 @end
 
 @implementation SHLinkManagementPlugin
@@ -91,9 +91,9 @@
 
     if (earliestTextView &&
 		![[keyWin windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
-		[SHLinkEditorWindowController showLinkEditorForTextView:earliestTextView
-													   onWindow:keyWin
-												notifyingTarget:nil];
+		SHLinkEditorWindowController *linkEditorWindowController = [[SHLinkEditorWindowController alloc] initWithTextView:earliestTextView
+																										  notifyingTarget:nil];
+		[linkEditorWindowController showOnWindow:keyWin];
     }
 }
 
@@ -150,7 +150,7 @@
                                                          toolTip:AILocalizedString(@"Add/Edit Hyperlink",nil)
                                                           target:self
                                                  settingSelector:@selector(setImage:)
-                                                     itemContent:[NSImage imageNamed:@"linkToolbar" forClass:[self class] loadLazily:YES]
+                                                     itemContent:[NSImage imageNamed:@"msg-insert-link" forClass:[self class] loadLazily:YES]
                                                           action:@selector(editFormattedLink:)
                                                             menu:nil] retain];
     

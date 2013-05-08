@@ -29,6 +29,7 @@
 #define DIRECTORY_INTERNAL_PLUGINS		[@"Contents" stringByAppendingPathComponent:@"PlugIns"]	//Path to the internal plugins
 #define EXTERNAL_PLUGIN_FOLDER			@"PlugIns"				//Folder name of external plugins
 #define EXTERNAL_DISABLED_PLUGIN_FOLDER	@"PlugIns (Disabled)"	//Folder name for disabled external plugins
+#define XTRAS_DISABLED			@" (Disabled)"
 #define EXTENSION_ADIUM_PLUGIN			@"AdiumPlugin"			//File extension of a plugin
 
 #define CONFIRMED_PLUGINS				@"Confirmed Plugins"
@@ -48,7 +49,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 + (BOOL)confirmPluginAtPath:(NSString *)pluginPath;
 + (BOOL)confirmPluginArchitectureAtPath:(NSString *)pluginPath;
 + (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath;
-+ (void)disablePlugin:(NSString *)pluginPath;
++ (BOOL)pluginIsBlacklisted:(NSBundle *)plugin;
 + (BOOL)allDependenciesMetForPluginAtPath:(NSString *)pluginPath;
 @end
 
@@ -134,6 +135,17 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	[super dealloc];
 }
 
++ (BOOL)pluginIsBlacklisted:(NSBundle *)plugin
+{
+	// Only one right now: the Skype plugin that works with 1.4 crashes in 1.5 (see #15590).
+	if ([[plugin bundleIdentifier] isEqualToString:@"org.bigbrownchunx.skypeplugin"] &&
+		[[[plugin infoDictionary] objectForKey:@"CFBundleVersion"] isEqualToString:@"1.0"]) {
+		return YES;
+	}
+	
+	return NO;
+}
+
 /*!
  * @brief Load plugins from the specified path
  *
@@ -154,10 +166,9 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 									 AILocalizedString(@"Disable", nil),
 									 nil,
 									 nil);
-		[self disablePlugin:pluginPath];
+		[self moveXtra:pluginPath toDisabledFolder:YES];
 		return;
 	}
-	
 	
 	//Confirm the presence of external plugins with the user
 	if (confirmLoading && 
@@ -179,6 +190,21 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	@try
 	{
 		if ((pluginBundle = [NSBundle bundleWithPath:pluginPath])) {
+			
+			if ([self pluginIsBlacklisted:pluginBundle]) {
+				NSRunInformationalAlertPanel([NSString stringWithFormat:
+											  AILocalizedString(@"Plugin %@ Will be Disabled", "%@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is blacklisted."),
+											  [[pluginPath lastPathComponent] stringByDeletingPathExtension]],
+											 [NSString stringWithFormat:
+											  AILocalizedString(@"This plugin is known to be incompatible with Adium %@.", "%@ will be a version number of Adium"),
+											  [NSApp applicationVersion]],
+											 AILocalizedString(@"Disable", nil),
+											 nil,
+											 nil);
+				[self moveXtra:pluginPath toDisabledFolder:YES];
+				return;
+			}
+			
 			Class principalClass = [pluginBundle principalClass];
 			if (principalClass) {
 				plugin = [[principalClass alloc] init];
@@ -209,7 +235,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 			//The plugin encountered an exception while it was loading.  There is no reason to leave this old
 			//or poorly coded plugin enabled so that it can cause more problems, so disable it and inform
 			//the user that they'll need to restart.
-			[self disablePlugin:pluginPath];
+			[self moveXtra:pluginPath toDisabledFolder:YES];
 			NSRunCriticalAlertPanel([NSString stringWithFormat:@"Error loading %@",[[pluginPath lastPathComponent] stringByDeletingPathExtension]],
 									@"An external plugin failed to load and has been disabled.  Please relaunch Adium",
 									@"Quit",
@@ -239,7 +265,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 										AILocalizedString(@"Continue", nil),
 										nil) == NSAlertDefaultReturn) {
 			//Disable this plugin
-			[self disablePlugin:pluginPath];
+			[self moveXtra:pluginPath toDisabledFolder:YES];
 			loadPlugin = NO;
 			
 		} else {
@@ -259,8 +285,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureX86_64
 	#elif defined(__i386__)
 		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureI386
-	#elif defined(__ppc__)
-		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitecturePPC
 	#else
 		#error Unsupported Architecture!
 	#endif
@@ -278,13 +302,13 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	if (!minimumVersionOfPlugin) {
 		NSString *pluginName = [[pluginPath lastPathComponent] stringByDeletingPathExtension];
 
-		NSLog(@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+		NSLog(@"The %@ plugin is not compatible with Adium %@. Please check xtras.adium.im to see if an update is available.",
 			  pluginName, [NSApp applicationVersion]);
 
 		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
-						@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+						@"The %@ plugin is not compatible with Adium %@. Please check xtras.adium.im to see if an update is available.",
 						AILocalizedString(@"Disable", nil), nil, nil, pluginName, [NSApp applicationVersion]);
-		[self disablePlugin:pluginPath];
+		[self moveXtra:pluginPath toDisabledFolder:YES];
 		return NO;
 	}
 
@@ -305,7 +329,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 						@"%@ requires Adium %@ or later, but you have Adium %@. Please upgrade Adium to use %@",
 						AILocalizedString(@"Disable", nil), nil, nil, 
 						pluginName, minimumVersionOfPlugin, appVersion, pluginName);
-		[self disablePlugin:pluginPath];
+		[self moveXtra:pluginName toDisabledFolder:YES];
 		return NO;
 	}
 
@@ -321,17 +345,24 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 			YES);
 }
 
-//Move a plugin to the disabled plugins folder
-+ (void)disablePlugin:(NSString *)pluginPath
++ (void)moveXtra:(NSString *)pluginPath toDisabledFolder:(BOOL)disable
 {
 	NSString	*pluginName = [pluginPath lastPathComponent];
 	NSString	*basePath = [pluginPath stringByDeletingLastPathComponent];
-	NSString	*disabledPath = [[basePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:EXTERNAL_DISABLED_PLUGIN_FOLDER];
+	NSString	*typeName = [basePath lastPathComponent];
 	
-	[[NSFileManager defaultManager] createDirectoryAtPath:disabledPath withIntermediateDirectories:YES attributes:nil error:NULL];
-	[[NSFileManager defaultManager] moveItemAtPath:[basePath stringByAppendingPathComponent:pluginName]
-									  toPath:[disabledPath stringByAppendingPathComponent:pluginName]
-									 error:NULL];
+	if (disable) {
+		if ([typeName rangeOfString:XTRAS_DISABLED].location == NSNotFound)
+			typeName = [typeName stringByAppendingString:XTRAS_DISABLED];
+	} else {
+		typeName = [typeName stringByReplacingOccurrencesOfString:XTRAS_DISABLED withString:@""];
+	}
+	
+	NSString	*newPath = [[basePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:typeName];
+	[[NSFileManager defaultManager] createDirectoryAtPath:newPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	[[NSFileManager defaultManager] moveItemAtPath:pluginPath
+											toPath:[newPath stringByAppendingPathComponent:pluginName]
+											 error:NULL];
 }
 
 /*!

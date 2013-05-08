@@ -34,7 +34,7 @@
 
 #import "AINudgeBuzzHandlerPlugin.h"
 
-#define NOTIFICATION				AILocalizedString(@"Send Notification", "Send notification (nudge or buzz) menu item")
+#define NOTIFICATION				AILocalizedString(@"Request Attention", "Request Attention (nudge or buzz) menu item")
 #define TOOLBAR_NOTIFY_IDENTIFIER	@"NotifyParticipants"
 
 @interface AINudgeBuzzHandlerPlugin()
@@ -44,7 +44,7 @@
 
 // AIListObject interaction
 - (void)sendNotification:(AIListObject *)object;
-- (void)notifyContact:(id)sender;
+- (IBAction)notifyContact:(id)sender;
 
 // Notifications.
 - (void)nudgeBuzzDidOccur:(NSNotification *)notification;
@@ -99,7 +99,7 @@
 	[adium.menuController addContextualMenuItem:notifyContextualMenuItem toLocation:Context_Contact_Action];
 	
 	// Load the toolbar icon.
-	notifyToolbarIcon = [NSImage imageNamed:@"notify" forClass:[self class] loadLazily:YES];
+	notifyToolbarIcon = [NSImage imageNamed:@"msg-request-attention" forClass:[self class] loadLazily:YES];
 	
 	// Create the toolbar item
 	NSToolbarItem *chatItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_NOTIFY_IDENTIFIER
@@ -254,10 +254,8 @@
 	
 	// Find the correct choice to send for a meta contact.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
-		AIListContact	*contact = nil;		
+		for (AIListContact *contact in [(AIMetaContact *)object uniqueContainedObjects]) {
 		// Loop until the first contact supporting notifications
-		while ((contact = [enumerator nextObject])) {
 			if ([self contactDoesSupportNotification:contact]) {
 				sendChoice = contact;
 				break;
@@ -368,7 +366,7 @@
 {
 	static NSImage	*eventImage = nil;
 	//Use the message icon from the main bundle
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"message"] retain];
+	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-message"] retain];
 	return eventImage;
 }
 

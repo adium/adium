@@ -25,7 +25,9 @@
 #import <Adium/AIMetaContact.h>
 
 @interface AIAccountPlusFieldPromptController ()
-- (void)_configureTextFieldForAccount:(AIAccount *)account;
+
+- (void)AI_configureTextFieldForAccount:(AIAccount *)account;
+
 @end
 
 #define ACCOUNT_PLUS_FIELD_GROUP	@"AccountPlusFieldWindows"
@@ -72,10 +74,20 @@
 			contact = [adium.contactController contactWithService:account.service
 														  account:account 
 															  UID:UID];
-		} else {
-			NSRunAlertPanel(AILocalizedString(@"Contact not found", nil),
-							[NSString stringWithFormat:AILocalizedString(@"%@ is not on any account. Please select a specific account or add this contact first.", nil), impliedValue],
-							AILocalizedString(@"OK", nil),
+		} else {			
+			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Contact not found",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil),
+							[NSString stringWithFormat:
+							 AILocalizedStringFromTableInBundle(@"%@ is not on any account. Please select a specific account or add this contact first.",
+																nil,
+																[NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+																nil), impliedValue],
+							AILocalizedStringFromTableInBundle(@"OK",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil),
 							nil,
 							nil);
 			
@@ -89,9 +101,9 @@
 	return contact;
 }
 
-- (void)_configureTextFieldForAccount:(AIAccount *)account
+- (void)AI_configureTextFieldForAccount:(AIAccount *)account
 {	
-	//Clear the completing strings
+	// Clear the completing strings
 	[textField_handle setCompletingStrings:nil];
 	
 	/* Configure the auto-complete view to autocomplete for contacts matching the selected account's service
@@ -143,12 +155,12 @@
 	[self _saveConfiguredAccount];
 }
 
-// Private --------------------------------------------------------------------------------
+#pragma mark Private
+
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
-    //init
-    [super initWithWindowNibName:windowNibName];    
-	
+	self = [super initWithWindowNibName:windowNibName];    
+
     return self;
 }
 
@@ -157,22 +169,26 @@
     [super dealloc];
 }
 
-//Setup the window before it is displayed
+// Setup the window before it is displayed
 - (void)windowDidLoad
 {
-	//Controls
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel", nil)];
+	// Controls
+	[button_cancel setLocalizedString:
+	 AILocalizedStringFromTableInBundle(@"Cancel",
+										nil,
+										[NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+										nil)];
 	[textField_handle setMinStringLength:2];
 	
-	//Account menu
+	// Account menu
 	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
 										   showTitleVerbs:NO] retain];
 	[self _restoreLastAccountIfPossible];
-	[self _configureTextFieldForAccount:[[popUp_service selectedItem] representedObject]];
+	[self AI_configureTextFieldForAccount:[[popUp_service selectedItem] representedObject]];
 	[self controlTextDidChange:nil];
 
-    //Center the window
+    // Center the window
     [[self window] center];
 }
 
@@ -191,20 +207,26 @@
 		[button_okay setEnabled:([[textField_handle stringValue] length] > 0)];
 	}
 
-	if ([[AIAccountPlusFieldPromptController superclass] instancesRespondToSelector:@selector(controlTextDidChange:)])
+	if ([[AIAccountPlusFieldPromptController superclass] instancesRespondToSelector:@selector(controlTextDidChange:)]) {
 		[super controlTextDidChange:aNotification];
+	}
 }
 
-//Account menu ---------------------------------------------------------------------------------------------------------
 #pragma mark Account menu
-//Account menu delegate
-- (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems {
+
+// Account menu delegate
+- (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
+{
 	[popUp_service setMenu:[inAccountMenu menu]];
 }	
-- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount {
-	[self _configureTextFieldForAccount:inAccount];
+
+- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
+{
+	[self AI_configureTextFieldForAccount:inAccount];
 }
-- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount {
+
+- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
+{
 	return inAccount.online;
 }
 
@@ -217,7 +239,11 @@
 		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
 			numberOfOnlineAccounts += 1;
 			if (numberOfOnlineAccounts > 1) {
-				anyItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Any", nil)
+				anyItem = [[[NSMenuItem alloc] initWithTitle:
+							AILocalizedStringFromTableInBundle(@"Any",
+															   nil,
+															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+															   nil)
 													  action:nil
 											   keyEquivalent:@""] autorelease];
 				break;
@@ -228,10 +254,10 @@
 	return anyItem;
 }
 
-//Select the last used account / Available online account
+// Select the last used account / Available online account
 - (void)_selectLastUsedAccountInAccountMenu:(AIAccountMenu *)inAccountMenu
 {
-	//First online account in our list
+	// First online account in our list
 	AIAccount    *preferredAccount;
 	for (preferredAccount in adium.accountController.accounts) {
 		if (preferredAccount.online)
@@ -242,7 +268,7 @@
 	
 	if (menuItem) {
 		[popUp_service selectItem:menuItem];
-		[self _configureTextFieldForAccount:preferredAccount];
+		[self AI_configureTextFieldForAccount:preferredAccount];
 	}
 }	
 	

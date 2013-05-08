@@ -179,7 +179,7 @@ static AdiumAuthorization *sharedInstance;
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"DefaultIcon" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [[NSImage imageNamed:@"default-icon" forClass:[self class]] retain];
 	return eventImage;
 }
 

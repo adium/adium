@@ -225,7 +225,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		BOOL currentLocationNeedsUpdate = YES;
 
 		if ([candidateEmoticons count]) {
-			NSString					*replacementString;
+			NSString					*replacementString = nil;
 			NSMutableAttributedString   *replacement;
 			NSInteger					textLength;
 			NSRange						emoticonRangeInNewMessage;
@@ -292,7 +292,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 					[tempSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
 					//remove any characters *in* the replacement string from the trimming set
 					[tempSet removeCharactersInString:replacementString];
-					[endingSetDict setObject:[tempSet immutableCopy] forKey:replacementString];
+					[endingSetDict setObject:[[tempSet immutableCopy] autorelease] forKey:replacementString];
 					[tempSet release];
 					endingTrimSet = [endingSetDict objectForKey:replacementString];
 				}

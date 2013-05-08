@@ -55,6 +55,14 @@
 - (NSString *)userNameLabel{
     return AILocalizedString(@"Member Name",nil); //.Mac Member Name
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://www.apple.com/mobileme/", @"URL for MobileMe signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"About MobileMe", @"Text for MobileMe sign up button");
+}
 /*!
  * @brief Default icon
  *

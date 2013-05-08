@@ -29,6 +29,7 @@
 @end
 
 @interface AIApplescriptRunner ()
+- (void)beginObservingForDistributedNotifications;
 - (void)respondIfReady:(NSNotification *)inNotification;
 - (void)executeScript:(NSNotification *)inNotification;
 - (void)quit:(NSNotification *)inNotification;
@@ -38,30 +39,40 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		NSDistributedNotificationCenter *distributedNotificationCenter = [NSDistributedNotificationCenter defaultCenter];
-		[distributedNotificationCenter addObserver:self
-										  selector:@selector(respondIfReady:)
-											  name:@"AdiumApplescriptRunner_RespondIfReady"
-											object:nil];
+		NSNotificationCenter *localNotificationCenter = [NSNotificationCenter defaultCenter];
 
-		[distributedNotificationCenter addObserver:self
-										  selector:@selector(executeScript:)
-											  name:@"AdiumApplescriptRunner_ExecuteScript"
-											object:nil];
-
-		[distributedNotificationCenter addObserver:self
-										  selector:@selector(quit:)
-											  name:@"AdiumApplescriptRunner_Quit"
-											object:nil];
-
-		[self applescriptRunnerIsReady];
-		
-		[self resetAutomaticQuitTimer];
+		[localNotificationCenter addObserver:self
+									selector:@selector(executeScript:)
+										name:@"AdiumApplescriptRunner_ExecuteScript"
+									  object:nil];
 	}
 
 	return self;
 }
 
+- (void)beginObservingForDistributedNotifications
+{
+	NSDistributedNotificationCenter *distributedNotificationCenter = [NSDistributedNotificationCenter defaultCenter];
+
+	[distributedNotificationCenter addObserver:self
+									  selector:@selector(respondIfReady:)
+										  name:@"AdiumApplescriptRunner_RespondIfReady"
+										object:nil];
+
+	[distributedNotificationCenter addObserver:self
+									  selector:@selector(executeScript:)
+										  name:@"AdiumApplescriptRunner_ExecuteScript"
+										object:nil];
+
+	[distributedNotificationCenter addObserver:self
+									  selector:@selector(quit:)
+										  name:@"AdiumApplescriptRunner_Quit"
+										object:nil];
+
+	[self applescriptRunnerIsReady];
+	
+	[self resetAutomaticQuitTimer];
+}
 /*!
  * @brief Inform observers on the NSDistributedNotificationCenter that the applesript runner is ready
  */
@@ -206,15 +217,59 @@
 
 int main(int argc, const char *argv[])
 {
-    NSAutoreleasePool		*pool = [[NSAutoreleasePool alloc] init];
-	AIApplescriptRunner		*applescriptRunner;
-	
-	applescriptRunner = [[AIApplescriptRunner alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	{
+		AIApplescriptRunner		*applescriptRunner;
+		NSProcessInfo			*processInfo;
+		NSArray					*processArguments;
+		NSEnumerator			*processArgumentsEnum;
+		NSString				*scriptPath;
 
-	[[NSRunLoop currentRunLoop] run];
-	
-	[applescriptRunner quit:nil];
-	[applescriptRunner release];
+		applescriptRunner = [[AIApplescriptRunner alloc] init];
 
+		processInfo = [NSProcessInfo processInfo];
+		processArguments = [processInfo arguments];
+		processArgumentsEnum = [processArguments objectEnumerator];
+
+		(void)[processArgumentsEnum nextObject]; //The first argument is the command name. We don't need that.
+
+		scriptPath = [processArgumentsEnum nextObject];
+		
+		// It appears LSOpenFromRefSpec passes something of the form -psn_0_1234, don't interpret that as the path of a script.
+		if (!scriptPath || [scriptPath hasPrefix:@"-psn_"]) {
+			[applescriptRunner beginObservingForDistributedNotifications];
+
+			//Run in the background for up to SECONDS_INACTIVITY_BEFORE_AUTOMATIC_QUIT seconds, waiting for Adium to give us a script to run.
+			[[NSRunLoop currentRunLoop] run];
+
+			[applescriptRunner quit:nil];
+		} else {
+			//Run the appointed script and then bail.
+			NSString				*functionName = [processArgumentsEnum nextObject];
+			NSArray					*scriptArgumentArray = nil;
+			NSDictionary			*userInfo;
+			NSNotification			*notification;
+
+			if (functionName) {
+				NSMutableArray *collectedArgs = [NSMutableArray array];
+				for (NSString *arg in processArgumentsEnum) {
+					[collectedArgs addObject:arg];
+				}
+				scriptArgumentArray = collectedArgs;
+			}
+
+			userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+				scriptPath,          @"path",
+				functionName,        @"function",
+				scriptArgumentArray, @"arguments",
+				nil];
+
+			notification = [NSNotification notificationWithName:@"AdiumApplescriptRunner_ExecuteScript" object:nil userInfo:userInfo];
+			[[NSNotificationCenter defaultCenter] postNotification:notification];
+		}
+
+		[applescriptRunner release];
+	}
 	[pool release];
+	return EXIT_SUCCESS;
 }

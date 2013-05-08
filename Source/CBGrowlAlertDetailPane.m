@@ -58,11 +58,16 @@
 {
 	[super viewDidLoad];
 	
-	[checkBox_sticky setLocalizedString:AILocalizedString(@"Sticky","Growl contact alert label")];
+	[checkBox_sticky setLocalizedString:AILocalizedString(@"Show until dismissed","Growl contact alert label")];
     [checkBox_timestamp setLocalizedString:AILocalizedString(@"Show time stamp", "Growl contact alert label")];
-	[label_priority setLocalizedString:AILocalizedString(@"Priority:", "Priority label for Growl")];
+	[label_priority setLocalizedString:AILocalizedString(@"Growl priority:", "Priority label for Growl")];
 	
 	[popUp_priority setMenu:[self priorityMenu]];
+	
+	BOOL isGrowlRunning = [GrowlApplicationBridge isGrowlRunning];
+	
+	[popUp_priority setEnabled:isGrowlRunning];
+	[label_priority setEnabled:isGrowlRunning];
 }
 
 /*!

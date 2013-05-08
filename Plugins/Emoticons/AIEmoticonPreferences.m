@@ -44,21 +44,26 @@
 
 @implementation AIEmoticonPreferences
 
-+ (void)showEmoticionCustomizationOnWindow:(NSWindow *)parentWindow
+- (id)init
 {
-	AIEmoticonPreferences	*controller;
+	if (self = [super initWithWindowNibName:@"EmoticonPrefs"]) {
+		
+	}
 	
-	controller = [[self alloc] initWithWindowNibName:@"EmoticonPrefs"];
-	
+	return self;
+}
+
+- (void)openOnWindow:(NSWindow *)parentWindow
+{
 	if (parentWindow) {
-		[NSApp beginSheet:[controller window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:controller
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[controller showWindow:nil];
-		[[controller window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
 }
@@ -68,7 +73,14 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
+	[sheet orderOut:nil];
+	
+	viewIsOpen = NO;
+	
+	[adium.preferenceController unregisterPreferenceObserver:self];
+    [adium.emoticonController flushEmoticonImageCache];
+	
+	[self autorelease];
 }
 
 //Configure the preference view
@@ -87,6 +99,7 @@
 	[self configurePreviewControllers];
 
     //Emoticons table
+	[selectedEmoticonPack release];
 	selectedEmoticonPack = nil;
 	checkCell = [[NSButtonCell alloc] init];
 	[checkCell setButtonType:NSSwitchButton];
@@ -94,7 +107,6 @@
 	[checkCell setTitle:@""];
 	[checkCell setRefusesFirstResponder:YES];
 	[[table_emoticons tableColumnWithIdentifier:@"Enabled"] setDataCell:checkCell];
-	[checkCell release];
 
 	NSImageCell *imageCell = [[NSImageCell alloc] initImageCell:nil];
 	if ([imageCell respondsToSelector:@selector(_setAnimates:)]) [imageCell _setAnimates:NO];
@@ -131,26 +143,29 @@
 - (void)windowWillClose:(id)sender
 {
 	viewIsOpen = NO;
+	
+	[super windowWillClose:sender];
+	
+	[adium.preferenceController unregisterPreferenceObserver:self];
+    [adium.emoticonController flushEmoticonImageCache];
+	
+	[self autorelease];
+}
 
+- (void)dealloc
+{
 	[checkCell release]; checkCell = nil;
 	[selectedEmoticonPack release]; selectedEmoticonPack = nil;
 	[emoticonPackPreviewControllers release]; emoticonPackPreviewControllers = nil;
-	[adium.preferenceController unregisterPreferenceObserver:self];
 	[emoticonImageCache release]; emoticonImageCache = nil;
-
-    //Flush all the images we loaded
-    [adium.emoticonController flushEmoticonImageCache];
+	
+	[super dealloc];
 }
 
 - (void)configurePreviewControllers
 {
-	NSEnumerator	*enumerator;
-	AIEmoticonPack	*pack;
-	NSView			*view;
-	
 	//First, remove any AIEmoticonPackPreviewView instances from the table
-	enumerator = [[[[table_emoticonPacks subviews] copy] autorelease] objectEnumerator];
-	while ((view = [enumerator nextObject])) {
+	for (NSView *view in [[[table_emoticonPacks subviews] copy] autorelease]) {
 		if ([view isKindOfClass:[AIEmoticonPackPreviewView class]]) {
 			[view removeFromSuperviewWithoutNeedingDisplay];
 		}
@@ -160,8 +175,7 @@
 	[emoticonPackPreviewControllers release];
 	emoticonPackPreviewControllers = [[NSMutableArray alloc] init];
 	
-	enumerator = [[adium.emoticonController availableEmoticonPacks] objectEnumerator];
-	while ((pack = [enumerator nextObject])) {
+	for (AIEmoticonPack *pack in [adium.emoticonController availableEmoticonPacks]) {
 		[emoticonPackPreviewControllers addObject:[AIEmoticonPackPreviewController previewControllerForPack:pack
 																								preferences:self]];
 	}
@@ -188,12 +202,9 @@
 
     //Set the row height to the average height of the emoticons
     if (selectedEmoticonPack) {
-        NSEnumerator    *enumerator;
-        AIEmoticon      *emoticon;
         NSInteger             totalHeight = 0;
         
-        enumerator = [[selectedEmoticonPack emoticons] objectEnumerator];
-        while ((emoticon = [enumerator nextObject])) {
+        for (AIEmoticon *emoticon in [selectedEmoticonPack emoticons]) {
             totalHeight += [[emoticon image] size].height;
         }
 
@@ -314,12 +325,12 @@
 #pragma mark Drag and Drop
 
 
-- (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray*)rows toPasteboard:(NSPasteboard*)pboard
+- (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
 	if (tableView != table_emoticonPacks)
 		return NO;
 	
-	dragRows = rows;        
+	dragRows = rowIndexes;
 	[pboard declareTypes:[NSArray arrayWithObject:EMOTICON_PACK_DRAG_TYPE] owner:self];
 	[pboard setString:@"dragPack" forType:EMOTICON_PACK_DRAG_TYPE];
 
@@ -346,9 +357,9 @@
 
 	//Move
 	NSMutableArray  *movedPacks = [NSMutableArray array]; //Keep track of the packs we've moved
-	for (NSNumber *dragRow in dragRows) {
-		[movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:[dragRow integerValue]] emoticonPack]];
-	}
+	[dragRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+		[movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:idx] emoticonPack]];
+	}];
 	[adium.emoticonController moveEmoticonPacks:movedPacks toIndex:row];
 	
 	[self configurePreviewControllers];

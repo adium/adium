@@ -171,7 +171,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (!(*cachePointer)) {
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterFullStyle];
 		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
 	}
@@ -188,7 +187,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (!(*cachePointer)) {
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterShortStyle];
 		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
 	}
@@ -216,7 +214,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	
 	if (dispatch_get_current_queue() != localizedFormatterQueue) {
 		dispatch_sync(localizedFormatterQueue, ^{
-			formatString = [[self localizedDateFormatStringShowingSeconds:YES showingAMorPM:NO] retain];
+			formatString = [[self localizedDateFormatStringShowingSeconds:seconds showingAMorPM:showAmPm] retain];
 		});
 		return [formatString autorelease];
 	}
@@ -228,7 +226,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	if (!(*cachePointer)) {
 		// Get the current time format string
 		*cachePointer = [[NSDateFormatter alloc] init];
-		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
 		[*cachePointer setDateStyle:NSDateFormatterNoStyle];
 		[*cachePointer setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
 		
@@ -358,10 +355,10 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	//build the strings for the parts
 	if (abbreviate) {
 		//Note: after checking with a linguistics student, it appears that we're fine leaving it as w, h, etc... rather than localizing.
-		weeksString		= [NSString stringWithFormat: @"%iw",weeks];
-		daysString		= [NSString stringWithFormat: @"%id",days];
-		hoursString		= [NSString stringWithFormat: @"%ih",hours];
-		minutesString	= [NSString stringWithFormat: @"%im",minutes];
+		weeksString		= [NSString stringWithFormat: @"%liw",weeks];
+		daysString		= [NSString stringWithFormat: @"%lid",days];
+		hoursString		= [NSString stringWithFormat: @"%lih",hours];
+		minutesString	= [NSString stringWithFormat: @"%lim",minutes];
 		secondsString	= [NSString stringWithFormat: @"%.0fs",seconds];
 	} else {
 		weeksString		= (weeks == 1)		? ONE_WEEK		: [NSString stringWithFormat:MULTIPLE_WEEKS, weeks];
@@ -471,7 +468,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 					[newFormat appendString:@"%Y"];
 					break;
 				default:
-					[newFormat appendFormat:@"%%%iY", [span length]];
+					[newFormat appendFormat:@"%%%liY", [span length]];
 			}
 			
 		} else if (it == 'M') {
@@ -694,7 +691,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Same as "%X %x"
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];
@@ -773,7 +769,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Date representation for the locale, including time zone.
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterNoStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];
@@ -784,7 +779,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			// Time representation for the locale.
 			// Not an exact conversion, I should see what matches most closely.
 			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 			[tempFormatter setDateStyle:NSDateFormatterNoStyle];
 			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
 			[newFormat appendString:[tempFormatter dateFormat]];

@@ -59,6 +59,15 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	}
 }
 
+- (void)dealloc
+{
+	[consoleController close];
+	[consoleController release];
+	consoleController = nil;
+	
+	[super dealloc];
+}
+
 #pragma mark IRC-ism overloads
 
 /*!
@@ -79,7 +88,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return YES;
 }
 
-- (BOOL)openChat:(AIChat *)chat
+- (BOOL)openChat:(AIGroupChat *)chat
 {
 	chat.hideUserIconAndStatus = YES;
 	
@@ -102,6 +111,21 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 }
 
 #pragma mark Command handling
+
+- (BOOL)enableConsole
+{
+	BOOL enableConsole;
+#ifdef DEBUG_BUILD
+	//Always enable the XML console for debug builds
+	enableConsole = YES;
+#else
+	//For non-debug builds, only enable it if the preference is set
+	enableConsole = [[NSUserDefaults standardUserDefaults] boolForKey:@"AIIRCConsole"];
+#endif
+	
+	return enableConsole;
+}
+
 /*!
  * @brief We've connected
  *
@@ -110,6 +134,11 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 - (void)didConnect
 {
 	[super didConnect];
+	
+	if ([self enableConsole]) {
+		if (!consoleController) consoleController = [[AIIRCConsoleController alloc] init];
+		[consoleController setPurpleConnection:purple_account_get_connection(account)];
+	}
 	
 	PurpleConversation *conv = fakeConversation(self.purpleAccount);
 	
@@ -142,6 +171,12 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	[self setPreference:[[NSAttributedString stringWithString:@"Adium"] dataRepresentation]
 				 forKey:KEY_ACCOUNT_DISPLAY_NAME
 				  group:GROUP_ACCOUNT_STATUS];
+}
+
+- (void)didDisconnect {
+	[consoleController setPurpleConnection:NULL];
+	
+	[super didDisconnect];
 }
 
 /*!
@@ -290,6 +325,14 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	// Realname (for connecting)
 	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: self.defaultRealname;
 	purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
+	
+	// Use SASL
+	BOOL useSASL = [[self preferenceForKey:KEY_IRC_USE_SASL group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(self.purpleAccount, "sasl", useSASL);
+	
+	
+	BOOL insecureSASLPlain = [[self preferenceForKey:KEY_IRC_INSECURE_SASL_PLAIN group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(self.purpleAccount, "auth_plain_in_clear", insecureSASLPlain);
 }
 
 /*!
@@ -411,15 +454,36 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 /*!
  * @brief Our flags in a chat
  */
-- (AIGroupChatFlags)flagsInChat:(AIChat *)chat
+- (AIGroupChatFlags)flagsInChat:(AIGroupChat *)chat
 {
-	NSString *ourUID = [NSString stringWithUTF8String:purple_normalize(self.purpleAccount, [self.displayName UTF8String])];
-	
 	// XXX Once we don't create a fake contact for ourself, we should do this the right way.
-	return [chat flagsForContact:[self contactWithUID:ourUID]];
+	return [chat flagsForNick:self.displayName];
 }
 
 #pragma mark Action Menu
+
+- (IBAction)showConsole:(id)sender {
+    if(consoleController)
+        [consoleController showWindow:sender];
+    else
+        NSBeep();
+}
+
+
+- (NSArray *)accountActionMenuItems
+{
+	if ([self enableConsole]) {
+		NSMenuItem *xmlConsoleMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Console",nil)
+																	action:@selector(showConsole:) 
+															 keyEquivalent:@""];
+		[xmlConsoleMenuItem setTarget:self];
+		
+		return [[NSArray arrayWithObject:[xmlConsoleMenuItem autorelease]] arrayByAddingObjectsFromArray:[super accountActionMenuItems]];
+	}
+	
+	return [super accountActionMenuItems];
+}
+
 -(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
 	NSMenu *menu;
@@ -494,8 +558,10 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	AIOperationRequirement req = (AIOperationRequirement)menuItem.tag;
 	AIChat *chat = adium.interfaceController.activeChat;
 	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
-		
-	AIGroupChatFlags flags = [self flagsInChat:chat];
+	
+	if (!chat.isGroupChat) return YES;
+	
+	AIGroupChatFlags flags = [self flagsInChat:(AIGroupChat *)chat];
 	
 	switch (req) {
 		case AIRequiresHalfop:

@@ -39,16 +39,10 @@
 
 //#define GROWL_DEBUG 1
 
-#define GROWL_ALERT							AILocalizedString(@"Display a Growl notification",nil)
-#define GROWL_STICKY_ALERT					AILocalizedString(@"Display a sticky Growl notification",nil)
-#define GROWL_STICKY_TIME_STAMP_ALERT       AILocalizedString(@"Display a sticky Growl notification with a time stamp", nil)
-#define GROWL_TIME_STAMP_ALERT              AILocalizedString(@"Display a Growl notification with a time stamp", nil)
-
-#define GROWL_INSTALLATION_WINDOW_TITLE		AILocalizedString(@"Growl Installation Recommended", "Growl installation window title")
-#define GROWL_UPDATE_WINDOW_TITLE			AILocalizedString(@"Growl Update Available", "Growl update window title")
-
-#define GROWL_INSTALLATION_EXPLANATION		AILocalizedString(@"Adium uses the Growl notification system to provide a configurable interface to display status changes, incoming messages and more.\n\nIt is strongly recommended that you allow Adium to automatically install Growl; no download is required.","Growl installation explanation")
-#define GROWL_UPDATE_EXPLANATION			AILocalizedString(@"Adium uses the Growl notification system to provide a configurable interface to display status changes, incoming messages and more.\n\nThis release of Adium includes an updated version of Growl. It is strongly recommended that you allow Adium to automatically update Growl; no download is required.","Growl update explanation")
+#define GROWL_ALERT							AILocalizedString(@"Display a notification",nil)
+#define GROWL_STICKY_ALERT					AILocalizedString(@"Display a notification until dismissed",nil)
+#define GROWL_STICKY_TIME_STAMP_ALERT       AILocalizedString(@"Display a notification with a time stamp until dismissed", nil)
+#define GROWL_TIME_STAMP_ALERT              AILocalizedString(@"Display a notification with a time stamp", nil)
 
 #define GROWL_TEXT_SIZE 11
 
@@ -59,7 +53,6 @@
 #define KEY_LIST_OBJECT_ID		@"internalObjectID"
 
 @interface NEHGrowlPlugin ()
-- (NSAttributedString *)_growlInformationForUpdate:(BOOL)isUpdate;
 - (NSString *)eventQueueKeyForEventID:(NSString *)eventID
 							   inChat:(AIChat *)chat;
 
@@ -183,7 +176,7 @@
  */
 - (NSImage *)imageForActionID:(NSString *)actionID
 {
-	return [NSImage imageNamed:@"GrowlAlert" forClass:[self class]];
+	return [NSImage imageNamed:@"events-notification" forClass:[self class]];
 }
 
 /*!
@@ -334,7 +327,7 @@
 			overallListObject = [listObjects objectAtIndex:0];
 		}
 		
-		AILog(@"Posting multiple event - %@ %@ %@ %d", eventID, overallListObject, chat, events.count);
+		AILog(@"Posting multiple event - %@ %@ %@ %ld", eventID, overallListObject, chat, events.count);
 		
 		// Use any random event for sticky.
 		NSDictionary *anyEventDetails = [[events objectAtIndex:0] objectForKey:@"Details"];
@@ -402,7 +395,7 @@
 			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
 			
-		if (chat && [chat isGroupChat]) {
+		if (chat && chat.isGroupChat) {
 			title = [NSString stringWithFormat:@"%@ (%@)", title, [chat displayName]];
 		}
 			
@@ -699,75 +692,6 @@
 
 	//Make Adium active (needed if, for example, our notification was clicked with another app active)
 	[NSApp activateIgnoringOtherApps:YES];	
-}
-
-/*!
- * @brief The title of the window shown if Growl needs to be installed
- */
-- (NSString *)growlInstallationWindowTitle
-{
-	return GROWL_INSTALLATION_WINDOW_TITLE;	
-}
-
-/*!
- * @brief The title of the window shown if Growl needs to be updated
- */
-- (NSString *)growlUpdateWindowTitle
-{
-	return GROWL_UPDATE_WINDOW_TITLE;
-}
-
-/*!
- * @brief The body of the window shown if Growl needs to be installed
- *
- * This method calls _growlInformationForUpdate.
- */
-- (NSAttributedString *)growlInstallationInformation
-{
-	return [self _growlInformationForUpdate:NO];
-}
-
-/*!
- * @brief The body of the window shown if Growl needs to be update
- *
- * This method calls _growlInformationForUpdate.
- */
-- (NSAttributedString *)growlUpdateInformation
-{
-	return [self _growlInformationForUpdate:YES];
-}
-
-/*!
- * @brief Returns the body text for the window displayed when Growl needs to be installed or updated
- *
- * @param isUpdate YES generates the message for the update window, NO likewise for the install window.
- */
-- (NSAttributedString *)_growlInformationForUpdate:(BOOL)isUpdate
-{
-	NSMutableAttributedString	*growlInfo;
-	
-	//Start with the window title, centered and bold
-	NSMutableParagraphStyle	*centeredStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
-	[centeredStyle setAlignment:NSCenterTextAlignment];
-	
-	growlInfo = [[NSMutableAttributedString alloc] initWithString:(isUpdate ? GROWL_UPDATE_WINDOW_TITLE : GROWL_INSTALLATION_WINDOW_TITLE)
-													   attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-														   centeredStyle,NSParagraphStyleAttributeName,
-														   [NSFont boldSystemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
-														   nil]];
-	//Skip a line
-	[[growlInfo mutableString] appendString:@"\n\n"];
-	
-	//Now provide a default explanation
-	NSAttributedString *defaultExplanation;
-	defaultExplanation = [[[NSAttributedString alloc] initWithString:(isUpdate ? GROWL_UPDATE_EXPLANATION : GROWL_INSTALLATION_EXPLANATION)
-														  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-															  [NSFont systemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
-															  nil]] autorelease];
-	
-	[growlInfo appendAttributedString:defaultExplanation];
-	
-	return [growlInfo autorelease];
 }
 
 @end

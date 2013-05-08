@@ -29,8 +29,7 @@
 @interface ESEventSoundAlertDetailPane ()
 - (NSMenu *)soundListMenu;
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu;
-- (void)selectSound:(id)sender;
-- (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (IBAction)selectSound:(id)sender;
 @end
 
 /*!
@@ -241,35 +240,19 @@
 		[self detailsForHeaderChanged];
     } else { //selected "Other..."
         NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-        
-        [openPanel 
-            beginSheetForDirectory:nil
-                              file:nil
-                             types:[NSSound soundUnfilteredTypes] //allow all the sounds NSSound understands
-                    modalForWindow:[view window]
-                     modalDelegate:self
-                    didEndSelector:@selector(concludeOtherPanel:returnCode:contextInfo:)
-                       contextInfo:nil];  
-
-    }
-}
-
-/*!
- * @brief Finish up the Other... panel
- *
- * Play the selected sound and update the menu.
- */
-- (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    if (returnCode == NSOKButton) {
-        NSString *soundPath = [(NSURL *)[[panel URLs] objectAtIndex:0] path];
-        
-        [adium.soundController playSoundAtPath:soundPath]; //Play the sound
-
-        //Update the menu and and the selection
-		[self addAndSelectSoundPath:[soundPath stringByCollapsingBundlePath]];
-
-		[self detailsForHeaderChanged];
+        openPanel.allowedFileTypes = [NSSound soundUnfilteredTypes]; //allow all the sounds NSSound understands
+		[openPanel beginSheetModalForWindow:[view window] completionHandler:^(NSInteger result) {
+			if (result == NSFileHandlingPanelOKButton) {
+				NSString *path = openPanel.URL.path;
+				
+				[adium.soundController playSoundAtPath:path]; //Play the sound
+				
+				//Update the menu and and the selection
+				[self addAndSelectSoundPath:[path stringByCollapsingBundlePath]];
+				
+				[self detailsForHeaderChanged];
+			}
+		}];
     }
 }
 

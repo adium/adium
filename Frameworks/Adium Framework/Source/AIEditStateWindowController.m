@@ -29,8 +29,6 @@
 #define CONTROL_SPACING			8
 #define WINDOW_HEIGHT_PADDING	30
 
-#define	SEND_ON_ENTER					@"Send On Enter"
-
 @interface AIEditStateWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forType:(AIStatusType)inStatusType andAccount:(AIAccount *)inAccount customState:(AIStatus *)inStatusState notifyingTarget:(id)inTarget showSaveCheckbox:(BOOL)inShowSaveCheckbox;
 - (id)_positionControl:(id)control relativeTo:(id)guide height:(CGFloat *)height;
@@ -181,10 +179,6 @@ static	NSMutableDictionary	*controllerDict = nil;
 - (void)windowDidLoad
 {
 //	NSNumberFormatter	*intFormatter;
-	BOOL				sendOnEnter;
-
-	sendOnEnter = [[adium.preferenceController preferenceForKey:SEND_ON_ENTER
-															group:PREF_GROUP_GENERAL] boolValue];
 	
 	[scrollView_statusMessage setAutohidesScrollers:YES];
 	[scrollView_statusMessage setAlwaysDrawFocusRingIfFocused:YES];
@@ -193,9 +187,6 @@ static	NSMutableDictionary	*controllerDict = nil;
 
 	[textView_statusMessage setAllowsDocumentBackgroundColorChange:YES];
 	[textView_autoReply setAllowsDocumentBackgroundColorChange:YES];
-
-	[textView_statusMessage setSendOnReturn:NO];
-	[textView_statusMessage setSendOnEnter:sendOnEnter];
 	
 	if ([textView_statusMessage isKindOfClass:[AIMessageEntryTextView class]]) {
 		[(AIMessageEntryTextView *)textView_statusMessage setClearOnEscape:NO];
@@ -207,13 +198,6 @@ static	NSMutableDictionary	*controllerDict = nil;
 	[scrollView_autoReply setAlwaysDrawFocusRingIfFocused:YES];
 	[textView_autoReply setTarget:self action:@selector(okay:)];
 	[textView_autoReply setDelegate:self];
-
-	//Return inserts a new line
-	[textView_autoReply setSendOnReturn:NO];
-
-	/* Enter follows the user's preference. By default, then, enter will send the okay: selector.
-	 * If the user expects enter to insert a newline in a message, however, it will do that here, too. */
-	[textView_autoReply setSendOnEnter:sendOnEnter];
 
 	if ([textView_autoReply isKindOfClass:[AIMessageEntryTextView class]]) {
 		[(AIMessageEntryTextView *)textView_autoReply setClearOnEscape:NO];
@@ -520,7 +504,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	current = [self _positionControl:box_idle relativeTo:current height:&height];
 	current = [self _positionControl:checkBox_muteSounds relativeTo:current height:&height];
 	current = [self _positionControl:checkBox_silenceGrowl relativeTo:current height:&height];
-	current = [self _positionControl:checkBox_save relativeTo:current height:&height];
+	[self _positionControl:checkBox_save relativeTo:current height:&height];
 
 	[window setContentSize:NSMakeSize([[window contentView] frame].size.width, height)
 				   display:YES

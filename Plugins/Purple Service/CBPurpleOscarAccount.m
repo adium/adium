@@ -117,9 +117,9 @@
     if ((purple_proxy_info_get_type(proxy_info) != PURPLE_PROXY_NONE) && 
         purple_proxy_info_get_host(proxy_info) && strlen(purple_proxy_info_get_host(proxy_info))) {
         /* Proxy servers and client login don't currently get along.  This should be fixed in libpurple, but until then,
-         * just don't use it.
+         * just don't use it, unless the hidden preference is set.
          */
-        purple_account_set_bool(account, "use_clientlogin", FALSE);
+		purple_account_set_bool(account, "use_clientlogin", [[NSUserDefaults standardUserDefaults] boolForKey:@"AIUseClientLoginWithProxies"]);
     }
         
     [super continueConnectWithConfiguredProxy];
@@ -736,9 +736,9 @@
 						/* purple_imgstore_add_with_id() will take ownership of imgBytes and free it when done*/
 						NSInteger	imgstore = purple_imgstore_add_with_id(imgBytes, imgBytesLength, [filename UTF8String]);
 						
-						AILog(@"Adding image id %i with name %s", imgstore, (filename ? [filename UTF8String] : "(null)"));
+						AILog(@"Adding image id %li with name %s", imgstore, (filename ? [filename UTF8String] : "(null)"));
 						
-						NSString		*newTag = [NSString stringWithFormat:@"<IMG ID=\"%i\" CLASS=\"scaledToFitImage\">",imgstore];
+						NSString		*newTag = [NSString stringWithFormat:@"<IMG ID=\"%li\" CLASS=\"scaledToFitImage\">",imgstore];
 						[processedString appendString:newTag];
 						
 						if (!purpleImagesToUnref) purpleImagesToUnref = [[NSMutableSet alloc] init];

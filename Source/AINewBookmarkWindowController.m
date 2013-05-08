@@ -30,7 +30,7 @@
 #define		DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
 @interface AINewBookmarkWindowController ()
-- (id)initWithWindowNibName:(NSString *)nibName forChat:(AIChat *)inChat notifyingTarget:(id)inTarget;
+- (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget;
 - (void)buildGroupMenu;
 - (void)newGroup:(id)sender;
 - (void)newGroupDidEnd:(NSNotification *)inNotification;
@@ -38,38 +38,24 @@
 @end
 
 @implementation AINewBookmarkWindowController
-/*!
- * @brief Prompt for a new bookmark.
- *
- * @param inChat The chat to bookmark
- * @param parentWindow Window on which to show as a sheet. Pass nil for a panel prompt.
- * @param inTarget The target to send createBookmarkForChat:withName:inGroup: upon success
- *
- * @result An AINewBookmarkWindowController which will manage its own memory
- */
-+ (AINewBookmarkWindowController *)promptForNewBookmarkForChat:(AIChat *)inChat onWindow:(NSWindow*)parentWindow notifyingTarget:(id)inTarget
-{
-	AINewBookmarkWindowController *newBookmarkWindowController = [[self alloc] initWithWindowNibName:ADD_BOOKMARK_NIB
-																							 forChat:inChat
-																					 notifyingTarget:inTarget];
 
+- (void)showOnWindow:(NSWindow *)parentWindow
+{
 	if(parentWindow) {
-	   [NSApp beginSheet:[newBookmarkWindowController window]
+	   [NSApp beginSheet:self.window
 		  modalForWindow:parentWindow
-	   	   modalDelegate:newBookmarkWindowController
+	   	   modalDelegate:self
 		  didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			 contextInfo:nil];
 	} else {
-		[newBookmarkWindowController showWindow:nil];
-		[[newBookmarkWindowController window] makeKeyAndOrderFront:nil];
+		[self showWindow:nil];
+		[self.window makeKeyAndOrderFront:nil];
 	}
-	
-	return newBookmarkWindowController;
 }
 
-- (id)initWithWindowNibName:(NSString *)nibName forChat:(AIChat *)inChat notifyingTarget:(id)inTarget
+- (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget
 {
-	if ((self = [super initWithWindowNibName:nibName])) {
+	if ((self = [super initWithWindowNibName:ADD_BOOKMARK_NIB])) {
 		chat = [inChat retain];
 		target = [inTarget retain];
 	}
@@ -91,6 +77,15 @@
 -(void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo
 {
 	[sheet orderOut:nil];
+	
+	[self autorelease];
+}
+
+- (void)windowWillClose:(id)sender
+{
+	[super windowWillClose:sender];
+	
+	[self autorelease];
 }
 
 /*!
@@ -167,15 +162,15 @@
  */
 - (void)newGroup:(id)sender
 {
-	AINewGroupWindowController	*newGroupWindowController;
+	AINewGroupWindowController *newGroupWindowController = [[AINewGroupWindowController alloc] init];
 	
-	newGroupWindowController = [AINewGroupWindowController promptForNewGroupOnWindow:[self window]];
-
 	//Observe for the New Group window to close
 	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(newGroupDidEnd:) 
-									   name:@"NewGroupWindowControllerDidEnd"
-									 object:[newGroupWindowController window]];	
+											 selector:@selector(newGroupDidEnd:) 
+												 name:@"NewGroupWindowControllerDidEnd"
+											   object:[newGroupWindowController window]];
+	
+	[newGroupWindowController showOnWindow:[self window]];
 }
 /*!
  * @name newGroupDidEnd:

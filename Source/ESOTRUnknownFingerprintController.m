@@ -88,8 +88,6 @@
 									denyButton:(NSString *)denyButton
 								  responseInfo:(NSDictionary *)responseInfo
 {
-	ESTextAndButtonsWindowController	*windowController;
-
 	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
 
 	NSImage		*serviceImage = nil;
@@ -100,17 +98,17 @@
 												  direction:AIIconNormal];
 	}
 	
-	windowController = [ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"OTR Fingerprint Verification",nil)
-																			 defaultButton:acceptButton
-																		   alternateButton:denyButton
-																			   otherButton:AILocalizedString(@"Help", nil)
-																			   suppression:nil
-																				  onWindow:nil
-																		 withMessageHeader:nil
-																				andMessage:[AIHTMLDecoder decodeHTML:messageString]
-																					 image:serviceImage
-																					target:self
-																				  userInfo:responseInfo];	
+	ESTextAndButtonsWindowController *textAndButtonsWindowController = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"OTR Fingerprint Verification",nil)
+																												 defaultButton:acceptButton
+																											   alternateButton:denyButton
+																												   otherButton:AILocalizedString(@"Help", nil)
+																												   suppression:nil
+																											 withMessageHeader:nil
+																													andMessage:[AIHTMLDecoder decodeHTML:messageString]
+																														 image:serviceImage
+																														target:self
+																													  userInfo:responseInfo];
+	[textAndButtonsWindowController showOnWindow:nil];
 }
 
 /*!
@@ -133,15 +131,15 @@
 				who,
 				who];
 			
-			[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:nil
+			ESTextAndButtonsWindowController *textAndButtonsWindowController = [[ESTextAndButtonsWindowController alloc] initWithTitle:nil
 																  defaultButton:nil
 																alternateButton:nil
 																	otherButton:nil
-																	   onWindow:window
 															  withMessageHeader:AILocalizedString(@"Fingerprint Help", nil)
 																	 andMessage:[[[NSAttributedString alloc] initWithString:message] autorelease]
 																		 target:self
-																	   userInfo:nil];	
+																	   userInfo:nil];
+			[textAndButtonsWindowController showOnWindow:window];
 			
 			//Don't close the original window if the help button is pressed
 			shouldCloseWindow = NO;

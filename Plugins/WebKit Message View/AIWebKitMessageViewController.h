@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import "AIOSCompatibility.h"
 
 @class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, DOMRange, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;
 
@@ -22,7 +23,7 @@
  *	@class AIWebKitMessageViewController AIWebKitMessageViewController.h
  *	@brief Main class for the webkit message view. Most of the good stuff happens here
  */
-@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController> {
+@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController, NSDraggingDestination> {
 	AIWebKitDelegate			*delegateProxy;
 	
 	id							plugin;
@@ -36,6 +37,7 @@
 	NSMutableArray				*contentQueue;
 	NSMutableArray				*storedContentObjects;
 	BOOL						webViewIsReady;
+	BOOL						documentIsReady;	// Is DOM ready?
 	
 	//Style & Variant
 	AIWebkitMessageViewStyle	*messageStyle;

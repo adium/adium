@@ -98,8 +98,8 @@
 - (IBAction)setFontPanelSettingsAsDefaultFont:(id)sender;
 
 - (IBAction)toggleFontTrait:(id)sender;
-- (void)toggleToolbarShown:(id)sender;
-- (void)runToolbarCustomizationPalette:(id)sender;
+- (IBAction)toggleToolbarShown:(id)sender;
+- (IBAction)runToolbarCustomizationPalette:(id)sender;
 
 - (IBAction)showPreferenceWindow:(id)sender;
 

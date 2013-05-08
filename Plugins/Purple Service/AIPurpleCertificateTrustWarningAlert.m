@@ -97,7 +97,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
+	CFRelease(trustRef);
+	
 	[hostname release];
+	
 	[super dealloc];
 }
 
@@ -156,10 +159,10 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		.Data = (uint8*)&ssloptions 
 	};
 	
-	err = SecPolicySetValue(policyRef, &theCssmData);
-	// don't care about the error
+	SecPolicySetValue(policyRef, &theCssmData); // Don't care about the error
 	
 	err = SecTrustCreateWithCertificates(certificates, policyRef, &trustRef);
+
 	if(err != noErr) {
 		CFRelease(searchRef);
 		CFRelease(policyRef);
@@ -223,7 +226,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 	CFRelease(searchRef);
 	CFRelease(policyRef);
-	CFRelease(trustRef);
 }
 
 /*
@@ -310,7 +312,6 @@ static SecPolicyRef SSLSecPolicyCopy()
 	}
 
 	[trustpanel release];
-	CFRelease(trustRef);
 
 	[parentWindow performClose:nil];
 	

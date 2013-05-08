@@ -100,8 +100,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	//Put each account into the status it was in last time we quit.
 	BOOL		needToRebuildMenus = NO;
-	BOOL		allStatusesInSameState = YES;
 	AIStatus	*prevStatus = nil;
+
 	for (AIAccount *account in adium.accountController.accounts) {
 		NSData		*lastStatusData = [account preferenceForKey:@"LastStatus"
 														  group:GROUP_ACCOUNT_STATUS];
@@ -131,10 +131,10 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 				needToRebuildMenus = YES;
 			}
-			if (!prevStatus)
+			if (!prevStatus) {
 				prevStatus = lastStatus;
-			else if (prevStatus != lastStatus)
-				allStatusesInSameState = NO;
+			} //else if (prevStatus != lastStatus) {}
+
 			[account setStatusStateAndRemainOffline:lastStatus];
 		}
 	}

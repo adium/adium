@@ -25,6 +25,7 @@
 #define NEW_ALERT_NO_EVENTS_NIB @"NewAlertNoEvents"
 
 @interface CSNewContactAlertWindowController ()
+
 - (id)initWithWindowNibName:(NSString *)windowNibName 
 					  alert:(NSDictionary *)inAlert
 			  forListObject:(AIListObject *)inListObject
@@ -40,11 +41,12 @@
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)alertDetailsForHeaderChanged:(NSNotification *)aNotification;
+
 @end
 
 @implementation CSNewContactAlertWindowController
 
-//Prompt for a new alert.  Pass nil for a panel prompt.
+// Prompt for a new alert.  Pass nil for a panel prompt.
 + (CSNewContactAlertWindowController *)editAlert:(NSDictionary *)inAlert
 								   forListObject:(AIListObject *)inObject
 										onWindow:(NSWindow *)parentWindow
@@ -74,7 +76,7 @@
 	return newController;
 }
 	
-//Init
+// Init
 - (id)initWithWindowNibName:(NSString *)windowNibName 
 					  alert:(NSDictionary *)inAlert
 			  forListObject:(AIListObject *)inListObject
@@ -82,36 +84,35 @@
 		 configureForGlobal:(BOOL)inConfigureForGlobal
 			 defaultEventID:(NSString *)inDefaultEventID
 {
-	[super initWithWindowNibName:windowNibName];
-	
-	//
-	oldAlert = [inAlert retain];
-	listObject = [inListObject retain];
-	target = inTarget;
-	detailsPane = nil;
-	configureForGlobal = inConfigureForGlobal;
-	
-	//Create a mutable copy of the alert dictionary we're passed.  If we're passed nil, create the default alert.
-	alert = [inAlert mutableCopy];
-	if (!alert) {	
-		/*
-		if (!defaultEventID) {
-			defaultEventID = [adium.contactAlertsController defaultEventID];
+	if ((self = [super initWithWindowNibName:windowNibName])) {
+		oldAlert = [inAlert retain];
+		listObject = [inListObject retain];
+		target = inTarget;
+		detailsPane = nil;
+		configureForGlobal = inConfigureForGlobal;
+		
+		// Create a mutable copy of the alert dictionary we're passed.  If we're passed nil, create the default alert.
+		alert = [inAlert mutableCopy];
+		if (!alert) {	
+			/*
+			if (!defaultEventID) {
+				defaultEventID = [adium.contactAlertsController defaultEventID];
+			}
+			*/
+			alert = [[NSMutableDictionary alloc] initWithObjectsAndKeys:inDefaultEventID, KEY_EVENT_ID,
+																		[adium.contactAlertsController defaultActionID], KEY_ACTION_ID, nil];
 		}
-*/
-		alert = [[NSMutableDictionary alloc] initWithObjectsAndKeys:inDefaultEventID, KEY_EVENT_ID,
-																	[adium.contactAlertsController defaultActionID], KEY_ACTION_ID, nil];
-	}
 
-	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(alertDetailsForHeaderChanged:)
-									   name:CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED
-									 object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+									   selector:@selector(alertDetailsForHeaderChanged:)
+										   name:CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED
+										 object:nil];
+	}
 
 	return self;
 }
 
-//Dealloc
+// Dealloc
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -124,14 +125,14 @@
 	[super dealloc];
 }
 
-//Setup the window before it is displayed
+// Setup the window before it is displayed
 - (void)windowDidLoad
 {
 	if ([[self superclass] instancesRespondToSelector:@selector(windowDidLoad)]) {
-		   [super windowDidLoad];
+		[super windowDidLoad];
 	}
 
-	//Configure window
+	// Configure window
 	[[self window] center];
 	[popUp_event setMenu:[adium.contactAlertsController menuOfEventsWithTarget:self forGlobalMenu:configureForGlobal]];
 	[popUp_action setMenu:[adium.contactAlertsController menuOfActionsWithTarget:self]];
@@ -145,128 +146,119 @@
 	[label_Event setLocalizedString:AILocalizedString(@"Event:", "Label for contact alert event (e.g. Contact signed on, Message received, etc.)")];
 	[label_Action setLocalizedString:AILocalizedString(@"Action:", "Label for contact alert action (e.g. Send message, Play sound, etc.)")];	
 
-	//Remove the single-fire option for global
+	// Remove the single-fire option for global
 	if (configureForGlobal) {
-		if ([checkbox_oneTime respondsToSelector:@selector(setHidden:)]) {
-			[checkbox_oneTime setHidden:YES];
-		} else {
-			[checkbox_oneTime setFrame:NSZeroRect];
-		}
+		[checkbox_oneTime setHidden:YES];
 	}
 	
-	//Set things up for the current event
+	// Set things up for the current event
 	[self configureForEvent];
 }
 
-//Window is closing
+// Window is closing
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
 	[self cleanUpDetailsPane];
 }
 
-//Called as the user list edit sheet closes, dismisses the sheet
+// Called as the user list edit sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 	[self cleanUpDetailsPane];
 }
 
-
-//Buttons --------------------------------------------------------------------------------------------------------------
 #pragma mark Buttons
-//Cancel changes
+
+// Cancel changes
 - (IBAction)cancel:(id)sender
 {
-	//Pass the modified alert to our target
+	// Pass the modified alert to our target
 	[target performSelector:@selector(alertUpdated:oldAlert:) withObject:nil withObject:oldAlert];
 
 	[self closeWindow:nil];
 }
 
-//Save changes
+// Save changes
 - (IBAction)save:(id)sender
 {
-	//Save changes in our detail pane
+	// Save changes in our detail pane
 	[self saveDetailsPaneChanges];
 
-	//Pass the modified alert to our target
+	// Pass the modified alert to our target
 	[target performSelector:@selector(alertUpdated:oldAlert:) withObject:alert withObject:oldAlert];
 	[self closeWindow:nil];
 }
 
-
-//Controls -------------------------------------------------------------------------------------------------------------
 #pragma mark Controls
-//Configure window for our current event dict
+
+// Configure window for our current event dict
 - (void)configureForEvent
 {
-	NSEnumerator 	*enumerator;
-	NSMenuItem 		*menuItem;
-
-	//Select the correct event
+	// Select the correct event
 	NSString	*eventID = [alert objectForKey:KEY_EVENT_ID];
-	enumerator = [[popUp_event itemArray] objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (NSMenuItem *menuItem in [popUp_event itemArray]) {
 		if ([eventID isEqualToString:[menuItem representedObject]]) {
 			[popUp_event selectItem:menuItem];
 			break;
 		}
 	}
 	
-	//Select the correct action
-	NSString	*actionID = [alert objectForKey:KEY_ACTION_ID];
-	enumerator = [[popUp_action itemArray] objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	// Select the correct action
+	NSString *actionID = [alert objectForKey:KEY_ACTION_ID];
+	for (NSMenuItem *menuItem in [popUp_action itemArray]) {
 		if ([actionID isEqualToString:[menuItem representedObject]]) {
 			[popUp_action selectItem:menuItem];
 			break;
 		}
 	}
 	
-	//Setup our single-fire option
+	// Setup our single-fire option
 	if (!configureForGlobal) {
 		[checkbox_oneTime setState:[[alert objectForKey:KEY_ONE_TIME_ALERT] intValue]];
 	}
 	
-	//Configure the action details pane
+	// Configure the action details pane
 	[self configureDetailsPane];
 }
 
-//Save changes made in the details pane
+// Save changes made in the details pane
 - (void)saveDetailsPaneChanges
 {
-	//Save details
+	// Save details
 	NSDictionary	*actionDetails = [detailsPane actionDetails];
 	if (actionDetails) {
 		[alert setObject:actionDetails forKey:KEY_ACTION_DETAILS];
 	}
 
-	//Save our single-fire option
+	// Save our single-fire option
 	[alert setObject:[NSNumber numberWithBool:([checkbox_oneTime state] == NSOnState)] forKey:KEY_ONE_TIME_ALERT];
 }
 
-//Remove details view/pane
+// Remove details view/pane
 - (void)cleanUpDetailsPane
 {
-	[detailsView removeFromSuperview];
-	detailsView = nil;
+	[detailsView removeFromSuperview], detailsView = nil;
+
 	[detailsPane closeView];
-	[detailsPane release];
-	detailsPane = nil;
+	[detailsPane release], detailsPane = nil;
 }
 
-//Configure the details pane for our current alert
+// Configure the details pane for our current alert
 - (void)configureDetailsPane
 {
 	NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
 	id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];		
 
-	//Save changes and close down the old pane
-	if (detailsPane) [self saveDetailsPaneChanges];
+	// Save changes and close down the old pane
+	if (detailsPane) {
+		[self saveDetailsPaneChanges];
+	}
+
 	[self cleanUpDetailsPane];
 	
-	//Get a new pane for the current action type, and configure it for our alert
+	// Get a new pane for the current action type, and configure it for our alert
 	detailsPane = [[actionHandler detailsPaneForActionID:actionID] retain];
 	if (detailsPane) {
 		NSDictionary	*actionDetails = [alert objectForKey:KEY_ACTION_DETAILS];
@@ -278,7 +270,7 @@
 							  listObject:listObject];
 	}
 
-	//Resize our window for best fit
+	// Resize our window for best fit
 	CGFloat		currentDetailHeight = [view_auxiliary frame].size.height;
 	CGFloat	 	desiredDetailHeight = [detailsView frame].size.height;
 	CGFloat		difference = (currentDetailHeight - desiredDetailHeight);
@@ -287,20 +279,22 @@
 					display:[[self window] isVisible]
 					animate:[[self window] isVisible]];
 	
-	//Add the details view
-	if (detailsView) [view_auxiliary addSubview:detailsView];
+	// A dd the details view
+	if (detailsView) {
+		[view_auxiliary addSubview:detailsView];
+	}
 		
-	//Pull any default values the pane set in configureForActionDetails
+	// Pull any default values the pane set in configureForActionDetails
 	[self saveDetailsPaneChanges];
 	
-	//And use them to update our header view
+	// And use them to update our header view
 	[self updateHeaderView];
 }
 
-//User selected an event from the popup
+// User selected an event from the popup
 - (IBAction)selectEvent:(id)sender
 {
-	NSString	*eventID;
+	NSString *eventID;
 	if ((eventID = [sender representedObject])) {
 		[alert setObject:eventID forKey:KEY_EVENT_ID];
 		
@@ -311,7 +305,7 @@
 	}
 }
 	
-//User selected an action from the popup
+// User selected an action from the popup
 - (IBAction)selectAction:(id)sender
 {
 	if ([sender representedObject]) {
@@ -334,11 +328,11 @@
 
 - (void)updateHeaderView
 {
-	NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
-	NSString				*eventID = [alert objectForKey:KEY_EVENT_ID];
-	NSString				*eventDescription = [adium.contactAlertsController longDescriptionForEventID:eventID 
+	NSString *actionID = [alert objectForKey:KEY_ACTION_ID];
+	NSString *eventID = [alert objectForKey:KEY_EVENT_ID];
+	NSString *eventDescription = [adium.contactAlertsController longDescriptionForEventID:eventID 
 																							 forListObject:listObject];
-	id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
+	id <AIActionHandler> actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 
 	if (actionHandler && eventDescription) {
 		[headerView setStringValue:eventDescription];

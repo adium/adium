@@ -7,7 +7,7 @@
 		// NOTE:
 		// Any percent signs in this file must be escaped!
 		// Use two escape signs (%%) to display it, this is passed through a format call!
-
+		
 		function appendHTML(html) {
 			var node = document.getElementById("Chat");
 			var range = document.createRange();
@@ -268,6 +268,8 @@
 			var img = document.createElement('img');
 			img.setAttribute('src', node.getAttribute('src'));
 			img.setAttribute('alt', node.firstChild.nodeValue);
+			img.setAttribute('width', node.getAttribute('width'));
+			img.setAttribute('height', node.getAttribute('height'));
 			img.className = node.className;
 			node.parentNode.replaceChild(img, node);
 		}
@@ -280,6 +282,8 @@
 			a.setAttribute('onclick', 'imageSwap(this, true)');
 			a.setAttribute('src', node.getAttribute('src'));
 			a.setAttribute('isEmoticon', true);
+			a.setAttribute('width', node.getAttribute('width'));
+			a.setAttribute('height', node.getAttribute('height'));
 			a.className = node.className;
 			var text = document.createTextNode(node.alt);
 			a.appendChild(text);

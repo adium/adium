@@ -14,8 +14,8 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/*
- *Cocoa wrapper for accessing the system keychain
+/*!
+ * @brief Cocoa wrapper for accessing the system keychain
  */
 
 #import "AIKeychain.h"
@@ -27,15 +27,17 @@
 static AIKeychain *lastKnownDefaultKeychain = nil;
 
 #define AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err) \
-	NSLocalizedStringFromTableInBundle([[NSNumber numberWithLong:(err)] stringValue], @"SecErrorMessages", [NSBundle bundleWithIdentifier:@"com.apple.security"], /*comment*/ nil)
+	NSLocalizedStringFromTableInBundle([[NSNumber numberWithLong:(err)] stringValue], @"SecErrorMessages", [NSBundle bundleWithIdentifier:@"com.apple.security"], /* comment */ nil)
 
 @implementation AIKeychain
 
-+ (void)lockAllKeychains_error:(out NSError **)outError
++ (BOOL)lockAllKeychains_error:(out NSError **)outError
 {
 	OSStatus err = SecKeychainLockAll();
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainLockAll], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -44,15 +46,20 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
 
-+ (void)lockDefaultKeychain_error:(out NSError **)outError
++ (BOOL)lockDefaultKeychain_error:(out NSError **)outError
 {
-	OSStatus err = SecKeychainLock(/*keychain*/ NULL);
+	OSStatus err = SecKeychainLock(/* keychain */ NULL);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainLock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -61,14 +68,20 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
+
 + (BOOL)unlockDefaultKeychain_error:(out NSError **)outError
 {
-	OSStatus err = SecKeychainUnlock(/*keychain*/ NULL, /*passwordLength*/ 0, /*password*/ NULL, /*usePassword*/ false);
+	OSStatus err = SecKeychainUnlock(/* keychain */ NULL, /* passwordLength */ 0, /* password */ NULL, /* usePassword */ false);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -77,22 +90,26 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
-	return err == noErr;
+	
+	return (err == noErr);
 }
+
 + (BOOL)unlockDefaultKeychainWithPassword:(NSString *)password error:(out NSError **)outError
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
-	OSStatus err = SecKeychainUnlock(/*keychain*/ NULL, (UInt32)[data length], [data bytes], /*usePassword*/ true);
+	OSStatus err = SecKeychainUnlock(/* keychain */ NULL, (UInt32)[data length], [data bytes], /* usePassword */ true);
 
 	[pool release];
 
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -101,9 +118,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
-	return err == noErr;
+
+	return (err == noErr);
 }
 
 + (BOOL)allowsUserInteraction_error:(out NSError **)outError
@@ -111,8 +130,10 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	Boolean state = false;
 
 	OSStatus err = SecKeychainGetUserInteractionAllowed(&state);
+
 	if (outError) {
 		NSError *error = nil;
+
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainGetUserInteractionAllowed], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -121,16 +142,20 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
 
 	return state;
 }
-+ (void)setAllowsUserInteraction:(BOOL)flag error:(out NSError **)outError
+
++ (BOOL)setAllowsUserInteraction:(BOOL)flag error:(out NSError **)outError
 {
 	OSStatus err = SecKeychainSetUserInteractionAllowed(flag);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainSetUserInteractionAllowed], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -140,17 +165,22 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
 
 + (u_int32_t)keychainServicesVersion_error:(out NSError **)outError
 {
 	UInt32 version;
-	//will this function EVER return an error? well, it can, so we should be prepared for it. --boredzo
+	// Will this function EVER return an error? well, it can, so we should be prepared for it. --boredzo
 	OSStatus err = SecKeychainGetVersion(&version);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainGetVersion], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -159,8 +189,10 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+
 	return version;
 }
 
@@ -171,6 +203,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	SecKeychainRef aKeychainRef = NULL;
 
 	OSStatus err = SecKeychainCopyDefault(&aKeychainRef);
+
 	if (err != noErr) {
 		if (err == errSecNoDefaultKeychain) {
 			/* XXX - SecKeychainCreate() to an appropriate path here, followed by SecKeychainSetDefault(), would
@@ -183,6 +216,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		if (err != errSecNoDefaultKeychain) {
 			if (outError) {
 				NSError *error = nil;
+
 				if (err != noErr) {
 					NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 						[NSValue valueWithPointer:SecKeychainCopyDefault], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -191,12 +225,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 						nil];
 					error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 				}
+				
 				*outError = error;
 			}
 		}
 		
-		if (aKeychainRef) CFRelease(aKeychainRef);
-		
+		if (aKeychainRef) {
+			CFRelease(aKeychainRef);
+		}
+
 		return nil;
 	}
 	
@@ -205,7 +242,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 + (AIKeychain *)defaultKeychain_error:(out NSError **)outError
 {
-	/* ensure there is a default keychain which can be accessed */
+	// Ensure there is a default keychain which can be accessed
 	SecKeychainRef aKeychainRef = [self copyDefaultSecKeychainRef_error:outError];
 
 	if (aKeychainRef) {
@@ -225,13 +262,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	}
 }
 
-+ (void)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(out NSError **)outError
++ (BOOL)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(out NSError **)outError
 {
 	NSParameterAssert(newDefaultKeychain != nil);
 
 	OSStatus err = ([newDefaultKeychain keychainRef] ? SecKeychainSetDefault([newDefaultKeychain keychainRef]) : noErr);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainSetDefault], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -240,24 +279,31 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+		
 		*outError = error;
 	}
+	
 	if (err == noErr) {
 		[lastKnownDefaultKeychain release];
 		lastKnownDefaultKeychain = [newDefaultKeychain retain];
 	}
+	
+	return (err == noErr);
 }
 
 + (AIKeychain *)keychainWithContentsOfFile:(NSString *)path error:(out NSError **)outError
 {
 	return [[[self alloc] initWithContentsOfFile:path error:outError] autorelease];
 }
+
 - (id)initWithContentsOfFile:(NSString *)path error:(out NSError **)outError
 {
 	if ((self = [super init])) {
 		OSStatus err = SecKeychainOpen([path fileSystemRepresentation], &keychainRef);
+		
 		if (outError) {
 			NSError *error = nil;
+
 			if (err != noErr) {
 				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 					[NSValue valueWithPointer:SecKeychainOpen], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -266,28 +312,30 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
+
 			*outError = error;
 		}
+		
 		if (err != noErr) {
-			[self release];
-			self = nil;
+			[self release], self = nil;
 		}
 	}
 
 	return self;
 }
 
-//SecKeychainCreate
+// SecKeychainCreate
+
 + (AIKeychain *)keychainWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError
 {
 	return [[[self alloc] initWithPath:path password:password promptUser:prompt initialAccess:initialAccess error:outError] autorelease];
 }
+
 - (id)initWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError
 {
 	if ((self = [super init])) {
-		/*we create our own copy of the string (if any) using NSString to
-		 *	ensure that the NSData that we create is an NSData.
-		 *we create our own pool to ensure that both objects are released ASAP.
+		/* We create our own copy of the string (if any) using NSString to ensure that the NSData that we create is an NSData.
+		 * We create our own pool to ensure that both objects are released ASAP.
 		 */
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -315,8 +363,10 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
+
 			*outError = error;
 		}
+
 		if (err != noErr) {
 			[self release];
 			self = nil;
@@ -343,17 +393,21 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 #pragma mark -
 
-- (void)getSettings:(out struct SecKeychainSettings *)outSettings error:(out NSError **)outError
+- (BOOL)getSettings:(out struct SecKeychainSettings *)outSettings error:(out NSError **)outError
 {
 	NSParameterAssert(outSettings != NULL);
 	SecKeychainRef targetKeychainRef = (keychainRef ? (SecKeychainRef)CFRetain(keychainRef) : NULL);
 
-	if (!targetKeychainRef) targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
+	if (!targetKeychainRef) {
+		targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
+	}
 
 	if (targetKeychainRef) {
 		OSStatus err = SecKeychainCopySettings(targetKeychainRef, outSettings);
+		
 		if (outError) {
 			NSError *error = nil;
+			
 			if (err != noErr) {
 				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 					[NSValue valueWithPointer:outSettings], AIKEYCHAIN_ERROR_USERINFO_SETTINGSPOINTER,
@@ -363,20 +417,27 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
+
 			*outError = error;
 		}
 		
 		CFRelease(targetKeychainRef);
+		
+		return (err == noErr);
 	}
+	
+	return NO;
 }
-- (void)setSettings:(in struct SecKeychainSettings *)newSettings error:(out NSError **)outError
+
+- (BOOL)setSettings:(in struct SecKeychainSettings *)newSettings error:(out NSError **)outError
 {
 	NSParameterAssert(newSettings != NULL);
-
-	/* If keychainRef is NULL, we'll get the default keychain's settings */
+	// If keychainRef is NULL, we'll get the default keychain's settings
 	OSStatus err = SecKeychainSetSettings(keychainRef, newSettings);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:newSettings], AIKEYCHAIN_ERROR_USERINFO_SETTINGSPOINTER,
@@ -386,17 +447,22 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
 
 - (SecKeychainStatus)status_error:(out NSError **)outError
 {
 	SecKeychainStatus status;
-	/* If keychainRef is NULL, we'll get the default keychain's status */
+	// If keychainRef is NULL, we'll get the default keychain's status
 	OSStatus err = SecKeychainGetStatus(keychainRef, &status);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainGetStatus], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -405,8 +471,10 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+
 	return status;
 }
 
@@ -417,11 +485,12 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	SecKeychainRef targetKeychainRef = (keychainRef ? (SecKeychainRef)CFRetain(keychainRef) : NULL);
 	
-	if (!targetKeychainRef) targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
-	
+	if (!targetKeychainRef) {
+		targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
+	}
+
 	if (targetKeychainRef) {		
 		OSStatus err = SecKeychainGetPath(targetKeychainRef, (UInt32 *)outLength, outBuf);
-		
 		NSError *error = nil;
 		
 		if (err != noErr) {
@@ -429,14 +498,19 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				[NSValue valueWithPointer:SecKeychainGetPath], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainGetPath", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				targetKeychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:targetKeychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
-			if (outError)
+			
+			if (outError) {
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
+			}
+
 			outBuf = NULL;
 		}
 		
-		if (outError) *outError = error;
+		if (outError) {
+			*outError = error;
+		}
 
 		CFRelease(targetKeychainRef);
 
@@ -446,6 +520,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	return outBuf;
 }
+
 - (NSString *)path
 {
 	NSMutableData *data = [NSMutableData dataWithLength:PATH_MAX];
@@ -454,90 +529,107 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								   length:&size
 									error:NULL];
 	[data setLength:size];
+
 	return [NSString stringWithData:data encoding:NSUTF8StringEncoding];
 }
 
 #pragma mark -
 
-- (void)lockKeychain_error:(out NSError **)outError
+- (BOOL)lockKeychain_error:(out NSError **)outError
 {
-	/* If keychainRef is NULL, the default keychain will locked */
+	// If keychainRef is NULL, the default keychain will locked
 	OSStatus err = SecKeychainLock(keychainRef);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainLock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainLock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
 
 - (BOOL)unlockKeychain_error:(out NSError **)outError
 {
-	/* If keychainRef is NULL, the default keychain will unlocked */
-	OSStatus err = SecKeychainUnlock(keychainRef, /*passwordLength*/ 0, /*password*/ NULL, /*usePassword*/ false);
+	// If keychainRef is NULL, the default keychain will unlocked
+	OSStatus err = SecKeychainUnlock(keychainRef, /* passwordLength */ 0, /* password */ NULL, /* usePassword */ false);
+	
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainUnlock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
-	return err == noErr;
+
+	return (err == noErr);
 }
+
 - (BOOL)unlockKeychainWithPassword:(NSString *)password error:(out NSError **)outError
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	
-	/* If keychainRef is NULL, the default keychain will unlocked */
+	// If keychainRef is NULL, the default keychain will unlocked
 	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
-	OSStatus err = SecKeychainUnlock(keychainRef, (UInt32)[data length], [data bytes], /*usePassword*/ true);
+	OSStatus err = SecKeychainUnlock(keychainRef, (UInt32)[data length], [data bytes], /* usePassword */ true);
 
 	[pool release];
 
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainUnlock], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 				@"SecKeychainUnlock", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
-	return err == noErr;
+
+	return (err == noErr);
 }
 
 #pragma mark -
 
-- (void)deleteKeychain_error:(out NSError **)outError
+- (BOOL)deleteKeychain_error:(out NSError **)outError
 {
 	SecKeychainRef targetKeychainRef = (keychainRef ? (SecKeychainRef)CFRetain(keychainRef) : NULL);
 	
-	if (!targetKeychainRef) targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
+	if (!targetKeychainRef) {
+		targetKeychainRef = [[self class] copyDefaultSecKeychainRef_error:outError];
+	}
 	
 	if (targetKeychainRef) {				
-		/* In 10.2, passing NULL to SecKeychainDelete deletes the default keychain.
-		* In 10.3+, passing NULL returns errSecInvalidKeychain.
-		*/
+		/* In 10.2, passing NULL to SecKeychainDelete deletes the default keychain
+		 * In 10.3+, passing NULL returns errSecInvalidKeychain
+		 */
 		OSStatus err = SecKeychainDelete(targetKeychainRef);
+
 		if (outError) {
 			NSError *error = nil;
 			if (err != noErr) {
@@ -545,25 +637,30 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					[NSValue valueWithPointer:SecKeychainDelete], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 					@"SecKeychainDelete", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
 					AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
-					targetKeychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+					[NSValue valueWithPointer:targetKeychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
+
 			*outError = error;
 		}
 
 		CFRelease(targetKeychainRef);
+		
+		return (err == noErr);
 	}
+	
+	return NO;
 }
 
 #pragma mark -
 
-- (void)addInternetPassword:(NSString *)password
+- (BOOL)addInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
-			 securityDomain:(NSString *)domain //can pass nil
+			 securityDomain:(NSString *)domain	// Can pass nil
 					account:(NSString *)account
 					   path:(NSString *)path
-					   port:(u_int16_t)port //can pass 0
+					   port:(u_int16_t)port		// Can pass 0
 				   protocol:(SecProtocolType)protocol
 		 authenticationType:(SecAuthenticationType)authType
 			   keychainItem:(out SecKeychainItemRef *)outKeychainItem
@@ -571,7 +668,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 {
 	NSParameterAssert(password != nil);
 	NSParameterAssert(server != nil);
-	//domain is optional
+	// Domain is optional
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
@@ -588,16 +685,16 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					  (UINT_MAX >= [accountData length]) &&
 					  (UINT_MAX >= [pathData length]),
 					  @"Attempting to send more data than Keychain can handle.  Abort." );
-	/* If keychainRef is NNULL, the password will be added to the default keychain */
+	// If keychainRef is NNULL, the password will be added to the default keychain
 	OSStatus err = SecKeychainAddInternetPassword(keychainRef,
 												  (UInt32)[serverData length],  [serverData bytes],
-												  //domain is optional, so be sure to handle domain == nil
+												  // Domain is optional, so be sure to handle domain == nil
 												  domainData ? (UInt32)[domainData length] : 0,
 												  domainData ? [domainData bytes]  : NULL,
-												  //account appears optional, even though it isn't so documented
+												  // Account appears optional, even though it isn't so documented
 												  accountData ? (UInt32)[accountData length] : 0,
 												  accountData ? [accountData bytes]  : NULL,
-												  //path appears optional, even though it isn't so documented
+												  // Path appears optional, even though it isn't so documented
 												  pathData ? (UInt32)[pathData length] : 0,
 												  pathData ? [pathData bytes]  : NULL,
 												  port,
@@ -610,6 +707,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainAddInternetPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -620,35 +718,38 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 				NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 				NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+
+	return (err == noErr);
 }
 
-- (void)addInternetPassword:(NSString *)password forServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
+- (BOOL)addInternetPassword:(NSString *)password forServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
 {
-	[self addInternetPassword:password
-					forServer:server
-			   securityDomain:nil
-					  account:account
-						 path:nil
-						 port:0
-					 protocol:protocol
-		   authenticationType:kSecAuthenticationTypeDefault
-				 keychainItem:NULL
-						error:outError];
+	return [self addInternetPassword:password
+						   forServer:server
+					  securityDomain:nil
+							 account:account
+								path:nil
+								port:0
+							protocol:protocol
+				  authenticationType:kSecAuthenticationTypeDefault
+						keychainItem:NULL
+							   error:outError];
 }
 
-//------------------------------------------------------------------------------
+#pragma mark -
 
 - (NSString *)findInternetPasswordForServer:(NSString *)server
-							 securityDomain:(NSString *)domain //can pass nil
+							 securityDomain:(NSString *)domain	// Can pass nil
 									account:(NSString *)account
 									   path:(NSString *)path
-									   port:(u_int16_t)port //can pass 0
+									   port:(u_int16_t)port		// Can pass 0
 								   protocol:(SecProtocolType)protocol
 						 authenticationType:(SecAuthenticationType)authType
 							   keychainItem:(out SecKeychainItemRef *)outKeychainItem
@@ -668,16 +769,16 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					  (UINT_MAX >= [accountData length]) &&
 					  (UINT_MAX >= [pathData length]),
 					  @"Attempting to send more data than Keychain can handle.  Abort." );
-	/* If keychainRef is NULL, the users's default keychain search list will be used */
+	// If keychainRef is NULL, the users's default keychain search list will be used
 	OSStatus err = SecKeychainFindInternetPassword(keychainRef,
 												   (UInt32)[serverData length],  [serverData bytes],
-												   //domain is optional, so be sure to handle domain == nil
+												   // Domain is optional, so be sure to handle domain == nil
 												   domainData ? (UInt32)[domainData length] : 0,
 												   domainData ? [domainData bytes]  : NULL,
-												   //account appears optional, even though it isn't so documented
+												   // Account appears optional, even though it isn't so documented
 												   accountData ? (UInt32)[accountData length] : 0,
 												   accountData ? [accountData bytes]  : NULL,
-												   //path appears optional, even though it isn't so documented
+												   // Path appears optional, even though it isn't so documented
 												   pathData ? (UInt32)[pathData length] : 0,
 												   pathData ? [pathData bytes]  : NULL,
 												   port,
@@ -688,6 +789,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 												   outKeychainItem);
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainFindInternetPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -698,15 +800,20 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 				NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 				NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
 
 	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
-	SecKeychainItemFreeContent(NULL, passwordData);
+	
+	if (err == noErr) {
+		SecKeychainItemFreeContent(NULL, passwordData);
+	}
+	
 	return passwordString;
 }
 
@@ -730,72 +837,65 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSAssert( UINT_MAX >= [server length], @"Attempting to send more data than Keychain can handle.  Abort." );
 	NSDictionary *result = nil;
 
-	//search for keychain items whose server is our key.
-	SecKeychainSearchRef search = NULL;
+	// Search for keychain items whose server is our key
+	SecKeychainItemRef item = NULL;
+	UInt32 passwordLength = 0U;
+	void  *passwordBytes = NULL;
+	
+	// If keychainRef is NULL, the user's default keychain search list will be used
+	OSStatus err = SecKeychainFindInternetPassword(keychainRef,
+												   (unsigned int)[server length],
+												   [server UTF8String],
+												   0,
+												   NULL,
+												   0,
+												   NULL,
+												   0,
+												   NULL,
+												   0,
+												   protocol,
+												   kSecAuthenticationTypeAny,
+												   &passwordLength,
+												   &passwordBytes,
+												   &item);
+	
+	if (err == errSecItemNotFound) {
+		// No matching server found
+	} else if (err == noErr) {
+		// Output storage.
+		struct SecKeychainAttributeList *attrList = NULL;
 
-	struct SecKeychainAttribute searchAttrs[] = {
-		{
-			.tag    = kSecServerItemAttr,
-			.length = (UInt32)[server length],
-			.data   = (void *)[server UTF8String],
-		},
-		{
-			.tag    = kSecProtocolItemAttr,
-			.length = sizeof(SecProtocolType),
-			.data   = &protocol,
-		}
-	};
-	struct SecKeychainAttributeList searchAttrList = {
-		.count = 2,
-		.attr  = searchAttrs,
-	};
-	/* If keychainRef is NULL, the users's default keychain search list will be used */
-	OSStatus err = SecKeychainSearchCreateFromAttributes(keychainRef, kSecInternetPasswordItemClass, &searchAttrList, &search);
-	if (err == noErr) {
-		SecKeychainItemRef item = NULL;
+		// First, grab the username.
+		UInt32    tags[] = { kSecAccountItemAttr };
+		UInt32 formats[] = { CSSM_DB_ATTRIBUTE_FORMAT_STRING };
+		struct SecKeychainAttributeInfo info = {
+			.count  = 1,
+			.tag    = tags,
+			.format = formats,
+		};
+		SecKeychainItemFreeContent( NULL, passwordBytes );
+		err = SecKeychainItemCopyAttributesAndData(item,
+												   &info,
+												   /* itemClass */ NULL,
+												   &attrList,
+												   &passwordLength,
+												   &passwordBytes);
+		if (err == noErr) {
+			NSString *username = [NSString stringWithBytes:attrList->attr[0].data length:attrList->attr[0].length encoding:NSUTF8StringEncoding];
+			NSString *password = [NSString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
+			result = [NSDictionary dictionaryWithObjectsAndKeys:
+				username, @"Username",
+				password, @"Password",
+				nil];
 			
-		err = SecKeychainSearchCopyNext(search, &item);
-		if (err == errSecItemNotFound) {
-			//No matching server found
-		} else if (err == noErr) {
-			//Output storage.
-			struct SecKeychainAttributeList *attrList = NULL;
-			UInt32 passwordLength = 0U;
-			void  *passwordBytes = NULL;
-
-			//First, grab the username.
-			UInt32    tags[] = { kSecAccountItemAttr };
-			UInt32 formats[] = { CSSM_DB_ATTRIBUTE_FORMAT_STRING };
-			struct SecKeychainAttributeInfo info = {
-				.count  = 1,
-				.tag    = tags,
-				.format = formats,
-			};
-			err = SecKeychainItemCopyAttributesAndData(item,
-													   &info,
-													   /*itemClass*/ NULL,
-													   &attrList,
-													   &passwordLength,
-													   &passwordBytes);
-			if (err == noErr) {
-				NSString *username = [NSString stringWithBytes:attrList->attr[0].data length:attrList->attr[0].length encoding:NSUTF8StringEncoding];
-				NSString *password = [NSString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
-				result = [NSDictionary dictionaryWithObjectsAndKeys:
-					username, @"Username",
-					password, @"Password",
-					nil];
-			} else {
-				NSLog(@"Error extracting infomation from keychain item");
-			}
-
 			SecKeychainItemFreeAttributesAndData(attrList, passwordBytes);
-			if (item) CFRelease(item);
-
 		} else {
-			NSLog(@"%@: Error in SecKeychainSearchCopyNext(); err is %ld", self, (long)err);	
+			NSLog(@"Error extracting infomation from keychain item");
 		}
-		if (search)	CFRelease(search);
 
+		if (item) {
+			CFRelease(item);
+		}
 	} else {
 		NSLog(@"%@: Could not create search; err is %ld", self, (long)err);
 	}
@@ -803,32 +903,34 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	return result;
 }
 
-//------------------------------------------------------------------------------
+#pragma mark -
 
-- (void)setInternetPassword:(NSString *)password
+- (BOOL)setInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
-			 securityDomain:(NSString *)domain //can pass nil
+			 securityDomain:(NSString *)domain	// Can pass nil
 					account:(NSString *)account
 					   path:(NSString *)path
-					   port:(u_int16_t)port //can pass 0
+					   port:(u_int16_t)port		// Can pass 0
 				   protocol:(SecProtocolType)protocol
 		 authenticationType:(SecAuthenticationType)authType
 			   keychainItem:(out SecKeychainItemRef *)outKeychainItem
 					  error:(out NSError **)outError
 {
+	BOOL success = NO;
+
 	if (!password) {
-		//remove the password.
-		[self deleteInternetPasswordForServer:server
-							   securityDomain:domain
-									  account:account
-										 path:path
-										 port:port
-									 protocol:protocol
-						   authenticationType:authType
-								 keychainItem:outKeychainItem
-										error:outError];
+		// Remove the password
+		success = [self deleteInternetPasswordForServer:server
+										 securityDomain:domain
+												account:account
+												   path:path
+												   port:port
+											   protocol:protocol
+									 authenticationType:authType
+										   keychainItem:outKeychainItem
+												  error:outError];
 	} else {
-		//add it if it does not exist.
+		// Add it if it does not exist
 		NSError *error = nil;
 		[self addInternetPassword:password
 						forServer:server
@@ -844,9 +946,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 			NSInteger err = [error code];
 
 			if (err == errSecDuplicateItem) {
-				/*we already have an item for this, so find it and change it.
-				 *we create an autorelease pool because of the string that
-				 *	-findInternetPasswordForServer:... returns.
+				/* We already have an item for this, so find it and change it
+				 * We create an autorelease pool because of the string that -findInternetPasswordForServer:... returns
 				 */
 
 				SecKeychainItemRef item = NULL;
@@ -861,18 +962,20 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								 authenticationType:authType
 									   keychainItem:&item
 											  error:&error];
-				[(NSObject *)item autorelease]; //might as well.
+				[(NSObject *)item autorelease]; // Might as well
 
 				if (error) {
-					//Retain this because of the autorelease pool.
-					if (outError) *outError = [error retain];
+					// Retain this because of the autorelease pool
+					if (outError) {
+						*outError = [error retain];
+					}
 				} else {
 					NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 					NSAssert( UINT_MAX >= [passwordData length], @"Attempting to send more data than Keychain can handle.  Abort." );
 
-					//change the password.
+					// Change the password.
 					err = SecKeychainItemModifyAttributesAndData(item,
-																 /*attrList*/ NULL,
+																 /* attrList */ NULL,
 																 (UInt32)[passwordData length],
 																 [passwordData bytes]);
 					if (outError) {
@@ -888,47 +991,51 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 								account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 								NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 								NSFileTypeForHFSTypeCode(authType), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-								keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+								[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 								nil];
-							//Retain this because of the autorelease pool.
+							// Retain this because of the autorelease pool
 							error = [[NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo] retain];
 						}
 						*outError = error;
-					} //if (outError)
-				} //if (!error) (findInternetPasswordForServer:...)
+					} // if (outError)
+				} // if (!error) (findInternetPasswordForServer:...)
 
 				[pool release];
 				[error autorelease];
-			} //if (err == errSecDuplicateItem)
-		} //if (error) (addInternetPassword:...)
-	} //if (password)
+			} // if (err == errSecDuplicateItem)
+			
+			success = (err == noErr);
+		} // if (error) (addInternetPassword:...)
+	} // if (password)
+	
+	return success;
 }
 
-- (void)setInternetPassword:(NSString *)password
+- (BOOL)setInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
 					account:(NSString *)account
 				   protocol:(SecProtocolType)protocol
 					  error:(out NSError **)outError
 {
-	[self setInternetPassword:password
-					forServer:server
-			   securityDomain:nil
-					  account:account
-						 path:nil
-						 port:0
-					 protocol:protocol
-		   authenticationType:kSecAuthenticationTypeDefault
-				 keychainItem:NULL
-						error:outError];
+	return [self setInternetPassword:password
+						   forServer:server
+					  securityDomain:nil
+							 account:account
+								path:nil
+								port:0
+							protocol:protocol
+				  authenticationType:kSecAuthenticationTypeDefault
+						keychainItem:NULL
+							   error:outError];
 }
 
-//------------------------------------------------------------------------------
+#pragma mark -
 
-- (void)deleteInternetPasswordForServer:(NSString *)server
-						 securityDomain:(NSString *)domain //can pass nil
+- (BOOL)deleteInternetPasswordForServer:(NSString *)server
+						 securityDomain:(NSString *)domain	// Can pass nil
 								account:(NSString *)account
 								   path:(NSString *)path
-								   port:(u_int16_t)port //can pass 0
+								   port:(u_int16_t)port		// Can pass 0
 							   protocol:(SecProtocolType)protocol
 					 authenticationType:(SecAuthenticationType)authType
 						   keychainItem:(out SecKeychainItemRef *)outKeychainItem
@@ -948,11 +1055,17 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					 authenticationType:authType
 						   keychainItem:&keychainItem
 								  error:&error];
+
+	BOOL success = NO;
+	
 	if (keychainItem) {
 		OSStatus err = SecKeychainItemDelete(keychainItem);
+		
+		
 		if (outError) {
-			if (err == noErr) error = nil;
-			else if (!error) {
+			if (err == noErr) {
+				error = nil;
+			} else if (!error) {
 				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 					[NSValue valueWithPointer:SecKeychainFindInternetPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 					@"SecKeychainFindInternetPassword", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
@@ -961,38 +1074,50 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 					NSFileTypeForHFSTypeCode(protocol), AIKEYCHAIN_ERROR_USERINFO_PROTOCOL,
 					NSFileTypeForHFSTypeCode(kSecAuthenticationTypeDefault), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-					keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+					[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
 		}
+		
+		success = (err == noErr);
 	}
 
-	if (outError) *outError = [error retain];
-
-	if (outKeychainItem) *outKeychainItem = keychainItem;
-	else if (keychainItem) CFRelease(keychainItem);
-
+	if (outError) {
+		*outError = [error retain];
+	}
+	
+	if (outKeychainItem) {
+		*outKeychainItem = keychainItem;
+	} else if (keychainItem) {
+		CFRelease(keychainItem);
+	}
+	
 	[pool release];
-	if (outError) [*outError autorelease];
+	
+	if (outError) {
+		[*outError autorelease];
+	}
+	
+	return success;
 }
 
-- (void)deleteInternetPasswordForServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
+- (BOOL)deleteInternetPasswordForServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
 {
-	[self deleteInternetPasswordForServer:server
-						   securityDomain:nil
-								  account:account
-									 path:nil
-									 port:0
-								 protocol:protocol
-					   authenticationType:kSecAuthenticationTypeDefault
-							 keychainItem:NULL
-									error:outError];
+	return [self deleteInternetPasswordForServer:server
+								  securityDomain:nil
+										 account:account
+											path:nil
+											port:0
+										protocol:protocol
+							  authenticationType:kSecAuthenticationTypeDefault
+									keychainItem:NULL
+										   error:outError];
 }
 
 #pragma mark -
 
-- (void)addGenericPassword:(NSString *)password
+- (BOOL)addGenericPassword:(NSString *)password
 				forService:(NSString *)service
 				   account:(NSString *)account
 			  keychainItem:(out SecKeychainItemRef *)outKeychainItem
@@ -1004,15 +1129,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
-
+	NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
+	
 	NSAssert( (UINT_MAX >= [passwordData length]) &&
 					  (UINT_MAX >= [serviceData length]) &&
 					  (UINT_MAX >= [accountData length]),
 					  @"Attempting to send more data than Keychain can handle.  Abort." );
-	/* If keychainRef is NULL, the default keychain will be used */
+	// If keychainRef is NULL, the default keychain will be used
 	OSStatus err = SecKeychainAddGenericPassword(keychainRef,
 												  (UInt32)[serviceData length],  [serviceData bytes],
 												  (UInt32)[accountData length],  [accountData bytes],
@@ -1023,6 +1148,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainAddGenericPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -1030,12 +1156,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
 				service, AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
+	
+	return (err == noErr);
 }
 
 - (NSString *)findGenericPasswordForService:(NSString *)service
@@ -1049,10 +1178,11 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
 	NSString *passwordString = nil;
+
 	NSAssert( (UINT_MAX >= [serviceData length]) &&
 					  (UINT_MAX >= [accountData length]),
 					  @"Attempting to send more data than Keychain can handle.  Abort." );
-	/* If keychainRef is NULL, the users's default keychain search list will be used */
+	// If keychainRef is NULL, the users's default keychain search list will be used
 	OSStatus err = SecKeychainFindGenericPassword(keychainRef,
 												  (UInt32)[serviceData length],  [serviceData bytes],
 												  (UInt32)[accountData length],  [accountData bytes],
@@ -1061,6 +1191,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 												  outKeychainItem);
 	if (outError) {
 		NSError *error = nil;
+		
 		if (err != noErr) {
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithPointer:SecKeychainFindGenericPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
@@ -1068,19 +1199,24 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 				AI_LOCALIZED_SECURITY_ERROR_DESCRIPTION(err), AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION,
 				service, AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 				account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
-				keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+				[NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 				nil];
 			error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 		}
+
 		*outError = error;
 	}
 
 	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
-	SecKeychainItemFreeContent(NULL, passwordData);
+
+	if (err == noErr) {
+		SecKeychainItemFreeContent(NULL, passwordData);
+	}
+
 	return passwordString;	
 }
 
-- (void)deleteGenericPasswordForService:(NSString *)service
+- (BOOL)deleteGenericPasswordForService:(NSString *)service
 								account:(NSString *)account
 								  error:(out NSError **)outError
 {
@@ -1094,11 +1230,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 						   keychainItem:&keychainItem
 								  error:&error];
 	
+	BOOL success = NO;
+	
 	if (keychainItem) {
 		OSStatus err = SecKeychainItemDelete(keychainItem);
+
 		if (outError) {
-			if (err == noErr) error = nil;
-			else if (!error) {
+			if (err == noErr) {
+				error = nil;
+			} else if (!error) {
 				NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 										  [NSValue valueWithPointer:SecKeychainFindGenericPassword], AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION,
 										  @"SecKeychainFindGenerictPassword", AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME,
@@ -1106,22 +1246,29 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 										  service,  AIKEYCHAIN_ERROR_USERINFO_SERVICE,
 										  account, AIKEYCHAIN_ERROR_USERINFO_ACCOUNT,
 										  NSFileTypeForHFSTypeCode(kSecAuthenticationTypeDefault), AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE,
-										  keychainRef, AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
+										  [NSValue valueWithPointer:keychainRef], AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN,
 										  nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
+
 			*outError = error;
 		}
+		
+		success = (err == noErr);
 	}
 	
-	if (keychainItem) CFRelease(keychainItem);
-	
+	if (keychainItem) {
+		CFRelease(keychainItem);
+	}
+
 	[pool release];
+	
+	return success;
 }
 
 #pragma mark -
 
-//returns the Keychain Services object that backs this object.
+// Returns the Keychain Services object that backs this object.
 - (SecKeychainRef)keychainRef
 {
 	return keychainRef;

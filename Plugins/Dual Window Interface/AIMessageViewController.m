@@ -15,12 +15,13 @@
  */
 
 #import "AIMessageViewController.h"
-#import "AIAccountSelectionView.h"
 #import "AIMessageWindowController.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import "AIDualWindowInterfacePlugin.h"
 #import "AIMessageWindowOutgoingScrollView.h"
 #import "AIGradientView.h"
+#import "AIAccountSelectionViewController.h"
+#import "AIRejoinGroupChatViewController.h"
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
@@ -32,8 +33,8 @@
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-
-#import <PSMTabBarControl/NSBezierPath_AMShading.h>
+#import <AIUtilities/AIBundleAdditions.h>
+#import <AIUtilities/AIOSCompatibility.h>
 
 //Heights and Widths
 #define MESSAGE_VIEW_MIN_HEIGHT_RATIO		0.5f					// Mininum height ratio of the message view
@@ -52,29 +53,26 @@
 
 @interface AIMessageViewController ()
 - (id)initForChat:(AIChat *)inChat;
-- (void)chatStatusChanged:(NSNotification *)notification;
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification;
 - (void)_configureMessageDisplay;
-- (void)_createAccountSelectionView;
-- (void)_destroyAccountSelectionView;
 - (void)_configureTextEntryView;
 - (void)_updateTextEntryViewHeight;
 - (CGFloat)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMinimum;
-- (void)_showUserListView;
-- (void)_hideUserListView;
+- (void)_showUserListViewAnimate:(BOOL)useAnimation;
+- (void)_hideUserListViewAnimate:(BOOL)useAnimation;
 - (void)_configureUserList;
 - (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum;
-- (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
 - (BOOL)userListInitiallyVisible;
-- (void)setUserListVisible:(BOOL)inVisible;
+- (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation;
 - (void)updateUserCount;
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord;
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)gotFilteredMessageToSendLater:(NSAttributedString *)filteredMessage receivingContext:(NSMutableDictionary *)alertDict;
 - (void)outgoingTextViewDesiredSizeDidChange:(NSNotification *)notification;
+- (void)chatStatusChanged:(NSNotification *)notification;
 @end
 
 @implementation AIMessageViewController
@@ -98,38 +96,29 @@
 		//Init
 		chat = [inChat retain];
 		contact = chat.listObject;
-		accountSelectionVisible = NO;
 		userListController = nil;
 		suppressSendLaterPrompt = NO;
+        topBarControllers = [[NSMutableArray alloc] initWithCapacity:0];
 		
 		//Load the view containing our controls
 		[NSBundle loadNibNamed:MESSAGE_VIEW_NIB owner:self];
 		
 		//Register for the various notification we need
 		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(sendMessage:) 
-										   name:Interface_SendEnteredMessage
-										 object:chat];
+                                                 selector:@selector(sendMessage:)
+                                                     name:Interface_SendEnteredMessage
+                                                   object:chat];
 		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(didSendMessage:)
-										   name:Interface_DidSendEnteredMessage 
-										 object:chat];
+                                                 selector:@selector(didSendMessage:)
+                                                     name:Interface_DidSendEnteredMessage
+                                                   object:chat];
 		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(chatStatusChanged:) 
-										   name:Chat_StatusChanged
-										 object:chat];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-									   selector:@selector(chatParticipatingListObjectsChanged:)
-										   name:Chat_ParticipatingListObjectsChanged
-										 object:chat];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(redisplaySourceAndDestinationSelector:) 
-										   name:Chat_SourceChanged
-										 object:chat];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-									   selector:@selector(redisplaySourceAndDestinationSelector:) 
-										   name:Chat_DestinationChanged
-										 object:chat];
+                                                 selector:@selector(chatParticipatingListObjectsChanged:)
+                                                     name:Chat_ParticipatingListObjectsChanged
+                                                   object:chat];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
+                                                     name:Chat_StatusChanged
+                                                   object:chat];
 
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
@@ -138,10 +127,9 @@
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
 		 */
-		[self setUserListVisible:(chat.isGroupChat && [self userListInitiallyVisible])];
+		[self setUserListVisible:(chat.isGroupChat && [self userListInitiallyVisible]) animate:NO];
 		
 		[self chatParticipatingListObjectsChanged:nil];
-		[self chatStatusChanged:nil];
 		
 		//Configure our views
 		[self _configureMessageDisplay];
@@ -157,8 +145,21 @@
 			initialBaseWritingDirection = [contact baseWritingDirection];
 			[textView_outgoing setBaseWritingDirection:initialBaseWritingDirection];
 		}
-	}
+        
+        [view_topBars setFrameSize:NSMakeSize(view_topBars.frame.size.width, 0.0f)];
+        [splitView_verticalSplit setFrameSize:view_contents.frame.size];
 
+        AIAccountSelectionViewController *sourceDestination = [[AIAccountSelectionViewController alloc] init];
+
+        [sourceDestination.view setHidden:TRUE];
+        
+		[self performSelector:@selector(addTopBarController:) withObject:sourceDestination afterDelay:.2f];
+
+        [sourceDestination release];
+        
+        [self _updateTextEntryViewHeight];
+	}
+    
 	return self;
 }
 
@@ -190,9 +191,6 @@
 	//remove observers
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-    //Account selection view
-	[self _destroyAccountSelectionView];
-	
 	[messageDisplayController messageViewIsClosing];
     [messageDisplayController release];
 	[userListController release];
@@ -202,6 +200,8 @@
 	[view_contents release]; view_contents = nil;
 	[undoManager release]; undoManager = nil;
 
+    [topBarControllers release]; topBarControllers = nil;
+    
     [super dealloc];
 }
 
@@ -216,28 +216,6 @@
 	[adium.preferenceController setPreference:[NSNumber numberWithDouble:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
-}
-
-- (void)updateGradientColors
-{
-	NSColor *darkerColor = [NSColor colorWithCalibratedWhite:0.90f alpha:1.0f];
-	NSColor *lighterColor = [NSColor colorWithCalibratedWhite:0.92f alpha:1.0f];
-	NSColor *leftColor = nil, *rightColor = nil;
-
-	switch ([messageWindowController tabPosition]) {
-		case AdiumTabPositionBottom:
-		case AdiumTabPositionTop:
-		case AdiumTabPositionLeft:
-			leftColor = lighterColor;
-			rightColor = darkerColor;
-			break;
-		case AdiumTabPositionRight:
-			leftColor = darkerColor;
-			rightColor = lighterColor;
-			break;
-	}
-
-	[view_accountSelection setLeftColor:leftColor rightColor:rightColor];
 }
 
 /*!
@@ -264,8 +242,6 @@
 	if (inWindowController != messageWindowController) {
 		[messageWindowController release];
 		messageWindowController = [inWindowController retain];
-		
-		[self updateGradientColors];
 	}
 }
 
@@ -303,21 +279,6 @@
 	}
 	
 	return nil;
-}
-
-/*!
- * @brief Invoked when the status of our chat changes
- *
- * The only chat status change we're interested in is one to the disallow account switching flag.  When this flag 
- * changes we update the visibility of our account status menus accordingly.
- */
-- (void)chatStatusChanged:(NSNotification *)notification
-{
-    NSArray	*modifiedKeys = [[notification userInfo] objectForKey:@"Keys"];
-	
-    if (notification == nil || [modifiedKeys containsObject:@"DisallowAccountSwitching"]) {
-		[self setAccountSelectionMenuVisibleIfNeeded:YES];
-    }
 }
 
 
@@ -557,7 +518,6 @@
  */
 - (IBAction)didSendMessage:(id)sender
 {
-    [self setAccountSelectionMenuVisibleIfNeeded:NO];
     [self clearTextEntryView];
 }
 
@@ -624,104 +584,6 @@
 	[listContact release];
 }
 
-//Account Selection ----------------------------------------------------------------------------------------------------
-#pragma mark Account Selection
-/*!
- * @brief
- */
-- (void)accountSelectionViewFrameDidChange:(NSNotification *)notification
-{
-	[self updateFramesForAccountSelectionView];
-}
-
-/*!
- * @brief Redisplay the source/destination account selector
- */
-- (void)redisplaySourceAndDestinationSelector:(NSNotification *)notification
-{
-	// Update the textView's chat source, in case any attributes it monitors changed.
-	[textView_outgoing setChat:chat];
-	[self setAccountSelectionMenuVisibleIfNeeded:YES];
-}
-
-/*!
- * @brief Toggle visibility of the account selection menus
- *
- * Invoking this method with NO will hide the account selection menus.  Invoking it with YES will show the account
- * selection menus if they are needed.
- */
-- (void)setAccountSelectionMenuVisibleIfNeeded:(BOOL)makeVisible
-{
-	//Hide or show the account selection view as requested
-	if (makeVisible) {
-		[self _createAccountSelectionView];
-	} else {
-		[self _destroyAccountSelectionView];
-	}
-}
-
-/*!
- * @brief Show the account selection view
- */
-- (void)_createAccountSelectionView
-{
-	if (!accountSelectionVisible) {
-		//Setup the account selection view
-		[view_accountSelection setChat:chat];
-		[self updateGradientColors];
-		
-		//Insert the account selection view at the top of our view
-		accountSelectionVisible = YES;
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(accountSelectionViewFrameDidChange:)
-													 name:AIViewFrameDidChangeNotification
-												   object:view_accountSelection];
-		
-		[self updateFramesForAccountSelectionView];
-	} else {
-		[view_accountSelection setChat:chat];
-	}
-}
-
-/*!
- * @brief Hide the account selection view
- */
-- (void)_destroyAccountSelectionView
-{
-	if (accountSelectionVisible) {
-		//Remove the observer
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-														name:AIViewFrameDidChangeNotification
-													  object:view_accountSelection];
-
-		accountSelectionVisible = NO;
-
-		//Redisplay everything
-		[self updateFramesForAccountSelectionView];
-	}
-}
-
-/*!
- * @brief Position the account selection view, if it is present, and the messages/text entry splitview appropriately
- */
-- (void)updateFramesForAccountSelectionView
-{
-	CGFloat accountSelectionHeight = (accountSelectionVisible ? NSHeight(view_accountSelection.frame) : 0.0f);
-	
-	NSRect verticalFrame = splitView_verticalSplit.frame;
-	verticalFrame.size.height = NSHeight(view_contents.frame) - accountSelectionHeight - NSMinY(verticalFrame) - 2;
-	verticalFrame.size.width = NSWidth(view_contents.frame);
-	[splitView_verticalSplit setFrame:verticalFrame];
-	
-	[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX(splitView_verticalSplit.frame), NSMaxY(splitView_verticalSplit.frame))];
-	
-	[view_accountSelection setHidden:!accountSelectionVisible];
-	
-	[self _updateTextEntryViewHeight];
-}	
-
-
 //Text Entry -----------------------------------------------------------------------------------------------------------
 #pragma mark Text Entry
 /*!
@@ -730,10 +592,7 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	if ([group isEqualToString:PREF_GROUP_GENERAL]) {
-		[textView_outgoing setSendOnReturn:[[prefDict objectForKey:SEND_ON_RETURN] boolValue]];
-		[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
-	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
+	if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
 		
 		if (firstTime || [key isEqualToString:KEY_USER_LIST_ON_RIGHT]) {
 			userListOnRight = [[prefDict objectForKey:KEY_USER_LIST_ON_RIGHT] boolValue];
@@ -781,8 +640,9 @@
 	
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
-															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
-	if (entryMinHeight <= 0) entryMinHeight = AIfloor([self _textEntryViewProperHeightIgnoringUserMininum:YES] + 0.5f);
+															 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] doubleValue];
+	if (entryMinHeight <= 0)
+		entryMinHeight = ENTRY_TEXTVIEW_MIN_HEIGHT;
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
 	//and other special key-presses.
@@ -949,7 +809,7 @@
 #pragma mark Autocompletion
 - (BOOL)canTabCompleteForPartialWord:(NSString *)partialWord
 {
-	return ([self contactsMatchingBeginningString:partialWord].count > 0 ||
+	return ([self nicksMatchingBeginningString:partialWord].count > 0 ||
 			[self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound);
 }
 
@@ -994,22 +854,23 @@
 	return charRange;
 }
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord
 {
-	NSMutableArray *contacts = [NSMutableArray array];
+	NSMutableArray *nicks = [NSMutableArray array];
 	
-	for (AIListContact *listContact in self.chat) {
+	for (NSString *nick in (AIGroupChat *)self.chat) {
+		AIListContact *listContact = [(AIGroupChat *)self.chat contactForNick:nick];
 		// Add to the list if it matches: (1) The display name for the chat (alias fallback to default display name), 
 		// (2) The UID, or (3) the display name
-		if ([[self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
+		if ([nick rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
-			[contacts addObject:listContact];
-			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
+			[nicks addObject:nick];
+			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, nick, listContact.UID, listContact.formattedUID, listContact.displayName);
 		}
 	}
 	
-	return contacts;
+	return nicks;
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)idx
@@ -1044,13 +905,14 @@
 		completions = [NSMutableArray array];
 		
 		// For each matching contact:
-		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
+		for (NSString *nick in [self nicksMatchingBeginningString:partialWord]) {
 			// Complete the chat alias.
-			NSString *completion = [self.chat aliasForContact:listContact];
+			NSString *completion = nick;
 			
 			// Otherwise, complete the UID (if we're completing UIDs for this chat) or the display name.
-			if (!completion)
-				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+#warning Fix this for nicksMatchingBeginningString
+//			if (!completion)
+//				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
 			
 			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
 		}
@@ -1097,12 +959,12 @@
 /*!
  * @brief Set visibility of the user list
  */
-- (void)setUserListVisible:(BOOL)inVisible
+- (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation
 {
 	if (inVisible) {
-		[self _showUserListView];
+		[self _showUserListViewAnimate:useAnimation];
 	} else {
-		[self _hideUserListView];
+		[self _hideUserListViewAnimate:useAnimation];
 	}
 	
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:inVisible]
@@ -1126,7 +988,7 @@
 - (void)toggleUserList
 {
 	if (chat.isGroupChat)
-		[self setUserListVisible:![self userListVisible]];
+		[self setUserListVisible:![self userListVisible] animate:YES];
 }
 
 - (void)toggleUserListSide
@@ -1144,34 +1006,68 @@
 /*!
  * @brief Show the user list
  */
-- (void)_showUserListView
+- (void)_showUserListViewAnimate:(BOOL)useAnimation
 {
 	if (chat.isGroupChat && view_userList.superview == nil) {
 		[splitView_verticalSplit addSubview:[view_userList autorelease]];
 	}
 	[self updateUserCount];
 	[userListController reloadData];
-
+	
 	[view_userList setHidden:NO];
-	//Manually set the divider's position otherwise view_userList will shrink
-	[splitView_verticalSplit setPosition:[self _userListViewDividerPositionIgnoringUserMinimum:NO]
-						ofDividerAtIndex:0];
-	[splitView_verticalSplit adjustSubviews];
+	
+	CGFloat newPosition = [self _userListViewDividerPositionIgnoringUserMinimum:NO];
+	
+	if (useAnimation) {
+		NSView *view0 = [splitView_verticalSplit.subviews objectAtIndex:0];
+		NSView *view1 = [splitView_verticalSplit.subviews objectAtIndex:1];
+		
+		NSRect view0TargetFrame = NSMakeRect(view0.frame.origin.x, view0.frame.origin.y, newPosition - splitView_verticalSplit.dividerThickness, view0.frame.size.height);
+		NSRect view1TargetFrame = NSMakeRect(newPosition, view1.frame.origin.y, NSMaxX(view1.frame) - newPosition, view1.frame.size.height);
+		
+		[NSAnimationContext beginGrouping];
+		[[NSAnimationContext currentContext] setDuration:0.1];
+		
+		[view0.animator setFrame:view0TargetFrame];
+		[view1.animator setFrame:view1TargetFrame];
+		[NSAnimationContext endGrouping];
+	} else {
+		[splitView_verticalSplit setPosition:newPosition ofDividerAtIndex:0];
+	}
+	
+	[splitView_verticalSplit performSelector:@selector(adjustSubviews) withObject:nil afterDelay:0.2];
 }
 
 /*!
  * @brief Hide the user list.
  */
-- (void)_hideUserListView
+- (void)_hideUserListViewAnimate:(BOOL)useAnimation
 {
 	if (!chat.isGroupChat) {
 		NSRect frame = view_userList.frame;
 		frame.size.width = 0;
-		view_userList.frame = frame;
+		[view_userList setFrame:frame];
 		[view_userList retain];
 		[view_userList removeFromSuperview];
 	}
-	[view_userList setHidden:YES];
+	
+	userListMinWidth = NSWidth(view_userList.frame);
+	CGFloat newPosition = NSWidth(splitView_verticalSplit.frame);
+	
+	if (useAnimation) {
+		NSRect view0TargetFrame = NSMakeRect(view_messages.frame.origin.x, view_messages.frame.origin.y, newPosition, view_messages.frame.size.height);
+		NSRect view1TargetFrame = NSMakeRect(newPosition, view_userList.frame.origin.y, 0.0f, view_userList.frame.size.height);
+		
+		[NSAnimationContext beginGrouping];
+		[[NSAnimationContext currentContext] setDuration:0.1];
+		[view_messages setFrame:view0TargetFrame];
+		[view_userList.animator setFrame:view1TargetFrame];
+		[view_userList.animator setHidden:YES];
+		[NSAnimationContext endGrouping];
+	} else {
+		[view_userList setHidden:YES];
+	}
+	
 	[splitView_verticalSplit adjustSubviews];
 }
 
@@ -1191,7 +1087,7 @@
 		userListController = [[ESChatUserListController alloc] initWithContactListView:userListView
 																		  inScrollView:scrollView_userList 
 																			  delegate:self];
-		[userListController setContactListRoot:chat];
+		[userListController setContactListRoot:(AIGroupChat *)chat];
 		[userListController updateLayoutFromPrefDict:layoutDict andThemeFromPrefDict:themeDict];
 		[userListController setHideRoot:YES];
 	}
@@ -1205,7 +1101,8 @@
  */
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification
 {
-	[chat resortParticipants];
+    if (chat.isGroupChat)
+        [(AIGroupChat *)chat resortParticipants];
 
 	/* Even if we're not viewing the user list, we can't risk it keeping stale information about potentially released objects */
 	[userListController reloadData];
@@ -1219,13 +1116,13 @@
 {
 	NSString *userCount = nil;
 	
-	if (self.chat.containedObjects.count == 1) {
+	if (((AIGroupChat *)self.chat).containedObjects.count == 1) {
 		userCount = AILocalizedString(@"1 user", nil);
 	} else {
 		userCount = AILocalizedString(@"%u users", nil);
 	}
 	
-	[label_userCount setStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
+	[label_userCount setStringValue:[NSString stringWithFormat:userCount, ((AIGroupChat *)self.chat).containedObjects.count]];
 }
 
 /*!
@@ -1280,13 +1177,13 @@
 - (CGFloat)_userListViewDividerPositionIgnoringUserMinimum:(BOOL)ignoreUserMinimum
 {
 	CGFloat splitViewWidth = splitView_verticalSplit.frame.size.width;
-	CGFloat allowedWidth = (splitViewWidth / 2) - [splitView_verticalSplit dividerThickness];
+	CGFloat allowedWidth = AIfloor(splitViewWidth / 2) - [splitView_verticalSplit dividerThickness];
 	CGFloat width = ignoreUserMinimum ? USER_LIST_DEFAULT_WIDTH : userListMinWidth;
 	
+	if (width < USER_LIST_DEFAULT_WIDTH)
+		width = USER_LIST_DEFAULT_WIDTH;
 	if (width > allowedWidth)
 		width = allowedWidth;
-	else if (width < USER_LIST_DEFAULT_WIDTH)
-		width = USER_LIST_DEFAULT_WIDTH;
 	
 	if (userListOnRight)
 		return splitViewWidth - width;
@@ -1305,13 +1202,7 @@
  */
 - (void)splitViewWillResizeSubviews:(NSNotification *)aNotification
 {
-	if ([aNotification object] == splitView_verticalSplit) {
-		if (NSWidth(view_userList.frame) > 0) {
-			userListMinWidth = NSWidth(view_userList.frame);
-			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
-			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
-		}
-	} else if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
+	if ([aNotification object] == splitView_textEntryHorizontal && [splitView_textEntryHorizontal inLiveResize]) {
 		entryMinHeight = NSHeight(textView_outgoing.frame);
 	}
 }
@@ -1329,7 +1220,7 @@
 	}
 }
 
-/* 
+/*
  * @brief Keep the userlist and text entry view the same size when the window is resized.
  */
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -1372,6 +1263,10 @@
 			
 			[view_userList setFrame:userFrame];
 			[[splitView_textEntryHorizontal superview] setFrame:msgFrame];
+			
+			userListMinWidth = NSWidth(view_userList.frame);
+			[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+			[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 		
 		// divition between text entry and message view
 		} else if (splitView == splitView_textEntryHorizontal) {
@@ -1485,5 +1380,99 @@
 	return undoManager;
 }
 
+#pragma mark Top bar
+
+- (void)addTopBarController:(AIMessageViewTopBarController *)newController
+{
+    [topBarControllers addObject:newController];
+    [view_topBars addSubview:newController.view];
+    newController.owner = self;
+    newController.chat = self.chat;
+    
+    [self didResizeTopbarController:newController];
+}
+
+- (void)removeTopBarController:(AIMessageViewTopBarController *)controller
+{
+    NSParameterAssert([topBarControllers containsObject:controller]);
+    
+    [self hideTopBarController:controller];
+    
+    controller.owner = nil;
+    
+    [controller.view removeFromSuperview];
+    [topBarControllers removeObject:controller];
+}
+
+- (void)hideTopBarController:(AIMessageViewTopBarController *)controller
+{
+    NSParameterAssert([topBarControllers containsObject:controller]);
+    
+    if ([controller.view isHidden]) return;
+    
+    [controller.view setHidden:TRUE];
+    
+    [self didResizeTopbarController:controller];
+}
+
+- (void)unhideTopBarController:(AIMessageViewTopBarController *)controller
+{
+    NSParameterAssert([topBarControllers containsObject:controller]);
+    
+    if (![controller.view isHidden]) return;
+    
+    [controller.view setHidden:FALSE];
+    
+    [self didResizeTopbarController:controller];
+}
+
+- (void)didResizeTopbarController:(AIMessageViewTopBarController *)controller
+{
+    NSParameterAssert([topBarControllers containsObject:controller]);
+    
+    CGFloat yPosition = 0.0f;
+    for (AIMessageViewTopBarController *existingController in topBarControllers) {
+        if (![existingController.view isHidden]) yPosition += NSHeight(existingController.view.frame);
+    }
+    
+    NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
+    
+    [NSAnimationContext beginGrouping];
+    [[NSAnimationContext currentContext] setDuration:0.05];
+    if (splitViewSize.height != NSHeight(splitView_verticalSplit.frame)) {
+        [splitView_verticalSplit.animator setFrameSize:splitViewSize];
+    }
+    
+    [view_topBars.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
+    [view_topBars.animator setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
+    
+    yPosition = 0.0f;
+    for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
+        if (![existingController.view isHidden]) {
+            [existingController.view.animator setFrameOrigin:NSMakePoint(0.0f, yPosition)];
+            [existingController.view.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
+            yPosition += NSHeight(existingController.view.frame);
+        }
+    }
+    
+    [NSAnimationContext endGrouping];
+    
+    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.1];
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+    NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
+    
+    // Only show the bar if this was a groupchat that was parted, while the account is still online.
+    if (chat.isGroupChat &&
+        [keys containsObject:@"accountJoined"] &&
+        ![chat boolValueForProperty:@"accountJoined"]) {
+        AIRejoinGroupChatViewController *rejoinChatController = [[AIRejoinGroupChatViewController alloc] init];
+        [self addTopBarController:rejoinChatController];
+		
+		[rejoinChatController release];
+	}
+}
 
 @end

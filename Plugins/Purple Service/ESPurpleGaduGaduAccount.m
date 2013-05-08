@@ -63,6 +63,9 @@
 
 - (void)uploadContactListToServer
 {
+#warning Temporarily disable contact list sync with servers
+	return;
+
 	char *buddylist = ggp_buddylist_dump(account);
 		
 	if (buddylist) {
@@ -99,7 +102,10 @@
 
 - (void)downloadContactListFromServer
 {
-	//If we're connected and have no buddies, request 'em from the server.
+#warning Temporarily disable contact list sync with servers
+	return;
+
+	// If we're connected and have no buddies, request 'em from the server.
 	PurpleConnection *gc = purple_account_get_connection(account);
 	GGPInfo *info = gc->proto_data;
 	

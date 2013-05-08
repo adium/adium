@@ -25,7 +25,7 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentEvent.h>
@@ -54,6 +54,9 @@
 - (NSMenu *)_stylesMenu;
 - (NSMenu *)_variantsMenu;
 - (NSMenu *)_backgroundImageTypeMenu;
+- (NSMenu *)_fontSizeMenu;
+- (NSMenu *)_timeStampMenu;
+- (void)_addTimeStampChoice:(NSDateFormatter *)formatter toMenu:(NSMenu *)menu;
 - (void)_addBackgroundImageTypeChoice:(NSInteger)tag toMenu:(NSMenu *)menu withTitle:(NSString *)title;
 - (void)_configureChatPreview;
 - (AIChat *)previewChatWithDictionary:(NSDictionary *)previewDict fromPath:(NSString *)previewPath listObjects:(NSDictionary **)outListObjects;
@@ -67,20 +70,24 @@
 @class AIPreviewChat;
 
 @implementation ESWebKitMessageViewPreferences
+@synthesize checkBox_customNameFormatting, popUp_nameFormat, popUp_timeStampFormat, popUp_minimumFontSize;
 
+- (AIPreferenceCategory)category{
+	return AIPref_Appearance;
+}
 - (NSString *)paneIdentifier
 {
-	return @"Messages";
+	return @"Message View";
 }
 - (NSString *)paneName{
-	return AILocalizedString(@"Messages", "Title of the messages preferences");
+	return AILocalizedString(@"Message View", "Title of the messages preferences");
 }
 - (NSString *)nibName{
     return @"WebKitPreferencesView";
 }
 - (NSImage *)paneIcon
 {
-	return [NSImage imageNamed:@"pref-messages"];
+	return [NSImage imageNamed:@"pref-messagestyle"];
 }
 
 /*!
@@ -121,6 +128,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[previewListObjectsDict release]; previewListObjectsDict = nil;
 
+	[previewController messageViewIsClosing];
 	[previewController release]; previewController = nil;
 	[view_previewLocation setFrame:[preview frame]];
 	[[preview superview] replaceSubview:preview with:view_previewLocation];	
@@ -186,6 +194,15 @@
 	
 	[checkBox_useRegularChatForGroup setState:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
 																					  group:self.preferenceGroupForCurrentTab] boolValue]];
+	
+	[checkBox_customNameFormatting setState:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
+	[popUp_nameFormat selectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] integerValue]];
+	
+	[popUp_minimumFontSize setMenu:[self _fontSizeMenu]];
+	[popUp_minimumFontSize selectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_MIN_FONT_SIZE] integerValue]];
+	
+	[popUp_timeStampFormat setMenu:[self _timeStampMenu]];
+	[popUp_timeStampFormat selectItemWithRepresentedObject:[prefDict objectForKey:KEY_WEBKIT_TIME_STAMP_FORMAT]];
 	
 	//Allow the alpha component to be set for our background color
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -328,6 +345,26 @@
 			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 												 forKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
 												  group:self.preferenceGroupForCurrentTab];
+		} else if (sender == checkBox_customNameFormatting) {
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+											   forKey:KEY_WEBKIT_USE_NAME_FORMAT
+												group:self.preferenceGroupForCurrentTab];
+			
+		} else if (sender == popUp_nameFormat) {
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+											   forKey:KEY_WEBKIT_NAME_FORMAT
+												group:self.preferenceGroupForCurrentTab];
+			
+		} else if (sender == popUp_minimumFontSize) {
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+											   forKey:KEY_WEBKIT_MIN_FONT_SIZE
+												group:self.preferenceGroupForCurrentTab];
+			
+		} else if (sender == popUp_timeStampFormat) {
+			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
+											   forKey:KEY_WEBKIT_TIME_STAMP_FORMAT
+												group:self.preferenceGroupForCurrentTab];
+			
 		}
 		
 		[self configureControlDimming];
@@ -348,6 +385,9 @@
 	[checkBox_showMessageColors setEnabled:anyControlsEnabled];
 	[button_setFont setEnabled:anyControlsEnabled];
 	[button_defaultFont setEnabled:anyControlsEnabled];
+	[checkBox_customNameFormatting setEnabled:anyControlsEnabled];
+	[popUp_timeStampFormat setEnabled:anyControlsEnabled];
+	[popUp_minimumFontSize setEnabled:anyControlsEnabled];
 	
 	//Only enable if there are multiple variant choices
 	[popUp_variants setEnabled:[popUp_variants numberOfItems] > 0 && anyControlsEnabled];
@@ -373,6 +413,10 @@
 	[checkBox_showUserIcons setEnabled:[messageStyle allowsUserIcons] && anyControlsEnabled];
 	
 	[checkBox_showMessageColors setEnabled:[messageStyle allowsColors] && anyControlsEnabled];
+	
+	// We load the regular preferences, since both group and regular are copies of each other for these.
+	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab];
+	[popUp_nameFormat setEnabled:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 }
 
 /*!
@@ -514,6 +558,82 @@
 	[menuItem release];
 }
 
+/*!
+ * @brief Build & return a time stamp menu
+ */
+- (NSMenu *)_timeStampMenu
+{
+	NSMenu	*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
+	
+	//Generate all the available time stamp formats
+	//If there is no difference between the time stamp with AM/PM and the one without, the localized time stamp must
+	//not include AM/PM.  Since these menu items would appear as duplicates we exclude them.
+	
+    __block NSString	*sampleStampA, *sampleStampB;
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *noSecondsAMPM){
+		sampleStampA = [[noSecondsAMPM stringForObjectValue:[NSDate date]] retain];
+	}];
+	[sampleStampA autorelease];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *noSecondsNoAMPM){
+		sampleStampB = [[noSecondsNoAMPM stringForObjectValue:[NSDate date]] retain];
+	}];
+	[sampleStampB autorelease];
+	
+	BOOL		noAMPM = [sampleStampA isEqualToString:sampleStampB];
+	
+	//Build the menu from the available formats
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:NO perform:^(NSDateFormatter *noSecondsNoAMPM){
+		[self _addTimeStampChoice:noSecondsNoAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:NO showingAMorPM:YES perform:^(NSDateFormatter *noSecondsAMPM){
+		if (!noAMPM) [self _addTimeStampChoice:noSecondsAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *secondsNoAMPM){
+		[self _addTimeStampChoice:secondsNoAMPM toMenu:menu];
+	}];
+	
+	[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:YES perform:^(NSDateFormatter *secondsAMPM){
+		if (!noAMPM) [self _addTimeStampChoice:secondsAMPM toMenu:menu];
+	}];
+	
+	return menu;
+}
+- (void)_addTimeStampChoice:(NSDateFormatter *)formatter toMenu:(NSMenu *)menu
+{	
+	[menu addItemWithTitle:[formatter stringForObjectValue:[NSDate date]]
+					target:nil
+					action:nil
+			 keyEquivalent:@""
+		 representedObject:[formatter dateFormat]];
+}
+
+/*!
+ * @brief Build & return a font size menu
+ */
+- (NSMenu *)_fontSizeMenu
+{
+	NSMenu		*menu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenuItem	*menuItem;
+	
+	NSUInteger sizes[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,18,20,22,24,36,48,64,72,96};
+	NSUInteger loopCounter;
+	
+	for (loopCounter = 0; loopCounter < 23; loopCounter++) {
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[NSNumber numberWithInteger:sizes[loopCounter]] stringValue]
+																		 target:nil
+																		 action:nil
+																  keyEquivalent:@""] autorelease];
+		[menuItem setTag:sizes[loopCounter]];
+		[menu addItem:menuItem];
+	}
+	
+	return menu;
+}
+
 
 //Chat Preview ---------------------------------------------------------------------------------------------------------
 #pragma mark Chat Preview
@@ -642,7 +762,7 @@
 	type = [chatDict objectForKey:@"Type"];
 	if ([type isEqualToString:@"IM"]) {
 		if ((UID = [chatDict objectForKey:@"Destination UID"])) {
-			[inChat addParticipatingListObject:[participants objectForKey:UID] notify:YES];
+			inChat.listObject = [participants objectForKey:UID];
 		}
 		if ((UID = [chatDict objectForKey:@"Source UID"])) {
 			[inChat setAccount:(AIAccount *)[participants objectForKey:UID]];

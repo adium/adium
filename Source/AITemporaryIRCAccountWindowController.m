@@ -42,10 +42,13 @@
 		server = [newServer retain];
 		port = (newPort == -1 ? 6667 : newPort);
 		password = [newPassword retain];
-		
-		[[self window] makeKeyAndOrderFront:nil];
 	}
 	return self;
+}
+
+- (void)show
+{
+	[[self window] makeKeyAndOrderFront:nil];
 }
 
 - (void)dealloc
@@ -75,7 +78,7 @@
 	
 	[textField_explanation setStringValue:[NSString stringWithFormat:AILocalizedString(@"You need to create a new IRC account to connect to irc://%@%@/%@:", nil),
 										   server,
-										   (port == 6667 ? @"" : [NSString stringWithFormat:@":%d", port]),
+										   (port == 6667 ? @"" : [NSString stringWithFormat:@":%ld", port]),
 										   channel]];
 	
 	[textField_server setStringValue:server];
@@ -167,9 +170,9 @@
 							group:GROUP_ACCOUNT_STATUS];
 	}
 	
-	[AIEditAccountWindowController editAccount:self.account
-									  onWindow:[self window]
-							   notifyingTarget:self];	
+	AIEditAccountWindowController *editAccountWindowController = [[AIEditAccountWindowController alloc] initWithAccount:self.account
+																										notifyingTarget:self];
+	[editAccountWindowController showOnWindow:[self window]];
 }
 
 - (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)inSuccess

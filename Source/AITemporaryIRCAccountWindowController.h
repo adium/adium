@@ -44,7 +44,7 @@
 }
 
 - (id)initWithChannel:(NSString *)newChannel server:(NSString *)newServer port:(NSInteger)newPort andPassword:(NSString *)newPassword;
-
+- (void)show __attribute__((ns_consumes_self));
 - (IBAction)okay:(id)sender;
 - (IBAction)displayAdvanced:(id)sender;
 

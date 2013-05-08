@@ -32,12 +32,13 @@
 		</div>
 		<div class="taskboxtext">
 			<p>Yes and no.</p>
-			<p>Yes: The third-party <a href="http://adiumxtras.com/index.php?a=xtras&amp;xtra_id=5011">Skype Plugin</a> allows Adium to use the <a class="ext_link" href="https://developer.skype.com/Docs/ApiDoc">Skype API</a> to display your Skype contacts within Adium and let you chat with them via text-based instant messaging. By the nature of the Skype API, it requires that the Skype program be installed and running.</p>
+			<p>Yes: The third-party <a href="http://xtras.adium.im/index.php?a=xtras&amp;xtra_id=5011">Skype Plugin</a> allows Adium to use the <a class="ext_link" href="https://developer.skype.com/Docs/ApiDoc">Skype API</a> to display your Skype contacts within Adium and let you chat with them via text-based instant messaging. By the nature of the Skype API, it requires that the Skype program be installed and running.</p>
 			<p>No: It's not supported natively within Adium (i.e., without a plugin). The library that we use to support most protocols, <a href="http://trac.adium.im/wiki/LibPurple">libpurple</a>, doesn't support Skype at all right now, not even for chat. Until it does Adium most likely won't, either.</p>
 			<p>Keep in mind that Skype is a proprietary, closed protocol, so it must be reverse-engineered before third-party clients like Pidgin and Adium can use it. Protocols like OSCAR (which AIM and ICQ are based on) and MSN have already been reverse-engineered, but they're much older than Skype, and reverse-engineering is hard. It will take a long time and won't happen at all unless someone chooses to take interest in it and dedicate significant time to the effort.</p>
 			<p><strong>What about the Skype API?</strong></p>
-			<p>We can't package the Skype API with Adium because of licensing issues, as the API's files are not open source. Also, using the Skype API, as the Skype Plugin, means that Skype needs to be running.</p>
-			<p>We want to do it right, with first-class support for the protocol in Adium, whether it's by a reverse-engineered implementation (of sufficient quality) or by an official embeddable library published by Skype. The former hasn't happened yet and we don't foresee the latter happening either, and we don't accept piggybacking on the official client as a substitute. So until one of those two happens, Adium will not have support for Skype.</p>
+			<p>Using the Skype API, as the Skype Plugin does, means that Skype must be running. We don't accept piggybacking on the official client as a substitute.</p>
+			<p><strong>What about SkypeKit?</strong></p>
+			<p>The SkypeKit SDK is not licensed to be used in any open-source software, such as Adium and so needs to be rewritten. SkypeKit also needs a skypekit-client program to be running in the background, so it puts us in the same boat as using the Skype API.</p>
 		</div>
 	</div>
 </div>

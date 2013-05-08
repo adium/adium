@@ -92,7 +92,7 @@ static NSMutableArray		*libpurplePluginArray = nil;
 {
 	libpurplePluginArray = [[NSMutableArray alloc] init];
 
-	for (NSString *libpurplePluginPath in [adium allResourcesForName:@"Plugins"
+	for (NSString *libpurplePluginPath in [adium allResourcesForName:@"PlugIns"
 													  withExtensions:@"AdiumLibpurplePlugin"]) {
 		[AICorePluginLoader loadPluginAtPath:libpurplePluginPath
 							  confirmLoading:YES
@@ -387,11 +387,11 @@ AIListContact* contactLookupFromIMConv(PurpleConversation *conv)
 	return nil;
 }
 
-AIChat* groupChatLookupFromConv(PurpleConversation *conv)
+AIGroupChat* groupChatLookupFromConv(PurpleConversation *conv)
 {
-	AIChat *chat;
+	AIGroupChat *chat;
 	
-	chat = (AIChat *)conv->ui_data;
+	chat = (AIGroupChat *)conv->ui_data;
 	if (!chat) {
 		NSString *name = [NSString stringWithUTF8String:purple_conversation_get_name(conv)];
 		
@@ -488,7 +488,7 @@ AIChat* imChatLookupFromConv(PurpleConversation *conv)
 		if (!chat) {
 			NSString	*errorString;
 
-			errorString = [NSString stringWithFormat:@"conv %x: Got nil chat in lookup for sourceContact %@ (%x ; \"%s\" ; \"%s\") on adiumAccount %@ (%x ; \"%s\")",
+			errorString = [NSString stringWithFormat:@"conv %p: Got nil chat in lookup for sourceContact %@ (%p ; \"%s\" ; \"%s\") on adiumAccount %@ (%p ; \"%s\")",
 				conv,
 				sourceContact,
 				buddy,
@@ -533,10 +533,11 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 			g_free(destination);
 			
 		} else {
+            AIGroupChat *groupChat = (AIGroupChat *)chat;
 			//Otherwise, we have a multiuser chat.
 			
 			//All multiuser chats should have a non-nil name.
-			NSString	*chatName = chat.name;
+			NSString	*chatName = groupChat.name;
 			if (chatName) {
 				const char *name = [chatName UTF8String];
 				
@@ -607,8 +608,8 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 						}
 					}
 					
-					if (chat.lastMessageDate) {
-						NSTimeInterval lastMessageInterval = [chat.lastMessageDate timeIntervalSince1970];
+					if (groupChat.lastMessageDate) {
+						NSTimeInterval lastMessageInterval = [groupChat.lastMessageDate timeIntervalSince1970];
 						NSString *historySince = [[NSDate dateWithTimeIntervalSince1970:lastMessageInterval + 1]
                                                   descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%SZ"
                                                                        timeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]
@@ -757,7 +758,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 
 			} else {
 				//If we didn't get a purpleImage, just leave the tag for now.. maybe it was important?
-				[newString appendFormat:@"<IMG ID=\"%ld\">",chunkString];
+				[newString appendFormat:@"<IMG ID=\"%p\">",chunkString];
 			}
 		}
 	}
@@ -909,7 +910,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 - (void)disconnectAccount:(id)adiumAccount
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
-	AILog(@"Setting %x disabled and offline (%s)...",account,
+	AILog(@"Setting %p disabled and offline (%s)...",account,
 		  purple_status_type_get_id(purple_account_get_status_type_with_primitive(account, PURPLE_STATUS_OFFLINE)));
 
 	purple_account_set_enabled(account, "Adium", NO);
@@ -1399,8 +1400,10 @@ GList *createListFromDictionary(NSDictionary *arguments)
 {
 	PurpleAccount	*account = accountLookupFromAdiumAccount(adiumAccount);
 	GList			*attrs = createListFromDictionary(arguments);
+	BOOL shouldRegister = [[adiumAccount preferenceForKey:KEY_ACCOUNT_REGISTER_ON_CONNECT
+													group:GROUP_ACCOUNT_STATUS] boolValue];
 
-	AILog(@"Setting status on %x (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
+	AILog(@"Setting status on %p (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
 		  statusID, [isActive boolValue], arguments);
 
 	purple_account_set_status_list(account, statusID, [isActive boolValue], attrs);
@@ -1411,13 +1414,14 @@ GList *createListFromDictionary(NSDictionary *arguments)
 		//This status is an online status, but the account is not connected or connecting
 
 		//Ensure the account is enabled
-		if (!purple_account_get_enabled(account, "Adium")) {
+		if (!purple_account_get_enabled(account, "Adium") && !shouldRegister) {
 			purple_account_set_enabled(account, "Adium", YES);
 		}
 
 		//Now connect the account
-		purple_account_connect(account);
-	}	
+		if (shouldRegister) [self registerAccount:adiumAccount];
+		else purple_account_connect(account);
+	}
 }
 
 - (void)setSongInformation:(NSDictionary *)arguments onAccount:(id)adiumAccount

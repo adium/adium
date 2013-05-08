@@ -212,7 +212,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				[fileManager trashFileAtPath:[pluginDirectory stringByAppendingPathComponent:
 					[NSString stringWithFormat:@"%@-Adium.scpt",name]]];
 			} else {
-				AILogWithSignature(@"Warning: Could not find %@",self, fullName);
+				AILogWithSignature(@"%@: Warning: Could not find %@", self, fullName);
 			}
 		}
 
@@ -1085,7 +1085,8 @@ NSString* serviceIDForJabberUID(NSString *UID)
 	NSString	*serviceID;
 
 	if ([UID hasSuffix:@"@gmail.com"] ||
-		[UID hasSuffix:@"@googlemail.com"]) {
+		[UID hasSuffix:@"@googlemail.com"] ||
+        [UID hasSuffix:@"@public.talk.google.com"]) {
 		serviceID = @"GTalk";
 	} else if ([UID hasSuffix:@"@livejournal.com"]) {
 		serviceID = @"LiveJournal";

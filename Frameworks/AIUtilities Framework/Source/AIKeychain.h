@@ -30,6 +30,7 @@
  *	You may pass \c NULL for the \a error argument, in which case the error will be
  *	silently dropped.
  */
+
 /*@{*/
 
 /*!	@def AIKEYCHAIN_ERROR_DOMAIN
@@ -43,42 +44,53 @@
  *	This value is stored as an \c NSValue. Call \c -pointerValue to retrieve the function pointer.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTION @"SecurityFrameworkFunction"
+
 //!	@brief The name of the Keychain Services function that returned the error.
 #define AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME @"SecurityFrameworkFunctionName"
+
 //!	@brief Description of the error (from SecErrorMessages.strings).
 #define AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION @"SecurityFrameworkErrorDescription"
+
 //!	@brief The \c AIKeychain instance that was involved.
 #define AIKEYCHAIN_ERROR_USERINFO_KEYCHAIN @"Keychain"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_USERINTERACTIONALLOWEDSTATE
  *	@brief The value that would have been returned by \c +allowsUserInteraction or was passed to <code>+setAllowsUserInteraction:</code>.
  *	This is an \c NSNumber containing a \c BOOL.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_USERINTERACTIONALLOWEDSTATE @"UserInteractionAllowed"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_SETTINGSPOINTER
  *	@brief The pointer passed to <code>-getSettings:</code> or <code>-setSettings:</code>.
  *	This value is stored as an \c NSValue. Call \c -pointerValue to retrieve the function pointer.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_SETTINGSPOINTER @"PointerToSettingsStructure"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_SERVICE
  *	@brief The service name passed to <code>-addGenericPasswordForService:account:keychainItem:error:</code> or <code>-findGenericPasswordForService:account:keychainItem:error:</code>.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_SERVICE            @"GenericPasswordService"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_SERVER
  *	@brief The service name passed to <code>-addInternetPassword:forService:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code> or <code>-findInternetPasswordForServer:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_SERVER             @"InternetPasswordServer"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_DOMAIN
  *	@brief The service name passed to <code>-addInternetPassword:forService:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code> or <code>-findInternetPasswordForServer:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_DOMAIN             @"InternetPasswordSecurityDomain"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_ACCOUNT
  *	@brief The service name passed to <code>-addInternetPassword:forService:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>, <code>-findInternetPasswordForServer:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>, <code>-addGenericPasswordForService:account:keychainItem:error:</code>, or <code>-findGenericPasswordForService:account:keychainItem:error:</code>.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_ACCOUNT            @"PasswordAccount"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_PROTOCOL
  *	@brief The service name passed to <code>-addInternetPassword:forService:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code> or <code>-findInternetPasswordForServer:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>.
  */
 #define AIKEYCHAIN_ERROR_USERINFO_PROTOCOL           @"PasswordProtocol"
+
 /*!	@def AIKEYCHAIN_ERROR_USERINFO_AUTHENTICATIONTYPE
  *	@brief The service name passed to <code>-addInternetPassword:forService:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code> or <code>-findInternetPasswordForServer:securityDomain:account:path:port:protocol:authenticationType:keychainItem:error:</code>.
  */
@@ -101,15 +113,19 @@
  *	Wraps \c SecKeychainLockAll.
  *
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-+ (void)lockAllKeychains_error:(out NSError **)outError;
++ (BOOL)lockAllKeychains_error:(out NSError **)outError;
+
 /*!	@brief Locks the user's default keychain.
  *
  *	Wraps \c SecKeychainLock, passing \c NULL as the keychain to lock.
  *
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-+ (void)lockDefaultKeychain_error:(out NSError **)outError;
++ (BOOL)lockDefaultKeychain_error:(out NSError **)outError;
+
 /*!	@brief Unlocks the user's default keychain.
  *
  *	@par
@@ -121,6 +137,7 @@
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
 + (BOOL)unlockDefaultKeychain_error:(out NSError **)outError;
+
 /*!	@brief Unlocks the user's default keychain with a specific password.
  *
  *	Wraps \c SecKeychainUnlock, passing \c NULL as the keychain to unlock.
@@ -139,6 +156,7 @@
  *	@return \c YES if user interaction is allowed; \c NO if not, or if an error occurred.
  */
 + (BOOL)allowsUserInteraction_error:(out NSError **)outError;
+
 /*!	@brief Sets whether Keychain Services should use its user interface.
  *
  *	Wraps \c SecKeychainSetUserInteractionAllowed.
@@ -146,7 +164,7 @@
  *	@param flag \c YES if user interaction should be allowed; \c NO if not.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-+ (void)setAllowsUserInteraction:(BOOL)flag error:(out NSError **)outError;
++ (BOOL)setAllowsUserInteraction:(BOOL)flag error:(out NSError **)outError;
 
 /*!	@brief Returns the version of the Keychain Services API.
  *	Wraps \c SecKeychainGetVersion.
@@ -169,6 +187,7 @@
  *	@return An \c AIKeychain instance that wraps the current default keychain.
  */
 + (AIKeychain *)defaultKeychain_error:(out NSError **)outError;
+
 /*!	@brief	Sets the default keychain.
  *
  *	@par
@@ -179,8 +198,9 @@
  *
  *	@param newDefaultKeychain An \c AIKeychain instance that wraps the intended default keychain.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-+ (void)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(out NSError **)outError;
++ (BOOL)setDefaultKeychain:(AIKeychain *)newDefaultKeychain error:(out NSError **)outError;
 
 /*!	@brief Loads a keychain from a file.
  *
@@ -191,6 +211,7 @@
  *	@return A shiny new autoreleased \c AIKeychain.
  */
 + (AIKeychain *)keychainWithContentsOfFile:(NSString *)path error:(out NSError **)outError;
+
 /*!	@brief Loads a keychain from a file.
  *
  *	Wraps \c SecKeychainOpen.
@@ -213,6 +234,7 @@
  *	@result A shiny new autoreleased \c AIKeychain.
  */
 + (AIKeychain *)keychainWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError;
+
 /*!	@brief Creates a new keychain from scratch.
  *
  *	Wraps \c SecKeychainCreate.
@@ -238,6 +260,7 @@
  *	@return A shiny new autoreleased \c AIKeychain.
  */
 + (AIKeychain *)keychainWithKeychainRef:(SecKeychainRef)newKeychainRef;
+
 /*!	@brief Creates a new \c AIKeychain wrapper for an existing keychain object.
  *
  *	When you already have a Keychain Services \c SecKeychainRef for a keychain, use this to wrap it in yummy \c AIKeychain goodness.
@@ -255,16 +278,19 @@
  *
  *	@param outSettings The destination to which the settings should be copied.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)getSettings:(out struct SecKeychainSettings *)outSettings error:(out NSError **)outError;
+- (BOOL)getSettings:(out struct SecKeychainSettings *)outSettings error:(out NSError **)outError;
+
 /*!	@brief Sets the current settings of the keychain.
  *
  *	Wraps \c SecKeychainSetSettings.
  *
  *	@param newSettings The new settings. These will be copied, so the memory does not need to persist after this call.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)setSettings:( in struct SecKeychainSettings *)newSettings error:(out NSError **)outError;
+- (BOOL)setSettings:( in struct SecKeychainSettings *)newSettings error:(out NSError **)outError;
 
 /*!	@brief Gets the current status (locked state and writability) of the keychain.
  *
@@ -274,6 +300,7 @@
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
 - (SecKeychainStatus)status_error:(out NSError **)outError;
+
 /*!	@brief Gets the path to the keychain file.
  *
  *	@par
@@ -288,6 +315,7 @@
  *	@return \a outBuf.
  */
 - (char *)getPathFileSystemRepresentation:(out char *)outBuf length:(inout u_int32_t *)outLength error:(out NSError **)outError;
+
 /*!	@brief Gets the path to the keychain file as an \c NSString.
  *
  *	@par
@@ -304,8 +332,10 @@
  *	Wraps \c SecKeychainLock.
  *
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)lockKeychain_error:(out NSError **)outError;
+- (BOOL)lockKeychain_error:(out NSError **)outError;
+
 /*!	@brief Unlocks the keychain.
  *
  *	@par
@@ -318,6 +348,7 @@
  *	@return \c YES if the keychain was successfully unlocked; \c NO if the password was incorrect or an error occurred.
  */
 - (BOOL)unlockKeychain_error:(out NSError **)outError;
+
 /*!	@brief Unlocks the keychain with a specific password.
  *
  *	@par
@@ -342,10 +373,11 @@
  *	@par
  *	\c SecKeychainDelete will not delete a keychain unless it is a local file.
  *	Even if the keychain is successfully deleted, the \c AIKeychain instance will still be around until it has been released by all owners. You just won't be able to use it.
+ *	@return \c BOOL (Success/Failure)
  *
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-- (void)deleteKeychain_error:(out NSError **)outError;
+- (BOOL)deleteKeychain_error:(out NSError **)outError;
 
 #pragma mark -
 
@@ -356,7 +388,6 @@
  *	keychain item.
  */
 
-//------------------------------------------------------------------------------
 /*!	@brief Adds an Internet password.
  *
  *	@par
@@ -375,8 +406,9 @@
  *	@param authType The type of authentication to use.
  *	@param outKeychainItem On return, a pointer to the keychain item that was created and added. Can be \c NULL. If it is non-\c NULL, you are responsible for releasing the keychain item.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)addInternetPassword:(NSString *)password
+- (BOOL)addInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
 			 securityDomain:(NSString *)domain //can pass nil
 					account:(NSString *)account
@@ -400,14 +432,16 @@
  *	@param account The username of the account.
  *	@param protocol The protocol of the service via which authentication should occur.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)addInternetPassword:(NSString *)password
+- (BOOL)addInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
 					account:(NSString *)account
 				   protocol:(SecProtocolType)protocol
 					  error:(out NSError **)outError;
 
-//------------------------------------------------------------------------------
+#pragma mark -
+
 /*!	@brief Retrieves an Internet password.
  *
  *	@par
@@ -469,7 +503,8 @@
  */
 - (NSDictionary *)dictionaryFromKeychainForServer:(NSString *)server protocol:(SecProtocolType)protocol error:(out NSError **)outError;
 
-//------------------------------------------------------------------------------
+#pragma mark -
+
 /*!	@brief Adds, changes, or deletes an Internet password.
  *
  *	@par
@@ -490,8 +525,9 @@
  *	@param authType The type of authentication to use.
  *	@param outKeychainItem On return, a pointer to the keychain item that was created and added. Can be \c NULL.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)setInternetPassword:(NSString *)password
+- (BOOL)setInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
 			 securityDomain:(NSString *)domain //can pass nil
 					account:(NSString *)account
@@ -517,14 +553,15 @@
  *	@param account The username of the account.
  *	@param protocol The protocol of the service via which authentication should occur.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)setInternetPassword:(NSString *)password
+- (BOOL)setInternetPassword:(NSString *)password
 				  forServer:(NSString *)server
 					account:(NSString *)account
 				   protocol:(SecProtocolType)protocol
 					  error:(out NSError **)outError;
 
-//------------------------------------------------------------------------------
+#pragma mark -
 
 /*!	@brief Deletes an Internet password.
  *
@@ -540,8 +577,9 @@
  *	@param authType The type of authentication to use.
  *	@param outKeychainItem On return, a pointer to the keychain item that was created and added. Can be \c NULL.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)deleteInternetPasswordForServer:(NSString *)server
+- (BOOL)deleteInternetPasswordForServer:(NSString *)server
 						 securityDomain:(NSString *)domain //can pass nil
 								account:(NSString *)account
 								   path:(NSString *)path
@@ -560,8 +598,9 @@
  *	@param account The username of the account.
  *	@param protocol The protocol of the service via which authentication should occur.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)deleteInternetPasswordForServer:(NSString *)server
+- (BOOL)deleteInternetPasswordForServer:(NSString *)server
 								account:(NSString *)account
 							   protocol:(SecProtocolType)protocol
 								  error:(out NSError **)outError;
@@ -581,8 +620,9 @@
  *	@param account The username of the account.
  *	@param outKeychainItem On return, a pointer to the keychain item that was created and added. Can be \c NULL. If you pass non-\c NULL, you are responsible for releasing the keychain item.
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
+ *	@return \c BOOL (Success/Failure)
  */
-- (void)addGenericPassword:(NSString *)password
+- (BOOL)addGenericPassword:(NSString *)password
 				forService:(NSString *)service
 				   account:(NSString *)account
 			  keychainItem:(out SecKeychainItemRef *)outKeychainItem
@@ -614,9 +654,10 @@
 
  *	@param outError On return, a pointer to either \c nil (hopefully) or an \c NSError describing what went wrong.
  */
-- (void)deleteGenericPasswordForService:(NSString *)service
+- (BOOL)deleteGenericPasswordForService:(NSString *)service
 								account:(NSString *)account
 								  error:(out NSError **)outError;
+
 #pragma mark -
 
 /*!	@brief Returns the Keychain Services object that backs the \c AIKeychain.

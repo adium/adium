@@ -54,7 +54,7 @@
 - (void)_updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 - (void) toolbarDidAddItem:(NSToolbarItem *)item;
 
-- (void)toggleSecureMessaging:(id)sender;
+- (IBAction)toggleSecureMessaging:(id)sender;
 - (void)chatDidBecomeVisible:(NSNotification *)notification;
 - (void)dummyAction:(id)sender;
 @end
@@ -67,8 +67,8 @@
 	[adium.contentController setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
 
 	_secureMessagingMenu = nil;
-	lockImage_Locked = [[NSImage imageNamed:@"Lock_Locked State" forClass:[self class]] retain];
-	lockImage_Unlocked = [[NSImage imageNamed:@"Lock_Unlocked State" forClass:[self class]] retain];
+	lockImage_Locked = [[NSImage imageNamed:@"lock-locked" forClass:[self class]] retain];
+	lockImage_Unlocked = [[NSImage imageNamed:@"lock-unlocked" forClass:[self class]] retain];
 
 	[self registerToolbarItem];
 	[self configureMenuItems];
@@ -181,12 +181,11 @@
 	 * This will only be true when the toolbar is revealed for the first time having been hidden when window opened.
 	 */
 	if (![validatedItems containsObject:item]) {
-		NSEnumerator *enumerator = [[NSApp windows] objectEnumerator];
 		NSWindow	 *window;
 		NSToolbar	 *thisItemsToolbar = [item toolbar];
 		
 		//Look at each window to find the toolbar we are in
-		while ((window = [enumerator nextObject])) {
+		for (window in [NSApp windows]) {
 			if ([window toolbar] == thisItemsToolbar) break;
 		}
 		
@@ -285,11 +284,7 @@
 
 - (void)_updateToolbarIconOfChat:(AIChat *)chat inWindow:(NSWindow *)window
 {
-	NSToolbar		*toolbar = [window toolbar];
-	NSEnumerator	*enumerator = [[toolbar items] objectEnumerator];
-	NSToolbarItem	*item;
-	
-	while ((item = [enumerator nextObject])) {
+	for (NSToolbarItem *item in window.toolbar.items) {
 		if ([[item itemIdentifier] isEqualToString:@"Encryption"]) {
 			[self _updateToolbarItem:item forChat:chat];
 			break;

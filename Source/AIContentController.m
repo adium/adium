@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// $Id$
 
 #import "AIContentController.h"
 
@@ -376,7 +375,7 @@
 			}
 			
 			//Did send content
-			[adium.contactAlertsController generateEvent:[chat isGroupChat] ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
+			[adium.contactAlertsController generateEvent:chat.isGroupChat ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
 											 forListObject:listObject
 												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 							  previouslyPerformedActionIDs:nil];

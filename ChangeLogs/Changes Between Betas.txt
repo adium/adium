@@ -1,11 +1,110 @@
+Adium 1.5xx
+ General
+  * Can't change XMPP room settings for combo box settings (#15629).
+  * Fixed deletion of a Gadu-Gadu contact from contact list not being persistent (#9126).
+  * Fixed message view content not scrolled to bottom when opening and not scrolling when new content is added.
+
+ Localisation
+  * Updated localisations: Swedish (#15786).
+
+Adium 1.5rc4
+ * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
+ * Fixed message history only showing on 1st tab, on startup (#15377).
+ * Fixed message view jumps to the bottom when Twitter Timeline updates (#15790).
+ * Fixed the contact list shrinking when closing the search. (#14433)
+ * Fixed the Ukrainian localisation not being used on Mac OS X Lion (#15821).
+
+
+Adium 1.5rc3
+ General
+  * Fixed permission issues caused by previous release being built incorrectly.
+  * Blacklisted the Skype plugin in 1.5, as it's known to be broken.
+  * Restored LiveJournal connectivity by removing the hard-coded server name, they have an SRV record now.
+
+ Localisation
+  * Updated localisations: Italian (#15810, #15808).
+
+
+Adium 1.5rc2
+ General
+  * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
+  * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
+  * Fixed numerous memory leaks.
+  * Fixed numerous Clang Analyzer warnings.
+
+ Localisation
+  * Updated localisations: German (##15586, #15733), Greek, Swedish (#15786).
+  * Fixed localisation of a couple of emoticon names.
+
+
+Adium 1.5rc1
+ Localisation
+  * Updated localisations: Catalan (#15770), Chinese (Traditional), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772).
+  * Fixed typos/misspellings in Russian localisation. (#15769, #15571)
+
+ Transcript Viewer
+  * Fixed ghosting artifacts when scrolling transcript contents (while searching).
+  * Fixed a potential crash when the log index failed to initialize while trying to delete a log.
+  * Fixed a hang caused by two threads opening the same index simultaneously.
+
+ General
+  * Added Aqualicious Graphite, a new contact list theme to match Mac OS X's Graphite style.
+  * Added the generic menu items to the group chat cog button for XMPP groupchats.
+  * Fixed "Show Toolbar" showing as disabled and untranslated. (#15759)
+  * Fixed ghosting artifacts in the "Get Info" window's "Events" tab. (#12237)
+  * Fixed enable/disable "View Chat Transcripts" menu item, in group chats (user list) context menu.
+  * Chats can no longer refuse to quit when they're still processing content.
+  * Fixed AdiumAppleScriptRunner to enable building on Lion.
+  * Switched some adiumx.com links to adium.im.
+  * Fixed a bunch of non-integer view size values.
+
+
+Adium 1.5b9
+ General
+  * Fixed the contact list not remembering its position on Lion. (#15341, #15480)
+  * Fixed the message entry area being very large when Adium is first run.
+  * Fixed display of Google+ users that don't reveal their email address.
+  * Fixed some display issues with the user list when resizing a small chat window.(#15577)
+  * Make some labels look enabled/disabled like their respective checkbokes. (#15133)
+  * Updated Growl.framework to 1.3.1, fixing a potential crash. (#15728)
+  * New Adiumy menu bar icon set (by Igor Kryzhanovskyi).
+
+ Localisation
+  * Made additional strings localisable
+  * Widenened "Advanced" preferences and "Get Info" windows to accomodate longer translations. (#15712)
+  * Updated localisations: French (#15734), German (#15586, #15658), Portuguese (Portugal) (#15721), Swedish (#15726).
+ 
+ 
 Adium 1.5b8
- * Twitter: Use the non-truncated version of retweets if they are included. (#15226)
- * Fixed setting a global shortcut which used the letter "a". (#12013)
- * Disabled elastic scroll in the text input of the message view.
- * Disabled elastic scroll in Change User Picture Menu.
+ General
+  * Make sure opening chatlog files does not show a warning in Finder about opening downloaded files. (#15573)
+  * Refactoring of ESiTunesPlugin including:
+    * Use same menu in menu bar, context menu and toolbar.
+    * Fixed bug when replacing tokens with empty strings.
+    * Make tokens un-localizable.
+  * Fixed a potential crash when opening the Transcript Viewer. (#15556)
+  * Fixed setting a global shortcut which used the letter "a" (yet again). (#12013)
+
+ Interface
+  * Disabled elastic scroll in the text input of the message view.
+  * Disabled elastic scroll in Change User Picture Menu.
+
+ Libpurple
+  * Updated libpurple, with the following changes:
+    * Fixed double mail notifications on MSN. (#11199)
+    * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
+
+ Twitter
+  * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
+
+ Localisation
+  * Made non-localizable elements in ESStatusAdvancedPreferences localizable. (#15682)
+  * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
+
 
 Adium 1.5b7
  * Make sure nibs are not stripped so they can be localized.
+
 
 Adium 1.5b6
  * Fixed automatic updating between betas failing with the error "Can't make a temporary directory for the update download". (#15666)

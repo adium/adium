@@ -33,11 +33,14 @@
 #import <libpurple/si.h>
 #import <libpurple/chat.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#import "AMXMLConsoleController.h"
+#import "AIJabberConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
 #import "ESPurpleJabberAccountViewController.h"
 #import "AMPurpleJabberAdHocServer.h"
 #import "AMPurpleJabberAdHocPing.h"
+#import "AIMessageViewController.h"
+#import <Adium/AIMenuControllerProtocol.h>
+#import <AIUtilities/AIMenuAdditions.h>
 
 #define DEFAULT_JABBER_HOST @"@jabber.org"
 
@@ -122,6 +125,19 @@
 	}
 	
 	return supportedPropertyKeys;
+}
+
+- (PurpleAccount *)purpleAccount
+{
+	if (!account) {
+		/* Lets be optimistic and hope they've fixed their buggy server today.
+		 * Do this here, so we only do it once for every run of Adium.
+		 */
+		account = [super purpleAccount];
+		purple_account_set_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false);
+	}
+	
+	return account;
 }
 
 - (void)configurePurpleAccount
@@ -304,7 +320,8 @@
 	NSString	*contactServiceID = nil;
 
 	if ([contactUID hasSuffix:@"@gmail.com"] ||
-		[contactUID hasSuffix:@"@googlemail.com"]) {
+		[contactUID hasSuffix:@"@googlemail.com"] ||
+        [contactUID hasSuffix:@"@public.talk.google.com"]) {
 		contactServiceID = @"libpurple-jabber-gtalk";
 
 	} else if([contactUID hasSuffix:@"@livejournal.com"]){
@@ -343,32 +360,6 @@
 	}
 
 	return NULL;
-}
-
-- (void)purpleAccountRegistered:(BOOL)success
-{
-	if(success && [self.service accountViewController]) {
-		const char *usernamestr = purple_account_get_username(account);
-		NSString *username;
-		if (usernamestr) {
-			NSString *userWithResource = [NSString stringWithUTF8String:usernamestr];
-			NSRange slashrange = [userWithResource rangeOfString:@"/"];
-			if(slashrange.location != NSNotFound)
-				username = [userWithResource substringToIndex:slashrange.location];
-			else
-				username = userWithResource;
-		} else
-			username = (id)[NSNull null];
-
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
-												  object:self
-												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-													username, @"username",
-													pw, @"password",
-													nil]];
-	}
 }
 
 /*!
@@ -482,7 +473,13 @@
 		[self serverReportedInvalidPassword];
 		shouldAttemptReconnect = AIReconnectImmediately;
 	}
- 
+#ifdef HAVE_CDSA
+	else if (purple_account_get_bool([self purpleAccount],PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND,false) && disconnectionError &&
+			 [*disconnectionError isEqualToString:[NSString stringWithUTF8String:_("SSL Handshake Failed")]]) {
+		AILog(@"%@: Reconnecting immediately to try to work around buggy TLS stacks",self);
+		shouldAttemptReconnect = AIReconnectNormally;
+	}
+#endif
 	return shouldAttemptReconnect;
 }
 
@@ -664,6 +661,27 @@
   return NO;
 }
 
+- (NSMenu *)actionMenuForChat:(AIChat *)chat
+{
+	NSMenu *menu;
+	
+	NSArray *listObjects = chat.chatContainer.messageViewController.selectedListObjects;
+	AIListObject *listObject = nil;
+	
+	if (listObjects.count) {
+		listObject = [listObjects objectAtIndex:0];
+	}
+	
+	menu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
+															  [NSNumber numberWithInteger:Context_Contact_GroupChat_ParticipantAction],		
+															  [NSNumber numberWithInteger:Context_Contact_Manage],
+															  nil]
+											   forListObject:listObject
+													  inChat:chat];
+	
+	return menu;
+}
+
 #pragma mark Status
 /*!
  * @brief Return the purple status type to be used for a status
@@ -799,7 +817,7 @@
     [super didConnect];
 	
 	if ([self enableXMLConsole]) {
-		if (!xmlConsoleController) xmlConsoleController = [[AMXMLConsoleController alloc] init];
+		if (!xmlConsoleController) xmlConsoleController = [[AIJabberConsoleController alloc] init];
 		[xmlConsoleController setPurpleConnection:purple_account_get_connection(account)];
 	}
 

@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// $Id$
 
 #import "AILoginController.h"
 #import "AILoginWindowController.h"
@@ -86,12 +85,19 @@
 	
 	//Retrieve the desired user from the command line if possible
 	arguments = [[NSProcessInfo processInfo] arguments];
-	if (arguments && ([arguments count] > 1)) {
+	if (arguments && ([arguments count] >= 1)) {
 		
 		argumentIndex = [arguments indexOfObject:@"--user"];
 		if ((argumentIndex != NSNotFound) && ([arguments count] > argumentIndex + 1)) {
 			userName = [[[arguments objectAtIndex:argumentIndex+1] copy] autorelease];
 		}
+		
+#ifndef DEBUG_BUILD
+		argumentIndex = [arguments indexOfObject:@"--debug"];
+		if (argumentIndex != NSNotFound) {
+			AIEnableDebugLogging();
+		}
+#endif
 	}
 
     /*

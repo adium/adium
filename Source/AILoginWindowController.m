@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// $Id$
 
 #import "AILoginWindowController.h"
 #import <Adium/AILoginControllerProtocol.h>
@@ -165,6 +164,8 @@
 
 	[tableView_editableUserList reloadData];
 	[tableView_userList reloadData];
+	
+	[tableView_userList scrollRowToVisible:[tableView_userList selectedRow]];
 }
 
 // Add a new user

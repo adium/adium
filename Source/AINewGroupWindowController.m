@@ -30,28 +30,26 @@
  */
 @implementation AINewGroupWindowController
 
-/*!
- * @brief Prompt for a new group.
- *
- * @param parentWindow Window on which to show as a sheet. Pass nil for a panel prompt.
- */
-+ (AINewGroupWindowController *)promptForNewGroupOnWindow:(NSWindow *)parentWindow
+- (id)init
 {
-	AINewGroupWindowController	*newGroupWindowController;
+	if (self = [super initWithWindowNibName:ADD_GROUP_PROMPT_NIB]) {
+		
+	}
 	
-	newGroupWindowController = [[self alloc] initWithWindowNibName:ADD_GROUP_PROMPT_NIB];
-	
+	return self;
+}
+
+- (void)showOnWindow:(NSWindow *)parentWindow
+{
 	if (parentWindow) {
-		[NSApp beginSheet:[newGroupWindowController window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:newGroupWindowController
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[newGroupWindowController showWindow:nil];
+		[self showWindow:nil];
 	}
-	
-	return newGroupWindowController;
 }
 
 /*!
@@ -78,6 +76,14 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewGroupWindowControllerDidEnd"
 											  object:sheet];
     [sheet orderOut:nil];
+	[self autorelease];
+}
+
+- (void)windowWillClose:(id)sender
+{
+	[super windowWillClose:sender];
+	
+	[self autorelease];
 }
 
 /*!

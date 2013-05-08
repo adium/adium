@@ -24,6 +24,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
@@ -76,11 +77,9 @@
 	internalObjectID = [inInternalObjectID retain];
 
     if ((self = [super initWithUID:inUID service:inService])) {
-		NSString	*accountModifiedUID;
-		
 		isTemporary = NO;
 		
-		accountModifiedUID = [self accountWillSetUID:UID];
+		[self accountWillSetUID:UID];
 
 		//Register the defaults
 		static NSDictionary	*defaults = nil;
@@ -1358,7 +1357,7 @@
 			[adium.contentController receiveContentObject:newStatusMessage];
 			
 			if (chat.isGroupChat)
-				[chat removeAllParticipatingContactsSilently];
+				[(AIGroupChat *)chat removeAllParticipatingContactsSilently];
 		}
 	}
 	

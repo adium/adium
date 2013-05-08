@@ -24,44 +24,39 @@
 #import <Adium/AIListOutlineView.h>
 
 @interface AIListThemeWindowController ()
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget;
+
 - (void)configureControls;
 - (void)configureControlDimming;
 - (void)updateSliderValues;
 - (void)configureBackgroundColoring;
 - (NSMenu *)displayImageStyleMenu;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+
 @end
 
 @implementation AIListThemeWindowController
 
-+ (id)editListThemeWithName:(NSString *)inName onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget
+- (void)showOnWindow:(id)parentWindow
 {
-	AIListThemeWindowController	*listThemeWindow = [[self alloc] initWithWindowNibName:@"ListThemeSheet"
-																				  name:inName
-																	   notifyingTarget:inTarget];
-	
 	if (parentWindow) {
-		[NSApp beginSheet:[listThemeWindow window]
+		[NSApp beginSheet:self.window
 		   modalForWindow:parentWindow
-			modalDelegate:listThemeWindow
+			modalDelegate:self
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[listThemeWindow showWindow:nil];
+		[self showWindow:nil];
 	}
-	
-	return listThemeWindow;
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget
+- (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget
 {
-    [super initWithWindowNibName:windowNibName];	
+    if ((self = [super initWithWindowNibName:@"ListThemeSheet"])) {	
+		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listThemeEditorWillCloseWithChanges:forThemeNamed:)]);
 	
-	NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listThemeEditorWillCloseWithChanges:forThemeNamed:)]);
-	
-	target = inTarget;
-	themeName = [inName retain];
+		target = inTarget;
+		themeName = [inName retain];
+	}
 	
 	return self;
 }
@@ -72,12 +67,11 @@
     [super dealloc];
 }
 
-
-//Window Methods -------------------------------------------------------------------------------------------------------
 #pragma mark Window Methods
+
 - (void)windowDidLoad
 {
-	//Allow alpha in our color pickers
+	// Allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];	
 
 	[self configureControls];
@@ -85,20 +79,27 @@
 	[textField_themeName setStringValue:(themeName ? themeName : @"")];
 }
 
-//Called as the sheet closes, dismisses the sheet
+// Called as the sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 	
 	[[NSColorPanel sharedColorPanel] close];
 	
-	//No longer allow alpha in our color pickers
+	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
 	
 	[self autorelease];
 }
 
-//Cancel
+- (void)windowWillClose:(id)sender
+{
+	[super windowWillClose:sender];
+	
+	[self autorelease];
+}
+
+// Cancel
 - (IBAction)cancel:(id)sender
 {
 	[target listThemeEditorWillCloseWithChanges:NO forThemeNamed:themeName];
@@ -111,13 +112,13 @@
 	[self closeWindow:sender];
 }
 
+#pragma mark Window Methods
 
-//Window Methods -------------------------------------------------------------------------------------------------------
 - (void)configureControls
 {
-    NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_THEME];
+    NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_THEME];
 
-	//Colors
+	// Colors
     [colorWell_away setColor:[[prefDict objectForKey:KEY_AWAY_COLOR] representedColor]];
     [colorWell_idle setColor:[[prefDict objectForKey:KEY_IDLE_COLOR] representedColor]];
     [colorWell_signedOff setColor:[[prefDict objectForKey:KEY_SIGNED_OFF_COLOR] representedColor]];
@@ -148,7 +149,7 @@
     [checkBox_idleAndAway setState:[[prefDict objectForKey:KEY_IDLE_AWAY_ENABLED] boolValue]];
     [checkBox_offline setState:[[prefDict objectForKey:KEY_OFFLINE_ENABLED] boolValue]];
 	
-	//Groups
+	// Groups
 	[colorWell_groupText setColor:[[prefDict objectForKey:KEY_LIST_THEME_GROUP_TEXT_COLOR] representedColor]];
 	[colorWell_groupBackground setColor:[[prefDict objectForKey:KEY_LIST_THEME_GROUP_BACKGROUND] representedColor]];
 	[colorWell_groupBackgroundGradient setColor:[[prefDict objectForKey:KEY_LIST_THEME_GROUP_BACKGROUND_GRADIENT] representedColor]];
@@ -159,21 +160,29 @@
 	//
     [colorWell_statusText setColor:[[prefDict objectForKey:KEY_LIST_THEME_CONTACT_STATUS_COLOR] representedColor]];
 	
-	//Background Image
+	// Background Image
 	[checkBox_useBackgroundImage setState:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_ENABLED] boolValue]];
 	[checkBox_useBackgroundImage setToolTip:AILocalizedString(@"Background images are only applicable to normal and borderless window styles", nil)];
 	NSString *backgroundImagePath = [[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_PATH] lastPathComponent];
-	if (backgroundImagePath) [textField_backgroundImagePath setStringValue:backgroundImagePath];
+	
+	if (backgroundImagePath) {
+		[textField_backgroundImagePath setStringValue:backgroundImagePath];
+	}
 	
 	//
     [colorWell_background setColor:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_COLOR] representedColor]];
 
-    //not all themes have highlight colours
+    // Not all themes have highlight colours
     NSColor *color = [[prefDict objectForKey:KEY_LIST_THEME_HIGHLIGHT_COLOR] representedColor];
-	if (color) [colorWell_customHighlight setColor:color];
-    [colorWell_grid setColor:[[prefDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];	
+	
+	if (color) {
+		[colorWell_customHighlight setColor:color];
+	}
+    
+	[colorWell_grid setColor:[[prefDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];	
 	[slider_backgroundFade setDoubleValue:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] doubleValue]];
-	//not all themes have the draw-custom-highlight setting
+	
+	// Not all themes have the draw-custom-highlight setting
 	NSNumber *number = [prefDict objectForKey:KEY_LIST_THEME_HIGHLIGHT_ENABLED];
 	[checkBox_drawCustomHighlight setState:number ? [number boolValue] : NSOffState];
 	[checkBox_drawGrid setState:[[prefDict objectForKey:KEY_LIST_THEME_GRID_ENABLED] boolValue]];
@@ -452,7 +461,7 @@
 	[self configureControlDimming];
 }
 
-//Prompt for an image to use
+// Prompt for an image to use
 - (IBAction)selectBackgroundImage:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -464,7 +473,9 @@
 		[adium.preferenceController setPreference:filename
 											 forKey:KEY_LIST_THEME_BACKGROUND_IMAGE_PATH
 											  group:PREF_GROUP_LIST_THEME];
-		if (filename) [textField_backgroundImagePath setStringValue:filename];
+		if (filename) {
+			[textField_backgroundImagePath setStringValue:filename];
+		}
 	}
 }
 
@@ -473,13 +484,13 @@
 	[textField_backgroundFade setStringValue:[NSString stringWithFormat:@"%ld%%", (NSInteger)([slider_backgroundFade doubleValue] * 100.0)]];
 }
 
-//Configure control dimming
+// Configure control dimming
 - (void)configureControlDimming
 {
-	NSInteger		backStatus = [checkBox_backgroundAsStatus state];
-	NSInteger		backEvent = [checkBox_backgroundAsEvents state];
+	NSInteger backStatus = [checkBox_backgroundAsStatus state];
+	NSInteger backEvent = [checkBox_backgroundAsEvents state];
 	
-	//Enable/Disable status color wells
+	// Enable/Disable status color wells
     [colorWell_away setEnabled:[checkBox_away state]];
     [colorWell_awayLabel setEnabled:([checkBox_away state] && backStatus)];
     [colorWell_idle setEnabled:[checkBox_idle state]];
@@ -491,7 +502,7 @@
 	[colorWell_offline setEnabled:[checkBox_offline state]];
     [colorWell_offlineLabel setEnabled:([checkBox_offline state] && backStatus)];
 	
-	//Enable/Disable event color wells
+	// Enable/Disable event color wells
     [colorWell_signedOff setEnabled:[checkBox_signedOff state]];
     [colorWell_signedOffLabel setEnabled:([checkBox_signedOff state] && backEvent)];	
     [colorWell_signedOn setEnabled:[checkBox_signedOn state]];
@@ -501,18 +512,18 @@
     [colorWell_unviewedContent setEnabled:[checkBox_unviewedContent state]];
     [colorWell_unviewedContentLabel setEnabled:([checkBox_unviewedContent state] && backEvent)];
 	
-	//Background image
+	// Background image
 	[button_setBackgroundImage setEnabled:[checkBox_useBackgroundImage state]];
 	[textField_backgroundImagePath setEnabled:[checkBox_useBackgroundImage state]];
 	[popUp_displayImageStyle setEnabled:[checkBox_useBackgroundImage state]];
 }
 
-//Update the previews for our background coloring toggles
+// Update the previews for our background coloring toggles
 - (void)configureBackgroundColoring
 {
 	NSColor	*color;
 	
-	//Status
+	// Status
 	color = ([checkBox_backgroundAsStatus state] ? nil : [colorWell_background color]);
 	[preview_away setBackColorOverride:color];
 	[preview_idle setBackColorOverride:color];
@@ -520,14 +531,14 @@
 	[preview_idleAndAway setBackColorOverride:color];
 	[preview_offline setBackColorOverride:color];
 	
-	//Events
+	// Events
 	color = ([checkBox_backgroundAsEvents state] ? nil : [colorWell_background color]);
 	[preview_signedOff setBackColorOverride:color];
 	[preview_signedOn setBackColorOverride:color];
 	[preview_typing setBackColorOverride:color];
 	[preview_unviewedContent setBackColorOverride:color];
 	
-	//Redisplay
+	// Redisplay
 	[preview_away setNeedsDisplay:YES];
 	[preview_idle setNeedsDisplay:YES];
 	[preview_online setNeedsDisplay:YES];

@@ -18,16 +18,18 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AICompletingTextField.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIService.h>
+#import <AIUtilities/AIImageTextCell.h>
+
+#define MINIMUM_ROW_HEIGHT				34
+#define MINIMUM_CELL_SPACING			 4
 
 @interface RAFBlockEditorWindowController ()
-- (NSMenu *)privacyOptionsMenu;
 - (AIAccount<AIAccount_Privacy> *)selectedAccount;
 - (void)configureTextField;
 - (NSSet *)contactsFromTextField;
@@ -35,112 +37,135 @@
 - (void)privacySettingsChangedExternally:(NSNotification *)inNotification;
 - (void)runBlockSheet;
 - (void)removeSelection;
+- (void)accountListChanged:(NSNotification *)note;
+- (void)addObject:(AIListContact *)inContact;
+- (void)addListObjectToList:(AIListObject *)listObject;
 @end
 
 @implementation RAFBlockEditorWindowController
+@synthesize sheet;
+@synthesize accountTable, contactTable;
+@synthesize privacyLevel;
+@synthesize label_information, label_contact, label_blockInformation;
+@synthesize addRemoveContact, addContactField, addContact, cancelSheet;
 
 static RAFBlockEditorWindowController *sharedInstance = nil;
 
 + (void)showWindow
 {	
-	if (!sharedInstance) {
-		sharedInstance = [[self alloc] initWithWindowNibName:@"BlockEditorWindow"];
-	}
-
-	[sharedInstance showWindow:nil];
-	[[sharedInstance window] makeKeyAndOrderFront:nil];
+	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Privacy"];
 }
 
-- (void)windowDidLoad
+/*!
+ * @brief Preference pane properties
+ */
+- (AIPreferenceCategory)category{
+	return AIPref_Advanced;
+}
+- (NSString *)paneIdentifier{
+	return @"Privacy";
+}
+- (NSString *)paneName{
+    return AILocalizedString(@"Privacy",nil);
+}
+- (NSImage *)paneIcon{
+	return [NSImage imageNamed:@"msg-block-contact" forClass:[self class]];
+}
+- (NSString *)nibName{
+    return @"Preferences-Privacy";
+}
+
+- (void)localizePane
 {
-	[[self window] setTitle:AILocalizedString(@"Privacy Settings", nil)];
-	[cancelButton setLocalizedString:AILocalizedString(@"Cancel","Cancel button for Privacy Settings")];
-	[blockButton setLocalizedString:AILocalizedString(@"Add","Add button for Privacy Settings")];
-	[[buddyCol headerCell] setTitle:AILocalizedString(@"Contact","Title of column containing user IDs of blocked contacts")];
-	[[accountCol headerCell] setTitle:AILocalizedString(@"Account","Title of column containing blocking accounts")];
-	[accountText setLocalizedString:AILocalizedString(@"Account:",nil)];
+	[cancelSheet setLocalizedString:AILocalizedString(@"Cancel","Cancel button for Privacy Settings")];
+	[addContact setLocalizedString:AILocalizedString(@"Add","Add button for Privacy Settings")];
+	[[[contactTable tableColumnWithIdentifier:@"contact"] headerCell] setStringValue:AILocalizedString(@"Contact","Title of column containing user IDs of blocked contacts")];
+	[label_blockInformation setLocalizedString:AILocalizedString(@"Add a contact to block.",nil)];
 
-	{
-		//Let the min X margin be resizeable while label_account and label_privacyLevel localize in case the window moves
-		[stateChooser setAutoresizingMask:(NSViewMinYMargin | NSViewMinXMargin)];
-		[popUp_accounts setAutoresizingMask:(NSViewMinYMargin | NSViewMinXMargin)];
+	[[privacyLevel cellWithTag:AIPrivacyOptionAllowAll] setTitle:AILocalizedString(@"Allow anyone", @"Privacy blocking option")];
+	[[privacyLevel cellWithTag:AIPrivacyOptionAllowContactList] setTitle:AILocalizedString(@"Allow only contacts on my contact list", @"Privacy blocking option")];
+	[[privacyLevel cellWithTag:AIPrivacyOptionAllowUsers] setTitle:AILocalizedString(@"Allow only certain contacts", @"Privacy blocking option")];
+	[[privacyLevel cellWithTag:AIPrivacyOptionDenyUsers] setTitle:AILocalizedString(@"Block certain contacts", @"Privacy blocking option")];
+}
 
-		//Keep label_privacyLevel in place, too, while label_account potentially resizes the window
-		[label_privacyLevel setAutoresizingMask:(NSViewMinYMargin | NSViewMinXMargin)];
-		[label_account setLocalizedString:AILocalizedString(@"Account:",nil)];
-		[label_privacyLevel setAutoresizingMask:(NSViewMinYMargin | NSViewMaxXMargin)];
-		//Account is in place; popUp_accounts can width-resize again
-		[popUp_accounts setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
-
-		[label_privacyLevel setLocalizedString:AILocalizedString(@"Privacy level:", nil)];		
-		[stateChooser setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
-	}
-
-	accountColumnsVisible = YES;
-	[accountCol retain];
+- (void)viewDidLoad
+{
+	//Setup tables
+	AIImageTextCell *cell;
+	cell = [[AIImageTextCell alloc] init];
+	[cell setFont:[NSFont systemFontOfSize:12]];
+	[[accountTable tableColumnWithIdentifier:@"account"] setDataCell:cell];
+	[cell release];
+	
+	cell = [[AIImageTextCell alloc] init];
+	[cell setFont:[NSFont systemFontOfSize:12]];
+	[[contactTable tableColumnWithIdentifier:@"contact"] setDataCell:cell];
+	[cell release];
 
 	listContents = [[NSMutableArray alloc] init];
+	[self accountListChanged:nil];
 
-	[stateChooser setMenu:[self privacyOptionsMenu]];
-
-	[[table tableColumnWithIdentifier:@"icon"] setDataCell:[[[NSImageCell alloc] init] autorelease]];
-	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
-											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
-	[table registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListObject", @"AIListObjectUniqueIDs",nil]];
+	[contactTable registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListObject", @"AIListObjectUniqueIDs",nil]];
+	[accountTable selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(privacySettingsChangedExternally:)
-									   name:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
-									 object:nil];
+											 selector:@selector(privacySettingsChangedExternally:)
+												 name:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(accountListChanged:) 
+												 name:Account_ListChanged 
+											   object:nil];
 
-	// Force an update, so the window will resize properly.
-	[self accountMenu:accountMenu didSelectAccount:[self selectedAccount]];	
-	
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
-
-	[super windowDidLoad];
 }
 
-- (void)windowWillClose:(id)sender
+- (void)updateAccountSelection
 {
-	[super windowWillClose:sender];
+	AIAccount<AIAccount_Privacy> *account = [self selectedAccount];
+	BOOL hasPrivacy = [account respondsToSelector:@selector(privacyOptions)];
+	BOOL online = (account && account.online && hasPrivacy);
 
-	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
+	//Control dimming
+	[privacyLevel setEnabled:online];
+	[contactTable setEnabled:online];
+	[addRemoveContact setEnabled:online];
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[sharedInstance release]; sharedInstance = nil;
-}
+	if (!hasPrivacy)
+		[label_information setStringValue:AILocalizedString(@"Account does not support privacy settings.", nil)];
+	else if (!online)
+		[label_information setStringValue:AILocalizedString(@"Account is offline.", nil)];
+	else
+		[label_information setStringValue:@""];
 
-- (NSString *)adiumFrameAutosaveName
-{
-	return @"PrivacyWindow";
+	if (listContents.count > 0) {
+		[listContents release];
+		listContents = [[NSMutableArray alloc] init];
+		[contactTable reloadData];
+	}
+
+	if (online) {
+		AIPrivacyOption privacyOption = [account privacyOptions];
+		
+		[listContents addObjectsFromArray:[account listObjectsOnPrivacyList:((privacyOption == AIPrivacyOptionAllowUsers) ?
+																			 AIPrivacyTypePermit :
+																			 AIPrivacyTypeDeny)]];
+		
+		[privacyLevel selectCellWithTag:privacyOption];
+		[self setPrivacyOption:nil];
+	}
 }
 
 - (void)dealloc
 {
-	[accountCol release];
-	[accountMenu release];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[sharedInstance release]; sharedInstance = nil;
 	[listContents release];
-	[listContentsAllAccounts release];
 	
 	[super dealloc];
 }
-
-- (NSMutableArray*)listContents
-{
-	return listContents;
-}
-
-- (void)setListContents:(NSArray*)newList
-{
-	if (newList != listContents) {
-		[listContents release];
-		listContents = [newList mutableCopy];
-	}
-}
-
 
 - (IBAction)addOrRemoveBlock:(id)sender
 {
@@ -156,54 +181,23 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 }
 
-#pragma mark Adding a contact to the list
-
-- (void)selectAccountInSheet:(AIAccount *)inAccount
-{
-	[popUp_sheetAccounts selectItemWithRepresentedObject:inAccount];
-	[self configureTextField];
-	
-	NSString	*userNameLabel = [inAccount.service userNameLabel];
-	
-	[accountText setAutoresizingMask:NSViewMinXMargin];
-	[buddyText setLocalizedString:[(userNameLabel ?
-									userNameLabel : AILocalizedString(@"Contact ID",nil)) stringByAppendingString:AILocalizedString(@":", "Colon which will be appended after a label such as 'User Name', before an input field")]];
-	[accountText setAutoresizingMask:NSViewMaxXMargin];
-}
+#pragma mark - Adding a contact to the list
 
 - (void)runBlockSheet
 {
-	[field setStringValue:@""];
-	
-	sheetAccountMenu = [[AIAccountMenu accountMenuWithDelegate:self
-												   submenuType:AIAccountNoSubmenu
-												showTitleVerbs:NO] retain];
-	[self selectAccountInSheet:[[popUp_sheetAccounts selectedItem] representedObject]];
-	
-	[NSApp beginSheet:sheet 
-	   modalForWindow:[self window]
+	[self configureTextField];
+
+	[NSApp beginSheet:sheet
+	   modalForWindow:self.view.window
 		modalDelegate:self 
-	   didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+	   didEndSelector:nil
 		  contextInfo:nil];
 }
 
-
 - (IBAction)cancelBlockSheet:(id)sender
 {
-    [NSApp endSheet:sheet];
-}
-
-- (void)addObject:(AIListContact *)inContact
-{
-	if (inContact) {
-		if (![listContents containsObject:inContact]) {
-			[listContents addObject:inContact];
-		}
-		
-		[inContact setIsOnPrivacyList:YES updateList:YES privacyType:(([self selectedPrivacyOption] == AIPrivacyOptionAllowUsers) ?
-																	  AIPrivacyTypePermit :
-																	  AIPrivacyTypeDeny)];	
-	}
+	[sheet orderOut:nil];
+	[NSApp endSheet:sheet];
 }
 
 - (IBAction)didBlockSheet:(id)sender
@@ -218,17 +212,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 			[self addObject:contact];
 		}
 		
-		[table reloadData];
+		[contactTable reloadData];
 	}
 
-    [NSApp endSheet:sheet];
-}
-
-
-- (void)didEndSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheetAccountMenu release]; sheetAccountMenu = nil;
-    [theSheet orderOut:self];
+	[NSApp endSheet:sheet];
 }
 
 /*!
@@ -240,38 +227,14 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 {
 	AIListContact	*contact = nil;
 	NSString		*UID = nil;
-	AIAccount		*account = [[popUp_sheetAccounts selectedItem] representedObject];;
-	NSArray			*accountArray;
+	AIAccount		*account = [self selectedAccount];
 	NSMutableSet	*contactsSet = [NSMutableSet set];
-	NSEnumerator	*enumerator;
-	id				impliedValue = [field impliedValue];
+	id				impliedValue = [addContactField impliedValue];
 
 	if (account) {
-		accountArray = [NSArray arrayWithObject:account];
-	} else {
-		//All accounts
-		NSMutableArray	*tempArray = [NSMutableArray array];
-		NSMenuItem		*menuItem;
-		
-		enumerator = [[[popUp_sheetAccounts menu] itemArray] objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
-			AIAccount *anAccount;
-			
-			if ((anAccount = [menuItem representedObject])) {
-				[tempArray addObject:anAccount];
-			}
-		}
-		
-		accountArray = tempArray;
-	}
-
-	for (account in accountArray) {
 		if ([impliedValue isKindOfClass:[AIMetaContact class]]) {
-			AIListContact *containedContact;
-			NSEnumerator *contactEnumerator = [[(AIMetaContact *)impliedValue listContactsIncludingOfflineAccounts] objectEnumerator];
-			
-			while ((containedContact = [contactEnumerator nextObject])) {
-				/* For each contact contained my the metacontact, check if its service class matches the current account's.
+			for (AIListContact *containedContact in [(AIMetaContact *)impliedValue listContactsIncludingOfflineAccounts]) {
+				/* For each contact contained in the metacontact, check if its service class matches the current account's.
 				 * If it does, add that contact to our list, using the contactController to get an AIListContact specific for the account.
 				 */
 				if ([containedContact.service.serviceClass isEqualToString:account.service.serviceClass]) {
@@ -308,31 +271,28 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (void)configureTextField
 {
-	AIAccount *account = [[popUp_sheetAccounts selectedItem] representedObject];
-	NSEnumerator		*enumerator;
-    AIListContact		*contact;
-	
+	[addContactField setStringValue:@""];
+
 	//Clear the completing strings
-	[field setCompletingStrings:nil];
+	[addContactField setCompletingStrings:nil];
 	
 	//Configure the auto-complete view to autocomplete for contacts matching the selected account's service
-    enumerator = [adium.contactController.allContacts objectEnumerator];
-    while ((contact = [enumerator nextObject])) {
-		if (!account ||
-			contact.service == account.service) {
+	AIAccount *account = [self selectedAccount];
+    for (AIListContact *contact in adium.contactController.allContacts) {
+		if (!account || contact.service == account.service) {
 			NSString *UID = contact.UID;
-			[field addCompletionString:contact.formattedUID withImpliedCompletion:UID];
-			[field addCompletionString:contact.displayName withImpliedCompletion:UID];
-			[field addCompletionString:UID];
+			[addContactField addCompletionString:contact.formattedUID withImpliedCompletion:UID];
+			[addContactField addCompletionString:contact.displayName withImpliedCompletion:UID];
+			[addContactField addCompletionString:UID];
 		}
     }
 }
 
-#pragma mark Removing a contact from the  list
+#pragma mark - Removing a contact from the list
 
 - (void)removeSelection
 {
-	NSIndexSet		*selectedItems = [table selectedRowIndexes];
+	NSIndexSet		*selectedItems = [contactTable selectedRowIndexes];
 	
 	// If there's anything selected..
 	if ([selectedItems count]) {
@@ -348,8 +308,8 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 			[listContents removeObject:contact];
 		}
 		
-		[table reloadData];
-		[table deselectAll:nil];
+		[contactTable reloadData];
+		[contactTable deselectAll:nil];
 	}
 
 }
@@ -359,68 +319,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[self removeSelection];
 }
 
-- (void)setAccountColumnsVisible:(BOOL)visible
-{
-	if (accountColumnsVisible != visible) {
-		if (visible) {
-			[table addTableColumn:accountCol];
-		} else {
-			[table removeTableColumn:accountCol];			
-		}
-
-		[table sizeToFit];
-		accountColumnsVisible = visible;
-	}
-}
-#pragma mark Privacy options menu
-
-- (NSMenu *)privacyOptionsMenu
-{
-	//build the menu of states
-	NSMenu *stateMenu = [[NSMenu alloc] init];
-
-	NSMenuItem *menuItem;
-	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow anyone", nil) 
-										  action:NULL
-								   keyEquivalent:@""];
-	[menuItem setTag:AIPrivacyOptionAllowAll];
-	[stateMenu addItem:menuItem];
-	[menuItem release];
-
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow only contacts on my contact list", nil) 
-										  action:NULL
-								   keyEquivalent:@""];
-	[menuItem setTag:AIPrivacyOptionAllowContactList];
-	[stateMenu addItem:menuItem];
-	[menuItem release];
-
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow only certain contacts", nil) 
-										  action:NULL
-								   keyEquivalent:@""];
-	[menuItem setTag:AIPrivacyOptionAllowUsers];
-	[stateMenu addItem:menuItem];
-	[menuItem release];
-
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Block certain contacts", nil) 
-										  action:NULL
-								   keyEquivalent:@""];
-	[menuItem setTag:AIPrivacyOptionDenyUsers];
-	[stateMenu addItem:menuItem];
-	[menuItem release];
-
-	/*
-	tmpItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Custom settings for each account", nil) action:NULL keyEquivalent:@""];
-	[tmpItem setRepresentedObject:[NSNumber numberWithInt:AIPrivacyOptionCustom]];
-	[stateMenu addItem:[tmpItem autorelease]];
-	*/
-
-	return [stateMenu autorelease];
-}
-
 - (AIPrivacyOption)selectedPrivacyOption
 {
-	return (AIPrivacyOption)[[stateChooser selectedItem] tag];
+	return (AIPrivacyOption)[privacyLevel selectedTag];
 }
 
 /*!
@@ -433,78 +334,8 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	AIAccount<AIAccount_Privacy> *account = [self selectedAccount];
 	AIPrivacyOption privacyOption = [self selectedPrivacyOption];
 
-	//First, let's get the right tab view selected
-	switch (privacyOption) {
-		case AIPrivacyOptionAllowAll:
-		case AIPrivacyOptionAllowContactList:
-		case AIPrivacyOptionCustom:
-			if (![[[tabView_contactList selectedTabViewItem] identifier] isEqualToString:@"empty"]) {
-				[tabView_contactList selectTabViewItemWithIdentifier:@"empty"];
-				[tabView_contactList setHidden:YES];
-
-				NSRect frame = [[self window] frame];
-				CGFloat tabViewHeight = [tabView_contactList frame].size.height;
-				frame.size.height -= tabViewHeight;
-				frame.origin.y += tabViewHeight;
-				
-				//Don't resize vertically now...
-				[tabView_contactList setAutoresizingMask:NSViewWidthSizable];
-
-				[[self window] setMinSize:NSMakeSize(250, frame.size.height)];
-				[[self window] setMaxSize:NSMakeSize(CGFLOAT_MAX, frame.size.height)];
-				
-				AILog(@"Because of privacy option %i, resizing from %@ to %@",privacyOption,
-					  NSStringFromRect([[self window] frame]),NSStringFromRect(frame));
-				[[self window] setFrame:frame display:YES animate:YES];
-			}
-			break;
-			
-		case AIPrivacyOptionAllowUsers:
-		case AIPrivacyOptionDenyUsers:
-			if (![[[tabView_contactList selectedTabViewItem] identifier] isEqualToString:@"list"]) {
-				[tabView_contactList selectTabViewItemWithIdentifier:@"list"];
-
-				NSRect frame = [[self window] frame];
-				CGFloat tabViewHeight = [tabView_contactList frame].size.height;
-				frame.size.height += tabViewHeight;
-				frame.origin.y -= tabViewHeight;
-				
-				[[self window] setMinSize:NSMakeSize(250, 320)];
-				[[self window] setMaxSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)];
-				
-				//Set frame after fixing our min/max size so the resize won't fail
-				AILog(@"Because of privacy option %i, resizing from %@ to %@",privacyOption,
-					  NSStringFromRect([[self window] frame]),NSStringFromRect(frame));
-				[[self window] setFrame:frame display:YES animate:YES];
-
-				[tabView_contactList setHidden:NO];
-
-				//Allow resizing vertically again
-				[tabView_contactList setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-			}
-			break;
-		case AIPrivacyOptionDenyAll:
-		case AIPrivacyOptionUnknown:
-			NSLog(@"We should never see these...");
-			break;
-	}
-	
-	if (sender) {
-		if (account) {
-			[account setPrivacyOptions:privacyOption];
-			
-		} else {
-			NSEnumerator	*enumerator = [[[popUp_accounts menu] itemArray] objectEnumerator];
-			NSMenuItem						*menuItem;
-			AIAccount<AIAccount_Privacy>	*representedAccount;
-
-			while ((menuItem = [enumerator nextObject])) {
-				if ((representedAccount = [menuItem representedObject])) {
-					[representedAccount setPrivacyOptions:privacyOption];
-				}
-			}
-		}
-	}
+	if (sender && account)
+		[account setPrivacyOptions:privacyOption];
 	
 	//Now make our listContents array match the serverside arrays for the selected account(s)
 	[listContents removeAllObjects];
@@ -513,332 +344,106 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		if (account) {
 			[listContents addObjectsFromArray:[account listObjectsOnPrivacyList:((privacyOption == AIPrivacyOptionAllowUsers) ?
 																				 AIPrivacyTypePermit :
-																				 AIPrivacyTypeDeny)]];		
-		} else {
-			NSEnumerator					*enumerator = [[[popUp_accounts menu] itemArray] objectEnumerator];
-			NSMenuItem						*menuItem;
-			AIAccount<AIAccount_Privacy>	*representedAccount;
-
-			while ((menuItem = [enumerator nextObject])) {
-				if ((representedAccount = [menuItem representedObject])) {
-					[listContents addObjectsFromArray:[representedAccount listObjectsOnPrivacyList:((privacyOption == AIPrivacyOptionAllowUsers) ?
-																									AIPrivacyTypePermit :
-																									AIPrivacyTypeDeny)]];		
-				}
-			}
+																				 AIPrivacyTypeDeny)]];
 		}
 	}
 
-	[table reloadData];
+	[contactTable reloadData];
 }
 
 - (void)selectPrivacyOption:(AIPrivacyOption)privacyOption
 {
-	BOOL success = [stateChooser selectItemWithTag:privacyOption];
-	if (privacyOption == AIPrivacyOptionCustom) {
-		if (!success) {
-			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"(Multiple privacy levels are active)", nil) 
-															  action:NULL
-													   keyEquivalent:@""];
-			[menuItem setTag:AIPrivacyOptionCustom];
-			[[stateChooser menu] addItem:menuItem];
-			[menuItem release];
-			
-			success = [stateChooser selectItemWithTag:privacyOption];
-		}
-
-	} else {
-		//Not on custom; make sure custom isn't still in the menu
-		NSInteger customItemIndex = [stateChooser indexOfItemWithTag:AIPrivacyOptionCustom];
-		if (customItemIndex != -1) {
-			[[stateChooser menu] removeItemAtIndex:customItemIndex];
-		}
-	}
-
+	[privacyLevel selectCellWithTag:privacyOption];
 	//Now update our view for this privacy option
 	[self setPrivacyOption:nil];
 }
 
-#pragma mark Account menu
+#pragma mark - Account Settings
 /*!
  * @brief Return the currently selected account, or nil if the 'All' item is selected
  */
 - (AIAccount<AIAccount_Privacy> *)selectedAccount
 {
-	return [[popUp_accounts selectedItem] representedObject];
+	if ([accountTable selectedRow] >= 0)
+		return [accountArray objectAtIndex:[accountTable selectedRow]];
+	return nil;
 }
 
-/*!
- * @brief Action called when the account selection changes
- *
- * Update our view and the privacy option menu to be appropriate for the newly selected account.
- * This may be called with a sender of nil by code elsewhere to force an update
- */
-- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
+- (void)accountListChanged:(NSNotification *)note
 {
-	if (inAccountMenu == accountMenu) {
-		AIAccount<AIAccount_Privacy> *account = [self selectedAccount];
-		if (account) {
-			//Selected an account
-			AIPrivacyOption privacyOption = [account privacyOptions];
-			
-			//Don't need the account column when we're showing for just one account
-			[self setAccountColumnsVisible:NO];
-
-			[self selectPrivacyOption:privacyOption];			
-
-		} else {
-			//Selected 'All'. We need to determine what privacy option to display for the set of all accounts.
-			AIPrivacyOption currentState = AIPrivacyOptionUnknown;
-			NSEnumerator	*enumerator = [[[popUp_accounts menu] itemArray] objectEnumerator];
-			NSMenuItem		*menuItem;
-			
-			while ((menuItem = [enumerator nextObject])) {
-				if ((account = [menuItem representedObject])) {
-					AIPrivacyOption accountState = [account privacyOptions];
-					
-					if (currentState == AIPrivacyOptionUnknown) {
-						//We don't know the state of an account yet
-						currentState = accountState;
-					} else if (accountState != currentState) {
-						currentState = AIPrivacyOptionCustom;
-					}				
-				}
-			}
-			
-			[self setAccountColumnsVisible:YES];
-
-			[self selectPrivacyOption:currentState];
-		}
-
-	} else if (inAccountMenu == sheetAccountMenu) {
-		//Update our sheet for the current account
-		[self selectAccountInSheet:inAccount];
-	}
-}
-
-/*!
- * @brief The 'All' menu item for accounts was selected
- *
- * We simulate an AIAccountMenu delegate call, since the All item was added by RAFBLockEditorWindowController.
- */
-- (IBAction)selectedAllAccountItem:(id)sender
-{
-	AIAccountMenu *relevantAccountMenu = (([sender menu] == [popUp_accounts menu]) ?
-										  accountMenu :
-										  sheetAccountMenu);
-
-	[self accountMenu:relevantAccountMenu didSelectAccount:nil];
-}
-
-/*!
- * @brief Select an account in our account menu, then update everything else to be appropriate for it
- */
-- (void)selectAccount:(AIAccount *)inAccount
-{
-	[popUp_accounts selectItemWithRepresentedObject:inAccount];
+	//Update our list of accounts
+	[accountArray release];
+	accountArray = [adium.accountController.accounts retain];
 	
-	[self accountMenu:accountMenu didSelectAccount:inAccount];
-}
-
-/*!
- * @brief Add account menu items to our location
- *
- * Implemented as required by the AccountMenuPlugin protocol.
- *
- * @param menuItemArray An <tt>NSArray</tt> of <tt>NSMenuItem</tt> objects to be added to the menu
- */
-- (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
-{
-	AIAccount	 *previouslySelectedAccount = nil;
-	NSMenuItem	 *menuItem;
-	NSMenu		 *menu = [[NSMenu alloc] init];
-
-	/*
-	 * accountMenu isn't set the first time we get here as the accountMenu is created. Similarly, sheetAccountMenu isn't created its first time.
-	 * This code makes the (true) assumption that accountMenu is _always_ created before sheetAccountMenu.
-	 */	
-	BOOL isPrimaryAccountMenu = (!accountMenu || (inAccountMenu == accountMenu));
-
-	if (isPrimaryAccountMenu) {
-		if ([popUp_accounts menu]) {
-			previouslySelectedAccount = [[popUp_accounts selectedItem] representedObject];
-		}
-	} else if (inAccountMenu == sheetAccountMenu) {
-		if ([popUp_sheetAccounts menu]) {
-			previouslySelectedAccount = [[popUp_sheetAccounts selectedItem] representedObject];
-		}		
-	}
-
-	/*
-	 * As we enumerate, we:
-	 *	1) Determine what state the accounts within the menu are in
-	 *  2) Add the menu items to our menu
-	 */
-	for (menuItem in menuItems) {		
-		[menu addItem:menuItem];
-	}
-
-	if (isPrimaryAccountMenu) {
-		[popUp_accounts setMenu:menu];
-
-		/* Restore the previous account selection if there was one.
-		 * Whether there was one or not, this will cause the rest of our view update to match the new/current selection
-		 */
-		[self selectAccount:previouslySelectedAccount];
-
-	} else {
-		[popUp_sheetAccounts setMenu:menu];
-		
-		[self selectAccountInSheet:previouslySelectedAccount];
-	}
-
-	[menu release];
-}
-
-//Add the All menu item first if we have more than one account listed
-- (NSMenuItem *)accountMenuSpecialMenuItem:(AIAccountMenu *)inAccountMenu
-{
-	NSMenuItem	*allItem = nil;
-	int			numberOfOnlineAccounts = 0;
-	
-	for (AIAccount *account in adium.accountController.accounts) {
-		if ([self accountMenu:inAccountMenu shouldIncludeAccount:account]) {
-			numberOfOnlineAccounts += 1;
-			if (numberOfOnlineAccounts > 1) {
-				allItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"All", nil)
-													  target:self
-													  action:@selector(selectedAllAccountItem:)
-											   keyEquivalent:@""] autorelease];
-				break;
-			}
-		}
-	}
-	
-	return allItem;
-}
-
-- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
-{
-	BOOL isPrimaryAccountMenu = (!accountMenu || (inAccountMenu == accountMenu));
-
-	if (isPrimaryAccountMenu) {
-		return (inAccount.online &&
-				[inAccount conformsToProtocol:@protocol(AIAccount_Privacy)]);
-	} else {
-		AIAccount *selectedPrimaryAccount = self.selectedAccount;
-		if (selectedPrimaryAccount) {
-			//An account is selected in the main window; only incldue that account in our sheet
-			return (inAccount == selectedPrimaryAccount);
-
-		} else {
-			//'All' is selected in the main window; include all accounts which are online and support privacy
-			return (inAccount.online &&
-					[inAccount conformsToProtocol:@protocol(AIAccount_Privacy)]);			
-		}
-	}
+	[accountTable reloadData];
 }
 
 - (void)privacySettingsChangedExternally:(NSNotification *)inNotification
 {
-	[self accountMenu:accountMenu didSelectAccount:[self selectedAccount]];	
+	[self updateAccountSelection];
 }
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inModifiedKeys containsObject:KEY_IS_BLOCKED]) {
 		[self privacySettingsChangedExternally:nil];
+	} else if ([inObject isKindOfClass:[AIAccount class]] && [inModifiedKeys containsObject:@"isOnline"]) {
+		[self updateAccountSelection];
 	}
 	
 	return nil;
 }
 
-#pragma mark Table view
+#pragma mark - Table view
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return [listContents count];
+	if (tableView == contactTable && listContents)
+		return [listContents count];
+	else if (tableView == accountTable && accountArray)
+		return [accountArray count];
+	
+	return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	NSString		*identifier = [aTableColumn identifier];
-	AIListContact	*contact = [listContents objectAtIndex:rowIndex];
-
-	if ([identifier isEqualToString:@"icon"]) {
-		return [contact menuIcon];
+	if (tableView == contactTable) {
+		AIListContact *contact = [listContents objectAtIndex:row];
+		NSString *identifier = [tableColumn identifier];
 		
-	} else if ([identifier isEqualToString:@"contact"]) {
-		return contact.formattedUID;
-
-	} else if ([identifier isEqualToString:@"account"]) {
-		return contact.account.formattedUID;
-	}
-	
-	return nil;
-}
-
-- (BOOL)writeListObjects:(NSArray *)inArray toPasteboard:(NSPasteboard*)pboard
-{
-	[pboard declareTypes:[NSArray arrayWithObjects:@"AIListObject",@"AIListObjectUniqueIDs",nil] owner:self];
-	[pboard setString:@"Private" forType:@"AIListObject"];
-
-	if (dragItems != inArray) {
-		[dragItems release];
-		dragItems = [inArray retain];
-	}
-	
-	return YES;
-}
-
-- (BOOL)tableView:(NSTableView *)tv writeRows:(NSArray*)rows toPasteboard:(NSPasteboard*)pboard
-{	
-	NSMutableArray 	*itemArray = [NSMutableArray array];
-	NSNumber		*rowNumber;
-	for (rowNumber in rows) {
-		[itemArray addObject:[listContents objectAtIndex:[rowNumber integerValue]]];
-	}
-
-	return [self writeListObjects:itemArray toPasteboard:pboard];
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard
-{
-	NSMutableArray 	*itemArray = [NSMutableArray array];
-	id 				item;
-	
-	NSUInteger bufSize = [rowIndexes count];
-	NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
-	NSUInteger i;
-	
-	NSRange range = NSMakeRange([rowIndexes firstIndex], ([rowIndexes lastIndex]-[rowIndexes firstIndex]) + 1);
-	[rowIndexes getIndexes:buf maxCount:bufSize inIndexRange:&range];
-	
-	for (i = 0; i != bufSize; i++) {
-		if ((item = [listContents objectAtIndex:buf[i]])) {
-			[itemArray addObject:item];
+		if ([identifier isEqualToString:@"icon"]) {
+			return [AIServiceIcons serviceIconForObject:contact
+												   type:AIServiceIconLarge
+											  direction:AIIconNormal];
+		} else if ([identifier isEqualToString:@"contact"]) {
+			return contact.formattedUID;
+		}
+		
+	} else if (tableView == accountTable) {
+		if ([[accountArray objectAtIndex:row] isKindOfClass:[AIAccount class]]) {
+			AIAccount	*account = [accountArray objectAtIndex:row];
+			return [account explicitFormattedUID];
+		} else {
+			return [accountArray objectAtIndex:row];
 		}
 	}
 	
-	free(buf);
-	
-	return [self writeListObjects:itemArray toPasteboard:pboard];
+	return nil;
 }
 
-- (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSString *)type
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	//Provide an array of internalObjectIDs which can be used to reference all the dragged contacts
-	if ([type isEqualToString:@"AIListObjectUniqueIDs"]) {
-		
-		if (dragItems) {
-			NSMutableArray	*dragItemsArray = [NSMutableArray array];
-			AIListObject	*listObject;
-			
-			for (listObject in dragItems) {
-				[dragItemsArray addObject:listObject.internalObjectID];
-			}
-			
-			[sender setPropertyList:dragItemsArray forType:@"AIListObjectUniqueIDs"];
+	NSString 	*identifier = [tableColumn identifier];
+	
+	if ([identifier isEqualToString:@"account"]) {
+		if ([[accountArray objectAtIndex:row] isKindOfClass:[AIAccount class]]) {
+			AIAccount	*account = [accountArray objectAtIndex:row];
+			[cell setImage:[AIServiceIcons serviceIconForObject:account
+															type:AIServiceIconLarge
+													  direction:AIIconNormal]];
+		} else {
+			[cell setImage:nil];
 		}
 	}
 }
@@ -851,7 +456,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
     
     NSDragOperation dragOp = NSDragOperationCopy;
 	
-    if ([info draggingSource] == table) {
+    if ([info draggingSource] == contactTable) {
 		dragOp =  NSDragOperationMove;
     }
     [tv setDropRow:row dropOperation:NSTableViewDropAbove];
@@ -859,23 +464,29 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
     return dragOp;
 }
 
+- (void)addObject:(AIListContact *)inContact
+{
+	if (inContact) {
+		if (![listContents containsObject:inContact]) {
+			[listContents addObject:inContact];
+		}
+		
+		[inContact setIsOnPrivacyList:YES updateList:YES privacyType:(([self selectedPrivacyOption] == AIPrivacyOptionAllowUsers) ?
+																	  AIPrivacyTypePermit :
+																	  AIPrivacyTypeDeny)];	
+	}
+}
+
 - (void)addListObjectToList:(AIListObject *)listObject
 {
-	AIListObject *containedObject;
-	NSEnumerator *enumerator;
-
 	if ([listObject isKindOfClass:[AIListGroup class]]) {
-		enumerator = [[(AIListGroup *)listObject uniqueContainedObjects] objectEnumerator];
-		while ((containedObject = [enumerator nextObject])) {
+		for (AIListObject *containedObject in [(AIListGroup *)listObject uniqueContainedObjects])
 			[self addListObjectToList:containedObject];
-		}
-
+		
 	} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
-		enumerator = [[(AIMetaContact *)listObject uniqueContainedObjects] objectEnumerator];
-		while ((containedObject = [enumerator nextObject])) {
+		for (AIListObject *containedObject in [(AIMetaContact *)listObject uniqueContainedObjects])
 			[self addListObjectToList:containedObject];
-		}
-
+		
 	} else if ([listObject isKindOfClass:[AIListContact class]]) {
 		//if the account for this contact is connected...
 		if ([(AIListContact *)listObject account].online) {
@@ -887,9 +498,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 	BOOL accept = NO;
-    if (row < 0)
-		row = 0;
-	
+
 	if ([info.draggingPasteboard.types containsObject:@"AIListObjectUniqueIDs"]) {
 		for (NSString *uniqueUID in [info.draggingPasteboard propertyListForType:@"AIListObjectUniqueIDs"])
 			[self addListObjectToList:[adium.contactController existingListObjectWithUniqueID:uniqueUID]];
@@ -897,6 +506,15 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 	
     return accept;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	if ([aNotification object] == accountTable)
+		[self updateAccountSelection];
+
+	BOOL selection = ([contactTable numberOfSelectedRows] > 0 && [contactTable selectedRow] != -1);
+	[addRemoveContact setEnabled:selection forSegment:1];
 }
 
 @end

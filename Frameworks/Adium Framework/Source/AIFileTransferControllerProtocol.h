@@ -55,7 +55,7 @@ typedef enum {
 
 @protocol AIFileTransferController <AIController>
 //Should be the only vendor of new ESFileTransfer* objects, as it creates, tracks, and returns them
-- (ESFileTransfer *)newFileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)type;
+- (ESFileTransfer *)newFileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)type __attribute__((objc_method_family(none)));
 
 - (NSArray *)fileTransferArray;
 

@@ -80,7 +80,7 @@
 - (NSString *)_mapIncomingGroupName:(NSString *)name;
 - (NSString *)_mapOutgoingGroupName:(NSString *)name;
 - (void)setTypingFlagOfChat:(AIChat *)inChat to:(NSNumber *)typingState;
-- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date;
+- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact fromNick:(NSString *)sourceNick flags:(PurpleMessageFlags)flags date:(NSDate *)date;
 - (NSNumber *)shouldCheckMail;
 - (void)configurePurpleAccountNotifyingTarget:(id)target selector:(SEL)selector;
 - (void)continueConnectWithConfiguredProxy;
@@ -105,7 +105,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//Create a purple account if one does not already exist
 	if (!account) {
 		[self createNewPurpleAccount];
-		AILog(@"Created PurpleAccount 0x%x with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount %p with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	}
 	
     return account;
@@ -776,13 +776,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 //Chats ------------------------------------------------------------
 #pragma mark Chats
-- (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat
+- (void)removeUser:(NSString *)contactName fromChat:(AIGroupChat *)chat
 {
 	if (!chat)
 		return;
 	
 	AIListContact *contact = [self contactWithUID:contactName];
-	[chat removeObject:contact];
+	[chat removeObject:contactName];
 	
 	if (contact.isStranger && 
 		![adium.chatController allGroupChatsContainingContact:contact.parentContact].count &&
@@ -802,14 +802,14 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
-- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat
+- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIGroupChat *)chat
 {
 	for (NSString *contactName in usersArray) {
 		[self removeUser:contactName fromChat:chat];
 	}
 }
 
-- (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded
+- (void)updateUserListForChat:(AIGroupChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded
 {
 	NSMutableArray *newListObjects = [NSMutableArray array];
 	
@@ -820,22 +820,19 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		
 		[contact setOnline:YES notify:NotifyNever silently:YES];
 		
-		[newListObjects addObject:contact];
+		[newListObjects addObject:[user objectForKey:@"Alias"]];
 	}
 	
-	[chat addParticipatingListObjects:newListObjects notify:newlyAdded];
+	[chat addParticipatingNicks:newListObjects notify:newlyAdded];
 	
 	for (NSDictionary *user in users) {
 		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
 		
-		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
+		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forNick:[user objectForKey:@"Alias"]];
+		[chat setContact:contact forNick:[user objectForKey:@"Alias"]];
 		
-		if ([user objectForKey:@"Alias"]) {
-			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
-			
-			if (contact.isStranger) {
-				[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
-			}
+		if ([user objectForKey:@"Alias"] && contact.isStranger) {
+			[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
 		}
 	}
 	
@@ -863,23 +860,21 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
     return groupChatFlags;
 }
 
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIChat *)chat
+- (void)renameParticipant:(NSString *)oldName newNick:(NSString *)newName newUID:(NSString *)newUID flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat
 {
-	[chat removeSavedValuesForContactUID:oldUID];
+	[chat changeNick:oldName to:newName];
+	[chat setFlags:groupChatFlagsFromPurpleConvChatBuddyFlags(flags) forNick:newName];
 	
-	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:oldUID];
-
+	AIListContact *contact = (AIListContact *)[chat contactForNick:newName];
+	
 	if (contact) {
 		[adium.contactController setUID:newUID forContact:contact];
 	} else {
 		contact = [self contactWithUID:newUID];
 	}
-
- 	[chat setFlags:groupChatFlagsFromPurpleConvChatBuddyFlags(flags) forContact:contact];
-	[chat setAlias:newAlias forContact:contact];
 	
 	if (contact.isStranger) {
-		[contact setServersideAlias:newAlias silently:NO];
+		[contact setServersideAlias:newName silently:NO];
 	}
 
 	// Post an update notification since we modified the user entirely.
@@ -907,29 +902,28 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 
 
 - (void)updateUser:(NSString *)user
-		   forChat:(AIChat *)chat
-			 flags:(PurpleConvChatBuddyFlags)flags 
-			 alias:(NSString *)alias
+		   forChat:(AIGroupChat *)chat
+			 flags:(PurpleConvChatBuddyFlags)flags
+		  newAlias:(NSString *)alias
 		attributes:(NSDictionary *)attributes
 {
 	BOOL triggerUserlistUpdate = NO;
 	
-	AIListContact *contact = [self contactWithUID:user];
+	AIListContact *contact = (AIListContact *)[chat contactForNick:user];
 	
-	AIGroupChatFlags oldFlags = [chat flagsForContact:contact];
+	AIGroupChatFlags oldFlags = [chat flagsForNick:alias];
     AIGroupChatFlags newFlags = groupChatFlagsFromPurpleConvChatBuddyFlags(flags);
-	NSString *oldAlias = [chat aliasForContact:contact];
 	
 	// Trigger an update if the alias or flags (ignoring away state) changes.
-	if ((alias && !oldAlias)
-		|| (!alias && oldAlias)
-		|| ![[chat aliasForContact:contact] isEqualToString:alias]
+	if ((user && !alias)
+		|| (!user && alias)
+		|| ![user isEqualToString:alias]
 		|| (newFlags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
 		triggerUserlistUpdate = YES;
 	}
 
-	[chat setAlias:alias forContact:contact];
-	[chat setFlags:newFlags forContact:contact];
+	[chat changeNick:user to:alias];
+	[chat setFlags:newFlags forNick:alias];
 	
 	// Away changes only come in after the initial one, so we're safe in only updating it here.
 	if (contact.isStranger) {
@@ -1088,7 +1082,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 }
 
 
-- (AIChat *)chatWithName:(NSString *)name identifier:(id)identifier
+- (AIGroupChat *)chatWithName:(NSString *)name identifier:(id)identifier
 {
 	return [adium.chatController chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
 }
@@ -1119,10 +1113,10 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	[chat setValue:nil forProperty:@"accountJoined" notify:NotifyNow];
 }
 
-- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
+- (void)updateTopic:(NSString *)inTopic forChat:(AIGroupChat *)chat withSource:(NSString *)source
 {	
 	// Update (not set) the chat's topic
-	[chat updateTopic:inTopic withSource:[self contactWithUID:source]];
+	[chat updateTopic:inTopic withSource:source];
 }
 
 /*!
@@ -1193,6 +1187,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	[self _receivedMessage:attributedMessage
 					inChat:chat 
 		   fromListContact:listContact
+				  fromNick:nil
 					 flags:flags
 					  date:[messageDict objectForKey:@"Date"]];
 }
@@ -1218,36 +1213,38 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {
-  PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
-  
-  if ((![self shouldDisplayOutgoingMUCMessages] && ((flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) ||
-	  (!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) {
+	PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 	
-	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
-	NSString			*source = [messageDict objectForKey:@"Source"];
-	
-	[self _receivedMessage:attributedMessage
-					inChat:chat 
-		   fromListContact:[self contactWithUID:source]
-					 flags:flags
-					  date:[messageDict objectForKey:@"Date"]];
-  }
+	if ((![self shouldDisplayOutgoingMUCMessages] && ((flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) ||
+		(!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) {
+		
+		NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
+		NSString			*source = [messageDict objectForKey:@"Source"];
+		NSString			*sourceNick = [messageDict objectForKey:@"SourceNick"];
+		
+		[self _receivedMessage:attributedMessage
+						inChat:chat
+			   fromListContact:[self contactWithUID:source]
+					  fromNick:sourceNick
+						 flags:flags
+						  date:[messageDict objectForKey:@"Date"]];
+	}
 }
 
-- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
+- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact fromNick:(NSString *)sourceNick flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
 	AILogWithSignature(@"Message: %@ inChat: %@ fromListContact: %@ flags: %d date: %@", attributedMessage, chat, sourceContact, flags, date);
 	
 	if ((flags & PURPLE_MESSAGE_DELAYED) == PURPLE_MESSAGE_DELAYED) {
 		// Display delayed messages as context.
-
+		
 		AIContentContext *messageObject = [AIContentContext messageInChat:chat
 															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
+															   sourceNick:sourceNick
 															  destination:self
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-		
 		messageObject.trackContent = NO;
 		
 		[adium.contentController receiveContentObject:messageObject];
@@ -1255,6 +1252,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	} else {
 		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
 															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
+															   sourceNick:sourceNick
 															  destination:self
 																	 date:date
 																  message:attributedMessage
@@ -1597,7 +1595,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 		if (account->perm_deny != privacyType) {
 			account->perm_deny = privacyType;
 			serv_set_permit_deny(purple_account_get_connection(account));
-			AILog(@"Set privacy options for %@ (%x %x) to %i",
+			AILog(@"Set privacy options for %@ (%p %p) to %i",
 				  self,account,purple_account_get_connection(account),account->perm_deny);
 
 			[self setPreference:[NSNumber numberWithInteger:option]
@@ -1605,7 +1603,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 						  group:GROUP_ACCOUNT_STATUS];			
 		}
 	} else {
-		AILog(@"Couldn't set privacy options for %@ (%x %x)",self,account,purple_account_get_connection(account));
+		AILog(@"Couldn't set privacy options for %@ (%p %p)",self,account,purple_account_get_connection(account));
 	}
 }
 
@@ -1993,6 +1991,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		case Adium_Proxy_Default_SOCKS5:
 			purpleAccountProxyType = PURPLE_PROXY_SOCKS5;
 			break;
+        case Adium_Proxy_Tor:
+            purpleAccountProxyType = PURPLE_PROXY_TOR;
+            break;
 		case Adium_Proxy_None:
 		default:
 			purpleAccountProxyType = PURPLE_PROXY_NONE;
@@ -2002,7 +2003,16 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	purple_proxy_info_set_type(proxy_info, purpleAccountProxyType);
 
 	if (proxyType != Adium_Proxy_None) {
-		purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
+        
+        /* In Tor mode, libpurple will not do any DNS queries itself, ever.
+         * However, if the user entered "localhost" as the proxy, then that will not be resolved either!
+         * Let's help the user here by replacing it with 127.0.0.1.
+         */
+        if ([[proxyConfig objectForKey:@"Host"] isEqualToString:@"localhost"]) {
+            purple_proxy_info_set_host(proxy_info, "127.0.0.1");
+        } else {
+            purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
+        }
 		purple_proxy_info_set_port(proxy_info, [(NSNumber*)[proxyConfig objectForKey:@"Port"] intValue]);
 
 		purple_proxy_info_set_username(proxy_info, (char *)[[proxyConfig objectForKey:@"Username"] UTF8String]);
@@ -2069,7 +2079,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	AILog(@"************ %@ --step-- %i",self.UID,[step integerValue]);
+	AILog(@"************ %@ --step-- %li",self.UID,[step integerValue]);
 }
 
 /*!
@@ -2099,7 +2109,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//-[SLPurpleCocoaAdapter addAdiumAccount:] should have immediately called back on setPurpleAccount. It's bad if it didn't.
 	if (account) {
-		AILog(@"Created PurpleAccount 0x%x with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount %p with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	} else {
 		AILog(@"Unable to create Libpurple account with name %s and protocol plugin %s",
 			  self.purpleAccountName, [self protocolPlugin]);
@@ -2237,55 +2247,6 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	return reconnectDelayType;
 }
 
-#pragma mark Registering
-- (void)performRegisterWithPassword:(NSString *)inPassword
-{
-	//Save the new password
-	if (inPassword && ![password isEqualToString:inPassword]) {
-		[password release]; password = [inPassword retain];
-	}
-
-	//Ensure we have a purple account if one does not already exist
-	[self purpleAccount];
-	
-	//We are connecting
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isConnecting" notify:NotifyNow];
-	
-	//Make sure our settings are correct
-	[self configurePurpleAccountNotifyingTarget:self selector:@selector(continueRegisterWithConfiguredPurpleAccount)];
-}
-
-- (void)continueRegisterWithConfiguredProxy
-{
-	//Set password and connect
-	purple_account_set_password(account, [password UTF8String]);
-	
-	AILog(@"Adium: Register: %@ initiating connection.",self.UID);
-	
-	[purpleAdapter registerAccount:self];
-}
-
-- (void)continueRegisterWithConfiguredPurpleAccount
-{
-	//Configure libpurple's proxy settings; continueConnectWithConfiguredProxy will be called once we are ready
-	[self configureAccountProxyNotifyingTarget:self selector:@selector(continueRegisterWithConfiguredProxy)];
-}
-
-- (void)purpleAccountRegistered:(BOOL)success
-{
-	if (success && [self.service accountViewController]) {
-		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
-												  object:self
-												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-													username, @"username",
-													pw, @"password",
-													nil]];
-	}
-}
-
 //Account Status ------------------------------------------------------------------------------------------------------
 #pragma mark Account Status
 //Properties this account supports
@@ -2394,19 +2355,19 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	NSMutableDictionary *arguments = nil;
 
-	if (tuneinfo && [[tuneinfo objectForKey:ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
+	if (tuneinfo && [[tuneinfo objectForKey:KEY_ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
 		arguments = [NSMutableDictionary dictionary];
 		
-		NSString *artist = [tuneinfo objectForKey:ITUNES_ARTIST];
-		NSString *name = [tuneinfo objectForKey:ITUNES_NAME];
+		NSString *artist = [tuneinfo objectForKey:KEY_ITUNES_ARTIST];
+		NSString *name = [tuneinfo objectForKey:KEY_ITUNES_NAME];
 		
 		[arguments setObject:(artist ? artist : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ARTIST]];
 		[arguments setObject:(name ? name : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_ALBUM] ? [tuneinfo objectForKey:ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_GENRE] ? [tuneinfo objectForKey:ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_STORE_URL] ? [tuneinfo objectForKey:ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_ALBUM] ? [tuneinfo objectForKey:KEY_ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_GENRE] ? [tuneinfo objectForKey:KEY_ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:KEY_ITUNES_TOTAL_TIME]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_YEAR] ? [tuneinfo objectForKey:KEY_ITUNES_YEAR]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
+		[arguments setObject:([tuneinfo objectForKey:KEY_ITUNES_STORE_URL] ? [tuneinfo objectForKey:KEY_ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
 		
 		[arguments setObject:[NSString stringWithFormat:@"%@%@%@", (name ? name : @""), (name && artist ? @" - " : @""), (artist ? artist : @"")]
 					  forKey:[NSString stringWithUTF8String:PURPLE_TUNE_FULL]];
@@ -2608,8 +2569,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					
 					purple_buddy_icon_get_scale_size(&prpl_info->icon_spec, &width, &height);
 					// Determine the scaled size.  If it's too big, scale to the largest permissable size
-					image = [image imageByScalingToSize:NSMakeSize(width, height)];
-
+					image = [image imageByScalingToSize:NSMakeSize(width, height) DPI:72.0];
+					
 					// Our original data is no longer valid, since we had to scale to a different size
 					imageData = nil;
 					AILog(@"%@: Scaled image to size %@", self, NSStringFromSize([image size]));
@@ -2630,7 +2591,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								 * to nil and we'll continue below to convert the image. */
 								buddyIconData = imageData;
 								
-								AILog(@"%@: Trying to use original GIF data, %i bytes", self, [buddyIconData length]);
+								AILog(@"%@: Trying to use original GIF data, %li bytes", self, [buddyIconData length]);
 								
 								if (!buddyIconData) {
 									AILog(@"%@: Failed to use original GIF", self);
@@ -2652,9 +2613,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								if ([buddyIconData length] > maxFileSize) {
 									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
 									
-									AILog(@"%@: GIF too large, use a still JPEG of %i bytes", self, [buddyIconData length]);
+									AILog(@"%@: GIF too large, use a still JPEG of %li bytes", self, [buddyIconData length]);
 								} else {
-									AILog(@"%@: Resized GIF, new file size %i!", self, [buddyIconData length]);
+									AILog(@"%@: Resized GIF, new file size %li!", self, [buddyIconData length]);
 								}
 								
 								if (buddyIconData)
@@ -2699,7 +2660,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 						size_t maxFileSize = prpl_info->icon_spec.max_filesize;
 						
 						if (maxFileSize > 0 && ([buddyIconData length] > maxFileSize)) {
-							AILog(@"%@: Image %i is larger than %i!", self, [buddyIconData length], maxFileSize);
+							AILog(@"%@: Image %li is larger than %zi!", self, [buddyIconData length], maxFileSize);
 							
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
@@ -2714,7 +2675,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			}
 		}
 
-		AILogWithSignature(@"%@: Setting icon data of length %i", self, [buddyIconData length]);
+		AILogWithSignature(@"%@: Setting icon data of length %li", self, [buddyIconData length]);
 		[purpleAdapter setBuddyIcon:buddyIconData onAccount:self];
 	}
 	

@@ -1,4 +1,4 @@
-﻿/* conjunction to end a compound sentence */
+/* conjunction to end a compound sentence */
 " and" = " and";
 
 /* No comment provided by engineer. */
@@ -7,17 +7,47 @@
 /* Account Name (Connecting) - shown for an account while it is connecting */
 "%@ (Connecting)" = "%@ (Connecting)";
 
+/* No comment provided by engineer. */
+"%@ had been successfully added to the Address Book.\nWould you like to edit the card now?" = "%@ had been successfully added to the Address Book.\nWould you like to edit the card now?";
+
+/* No comment provided by engineer. */
+"%@ is not on any account. Please select a specific account or add this contact first." = "%@ is not on any account. Please select a specific account or add this contact first.";
+
+/* No comment provided by engineer. */
+"%@ on the account %@" = "%1$@ on the account %2$@";
+
+/* Event: <A contact's name> requested authorization */
+"%@ requested authorization" = "%@ requested authorisation";
+
 /* This is displayed in the message window when prompting to receive a file. The first %@ is the sender; the second %@ is the filename of the file being sent. It will be followed by buttons such as 'Save' and 'Cancel'. */
 "%@ requests to send you %@" = "%1$@ requests to send you %2$@";
 
-/* Message displayed when a contact sends a buzz/nudge/other notification */
+/* Message displayed when a contact sends a buzz/nudge/other notification. %@ will be the other person's name. */
 "%@ wants your attention!" = "%@ wants your attention!";
+
+/* Status message for a bookmark (>1 mention, >1 messages) */
+"%d mentions, %d messages" = "%1$d mentions, %2$d messages";
+
+/* Status message for a bookmark (>1 messages) */
+"%d messages" = "%d messages";
+
+/* No comment provided by engineer. */
+"%u authorization requests" = "%u authorisation requests";
 
 /* comma between actions in the events list */
 "," = ",";
 
 /* period at the end of the Events pane sentence describing actions taken for an event */
 "." = ".";
+
+/* Status message for a bookmark (1 mention, >1 messages) */
+"1 mention, %d messages" = "1 mention, %d messages";
+
+/* Status message for a bookmark (1 mention, 1 message) */
+"1 mention, 1 message" = "1 mention, 1 message";
+
+/* Status message for a bookmark (1 message) */
+"1 message" = "1 message";
 
 /* Colon which will be appended after a label such as 'User Name', before an input field */
 ":" = ":";
@@ -32,6 +62,9 @@
 "\"%@\" is already in use." = "\"%@\" is already in use.";
 
 /* No comment provided by engineer. */
+"a member of %@" = "a member of %@";
+
+/* No comment provided by engineer. */
 "Account:" = "Account:";
 
 /* Label for contact alert action (e.g. Send message, Play sound, etc.) */
@@ -43,11 +76,35 @@
 /* No comment provided by engineer. */
 "Add an action for the selected event" = "Add an action for the selected event";
 
+/* Add To Address Book Contextual Menu */
+"Add To Address Book" = "Add To Address Book";
+
 /* No comment provided by engineer. */
 "Adium provides encryption, authentication, deniability, and perfect forward secrecy over %@ via Off-the-Record Messaging (OTR). If your contact is not using an OTR-compatible messaging system, your contact will be sent a link to the OTR web site when you attempt to connect. For more information on OTR, visit http://www.cypherpunks.ca/otr/." = "Adium provides encryption, authentication, deniability, and perfect forward secrecy over %@ via Off-the-Record Messaging (OTR). If your contact is not using an OTR-compatible messaging system, your contact will be sent a link to the OTR web site when you attempt to connect. For more information on OTR, visit http://www.cypherpunks.ca/otr/.";
 
 /* No comment provided by engineer. */
 "Alias:" = "Alias:";
+
+/* No comment provided by engineer. */
+"An error had occurred while adding %@ to the Address Book." = "An error had occurred while adding %@ to the Address Book.";
+
+/* No comment provided by engineer. */
+"Any" = "Any";
+
+/* No comment provided by engineer. */
+"Authorization Requests" = "Authorisation Requests";
+
+/* No comment provided by engineer. */
+"Authorize" = "Authorise";
+
+/* No comment provided by engineer. */
+"Authorize and Add" = "Authorise and Add";
+
+/* No comment provided by engineer. */
+"Authorize Selected" = "Authorise Selected";
+
+/* No comment provided by engineer. */
+"Bookmarks" = "Bookmarks";
 
 /* No comment provided by engineer. */
 "Cancel" = "Cancel";
@@ -67,14 +124,20 @@
 /* No comment provided by engineer. */
 "Connect" = "Connect";
 
-/* No comment provided by engineer. */
-"Connect All Accounts" = "Connect All Accounts";
-
 /* Connect account prefix */
 "Connect: %@" = "Connect: %@";
 
 /* %@ will be the name of a group in the contact list */
 "contact group %@" = "contact group %@";
+
+/* No comment provided by engineer. */
+"Contact List" = "Contact List";
+
+/* No comment provided by engineer. */
+"Contact not found" = "Contact not found";
+
+/* No comment provided by engineer. */
+"Contact requests authorization" = "Contact requests authorisation";
 
 /* No comment provided by engineer. */
 "Continue" = "Continue";
@@ -96,6 +159,15 @@
 
 /* No comment provided by engineer. */
 "Delete the account %@?" = "Delete the account %@?";
+
+/* No comment provided by engineer. */
+"Deny" = "Deny";
+
+/* No comment provided by engineer. */
+"Deny and Block" = "Deny and Block";
+
+/* No comment provided by engineer. */
+"Deny Selected" = "Deny Selected";
 
 /* No comment provided by engineer. */
 "Disable" = "Disable";
@@ -121,6 +193,9 @@
 /* No comment provided by engineer. */
 "Edit Account" = "Edit Account";
 
+/* Edit In Address Book Contextual Menu */
+"Edit In Address Book" = "Edit In Address Book";
+
 /* No comment provided by engineer. */
 "Edit Link" = "Edit Link";
 
@@ -136,6 +211,9 @@
 /* Label besides the encryption preference menu */
 "Encryption:" = "Encryption:";
 
+/* No comment provided by engineer. */
+"Error" = "Error";
+
 /* Label for contact alert event (e.g. Contact signed on, Message received, etc.) */
 "Event:" = "Event:";
 
@@ -145,11 +223,23 @@
 /* No comment provided by engineer. */
 "External plugins may cause crashes and odd behavior after updating Adium.  Disable this plugin if you experience any issues." = "External plugins may cause crashes and odd behaviour after updating Adium.  Disable this plugin if you experience any issues.";
 
+/* No comment provided by engineer. */
+"Get Info" = "Get Info";
+
 /* %@ will be the name of a bookmark */
 "group chat bookmark %@" = "group chat bookmark %@";
 
 /* No comment provided by engineer. */
 "Idle" = "Idle";
+
+/* No comment provided by engineer. */
+"Ignore" = "Ignore";
+
+/* No comment provided by engineer. */
+"Ignore and Block" = "Ignore and Block";
+
+/* No comment provided by engineer. */
+"Ignore Selected" = "Ignore Selected";
 
 /* No comment provided by engineer. */
 "Invalid status icon pack" = "Invalid status icon pack";
@@ -170,6 +260,9 @@
 "New Alert" = "New Alert";
 
 /* No comment provided by engineer. */
+"No" = "No";
+
+/* No comment provided by engineer. */
 "No compatible accounts connected" = "No compatible accounts connected";
 
 /* No comment provided by engineer. */
@@ -180,6 +273,9 @@
 
 /* No comment provided by engineer. */
 "Paste" = "Paste";
+
+/* %@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is loaded on an unsupported architecture. */
+"Plugin %@ Will be Disabled" = "Plugin %@ Will be Disabled";
 
 /* Label for the port field in the account preferences */
 "Port:" = "Port:";
@@ -193,8 +289,17 @@
 /* Button which renames the selection */
 "Rename" = "Rename";
 
+/* Event: requested authorization (follows a contact's name displayed as a header) */
+"requested authorization" = "requested authorisation";
+
+/* No comment provided by engineer. */
+"Requests authorization" = "Requests authorisation";
+
 /* No comment provided by engineer. */
 "Set to Current Adium Status" = "Set to Current Adium Status";
+
+/* Show In Address Book Contextual Menu */
+"Show In Address Book" = "Show In Address Book";
 
 /* No comment provided by engineer. */
 "Social Networking" = "Social Networking";
@@ -208,14 +313,23 @@
 /* No comment provided by engineer. */
 "Sound set upgrade failed" = "Sound set upgrade failed";
 
+/* Title of a panel shown after adding successfully adding a contact to the address book. */
+"Success" = "Success";
+
 /* No comment provided by engineer. */
-"The active status icon pack \"%@\" installed at \"%@\" is invalid.  It is missing the required status icon \"%@\".  If you received this pack from adiumxtras.com, please contact its author. Your status icon setting will be restored to the default." = "The active status icon pack \"%1$@\" installed at \"%2$@\" is invalid.  It is missing the required status icon \"%3$@\".  If you received this pack from adiumxtras.com, please contact its author. Your status icon setting will be restored to the default.";
+"The active status icon pack \"%@\" installed at \"%@\" is invalid.  It is missing the required status icon \"%@\".  If you received this pack from xtras.adium.im, please contact its author. Your status icon setting will be restored to the default." = "The active status icon pack \"%1$@\" installed at \"%2$@\" is invalid.  It is missing the required status icon \"%3$@\".  If you received this pack from xtras.adium.im, please contact its author. Your status icon setting will be restored to the default.";
+
+/* No comment provided by engineer. */
+"The bookmark %@ does not contain enough information and can not be used. Please recreate it next time you join the chat.\nWould you like to remove this bookmark?" = "The bookmark %@ does not contain enough information and can not be used. Please recreate it next time you join the chat.\nWould you like to remove this bookmark?";
 
 /* No comment provided by engineer. */
 "The characters you're entering are not valid for an account name on this service." = "The characters you're entering are not valid for an account name on this service.";
 
 /* No comment provided by engineer. */
 "The sound set %@ is version %i, and this version of Adium does not know how to handle that; perhaps try a later version of Adium." = "The sound set %1$@ is version %2$i, and this version of Adium does not know how to handle that; perhaps try a later version of Adium.";
+
+/* No comment provided by engineer. */
+"This plugin does not support your native architecture." = "This plugin does not support your native architecture.";
 
 /* No comment provided by engineer. */
 "This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled." = "This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %1$@ located at %2$@. It has been disabled.";
@@ -227,15 +341,27 @@
 "Typing:" = "Typing:";
 
 /* No comment provided by engineer. */
+"Unable to join bookmarked chat" = "Unable to join bookmarked chat";
+
+/* No comment provided by engineer. */
 "Unknown" = "Unknown";
 
 /* No comment provided by engineer. */
 "User Name" = "User Name";
 
+/* No comment provided by engineer. */
+"When %@ requests authorization" = "When %@ requests authorisation";
+
+/* No comment provided by engineer. */
+"When a contact requests authorization" = "When a contact requests authorisation";
+
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
 /* Displayed in an open chat when its account has been connected */
 "You have connected" = "You have connected";
 
-/* Displayed in an open chat when its account has been disconnected. */
+/* Displayed in an open chat when its account has been connected */
 "You have disconnected" = "You have disconnected";
 
 /* Message displayed when you send a buzz/nudge/other notification. %@ will be the other person's name. */

@@ -403,7 +403,6 @@
 	}
 	
 	if ([importLogsButton state] == NSOnState && currentStep > 0  && !doneSomething) {
-		doneSomething = YES;
 		[proceedButton setEnabled:NO];
 		[self populateAccountPicker];
 		[titleField	setStringValue:[AILocalizedString(@"Importing iChat Transcripts", nil) stringByAppendingEllipsis]];
@@ -411,7 +410,6 @@
 		[assistantPanes selectTabViewItemWithIdentifier:@"logs"];
 		[importLogsButton setState:NSOffState]; // reset so we don't do this again
 	} else if (currentStep == 0  && !doneSomething) {
-		doneSomething = YES;
 		[backButton setEnabled:YES];
 		[titleField	setStringValue:AILocalizedString(@"Import Finished", nil)];
 		[assistantPanes selectTabViewItemWithIdentifier:@"end"];

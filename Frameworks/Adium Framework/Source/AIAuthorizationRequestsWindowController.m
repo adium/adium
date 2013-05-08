@@ -108,7 +108,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											   object:self.window];
 	
 	[tableView accessibilitySetOverrideValue:AILocalizedString(@"Authorization Requests", nil)
-								forAttribute:NSAccessibilityRoleDescriptionAttribute];
+								forAttribute:NSAccessibilityTitleAttribute];
 	[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self.window setTitle:AUTHORIZATION_REQUESTS];
@@ -182,7 +182,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 										   toolTip:AILocalizedString(@"Get Info",nil)
 											target:self
 								   settingSelector:@selector(setImage:)
-									   itemContent:[[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"GetInfo.png"]] autorelease]
+									   itemContent:[[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"get-info.tiff"]] autorelease]
 											action:@selector(getInfo:)
 											  menu:nil];
 	

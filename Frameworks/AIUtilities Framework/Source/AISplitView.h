@@ -19,8 +19,8 @@
  * @class AISplitView
  * @brief <tt>NSSplitView</tt> subclass with additional customization
  *
- * This subclass of NSSplitView allows the user to adjust the thickness of the divider and disable drawing of the
- * divider 'dot' graphic.
+ * This subclass of NSSplitView allows the user to adjust the thickness of the divider
+ * and disable drawing of the divider 'dot' graphic.
  */
 @interface AISplitView : NSSplitView {
 	CGFloat	dividerThickness;
@@ -29,18 +29,15 @@
 
 /*!
  * @brief Set the thickness of the split divider
- *
- * Set the thickness of the split divider
- * @param inThickness Desired divider thickness
  */
-- (void)setDividerThickness:(CGFloat)inThickness;
+@property (nonatomic, readwrite, assign) CGFloat dividerThickness;
 
 /*!
  * @brief Toggle drawing of the divider graphics
  *
  * Toggle display of the divider graphics (The 'dot' in the center of the divider)
- * @param inDraw NO to disable drawing of the dot, YES to enable it
+ * Set to NO to disable drawing of the dot, YES to enable it
  */
-- (void)setDrawsDivider:(BOOL)inDraw;
+@property (nonatomic, readwrite, assign) BOOL drawDivider;
 
 @end

@@ -22,8 +22,9 @@ HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # Also try /Developer-old, just in case XCode 4 is installed
-DEVELOPER="/Developer"
-SDK_ROOT="${DEVELOPER}/SDKs/MacOSX10.6.sdk"
+DEVELOPER=$(xcode-select -print-path)
+SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk"
+# SDK_ROOT="/Developer/SDKs/MacOSX10.6.sdk/"
 
 MIN_OS_VERSION="10.6"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
@@ -68,7 +69,7 @@ NATIVE_BUILD=false
 BUILD_OTR=false
 STRAIGHT_TO_LIBPURPLE=false
 DOWNLOAD_LIBPURPLE=false
-MTN_UPDATE_PARAM=""
+HG_UPDATE_PARAM=""
 DISTCC_HOSTS=""
 for option in ${@:1} ; do
 	case $option in
@@ -109,12 +110,12 @@ for option in ${@:1} ; do
 			warning "Building with LLVM! This is unsupported and will probably break things!"
 			;;
 		--libpurple-rev=*)
-			MTN_REV=${option##*=}
-			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -r ${MTN_REV}"
+			HG_REV=${option##*=}
+			HG_UPDATE_PARAM="${HG_UPDATE_PARAM} -r ${HG_REV}"
 			;;
 		--libpurple-branch=*)
-			MTN_BRANCH=${option##*=}
-			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -b ${MTN_BRANCH}"
+			HG_BRANCH=${option##*=}
+			HG_UPDATE_PARAM="${HG_UPDATE_PARAM} ${HG_BRANCH}"
 			;;
 		--libpurple-only)
 			STRAIGHT_TO_LIBPURPLE=true
@@ -139,7 +140,7 @@ for option in ${@:1} ; do
   --libpurple-branch=[branch] : Force a secific libpurple branch
   --libpurple-only            : Assume all dependencies are already built
                                 and start the build with libpurple itself
-  --download-libpurple        : Download the libpurple mtn bootstrap db.
+  --download-libpurple        : Download the libpurple Mercurial repository
   --help                      : This help text
 	
 Note that explicitly setting any arch flags implies a forced reconfigure.'
@@ -161,8 +162,8 @@ if [ "$DISTCC_HOSTS" != "" ]; then
 	eval `$DEVELOPER/usr/bin/pump --startup`
 else
 	# Try to find the right gcc, even when XCode4 is installed
-	export CC="$DEVELOPER/usr/bin/gcc"
-	export CXX="$DEVELOPER/usr/bin/g++"
+	export CC="xcrun clang"
+	export CXX="xcrun clang"
 	export CCAS="$CC"
 	export OBJC="$CC"
 fi
@@ -178,13 +179,13 @@ set_arch_flags
 
 # assert that the developer can, in fact, build libpurple.  Why waste his time if he can't?
 asserttools gcc
-asserttools mtn
+asserttools hg
 
 # Ok, so we keep running into issues where MacPorts will volunteer to supply
 # dependencies that we want to build ourselves.
-# Getting mtn's path before we export our own (safer?) path will ensure it works,
+# Getting hg's path before we export our own (safer?) path will ensure it works,
 # even if it's being managed by MacPorts, Fink, or similar.
-MTN=`which mtn`
+HG=`which hg`
 export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$DEVELOPER/usr/bin:$DEVELOPER/usr/sbin
 export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
 export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
@@ -207,7 +208,7 @@ else
 	   build_meanwhile $@
 
     	build_intltool $@
-    	build_jsonglib $@
+    	# build_jsonglib $@
 
     	#build_gstreamer $@
     	#build_farsight $@

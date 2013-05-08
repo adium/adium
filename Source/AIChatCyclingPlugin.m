@@ -19,9 +19,13 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIDictionaryAdditions.h>
 
 #define PREVIOUS_MESSAGE_MENU_TITLE		AILocalizedString(@"Previous Chat",nil)
 #define NEXT_MESSAGE_MENU_TITLE			AILocalizedString(@"Next Chat",nil)
+
+#define DEFAULT_CHAT_CYCLING_PREFS		@"ChatCyclingDefaults"
+#define OLD_DEFAULT_CHAT_CYCLING_PREFS	@"ChatCyclingDefaults-Old"
 
 /*!
  * @class AIChatCyclingPlugin
@@ -50,6 +54,15 @@
 												  action:@selector(nextChat:)
 										   keyEquivalent:@""];
 	[menuController addMenuItem:nextChatMenuItem toLocation:LOC_Window_Commands];
+		
+	/* Adium 1.5.4+ use the new defaults for chat switching, ctrl+tab, to match Safari's default user-visible behavior */
+	NSDictionary *defaults = [NSDictionary dictionaryNamed:(([adium compareVersion:adium.earliestLaunchedAdiumVersion
+																		 toVersion:@"1.5.4"] == NSOrderedAscending) ?
+															OLD_DEFAULT_CHAT_CYCLING_PREFS :
+															DEFAULT_CHAT_CYCLING_PREFS)
+												  forClass:[self class]];
+	[adium.preferenceController registerDefaults:defaults
+											forGroup:PREF_GROUP_CHAT_CYCLING];
 
 	//Prefs
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CHAT_CYCLING];

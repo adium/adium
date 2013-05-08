@@ -28,5 +28,5 @@
 
 @interface NSObject (AIServiceMenuTarget)
 - (BOOL)serviceMenuShouldIncludeService:(AIService *)service;
-- (void)selectServiceType:(id)sender;
+- (IBAction)selectServiceType:(id)sender;
 @end

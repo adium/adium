@@ -45,7 +45,15 @@
 		 withSource:(id)inSource
 		destination:(id)inDest
 			   date:(NSDate *)inDate
-			message:(NSAttributedString *)inMessage 
+			message:(NSAttributedString *)inMessage
+		  autoreply:(BOOL)inAutoReply;
+
++ (id)messageInChat:(AIChat *)inChat
+		 withSource:(id)inSource
+		 sourceNick:(NSString *)inSourceNick
+		destination:(id)inDest
+			   date:(NSDate *)inDate
+			message:(NSAttributedString *)inMessage
 		  autoreply:(BOOL)inAutoreply;
 
 /*!	@brief	Create an AIContentMessage.
@@ -56,6 +64,7 @@
  */
 - (id)initWithChat:(AIChat *)inChat
 			source:(id)inSource
+		sourceNick:(NSString *)inSourceNick
 	   destination:(id)inDest
 			  date:(NSDate *)inDate
 		   message:(NSAttributedString *)inMessage

@@ -30,12 +30,12 @@
 #define KEY_ACCOUNT_CHECK_MAIL		@"Check Mail"
 #define KEY_ENABLED					@"Enabled"
 #define KEY_AUTOCONNECT				@"AutoConnect"
+#define KEY_ACCOUNT_REGISTER_ON_CONNECT @"Register on Connect"
 
 //NSData archive of an NSAttributedString
 #define KEY_ACCOUNT_DISPLAY_NAME	@"FullNameAttr"
 
 #define	Adium_RequestImmediateDynamicContentUpdate			@"Adium_RequestImmediateDynamicContentUpdate"
-#define AIAccountUsernameAndPasswordRegisteredNotification	@"AIAccountUsernameAndPasswordRegisteredNotification"
 
 //Proxy
 #define KEY_ACCOUNT_PROXY_ENABLED		@"Proxy Enabled"
@@ -54,7 +54,8 @@ typedef enum
 	Adium_Proxy_Default_HTTP,
 	Adium_Proxy_Default_SOCKS4,
 	Adium_Proxy_Default_SOCKS5,
-	Adium_Proxy_None
+	Adium_Proxy_None,
+    Adium_Proxy_Tor
 } AdiumProxyType;
 
 //Privacy
@@ -202,6 +203,7 @@ typedef enum {
 - (NSString *)accountWillSetUID:(NSString *)proposedUID;
 - (void)didChangeUID;
 - (void)willBeDeleted;
+- (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion __attribute__((objc_method_family(new)));
 @property (readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
 @property (readonly, nonatomic) NSAlert *alertForAccountDeletion;
 - (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode;
@@ -314,7 +316,7 @@ typedef enum {
  * @param infoDict A dictionary of authorization information created by the account originally and possibly modified
  * @param authorizationResponse An AIAuthorizationResponse indicating if authorization was granted or denied or if there was no response
  */
-- (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
+- (void)authorizationWithDict:(NSDictionary *)__attribute__((ns_consumed))infoDict response:(AIAuthorizationResponse)authorizationResponse;
 
 -(NSMenu*)actionMenuForChat:(AIChat*)chat;
 
@@ -328,6 +330,16 @@ typedef enum {
  * Subclasses which intend to return YES should return [super shouldLogChat:chat].
  */
 - (BOOL)shouldLogChat:(AIChat *)chat;
+
+/*!
+ * @brief The proxy's type used for this account.
+ */
+- (AdiumProxyType)proxyType;
+
+/*!
+ * @brief The proxy's hostname the user entered for this account.
+ */
+- (NSString *)proxyHost;
 
 @end
 
