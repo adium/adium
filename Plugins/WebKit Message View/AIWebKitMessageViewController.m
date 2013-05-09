@@ -691,6 +691,9 @@ static NSArray *draggedTypes = nil;
 
 		if ([content isKindOfClass:[AIContentContext class]])
 			[dateSeparator addDisplayClass:@"history"];
+		
+		if (content.chat.isGroupChat && content.postProcessContent && adium.interfaceController.activeChat != content.chat)
+			[dateSeparator addDisplayClass:@"focus"];
 
 		//Add the date header
 		[self _appendContent:dateSeparator 
@@ -738,7 +741,9 @@ static NSArray *draggedTypes = nil;
 			// Add a class for "this content received while out of focus"
 			if (content.chat.isGroupChat) {
 				[content addDisplayClass:@"focus"];
-				[content addDisplayClass:@"lastFocus"];
+				
+				if (!willAddMoreContentObjects)
+					[content addDisplayClass:@"lastFocus"];
 				
 				// if there's something else already lastFocus, then unset it
 				DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".lastFocus"];
