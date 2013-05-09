@@ -692,8 +692,18 @@ static NSArray *draggedTypes = nil;
 		if ([content isKindOfClass:[AIContentContext class]])
 			[dateSeparator addDisplayClass:@"history"];
 		
-		if (content.chat.isGroupChat && content.postProcessContent && adium.interfaceController.activeChat != content.chat)
+		if (content.chat.isGroupChat && content.postProcessContent && adium.interfaceController.activeChat != content.chat) {
 			[dateSeparator addDisplayClass:@"focus"];
+			
+			if (nextMessageFocus) {
+				[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
+				
+				[dateSeparator addDisplayClass:@"firstFocus"];
+				
+				nextMessageFocus = NO;
+				nextMessageRegainedFocus = YES;
+			}
+		}
 
 		//Add the date header
 		[self _appendContent:dateSeparator 
