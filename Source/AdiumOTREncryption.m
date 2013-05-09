@@ -302,27 +302,21 @@ static OtrlPolicy policyForContact(AIListContact *contact)
 {
 	OtrlPolicy		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 	
-	//Force OTRL_POLICY_MANUAL when interacting with mobile numbers
-	if ([contact.UID hasPrefix:@"+"]) {
-		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
-		
-	} else {
-		AIEncryptedChatPreference	pref = contact.encryptedChatPreferences;
-		switch (pref) {
-				case EncryptedChat_Never:
-					policy = OTRL_POLICY_NEVER;
-					break;
-				case EncryptedChat_Manually:
-				case EncryptedChat_Default:
-					policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
-					break;
-				case EncryptedChat_Automatically:
-					policy = OTRL_POLICY_OPPORTUNISTIC;
-					break;
-				case EncryptedChat_RejectUnencryptedMessages:
-					policy = OTRL_POLICY_ALWAYS;
-					break;
-		}
+	AIEncryptedChatPreference	pref = contact.encryptedChatPreferences;
+	switch (pref) {
+		case EncryptedChat_Never:
+			policy = OTRL_POLICY_NEVER;
+			break;
+		case EncryptedChat_Manually:
+		case EncryptedChat_Default:
+			policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
+			break;
+		case EncryptedChat_Automatically:
+			policy = OTRL_POLICY_OPPORTUNISTIC;
+			break;
+		case EncryptedChat_RejectUnencryptedMessages:
+			policy = OTRL_POLICY_ALWAYS;
+			break;
 	}
 	
 	return policy;
