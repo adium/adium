@@ -1,0 +1,92 @@
+@import url("./main.css");
+
+.x-container.showIcons,
+.x-container.mention
+{
+	margin-left: 40px;
+}
+
+.x-container .x-buddyicon,
+.x-container .x-iconoverlay,
+.x-container.mention .x-mentionicon
+{
+	left: -40px;
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+}
+
+/* MESSAGE */
+
+.x-container .x-header,
+.x-container
+{
+	-webkit-border-top-right-radius: 4px;
+}
+
+.x-container:not(.mention).hideIcons .x-header,
+.x-container:not(.mention).hideIcons
+{
+	-webkit-border-top-left-radius: 4px;
+}
+
+.x-container
+{
+	-webkit-border-bottom-right-radius: 2px;
+}
+
+.x-container:not(.mention).hideIcons
+{
+	-webkit-border-bottom-left-radius: 2px;
+}
+
+.x-container:not(.mention) .x-iconoverlay
+{
+	background:
+	/*top corners*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 63%, 1)), to(hsla(0, 0%, 63%, 1))) left top no-repeat,
+
+	/*top dark border*/
+		-webkit-gradient(linear, left top, right top, from(hsla(0, 0%, 58%, 1)), to(hsla(0, 0%, 48%, 1))) left top no-repeat,
+	/*left dark gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 48%, 1)), to(hsla(0, 0%, 73%, 1))) left top no-repeat,
+	/*left light gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .3)), to(hsla(0, 0%, 100%, .7))) left top no-repeat,
+	/*right dark gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 48%, 1)), color-stop(.3, hsla(0, 0%, 48%, 1)), to(hsla(0, 0%, 58%, 1))) right bottom no-repeat,
+	/*right light gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .3)), to(hsla(0, 0%, 100%, .7))) right bottom no-repeat,
+	/*top light edge*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .5)), to(hsla(0, 0%, 90%, .5))) left top no-repeat,
+	/*bottom light edge*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, .5)), to(hsla(0, 0%, 100%, .5))) right bottom no-repeat,
+
+	/*body*/
+		-webkit-gradient(linear, left top, right top, from(hsla(0, 0%, 0%, .1)), color-stop(.15, hsla(0, 0%, 100%, 0)), color-stop(.85, hsla(0, 0%, 100%, 0)), to(hsla(0, 0%, 0%, .1))),
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 0%, .1)), color-stop(.17, hsla(0, 0%, 100%, 0)), color-stop(.52, hsla(0, 0%, 100%, 0)), to(hsla(0, 0%, 0%, .1))) !important;
+}
+
+.x-container.mention .x-iconoverlay
+{
+	background:
+	/*top corners*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 63%, 1)), to(hsla(0, 0%, 63%, 1))) left top no-repeat,
+
+	/*top dark border*/
+		-webkit-gradient(linear, left top, right top, from(hsla(0, 0%, 58%, 1)), to(hsla(0, 0%, 48%, 1))) left top no-repeat,
+	/*left dark gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 48%, 1)), to(hsla(0, 0%, 73%, 1))) left top no-repeat,
+	/*left light gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .3)), to(hsla(0, 0%, 100%, .7))) left top no-repeat,
+	/*right dark gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 48%, 1)), color-stop(.3, hsla(0, 0%, 48%, 1)), to(hsla(0, 0%, 58%, 1))) right bottom no-repeat,
+	/*right light gradient*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .3)), to(hsla(0, 0%, 100%, 7))) right bottom no-repeat,
+	/*top light edge*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, .5)), to(hsla(0, 0%, 90%, .5))) left top no-repeat,
+	/*bottom light edge*/
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, .5)), to(hsla(0, 0%, 100%, .5))) right bottom no-repeat,
+
+	/*body*/
+		-webkit-gradient(linear, left top, right top, from(hsla(0, 0%, 0%, .1)), color-stop(.15, hsla(0, 0%, 100%, 0)), color-stop(.85, hsla(0, 0%, 100%, 0)), to(hsla(0, 0%, 0%, .1))),
+		-webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 90%, 1)), color-stop(.12, hsla(0, 0%, 100%, 1)), color-stop(.62, hsla(0, 0%, 100%, 1)), to(hsla(0, 0%, 91%, 1))) !important;
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="connection, connecting, disconnect, login, logout, MSN, HTTP" />
+<meta name="description" content="Connection problems" />
+<title>Connection problems</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Connection problems</h1>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Troubleshooting your connection</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><b>Double-check proxy settings</b></p>
+			<p>If you are behind a proxy server, you should double-check that the information you have set up in the account setting's "Proxy" tab is correct. You should ask your network administrator for the information if you are unsure what to provide. If you're on a home network, you are probably not behind a proxy server.</p>
+			<p><b>Check local firewall settings</b></p>
+			<p>If you are running a service such as LittleSnitch which requires you to allow applications to connect to the internet, you should double-check the settings for Adium to make sure it is able to do so. This is often the case when adding a new service to Adium with a firewall running.</p>
+			<p><b>Restoring default connection settings</b></p>
+			<p>If you are having issues connecting to a service, try the following to restore the default connection settings:</p>
+				<ol>
+					<li>Open the Accounts preferences.</li>
+					<li>Double-click on the account which is having problems and go to the "Options" tab.</li>
+					<li>Delete the "login server" and "port" information, and hit OK.</li>
+				</ol>
+				<p>This will restore the server and port to the default setting. If you are still unable to connect, you can try the TroubleshootingTips or see the below explanation for a particular error.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Common disconnection errors</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><b>"Socket is not connected"</b></p>
+			<p>This occurs when the server you're trying to connect to is offline, or the port you connecting on is blocked. This is generally a temporary issue, but it may also be a firewall. If you think you are not behind a firewall, you might be limited by your internet service provider.</p>
+			<p>For AIM, you can try changing the port Adium connects to in the Accounts preferences to "80". The AIM server listens on every port, and since port 80 is unlikely to be blocked, you will probably be able to get online if it is a firewall issue.</p>
+			<p><b>"Error resolving…"</b></p>
+			<p>The login server the account is set to connect to could not be resolved. This typically means that your DNS server is having temporary issues, and is a problem you cannot correct. This may also be your proxy server having issues or the login server set incorrectly, see the above steps to try and correct this.</p>
+			<p><b>"Incorrect username or password"</b></p>
+			<p>This means the username and password combination that you log in with is invalid. For all services but AIM, there is not a separate error message for an invalid username. You should double-check your username as well as your password, and try again.</p>
+			<p>Occasionally, servers will report your login information as invalid when it isn't. If this is the case, it's likely a temporary issue which you will have to wait to correct itself.</p>
+		</div>
+	</div>
+		<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Temporary workaround for MSN server problems</h3>
+		</div>
+		<div class="taskboxtext">
+			<p><b>Turning HTTP connection on and off</b></p>
+			<p>Adium allows you to connect to the MSN service using HTTP, for situations when the MSN server is not reachable by normal means. This feature can be turned on and off in the Account's Options which you can access by double-clicking on the account in the Accounts list in Adium's Preferences.</p>
+		</div>
+	</div>
+	</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+@import url("../Styles/main.css");
+
+/* outgoing */
+
+.x-outgoingItem .x-timeStamp
+{
+	color: #a9a9a9;
+}
+
+.x-outgoingItem .x-myBubble .x-indicator
+{
+	background: url("../images/steelIndicator.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tl
+{
+	background: url("../images/steelCurves.png") no-repeat top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-tr
+{
+	background: url("../images/steelCurves.png") no-repeat top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-head
+{
+	background: url("../images/steelCurves.png") no-repeat -10px 0;
+}
+
+.x-outgoingItem .x-tableBubble .x-message
+{
+	background: url("../images/steelBackground.png") repeat-y top left;
+}
+
+.x-outgoingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/steelBackground.png") repeat-y top right;
+}
+
+.x-outgoingItem .x-tableBubble .x-bl
+{
+	background: url("../images/steelCurves.png") no-repeat bottom left;
+}
+
+.x-outgoingItem .x-tableBubble .x-br
+{
+	background: url("../images/steelCurves.png") no-repeat bottom right;
+}
+
+.x-outgoingItem .x-followUp
+{
+	background-color: #ececec;
+	border-bottom: 1px solid #fff;
+}
+
+
+/*incoming */
+
+.x-incomingItem .x-timeStamp
+{
+	color: #bdb410;
+}
+
+.x-incomingItem .x-myBubble .x-indicator
+{
+	background: url("../images/yellowIndicator.png") no-repeat top left;
+}
+
+.x-incomingItem .x-tableBubble .x-tl
+{
+	background: url("../images/yellowCurves.png") no-repeat top left;
+}
+
+.x-incomingItem .x-tableBubble .x-tr
+{
+	background: url("../images/yellowCurves.png") no-repeat top right;
+}
+
+.x-incomingItem .x-tableBubble .x-head
+{
+	background: url("../images/yellowCurves.png") no-repeat -10px 0;
+}
+
+.x-incomingItem .x-tableBubble .x-message
+{
+	background: url("../images/yellowBackground.png") repeat-y top left;
+}
+
+.x-incomingItem .x-tableBubble .x-messageRight
+{
+	background: url("../images/yellowBackground.png") repeat-y top right;
+}
+
+.x-incomingItem .x-tableBubble .x-bl
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom left;
+}
+
+.x-incomingItem .x-tableBubble .x-br
+{
+	background: url("../images/yellowCurves.png") no-repeat bottom right;
+}
+
+.x-incomingItem .x-followUp
+{
+	background-color: #f4f0a7;
+	border-bottom: 1px solid #fff;
+}
+
+.mention,
+.firstFocus .x-timeStamp:before
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(189, 180, 16, 1)), to(rgba(186, 175, 11, 1)));
+}
+
+.mention .x-avatar
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(253, 253, 244, 1)), to(rgba(249, 248, 224, 1)));
+}

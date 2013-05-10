@@ -1,0 +1,33 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {addFiles = id; }; 
+            CLASS = AXCAbstractXtraDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                authorField = NSTextField; 
+                controller = id; 
+                fileView = NSTableView; 
+                nameField = NSTextField; 
+                readmeView = NSTextView; 
+                tabs = NSTabView; 
+                typePopup = NSPopUpButton; 
+                versionField = NSTextField; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = AXCIconPackDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                emptyMenu = NSMenu; 
+                iconPlistView = NSOutlineView; 
+                menuWithResourceFiles = NSMenu; 
+                topLevelView = NSView; 
+            }; 
+            SUPERCLASS = AXCAbstractXtraDocument; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

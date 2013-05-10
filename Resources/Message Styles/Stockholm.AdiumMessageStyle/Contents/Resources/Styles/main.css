@@ -1,0 +1,380 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+	color: #141414;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(212, 212, 212, 1)), to(rgba(234, 234, 234, 1))) fixed repeat-x;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	overflow: hidden;
+	padding-bottom: 10px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+.x-container,
+.x-status_container
+{
+	position: relative;
+	opacity: .96;
+}
+
+.x-container
+{
+	margin-top: 11px !important;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(241, 241, 241, 1)), to(rgba(241, 241, 241, 1))) 0px top no-repeat;
+	border-left: 1px solid rgba(248, 248, 248, 1);
+	border-right: 1px solid rgba(248, 248, 248, 1);
+	border-bottom: 1px solid rgba(248, 248, 248, 1);
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .45);
+}
+
+.x-container.history.x-container > .x-header,
+.x-container.history.x-container .x-message,
+.x-container.history.x-container,
+.x-container.history.x-status_container
+{
+	opacity: .7;
+}
+
+.x-container.history .x-buddyicon,
+.x-container.history .x-mentionicon,
+.x-container.history .x-iconoverlay
+{
+	opacity: .7;
+}
+
+.x-container:not(.mention).hideIcons
+.x-container:not(.mention).hideIcons .x-message
+{
+	margin-right: 0px !important;
+}
+
+/* ICON */
+
+.x-container.hideIcons .x-buddyicon,
+.x-container.hideIcons:not(.mention) .x-iconoverlay,
+.x-container.hideIcons:not(.mention) .x-mentionicon
+{
+	display: none;
+}
+
+.x-container .x-buddyicon
+{
+	background-color: rgba(255, 255, 255, 1) !important;
+	height: 39px;
+	width: 38px;
+	position: absolute;
+	visibility: visible;
+}
+
+.x-container.mention .x-mentionicon
+{
+	height: 38px;
+	width: 38px;
+	position: absolute;
+	visibility: visible;
+}
+
+.x-mentionicon
+{
+	visibility: hidden;
+}
+
+.x-container.mention .x-buddyicon
+{
+	display: none;
+	background-color: transparent !important;
+	background-image: none !important;
+}
+
+.x-container.mention .x-mentionicon
+{
+	-webkit-mask-box-image: url("../images/pref-mention-mask.png");
+	-webkit-background-size: auto;
+}
+
+.x-container .x-iconoverlay
+{
+	height: 38px;
+	width: 38px;
+	position: absolute;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .45);
+	-webkit-background-size:
+		2px 2px,
+
+		100% 1px,
+		1px 100%,
+		2px 100%,
+		1px 100%,
+		2px 100%,
+		100% 2px,
+		100% 1px,
+
+		100% 100%,
+		100% 100%;
+}
+
+.x-container.mention .x-iconoverlay
+{
+	z-index: -1 !important;
+}
+
+/* HEADER */
+
+.x-container .x-header
+{
+	color: #FFF;
+	font-weight: bold;
+	text-shadow: rgba(0, 0, 0, .3) 0 -1px 1px;
+	margin-bottom: 0px;
+	margin-right: -2px;
+	margin-left: -2px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	-webkit-background-size:
+		2px 2px,
+		1px 3px,
+		3px 1px,
+		3px 3px,
+
+		100% 1px,
+		1px 100%,
+		100% 1px,
+		1px 100%,
+
+		100% 2px,
+		100% 2px,
+		2px 100%,
+		2px 100%,
+		100% 100%;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .3);
+}
+
+.x-container.hideIcons:not(.mention) .x-header
+{
+	margin-left: -2px;
+	-webkit-background-size:
+		2px 2px,
+		1px 3px,
+		3px 1px,
+		3px 3px,
+		2px 2px,
+		1px 3px,
+		3px 1px,
+		3px 3px,
+
+		100% 1px,
+		1px 100%,
+		100% 1px,
+		1px 100%,
+
+		100% 2px,
+		100% 2px,
+		2px 100%,
+		2px 100%,
+		100% 100%;
+}
+
+.x-container .x-sender
+{
+	padding-top: 3px;
+	padding-right: 11px;
+}
+
+.x-container .x-header .x-time
+{
+	float: right;
+	margin-right: 8px;
+	margin-left: 6px;
+	margin-top: 3px;
+}
+
+/* MESSAGE */
+
+.x-container .x-message
+{
+	padding-top: 2px;
+	padding-bottom: 1px;
+	margin-left: 6px;
+	margin-right: 8px;
+	padding-right: 1px;
+	margin-bottom: -1px;
+}
+
+.x-message.consecutive
+{
+	padding-bottom: 1px;
+	padding-top: 1px;
+	border-top: 1px solid #DDDDDD;
+	margin-top: 1px;
+	
+}
+
+.x-message .x-text
+{
+	line-height: 1.3em;
+	/*overflow: auto;*/
+	padding-bottom: 1px;
+}
+
+.x-message .x-time
+{
+	visibility: hidden;
+	font-weight: bold;
+	//position: absolute;
+	margin-top: 0px;
+	padding-left: 4px;
+	padding-top: 0px;
+	padding-bottom: 1px;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, .5);
+	background-color: rgba(255, 255, 255, .8);
+	color: rgba(16, 16, 16, .8);
+	font-weight: bold;
+}
+
+.message:not(.focus) .x-message.ltr .x-time,
+.message .x-message.ltr:not(.focus) .x-time
+{
+	//right: 1px;
+	padding-right: 5px;
+	float: right;
+	margin-right: -8px;
+	margin-left: 4px;
+}
+
+.message.focus .x-message.ltr .x-time,
+.message .x-message.focus.ltr .x-time
+{
+	//right: 1px;
+	padding-right: 9px;
+	float: right;
+	margin-right: -8px;
+	margin-left: 4px;
+}
+
+.message .x-message.rtl .x-time
+{
+	//left: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	float: left;
+	//margin-right: -8px;
+	margin-left: -4px;
+}
+
+.x-message:hover .x-time
+{
+	visibility: visible;
+}
+
+a
+{
+	color: #0033CC;
+	text-decoration: underline;
+}
+
+/* STATUS */
+
+.x-status_container
+{
+	opacity: .96;
+	margin-top: 11px;
+	margin-bottom: -2px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(241, 241, 241, 1)), to(rgba(241, 241, 241, 1))) no-repeat;
+	-webkit-border-radius: 3px;
+	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, .9), 0px -1px 0px rgba(0, 0, 0, .2), 0px 0px 2px rgba(0, 0, 0, .2);
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 7px;
+}
+
+.x-status_container:not(.focus)
+{
+	padding-right: 7px;
+}
+
+.x-status_container.focus
+{
+	padding-right: 12px;
+}
+
+.x-status_container .x-text
+{
+	color: rgba(143, 143, 143, 1);
+}
+
+.x-status_container .x-time
+{
+	float: right;
+	font-weight: bold;
+	color: rgba(160, 160, 160, 1);
+	margin-left: 10px;
+}
+
+/* FILE HANDLER */
+
+.x-filetext
+{
+	line-height: 1.3em;
+	font-size: 1em;
+	padding: 1px 10px 1px 8px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.x-fileicon
+{
+	height: 32px;
+	width: 32px;
+	vertical-align: bottom;
+	padding: 3px 5px 3px 0;
+	float: left;
+}
+
+.x-fileincoming
+{
+	padding-top: 10px;
+}
+
+.x-filename a
+{
+	text-decoration: none;
+}
+
+.x-filemessage
+{
+	padding: 7px 0 5px 0;
+	clear: both;
+}
+
+.focus > .x-message > .x-text:before,
+.focus > .x-text:before
+{
+	-webkit-box-shadow: 0px 2px 1px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, 1);
+	content: "\feff";
+	color: white;
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, .2);
+	padding-left: 2px;
+	padding-right: 2px;
+	-webkit-border-radius: 3px;
+	position: absolute;
+	margin-top: 3px;
+	right: 3px;
+	line-height: .8em;
+}
+
+.x-status_container.focus > .x-text:before
+{
+	background: rgba(208, 208, 208, 1);
+	background: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 85%, 1)), to(hsla(0, 0%, 75%, 1)));
+	-webkit-box-shadow: 0px 2px 1px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, .5);
+	right: 4px;
+	margin-top: 3px;
+}

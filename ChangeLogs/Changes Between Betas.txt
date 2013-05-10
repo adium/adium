@@ -1,0 +1,154 @@
+Adium 1.5xx
+ General
+  * Can't change XMPP room settings for combo box settings (#15629).
+  * Fixed deletion of a Gadu-Gadu contact from contact list not being persistent (#9126).
+  * Fixed message view content not scrolled to bottom when opening and not scrolling when new content is added.
+
+ Localisation
+  * Updated localisations: Swedish (#15786).
+
+Adium 1.5rc4
+ * Fixed the contact list appearing in a wrong position at startup on Mac OS X Lion (#15341, #15480).
+ * Fixed message history only showing on 1st tab, on startup (#15377).
+ * Fixed message view jumps to the bottom when Twitter Timeline updates (#15790).
+ * Fixed the contact list shrinking when closing the search. (#14433)
+ * Fixed the Ukrainian localisation not being used on Mac OS X Lion (#15821).
+
+
+Adium 1.5rc3
+ General
+  * Fixed permission issues caused by previous release being built incorrectly.
+  * Blacklisted the Skype plugin in 1.5, as it's known to be broken.
+  * Restored LiveJournal connectivity by removing the hard-coded server name, they have an SRV record now.
+
+ Localisation
+  * Updated localisations: Italian (#15810, #15808).
+
+
+Adium 1.5rc2
+ General
+  * Fixed hang which could occur when receiving a message and opening the Transcript Viewer at the same time.
+  * Renamed "Current Track" status to "iTunes Status" (known as "iTunes" prior to 1.5).
+  * Fixed numerous memory leaks.
+  * Fixed numerous Clang Analyzer warnings.
+
+ Localisation
+  * Updated localisations: German (##15586, #15733), Greek, Swedish (#15786).
+  * Fixed localisation of a couple of emoticon names.
+
+
+Adium 1.5rc1
+ Localisation
+  * Updated localisations: Catalan (#15770), Chinese (Traditional), Italian (#15758), Portuguese (Portugal) (#15721), Slovenian (#15772).
+  * Fixed typos/misspellings in Russian localisation. (#15769, #15571)
+
+ Transcript Viewer
+  * Fixed ghosting artifacts when scrolling transcript contents (while searching).
+  * Fixed a potential crash when the log index failed to initialize while trying to delete a log.
+  * Fixed a hang caused by two threads opening the same index simultaneously.
+
+ General
+  * Added Aqualicious Graphite, a new contact list theme to match Mac OS X's Graphite style.
+  * Added the generic menu items to the group chat cog button for XMPP groupchats.
+  * Fixed "Show Toolbar" showing as disabled and untranslated. (#15759)
+  * Fixed ghosting artifacts in the "Get Info" window's "Events" tab. (#12237)
+  * Fixed enable/disable "View Chat Transcripts" menu item, in group chats (user list) context menu.
+  * Chats can no longer refuse to quit when they're still processing content.
+  * Fixed AdiumAppleScriptRunner to enable building on Lion.
+  * Switched some adiumx.com links to adium.im.
+  * Fixed a bunch of non-integer view size values.
+
+
+Adium 1.5b9
+ General
+  * Fixed the contact list not remembering its position on Lion. (#15341, #15480)
+  * Fixed the message entry area being very large when Adium is first run.
+  * Fixed display of Google+ users that don't reveal their email address.
+  * Fixed some display issues with the user list when resizing a small chat window.(#15577)
+  * Make some labels look enabled/disabled like their respective checkbokes. (#15133)
+  * Updated Growl.framework to 1.3.1, fixing a potential crash. (#15728)
+  * New Adiumy menu bar icon set (by Igor Kryzhanovskyi).
+
+ Localisation
+  * Made additional strings localisable
+  * Widenened "Advanced" preferences and "Get Info" windows to accomodate longer translations. (#15712)
+  * Updated localisations: French (#15734), German (#15586, #15658), Portuguese (Portugal) (#15721), Swedish (#15726).
+ 
+ 
+Adium 1.5b8
+ General
+  * Make sure opening chatlog files does not show a warning in Finder about opening downloaded files. (#15573)
+  * Refactoring of ESiTunesPlugin including:
+    * Use same menu in menu bar, context menu and toolbar.
+    * Fixed bug when replacing tokens with empty strings.
+    * Make tokens un-localizable.
+  * Fixed a potential crash when opening the Transcript Viewer. (#15556)
+  * Fixed setting a global shortcut which used the letter "a" (yet again). (#12013)
+
+ Interface
+  * Disabled elastic scroll in the text input of the message view.
+  * Disabled elastic scroll in Change User Picture Menu.
+
+ Libpurple
+  * Updated libpurple, with the following changes:
+    * Fixed double mail notifications on MSN. (#11199)
+    * Make disconnecting due to flooding on IRC less likely to occur. (#13920)
+
+ Twitter
+  * For retweets, show the full original tweet instead of the truncated retweet. (#15226)
+
+ Localisation
+  * Made non-localizable elements in ESStatusAdvancedPreferences localizable. (#15682)
+  * Updated translations: Catalan (#14898), Czech (#15677), Danish (#15703), Dutch (#15697), Australian English (#15700), German (#15586), Portuguese (Portugal) (#15706), Swedish (#15605).
+
+
+Adium 1.5b7
+ * Make sure nibs are not stripped so they can be localized.
+
+
+Adium 1.5b6
+ * Fixed automatic updating between betas failing with the error "Can't make a temporary directory for the update download". (#15666)
+ * Correct strange behavior in the messages pref pane. (#15670)
+ * Further fixes of message context display. (#15377)
+ * Fixed a 2px alignment issue when a normal or borderless contact window is set to vertically resize automatically. (#15626)
+ * Restored bouncy scroll behavior to normal window style contact list windows.
+ * Fixed crash when sending certain group chat requests. (#15674)
+ * Fixed emotes ('/me' messages) in IRC private chats. (#15589)
+ * Fixed global application shortcut. (#12013)
+ * Fixed some issues with AppleScript. (Peter Schmitt) (#15234)
+ * Fixed incorrectly formatted output in the logviewer. (#15574)
+
+
+Adium 1.5b5
+ * Fixed crash when loading Skype plugin. (#15590)
+ * Disabled loading WebKit plugins when presenting Facebook authorization windows.
+ * Fixed small leap when auto-scrolling resumes in About box.
+
+
+Adium 1.5b4
+ * Reduced application bundle size and memory overhead. (#15466)
+ * Adium no longer erroneously reports it supports VV. (#15639)
+ * Fixed a visual glitch in AB and status advanced prefs. (#15646)
+ * Removed import from Fire. (#15366)
+ * Increased robustness of message context display.
+
+
+Adium 1.5b3
+ * Fixed issue where window shadows were not initially rendered with transparent message view backgrounds (#12608)
+ * Fixed sounds playing from the main sound device, and not the alert sound device. (#15529)
+ * Fixed Adium's behavior with spaces and mission control. (#15408)
+ * Ask the user to re-authenticate with Facebook when we get a failed password response. (#15583)
+ * Fixed a crash when installing an Xtra from the website. (#15581)
+ * Smooth Operator - Alternating: improved closing focus indicators when icons are disabled (via checkbox or in IRC).
+ * Smooth Operator - Dark: added a faint striped texture to the background.
+ * minimal_mod: enabled header hiding if the user scrolls up far enough that Adium won't scroll on new content. (And removed the changing of header opacity on hover.)
+
+
+Adium 1.5b2
+ * Made the separator between the text entry and message views thinner.
+ * Fixed a shadow drawing error under 64 bit in PSMTabBarController
+ * Fixed issue where the user count was not updated when the user list is dragged open. (#15446)
+ * Fixed issue where the state of the user list was not preserved when the user list is dragged open or closed.
+ * Fixed potential crash related to displaying emoticons.
+ * Fixed connecting to Facebook using OAuth. (#15544)
+ * Fixed numerous message view layout issues. (#15560, #15560, #15568, #15575, #15577, #15582)
