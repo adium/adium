@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="otr, encryption, off-the-record" />
+<meta name="description" content="otr encryption" />
+<title>OTR encryption</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>OTR encryption</h1>
+	</div>
+	<p><a href="http://www.cypherpunks.ca/otr/">Off-the-Record (OTR) Messaging</a> enables you to have private conversations over instant messaging. According to the OTR Development Team, it aims to provide the following:</p>
+	<ul>
+		<li>"Encryption: No one else can read your instant messages."</li>
+		<li>"Authentication: You are assured the correspondent is who you think it is."</li>
+		<li>"Deniability: The messages you send do not have digital signatures that are checkable by a third party. Anyone can forge messages after a conversation to make them look like they came from you. However, during a conversation, your correspondent is assured the messages he sees are authentic and unmodified."</li>
+		<li>"Perfect forward secrecy: If you lose control of your private keys, no previous conversation is compromised."</li>
+	</ul>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Setup</h3>
+		</div>
+		<div class="taskboxtext">
+			<ul>
+				<li>Generate an OTR fingerprint:</li>
+			<ol>
+				<li>Open the preferences, accessible via the <strong>Adium</strong> menu in the menu bar, and select the <strong>Encryption</strong> pane.</li>
+				<li>Click the <strong>Generate</strong> button. This fingerprint is unique for the account selected in the dropdown.</li>
+			</ol>
+				<li>Make sure you have the "Encryption" (lock) item in the chat window's toolbar. If not, click "Customise Toolbar..." from the <strong>View</strong> menu and add it.</li>
+			</ul>
+			<p align="center"> <img src="../gfx/Chat window-Encryption.png" alt="" width="" height="" /></p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Initiating an OTR-encrypted chat</h3>
+		</div>
+		<div class="taskboxtext">
+			<p></p>
+			<ol>
+				<li>Open a chat with the contact with whom you want to have a private conversation.</li>
+				<li>Notice the "Encryption" item in the toolbar appears unlocked. It signifies the chat currently is not encrypted. Click the icon and select "Initiate Encrypted OTR Chat".</li>
+				<li>You will be prompted to verify the fingerprint. If you are certain of its trustworthy origin click "Accept".</li>
+				<li>Notice the previously unlocked icon is now locked and the message "Encrypted OTR chat initiated" is displayed in the message view.</li>
+			</ol>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Encryption settings</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>There are four different settings which can be adjusted on a per-account and on a per-contact basis: "Disable chat encryption", "Encrypt chats as requested", "Encrypt chats automatically" and "Force encryption and refuse plaintext".</p>
+			<p><strong>Per-account</strong></p>
+			<ul>
+				<li>Open preferences, select the <strong>Accounts</strong> pane and double-click the account.</li>
+				<li>Click the "Privacy" tab and choose your option for this account from the dropdown.</li>
+			</ul>
+			<p><strong>Per-contact</strong></p>
+			<ul>
+				<li>In the chat window/tab you have open with the contact in question, click the lock in the toolbar and choose your option via "Encryption Settings".</li>
+			</ul>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Disabling chat logging on your computer</h3>
+		</div>
+		<div class="taskboxtext">
+			<p>By default, Adium stores all of your chats locally. You might want to disable logging of chats on your computer entirely or just for OTR-encrypted chats or specific accounts.</p>
+			<ul>
+				<li>Open preferences, select the <strong>Messages</strong> pane.</li>
+				<li>Tick the appropriate checkboxes.</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>
