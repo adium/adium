@@ -1783,7 +1783,7 @@
 - (void)setHasEmoticonsMenu:(BOOL)hasMenu
 {
 	if (hasMenu && emoticonsMenuButton == nil) {
-		NSImage *emoticonsMenuIcon = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"emoticons_menu" ofType:@"png"]];
+		NSImage *emoticonsMenuIcon = [NSImage imageNamed:@"emoticons_menu"];
 		
 		emoticonsMenuButton = [[NSButton alloc] initWithFrame:NSZeroRect];
 		
