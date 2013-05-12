@@ -96,6 +96,7 @@ typedef enum {
 #define TWITTER_TIMELINE_NAME				@"Timeline (%@)"
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
+#define TWITTER_PROPERTY_USER_ICON_URL			@"Twitter User Icon URL"
 
 #define TWITTER_PREFERENCE_UPDATE_AFTER_SEND		@"Update After Send"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL			@"Update Global Status"

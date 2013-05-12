@@ -1030,6 +1030,9 @@
 {
 	// If we don't already have an icon for the user...
 	if(![listContact boolValueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON]) {
+		if ([[listContact valueForKey:TWITTER_PROPERTY_USER_ICON_URL] isEqualToString:url])
+			return;
+		
 		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
 		// Grab the user icon and set it as their serverside icon.
@@ -1047,6 +1050,7 @@
 												notify:NotifyLater];
 					
 					[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+					[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
 				});
 			} else {
 				[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
