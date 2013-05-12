@@ -31,6 +31,7 @@
 	IBOutlet AIImageCollectionView *emoticonsCollectionView;
 	IBOutlet NSTextField *emoticonTitleLabel;
 	IBOutlet NSTextField *emoticonSymbolLabel;
+	IBOutlet NSView *alignmentView;
 	
 	AIMessageEntryTextView *textView;
 	

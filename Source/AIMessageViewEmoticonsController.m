@@ -113,10 +113,8 @@
 		[titles release];
 		[symbols release];
 		
-		NSSize alignmentSize = NSMakeSize([[[[emoticonsCollectionView superview] superview] superview] frame].size.width, ceil([[self emoticons] count] / 10.0f) * 20.0f);
+		NSSize alignmentSize = NSMakeSize([alignmentView frame].size.width, ceil([[self emoticons] count] / 10.0f) * 20.0f);
 		
-		[[[[emoticonsCollectionView superview] superview] superview] setFrameSize:alignmentSize];
-		[[[[emoticonsCollectionView superview] superview] superview] setNeedsDisplay:YES];
 		
 		/*NSLog(@"%lu", [[self emoticons] count]);
 		 NSLog(@"%f", [[self emoticons] count] / 10.0f * 20.0f);
@@ -189,6 +187,8 @@
 								inView:[aView superview]];*/
 		//[aView bounds].size.width - [menu size].width - 5.0f, [aView bounds].size.height - [menu size].height		
 		//([menu numberOfItems] - 1)
+		[alignmentView setFrameSize:alignmentSize];
+		[alignmentView setNeedsDisplay:YES];
 		
 		// Adjust opening position
 		aPoint.x -= [menu size].width;
