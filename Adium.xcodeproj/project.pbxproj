@@ -1355,6 +1355,8 @@
 		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
+		76980AC1173E6C8800FBDA15 /* libidn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76980AC0173E6C8800FBDA15 /* libidn.framework */; };
+		76980AC5173E6CA700FBDA15 /* libidn.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76980AC0173E6C8800FBDA15 /* libidn.framework */; };
 		769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */; };
 		76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */ = {isa = PBXBuildFile; fileRef = 76A79E0916349477007A0497 /* AIGroupChat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A79E0A16349477007A0497 /* AIGroupChat.m */; };
@@ -1681,6 +1683,7 @@
 				11EE1CCF0CDD01120097F246 /* libglib.framework in Copy Frameworks */,
 				11EE1CD00CDD01120097F246 /* libgmodule.framework in Copy Frameworks */,
 				11EE1CD10CDD01120097F246 /* libgobject.framework in Copy Frameworks */,
+				76980AC5173E6CA700FBDA15 /* libidn.framework in Copy Frameworks */,
 				11EE1CD20CDD01120097F246 /* libgthread.framework in Copy Frameworks */,
 				7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */,
 				11EE1CD30CDD01120097F246 /* libintl.framework in Copy Frameworks */,
@@ -4419,6 +4422,7 @@
 		767870E21634045C00BD0E4D /* AIMessageViewTopBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewTopBarController.h; path = Source/AIMessageViewTopBarController.h; sourceTree = "<group>"; };
 		767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewTopBarController.m; path = Source/AIMessageViewTopBarController.m; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
+		76980AC0173E6C8800FBDA15 /* libidn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libidn.framework; path = Frameworks/libidn.framework; sourceTree = "<group>"; };
 		769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AMPurpleJabberDiscoveryBrowser.xib; path = "Plugins/Purple Service/AMPurpleJabberDiscoveryBrowser.xib"; sourceTree = "<group>"; };
 		76A79E0916349477007A0497 /* AIGroupChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChat.h; path = "Frameworks/Adium Framework/Source/AIGroupChat.h"; sourceTree = "<group>"; };
 		76A79E0A16349477007A0497 /* AIGroupChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChat.m; path = "Frameworks/Adium Framework/Source/AIGroupChat.m"; sourceTree = "<group>"; };
@@ -4794,6 +4798,7 @@
 				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
 				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
+				76980AC1173E6C8800FBDA15 /* libidn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8295,6 +8300,7 @@
 		979AA6A914D59EF3008730DF /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				76980AC0173E6C8800FBDA15 /* libidn.framework */,
 				7664EAA4162E086A008CF995 /* libffi.framework */,
 				76731DE015F90538007728C3 /* libgcrypt.framework */,
 				76731DE115F90538007728C3 /* libgpgerror.framework */,
@@ -12402,6 +12408,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = Debug;
 		};
@@ -12409,6 +12419,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = Release;
 		};
@@ -12416,6 +12430,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = "Release-Debug";
 		};
