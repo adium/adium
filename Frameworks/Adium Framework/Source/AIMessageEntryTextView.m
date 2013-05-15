@@ -1794,16 +1794,19 @@
 		[emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
 		[[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];
 
-		[emoticonsMenuButton setImage:[emoticonsMenuIcon copy]];
+		[emoticonsMenuButton setImage:emoticonsMenuIcon];
+		
+		NSImage *alternateMenuIcon = [emoticonsMenuIcon copy];
 		
 		// Adjust image for On/Alternate state
-		[emoticonsMenuIcon lockFocus];		
-		[emoticonsMenuIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositePlusDarker fraction:0.5f];
-		[emoticonsMenuIcon unlockFocus];
+		[alternateMenuIcon lockFocus];
+		[alternateMenuIcon drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositePlusDarker fraction:0.5f];
+		[alternateMenuIcon unlockFocus];
 		
-		[emoticonsMenuButton setAlternateImage:emoticonsMenuIcon];
+		[emoticonsMenuButton setAlternateImage:alternateMenuIcon];
 		
 		[emoticonsMenuIcon release];
+		[alternateMenuIcon release];
 
 		// Register for notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:)
