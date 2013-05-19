@@ -1805,7 +1805,6 @@
 		
 		[emoticonsMenuButton setAlternateImage:alternateMenuIcon];
 		
-		[emoticonsMenuIcon release];
 		[alternateMenuIcon release];
 
 		// Register for notifications
