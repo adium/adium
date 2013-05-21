@@ -97,7 +97,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
-	CFRelease(trustRef);
+	if (trustRef) CFRelease(trustRef);
 	
 	[hostname release];
 	
@@ -166,8 +166,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	if(err != noErr) {
 		CFRelease(searchRef);
 		CFRelease(policyRef);
-		if (trustRef)
-			CFRelease(trustRef);
 		NSBeep();
 		[self release];
 		return;
