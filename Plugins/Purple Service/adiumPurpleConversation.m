@@ -122,49 +122,53 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 								 time_t mtime)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	//We only care about this if it does not have the PURPLE_MESSAGE_SEND flag, which is set if Purple is sending a sent message back to us
-	if ((flags & PURPLE_MESSAGE_SEND) == 0) {
-		if (flags & PURPLE_MESSAGE_NOTIFY) {
-			// We received a notification (nudge or buzz). Send a notification of such.
-			NSString *type, *messageString = [NSString stringWithUTF8String:message];
-
-			// Determine what we're actually notifying about.
-			if ([messageString rangeOfString:@"nudge" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
-				type = @"Nudge";
-			} else if ([messageString rangeOfString:@"buzz" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
-				type = @"Buzz";
-			} else {
-				// Just call an unknown type a "notification"
-				type = @"notification";
-			}
-
-			[[NSNotificationCenter defaultCenter] postNotificationName:Chat_NudgeBuzzOccured
-																			   object:chatLookupFromConv(conv)
-																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-																					   type, @"Type",
-																					   nil]];
+	
+	// We only care about this if it does not have the PURPLE_MESSAGE_SEND flag, which is set if Purple is sending a sent message back to us
+	// Or if it has both PURPLE_MESSAGE_SEND and PURPLE_MESSAGE_RECV: we received from the server a message that we supposedly sent ourselves.
+	if ((flags & PURPLE_MESSAGE_SEND) == PURPLE_MESSAGE_SEND && (flags & PURPLE_MESSAGE_RECV) == 0) {
+		[pool release];
+		return;
+	}
+	
+	if (flags & PURPLE_MESSAGE_NOTIFY) {
+		// We received a notification (nudge or buzz). Send a notification of such.
+		NSString *type, *messageString = [NSString stringWithUTF8String:message];
+		
+		// Determine what we're actually notifying about.
+		if ([messageString rangeOfString:@"nudge" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
+			type = @"Nudge";
+		} else if ([messageString rangeOfString:@"buzz" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
+			type = @"Buzz";
 		} else {
-			NSDictionary		*messageDict;
-			CBPurpleAccount		*adiumAccount = accountLookup(purple_conversation_get_account(conv));
-			NSString			*messageString;
-			AIChat				*chat;
-			
-			messageString = [NSString stringWithUTF8String:message];
-			chat = chatLookupFromConv(conv);
-			
-			AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, chat.listObject.UID);
-			
-			//Process any purple imgstore references into real HTML tags pointing to real images
-			messageString = processPurpleImages(messageString, adiumAccount);
-			
-			messageDict = [NSDictionary dictionaryWithObjectsAndKeys:messageString,@"Message",
-						   [NSNumber numberWithInteger:flags],@"PurpleMessageFlags",
-						   [NSDate dateWithTimeIntervalSince1970:mtime],@"Date",nil];
-			
-			[adiumAccount receivedIMChatMessage:messageDict
-										 inChat:chat];
+			// Just call an unknown type a "notification"
+			type = @"notification";
 		}
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_NudgeBuzzOccured
+															object:chatLookupFromConv(conv)
+														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+																	type, @"Type",
+																	nil]];
+	} else {
+		NSDictionary		*messageDict;
+		CBPurpleAccount		*adiumAccount = accountLookup(purple_conversation_get_account(conv));
+		NSString			*messageString;
+		AIChat				*chat;
+		
+		messageString = [NSString stringWithUTF8String:message];
+		chat = chatLookupFromConv(conv);
+		
+		AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, chat.listObject.UID);
+		
+		//Process any purple imgstore references into real HTML tags pointing to real images
+		messageString = processPurpleImages(messageString, adiumAccount);
+		
+		messageDict = [NSDictionary dictionaryWithObjectsAndKeys:messageString,@"Message",
+					   [NSNumber numberWithInteger:flags],@"PurpleMessageFlags",
+					   [NSDate dateWithTimeIntervalSince1970:mtime],@"Date",nil];
+		
+		[adiumAccount receivedIMChatMessage:messageDict
+									 inChat:chat];
 	}
     [pool drain];
 }
