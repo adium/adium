@@ -145,7 +145,6 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 {
 	[self calculateAllHeights];
 	[outlineView_summary reloadData];
-//	[outlineView_summary noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [outlineView_summary numberOfRows]-1)]];
 }
 
 //Configure the pane for a list object

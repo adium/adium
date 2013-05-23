@@ -738,7 +738,6 @@
 			AILog(@"Warning: Invisibility is not yet supported in libpurple 2.0.0 jabber");
 			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
 			statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_AWAY);
-//			statusID = "Invisible";
 			break;
 			
 		case AIOfflineStatusType:

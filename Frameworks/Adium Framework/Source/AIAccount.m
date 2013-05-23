@@ -1191,7 +1191,6 @@ typedef enum
 		}
 		
 		AIChat *newChat = [adium.chatController chatWithContact:contact];
-		//		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
 		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
 	} else {
@@ -1212,7 +1211,6 @@ typedef enum
 			[newParticipants addObject:[[participants objectAtIndex:i] objectsByEvaluatingSpecifier]];
 		}
 		
-		//AIChat *newChat = [adium.chatController chatWithName:name identifier:nil onAccount:self chatCreationInfo:nil];
 		DCJoinChatViewController *chatController = [DCJoinChatViewController joinChatView];
 		[chatController doJoinChatWithName:name onAccount:self chatCreationInfo:nil invitingContacts:newParticipants withInvitationMessage:@"Hey, wanna join my chat?"];
 		return [adium.chatController existingChatWithName:name onAccount:self];

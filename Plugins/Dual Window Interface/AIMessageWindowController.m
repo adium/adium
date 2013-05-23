@@ -381,8 +381,6 @@
 		[tabView_tabBar setUseOverflowMenu:(useOverflow ? [useOverflow boolValue] : YES)];
 		
 		[[tabView_tabBar overflowPopUpButton] setAlternateImage:[AIStatusIcons statusIconForStatusName:@"content" statusType:AIAvailableStatusType iconType:AIStatusIconTab direction:AIIconNormal]];
-		//NSImage *overflowImage = [[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"overflow_overlay"]] autorelease];
-		//[[tabView_tabBar overflowPopUpButton] setAlternateImage:overflowImage];
 		
 		//change the frame of the tab bar according to the orientation
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
@@ -396,7 +394,6 @@
 		//set tab style drawing attributes
 		[tabView_tabStyle setDrawsRight:(tabPosition == AdiumTabPositionRight)];
 		[tabView_tabStyle setDrawsUnified:(tabPosition == AdiumTabPositionTop)];
-		//[[[self window] toolbar] setShowsBaselineSeparator:(tabPosition != AdiumTabPositionTop)];
 		
 		[self _updateWindowTitleAndIcon];
 
@@ -1248,45 +1245,6 @@
 		}
 	}
 }
-
-/*//Custom Tabs Delegate -------------------------------------------------------------------------------------------------
-#pragma mark Custom Tabs Delegate
-//Bring our window to the front
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
-{
-	NSDragOperation tmp = NSDragOperationNone;
-    NSString 		*type = [[sender draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:TAB_CELL_IDENTIFIER,nil]];
-
-    if (sender == nil || type) {
-        if (![[self window] isKeyWindow]) [[self window] makeKeyAndOrderFront:nil];
-		[self _suppressTabHiding:YES];
-        tmp = NSDragOperationPrivate;
-    }
-	return tmp;
-}
-
-- (void)draggingExited:(id <NSDraggingInfo>)sender
-{
-	NSString 		*type = [[sender draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:TAB_CELL_IDENTIFIER,nil]];
-	
-    if (sender == nil || type) [self _suppressTabHiding:NO];
-}
-
-- (void)_suppressTabHiding:(BOOL)suppress
-{
-	supressHiding = suppress;
-	[self updateTabBarVisibilityAndAnimate:YES];
-}
-
-//Send the print message to our view
-- (void)adiumPrint:(id)sender
-{
-	id	controller = [(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] messageViewController];
-	
-	if ([controller respondsToSelector:@selector(adiumPrint:)]) {
-		[controller adiumPrint:sender];
-	}
-}*/
 
 //Toolbar --------------------------------------------------------------------------------------------------------------
 #pragma mark Toolbar

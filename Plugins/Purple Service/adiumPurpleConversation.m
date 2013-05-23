@@ -486,11 +486,6 @@ static void adiumPurpleConvUpdated(PurpleConversation *conv, PurpleConvUpdateTyp
 			case PURPLE_CONV_UPDATE_ICON:
 			case PURPLE_CONV_UPDATE_FEATURES:
 
-/*				
-				[accountLookup(purple_conversation_get_account(conv)) mainPerformSelector:@selector(convUpdateForChat:type:)
-													   withObject:groupChatLookupFromConv(conv)
-													   withObject:[NSNumber numberWithInt:type]];
-*/				
 			default:
 				break;
 		}
