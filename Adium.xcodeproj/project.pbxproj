@@ -12415,10 +12415,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Debug;
 		};
@@ -12426,10 +12422,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = Release;
 		};
@@ -12437,10 +12429,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
 			};
 			name = "Release-Debug";
 		};
@@ -12726,14 +12714,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
-				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -12741,7 +12727,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12749,7 +12734,6 @@
 					"\"$(SRCROOT)/build/Debug\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = RELEASE_BUILD;
-				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -12757,7 +12741,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -12768,7 +12751,6 @@
 					RELEASE_BUILD,
 					DEBUG_BUILD,
 				);
-				PROVISIONING_PROFILE = "";
 			};
 			name = "Release-Debug";
 		};
