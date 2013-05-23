@@ -1060,6 +1060,25 @@
 }
 
 /*!
+ * @brief Update the display name, icon, and status of the list contact.
+ */
+- (void)updateContact:(AIListContact *)listContact withInfo:(NSDictionary *)userInfo andStatusMessage:(NSAttributedString *)message
+{
+	// Grab the Twitter display name and set it as the remote alias.
+	NSString *displayName = [userInfo objectForKey:TWITTER_INFO_DISPLAY_NAME];
+	if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:displayName]) {
+		[listContact setServersideAlias:displayName
+							   silently:silentAndDelayed];
+	}
+	
+	// Update the user's status message
+	[listContact setStatusMessage:message
+						   notify:NotifyLater];
+	
+	[self updateUserIcon:[userInfo objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+}
+
+/*!
  * @brief Unfollow the requested contacts.
  */
 - (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
@@ -1527,19 +1546,8 @@
 					  inReplyToUser:(NSString *)replyUserID
 				   inReplyToTweetID:(NSString *)replyTweetID
 {
-	NSMutableAttributedString *mutableMessage;
-	NSDictionary    *retweet = [inStatus objectForKey:TWITTER_STATUS_RETWEET];
-	
-	if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-		NSString *text = [[retweet objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
-		mutableMessage = [[NSMutableAttributedString alloc] initWithString:text];
-		[mutableMessage replaceCharactersInRange:NSMakeRange(0, 0)
-									  withString:[NSString stringWithFormat:@"RT @%@: ",
-										[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]]];
-	} else {
-		NSString *text = [[inStatus objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
-		mutableMessage = [[NSMutableAttributedString alloc] initWithString:text];
-	}
+	NSString *text = [[inStatus objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+	NSMutableAttributedString *mutableMessage = [[NSMutableAttributedString alloc] initWithString:text];
 	
 	//Extract hashtags, users, and URLs
 	NSDictionary *entities = [inStatus objectForKey:@"entities"];
@@ -1824,6 +1832,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		for (NSDictionary *status in sortedQueuedUpdates) {
+			NSDate *date = [status objectForKey:TWITTER_STATUS_CREATED];
+			
+			NSDictionary    *retweet = [status objectForKey:TWITTER_STATUS_RETWEET];
+			NSString *retweeter = nil;
+			if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+				retweeter = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
+				status = retweet;
+			}
+			
 			NSString *contactUID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			NSAttributedString *message = [self parseStatus:status
 													tweetID:[status objectForKey:TWITTER_STATUS_ID]
@@ -1831,18 +1848,26 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 											  inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
 										   inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
-			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
+			//Add a link to the retweeter
+			if (retweeter) {
+				NSMutableAttributedString *m = [[message mutableCopy] autorelease];
+				NSString *linkURL = [self addressForLinkType:AITwitterLinkUserPage
+													  userID:retweeter
+													statusID:nil
+													 context:nil];
+				NSAttributedString *rt = [NSAttributedString attributedStringWithString:[NSString stringWithFormat:@" [@%@]", retweeter]
+																			  linkRange:NSMakeRange(2, retweeter.length+1)
+																		linkDestination:linkURL];
+				[m appendAttributedString:rt];
+				message = m;
+			}
 			
 			AIListObject *fromObject = nil;
 			
 			if (![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
-				// Update the user's status message
-				[listContact setStatusMessage:message
-									   notify:NotifyNow];
-				
-				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				[self updateContact:listContact withInfo:[status objectForKey:TWITTER_STATUS_USER] andStatusMessage:message];
 				
 				[timelineChat addParticipatingNick:listContact.UID notify:NotifyNow];
 				[timelineChat setContact:listContact forNick:listContact.UID];
@@ -2213,25 +2238,16 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					[listContact addRemoteGroupName:self.timelineGroupName];
 				}
 				
-				// Grab the Twitter display name and set it as the remote alias.
-				if (![[listContact valueForProperty:@"serverDisplayName"] isEqualToString:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]]) {
-					[listContact setServersideAlias:[user objectForKey:TWITTER_INFO_DISPLAY_NAME]
-										   silently:silentAndDelayed];
-				}
-				
-				// Grab the user icon and set it as their serverside icon.
-				[self updateUserIcon:[user objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				// Set the user's status message to their current twitter status text
+				NSString *statusText = [[user objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT] ?: @"";
+				[self updateContact:listContact
+						   withInfo:user
+				   andStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]]];
 				
 				// Set the user as available.
 				[listContact setStatusWithName:nil
 									statusType:AIAvailableStatusType
 										notify:NotifyLater];
-				
-				// Set the user's status message to their current twitter status text
-				NSString *statusText = [[user objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT];
-				if (!statusText) //nil if they've never tweeted
-					statusText = @"";
-				[listContact setStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]] notify:NotifyLater];
 				
 				// Set the user as online.
 				[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
