@@ -159,10 +159,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	/*rootPath will be the path -without- root's name appended */
 	if ([[root name] isEqualToString:@"file"]) {
 		/*We have a file so get it's info and then download it*/
-	//	NSString *mimeType = [[root attributeForName:@"mimetype"] objectValue];
 		NSString *posixFlags = [[root attributeForName:@"posixflags"] objectValue];
-	//	NSString *hfsFlags = [[root attributeForName:@"hfsflags"] objectValue];
-	//	NSString *size = [[root attributeForName:@"size"] objectValue];
 
 		NSArray *nameChildren = [root elementsForName:@"name"];
 		if (!nameChildren) {

@@ -594,7 +594,6 @@
 	//we only allow group->meta->contact, not group->meta->meta->contact
 	NSParameterAssert(![listObject conformsToProtocol:@protocol(AIContainingObject)]);
 	
-	//	AILog(@"MetaContacts: Storing %@ in %@",listObject, metaContact);
 	NSDictionary		*containedContactDict;
 	NSMutableDictionary	*allMetaContactsDict;
 	NSMutableArray		*containedContactsArray;

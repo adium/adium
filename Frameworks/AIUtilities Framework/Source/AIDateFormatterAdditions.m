@@ -601,8 +601,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			[newFormat appendString:@"%%"];
 			[scanner setScanLocation:[scanner scanLocation] - [span length] + 1];
 		
-		} else {
-			//NSLog(@"Unhandled format %@", span);
 		}
 	}
 

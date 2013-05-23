@@ -265,9 +265,6 @@
 				
 				// Is there a contact with our service?
 				if ( [self validContact:uniqueID withService:account.service] ) {
-					
-					//if ([[view window] firstResponder] != textField_inviteUsers)
-					//	[[view window] makeFirstResponder:textField_inviteUsers];
 					return NSDragOperationGeneric;
 				}
 			}

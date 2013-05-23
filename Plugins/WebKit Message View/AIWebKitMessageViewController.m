@@ -676,6 +676,19 @@ static NSArray *draggedTypes = nil;
 
 		if ([content isKindOfClass:[AIContentContext class]])
 			[dateSeparator addDisplayClass:@"history"];
+		
+		if (content.chat.isGroupChat && content.postProcessContent && adium.interfaceController.activeChat != content.chat) {
+			[dateSeparator addDisplayClass:@"focus"];
+			
+			if (nextMessageFocus) {
+				[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
+				
+				[dateSeparator addDisplayClass:@"firstFocus"];
+				
+				nextMessageFocus = NO;
+				nextMessageRegainedFocus = YES;
+			}
+		}
 
 		//Add the date header
 		[self _appendContent:dateSeparator 
@@ -723,7 +736,9 @@ static NSArray *draggedTypes = nil;
 			// Add a class for "this content received while out of focus"
 			if (content.chat.isGroupChat) {
 				[content addDisplayClass:@"focus"];
-				[content addDisplayClass:@"lastFocus"];
+				
+				if (!willAddMoreContentObjects)
+					[content addDisplayClass:@"lastFocus"];
 				
 				// if there's something else already lastFocus, then unset it
 				DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".lastFocus"];
@@ -1327,7 +1342,7 @@ static NSArray *draggedTypes = nil;
 			webKitUserIcon = userIcon;
 		}
 
-		oldWebKitUserIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];		
+		oldWebKitUserIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];
 		webKitUserIconPath = [iconSourceObject valueForProperty:KEY_WEBKIT_USER_ICON];
 		if (!webKitUserIconPath) {
 			/* If the image doesn't know a path to use, write it out and set it.
@@ -1362,28 +1377,13 @@ static NSArray *draggedTypes = nil;
 		}
 		
 		if (!webKitUserIconPath) webKitUserIconPath = @"";
-
-		/* We previously updated existing images with the below code.  There's a bug somewhere, and it results
-		 * in images being replaced with unknown-image question marks sometimes... though new images work fine.
-		 */
-#if 0
+		
+		//Update the icon in the chat
 		if ([webView mainFrameDocument]) {
 			//Update existing images if the webView has loaded and has a main frame
 			if (oldWebKitUserIconPath &&
 				![oldWebKitUserIconPath isEqualToString:webKitUserIconPath]) {
-				
-				DOMNodeList  *images = [[webView mainFrameDocument] getElementsByTagName:@"img"];
-				NSUInteger imagesCount = [images length];
-
-				webKitUserIconPath = [[webKitUserIconPath copy] autorelease];
-
-				for (unsigned i = 0; i < imagesCount; i++) {
-					DOMHTMLImageElement *img = (DOMHTMLImageElement *)[images item:i];
-					NSString *currentSrc = [img getAttribute:@"src"];
-					if (currentSrc && ([currentSrc rangeOfString:oldWebKitUserIconPath].location != NSNotFound)) {
-						[img setSrc:webKitUserIconPath];
-					}
-				}
+				[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.body.innerHTML=document.body.innerHTML.replace(new RegExp('%@', 'g'), '%@');", oldWebKitUserIconPath, webKitUserIconPath]];
 			}
 			
 			[objectIconPathDict setObject:webKitUserIconPath
@@ -1391,16 +1391,12 @@ static NSArray *draggedTypes = nil;
 		} else {
 			/* Otherwise, try to again in a moment. We've already done the heavy lifting
 			 * such as writing out the icon, so it's cheap to recurse.
-			 */			
+			 */
 			[self performSelector:@selector(updateUserIconForObject:)
 					   withObject:inObject
 					   afterDelay:1];
 		}
-#else
-	[objectIconPathDict setObject:webKitUserIconPath
-						   forKey:iconSourceObject.internalObjectID];
-#endif
-    }
+	}
 }
 
 - (void)updateServiceIcon

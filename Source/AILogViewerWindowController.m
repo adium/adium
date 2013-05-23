@@ -1654,7 +1654,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				totalCount--;
 			}
 			
-			//if (logPath) CFRelease(logPath);
 			if (url) CFRelease(url);
 			if (document) CFRelease(document);
         }

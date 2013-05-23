@@ -1,4 +1,4 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
  * 
@@ -81,6 +81,25 @@
 		initialAccount = inAccount;
 		contactName = inName;
 		person = nil;
+		groupName = nil;
+	}
+	
+	return self;
+}
+
+/*!
+ * @brief Initialize
+ *
+ * @param inGroup Initial value for the Group name field
+ */
+- (id)initWithGroupName:(NSString *)inGroup
+{
+	if ((self = [super initWithWindowNibName:ADD_CONTACT_PROMPT_NIB])) {
+		service = nil;
+		initialAccount = nil;
+		contactName = nil;
+		person = nil;
+		groupName = inGroup;
 	}
 	
 	return self;
@@ -388,7 +407,12 @@
 
 	[popUp_targetGroup setMenu:menu];
 
-	[popUp_targetGroup selectItemAtIndex:0];
+	//if a group has been set
+	if (groupName != nil) {
+		[popUp_targetGroup selectItemWithTitle:groupName];
+	} else {
+		[popUp_targetGroup selectItemAtIndex:0];
+	}
 }
 
 /*!
@@ -421,7 +445,12 @@
 		 * If the user cancelled, group will be nil since the group doesn't exist.
 		 */
 		if (![popUp_targetGroup selectItemWithRepresentedObject:group]) {
-			[popUp_targetGroup selectItemAtIndex:0];			
+			//if a group has been set
+			if (groupName != nil) {
+				[popUp_targetGroup selectItemWithTitle:groupName];
+			} else {
+				[popUp_targetGroup selectItemAtIndex:0];
+			}
 		}
 		
 		[[self window] performSelector:@selector(makeKeyAndOrderFront:)
@@ -552,6 +581,14 @@
 		
 		[self configureControlDimming];
 	}
+}
+
+/*!
+ * @brief selector to select Group used by "Add Contact to Group"
+ */
+- (void)selectGroupByName:(NSString *)groupName
+{
+    [popUp_targetGroup selectItemWithTitle:groupName];
 }
 
 /*!

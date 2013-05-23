@@ -89,12 +89,10 @@
 		urlToDownload = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@://%@/%@%@%@", @"http", [url host], [url path],
 													   ([url query] ? @"?" : @""),
 													   ([url query] ? [url query] : @"")]];
-//		dest = [NSTemporaryDirectory() stringByAppendingPathComponent:[[urlToDownload path] lastPathComponent]];
 		AILogWithSignature(@"Downloading %@", urlToDownload);
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToDownload];
 		[request setHTTPShouldHandleCookies:NO];
 		self.download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
-//		[download setDestination:dest allowOverwrite:YES];
 
 	} else {
 		NSRunAlertPanel(AILocalizedString(@"Nontrusted Xtra", nil),

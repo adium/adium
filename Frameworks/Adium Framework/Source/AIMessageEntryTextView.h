@@ -21,6 +21,7 @@
 @class AIListContact, AIAccount, AIChat;
 
 @protocol AIMessageEntryTextViewDelegate <NSTextViewDelegate,NSObject>
+
 @optional
 /*!
  * @brief Should the tab key trigger an autocomplete?
@@ -35,8 +36,8 @@
 }
 
 @property (readwrite, nonatomic) NSAttributedString *string;
-@end
 
+@end
 
 @interface AIMessageEntryTextView : AISendingTextView <AITextEntryView, AIListObjectObserver> {
 	AIChat				*chat;
@@ -62,18 +63,34 @@
 
 	AISimpleTextView	*characterCounter;
 	NSString			*characterCounterPrefix;
-	NSInteger					maxCharacters;
+	NSInteger			maxCharacters;
 	NSColor				*savedTextColor;
+    
+@protected
+    // Emoticons
+    BOOL hasEmoticonsMenu;
+    NSButton *emoticonsMenuButton;
 }
 
 @property (readwrite, unsafe_unretained, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
 
-//Configure
+// Configure
 @property (readwrite, nonatomic) BOOL clearOnEscape;
 @property (readwrite, nonatomic) BOOL homeToStartOfLine;
 @property (readwrite, nonatomic) NSView *associatedView;
 
-//Adium Text Entry
+// Context
+@property (readwrite, retain, nonatomic) AIChat *chat;
+@property (readonly, nonatomic) AIListContact *listObject;
+
+// History
+@property (readwrite, nonatomic) BOOL historyEnabled;
+
+// Emoticons
+@property (assign) BOOL hasEmoticonsMenu;
+@property (retain) NSButton *emoticonsMenuButton;
+
+// Adium Text Entry
 - (void)setAttributedString:(NSAttributedString *)inAttributedString;
 - (void)setString:(NSString *)string;
 - (void)setTypingAttributes:(NSDictionary *)attrs;
@@ -81,23 +98,21 @@
 - (void)pasteAsRichText:(id)sender;
 - (NSSize)desiredSize;
 
-//Context
-@property (readwrite, nonatomic) AIChat *chat;
-@property (weak, readonly, nonatomic) AIListContact *listObject;
-
-//Paging
+// Paging
 - (void)scrollPageUp:(id)sender;
 - (void)scrollPageDown:(id)sender;
 
-//History
-@property (readwrite, nonatomic) BOOL historyEnabled;
+// History
 - (void)historyUp;
 - (void)historyDown;
 
-//Push and Pop
+// Push and Pop
 - (void)setPushPopEnabled:(BOOL)inBool;
 - (void)pushContent;
 - (void)popContent;
 - (void)swapContent;
+
+// Emoticons
+- (void)popUpEmoticonsMenu;
 
 @end

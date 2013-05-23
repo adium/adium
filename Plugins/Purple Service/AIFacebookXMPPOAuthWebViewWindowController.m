@@ -164,45 +164,37 @@
 - (void)addCookiesToRequest:(NSMutableURLRequest *)request
 {
     NSURL *requestURL = [request URL];
-    //NSLog(@"requestURL: %@", requestURL);
     NSMutableArray *sentCookies = [NSMutableArray array];
     
     // same origin: domain, port, path.
     for (NSHTTPCookie *cookie in cookies.allValues) {
         if ([[cookie expiresDate] timeIntervalSinceNow] < 0) {
-            //NSLog(@"****** expired: %@", cookie);
             continue;
         }
         
         if ([cookie isSecure] && ![[requestURL scheme] isEqualToString:@"https"]) {
-            //NSLog(@"****** secure not https: %@", cookie);
             continue;
         }
         
         if ([[cookie domain] hasPrefix:@"."]) { // ".example.com" should match "foo.example.com" and "example.com"            
             if (!([[requestURL host] hasSuffix:[cookie domain]] ||
                   [[@"." stringByAppendingString:[requestURL host]] isEqualToString:[cookie domain]])) {
-                //NSLog(@"****** dot prefix host mismatch: %@", cookie);
                 continue;
             }
         } else {
             if (![[requestURL host] isEqualToString:[cookie domain]]) {
-                //NSLog(@"****** host mismatch: %@", cookie);
                 continue;
             }
         }
         
         if ([[cookie portList] count] && ([requestURL port] != NULL) && ![[cookie portList] containsObject:[requestURL port]]) {
-            //NSLog(@"****** port mismatch: %@ (%@ doesn't have %@)", cookie, cookie.portList, requestURL.port);
             continue;
         }
         
         if (![[requestURL path] hasPrefix:[cookie path]]) {
-            //NSLog(@"****** path mismatch: %@", cookie);
             continue;
         }
         
-        //NSLog(@"adding cookie: %@", cookie);
         [sentCookies addObject:cookie];
     }
     

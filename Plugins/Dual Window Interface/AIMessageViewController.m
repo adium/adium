@@ -609,11 +609,13 @@
 
 	//This is necessary for tab completion.
 	[textView_outgoing setDelegate:self];
-    
+
 	[textView_outgoing setTextContainerInset:NSMakeSize(0,2)];
-    if ([textView_outgoing respondsToSelector:@selector(setUsesFindPanel:)]) {
+    
+	if ([textView_outgoing respondsToSelector:@selector(setUsesFindPanel:)]) {
 		[textView_outgoing setUsesFindPanel:YES];
     }
+	
 	[textView_outgoing setClearOnEscape:YES];
 	[textView_outgoing setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
 	
@@ -642,6 +644,10 @@
 	// Disable elastic scroll
 	// Not sure why it won't work in AIMessageEntryTextView
 	[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
+
+	// Enable emoticons menu
+	// This should be after all frame/bounds setups, or it will fail to display correctly
+	[textView_outgoing setHasEmoticonsMenu:YES];
 }
 
 /*!

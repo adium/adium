@@ -90,7 +90,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
-	CFRelease(trustRef);
+	if (trustRef) CFRelease(trustRef);
 }
 
 - (IBAction)showWindow:(id)sender {
@@ -122,8 +122,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 	if(err != noErr) {
 		CFRelease(policyRef);
-		if (trustRef)
-			CFRelease(trustRef);
 		NSBeep();
 		return;
 	}

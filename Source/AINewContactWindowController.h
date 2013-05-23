@@ -48,9 +48,11 @@
 	AIService						*service;
 	AIAccount						*initialAccount;
 	ABPerson						*person;
+	NSString						*groupName;
 }
 
 - (id)initWithContactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount;
+- (id)initWithGroupName:(NSString *)inGroup;
 - (IBAction)cancel:(id)sender;
 - (IBAction)addContact:(id)sender;
 - (IBAction)searchInAB:(id)sender;

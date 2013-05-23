@@ -208,10 +208,9 @@
 
 	NSArray *sortedArray = [possibleCompletions sortedArrayUsingSelector:@selector(compareLength:)];
 	
+	//When the AICompletingTextfield is modified to be able to provide multiple choices of completions, the entire array can be used later.
 	if ([sortedArray count] > 0){
 		return [sortedArray objectAtIndex:0];
-		//When the AICompletingTextfield is modified to be able to provide multiple choices of completions, the entire array can be used later.
-		//return sortedArray;
 	}
 	
 	return nil;

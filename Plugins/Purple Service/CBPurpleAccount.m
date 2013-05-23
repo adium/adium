@@ -1181,13 +1181,24 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 {
 	AILogWithSignature(@"Message: %@ inChat: %@ fromListContact: %@ flags: %d date: %@", attributedMessage, chat, sourceContact, flags, date);
 	
+	id source;
+	id destination;
+	
+	if ((flags & PURPLE_MESSAGE_SEND) == PURPLE_MESSAGE_SEND) {
+		destination = [sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact;
+		source = self;
+	} else {
+		source = [sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact;
+		destination = self;
+	}
+	
 	if ((flags & PURPLE_MESSAGE_DELAYED) == PURPLE_MESSAGE_DELAYED) {
 		// Display delayed messages as context.
 		
 		AIContentContext *messageObject = [AIContentContext messageInChat:chat
-															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
+															   withSource:source
 															   sourceNick:sourceNick
-															  destination:self
+															  destination:destination
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
@@ -1197,9 +1208,9 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 		
 	} else {
 		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
-															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
+															   withSource:source
 															   sourceNick:sourceNick
-															  destination:self
+															  destination:destination
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];

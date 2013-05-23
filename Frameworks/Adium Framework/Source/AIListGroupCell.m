@@ -146,13 +146,8 @@
  */
 - (CGFloat)flippyIndent
 {
-//	if ([self textAlignment] != NSCenterTextAlignment) {
-		NSSize size = [self cellSize];
-		return size.height*0.4f + size.height*0.2f + FLIPPY_TEXT_PADDING;
-/*	} else {
-		return 0;
-	}
-*/
+	NSSize size = [self cellSize];
+	return size.height*0.4f + size.height*0.2f + FLIPPY_TEXT_PADDING;
 }
 
 
@@ -182,10 +177,8 @@
 	[arrowPath closePath];
 	[arrowPath fill];
 
-//	if ([self textAlignment] != NSCenterTextAlignment) {
-		rect.origin.x += rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
-		rect.size.width -= rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
-//	}
+	rect.origin.x += rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
+	rect.size.width -= rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
 	
 	if ([listObject boolValueForProperty:@"showCount"]) {
 		rect = [self drawGroupCountWithFrame:rect];
