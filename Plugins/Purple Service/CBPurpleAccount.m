@@ -1177,13 +1177,14 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	
 	listContact = chat.listObject;
 
-	attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
-															  fromContact:listContact
-																onAccount:self];
-	
 	//Clear the typing flag of the chat since a message was just received
 	[self setTypingFlagOfChat:chat to:nil];
 	
+	attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
+															fromContact:listContact
+															  onAccount:self
+															 tryDecrypt:(flags & PURPLE_MESSAGE_SEND) == 0];
+		
 	[self _receivedMessage:attributedMessage
 					inChat:chat 
 		   fromListContact:listContact

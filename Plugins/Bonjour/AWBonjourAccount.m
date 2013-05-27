@@ -241,7 +241,8 @@
 	if (html)
 		attributedMessage = [adium.contentController decodedIncomingMessage:html
 							 fromContact:listContact
-							 onAccount:self];
+							 onAccount:self
+							 tryDecrypt:YES];
 	else
 		attributedMessage = [[[NSAttributedString alloc] initWithString:
 							  [adium.contentController decryptedIncomingMessage:message
