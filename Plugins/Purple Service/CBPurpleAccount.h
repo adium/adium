@@ -196,10 +196,10 @@
 - (void)updateTopic:(NSString *)inTopic forChat:(AIGroupChat *)chat withSource:(NSString *)source;
 - (void)updateTitle:(NSString *)inTitle forChat:(AIGroupChat *)chat;
 - (void)convUpdateForChat:(AIGroupChat *)chat type:(NSNumber *)type;
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat;
+- (void)renameParticipant:(NSString *)oldName newNick:(NSString *)newName newUID:(NSString *)newUID flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat;
 - (void)removeUser:(NSString *)contactName fromChat:(AIGroupChat *)chat;
 - (void)updateUserListForChat:(AIGroupChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded;
-- (void)updateUser:(NSString *)user forChat:(AIGroupChat *)chat flags:(PurpleConvChatBuddyFlags)flags alias:(NSString *)alias attributes:(NSDictionary *)attributes;
+- (void)updateUser:(NSString *)user forChat:(AIGroupChat *)chat flags:(PurpleConvChatBuddyFlags)flags newAlias:(NSString *)alias attributes:(NSDictionary *)attributes;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;

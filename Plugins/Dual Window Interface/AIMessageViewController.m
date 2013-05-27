@@ -67,7 +67,7 @@
 - (void)setUserListVisible:(BOOL)inVisible animate:(BOOL)useAnimation;
 - (void)updateUserCount;
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord;
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)gotFilteredMessageToSendLater:(NSAttributedString *)filteredMessage receivingContext:(NSMutableDictionary *)alertDict;
@@ -628,11 +628,13 @@
 
 	//This is necessary for tab completion.
 	[textView_outgoing setDelegate:self];
-    
+
 	[textView_outgoing setTextContainerInset:NSMakeSize(0,2)];
-    if ([textView_outgoing respondsToSelector:@selector(setUsesFindPanel:)]) {
+    
+	if ([textView_outgoing respondsToSelector:@selector(setUsesFindPanel:)]) {
 		[textView_outgoing setUsesFindPanel:YES];
     }
+	
 	[textView_outgoing setClearOnEscape:YES];
 	[textView_outgoing setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
 	
@@ -664,6 +666,10 @@
 	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
 		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
 	}
+	
+	// Enable emoticons menu
+	// This should be after all frame/bounds setups, or it will fail to display correctly
+	[textView_outgoing setHasEmoticonsMenu:YES];
 }
 
 /*!
@@ -803,7 +809,7 @@
 #pragma mark Autocompletion
 - (BOOL)canTabCompleteForPartialWord:(NSString *)partialWord
 {
-	return ([self contactsMatchingBeginningString:partialWord].count > 0 ||
+	return ([self nicksMatchingBeginningString:partialWord].count > 0 ||
 			[self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound);
 }
 
@@ -848,22 +854,23 @@
 	return charRange;
 }
 
-- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord
+- (NSArray *)nicksMatchingBeginningString:(NSString *)partialWord
 {
-	NSMutableArray *contacts = [NSMutableArray array];
+	NSMutableArray *nicks = [NSMutableArray array];
 	
-	for (AIListContact *listContact in (AIGroupChat *)self.chat) {
+	for (NSString *nick in (AIGroupChat *)self.chat) {
+		AIListContact *listContact = [(AIGroupChat *)self.chat contactForNick:nick];
 		// Add to the list if it matches: (1) The display name for the chat (alias fallback to default display name), 
 		// (2) The UID, or (3) the display name
-		if ([[(AIGroupChat *)self.chat displayNameForContact:listContact] rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
+		if ([nick rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.UID rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 			|| [listContact.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
-			[contacts addObject:listContact];
-			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, [(AIGroupChat *)self.chat aliasForContact:listContact], listContact.UID, listContact.formattedUID, listContact.displayName);
+			[nicks addObject:nick];
+			AILogWithSignature(@"Added match %@ with nick %@; UID: %@; formattedUID: %@; displayName: %@", listContact, nick, listContact.UID, listContact.formattedUID, listContact.displayName);
 		}
 	}
 	
-	return contacts;
+	return nicks;
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)idx
@@ -898,13 +905,14 @@
 		completions = [NSMutableArray array];
 		
 		// For each matching contact:
-		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
+		for (NSString *nick in [self nicksMatchingBeginningString:partialWord]) {
 			// Complete the chat alias.
-			NSString *completion = [(AIGroupChat *)self.chat aliasForContact:listContact];
+			NSString *completion = nick;
 			
 			// Otherwise, complete the UID (if we're completing UIDs for this chat) or the display name.
-			if (!completion)
-				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+#warning Fix this for nicksMatchingBeginningString
+//			if (!completion)
+//				completion = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
 			
 			[completions addObject:(suffix ? [completion stringByAppendingString:suffix] : completion)];
 		}

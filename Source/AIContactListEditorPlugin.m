@@ -213,17 +213,22 @@
  */
 - (void)promptForNewContactOnWindow:(NSWindow *)inWindow selectedListObject:(AIListObject *)inListObject
 {
-	//We only autofill if the selected list object is a contact and a stranger
-	if (![inListObject isKindOfClass:[AIListContact class]] ||
-		[inListObject isKindOfClass:[AIListBookmark class]] ||
-		[(AIListContact *)inListObject isIntentionallyNotAStranger] ||
-		[inListObject isKindOfClass:[AIMetaContact class]]) {
-		inListObject = nil;
+	//We only autofill if the selected list object is a contact, a stranger or a call from a Group (add Contact in Group)
+	AINewContactWindowController *newContactWindowController;
+
+	if ([inListObject isKindOfClass:[AIListGroup class]]) {
+		newContactWindowController = [[AINewContactWindowController alloc] initWithGroupName : (inListObject ? inListObject.UID:nil)];
+
+	} else if ([inListObject isKindOfClass:[AIListContact class]]) {
+		newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:(inListObject ? inListObject.UID:nil)
+																					   service:(inListObject ? [(AIListContact *)inListObject service]:nil)
+																					   account:nil];
+	} else {
+		newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:nil
+																					   service:nil
+																					   account:nil];
 	}
 	
-	AINewContactWindowController *newContactWindowController = [[AINewContactWindowController alloc] initWithContactName:(inListObject ? inListObject.UID : nil)
-																												 service:(inListObject ? [(AIListContact *)inListObject service] : nil)
-																												 account:nil];
 	[newContactWindowController showOnWindow:inWindow];
 }
 

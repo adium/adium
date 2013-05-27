@@ -178,8 +178,6 @@ static	NSMutableDictionary	*controllerDict = nil;
  */
 - (void)windowDidLoad
 {
-//	NSNumberFormatter	*intFormatter;
-	
 	[scrollView_statusMessage setAutohidesScrollers:YES];
 	[scrollView_statusMessage setAlwaysDrawFocusRingIfFocused:YES];
 	[textView_statusMessage setTarget:self action:@selector(okay:)];

@@ -234,7 +234,6 @@
  */
 - (void)updateTableControlAvailability
 {
-//	NSArray *selectedItems = [outlineView_stateList arrayOfSelectedItems];
 	NSIndexSet *selectedIndexes = [outlineView_stateList selectedRowIndexes];
 	NSInteger			count = [selectedIndexes count];
 

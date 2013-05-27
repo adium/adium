@@ -64,8 +64,6 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 	[webView setDraggingDelegate:self];
 	[webView setEditingDelegate:self];
 	[webView setResourceLoadDelegate:self];
-	
-//	[[webView windowScriptObject] setValue:self forKey:@"client"];
 }
 - (void) removeDelegate:(AIWebKitMessageViewController *)controller
 {

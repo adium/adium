@@ -18,11 +18,11 @@
 
 @interface AIGroupChat : AIChat <AIContainingObject> {
 	NSString			*topic;
-    AIListContact		*topicSetter;
+    NSString			*topicSetter;
 	
-	NSMutableDictionary	*participatingContactsFlags;
-	NSMutableDictionary	*participatingContactsAliases;
-	NSMutableArray		*participatingContacts;
+	NSMutableDictionary	*participatingNicksFlags;
+	NSMutableDictionary	*participatingNicksContacts;
+	NSMutableArray		*participatingNicks;
 	
 	BOOL				showJoinLeave;
 	BOOL				expanded;
@@ -34,26 +34,31 @@
 
 @property (readonly, nonatomic) BOOL supportsTopic;
 
-- (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
+- (void)updateTopic:(NSString *)inTopic withSource:(NSString *)contact;
 - (void)setTopic:(NSString *)inTopic;
 
 @property (readwrite, copy, nonatomic) NSDate *lastMessageDate;
 
 // Group chat participants.
-- (NSString *)displayNameForContact:(AIListObject *)contact;
-- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
-- (NSString *)aliasForContact:(AIListObject *)contact;
-- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
-- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
-- (void)removeSavedValuesForContactUID:(NSString *)contactUID;
+- (AIListContact *)contactForNick:(NSString *)nick;
+- (AIGroupChatFlags)flagsForNick:(NSString *)nick;
+- (void)setFlags:(AIGroupChatFlags)flags forNick:(NSString *)nick;
+- (void)setContact:(AIListContact *)contact forNick:(NSString *)nick;
+- (void)changeNick:(NSString *)from to:(NSString *)to;
+- (void)removeSavedValuesForNick:(NSString *)nick;
+- (NSArray *)nicksForContact:(AIListObject *)contact;
 
-- (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify;
-- (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify;
+- (void)addParticipatingNick:(NSString *)inObject notify:(BOOL)notify;
+- (void)addParticipatingNicks:(NSArray *)inObjects notify:(BOOL)notify;
 - (void)removeAllParticipatingContactsSilently;
-- (void)removeObject:(AIListObject *)inObject;
+- (void)removeObject:(NSString *)inObject;
 
 - (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
 
 - (void)resortParticipants;
+
+- (NSString *)visibleObjectAtIndex:(NSUInteger)idx;
+
+- (NSString *)displayNameForContact:(AIListObject *)contact __attribute__((deprecated));
 
 @end

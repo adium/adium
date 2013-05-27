@@ -120,7 +120,6 @@
 	newFrame.size.width = AIround(NSWidth(newFrame));
 	
 	//Enforce a minimum width of the original frame width
-//	NSLog(@"%@: new is %@; original is %@",inStringValue,NSStringFromRect(newFrame),NSStringFromRect(originalFrame));
 	if (NSWidth(newFrame) < NSWidth(originalFrame)) {
 		newFrame.size.width = NSWidth(originalFrame);
 	}

@@ -610,11 +610,20 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		id<AIContainingObject> listObject = (id<AIContainingObject>)(item.listObject);
 		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:idx]
 															 inListObject:listObject];
-
-	} else if (hideRoot)
-		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:idx]
-															 inListObject:contactList];
-	else
+		
+	} else if (hideRoot) {
+		if ([contactList isKindOfClass:[AIGroupChat class]]) {
+			NSString *nick = [(AIGroupChat *)contactList visibleObjectAtIndex:idx];
+			AIListObject *listObject = [(AIGroupChat *)contactList contactForNick:nick];
+			
+			proxyListObject = [AIProxyListObject proxyListObjectForListObject:listObject
+																 inListObject:contactList
+																	 withNick:nick];
+		} else {
+			proxyListObject = [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:idx]
+																 inListObject:contactList];
+		}
+	} else
 		proxyListObject = [AIProxyListObject proxyListObjectForListObject:contactList
 															 inListObject:nil];
 	

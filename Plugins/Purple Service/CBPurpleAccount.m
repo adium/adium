@@ -80,7 +80,7 @@
 - (NSString *)_mapIncomingGroupName:(NSString *)name;
 - (NSString *)_mapOutgoingGroupName:(NSString *)name;
 - (void)setTypingFlagOfChat:(AIChat *)inChat to:(NSNumber *)typingState;
-- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date;
+- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact fromNick:(NSString *)sourceNick flags:(PurpleMessageFlags)flags date:(NSDate *)date;
 - (NSNumber *)shouldCheckMail;
 - (void)configurePurpleAccountNotifyingTarget:(id)target selector:(SEL)selector;
 - (void)continueConnectWithConfiguredProxy;
@@ -782,7 +782,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		return;
 	
 	AIListContact *contact = [self contactWithUID:contactName];
-	[chat removeObject:contact];
+	[chat removeObject:contactName];
 	
 	if (contact.isStranger && 
 		![adium.chatController allGroupChatsContainingContact:contact.parentContact].count &&
@@ -820,22 +820,19 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		
 		[contact setOnline:YES notify:NotifyNever silently:YES];
 		
-		[newListObjects addObject:contact];
+		[newListObjects addObject:[user objectForKey:@"Alias"]];
 	}
 	
-	[chat addParticipatingListObjects:newListObjects notify:newlyAdded];
+	[chat addParticipatingNicks:newListObjects notify:newlyAdded];
 	
 	for (NSDictionary *user in users) {
 		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
 		
-		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
+		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forNick:[user objectForKey:@"Alias"]];
+		[chat setContact:contact forNick:[user objectForKey:@"Alias"]];
 		
-		if ([user objectForKey:@"Alias"]) {
-			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
-			
-			if (contact.isStranger) {
-				[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
-			}
+		if ([user objectForKey:@"Alias"] && contact.isStranger) {
+			[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
 		}
 	}
 	
@@ -863,23 +860,21 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
     return groupChatFlags;
 }
 
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat
+- (void)renameParticipant:(NSString *)oldName newNick:(NSString *)newName newUID:(NSString *)newUID flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat
 {
-	[chat removeSavedValuesForContactUID:oldUID];
+	[chat changeNick:oldName to:newName];
+	[chat setFlags:groupChatFlagsFromPurpleConvChatBuddyFlags(flags) forNick:newName];
 	
-	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:oldUID];
-
+	AIListContact *contact = (AIListContact *)[chat contactForNick:newName];
+	
 	if (contact) {
 		[adium.contactController setUID:newUID forContact:contact];
 	} else {
 		contact = [self contactWithUID:newUID];
 	}
-
- 	[chat setFlags:groupChatFlagsFromPurpleConvChatBuddyFlags(flags) forContact:contact];
-	[chat setAlias:newAlias forContact:contact];
 	
 	if (contact.isStranger) {
-		[contact setServersideAlias:newAlias silently:NO];
+		[contact setServersideAlias:newName silently:NO];
 	}
 
 	// Post an update notification since we modified the user entirely.
@@ -908,28 +903,27 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 
 - (void)updateUser:(NSString *)user
 		   forChat:(AIGroupChat *)chat
-			 flags:(PurpleConvChatBuddyFlags)flags 
-			 alias:(NSString *)alias
+			 flags:(PurpleConvChatBuddyFlags)flags
+		  newAlias:(NSString *)alias
 		attributes:(NSDictionary *)attributes
 {
 	BOOL triggerUserlistUpdate = NO;
 	
-	AIListContact *contact = [self contactWithUID:user];
+	AIListContact *contact = (AIListContact *)[chat contactForNick:user];
 	
-	AIGroupChatFlags oldFlags = [chat flagsForContact:contact];
+	AIGroupChatFlags oldFlags = [chat flagsForNick:alias];
     AIGroupChatFlags newFlags = groupChatFlagsFromPurpleConvChatBuddyFlags(flags);
-	NSString *oldAlias = [chat aliasForContact:contact];
 	
 	// Trigger an update if the alias or flags (ignoring away state) changes.
-	if ((alias && !oldAlias)
-		|| (!alias && oldAlias)
-		|| ![[chat aliasForContact:contact] isEqualToString:alias]
+	if ((user && !alias)
+		|| (!user && alias)
+		|| ![user isEqualToString:alias]
 		|| (newFlags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
 		triggerUserlistUpdate = YES;
 	}
 
-	[chat setAlias:alias forContact:contact];
-	[chat setFlags:newFlags forContact:contact];
+	[chat changeNick:user to:alias];
+	[chat setFlags:newFlags forNick:alias];
 	
 	// Away changes only come in after the initial one, so we're safe in only updating it here.
 	if (contact.isStranger) {
@@ -1122,7 +1116,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 - (void)updateTopic:(NSString *)inTopic forChat:(AIGroupChat *)chat withSource:(NSString *)source
 {	
 	// Update (not set) the chat's topic
-	[chat updateTopic:inTopic withSource:[self contactWithUID:source]];
+	[chat updateTopic:inTopic withSource:source];
 }
 
 /*!
@@ -1193,6 +1187,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	[self _receivedMessage:attributedMessage
 					inChat:chat 
 		   fromListContact:listContact
+				  fromNick:nil
 					 flags:flags
 					  date:[messageDict objectForKey:@"Date"]];
 }
@@ -1218,44 +1213,58 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {
-  PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
-  
-  if ((![self shouldDisplayOutgoingMUCMessages] && ((flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) ||
-	  (!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) {
+	PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 	
-	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
-	NSString			*source = [messageDict objectForKey:@"Source"];
-	
-	[self _receivedMessage:attributedMessage
-					inChat:chat 
-		   fromListContact:[self contactWithUID:source]
-					 flags:flags
-					  date:[messageDict objectForKey:@"Date"]];
-  }
+	if ((![self shouldDisplayOutgoingMUCMessages] && ((flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) ||
+		(!(flags & PURPLE_MESSAGE_SEND) || (flags & PURPLE_MESSAGE_DELAYED))) {
+		
+		NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
+		NSString			*source = [messageDict objectForKey:@"Source"];
+		NSString			*sourceNick = [messageDict objectForKey:@"SourceNick"];
+		
+		[self _receivedMessage:attributedMessage
+						inChat:chat
+			   fromListContact:[self contactWithUID:source]
+					  fromNick:sourceNick
+						 flags:flags
+						  date:[messageDict objectForKey:@"Date"]];
+	}
 }
 
-- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
+- (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact fromNick:(NSString *)sourceNick flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
 	AILogWithSignature(@"Message: %@ inChat: %@ fromListContact: %@ flags: %d date: %@", attributedMessage, chat, sourceContact, flags, date);
 	
+	id source;
+	id destination;
+	
+	if ((flags & PURPLE_MESSAGE_SEND) == PURPLE_MESSAGE_SEND) {
+		destination = [sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact;
+		source = self;
+	} else {
+		source = [sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact;
+		destination = self;
+	}
+	
 	if ((flags & PURPLE_MESSAGE_DELAYED) == PURPLE_MESSAGE_DELAYED) {
 		// Display delayed messages as context.
-
+		
 		AIContentContext *messageObject = [AIContentContext messageInChat:chat
-															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
-															  destination:self
+															   withSource:source
+															   sourceNick:sourceNick
+															  destination:destination
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-		
 		messageObject.trackContent = NO;
 		
 		[adium.contentController receiveContentObject:messageObject];
 		
 	} else {
 		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
-															   withSource:[sourceContact.UID isEqualToString:self.UID]? (AIListObject *)self : (AIListObject *)sourceContact
-															  destination:self
+															   withSource:source
+															   sourceNick:sourceNick
+															  destination:destination
 																	 date:date
 																  message:attributedMessage
 																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
