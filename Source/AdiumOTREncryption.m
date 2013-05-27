@@ -77,7 +77,7 @@ static OtrlUserState otrg_plugin_userstate = NULL;
 static AdiumOTREncryption	*adiumOTREncryption = nil;
 
 void otrg_ui_update_fingerprint(void);
-void update_security_details_for_chat(AIChat *chat);
+void update_security_details_for_context(ConnContext *context);
 void send_default_query_to_chat(AIChat *inChat);
 void disconnect_from_chat(AIChat *inChat);
 void disconnect_from_context(ConnContext *context);
@@ -207,9 +207,7 @@ static NSDictionary* details_for_context(ConnContext *context)
 	Fingerprint *fprint = context->active_fingerprint;	
 
     if (!fprint || !(fprint->fingerprint)) return nil;
-    context = fprint->context;
-    if (!context) return nil;
-
+	
     TrustLevel			level = otrg_plugin_context_to_trust(context);
 	AIEncryptionStatus	encryptionStatus;
 	AIAccount			*account;
@@ -249,15 +247,13 @@ static NSDictionary* details_for_context(ConnContext *context)
 
 	account = [adium.accountController accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
 
-	securityDetailsDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSString stringWithUTF8String:their_hash], @"Their Fingerprint",
-		[NSString stringWithUTF8String:our_hash], @"Our Fingerprint",
-		@(encryptionStatus), @"EncryptionStatus",
-		account, @"AIAccount",
-		[NSString stringWithUTF8String:context->username], @"who",
-		[NSString stringWithUTF8String:sess1], (sess1_outgoing ? @"Outgoing SessionID" : @"Incoming SessionID"),
-		[NSString stringWithUTF8String:sess2], (sess1_outgoing ? @"Incoming SessionID" : @"Outgoing SessionID"),
-		nil];
+	securityDetailsDict = @{ @"Their Fingerprint" : [NSString stringWithUTF8String:their_hash],
+						  @"Our Fingerprint" : [NSString stringWithUTF8String:our_hash],
+						  @"EncryptionStatus": @(encryptionStatus),
+						  @"AIAccount" : account,
+						  @"who": [NSString stringWithUTF8String:context->username],
+						  (sess1_outgoing ? @"Outgoing SessionID" : @"Incoming SessionID"): [NSString stringWithUTF8String:sess1],
+						  (sess1_outgoing ? @"Incoming SessionID" : @"Outgoing SessionID"): [NSString stringWithUTF8String:sess2] };
 	
 	AILog(@"Security details: %@",securityDetailsDict);
 	
@@ -331,7 +327,7 @@ static ConnContext* contextForChat(AIChat *chat)
     ConnContext *context;
 	
     /* Do nothing if this isn't an IM conversation */
-    if (chat.isGroupChat) return nil;
+    if (chat.isGroupChat) return NULL;
 	
     account = chat.account;
 	accountname = [account.internalObjectID UTF8String];
@@ -341,6 +337,8 @@ static ConnContext* contextForChat(AIChat *chat)
     context = otrl_context_find(otrg_plugin_userstate,
 								username, accountname, proto, OTRL_INSTAG_RECENT, 0, NULL,
 								NULL, NULL);
+	
+	AILogWithSignature(@"%@ -> %p", chat, context);
 	
 	return context;
 }
@@ -525,9 +523,8 @@ static void write_fingerprints_cb(void *opdata)
 static void gone_secure_cb(void *opdata, ConnContext *context)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIChat *chat = chatForContext(context);
-
-    update_security_details_for_chat(chat);
+	
+    update_security_details_for_context(context);
 	otrg_ui_update_fingerprint();
 	
 	[pool release];
@@ -538,9 +535,7 @@ static void gone_insecure_cb(void *opdata, ConnContext *context)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	AIChat *chat = chatForContext(context);
-
-    update_security_details_for_chat(chat);
+    update_security_details_for_context(context);
 	otrg_ui_update_fingerprint();
 	
 	[pool release];
@@ -822,14 +817,12 @@ static OtrlMessageAppOps ui_ops = {
 	
     if (!username || !originalMessage)
 		return;
-	
-	ConnContext		*context = contextForChat(inContentMessage.chat);
-	
+		
     err = otrl_message_sending(otrg_plugin_userstate, &ui_ops, /* opData */ NULL,
 							   accountname, protocol, username, OTRL_INSTAG_RECENT, originalMessage, /* tlvs */ NULL, &fullOutgoingMessage,
-							   OTRL_FRAGMENT_SEND_ALL_BUT_LAST, &context,
+							   OTRL_FRAGMENT_SEND_ALL_BUT_LAST, NULL,
 							   /* add_appdata cb */NULL, /* appdata */ NULL);
-
+	
     if (err && fullOutgoingMessage == NULL) {
 		//Be *sure* not to send out plaintext
 		[inContentMessage setEncodedMessage:nil];
@@ -849,7 +842,6 @@ static OtrlMessageAppOps ui_ops = {
 	const char *message = [inString UTF8String];
 	char *newMessage = NULL;
     OtrlTLV *tlvs = NULL;
-    OtrlTLV *tlv = NULL;
 	const char *username = [inListContact.UID UTF8String];
     const char *accountname = [inAccount.internalObjectID UTF8String];
     const char *protocol = [inAccount.service.serviceCodeUniqueID UTF8String];
@@ -970,15 +962,19 @@ static OtrlMessageAppOps ui_ops = {
 - (void)updateSecurityDetails:(NSNotification *)inNotification
 {
 	AILog(@"Updating security details for %@",[inNotification object]);
-	update_security_details_for_chat([inNotification object]);
+	AIChat *chat = [inNotification object];
+	
+	ConnContext *context = contextForChat(chat);
+	
+	update_security_details_for_context(context);
 }
 
-void update_security_details_for_chat(AIChat *inChat)
+void update_security_details_for_context(ConnContext *context)
 {
-	ConnContext *context = contextForChat(inChat);
-
+	AIChat *chat = chatForContext(context);
+	
 	[adiumOTREncryption setSecurityDetails:details_for_context(context)
-								   forChat:inChat];
+								   forChat:chat];
 }
 
 - (void)setSecurityDetails:(NSDictionary *)securityDetailsDict forChat:(AIChat *)inChat
