@@ -125,8 +125,9 @@ typedef enum {
 
 	//Encryption
 - (NSAttributedString *)decodedIncomingMessage:(NSString *)inString
-								   fromContact:(AIListContact *)inListContact 
-									 onAccount:(AIAccount *)inAccount;
+								   fromContact:(AIListContact *)inListContact
+									 onAccount:(AIAccount *)inAccount
+									tryDecrypt:(BOOL)decrypt;
 - (NSString *)decryptedIncomingMessage:(NSString *)inString
 						   fromContact:(AIListContact *)inListContact
 							 onAccount:(AIAccount *)inAccount;

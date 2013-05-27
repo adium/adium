@@ -335,7 +335,7 @@ static ConnContext* contextForChat(AIChat *chat)
     username = [chat.listObject.UID UTF8String];
 	
     context = otrl_context_find(otrg_plugin_userstate,
-								username, accountname, proto, OTRL_INSTAG_RECENT, 0, NULL,
+								username, accountname, proto, OTRL_INSTAG_RECENT, 1, NULL,
 								NULL, NULL);
 	
 	AILogWithSignature(@"%@ -> %p", chat, context);
@@ -725,12 +725,16 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 	
 	switch (smp_event) {
 		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
-			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:[NSString stringWithUTF8String:question] from:listContact completionHandler:^(NSString *answer,NSString *_question){
+			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc]
+																		initWithQuestion:[NSString stringWithUTF8String:question]
+																		from:listContact
+																		completionHandler:^(NSString *answer,NSString *_question){
 				if(!answer) {
 					otrl_message_abort_smp(otrg_get_userstate(), &ui_ops, opdata, context);
 				} else
 					otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-			} isInitiator:NO];
+			}
+																		isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
@@ -738,9 +742,12 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			break;
 		}
 		case OTRL_SMPEVENT_ASK_FOR_SECRET: {
-			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:listContact completionHandler:^(NSString *answer){
+			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc]
+																		initFrom:listContact
+																		completionHandler:^(NSString *answer){
 				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
-			} isInitiator:NO];
+			}
+																		isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
@@ -749,7 +756,10 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 		case OTRL_SMPEVENT_ERROR:
 		/* case OTRL_SMPEVENT_FAILURE: */ // I'm not actually sure what this event indicates, but it's not fatal failure of SMP.
 		case OTRL_SMPEVENT_ABORT: {
-			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Failed to verify %@'s identity.", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Failed to verify %@'s identity.",
+																									   nil,
+																									   [NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
+										  listContact.UID];
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
@@ -759,7 +769,10 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			break;
 		}
 		case OTRL_SMPEVENT_SUCCESS: {
-			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Successfully verified %@'s identity.", nil, [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Successfully verified %@'s identity.",
+																									   nil,
+																									   [NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
+										  listContact.UID];
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
@@ -902,16 +915,18 @@ static OtrlMessageAppOps ui_ops = {
 {
 	ConnContext		*context = contextForChat(inChat);
 	
-	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc] initWithQuestion:@""
-																													   from:inChat.listObject
-																										  completionHandler:^(NSString *answer, NSString *question) {
+	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc]
+															  initWithQuestion:@""
+															  from:inChat.listObject
+															  completionHandler:^(NSString *answer, NSString *question) {
+		const char *answerStr = [answer UTF8String];
 		otrl_message_initiate_smp_q(otrg_get_userstate(),
 									&ui_ops, NULL, context,
 									(const char *)[question UTF8String],
-									(const unsigned char *)[answer UTF8String],
-									answer.length);
+									(const unsigned char*)answerStr,
+									strlen(answerStr));
 	}
-																												isInitiator:TRUE];
+															  isInitiator:TRUE];
 	
 	[windowController showWindow:nil];
 	[windowController.window orderFront:nil];
@@ -921,15 +936,17 @@ static OtrlMessageAppOps ui_ops = {
 {
 	ConnContext		*context = contextForChat(inChat);
 	
-	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc] initFrom:inChat.listObject
-																								  completionHandler:^(NSString *answer) {
+	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc]
+															  initFrom:inChat.listObject
+															  completionHandler:^(NSString *answer) {
+		const char *answerStr = [answer UTF8String];
 		otrl_message_initiate_smp(otrg_get_userstate(),
 								  &ui_ops, NULL,
 								  context,
-								  (const unsigned char *)[answer UTF8String],
-								  answer.length);
+								  (const unsigned char*)answerStr,
+								  strlen(answerStr));
 	}
-																										isInitiator:TRUE];
+															  isInitiator:TRUE];
 	
 	[windowController showWindow:nil];
 	[windowController.window orderFront:nil];
