@@ -22,6 +22,7 @@
 @implementation AIListContactGroupChatCell
 
 @synthesize chat;
+
 - (void)dealloc
 {
 	[chat release];
@@ -30,11 +31,10 @@
 
 - (NSString *)labelString
 {
-	AIListObject *listObject = [proxyObject listObject];
 	NSString *label;
 	
-	if (chat && [chat displayNameForContact:listObject]) {
-		label = [chat displayNameForContact:listObject];
+	if (proxyObject.nick) {
+		label = proxyObject.nick;
 	} else {
 		label = [super labelString];
 	}
@@ -44,23 +44,21 @@
 
 - (NSImage *)statusImage
 {
-    AIListObject    *listObject = [proxyObject listObject];
-	return [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForContact:listObject]];
+	return [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForNick:proxyObject.nick]];
 }
 
 - (NSImage *)serviceImage
 {
 	// We can't use [listObject statusIcon] because it will show unknown for strangers.
-    AIListObject    *listObject = [proxyObject listObject];
-	return [AIStatusIcons statusIconForListObject:listObject
+    AIListContact    *listObject = [chat contactForNick:proxyObject.nick];
+	return [AIStatusIcons statusIconForListObject:(AIListObject *)listObject
 											 type:AIStatusIconTab
 										direction:AIIconFlipped];
 }
 
 - (NSColor *)textColor
 {
-    AIListObject    *listObject = [proxyObject listObject];
-	return [[AIGroupChatStatusIcons sharedIcons] colorForFlag:[chat flagsForContact:listObject]];
+	return [[AIGroupChatStatusIcons sharedIcons] colorForFlag:[chat flagsForNick:proxyObject.nick]];
 }
 
 - (float)imageOpacityForDrawing

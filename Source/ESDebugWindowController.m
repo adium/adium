@@ -60,10 +60,6 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 	[[textView_debug textStorage] addAttribute:NSParagraphStyleAttributeName
 										 value:debugParagraphStyle
 										 range:NSMakeRange(0, [mutableDebugString length])];
-
-//	[fullDebugLogArray removeAllObjects];
-	
-//	[adium.debugController clearDebugLogArray];
 	
 	[scrollView_debug scrollToBottom];	
 }

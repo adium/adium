@@ -1055,7 +1055,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				NSString *displayName;
                 
                 if (chat.isGroupChat)
-                    displayName = [(AIGroupChat *)chat displayNameForContact:content.source];
+                    displayName = content.sourceNick ? : content.source.displayName;
                 else
                     displayName = content.source.displayName;
 				

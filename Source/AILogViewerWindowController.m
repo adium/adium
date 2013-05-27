@@ -77,14 +77,20 @@
 #define SHOW_EMOTICONS					AILocalizedString(@"Show Emoticons",nil)
 #define HIDE_TIMESTAMPS					AILocalizedString(@"Hide Timestamps",nil)
 #define SHOW_TIMESTAMPS					AILocalizedString(@"Show Timestamps",nil)
+#define HIDE_SENDERCOLORS				AILocalizedString(@"Disable Sender Colors",nil)
+#define SHOW_SENDERCOLORS				AILocalizedString(@"Enable Sender Colors",nil)
 
 #define IMAGE_EMOTICONS_OFF				@"emoticon"
 #define IMAGE_EMOTICONS_ON				@"emoticon-sleep"
 #define IMAGE_TIMESTAMPS_OFF			@"transcripts-timestamp-out"
 #define IMAGE_TIMESTAMPS_ON				@"transcripts-timestamp-in"
+#warning needs new icons
+#define IMAGE_SENDERCOLORS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_SENDERCOLORS_ON			@"transcripts-timestamp-in"
 
 #define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
 #define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
+#define	KEY_LOG_VIEWER_SENDERCOLORS			@"Log Viewer Sender Colors"
 #define KEY_LOG_VIEWER_SELECTED_COLUMN		@"Log Viewer Selected Column Identifier"
 
 @interface AILogViewerWindowController ()
@@ -233,6 +239,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		automaticSearch = YES;
 		showEmoticons = NO;
 		showTimestamps = YES;
+		showSenderColors = NO;
 		activeSearchString = nil;
 		displayedLogArray = nil;
 		windowIsClosing = NO;
@@ -419,6 +426,12 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 															   group:PREF_GROUP_LOGGING] boolValue];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setLabel:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setImage:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]];
+	
+	// Set sender colour filtering
+	showSenderColors = [[adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_SENDERCOLORS
+															   group:PREF_GROUP_LOGGING] boolValue];
+	[[toolbarItems objectForKey:@"togglesendercolors"] setLabel:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)];
+	[[toolbarItems objectForKey:@"togglesendercolors"] setImage:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]];
 
 	//Toolbar
 	[self installToolbar];
@@ -517,6 +530,11 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:showTimestamps]
 																			 forKey:KEY_LOG_VIEWER_TIMESTAMPS
 																				group:PREF_GROUP_LOGGING];
+	
+	// Set preference for sender colours filtering
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:showSenderColors]
+									   forKey:KEY_LOG_VIEWER_SENDERCOLORS
+										group:PREF_GROUP_LOGGING];
 	
 	//Set preference for selected column
 	[adium.preferenceController setPreference:[selectedColumn identifier]
@@ -708,11 +726,13 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[displayOperation autorelease];
 	displayOperation = nil;
 	currentMatch = -1;
-	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
+	[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"Loading...", @"Displayed when loading a chat transcript")]];
 	
 	if (logArray) {
 		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
 		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	} else {
+		[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"No chat transcript found", nil)]];
 	}
 }
 
@@ -799,7 +819,8 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 			NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 									 [NSNumber numberWithBool:showTimestamps], @"showTimestamps",
-									 [NSNumber numberWithBool:showEmoticons], @"showEmoticons", 
+									 [NSNumber numberWithBool:showEmoticons], @"showEmoticons",
+									 [NSNumber numberWithBool:showSenderColors], @"showSenderColors",
 									 nil];
 			NSAttributedString *attributedLogFileText = [AIXMLChatlogConverter readFile:logFullPath withOptions:options];
 			if (attributedLogFileText) {
@@ -1680,7 +1701,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				totalCount--;
 			}
 			
-			//if (logPath) CFRelease(logPath);
 			if (url) CFRelease(url);
 			if (document) CFRelease(document);
         }
@@ -2024,6 +2044,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	[self displayLogs:displayedLogArray];
 }
 
+- (IBAction)toggleSendercolorFiltering:(id)sender
+{
+	showSenderColors = !showSenderColors;
+	[sender setLabel:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)];
+	[sender setImage:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]];
+	
+	[self displayLogs:displayedLogArray];
+}
+
 #pragma mark Outline View Data source
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(id)item
 {
@@ -2351,15 +2380,27 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 											  menu:nil];
 	// Toggle Timestamps
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-																	withIdentifier:@"toggletimestamps"
-																					 label:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)
-																		paletteLabel:AILocalizedString(@"Show/Hide Timestamps", nil)
-																				 toolTip:AILocalizedString(@"Show or hide timestamps in logs", nil)
-																				  target:self
-																 settingSelector:@selector(setImage:)
-																		 itemContent:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]
-																					action:@selector(toggleTimestampFiltering:)
-																						menu:nil];
+									withIdentifier:@"toggletimestamps"
+											 label:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)
+									  paletteLabel:AILocalizedString(@"Show/Hide Timestamps", nil)
+										   toolTip:AILocalizedString(@"Show or hide timestamps in logs", nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]
+											action:@selector(toggleTimestampFiltering:)
+											  menu:nil];
+	
+	// Toggle Sender Colours
+	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
+									withIdentifier:@"togglesendercolors"
+											 label:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)
+									  paletteLabel:AILocalizedString(@"Enable/Disable Sender Colors", nil)
+										   toolTip:AILocalizedString(@"Enable or disable multiple sender name colors in logs", nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]
+											action:@selector(toggleSendercolorFiltering:)
+											  menu:nil];
 
 	[[self window] setToolbar:toolbar];
 
@@ -2374,7 +2415,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:DATE_ITEM_IDENTIFIER, NSToolbarFlexibleSpaceItemIdentifier,
-		@"delete", @"toggleemoticons", @"toggletimestamps", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
+		@"delete", @"toggleemoticons", @"toggletimestamps", @"togglesendercolors", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
 		@"search", nil];
 }
 

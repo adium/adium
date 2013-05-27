@@ -843,7 +843,6 @@
 		34DC8ADC0A7EEEF7003E1636 /* AIContextMenuTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1E8176063A3EEC00EB00F7 /* AIContextMenuTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8ADD0A7EEEF7003E1636 /* AIContextMenuTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1E8177063A3EEC00EB00F7 /* AIContextMenuTextView.m */; };
 		34DC8AE00A7EEEF7003E1636 /* AIMessageEntryTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B5827E80613CE9D0004BD25 /* AIMessageEntryTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34DC8AE10A7EEEF7003E1636 /* AIMessageEntryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5827E90613CE9D0004BD25 /* AIMessageEntryTextView.m */; };
 		34DC8AE40A7EEEF7003E1636 /* stackImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 349DDD5206406A7D00542726 /* stackImage.png */; };
 		34DC8AE50A7EEEF7003E1636 /* AILocalizationAssistance.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D189B1076131850075A380 /* AILocalizationAssistance.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34DC8AE70A7EEEF7003E1636 /* AILocalizationButtonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 078C5CD0079EFF87004C75A4 /* AILocalizationButtonCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1019,6 +1018,7 @@
 		4F1CB6400D640DA40073A1E6 /* get-info-advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63C0D640DA40073A1E6 /* get-info-advanced.tiff */; };
 		4F1CB6410D640DA40073A1E6 /* get-info-events.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63D0D640DA40073A1E6 /* get-info-events.tiff */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.xib */; };
+		5A0BBC4317400544002A7BE0 /* emoticons_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A0BBC4217400544002A7BE0 /* emoticons_menu@2x.png */; };
 		5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
 		5A17D65D130F76B4002C852F /* AIGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A17D65C130F76B4002C852F /* AIGradientView.m */; };
@@ -1357,6 +1357,9 @@
 		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
+		76980AC1173E6C8800FBDA15 /* libidn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76980AC0173E6C8800FBDA15 /* libidn.framework */; };
+		76980AC5173E6CA700FBDA15 /* libidn.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76980AC0173E6C8800FBDA15 /* libidn.framework */; };
+		769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */; };
 		76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */ = {isa = PBXBuildFile; fileRef = 76A79E0916349477007A0497 /* AIGroupChat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A79E0A16349477007A0497 /* AIGroupChat.m */; };
 		76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */; };
@@ -1365,6 +1368,7 @@
 		76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */; };
 		76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
+		76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
 		76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FF925914B524B40043E23B /* AIIRCConsoleController.m */; };
 		76FF926414B62A980043E23B /* AIConsole.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76FF926314B62A980043E23B /* AIConsole.xib */; };
@@ -1414,6 +1418,11 @@
 		9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92B1530EDF700217FBE /* FriBidi.framework */; };
 		9719C9301530EE4800217FBE /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */; };
 		9722ABC813257D7F00CAB486 /* ContactListWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9722ABC713257D7F00CAB486 /* ContactListWindow.xib */; };
+		972AB3A11493CF2300381105 /* emoticons_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 974C7524148570E2000686BA /* emoticons_menu.png */; };
+		972AB3A21493D1BA00381105 /* MessageViewEmoticonsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */; };
+		97483A011486DD87002D1FA8 /* AIMessageEntryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B5827E90613CE9D0004BD25 /* AIMessageEntryTextView.m */; };
+		97483A051486E92C002D1FA8 /* AIMessageViewEmoticonsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97483A061486E93E002D1FA8 /* AIMessageViewEmoticonsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */; };
 		9760D24613E49A560031FA1A /* AboutDialog_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9760D24513E49A560031FA1A /* AboutDialog_bg.png */; };
 		97AF5CDB13191DE200550C41 /* AIContactListUserPictureMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97AF5CDA13191DE200550C41 /* AIContactListUserPictureMenuController.m */; };
 		97AF5CF413191E9A00550C41 /* ContactListChangeUserPictureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97AF5CF313191E9A00550C41 /* ContactListChangeUserPictureMenu.xib */; };
@@ -1678,6 +1687,7 @@
 				11EE1CCF0CDD01120097F246 /* libglib.framework in Copy Frameworks */,
 				11EE1CD00CDD01120097F246 /* libgmodule.framework in Copy Frameworks */,
 				11EE1CD10CDD01120097F246 /* libgobject.framework in Copy Frameworks */,
+				76980AC5173E6CA700FBDA15 /* libidn.framework in Copy Frameworks */,
 				11EE1CD20CDD01120097F246 /* libgthread.framework in Copy Frameworks */,
 				7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */,
 				11EE1CD30CDD01120097F246 /* libintl.framework in Copy Frameworks */,
@@ -3867,6 +3877,7 @@
 		4F1CB63C0D640DA40073A1E6 /* get-info-advanced.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info-advanced.tiff"; path = "Resources/get-info-advanced.tiff"; sourceTree = "<group>"; };
 		4F1CB63D0D640DA40073A1E6 /* get-info-events.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info-events.tiff"; path = "Resources/get-info-events.tiff"; sourceTree = "<group>"; };
 		4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ContactInfoInspector.xib; path = Resources/ContactInfoInspector.xib; sourceTree = "<group>"; };
+		5A0BBC4217400544002A7BE0 /* emoticons_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "emoticons_menu@2x.png"; path = "Resources/emoticons_menu@2x.png"; sourceTree = "<group>"; };
 		5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterAppOnly.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAppOnly.m"; sourceTree = "<group>"; };
 		5A0D236916F4C7BC005DF211 /* STTwitterAppOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAppOnly.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAppOnly.h"; sourceTree = "<group>"; };
 		5A1781840EC1215D00BA1E04 /* AIAutoScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutoScrollTextView.h; path = Source/AIAutoScrollTextView.h; sourceTree = "<group>"; };
@@ -4418,6 +4429,8 @@
 		767870E21634045C00BD0E4D /* AIMessageViewTopBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewTopBarController.h; path = Source/AIMessageViewTopBarController.h; sourceTree = "<group>"; };
 		767870E31634045C00BD0E4D /* AIMessageViewTopBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewTopBarController.m; path = Source/AIMessageViewTopBarController.m; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
+		76980AC0173E6C8800FBDA15 /* libidn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libidn.framework; path = Frameworks/libidn.framework; sourceTree = "<group>"; };
+		769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AMPurpleJabberDiscoveryBrowser.xib; path = "Plugins/Purple Service/AMPurpleJabberDiscoveryBrowser.xib"; sourceTree = "<group>"; };
 		76A79E0916349477007A0497 /* AIGroupChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChat.h; path = "Frameworks/Adium Framework/Source/AIGroupChat.h"; sourceTree = "<group>"; };
 		76A79E0A16349477007A0497 /* AIGroupChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChat.m; path = "Frameworks/Adium Framework/Source/AIGroupChat.m"; sourceTree = "<group>"; };
 		76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIAccountSelectionTopBar.xib; path = "Plugins/Dual Window Interface/AIAccountSelectionTopBar.xib"; sourceTree = "<group>"; };
@@ -4430,6 +4443,10 @@
 		76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRTopBarLoggingWarningController.xib; path = Source/AIOTRTopBarLoggingWarningController.xib; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
+		76FBDAC51733B9C900C9F10B /* STTwitterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterHTML.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterHTML.h"; sourceTree = "<group>"; };
+		76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterHTML.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterHTML.m"; sourceTree = "<group>"; };
+		76FBDAC71733B9C900C9F10B /* STTwitterOAuthOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterOAuthOSX.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterOAuthOSX.h"; sourceTree = "<group>"; };
+		76FBDAC81733B9C900C9F10B /* STTwitterOAuthOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterOAuthOSX.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterOAuthOSX.m"; sourceTree = "<group>"; };
 		76FF925814B524B40043E23B /* AIIRCConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCConsoleController.h; path = "Plugins/Purple Service/AIIRCConsoleController.h"; sourceTree = "<group>"; };
 		76FF925914B524B40043E23B /* AIIRCConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCConsoleController.m; path = "Plugins/Purple Service/AIIRCConsoleController.m"; sourceTree = "<group>"; };
 		76FF926314B62A980043E23B /* AIConsole.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AIConsole.xib; path = "Frameworks/Adium Framework/Resources/AIConsole.xib"; sourceTree = "<group>"; };
@@ -4482,6 +4499,10 @@
 		9719C92B1530EDF700217FBE /* FriBidi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FriBidi.framework; path = Frameworks/FriBidi.framework; sourceTree = "<group>"; };
 		9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShortcutRecorder.framework; path = Frameworks/ShortcutRecorder.framework; sourceTree = "<group>"; };
 		9722ABC713257D7F00CAB486 /* ContactListWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ContactListWindow.xib; path = Resources/ContactListWindow.xib; sourceTree = "<group>"; };
+		974C7524148570E2000686BA /* emoticons_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emoticons_menu.png; path = Resources/emoticons_menu.png; sourceTree = "<group>"; };
+		974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageViewEmoticonsMenu.xib; path = Resources/MessageViewEmoticonsMenu.xib; sourceTree = "<group>"; };
+		974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageViewEmoticonsController.h; path = Source/AIMessageViewEmoticonsController.h; sourceTree = "<group>"; };
+		974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageViewEmoticonsController.m; path = Source/AIMessageViewEmoticonsController.m; sourceTree = "<group>"; };
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIBoolToControlTextColorTransformer.h; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.h"; sourceTree = "<group>"; };
 		979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIBoolToControlTextColorTransformer.m; path = "Frameworks/Adium Framework/Source/AIBoolToControlTextColorTransformer.m"; sourceTree = "<group>"; };
@@ -4787,6 +4808,7 @@
 				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
 				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
+				76980AC1173E6C8800FBDA15 /* libidn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5006,6 +5028,13 @@
 		11C157D504A88DE0008E0C76 /* Emoticons */ = {
 			isa = PBXGroup;
 			children = (
+				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
+				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
+				974C753314857BF4000686BA /* AIMessageViewEmoticonsController.h */,
+				974C753414857BF4000686BA /* AIMessageViewEmoticonsController.m */,
+				974C752C148578F6000686BA /* MessageViewEmoticonsMenu.xib */,
+				974C7524148570E2000686BA /* emoticons_menu.png */,
+				5A0BBC4217400544002A7BE0 /* emoticons_menu@2x.png */,
 				C4243C920638E4EA007AD2D9 /* BGEmoticonMenuPlugin.h */,
 				C4243C930638E4EA007AD2D9 /* BGEmoticonMenuPlugin.m */,
 			);
@@ -5653,6 +5682,7 @@
 		346545090C8F69280046ED68 /* Discovery Browsing */ = {
 			isa = PBXGroup;
 			children = (
+				769D634A17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib */,
 				81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */,
 				81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */,
 				3465451A0C8F6A670046ED68 /* AMPurpleJabberServiceDiscoveryBrowserController.h */,
@@ -5842,8 +5872,6 @@
 				34B82C80085A85D800864531 /* AIChatController.m */,
 				F55B415C03AB8B5601A8010A /* AIContentController.h */,
 				F55B415D03AB8B5601A8010A /* AIContentController.m */,
-				11C157D804A88E04008E0C76 /* AIEmoticonController.h */,
-				11C157D904A88E04008E0C76 /* AIEmoticonController.m */,
 				34CA15520CAFDFB2009AA5E3 /* sidebarActionWidget.png */,
 				C6EE434115C0AA6F00A4B96C /* sidebarActionWidget@2x.png */,
 				34A9707D0C96602200F46006 /* sidebarStatusAreaBackground.png */,
@@ -7346,6 +7374,10 @@
 				5A3B4D7116D878AB00903E40 /* STTwitterOAuth.h */,
 				5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */,
 				5A3B4D7516D878AB00903E40 /* STTwitterOAuthProtocol.h */,
+				76FBDAC51733B9C900C9F10B /* STTwitterHTML.h */,
+				76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */,
+				76FBDAC71733B9C900C9F10B /* STTwitterOAuthOSX.h */,
+				76FBDAC81733B9C900C9F10B /* STTwitterOAuthOSX.m */,
 				5A3B4D7616D878AC00903E40 /* Vendor */,
 			);
 			name = STTwitter;
@@ -8284,6 +8316,7 @@
 		979AA6A914D59EF3008730DF /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				76980AC0173E6C8800FBDA15 /* libidn.framework */,
 				7664EAA4162E086A008CF995 /* libffi.framework */,
 				76731DE015F90538007728C3 /* libgcrypt.framework */,
 				76731DE115F90538007728C3 /* libgpgerror.framework */,
@@ -9177,6 +9210,7 @@
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
+				97483A051486E92C002D1FA8 /* AIMessageViewEmoticonsController.h in Headers */,
 				76A79E0B16349477007A0497 /* AIGroupChat.h in Headers */,
 				5A6298E31682BD9D00F51DED /* AIAdvancedPreferencePane.h in Headers */,
 			);
@@ -9634,6 +9668,7 @@
 				1150A9960FBE48D600E0BD31 /* ESIRCAccountView.xib in Resources */,
 				34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */,
 				5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */,
+				769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9857,6 +9892,8 @@
 				5A4BD56A13F86B7E00A4D3F7 /* Preferences-Icons.xib in Resources */,
 				5A4BD57F13F86BC500A4D3F7 /* Preferences-General.xib in Resources */,
 				7EC033B214590E0700CF24FB /* MessageWindow.xib in Resources */,
+				972AB3A11493CF2300381105 /* emoticons_menu.png in Resources */,
+				972AB3A21493D1BA00381105 /* MessageViewEmoticonsMenu.xib in Resources */,
 				5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */,
 				5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */,
 				5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */,
@@ -9929,6 +9966,7 @@
 				C613B143164112B3006683FF /* events-dock-name.tiff in Resources */,
 				C613B1451641210B006683FF /* events-contact.tiff in Resources */,
 				76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */,
+				5A0BBC4317400544002A7BE0 /* emoticons_menu@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10585,6 +10623,7 @@
 				5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */,
 				5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */,
 				5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */,
+				76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10657,7 +10696,6 @@
 				34DC8AD80A7EEEF7003E1636 /* DCJoinChatWindowController.m in Sources */,
 				34DC8ADB0A7EEEF7003E1636 /* AIAccountPlusFieldPromptController.m in Sources */,
 				34DC8ADD0A7EEEF7003E1636 /* AIContextMenuTextView.m in Sources */,
-				34DC8AE10A7EEEF7003E1636 /* AIMessageEntryTextView.m in Sources */,
 				34DC8AE80A7EEEF7003E1636 /* AILocalizationButtonCell.m in Sources */,
 				34DC8AEA0A7EEEF7003E1636 /* AILocalizationTextField.m in Sources */,
 				34DC8AEC0A7EEEF7003E1636 /* AILocalizationButton.m in Sources */,
@@ -10691,6 +10729,8 @@
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
+				97483A011486DD87002D1FA8 /* AIMessageEntryTextView.m in Sources */,
+				97483A061486E93E002D1FA8 /* AIMessageViewEmoticonsController.m in Sources */,
 				76FF926814B62AB80043E23B /* AIConsoleController.m in Sources */,
 				5AEE60011602BAE200304672 /* AIBoolToControlTextColorTransformer.m in Sources */,
 				76A79E0C16349477007A0497 /* AIGroupChat.m in Sources */,
@@ -12388,6 +12428,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = Debug;
 		};
@@ -12395,6 +12439,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = Release;
 		};
@@ -12402,6 +12450,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 			};
 			name = "Release-Debug";
 		};

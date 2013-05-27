@@ -24,9 +24,6 @@
 
 - (void)setPlaceholderString:(NSString *)inPlaceholderString
 {
-  //  NSDictionary *attributes;
-	
-//	attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor grayColor], NSForegroundColorAttributeName, nil];
 	[self setPlaceholder:[[[NSAttributedString alloc] initWithString:inPlaceholderString
 														  attributes:nil] autorelease]];
 }

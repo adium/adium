@@ -161,13 +161,6 @@
 	[tokenField_lastToken setEnabled:enableImport];
 	[tokenField_nickToken setEnabled:enableImport];
 
-	//We will not allow image syncing if AB images are preferred
-	//so disable the control and uncheck the box to indicate this to the user
-	//dchoby98: why are image import and export linked?
-	//[checkBox_syncAutomatic setEnabled:!preferABImages];
-	//if (preferABImages)
-	//	[checkBox_syncAutomatic setState:NSOffState];
-	
 	//Disable the image priority checkbox if we aren't using images
 	[checkBox_preferABImages setEnabled:useImages];
 }

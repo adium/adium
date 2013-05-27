@@ -20,12 +20,14 @@
 @implementation AIContentTopic
 + (id)topicInChat:(AIChat *)inChat
 	   withSource:(id)inSource
+	   sourceNick:(NSString *)inSourceNick
 	  destination:(id)inDest
 			 date:(NSDate *)inDate 
 		  message:(NSAttributedString *)inMessage
 {
 	return [super messageInChat:inChat
 					 withSource:inSource
+					 sourceNick:inSourceNick
 					destination:inDest
 						   date:inDate
 						message:inMessage

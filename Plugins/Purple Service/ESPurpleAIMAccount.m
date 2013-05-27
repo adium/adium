@@ -203,7 +203,8 @@
 			[listContact notifyOfChangedPropertiesSilently:NO];
 		}
 		
-		[chat addParticipatingListObject:listContact notify:(newArrival && [newArrival boolValue])];
+		[chat addParticipatingNick:contactName notify:(newArrival && [newArrival boolValue])];
+		[chat setContact:listContact forNick:contactName];
 	}
 }
 

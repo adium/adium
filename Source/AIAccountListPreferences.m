@@ -709,7 +709,7 @@
 	
 	if ([account valueForProperty:@"connectionProgressString"] && [account boolValueForProperty:@"isConnecting"]) {
 		// Connection status if we're currently connecting, with the percent at the end
-		statusMessage = [[account valueForProperty:@"connectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"connectionProgressPercent"] doubleValue]];
+		statusMessage = [[account valueForProperty:@"connectionProgressString"] stringByAppendingFormat:@" (%.f%%)", [[account valueForProperty:@"connectionProgressPercent"] doubleValue]];
 	} else if ([account lastDisconnectionError] && ![account boolValueForProperty:@"isOnline"] && ![account boolValueForProperty:@"isConnecting"]) {
 		// If there's an error and we're not online and not connecting
 		NSMutableString *returnedMessage = [[[account lastDisconnectionError] mutableCopy] autorelease];

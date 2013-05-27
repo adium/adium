@@ -25,8 +25,10 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AICorePluginLoader.h>
+#import <Sparkle/Sparkle.h>
 
 #define ADIUM_XTRAS_PAGE		AILocalizedString(@"http://xtras.adium.im/","Adium xtras page. Localized only if a translated version exists.")
+#define XTRAS_LAST_CATEGORY_KEY @"Xtras Last Category"
 
 @interface AIXtrasManager ()
 - (void)updateForSelectedCategory;
@@ -81,7 +83,11 @@
 
 	[self showXtras];
 
-	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	NSUInteger lastCategory = [[adium.preferenceController preferenceForKey:XTRAS_LAST_CATEGORY_KEY group:PREF_GROUP_GENERAL] integerValue];
+	if (lastCategory < categories.count)
+		[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:lastCategory] byExtendingSelection:NO];
+	else
+		[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	
 	[self updateForSelectedCategory];
 }
@@ -110,6 +116,10 @@
 NSInteger categorySort(id categoryA, id categoryB, void * context)
 {
 	return [[categoryA objectForKey:@"Name"] localizedCaseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
+}
+NSInteger xtraSort(id xtra1, id xtra2, void * context)
+{
+	return [[(AIXtraInfo *)xtra1 name] localizedCaseInsensitiveCompare:[(AIXtraInfo *)xtra2 name]];
 }
 
 - (void)loadXtras
@@ -192,9 +202,11 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 				[xtraInfo setEnabled:NO];
 				[contents addObject:xtraInfo];
 			}
-		}		
+		}
 	}
-
+	
+	[contents sortUsingFunction:xtraSort context:NULL];
+	
 	return contents;
 }
 
@@ -244,6 +256,9 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	if ([xtraList numberOfRows]) {
 		[xtraList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	}
+	
+	//Save the last viewed category
+	[adium.preferenceController setPreference:[NSString stringWithFormat:@"%ld", [tableView_categories selectedRow]] forKey:XTRAS_LAST_CATEGORY_KEY group:PREF_GROUP_GENERAL];
 	
 	[self updatePreview];
 }
@@ -367,16 +382,29 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	
 	NSAlert * warning = [NSAlert alertWithMessageText:AILocalizedString(@"You will need to restart Adium", nil)
 										defaultButton:AILocalizedString(@"OK", nil)
-									  alternateButton:nil
+									  alternateButton:AILocalizedString(@"Restart Adium now", nil)
 										  otherButton:nil
-							informativeTextWithFormat:AILocalizedString(@"Enabling or disabling Xtras requires a restart of Adium.", nil)];
+							informativeTextWithFormat:AILocalizedString(@"The changes will be made after a restart of Adium.", nil)];
 	[warning beginSheetModalForWindow:self.view.window
-						modalDelegate:nil
-					   didEndSelector:nil
+						modalDelegate:self
+					   didEndSelector:@selector(relaunchAlertDidEnd:returnCode:contextInfo:)
 						  contextInfo:nil];
 	
 	//Reload the plugins to reflect the recent changes
 	[self xtrasChanged:nil];
+}
+
+- (void)relaunchAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode == NSAlertAlternateReturn) {
+		NSString *launcherSource = [[NSBundle bundleForClass:[SUUpdater class]]  pathForResource:@"finish_installation" ofType:@"app"];
+		NSString *relaunchToolPath = [launcherSource stringByAppendingPathComponent:@"Contents/MacOS/finish_installation"];
+		NSString *processID = [NSString stringWithFormat:@"%d", [[NSProcessInfo processInfo] processIdentifier]];
+		NSString *appPath = [[NSBundle mainBundle] bundlePath];
+		
+		[NSTask launchedTaskWithLaunchPath:relaunchToolPath arguments:[NSArray arrayWithObjects:appPath, appPath, processID, nil]];
+		[NSApp terminate:self];
+	}
 }
 
 + (BOOL)createXtraBundleAtPath:(NSString *)path
