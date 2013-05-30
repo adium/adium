@@ -50,6 +50,7 @@
  */
 - (id)initWithNibName:(NSString *)nibName textView:(AIMessageEntryTextView *)aView atPoint:(NSPoint)aPoint
 {
+	self = [super init];
 	if ([[NSBundle mainBundle] loadNibFile:nibName
 						 externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:self, NSNibOwner, AI_topLevelObjects, NSNibTopLevelObjects, nil]
 								  withZone:nil]) {
