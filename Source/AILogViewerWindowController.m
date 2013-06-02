@@ -344,7 +344,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		NSString *nameA = [self outlineView:nil objectValueForTableColumn:nil byItem:itemA];
 		NSString *nameB = [self outlineView:nil objectValueForTableColumn:nil byItem:itemB];
 		NSComparisonResult result = [nameA localizedCaseInsensitiveCompare:nameB];
-		if (result == NSOrderedSame) result = [nameA compare:nameB];
+		if (result == NSOrderedSame && nameB) result = [nameA compare:nameB];
 		
 		return result;
 	}];
