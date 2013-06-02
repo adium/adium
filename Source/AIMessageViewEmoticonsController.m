@@ -43,7 +43,7 @@
 
 + (void)popUpMenuForTextView:(AIMessageEntryTextView *)textView atPoint:(NSPoint)aPoint
 {
-	[[self alloc] initWithNibName:@"MessageViewEmoticonsMenu" textView:textView atPoint:aPoint];
+	(void)[[self alloc] initWithNibName:@"MessageViewEmoticonsMenu" textView:textView atPoint:aPoint];
 }
 
 - (void)dealloc
