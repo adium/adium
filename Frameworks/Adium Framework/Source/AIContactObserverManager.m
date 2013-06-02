@@ -237,20 +237,17 @@ static AIContactObserverManager *sharedObserverManager = nil;
         }
 	}
 
+	NSDictionary *keys = (inModifiedKeys ? [NSDictionary dictionaryWithObject:inModifiedKeys forKey:@"Keys"] : nil);
 	//Post an attributes changed message
 	[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributesChanged
 														object:inObject
-													  userInfo:(inModifiedKeys ?
-																[NSDictionary dictionaryWithObject:inModifiedKeys
-																							forKey:@"Keys"] :
-																nil)];
-	 
+													  userInfo:keys];
+	
 	if (!shouldDelay) {
 		/* Note that we completed 1 or more delayed attribute changes */
 		[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributeChangesComplete
 															object:inObject
-														  userInfo:[NSDictionary dictionaryWithObject:inModifiedKeys
-																							   forKey:@"Keys"]];
+														  userInfo:keys];
 	}
 }
 

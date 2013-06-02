@@ -56,6 +56,7 @@
  */
 - (id)initWithNibName:(NSString *)nibName textView:(AIMessageEntryTextView *)aView atPoint:(NSPoint)aPoint
 {
+	self = [super init];
 	if ([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil]) {
 		
 		// Set the text view
