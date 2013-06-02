@@ -1270,44 +1270,36 @@
 		case 400:
 			// Bad Request: your request is invalid, and we'll return an error message that tells you why.
 			return AILocalizedString(@"The request is invalid.", nil);
-			break;
 			
 		case 401:
 			// Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
 			return AILocalizedString(@"Your credentials do not allow you access.", nil);
-			break;
 			
 		case 403:
 			// Forbidden: we understand your request, but are refusing to fulfill it.  An accompanying error message should explain why.
 			return AILocalizedString(@"Request refused by the server.", nil);
-			break;
 			
 		case 404:
 			// Not Found: either you're requesting an invalid URI or the resource in question doesn't exist (ex: no such user).
 			return AILocalizedString(@"Requested resource not found.", nil);
-			break;
 			
 		case 429:
 			// This is the status code returned if you've exceeded the rate limit.
 			return AILocalizedString(@"You've exceeded the rate limit.", nil);
-			break;
 			
 		case 500:
 			// Internal Server Error: we did something wrong.  Please post to the group about it and the Twitter team will investigate.
 			return AILocalizedString(@"The server reported an internal error.", nil);
-			break;
 			
 		case 502:
 			// Bad Gateway: returned if Twitter is down or being upgraded.
 			return AILocalizedString(@"The server is currently down.", nil);
-			break;
 			
 		case -1001:
 			// Timeout
 		case 503:
 			// Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
 			return AILocalizedString(@"The server is overloaded with requests.", nil);
-			break;
 			
 	}
 	

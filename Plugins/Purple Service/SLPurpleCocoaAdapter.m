@@ -418,13 +418,10 @@ AIChat* chatLookupFromConv(PurpleConversation *conv)
 	switch(purple_conversation_get_type(conv)) {
 		case PURPLE_CONV_TYPE_CHAT:
 			return groupChatLookupFromConv(conv);
-			break;
 		case PURPLE_CONV_TYPE_IM:
 			return imChatLookupFromConv(conv);
-			break;
 		default:
 			return existingChatLookupFromConv(conv);
-			break;
 	}
 }
 

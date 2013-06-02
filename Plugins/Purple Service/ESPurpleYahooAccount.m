@@ -112,7 +112,6 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 	}
 	return nil;
 }

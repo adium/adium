@@ -76,7 +76,6 @@
 		}
 		default: {
 			return nil;
-			break;
 		}
 	}
 

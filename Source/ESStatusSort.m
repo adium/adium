@@ -405,19 +405,15 @@ static NSInteger  sizeOfSortOrder;
 	switch (sortOrder[rowIndex]) {
 		case Available:
 			return AVAILABLE;
-			break;
 			
 		case Away:
 			return AWAY;
-			break;
 			
 		case Idle:
 			return IDLE;
-			break;
 			
 		case Away_And_Idle:
 			return AWAY_AND_IDLE;
-			break;
 			
 		case Unavailable:
 			//Unavailable is always the same sort, but to the user it can be either "Unavailable" or "Other Unavailable"
@@ -425,15 +421,12 @@ static NSInteger  sizeOfSortOrder;
 			return ((!sortIdleTime && (groupUnavailable || !(groupAway || groupIdle || groupIdleAndAway))) ?
 					UNAVAILABLE :
 					OTHER_UNAVAILABLE);
-			break;
 		
 		case Online:
 			return ONLINE;
-			break;
 			
 		case Mobile:
 			return MOBILE;
-			break;
 	}
 	
 	return @"";

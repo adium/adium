@@ -35,22 +35,16 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 1:
 			return AILocalizedString(@"Looking up server",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Reading data","Connection step");
-			break;			
 		case 3:
 			return AILocalizedString(@"Balancer handshake","Connection step");
-			break;
 		case 4:
 			return AILocalizedString(@"Reading server key","Connection step");
-			break;
 		case 5:
 			return AILocalizedString(@"Exchanging key hash","Connection step");
-			break;
 	}
 	return nil;
 }

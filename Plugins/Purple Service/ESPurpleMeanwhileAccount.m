@@ -102,34 +102,24 @@ extern const char *mwServiceAware_getText(void *, void *);
 	{
 		case 1:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Sending Handshake",nil);
-			break;
 		case 3:
 			return AILocalizedString(@"Waiting for Handshake Acknowledgement",nil);
-			break;			
 		case 4:
 			return AILocalizedString(@"Handshake Acknowledged; Sending Login",nil);
-			break;
 		case 5:
 			return AILocalizedString(@"Waiting for Login Acknowledgement",nil);
-			break;
 		case 6:
 			return AILocalizedString(@"Login Redirected",nil);
-			break;
 		case 7:
 			return AILocalizedString(@"Forcing Login",nil);
-			break;
 		case 8:
 			return AILocalizedString(@"Login Acknowledged",nil);
-			break;
 		case 9:
 			return AILocalizedString(@"Starting Services",nil);
-			break;
 		case 10:
 			return AILocalizedString(@"Connected",nil);
-			break;
 	}
 	
 	return nil;

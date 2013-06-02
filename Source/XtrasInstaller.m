@@ -116,7 +116,7 @@
 	self.xtraName = [[response allHeaderFields] objectForKey:@"X-Xtraname"];
 	amountDownloaded = 0;
 	downloadSize = [response expectedContentLength];
-	[progressBar setMaxValue:(long long)downloadSize];
+	[progressBar setMaxValue:downloadSize];
 	[progressBar setDoubleValue:0.0];
 	AILogWithSignature(@"Beginning download of %@, which has size %lld", [response allHeaderFields], downloadSize);
 	[self updateInfoText];

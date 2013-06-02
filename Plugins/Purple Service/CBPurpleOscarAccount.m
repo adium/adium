@@ -194,22 +194,16 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 1:
 			return AILocalizedString(@"Screen name sent",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Password sent",nil);
-			break;			
 		case 3:
 			return AILocalizedString(@"Received authorization",nil);
-			break;
 		case 4:
 			return AILocalizedString(@"Connection established",nil);
-			break;
 		case 5:
 			return AILocalizedString(@"Finalizing connection",nil);
-			break;
 	}
 
 	return nil;

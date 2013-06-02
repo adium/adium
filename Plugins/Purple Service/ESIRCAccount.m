@@ -562,19 +562,15 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	switch (req) {
 		case AIRequiresHalfop:
 			return (anySelected && ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatHalfOp) == AIGroupChatHalfOp));
-			break;
 			
 		case AIRequiresOp:
 			return (anySelected && ((flags & AIGroupChatOp) == AIGroupChatOp));
-			break;
 			
 		case AIRequiresNoLevel:
 			return anySelected;
-			break;
 			
 		default:
 			return YES;
-			break;
 	}
 }
 

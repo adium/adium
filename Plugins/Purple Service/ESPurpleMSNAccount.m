@@ -146,31 +146,22 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 1:
 			return AILocalizedString(@"Handshaking",nil);
-			break;			
 		case 2:
 			return AILocalizedString(@"Transferring",nil);
-			break;
 		case 3:
 			return AILocalizedString(@"Handshaking",nil);
-			break;
 		case 4:
 			return AILocalizedString(@"Starting authentication",nil);
-			break;
 		case 5:
 			return AILocalizedString(@"Getting Cookie",nil);
-			break;
 		case 6:
 			return AILocalizedString(@"Authenticating",nil);
-			break;
 		case 7:
 			return AILocalizedString(@"Sending Cookie",nil);
-			break;
 		case 8:
 			return AILocalizedString(@"Retrieving buddy list",nil);
-			break;
 	}
 	return nil;
 }

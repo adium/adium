@@ -80,19 +80,14 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 	switch (statusType) {
 		case AIAvailableStatusType:
 			return STATUS_NAME_AVAILABLE;
-			break;
 		case AIAwayStatusType:
 			return STATUS_NAME_AWAY;
-			break;
 		case AIInvisibleStatusType:
 			return STATUS_NAME_INVISIBLE;
-			break;
 		case AIOfflineStatusType:
 			return STATUS_NAME_OFFLINE;
-			break;
 		default:
 			return STATUS_NAME_OFFLINE;
-			break;
 	}
 }
 							 

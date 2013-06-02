@@ -366,7 +366,6 @@
 																						  group:GROUP_ENCRYPTION])];
 				}
 				return YES;
-				break;
 			}
 			case EncryptedChat_Never:
 			case EncryptedChat_Manually:
@@ -378,7 +377,6 @@
 					[menuItem setState:(tag == userPreference)];
 				}
 				return YES;
-				break;
 			}
 		}
 	} else {
@@ -388,7 +386,6 @@
 		switch (tag) {
 			case AISecureMessagingMenu_Root:
 				return  [chat supportsSecureMessagingToggling];
-				break;
 
 			case AISecureMessagingMenu_Toggle:
 				// The menu item should indicate what will happen if it is selected.. the opposite of our secure state
@@ -408,22 +405,18 @@
 				}
 
 				return YES;
-				break;
 				
 			case AISecureMessagingMenu_ShowDetails:
 			case AISecureMessagingMenu_Verify:
 				//Only enable show details if the chat is secure
 				return [chat isSecure];
-				break;
 				
 			case AISecureMessagingMenu_Options:
 				//Only enable options if the chat is with a single person 
 				return ([chat supportsSecureMessagingToggling] && chat.listObject && !chat.isGroupChat);
-				break;
 				
 			case AISecureMessagingMenu_ShowAbout:
 				return [chat supportsSecureMessagingToggling];
-				break;
 		}
 	}
 
