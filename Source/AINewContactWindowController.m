@@ -586,9 +586,9 @@
 /*!
  * @brief selector to select Group used by "Add Contact to Group"
  */
-- (void)selectGroupByName:(NSString *)groupName
+- (void)selectGroupByName:(NSString *)aGroupName
 {
-    [popUp_targetGroup selectItemWithTitle:groupName];
+    [popUp_targetGroup selectItemWithTitle:aGroupName];
 }
 
 /*!
