@@ -66,7 +66,6 @@
 - (NSNumber *)shouldCheckMail;
 - (void)configurePurpleAccountNotifyingTarget:(id)target selector:(SEL)selector;
 - (void)continueConnectWithConfiguredProxy;
-- (void)continueRegisterWithConfiguredPurpleAccount;
 - (void)promptForHostBeforeConnecting;
 - (void)setAccountProfileTo:(NSAttributedString *)profile configurePurpleAccountContext:(NSInvocation *)inInvocation;
 - (void)performAccountMenuAction:(NSMenuItem *)sender;
