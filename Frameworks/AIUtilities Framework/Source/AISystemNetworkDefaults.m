@@ -120,9 +120,9 @@
 
 		} else {
 			//Check for a PAC configuration
-			enable = [[proxyDict objectForKey:(NSString *)kSCPropNetProxiesProxyAutoConfigEnable] boolValue];
+			enable = [[proxyDict objectForKey:kSCPropNetProxiesProxyAutoConfigEnable] boolValue];
 			if (enable) {
-				NSString *pacFile = [proxyDict objectForKey:(NSString *)kSCPropNetProxiesProxyAutoConfigURLString];
+				NSString *pacFile = [proxyDict objectForKey:kSCPropNetProxiesProxyAutoConfigURLString];
 				
 				if (pacFile) {
 					CFURLRef url = (__bridge CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", hostName ?: @"google.com"]];

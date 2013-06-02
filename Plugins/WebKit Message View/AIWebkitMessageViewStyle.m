@@ -1327,7 +1327,7 @@
  			}
 
 			//Replace the body background tag
- 			[inString safeReplaceCharactersInRange:range withString:(bodyTag ? (NSString *)bodyTag : @"")];
+ 			[inString safeReplaceCharactersInRange:range withString:(bodyTag ? bodyTag : @"")];
  		}
  	}
 

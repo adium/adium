@@ -814,7 +814,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			if ([[homepage scheme] isEqualToString:@"fb"]) {
 				//Retrieve all appropriate contacts
 				//This will be fb://profile/XXX where XXX is the UID
-				NSString	*facebookNumber = (NSString*)[(NSString*)homepage lastPathComponent];
+				NSString	*facebookNumber = [homepage lastPathComponent];
 				NSString	*facebookUID = [NSString stringWithFormat:@"-%@@chat.facebook.com", facebookNumber];
 
 				NSSet		*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"Facebook"]
@@ -1190,7 +1190,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 				if ([[homepage scheme] isEqualToString:@"fb"]) {
 					//Retrieve all appropriate contacts
 					//This will be fb://profile/XXX where XXX is the UID
-					NSString	*facebookNumber = (NSString*)[(NSString*)homepage lastPathComponent];
+					NSString	*facebookNumber = [homepage lastPathComponent];
 					NSString	*facebookUID = [NSString stringWithFormat:@"-%@@chat.facebook.com", facebookNumber];
 					if (!(dict = [addressBookDict objectForKey:@"Facebook"])) {
 						dict = [[NSMutableDictionary alloc] init];

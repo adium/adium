@@ -143,7 +143,7 @@
 		//NSPopUpButton doesn't handle submenus well at all. We put a blank menu item at the top of our
 		//menu when we created it. We can now change its attributes to affect the way the unclicked button
 		//displays.
-		firstMenuItem = (NSMenuItem *)[[popUp_messageTo menu] itemAtIndex:0];
+		firstMenuItem = [[popUp_messageTo menu] itemAtIndex:0];
 		[firstMenuItem setTitle:([toContact isKindOfClass:[AIMetaContact class]] ?
 								 toContact.displayName :
 								 toContact.formattedUID)];

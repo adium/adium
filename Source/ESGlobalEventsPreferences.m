@@ -450,13 +450,13 @@
 		
 		if (![alertsArray count]) {
 			//We can select "None" if there are no sounds
-			soundMenuItem = (NSMenuItem *)[popUp_soundSet itemWithTitle:@"None"];
+			soundMenuItem = [popUp_soundSet itemWithTitle:@"None"];
 
 		} else {
 			/* Otherwise, check to see if we remain in our proper soundset.
 			 * Note that this won't detect if we return to a soundset, but that'd be an expensive search.
 			 */
-			soundMenuItem = (NSMenuItem *)[popUp_soundSet selectedItem];
+			soundMenuItem = [popUp_soundSet selectedItem];
 
 			AISoundSet		*soundSet = [soundMenuItem representedObject];
 			NSString		*key;

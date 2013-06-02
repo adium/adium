@@ -65,7 +65,7 @@
 	
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
-		NSInteger i = [(NSMenu *)contextualMenu numberOfItems];
+		NSInteger i = [contextualMenu numberOfItems];
 		for (menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];

@@ -1610,7 +1610,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			if (!logPath) 
 				AILogWithSignature(@"Could not get path for %@. ", url);
 			
-			NSArray	 *pathComponents = [(NSString *)logPath pathComponents];
+			NSArray	 *pathComponents = [logPath pathComponents];
 			
 			/* Handle chatlogs-as-bundles, which have an xml file inside our target .chatlog path */
 			if ([[[pathComponents lastObject] pathExtension] caseInsensitiveCompare:@"xml"] == NSOrderedSame)
