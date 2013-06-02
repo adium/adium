@@ -51,7 +51,6 @@
 #define LOG_INDEX_NAME				@"Logs.index"
 #define KEY_LOG_INDEX_VERSION		@"Log Index Version"
 #define DIRTY_LOG_SET_NAME			@"DirtyLogs.plist"
-#define KEY_LOG_INDEX_VERSION		@"Log Index Version"
 
 //Version of the log index.  Increase this number to reset everyone's index.
 #define	CURRENT_LOG_VERSION			10
