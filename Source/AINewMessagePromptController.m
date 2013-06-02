@@ -239,7 +239,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 			NSTextAttachment		*attachment;
 			NSTextAttachmentCell	*cell;
 			NSImage					*serviceIcon = [[AIServiceIcons serviceIconForObject:account
-																		type:AIStatusIconTab
+																		type:AIServiceIconSmall
 																   direction:AIIconNormal] imageByScalingToSize:NSMakeSize(11, 11)];
 			
 			cell = [[NSTextAttachmentCell alloc] init];
