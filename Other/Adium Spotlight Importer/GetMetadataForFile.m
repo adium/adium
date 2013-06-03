@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "GetMetadataForHTMLLog.h"
-#import "NSCalendarDate+ISO8601Parsing.h"
+#import "ISO8601DateFormatter.h"
 
 /*
  Relevant keys from MDItem.h we use or may want to use:
@@ -208,19 +208,20 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 						   forKey:@"com_adiumX_service"];
 		
 		NSArray			*children = [[xmlDoc rootElement] children];
-		NSCalendarDate	*startDate = nil, *endDate = nil;
+		NSDate			*startDate = nil, *endDate = nil;
 
 		if ([children count]) {
 			NSString		*dateStr;
+			ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
 
 			dateStr = [[(NSXMLElement *)[children objectAtIndex:0] attributeForName:@"time"] objectValue];
-			startDate = (dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil);
+			startDate = (dateStr ? [formatter dateFromString:dateStr] : nil);
 			if (startDate)
 				[(NSMutableDictionary *)attributes setObject:startDate
 													  forKey:(NSString *)kMDItemContentCreationDate];
 
 			dateStr = [[(NSXMLElement *)[children lastObject] attributeForName:@"time"] objectValue];
-			endDate = (dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil);
+			endDate = (dateStr ? [formatter dateFromString:dateStr] : nil);
 			if (endDate)
 				[(NSMutableDictionary *)attributes setObject:[NSNumber numberWithDouble:[endDate timeIntervalSinceDate:startDate]]
 													  forKey:(NSString *)kMDItemDurationSeconds];

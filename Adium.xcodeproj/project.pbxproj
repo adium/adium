@@ -193,8 +193,6 @@
 		318EA69C0D7A659900EDB105 /* TestColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 318EA69B0D7A659900EDB105 /* TestColorAdditions.m */; };
 		319B29800CE8EC6F00C65398 /* TestDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 319B297F0CE8EC6E00C65398 /* TestDateAdditions.m */; };
 		31A764B90DA572B8000AC729 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
-		31DDDA7112BDD5CE0048F6C0 /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
-		31DDDA7A12BDD6E90048F6C0 /* TestScandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA7912BDD6E90048F6C0 /* TestScandate.m */; };
 		31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */; };
 		31FA804C0D4A8EB200ABE634 /* Adium.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 0CAC6A130C0C657A0090AE95 /* Adium.sdef */; };
 		3402D5A5080DBC91004E50B4 /* SortConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 347E791D07CAA52300350507 /* SortConfiguration.xib */; };
@@ -226,7 +224,6 @@
 		3419DE7D0A81042F00C3FC68 /* lock-unlocked.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 34DFF52607A62EB000B92233 /* lock-unlocked.tiff */; };
 		3419DE7F0A81042F00C3FC68 /* msg-send-file.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 34D8326307CBD598006466F2 /* msg-send-file.tiff */; };
 		3419DE820A81042F00C3FC68 /* ToolbarPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D8327607CBD5B3006466F2 /* ToolbarPrefs.plist */; };
-		3419DF3B0A8119BF00C3FC68 /* AICalendarDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 340D0A000A7DD1F40059A3AF /* AICalendarDate.m */; };
 		3419E2DF0A81445800C3FC68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3419E2DE0A81445800C3FC68 /* Localizable.strings */; };
 		3419F7760531512200C68BA3 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
 		3419FE230531586A00C68BA3 /* Adium.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
@@ -1050,9 +1047,10 @@
 		5A6298DF1682BD9100F51DED /* AIAdvancedPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */; };
 		5A6298E31682BD9D00F51DED /* AIAdvancedPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1E24A715BC746B003A6F9E /* AIAdvancedPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1FEA601334549300C14951 /* MessageView.xib */; };
-		5A804FEA12BE9E84007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
-		5A80508512BE9F00007CDC1B /* scandate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DDDA6F12BDD5CE0048F6C0 /* scandate.m */; };
 		5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */; };
+		5A914166175BD960002139D5 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A914164175BD960002139D5 /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5A914167175BD960002139D5 /* ISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A914165175BD960002139D5 /* ISO8601DateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A914168175BD97F002139D5 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A914164175BD960002139D5 /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */; };
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* events-do-nothing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* events-do-nothing.tiff */; };
@@ -1252,10 +1250,6 @@
 		633400BC0F9C14C2003C77A9 /* AIWindowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFF10F9C14C1003C77A9 /* AIWindowAdditions.m */; };
 		633400BF0F9C14C2003C77A9 /* OWAddressBookAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFF40F9C14C1003C77A9 /* OWAddressBookAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		633400C00F9C14C2003C77A9 /* OWAddressBookAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFF50F9C14C1003C77A9 /* OWAddressBookAdditions.m */; };
-		633400C10F9C14C2003C77A9 /* NSCalendarDate+ISO8601Parsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFF60F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400C20F9C14C2003C77A9 /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFF70F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.m */; };
-		633400C30F9C14C2003C77A9 /* NSCalendarDate+ISO8601Unparsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFF80F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400C40F9C14C2003C77A9 /* NSCalendarDate+ISO8601Unparsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFF90F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.m */; };
 		633400C50F9C14C2003C77A9 /* AIWindowControllerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFFA0F9C14C1003C77A9 /* AIWindowControllerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		633400C60F9C14C2003C77A9 /* AIWindowControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFFB0F9C14C1003C77A9 /* AIWindowControllerAdditions.m */; };
 		633400C70F9C14C2003C77A9 /* AIPasteboardAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFFC0F9C14C1003C77A9 /* AIPasteboardAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1279,7 +1273,6 @@
 		633D4FB70F9D30E3004F491E /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB10F9D30E3004F491E /* GetMetadataForFile.m */; };
 		633D4FB80F9D30E3004F491E /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB30F9D30E3004F491E /* GetMetadataForHTMLLog.m */; };
 		633D4FB90F9D30E3004F491E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB40F9D30E3004F491E /* main.c */; };
-		633D4FBE0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */; };
 		633D4FC20F9D3116004F491E /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 633D4FC00F9D3116004F491E /* schema.xml */; };
 		633D514F0F9D31BE004F491E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 633D50ED0F9D31BD004F491E /* InfoPlist.strings */; };
 		633D51500F9D31BE004F491E /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 633D50EF0F9D31BD004F491E /* schema.strings */; };
@@ -2009,10 +2002,6 @@
 		318EA69B0D7A659900EDB105 /* TestColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestColorAdditions.m; path = UnitTests/TestColorAdditions.m; sourceTree = "<group>"; };
 		319B29420CE8D28300C65398 /* TestDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestDateAdditions.h; path = UnitTests/TestDateAdditions.h; sourceTree = "<group>"; };
 		319B297F0CE8EC6E00C65398 /* TestDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestDateAdditions.m; path = UnitTests/TestDateAdditions.m; sourceTree = "<group>"; };
-		31DDDA6E12BDD5CE0048F6C0 /* scandate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scandate.h; path = Source/scandate.h; sourceTree = "<group>"; };
-		31DDDA6F12BDD5CE0048F6C0 /* scandate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = scandate.m; path = Source/scandate.m; sourceTree = "<group>"; };
-		31DDDA7812BDD6E90048F6C0 /* TestScandate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestScandate.h; path = UnitTests/TestScandate.h; sourceTree = "<group>"; };
-		31DDDA7912BDD6E90048F6C0 /* TestScandate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestScandate.m; path = UnitTests/TestScandate.m; sourceTree = "<group>"; };
 		31DDDAF112BDE54B0048F6C0 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = "Other/Adium Spotlight Importer/Prefix.pch"; sourceTree = "<group>"; };
 		31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		31E84DF10C7F387800674BCA /* AIUnitTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnitTestUtilities.h; path = UnitTests/AIUnitTestUtilities.h; sourceTree = "<group>"; };
@@ -2075,8 +2064,6 @@
 		340D03A80A7D798A0059A3AF /* AIControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIControllerProtocol.h"; sourceTree = "<group>"; };
 		340D081F0A7DBFE40059A3AF /* AIChatControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIChatControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIChatControllerProtocol.h"; sourceTree = "<group>"; };
 		340D083F0A7DC1540059A3AF /* AIContactAlertsControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactAlertsControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIContactAlertsControllerProtocol.h"; sourceTree = "<group>"; };
-		340D09FF0A7DD1F40059A3AF /* AICalendarDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AICalendarDate.h; path = Source/AICalendarDate.h; sourceTree = "<group>"; };
-		340D0A000A7DD1F40059A3AF /* AICalendarDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICalendarDate.m; path = Source/AICalendarDate.m; sourceTree = "<group>"; };
 		340D0D5B0A7E72030059A3AF /* AIContactControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIContactControllerProtocol.h"; sourceTree = "<group>"; };
 		340D0D630A7E72DA0059A3AF /* AIContentControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIContentControllerProtocol.h"; sourceTree = "<group>"; };
 		340D0D720A7E750E0059A3AF /* AIDockControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIDockControllerProtocol.h"; sourceTree = "<group>"; };
@@ -4002,6 +3989,8 @@
 		5A80CCAD121F5A7B00D0670A /* uk */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = uk; path = Resources/uk.lproj/StatusSortConfiguration.xib; sourceTree = "<group>"; };
 		5A80CCAE121F5A7B00D0670A /* uk */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = uk; path = "Plugins/WebKit Message View/Resources/uk.lproj/WebKitPreferencesView.xib"; sourceTree = "<group>"; };
 		5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Privacy.xib"; path = "Resources/Preferences-Privacy.xib"; sourceTree = "<group>"; };
+		5A914164175BD960002139D5 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISO8601DateFormatter.m; path = "Frameworks/AIUtilities Framework/Source/ISO8601DateFormatter.m"; sourceTree = "<group>"; };
+		5A914165175BD960002139D5 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISO8601DateFormatter.h; path = "Frameworks/AIUtilities Framework/Source/ISO8601DateFormatter.h"; sourceTree = "<group>"; };
 		5A9439791279ECB800FDD81D /* AIImgurImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImgurImageUploader.h; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.h"; sourceTree = "<group>"; };
 		5A94397A1279ECB800FDD81D /* AIImgurImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImgurImageUploader.m; path = "Plugins/Image Uploading Plugin/AIImgurImageUploader.m"; sourceTree = "<group>"; };
 		5A9A9F8711F2951400328DF9 /* AIDoNothingContactAlertPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDoNothingContactAlertPlugin.h; sourceTree = "<group>"; };
@@ -4207,10 +4196,6 @@
 		6334FFF30F9C14C1003C77A9 /* AIFontAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFontAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIFontAdditions.h"; sourceTree = "<group>"; };
 		6334FFF40F9C14C1003C77A9 /* OWAddressBookAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OWAddressBookAdditions.h; path = "Frameworks/AIUtilities Framework/Source/OWAddressBookAdditions.h"; sourceTree = "<group>"; };
 		6334FFF50F9C14C1003C77A9 /* OWAddressBookAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OWAddressBookAdditions.m; path = "Frameworks/AIUtilities Framework/Source/OWAddressBookAdditions.m"; sourceTree = "<group>"; };
-		6334FFF60F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
-		6334FFF70F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Parsing.m"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.m"; sourceTree = "<group>"; };
-		6334FFF80F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Unparsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Unparsing.h"; sourceTree = "<group>"; };
-		6334FFF90F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Unparsing.m"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Unparsing.m"; sourceTree = "<group>"; };
 		6334FFFA0F9C14C1003C77A9 /* AIWindowControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWindowControllerAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIWindowControllerAdditions.h"; sourceTree = "<group>"; };
 		6334FFFB0F9C14C1003C77A9 /* AIWindowControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWindowControllerAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIWindowControllerAdditions.m"; sourceTree = "<group>"; };
 		6334FFFC0F9C14C1003C77A9 /* AIPasteboardAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPasteboardAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIPasteboardAdditions.h"; sourceTree = "<group>"; };
@@ -4224,8 +4209,6 @@
 		633D4FB30F9D30E3004F491E /* GetMetadataForHTMLLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetMetadataForHTMLLog.m; path = "Other/Adium Spotlight Importer/GetMetadataForHTMLLog.m"; sourceTree = "<group>"; };
 		633D4FB40F9D30E3004F491E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = "Other/Adium Spotlight Importer/main.c"; sourceTree = "<group>"; };
 		633D4FB50F9D30E3004F491E /* maintest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = maintest.m; path = "Other/Adium Spotlight Importer/maintest.m"; sourceTree = "<group>"; };
-		633D4FBC0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
-		633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Parsing.m"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.m"; sourceTree = "<group>"; };
 		633D4FC00F9D3116004F491E /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = schema.xml; path = "Other/Adium Spotlight Importer/schema.xml"; sourceTree = "<group>"; };
 		633D4FC10F9D3116004F491E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Other/Adium Spotlight Importer/Info.plist"; sourceTree = "<group>"; };
 		633D50550F9D31B8004F491E /* AdiumSpotlightImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumSpotlightImporter.h; path = "Other/Adium Spotlight Importer/AdiumSpotlightImporter.h"; sourceTree = "<group>"; };
@@ -4287,7 +4270,6 @@
 		638392F609D4D67A0067B9B7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		638BC1FA0FC932E000CE7600 /* AIObjectDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIObjectDebug.h; path = Source/AIObjectDebug.h; sourceTree = "<group>"; };
 		638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIObjectDebug.m; path = Source/AIObjectDebug.m; sourceTree = "<group>"; };
-		639DFB440F981C7C003C9A32 /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
 		63A3A9670F9C35D3006C9CB0 /* AIUtilities_Framework.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AIUtilities_Framework.plist; sourceTree = "<group>"; };
 		63A3A9690F9C35D3006C9CB0 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63A3A96A0F9C35D3006C9CB0 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -5167,8 +5149,6 @@
 				31FA7F100D4A75D000ABE634 /* TestRichTextCoercion.m */,
 				634BCD1D0DDC1542005AF1C2 /* TestMutableStringAdditions.h */,
 				634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */,
-				31DDDA7812BDD6E90048F6C0 /* TestScandate.h */,
-				31DDDA7912BDD6E90048F6C0 /* TestScandate.m */,
 				31034EFD0C8142680003F5AA /* TestStringAdditions.h */,
 				31034EFE0C8142680003F5AA /* TestStringAdditions.m */,
 				31034F0B0C8142720003F5AA /* UTF8Snowman.txt */,
@@ -5595,7 +5575,6 @@
 		3459CBE00A25FFA100ECC256 /* Log Indexing */ = {
 			isa = PBXGroup;
 			children = (
-				639DFB440F981C7C003C9A32 /* NSCalendarDate+ISO8601Parsing.h */,
 				3459CBEA0A25FFBE00ECC256 /* GetMetadataForHTMLLog.h */,
 				3459CBE90A25FFBE00ECC256 /* GetMetadataForHTMLLog.m */,
 				3459CBEC0A25FFBF00ECC256 /* AdiumSpotlightImporter.h */,
@@ -7202,8 +7181,6 @@
 				349B359E0A5F2231008BE092 /* Views and Cells */,
 				3456231F0A3771E100E7FC97 /* AIChatLog.h */,
 				3456231E0A3771E100E7FC97 /* AIChatLog.m */,
-				31DDDA6E12BDD5CE0048F6C0 /* scandate.h */,
-				31DDDA6F12BDD5CE0048F6C0 /* scandate.m */,
 				345623250A3771F400E7FC97 /* AILogToGroup.h */,
 				345623240A3771F300E7FC97 /* AILogToGroup.m */,
 				345623270A3771F400E7FC97 /* AILogFromGroup.h */,
@@ -7216,8 +7193,6 @@
 				34F849570A4AF04D0002A017 /* AILogFileUpgradeWindowController.m */,
 				34B5E25D0A7C94D3005186E6 /* AILogDateFormatter.h */,
 				34B5E25E0A7C94D3005186E6 /* AILogDateFormatter.m */,
-				340D09FF0A7DD1F40059A3AF /* AICalendarDate.h */,
-				340D0A000A7DD1F40059A3AF /* AICalendarDate.m */,
 			);
 			name = "Log Viewer";
 			sourceTree = "<group>";
@@ -7901,6 +7876,8 @@
 		6334FFA90F9C14C1003C77A9 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5A914165175BD960002139D5 /* ISO8601DateFormatter.h */,
+				5A914164175BD960002139D5 /* ISO8601DateFormatter.m */,
 				6334FFAC0F9C14C1003C77A9 /* AIApplicationAdditions.h */,
 				6334FFAD0F9C14C1003C77A9 /* AIApplicationAdditions.m */,
 				6334FFAE0F9C14C1003C77A9 /* AIArrayAdditions.h */,
@@ -7973,10 +7950,6 @@
 				6334FFF30F9C14C1003C77A9 /* AIFontAdditions.h */,
 				6334FFF40F9C14C1003C77A9 /* OWAddressBookAdditions.h */,
 				6334FFF50F9C14C1003C77A9 /* OWAddressBookAdditions.m */,
-				6334FFF60F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.h */,
-				6334FFF70F9C14C1003C77A9 /* NSCalendarDate+ISO8601Parsing.m */,
-				6334FFF80F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.h */,
-				6334FFF90F9C14C1003C77A9 /* NSCalendarDate+ISO8601Unparsing.m */,
 				6334FFFA0F9C14C1003C77A9 /* AIWindowControllerAdditions.h */,
 				6334FFFB0F9C14C1003C77A9 /* AIWindowControllerAdditions.m */,
 				6334FFFC0F9C14C1003C77A9 /* AIPasteboardAdditions.h */,
@@ -8035,8 +8008,6 @@
 		633D4FBB0F9D30FA004F491E /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
-				633D4FBC0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.h */,
-				633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */,
 			);
 			name = "External Sources";
 			sourceTree = "<group>";
@@ -9284,8 +9255,6 @@
 				633400B90F9C14C2003C77A9 /* AIViewAdditions.h in Headers */,
 				633400BB0F9C14C2003C77A9 /* AIWindowAdditions.h in Headers */,
 				633400BF0F9C14C2003C77A9 /* OWAddressBookAdditions.h in Headers */,
-				633400C10F9C14C2003C77A9 /* NSCalendarDate+ISO8601Parsing.h in Headers */,
-				633400C30F9C14C2003C77A9 /* NSCalendarDate+ISO8601Unparsing.h in Headers */,
 				633400C50F9C14C2003C77A9 /* AIWindowControllerAdditions.h in Headers */,
 				633400C70F9C14C2003C77A9 /* AIPasteboardAdditions.h in Headers */,
 				633400D00F9C14E0003C77A9 /* AIUtilities.framework_Prefix.pch in Headers */,
@@ -9298,6 +9267,7 @@
 				5ACF27391392C74A004B6AEF /* AIHighlightingTextField.h in Headers */,
 				5ACF273B1392C74A004B6AEF /* AIPreferenceCollectionView.h in Headers */,
 				5AA2A0EE14B3EFF500B4DB65 /* AIOSCompatibility.h in Headers */,
+				5A914167175BD960002139D5 /* ISO8601DateFormatter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10139,8 +10109,6 @@
 				318EA69C0D7A659900EDB105 /* TestColorAdditions.m in Sources */,
 				634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */,
 				3107D5250F63134F0051DDD5 /* TestAttributedStringAdditions.m in Sources */,
-				31DDDA7112BDD5CE0048F6C0 /* scandate.m in Sources */,
-				31DDDA7A12BDD6E90048F6C0 /* TestScandate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10508,7 +10476,6 @@
 				34DC88810A7EEE2F003E1636 /* AdiumSpeech.m in Sources */,
 				34DC88840A7EEE2F003E1636 /* AdiumIdleManager.m in Sources */,
 				34DC88880A7EEE2F003E1636 /* XtrasInstaller.m in Sources */,
-				3419DF3B0A8119BF00C3FC68 /* AICalendarDate.m in Sources */,
 				34DC12FC0A81415D00D710F3 /* ESApplescriptabilityController.m in Sources */,
 				34DC13040A81417600D710F3 /* AILoginWindowController.m in Sources */,
 				C44BA7830AAB696400C7504F /* SetupAssistantBoxBackgroundView.m in Sources */,
@@ -10580,7 +10547,6 @@
 				76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */,
 				5A94397B1279ECB800FDD81D /* AIImgurImageUploader.m in Sources */,
 				349062A2127F7E6900FC313F /* AITemporaryIRCAccountWindowController.m in Sources */,
-				5A80508512BE9F00007CDC1B /* scandate.m in Sources */,
 				1154F50B12E1476900B8CA27 /* AILogByAccountWindowController.m in Sources */,
 				766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */,
 				5A5F8BBD12D560E400019727 /* AIDockNameOverlay.m in Sources */,
@@ -10800,8 +10766,6 @@
 				633400BA0F9C14C2003C77A9 /* AIViewAdditions.m in Sources */,
 				633400BC0F9C14C2003C77A9 /* AIWindowAdditions.m in Sources */,
 				633400C00F9C14C2003C77A9 /* OWAddressBookAdditions.m in Sources */,
-				633400C20F9C14C2003C77A9 /* NSCalendarDate+ISO8601Parsing.m in Sources */,
-				633400C40F9C14C2003C77A9 /* NSCalendarDate+ISO8601Unparsing.m in Sources */,
 				633400C60F9C14C2003C77A9 /* AIWindowControllerAdditions.m in Sources */,
 				633400C80F9C14C2003C77A9 /* AIPasteboardAdditions.m in Sources */,
 				63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */,
@@ -10810,6 +10774,7 @@
 				9718DF46136A2C5200013760 /* AIImageCollectionView.m in Sources */,
 				5ACF273A1392C74A004B6AEF /* AIHighlightingTextField.m in Sources */,
 				5ACF273C1392C74A004B6AEF /* AIPreferenceCollectionView.m in Sources */,
+				5A914166175BD960002139D5 /* ISO8601DateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10821,8 +10786,7 @@
 				633D4FB70F9D30E3004F491E /* GetMetadataForFile.m in Sources */,
 				633D4FB80F9D30E3004F491E /* GetMetadataForHTMLLog.m in Sources */,
 				633D4FB90F9D30E3004F491E /* main.c in Sources */,
-				633D4FBE0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m in Sources */,
-				5A804FEA12BE9E84007CDC1B /* scandate.m in Sources */,
+				5A914168175BD97F002139D5 /* ISO8601DateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

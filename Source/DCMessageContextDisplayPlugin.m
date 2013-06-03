@@ -32,7 +32,7 @@
 #import <LMX/LMXParser.h>
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 #import <Adium/AIHTMLDecoder.h>
 
 #define RESTORED_CHAT_CONTEXT_LINE_NUMBER 50
@@ -77,6 +77,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LOGGING];
 	
 	sharedInstance = self;
+	formatter = [[ISO8601DateFormatter alloc] init];
 }
 
 /**
@@ -381,7 +382,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			NSString		*timeString = [attributes objectForKey:@"time"];
 			//Create the context object
 			if (timeString) {
-				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
+				NSDate *timeVal = [formatter dateFromString:timeString];
 
 				NSString		*autoreplyAttribute = [attributes objectForKey:@"auto"];
 				NSString		*sender = [NSString stringWithFormat:@"%@.%@", serviceName, [attributes objectForKey:@"sender"]];
@@ -430,7 +431,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			NSString		*timeString = [attributes objectForKey:@"time"];
 			
 			if (timeString) {
-				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
+				NSDate *timeVal = [formatter dateFromString:timeString];
                 
                 AIContentStatus *status = [[AIContentStatus alloc] initWithChat:chat source:nil destination:nil date:timeVal];
                 

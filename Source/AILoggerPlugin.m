@@ -40,8 +40,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 
 #import "AILogFileUpgradeWindowController.h"
 
@@ -144,7 +143,6 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 @end
 
 #pragma mark Private Function Prototypes
-NSCalendarDate* getDateFromPath(NSString *path);
 NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context);
 
 #pragma mark -
@@ -211,6 +209,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	jobSemaphore = dispatch_semaphore_create(3 * cpuCount);
     logLoadingPrefetchSemaphore = dispatch_semaphore_create(3 * cpuCount + 1); //prefetch one log
 	
+	formatter = [[ISO8601DateFormatter alloc] init];
+	formatter.includeTime = YES;
 	
 	self.xhtmlDecoder = [[AIHTMLDecoder alloc] initWithHeaders:NO
 													   fontTags:YES
@@ -332,7 +332,9 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	ioQueue = nil;
 	jobSemaphore = nil;
 	loggerPluginGroup = nil;
+	formatter = nil;
 }
+
 #pragma mark AILoggerPlugin Plubic Methods
 //Paths
 + (NSString *)logBasePath
@@ -371,7 +373,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForLogsLikeChat:chat] error:NULL];
 	NSMutableArray *dates = [NSMutableArray arrayWithCapacity:files.count];
 	for (NSString *path in files) {
-		id date = getDateFromPath(path);
+		id date = dateFromFileName(path);
 		[dates addObject:date ?: [NSNull null]];
 	}
 	
@@ -537,22 +539,6 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 #pragma mark Private Methods
 #pragma mark -
 #pragma mark Private Functions
-
-NSCalendarDate* getDateFromPath(NSString *path)
-{
-	NSRange openParenRange, closeParenRange;
-	
-	if ([path hasSuffix:@".chatlog"] && (openParenRange = [path rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
-		openParenRange = NSMakeRange(openParenRange.location, [path length] - openParenRange.location);
-		if ((closeParenRange = [path rangeOfString:@")" options:0 range:openParenRange]).location != NSNotFound) {
-			//Add and subtract one to remove the parenthesis
-			NSString *dateString = [path substringWithRange:NSMakeRange(openParenRange.location + 1, (closeParenRange.location - openParenRange.location))];
-			NSCalendarDate *date = [NSCalendarDate calendarDateWithString:dateString timeSeparator:'.'];
-			return date;
-		}
-	}
-	return nil;
-}
 
 NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
@@ -1023,7 +1009,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			@autoreleasepool {
 				BOOL			dirty = NO;
 				NSString		*contentType = [content type];
-				NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
+				NSString		*date = [formatter stringFromDate:[[content date] dateWithCalendarFormat:nil timeZone:nil]];
 				
 				if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
 					[contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
@@ -1170,7 +1156,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AIXMLElement *eventElement = [[AIXMLElement alloc] initWithName:@"event"];
 		
 		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
 		
 		[appender appendElement:eventElement];
 		
@@ -1192,7 +1178,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AIXMLElement *eventElement = [[AIXMLElement alloc] initWithName:@"event"];
 		
 		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-								 values:[NSArray arrayWithObjects:@"windowClosed", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+								 values:[NSArray arrayWithObjects:@"windowClosed", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
 		
 		
 		[appender appendElement:eventElement];
@@ -1252,7 +1238,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		AIXMLElement *eventElement = [[AIXMLElement alloc] initWithName:@"event"];
 		
 		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
 		
 		[appender appendElement:eventElement];
 		

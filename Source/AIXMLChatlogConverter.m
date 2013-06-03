@@ -22,7 +22,7 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h> 
@@ -140,7 +140,9 @@
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK], @"notAtMyDesk",
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE], @"notInTheOffice",
 			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT], @"steppedOut",
-			nil];			
+			nil];
+		
+		formatter = [[ISO8601DateFormatter alloc] init];
 	}
 
 	return self;
@@ -148,6 +150,7 @@
 
 - (void)dealloc
 {
+	[formatter release];
 	[statusLookup release];
 	[htmlDecoder release];
 	[super dealloc];
@@ -211,7 +214,7 @@
         if ([type isEqualToString:@"message"] || [type isEqualToString:@"action"]) {
             NSString *senderAlias = [[attributes objectForKey:@"alias"] stringValue];
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
-            NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
+            NSDate *date = dateStr ? [formatter dateFromString:dateStr] : nil;
             NSString *sender = [[attributes objectForKey:@"sender"] stringValue];
             NSString *shownSender = (senderAlias ? senderAlias : sender);
             BOOL autoResponse = [[[attributes objectForKey:@"auto"] stringValue] isEqualToString:@"true"];
@@ -300,7 +303,7 @@
             [output appendAttributedString:newlineAttributedString];
         } else if ([type isEqualToString:@"status"]) {
             NSString *dateStr = [[attributes objectForKey:@"time"] stringValue];
-            NSDate *date = dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil;
+            NSDate *date = dateStr ? [formatter dateFromString:dateStr] : nil;
             NSString *status = [[attributes objectForKey:@"type"] stringValue];
             
             NSMutableString *messageXML = [NSMutableString string];

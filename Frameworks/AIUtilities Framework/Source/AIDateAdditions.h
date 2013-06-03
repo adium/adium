@@ -35,5 +35,6 @@
                       hours:(out NSInteger *)outHours
                     minutes:(out NSInteger *)outMinutes
                     seconds:(out NSTimeInterval *)outSeconds;
++ (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2;
 
 @end

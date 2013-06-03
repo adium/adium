@@ -18,6 +18,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIHTMLDecoder.h>
+#import <AIUtilities/AIDateAdditions.h>
 
 @implementation AIContentObject
 
@@ -122,10 +123,9 @@
 //Content is from the same day. If passed nil, content is from the current day.
 - (BOOL)isFromSameDayAsContent:(AIContentObject *)inContent
 {
-	NSCalendarDate *ourDate = [[self date] dateWithCalendarFormat:nil timeZone:nil];
-	NSCalendarDate *inDate = [(inContent ? [inContent date] : [NSDate date]) dateWithCalendarFormat:nil timeZone:nil];
+	NSDate *inDate = inContent ? [inContent date] : [NSDate date];
 	
-	return [ourDate dayOfCommonEra] == [inDate dayOfCommonEra];
+	return [NSDate isDate:self.date sameDayAsDate:inDate];
 }
 
 //Content --------------------------------------------------------------------------------------------------------------
