@@ -1,0 +1,18 @@
+<div class="x-container %messageClasses% %service% %userIcons%" background="%userIconPath%">
+	<img class="x-buddyicon" src="%userIconPath%" />
+	<div class="x-iconoverlay"></div>
+	<div class="x-mentionicon" title="Mentioned!"></div>
+	<div class="x-header">
+		<div class="x-time" title="%time{dd MMM yyyy}%">%time%</div>
+		<div class="x-sender">%sender%</div>
+	</div>
+	<div class="x-message x-filetext">
+		<div class="x-fileicon"><img src="%fileIconPath%" onclick="%saveFileHandler%" /></div>
+		<div class="x-fileincoming">Incoming file:</div>
+		<div class="x-filename" onclick="%saveFileHandler%"><a href="#">%fileName%</a></div>
+		<div class="x-filemessage">%message%</div>
+		<input type="button" value="Save As..." onclick="%saveFileAsHandler%"></button>
+		<input type="button" value="Cancel" onclick="%cancelRequestHandler%"></button>
+	</div>
+	<div id="insert"></div>
+</div>

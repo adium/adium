@@ -1,0 +1,294 @@
+@charset "utf-8";
+
+/**
+{
+	font-size: 100% !important;
+	text-decoration: none !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	border-bottom: 1px solid green !important;
+	text-decoration: line-through !important;
+	vertical-align: text-top;
+}*/
+
+body
+{
+	margin: 0px;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	display: table;
+}
+
+#insert .x-focus,
+#insert .x-icon,
+#insert .x-sender,
+#insert .x-line,
+#insert .x-color,
+#insert .x-message,
+#insert .x-mention,
+#insert .x-time
+{
+	border-top: 0px !important;
+}
+
+#insert,
+.message,
+.status,
+.event
+{
+	display: table-row;
+	position: relative;
+}
+
+.x-focus,
+.x-icon,
+.x-sender,
+.x-line,
+.x-color,
+.x-message,
+.x-mention,
+.x-time
+{
+	-webkit-transition: all .1s linear;
+	display: table-cell;
+}
+
+.x-focus
+{
+	padding-right: .2em;
+}
+
+.x-color,
+.x-mention
+{
+	padding-right: .3em;
+}
+
+:not(.mention) > .x-message
+{
+	padding-right: 0px;
+}
+
+.IRC .x-icon img,
+.status .x-icon img,
+.event .x-icon img,
+.consecutive .x-icon img,
+.history .x-icon img,
+.hideIcons .x-icon img,
+.x-icon img[src*="buddy_icon.png"]
+{
+	display: none;
+}
+
+.showIcons .x-icon img
+{
+	max-height: 1.1em;
+	max-width: 1.1em;
+	/*padding-left: 2px;*/
+	padding-left: .2em;
+	opacity: .875;
+}
+
+.x-sender
+{
+	max-width: 10em;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: right;
+	padding-right: .3em;
+	padding-left: .3em;
+}
+
+.IRC .x-sender
+{
+	padding-left: .3em;
+}
+
+.consecutive.message:not(.action) .x-sender
+{
+	color: transparent;
+}
+
+.consecutive.message:not(.action) .x-sender:after
+{
+	content: "\21e7";
+	margin-left: -2em;
+	-webkit-transition: all .2s linear;
+	/*font-size: .8em !important;*/
+}
+
+.mention.consecutive:not(.action) .x-sender:after
+{
+	content: "\21e7";
+	margin-left: -2em;
+}
+
+.mention.consecutive.x-hover > .x-sender
+{
+	color: transparent !important;
+}
+
+.actionMessageUserName
+{
+	display: none;
+}
+
+.actionMessageBody:after
+{
+	content: "";
+}
+
+.actionMessageBody:before
+{
+	content: "";
+}
+
+.action *
+{
+	font-style: italic !important;
+}
+
+.x-line
+{
+	padding-right: .1em;
+}
+
+.x-message
+{
+	padding-left: .3em;
+	padding-right: .3em;
+	max-width: 90%;
+	width: 100%;
+	line-height: 1.4em;
+}
+
+.emoticon
+{
+	white-space: nowrap;
+	text-wrap: suppress;
+	word-wrap: normal;
+}
+
+.x-message img.emoticon
+{
+	max-height: 1.18em;
+	height: auto;
+	width: auto;
+	position: relative;
+	top: 0px;
+	vertical-align: top;
+	margin-top: .2em;
+	opacity: .75;
+}
+
+.x-message:hover img.emoticon,
+.x-message.x-hover img.emoticon
+{
+	opacity: 1;
+}
+
+.x-time
+{
+	white-space: nowrap;
+	text-align: right;
+	padding-right: .5em;
+	padding-left: .3em;
+	font-size: .5em !important;
+}
+
+xxxinsert
+{
+	display: block;
+}
+
+/*----------*/
+
+a
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px dotted;
+}
+
+a:hover
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid;
+}
+
+a:active
+{
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 2px double;
+}
+
+img.fullSizeImage
+{
+	width: auto;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+	max-height: 1.18em;
+}
+
+.firstFocus > .x-focus,
+.message:not(.history):not(.consecutive) .x-color,
+.message:not(.history):not(.consecutive) .x-message,
+.message:not(.history):not(.consecutive) .x-mention,
+.message.history:not(.consecutive) .x-color,
+.message.history:not(.consecutive) .x-message,
+.message.history:not(.consecutive) .x-mention
+{
+	border-top-width: .1em !important;
+	border-top-style: solid !important;
+}
+
+#Chat > div:first-of-type .x-color,
+#Chat > div:first-of-type .x-message,
+#Chat > div:first-of-type .x-mention,
+#Chat > div:first-of-type .x-focus,
+#Chat > div:first-of-type .x-icon,
+#Chat > div:first-of-type .x-sender,
+#Chat > div:first-of-type .x-time
+{
+	/* This is px because .4em is screwed by the time being smaller */
+	border-top-width: 4px;
+	border-top-style: solid;
+}
+
+#insert .x-color,
+#insert .x-message,
+#insert .x-mention,
+#insert .x-focus,
+#insert .x-icon,
+#insert .x-sender,
+#insert .x-time
+{
+	border-bottom-width: .4em;
+	border-bottom-style: solid;
+}
+
+.history + :not(.history) .x-color,
+.history + :not(.history) .x-message,
+.history + :not(.history) .x-mention,
+.history + :not(.history) .x-focus,
+.history + :not(.history) .x-icon,
+.history + :not(.history) .x-sender,
+.history + :not(.history) .x-time
+{
+	border-top-width: 1.6em !important;
+	border-top-style: solid !important;
+}
+

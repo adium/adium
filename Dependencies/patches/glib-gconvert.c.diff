@@ -1,0 +1,11 @@
+--- glib/gconvert.c.orig	2009-03-31 19:04:20.000000000 -0400
++++ glib/gconvert.c	2009-05-19 06:10:58.000000000 -0400
+@@ -52,7 +52,7 @@
+ #error GNU libiconv in use but included iconv.h not from libiconv
+ #endif
+ #if !defined(USE_LIBICONV_GNU) && defined (_LIBICONV_H)
+-#error GNU libiconv not in use but included iconv.h is from libiconv
++//#error GNU libiconv not in use but included iconv.h is from libiconv
+ #endif
+ 
+ #include "galias.h"

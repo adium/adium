@@ -1,0 +1,699 @@
+@charset "utf-8";
+
+body
+{
+	margin: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255 ,255, 1)), to(rgba(208, 208, 208, 1))) fixed repeat-x;
+	-webkit-background-size: auto;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#Chat
+{
+	padding: 8px;
+}
+
+#Chat div:first-child
+{
+	margin-top: 2px;
+}
+
+#Chat .history:first-child.message
+{
+	-webkit-box-shadow: 0px 3px 3px rgba(0, 0, 0, .3), 0px 0px 1px rgba(0, 0, 0, .4);
+}
+
+.firstFocus:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\25bc";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.showIcons.regainedFocus:not(.consecutive):not(.IRC):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -16px;
+	right: 5px;
+	font-size: 9px;
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.hideIcons.regainedFocus:not(.consecutive):before,
+.IRC.regainedFocus:not(.consecutive):before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -18px;
+	right: 5px;
+	font-size: 9px;
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.showIcons.regainedFocus:not(.IRC):before,
+.showIcons.lastFocus:not(.IRC) > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -4px;
+	right: 5px;
+	font-size: 9px;
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.hideIcons.regainedFocus:before,
+.hideIcons.lastFocus > #insert:before,
+.IRC.regainedFocus:before,
+.IRC.lastFocus > #insert:before
+{
+	position: absolute;
+	font-family: AppleGothic;
+	margin-top: -6px;
+	right: 5px;
+	font-size: 9px;
+	content: "\25b2";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.message:not(.consecutive),
+.status:not(.consecutive),
+.event:not(.consecutive)
+{
+	margin-right: 10px;
+	min-width: 7em;
+}
+
+.message:not(.consecutive):not(.IRC).showIcons,
+.status:not(.consecutive):not(.IRC).showIcons,
+.event:not(.consecutive):not(.IRC).showIcons
+{
+	margin-right: 52px;
+	margin-left: 42px;
+}
+
+.message:not(.consecutive):not(.history),
+.status:not(.consecutive):not(.history),
+.event:not(.consecutive):not(.history)
+{
+	margin-top: 8px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, .4);
+	-webkit-border-radius: 5px;
+}
+
+.message.mention .x-message:before
+{
+	position: absolute;
+	margin-top: -1px;
+	font-family: AppleGothic;
+	content: "\23af";
+	right: 4px;
+	font-size: 12px;
+	content: "\2605";
+	color: rgba(64, 64, 64, 1);
+	text-shadow: 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+.hideIcons.message.mention .x-message:before,
+.IRC.message.mention .x-message:before
+{
+	right: 4px;
+}
+
+.message:not(.consecutive)
+{
+	color: rgba(64, 64, 64, 1);
+}
+
+.outgoing.message:not(.consecutive)
+{
+	-webkit-border-top-right-radius: 0px;
+}
+
+.incoming.message:not(.consecutive)
+{
+	-webkit-border-top-left-radius: 0px;
+}
+
+.IRC.message:not(.consecutive),
+.message.hideIcons:not(.consecutive)
+{
+-webkit-border-radius: 5px;
+}
+
+.message:not(.autoreply):not(.x-hover):not(.consecutive):not(.history)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240,240, 240, 1))) 0px 16px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .75)), to(rgba(255, 255, 255, .25))) 48px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25))) 48px 32px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 53px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240, 240, 240, 1))) 53px 16px no-repeat;
+	-webkit-background-size: 48px 16px, 48px 100%, 5px 32px, 5px 100%, 100% 16px, 100% 100%;
+}
+
+.mention.message:not(.autoreply):not(.x-hover):not(.consecutive):not(.history)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .9)), to(rgba(248, 248, 248, .9))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(240,240, 240, .9))) 0px 16px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .75)), to(rgba(255, 255, 255, .25))) 48px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25))) 48px 32px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .9)), to(rgba(248, 248, 248, .9))) 53px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(240, 240, 240, .9))) 53px 16px no-repeat;
+	-webkit-background-size: 48px 16px, 48px 100%, 5px 32px, 5px 100%, 100% 16px, 100% 100%;
+}
+
+.message.autoreply:not(.x-hover):not(.consecutive):not(.history)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(80, 80, 80, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 1)), to(rgba(64, 64, 64, 1))) 0px 16px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, .25))) 48px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .25)), to(rgba(255, 255, 255, .25))) 48px 32px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(80, 80, 80, 1))) 53px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 1)), to(rgba(64, 64, 64, 1))) 53px 16px no-repeat;
+	-webkit-background-size: 48px 16px, 48px 100%, 5px 32px, 5px 100%, 100% 16px, 100% 100%;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, .4), 0px 0px 1px rgba(0, 0, 0, 1);
+}
+
+.message.x-hover:not(.consecutive):not(.history)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, 1)), to(rgba(192, 192, 192, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, .75)), to(rgba(192, 192, 192, .75))) 48px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, 1)), to(rgba(192, 192, 192, 1))) 53px 0px no-repeat;
+	-webkit-box-shadow: 0px 2px 4px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, .4);
+	-webkit-background-size: 48px 100%, 5px 100%, 100% 100%;
+}
+
+.message.consecutive
+{
+	background: none !important;
+}
+
+.status:not(.consecutive),
+.event:not(.consecutive)
+{
+	color: rgba(244, 244, 244, 1);
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(80, 80, 80, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 1)), to(rgba(64, 64, 64, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+}
+
+.status.consecutive,
+.event.consecutive
+{
+	margin-top: 2px;
+}
+
+.mention.message .x-color
+{
+	display: inline;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	left: 8px;
+	margin-top: -2px;
+	padding: 4px;
+	z-index: 2;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .9)), to(rgba(248, 248, 248, .9))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(240,240, 240, .9))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+}
+
+.message.history .x-color,
+.message.consecutive .x-color,
+.message.autoreply .x-color,
+.message.IRC .x-color,
+.message.hideIcons .x-color,
+.message.x-hover .x-color
+{
+	display: none !important;
+}
+
+.message img.x-icon
+{
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	margin-top: -2px;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	z-index: 3;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240,240, 240, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
+}
+
+.mention.message img.x-icon
+{
+	background: none;
+	-webkit-background-size: 100% 16px, 100% 100%;
+}
+
+.autoreply.message img.x-icon
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(96, 96, 96, 1)), to(rgba(80, 80, 80, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(80, 80, 80, 1)), to(rgba(64, 64, 64, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+}
+
+.outgoing.message img.x-icon
+{
+	right: 18px;
+	-webkit-border-top-left-radius: 0px;
+}
+
+.incoming.message img.x-icon
+{
+	left: 8px;
+	-webkit-border-top-right-radius: 0px;
+}
+
+.message.x-hover img.x-icon
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, 1)), to(rgba(192, 192, 192, 1)));
+	-webkit-background-size: 100% 100%;
+	-webkit-box-shadow: 0px 2px 4px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, .4);
+}
+
+.message .x-iconmask
+{
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	margin-top: 1px;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .625)), to(rgba(255, 255, 255, 0))) 0px 0px no-repeat;
+	-webkit-background-size: 30px 16px;
+	z-index: 4;
+}
+
+.outgoing.message .x-iconmask
+{
+	right: 21px;
+}
+
+.incoming.message .x-iconmask
+{
+	left: 11px;
+}
+
+.autoreply.message:not(.x-hover) .x-iconmask
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 192, 192, .625)), to(rgba(64, 64, 64, .25))) 0px 0px no-repeat;
+	-webkit-background-size: 30px 16px;
+}
+
+.x-hover.message .x-iconmask
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(208, 208, 208, .625)), to(rgba(192, 192, 192, .625))) 0px 0px no-repeat;
+	-webkit-background-size: 30px 30px;
+}
+
+img[src*="buddy_icon.png"],
+.message.hideIcons img.x-icon,
+.IRC.message img.x-icon,
+.consecutive.message img.x-icon,
+.consecutive.message .x-sender,
+.history.message img.x-icon,
+.message.hideIcons .x-iconmask,
+.IRC.message .x-iconmask,
+.consecutive.message .x-iconmask,
+.history.message .x-iconmask,
+.x-iconmask[style*="buddy_icon.png"]
+{
+	display: none !important;
+}
+
+.message .x-wrap
+{
+	display: block;
+	margin-left: 48px;
+	padding-left: 8px;
+	padding-right: 10px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+.status .x-wrap,
+.event .x-wrap
+{
+	display: block;
+	margin-left: 48px;
+	padding-left: 8px;
+	padding-right: 10px;
+	padding-bottom: 1px;
+}
+
+.x-sender
+{
+	font-weight: bold;
+	display: block;
+	padding-top: 2px;
+	padding-bottom: 3px;
+}
+
+.message.autoreply:not(.history) .x-sender,
+.message.autoreply:not(.history) .x-message
+{
+	color: rgba(244, 244, 244, 1);
+}
+
+.x-rtime
+{
+	display: none;
+}
+
+.x-ltime
+{
+	position: absolute;
+	left: 54px;
+	margin-top: 1px;
+	font-size: 9px;
+	width: 4.5em;
+	text-align: right;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.hideIcons .x-ltime,
+.IRC .x-ltime
+{
+	left: 12px;
+}
+
+.message .x-ltime
+{
+	color: rgba(152, 152, 152, 1);
+}
+
+.autoreply .x-ltime,
+.status .x-ltime,
+.event .x-ltime
+{
+	color: rgba(168, 168, 168, 1);
+}
+
+.x-mark
+{
+	position: absolute;
+	left: 97px;
+	margin-left: -.054em;
+	margin-top: -2px;
+	margin-right: -2px;
+	letter-spacing: -.2em;
+	font-family: Lucida Grande;
+	font-size: 12px;
+}
+
+.x-mark:before
+{
+	content: "\2023";
+}
+
+.IRC .x-mark,
+.hideIcons .x-mark
+{
+	left: 55px;
+}
+
+.message .x-mark
+{
+	color: rgba(0, 0, 0, .8)
+}
+
+.status .x-mark,
+.event .x-mark
+{
+	color: rgba(120, 120, 120, 1);
+}
+
+.message.x-hover .x-sender,
+.message.x-hover .x-ltime,
+.message.x-hover .x-message
+{
+	color: rgba(0, 0, 0, 1) !important;
+}
+
+img.emoticon
+{
+	vertical-align: top;
+}
+
+/*.history img.emoticon
+{
+	opacity: .4;
+}*/
+
+a,
+a:link
+{
+	color: inherit;
+	text-decoration: underline;
+}
+
+a:hover
+{
+	border-bottom: 1px solid;
+}
+
+a:active
+{
+	border-bottom: 2px solid;
+}
+
+img.fullSizeImage
+{
+	width: auto;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+img.scaledToFitImage
+{
+	width: auto;
+	max-height: 10px;
+}
+
+/* history */
+
+.history.message:not(.consecutive),
+.history.status:not(.consecutive),
+.history.event:not(.consecutive)
+{
+	display: block;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	-webkit-border-radius: 0px;
+	-webkit-box-shadow: 0px 3px 3px rgba(0, 0, 0, .3);
+}
+
+.history.status,
+.history.event
+{
+	border-left: 1px solid rgba(128, 128, 128, 1);
+	border-right: 1px solid rgba(128, 128, 128, 1);
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-left: -1px;
+}
+
+.history.status:not(.consecutive):not(.IRC).showIcons,
+.history.event:not(.consecutive):not(.IRC).showIcons
+{
+	margin-right: 51px;
+}
+
+.history.status:not(.consecutive).IRC,
+.history.event:not(.consecutive).IRC,
+.history.status:not(.consecutive).hideIcons,
+.history.event:not(.consecutive).hideIcons
+{
+	margin-right: 9px;
+}
+
+.history.status:not(.consecutive),
+.history.event:not(.consecutive)
+{
+	color: rgba(244, 244, 244, 1);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(112, 112, 112, 1)), to(rgba(112, 112, 112, 1))) 0px 0px no-repeat;
+}
+
+.history.message:not(.consecutive)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .5)), to(rgba(248, 248, 248, .5))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(248, 248, 248, 1))) 53px 0px no-repeat;
+	-webkit-background-size: 48px 100%, 53px 100%, 100% 100%;
+}
+
+.history.mention.message:not(.consecutive)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(248, 248, 248, .9))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .5)), to(rgba(248, 248, 248, .5))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .9)), to(rgba(248, 248, 248, .9))) 53px 0px no-repeat;
+	-webkit-background-size: 48px 100%, 53px 100%, 100% 100%;
+}
+
+.history.message.x-hover:not(.consecutive)
+{
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 1)), to(rgba(200, 200, 200, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, .75)), to(rgba(200, 200, 200, .75))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 1)), to(rgba(200, 200, 200, 1))) 53px 0px no-repeat;
+	-webkit-background-size: 48px 100%, 53px 100%, 100% 100%;
+	-webkit-box-shadow: 0px 2px 4px rgba(255, 255, 255, 1), 0px -1px 1px rgba(0, 0, 0, .4);
+}
+
+.history.message .x-wrap
+{
+	padding-top: 1px;
+}
+
+.history.message .x-wrap .x-sender,
+.history.message .x-wrap .x-message
+{
+	text-shadow: 0px 1px 4px rgba(64, 64, 64, .5);
+}
+
+.history .x-sender
+{
+	display: inline;
+}
+
+.history .x-ltime
+{
+	text-shadow: 0px 1px 4px rgba(184, 184, 184, .5);
+}
+
+.history.status .x-ltime,
+.history.event .x-ltime
+{
+	color: rgba(216, 216, 216, 1);
+}
+
+.history.status .x-mark,
+.history.event .x-mark
+{
+	color: rgba(152, 152, 152, 1);
+}
+
+.history.x-hover + .history.x-hover
+{
+	-webkit-box-shadow: 0px 1px 1px rgba(255, 255, 255, 1) !important;
+}
+
+/* header */
+
+#x-header #x-wrap:not(.IRC)
+{
+	right: 82px !important;
+	left: 72px !important;
+}
+
+#x-topic #x-wrap:not(.IRC)
+{
+	right: 18px !important;
+	left: 8px !important;
+}
+
+#x-header .x-iconmask
+{
+	height: 48px !important;
+	width: 48px !important;
+	-webkit-border-radius: 0px !important;
+}
+
+#x-header img.x-icon
+{
+	width: 48px !important;
+	min-width: 48px !important;
+	height: 48px !important;
+	min-height: 48px !important;
+	padding: 4px;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 1)), to(rgba(248, 248, 248, 1))) 0px 0px no-repeat,
+		-webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, 1)), to(rgba(240,240, 240, 1))) 0px 16px no-repeat;
+	-webkit-background-size: 100% 16px, 100% 100%;
+	-webkit-box-shadow: 0px 2px 16px rgba(0, 0, 0, .75), 8px -8px 8px rgba(255, 255, 255, 1), -8px -8px 8px rgba(255, 255, 255, 1), -8px 16px 16px rgba(216, 216, 216, 1), 8px 16px 16px rgba(216, 216, 216, 1);
+}
+
+#x-header .x-icon.x-incoming
+{
+	left: -64px !important;
+	-webkit-border-top-right-radius: 0px !important;
+	-webkit-border-bottom-right-radius: 5px !important;
+}
+
+#x-header .x-icon.x-outgoing
+{
+	right: -64px !important;
+	-webkit-border-top-left-radius: 0px !important;
+	-webkit-border-bottom-left-radius: 5px !important;
+}
+
+#x-header .x-iconmask.x-outgoing
+{
+	right: -60px !important;
+	top: 4px !important;
+}
+
+#x-header .x-iconmask.x-incoming
+{
+	left: -60px !important;
+	top: 4px !important;
+}
+
+#x-header .x-color.x-incoming
+{
+	left: 0px !important;
+	-webkit-border-bottom-left-radius: 5px;
+}
+
+#x-header .x-color.x-outgoing
+{
+	right: 0px !important;
+	-webkit-border-bottom-right-radius: 5px;
+}
+
+#x-header .x-sender.x-incoming
+{
+	left: 9px !important;
+}
+
+#x-header .x-sender.x-outgoing
+{
+	right: 9px !important;
+}
+
+#x-wrap.IRC img.x-icon,
+#x-wrap.IRC .x-iconmask
+{
+	display: none;
+}
