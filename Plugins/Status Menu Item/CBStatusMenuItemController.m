@@ -201,7 +201,10 @@
 
 	// Release our AIMenuBarIcons bundle
 	[menuIcons release];
-	[statusItem release];
+	
+	// Can't release this because it causes a crash on quit. rdar://4139755, rdar://4160625, and #743. --boredzo
+	// Or when toggling the menu item. #16381 --wixardy
+	// [statusItem release];
 	
 	//To the superclass, Robin!
 	[super dealloc];
