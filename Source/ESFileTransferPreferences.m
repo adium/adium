@@ -16,8 +16,6 @@
 
 #import "ESFileTransferPreferences.h"
 #import "ESFileTransferController.h"
-#import "AILocalizationButton.h"
-#import "AILocalizationTextField.h"
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -124,15 +122,15 @@
 	NSMenuItem	*menuItem;
 	NSString	*userPreferredDownloadFolder;
 
-	menu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	menu = [[NSMenu alloc] init];
 	[menu setAutoenablesItems:NO];
 	
 	//Create the menu item for the current download folder
 	userPreferredDownloadFolder = [adium.preferenceController userPreferredDownloadFolder];
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[NSFileManager defaultManager] displayNameAtPath:userPreferredDownloadFolder]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[[NSFileManager defaultManager] displayNameAtPath:userPreferredDownloadFolder]
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setRepresentedObject:userPreferredDownloadFolder];
 	[menuItem setImage:[[[NSWorkspace sharedWorkspace] iconForFile:userPreferredDownloadFolder] imageByScalingForMenuItem]];
 	[menu addItem:menuItem];
@@ -140,10 +138,10 @@
 	[menu addItem:[NSMenuItem separatorItem]];
 	
 	//Create the menu item for changing the current download folder
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[AILocalizedString(@"Other",nil) stringByAppendingEllipsis]
+	menuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Other",nil) stringByAppendingEllipsis]
 																	 target:self
 																	 action:@selector(selectOtherDownloadFolder:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setRepresentedObject:userPreferredDownloadFolder];
 	[menu addItem:menuItem];
 	

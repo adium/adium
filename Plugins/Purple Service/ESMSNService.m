@@ -18,7 +18,6 @@
 #import "DCPurpleMSNJoinChatViewController.h"
 #import "ESPurpleMSNAccount.h"
 #import "ESPurpleMSNAccountViewController.h"
-#import "ESMSNService.h"
 
 @implementation ESMSNService
 

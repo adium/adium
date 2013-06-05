@@ -16,7 +16,6 @@
 
 #import "ESPurpleYahooAccountViewController.h"
 #import "ESPurpleYahooAccount.h"
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
@@ -67,7 +66,7 @@
 
 - (NSMenu *)chatServerMenu
 {
-	NSMenu			*chatServerMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	NSMenu			*chatServerMenu = [[NSMenu alloc] init];
 	NSMutableArray	*menuItems = [NSMutableArray array];
 	NSMenuItem		*menuItem;
 	NSDictionary	*roomListServersDict;
@@ -96,18 +95,18 @@
 		@"United Kingdom", @"uk",
 		nil];
 
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"United States",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"United States",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setRepresentedObject:@"us"];
 	[menuItems addObject:menuItem];
 
 	for (NSString *prefix in roomListServersDict) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[roomListServersDict objectForKey:prefix]
+		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[roomListServersDict objectForKey:prefix]
 																		 target:nil
 																		 action:nil
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:prefix];
 		[menuItems addObject:menuItem];		
 	}
@@ -118,7 +117,7 @@
 		[chatServerMenu addItem:menuItem];
 	}
 
-	return [chatServerMenu autorelease];
+	return chatServerMenu;
 }
 
 @end

@@ -17,13 +17,10 @@
 #import "CBPurpleServicePlugin.h"
 #import "PurpleServices.h"
 #import "SLPurpleCocoaAdapter.h"
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AMPurpleTuneTooltip.h"
 #import "AIIRCServicesPasswordPlugin.h"
 #import "AIAnnoyingIRCMessagesHiderPlugin.h"
-#import "AIFacebookXMPPService.h"
 
 @implementation CBPurpleServicePlugin
 
@@ -80,14 +77,11 @@
 - (void)uninstallPlugin
 {
 	[adium.interfaceController unregisterContactListTooltipEntry:tunetooltip secondaryEntry:YES];
-	[tunetooltip release];
 	tunetooltip = nil;	
 	
 	[ircPasswordPlugin uninstallPlugin];
-	[ircPasswordPlugin release];
 	
 	[messageHiderPlugin uninstallPlugin];
-	[messageHiderPlugin release];
 }
 
 @end

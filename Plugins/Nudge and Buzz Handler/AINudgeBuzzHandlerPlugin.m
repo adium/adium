@@ -21,12 +21,10 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIService.h>
 
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -120,8 +118,6 @@
 {
 	// Unregister ourself.
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[notifyMenuItem release];
-	[notifyContextualMenuItem release];
 }
 
 #pragma mark Toolbar Handling
@@ -366,7 +362,7 @@
 {
 	static NSImage	*eventImage = nil;
 	//Use the message icon from the main bundle
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-message"] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-message"];
 	return eventImage;
 }
 

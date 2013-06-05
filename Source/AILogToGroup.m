@@ -35,29 +35,14 @@
 		relativePath = [inPath copy];
 		from = [inFrom copy];
 		to = [inTo copy];
-		serviceClass = [handleSpecialCasesForUIDAndServiceClass(to, inServiceClass) retain];
+		serviceClass = handleSpecialCasesForUIDAndServiceClass(to, inServiceClass);
 		logDict = nil;
 		partialLogDict = nil;
 		
-		defaultManager = [[NSFileManager defaultManager] retain];
+		defaultManager = [NSFileManager defaultManager];
 	}
 
     return self;
-}
-
-//Dealloc
-- (void)dealloc
-{
-    [relativePath release];
-    [to release];
-    [from release];
-    [serviceClass release];
-	[logDict release];
-	[partialLogDict release];
-	
-	[defaultManager release];
-	
-    [super dealloc];
 }
 
 - (NSString *)from
@@ -102,7 +87,7 @@
 			//Retrieve any logs we've already loaded
 			if (partialLogDict) {
 				[logDict addEntriesFromDictionary:partialLogDict];
-				[partialLogDict release]; partialLogDict = nil;
+				partialLogDict = nil;
 			}
 			
 			logBasePath = [AILoggerPlugin logBasePath];
@@ -124,7 +109,6 @@
 						} else {
 							AILog(@"Class %@: Couldn't make for %@ %@ %@ %@",NSStringFromClass([AIChatLog class]),relativeLogPath,from,to,serviceClass);
 						}	
-						[theLog release];
 					}
 				}
 			}
@@ -162,7 +146,6 @@
 
 				[partialLogDict setObject:theLog
 								   forKey:inPath];
-				[theLog release];
 			}
 
 			if (!theLog) AILog(@"%@ couldn't find %@ in its partialLogDict",self,inPath);

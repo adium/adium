@@ -20,13 +20,13 @@
 @class AIMessageViewController;
 
 @interface AIMessageViewTopBarController : NSViewController {
-    AIMessageViewController *owner;
+    AIMessageViewController *__weak owner;
     
     AIChat *chat;
 }
 
-@property (nonatomic, assign) AIMessageViewController *owner;
-@property (nonatomic, retain) AIChat *chat;
+@property (nonatomic, weak) AIMessageViewController *owner;
+@property (nonatomic, strong) AIChat *chat;
 
 - (IBAction)close:(id)sender;
 

@@ -81,7 +81,6 @@
 			
 			[searchButtons setObject:[NSValue valueWithPointer:button] forKey:[NSValue valueWithNonretainedObject:newbutton]];
 			
-			[newbutton release];
 			offset -= 20.0f;
 		}
 		
@@ -94,12 +93,11 @@
 		GList *column;
 		for(column = results->columns; column; column = g_list_next(column)) {
 			PurpleNotifySearchColumn *scol = column->data;
-			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:idx++]];
+			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%ld", idx++]];
 			
 			if(scol->title)
 				[[tcol headerCell] setStringValue:[NSString stringWithUTF8String:scol->title]];
 			[tableview addTableColumn:tcol];
-			[tcol release];
 		}
 		
 		// convert the rows
@@ -116,7 +114,6 @@
 				if(text)
 					[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInteger:col++]];
 			}
-			[dict release];
 		}
 		
 		[tableview reloadData];
@@ -124,13 +121,7 @@
 		[self showWindow:nil];
 		[self tableViewSelectionDidChange:nil];
 	}
-	return [self retain]; // will be released in -purpleRequestClose when we're done
-}
-
-- (void)dealloc {
-	[searchButtons release];
-	[searchResults release];
-	[super dealloc];
+	return self;
 }
 
 - (void)addResults:(PurpleNotifySearchResults*)results {
@@ -145,7 +136,6 @@
 			if(text)
 				[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInteger:col++]];
 		}
-		[dict release];
 	}
 	
 	[tableview reloadData];
@@ -172,7 +162,7 @@
 }
 
 - (BOOL)windowShouldClose:(id)sender {
-	purple_notify_close(PURPLE_NOTIFY_SEARCHRESULTS, self);
+	purple_notify_close(PURPLE_NOTIFY_SEARCHRESULTS, (__bridge void *)(self));
 	return windowIsClosing;
 }
 

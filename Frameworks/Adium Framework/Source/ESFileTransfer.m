@@ -18,7 +18,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIChat.h>
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
@@ -39,12 +38,12 @@ static NSMutableDictionary *fileTransferDict = nil;
 //Init
 + (id)fileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)inType
 {
-    return [[[self alloc] initWithContact:inContact forAccount:inAccount type:inType] autorelease];    
+    return [[self alloc] initWithContact:inContact forAccount:inAccount type:inType];    
 }
 
 + (ESFileTransfer *)existingFileTransferWithID:(NSString *)fileTransferID
 {
-	return [[[[fileTransferDict objectForKey:fileTransferID] nonretainedObjectValue] retain] autorelease];
+	return [[fileTransferDict objectForKey:fileTransferID] nonretainedObjectValue];
 }
 
 //Content Identifier
@@ -74,7 +73,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 						 sourceNick:nil
 						destination:d
 							   date:[NSDate date]
-							message:[[[NSAttributedString alloc] initWithString:@""] autorelease]
+							message:[[NSAttributedString alloc] initWithString:@""]
 						  autoreply:NO])) {
 		type = inType;
 		status = Unknown_Status_FileTransfer;
@@ -93,14 +92,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 - (void)dealloc
 {
 	[fileTransferDict removeObjectForKey:[self uniqueID]];
-	[uniqueID release];
 
-    [remoteFilename release];
-    [localFilename release];
-    [accountData release];
-    [promptController release];
-
-    [super dealloc];
 }
 
 - (AIListContact *)contact
@@ -116,8 +108,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 - (void)setRemoteFilename:(NSString *)inRemoteFilename
 {
     if (remoteFilename != inRemoteFilename) {
-        [remoteFilename release];
-        remoteFilename = [inRemoteFilename retain];
+        remoteFilename = inRemoteFilename;
     }
 	[self recreateMessage];
 }
@@ -130,8 +121,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 - (void)setLocalFilename:(NSString *)inLocalFilename
 {
     if (localFilename != inLocalFilename) {
-        [localFilename release];
-        localFilename = [inLocalFilename retain];
+        localFilename = inLocalFilename;
 	}
 	
 	if (delegate)
@@ -277,7 +267,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 					if (err == noErr) {
 						
 						if (CFGetTypeID(cfOldQuarantineProperties) == CFDictionaryGetTypeID()) {
-							quarantineProperties = [[(NSDictionary *)cfOldQuarantineProperties mutableCopy] autorelease];
+							quarantineProperties = [(__bridge NSDictionary *)cfOldQuarantineProperties mutableCopy];
 						} else {
 							AILogWithSignature(@"Getting quarantine data failed for %@ (%@)", self, localFilename);
 							return;
@@ -299,7 +289,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 //					[quarantineProperties setObject:[NSURL URLWithString:@"file:///dev/null"]
 //											 forKey:(NSString *)kLSQuarantineOriginURLKey];
 					
-					if (LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, quarantineProperties) != noErr) {
+					if (LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, (__bridge void*)quarantineProperties) != noErr) {
 						AILogWithSignature(@"Danger! Quarantining file %@ failed!", localFilename);
 					}
 					
@@ -423,7 +413,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	
 	[iconImage unlockFocus];
 
-	return [iconImage autorelease];
+	return iconImage;
 }	
 
 - (BOOL)isStopped

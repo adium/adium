@@ -20,14 +20,12 @@
 #import "AIImageUploaderWindowController.h"
 
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIChat.h>
 
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 
 @interface AIImageUploaderPlugin()
 - (NSImage *)currentImage;
@@ -58,9 +56,6 @@
 	
 	[contextMenuItem setSubmenu:contextSubmenu];
 	[editMenuItem setSubmenu:contextSubmenu];
-	
-	[contextSubmenu release];
-	[editSubmenu release];
 	
 	[adium.menuController addMenuItem:editMenuItem toLocation:LOC_Edit_Links];
 	[adium.menuController addContextualMenuItem:contextMenuItem toLocation:Context_TextView_Edit];
@@ -100,18 +95,6 @@
 	[[contextMenuItem menu] removeItem:contextMenuItem];
 	[[editMenuItem menu] removeItem:editMenuItem];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-}
-
-- (void)dealloc
-{
-	[defaultService release];
-	[windowControllers release];
-	[uploadInstances release];
-	[uploaders release];
-	[contextMenuItem release];
-	[editMenuItem release];
-	
-	[super dealloc];
 }
 
 #pragma mark Preferences
@@ -257,7 +240,7 @@
 	[attrs setObject:inAddress forKey:NSLinkAttributeName];
 	
 	[textView.textStorage replaceCharactersInRange:selectedRange
-							  withAttributedString:[[[NSAttributedString alloc] initWithString:inAddress attributes:attrs] autorelease]];
+							  withAttributedString:[[NSAttributedString alloc] initWithString:inAddress attributes:attrs]];
 	
 	// Select the inserted URL
 	textView.selectedRange = NSMakeRange(selectedRange.location, inAddress.length);
@@ -284,12 +267,8 @@
 - (void)uploadedURL:(NSString *)url forChat:(AIChat *)chat
 {
 	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
-	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
 	
 	[windowController closeWindow:nil];
-	
-	[[windowController retain] autorelease];
-	[[imageUploader retain] autorelease];
 	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
 	[uploadInstances setValue:nil forKey:chat.internalObjectID];
@@ -324,13 +303,9 @@
  */
 - (void)cancelForChat:(AIChat *)chat
 {
-	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
 	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
 	
 	[imageUploader cancel];
-
-	[[windowController retain] autorelease];
-	[[imageUploader retain] autorelease];
 	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
 	[uploadInstances setValue:nil forKey:chat.internalObjectID];

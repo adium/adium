@@ -20,8 +20,8 @@
 
 struct _mark {
 	NSUInteger location;
-	NSString *identifier;
-	NSColor *color;
+__unsafe_unretained	NSString *identifier;
+__unsafe_unretained	NSColor *color;
 };
 
 @interface JVMarkedScroller (PRIVATE)
@@ -32,23 +32,13 @@ struct _mark {
 @implementation JVMarkedScroller
 - (id) initWithFrame:(NSRect) frame {
 	if( ( self = [super initWithFrame:frame] ) ) {
-		_marks = [[NSMutableSet set] retain];
-		_shades = [[NSMutableArray array] retain];
+		_marks = [NSMutableSet set];
+		_shades = [NSMutableArray array];
 		_nearestPreviousMark = NSNotFound;
 		_nearestNextMark = NSNotFound;
 		_currentMark = NSNotFound;
 	}
 	return self;
-}
-
-- (void) dealloc {
-	[_marks release];
-	[_shades release];
-	
-	_marks = nil;
-	_shades = nil;
-	
-	[super dealloc];
 }
 
 #pragma mark -
@@ -61,8 +51,8 @@ struct _mark {
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	//Use -scrollerWidthForControlSize:scrollerStyle: on 10.7+
-	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
+	
+	CGFloat width =  [[self class] scrollerWidthForControlSize:[self controlSize] scrollerStyle:[self scrollerStyle]];
 	
 	CGFloat scale = [self scaleToContentView];
 	[transform scaleXBy:( sFlags.isHoriz ? scale : 1.f ) yBy:( sFlags.isHoriz ? 1.f : scale )];
@@ -195,60 +185,59 @@ struct _mark {
 }
 
 - (NSMenu *) menuForEvent:(NSEvent *) event {
-	NSMenu *menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
+	NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 	NSMenuItem *item = nil;
 	
-	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear All Marks", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear all marks contextual menu item title" ) 
+	item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear All Marks", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear all marks contextual menu item title" ) 
 									   action:@selector( removeAllMarks ) 
-								keyEquivalent:@""] autorelease];
+								keyEquivalent:@""];
 	[item setTarget:self];
 	[menu addItem:item];
 	
 	if( sFlags.isHoriz ) {
-		item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Left", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here left contextual menu") 
+		item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Left", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here left contextual menu") 
 										   action:@selector( clearMarksHereLess: ) 
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTarget:self];
 		[menu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Right", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here right contextual menu") 
-										   action:@selector( clearMarksHereGreater: ) keyEquivalent:@""] 
-				autorelease];
+		item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Right", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here right contextual menu") 
+										   action:@selector( clearMarksHereGreater: ) keyEquivalent:@""];
 		[item setTarget:self];
 		[menu addItem:item];
 	} else {
-		item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Up", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here up contextual menu") 
+		item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Up", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here up contextual menu") 
 										   action:@selector( clearMarksHereLess: ) 
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTarget:self];
 		[menu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Down", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here up contextual menu") 
+		item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Clear Marks from Here Down", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "clear marks from here up contextual menu") 
 										   action:@selector( clearMarksHereGreater: ) 
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTarget:self];
 		[menu addItem:item];
 	}
 	
 	[menu addItem:[NSMenuItem separatorItem]];
 	
-	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Previous Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to previous mark contextual menu") 
+	item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Previous Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to previous mark contextual menu") 
 									   action:@selector( jumpToPreviousMark: ) 
-								keyEquivalent:@"["] autorelease];
+								keyEquivalent:@"["];
 	[item setTarget:self];
 	[item setKeyEquivalentModifierMask:NSAlternateKeyMask | NSCommandKeyMask];
 	[menu addItem:item];
 	
-	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Next Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to next mark contextual menu")
+	item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Next Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to next mark contextual menu")
 									   action:@selector( jumpToNextMark: )
-								keyEquivalent:@"]"] autorelease];
+								keyEquivalent:@"]"];
 	[item setTarget:self];
 	[item setKeyEquivalentModifierMask:NSAlternateKeyMask | NSCommandKeyMask];
 	[menu addItem:item];
 	
-	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Focus Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to the mark where the last content the user saw ends")
+	item = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Focus Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to the mark where the last content the user saw ends")
 									   action:@selector( jumpToFocusMark: ) 
-								keyEquivalent:@""] autorelease];
+								keyEquivalent:@""];
 	[item setTarget:self];
 	[menu addItem:item];	
 	
@@ -492,7 +481,7 @@ struct _mark {
 }
 
 - (void) removeMarkWithIdentifier:(NSString *) identifier {
-	NSEnumerator *e = [[[_marks copy] autorelease] objectEnumerator];
+	NSEnumerator *e = [[_marks copy] objectEnumerator];
 	NSValue *obj = nil;
 	while( ( obj = [e nextObject] ) ) {
 		struct _mark mark;
@@ -506,7 +495,7 @@ struct _mark {
 }
 
 - (void) removeMarksGreaterThan:(NSUInteger) location {
-	NSEnumerator *enumerator = [[[_marks copy] autorelease] objectEnumerator];
+	NSEnumerator *enumerator = [[_marks copy] objectEnumerator];
 	NSValue *obj = nil;
 	
 	while( ( obj = [enumerator nextObject] ) ) {
@@ -520,7 +509,7 @@ struct _mark {
 }
 
 - (void) removeMarksLessThan:(NSUInteger) location {
-	NSEnumerator *enumerator = [[[_marks copy] autorelease] objectEnumerator];
+	NSEnumerator *enumerator = [[_marks copy] objectEnumerator];
 	NSValue *obj = nil;
 	
 	while( ( obj = [enumerator nextObject] ) ) {
@@ -534,7 +523,7 @@ struct _mark {
 }
 
 - (void) removeMarksInRange:(NSRange) range {
-	NSEnumerator *enumerator = [[[_marks copy] autorelease] objectEnumerator];
+	NSEnumerator *enumerator = [[_marks copy] objectEnumerator];
 	NSValue *obj = nil;
 	
 	while( ( obj = [enumerator nextObject] ) ) {

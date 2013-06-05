@@ -21,7 +21,7 @@
 //Return a new contact info pane
 + (AIContactInfoPane *)contactInfoPane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 //Resizable
