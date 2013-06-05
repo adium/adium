@@ -21,7 +21,6 @@
 #import "AIAttributedStringAdditions.h"
 #import "AIColorAdditions.h"
 #import "AITextAttributes.h"
-#import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
 
 NSString *AIFontFamilyAttributeName = @"AIFontFamily";
@@ -43,7 +42,6 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     }
 
     [self appendAttributedString:tempString];
-    [tempString release];
 }
 
 - (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement options:(NSStringCompareOptions)opts range:(NSRange)searchRange
@@ -84,8 +82,6 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         if (searchRange.length - searchRange.location < 1)
             break;
     }
-    
-    [replacementString release];
     
     return numberOfReplacements;
 }
@@ -289,7 +285,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     if ([self length] && [self containsAttachments]) {
         NSInteger							currentLocation = 0;
         NSRange						attachmentRange;
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unsigned short)NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C", (unichar)NSAttachmentCharacter];
 		
         //find attachment
         attachmentRange = [[self string] rangeOfString:attachmentCharacterString
@@ -411,15 +407,15 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 #define FONT_HEIGHT_STRING		@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789()"
 + (CGFloat)stringHeightForAttributes:(NSDictionary *)attributes
 {
-	NSAttributedString	*string = [[[NSAttributedString alloc] initWithString:FONT_HEIGHT_STRING
-																   attributes:attributes] autorelease];
+	NSAttributedString	*string = [[NSAttributedString alloc] initWithString:FONT_HEIGHT_STRING
+																   attributes:attributes];
 	return [string heightWithWidth:1e7f];
 }
 
 + (NSAttributedString *)stringWithString:(NSString *)inString
 {
 	NSParameterAssert(inString != nil);
-	return [[[NSAttributedString alloc] initWithString:inString] autorelease];
+	return [[NSAttributedString alloc] initWithString:inString];
 }
 
 + (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)inLink
@@ -432,7 +428,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     NSParameterAssert(inLink != nil);
     NSParameterAssert([inLink isKindOfClass:[NSURL class]]);
 
-    NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:inString] autorelease];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:inString];
     //Throws NSInvalidArgumentException if the range is out-of-range.
     [attributedString addAttribute:NSLinkAttributeName value:inLink range:linkRange];
 
@@ -449,7 +445,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     NSParameterAssert([inLink isKindOfClass:[NSURL class]]);
 
     NSDictionary *attributes = [NSDictionary dictionaryWithObject:inLink forKey:NSLinkAttributeName];
-    return [[[self alloc] initWithString:inString attributes:attributes] autorelease];
+    return [[self alloc] initWithString:inString attributes:attributes];
 }
 
 - (CGFloat)heightWithWidth:(CGFloat)width
@@ -469,9 +465,6 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 	CGFloat height = [layoutManager usedRectForTextContainer:textContainer].size.height;
 
-	[textStorage release];
-	[textContainer release];
-	[layoutManager release];
 	
     return height;
 }
@@ -500,7 +493,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 				 * when the unarchiver is deallocated.  We could rely upon autoreleasing the unarchiver, but it
 				 * is cleaner to make the NSAttributedString autorelease itself.
 				 */
-				returnValue = (NSAttributedString *)[[[unarchiver decodeObject] retain] autorelease];
+				returnValue = (NSAttributedString *)[unarchiver decodeObject];
 				
 			} else {
 				/* For reading previously stored NSData objects - we used to store them as RTF data, but that
@@ -508,11 +501,10 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 				 * here isn't a speed problem.  We previously used AIHTMLDecoder to handle Jaguar old-data unarchiving...
 				 * but that's in Adium.framework and the cross over most certainly isn't worth it.
 				 */
-				returnValue = ([[[NSAttributedString alloc] initWithRTF:inData
-													 documentAttributes:nil] autorelease]);
+				returnValue = ([[NSAttributedString alloc] initWithRTF:inData
+													 documentAttributes:nil]);
 			}
 			
-			[unarchiver release];
 		}
 	}
 	@catch(id exc) {	}
@@ -523,7 +515,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 - (NSAttributedString *)attributedStringByConvertingAttachmentsToStrings
 {
     if ([self length] && [self containsAttachments]) {
-        NSMutableAttributedString	*newAttributedString = [[self mutableCopy] autorelease];
+        NSMutableAttributedString	*newAttributedString = [self mutableCopy];
 		[newAttributedString convertAttachmentsToStringsUsingPlaceholder:AILocalizedString(@"<<Attachment>>", nil)];
 
 		return newAttributedString;
@@ -556,7 +548,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 			
 			if (URL) {
 				if (!newAttributedString) {
-					newAttributedString = [[self mutableCopy] autorelease];
+					newAttributedString = [self mutableCopy];
 					currentAttributedString = newAttributedString;
 				}
 
@@ -588,7 +580,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 		}
 	}
 
-	return (newAttributedString ? newAttributedString : [[self copy] autorelease]);
+	return (newAttributedString ? newAttributedString : [self copy]);
 }
 
 - (NSAttributedString *)attributedStringByConvertingLinksToStrings
@@ -604,7 +596,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 {
 	NSMutableAttributedString  *str = [self mutableCopy];
 	[str addFormattingForLinks];
-	return [str autorelease];
+	return str;
 }
 
 @end

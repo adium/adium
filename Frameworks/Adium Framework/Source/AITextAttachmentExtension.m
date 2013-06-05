@@ -18,7 +18,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AITextAttachmentAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 
 #define ICON_WIDTH	64
 #define ICON_HEIGHT	64
@@ -27,13 +26,13 @@
 
 + (AITextAttachmentExtension *)textAttachmentExtensionFromTextAttachment:(NSTextAttachment *)textAttachment
 {
-	AITextAttachmentExtension *textAttachmentExtension = [[[AITextAttachmentExtension alloc] init] autorelease];
+	AITextAttachmentExtension *textAttachmentExtension = [[AITextAttachmentExtension alloc] init];
 	[textAttachmentExtension setShouldSaveImageForLogging:YES];
 	[textAttachmentExtension setAttachmentCell:[textAttachment attachmentCell]];
 
 	NSFileWrapper *fileWrapper = [textAttachment fileWrapper];
 	[textAttachmentExtension setString:[fileWrapper preferredFilename]];
-	[textAttachmentExtension setImage:[[[NSImage alloc] initWithData:[fileWrapper regularFileContents]] autorelease]];
+	[textAttachmentExtension setImage:[[NSImage alloc] initWithData:[fileWrapper regularFileContents]]];
 	NSLog(@"image is %@", [textAttachmentExtension image]);
 	return textAttachmentExtension;
 } 
@@ -55,7 +54,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AITextAttachmentExtension *ret = [[[self class] allocWithZone:zone] init];
+	AITextAttachmentExtension *ret = [[[self class] alloc] init];
 	
 	if(ret == nil)
 		return nil;
@@ -71,17 +70,6 @@
 	[ret setShouldAlwaysSendAsText:shouldAlwaysSendAsText];
 	
 	return ret;
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[image release];
-	[path release];
-	[stringRepresentation release];
-	[super dealloc];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -142,7 +130,6 @@
 - (void)setPath:(NSString *)inPath
 {
 	if (inPath != path) {
-		[path release];
 		path = [inPath copy];
 	}
 }
@@ -170,8 +157,7 @@
 - (void)setImage:(NSImage *)inImage
 {
 	if (inImage != image) {
-		[image release];
-		image = [inImage retain];
+		image = inImage;
 	}
 }
 
@@ -215,7 +201,7 @@
 			iconImage = [originalImage imageByScalingToSize:NSMakeSize(ICON_WIDTH, ICON_WIDTH)];
 
 		} else {
-			iconImage = [[originalImage copy] autorelease];
+			iconImage = [originalImage copy];
 		}
 
 	} else {
@@ -233,7 +219,6 @@
 - (void)setString:(NSString *)inString
 {
 	if (stringRepresentation != inString) {
-		[stringRepresentation autorelease];
 		stringRepresentation = [inString copy];
 	}
 }
@@ -249,10 +234,10 @@
 	
 	if (!myFilewrapper) {
 		if ([self path]) {
-			myFilewrapper = [[[NSFileWrapper alloc] initWithPath:[self path]] autorelease];
+			myFilewrapper = [[NSFileWrapper alloc] initWithPath:[self path]];
 
 		} else if ([self image]) {
-			myFilewrapper = [[[NSFileWrapper alloc] initWithSerializedRepresentation:[[self image] PNGRepresentation]] autorelease];
+			myFilewrapper = [[NSFileWrapper alloc] initWithSerializedRepresentation:[[self image] PNGRepresentation]];
 			[myFilewrapper setPreferredFilename:[[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:@"png"]];
 		}
 

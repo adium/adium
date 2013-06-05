@@ -21,9 +21,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 
 /* libotr headers */
-#import <libotr/proto.h>
-#import <libotr/context.h>
-#import <libotr/message.h>
 
 @interface ESOTRFingerprintDetailsWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forFingerprintDict:(NSDictionary *)inFingerprintDict;
@@ -57,13 +54,6 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 	return self;
 }
 
-- (void)dealloc
-{
-	[fingerprintDict release];
-	
-	[super dealloc];
-}
-
 - (void)configureWindow
 {
 	AIAccount	*account = [fingerprintDict objectForKey:@"AIAccount"];
@@ -82,8 +72,7 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 - (void)setFingerprintDict:(NSDictionary *)inFingerprintDict
 {
 	if (inFingerprintDict != fingerprintDict) {
-		[fingerprintDict release];
-		fingerprintDict = [inFingerprintDict retain];
+		fingerprintDict = inFingerprintDict;
 		
 		[self configureWindow];
 	}
@@ -103,7 +92,7 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 {
 	[super windowWillClose:sender];
 
-	[sharedController autorelease]; sharedController = nil;
+	sharedController = nil;
 }
 
 /*!

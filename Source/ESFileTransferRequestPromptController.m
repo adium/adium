@@ -19,8 +19,6 @@
 #import "ESFileTransfer.h"
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 @interface ESFileTransferRequestPromptController ()
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer
@@ -41,9 +39,9 @@
 									 notifyingTarget:(id)inTarget
 											selector:(SEL)inSelector
 {	
-	[[[self alloc] initForFileTransfer:inFileTransfer
-					   notifyingTarget:inTarget
-							  selector:inSelector] autorelease];
+	(void)[[self alloc] initForFileTransfer:inFileTransfer
+							notifyingTarget:inTarget
+								   selector:inSelector];
 }
 
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer
@@ -51,8 +49,8 @@
 				 selector:(SEL)inSelector
 {
 	if ((self = [super init])) {
-		fileTransfer = [inFileTransfer retain];
-		target       = [inTarget retain];
+		fileTransfer = inFileTransfer;
+		target       = inTarget;
 		selector     =  inSelector;
 		
 		[fileTransfer setFileTransferRequestPromptController:self];
@@ -66,25 +64,14 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[fileTransfer release];
-	[target release];
-
-	[super dealloc];
-}
-
 /*!
  * @brief The user did something with the file transfer request
  */
 - (void)handleFileTransferAction:(AIFileTransferAction)action
 {
-	[self retain];
 
 	NSString	*localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];;
 	BOOL		finished = NO;
-	
-	[fileTransfer retain];
 	
 	switch (action) {			
 		case AISaveFile: /* Save */
@@ -122,9 +109,7 @@
 	}
 	
 	BOOL remotelyCanceled = [fileTransfer isStopped];
-	[fileTransfer release];
 	if(remotelyCanceled) {
-		[self release];
 		return;
 	}
 	
@@ -134,7 +119,6 @@
 					 withObject:localFilename];
 		
 		[fileTransfer setFileTransferRequestPromptController:nil];
-		[self release];
 	}
 }
 

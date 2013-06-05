@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactIdlePlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIListObject.h>
@@ -55,18 +54,8 @@
 - (void)uninstallPlugin
 {
     //Stop tracking all idle handles
-    [idleObjectTimer invalidate]; [idleObjectTimer release]; idleObjectTimer = nil;
+    [idleObjectTimer invalidate];  idleObjectTimer = nil;
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-    [idleObjectArray release]; idleObjectArray = nil;
-	
-	[super dealloc];
 }
 
 /*!
@@ -87,11 +76,11 @@
             //Track the handle
             if (!idleObjectArray) {
                 idleObjectArray = [[NSMutableArray alloc] init];
-                idleObjectTimer = [[NSTimer scheduledTimerWithTimeInterval:IDLE_UPDATE_INTERVAL
+                idleObjectTimer = [NSTimer scheduledTimerWithTimeInterval:IDLE_UPDATE_INTERVAL
 																	target:self 
 																  selector:@selector(updateIdleObjectsTimer:)
 																  userInfo:nil 
-																   repeats:YES] retain];
+																   repeats:YES];
             }
             [idleObjectArray addObject:inObject];
 			
@@ -103,8 +92,8 @@
 				//Stop tracking the handle
 				[idleObjectArray removeObject:inObject];
 				if ([idleObjectArray count] == 0) {
-					[idleObjectTimer invalidate]; [idleObjectTimer release]; idleObjectTimer = nil;
-					[idleObjectArray release]; idleObjectArray = nil;
+					[idleObjectTimer invalidate]; idleObjectTimer = nil;
+					idleObjectArray = nil;
 				}
 				
 				//Set the correct idle value
@@ -200,7 +189,7 @@
 		entry = [[NSAttributedString alloc] initWithString:[NSDateFormatter stringForTimeInterval:(idleMinutes * 60.0)]];    
 	}
 
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

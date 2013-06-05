@@ -15,9 +15,7 @@
  */
 
 #import "AILocalVideoWindowController.h"
-#import <Adium/AIMenuControllerProtocol.h>
 #import "AIVideoChatInterfacePlugin.h"
-#import <AIUtilities/AIMenuAdditions.h>
 
 @implementation AIVideoChatInterfacePlugin
 

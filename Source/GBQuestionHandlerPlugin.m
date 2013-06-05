@@ -17,7 +17,7 @@
 #import "GBQuestionHandlerPlugin.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "ESTextAndButtonsWindowController.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 
 typedef enum
 {
@@ -31,6 +31,8 @@ typedef enum
 
 @implementation GBQuestionHandlerPlugin
 
+static GBQuestionHandlerPlugin *instance;
+
 - (id)init
 {
 	if( (self = [super init]) != nil)
@@ -42,21 +44,9 @@ typedef enum
 	return self;
 }
 
-- (void)dealloc
-{
-	[questionQueue release];
-	[errorQueue release];
-	[currentAlert release];
-	[super dealloc];
-}
-
 - (void)installPlugin
 {
-    //Install our observers
-    [[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(handleQuestion:)
-									   name:Interface_ShouldDisplayQuestion 
-									 object:nil];
+	instance = self;
 }
 
 - (void)uninstallPlugin
@@ -76,33 +66,28 @@ typedef enum
 			[errorQueue addObject:infoCopy];
 			break;
 	}
-	[infoCopy release];
 	if(currentAlert == nil)
 		[self displayNextAlert];
 }
 
-- (void)handleQuestion:(NSNotification *)notification
++ (void)handleQuestion:(NSDictionary *)questionDict;
 {
-	[self handleType:ALERT_TYPE_QUESTION userInfo:notification.userInfo];
+	[instance handleType:ALERT_TYPE_QUESTION userInfo:questionDict];
 }
 
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
-	NSString *selectorString = [userInfo objectForKey:@"Selector"];
-	id target = [userInfo objectForKey:@"Target"];
+	void (^handler)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) = [userInfo objectForKey:@"Handler"];
+
 	BOOL	ret = YES;
 	
-	if(target != nil || selectorString != nil)
-	{
-		SEL selector = NSSelectorFromString(selectorString);
-		if([target respondsToSelector:selector])
-		{
-			[target performSelector:selector withObject:[NSNumber numberWithInteger:returnCode] withObject:[userInfo objectForKey:@"Userinfo"] withObject:[NSNumber numberWithBool:suppression]];
-		}
-	}
-	if([self displayNextAlert])
+	if (handler)
+		handler(returnCode, suppression, [userInfo objectForKey:@"Userinfo"]);
+	
+	if ([self displayNextAlert]) {
 		//More alerts so don't hide window
 		ret = NO;
+	}
 	else
 	{
 		// Note: Explicitly not released here: ESTextAndButtonsWindowController will autorelease itself in -windowWillClose:
@@ -120,6 +105,7 @@ typedef enum
 		NSDictionary *info = [errorQueue objectAtIndex:0];
 		if(currentAlert == nil)
 			currentAlert = [[ESTextAndButtonsWindowController alloc] init];
+
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:AILocalizedString(@"Next", @"Next Button")
 						  alternateButton:AILocalizedString(@"Dismiss All", @"Dismiss All Button")
@@ -139,6 +125,7 @@ typedef enum
 		NSDictionary *info = [questionQueue objectAtIndex:0];
 		if(currentAlert == nil)
 			currentAlert = [[ESTextAndButtonsWindowController alloc] init];
+
 		[currentAlert changeWindowToTitle:[info objectForKey:@"Window Title"]
 							defaultButton:[info objectForKey:@"Default Button"]
 						  alternateButton:[info objectForKey:@"Alternate Button"]

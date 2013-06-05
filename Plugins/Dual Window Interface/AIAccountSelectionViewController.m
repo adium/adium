@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <Adium/AIAccount.h>
@@ -24,7 +23,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
 #import "AIAccountSelectionViewController.h"
 #import "AIMessageViewController.h"
 
@@ -47,10 +45,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [accountMenu release];
-    [contactMenu release];
-    
-    [super dealloc];
+    accountMenu = nil;
+    contactMenu = nil;
 }
 
 - (void)setChat:(AIChat *)inChat
@@ -63,13 +59,12 @@
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:Interface_DidSendEnteredMessage object:chat];
 			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_StatusChanged object:chat];
 			
-			//Release it
-			[chat release]; chat = nil;
+			chat = nil;
 		}
         
 		if(inChat){
 			//Retain the new chat
-			chat = [inChat retain];
+			chat = inChat;
 			
 			//Observe changes to this chat's source and destination
 			[[NSNotificationCenter defaultCenter] addObserver:self
@@ -237,7 +232,6 @@
 	}
     
 	[popUp_accounts setMenu:menu];
-	[menu release];
 }
 
 /*!
@@ -280,7 +274,7 @@
 	if (accountMenu)
 		[accountMenu rebuildMenu];
 	else
-		accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO] retain];
+		accountMenu = [AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO];
 }
 
 //Contact Menu ---------------------------------------------------------------------------------------------------------
@@ -322,7 +316,7 @@
 	if (contactMenu)
 		[contactMenu rebuildMenu];
 	else
-		contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:chat.listObject.parentContact] retain];
+		contactMenu = [AIContactMenu contactMenuWithDelegate:self forContactsInObject:chat.listObject.parentContact];
 }
 
 @end

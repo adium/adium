@@ -16,11 +16,9 @@
 
 #import "AIPurpleAIMAccountViewController.h"
 #import "CBPurpleAccount.h"
-#import "CBPurpleOscarAccount.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AITextViewWithPlaceholder.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIMessageEntryTextView.h>
 
 @implementation AIPurpleAIMAccountViewController

@@ -134,7 +134,6 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		terminator:(NSData *)e
 	  bufferOffset:(CFIndex)b;
 
-- (void)dealloc;
 @end
 
 @implementation AsyncReadPacket
@@ -148,7 +147,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 {
 	if ((self = [super init]))
 	{
-		buffer = [d retain];
+		buffer = d;
 		timeout = t;
 		tag = i;
 		readAllAvailableData = a;
@@ -156,13 +155,6 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		bytesDone = b;
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[buffer release];
-	[term release];
-	[super dealloc];
 }
 
 @end
@@ -180,7 +172,6 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	NSTimeInterval timeout;
 }
 - (id)initWithData:(NSData *)d timeout:(NSTimeInterval)t tag:(long)i;
-- (void)dealloc;
 @end
 
 @implementation AsyncWritePacket
@@ -189,18 +180,12 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 {
 	if ((self = [super init]))
 	{
-		buffer = [d retain];
+		buffer = d;
 		timeout = t;
 		tag = i;
 		bytesDone = 0;
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[buffer release];
-	[super dealloc];
 }
 
 @end
@@ -251,7 +236,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	// Socket context
 	NSAssert (sizeof(CFSocketContext) == sizeof(CFStreamClientContext), @"CFSocketContext and CFStreamClientContext aren't the same size anymore. Contact the developer.");
 	theContext.version = 0;
-	theContext.info = self;
+	theContext.info = (__bridge void *)(self);
 	theContext.retain = nil;
 	theContext.release = nil;
 	theContext.copyDescription = nil;
@@ -263,11 +248,8 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 - (void) dealloc
 {
 	[self close];
-	[theReadQueue release];
-	[theWriteQueue release];
 	[NSObject cancelPreviousPerformRequestsWithTarget:theDelegate selector:@selector(onSocketDidDisconnect:) object:self];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -507,7 +489,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	CFSocketError err;
 	if (theSocket)
 	{
-		err = CFSocketSetAddress (theSocket, (CFDataRef)address);
+		err = CFSocketSetAddress (theSocket, (__bridge CFDataRef)address);
 		if (err != kCFSocketSuccess) goto Failed;
 		
 		//NSLog(@"theSocket4: %hu", [self localPort:theSocket]);
@@ -526,7 +508,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	
 	if (theSocket6)
 	{
-		err = CFSocketSetAddress (theSocket6, (CFDataRef)address6);
+		err = CFSocketSetAddress (theSocket6, (__bridge CFDataRef)address6);
 		if (err != kCFSocketSuccess) goto Failed;
 		
 		//NSLog(@"theSocket6: %hu", [self localPort:theSocket6]);
@@ -741,7 +723,7 @@ Failed:;
 	// The MyCFSocketCallback method will be called when the connection succeeds or fails
 	if(theSocket)
 	{
-		CFSocketError err = CFSocketConnectToAddress(theSocket, (CFDataRef)remoteAddr, -1);
+		CFSocketError err = CFSocketConnectToAddress(theSocket, (__bridge CFDataRef)remoteAddr, -1);
 		if(err != kCFSocketSuccess)
 		{
 			if (errPtr) *errPtr = [self getSocketError];
@@ -750,7 +732,7 @@ Failed:;
 	}
 	else if(theSocket6)
 	{
-		CFSocketError err = CFSocketConnectToAddress(theSocket6, (CFDataRef)remoteAddr, -1);
+		CFSocketError err = CFSocketConnectToAddress(theSocket6, (__bridge CFDataRef)remoteAddr, -1);
 		if(err != kCFSocketSuccess)
 		{
 			if (errPtr) *errPtr = [self getSocketError];
@@ -767,7 +749,7 @@ Failed:;
 **/
 - (void)doAcceptWithSocket:(CFSocketNativeHandle)newNative
 {
-	AsyncSocket *newSocket = [[[AsyncSocket alloc] initWithDelegate:theDelegate] autorelease];
+	AsyncSocket *newSocket = [[AsyncSocket alloc] initWithDelegate:theDelegate];
 	if(newSocket)
 	{
 		NSRunLoop *runLoop = nil;
@@ -874,7 +856,7 @@ Failed:;
 - (BOOL)createStreamsToHost:(NSString *)hostname onPort:(UInt16)port error:(NSError **)errPtr
 {
 	// Create the socket & streams.
-	CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)hostname, port, &theReadStream, &theWriteStream);
+	CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (__bridge CFStringRef)hostname, port, &theReadStream, &theWriteStream);
 	if (theReadStream == NULL || theWriteStream == NULL)
 	{
 		if (errPtr) *errPtr = [self getStreamError];
@@ -1095,7 +1077,6 @@ Failed:;
 {
 	// Empty queues.
 	[self emptyQueues];
-	[partialReadBuffer release];
 	partialReadBuffer = nil;
 	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(disconnect) object:nil];
 	
@@ -1626,7 +1607,7 @@ Failed:;
 
 	[ms appendString: @">"];
 
-	return [ms autorelease];
+	return ms;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1648,9 +1629,6 @@ Failed:;
 
 	[theReadQueue addObject:packet];
 	[self scheduleDequeueRead];
-
-	[packet release];
-	[buffer release];
 }
 
 - (void)readDataToData:(NSData *)data withTimeout:(NSTimeInterval)timeout tag:(long)tag
@@ -1668,9 +1646,6 @@ Failed:;
 
 	[theReadQueue addObject:packet];
 	[self scheduleDequeueRead];
-
-	[packet release];
-	[buffer release];
 }
 
 - (void)readDataWithTimeout:(NSTimeInterval)timeout tag:(long)tag
@@ -1687,9 +1662,6 @@ Failed:;
 	
 	[theReadQueue addObject:packet];
 	[self scheduleDequeueRead];
-	
-	[packet release];
-	[buffer release];
 }
 
 /**
@@ -1714,7 +1686,7 @@ Failed:;
 	{
 		// Get new current read AsyncReadPacket.
 		AsyncReadPacket *newPacket = [theReadQueue objectAtIndex:0];
-		theCurrentRead = [newPacket retain];
+		theCurrentRead = newPacket;
 		[theReadQueue removeObjectAtIndex:0];
 
 		// Start time-out timer.
@@ -1845,7 +1817,6 @@ Failed:;
 	[theReadTimer invalidate];
 	theReadTimer = nil;
 	
-	[theCurrentRead release];
 	theCurrentRead = nil;
 }
 
@@ -1872,8 +1843,6 @@ Failed:;
 	
 	[theWriteQueue addObject:packet];
 	[self scheduleDequeueWrite];
-	
-	[packet release];
 }
 
 - (void)scheduleDequeueWrite
@@ -1888,7 +1857,7 @@ Failed:;
 	{
 		// Get new current write AsyncWritePacket.
 		AsyncWritePacket *newPacket = [theWriteQueue objectAtIndex:0];
-		theCurrentWrite = [newPacket retain];
+		theCurrentWrite = newPacket;
 		[theWriteQueue removeObjectAtIndex:0];
 		
 		// Start time-out timer.
@@ -1969,7 +1938,6 @@ Failed:;
 	[theWriteTimer invalidate];
 	theWriteTimer = nil;
 	
-	[theCurrentWrite release];
 	theCurrentWrite = nil;
 	
 	[self maybeScheduleDisconnect];
@@ -2078,12 +2046,12 @@ Failed:;
 **/
 static void MyCFSocketCallback (CFSocketRef sref, CFSocketCallBackType type, CFDataRef address, const void *pData, void *pInfo)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
-	[sock doCFSocketCallback:type forSocket:sref withAddress:(NSData *)address withData:pData];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		AsyncSocket *sock = (__bridge AsyncSocket *)pInfo;
+		[sock doCFSocketCallback:type forSocket:sref withAddress:(__bridge NSData *)address withData:pData];
+		
+	}
 }
 
 /**
@@ -2092,12 +2060,12 @@ static void MyCFSocketCallback (CFSocketRef sref, CFSocketCallBackType type, CFD
 **/
 static void MyCFReadStreamCallback (CFReadStreamRef stream, CFStreamEventType type, void *pInfo)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
-	[sock doCFReadStreamCallback:type forStream:stream];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		AsyncSocket *sock = (__bridge AsyncSocket *)pInfo;
+		[sock doCFReadStreamCallback:type forStream:stream];
+		
+	}
 }
 
 /**
@@ -2106,12 +2074,12 @@ static void MyCFReadStreamCallback (CFReadStreamRef stream, CFStreamEventType ty
 **/
 static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType type, void *pInfo)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
-	[sock doCFWriteStreamCallback:type forStream:stream];
-	
-	[pool release];
+	@autoreleasepool {
+		
+		AsyncSocket *sock = (__bridge AsyncSocket *)pInfo;
+		[sock doCFWriteStreamCallback:type forStream:stream];
+		
+	}
 }
 
 @end

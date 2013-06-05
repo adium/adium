@@ -21,7 +21,6 @@
 	NSXMLParser					*responseParser;
 	
 	// Parsing
-	NSMutableDictionary			*lastElement;
 	NSString					*currentElementName;
 	NSMutableDictionary			*currentElement;
 

@@ -21,12 +21,12 @@
 	NSMutableArray	*menuItemArray;
 	NSMutableSet	*stateMenuItemsAlreadyValidated;
 
-	id<AIStatusMenuDelegate>				delegate;
+	id<AIStatusMenuDelegate>				__unsafe_unretained delegate;
 }
 
 + (id)statusMenuWithDelegate:(id<AIStatusMenuDelegate>)inDelegate;
 
-@property (readwrite, nonatomic, assign) id<AIStatusMenuDelegate> delegate;
+@property (readwrite, nonatomic, unsafe_unretained) id<AIStatusMenuDelegate> delegate;
 
 - (void)delegateWillReplaceAllMenuItems;
 - (void)delegateCreatedMenuItems:(NSArray *)addedMenuItems;

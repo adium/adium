@@ -15,7 +15,6 @@
  */
 
 #import "ESAnnouncerSpeakEventAlertDetailPane.h"
-#import "ESAnnouncerPlugin.h"
 
 /*!
  * @class ESAnnouncerSpeakEventAlertDetailPane

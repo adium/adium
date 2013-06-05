@@ -32,12 +32,6 @@
     return [super initWithFrame:frameRect textContainer:aTextContainer];
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-
 //Set Validation Attribs -----------------------------------------------------------------------------------------------
 #pragma mark Set Validation Attribs
 - (void)setContinuousURLValidationEnabled:(BOOL)flag
@@ -111,13 +105,13 @@
 									withString:@"%25n"
 									   options:NSLiteralSearch
 										 range:NSMakeRange(0, [newLinkURL length])];
-		linkURL = [newLinkURL autorelease];
+		linkURL = newLinkURL;
 		
 	}
 
 	//Replace all existing percent escapes (in case the user actually escaped the URL properly or it was copy/pasted)
 	preprocessedString = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-																				 (CFStringRef)linkURL,
+																				 (__bridge CFStringRef)linkURL,
 																				 CFSTR(""),
 																				 kCFStringEncodingUTF8);
 	//Now escape it the way NSURL demands
@@ -132,7 +126,7 @@
 		escapedURLString = nil;
 	}
 
-	return (escapedURLString ? [(NSString *)escapedURLString autorelease] : linkURL);
+	return (escapedURLString ? (__bridge NSString *)escapedURLString : linkURL);
 }
 
 @end

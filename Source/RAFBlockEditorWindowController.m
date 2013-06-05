@@ -95,12 +95,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[accountTable tableColumnWithIdentifier:@"account"] setDataCell:cell];
-	[cell release];
 	
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[contactTable tableColumnWithIdentifier:@"contact"] setDataCell:cell];
-	[cell release];
 
 	listContents = [[NSMutableArray alloc] init];
 	[self accountListChanged:nil];
@@ -139,7 +137,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		[label_information setStringValue:@""];
 
 	if (listContents.count > 0) {
-		[listContents release];
 		listContents = [[NSMutableArray alloc] init];
 		[contactTable reloadData];
 	}
@@ -161,10 +158,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[sharedInstance release]; sharedInstance = nil;
-	[listContents release];
-	
-	[super dealloc];
+	sharedInstance = nil;
 }
 
 - (IBAction)addOrRemoveBlock:(id)sender
@@ -372,8 +366,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (void)accountListChanged:(NSNotification *)note
 {
 	//Update our list of accounts
-	[accountArray release];
-	accountArray = [adium.accountController.accounts retain];
+	accountArray = adium.accountController.accounts;
 	
 	[accountTable reloadData];
 }

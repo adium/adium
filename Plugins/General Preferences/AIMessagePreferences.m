@@ -17,12 +17,9 @@
 #import "AIMessagePreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import "AIMessageWindowController.h"
 #import "AILogByAccountWindowController.h"
-#import "AIWebKitMessageViewPlugin.h"
 
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"
@@ -175,7 +172,7 @@
 			 keyEquivalent:@""
 					   tag:AIBraces];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (NSMenu *)tabPositionMenu
@@ -206,7 +203,7 @@
 			 keyEquivalent:@""
 					   tag:AdiumTabPositionRight];
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (BOOL)chatHistoryDisplayActive
@@ -221,20 +218,11 @@
 										group:@"Message Context Display"];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet orderOut:nil];
-	[sheet.windowController release];
-}
 - (IBAction)configureLogCertainAccounts:(id)sender
 {
 	AILogByAccountWindowController *windowController = [[AILogByAccountWindowController alloc] initWithWindowNibName:@"AILogByAccountWindow"];
 	
-	[NSApp beginSheet:windowController.window
-	   modalForWindow:self.view.window
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[windowController showOnWindow:self.view.window];
 }
 
 @end

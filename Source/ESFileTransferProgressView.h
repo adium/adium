@@ -27,10 +27,6 @@
 	IBOutlet NSButton				*button_icon;
 	IBOutlet NSProgressIndicator	*progressIndicator;
 	
-	NSString						*transferBytesStatus;
-	NSString						*transferRemainingStatus;
-	NSString						*transferSpeedStatus;
-
 	IBOutlet AIRolloverButton		*button_stopResume;
 	BOOL							buttonStopResumeIsHovered;
     BOOL                            buttonStopResumeIsResend;
