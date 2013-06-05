@@ -204,6 +204,7 @@ static NSDictionary* details_for_context(ConnContext *context)
 	if (!context) return nil;
 
 	NSDictionary		*securityDetailsDict;
+	if (context->recent_child) context = context->recent_child;
 	Fingerprint *fprint = context->active_fingerprint;	
 
     if (!fprint || !(fprint->fingerprint)) return nil;
@@ -334,9 +335,10 @@ static ConnContext* contextForChat(AIChat *chat)
 	proto = [account.service.serviceCodeUniqueID UTF8String];
     username = [chat.listObject.UID UTF8String];
 	
-    context = otrl_context_find(otrg_plugin_userstate,
-								username, accountname, proto, OTRL_INSTAG_RECENT, 1, NULL,
-								NULL, NULL);
+
+	context = otrl_context_find(otrg_plugin_userstate,
+							   username, accountname, proto, OTRL_INSTAG_MASTER, TRUE, NULL,
+							   NULL, NULL);
 	
 	AILogWithSignature(@"%@ -> %p", chat, context);
 	
