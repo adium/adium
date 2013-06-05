@@ -163,7 +163,6 @@
 {
 	// Invalidate and release our timers
 	[self invalidateTimers];
-	
 	//Unregister ourself
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];

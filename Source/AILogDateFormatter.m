@@ -23,7 +23,7 @@
 {
 	NSString *returnValue = nil;
 
-	if ([self respondsToSelector:@selector(timeStyle)]) {
+	if ([self respondsToSelector:@selector(timeStyle)] && [date isKindOfClass:[NSDate class]]) {
 		NSDateFormatterStyle timeStyle = [self timeStyle];
 		
 		NSDate *dateToday = [NSDate date];
