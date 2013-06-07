@@ -117,7 +117,6 @@
 	ESDotMacService *macService = nil;
 	ESJabberService *jabberService = nil;	
 	
-#warning iChat Import needs to be updated for MobileMe
 	for (AIService *service in adium.accountController.services) {
 		if ([service.serviceID isEqual:@"AIM"])
 			aimService = (ESAIMService *)service;
