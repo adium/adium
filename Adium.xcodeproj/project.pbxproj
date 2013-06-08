@@ -1020,6 +1020,8 @@
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
+		5A2F34451762B0CE00C612B7 /* TestNSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */; };
+		5A2F34491762B1F500C612B7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B77E716FBDDC600DF398C /* NSData+Base64.m */; };
 		5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6E16D878AB00903E40 /* STTwitterAPIWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -3887,6 +3889,8 @@
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
 		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
+		5A2F34431762B0CE00C612B7 /* TestNSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestNSData+Base64.h"; path = "UnitTests/TestNSData+Base64.h"; sourceTree = "<group>"; };
+		5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TestNSData+Base64.m"; path = "UnitTests/TestNSData+Base64.m"; sourceTree = "<group>"; };
 		5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+STTwitter.h"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.h"; sourceTree = "<group>"; };
 		5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+STTwitter.m"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.m"; sourceTree = "<group>"; };
 		5A3B4D6D16D878AB00903E40 /* STTwitterAPIWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAPIWrapper.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAPIWrapper.h"; sourceTree = "<group>"; };
@@ -5165,6 +5169,8 @@
 				31FA7F100D4A75D000ABE634 /* TestRichTextCoercion.m */,
 				634BCD1D0DDC1542005AF1C2 /* TestMutableStringAdditions.h */,
 				634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */,
+				5A2F34431762B0CE00C612B7 /* TestNSData+Base64.h */,
+				5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */,
 				31034EFD0C8142680003F5AA /* TestStringAdditions.h */,
 				31034EFE0C8142680003F5AA /* TestStringAdditions.m */,
 				31034F0B0C8142720003F5AA /* UTF8Snowman.txt */,
@@ -10141,6 +10147,8 @@
 				318EA69C0D7A659900EDB105 /* TestColorAdditions.m in Sources */,
 				634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */,
 				3107D5250F63134F0051DDD5 /* TestAttributedStringAdditions.m in Sources */,
+				5A2F34451762B0CE00C612B7 /* TestNSData+Base64.m in Sources */,
+				5A2F34491762B1F500C612B7 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
