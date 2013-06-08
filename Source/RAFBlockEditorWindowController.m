@@ -215,6 +215,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		[contactTable reloadData];
 	}
 
+	[sheet orderOut:nil];
 	[NSApp endSheet:sheet];
 }
 
