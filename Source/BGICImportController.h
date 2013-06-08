@@ -73,8 +73,6 @@
 -(IBAction)goBack:(id)sender;
 -(IBAction)proceed:(id)sender;
 
--(IBAction)openHelp:(id)sender;
-
 -(IBAction)cancelLogImport:(id)sender;
 -(IBAction)deleteLogs:(id)sender;
 -(IBAction)selectLogAccountDestination:(id)sender;

@@ -324,13 +324,6 @@
 	[backButton setEnabled:NO];
 }
 
--(IBAction)openHelp:(id)sender
-{
-#warning This help anchor is necessary and needs a corresponding page in the book + the index needs regenerated.
-	NSString *locBookName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
-	[[NSHelpManager sharedHelpManager] openHelpAnchor:@"ichatImport"  inBook:locBookName];
-}
-
 // this action is currently defined as returning to the start of the assistant, unchecking all and noting completed actions
 -(IBAction)goBack:(id)sender
 {
