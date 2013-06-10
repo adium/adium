@@ -84,7 +84,7 @@
 											   object:nil];
 
 	[self xtrasChanged:nil];
-	[[self okButton] setLocalizedString:AILocalizedStringFromTable(@"Close", @"Buttons", nil)];
+	[[self okButton] setStringValue:AILocalizedStringFromTable(@"Close", @"Buttons", nil)];
 
 	[super windowDidLoad];
 }

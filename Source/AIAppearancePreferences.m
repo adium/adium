@@ -87,14 +87,14 @@ typedef enum {
 
 - (void)localizePane
 {
-	[label_dockIcons setLocalizedString:AILocalizedString(@"Dock Icon:", nil)];
-	[label_emoticons setLocalizedString:AILocalizedString(@"Emoticons:", nil)];
-	[label_menuBarIcons setLocalizedString:AILocalizedString(@"Menu Bar Icons:", nil)];
-	[label_serviceIcons setLocalizedString:AILocalizedString(@"Service Icons:", nil)];
-	[label_statusIcons setLocalizedString:AILocalizedString(@"Status Icons:", nil)];
+	[label_dockIcons setStringValue:AILocalizedString(@"Dock Icon:", nil)];
+	[label_emoticons setStringValue:AILocalizedString(@"Emoticons:", nil)];
+	[label_menuBarIcons setStringValue:AILocalizedString(@"Menu Bar Icons:", nil)];
+	[label_serviceIcons setStringValue:AILocalizedString(@"Service Icons:", nil)];
+	[label_statusIcons setStringValue:AILocalizedString(@"Status Icons:", nil)];
 	
-	[button_dockIcons setLocalizedString:AILocalizedString(@"Show All…", nil)];
-	[button_emoticons setLocalizedString:AILocalizedString(@"Customize…", nil)];
+	[button_dockIcons setStringValue:AILocalizedString(@"Show All…", nil)];
+	[button_emoticons setStringValue:AILocalizedString(@"Customize…", nil)];
 }
 
 /*!

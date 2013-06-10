@@ -445,7 +445,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="1062292978">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="232188621">
@@ -591,6 +591,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{340, 197}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="375767636">
@@ -690,7 +691,7 @@
 										<object class="NSButton" id="888614745">
 											<reference key="NSNextResponder" ref="642410231"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrame">{{95, 122}, {200, 32}}</string>
+											<string key="NSFrame">{{96, 122}, {200, 32}}</string>
 											<reference key="NSSuperview" ref="642410231"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="259397695">
@@ -1137,22 +1138,6 @@
 						<reference key="destination" ref="888614745"/>
 					</object>
 					<int key="connectionID">671</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="481002428"/>
-						<reference key="destination" ref="162653078"/>
-					</object>
-					<int key="connectionID">468</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="634799331"/>
-						<reference key="destination" ref="919800797"/>
-					</object>
-					<int key="connectionID">467</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3974,13 +3959,11 @@
 				</array>
 				<boolean value="NO" key="459.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="459.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="460.CustomClassName">AILocalizationTextField</string>
 				<array key="460.IBNSViewMetadataConstraints">
 					<reference ref="202557040"/>
 				</array>
 				<boolean value="NO" key="460.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="460.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="461.CustomClassName">AILocalizationTextField</string>
 				<boolean value="NO" key="461.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="461.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="462.CustomClassName">NSSecureTextField</string>

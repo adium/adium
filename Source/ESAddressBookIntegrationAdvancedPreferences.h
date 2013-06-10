@@ -16,7 +16,7 @@
 
 #import <Adium/AIPreferencePane.h>
 
-@class AILocalizationTextField;
+@class NSTextField;
 
 @interface ESAddressBookIntegrationAdvancedPreferences : AIPreferencePane <NSTokenFieldDelegate> {
     IBOutlet    NSButton                *checkBox_syncAutomatic;
@@ -31,17 +31,17 @@
 	
 	IBOutlet	NSButton				*checkBox_metaContacts;
 	
-	IBOutlet	AILocalizationTextField	*label_instructions;
-	IBOutlet	AILocalizationTextField	*label_names;
-	IBOutlet	AILocalizationTextField	*label_images;
-	IBOutlet	AILocalizationTextField	*label_contacts;
+	IBOutlet	NSTextField	*label_instructions;
+	IBOutlet	NSTextField	*label_names;
+	IBOutlet	NSTextField	*label_images;
+	IBOutlet	NSTextField	*label_contacts;
 	
 	IBOutlet	NSBox					*box_nameElements;
 
-	IBOutlet	AILocalizationTextField *label_firstToken;
-	IBOutlet	AILocalizationTextField *label_middleToken;
-	IBOutlet	AILocalizationTextField *label_lastToken;
-	IBOutlet	AILocalizationTextField *label_nickToken;
+	IBOutlet	NSTextField *label_firstToken;
+	IBOutlet	NSTextField *label_middleToken;
+	IBOutlet	NSTextField *label_lastToken;
+	IBOutlet	NSTextField *label_nickToken;
 	
 	IBOutlet	NSTokenField			*tokenField_format;
 	IBOutlet	NSTokenField			*tokenField_firstToken;

@@ -16,15 +16,15 @@
 
 #import <Adium/AIWindowController.h>
 
-@class AILocalizationButton, ABPeoplePickerView, AIService, ABPerson, AIImageViewWithImagePicker;
+@class NSButton, ABPeoplePickerView, AIService, ABPerson, AIImageViewWithImagePicker;
 
 @interface OWABSearchWindowController : AIWindowController <NSWindowDelegate> {
 	//Search View
 	IBOutlet ABPeoplePickerView			*peoplePicker;
 	
-	IBOutlet AILocalizationButton		*selectButton;
-	IBOutlet AILocalizationButton		*cancelButton;
-	IBOutlet AILocalizationButton		*newPersonButton;
+	IBOutlet NSButton		*selectButton;
+	IBOutlet NSButton		*cancelButton;
+	IBOutlet NSButton		*newPersonButton;
 	
 	//New Contact View
 	IBOutlet NSPanel					*newContactPanel;
@@ -38,18 +38,18 @@
 	
 	IBOutlet AIImageViewWithImagePicker	*imageView_contactIcon;
 	
-	IBOutlet AILocalizationTextField	*label_mainTitle;
-	IBOutlet AILocalizationTextField	*label_contactType;
-	IBOutlet AILocalizationTextField	*label_contactID;
-	IBOutlet AILocalizationTextField	*label_secondaryTitle;
-	IBOutlet AILocalizationTextField	*label_firstName;
-	IBOutlet AILocalizationTextField	*label_lastName;
-	IBOutlet AILocalizationTextField	*label_nickname;
-	IBOutlet AILocalizationTextField	*label_email;
-	IBOutlet AILocalizationTextField	*label_contactIcon;
+	IBOutlet NSTextField	*label_mainTitle;
+	IBOutlet NSTextField	*label_contactType;
+	IBOutlet NSTextField	*label_contactID;
+	IBOutlet NSTextField	*label_secondaryTitle;
+	IBOutlet NSTextField	*label_firstName;
+	IBOutlet NSTextField	*label_lastName;
+	IBOutlet NSTextField	*label_nickname;
+	IBOutlet NSTextField	*label_email;
+	IBOutlet NSTextField	*label_contactIcon;
 	
-	IBOutlet AILocalizationButton		*addContactButton;
-	IBOutlet AILocalizationButton		*addContactCancelButton;
+	IBOutlet NSButton		*addContactButton;
+	IBOutlet NSButton		*addContactCancelButton;
 	
 	//Other variables
 	NSWindow		*carryingWindow;

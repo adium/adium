@@ -48,9 +48,9 @@
 	
 	[window setTitle:AILocalizedString(@"Add Group",nil)];
 	
-	[label_groupName setLocalizedString:AILocalizedString(@"Enter group name:",nil)];
-	[button_add setLocalizedString:AILocalizedString(@"Add",nil)];
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel",nil)];
+	[label_groupName setStringValue:AILocalizedString(@"Enter group name:",nil)];
+	[button_add setStringValue:AILocalizedString(@"Add",nil)];
+	[button_cancel setStringValue:AILocalizedString(@"Cancel",nil)];
 
 	[window center];
 }

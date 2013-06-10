@@ -121,21 +121,21 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	//Localized strings
 	//Search window
 	[[self window] setTitle:AILocalizedString(@"Search In Address Book", nil)];
-	[selectButton setLocalizedString:AILocalizedString(@"Select Buddy", nil)];
-	[cancelButton setLocalizedString:AILocalizedString(@"Cancel", nil)];
-	[newPersonButton setLocalizedString:AILocalizedString(@"New Person", nil)];
+	[selectButton setStringValue:AILocalizedString(@"Select Buddy", nil)];
+	[cancelButton setStringValue:AILocalizedString(@"Cancel", nil)];
+	[newPersonButton setStringValue:AILocalizedString(@"New Person", nil)];
 	//New contact window
 	[newContactPanel setTitle:AILocalizedString(@"Create New Person", nil)];
-	[label_mainTitle setLocalizedString:AILocalizedString(@"Enter the contact's type and screen name/number:", nil)];
-	[label_contactType setLocalizedString:AILocalizedString(@"Contact Type:", "Contact type service dropdown label in Add Contact")];
-	[label_secondaryTitle setLocalizedString:AILocalizedString(@"Address Book Information (optional):", nil)];
-	[label_firstName setLocalizedString:AILocalizedString(@"First Name:", nil)];
-	[label_lastName setLocalizedString:AILocalizedString(@"Last Name:", nil)];
-	[label_nickname setLocalizedString:AILocalizedString(@"Nickname:", nil)];
-	[label_email setLocalizedString:AILocalizedString(@"Email:", nil)];
-	[label_contactIcon setLocalizedString:AILocalizedString(@"Contact Icon", "Contact icon label in create new AB person")];
-	[addContactButton setLocalizedString:AILocalizedString(@"Add Contact", nil)];
-	[addContactCancelButton setLocalizedString:AILocalizedString(@"Cancel", nil)];
+	[label_mainTitle setStringValue:AILocalizedString(@"Enter the contact's type and screen name/number:", nil)];
+	[label_contactType setStringValue:AILocalizedString(@"Contact Type:", "Contact type service dropdown label in Add Contact")];
+	[label_secondaryTitle setStringValue:AILocalizedString(@"Address Book Information (optional):", nil)];
+	[label_firstName setStringValue:AILocalizedString(@"First Name:", nil)];
+	[label_lastName setStringValue:AILocalizedString(@"Last Name:", nil)];
+	[label_nickname setStringValue:AILocalizedString(@"Nickname:", nil)];
+	[label_email setStringValue:AILocalizedString(@"Email:", nil)];
+	[label_contactIcon setStringValue:AILocalizedString(@"Contact Icon", "Contact icon label in create new AB person")];
+	[addContactButton setStringValue:AILocalizedString(@"Add Contact", nil)];
+	[addContactCancelButton setStringValue:AILocalizedString(@"Cancel", nil)];
 	
 	[imageView_contactIcon setMaxSize:NSMakeSize(256, 256)];
 

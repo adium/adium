@@ -15,16 +15,15 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <Adium/AILocalizationButton.h>
 
 @interface ESPresetManagementController : AIWindowController {
 	IBOutlet		NSTableView		*tableView_presets;
 
 	IBOutlet		NSTextField		*label_editPresets;
-	IBOutlet		AILocalizationButton		*button_duplicate;
-	IBOutlet		AILocalizationButton		*button_delete;
-	IBOutlet		AILocalizationButton		*button_rename;
-	IBOutlet		AILocalizationButton		*button_done;
+	IBOutlet		NSButton		*button_duplicate;
+	IBOutlet		NSButton		*button_delete;
+	IBOutlet		NSButton		*button_rename;
+	IBOutlet		NSButton		*button_done;
 	
 	NSArray			*presets;
 	NSString		*nameKey;

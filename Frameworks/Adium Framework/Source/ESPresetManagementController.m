@@ -71,23 +71,12 @@
 	//Enable dragging of presets
 	[tableView_presets registerForDraggedTypes:[NSArray arrayWithObject:PRESET_DRAG_TYPE]];
 
-	[label_editPresets setLocalizedString:AILocalizedString(@"Edit presets:", nil)];
+	[label_editPresets setStringValue:AILocalizedString(@"Edit presets:", nil)];
 	
-	[button_duplicate setAlignment:NSLeftTextAlignment];
-	[button_duplicate setLocalizedString:AILocalizedString(@"Duplicate", "Button which duplicates the selection")];
-	[button_duplicate setAlignment:NSCenterTextAlignment];
-
-	[button_delete setAlignment:NSLeftTextAlignment];
-	[button_delete setLocalizedString:AILocalizedString(@"Delete", "Button which deletes the selection")];
-	[button_delete setAlignment:NSCenterTextAlignment];
-	
-	[button_rename setAlignment:NSLeftTextAlignment];
-	[button_rename setLocalizedString:AILocalizedString(@"Rename", "Button which renames the selection")];
-	[button_rename setAlignment:NSCenterTextAlignment];
-
-	[button_done setAlignment:NSLeftTextAlignment];
-	[button_done setLocalizedString:AILocalizedString(@"Done", "Button which indicates that the editing sheet is done")];
-	[button_done setAlignment:NSCenterTextAlignment];
+	[button_duplicate setStringValue:AILocalizedString(@"Duplicate", "Button which duplicates the selection")];
+	[button_delete setStringValue:AILocalizedString(@"Delete", "Button which deletes the selection")];
+	[button_rename setStringValue:AILocalizedString(@"Rename", "Button which renames the selection")];
+	[button_done setStringValue:AILocalizedString(@"Done", "Button which indicates that the editing sheet is done")];
 	
 	[self configureControlDimming];
 }

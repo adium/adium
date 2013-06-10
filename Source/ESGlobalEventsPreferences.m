@@ -126,8 +126,8 @@
 	[[slider_volume cell] accessibilitySetOverrideValue:AILocalizedString(@"Volume", "Accessibility label for the sound volume slider")
 										   forAttribute:NSAccessibilityDescriptionAttribute];
 	 
-	[label_eventPreset setLocalizedString:AILocalizedString(@"Event preset:",nil)];
-	[label_soundSet setLocalizedString:AILocalizedString(@"Sound set:",nil)];
+	[label_eventPreset setStringValue:AILocalizedString(@"Event preset:",nil)];
+	[label_soundSet setStringValue:AILocalizedString(@"Sound set:",nil)];
 }
 
 /*!

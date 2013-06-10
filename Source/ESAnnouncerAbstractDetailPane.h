@@ -16,12 +16,12 @@
 
 #import <Adium/AIActionDetailsPane.h>
 
-@class AIActionDetailsPane, AILocalizationButton;
+@class AIActionDetailsPane, NSButton;
 
 @interface ESAnnouncerAbstractDetailPane : AIActionDetailsPane {
 	
-	IBOutlet	AILocalizationButton	*checkBox_speakEventTime;
-	IBOutlet	AILocalizationButton	*checkBox_speakContactName;
+	IBOutlet	NSButton	*checkBox_speakEventTime;
+	IBOutlet	NSButton	*checkBox_speakContactName;
 	IBOutlet	NSPopUpButton			*popUp_voices;
 	IBOutlet	NSSlider				*slider_pitch;
 	IBOutlet	NSSlider				*slider_rate;

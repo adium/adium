@@ -38,10 +38,10 @@
 	[super viewDidLoad];
 	
 	[checkBox_speakEventTime setTitle:SPEAK_EVENT_TIME];
-	[checkBox_speakContactName setLocalizedString:AILocalizedString(@"Speak Name",nil)];
-	[checkBox_customPitch setLocalizedString:AILocalizedString(@"Use custom pitch:",nil)];
-	[checkBox_customRate setLocalizedString:AILocalizedString(@"Use custom rate:",nil)];
-	[label_voice setLocalizedString:AILocalizedString(@"Voice:", nil)];
+	[checkBox_speakContactName setStringValue:AILocalizedString(@"Speak Name",nil)];
+	[checkBox_customPitch setStringValue:AILocalizedString(@"Use custom pitch:",nil)];
+	[checkBox_customRate setStringValue:AILocalizedString(@"Use custom rate:",nil)];
+	[label_voice setStringValue:AILocalizedString(@"Voice:", nil)];
 	
 	[popUp_voices setMenu:[self voicesMenu]];
 }

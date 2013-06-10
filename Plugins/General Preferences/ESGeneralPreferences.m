@@ -86,11 +86,11 @@
 		[shortcutRecorder setAnimates:YES];
 		[shortcutRecorder setStyle:SRGreyStyle];
 		
-		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"When pressed, this key combination will bring Adium to the front", nil)];
+		[label_shortcutRecorder setStringValue:AILocalizedString(@"When pressed, this key combination will bring Adium to the front", nil)];
 	} else {
 		[shortcutRecorder setEnabled:NO];
 		
-		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"You are using an old-style (rsrc) keyboard layout which Adium does not support.", nil)];
+		[label_shortcutRecorder setStringValue:AILocalizedString(@"You are using an old-style (rsrc) keyboard layout which Adium does not support.", nil)];
 	}
 	
 	CFRelease(currentLayout);

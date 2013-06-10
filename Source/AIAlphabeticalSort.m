@@ -101,8 +101,8 @@ static  BOOL	sortByLastName;
  * @brief View did load
  */
 - (void)viewDidLoad{
-	[checkBox_sortByLastName setLocalizedString:AILocalizedString(@"Sort contacts by last name",nil)];
-	[checkBox_sortGroups setLocalizedString:AILocalizedString(@"Sort groups alphabetically",nil)];
+	[checkBox_sortByLastName setStringValue:AILocalizedString(@"Sort contacts by last name",nil)];
+	[checkBox_sortGroups setStringValue:AILocalizedString(@"Sort groups alphabetically",nil)];
 	
 	[checkBox_sortByLastName setState:sortByLastName];
 	[checkBox_sortGroups setState:sortGroups];

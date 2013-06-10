@@ -49,7 +49,7 @@
  */
 - (void)viewDidLoad
 {
-	[label_sound setLocalizedString:AILocalizedString(@"Sound:",nil)];
+	[label_sound setStringValue:AILocalizedString(@"Sound:",nil)];
 
 	/* Loading and using the real file icons is slow, and all the sound files should have the same icons anyway.  So
 	 * we can cheat and load a sound icon from our bundle here (for all the menu items) for a nice speed boost. */

@@ -16,14 +16,14 @@
 
 #import <Adium/AIWindowController.h>
 
-@class AILocalizationTextField, AILocalizationButton, AIListGroup;
+@class NSTextField, NSButton, AIListGroup;
 
 @interface AINewGroupWindowController : AIWindowController {
 	IBOutlet	NSTextField		*textField_groupName;
 	
-	IBOutlet	AILocalizationTextField	*label_groupName;
-	IBOutlet	AILocalizationButton	*button_add;
-	IBOutlet	AILocalizationButton	*button_cancel;
+	IBOutlet	NSTextField	*label_groupName;
+	IBOutlet	NSButton	*button_add;
+	IBOutlet	NSButton	*button_cancel;
 	AIListGroup *group;
 }
 

@@ -48,11 +48,11 @@ static AITwitterReplyWindowController *sharedController = nil;
 
 - (void)windowDidLoad
 {
-	[label_statusID setLocalizedString:AILocalizedString(@"Status ID:", "In the 'reply to tweet' window, this is the field for the ID of the status (numerical).")];
-	[label_usernameOrTweetURL setLocalizedString:AILocalizedString(@"Username or Tweet URL:", "Either the username or the URL of a tweet we want to reply to.")];
+	[label_statusID setStringValue:AILocalizedString(@"Status ID:", "In the 'reply to tweet' window, this is the field for the ID of the status (numerical).")];
+	[label_usernameOrTweetURL setStringValue:AILocalizedString(@"Username or Tweet URL:", "Either the username or the URL of a tweet we want to reply to.")];
 	
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel", nil)];
-	[button_reply setLocalizedString:AILocalizedString(@"Reply", nil)];
+	[button_cancel setStringValue:AILocalizedString(@"Cancel", nil)];
+	[button_reply setStringValue:AILocalizedString(@"Reply", nil)];
 	
 	[self.window setTitle:AILocalizedString(@"Reply to a Tweet", "Name of the 'reply to a tweet' window.")];
 	

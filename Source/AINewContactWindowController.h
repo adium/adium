@@ -20,7 +20,7 @@
 #define PREF_GROUP_ADD_CONTACT  @"Add Contact"
 #define KEY_ADD_CONTACT_TO		@"Add Contacts to account"
 
-@class AIAccount, AIService, AILocalizationButton, AILocalizationTextField;
+@class AIAccount, AIService, NSButton, NSTextField;
 @class ABPerson;
 
 @interface AINewContactWindowController : AIWindowController <AIListObjectObserver> {
@@ -31,16 +31,16 @@
 	IBOutlet	NSTableView					*tableView_accounts;
 	IBOutlet	NSImageView					*imageView_service;
 
-	IBOutlet	AILocalizationButton		*button_add;
-	IBOutlet	AILocalizationButton		*button_cancel;
+	IBOutlet	NSButton		*button_add;
+	IBOutlet	NSButton		*button_cancel;
 
-	IBOutlet	AILocalizationTextField		*textField_type;
-	IBOutlet	AILocalizationTextField		*textField_alias;
-	IBOutlet	AILocalizationTextField		*textField_inGroup;
-	IBOutlet	AILocalizationTextField		*textField_addToAccounts;
+	IBOutlet	NSTextField		*textField_type;
+	IBOutlet	NSTextField		*textField_alias;
+	IBOutlet	NSTextField		*textField_inGroup;
+	IBOutlet	NSTextField		*textField_addToAccounts;
 	IBOutlet	NSTextField					*textField_contactNameLabel;
 	
-	IBOutlet	AILocalizationTextField		*textField_searchInAB;
+	IBOutlet	NSTextField		*textField_searchInAB;
 
 	NSArray							*accounts;
 	NSMutableSet					*checkedAccounts;

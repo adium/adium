@@ -32,12 +32,12 @@
 {
 	if ((self = [super init])) {
 		[NSBundle loadNibNamed:[self nibName] owner:self];
-		[label_notes setLocalizedString:AILocalizedString(@"Notes:", "Label beside the field for contact notes in the Settings tab of the Get Info window")];
-		[button_chooseCard setLocalizedString:[AILocalizedStringFromTable(@"Choose Address Book Card", @"Buttons", "Button title to choose an Address Book card for a contact") stringByAppendingEllipsis]];
+		[label_notes setStringValue:AILocalizedString(@"Notes:", "Label beside the field for contact notes in the Settings tab of the Get Info window")];
+		[button_chooseCard setStringValue:[AILocalizedStringFromTable(@"Choose Address Book Card", @"Buttons", "Button title to choose an Address Book card for a contact") stringByAppendingEllipsis]];
 		
-		[label_abPeoplePickerChooseAnAddressCard setLocalizedString:AILocalizedString(@"Choose an Address Card:", nil)];
-		[button_abPeoplePickerOkay setLocalizedString:AILocalizedStringFromTable(@"Choose Card", @"Buttons", nil)];
-		[button_abPeoplePickerCancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
+		[label_abPeoplePickerChooseAnAddressCard setStringValue:AILocalizedString(@"Choose an Address Card:", nil)];
+		[button_abPeoplePickerOkay setStringValue:AILocalizedStringFromTable(@"Choose Card", @"Buttons", nil)];
+		[button_abPeoplePickerCancel setStringValue:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 	}
 
 	return self;

@@ -25,15 +25,15 @@
 @property (weak) IBOutlet NSTextField *label_statusMenu;
 @property (weak) IBOutlet NSTextField *label_tabCounts;
 
-@property (weak) IBOutlet AILocalizationButton *checkbox_statusMenuItemFlash;
-@property (weak) IBOutlet AILocalizationButton *checkbox_statusMenuItemCount;
-@property (weak) IBOutlet AILocalizationButton *checkbox_statusMenuItemBadge;
-@property (weak) IBOutlet AILocalizationButton *checkbox_animateDockIcon;
-@property (weak) IBOutlet AILocalizationButton *checkbox_badgeDockIcon;
-@property (weak) IBOutlet AILocalizationButton *checkbox_unreadConversations;
-@property (weak) IBOutlet AILocalizationButton *checkbox_unreadContentMention;
-@property (weak) IBOutlet AILocalizationButton *checkbox_unreadMentionCount;
-@property (weak) IBOutlet AILocalizationButton *checkbox_showTabCountSingle;
-@property (weak) IBOutlet AILocalizationButton *checkbox_showTabCountGroup;
+@property (weak) IBOutlet NSButton *checkbox_statusMenuItemFlash;
+@property (weak) IBOutlet NSButton *checkbox_statusMenuItemCount;
+@property (weak) IBOutlet NSButton *checkbox_statusMenuItemBadge;
+@property (weak) IBOutlet NSButton *checkbox_animateDockIcon;
+@property (weak) IBOutlet NSButton *checkbox_badgeDockIcon;
+@property (weak) IBOutlet NSButton *checkbox_unreadConversations;
+@property (weak) IBOutlet NSButton *checkbox_unreadContentMention;
+@property (weak) IBOutlet NSButton *checkbox_unreadMentionCount;
+@property (weak) IBOutlet NSButton *checkbox_showTabCountSingle;
+@property (weak) IBOutlet NSButton *checkbox_showTabCountGroup;
 
 @end

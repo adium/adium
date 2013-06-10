@@ -72,8 +72,8 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 {
 	[super windowDidLoad];
 	
-	[button_okay setLocalizedString:AILocalizedStringFromTable(@"Message", @"Buttons", "Button title to open a message window the specific contact from the 'New Chat' window")];
-	[button_cancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
+	[button_okay setStringValue:AILocalizedStringFromTable(@"Message", @"Buttons", "Button title to open a message window the specific contact from the 'New Chat' window")];
+	[button_cancel setStringValue:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 	
 	[[self window] setTitle:AILocalizedString(@"New Message",nil)];
 	
@@ -82,7 +82,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
 	[table_results setDoubleAction:@selector(okay:)];
 	[table_results setTarget:self];
 	
-	[label_account setLocalizedString:AILocalizedString(@"Account:", nil)];
+	[label_account setStringValue:AILocalizedString(@"Account:", nil)];
 	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											 submenuType:AIAccountNoSubmenu
 										  showTitleVerbs:NO];

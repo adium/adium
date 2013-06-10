@@ -111,8 +111,8 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 
 	[[self window] setTitle:AILocalizedString(@"Adium Debug Log","Debug window title")];
-	[checkBox_logWriting setLocalizedString:AILocalizedString(@"Log to ~/Library/Logs/Adium Debug", "Logging checkbox in the Adium Debug Window")];
-	[button_clear setLocalizedString:AILocalizedString(@"Clear", nil)];
+	[checkBox_logWriting setStringValue:AILocalizedString(@"Log to ~/Library/Logs/Adium Debug", "Logging checkbox in the Adium Debug Window")];
+	[button_clear setStringValue:AILocalizedString(@"Clear", nil)];
 
 	//On the next run loop, scroll to the bottom
 	[scrollView_debug performSelector:@selector(scrollToBottom)

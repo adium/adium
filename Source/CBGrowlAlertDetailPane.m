@@ -58,9 +58,9 @@
 {
 	[super viewDidLoad];
 	
-	[checkBox_sticky setLocalizedString:AILocalizedString(@"Show until dismissed","Growl contact alert label")];
-    [checkBox_timestamp setLocalizedString:AILocalizedString(@"Show time stamp", "Growl contact alert label")];
-	[label_priority setLocalizedString:AILocalizedString(@"Growl priority:", "Priority label for Growl")];
+	[checkBox_sticky setStringValue:AILocalizedString(@"Show until dismissed","Growl contact alert label")];
+    [checkBox_timestamp setStringValue:AILocalizedString(@"Show time stamp", "Growl contact alert label")];
+	[label_priority setStringValue:AILocalizedString(@"Growl priority:", "Priority label for Growl")];
 	
 	[popUp_priority setMenu:[self priorityMenu]];
 	

@@ -98,16 +98,16 @@
 
 - (void)localizePane
 {
-	[label_whenReceivingFiles setLocalizedString:AILocalizedString(@"Receiving files:","File Transfer preferences label")];
-	[label_defaultReceivingFolder setLocalizedString:AILocalizedString(@"Save files to:","File Transfer preferences label")];
-	[label_safeFilesDescription setLocalizedString:AILocalizedString(@"\"Safe\" files include movies, pictures,\nsounds, text documents, and archives.","Description of safe files (files which Adium can open automatically without danger to the user). This description should be on two lines; the lines are separated by \n.")];
-	[label_transferProgress setLocalizedString:AILocalizedString(@"Progress:","File Transfer preferences label")];
+	[label_whenReceivingFiles setStringValue:AILocalizedString(@"Receiving files:","File Transfer preferences label")];
+	[label_defaultReceivingFolder setStringValue:AILocalizedString(@"Save files to:","File Transfer preferences label")];
+	[label_safeFilesDescription setStringValue:AILocalizedString(@"\"Safe\" files include movies, pictures,\nsounds, text documents, and archives.","Description of safe files (files which Adium can open automatically without danger to the user). This description should be on two lines; the lines are separated by \n.")];
+	[label_transferProgress setStringValue:AILocalizedString(@"Progress:","File Transfer preferences label")];
 	
-	[checkBox_autoAcceptFiles setLocalizedString:[AILocalizedString(@"Automatically accept files and images","File Transfer preferences") stringByAppendingEllipsis]];
-	[checkBox_autoAcceptOnlyFromCLList setLocalizedString:AILocalizedString(@"only from contacts on my Contact List","File Transfer preferences")];
-	[checkBox_autoOpenFiles setLocalizedString:AILocalizedString(@"Open \"Safe\" files after receiving","File Transfer preferences")];
-	[checkBox_showProgress setLocalizedString:AILocalizedString(@"Show the File Transfers window automatically","File Transfer preferences")];
-	[checkBox_autoClearCompleted setLocalizedString:AILocalizedString(@"Clear completed transfers automatically","File Transfer preferences")];
+	[checkBox_autoAcceptFiles setStringValue:[AILocalizedString(@"Automatically accept files and images","File Transfer preferences") stringByAppendingEllipsis]];
+	[checkBox_autoAcceptOnlyFromCLList setStringValue:AILocalizedString(@"only from contacts on my Contact List","File Transfer preferences")];
+	[checkBox_autoOpenFiles setStringValue:AILocalizedString(@"Open \"Safe\" files after receiving","File Transfer preferences")];
+	[checkBox_showProgress setStringValue:AILocalizedString(@"Show the File Transfers window automatically","File Transfer preferences")];
+	[checkBox_autoClearCompleted setStringValue:AILocalizedString(@"Clear completed transfers automatically","File Transfer preferences")];
 }
 
 - (void)buildDownloadLocationMenu

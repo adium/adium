@@ -70,10 +70,10 @@
 	[textField_serviceName setStringValue:[account.service longDescription]];
 	[textField_accountDescription setStringValue:account.UID];
 
-	[button_chooseIcon setLocalizedString:[AILocalizedString(@"Choose Icon",nil) stringByAppendingEllipsis]];
-	[button_OK setLocalizedString:AILocalizedString(@"OK",nil)];
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel",nil)];
-	[checkbox_autoconnect setLocalizedString:AILocalizedString(@"Connect when Adium opens", "Account preferences checkbox for automatically conencting the account when Adium opens")];
+	[button_chooseIcon setStringValue:[AILocalizedString(@"Choose Icon",nil) stringByAppendingEllipsis]];
+	[button_OK setStringValue:AILocalizedString(@"OK",nil)];
+	[button_cancel setStringValue:AILocalizedString(@"Cancel",nil)];
+	[checkbox_autoconnect setStringValue:AILocalizedString(@"Connect when Adium opens", "Account preferences checkbox for automatically conencting the account when Adium opens")];
 
 	[[matrix_userIcon cellWithTag:0] setTitle:AILocalizedString(@"Use global icon", "Radio button in the Personal tab of Account preferences.  This -must- be a short string of 20 characters or less.")];
 	[[matrix_userIcon cellWithTag:1] setTitle:AILocalizedString(@"Use this icon:", "Radio button in the Personal tab of Account preferences; an image is shown beneath it to select the account's icon.  This -must- be a short string of 20 characters or less.")];

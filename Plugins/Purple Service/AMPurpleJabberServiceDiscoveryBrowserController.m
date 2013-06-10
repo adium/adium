@@ -66,8 +66,8 @@ static NSImage *det_triangle_closed = nil;
 - (void)windowDidLoad
 {
 	[[self window] setTitle:AILocalizedString(@"Service Discovery Browser", "Window title for the service discovery browser")];
-	[label_service setLocalizedString:AILocalizedString(@"Service:", nil)];
-	[label_node setLocalizedString:AILocalizedString(@"Node:", nil)];
+	[label_service setStringValue:AILocalizedString(@"Service:", nil)];
+	[label_node setStringValue:AILocalizedString(@"Node:", nil)];
 	
 	[[[outlineview tableColumnWithIdentifier:@"name"] headerCell] setStringValue:AILocalizedString(@"Name", "Name table column header for the service discovery browser")];
 	[[[outlineview tableColumnWithIdentifier:@"jid"] headerCell] setStringValue:AILocalizedString(@"JID", "JID (Jabber ID) table column header for the service discovery browser. This may not need to be localized.")];

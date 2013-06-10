@@ -16,14 +16,14 @@
 
 #import <Adium/AIActionDetailsPane.h>
 
-@class AILocalizationTextField;
+@class NSTextField;
 
 @interface ESEventSoundAlertDetailPane : AIActionDetailsPane {
     IBOutlet	NSPopUpButton		*popUp_actionDetails;
 
 	NSImage		*soundFileIcon;
 	
-	IBOutlet	AILocalizationTextField	*label_sound;
+	IBOutlet	NSTextField	*label_sound;
 }
 
 @end

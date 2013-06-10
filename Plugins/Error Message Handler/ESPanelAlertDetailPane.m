@@ -33,7 +33,7 @@
 	NSString *alertText = [inDetails objectForKey:KEY_ALERT_TEXT];
 
 	[view_alertText setString:(alertText ? alertText : @"")];
-	[label_alertText setLocalizedString:AILocalizedString(@"Alert Text:", "Label for the 'show an alert' action")];
+	[label_alertText setStringValue:AILocalizedString(@"Alert Text:", "Label for the 'show an alert' action")];
 }
 
 //Return our current configuration

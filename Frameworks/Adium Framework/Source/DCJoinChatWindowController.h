@@ -17,15 +17,15 @@
 #import <Adium/AIWindowController.h>
 #import <Adium/AIAccountMenu.h>
 
-@class AILocalizationTextField, AILocalizationButton, AIListContact, DCJoinChatViewController;
+@class NSTextField, NSButton, AIListContact, DCJoinChatViewController;
 
 @interface DCJoinChatWindowController : AIWindowController <AIAccountMenuDelegate> {	
     IBOutlet NSPopUpButton 	*popUp_service;		// Account selector
     IBOutlet NSView			*view_customView;	// View containing service-specific controls
 	
-	IBOutlet AILocalizationTextField	*label_account;
-	IBOutlet AILocalizationButton		*button_joinChat;
-	IBOutlet AILocalizationButton		*button_cancel;
+	IBOutlet NSTextField	*label_account;
+	IBOutlet NSButton		*button_joinChat;
+	IBOutlet NSButton		*button_cancel;
 
 	DCJoinChatViewController *joinChatViewController;	// Current view controller
 	

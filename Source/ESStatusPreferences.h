@@ -30,42 +30,42 @@
 @property (weak) IBOutlet NSTabViewItem *tabItem_settings;
 
 @property (weak) IBOutlet AISegmentedControl *button_addOrRemoveState;
-@property (weak) IBOutlet AILocalizationButton *button_addGroup;
-@property (weak) IBOutlet AILocalizationButton *button_editState;
+@property (weak) IBOutlet NSButton *button_addGroup;
+@property (weak) IBOutlet NSButton *button_editState;
 @property (weak) IBOutlet AIAutoScrollView *scrollView_stateList;
 @property (weak) IBOutlet AIAlternatingRowOutlineView *outlineView_stateList;
 
-@property (weak) IBOutlet AILocalizationButton *checkBox_idle;
+@property (weak) IBOutlet NSButton *checkBox_idle;
 @property (weak) IBOutlet NSTextField *textField_idleMinutes;
 @property (weak) IBOutlet NSStepper *stepper_idleMinutes;
 
-@property (weak) IBOutlet AILocalizationButton *checkBox_autoAway;
+@property (weak) IBOutlet NSButton *checkBox_autoAway;
 @property (weak) IBOutlet NSTextField *textField_autoAwayMinutes;
 @property (weak) IBOutlet NSStepper *stepper_autoAwayMinutes;
 @property (weak) IBOutlet NSPopUpButton *popUp_autoAwayStatusState;
 
-@property (weak) IBOutlet AILocalizationButton *checkBox_fastUserSwitching;
+@property (weak) IBOutlet NSButton *checkBox_fastUserSwitching;
 @property (weak) IBOutlet NSPopUpButton *popUp_fastUserSwitchingStatusState;
 
-@property (weak) IBOutlet AILocalizationButton *checkBox_screenSaver;
+@property (weak) IBOutlet NSButton *checkBox_screenSaver;
 @property (weak) IBOutlet NSPopUpButton *popUp_screenSaverStatusState;
 
-@property (weak) IBOutlet AILocalizationButton *checkBox_showStatusWindow;
+@property (weak) IBOutlet NSButton *checkBox_showStatusWindow;
 
-@property (weak) IBOutlet AILocalizationTextField *label_inactivity;
-@property (weak) IBOutlet AILocalizationTextField *label_inactivitySet;
+@property (weak) IBOutlet NSTextField *label_inactivity;
+@property (weak) IBOutlet NSTextField *label_inactivitySet;
 @property (weak) IBOutlet NSTextField *label_iTunesFormat;
 
 @property (weak) IBOutlet NSBox *box_itunesElements;
 
-@property (weak) IBOutlet AILocalizationTextField *label_instructions;
-@property (weak) IBOutlet AILocalizationTextField *label_album;
-@property (weak) IBOutlet AILocalizationTextField *label_artist;
-@property (weak) IBOutlet AILocalizationTextField *label_composer;
-@property (weak) IBOutlet AILocalizationTextField *label_genre;
-@property (weak) IBOutlet AILocalizationTextField *label_status;
-@property (weak) IBOutlet AILocalizationTextField *label_title;
-@property (weak) IBOutlet AILocalizationTextField *label_year;
+@property (weak) IBOutlet NSTextField *label_instructions;
+@property (weak) IBOutlet NSTextField *label_album;
+@property (weak) IBOutlet NSTextField *label_artist;
+@property (weak) IBOutlet NSTextField *label_composer;
+@property (weak) IBOutlet NSTextField *label_genre;
+@property (weak) IBOutlet NSTextField *label_status;
+@property (weak) IBOutlet NSTextField *label_title;
+@property (weak) IBOutlet NSTextField *label_year;
 
 @property (weak) IBOutlet NSTokenField *tokenField_format;
 @property (weak) IBOutlet NSTokenField *tokenField_album;

@@ -47,7 +47,7 @@
 	[self configureTableView];
 	[self initializeServiceInformationForSchemes:servicesList];
 	
-	[checkBox_enforceDefault setLocalizedString:AILocalizedString(@"Always set Adium as the default", nil)];
+	[checkBox_enforceDefault setStringValue:AILocalizedString(@"Always set Adium as the default", nil)];
 }
 
 #pragma mark Actions

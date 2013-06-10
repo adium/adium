@@ -68,8 +68,8 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     [textField_version setStringValue:[self AI_applicationVersion:NO]];
     
 	// Set the localized values
-	[button_homepage setLocalizedString:AILocalizedString(@"Adium Homepage",nil)];
-	[button_license setLocalizedString:AILocalizedString(@"License",nil)];
+	[button_homepage setStringValue:AILocalizedString(@"Adium Homepage",nil)];
+	[button_license setStringValue:AILocalizedString(@"License",nil)];
 
     [[self window] betterCenter];
 }

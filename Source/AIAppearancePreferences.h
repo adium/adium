@@ -23,14 +23,14 @@
 	IBOutlet	NSPopUpButton *popUp_emoticons;
 	IBOutlet	NSPopUpButton *popUp_dockIcon;
 	
-	IBOutlet	AILocalizationTextField *label_serviceIcons;
-	IBOutlet	AILocalizationTextField *label_statusIcons;
-	IBOutlet	AILocalizationTextField *label_menuBarIcons;
-	IBOutlet	AILocalizationTextField *label_emoticons;
-	IBOutlet	AILocalizationTextField *label_dockIcons;
+	IBOutlet	NSTextField *label_serviceIcons;
+	IBOutlet	NSTextField *label_statusIcons;
+	IBOutlet	NSTextField *label_menuBarIcons;
+	IBOutlet	NSTextField *label_emoticons;
+	IBOutlet	NSTextField *label_dockIcons;
 	
-	IBOutlet	AILocalizationButton *button_emoticons;
-	IBOutlet	AILocalizationButton *button_dockIcons;
+	IBOutlet	NSButton *button_emoticons;
+	IBOutlet	NSButton *button_dockIcons;
 }
 
 - (IBAction)showAllDockIcons:(id)sender;

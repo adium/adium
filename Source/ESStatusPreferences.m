@@ -159,26 +159,26 @@
 		[button_editState setFrame:newFrame];
 	}
 	
-	[checkBox_idle setLocalizedString:AILocalizedString(@"Set idle after", nil)];
-	[label_inactivity setLocalizedString:AILocalizedString(@"minutes of inactivity", nil)];
+	[checkBox_idle setStringValue:AILocalizedString(@"Set idle after", nil)];
+	[label_inactivity setStringValue:AILocalizedString(@"minutes of inactivity", nil)];
 	
-	[checkBox_autoAway setLocalizedString:AILocalizedString(@"After", nil)];
-	[label_inactivitySet setLocalizedString:AILocalizedString(@"minutes of inactivity, set:", nil)];
+	[checkBox_autoAway setStringValue:AILocalizedString(@"After", nil)];
+	[label_inactivitySet setStringValue:AILocalizedString(@"minutes of inactivity, set:", nil)];
 	
-	[checkBox_fastUserSwitching setLocalizedString:AILocalizedString(@"When Fast User Switching is activated, set:", nil)];
-	[checkBox_screenSaver setLocalizedString:AILocalizedString(@"When Screen Saver is activated, set:", nil)];
-	[checkBox_showStatusWindow setLocalizedString:AILocalizedString(@"Display status window when away", nil)];
+	[checkBox_fastUserSwitching setStringValue:AILocalizedString(@"When Fast User Switching is activated, set:", nil)];
+	[checkBox_screenSaver setStringValue:AILocalizedString(@"When Screen Saver is activated, set:", nil)];
+	[checkBox_showStatusWindow setStringValue:AILocalizedString(@"Display status window when away", nil)];
 	
-	[label_iTunesFormat setLocalizedString:AILocalizedString(@"iTunes Status Format", nil)];
+	[label_iTunesFormat setStringValue:AILocalizedString(@"iTunes Status Format", nil)];
 	[box_itunesElements setTitle:AILocalizedString(@"iTunes Elements", nil)];
-	[label_instructions setLocalizedString:AILocalizedString(@"Type text and drag iTunes elements to create a custom format.", nil)];
-	[label_album setLocalizedString:AILocalizedString(@"Album", nil)];
-	[label_artist setLocalizedString:AILocalizedString(@"Artist", nil)];
-	[label_composer setLocalizedString:AILocalizedString(@"Composer", nil)];
-	[label_genre setLocalizedString:AILocalizedString(@"Genre", nil)];
-	[label_status setLocalizedString:AILocalizedString(@"Player State", nil)];
-	[label_title setLocalizedString:AILocalizedString(@"Title", nil)];
-	[label_year setLocalizedString:AILocalizedString(@"Year", nil)];
+	[label_instructions setStringValue:AILocalizedString(@"Type text and drag iTunes elements to create a custom format.", nil)];
+	[label_album setStringValue:AILocalizedString(@"Album", nil)];
+	[label_artist setStringValue:AILocalizedString(@"Artist", nil)];
+	[label_composer setStringValue:AILocalizedString(@"Composer", nil)];
+	[label_genre setStringValue:AILocalizedString(@"Genre", nil)];
+	[label_status setStringValue:AILocalizedString(@"Player State", nil)];
+	[label_title setStringValue:AILocalizedString(@"Title", nil)];
+	[label_year setStringValue:AILocalizedString(@"Year", nil)];
 }
 
 /*!

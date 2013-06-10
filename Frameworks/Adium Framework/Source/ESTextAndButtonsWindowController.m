@@ -332,7 +332,7 @@
 		heightChange += optionFrame.size.height;
 		
 		[checkbox_suppression setFrame:optionFrame];
-		[checkbox_suppression setLocalizedString:suppression];
+		[checkbox_suppression setStringValue:suppression];
 		[checkbox_suppression setState:NSOffState];
 	} else {
 		[checkbox_suppression setHidden:YES];

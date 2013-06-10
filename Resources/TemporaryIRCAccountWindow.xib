@@ -59,6 +59,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{278, 12}, {95, 32}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="708557286">
 								<int key="NSCellFlags">67108864</int>
@@ -85,6 +86,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{183, 12}, {95, 32}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="943611434">
 								<int key="NSCellFlags">67108864</int>
@@ -107,6 +109,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{127, 130}, {240, 22}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="333068808">
 								<int key="NSCellFlags">-1804599231</int>
@@ -141,6 +144,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{17, 132}, {105, 17}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="452377787">
@@ -173,6 +177,7 @@
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{17, 160}, {355, 51}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="207392279">
@@ -192,6 +197,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{15, 100}, {107, 17}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<string key="NSAntiCompressionPriority">{250, 750}</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="918501159">
@@ -211,6 +217,7 @@
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{127, 98}, {240, 22}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1029809008">
 								<int key="NSCellFlags">-1804599231</int>
@@ -229,6 +236,7 @@
 							<int key="NSvFlags">260</int>
 							<string key="NSFrame">{{12, 12}, {115, 32}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="235970845">
 								<int key="NSCellFlags">67108864</int>
@@ -251,6 +259,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{18, 58}, {171, 18}}</string>
 							<reference key="NSSuperview" ref="64095659"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="595636720">
 								<int key="NSCellFlags">67108864</int>
@@ -277,6 +286,7 @@
 					</array>
 					<string key="NSFrameSize">{387, 231}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{387, 188}</string>
@@ -416,35 +426,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToLeftSide</string>
-						<reference key="source" ref="423965436"/>
-						<reference key="destination" ref="1050263157"/>
-					</object>
-					<int key="connectionID">172</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="423965436"/>
 						<reference key="destination" ref="1050263157"/>
 					</object>
 					<int key="connectionID">195</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window_anchorOnRightSide</string>
-						<reference key="source" ref="423965436"/>
-						<reference key="destination" ref="459651838"/>
-					</object>
-					<int key="connectionID">206</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_anchorToRightSide</string>
-						<reference key="source" ref="1050263157"/>
-						<reference key="destination" ref="423965436"/>
-					</object>
-					<int key="connectionID">176</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -464,43 +450,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">window_anchorOnLeftSide</string>
-						<reference key="source" ref="287624721"/>
-						<reference key="destination" ref="459651838"/>
-					</object>
-					<int key="connectionID">208</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window_anchorOnLeftSide</string>
-						<reference key="source" ref="739136951"/>
-						<reference key="destination" ref="459651838"/>
-					</object>
-					<int key="connectionID">204</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="1017943945"/>
 						<reference key="destination" ref="423965436"/>
 					</object>
 					<int key="connectionID">194</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window_anchorOnLeftSide</string>
-						<reference key="source" ref="335169929"/>
-						<reference key="destination" ref="459651838"/>
-					</object>
-					<int key="connectionID">205</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">window_anchorOnLeftSide</string>
-						<reference key="source" ref="278300160"/>
-						<reference key="destination" ref="459651838"/>
-					</object>
-					<int key="connectionID">221</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1249,13 +1203,11 @@
 					<reference ref="806309452"/>
 				</array>
 				<string key="161.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="163.CustomClassName">AILocalizationButton</string>
 				<array key="163.IBNSViewMetadataConstraints">
 					<reference ref="168471259"/>
 				</array>
 				<boolean value="NO" key="163.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="165.CustomClassName">AILocalizationButton</string>
 				<array key="165.IBNSViewMetadataConstraints">
 					<reference ref="230683812"/>
 				</array>
@@ -1263,18 +1215,15 @@
 				<string key="165.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="177.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="177.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="178.CustomClassName">AILocalizationTextField</string>
 				<array key="178.IBNSViewMetadataConstraints">
 					<reference ref="844877440"/>
 				</array>
 				<boolean value="NO" key="178.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="178.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="179.CustomClassName">AILocalizationTextField</string>
 				<boolean value="NO" key="179.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="179.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="180.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="180.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="183.CustomClassName">AILocalizationButton</string>
 				<boolean value="NO" key="183.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="183.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="210.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1291,7 +1240,6 @@
 				<boolean value="NO" key="219.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="219.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="220.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="223.CustomClassName">AILocalizationButton</string>
 				<boolean value="NO" key="223.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="223.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="224.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1328,7 +1276,126 @@
 			<nil key="sourceID"/>
 			<int key="maxID">253</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">AITemporaryIRCAccountWindowController</string>
+					<string key="superclassName">AIWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="displayAdvanced:">id</string>
+						<string key="okay:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="displayAdvanced:">
+							<string key="name">displayAdvanced:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="okay:">
+							<string key="name">okay:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="button_advanced">NSButton</string>
+						<string key="button_cancel">NSButton</string>
+						<string key="button_okay">NSButton</string>
+						<string key="button_remember">NSButton</string>
+						<string key="label_name">NSTextField</string>
+						<string key="label_server">NSTextField</string>
+						<string key="textField_explanation">NSTextField</string>
+						<string key="textField_name">NSTextField</string>
+						<string key="textField_server">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="button_advanced">
+							<string key="name">button_advanced</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_cancel">
+							<string key="name">button_cancel</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_okay">
+							<string key="name">button_okay</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="button_remember">
+							<string key="name">button_remember</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_name">
+							<string key="name">label_name</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="label_server">
+							<string key="name">label_server</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_explanation">
+							<string key="name">textField_explanation</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_name">
+							<string key="name">textField_name</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="textField_server">
+							<string key="name">textField_server</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AITemporaryIRCAccountWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AIWindowController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">closeWindow:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">closeWindow:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">closeWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/AIWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSLayoutConstraint</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSLayoutConstraint.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">selectServiceType:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">selectServiceType:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">selectServiceType:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSObject.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

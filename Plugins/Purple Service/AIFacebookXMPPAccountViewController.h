@@ -10,8 +10,8 @@
 #import <WebKit/WebKit.h>
 
 @interface AIFacebookXMPPAccountViewController : PurpleAccountViewController {
-	AILocalizationTextField *label_instructions;
-	AILocalizationButton *__weak button_OAuthStart;
+	NSTextField *label_instructions;
+	NSButton *__weak button_OAuthStart;
 	NSTextField *__weak textField_OAuthStatus;
 	NSProgressIndicator *__weak spinner;
 	
@@ -20,7 +20,7 @@
 
 @property (weak) IBOutlet NSProgressIndicator *spinner;
 @property (weak) IBOutlet NSTextField *textField_OAuthStatus;
-@property (weak) IBOutlet AILocalizationButton *button_OAuthStart;
+@property (weak) IBOutlet NSButton *button_OAuthStart;
 @property (weak) IBOutlet NSButton *button_help;
 
 - (IBAction)showHelp:(id)sender;

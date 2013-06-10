@@ -32,15 +32,15 @@
 	IBOutlet	NSButton		*checkBox_showTooltipsInBackground;
 	IBOutlet	NSButton		*checkBox_windowHasShadow;
 
-	IBOutlet	AILocalizationTextField		*label_colorTheme;
-	IBOutlet	AILocalizationTextField		*label_listLayout;
-	IBOutlet	AILocalizationTextField		*label_windowStyle;
-	IBOutlet	AILocalizationTextField		*label_opacity;
-	IBOutlet	AILocalizationTextField		*label_automaticSizing;
-	IBOutlet	AILocalizationTextField		*label_horizontalWidth;
-	IBOutlet	AILocalizationTextField		*label_verticalHeight;
-	IBOutlet	AILocalizationTextField		*label_animation;
-	IBOutlet	AILocalizationTextField		*label_tooltips;
+	IBOutlet	NSTextField		*label_colorTheme;
+	IBOutlet	NSTextField		*label_listLayout;
+	IBOutlet	NSTextField		*label_windowStyle;
+	IBOutlet	NSTextField		*label_opacity;
+	IBOutlet	NSTextField		*label_automaticSizing;
+	IBOutlet	NSTextField		*label_horizontalWidth;
+	IBOutlet	NSTextField		*label_verticalHeight;
+	IBOutlet	NSTextField		*label_animation;
+	IBOutlet	NSTextField		*label_tooltips;
 	
 	IBOutlet	NSSlider		*slider_windowOpacity;
 	IBOutlet	NSTextField		*textField_windowOpacity;

@@ -46,11 +46,11 @@
 {
 	toContact = nil;
 	
-	[label_To setLocalizedString:AILocalizedString(@"To:",nil)];
-	[label_From setLocalizedString:AILocalizedString(@"From:",nil)];	
-	[label_Message setLocalizedString:AILocalizedString(@"Message:",nil)];
+	[label_To setStringValue:AILocalizedString(@"To:",nil)];
+	[label_From setStringValue:AILocalizedString(@"From:",nil)];	
+	[label_Message setStringValue:AILocalizedString(@"Message:",nil)];
 
-	[button_useAnotherAccount setLocalizedString:AILocalizedString(@"Use another account if necessary",nil)];
+	[button_useAnotherAccount setStringValue:AILocalizedString(@"Use another account if necessary",nil)];
 	
 	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 							   submenuType:AIAccountNoSubmenu

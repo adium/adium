@@ -72,14 +72,14 @@
 	
 	[textField_server setStringValue:server];
 	
-	[label_name setLocalizedString:AILocalizedString(@"Nickname:", "Name for IRC user names")];
-	[label_server setLocalizedString:AILocalizedString(@"Server:", nil)];
+	[label_name setStringValue:AILocalizedString(@"Nickname:", "Name for IRC user names")];
+	[label_server setStringValue:AILocalizedString(@"Server:", nil)];
 	
-	[button_okay setLocalizedString:AILocalizedString(@"Connect", nil)];
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel", nil)];
-	[button_advanced setLocalizedString:[AILocalizedString(@"Advanced", nil) stringByAppendingEllipsis]];
+	[button_okay setStringValue:AILocalizedString(@"Connect", nil)];
+	[button_cancel setStringValue:AILocalizedString(@"Cancel", nil)];
+	[button_advanced setStringValue:[AILocalizedString(@"Advanced", nil) stringByAppendingEllipsis]];
 	
-	[button_remember setLocalizedString:AILocalizedString(@"Remember this account", nil)];
+	[button_remember setStringValue:AILocalizedString(@"Remember this account", nil)];
 	
 }
 

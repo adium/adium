@@ -16,12 +16,12 @@
 
 #import <Adium/AIActionDetailsPane.h>
 
-@class AILocalizationTextField;
+@class NSTextField;
 
 @interface ESDockAlertDetailPane : AIActionDetailsPane {
     IBOutlet	NSPopUpButton		*popUp_actionDetails;
 	
-	IBOutlet	AILocalizationTextField	*label_behavior;
+	IBOutlet	NSTextField	*label_behavior;
 }
 
 @end

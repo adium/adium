@@ -369,7 +369,7 @@ static BOOL							hideInBackground = NO;
 
 - (void)localizeButtons
 {
-	[button_return setLocalizedString:AILocalizedStringFromTableInBundle(@"Return", 
+	[button_return setStringValue:AILocalizedStringFromTableInBundle(@"Return", 
 																		 @"Buttons",
 																		 [NSBundle bundleForClass:[self class]],
 																		 "Button to return from away in the away status window")];

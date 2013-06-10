@@ -31,10 +31,10 @@
 
 @property (strong) IBOutlet NSWindow *sheet;
 @property (weak) IBOutlet AICompletingTextField *addContactField;
-@property (weak) IBOutlet AILocalizationButton *addContact;
-@property (weak) IBOutlet AILocalizationButton *cancelSheet;
-@property (weak) IBOutlet AILocalizationTextField *label_contact;
-@property (weak) IBOutlet AILocalizationTextField *label_blockInformation;
+@property (weak) IBOutlet NSButton *addContact;
+@property (weak) IBOutlet NSButton *cancelSheet;
+@property (weak) IBOutlet NSTextField *label_contact;
+@property (weak) IBOutlet NSTextField *label_blockInformation;
 
 + (void)showWindow;
 

@@ -62,7 +62,7 @@
 		[userIcon setMaxSize:NSMakeSize(256,256)];
 		[userIcon setDelegate:self];
 		
-		[aliasLabel setLocalizedString:AILocalizedString(@"Alias:","Label beside the field for a contact's alias in the settings tab of the Get Info window")];
+		[aliasLabel setStringValue:AILocalizedString(@"Alias:","Label beside the field for a contact's alias in the settings tab of the Get Info window")];
 	}
 	return self;
 }

@@ -16,7 +16,7 @@
 
 #import <Adium/AISortController.h>
 
-@class AILocalizationTextField;
+@class NSTextField;
 
 @interface ESStatusSort : AISortController <NSTableViewDelegate, NSTableViewDataSource> {
 	IBOutlet	NSButton		*checkBox_groupAvailable;
@@ -32,14 +32,14 @@
 	IBOutlet	NSButton		*checkBox_sortIdleTime;
 	IBOutlet	NSButton		*checkBox_sortGroupsAlphabetically;
 	
-	IBOutlet	AILocalizationTextField	*label_sortWithinEachStatusGrouping;
+	IBOutlet	NSTextField	*label_sortWithinEachStatusGrouping;
 
 	IBOutlet	NSMatrix		*matrix_resolution;
 	IBOutlet	NSButtonCell	*buttonCell_alphabetically;
 	IBOutlet	NSButton		*checkBox_alphabeticallyByLastName;
 	IBOutlet	NSButtonCell	*buttonCell_manually;
 	
-	IBOutlet	AILocalizationTextField	*label_statusGroupOrdering;	
+	IBOutlet	NSTextField	*label_statusGroupOrdering;	
 	IBOutlet	NSTableView		*tableView_sortOrder;
 }
 

@@ -60,9 +60,9 @@
 {
 	[super windowDidLoad];
 	
-	[label_uploadProgress setLocalizedString:[AILocalizedString(@"Preparing", nil) stringByAppendingEllipsis]];
-	[label_uploadingImage setLocalizedString:[AILocalizedString(@"Uploading image to server", nil) stringByAppendingEllipsis]];
-	[button_cancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
+	[label_uploadProgress setStringValue:[AILocalizedString(@"Preparing", nil) stringByAppendingEllipsis]];
+	[label_uploadingImage setStringValue:[AILocalizedString(@"Uploading image to server", nil) stringByAppendingEllipsis]];
+	[button_cancel setStringValue:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -90,7 +90,7 @@
 {
 	progressIndicator.doubleValue = (CGFloat)uploaded/(CGFloat)total;
 	
-	[label_uploadProgress setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"%.1f KB of %.1f KB", nil), (CGFloat)uploaded/1024.0, (CGFloat)total/1024.0]];
+	[label_uploadProgress setStringValue:[NSString stringWithFormat:AILocalizedString(@"%.1f KB of %.1f KB", nil), (CGFloat)uploaded/1024.0, (CGFloat)total/1024.0]];
 }
 
 @end

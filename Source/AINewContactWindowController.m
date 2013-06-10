@@ -125,16 +125,15 @@
 
 	//Localized Strings
 	[[self window] setTitle:AILocalizedString(@"Add Contact",nil)];
-	[textField_type setLocalizedString:AILocalizedString(@"Contact Type:","Contact type service dropdown label in Add Contact")];
-	[textField_alias setLocalizedString:AILocalizedString(@"Alias:",nil)];
-	[textField_inGroup setLocalizedString:AILocalizedString(@"In Group:",nil)];
-	[textField_addToAccounts setLocalizedString:AILocalizedString(@"On Accounts:",nil)];
+	[textField_type setStringValue:AILocalizedString(@"Contact Type:","Contact type service dropdown label in Add Contact")];
+	[textField_alias setStringValue:AILocalizedString(@"Alias:",nil)];
+	[textField_inGroup setStringValue:AILocalizedString(@"In Group:",nil)];
+	[textField_addToAccounts setStringValue:AILocalizedString(@"On Accounts:",nil)];
 	
-	[textField_searchInAB setAlwaysMoveRightAnchoredWindow:YES];
-	[textField_searchInAB setLocalizedString:AILocalizedString(@"Search In Address Book",nil)];
+	[textField_searchInAB setStringValue:AILocalizedString(@"Search In Address Book",nil)];
 
-	[button_add setLocalizedString:AILocalizedString(@"Add",nil)];
-	[button_cancel setLocalizedString:AILocalizedString(@"Cancel",nil)];
+	[button_add setStringValue:AILocalizedString(@"Add",nil)];
+	[button_cancel setStringValue:AILocalizedString(@"Cancel",nil)];
 
 	//Configure the rest of the window
 	[self buildGroupMenu];
@@ -322,7 +321,7 @@
 	[imageView_service setImage:[AIServiceIcons serviceIconForService:service
 																 type:AIServiceIconLarge
 															direction:AIIconNormal]];
-	[textField_contactNameLabel setLocalizedString:[(userNameLabel ? userNameLabel :
+	[textField_contactNameLabel setStringValue:[(userNameLabel ? userNameLabel :
 													 AILocalizedString(@"Contact ID",nil)) stringByAppendingString:AILocalizedString(@":", "Colon which will be appended after a label such as 'User Name', before an input field")]];
 
 	//And the list of accounts

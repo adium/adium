@@ -65,10 +65,10 @@ static ESShowContactInfoPromptController *sharedShowInfoPromptInstance = nil;
 {
 	[super windowDidLoad];
 	
-	[label_using setLocalizedString:AILocalizedString(@"Using:","Label in front of an account drop-down selector to determine what account to use")];
-	[label_contact setLocalizedString:AILocalizedString(@"Contact:",nil)];
+	[label_using setStringValue:AILocalizedString(@"Using:","Label in front of an account drop-down selector to determine what account to use")];
+	[label_contact setStringValue:AILocalizedString(@"Contact:",nil)];
 
-	[button_okay setLocalizedString:GET_INFO_BUTTON_TITLE];
+	[button_okay setStringValue:GET_INFO_BUTTON_TITLE];
 	[[self window] setTitle:GET_INFO_WINDOW_TITLE];
 }
 

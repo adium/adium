@@ -76,25 +76,25 @@
 
 - (void)localizePane
 {
-	[label_messages setLocalizedString:AILocalizedString(@"Logging:", nil)];
-	[label_chatRestore setLocalizedString:AILocalizedString(@"Chat restore:", nil)];
-	[label_psychic setLocalizedString:AILocalizedString(@"Psychic mode:", nil)];
-	[label_recentMessages setLocalizedString:AILocalizedString(@" recent messages in new chats", nil)];
-	[label_showTabs setLocalizedString:AILocalizedString(@"Show tabs on the:", nil)];
-	[label_switchTabs setLocalizedString:AILocalizedString(@"Switch tabs with:", nil)];
-	[label_tabs setLocalizedString:AILocalizedString(@"Tabs:", nil)];
+	[label_messages setStringValue:AILocalizedString(@"Logging:", nil)];
+	[label_chatRestore setStringValue:AILocalizedString(@"Chat restore:", nil)];
+	[label_psychic setStringValue:AILocalizedString(@"Psychic mode:", nil)];
+	[label_recentMessages setStringValue:AILocalizedString(@" recent messages in new chats", nil)];
+	[label_showTabs setStringValue:AILocalizedString(@"Show tabs on the:", nil)];
+	[label_switchTabs setStringValue:AILocalizedString(@"Switch tabs with:", nil)];
+	[label_tabs setStringValue:AILocalizedString(@"Tabs:", nil)];
 	
-	[button_logCertainChats setLocalizedString:AILocalizedString(@"Customize…", nil)];
+	[button_logCertainChats setStringValue:AILocalizedString(@"Customize…", nil)];
 	
-	[checkbox_logCertainAccounts setLocalizedString:AILocalizedString(@"Log only certain accounts", nil)];
-	[checkbox_logMessages setLocalizedString:AILocalizedString(@"Log messages", nil)];
-	[checkbox_logSecureChats setLocalizedString:AILocalizedString(@"Log secure chats", nil)];
-	[checkbox_organizeTabs setLocalizedString:AILocalizedString(@"Organize tabs into new windows by group", nil)];
-	[checkbox_psychicOpen setLocalizedString:AILocalizedString(@"Open chats as soon as contacts begin typing", nil)];
-	[checkbox_reopenChats setLocalizedString:AILocalizedString(@"Reopen chats from last time on startup", nil)];
-	[checkbox_showHistory setLocalizedString:AILocalizedString(@"Show", nil)];
-	[checkbox_showTabs setLocalizedString:AILocalizedString(@"Always show tab bar", nil)];
-	[checkbox_useTabs setLocalizedString:AILocalizedString(@"Create new chats in tabs", nil)];
+	[checkbox_logCertainAccounts setStringValue:AILocalizedString(@"Log only certain accounts", nil)];
+	[checkbox_logMessages setStringValue:AILocalizedString(@"Log messages", nil)];
+	[checkbox_logSecureChats setStringValue:AILocalizedString(@"Log secure chats", nil)];
+	[checkbox_organizeTabs setStringValue:AILocalizedString(@"Organize tabs into new windows by group", nil)];
+	[checkbox_psychicOpen setStringValue:AILocalizedString(@"Open chats as soon as contacts begin typing", nil)];
+	[checkbox_reopenChats setStringValue:AILocalizedString(@"Reopen chats from last time on startup", nil)];
+	[checkbox_showHistory setStringValue:AILocalizedString(@"Show", nil)];
+	[checkbox_showTabs setStringValue:AILocalizedString(@"Always show tab bar", nil)];
+	[checkbox_useTabs setStringValue:AILocalizedString(@"Create new chats in tabs", nil)];
 }
 
 - (IBAction)changePreference:(id)sender

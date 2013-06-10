@@ -20,24 +20,24 @@
 	IBOutlet	NSPopUpButton *popUp_tabKeys;
 	IBOutlet	NSPopUpButton *popUp_tabPositionMenu;
 	
-	IBOutlet	AILocalizationTextField *label_messages;
-	IBOutlet	AILocalizationTextField *label_chatRestore;
-	IBOutlet	AILocalizationTextField *label_psychic;
-	IBOutlet	AILocalizationTextField *label_tabs;
-	IBOutlet	AILocalizationTextField *label_showTabs;
-	IBOutlet	AILocalizationTextField *label_switchTabs;
-	IBOutlet	AILocalizationTextField *label_recentMessages;
+	IBOutlet	NSTextField *label_messages;
+	IBOutlet	NSTextField *label_chatRestore;
+	IBOutlet	NSTextField *label_psychic;
+	IBOutlet	NSTextField *label_tabs;
+	IBOutlet	NSTextField *label_showTabs;
+	IBOutlet	NSTextField *label_switchTabs;
+	IBOutlet	NSTextField *label_recentMessages;
 	
-	IBOutlet	AILocalizationButton *checkbox_logMessages;
-	IBOutlet	AILocalizationButton *checkbox_showHistory;
-	IBOutlet	AILocalizationButton *checkbox_logSecureChats;
-	IBOutlet	AILocalizationButton *checkbox_logCertainAccounts;
-	IBOutlet	AILocalizationButton *checkbox_reopenChats;
-	IBOutlet	AILocalizationButton *checkbox_psychicOpen;
-	IBOutlet	AILocalizationButton *checkbox_showTabs;
-	IBOutlet	AILocalizationButton *checkbox_useTabs;
-	IBOutlet	AILocalizationButton *checkbox_organizeTabs;
-	IBOutlet	AILocalizationButton *button_logCertainChats;
+	IBOutlet	NSButton *checkbox_logMessages;
+	IBOutlet	NSButton *checkbox_showHistory;
+	IBOutlet	NSButton *checkbox_logSecureChats;
+	IBOutlet	NSButton *checkbox_logCertainAccounts;
+	IBOutlet	NSButton *checkbox_reopenChats;
+	IBOutlet	NSButton *checkbox_psychicOpen;
+	IBOutlet	NSButton *checkbox_showTabs;
+	IBOutlet	NSButton *checkbox_useTabs;
+	IBOutlet	NSButton *checkbox_organizeTabs;
+	IBOutlet	NSButton *button_logCertainChats;
 	
 	IBOutlet	NSTextField *textfield_numberOfLines;
 	IBOutlet	NSStepper *stepper_numberOfLines;

@@ -19,24 +19,24 @@
 @class SRRecorderControl;
 
 @interface ESGeneralPreferences : AIPreferencePane {
-	IBOutlet	AILocalizationTextField *label_status;
-	IBOutlet	AILocalizationTextField *label_globalShortcut;
-	IBOutlet	AILocalizationTextField *label_updates;
-	IBOutlet	AILocalizationTextField *label_IMLinks;
-	IBOutlet	AILocalizationTextField *label_confirmations;
-	IBOutlet	AILocalizationTextField *label_shortcutRecorder;
+	IBOutlet	NSTextField *label_status;
+	IBOutlet	NSTextField *label_globalShortcut;
+	IBOutlet	NSTextField *label_updates;
+	IBOutlet	NSTextField *label_IMLinks;
+	IBOutlet	NSTextField *label_confirmations;
+	IBOutlet	NSTextField *label_shortcutRecorder;
 	
-	IBOutlet	AILocalizationButton *checkbox_showInMenu;
-	IBOutlet	AILocalizationButton *checkbox_updatesAutomatic;
-	IBOutlet	AILocalizationButton *checkbox_updatesProfileInfo;
-	IBOutlet	AILocalizationButton *checkbox_updatesIncludeBetas;
-	IBOutlet	AILocalizationButton *checkbox_confirmBeforeQuitting;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmFT;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmUnread;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmOpenChats;
-	IBOutlet	AILocalizationButton *checkbox_confirmBeforeClosing;
-	IBOutlet	AILocalizationButton *button_defaultApp;
-	IBOutlet	AILocalizationButton *button_customizeDefaultApp;
+	IBOutlet	NSButton *checkbox_showInMenu;
+	IBOutlet	NSButton *checkbox_updatesAutomatic;
+	IBOutlet	NSButton *checkbox_updatesProfileInfo;
+	IBOutlet	NSButton *checkbox_updatesIncludeBetas;
+	IBOutlet	NSButton *checkbox_confirmBeforeQuitting;
+	IBOutlet	NSButton *checkbox_quitConfirmFT;
+	IBOutlet	NSButton *checkbox_quitConfirmUnread;
+	IBOutlet	NSButton *checkbox_quitConfirmOpenChats;
+	IBOutlet	NSButton *checkbox_confirmBeforeClosing;
+	IBOutlet	NSButton *button_defaultApp;
+	IBOutlet	NSButton *button_customizeDefaultApp;
 
 	IBOutlet    NSView *placeholder_shortcutRecorder;
 	

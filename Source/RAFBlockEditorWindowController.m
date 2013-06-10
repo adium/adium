@@ -77,10 +77,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (void)localizePane
 {
-	[cancelSheet setLocalizedString:AILocalizedString(@"Cancel","Cancel button for Privacy Settings")];
-	[addContact setLocalizedString:AILocalizedString(@"Add","Add button for Privacy Settings")];
+	[cancelSheet setStringValue:AILocalizedString(@"Cancel","Cancel button for Privacy Settings")];
+	[addContact setStringValue:AILocalizedString(@"Add","Add button for Privacy Settings")];
 	[[[contactTable tableColumnWithIdentifier:@"contact"] headerCell] setStringValue:AILocalizedString(@"Contact","Title of column containing user IDs of blocked contacts")];
-	[label_blockInformation setLocalizedString:AILocalizedString(@"Add a contact to block.",nil)];
+	[label_blockInformation setStringValue:AILocalizedString(@"Add a contact to block.",nil)];
 
 	[[privacyLevel cellWithTag:AIPrivacyOptionAllowAll] setTitle:AILocalizedString(@"Allow anyone", @"Privacy blocking option")];
 	[[privacyLevel cellWithTag:AIPrivacyOptionAllowContactList] setTitle:AILocalizedString(@"Allow only contacts on my contact list", @"Privacy blocking option")];

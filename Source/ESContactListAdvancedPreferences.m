@@ -89,27 +89,27 @@
 
 - (void)localizePane
 {
-	[label_animation setLocalizedString:AILocalizedString(@"Animation:", nil)];
-	[label_automaticSizing setLocalizedString:AILocalizedString(@"Automatic Sizing:", nil)];
-	[label_colorTheme setLocalizedString:AILocalizedString(@"Color Theme:", nil)];
-	[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:", nil)];
-	[label_verticalHeight setLocalizedString:AILocalizedString(@"Maximum Height:", nil)];
-	[label_listLayout setLocalizedString:AILocalizedString(@"List Layout:", nil)];
-	[label_opacity setLocalizedString:AILocalizedString(@"Opacity:", nil)];
-	[label_tooltips setLocalizedString:AILocalizedString(@"Tooltips:",nil)];
-	[label_windowStyle setLocalizedString:AILocalizedString(@"Window Style:",nil)];
+	[label_animation setStringValue:AILocalizedString(@"Animation:", nil)];
+	[label_automaticSizing setStringValue:AILocalizedString(@"Automatic Sizing:", nil)];
+	[label_colorTheme setStringValue:AILocalizedString(@"Color Theme:", nil)];
+	[label_horizontalWidth setStringValue:AILocalizedString(@"Maximum Width:", nil)];
+	[label_verticalHeight setStringValue:AILocalizedString(@"Maximum Height:", nil)];
+	[label_listLayout setStringValue:AILocalizedString(@"List Layout:", nil)];
+	[label_opacity setStringValue:AILocalizedString(@"Opacity:", nil)];
+	[label_tooltips setStringValue:AILocalizedString(@"Tooltips:",nil)];
+	[label_windowStyle setStringValue:AILocalizedString(@"Window Style:",nil)];
 	
-	[button_colorTheme setLocalizedString:AILocalizedString(@"Customize…", nil)];
-	[button_listLayout setLocalizedString:AILocalizedString(@"Customize…", nil)];
+	[button_colorTheme setStringValue:AILocalizedString(@"Customize…", nil)];
+	[button_listLayout setStringValue:AILocalizedString(@"Customize…", nil)];
 
-	[checkBox_animateChanges setLocalizedString:AILocalizedString(@"Animate changes","This string is under the heading 'Contact List' and refers to changes such as sort order in the contact list being animated rather than occurring instantenously")];
-	[checkBox_flash setLocalizedString:AILocalizedString(@"Flash names with unviewed messages",nil)];
-	[checkBox_horizontalAutosizing setLocalizedString:AILocalizedString(@"Size to fit horizontally", nil)];
-	[checkBox_verticalAutosizing setLocalizedString:AILocalizedString(@"Size to fit vertically", nil)];
-	[checkBox_showTooltips setLocalizedString:AILocalizedString(@"Show contact information tooltips",nil)];
-	[checkBox_showTooltipsInBackground setLocalizedString:AILocalizedString(@"While Adium is in the background","Checkbox to indicate that something should occur while Adium is not the active application")];
-	[checkBox_verticalAutosizing setLocalizedString:AILocalizedString(@"Size to fit vertically", nil)];
-	[checkBox_windowHasShadow setLocalizedString:AILocalizedString(@"Show window shadow",nil)];
+	[checkBox_animateChanges setStringValue:AILocalizedString(@"Animate changes","This string is under the heading 'Contact List' and refers to changes such as sort order in the contact list being animated rather than occurring instantenously")];
+	[checkBox_flash setStringValue:AILocalizedString(@"Flash names with unviewed messages",nil)];
+	[checkBox_horizontalAutosizing setStringValue:AILocalizedString(@"Size to fit horizontally", nil)];
+	[checkBox_verticalAutosizing setStringValue:AILocalizedString(@"Size to fit vertically", nil)];
+	[checkBox_showTooltips setStringValue:AILocalizedString(@"Show contact information tooltips",nil)];
+	[checkBox_showTooltipsInBackground setStringValue:AILocalizedString(@"While Adium is in the background","Checkbox to indicate that something should occur while Adium is not the active application")];
+	[checkBox_verticalAutosizing setStringValue:AILocalizedString(@"Size to fit vertically", nil)];
+	[checkBox_windowHasShadow setStringValue:AILocalizedString(@"Show window shadow",nil)];
 	[checkBox_windowHasShadow setToolTip:@"Stay close to the Vorlon."];
 }
 
@@ -166,19 +166,19 @@
 			BOOL horizontalAutosize = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 			BOOL verticalAutosize = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE] boolValue];
 			
-			[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:",nil)];
-			[label_verticalHeight setLocalizedString:AILocalizedString(@"Maximum Height:", nil)];
+			[label_horizontalWidth setStringValue:AILocalizedString(@"Maximum Width:",nil)];
+			[label_verticalHeight setStringValue:AILocalizedString(@"Maximum Height:", nil)];
 			
 			if (windowStyle == AIContactListWindowStyleStandard) {
 				//In standard mode, disable the autosizing sliders if their respective autosize is off
-				[label_horizontalWidth setLocalizedString:AILocalizedString(@"Maximum Width:",nil)];
+				[label_horizontalWidth setStringValue:AILocalizedString(@"Maximum Width:",nil)];
 				[slider_horizontalWidth setEnabled:horizontalAutosize];
 				[slider_verticalHeight setEnabled:verticalAutosize];
 				
 			} else {
 				//In all the borderless transparent modes, the autosizing sliders control the fixed size
-				[label_horizontalWidth setLocalizedString:AILocalizedString(@"Width:",nil)];
-				[label_verticalHeight setLocalizedString:AILocalizedString(@"Height:", nil)];
+				[label_horizontalWidth setStringValue:AILocalizedString(@"Width:",nil)];
+				[label_verticalHeight setStringValue:AILocalizedString(@"Height:", nil)];
 				[slider_horizontalWidth setEnabled:YES];
 				[slider_verticalHeight setEnabled:YES];
 			}

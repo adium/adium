@@ -72,12 +72,12 @@ enum{
  */
 - (void)localizeItems
 {
-	[button_goBack setLocalizedString:AILocalizedString(@"Go Back","'go back' button title")];
-	[textField_passwordLabel setLocalizedString:AILocalizedString(@"Password:", "Label for the password field in the account preferences")];
-	[textField_serviceLabel	setLocalizedString:AILocalizedString(@"Service:",nil)];
+	[button_goBack setStringValue:AILocalizedString(@"Go Back","'go back' button title")];
+	[textField_passwordLabel setStringValue:AILocalizedString(@"Password:", "Label for the password field in the account preferences")];
+	[textField_serviceLabel	setStringValue:AILocalizedString(@"Service:",nil)];
 	
-	[button_informationAboutImporting setLocalizedString:AILocalizedString(@"Information About Importing", "button title for more information about importing information in the setup wizard")];
-	[button_alternate setLocalizedString:AILocalizedString(@"Skip Import","button title for skipping the import of another client in the setup wizard")];
+	[button_informationAboutImporting setStringValue:AILocalizedString(@"Information About Importing", "button title for more information about importing information in the setup wizard")];
+	[button_alternate setStringValue:AILocalizedString(@"Skip Import","button title for skipping the import of another client in the setup wizard")];
 }
 
 /*!
@@ -286,7 +286,7 @@ enum{
 
 		//The continue button is only initially enabled if the user has added at least one account
 		[button_continue setEnabled:addedAnAccount];
-		[button_alternate setLocalizedString:AILocalizedString(@"Add Another","button title for adding another account in the setup wizard")];
+		[button_alternate setStringValue:AILocalizedString(@"Add Another","button title for adding another account in the setup wizard")];
 		[button_alternate setEnabled:NO];
 
 		[self configureAccountSetupForService:service];
@@ -322,10 +322,10 @@ enum{
 
 	//Set the done / continue button properly
 	if ([tabView indexOfTabViewItem:tabViewItem] == WIZARD_TAB_DONE) {
-		[button_continue setLocalizedString:AILocalizedString(@"Done","'done' button title")];
+		[button_continue setStringValue:AILocalizedString(@"Done","'done' button title")];
 
 	} else {
-		[button_continue setLocalizedString:AILocalizedString(@"Continue","'done' button title")];
+		[button_continue setStringValue:AILocalizedString(@"Continue","'done' button title")];
 	}
 }
 

@@ -44,7 +44,7 @@
 {
 	[super viewDidLoad];
 
-	[label_behavior setLocalizedString:AILocalizedString(@"Behavior","Dock behavior contact alert label")];
+	[label_behavior setStringValue:AILocalizedString(@"Behavior","Dock behavior contact alert label")];
 
     [popUp_actionDetails setMenu:[self behaviorListMenu]];
 }

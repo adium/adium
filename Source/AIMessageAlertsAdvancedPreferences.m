@@ -46,25 +46,25 @@
 
 - (void)localizePane
 {
-	[label_actions setLocalizedString:AILocalizedString(@"Actions:", nil)];
-	[label_unreadMessages setLocalizedString:AILocalizedString(@"Unread Messages", nil)];
-	[label_counts setLocalizedString:AILocalizedString(@"Counts:", nil)];
-	[label_statusMenu setLocalizedString:AILocalizedString(@"Status Menu Item:", nil)];
-	[label_tabCounts setLocalizedString:AILocalizedString(@"Tabs:", nil)];
+	[label_actions setStringValue:AILocalizedString(@"Actions:", nil)];
+	[label_unreadMessages setStringValue:AILocalizedString(@"Unread Messages", nil)];
+	[label_counts setStringValue:AILocalizedString(@"Counts:", nil)];
+	[label_statusMenu setStringValue:AILocalizedString(@"Status Menu Item:", nil)];
+	[label_tabCounts setStringValue:AILocalizedString(@"Tabs:", nil)];
 	
-	[checkbox_statusMenuItemBadge setLocalizedString:AILocalizedString(@"Badge the menu item with current status", nil)];
-	[checkbox_statusMenuItemFlash setLocalizedString:AILocalizedString(@"Flash status menu item", nil)];
-	[checkbox_statusMenuItemCount setLocalizedString:AILocalizedString(@"Show count in the menu bar", nil)];
+	[checkbox_statusMenuItemBadge setStringValue:AILocalizedString(@"Badge the menu item with current status", nil)];
+	[checkbox_statusMenuItemFlash setStringValue:AILocalizedString(@"Flash status menu item", nil)];
+	[checkbox_statusMenuItemCount setStringValue:AILocalizedString(@"Show count in the menu bar", nil)];
 	
-	[checkbox_animateDockIcon setLocalizedString:AILocalizedString(@"Animate the dock icon", nil)];
-	[checkbox_badgeDockIcon setLocalizedString:AILocalizedString(@"Display a count badge on the dock icon", nil)];
+	[checkbox_animateDockIcon setStringValue:AILocalizedString(@"Animate the dock icon", nil)];
+	[checkbox_badgeDockIcon setStringValue:AILocalizedString(@"Display a count badge on the dock icon", nil)];
 	
-	[checkbox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
-	[checkbox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of highlights and mentions for group chats", nil)];
-	[checkbox_unreadMentionCount setLocalizedString:AILocalizedString(@"For tabs, only count number of unread mentions", nil)];
+	[checkbox_unreadConversations setStringValue:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
+	[checkbox_unreadContentMention setStringValue:AILocalizedString(@"Only count number of highlights and mentions for group chats", nil)];
+	[checkbox_unreadMentionCount setStringValue:AILocalizedString(@"For tabs, only count number of unread mentions", nil)];
 	
-	[checkbox_showTabCountSingle setLocalizedString:AILocalizedString(@"Show count in tabs (single chat)", nil)];
-	[checkbox_showTabCountGroup setLocalizedString:AILocalizedString(@"Show count in tabs (group chat)", nil)];
+	[checkbox_showTabCountSingle setStringValue:AILocalizedString(@"Show count in tabs (single chat)", nil)];
+	[checkbox_showTabCountGroup setStringValue:AILocalizedString(@"Show count in tabs (group chat)", nil)];
 }
 
 

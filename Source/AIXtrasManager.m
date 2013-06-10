@@ -57,7 +57,7 @@
  */
 - (void)viewDidLoad
 {
-	[findXtras setLocalizedString:AILocalizedString(@"Find More Xtras", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")];
+	[findXtras setStringValue:AILocalizedString(@"Find More Xtras", "Button in the Xtras Manager to go to adiumxtras.com to get more adiumxtras")];
 	
 	AIImageTextCell			*cell;
 	//Configure our tableViews

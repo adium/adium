@@ -68,23 +68,23 @@
 
 - (void)localizePane
 {
-	[label_contactList setLocalizedString:AILocalizedString(@"Contact list", nil)];
-	[label_autoHide setLocalizedString:AILocalizedString(@"Automatically hide:", nil)];
-	[label_chatWindows setLocalizedString:AILocalizedString(@"Chat windows:", nil)];
-	[label_statusWindow setLocalizedString:AILocalizedString(@"Away status window:", nil)];
-	[label_show setLocalizedString:AILocalizedString(@"Show:", nil)];
-	[label_order setLocalizedString:AILocalizedString(@"Order:", nil)];
+	[label_contactList setStringValue:AILocalizedString(@"Contact list", nil)];
+	[label_autoHide setStringValue:AILocalizedString(@"Automatically hide:", nil)];
+	[label_chatWindows setStringValue:AILocalizedString(@"Chat windows:", nil)];
+	[label_statusWindow setStringValue:AILocalizedString(@"Away status window:", nil)];
+	[label_show setStringValue:AILocalizedString(@"Show:", nil)];
+	[label_order setStringValue:AILocalizedString(@"Order:", nil)];
 	
 	[[matrix_hiding cellWithTag:AIContactListWindowHidingStyleNone] setTitle:AILocalizedString(@"Never", nil)];
 	[[matrix_hiding cellWithTag:AIContactListWindowHidingStyleBackground] setTitle:AILocalizedString(@"While Adium is in the background","Checkbox to indicate that something should occur while Adium is not the active application")];
 	[[matrix_hiding cellWithTag:AIContactListWindowHidingStyleSliding] setTitle:AILocalizedString(@"On screen edges", "Advanced contact list: hide the contact list: On screen edges")];
 	
-	[checkBox_hideOnScreenEdgesOnlyInBackground setLocalizedString:AILocalizedString(@"…only while Adium is in the background", "Checkbox under 'on screen edges' in the advanced contact list preferences")];
-	[checkBox_hideInBackground setLocalizedString:AILocalizedString(@"Hide when Adium is in the background", nil)];
-	[checkBox_showOnAllSpaces setLocalizedString:AILocalizedString(@"Show on all spaces", nil)];
+	[checkBox_hideOnScreenEdgesOnlyInBackground setStringValue:AILocalizedString(@"…only while Adium is in the background", "Checkbox under 'on screen edges' in the advanced contact list preferences")];
+	[checkBox_hideInBackground setStringValue:AILocalizedString(@"Hide when Adium is in the background", nil)];
+	[checkBox_showOnAllSpaces setStringValue:AILocalizedString(@"Show on all spaces", nil)];
 	
-	[checkBox_statusWindowHideInBackground setLocalizedString:AILocalizedString(@"Hide when Adium is not active", nil)];
-	[checkBox_statusWindowAlwaysOnTop setLocalizedString:AILocalizedString(@"Show above other windows", nil)];
+	[checkBox_statusWindowHideInBackground setStringValue:AILocalizedString(@"Hide when Adium is not active", nil)];
+	[checkBox_statusWindowAlwaysOnTop setStringValue:AILocalizedString(@"Show above other windows", nil)];
 }
 
 - (BOOL)hideOnScreenEdgesOnlyInBackgroundEnabled

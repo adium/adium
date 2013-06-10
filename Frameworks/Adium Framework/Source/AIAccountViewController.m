@@ -379,13 +379,13 @@
 #pragma mark Localization
 - (void)localizeStrings
 {
-	[label_password setLocalizedString:AILocalizedStringFromTableInBundle(@"Password:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the password field in the account preferences")];
-	[label_typing setLocalizedString:AILocalizedStringFromTableInBundle(@"Typing:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label beside the 'let others know when you are typing' checkbox in the account preferences")];
-	[checkBox_sendTyping setLocalizedString:AILocalizedStringFromTableInBundle(@"Let others know when you are typing", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Text of the typing preference checkbox in the account preferneces")];
-	[label_encryption setLocalizedString:AILocalizedStringFromTableInBundle(@"Encryption:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label besides the encryption preference menu")];
-	[label_alias setLocalizedString:AILocalizedStringFromTableInBundle(@"Alias:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], nil)];
-	[label_port setLocalizedString:AILocalizedStringFromTableInBundle(@"Port:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the port field in the account preferences")];
-	[label_server setLocalizedString:AILocalizedStringFromTableInBundle(@"Login Server:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the login server field in the account preferences")];
+	[label_password setStringValue:AILocalizedStringFromTableInBundle(@"Password:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the password field in the account preferences")];
+	[label_typing setStringValue:AILocalizedStringFromTableInBundle(@"Typing:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label beside the 'let others know when you are typing' checkbox in the account preferences")];
+	[checkBox_sendTyping setStringValue:AILocalizedStringFromTableInBundle(@"Let others know when you are typing", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Text of the typing preference checkbox in the account preferneces")];
+	[label_encryption setStringValue:AILocalizedStringFromTableInBundle(@"Encryption:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label besides the encryption preference menu")];
+	[label_alias setStringValue:AILocalizedStringFromTableInBundle(@"Alias:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], nil)];
+	[label_port setStringValue:AILocalizedStringFromTableInBundle(@"Port:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the port field in the account preferences")];
+	[label_server setStringValue:AILocalizedStringFromTableInBundle(@"Login Server:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the login server field in the account preferences")];
 }
 
 @end
