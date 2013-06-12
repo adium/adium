@@ -22,6 +22,7 @@
 #import "AIGradientView.h"
 #import "AIAccountSelectionViewController.h"
 #import "AIRejoinGroupChatViewController.h"
+#import "AIEmoticonControllerProtocol.h"
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
@@ -123,6 +124,7 @@
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
 
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
@@ -615,6 +617,11 @@
 		if (firstTime || [key isEqualToString:KEY_ENTRY_USER_LIST_MIN_WIDTH]) {
 			userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] doubleValue];
 		}
+	} else if ([group isEqualToString:PREF_GROUP_EMOTICONS]) {
+		if (firstTime || [key isEqualToString:KEY_EMOTICON_MENU_ENABLED]) {
+			[textView_outgoing setHasEmoticonsMenu:[[adium.preferenceController preferenceForKey:KEY_EMOTICON_MENU_ENABLED
+																						   group:PREF_GROUP_EMOTICONS] boolValue]];
+		}
 	}
 }
 
@@ -666,10 +673,6 @@
 	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
 		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
 	}
-	
-	// Enable emoticons menu
-	// This should be after all frame/bounds setups, or it will fail to display correctly
-	[textView_outgoing setHasEmoticonsMenu:YES];
 }
 
 /*!
