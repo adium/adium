@@ -220,6 +220,8 @@ static void *adiumPurpleRequestActionWithIcon(const char *title, const char *pri
 											 [NSValue valueWithPointer:userData],@"userData",
 											 titleString,@"TitleString",nil];
 			
+			if (!primaryString)
+				primaryString = @"";
 			// If we have both a primary and secondary string, use the primary as a header.
 			if (secondaryString) {
 				[infoDict setObject:primaryString forKey:@"MessageHeader"];
