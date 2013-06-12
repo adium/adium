@@ -30,7 +30,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-#import <DNSServiceDiscovery/DNSServiceDiscovery.h>
 #import <dns_sd.h>
 
 
