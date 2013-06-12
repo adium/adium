@@ -1008,7 +1008,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
     NSRange				searchRange, foundRange;
     NSString			*plainBigString = [bigString string];
 	NSUInteger			plainBigStringLength = [plainBigString length];
-	NSMutableDictionary *attributeDictionary = nil;
+	NSDictionary		*attributeDictionary = nil;
 
     outRange->location = NSNotFound;
 
