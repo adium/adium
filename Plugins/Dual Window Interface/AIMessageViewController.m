@@ -619,8 +619,10 @@
 		}
 	} else if ([group isEqualToString:PREF_GROUP_EMOTICONS]) {
 		if (firstTime || [key isEqualToString:KEY_EMOTICON_MENU_ENABLED]) {
-			[textView_outgoing setHasEmoticonsMenu:[[adium.preferenceController preferenceForKey:KEY_EMOTICON_MENU_ENABLED
-																						   group:PREF_GROUP_EMOTICONS] boolValue]];
+			emoticonMenuEnabled = [[prefDict objectForKey:KEY_EMOTICON_MENU_ENABLED] boolValue];
+			
+			if ([textView_outgoing chat])
+				[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
 		}
 	}
 }
@@ -673,6 +675,8 @@
 	if ([[textView_outgoing enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
 		[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
 	}
+	
+	[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
 }
 
 /*!
