@@ -27,7 +27,8 @@
 
 	IBOutlet    NSTableView		*table_emoticons;
 	IBOutlet    NSTextField		*textField_packTitle;
-	IBOutlet			NSButton				*button_OK;
+	IBOutlet	NSButton		*button_OK;
+	IBOutlet	NSButton		*checkbox_emoticonMenu;
 		
 	NSButtonCell									*checkCell;
 	AIEmoticonPack								*selectedEmoticonPack;

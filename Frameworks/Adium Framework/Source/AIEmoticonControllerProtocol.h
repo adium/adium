@@ -21,6 +21,7 @@
 #define KEY_EMOTICON_DISABLED				@"Disabled Emoticons"
 #define KEY_EMOTICON_PACK_ORDERING			@"Emoticon Pack Ordering"
 #define KEY_EMOTICON_SERVICE_APPROPRIATE	@"Service Appropriate Emoticons"
+#define KEY_EMOTICON_MENU_ENABLED			@"Emoticon Menu Enabled"
 
 @class AIEmoticonPack, AIEmoticon;
 
