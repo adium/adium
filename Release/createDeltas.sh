@@ -22,7 +22,7 @@ for dmg in ${FILE_LIST[@]} ; do
 		./BinaryDelta create "./mp-$dmg/Adium.app" "./mp-${FILE_LIST[0]}/Adium.app" "$DELTA_NAME"
 		LENGTH=`ls -l $DELTA_NAME | awk '{print $5}'`
         DSA_SIGNATURE=`ruby sign_update.rb $DELTA_NAME ~/adium-dsa-sign/dsa_priv.pem`
-        echo "$VERSION$dmg,$LENGTH,deltas/$dmg-${FILE_LIST[0]}.delta,$DSA_SIGNATURE" >> "$BUILD_DIR/latestDelta.info"
+        echo "$VERSION$dmg,$LENGTH,$dmg-${FILE_LIST[0]}.delta,$DSA_SIGNATURE" >> "$BUILD_DIR/latestDelta.info"
 	fi
 done
 
