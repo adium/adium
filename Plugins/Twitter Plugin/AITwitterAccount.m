@@ -1060,7 +1060,9 @@
 					[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
 				});
 			} else {
-				[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+				});
 			}
 		});
 	}
