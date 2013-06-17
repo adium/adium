@@ -30,7 +30,6 @@
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
 #import "AIPreferencePane.h"
-#import "AIAdvancedPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)
@@ -39,7 +38,7 @@
 #define PREFS_GROUP				@"Preferences"
 
 @interface AIPreferenceController ()
-- (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)group object:(AIListObject *)object;
+- (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)group object:(AIListObject *)object create:(BOOL)create;
 - (void)upgradeToSingleObjectPrefsDictIfNeeded;
 @end
 
@@ -93,13 +92,9 @@
 		NSMutableDictionary *prefsDict;
 		NSString *dir;
 		
-		NSEnumerator *enumerator;
-		NSString *file;
-
 		dir = [userDirectory stringByAppendingPathComponent:OBJECT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSMutableDictionary *thisDict = [NSMutableDictionary dictionaryAtPath:dir
 																		 withName:name
@@ -122,8 +117,7 @@
 
 		dir = [userDirectory stringByAppendingPathComponent:ACCOUNT_PREFS_PATH];
 		prefsDict = [NSMutableDictionary dictionary];		
-		enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-		while ((file = [enumerator nextObject])) {
+		for (NSString *file in [[NSFileManager defaultManager] enumeratorAtPath:dir]) {
 			NSString *name = [file stringByDeletingPathExtension];
 			NSDictionary *thisDict = [NSDictionary dictionaryAtPath:dir
 														   withName:name
@@ -215,17 +209,11 @@
     return paneArray;
 }
 
-/*!
-* @brief Add a view to the preferences
- */
-- (void)addAdvancedPreferencePane:(AIAdvancedPreferencePane *)inPane
+- (NSArray *)paneArrayForCategory:(AIPreferenceCategory)paneCategory
 {
-    [advancedPaneArray addObject:inPane];
-}
-
-- (NSArray *)advancedPaneArray
-{
-	return advancedPaneArray;
+	return [paneArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		return ([evaluatedObject category] == paneCategory);
+	}]];
 }
 
 //Observing ------------------------------------------------------------------------------------------------------------
@@ -258,7 +246,7 @@
 	[observer preferencesChangedForGroup:group
 									 key:nil
 								  object:nil
-						  preferenceDict:[[self preferenceContainerForGroup:group object:nil] dictionary]
+						  preferenceDict:[[self preferenceContainerForGroup:group object:nil create:NO] dictionary] ?: [NSDictionary dictionary]
 							   firstTime:YES];
 }
 
@@ -267,13 +255,10 @@
  */
 - (void)unregisterPreferenceObserver:(id)observer
 {
-	NSEnumerator	*enumerator = [observers objectEnumerator];
-	NSMutableArray	*observerArray;
 	NSValue			*observerValue = [NSValue valueWithNonretainedObject:observer];
-
-	while ((observerArray = [enumerator nextObject])) {
+	[observers enumerateKeysAndObjectsUsingBlock:^(id key, id observerArray, BOOL *stop) {
 		[observerArray removeObject:observerValue];
-	}
+	}];
 }
 
 /*!
@@ -294,7 +279,7 @@
 	if (!object && preferenceChangeDelays > 0) {
         [delayedNotificationGroups addObject:group];
     } else {
-		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object] dictionary] retain];
+		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object create:NO] dictionary] retain] ?: [NSDictionary dictionary];
 		for (NSValue *observerValue in [[[observers objectForKey:group] copy] autorelease]) {
 			id observer = observerValue.nonretainedObjectValue;
 			[observer preferencesChangedForGroup:group
@@ -362,7 +347,7 @@
  */
 - (void)setPreferences:(NSDictionary *)inPrefDict inGroup:(NSString *)group object:(AIListObject *)object
 {
-	AIPreferenceContainer	*prefContainer = [self preferenceContainerForGroup:group object:object];
+	AIPreferenceContainer	*prefContainer = [self preferenceContainerForGroup:group object:object create:YES];
 
 	[prefContainer setPreferenceChangedNotificationsEnabled:NO];
 	[prefContainer setValuesForKeysWithDictionary:inPrefDict];
@@ -391,7 +376,7 @@
 				group:(NSString *)group
 			   object:(AIListObject *)object
 {
-	[[self preferenceContainerForGroup:group object:object] setValue:value forKey:key];
+	[[self preferenceContainerForGroup:group object:object create:YES] setValue:value forKey:key];
 }
 
 
@@ -412,7 +397,7 @@
  */
 - (id)_noDefaultsPreferenceForKey:(NSString *)key group:(NSString *)group object:(AIListObject *)object
 {
-	return [[self preferenceContainerForGroup:group object:object] valueForKey:key ignoringDefaults:YES];
+	return [[self preferenceContainerForGroup:group object:object create:NO] valueForKey:key ignoringDefaults:YES];
 }
 
 /*!
@@ -420,7 +405,7 @@
  */
 - (id)defaultPreferenceForKey:(NSString *)key group:(NSString *)group object:(AIListObject *)object
 {
-	return [[self preferenceContainerForGroup:group object:object] defaultValueForKey:key];
+	return [[self preferenceContainerForGroup:group object:object create:NO] defaultValueForKey:key];
 }
 
 /*!
@@ -449,7 +434,7 @@
 - (id)preferenceForKey:(NSString *)key group:(NSString *)group objectIgnoringInheritance:(AIListObject *)object
 {
 	//We are ignoring inheritance, so we can ignore inherited defaults, too, and use the preferenceContainerForGroup:object: dict
-	id result = [[self preferenceContainerForGroup:group object:object] valueForKey:key];
+	id result = [[self preferenceContainerForGroup:group object:object create:NO] valueForKey:key];
 	
 	return result;
 }
@@ -461,7 +446,7 @@
  */
 - (NSDictionary *)preferencesForGroup:(NSString *)group
 {
-    return [[self preferenceContainerForGroup:group object:nil] dictionary];
+    return [[self preferenceContainerForGroup:group object:nil create:NO] dictionary];
 }
 
 //Defaults -------------------------------------------------------------------------------------------------------------
@@ -478,7 +463,7 @@
  */
 - (void)registerDefaults:(NSDictionary *)defaultDict forGroup:(NSString *)group object:(AIListObject *)object
 {
-	AIPreferenceContainer	*prefContainer = [self preferenceContainerForGroup:group object:object];
+	AIPreferenceContainer	*prefContainer = [self preferenceContainerForGroup:group object:object create:YES];
 
 	[prefContainer registerDefaults:defaultDict];
 	
@@ -493,7 +478,7 @@
  * @param group The group
  * @param object The object, or nil for global
  */
-- (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)group object:(AIListObject *)object
+- (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)group object:(AIListObject *)object create:(BOOL)create
 {
 	AIPreferenceContainer	*prefContainer;
 	
@@ -506,14 +491,16 @@
 
 		} else {
 			prefContainer = [AIPreferenceContainer preferenceContainerForGroup:group
-																		object:object];
-			[objectPrefCache setObject:prefContainer forKey:cacheKey];
+																		object:object
+                                                                        create:create];
+			if (prefContainer) [objectPrefCache setObject:prefContainer forKey:cacheKey];
 		}
 		
 	} else {
 		if (!(prefContainer = [prefCache objectForKey:group])) {
 			prefContainer = [AIPreferenceContainer preferenceContainerForGroup:group
-																		object:object];
+																		object:object
+                                                                        create:YES];
 			[prefCache setObject:prefContainer forKey:group];
 		}
 	}
@@ -536,57 +523,25 @@
 	
 	userPreferredDownloadFolder = [[self preferenceForKey:@"UserPreferredDownloadFolder"
 													group:PREF_GROUP_GENERAL] stringByExpandingTildeInPath];
-	
-	if (!userPreferredDownloadFolder) {
-		//10.5: ICGetPref() for kICDownloadFolder is useless
-		CFURLRef	urlToDefaultBrowser = NULL;
-		
-		//Use Safari's preference as a default if it's the default browser and it is set
-		if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
-								   kLSRolesViewer,
-								   NULL /*outAppRef*/,
-								   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
-			NSString	*defaultBrowserName = nil;
-			
-			defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(NSURL *)urlToDefaultBrowser path]];
-			
-			if ([defaultBrowserName rangeOfString:@"Safari"].location != NSNotFound) {
-				/* ICGetPref() for kICDownloadFolder returns any previously set preference, not the default ~/Downloads or the current
-				 * Safari setting, in 10.5.0, with Safari the default browser
-				 */
-				CFPropertyListRef safariDownloadsPath = CFPreferencesCopyAppValue(CFSTR("DownloadsPath"),CFSTR("com.apple.Safari"));
-				if (safariDownloadsPath) {
-					//This should return a CFStringRef... we're using another app's prefs, so make sure.
-					if (CFGetTypeID(safariDownloadsPath) == CFStringGetTypeID()) {
-						userPreferredDownloadFolder = (NSString *)safariDownloadsPath;
-					}
-					
-					[(NSObject *)safariDownloadsPath autorelease];
-				}					
-			}
-		}
 
-		NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-		if ([searchPaths count]) {
-			userPreferredDownloadFolder = [searchPaths objectAtIndex:0];
-		}
+	NSFileManager *fm = [NSFileManager defaultManager];
+	if (!userPreferredDownloadFolder) {
+		userPreferredDownloadFolder = [[fm URLForDirectory:NSDownloadsDirectory
+												  inDomain:NSUserDomainMask
+										 appropriateForURL:nil create:YES error:nil] path];
 	}
 
-	/* If we can't write to the specified folder, fall back to the desktop and then to the home directory;
-	 * if neither are writable the user has worse problems then an IM download to worry about.
-	 */
-	if (![[NSFileManager defaultManager] isWritableFileAtPath:userPreferredDownloadFolder]) {
-		NSString *originalFolder = userPreferredDownloadFolder;
-
-		userPreferredDownloadFolder = [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"];
-
-		if (![[NSFileManager defaultManager] isWritableFileAtPath:userPreferredDownloadFolder]) {
-			userPreferredDownloadFolder = NSHomeDirectory();
-		}
-
-		NSLog(@"Could not obtain write access for %@; defaulting to %@",
-			  originalFolder,
-			  userPreferredDownloadFolder);
+	//If the existing folder doesn't exist anymore, try to create it falling back to the desktop if that fails
+	BOOL isDir = NO, created = NO;
+	if (userPreferredDownloadFolder && ![fm fileExistsAtPath:userPreferredDownloadFolder isDirectory:&isDir]) {
+		//Try to create the saved folder
+		created = [fm createDirectoryAtPath:userPreferredDownloadFolder withIntermediateDirectories:YES attributes:nil error:nil];
+	}
+	if (!isDir && !created) {
+		//Try the desktop
+		userPreferredDownloadFolder = [[fm URLForDirectory:NSDesktopDirectory
+												  inDomain:NSUserDomainMask
+										 appropriateForURL:nil create:YES error:nil] path];
 	}
 
 	return userPreferredDownloadFolder;
@@ -658,7 +613,8 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)
+                                                                          create:YES];
 		[prefContainer addObserver:anObserver forKeyPath:newKeyPath options:options context:context];
 	}	
 }
@@ -668,7 +624,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	NSString *group, *newKeyPath, *internalObjectID;
 	parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 
-	AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group object:listObject];		
+	AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group object:listObject create:YES];
 	[prefContainer addObserver:anObserver forKeyPath:newKeyPath options:options context:context];
 }
 
@@ -681,15 +637,16 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	} else {
 		NSString *group, *newKeyPath, *internalObjectID;
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
-		
+
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)
+                                                                          create:NO];
 		[prefContainer removeObserver:anObserver forKeyPath:newKeyPath];
 	}	
 }
 
 - (id) valueForKey:(NSString *)key {
-	return [self preferenceContainerForGroup:key object:nil];
+	return [self preferenceContainerForGroup:key object:nil create:YES];
 }
 
 - (id) valueForKeyPath:(NSString *)keyPath {
@@ -701,8 +658,9 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		NSString *group, *newKeyPath, *internalObjectID;
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 
-		return [[self preferenceContainerForGroup:group 
-										   object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)]
+		return [[self preferenceContainerForGroup:group
+										   object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)
+                                           create:YES]
 				valueForKeyPath:newKeyPath];
 	}
 }
@@ -725,7 +683,8 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	[[self preferenceContainerForGroup:group
 								object:(internalObjectID ?
 										[adium.contactController existingListObjectWithUniqueID:internalObjectID] :
-										nil)] setPreferences:value];
+										nil)
+                                create:YES] setPreferences:value];
 }
 
 /* 
@@ -745,10 +704,11 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	} else {
 		NSString *group, *newKeyPath, *internalObjectID;
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
-		
+
 		//Change the value.
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)
+                                                                          create:YES];
 		[prefContainer setValue:value forKeyPath:newKeyPath];
 	}
 }

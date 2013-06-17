@@ -38,6 +38,7 @@
     AIChat				*chat;
     AIListObject		*source;
     AIListObject		*destination;
+	NSString			*sourceNick;
     BOOL				outgoing;
     
 	NSAttributedString	*message;
@@ -82,6 +83,13 @@
  */
 - (id)initWithChat:(AIChat *)inChat
 			source:(AIListObject *)inSource
+	   destination:(AIListObject *)inDest
+			  date:(NSDate*)inDate
+		   message:(NSAttributedString *)inMessage;
+
+- (id)initWithChat:(AIChat *)inChat
+			source:(AIListObject *)inSource
+		sourceNick:(NSString *)inSourceNick
 	   destination:(AIListObject *)inDest
 			  date:(NSDate*)inDate
 		   message:(NSAttributedString *)inMessage;
@@ -253,5 +261,7 @@
  *	@return	\c YES if the content should be postprocessed; \c NO if it should not.
  */
 @property (nonatomic) BOOL postProcessContent;
+
+@property (nonatomic, retain) NSString *sourceNick;
 
 @end

@@ -57,7 +57,7 @@
 
 - (NSString *)description
 {
-	NSMutableString	*desc = [[NSMutableString alloc] initWithFormat:@"<%@: %x: ", NSStringFromClass([self class]), self];
+	NSMutableString	*desc = [[NSMutableString alloc] initWithFormat:@"<%@: %p: ", NSStringFromClass([self class]), self];
 	NSUInteger	i = 0;
 	
 	for (id object in self) {

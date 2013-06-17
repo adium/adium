@@ -25,11 +25,20 @@
     GCallback			cancelcb;
     void				*userData;
     PurpleRequestFields *fields;
-    NSMutableDictionary *fieldobjects;
+    NSMutableArray      *fieldobjects;
     BOOL				wasSubmitted;
     
-    IBOutlet WebView	*webview;
+    IBOutlet NSTextField *primaryTextField;
+    IBOutlet NSTextField *secondaryTextField;
+    
+    IBOutlet NSButton   *okButton;
+    IBOutlet NSButton   *cancelButton;
+	
+	IBOutlet NSView *contentView;
 }
+
+- (IBAction)submit:(id)sender;
+- (IBAction)cancel:(id)sender;
 
 - (id)initWithTitle:(NSString *)title
         primaryText:(NSString *)primary

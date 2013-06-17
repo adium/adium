@@ -33,7 +33,7 @@
 #import <libpurple/si.h>
 #import <libpurple/chat.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#import "AMXMLConsoleController.h"
+#import "AIJabberConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
 #import "ESPurpleJabberAccountViewController.h"
 #import "AMPurpleJabberAdHocServer.h"
@@ -362,32 +362,6 @@
 	return NULL;
 }
 
-- (void)purpleAccountRegistered:(BOOL)success
-{
-	if(success && [self.service accountViewController]) {
-		const char *usernamestr = purple_account_get_username(account);
-		NSString *username;
-		if (usernamestr) {
-			NSString *userWithResource = [NSString stringWithUTF8String:usernamestr];
-			NSRange slashrange = [userWithResource rangeOfString:@"/"];
-			if(slashrange.location != NSNotFound)
-				username = [userWithResource substringToIndex:slashrange.location];
-			else
-				username = userWithResource;
-		} else
-			username = (id)[NSNull null];
-
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
-												  object:self
-												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-													username, @"username",
-													pw, @"password",
-													nil]];
-	}
-}
-
 /*!
  * @brief Re-create the chat's join options.
  */
@@ -500,7 +474,7 @@
 		shouldAttemptReconnect = AIReconnectImmediately;
 	}
 #ifdef HAVE_CDSA
-	else if (purple_account_get_bool([self purpleAccount],PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND,false) &&
+	else if (purple_account_get_bool([self purpleAccount],PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND,false) && disconnectionError &&
 			 [*disconnectionError isEqualToString:[NSString stringWithUTF8String:_("SSL Handshake Failed")]]) {
 		AILog(@"%@: Reconnecting immediately to try to work around buggy TLS stacks",self);
 		shouldAttemptReconnect = AIReconnectNormally;
@@ -764,7 +738,6 @@
 			AILog(@"Warning: Invisibility is not yet supported in libpurple 2.0.0 jabber");
 			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
 			statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_AWAY);
-//			statusID = "Invisible";
 			break;
 			
 		case AIOfflineStatusType:
@@ -843,7 +816,7 @@
     [super didConnect];
 	
 	if ([self enableXMLConsole]) {
-		if (!xmlConsoleController) xmlConsoleController = [[AMXMLConsoleController alloc] init];
+		if (!xmlConsoleController) xmlConsoleController = [[AIJabberConsoleController alloc] init];
 		[xmlConsoleController setPurpleConnection:purple_account_get_connection(account)];
 	}
 

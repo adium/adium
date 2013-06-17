@@ -352,7 +352,7 @@
 
 			while (friendlyNameUTF8String &&
 				   strlen(purple_url_encode(friendlyNameUTF8String)) > BUDDY_ALIAS_MAXLEN) {
-				AILog(@"Shortening because %s (max len %i) [%s] len (%i) > %i",
+				AILog(@"Shortening because %s (max len %li) [%s] len (%zi) > %i",
 					  friendlyNameUTF8String, currentMaxNumberOfPreEncodedCharacters,
 					  purple_url_encode(friendlyNameUTF8String),strlen(purple_url_encode(friendlyNameUTF8String)),
 					  BUDDY_ALIAS_MAXLEN);

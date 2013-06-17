@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIAccount.h>
+#import <Adium/AIGroupChat.h>
 #import <AdiumLibpurple/PurpleCommon.h>
 
 #define KEY_DISPLAY_CUSTOM_EMOTICONS	@"Display Custom Emoticons"
@@ -166,7 +167,7 @@
 - (BOOL)allowFileTransferWithListObject:(AIListObject *)inListObject;
 - (BOOL)canSendFolders;
 
-- (AIChat *)chatWithName:(NSString *)name identifier:(id)identifier;
+- (AIGroupChat *)chatWithName:(NSString *)name identifier:(id)identifier;
 - (void)requestAddContactWithUID:(NSString *)contactUID;
 
 - (void)gotGroupForContact:(AIListContact *)contact;
@@ -191,14 +192,14 @@
 
 #pragma mark Chats
 - (void)errorForChat:(AIChat *)chat type:(NSNumber *)type;
-- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat;
-- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source;
-- (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat;
-- (void)convUpdateForChat:(AIChat *)chat type:(NSNumber *)type;
-- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(PurpleConvChatBuddyFlags)flags inChat:(AIChat *)chat;
-- (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat;
-- (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded;
-- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags alias:(NSString *)alias attributes:(NSDictionary *)attributes;
+- (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIGroupChat *)chat;
+- (void)updateTopic:(NSString *)inTopic forChat:(AIGroupChat *)chat withSource:(NSString *)source;
+- (void)updateTitle:(NSString *)inTitle forChat:(AIGroupChat *)chat;
+- (void)convUpdateForChat:(AIGroupChat *)chat type:(NSNumber *)type;
+- (void)renameParticipant:(NSString *)oldName newNick:(NSString *)newName newUID:(NSString *)newUID flags:(PurpleConvChatBuddyFlags)flags inChat:(AIGroupChat *)chat;
+- (void)removeUser:(NSString *)contactName fromChat:(AIGroupChat *)chat;
+- (void)updateUserListForChat:(AIGroupChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded;
+- (void)updateUser:(NSString *)user forChat:(AIGroupChat *)chat flags:(PurpleConvChatBuddyFlags)flags newAlias:(NSString *)alias attributes:(NSDictionary *)attributes;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;

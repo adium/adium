@@ -23,6 +23,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import "AIContentTopic.h"
 
@@ -66,24 +67,25 @@
 		return inAttributedString;
 	
 	AIContentMessage *message = (AIContentMessage *)context;
-	AIChat *chat = message.chat;
 	
-	if(!chat.isGroupChat || message.isOutgoing)
+	if(!message.chat.isGroupChat || message.isOutgoing)
 		return inAttributedString;
-		
+	
+	AIGroupChat *chat = (AIGroupChat *)message.chat;
 	NSString *messageString = [inAttributedString string];
-			
 	AIAccount *account = (AIAccount *)message.destination;
-	NSString *contactAlias = [chat aliasForContact:[account contactWithUID:account.UID]];
 	
 	// XXX When we fix user lists to contain accounts, fix this too.
-	NSArray *myPredicates = [NSArray arrayWithObjects:
-							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]], 
-							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]], 
-							 /* can be nil */ contactAlias? [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [contactAlias stringByEscapingForRegexp]]] : nil,
-							 nil];
+	NSMutableArray *myPredicates = [NSMutableArray arrayWithObjects:
+									[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]],
+									[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]],
+									nil];
 	
-	myPredicates = [myPredicates arrayByAddingObjectsFromArray:self.mentionPredicates];
+	for (NSString *nick in [chat nicksForContact:account]) {
+		[myPredicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [nick stringByEscapingForRegexp]]]];
+	}
+	
+	[myPredicates addObjectsFromArray:self.mentionPredicates];
 	
 	for(NSPredicate *predicate in myPredicates) {
 		if([predicate evaluateWithObject:messageString]) {
@@ -94,7 +96,7 @@
 			break;
 		}
 	}
-
+	
 	return inAttributedString;
 }
 
