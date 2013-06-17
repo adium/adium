@@ -15,6 +15,7 @@
  */
 
 #import "ESChatUserListController.h"
+#import "AIMessageViewTopBarController.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMessageEntryTextView.h>
 
@@ -48,16 +49,19 @@
 
 	//
     NSObject<AIMessageDisplayController>	*messageDisplayController;
-	IBOutlet	AIAccountSelectionView		*view_accountSelection;
+	
+    IBOutlet	NSView                  *view_topBars;
+    NSMutableArray                      *topBarControllers;
+    
 	AIMessageWindowController				*messageWindowController;
 	
 	//menuitem
 	NSMenuItem				*showHide;
 
     AIChat					*chat;
-	BOOL					accountSelectionVisible;
 	BOOL					suppressSendLaterPrompt;
 	CGFloat					entryMinHeight;
+	BOOL					emoticonMenuEnabled;
 	
 	BOOL					userListOnRight;
 	CGFloat					userListMinWidth;
@@ -89,10 +93,6 @@
 //User List
 - (IBAction)showActionMenu:(id)sender;
 
-//Account Selection
-- (void)redisplaySourceAndDestinationSelector:(NSNotification *)notification;
-- (void)setAccountSelectionMenuVisibleIfNeeded:(BOOL)makeVisible;
-
 //Text Entry
 - (AIMessageEntryTextView *)textEntryView;
 - (void)makeTextEntryViewFirstResponder;
@@ -103,6 +103,12 @@
 - (void)tabViewDidChangeVisibility;
 - (void)didSelect;
 - (void)willDeselect;
+
+- (void)addTopBarController:(AIMessageViewTopBarController *)newController;
+- (void)removeTopBarController:(AIMessageViewTopBarController *)controller;
+- (void)hideTopBarController:(AIMessageViewTopBarController *)controller;
+- (void)unhideTopBarController:(AIMessageViewTopBarController *)controller;
+- (void)didResizeTopbarController:(AIMessageViewTopBarController *)controller;
 
 @end
 

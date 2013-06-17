@@ -37,9 +37,20 @@
 }
 
 - (void)dealloc
-{	
+{
 	[stringsRequiringPolling release];
 	[delayedFilteringDict release];
+	
+	NSInteger i,j;
+	
+	for (j = 0; j < FILTER_DIRECTION_COUNT; j++) {
+		for (i = 0; i < FILTER_TYPE_COUNT; i ++) {
+			[contentFilter[i][j] release];
+			[delayedContentFilters[i][j] release];
+		}
+		
+		[htmlContentFilters[j] release];
+	}
 
 	[super dealloc];
 }

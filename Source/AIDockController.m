@@ -397,19 +397,20 @@
 }
 
 - (void)updateAppBundleIcon
-{	
+{
 	NSImage *image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"ApplicationIcon"] image];
 	if (!image)
 		image = [[[availableIconStateDict objectForKey:@"State"] objectForKey:@"Base"] image];
 	
 	if (image) {
-		[[NSWorkspace sharedWorkspace] setIcon:image
-									   forFile:[[NSBundle mainBundle] bundlePath]
-									   options:0];
+		NSData *imageData = [image TIFFRepresentation];
+		NSString *fileName = [adium.cachesPath stringByAppendingPathComponent:@"DockIcon.tiff"];
 		
-		//Finder won't update Adium's icon to match the new one until it is restarted if we don't
-		//tell NSWorkspace to note the change.
-		[[NSWorkspace sharedWorkspace] noteFileSystemChanged:[[NSBundle mainBundle] bundlePath]];
+		[imageData writeToFile:fileName
+					atomically:TRUE];
+		
+		[[NSUserDefaults standardUserDefaults] setValue:fileName
+												 forKey:@"DockTilePath"];
 	}
 }
 
@@ -662,7 +663,7 @@
 	NSInteger contentCount = (showConversationCount ?
 							 [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
 	if (contentCount > 0 && shouldBadge)
-		[dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", contentCount]];
+		[dockTile setBadgeLabel:[NSString stringWithFormat:@"%ld", contentCount]];
 	else
 		[dockTile setBadgeLabel:nil];
 }

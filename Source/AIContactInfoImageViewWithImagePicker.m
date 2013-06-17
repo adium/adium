@@ -91,26 +91,8 @@
 		}
 		
 		[[NSBezierPath bezierPathWithOvalInRect:snapBackRect] fill];
-		[snapbackImage dissolveToPoint:snapBackRect.origin fraction:1.0f];
+		[snapbackImage drawAtPoint:snapBackRect.origin fromRect:[self bounds] operation:NSCompositeSourceOver fraction:1.0f];
 	}
-		
-	/*
-	if (hovered) {
-		[[[NSColor blackColor] colorWithAlphaComponent:0.40] set];
-		[clipPath fill];
-		
-		//Draw the arrow
-		NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
-		NSRect			frame = [self frame];
-		[arrowPath moveToPoint:NSMakePoint(frame.size.width - ARROW_XOFFSET - ARROW_WIDTH, 
-										   (ARROW_YOFFSET + ARROW_HEIGHT))];
-		[arrowPath relativeLineToPoint:NSMakePoint(ARROW_WIDTH, 0)];
-		[arrowPath relativeLineToPoint:NSMakePoint(-(ARROW_WIDTH/2), -(ARROW_HEIGHT))];
-		
-		[[NSColor whiteColor] set];
-		[arrowPath fill];
-	}
-	*/
 
 	[NSGraphicsContext restoreGraphicsState];
 }

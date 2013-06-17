@@ -22,7 +22,7 @@ static void adiumPurpleConnConnectProgress(PurpleConnection *gc, const char *tex
 	if (!PURPLE_CONNECTION_IS_VALID(gc)) return;
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    AILog(@"Connecting: gc=0x%x (%s) %i / %i", gc, text, step, step_count);
+    AILog(@"Connecting: gc=%p (%s) %zi / %zi", gc, text, step, step_count);
 
 	NSNumber	*connectionProgressPrecent = [NSNumber numberWithDouble:((CGFloat)step / (CGFloat)(step_count-1))];
 	[accountLookup(purple_connection_get_account(gc)) mainPerformSelector:@selector(accountConnectionProgressStep:percentDone:)
@@ -34,7 +34,7 @@ static void adiumPurpleConnConnectProgress(PurpleConnection *gc, const char *tex
 static void adiumPurpleConnConnected(PurpleConnection *gc)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    AILog(@"Connected: gc=%x", gc);
+    AILog(@"Connected: gc=%p", gc);
 	
 	[accountLookup(purple_connection_get_account(gc)) accountConnectionConnected];
     [pool drain];
@@ -43,7 +43,7 @@ static void adiumPurpleConnConnected(PurpleConnection *gc)
 static void adiumPurpleConnDisconnected(PurpleConnection *gc)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    AILog(@"Disconnected: gc=%x", gc);
+    AILog(@"Disconnected: gc=%p", gc);
 	//    if (_accountDict == nil) // if this has been destroyed, unloadPlugin has already been called
 	//        return;
     [accountLookup(purple_connection_get_account(gc)) accountConnectionDisconnected];
@@ -53,7 +53,7 @@ static void adiumPurpleConnDisconnected(PurpleConnection *gc)
 static void adiumPurpleConnNotice(PurpleConnection *gc, const char *text)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    AILog(@"Connection Notice: gc=%x (%s)", gc, text);
+    AILog(@"Connection Notice: gc=%p (%s)", gc, text);
 	
 	NSString *connectionNotice = [NSString stringWithUTF8String:text];
 	[accountLookup(purple_connection_get_account(gc)) accountConnectionNotice:connectionNotice];
@@ -75,7 +75,7 @@ static void adiumPurpleConnReportDisconnectReason(PurpleConnection *gc,
 										   const char *text)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AILog(@"Connection Disconnected: gc=%x (%s)", gc, text);
+	AILog(@"Connection Disconnected: gc=%p (%s)", gc, text);
 	
 	NSString	*disconnectError = (text ? [NSString stringWithUTF8String:text] : @"");
     [accountLookup(purple_connection_get_account(gc)) accountConnectionReportDisconnect:disconnectError withReason:reason];

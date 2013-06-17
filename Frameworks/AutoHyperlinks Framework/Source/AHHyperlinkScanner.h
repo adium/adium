@@ -47,7 +47,8 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 {
 	NSDictionary        *m_urlSchemes;
 	NSString            *m_scanString;
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    NSMutableArray      *m_openEnclosureStack;
+#if TARGET_OS_IPHONE
 	NSString            *m_linkifiedString;
 #else
 	NSAttributedString  *m_scanAttrString;
@@ -59,7 +60,11 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 }
 
 @property (assign) unsigned long scanLocation;
+#if TARGET_OS_IPHONE
+@property (readonly) NSString *linkifiedString;
+#else
 @property (readonly) NSAttributedString *linkifiedString;
+#endif
 
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given NSString

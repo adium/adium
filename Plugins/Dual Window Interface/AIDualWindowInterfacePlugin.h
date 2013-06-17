@@ -16,8 +16,7 @@
 
 #import <Adium/AIInterfaceControllerProtocol.h>
 
-@class AIContactListWindowController, AIDualWindowPreferences, AIMessageTabViewItem, 
-	AIMessageWindowController, ESDualWindowMessageAdvancedPreferences, AIChat;
+@class AIContactListWindowController, AIDualWindowPreferences, AIMessageTabViewItem, AIChat;
 
 @protocol AIInterfaceComponent; 
 
@@ -80,7 +79,6 @@
     
     //Preferences
     AIDualWindowPreferences                 *preferenceController;
-    ESDualWindowMessageAdvancedPreferences	*preferenceMessageAdvController;
 
 	BOOL					applicationIsHidden;
 

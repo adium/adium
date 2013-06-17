@@ -97,7 +97,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 
 - (void)dealloc {
 	CFRelease(certificates);
-	CFRelease(trustRef);
+	if (trustRef) CFRelease(trustRef);
 	
 	[hostname release];
 	
@@ -149,8 +149,8 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	
 	CSSM_APPLE_TP_SSL_OPTIONS ssloptions = {
 		.Version = CSSM_APPLE_TP_SSL_OPTS_VERSION,
-		.ServerNameLen = (UInt32)([hostname length]+1),
-		.ServerName = [hostname cStringUsingEncoding:NSASCIIStringEncoding],
+		.ServerNameLen = (UInt32)([hostname length]+1), // Documentation says that for NULL-terminated strings, the length should include the NULL.
+		.ServerName = [hostname UTF8String],
 		.Flags = 0
 	};
 	
@@ -166,8 +166,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	if(err != noErr) {
 		CFRelease(searchRef);
 		CFRelease(policyRef);
-		if (trustRef)
-			CFRelease(trustRef);
 		NSBeep();
 		[self release];
 		return;

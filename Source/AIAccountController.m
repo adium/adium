@@ -79,12 +79,12 @@
 }
 
 - (void)dealloc
-{
+{/*
 	[adiumServices release];
 	[adiumPasswords release];
 	[adiumAccounts release];
 	[adiumPreferredAccounts release];
-
+*/
 	[super dealloc];
 }
 
