@@ -1033,37 +1033,45 @@
 		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
 		static dispatch_semaphore_t imageDownloadSemaphore;
+		static dispatch_queue_t imageDownloadScheduleQueue;
 		static dispatch_once_t onceToken;
 		dispatch_once(&onceToken, ^{
 			imageDownloadSemaphore = dispatch_semaphore_create(16);
+			imageDownloadScheduleQueue = dispatch_queue_create("im.adium.AITwitterAccount.imageDownloadScheduleQueue", NULL);
+			dispatch_set_target_queue(imageDownloadScheduleQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
 		});
 		
-		// Grab the user icon and set it as their serverside icon.
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-			NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-			NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
-			NSError *error = nil;
+		dispatch_async(imageDownloadScheduleQueue, ^{
 			
 			dispatch_semaphore_wait(imageDownloadSemaphore, DISPATCH_TIME_FOREVER);
-			NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
-			dispatch_semaphore_signal(imageDownloadSemaphore);
 			
-			NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
-			
-			if (image) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
-					[listContact setServersideIconData:[image TIFFRepresentation]
-												notify:NotifyLater];
-					
-					[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-					[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
-				});
-			} else {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
-				});
-			}
+			// Grab the user icon and set it as their serverside icon.
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+				NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+				NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+				NSError *error = nil;
+				
+				NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
+				
+				NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
+				
+				if (image) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
+						[listContact setServersideIconData:[image TIFFRepresentation]
+													notify:NotifyLater];
+						
+						[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+						[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
+					});
+				} else {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+					});
+				}
+				
+				dispatch_semaphore_signal(imageDownloadSemaphore);
+			});
 		});
 	}
 }
