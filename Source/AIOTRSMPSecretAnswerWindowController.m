@@ -8,10 +8,12 @@
 
 #import "AIOTRSMPSecretAnswerWindowController.h"
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AITextAttachmentAdditions.h>
 
 @implementation AIOTRSMPSecretAnswerWindowController
 
-- (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer, NSString *question))inHandler isInitiator:(BOOL)inInitiator
+- (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSData *answer, NSString *question))inHandler isInitiator:(BOOL)inInitiator
 {
 	if (self = [super initWithWindowNibName:@"AIOTRSMPSecretAnswerWindowController"]) {
 		secretQuestion = [inQuestion retain];
@@ -27,6 +29,7 @@
 {
 	[secretQuestion release];
 	[contact release];
+	[file release];
 	Block_release(handler);
 	
 	[super dealloc];
@@ -37,6 +40,8 @@
     [super windowDidLoad];
 	
 	[imageView_lock setImage:[NSImage imageNamed:@"lock-locked" forClass:[adium class]]];
+	
+	[label_filename setStringValue:AILocalizedString(@"(Nothing selected)", "No file selected on the OTR secret question window")];
     
 	if (isInitiator) {
 		[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"Enter a question only %@ can answer correctly:", nil), contact.UID]];
@@ -62,7 +67,15 @@
 
 - (IBAction)okay:(id)sender
 {
-	handler([[field_answer textStorage] string], [[field_question textStorage] string]);
+	NSData *answer = nil;
+	
+	if ([tab_answer indexOfTabViewItem:[tab_answer selectedTabViewItem]] == 0) {
+		answer = [[[field_answer textStorage] string] dataUsingEncoding:NSUTF8StringEncoding];
+	} else {
+		answer = [NSData dataWithContentsOfURL:file];
+	}
+	
+	handler(answer, [[field_question textStorage] string]);
 	
 	[self close];
 	[self release];
@@ -74,6 +87,41 @@
 	
 	[self close];
 	[self release];
+}
+
+
+- (IBAction)selectFile:(id)sender
+{
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel setAllowsMultipleSelection:NO];
+	
+	NSInteger result = [openPanel runModal];
+	
+	if (result == NSOKButton && [openPanel URLs].count > 0) {
+		[file release];
+		file = [[[openPanel URLs] objectAtIndex:0] retain];
+		
+		NSMutableAttributedString *fileName = [[[NSMutableAttributedString alloc] init] autorelease];
+		
+		NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[file path]];
+		
+		[icon setSize:NSMakeSize(16, 16)];
+		
+		NSTextAttachmentCell *cell = [[[NSTextAttachmentCell alloc] initImageCell:icon] autorelease];
+		
+		NSTextAttachment *attachment = [[[NSTextAttachment alloc] init] autorelease];
+		
+		[attachment setAttachmentCell:cell];
+		
+		[fileName appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+		
+		[fileName appendString:[file lastPathComponent] withAttributes:@{}];
+		
+		[label_filename setAttributedStringValue:fileName];
+	}
 }
 
 @end

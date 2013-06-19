@@ -14,18 +14,22 @@
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextField	*label_answer;
 	IBOutlet	NSTextField	*label_tips;
+	IBOutlet	NSTextField *label_filename;
 	IBOutlet	NSTextView	*field_question;
 	IBOutlet	NSTextView	*field_answer;
+	IBOutlet	NSTabView	*tab_answer;
 	IBOutlet	NSImageView	*imageView_lock;
 	
 	BOOL isInitiator;
 	NSString *secretQuestion;
 	AIListContact *contact;
-	void(^handler)(NSString *answer, NSString *question);
+	void(^handler)(NSData *answer, NSString *question);
+	NSURL *file;
 }
 
 - (IBAction)okay:(id)sender;
 - (IBAction)cancel:(id)sender;
-- (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer, NSString *question))inHandler isInitiator:(BOOL)inInitiator;
+- (IBAction)selectFile:(id)sender;
+- (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSData *answer, NSString *question))inHandler isInitiator:(BOOL)inInitiator;
 
 @end

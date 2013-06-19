@@ -730,11 +730,11 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			AIOTRSMPSecretAnswerWindowController *questionController = [[AIOTRSMPSecretAnswerWindowController alloc]
 																		initWithQuestion:[NSString stringWithUTF8String:question]
 																		from:listContact
-																		completionHandler:^(NSString *answer,NSString *_question){
+																		completionHandler:^(NSData *answer,NSString *_question){
 				if(!answer) {
 					otrl_message_abort_smp(otrg_get_userstate(), &ui_ops, opdata, context);
 				} else
-					otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+					otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
 			}
 																		isInitiator:NO];
 			
@@ -917,16 +917,17 @@ static OtrlMessageAppOps ui_ops = {
 {
 	ConnContext		*context = contextForChat(inChat);
 	
+	if (context->recent_child) context = context->recent_child;
+	
 	AIOTRSMPSecretAnswerWindowController *windowController = [[AIOTRSMPSecretAnswerWindowController alloc]
 															  initWithQuestion:@""
 															  from:inChat.listObject
-															  completionHandler:^(NSString *answer, NSString *question) {
-		const char *answerStr = [answer UTF8String];
+															  completionHandler:^(NSData *answer, NSString *question) {
 		otrl_message_initiate_smp_q(otrg_get_userstate(),
 									&ui_ops, NULL, context,
 									(const char *)[question UTF8String],
-									(const unsigned char*)answerStr,
-									strlen(answerStr));
+									[answer bytes],
+									[answer length]);
 	}
 															  isInitiator:TRUE];
 	
@@ -937,6 +938,8 @@ static OtrlMessageAppOps ui_ops = {
 - (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
 {
 	ConnContext		*context = contextForChat(inChat);
+	
+	if (context->recent_child) context = context->recent_child;
 	
 	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc]
 															  initFrom:inChat.listObject
@@ -985,7 +988,7 @@ static OtrlMessageAppOps ui_ops = {
 	
 	ConnContext *context = contextForChat(chat);
 	
-	update_security_details_for_context(context);
+	if (context) update_security_details_for_context(context);
 }
 
 void update_security_details_for_context(ConnContext *context)
