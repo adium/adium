@@ -65,14 +65,19 @@ Version 1.6 (X/X/X)
    * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
 
 
-Version 1.5.7 (XX/XX/20XX)
- * Fix a bug that could cause SSL connections to be closed prematurely. (#16356)
+Version 1.5.7 (XX/06/2013)
+ * Updated Twitter support.
+   * Retweets (RTs) now properly display the original author.
+   * t.co links are now expanded.
+   * Fixed parsing to conform to the standard. (#13947)
+ * Removed StatusNet support.
+ * Fixed a bug that could cause SSL connections to be closed prematurely. (#15405, #15411, #15741, #16356)
 
 
 Version 1.5.6 (3/18/2013)
- * Fix a crash on startup on 10.6.8.
- * Fix a crash when accepting or canceling the certificate verification dialog. (#16280)
- * Fix a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+ * Fixed a crash on startup on 10.6.8.
+ * Fixed a crash when accepting or canceling the certificate verification dialog. (#16280)
+ * Fixed a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
 
 
 Version 1.5.5 (2/24/2013)

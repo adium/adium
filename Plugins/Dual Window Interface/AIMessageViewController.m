@@ -600,8 +600,10 @@
 		}
 	} else if ([group isEqualToString:PREF_GROUP_EMOTICONS]) {
 		if (firstTime || [key isEqualToString:KEY_EMOTICON_MENU_ENABLED]) {
-			[textView_outgoing setHasEmoticonsMenu:[[adium.preferenceController preferenceForKey:KEY_EMOTICON_MENU_ENABLED
-																						   group:PREF_GROUP_EMOTICONS] boolValue]];
+			emoticonMenuEnabled = [[prefDict objectForKey:KEY_EMOTICON_MENU_ENABLED] boolValue];
+			
+			if ([textView_outgoing chat])
+				[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
 		}
 	}
 }
@@ -651,6 +653,7 @@
 	// Disable elastic scroll
 	// Not sure why it won't work in AIMessageEntryTextView
 	[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
+	[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
 }
 
 /*!

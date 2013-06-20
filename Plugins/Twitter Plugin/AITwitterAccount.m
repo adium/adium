@@ -1025,12 +1025,22 @@
 		
 		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
+		static dispatch_semaphore_t imageDownloadSemaphore;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			imageDownloadSemaphore = dispatch_semaphore_create(16);
+		});
+		
 		// Grab the user icon and set it as their serverside icon.
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 			NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
 			NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
 			NSError *error = nil;
+			
+			dispatch_semaphore_wait(imageDownloadSemaphore, DISPATCH_TIME_FOREVER);
 			NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
+			dispatch_semaphore_signal(imageDownloadSemaphore);
+			
 			NSImage *image = [[NSImage alloc] initWithData:data];
 			
 			if (image) {
@@ -1043,7 +1053,9 @@
 					[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
 				});
 			} else {
-				[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+				dispatch_async(dispatch_get_main_queue(), ^{
+					[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+				});
 			}
 		});
 	}
