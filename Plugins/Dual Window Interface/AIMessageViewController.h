@@ -58,6 +58,7 @@
     AIChat					*chat;
 	BOOL					suppressSendLaterPrompt;
 	CGFloat					entryMinHeight;
+	BOOL					emoticonMenuEnabled;
 	
 	BOOL					userListOnRight;
 	CGFloat					userListMinWidth;
