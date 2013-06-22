@@ -34,7 +34,7 @@
 #define ENC_INDEX_KEY @"encIndex"
 #define ENC_CHAR_KEY @"encChar"
 
-#define MIN_LINK_LENGTH 0
+#define MIN_LINK_LENGTH 4
 
 @interface AHHyperlinkScanner (PRIVATE)
 - (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
@@ -287,6 +287,9 @@
                     scannedRange.length--;
                 }else break;
             }
+            
+            // Update the scan location
+            m_scanLocation = scannedRange.location;
             
             // if we have a valid URL then save the scanned string, and make a SHMarkedHyperlink out of it.
             // this way, we can preserve things like the matched string (to be converted to a NSURL),
