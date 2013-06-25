@@ -24,7 +24,7 @@
 @implementation AIContentObject
 
 @synthesize source, destination, date, isOutgoing = outgoing, chat, message, userInfo;
-@synthesize filterContent, trackContent, displayContent, displayContentImmediately, sendContent, postProcessContent;
+@synthesize filterContent, trackContent, displayContent, displayContentImmediately, sendContent, postProcessContent, sourceNick;
 
 - (id)initWithChat:(AIChat *)inChat
 			source:(AIListObject *)inSource
@@ -33,8 +33,19 @@
 {
 	return [self initWithChat:inChat source:inSource destination:inDest date:inDate message:nil];
 }
+
 - (id)initWithChat:(AIChat *)inChat
 			source:(AIListObject *)inSource
+	   destination:(AIListObject *)inDest
+			  date:(NSDate*)inDate
+		   message:(NSAttributedString *)inMessage
+{
+	return [self initWithChat:inChat source:inSource sourceNick:nil destination:inDest date:inDate message:inMessage];
+}
+
+- (id)initWithChat:(AIChat *)inChat
+			source:(AIListObject *)inSource
+		sourceNick:(NSString *)inSourceNick
 	   destination:(AIListObject *)inDest
 			  date:(NSDate*)inDate
 		   message:(NSAttributedString *)inMessage
@@ -51,6 +62,7 @@
 	
 		//Store source, dest, chat, ...
 		source = [inSource retain];
+		sourceNick = [inSourceNick retain];
 		destination = [inDest retain];
 		message = [inMessage retain];
 		date = [(inDate ? inDate : [NSDate date]) retain];
@@ -66,6 +78,7 @@
 - (void)dealloc
 {
     [source release]; source = nil;
+	[sourceNick release]; sourceNick = nil;
     [destination release]; destination = nil;
 	[date release]; date = nil;
 	[message release]; message = nil;

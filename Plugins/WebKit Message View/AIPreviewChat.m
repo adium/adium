@@ -18,6 +18,8 @@
 
 @implementation AIPreviewChat
 
+@synthesize isGroupChat;
+
 + (AIPreviewChat *)previewChat
 {
 	return [self chatForAccount:nil];
@@ -33,7 +35,7 @@
 
 - (BOOL)supportsTopic
 {
-	return isGroupChat;
+	return NO;
 }
 
 - (NSString *)topic

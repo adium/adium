@@ -163,7 +163,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 		[[self window] makeFirstResponder:button_okay];
     } else {
 		[button_dismissAll setHidden:NO];
-        [[self window] setTitle:[NSString stringWithFormat:@"%@ (x%i)",[errorWindowTitleArray objectAtIndex:0],[errorTitleArray count]]];
+        [[self window] setTitle:[NSString stringWithFormat:@"%@ (x%li)",[errorWindowTitleArray objectAtIndex:0],[errorTitleArray count]]];
         [button_okay setTitle:AILocalizedString(@"Next",nil)];
 		[button_dismissAll setTitle:AILocalizedString(@"Dismiss All", @"Used in the error window; closes all open errors.")];
 		[[self window] makeFirstResponder:button_dismissAll];

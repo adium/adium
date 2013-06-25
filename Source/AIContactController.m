@@ -628,7 +628,6 @@
 	//we only allow group->meta->contact, not group->meta->meta->contact
 	NSParameterAssert(![listObject conformsToProtocol:@protocol(AIContainingObject)]);
 	
-	//	AILog(@"MetaContacts: Storing %@ in %@",listObject, metaContact);
 	NSDictionary		*containedContactDict;
 	NSMutableDictionary	*allMetaContactsDict;
 	NSMutableArray		*containedContactsArray;
@@ -968,12 +967,6 @@
 	[adium.preferenceController setPreference:[allMetaContactsDict allKeys]
 										 forKey:KEY_FLAT_METACONTACTS
 										  group:PREF_GROUP_CONTACT_LIST];
-}
-
-//Sort list objects alphabetically by their display name
-NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
-{
-	return [objectA.displayName caseInsensitiveCompare:objectB.displayName];
 }
 
 #pragma mark Preference observing

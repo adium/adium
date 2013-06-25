@@ -40,7 +40,7 @@
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
 
-- (void)updateTimelineChat:(AIChat *)timelineChat;
+- (void)updateTimelineChat:(AIGroupChat *)timelineChat;
 
 - (NSAttributedString *)parseStatus:(NSDictionary *)inStatus
 							tweetID:(NSString *)tweetID
@@ -243,7 +243,7 @@
 		
 		
 		if(!timelineBookmark) {
-			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
+			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@", self,
 				  self.timelineChatName, newTimelineChat,
 				  [adium.contactController groupWithUID:self.timelineGroupName]);
 		}
@@ -412,7 +412,7 @@
 	AIChat *chat = [notification object];
 	
 	if(chat.isGroupChat && chat.account == self) {
-		[self updateTimelineChat:chat];
+		[self updateTimelineChat:(AIGroupChat *)chat];
 	}
 }
 
@@ -960,10 +960,10 @@
  *
  * If the timeline chat is not already active, it is created.
  */
-- (AIChat *)timelineChat
+- (AIGroupChat *)timelineChat
 {
-	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-															onAccount:self];
+	AIGroupChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+																 onAccount:self];
 	
 	if (!timelineChat) {
 		timelineChat = [adium.chatController chatWithName:self.timelineChatName
@@ -972,23 +972,26 @@
 										 chatCreationInfo:nil];
 	}
 	
-	return timelineChat;	
+	return timelineChat;
 }
 
 /*!
  * @brief Update the timeline chat
- * 
+ *
  * Remove the userlist
  */
-- (void)updateTimelineChat:(AIChat *)timelineChat
+- (void)updateTimelineChat:(AIGroupChat *)timelineChat
 {
 	// Disable the user list on the chat.
 	if (timelineChat.chatContainer.chatViewController.userListVisible) {
-		[timelineChat.chatContainer.chatViewController toggleUserList]; 
-	}	
+		[timelineChat.chatContainer.chatViewController toggleUserList];
+	}
 	
 	// Update the participant list.
-	[timelineChat addParticipatingListObjects:self.contacts notify:NotifyNow];
+	for (AIListContact *contact in self.contacts) {
+		[timelineChat addParticipatingNick:contact.UID notify:NotifyNow];
+		[timelineChat setContact:contact forNick:contact.UID];
+	}
 	
 	NSNumber *max = nil;
 	if (self.maxChars > 0) {
@@ -1229,7 +1232,7 @@
 - (void)periodicUpdate
 {
 	if (pendingUpdateCount) {
-		AILogWithSignature(@"%@ Update already in progress. Count = %d", self, pendingUpdateCount);
+		AILogWithSignature(@"%@ Update already in progress. Count = %ld", self, pendingUpdateCount);
 		return;
 	}
 	
@@ -1835,7 +1838,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d updates", self, queuedUpdates.count);
+		AILogWithSignature(@"%@ Displaying %ld updates", self, queuedUpdates.count);
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
@@ -1844,7 +1847,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		BOOL trackContent = [[self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 		
-		AIChat *timelineChat = self.timelineChat;
+		AIGroupChat *timelineChat = self.timelineChat;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
@@ -1879,22 +1882,24 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				message = m;
 			}
 			
-			id fromObject = nil;
+			AIListObject *fromObject = nil;
 			
 			if (![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
 				[self updateContact:listContact withInfo:[status objectForKey:TWITTER_STATUS_USER] andStatusMessage:message];
 				
-				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+				[timelineChat addParticipatingNick:listContact.UID notify:NotifyNow];
+				[timelineChat setContact:listContact forNick:listContact.UID];
 				
-				fromObject = (id)listContact;
+				fromObject = listContact;
 			} else {
-				fromObject = (id)self;
+				fromObject = self;
 			}
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																	withSource:fromObject
+																	sourceNick:fromObject.displayName
 																   destination:self
 																		  date:date
 																	   message:message
@@ -1915,7 +1920,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d DMs", self, queuedDM.count);
+		AILogWithSignature(@"%@ Displaying %ld DMs", self, queuedDM.count);
 		
 		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		
@@ -1941,6 +1946,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if(chat && source && destination) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:source
+																		sourceNick:source.displayName
 																	   destination:destination
 																			  date:date
 																		   message:[self parseDirectMessage:message
@@ -2092,7 +2098,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change notification setting for %@. %@", nil), listContact.UID, [self errorMessageForError:error]]];
 			break;
 		}
-			
 		case AITwitterDestroyStatus:
 		case AITwitterDestroyDM:
 		case AITwitterUnknownType:
@@ -2105,7 +2110,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			// While we don't handle the errors, it's a good idea to not have a "default" just to prevent accidentally letting something
 			// we should really handle slip through.
 			break;
-			
 	}
 	
 	AILogWithSignature(@"%@ Request failed (%u) - %@", self, identifier, error);
@@ -2182,12 +2186,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[self displayQueuedUpdatesForRequestType:identifier];
 			}
-		}
-		
-		if (![self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES]) {
+			
+			if (![self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES]) {
 				[self setPreference:[NSNumber numberWithBool:YES]
 							 forKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE
 							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+			}
 		}
 	}
 }

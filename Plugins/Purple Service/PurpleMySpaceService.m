@@ -69,6 +69,14 @@
 - (NSString *)contactUserNameLabel{
 	return AILocalizedString(@"MySpace ID", "Label for the username for a MySpace contact");
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"https://www.myspace.com/signup", @"URL for MySpace signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for MySpace", @"Text for MySpace sign up button");
+}
 - (void)registerStatuses{
 	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
 							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]

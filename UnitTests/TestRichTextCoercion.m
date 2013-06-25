@@ -129,7 +129,6 @@
 	NSDictionary *scriptSuite = [self dictionaryForScriptSuiteNamed:@"NSTextSuite" fromSdefFile:[testBundle pathForResource:@"Adium" ofType:@"sdef"]];
 	NSDictionary *scriptTerminology = [self dictionaryForScriptTerminologyNamed:@"NSTextSuite" fromSdefFile:[testBundle pathForResource:@"Adium" ofType:@"sdef"]];
 	NSDictionary *scriptSuiteAndTerminology = [self dictionaryByMergingSuiteDictionary:scriptSuite withTerminologyDictionary:scriptTerminology];
-//	NSLog(@"scriptSuite: %@", scriptSuite);
 	[[NSScriptSuiteRegistry sharedScriptSuiteRegistry] loadSuiteWithDictionary:scriptSuiteAndTerminology fromBundle:testBundle];
 
 	[AIRichTextCoercer enableRichTextCoercion];

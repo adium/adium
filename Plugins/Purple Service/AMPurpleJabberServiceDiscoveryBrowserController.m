@@ -19,6 +19,7 @@
 #import <libpurple/jabber.h>
 #import <Adium/DCJoinChatWindowController.h>
 #import "DCPurpleJabberJoinChatViewController.h"
+#import <AIUtilities/AIBundleAdditions.h>
 
 @implementation AMPurpleJabberServiceDiscoveryBrowserController
 
@@ -271,9 +272,7 @@ static NSImage *det_triangle_closed = nil;
 		
 		NSMutableArray *identities = [[NSMutableArray alloc] init];
 		
-		NSEnumerator *e = [[item identities] objectEnumerator];
-		NSDictionary *identity;
-		while ((identity = [e nextObject]))
+		for (NSDictionary *identity in [item identities])
 			[identities addObject:[NSString stringWithFormat:@"%@ (%@)",[identity objectForKey:@"category"],[identity objectForKey:@"type"]]];
 		
 		NSString *result = [identities componentsJoinedByString:@", "];
@@ -312,8 +311,12 @@ static NSImage *det_triangle_closed = nil;
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	BOOL expanded = [outlineView isItemExpanded:item];
 	if (expanded && [item items] == nil) {
-		if (!downloadprogress)
-			downloadprogress = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"downloadprogress" ofType:@"png"]];
+		
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			downloadprogress = [[[NSBundle bundleForClass:[self class]] AI_imageForResource:@"downloadprogress"] retain];
+		});
+		
 		NSSize imgsize = [downloadprogress size];
 		NSImage *img = [[NSImage alloc] initWithSize:imgsize];
 		NSAffineTransform *transform = [NSAffineTransform transform];

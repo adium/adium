@@ -97,6 +97,11 @@
 	return AILocalizedString(@"username@jabber.org","Sample name and server for new Jabber accounts");
 }
 
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Find public server", @"Default label for account registration button in account setup pane.");
+}
+
 /*!
  * @brief Allowed characters in node of jid
  *
