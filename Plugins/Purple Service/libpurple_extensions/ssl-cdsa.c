@@ -50,8 +50,6 @@ static GList *connections = NULL;
 
 #define PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND "ssl_cdsa_buggy_tls_workaround"
 
-static OSStatus ssl_cdsa_set_enabled_ciphers(SSLContextRef ctx, const SSLCipherSuite *ciphers);
-
 /*
  * query_cert_chain - callback for letting the user review the certificate before accepting it
  *
@@ -801,68 +799,3 @@ static void ssl_cdsa_printSslErrStr(
 {
 	purple_debug_error("cdsa", "%s: %s\n", op, ssl_cdsa_sslGetSSLErrString(err));
 }
-
-/*
- * Given an SSLContextRef and an array of SSLCipherSuites, terminated by
- * SSL_NO_SUCH_CIPHERSUITE, select those SSLCipherSuites which the library
- * supports and do a SSLSetEnabledCiphers() specifying those.
- */
-static OSStatus ssl_cdsa_set_enabled_ciphers(SSLContextRef ctx, const SSLCipherSuite *ciphers)
-{
-    size_t numSupported;
-    OSStatus ortn;
-    SSLCipherSuite *supported = NULL;
-    SSLCipherSuite *enabled = NULL;
-    unsigned enabledDex = 0;    // index into enabled
-    unsigned supportedDex = 0;  // index into supported
-    unsigned inDex = 0;         // index into ciphers
-    
-    /* first get all the supported ciphers */
-    ortn = SSLGetNumberSupportedCiphers(ctx, &numSupported);
-    if(ortn != noErr) {
-        ssl_cdsa_printSslErrStr("SSLGetNumberSupportedCiphers", ortn);
-        return ortn;
-    }
-    supported = (SSLCipherSuite *)malloc(numSupported * sizeof(SSLCipherSuite));
-    ortn = SSLGetSupportedCiphers(ctx, supported, &numSupported);
-    if(ortn != noErr) {
-        ssl_cdsa_printSslErrStr("SSLGetSupportedCiphers", ortn);
-        return ortn;
-    }
-    
-    /*
-     * Malloc an array we'll use for SSLGetEnabledCiphers - this will  be
-     * bigger than the number of suites we actually specify
-     */
-    enabled = (SSLCipherSuite *)malloc(numSupported * sizeof(SSLCipherSuite));
-    
-    /*
-     * For each valid suite in ciphers, see if it's in the list of
-     * supported ciphers. If it is, add it to the list of ciphers to be
-     * enabled.
-     */
-    for(inDex=0; ciphers[inDex] != SSL_NO_SUCH_CIPHERSUITE; inDex++) {
-        bool isSupported = false;
-        
-        for(supportedDex=0; supportedDex<numSupported; supportedDex++) {
-            if(ciphers[inDex] == supported[supportedDex]) {
-                enabled[enabledDex++] = ciphers[inDex];
-                isSupported = true;
-                break;
-            }
-        }
-
-        if (!isSupported)
-            purple_debug_info("cdsa", "cipher %i not supported; disabled.", ciphers[inDex]);
-    }
-    
-    /* send it on down. */
-    ortn = SSLSetEnabledCiphers(ctx, enabled, enabledDex);
-    if(ortn != noErr) {
-        ssl_cdsa_printSslErrStr("SSLSetEnabledCiphers", ortn);
-    }
-    free(enabled);
-    free(supported);
-    return ortn;
-}
-
