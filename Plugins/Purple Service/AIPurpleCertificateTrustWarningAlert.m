@@ -39,10 +39,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 - (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
-@interface SFCertificateTrustPanel (SecretsIKnow)
-- (void)setInformativeText:(NSString *)inString;
-@end
-
 @implementation AIPurpleCertificateTrustWarningAlert
 
 + (void)displayTrustWarningAlertWithAccount:(AIAccount *)account
@@ -257,17 +253,10 @@ static SecPolicyRef SSLSecPolicyCopy()
 	//	CSSM_TP_APPLE_EVIDENCE_INFO *statusChain;
 	//	err = SecTrustGetResult(trustRef, &result, &certChain, &statusChain);
 	
-	NSString *title;
+	NSString *title = [NSString stringWithFormat:AILocalizedString(@"Adium can't verify the identity of \"%@\".", nil), hostname];
+	
 	NSString *informativeText = [NSString stringWithFormat:AILocalizedString(@"The certificate of the server %@ is not trusted, which means that the server's identity cannot be automatically verified. Do you want to continue connecting?\n\nFor more information, click \"Show Certificate\".",nil), hostname];
-	if ([trustPanel respondsToSelector:@selector(setInformativeText:)]) {
-		[trustPanel setInformativeText:informativeText];
-		title = [NSString stringWithFormat:AILocalizedString(@"Adium can't verify the identity of \"%@\".", nil), hostname];
-	} else {
-		/* We haven't seen a version of SFCertificateTrustPanel which doesn't respond to setInformativeText:, but we're using a private
-		 * call found via class-dump, so have a sane backup strategy in case it changes.
-		 */
-		title = informativeText;
-	}
+	[trustPanel setInformativeText:informativeText];
 
 	[trustPanel setAlternateButtonTitle:AILocalizedString(@"Cancel",nil)];
 	[trustPanel setShowsHelp:YES];
