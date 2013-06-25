@@ -176,7 +176,23 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 		purple_ssl_close(gsc);
 		return;
 	}
+	
+	SSLCipherSuite cipher;
+	SSLProtocol protocol;
+	
+	err = SSLGetNegotiatedCipher(cdsa_data->ssl_ctx, &cipher);
+	
+	if (err == noErr) {
+		err = SSLGetNegotiatedProtocolVersion(cdsa_data->ssl_ctx, &protocol);
 		
+		purple_debug_info("cdsa", "Your connection is using %s with %s encryption, using %s for message authentication and %s key exchange (%X).\n",
+						  SSLVersionToString(protocol),
+						  SSLCipherName(cipher),
+						  SSLMACName(cipher),
+						  SSLKeyExchangeName(cipher),
+						  cipher);
+	}
+	
 	purple_input_remove(cdsa_data->handshake_handler);
 	cdsa_data->handshake_handler = 0;
 	
