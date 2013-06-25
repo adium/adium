@@ -47,7 +47,5 @@
 - (NSString *)serverSuffix;
 - (NSString *)resourceName;
 - (AMPurpleJabberAdHocServer*)adhocServer;
-- (void)setShouldVerifyCertificates:(BOOL)yesOrNo;
-- (BOOL)shouldVerifyCertificates;
 
 @end
