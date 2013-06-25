@@ -48,6 +48,7 @@
 	AIService						*service;
 	AIAccount						*initialAccount;
 	ABPerson						*person;
+	NSString						*groupName;
 }
 
 - (id)initWithContactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount;

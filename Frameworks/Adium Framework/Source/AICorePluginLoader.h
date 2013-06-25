@@ -24,5 +24,6 @@
 
 + (void)loadPluginAtPath:(NSString *)pluginName confirmLoading:(BOOL)confirmLoading pluginArray:(NSMutableArray *)pluginArray;
 - (id <AIPlugin>)pluginWithClassName:(NSString *)className;
++ (void)moveXtra:(NSString *)pluginPath toDisabledFolder:(BOOL)disable;
 
 @end

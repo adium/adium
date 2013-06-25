@@ -178,7 +178,7 @@
 
 #pragma mark Group chat
 
-- (void)addUser:(NSString *)contactName toChat:(AIChat *)chat newArrival:(NSNumber *)newArrival
+- (void)addUser:(NSString *)contactName toChat:(AIGroupChat *)chat newArrival:(NSNumber *)newArrival
 {
 	AIListContact *listContact;
 	
@@ -203,7 +203,8 @@
 			[listContact notifyOfChangedPropertiesSilently:NO];
 		}
 		
-		[chat addParticipatingListObject:listContact notify:(newArrival && [newArrival boolValue])];
+		[chat addParticipatingNick:contactName notify:(newArrival && [newArrival boolValue])];
+		[chat setContact:listContact forNick:contactName];
 	}
 }
 

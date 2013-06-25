@@ -25,7 +25,7 @@
 @implementation AIProxyListObject
 
 @synthesize key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
-@synthesize listObject, containingObject;
+@synthesize listObject, containingObject, nick;
 
 
 static inline NSMutableDictionary *_getProxyDict() {
@@ -52,10 +52,21 @@ static inline NSMutableDictionary *_getProxyDict() {
 + (AIProxyListObject *)proxyListObjectForListObject:(AIListObject *)inListObject
 									   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
 {
+	return [self proxyListObjectForListObject:inListObject inListObject:inContainingObject withNick:nil];
+}
+
++ (AIProxyListObject *)proxyListObjectForListObject:(AIListObject *)inListObject
+									   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
+										   withNick:(NSString *)inNick
+{
 	AIProxyListObject *proxy;
 	NSString *key = (inContainingObject ? 
 					 [NSString stringWithFormat:@"%@-%@", inListObject.internalObjectID, inContainingObject.internalObjectID] :
 					 inListObject.internalObjectID);
+	
+	if (inNick) {
+		key = [key stringByAppendingFormat:@"-%@", inNick];
+	}
 
 	proxy = [proxyDict objectForKey:key];
 
@@ -73,6 +84,7 @@ static inline NSMutableDictionary *_getProxyDict() {
 		proxy.listObject = inListObject;
 		proxy.containingObject = inContainingObject;
 		proxy.key = key;
+		proxy.nick = inNick;
 		[inListObject noteProxyObject:proxy];
 		[proxyDict setObject:proxy
 					  forKey:key];

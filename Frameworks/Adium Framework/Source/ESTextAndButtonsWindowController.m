@@ -331,11 +331,7 @@
 		NSRect scrollFrame = [scrollView_message frame];
 		
 		//Remove the header area
-		if ([scrollView_messageHeader respondsToSelector:@selector(setHidden:)]) {
-			[scrollView_messageHeader setHidden:YES];
-		} else {
-			[scrollView_messageHeader setFrame:NSZeroRect];	
-		}
+		[scrollView_messageHeader setHidden:YES];
 		
 		//verticalChange is how far we can move our message area up since we don't have a messageHeader
 		CGFloat verticalChange = (messageHeaderFrame.size.height +

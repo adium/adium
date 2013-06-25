@@ -270,7 +270,6 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 				AWEzvLog(@"Creating TXTRecord: No data and No key");
 			}
 			
-			/* AWEzvLog(@"key:%@ value=%@", keyString, data); */
 		} else {
 			AWEzvLog(@"Error reading txt keys");
 		}
@@ -278,22 +277,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 		
 		
 	}
-		
-//	// kind of a hack: munge txtRecord so it's human-readable
-//	if ( len > 0) {
-//		char	*readableText = (char*) malloc( len);
-//		if ( readableText != nil) {
-//			ByteCount   index, subStrLen;
-//			memcpy( readableText, txtRecord, len);
-//			for ( index=0; index < len - 1; index += subStrLen + 1) {
-//				subStrLen = readableText[ index];
-//				readableText[ index] = '\n';
-//			}
-//			//NSLog(@"%@\n\n",[NSString stringWithCString:&readableText[1] length:len - 1]);
-//			free( readableText);
-//		}
-//	}
-	
+
 	return self;
 	
 }
@@ -612,7 +596,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 			}
 			hexdata[[(NSData *)value length] * 2] = '\0';
 			
-			[infoData appendFormat:@"%c", ([(NSData *)value length] * 2 + [key length] + 1)];
+			[infoData appendFormat:@"%c", (int)([(NSData *)value length] * 2 + [key length] + 1)];
 			[infoData appendString:key];
 			[infoData appendString:@"="];
 			[infoData appendString:[NSString stringWithUTF8String:hexdata]];
@@ -620,7 +604,7 @@ const char endn[] = { '\x00', '\x00', '\x00', '\x00'};
 		} else {
 			const char *val = [(NSString *)value UTF8String];
 			NSInteger len = strlen(val);
-			[infoData appendFormat:@"%c", len + [key length] + 1];
+			[infoData appendFormat:@"%c", (int)(len + [key length] + 1)];
 			[infoData appendString:key];
 			[infoData appendString:@"="];
 			[infoData appendString:value];

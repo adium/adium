@@ -225,7 +225,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		BOOL currentLocationNeedsUpdate = YES;
 
 		if ([candidateEmoticons count]) {
-			NSString					*replacementString;
+			NSString					*replacementString = nil;
 			NSMutableAttributedString   *replacement;
 			NSInteger					textLength;
 			NSRange						emoticonRangeInNewMessage;

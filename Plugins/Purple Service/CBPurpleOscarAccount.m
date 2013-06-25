@@ -736,9 +736,9 @@
 						/* purple_imgstore_add_with_id() will take ownership of imgBytes and free it when done*/
 						NSInteger	imgstore = purple_imgstore_add_with_id(imgBytes, imgBytesLength, [filename UTF8String]);
 						
-						AILog(@"Adding image id %i with name %s", imgstore, (filename ? [filename UTF8String] : "(null)"));
+						AILog(@"Adding image id %li with name %s", imgstore, (filename ? [filename UTF8String] : "(null)"));
 						
-						NSString		*newTag = [NSString stringWithFormat:@"<IMG ID=\"%i\" CLASS=\"scaledToFitImage\">",imgstore];
+						NSString		*newTag = [NSString stringWithFormat:@"<IMG ID=\"%li\" CLASS=\"scaledToFitImage\">",imgstore];
 						[processedString appendString:newTag];
 						
 						if (!purpleImagesToUnref) purpleImagesToUnref = [[NSMutableSet alloc] init];

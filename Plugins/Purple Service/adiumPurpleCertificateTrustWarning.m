@@ -24,19 +24,17 @@
 void adium_query_cert_chain(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	// only the jabber service supports this right now
-	for (ESPurpleJabberAccount *account in [adium.accountController accountsCompatibleWithService:[adium.accountController firstServiceWithServiceID:@"Jabber"]]) {
-		if([account secureConnection] == gsc) {
-			if([account shouldVerifyCertificates])
+	for (AIAccount *account in [adium.accountController accounts]) {
+		if([account respondsToSelector:@selector(secureConnection)]) {
+			if ([account secureConnection] == gsc) {
 				[AIPurpleCertificateTrustWarningAlert displayTrustWarningAlertWithAccount:account
 																				 hostname:[NSString stringWithUTF8String:hostname]
 																			 certificates:certs
 																		   resultCallback:query_cert_cb
 																				 userData:userdata];
-			else
-				query_cert_cb(true, userdata);
-			[pool release];
-			return;
+				[pool release];
+				return;
+			}
 		}
 	}
 	// default fallback

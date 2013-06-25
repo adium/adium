@@ -64,8 +64,6 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 	[webView setDraggingDelegate:self];
 	[webView setEditingDelegate:self];
 	[webView setResourceLoadDelegate:self];
-	
-//	[[webView windowScriptObject] setValue:self forKey:@"client"];
 }
 - (void) removeDelegate:(AIWebKitMessageViewController *)controller
 {
@@ -238,8 +236,12 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 
 - (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
 {
-	NSMutableURLRequest *newRequest = [request mutableCopy];
-	[newRequest setHTTPShouldHandleCookies:NO];
-	return [newRequest autorelease];
+	NSString *scheme = request.URL.scheme;
+	
+	if (!([scheme isEqualToString:@"adium"] || [scheme isEqualToString:@"file"])) {
+		return nil;
+	}
+	
+	return request;
 }
 @end
