@@ -27,7 +27,7 @@
 	IBOutlet NSButton				*button_reply;
 	IBOutlet NSButton				*button_cancel;
 	
-	AIAccount	*account;
+	AIAccount	*__weak account;
 }
 
 + (void)showReplyWindowForAccount:(AIAccount *)inAccount;
@@ -35,6 +35,6 @@
 - (IBAction)reply:(id)sender;
 - (IBAction)cancel:(id)sender;
 
-@property (nonatomic, retain) AIAccount *account;
+@property (weak, nonatomic) AIAccount *account;
 
 @end

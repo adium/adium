@@ -17,15 +17,15 @@
 #import "AIImageTextCellView.h"
 
 @interface AIStatusItemView : AIImageTextCellView {
-	NSStatusItem			*statusItem;
+	__weak NSStatusItem			*statusItem;
 	
 	BOOL					mouseDown;
 	
 	NSImage					*regularImage;
 	NSImage					*alternateImage;
 	
-	NSMenu					*menu;
-	NSMenu					*alternateMenu;
+	__unsafe_unretained NSMenu					*menu;
+	__unsafe_unretained NSMenu					*alternateMenu;
 }
 
 @property(readonly) NSUInteger desiredWidth;
@@ -34,9 +34,9 @@
 @property(copy) NSImage *alternateImage;
 
 //These are by retain in case you want to set a delegate for the menu.
-@property(retain) NSMenu *menu;
-@property(retain) NSMenu *alternateMenu;
+@property(assign) NSMenu *menu;
+@property(assign) NSMenu *alternateMenu;
 
-@property(assign) NSStatusItem *statusItem;
+@property(weak) NSStatusItem *statusItem;
 
 @end

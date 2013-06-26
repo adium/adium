@@ -19,8 +19,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import "AIHTMLDecoder.h"
-#import <Adium/AIServiceIcons.h>
-#import <Adium/AIAccountControllerProtocol.h>
 
 #import "AdiumOTREncryption.h"
 
@@ -136,7 +134,7 @@
 																alternateButton:nil
 																	otherButton:nil
 															  withMessageHeader:AILocalizedString(@"Fingerprint Help", nil)
-																	 andMessage:[[[NSAttributedString alloc] initWithString:message] autorelease]
+																	 andMessage:[[NSAttributedString alloc] initWithString:message]
 																		 target:self
 																	   userInfo:nil];
 			[textAndButtonsWindowController showOnWindow:window];

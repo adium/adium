@@ -16,7 +16,6 @@
 
 #import "SMContactListShowBehaviorPlugin.h"
 #import "SMContactListShowDetailsPane.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import "AICoreComponentLoader.h"
 #import "AISCLViewPlugin.h"
 #import "AIListWindowController.h"

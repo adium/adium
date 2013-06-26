@@ -17,28 +17,26 @@
 #import "adiumPurpleCertificateTrustWarning.h"
 #import "AIPurpleCertificateTrustWarningAlert.h"
 
-#import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import "ESPurpleJabberAccount.h"
 
 void adium_query_cert_chain(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata) {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	for (AIAccount *account in [adium.accountController accounts]) {
-		if([account respondsToSelector:@selector(secureConnection)]) {
-			if ([account secureConnection] == gsc) {
-				[AIPurpleCertificateTrustWarningAlert displayTrustWarningAlertWithAccount:account
-																				 hostname:[NSString stringWithUTF8String:hostname]
-																			 certificates:certs
-																		   resultCallback:query_cert_cb
-																				 userData:userdata];
-				[pool release];
-				return;
+		for (CBPurpleAccount *account in [adium.accountController accounts]) {
+			if([account respondsToSelector:@selector(secureConnection)]) {
+				if ([account secureConnection] == gsc) {
+					[AIPurpleCertificateTrustWarningAlert displayTrustWarningAlertWithAccount:account
+																					 hostname:[NSString stringWithUTF8String:hostname]
+																				 certificates:certs
+																			   resultCallback:query_cert_cb
+																					 userData:userdata];
+					return;
+				}
 			}
+			// default fallback
+			query_cert_cb(true, userdata);
+			
 		}
 	}
-	// default fallback
-	query_cert_cb(true, userdata);
-	
-	[pool release];
 }

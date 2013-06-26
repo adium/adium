@@ -142,5 +142,5 @@ NSArray *AISearchPathForDirectoriesInDomainsExpanding(NSUInteger directory, NSUI
 		}
 	}
 
-	return [dirs autorelease];
+	return dirs;
 }

@@ -18,7 +18,6 @@
 #import "ESAnnouncerPlugin.h"
 #import "ESAnnouncerSpeakEventAlertDetailPane.h"
 #import "ESAnnouncerSpeakTextAlertDetailPane.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
@@ -127,7 +126,7 @@
 	if ([listObject soundsAreMuted]) return NO;
 
 	if ([actionID isEqualToString:SPEAK_TEXT_ALERT_IDENTIFIER]) {
-		NSMutableString	*userText = [[[details objectForKey:KEY_ANNOUNCER_TEXT_TO_SPEAK] mutableCopy] autorelease];
+		NSMutableString	*userText = [[details objectForKey:KEY_ANNOUNCER_TEXT_TO_SPEAK] mutableCopy];
 		
 		if ([userText rangeOfString:@"%n"].location != NSNotFound) {
 			NSString	*replacementText = listObject.formattedUID;
@@ -165,7 +164,7 @@
 			if ([adium.contactAlertsController isMessageEvent:eventID] &&
 				[userInfo objectForKey:@"AIContentObject"]) {
 				AIContentMessage	*content = [userInfo objectForKey:@"AIContentObject"];
-				NSMutableAttributedString *convertedMessage = [[[[content message] attributedStringByConvertingAttachmentsToStrings] mutableCopy] autorelease];
+				NSMutableAttributedString *convertedMessage = [[[content message] attributedStringByConvertingAttachmentsToStrings] mutableCopy];
 				[convertedMessage enumerateAttribute:NSLinkAttributeName
 											 inRange:NSMakeRange(0, [convertedMessage length])
 											 options:0
@@ -201,7 +200,7 @@
 		textToSpeak = userText;
 		
 		//Clear out the lastSenderString so the next Speak Event action will get tagged with the sender's name
-		[lastSenderString release]; lastSenderString = nil;
+		lastSenderString = nil;
 		
 	} else { /*Speak Event*/	
 		BOOL			speakSender = [[details objectForKey:KEY_ANNOUNCER_SENDER] boolValue];
@@ -228,7 +227,7 @@
 					NSMutableString		*senderStringToSpeak;
 					
 					//Track the sender string before modifications
-					[lastSenderString release]; lastSenderString = [senderString retain];
+					lastSenderString = senderString;
 					
 					senderStringToSpeak = [senderString mutableCopy];
 					
@@ -240,8 +239,6 @@
 					//emphasize first word in sender's name
 					[theMessage appendFormat:@"[[emph +]] %@...",senderStringToSpeak];
 					newParagraph = YES;
-					
-					[senderStringToSpeak release];
 				}
 			}
 			
@@ -274,9 +271,8 @@
 				__block NSString	*timeString;
 				
 				[NSDateFormatter withLocalizedDateFormatterShowingSeconds:YES showingAMorPM:NO perform:^(NSDateFormatter *timeFormatter){
-					timeString = [[NSString stringWithFormat:@"%@... ", [timeFormatter stringFromDate:[NSDate date]]] retain];
+					timeString = [NSString stringWithFormat:@"%@... ", [timeFormatter stringFromDate:[NSDate date]]];
 				}];
-				[timeString autorelease];
 				
 				textToSpeak = [timeString stringByAppendingString:eventDescription];
 			} else {
@@ -284,7 +280,7 @@
 			}
 			
 			//Clear out the lastSenderString so the next speech event will get tagged with the sender's name
-			[lastSenderString release]; lastSenderString = nil;
+			lastSenderString = nil;
 		}
 	}
 	

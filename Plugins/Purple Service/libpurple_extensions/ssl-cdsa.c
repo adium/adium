@@ -18,10 +18,7 @@
 
 #import <libpurple/internal.h>
 #import <libpurple/debug.h>
-#import <libpurple/plugin.h>
-#import <libpurple/sslconn.h>
 #import <libpurple/version.h>
-#import <libpurple/signals.h>
 
 #define SSL_CDSA_PLUGIN_ID "ssl-cdsa"
 
@@ -382,7 +379,7 @@ ssl_cdsa_create_context(gpointer data) {
 		purple_ssl_close(gsc);
 		return;
     }
-	
+    
     if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false)) {
         purple_debug_info("cdsa", "Explicitly disabling TLS 1.1 and above to try and work around buggy TLS stacks\n");
         

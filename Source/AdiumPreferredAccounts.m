@@ -21,8 +21,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIService.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 
 #define PREF_GROUP_PREFERRED_ACCOUNTS   @"Preferred Accounts"
@@ -60,8 +58,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 - (AIAccount *)fallbackAccountForSendingToContact:(AIListContact *)inContact strictChecking:(BOOL)strictChecking

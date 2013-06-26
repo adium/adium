@@ -16,13 +16,10 @@
 
 #import "AIJumpControlPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/JVMarkedScroller.h>
-#import <AIUtilities/AIWindowAdditions.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIChat.h>
 #import "AIMessageViewController.h"
-#import "AIMessageTabViewItem.h"
 
 #define PREF_KEY_FOCUS_LINE	@"Draw Focus Lines"
 

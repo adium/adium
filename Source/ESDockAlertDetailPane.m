@@ -18,7 +18,6 @@
 #import "AIDockController.h"
 #import "ESDockAlertDetailPane.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <Adium/AILocalizationTextField.h>
 
 @interface ESDockAlertDetailPane ()
 - (NSMenuItem *)menuItemForBehavior:(AIDockBehavior)behavior withName:(NSString *)name;
@@ -88,7 +87,7 @@
  */
 - (NSMenu *)behaviorListMenu
 {
-    NSMenu			*behaviorMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+    NSMenu			*behaviorMenu = [[NSMenu alloc] init];
     AIDockBehavior	behavior;
 
 	for (behavior = AIDockBehaviorBounceOnce; behavior <= AIDockBehaviorBounceDelay_OneMinute; behavior++) {
@@ -108,10 +107,10 @@
 - (NSMenuItem *)menuItemForBehavior:(AIDockBehavior)behavior withName:(NSString *)name
 {
     NSMenuItem		*menuItem;
-    menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+    menuItem = [[NSMenuItem alloc] initWithTitle:name
 																	 target:self
 																	 action:@selector(selectBehavior:)
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
     [menuItem setRepresentedObject:[NSNumber numberWithInteger:behavior]];
     
     return menuItem;

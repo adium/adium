@@ -22,9 +22,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import "AIServiceMenu.h"
 #import <Adium/AIService.h>
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringFormatter.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import "AIHTMLDecoder.h"
 
 #define ACCOUNT_SETUP_IDENTIFIER	@"account_setup"
@@ -53,9 +51,11 @@ enum{
  */
 + (void)runWizard
 {
-	AdiumSetupWizard *setupWizardWindowController;
-	
-	setupWizardWindowController = [[self alloc] initWithWindowNibName:@"SetupWizard"];
+	static AdiumSetupWizard *setupWizardWindowController = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		setupWizardWindowController = [[self alloc] initWithWindowNibName:@"SetupWizard"];
+	});
 	
 	[setupWizardWindowController show];
 }
@@ -140,8 +140,6 @@ enum{
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 /*!
