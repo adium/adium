@@ -198,6 +198,7 @@
 											  [self didConnect];
 										  }
 									  } errorBlock:^(NSError *error) {
+										  AILogWithSignature(@"Unable to retrieve user list: %@", error);
 										  [self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
 										  [self didDisconnect];
 									  }];
