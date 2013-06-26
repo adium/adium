@@ -36,17 +36,6 @@
     return self;
 }
 
-//Dealloc
-- (void)dealloc
-{
-    [path release];
-    [fromUID release];
-	[serviceClass release];
-    [toGroupArray release];
-    
-    [super dealloc];
-}
-
 - (NSString *)fromUID
 {
     return fromUID;
@@ -79,7 +68,6 @@
 				//Not sure why, but I've had that alloc fail on me before
 				if (toGroup != nil) [toGroupArray addObject:toGroup];
 				
-				[toGroup release];
 			}
 		}
     }

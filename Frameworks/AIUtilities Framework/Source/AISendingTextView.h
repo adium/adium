@@ -26,7 +26,6 @@
 
 @interface AISendingTextView : AITextViewWithPlaceholder {
 	NSMutableArray	*returnArray;
-	BOOL			insertingText;
 
 	id				target;
 	SEL			selector;

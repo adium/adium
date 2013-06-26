@@ -30,7 +30,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-#import <DNSServiceDiscovery/DNSServiceDiscovery.h>
 #import <dns_sd.h>
 
 
@@ -40,7 +39,7 @@
 	NSFileHandle	*listenSocket;
 	NSMutableDictionary *contacts;
 
-	AWEzv		*client;
+	AWEzv		*__weak client;
 	int			isConnected;
 
 	/* Listener related instance variables */
@@ -67,7 +66,7 @@
 
 - (AWEzvContact *)contactForIdentifier:(NSString *)uniqueID;
 
-@property (readonly, nonatomic) AWEzv *client;
+@property (weak, readonly, nonatomic) AWEzv *client;
 
 - (void)closeConnections;
 @end

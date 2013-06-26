@@ -20,6 +20,7 @@
 #import <Adium/AIEmoticonPack.h>
 #import <Adium/AIEmoticon.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
+#import "AIMessageEntryTextView.h"
 
 #define PREFERENCES_GROUP_EMOTICONS	@"Emoticons"
 
@@ -35,14 +36,19 @@
 
 @implementation AIMessageViewEmoticonsController
 
-@synthesize menu, emoticonsCollectionView, emoticonTitleLabel, emoticonSymbolLabel;
 @synthesize textView;
 @synthesize emoticons, emoticonTitles, emoticonSymbols;
 
+@synthesize menu, emoticonsCollectionView, emoticonTitleLabel, emoticonSymbolLabel, alignmentView;
 
 + (void)popUpMenuForTextView:(AIMessageEntryTextView *)textView atPoint:(NSPoint)aPoint
 {
-	[[[self alloc] initWithNibName:@"MessageViewEmoticonsMenu" textView:textView atPoint:aPoint] autorelease];
+	(void)[[self alloc] initWithNibName:@"MessageViewEmoticonsMenu" textView:textView atPoint:aPoint];
+}
+
+- (void)dealloc
+{
+	AILogWithSignature(@"%p", self);
 }
 
 /*!
@@ -51,23 +57,18 @@
 - (id)initWithNibName:(NSString *)nibName textView:(AIMessageEntryTextView *)aView atPoint:(NSPoint)aPoint
 {
 	self = [super init];
-	if ([[NSBundle mainBundle] loadNibFile:nibName
-						 externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:self, NSNibOwner, AI_topLevelObjects, NSNibTopLevelObjects, nil]
-								  withZone:nil]) {
-		
-		// Release top level objects, release AI_topLevelObjects in -dealloc
-		[AI_topLevelObjects makeObjectsPerformSelector:@selector(release)];
+	if ([[NSBundle mainBundle] loadNibNamed:nibName owner:self topLevelObjects:nil]) {
 		
 		// Set the text view
 		[self setTextView:aView];
 		
 		// Set-up collection view
-		[emoticonsCollectionView setMaxNumberOfColumns:10];
-		[emoticonsCollectionView setMinItemSize:NSMakeSize(20.0f, 20.0f)];
-		[emoticonsCollectionView setMaxItemSize:NSMakeSize(20.0f, 20.0f)];
-		[emoticonsCollectionView setHighlightStyle:AIImageCollectionViewHighlightBackgroundStyle];
-		[emoticonsCollectionView setHighlightSize:0.0f];
-		[emoticonsCollectionView setHighlightCornerRadius:3.0f];
+		[self.emoticonsCollectionView setMaxNumberOfColumns:10];
+		[self.emoticonsCollectionView setMinItemSize:NSMakeSize(20.0f, 20.0f)];
+		[self.emoticonsCollectionView setMaxItemSize:NSMakeSize(20.0f, 20.0f)];
+		[self.emoticonsCollectionView setHighlightStyle:AIImageCollectionViewHighlightBackgroundStyle];
+		[self.emoticonsCollectionView setHighlightSize:0.0f];
+		[self.emoticonsCollectionView setHighlightCornerRadius:3.0f];
 		
 		// Set-up emoticons
 		NSArray	*activePacks = [adium.emoticonController activeEmoticonPacks];
@@ -92,10 +93,6 @@
 		[self setEmoticonTitles:titles];
 		[self setEmoticonSymbols:symbols];
 		
-		[icons release];
-		[titles release];
-		[symbols release];
-		
 		NSSize alignmentSize = NSMakeSize([alignmentView frame].size.width, ceil([[self emoticons] count] / 10.0f) * 20.0f);
 		
 		[alignmentView setFrameSize:alignmentSize];
@@ -109,18 +106,9 @@
 								inView:[aView superview]];
 	}
 	
-	return self;
-}
-
-- (void)dealloc
-{
-	[emoticons release];
-	[emoticonTitles release];
-	[emoticonSymbols release];
-	[textView release];
-	[AI_topLevelObjects release];
+	AILogWithSignature(@"%p", self);
 	
-	[super dealloc];
+	return self;
 }
 
 #pragma mark - AIImageCollectionView delegate
@@ -134,8 +122,8 @@
 {
 	if (anIndex < [[self emoticons] count]) {
 		// Update Title and Symbol (Text Equivalent)
-		[[self emoticonTitleLabel] setTitleWithMnemonic:[[self emoticonTitles] objectAtIndex:anIndex]];
-		[[self emoticonSymbolLabel] setTitleWithMnemonic:[[self emoticonSymbols] objectAtIndex:anIndex]];
+		[emoticonTitleLabel setTitleWithMnemonic:[[self emoticonTitles] objectAtIndex:anIndex]];
+		[emoticonSymbolLabel setTitleWithMnemonic:[[self emoticonSymbols] objectAtIndex:anIndex]];
 	}
 }
 
@@ -163,6 +151,12 @@
 	}
 	
 	[menu cancelTracking];
+}
+
+- (void)menuDidClose:(NSMenu *)inMenu
+{
+	[menu setDelegate:nil];
+	[emoticonsCollectionView setDelegate:nil];
 }
 
 @end

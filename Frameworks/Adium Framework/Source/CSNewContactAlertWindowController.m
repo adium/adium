@@ -39,7 +39,7 @@
 
 - (void)updateHeaderView;
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)alertDetailsForHeaderChanged:(NSNotification *)aNotification;
 
 @end
@@ -63,15 +63,7 @@
 																		   configureForGlobal:inConfigureForGlobal
 																			   defaultEventID:inDefaultEventID];
 	
-	if (parentWindow) {
-		[NSApp beginSheet:[newController window]
-		   modalForWindow:parentWindow
-			modalDelegate:newController
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[newController showWindow:nil];
-	}
+	[newController showOnWindow:parentWindow];
 	
 	return newController;
 }
@@ -85,8 +77,8 @@
 			 defaultEventID:(NSString *)inDefaultEventID
 {
 	if ((self = [super initWithWindowNibName:windowNibName])) {
-		oldAlert = [inAlert retain];
-		listObject = [inListObject retain];
+		oldAlert = inAlert;
+		listObject = inListObject;
 		target = inTarget;
 		detailsPane = nil;
 		configureForGlobal = inConfigureForGlobal;
@@ -116,13 +108,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[alert release];
-	[oldAlert release];
-	[detailsPane release];
-	[listObject release];
-	
-	[super dealloc];
 }
 
 // Setup the window before it is displayed
@@ -158,15 +143,17 @@
 // Window is closing
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
 	[self cleanUpDetailsPane];
+	
+	[super windowWillClose:sender];
 }
 
 // Called as the user list edit sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
 	[self cleanUpDetailsPane];
+	
+	[super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 #pragma mark Buttons
@@ -242,7 +229,7 @@
 	[detailsView removeFromSuperview], detailsView = nil;
 
 	[detailsPane closeView];
-	[detailsPane release], detailsPane = nil;
+	detailsPane = nil;
 }
 
 // Configure the details pane for our current alert
@@ -259,7 +246,7 @@
 	[self cleanUpDetailsPane];
 	
 	// Get a new pane for the current action type, and configure it for our alert
-	detailsPane = [[actionHandler detailsPaneForActionID:actionID] retain];
+	detailsPane = [actionHandler detailsPaneForActionID:actionID];
 	if (detailsPane) {
 		NSDictionary	*actionDetails = [alert objectForKey:KEY_ACTION_DETAILS];
 		

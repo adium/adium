@@ -28,31 +28,19 @@
 
 + (id)previewControllerForPack:(AIEmoticonPack *)inPack preferences:(AIEmoticonPreferences *)inPreferences
 {
-	return [[[self alloc] initForPack:inPack preferences:inPreferences] autorelease];
+	return [[self alloc] initForPack:inPack preferences:inPreferences];
 }
 
 - (id)initForPack:(AIEmoticonPack *)inPack preferences:(AIEmoticonPreferences *)inPreferences
 {
 	if ((self = [super init])) {
-		emoticonPack = [inPack retain];
-		preferences = [inPreferences retain];
+		emoticonPack = inPack;
+		preferences = inPreferences;
 
 		[NSBundle loadNibNamed:@"EmoticonPackPreview" owner:self];
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[emoticonPack release];
-	[preferences release];
-	
-	/* It seems like we should be releasing previewView here.  Doing so leads to a double release when the view is
-	 * removed its superview, though.. no idea what's going wrong, but it's not a leak... it's just weird. -eds */
-	//[previewView release];
-
-	[super dealloc];
 }
 
 - (IBAction)togglePack:(id)sender

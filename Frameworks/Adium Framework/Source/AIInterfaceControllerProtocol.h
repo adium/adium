@@ -74,6 +74,19 @@ typedef enum {
 	DCWebkitMessageView			//Preferred message view
 } DCMessageViewType;
 
+typedef enum {
+	AITextAndButtonsDefaultReturn			= 1,
+	AITextAndButtonsAlternateReturn			= 0,
+	AITextAndButtonsOtherReturn				= -1,
+	AITextAndButtonsClosedWithoutResponse	= -2
+} AITextAndButtonsReturnCode;
+
+typedef enum {
+	AITextAndButtonsWindowButtonDefault = 0,
+	AITextAndButtonsWindowButtonAlternate,
+	AITextAndButtonsWindowButtonOther
+} AITextAndButtonsWindowButton;
+
 @protocol AIInterfaceComponent, AIContactListComponent, AIMessageDisplayController, AIMessageDisplayPlugin;
 @protocol AIContactListTooltipEntry, AIFlashObserver, AIPlugin;
 
@@ -369,10 +382,10 @@ typedef enum {
 #pragma mark Question Display
 - (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 
 #pragma mark Synchronized Flashing
 - (void)registerFlashObserver:(id <AIFlashObserver>)inObserver;

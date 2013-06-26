@@ -36,26 +36,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[stringsRequiringPolling release];
-	[delayedFilteringDict release];
-	
-	NSInteger i,j;
-	
-	for (j = 0; j < FILTER_DIRECTION_COUNT; j++) {
-		for (i = 0; i < FILTER_TYPE_COUNT; i ++) {
-			[contentFilter[i][j] release];
-			[delayedContentFilters[i][j] release];
-		}
-		
-		[htmlContentFilters[j] release];
-	}
-
-	[super dealloc];
-}
-
-
 //Content Filtering ----------------------------------------------------------------------------------------------------
 #pragma mark Content Filtering
 /*!
@@ -228,7 +208,7 @@
 	
 	//If we're passed previouslyPerformedFilters, use them as a starting point for performedFilters
 	if (filtersToSkip) {
-		performedFilters = [[filtersToSkip mutableCopy] autorelease];
+		performedFilters = [filtersToSkip mutableCopy];
 	} else {
 		performedFilters = [NSMutableArray array];
 	}

@@ -34,7 +34,7 @@
 
 + (DCJoinChatWindowController *)showJoinChatWindow;
 
-@property (nonatomic, retain) DCJoinChatViewController *joinChatViewController;
+@property (nonatomic) DCJoinChatViewController *joinChatViewController;
 
 - (void)configureForAccount:(AIAccount *)inAccount;
 - (IBAction)joinChat:(id)sender;

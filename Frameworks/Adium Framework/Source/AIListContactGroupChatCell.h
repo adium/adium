@@ -21,6 +21,6 @@
 	AIGroupChat	*chat;
 }
 
-@property (readwrite, retain, nonatomic) AIGroupChat *chat;
+@property (readwrite, nonatomic) AIGroupChat *chat;
 
 @end

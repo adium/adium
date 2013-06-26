@@ -15,7 +15,6 @@
  */
 
 #import "AIServersideUserIconSource.h"
-#import <Adium/AIUserIcons.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AICachedUserIconSource.h>
@@ -76,7 +75,7 @@
 
 	if (iconData) {
 		[AIUserIcons userIconSource:self
-			   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
+			   didDetermineUserIcon:[[NSImage alloc] initWithData:iconData]
 					 asynchronously:NO
 						  forObject:inObject];
 		

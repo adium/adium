@@ -34,7 +34,7 @@
  *
  * Ignored if usesAlternatingRowBackgroundColors is NO.
  */
-@property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
+@property (weak, readwrite, nonatomic) NSColor *alternatingRowColor;
 
 /*!
  * @brief Whether the outlineView should draw its background

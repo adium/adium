@@ -19,10 +19,6 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIRichTextCoercer.h>
 
-#import <unistd.h>
-#import <sysexits.h>
-#import <sys/wait.h>
-
 @implementation TestRichTextCoercion
 
 - (NSDictionary *)dictionaryForScriptSuiteNamed:(NSString *)suiteName fromSdefFile:(NSString *)path

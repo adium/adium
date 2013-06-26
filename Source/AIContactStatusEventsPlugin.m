@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactStatusEventsPlugin.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>
@@ -67,17 +66,6 @@
 - (void)uninstallPlugin
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-}
-
-- (void)dealloc
-{
-	[onlineCache release];
-	[awayCache release];
-	[idleCache release];
-	[statusMessageCache release];
-	[mobileCache release];
-	
-	[super dealloc];
 }
 
 /*!
@@ -305,7 +293,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"events-contact" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"events-contact" forClass:[self class]];
 	return eventImage;
 }
 
@@ -486,7 +474,7 @@
 
 	if ((newStatus && !oldStatus) ||
 	   (oldStatus && !newStatus) ||
-	   ((performCompare && newStatus && oldStatus && [newStatus performSelector:@selector(compare:) withObject:oldStatus] != NSOrderedSame))) {
+	   ((performCompare && newStatus && oldStatus && (int)[newStatus performSelector:@selector(compare:) withObject:oldStatus] != NSOrderedSame))) {
 		
 		if (newStatus) {
 			[cache setObject:newStatus forKey:inObject.internalObjectID];
