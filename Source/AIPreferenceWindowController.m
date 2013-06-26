@@ -199,6 +199,7 @@
 												doc,
 												(__bridge CFStringRef)contents,
 												NO);
+					CFRelease(doc);
 				}];
 			}];
 		}
@@ -218,6 +219,7 @@
 										doc,
 										(__bridge CFStringRef)paneName,
 										NO);
+			CFRelease(doc);
 		};
 		[generalPaneArray enumerateObjectsUsingBlock:_skPaneNames];
 		[appearancePaneArray enumerateObjectsUsingBlock:_skPaneNames];

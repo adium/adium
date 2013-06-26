@@ -2585,7 +2585,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 - (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
 {
-	NSArray *selectedLogs = (__bridge NSArray *)contextInfo;
+	NSArray *selectedLogs = (__bridge_transfer NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
 		[resultsLock lock];
 		
@@ -2653,7 +2653,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else if ([selectedLogs count] == 1) {
 		[self deleteLogsAlertDidEnd:nil
 						 returnCode:NSAlertFirstButtonReturn
-						contextInfo:(__bridge_retained void *)(selectedLogs)];
+						contextInfo:(__bridge void *)(selectedLogs)];
 	}
 }
 
@@ -2721,7 +2721,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 - (void)deleteSelectedContactsFromSourceListAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 {
-	NSArray *allSelectedToGroups = (__bridge NSArray *)contextInfo;
+	NSArray *allSelectedToGroups = (__bridge_transfer NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
 		AILogToGroup	*logToGroup;
 		NSMutableSet	*logPaths = [NSMutableSet set];
@@ -2769,7 +2769,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else {
 		[self deleteSelectedContactsFromSourceListAlertDidEnd:nil
 												   returnCode:NSAlertFirstButtonReturn
-												  contextInfo:(__bridge_retained void *)(allSelectedToGroups)];
+												  contextInfo:(__bridge void *)(allSelectedToGroups)];
 	}
 }
 
