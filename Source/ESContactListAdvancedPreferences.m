@@ -136,6 +136,9 @@
 		[popUp_listLayout selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																								 group:PREF_GROUP_APPEARANCE]];
 	}
+	
+	if (type)
+		CFRelease(type);
 }
 
 /*!
