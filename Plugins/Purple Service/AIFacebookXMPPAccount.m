@@ -14,7 +14,6 @@
 #import "auth_fb.h"
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
-#import "JSONKit.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 
@@ -335,7 +334,7 @@ enum {
     }
     
     NSError *error = nil;
-    NSDictionary *resp = [graphAPIData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:graphAPIData options:NSJSONReadingMutableLeaves error:&error];
     if (!resp) {
         NSLog(@"error decoding graph API response: %@", error);
         // TODO: indicate setup failed

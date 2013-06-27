@@ -609,8 +609,6 @@
 		34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */; };
 		34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */; };
 		34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */; };
-		34D8154613B663700022C8C4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
-		34D8154713B663700022C8C4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-DNS_BLOCK_ASSERTIONS -fno-objc-arc"; }; };
 		34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154913B663A80022C8C4 /* auth_fb.c */; };
 		34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154A13B663A80022C8C4 /* auth_fb.h */; };
 		34D8154F13B663A80022C8C4 /* fbapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154B13B663A80022C8C4 /* fbapi.c */; };
@@ -1020,14 +1018,11 @@
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
-		5A2F34451762B0CE00C612B7 /* TestNSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */; };
-		5A2F34491762B1F500C612B7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B77E716FBDDC600DF398C /* NSData+Base64.m */; };
 		5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6E16D878AB00903E40 /* STTwitterAPIWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */; };
-		5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B77E716FBDDC600DF398C /* NSData+Base64.m */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */; };
@@ -1914,7 +1909,6 @@
 		11819A0210D0B8BE003E8ECA /* AIMediaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaController.h; path = Source/AIMediaController.h; sourceTree = "<group>"; };
 		11819A0310D0B8BE003E8ECA /* AIMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMediaController.m; path = Source/AIMediaController.m; sourceTree = "<group>"; };
 		11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIMediaControllerProtocol.h"; sourceTree = "<group>"; };
-		118A444F0FEEA828008153C0 /* libjson-glib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "libjson-glib.framework"; path = "Frameworks/libjson-glib.framework"; sourceTree = "<group>"; };
 		1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAnnoyingIRCMessagesHiderPlugin.h; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.h"; sourceTree = "<group>"; };
 		1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAnnoyingIRCMessagesHiderPlugin.m; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.m"; sourceTree = "<group>"; };
 		1197F66F0FCF8D180032F19B /* AITwitterStatusFollowup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterStatusFollowup.h; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.h"; sourceTree = "<group>"; };
@@ -3415,8 +3409,6 @@
 		34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPOAuthWebViewWindowController.m; path = "Plugins/Purple Service/AIFacebookXMPPOAuthWebViewWindowController.m"; sourceTree = "<group>"; };
 		34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookXMPPService.h; path = "Plugins/Purple Service/AIFacebookXMPPService.h"; sourceTree = "<group>"; };
 		34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookXMPPService.m; path = "Plugins/Purple Service/AIFacebookXMPPService.m"; sourceTree = "<group>"; };
-		34D8154413B663700022C8C4 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Frameworks/JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		34D8154513B663700022C8C4 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Frameworks/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		34D8154913B663A80022C8C4 /* auth_fb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth_fb.c; sourceTree = "<group>"; };
 		34D8154A13B663A80022C8C4 /* auth_fb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auth_fb.h; sourceTree = "<group>"; };
 		34D8154B13B663A80022C8C4 /* fbapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fbapi.c; sourceTree = "<group>"; };
@@ -3889,8 +3881,6 @@
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
 		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
-		5A2F34431762B0CE00C612B7 /* TestNSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestNSData+Base64.h"; path = "UnitTests/TestNSData+Base64.h"; sourceTree = "<group>"; };
-		5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TestNSData+Base64.m"; path = "UnitTests/TestNSData+Base64.m"; sourceTree = "<group>"; };
 		5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+STTwitter.h"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.h"; sourceTree = "<group>"; };
 		5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+STTwitter.m"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.m"; sourceTree = "<group>"; };
 		5A3B4D6D16D878AB00903E40 /* STTwitterAPIWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAPIWrapper.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAPIWrapper.h"; sourceTree = "<group>"; };
@@ -3902,8 +3892,6 @@
 		5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STHTTPRequest.m; path = "Plugins/Twitter Plugin/STTwitter/Vendor/STHTTPRequest.m"; sourceTree = "<group>"; };
 		5A445956169118C60078AB0A /* AIPreferenceCVPrototypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceCVPrototypeView.h; path = Source/AIPreferenceCVPrototypeView.h; sourceTree = "<group>"; };
 		5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceCVPrototypeView.m; path = Source/AIPreferenceCVPrototypeView.m; sourceTree = "<group>"; };
-		5A4B77E716FBDDC600DF398C /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.m"; sourceTree = "<group>"; };
-		5A4B77E816FBDDC700DF398C /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Plugins/Twitter Plugin/STTwitter/NSData+Base64.h"; sourceTree = "<group>"; };
 		5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dock Tile Plugin.xcconfig"; sourceTree = "<group>"; };
 		5A4BD41C13F855B000A4D3F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = Resources/en.lproj/SearchTerms.plist; sourceTree = "<group>"; };
 		5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-ContactList.xib"; path = "Resources/Preferences-ContactList.xib"; sourceTree = "<group>"; };
@@ -4976,7 +4964,6 @@
 		1172FCA10CDAA8DE00B8E233 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				118A444F0FEEA828008153C0 /* libjson-glib.framework */,
 				1172FBC30CDAA8D400B8E233 /* libglib.framework */,
 				1172FBC40CDAA8D400B8E233 /* libgmodule.framework */,
 				1172FBC50CDAA8D400B8E233 /* libgobject.framework */,
@@ -5169,8 +5156,6 @@
 				31FA7F100D4A75D000ABE634 /* TestRichTextCoercion.m */,
 				634BCD1D0DDC1542005AF1C2 /* TestMutableStringAdditions.h */,
 				634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */,
-				5A2F34431762B0CE00C612B7 /* TestNSData+Base64.h */,
-				5A2F34441762B0CE00C612B7 /* TestNSData+Base64.m */,
 				31034EFD0C8142680003F5AA /* TestStringAdditions.h */,
 				31034EFE0C8142680003F5AA /* TestStringAdditions.m */,
 				31034F0B0C8142720003F5AA /* UTF8Snowman.txt */,
@@ -5635,7 +5620,6 @@
 				34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */,
 				97F7B37E14E29BC400A0F6F8 /* facebook-small.png */,
 				97F7B37F14E29BC400A0F6F8 /* facebook.png */,
-				34D8154813B663730022C8C4 /* JSON Kit */,
 				34D8152D13B6634A0022C8C4 /* Legacy (Upgrade path) */,
 			);
 			name = Facebook;
@@ -6281,15 +6265,6 @@
 				345D68960F1FD563002F2D01 /* facebook-small.png */,
 			);
 			name = "Legacy (Upgrade path)";
-			sourceTree = "<group>";
-		};
-		34D8154813B663730022C8C4 /* JSON Kit */ = {
-			isa = PBXGroup;
-			children = (
-				34D8154413B663700022C8C4 /* JSONKit.h */,
-				34D8154513B663700022C8C4 /* JSONKit.m */,
-			);
-			name = "JSON Kit";
 			sourceTree = "<group>";
 		};
 		34D8342B07CBE6A4006466F2 /* External Sources */ = {
@@ -7347,8 +7322,6 @@
 		5A3B4D6A16D878AB00903E40 /* STTwitter */ = {
 			isa = PBXGroup;
 			children = (
-				5A4B77E716FBDDC600DF398C /* NSData+Base64.m */,
-				5A4B77E816FBDDC700DF398C /* NSData+Base64.h */,
 				5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */,
 				5A0D236916F4C7BC005DF211 /* STTwitterAppOnly.h */,
 				5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */,
@@ -9064,7 +9037,6 @@
 				34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */,
 				34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */,
 				34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */,
-				34D8154613B663700022C8C4 /* JSONKit.h in Headers */,
 				34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */,
 				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
 				76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */,
@@ -10147,8 +10119,6 @@
 				318EA69C0D7A659900EDB105 /* TestColorAdditions.m in Sources */,
 				634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */,
 				3107D5250F63134F0051DDD5 /* TestAttributedStringAdditions.m in Sources */,
-				5A2F34451762B0CE00C612B7 /* TestNSData+Base64.m in Sources */,
-				5A2F34491762B1F500C612B7 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10269,7 +10239,6 @@
 				34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */,
 				34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */,
 				34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */,
-				34D8154713B663700022C8C4 /* JSONKit.m in Sources */,
 				34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */,
 				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
 				76FF925B14B524B40043E23B /* AIIRCConsoleController.m in Sources */,
@@ -10608,7 +10577,6 @@
 				5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */,
 				5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */,
 				5A0D236A16F4C7BC005DF211 /* STTwitterAppOnly.m in Sources */,
-				5A4B77E916FBDDC700DF398C /* NSData+Base64.m in Sources */,
 				76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
