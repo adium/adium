@@ -21,4 +21,4 @@ done
 
 ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} chmod go+r ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/${ADIUM_RELEASE_NAME}.dmg ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/latest.info ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/latestDelta.info ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/${ADIUM_RELEASE_NAME}.dmg.md5
 
-ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} for file in ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/*.delta; do chmod go+r $file done
+ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} for file in ${NIGHTLY_REPO}-${NIGHTLY_BRANCH}/*.delta\; do chmod go+r $file done
