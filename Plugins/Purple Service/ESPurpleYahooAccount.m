@@ -24,6 +24,7 @@
 #import <Adium/ESFileTransfer.h>
 #import <libpurple/libymsg.h>
 #import <libpurple/yahoo_friend.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 
 @implementation ESPurpleYahooAccount
 
@@ -119,7 +120,7 @@
 #pragma mark Encoding
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
 {	
-	return [AIHTMLDecoder encodeHTML:inAttributedString
+	return [AIHTMLDecoder encodeHTML:[inAttributedString attributedStringByConvertingLinksToStrings]
 							 headers:NO
 							fontTags:YES
 				  includingColorTags:YES
