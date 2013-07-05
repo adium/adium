@@ -18,7 +18,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 
-@class AIListContact, AIAccount, AIChat;
+@class AIListContact, AIAccount, AIChat, AIButtonWithCursor;
 
 @protocol AIMessageEntryTextViewDelegate <NSTextViewDelegate,NSObject>
 
@@ -53,7 +53,7 @@
 
 	NSMutableArray		*pushArray;
 	BOOL                 pushIndicatorVisible;
-	NSButton			*pushIndicator;
+	AIButtonWithCursor	*pushIndicator;
 	NSMenu              *pushMenu;
 	NSDictionary		*defaultTypingAttributes;
 
@@ -71,7 +71,7 @@
 @protected
     // Emoticons
     BOOL hasEmoticonsMenu;
-    NSButton *emoticonsMenuButton;
+    AIButtonWithCursor *emoticonsMenuButton;
 }
 
 @property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
