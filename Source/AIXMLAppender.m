@@ -231,7 +231,7 @@ enum {
 	const char *pathCString = [self.path fileSystemRepresentation];
 	int fd = open(pathCString, O_CREAT | O_WRONLY, 0600);
 	if(fd == -1) {
-		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
+		AILog(@"Couldn't open log file %@ (%s - length %zu) for writing!",
 			  self.path, pathCString, (pathCString ? strlen(pathCString) : 0));
 	} else {
 		self.fileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];

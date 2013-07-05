@@ -57,6 +57,7 @@
 	if ((self = [super init])) {
 		//Return nil if we can't load our sound set
 		if (!inPath || ![inPath length] || ![self _loadSoundSetFromPath:inPath]) {
+			[self release];
 			return nil;
 		}
 
@@ -363,6 +364,6 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %x - %@: %i sounds at %@>", NSStringFromClass([self class]), self, self.name, [self.sounds count], sourcePath];
+	return [NSString stringWithFormat:@"<%@: %p - %@: %li sounds at %@>", NSStringFromClass([self class]), self, self.name, [self.sounds count], sourcePath];
 }
 @end

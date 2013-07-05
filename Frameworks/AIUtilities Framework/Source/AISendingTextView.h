@@ -32,9 +32,6 @@
 	SEL			selector;
 	BOOL			sendingEnabled;
 
-	BOOL			sendOnEnter;
-	BOOL			sendOnReturn;
-
 	BOOL			nextIsReturn;
 	BOOL			nextIsEnter;
 	BOOL			optionPressedWithNext;
@@ -47,21 +44,6 @@
  * @see setTarget:action:
  */
 @property (readwrite, nonatomic) BOOL sendingEnabled;
-
-/*!
- * @brief Whether Return triggers a send
- *
- * Set if Return triggers a send. If it does, the send will be performed instead of a newline being inserted.
- */
-@property (readwrite, nonatomic) BOOL sendOnReturn;
-
-/*!
- * @brief Whether Enter triggers a send
- *
- * Set if Enter triggers a send. If it does, the send will be performed instead of a newline being inserted.
- * @param inBool YES if Enter triggers a send.
- */
-@property (readwrite, nonatomic) BOOL sendOnEnter;
 
 /*!
  * @brief Set the target and action to message when a send occurs

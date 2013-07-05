@@ -37,10 +37,6 @@
 - (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
-@interface SFCertificateTrustPanel (SecretsIKnow)
-- (void)setInformativeText:(NSString *)inString;
-@end
-
 @implementation AIPurpleCertificateTrustWarningAlert
 
 + (void)displayTrustWarningAlertWithAccount:(AIAccount *)account
@@ -93,7 +89,7 @@
 
 - (void)dealloc {
 	CFRelease(certificates);
-	CFRelease(trustRef);
+	if (trustRef) CFRelease(trustRef);
 	
 	[hostname release];
 	
@@ -128,8 +124,8 @@
 	
 	CSSM_APPLE_TP_SSL_OPTIONS ssloptions = {
 		.Version = CSSM_APPLE_TP_SSL_OPTS_VERSION,
-		.ServerNameLen = (UInt32)([hostname length]+1),
-		.ServerName = [hostname cStringUsingEncoding:NSASCIIStringEncoding],
+		.ServerNameLen = (UInt32)([hostname length]+1), // Documentation says that for NULL-terminated strings, the length should include the NULL.
+		.ServerName = [hostname UTF8String],
 		.Flags = 0
 	};
 	
@@ -214,17 +210,10 @@
 	//	CSSM_TP_APPLE_EVIDENCE_INFO *statusChain;
 	//	err = SecTrustGetResult(trustRef, &result, &certChain, &statusChain);
 	
-	NSString *title;
+	NSString *title = [NSString stringWithFormat:AILocalizedString(@"Adium can't verify the identity of \"%@\".", nil), hostname];
+	
 	NSString *informativeText = [NSString stringWithFormat:AILocalizedString(@"The certificate of the server %@ is not trusted, which means that the server's identity cannot be automatically verified. Do you want to continue connecting?\n\nFor more information, click \"Show Certificate\".",nil), hostname];
-	if ([trustPanel respondsToSelector:@selector(setInformativeText:)]) {
-		[trustPanel setInformativeText:informativeText];
-		title = [NSString stringWithFormat:AILocalizedString(@"Adium can't verify the identity of \"%@\".", nil), hostname];
-	} else {
-		/* We haven't seen a version of SFCertificateTrustPanel which doesn't respond to setInformativeText:, but we're using a private
-		 * call found via class-dump, so have a sane backup strategy in case it changes.
-		 */
-		title = informativeText;
-	}
+	[trustPanel setInformativeText:informativeText];
 
 	[trustPanel setAlternateButtonTitle:AILocalizedString(@"Cancel",nil)];
 	[trustPanel setShowsHelp:YES];

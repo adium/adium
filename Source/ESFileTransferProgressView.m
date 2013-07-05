@@ -188,7 +188,6 @@
 	
 	[transferStatus retain];
 	
-//	[textField_transferStatus setStringValue:transferStatus];
 	[self setNeedsDisplayInRect:[box_transferStatusFrame frame]];
 	[textField_rate setStringValue:(inTransferSpeedStatus ? inTransferSpeedStatus : @"")];
 }

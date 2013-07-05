@@ -20,7 +20,6 @@
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIChatControllerProtocol.h>
-#import "ESDualWindowMessageAdvancedPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>
 
@@ -47,8 +46,6 @@
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DUAL_INTERFACE_DEFAULT_PREFS forClass:[self class]] 
 										  forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
-	preferenceMessageAdvController = [(ESDualWindowMessageAdvancedPreferences *)[ESDualWindowMessageAdvancedPreferences preferencePane] retain];
-	
 	//Watch Adium hide and unhide (Used for better window opening behavior)
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(applicationDidHide:)
@@ -70,7 +67,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	//Cleanup
-	[preferenceMessageAdvController release]; preferenceMessageAdvController = nil;
 	[containers release]; containers = nil;
 	[delayedContainerShowArray release]; delayedContainerShowArray = nil;
 }	
@@ -99,10 +95,10 @@
 				notify:NotifyNever];
 		[container addTabViewItem:messageTab atIndex:idx silent:NO];
 	}
-
-    //Display the account selector if necessary
-	[[messageTab messageViewController] setAccountSelectionMenuVisibleIfNeeded:YES];
 	
+    [[NSNotificationCenter defaultCenter] postNotificationName:Chat_DestinationChanged object:chat];
+    [[NSNotificationCenter defaultCenter] postNotificationName:Chat_SourceChanged object:chat];
+    
 	//Open the container window.  We wait until after the chat has been added to the container
 	//before making it visible so window opening looks cleaner.
 	if (container && !applicationIsHidden && ![[container window] isMiniaturized] && ![[container window] isVisible]) {

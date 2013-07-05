@@ -310,6 +310,11 @@ enum {
 
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token
 {
+	//Clear this value since we have a new password
+	[self setValue:[NSNumber numberWithBool:NO]
+	   forProperty:@"Prompt For Password On Next Connect"
+			notify:NotifyNever];
+	
     [self setOAuthToken:token];
     
     NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];

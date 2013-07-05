@@ -25,6 +25,9 @@
 	IBOutlet	NSTextField *textField_realname;
 	
 	IBOutlet	NSTextView	*textView_commands;
+	
+	IBOutlet	NSButton	*checkbox_useSASL;
+	IBOutlet	NSButton	*checkbox_insecurePlain;
 }
 
 @end
