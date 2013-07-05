@@ -501,21 +501,22 @@
 																			   object:status
 																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
 						   
-						   NSDictionary *retweet = [status valueForKey:TWITTER_STATUS_RETWEET];
-						   NSString *text = [[status objectForKey:TWITTER_STATUS_TEXT] stringByEscapingForXMLWithEntities:nil];
-						   
-						   if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-							   text = [[NSString stringWithFormat:@"RT @%@: %@",
-										[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-										[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByEscapingForXMLWithEntities:nil];
-						   }
-						   
-						   if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
-							   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {
-							   AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+						   if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+							   NSDictionary *retweet = [status valueForKey:TWITTER_STATUS_RETWEET];
+							   NSString *text = [[status objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
 							   
-							   availableStatus.statusMessage = [NSAttributedString stringWithString:text];
-							   [adium.statusController setActiveStatusState:availableStatus];
+							   if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+								   text = [[NSString stringWithFormat:@"RT @%@: %@",
+											[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+											[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByUnescapingFromXMLWithEntities:nil];
+							   }
+							   
+							   if (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+								   AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+								   
+								   availableStatus.statusMessage = [NSAttributedString stringWithString:text];
+								   [adium.statusController setActiveStatusState:availableStatus];
+							   }
 						   }
 						   
 						   if (updateAfterSend)
