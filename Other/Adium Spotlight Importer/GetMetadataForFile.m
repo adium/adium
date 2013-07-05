@@ -156,6 +156,7 @@ CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
 	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
+	[logData release];
 	[pool release];
 	
 	return textContent;

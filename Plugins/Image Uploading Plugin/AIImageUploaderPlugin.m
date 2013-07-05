@@ -44,42 +44,61 @@
 	windowControllers = [[NSMutableDictionary alloc] init];
 	uploadInstances = [[NSMutableDictionary alloc] init];
 	
-	[uploaders addObject:[AIImageShackImageUploader class]];
-	[uploaders addObject:[AIImgurImageUploader class]];
+	contextMenuItem = [[NSMenuItem alloc] initWithTitle:IMAGE_UPLOAD_MENU_TITLE target:self action:@selector(uploadImage) keyEquivalent:@""];
 	
-	NSMenuItem *menuItem;
+	editMenuItem = [[NSMenuItem alloc] initWithTitle:IMAGE_UPLOAD_MENU_TITLE
+											  target:self
+											  action:@selector(uploadImage)
+									   keyEquivalent:@"k" keyMask:NSCommandKeyMask | NSAlternateKeyMask];
 	
-	NSMenu *subMenu = [[NSMenu alloc] init];
-	[subMenu setDelegate:self];
+	NSMenu* contextSubmenu = [[NSMenu alloc] init];
+	NSMenu* editSubmenu = [[NSMenu alloc] init];
+	[contextSubmenu setDelegate:self];
+	[editSubmenu setDelegate:self];
 	
-	// Edit menu
-	menuItem = [[[NSMenuItem alloc] initWithTitle:IMAGE_UPLOAD_MENU_TITLE
-										   target:self
-										   action:@selector(uploadImage)
-									keyEquivalent:@"k"
-										  keyMask:NSCommandKeyMask | NSAlternateKeyMask] autorelease];
+	[contextMenuItem setSubmenu:contextSubmenu];
+	[editMenuItem setSubmenu:contextSubmenu];
 	
-	[menuItem setSubmenu:subMenu];
+	[contextSubmenu release];
+	[editSubmenu release];
 	
-	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Links];
-
-	// Context menu
-	menuItem = [[[NSMenuItem alloc] initWithTitle:IMAGE_UPLOAD_MENU_TITLE
-										   target:self
-										   action:@selector(uploadImage)
-									keyEquivalent:@""] autorelease];
-	
-	[menuItem setSubmenu:[[subMenu copy] autorelease]];
-	
-	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
-	
+	[adium.menuController addMenuItem:editMenuItem toLocation:LOC_Edit_Links];
+	[adium.menuController addContextualMenuItem:contextMenuItem toLocation:Context_TextView_Edit];
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
+	
+	[self addUploader:[AIImageShackImageUploader class]];
+	[self addUploader:[AIImgurImageUploader class]];
+}
 
-	[subMenu release];
+- (void)addUploader:(Class)uploader
+{
+	// using indexOfObjectIdenticalTo: because Class instances don't implement the NSObject protocol, causing all kinds
+	// of weirdness when using them with NSArrays
+	if ([uploaders indexOfObjectIdenticalTo:uploader] != NSNotFound)
+		return;
+	
+	[uploaders addObject:uploader];
+	[self menuNeedsUpdate:[contextMenuItem submenu]];
+	[self menuNeedsUpdate:[editMenuItem submenu]];
+}
+
+- (void)removeUploader:(Class)uploader
+{
+	// using indexOfObjectIdenticalTo: because Class instances don't implement the NSObject protocol, causing all kinds
+	// of weirdness when using them with NSArrays
+	NSUInteger index = [uploaders indexOfObjectIdenticalTo:uploader];
+	if (index == NSNotFound)
+		return;
+	
+	[uploaders removeObjectAtIndex:index];
+	[self menuNeedsUpdate:[contextMenuItem submenu]];
+	[self menuNeedsUpdate:[editMenuItem submenu]];
 }
 
 - (void)uninstallPlugin
 {
+	[[contextMenuItem menu] removeItem:contextMenuItem];
+	[[editMenuItem menu] removeItem:editMenuItem];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -89,6 +108,8 @@
 	[windowControllers release];
 	[uploadInstances release];
 	[uploaders release];
+	[contextMenuItem release];
+	[editMenuItem release];
 	
 	[super dealloc];
 }

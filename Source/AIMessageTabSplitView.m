@@ -15,7 +15,6 @@
  */
 
 #import "AIMessageTabSplitView.h"
-#import <PSMTabBarControl/NSBezierPath_AMShading.h>
 
 @implementation AIMessageTabSplitView
 
@@ -49,9 +48,10 @@
 -(void)drawDividerInRect:(NSRect)aRect
 {	
 	if (rightColor && leftColor) {
-		NSBezierPath *path = [NSBezierPath bezierPathWithRect:aRect];
-		[path linearVerticalGradientFillWithStartColor:leftColor 
-											  endColor:rightColor];
+		NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:leftColor
+															 endingColor:rightColor];
+		[gradient drawInRect:self.bounds angle:90.0];
+		[gradient release];
 		NSBezierPath *line = nil;
 		
 		if (position == AIMessageSplitTabPositionLeft) {

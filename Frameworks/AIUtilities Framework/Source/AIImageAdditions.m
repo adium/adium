@@ -15,6 +15,7 @@
  */
 
 #import "AIImageAdditions.h"
+#import "AIBundleAdditions.h"
 
 @interface NSImage (AIImageAdditions_PRIVATE)
 
@@ -27,22 +28,11 @@
 + (NSImage *)imageNamed:(NSString *)name forClass:(Class)inClass loadLazily:(BOOL)flag
 {
 	NSBundle *ownerBundle;
-    NSString *imagePath;
-    NSImage	*image;
 	
     // Get the bundle
     ownerBundle = [NSBundle bundleForClass:inClass];
 	
-    // Open the image
-    imagePath = [ownerBundle pathForImageResource:name];   
-	
-	if(flag) {
-		image = [[NSImage alloc] initByReferencingFile:imagePath];
-	} else {
-		image = [[NSImage alloc] initWithContentsOfFile:imagePath];
-	}
-
-    return [image autorelease];	
+    return [ownerBundle AI_imageForResource:name];
 }
 
 // Returns an image from the owners bundle with the specified name
@@ -139,7 +129,7 @@
 	NSRectFill(NSMakeRect(0, 0, size.width, size.height));
 	
 	// Draw the image
-	[self compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
+	[self drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	
 	// We're done drawing
 	[tempImage unlockFocus];

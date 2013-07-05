@@ -224,7 +224,7 @@
  */
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@<%x> (Equivalents: %@) [in %@]",name,self,[self textEquivalents],pack];
+    return [NSString stringWithFormat:@"%@<%p> (Equivalents: %@) [in %@]",name,self,[self textEquivalents],pack];
 }
 
 /*!
@@ -234,7 +234,7 @@
  */
 - (NSComparisonResult)compare:(AIEmoticon *)otherEmoticon
 {
-	return [name caseInsensitiveCompare:[otherEmoticon name]];
+	return [name localizedCaseInsensitiveCompare:[otherEmoticon name]];
 }
 
 @end

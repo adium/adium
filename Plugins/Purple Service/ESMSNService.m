@@ -66,6 +66,14 @@
 - (NSString *)userNameLabel{
     return AILocalizedString(@"MSN Passport","");    //Sign-in name
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://www.passport.com/", @"URL for MSN signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"Sign up for Windows Live ID", @"Text for MSN sign up button");
+}
 
 - (void)registerStatuses{
 	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE

@@ -39,7 +39,8 @@ char *__crashreporter_info__ = NULL;
 asm(".desc ___crashreporter_info__, 0x10");
 
 @implementation NSObject (AIObjectDebug)
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 - (void)doesNotRecognizeSelector:(SEL)aSelector
 {
 	if (sel_isEqual(aSelector, @selector(description)) || sel_isEqual(aSelector, @selector(doesNotRecognizeSelector:))) {
@@ -50,9 +51,9 @@ asm(".desc ___crashreporter_info__, 0x10");
 	} else {
 		NSLog(@"%@ of class %@ does not respond to selector %@", self, [self class], NSStringFromSelector(aSelector));
 	}
-	__crashreporter_info__ = (char *)[[NSString stringWithFormat:@"Dear crash reporter team: We only put stuff here in debug builds of Adium. Don't Panic, it won't ship in a release unless there's public API for it.\n\n %@ of class %@ does not respond to selector %s", self, [self class], aSelector] cStringUsingEncoding:NSASCIIStringEncoding];
+	__crashreporter_info__ = (char *)[[NSString stringWithFormat:@"Dear crash reporter team: We only put stuff here in debug builds of Adium. Don't Panic, it won't ship in a release unless there's public API for it.\n\n %@ of class %@ does not respond to selector %@", self, [self class], NSStringFromSelector(aSelector)] cStringUsingEncoding:NSASCIIStringEncoding];
     abort();
 }
-
+#pragma clang diagnostic pop
 @end
 #endif

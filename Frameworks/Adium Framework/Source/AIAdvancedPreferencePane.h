@@ -14,13 +14,10 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIModularPane.h>
+#import "AIPreferencePane.h"
 
-@interface AIAdvancedPreferencePane : AIModularPane {
+@interface AIAdvancedPreferencePane : AIPreferencePane {
 
 }
-
-+ (AIAdvancedPreferencePane *)preferencePane;
-+ (AIAdvancedPreferencePane *)preferencePaneForPlugin:(id)inPlugin;
 
 @end

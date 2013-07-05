@@ -491,7 +491,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL];
 	if (attributes && [attributes objectForKey:NSFilePosixPermissions]) {
 		NSNumber *posixInfo = [attributes objectForKey:NSFilePosixPermissions];
-		posixFlags = [NSString stringWithFormat:@"%X", [posixInfo longValue]];
+		posixFlags = [NSString stringWithFormat:@"%lX", [posixInfo longValue]];
 	}
 
 	return posixFlags;

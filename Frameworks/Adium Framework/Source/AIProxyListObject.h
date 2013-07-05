@@ -25,6 +25,7 @@
 	NSAttributedString *cachedDisplayName;
 	NSDictionary *cachedLabelAttributes;
 	NSSize cachedDisplayNameSize;
+	NSString *nick;
 }
 @property (nonatomic, copy) NSDictionary *cachedLabelAttributes;
 @property (nonatomic, retain) NSString *cachedDisplayNameString;
@@ -32,6 +33,7 @@
 @property (nonatomic) NSSize cachedDisplayNameSize;
 
 @property (nonatomic, retain) NSString *key;
+@property (nonatomic, retain) NSString *nick;
 
 @property (nonatomic, assign) AIListObject *listObject;
 @property (nonatomic, assign) ESObjectWithProperties <AIContainingObject> * containingObject;

@@ -276,12 +276,8 @@
 #if LOG_TRACKING_INFO
 	NSLog(@"%@: Visible: %i ; Point %@ in %@ = %i", self,
 		  [[view window] isVisible],
-/*		  NSStringFromPoint([[view superview] convertPoint:[[view window] convertScreenToBase:mouseLocation] fromView:[[view window] contentView]]),*/
 		  NSStringFromPoint([[view window] convertScreenToBase:mouseLocation]),
-/*		  NSStringFromRect([view frame]),*/
 		  NSStringFromRect([[[view window] contentView] convertRect:[view frame] fromView:[view superview]]),
-/*		  NSPointInRect([[view window] convertScreenToBase:mouseLocation], [view frame])*/
-		  /*NSPointInRect([[view superview] convertPoint:[[view window] convertScreenToBase:mouseLocation] fromView:[[view window] contentView]],[view frame])*/
 		  NSPointInRect([[view window] convertScreenToBase:mouseLocation],[[[view window] contentView] convertRect:[view frame] fromView:[view superview]]));
 #endif
 	

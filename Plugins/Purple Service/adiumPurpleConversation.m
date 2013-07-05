@@ -18,6 +18,7 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -101,6 +102,7 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 			if (normalizedUID.length) {
 				messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
 							   normalizedUID, @"Source",
+							   [NSString stringWithUTF8String:who], @"SourceNick",
 							   purpleMessageFlags, @"PurpleMessageFlags",
 							   date, @"Date",nil];
 				
@@ -120,49 +122,53 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 								 time_t mtime)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	//We only care about this if it does not have the PURPLE_MESSAGE_SEND flag, which is set if Purple is sending a sent message back to us
-	if ((flags & PURPLE_MESSAGE_SEND) == 0) {
-		if (flags & PURPLE_MESSAGE_NOTIFY) {
-			// We received a notification (nudge or buzz). Send a notification of such.
-			NSString *type, *messageString = [NSString stringWithUTF8String:message];
-
-			// Determine what we're actually notifying about.
-			if ([messageString rangeOfString:@"nudge" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
-				type = @"Nudge";
-			} else if ([messageString rangeOfString:@"buzz" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
-				type = @"Buzz";
-			} else {
-				// Just call an unknown type a "notification"
-				type = @"notification";
-			}
-
-			[[NSNotificationCenter defaultCenter] postNotificationName:Chat_NudgeBuzzOccured
-																			   object:chatLookupFromConv(conv)
-																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-																					   type, @"Type",
-																					   nil]];
+	
+	// We only care about this if it does not have the PURPLE_MESSAGE_SEND flag, which is set if Purple is sending a sent message back to us
+	// Or if it has both PURPLE_MESSAGE_SEND and PURPLE_MESSAGE_RECV: we received from the server a message that we supposedly sent ourselves.
+	if ((flags & PURPLE_MESSAGE_SEND) == PURPLE_MESSAGE_SEND && (flags & PURPLE_MESSAGE_RECV) == 0) {
+		[pool release];
+		return;
+	}
+	
+	if (flags & PURPLE_MESSAGE_NOTIFY) {
+		// We received a notification (nudge or buzz). Send a notification of such.
+		NSString *type, *messageString = [NSString stringWithUTF8String:message];
+		
+		// Determine what we're actually notifying about.
+		if ([messageString rangeOfString:@"nudge" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
+			type = @"Nudge";
+		} else if ([messageString rangeOfString:@"buzz" options:(NSCaseInsensitiveSearch | NSLiteralSearch)].location != NSNotFound) {
+			type = @"Buzz";
 		} else {
-			NSDictionary		*messageDict;
-			CBPurpleAccount		*adiumAccount = accountLookup(purple_conversation_get_account(conv));
-			NSString			*messageString;
-			AIChat				*chat;
-			
-			messageString = [NSString stringWithUTF8String:message];
-			chat = chatLookupFromConv(conv);
-			
-			AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, chat.listObject.UID);
-			
-			//Process any purple imgstore references into real HTML tags pointing to real images
-			messageString = processPurpleImages(messageString, adiumAccount);
-			
-			messageDict = [NSDictionary dictionaryWithObjectsAndKeys:messageString,@"Message",
-						   [NSNumber numberWithInteger:flags],@"PurpleMessageFlags",
-						   [NSDate dateWithTimeIntervalSince1970:mtime],@"Date",nil];
-			
-			[adiumAccount receivedIMChatMessage:messageDict
-										 inChat:chat];
+			// Just call an unknown type a "notification"
+			type = @"notification";
 		}
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_NudgeBuzzOccured
+															object:chatLookupFromConv(conv)
+														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+																	type, @"Type",
+																	nil]];
+	} else {
+		NSDictionary		*messageDict;
+		CBPurpleAccount		*adiumAccount = accountLookup(purple_conversation_get_account(conv));
+		NSString			*messageString;
+		AIChat				*chat;
+		
+		messageString = [NSString stringWithUTF8String:message];
+		chat = chatLookupFromConv(conv);
+		
+		AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, chat.listObject.UID);
+		
+		//Process any purple imgstore references into real HTML tags pointing to real images
+		messageString = processPurpleImages(messageString, adiumAccount);
+		
+		messageDict = [NSDictionary dictionaryWithObjectsAndKeys:messageString,@"Message",
+					   [NSNumber numberWithInteger:flags],@"PurpleMessageFlags",
+					   [NSDate dateWithTimeIntervalSince1970:mtime],@"Date",nil];
+		
+		[adiumAccount receivedIMChatMessage:messageDict
+									 inChat:chat];
 	}
     [pool drain];
 }
@@ -366,9 +372,9 @@ static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *
 		
 		// Ignore newAlias and set the alias to newName
 		
-		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:get_real_name_for_account_conv_buddy(account, conv, (char *)oldName)
-																		newName:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
-																	   newAlias:[NSString stringWithUTF8String:newName]
+		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:[NSString stringWithUTF8String:oldName]
+																		newNick:[NSString stringWithUTF8String:newName]
+																		 newUID:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
 																		  flags:cb->flags
 																		 inChat:groupChatLookupFromConv(conv)];
 	}
@@ -384,8 +390,8 @@ static void adiumPurpleConvChatRemoveUsers(PurpleConversation *conv, GList *user
 
 		GList *l;
 		for (l = users; l != NULL; l = l->next) {
-			NSString *normalizedUID = get_real_name_for_account_conv_buddy(account, conv, (char *)l->data);
-			[usersArray addObject:normalizedUID];
+			NSString *nick = [NSString stringWithUTF8String:l->data];
+			[usersArray addObject:nick];
 		}
 
 		[accountLookup(account) removeUsersArray:usersArray
@@ -419,10 +425,10 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	// We use cb->name for the alias field, since libpurple sets the one we're after (the chat name) formatted correctly inside.
 	NSString *name = cb->name ? [NSString stringWithUTF8String:cb->name] : nil;
 	
-	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
+	[adiumAccount updateUser:[NSString stringWithUTF8String:user] // get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
 					   flags:cb->flags
-					   alias:name
+					newAlias:name
 				  attributes:attributes];
     [pool drain];
 }
@@ -484,11 +490,6 @@ static void adiumPurpleConvUpdated(PurpleConversation *conv, PurpleConvUpdateTyp
 			case PURPLE_CONV_UPDATE_ICON:
 			case PURPLE_CONV_UPDATE_FEATURES:
 
-/*				
-				[accountLookup(purple_conversation_get_account(conv)) mainPerformSelector:@selector(convUpdateForChat:type:)
-													   withObject:groupChatLookupFromConv(conv)
-													   withObject:[NSNumber numberWithInt:type]];
-*/				
 			default:
 				break;
 		}
@@ -549,7 +550,7 @@ static void adiumPurpleConvCustomSmileyWrite(PurpleConversation *conv, const cha
 									const guchar *data, gsize size)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AILog(@"%s: Write Custom Smiley %s (%x %i)",purple_conversation_get_name(conv),smile,data,size);
+	AILog(@"%s: Write Custom Smiley %s (%p %lu)",purple_conversation_get_name(conv),smile,data,size);
 
 	[accountLookup(purple_conversation_get_account(conv)) chat:chatLookupFromConv(conv)
 					 setCustomEmoticon:[NSString stringWithUTF8String:smile]
@@ -573,7 +574,7 @@ static gboolean adiumPurpleConvJoin(PurpleConversation *conv, const char *name,
 									GHashTable *users)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIChat *chat = groupChatLookupFromConv(conv);
+	AIGroupChat *chat = groupChatLookupFromConv(conv);
     [pool drain];
 	// We return TRUE if we want to hide it.
 	return !chat.showJoinLeave;
@@ -583,7 +584,7 @@ static gboolean adiumPurpleConvLeave(PurpleConversation *conv, const char *name,
 									 const char *reason, GHashTable *users)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	AIChat *chat = groupChatLookupFromConv(conv);
+	AIGroupChat *chat = groupChatLookupFromConv(conv);
     [pool drain];
 	
 	// We return TRUE if we want to hide it.

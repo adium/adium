@@ -48,8 +48,6 @@ typedef enum {
 	IBOutlet	NSTableView			*tableView_results;
 	IBOutlet	NSTextView			*textView_content;
 
-	IBOutlet    NSView				*view_SearchField;
-
 	IBOutlet	NSView				*view_DatePicker;
 	IBOutlet	NSPopUpButton		*popUp_dateFilter;
 
@@ -121,6 +119,7 @@ typedef enum {
 	//Old
 	BOOL				showEmoticons;
 	BOOL				showTimestamps;
+	BOOL				showSenderColors;
 
 	SKSearchRef			currentSearch;
 	NSLock				*currentSearchLock;

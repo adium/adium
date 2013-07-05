@@ -21,7 +21,7 @@
 @interface AIPurpleCertificateViewer (privateMethods)
 
 - (id)initWithCertificateChain:(CFArrayRef)cc forAccount:(AIAccount*)_account;
-- (IBAction)showWindow:(id)sender;
+- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 - (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end
@@ -31,7 +31,6 @@
 + (void)displayCertificateChain:(CFArrayRef)cc forAccount:(AIAccount*)account {
 	AIPurpleCertificateViewer *viewer = [[self alloc] initWithCertificateChain:cc forAccount:account];
 	[viewer showWindow:nil];
-	[viewer release];
 }
 
 - (id)initWithCertificateChain:(CFArrayRef)cc forAccount:(AIAccount*)_account {
@@ -40,7 +39,7 @@
 		CFRetain(certificatechain);
 		account = _account;
 	}
-	return [self retain];
+	return self;
 }
 
 - (void)dealloc {
@@ -54,13 +53,23 @@
 
 - (void)editAccountWindow:(NSWindow*)window didOpenForAccount:(AIAccount *)inAccount {
 	SFCertificatePanel *panel = [[SFCertificatePanel alloc] init];
-	[panel beginSheetForWindow:window modalDelegate:self didEndSelector:@selector(certificateSheetDidEnd:returnCode:contextInfo:) contextInfo:window certificates:(NSArray*)certificatechain showGroup:YES];
+	
+	[panel beginSheetForWindow:window
+				 modalDelegate:self
+				didEndSelector:@selector(certificateSheetDidEnd:returnCode:contextInfo:)
+				   contextInfo:window
+				  certificates:(NSArray*)certificatechain
+					 showGroup:YES];
 }
 
 - (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	NSWindow *win = (NSWindow*)contextInfo;
+	
 	[panel release];
+	
 	[win performSelector:@selector(performClose:) withObject:nil afterDelay:0.0];
+	
+	[self autorelease];
 }
 
 @end

@@ -69,40 +69,41 @@
 		
 		BOOL shouldAppendNewline = NO;
 		
-		for (AIChat *chat in groupChats) {
-			NSImage *chatImage = [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForContact:inObject]];
-			
-			if (shouldAppendNewline) {
-				[entry appendString:@"\r" withAttributes:nil];
-			} else {
-				shouldAppendNewline = YES;
-			}
-			
-			if (chatImage) {
-				NSTextAttachment		*attachment;
-				NSTextAttachmentCell	*cell;
+		for (AIGroupChat *chat in groupChats) {
+			NSArray *nicks = [chat nicksForContact:(AIListContact *)inObject];
+			for (NSString *nick in nicks) {
+				NSImage *chatImage = [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForNick:nick]];
 				
-				cell = [[NSTextAttachmentCell alloc] init];
-				[cell setImage:chatImage];
+				if (shouldAppendNewline) {
+					[entry appendString:@"\r" withAttributes:nil];
+				} else {
+					shouldAppendNewline = YES;
+				}
 				
-				attachment = [[NSTextAttachment alloc] init];
-				[attachment setAttachmentCell:cell];
-				[cell release];
+				if (chatImage) {
+					NSTextAttachment		*attachment;
+					NSTextAttachmentCell	*cell;
+					
+					cell = [[NSTextAttachmentCell alloc] init];
+					[cell setImage:chatImage];
+					
+					attachment = [[NSTextAttachment alloc] init];
+					[attachment setAttachmentCell:cell];
+					[cell release];
+					
+					[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+					[attachment release];
+					
+					[entry appendString:@" " withAttributes:nil];
+				}
 				
-				[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-				[attachment release];
+				[entry appendString:chat.name withAttributes:nil];
 				
-				[entry appendString:@" " withAttributes:nil];
-			}
-			
-			[entry appendString:chat.name withAttributes:nil];
-			
-			NSString *alias = [chat aliasForContact:inObject];
-			
-			if (alias && ![alias isEqualToString:inObject.displayName]) {
-				[entry appendString:@" (" withAttributes:nil];
-				[entry appendString:alias withAttributes:nil];
-				[entry appendString:@")" withAttributes:nil];
+				if (![nick isEqualToString:inObject.displayName]) {
+					[entry appendString:@" (" withAttributes:nil];
+					[entry appendString:nick withAttributes:nil];
+					[entry appendString:@")" withAttributes:nil];
+				}
 			}
 		}
 		

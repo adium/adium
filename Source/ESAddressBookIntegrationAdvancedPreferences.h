@@ -14,11 +14,11 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIAdvancedPreferencePane.h>
+#import <Adium/AIPreferencePane.h>
 
 @class AILocalizationTextField;
 
-@interface ESAddressBookIntegrationAdvancedPreferences : AIAdvancedPreferencePane <NSTokenFieldDelegate> {
+@interface ESAddressBookIntegrationAdvancedPreferences : AIPreferencePane <NSTokenFieldDelegate> {
     IBOutlet    NSButton                *checkBox_syncAutomatic;
     IBOutlet	NSButton                *checkBox_useABImages;
     IBOutlet	NSButton				*checkBox_preferABImages;
