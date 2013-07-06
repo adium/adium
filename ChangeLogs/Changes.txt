@@ -18,6 +18,9 @@ Version 1.6 (X/X/X)
   * Fixed an issue with contact list positioning. (#11278)
   * Fixed an issue with contact list animation during search. (#16018)
 
+ Off-the-record (OTR) messaging support
+  * Fixed an issue where the default encryption setting was not applied to newly-added contacts. (#13915)
+
  "Retina Display" support
   * Added high-resolution assets. (#15931, ##16067)
   * Fixed high-resolution assets not being scaled correctly in context menus. (#16143)
@@ -48,6 +51,8 @@ Version 1.6 (X/X/X)
 
   * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
 
+  * Yahoo: fixed ampersands being encoded mistakenly. (#13429)
+
 - "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
 - "Text Clip Support" (#14081)
 - "Allow /me action to be logged the way it is passed to the message view" (#13330)
@@ -56,6 +61,7 @@ Version 1.6 (X/X/X)
 - Sandboxed message styles. (#15324)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
+
 
 Version 1.5.7 (7/2/2013)
  * Updated Twitter support. (#16118)
@@ -70,10 +76,12 @@ Version 1.5.7 (7/2/2013)
    * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
    * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
 
+
 Version 1.5.6 (3/18/2013)
  * Fixed a crash on startup on 10.6.8.
  * Fixed a crash when accepting or canceling the certificate verification dialog. (#16280)
  * Fixed a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
 
 Version 1.5.5 (2/24/2013)
  * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
