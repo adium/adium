@@ -30,7 +30,7 @@ cat "$file" \
 			<a class="navtab" href="http://adium.im/about">About</a>\
 			<a class="navtab" href="http://adium.im/blog/">Blog</a> \
 			<a class="navtabcurrent" href="http://adium.im/help">Help</a> \
-			<a class="navtab" href="http://trac.adium.im">Development</a> \
+			<a class="navtab" href="https://trac.adium.im">Development</a> \
 			<a class="navtab" href="http://adium.spreadshirt.com">Merchandise</a> \
 			<a class="navtab" href="http://www.adiumxtras.com/">Xtras</a> \
 		</div>|g' \
