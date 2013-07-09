@@ -18,7 +18,6 @@
 
 }
 
-+ (void)showUnknownFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo;
 + (void)showVerifyFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo;;
 
 @end
