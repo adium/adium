@@ -25,37 +25,10 @@
 #import "AdiumOTREncryption.h"
 
 @interface ESOTRUnknownFingerprintController ()
-+ (void)showFingerprintPromptWithMessageString:(NSString *)messageString 
-								  acceptButton:(NSString *)acceptButton
-									denyButton:(NSString *)denyButton
-								  responseInfo:(NSDictionary *)responseInfo;
 + (void)unknownFingerprintResponseInfo:(NSDictionary *)responseInfo wasAccepted:(BOOL)fingerprintAccepted;
 @end
 
 @implementation ESOTRUnknownFingerprintController
-
-+ (void)showUnknownFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo
-{
-	NSString	*messageString;
-	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
-	NSString	*who = [responseInfo objectForKey:@"who"];
-	NSString	*theirHash = [responseInfo objectForKey:@"Their Fingerprint"];
-	
-	messageString = [NSString stringWithFormat:
-		AILocalizedString(@"%@ wants to start an encrypted conversation with you (%@).\n\n"
-						  @"However, for this chat to be securely encrypted, you should verify their identity by checking their fingerprint. For the best security, it is recommended to use a different form of communication to do this.\n\n"
-						  @"Purported fingerprint for %@:\n\n%@\n\n"
-						  @"Have you verified this fingerprint to be correct?",nil),
-		who,
-		account.formattedUID,
-		who,
-		theirHash];
-	
-	[self showFingerprintPromptWithMessageString:messageString
-									acceptButton:AILocalizedString(@"Yes",nil)
-									  denyButton:AILocalizedString(@"Verify Later",nil)
-									responseInfo:responseInfo];
-}
 
 + (void)showVerifyFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo
 {
@@ -68,7 +41,7 @@
 	messageString = [NSString stringWithFormat:
 		AILocalizedString(@"Fingerprint for you (%@): %@\n\n"
 						  "Purported fingerprint for %@: %@\n\n"
-						  "Is this the verifiably correct fingerprint for %@?",nil),
+						  "Have you verified this is %@'s fingerprint?",nil),
 		account.formattedUID,
 		ourHash,
 		who,
