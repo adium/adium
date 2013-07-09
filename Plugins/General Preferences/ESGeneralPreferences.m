@@ -27,6 +27,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIColorAdditions.h>
+#import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -126,16 +127,8 @@
 	[checkbox_updatesAutomatic setLocalizedString:AILocalizedString(@"Automatically check for updates", nil)];
 	[checkbox_updatesIncludeBetas setLocalizedString:AILocalizedString(@"Update to beta versions when available", nil)];
 	[checkbox_updatesProfileInfo setLocalizedString:AILocalizedString(@"Include anonymous system profile", nil)];
-	[checkbox_confirmBeforeQuitting setLocalizedString:AILocalizedString(@"Confirm before quitting Adium", "Quit Confirmation preference")];
-	[checkbox_quitConfirmFT setLocalizedString:AILocalizedString(@"File transfers are in progress", "Quit Confirmation preference")];
-	[checkbox_quitConfirmUnread setLocalizedString:AILocalizedString(@"There are unread messages", "Quit Confirmation preference")];
-	[checkbox_quitConfirmOpenChats setLocalizedString:AILocalizedString(@"There are open chat windows", "Quit Confirmation preference")];
-	[[matrix_quitConfirmType cellWithTag:AIQuitConfirmAlways] setTitle:AILocalizedString(@"Always","Confirmation preference")];
-	[[matrix_quitConfirmType cellWithTag:AIQuitConfirmSelective] setTitle:[AILocalizedString(@"Only when","Quit Confirmation preference") stringByAppendingEllipsis]];
 	
-	[checkbox_confirmBeforeClosing setLocalizedString:AILocalizedString(@"Confirm before closing multiple chat windows", "Message close confirmation preference")];
-	[[matrix_closeConfirmType cellWithTag:AIMessageCloseAlways] setTitle:AILocalizedString(@"Always", "Confirmation preference")];
-	[[matrix_closeConfirmType cellWithTag:AIMessageCloseUnread] setTitle:AILocalizedString(@"Only when there are unread messages", "Message close confirmation preference")];
+	[button_resetAllWarnings setLocalizedString:AILocalizedString(@"Reset all warnings", nil)];
 }
 
 - (void)dealloc
@@ -145,22 +138,9 @@
     [super dealloc];
 }
 
-//Called in response to all preference controls, applies new settings
-- (IBAction)changePreference:(id)sender
-{
-    if (sender == matrix_quitConfirmType || sender == checkbox_confirmBeforeQuitting)
-		[self configureControlDimming];
-}
-
 //Dim controls as needed
 - (void)configureControlDimming
 {
-	BOOL confirmQuitEnabled = (checkbox_confirmBeforeQuitting.state == NSOnState);
-	BOOL enableSpecificConfirmations = (confirmQuitEnabled && [[matrix_quitConfirmType selectedCell] tag] == AIQuitConfirmSelective);
-	[checkbox_quitConfirmFT setEnabled:enableSpecificConfirmations];
-	[checkbox_quitConfirmUnread setEnabled:enableSpecificConfirmations];
-	[checkbox_quitConfirmOpenChats setEnabled:enableSpecificConfirmations];
-	
 	[checkbox_updatesProfileInfo setEnabled:[checkbox_updatesAutomatic state]];
 #ifdef BETA_RELEASE
 	[checkbox_updatesIncludeBetas setEnabled:NO];
@@ -207,4 +187,12 @@
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 		  contextInfo:nil];
 }
+
+- (IBAction)resetAllWarnings:(id)sender
+{
+	[adium.preferenceController setPreferences:[NSDictionary dictionaryNamed:@"ConfirmationDefaults"
+																	forClass:[self class]]
+									   inGroup:PREF_GROUP_CONFIRMATIONS];
+}
+
 @end
