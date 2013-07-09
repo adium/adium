@@ -253,7 +253,6 @@
 	if (!windowIsClosing
 		&& self.containedChats.count > 1
 		&& [[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE group:PREF_GROUP_CONFIRMATIONS] boolValue]) {
-		NSString *suppressionText = nil;
 		
 		NSInteger unreadCount = 0;
 		
@@ -261,18 +260,6 @@
 			if (chat.unviewedContentCount) {
 				unreadCount++;
 			}
-		}
-		
-		switch ([[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE_TYPE group:PREF_GROUP_CONFIRMATIONS] integerValue]) {
-			case AIMessageCloseAlways:
-				suppressionText = AILocalizedString(@"Do not warn when closing multiple chats", nil);
-				break;
-				
-			case AIMessageCloseUnread:
-				if (unreadCount) {
-					suppressionText = AILocalizedString(@"Do not warn when closing unread chats", nil);
-				}
-				break;
 		}
 		
 		NSString *question = nil;
@@ -285,12 +272,7 @@
 							self.containedChats.count,
 							unreadCount];	
 			}
-		} else {
-			question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window. Do you want to close this window anyway?",nil),
-						self.containedChats.count];
-		}
-		
-		if (suppressionText) {
+			
 			NSAlert *alert = [NSAlert alertWithMessageText:AILocalizedString(@"Are you sure you want to close this window?", nil)
 											 defaultButton:AILocalizedString(@"Close", nil)
 										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
@@ -298,11 +280,11 @@
 								 informativeTextWithFormat:@"%@", question];
 			
 			[alert setShowsSuppressionButton:YES];
-			[[alert suppressionButton] setTitle:suppressionText];
+			[[alert suppressionButton] setTitle:AILocalizedString(@"Do not warn when closing unread chats", nil)];
 			
-			[alert beginSheetModalForWindow:self.window 
-							  modalDelegate:self 
-							 didEndSelector:@selector(closeAlertDidEnd:returnCode:contextInfo:) 
+			[alert beginSheetModalForWindow:self.window
+							  modalDelegate:self
+							 didEndSelector:@selector(closeAlertDidEnd:returnCode:contextInfo:)
 								contextInfo:nil];
 			
 			return NO;
@@ -316,7 +298,7 @@
 {
 	
 	if ([alert suppressionButton].state == NSOnState) {
-		[adium.preferenceController setPreference:nil
+		[adium.preferenceController setPreference:@NO
 										   forKey:KEY_CONFIRM_MSG_CLOSE
 											group:PREF_GROUP_CONFIRMATIONS];
 	}
