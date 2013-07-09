@@ -46,8 +46,6 @@
 #define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
 #define INSTAG_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.instag"] UTF8String]
 
-#define CLOSED_CONNECTION_MESSAGE "has closed his private connection to you"
-
 /* OTRL_POLICY_MANUAL doesn't let us respond to other users' automatic attempts at encryption.
 * If either user has OTR set to Automatic, an OTR session should be begun; without this modified
 * mask, both users would have to be on automatic for OTR to begin automatically, even though one user
@@ -67,7 +65,6 @@
 - (void)adiumFinishedLaunching:(NSNotification *)inNotification;
 - (void)adiumWillTerminate:(NSNotification *)inNotification;
 - (void)updateSecurityDetails:(NSNotification *)inNotification;
-- (void)verifyUnknownFingerprint:(NSValue *)contextValue;
 @end
 
 @implementation AdiumOTREncryption
@@ -509,9 +506,6 @@ static void new_fingerprint_cb(void *opdata, OtrlUserState us,
 		return;
 	}
 	
-	[adiumOTREncryption performSelector:@selector(verifyUnknownFingerprint:)
-							 withObject:[NSValue valueWithPointer:context]
-							 afterDelay:0];
 	[pool release];
 }
 
@@ -1119,15 +1113,6 @@ OtrlUserState otrg_get_userstate(void)
 }
 
 #pragma mark -
-
-- (void)verifyUnknownFingerprint:(NSValue *)contextValue
-{
-	NSDictionary		*responseInfo;
-	
-	responseInfo = details_for_context([contextValue pointerValue]);
-	
-	[ESOTRUnknownFingerprintController showUnknownFingerprintPromptWithResponseInfo:responseInfo];
-}
 
 /*!
  * @brief Call this function when our DSA key is updated; it will redraw the Encryption preferences item, if visible.
