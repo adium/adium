@@ -154,7 +154,8 @@
 		//Write the new info to disk, redraw the UI
 		otrg_plugin_write_fingerprints();
 		otrg_ui_update_keylist();
-    }	
+		update_security_details_for_context(context);
+    }
 }
 
 @end

@@ -75,7 +75,6 @@ static OtrlUserState otrg_plugin_userstate = NULL;
 static AdiumOTREncryption	*adiumOTREncryption = nil;
 
 void otrg_ui_update_fingerprint(void);
-void update_security_details_for_context(ConnContext *context);
 void send_default_query_to_chat(AIChat *inChat);
 void disconnect_from_chat(AIChat *inChat);
 void disconnect_from_context(ConnContext *context);
@@ -695,6 +694,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event,
 			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
 										   ofType:@"encryption"
 										   inChat:chat];
+			break;
 		}
 		case OTRL_MSGEVENT_CONNECTION_ENDED: {
 			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ is no longer using encryption; you should cancel encryption on your side.", @"Message when the remote contact cancels his half of an encrypted conversation. %@ will be a name.", [NSBundle bundleForClass:[AdiumOTREncryption class]], nil), listContact.UID];
@@ -703,6 +703,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event,
 			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
 										   ofType:@"encryption"
 										   inChat:chat];
+			break;
 		}
 		default:
 			break;

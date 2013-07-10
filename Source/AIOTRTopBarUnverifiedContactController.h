@@ -21,9 +21,14 @@
 	IBOutlet AITopBarGradientView *view_backgroundView;
 	IBOutlet NSTextField    *label_description;
 	IBOutlet NSButton       *button_configure;
-	
+
+	IBOutlet NSWindow		*verificationWindow;
+	IBOutlet NSTextField	*label_explanation;
+	IBOutlet NSMatrix		*matrix_verificationChoices;
 }
 
 - (IBAction)verify:(id)sender;
+- (IBAction)okay:(id)sender;
+- (IBAction)cancel:(id)sender;
 
 @end

@@ -19,6 +19,9 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIStringAdditions.h"
 #import <Adium/AIContentControllerProtocol.h>
+#import <Adium/AIListObject.h>
+
+#import "AIOTRSMPSecretAnswerWindowController.h"
 
 @implementation AIOTRTopBarUnverifiedContactController
 
@@ -49,7 +52,48 @@
 
 - (IBAction)verify:(id)sender
 {
+	NSString *UID = ((AIListObject *)chat.listObject).formattedUID;
 	
+	[verificationWindow makeKeyAndOrderFront:nil];
+	
+	[label_explanation setStringValue:[NSString
+									   stringWithFormat:AILocalizedString(@"Your conversation with %@ is encrypted. However, you should make sure you really are talking to %@.\n\n"
+																		  @"You can authenticate %@ in the following ways:", nil), UID, UID, UID]];
+	
+	NSButtonCell *questionCell = [matrix_verificationChoices cellWithTag:1];
+	NSButtonCell *secretCell = [matrix_verificationChoices cellWithTag:2];
+	NSButtonCell *manualCell = [matrix_verificationChoices cellWithTag:3];
+	
+	[questionCell setTitle:[NSString stringWithFormat:AILocalizedString(@"Secret question: Ask a question only %@ can answer.", "radio button when verifying OTR"), UID]];
+	[secretCell setTitle:AILocalizedString(@"Shared secret: You have previously agreed on a secret.", "radio button when verifying OTR")];
+	[manualCell setTitle:AILocalizedString(@"Manually verify their fingerprint.", "radio button when verifying OTR")];
+	
+	[matrix_verificationChoices selectCellAtRow:0 column:0];
+}
+
+- (IBAction)okay:(id)sender
+{
+	switch ([matrix_verificationChoices selectedTag]) {
+		case 1:
+			[adium.contentController questionVerifyEncryptionIdentityInChat:chat];
+			break;
+		case 2:
+			[adium.contentController sharedVerifyEncryptionIdentityInChat:chat];
+			break;
+		case 3:
+			[adium.contentController promptToVerifyEncryptionIdentityInChat:chat];
+			break;
+		default:
+			AILogWithSignature(@"Shouldn't happen: %ld!", (long)[matrix_verificationChoices selectedTag]);
+			break;
+	}
+	
+	[verificationWindow orderOut:nil];
+}
+
+- (IBAction)cancel:(id)sender
+{
+	[verificationWindow orderOut:nil];
 }
 
 - (void)chatStatusChanged:(NSNotification *)notification
