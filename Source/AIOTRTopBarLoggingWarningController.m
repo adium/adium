@@ -40,7 +40,7 @@
 																  blue:.5
 																 alpha:1.0];
 		
-		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but still logged by you. Your security might be at risk.", nil)];
+		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but still logged by you.", nil)];
 		[button_configure setStringValue:[AILocalizedString(@"Configure", nil) stringByAppendingEllipsis]];
 		
 		[adium.preferenceController registerPreferenceObserver:self
