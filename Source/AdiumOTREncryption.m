@@ -741,8 +741,8 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 		case OTRL_SMPEVENT_ASK_FOR_SECRET: {
 			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc]
 																		initFrom:listContact
-																		completionHandler:^(NSString *answer){
-				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, (const unsigned char*)[answer UTF8String], answer.length);
+																		completionHandler:^(NSData *answer){
+				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
 			}
 																		isInitiator:NO];
 			
@@ -938,13 +938,12 @@ static OtrlMessageAppOps ui_ops = {
 	
 	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc]
 															  initFrom:inChat.listObject
-															  completionHandler:^(NSString *answer) {
-		const char *answerStr = [answer UTF8String];
+															  completionHandler:^(NSData *answer) {
 		otrl_message_initiate_smp(otrg_get_userstate(),
 								  &ui_ops, NULL,
 								  context,
-								  (const unsigned char*)answerStr,
-								  strlen(answerStr));
+								  [answer bytes],
+								  [answer length]);
 	}
 															  isInitiator:TRUE];
 	
