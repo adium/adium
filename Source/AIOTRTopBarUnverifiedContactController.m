@@ -33,7 +33,7 @@
 
 		view_backgroundView.endColor = [NSColor colorWithCalibratedWhite:0.91f alpha:1.0f];
 		
-		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but the contact is unverified.", nil)];
+		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but the contact's identity is unverified.", nil)];
 		[button_configure setStringValue:[AILocalizedString(@"Verify", nil) stringByAppendingEllipsis]];
     }
     
