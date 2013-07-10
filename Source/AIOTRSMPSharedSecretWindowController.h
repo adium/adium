@@ -13,15 +13,19 @@
 @interface AIOTRSMPSharedSecretWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextView	*field_secret;
+	IBOutlet	NSTextField *label_filename;
 	IBOutlet	NSImageView	*imageView_lock;
+	IBOutlet	NSTabView	*tab_answer;
 	
 	BOOL isInitiator;
+	NSString *secretQuestion;
 	AIListContact *contact;
-	void(^handler)(NSString *secret);
+	void(^handler)(NSData *answer);
+	NSURL *file;
 }
 
 - (IBAction)okay:(id)sender;
 - (IBAction)cancel:(id)sender;
-- (id)initFrom:(AIListContact *)inContact completionHandler:(void(^)(NSString *answer))inHandler isInitiator:(BOOL)inInitiator;
+- (id)initFrom:(AIListContact *)inContact completionHandler:(void(^)(NSData *answer))inHandler isInitiator:(BOOL)inInitiator;
 
 @end

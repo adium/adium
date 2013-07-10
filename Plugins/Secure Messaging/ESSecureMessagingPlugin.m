@@ -259,6 +259,12 @@
 				message = CHAT_NO_LONGER_SECURE;
 				type = @"encryptionEnded";
 			}
+			
+			if (inChat.shouldLog) {
+				message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is on.", nil)];
+			} else {
+				message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is off.", nil)];
+			}
 
 			if ([inChat isOpen]) {
 				[adium.contentController displayEvent:message
