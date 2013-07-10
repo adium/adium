@@ -49,6 +49,7 @@ NIGHTLY_BRANCH?=default
 ###########
 SRC_DIR=..
 BUILD_DIR=build
+OLD_DMGS=dmgs
 ART_DIR=Artwork
 ADIUM_DIR=$(BUILD_DIR)/Adium
 RELEASE_NAME=Adium_$(VERSION)
@@ -233,6 +234,9 @@ nightly: version clean compile createfolder prepare-release-bundle diskimage
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/$(RELEASE_NAME).dmg.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).dmg | awk '{print $$5}' >>$(BUILD_DIR)/latest.info
 	echo $(VERSION) >> $(BUILD_DIR)/latest.info
+	@mkdir $(OLD_DMGS) || true
+	cp $(BUILD_DIR)/$(RELEASE_NAME).dmg $(OLD_DMGS)/$(RELEASE_NAME).dmg
+	sh createDeltas.sh
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).dmg ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest.info
 endif
