@@ -33,6 +33,7 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIButtonWithCursor.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
@@ -987,8 +988,9 @@
         [self setFrameSize:size];
 				
 		// Make the indicator and set its action. It is a button with no border.
-		pushIndicator = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)]; 
+		pushIndicator = [[AIButtonWithCursor alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)];
 		[pushIndicator setButtonType:NSMomentaryPushButton];
+		[pushIndicator setCursor:[NSCursor arrowCursor]];
         [pushIndicator setAutoresizingMask:(NSViewMinXMargin)];
         [pushIndicator setImage:pushIndicatorImage];
         [pushIndicator setImagePosition:NSImageOnly];
@@ -1785,11 +1787,12 @@
 	if (hasMenu && emoticonsMenuButton == nil) {
 		NSImage *emoticonsMenuIcon = [NSImage imageNamed:@"emoticons_menu"];
 		
-		emoticonsMenuButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+		emoticonsMenuButton = [[AIButtonWithCursor alloc] initWithFrame:NSZeroRect];
 		
 		[emoticonsMenuButton setFrameSize:[emoticonsMenuIcon size]];
 		[emoticonsMenuButton setAutoresizingMask:NSViewMinXMargin];
         [emoticonsMenuButton setButtonType:NSMomentaryChangeButton];
+		[emoticonsMenuButton setCursor:[NSCursor arrowCursor]];
         [emoticonsMenuButton setBordered:NO];
 		[emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
 		[[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];

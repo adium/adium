@@ -1059,6 +1059,8 @@
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* events-do-nothing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* events-do-nothing.tiff */; };
 		5AA2A0EE14B3EFF500B4DB65 /* AIOSCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA2A0ED14B3EFF500B4DB65 /* AIOSCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACA086A17873AEA00B15047 /* AIButtonWithCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACA086B17873AEA00B15047 /* AIButtonWithCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */; };
 		5ACF27391392C74A004B6AEF /* AIHighlightingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */; };
 		5ACF273A1392C74A004B6AEF /* AIHighlightingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */; };
 		5ACF273B1392C74A004B6AEF /* AIPreferenceCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27371392C74A004B6AEF /* AIPreferenceCollectionView.h */; };
@@ -1347,6 +1349,14 @@
 		765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */; };
 		765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */; };
 		765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */; };
+		7652804C175FC0F500710EC8 /* RequestFieldBoolean.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7652803F175FC0EB00710EC8 /* RequestFieldBoolean.xib */; };
+		7652804D175FC0F500710EC8 /* RequestFieldChoice.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528040175FC0EB00710EC8 /* RequestFieldChoice.xib */; };
+		7652804E175FC0F500710EC8 /* RequestFieldInteger.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528041175FC0EB00710EC8 /* RequestFieldInteger.xib */; };
+		7652804F175FC0F500710EC8 /* RequestFieldList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528042175FC0EB00710EC8 /* RequestFieldList.xib */; };
+		76528050175FC0F500710EC8 /* RequestFieldString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528043175FC0EB00710EC8 /* RequestFieldString.xib */; };
+		76528054175FCEF700710EC8 /* RequestFieldMultilineString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528052175FCEF700710EC8 /* RequestFieldMultilineString.xib */; };
+		76528055175FCEF700710EC8 /* RequestFieldSecureString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528053175FCEF700710EC8 /* RequestFieldSecureString.xib */; };
+		7652805A175FD35B00710EC8 /* RequestFieldMultiList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528059175FD35B00710EC8 /* RequestFieldMultiList.xib */; };
 		765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
@@ -4009,6 +4019,8 @@
 		5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-AddressBookIntegration.xib"; path = "Resources/Preferences-AddressBookIntegration.xib"; sourceTree = "<group>"; };
 		5AC7F26513B42A55002D7265 /* Preferences-Encryption.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Encryption.xib"; path = "Resources/Preferences-Encryption.xib"; sourceTree = "<group>"; };
 		5AC7F26713B43612002D7265 /* Preferences-MessageAlerts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-MessageAlerts.xib"; path = "Resources/Preferences-MessageAlerts.xib"; sourceTree = "<group>"; };
+		5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIButtonWithCursor.h; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.h"; sourceTree = "<group>"; };
+		5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIButtonWithCursor.m; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.m"; sourceTree = "<group>"; };
 		5ACF27331392C585004B6AEF /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = Resources/Preferences.xib; sourceTree = "<group>"; };
 		5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIHighlightingTextField.h; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.h"; sourceTree = "<group>"; };
 		5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIHighlightingTextField.m; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.m"; sourceTree = "<group>"; };
@@ -4420,6 +4432,14 @@
 		765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSharedSecretWindowController.xib; path = Resources/AIOTRSMPSharedSecretWindowController.xib; sourceTree = "<group>"; };
 		765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSharedSecretWindowController.h; path = Source/AIOTRSMPSharedSecretWindowController.h; sourceTree = "<group>"; };
 		765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSharedSecretWindowController.m; path = Source/AIOTRSMPSharedSecretWindowController.m; sourceTree = "<group>"; };
+		7652803F175FC0EB00710EC8 /* RequestFieldBoolean.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldBoolean.xib; path = "Plugins/Purple Service/Request UI/RequestFieldBoolean.xib"; sourceTree = "<group>"; };
+		76528040175FC0EB00710EC8 /* RequestFieldChoice.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldChoice.xib; path = "Plugins/Purple Service/Request UI/RequestFieldChoice.xib"; sourceTree = "<group>"; };
+		76528041175FC0EB00710EC8 /* RequestFieldInteger.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldInteger.xib; path = "Plugins/Purple Service/Request UI/RequestFieldInteger.xib"; sourceTree = "<group>"; };
+		76528042175FC0EB00710EC8 /* RequestFieldList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldList.xib; path = "Plugins/Purple Service/Request UI/RequestFieldList.xib"; sourceTree = "<group>"; };
+		76528043175FC0EB00710EC8 /* RequestFieldString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldString.xib; path = "Plugins/Purple Service/Request UI/RequestFieldString.xib"; sourceTree = "<group>"; };
+		76528052175FCEF700710EC8 /* RequestFieldMultilineString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldMultilineString.xib; path = "Plugins/Purple Service/Request UI/RequestFieldMultilineString.xib"; sourceTree = "<group>"; };
+		76528053175FCEF700710EC8 /* RequestFieldSecureString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldSecureString.xib; path = "Plugins/Purple Service/Request UI/RequestFieldSecureString.xib"; sourceTree = "<group>"; };
+		76528059175FD35B00710EC8 /* RequestFieldMultiList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldMultiList.xib; path = "Plugins/Purple Service/Request UI/RequestFieldMultiList.xib"; sourceTree = "<group>"; };
 		765F5DC61635934400C57904 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIRejoinGroupChatTopBar.xib; sourceTree = "<group>"; };
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
@@ -6110,6 +6130,14 @@
 		34C2CF8F0633405C0018E5D2 /* Request UI */ = {
 			isa = PBXGroup;
 			children = (
+				7652803F175FC0EB00710EC8 /* RequestFieldBoolean.xib */,
+				76528040175FC0EB00710EC8 /* RequestFieldChoice.xib */,
+				76528041175FC0EB00710EC8 /* RequestFieldInteger.xib */,
+				76528059175FD35B00710EC8 /* RequestFieldMultiList.xib */,
+				76528042175FC0EB00710EC8 /* RequestFieldList.xib */,
+				76528043175FC0EB00710EC8 /* RequestFieldString.xib */,
+				76528052175FCEF700710EC8 /* RequestFieldMultilineString.xib */,
+				76528053175FCEF700710EC8 /* RequestFieldSecureString.xib */,
 				34AEE7E808E35A5800AE1C78 /* ESPurpleRequestAbstractWindowController.h */,
 				34AEE7E908E35A5800AE1C78 /* ESPurpleRequestAbstractWindowController.m */,
 				3499F4A706309AF60035B468 /* ESPurpleRequestWindowController.h */,
@@ -7676,6 +7704,8 @@
 				6334FF370F9C14BF003C77A9 /* Button with a popup menu for toolbar items */,
 				6334FF340F9C14BF003C77A9 /* Button with rollover delegate action */,
 				6334FF310F9C14BF003C77A9 /* Auto-completing textField */,
+				5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */,
+				5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */,
 			);
 			name = "Fun New Controls";
 			sourceTree = "<group>";
@@ -9256,6 +9286,7 @@
 				633400550F9C14C2003C77A9 /* AITextViewWithPlaceholder.h in Headers */,
 				633400570F9C14C2003C77A9 /* AIFlexibleToolbarItem.h in Headers */,
 				6334005B0F9C14C2003C77A9 /* AIDockingWindow.h in Headers */,
+				5ACA086A17873AEA00B15047 /* AIButtonWithCursor.h in Headers */,
 				6334005D0F9C14C2003C77A9 /* AIBorderlessWindow.h in Headers */,
 				6334005F0F9C14C2003C77A9 /* AIGenericViewCell.h in Headers */,
 				633400610F9C14C2003C77A9 /* AIImageTextCell.h in Headers */,
@@ -9669,6 +9700,14 @@
 				34D8153F13B663650022C8C4 /* AIFacebookXMPPOauthWebViewWindow.xib in Resources */,
 				5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */,
 				769D634B17393CBE008B97BC /* AMPurpleJabberDiscoveryBrowser.xib in Resources */,
+				7652804C175FC0F500710EC8 /* RequestFieldBoolean.xib in Resources */,
+				7652804D175FC0F500710EC8 /* RequestFieldChoice.xib in Resources */,
+				7652804E175FC0F500710EC8 /* RequestFieldInteger.xib in Resources */,
+				7652804F175FC0F500710EC8 /* RequestFieldList.xib in Resources */,
+				76528050175FC0F500710EC8 /* RequestFieldString.xib in Resources */,
+				76528054175FCEF700710EC8 /* RequestFieldMultilineString.xib in Resources */,
+				76528055175FCEF700710EC8 /* RequestFieldSecureString.xib in Resources */,
+				7652805A175FD35B00710EC8 /* RequestFieldMultiList.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10769,6 +10808,7 @@
 				633400320F9C14C2003C77A9 /* AIDividedAlternatingRowOutlineView.m in Sources */,
 				633400340F9C14C2003C77A9 /* AIOutlineView.m in Sources */,
 				633400360F9C14C2003C77A9 /* AIAlternatingRowOutlineView.m in Sources */,
+				5ACA086B17873AEA00B15047 /* AIButtonWithCursor.m in Sources */,
 				633400380F9C14C2003C77A9 /* AIVariableHeightFlexibleColumnsOutlineView.m in Sources */,
 				6334003A0F9C14C2003C77A9 /* AIVariableHeightOutlineView.m in Sources */,
 				6334003C0F9C14C2003C77A9 /* AIMultiCellOutlineView.m in Sources */,

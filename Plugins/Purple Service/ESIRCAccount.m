@@ -375,6 +375,18 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	return NO;
 }
 
+- (PurpleSslConnection *)secureConnection {
+	// this is really ugly
+	PurpleConnection *gc = purple_account_get_connection(self.purpleAccount);
+
+	return ((gc && gc->proto_data) ? ((struct irc_conn*)purple_account_get_connection(self.purpleAccount)->proto_data)->gsc : NULL);
+}
+
+- (BOOL)encrypted
+{
+	return (self.online && [self secureConnection]);
+}
+
 #pragma mark Server contacts (NickServ, ChanServ)
 /*!
  * @brief Sends a raw command to identify for the nickname

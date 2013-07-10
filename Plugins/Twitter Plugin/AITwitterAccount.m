@@ -198,6 +198,7 @@
 											  [self didConnect];
 										  }
 									  } errorBlock:^(NSError *error) {
+										  AILogWithSignature(@"Unable to retrieve user list: %@", error);
 										  [self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
 										  [self didDisconnect];
 									  }];
@@ -500,21 +501,22 @@
 																			   object:status
 																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
 						   
-						   NSDictionary *retweet = [status valueForKey:TWITTER_STATUS_RETWEET];
-						   NSString *text = [[status objectForKey:TWITTER_STATUS_TEXT] stringByEscapingForXMLWithEntities:nil];
-						   
-						   if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
-							   text = [[NSString stringWithFormat:@"RT @%@: %@",
-										[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
-										[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByEscapingForXMLWithEntities:nil];
-						   }
-						   
-						   if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
-							   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {
-							   AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+						   if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+							   NSDictionary *retweet = [status valueForKey:TWITTER_STATUS_RETWEET];
+							   NSString *text = [[status objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
 							   
-							   availableStatus.statusMessage = [NSAttributedString stringWithString:text];
-							   [adium.statusController setActiveStatusState:availableStatus];
+							   if (retweet && [retweet isKindOfClass:[NSDictionary class]]) {
+								   text = [[NSString stringWithFormat:@"RT @%@: %@",
+											[[retweet objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID],
+											[retweet objectForKey:TWITTER_STATUS_TEXT]] stringByUnescapingFromXMLWithEntities:nil];
+							   }
+							   
+							   if (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+								   AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+								   
+								   availableStatus.statusMessage = [NSAttributedString stringWithString:text];
+								   [adium.statusController setActiveStatusState:availableStatus];
+							   }
 						   }
 						   
 						   if (updateAfterSend)
@@ -1035,26 +1037,46 @@
 		
 		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
-		// Grab the user icon and set it as their serverside icon.
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-			NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
-			NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
-			NSError *error = nil;
-			NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
-			NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
+		static dispatch_semaphore_t imageDownloadSemaphore;
+		static dispatch_queue_t imageDownloadScheduleQueue;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			imageDownloadSemaphore = dispatch_semaphore_create(16);
+			imageDownloadScheduleQueue = dispatch_queue_create("im.adium.AITwitterAccount.imageDownloadScheduleQueue", NULL);
+			dispatch_set_target_queue(imageDownloadScheduleQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0));
+		});
+		
+		dispatch_async(imageDownloadScheduleQueue, ^{
 			
-			if (image) {
-				dispatch_async(dispatch_get_main_queue(), ^{
-					AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
-					[listContact setServersideIconData:[image TIFFRepresentation]
-												notify:NotifyLater];
-					
-					[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-					[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
-				});
-			} else {
-				[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
-			}
+			dispatch_semaphore_wait(imageDownloadSemaphore, DISPATCH_TIME_FOREVER);
+			
+			// Grab the user icon and set it as their serverside icon.
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+				NSString *imageURL = [url stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+				NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]];
+				NSError *error = nil;
+				
+				NSData *data = [NSURLConnection sendSynchronousRequest:imageRequest returningResponse:nil error:&error];
+				
+				NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
+				
+				if (image) {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						AILogWithSignature(@"%@ Updated user icon for %@", self, listContact);
+						[listContact setServersideIconData:[image TIFFRepresentation]
+													notify:NotifyLater];
+						
+						[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+						[listContact setValue:url forProperty:TWITTER_PROPERTY_USER_ICON_URL afterDelay:NotifyNever];
+					});
+				} else {
+					dispatch_async(dispatch_get_main_queue(), ^{
+						[self requestFailed:AITwitterUserIconPull withError:error userInfo:@{ @"ListContact" : listContact }];
+					});
+				}
+				
+				dispatch_semaphore_signal(imageDownloadSemaphore);
+			});
 		});
 	}
 }

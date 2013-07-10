@@ -1652,6 +1652,24 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	
 	return result;
 }
+- (NSDictionary *)getCipherDetails:(PurpleSslConnection*)gsc {
+	PurplePlugin *cdsa_plugin = purple_plugins_find_with_name("CDSA");
+	if(!cdsa_plugin)
+		return nil;
+	const char *ssl_info;
+	const char *name;
+	const char *mac;
+	const char *key_exchange;
+	gboolean ok = NO;
+	purple_plugin_ipc_call(cdsa_plugin, "get_cipher_details", &ok, gsc, &ssl_info, &name, &mac, &key_exchange);
+	
+	if (!ok) return nil;
+	
+	return @{ @"SSL Version": [NSString stringWithUTF8String:ssl_info],
+		   @"Cipher Name": [NSString stringWithUTF8String:name],
+		   @"MAC": [NSString stringWithUTF8String:mac],
+		   @"Key Exchange": [NSString stringWithUTF8String:key_exchange] };
+}
 #endif
 
 @end

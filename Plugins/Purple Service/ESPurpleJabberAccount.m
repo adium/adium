@@ -461,8 +461,7 @@
 {
 	AIReconnectDelayType shouldAttemptReconnect = [super shouldAttemptReconnectAfterDisconnectionError:disconnectionError];
 
-	if (([self lastDisconnectionReason] == PURPLE_CONNECTION_ERROR_CERT_OTHER_ERROR) &&
-		([self shouldVerifyCertificates])) {
+	if (([self lastDisconnectionReason] == PURPLE_CONNECTION_ERROR_CERT_OTHER_ERROR)) {
 		shouldAttemptReconnect = AIReconnectNever;
 	} else if (!finishedConnectProcess && ![password length] &&
 			   (disconnectionError &&
@@ -865,14 +864,6 @@
 	PurpleConnection *gc = purple_account_get_connection(self.purpleAccount);
 
 	return ((gc && gc->proto_data) ? ((JabberStream*)purple_account_get_connection(self.purpleAccount)->proto_data)->gsc : NULL);
-}
-
-- (void)setShouldVerifyCertificates:(BOOL)yesOrNo {
-	[self setPreference:[NSNumber numberWithBool:yesOrNo] forKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS];
-}
-
-- (BOOL)shouldVerifyCertificates {
-	return [[self preferenceForKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS] boolValue];
 }
 
 - (NSArray *)accountActionMenuItems {

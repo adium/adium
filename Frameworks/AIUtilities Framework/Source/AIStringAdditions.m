@@ -508,7 +508,7 @@ enum {
 #define SBEFS_BOUNDARY_GUARD \
 	do { \
 		if (i == buflen) { \
-			buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+			buf = reallocf(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
 			if (buf == NULL) { \
 				NSLog(@"in stringByEscapingForShell: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 				free(myBuf); \
@@ -591,7 +591,7 @@ enum {
 #define SBEFR_BOUNDARY_GUARD \
 do { \
 if (i == buflen) { \
-buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+buf = reallocf(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
 if (!buf) { \
 NSLog(@"in stringByEscapingForRegexp: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 free(myBuf); \
