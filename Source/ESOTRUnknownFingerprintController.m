@@ -33,17 +33,11 @@
 + (void)showVerifyFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo
 {
 	NSString	*messageString;
-	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
 	NSString	*who = [responseInfo objectForKey:@"who"];
-	NSString	*ourHash = [responseInfo objectForKey:@"Our Fingerprint"];
 	NSString	*theirHash = [responseInfo objectForKey:@"Their Fingerprint"];
 
 	messageString = [NSString stringWithFormat:
-		AILocalizedString(@"Fingerprint for you (%@): %@\n\n"
-						  "Purported fingerprint for %@: %@\n\n"
-						  "Have you verified this is %@'s fingerprint?",nil),
-		account.formattedUID,
-		ourHash,
+		AILocalizedString(@"Fingerprint for %@: %@\n\nHave you verified this is %@\xe2\x80\x99s fingerprint?",nil),
 		who,
 		theirHash,
 		who];
