@@ -75,7 +75,7 @@ id removeNull(id rootObject);
     appOnly.consumerSecret = consumerSecret;
 
     twitter.oauth = appOnly;
-    return twitter;
+    return [twitter autorelease];
 }
 
 - (void)postTokenRequest:(void(^)(NSURL *url, NSString *oauthToken))successBlock oauthCallback:(NSString *)oauthCallback errorBlock:(void(^)(NSError *error))errorBlock {

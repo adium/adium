@@ -30,18 +30,11 @@
 	IBOutlet	AILocalizationButton *checkbox_updatesAutomatic;
 	IBOutlet	AILocalizationButton *checkbox_updatesProfileInfo;
 	IBOutlet	AILocalizationButton *checkbox_updatesIncludeBetas;
-	IBOutlet	AILocalizationButton *checkbox_confirmBeforeQuitting;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmFT;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmUnread;
-	IBOutlet	AILocalizationButton *checkbox_quitConfirmOpenChats;
-	IBOutlet	AILocalizationButton *checkbox_confirmBeforeClosing;
 	IBOutlet	AILocalizationButton *button_defaultApp;
 	IBOutlet	AILocalizationButton *button_customizeDefaultApp;
+	IBOutlet	AILocalizationButton *button_resetAllWarnings;
 
 	IBOutlet    NSView *placeholder_shortcutRecorder;
-	
-	IBOutlet	NSMatrix *matrix_quitConfirmType;
-	IBOutlet	NSMatrix *matrix_closeConfirmType;
 	
 	SRRecorderControl           *shortcutRecorder;
 }
@@ -49,5 +42,6 @@
 @property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
 - (IBAction)setAsDefaultApp:(id)sender;
 - (IBAction)customizeDefaultApp:(id)sender;
+- (IBAction)resetAllWarnings:(id)sender;
 
 @end

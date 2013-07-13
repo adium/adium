@@ -152,16 +152,6 @@
 	CFRelease(policyRef);
 }
 
-/*
- * Function: SSLSecPolicyCopy
- * Purpose:
- *   Returns a copy of the SSL policy.
- */
-static SecPolicyRef SSLSecPolicyCopy()
-{
-	return SecPolicyCreateSSL(NO, NULL);
-}
-
 - (void)runTrustPanelOnWindow:(NSWindow *)window
 {
 	SFCertificateTrustPanel *trustPanel = [[SFCertificateTrustPanel alloc] init];
@@ -179,7 +169,7 @@ static SecPolicyRef SSLSecPolicyCopy()
 	[trustPanel setAlternateButtonTitle:AILocalizedString(@"Cancel",nil)];
 	[trustPanel setShowsHelp:YES];
 
-	SecPolicyRef sslPolicy = SSLSecPolicyCopy();
+	SecPolicyRef sslPolicy = SecPolicyCreateSSL(TRUE, (__bridge CFStringRef)hostname);
 	if (sslPolicy) {
 		[trustPanel setPolicies:(__bridge id)sslPolicy];
 		CFRelease(sslPolicy);

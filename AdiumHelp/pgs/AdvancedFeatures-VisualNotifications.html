@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="notification, center, growl, visual, alert" />
+<meta name="description" content="Visual notifications" />
+<title>Visual notifications</title>
+<link href="../css/topicpage.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="banner"> <a name="tabs" id="tabs"></a>
+	<div id="navleft"><a class="navleftsty" href="../AdiumHelp.html">Adium Help</a> <a class="navleftsty" href="AdiumDocumentation.html">Adium Documentation</a></div>
+</div>
+<div id="mainbox">
+	<div id="caticon"> <img src="../gfx/AdiumIcon.png" alt="Adium Icon" height="32" width="32" border="0" /> </div>
+	<div id="pagetitle">
+		<h1>Visual notifications</h1>
+	</div>
+	<p>Visual notifications are a means of unobtrusively informing you when things happen, for example when you receive a message. In their default configuration, they fade into the top-right corner of your screen for a moment and then fade out again.</p>
+	<p>Adium features comprehensive support for visual notifications by ways of OS X's very own <a class="ext_link" href="http://support.apple.com/kb/ht5362">Notification Center</a> (on OS X 10.8 and later), third-party software <a class="ext_link" href="http://growl.info">Growl</a> as well as built-in notifications called "Mist" (on OS 10.7 and older).</p>
+	<p>This page explains the three different notification mechanisms mentioned above. See <a href="AdvancedFeatures-Events.html">Events</a> on how to tell Adium when to display visual notifications.<p>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Notification Center support (OS X 10.8 and later)</h3>
+		</div>
+		<p align="center"> <img src="../gfx/NotificationCenterNotification.png" alt="" /></p>
+		<div class="taskboxtext">
+			<p>Apple introduced "Notification Center" (NC) in OS X 10.8 ("Mountain Lion").</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Growl support</h3>
+		</div>
+		<p align="center"> <img src="../gfx/GrowlNotification1.png" alt="" /></p>
+		<p align="center"> <img src="../gfx/GrowlNotification2.png" alt="" /></p>		
+		<div class="taskboxtext">
+			<p>The third-party application Growl.app has been around about as long as Adium itself – a long time before Apple introduced "Notification Center" (NC) in OS X 10.8 ("Mountain Lion").</p>
+			<p>While Growl.app is the obvious solution for users on previous versions of OS X, it also has a lot to offer to OS X users on 10.8, especially in the way of customisability and extendability. For example, there are dozens of different styles to choose from.</p>
+			<p>To install Growl.app either <a class="ext_link" href="https://itunes.apple.com/de/app/growl/id467939042?mt=12">buy the application from the Mac App Store</a> (recommended, it's not expensive), or get an older and free version from <a class="ext_link" href="http://growl.info/downloads">http://growl.info/downloads</a> (not recommended and not supported on OS X 10.8 and later).</p>
+			<p>If you have Growl.app installed and would prefer to use Notification Center notifications for Adium, you need to make the change in Growl's preferences.</p>
+			<p>To uninstall the Growl application, follow the <a class="ext_link" href="http://growl.info/documentation/growl-package-removal.php">instructions on the Growl website</a>.</p>
+		</div>
+	</div>
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Built-in notifications ("Mist", OS X 10.7 and older)</h3>
+		</div>
+		<p align="center"> <img src="../gfx/MistNotification.png" alt="" /></p>
+		<div class="taskboxtext">
+			<p>As of Adium 1.5, Adium is able to show Growl-style notifications on OS X versions 10.7 and 10.6 without the Growl application installed. This feature is called <a class="ext_link" href="http://growl.info/notetodevelopers">Mist</a>.</p>
+			<p>If you want to use a different style or use some of the more advanced features of Growl, you will have to either <a class="ext_link" href="https://itunes.apple.com/de/app/growl/id467939042?mt=12">buy the application from the Mac App Store</a> (recommended, it's not expensive), or get an older and free version from <a class="ext_link" href="http://growl.info/downloads">http://growl.info/downloads</a> (not recommended and not supported on OS X 10.8 and later).</p>
+			<p>To disable Mist notifications, enter this command in Terminal.app: <code>defaults write -g com.growl.growlframework.mist.enabled -bool NO</code>. Please note that this affects any apps that support built-in Mist notifications like Adium does.<p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/help.js"></script>
+</body>
+</html>

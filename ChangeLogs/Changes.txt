@@ -21,6 +21,9 @@ Version 1.6 (X/X/X)
   * Fixed an issue with contact list positioning. (#11278)
   * Fixed an issue with contact list animation during search. (#16018)
 
+ Off-the-record (OTR) messaging support
+  * Fixed an issue where the default encryption setting was not applied to newly-added contacts. (#13915)
+
  "Retina Display" support
   * Added high-resolution assets. (#15931, ##16067)
   * Fixed high-resolution assets not being scaled correctly in context menus. (#16143)
@@ -39,6 +42,7 @@ Version 1.6 (X/X/X)
   * Renamed the "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
   * Contact list: Added a preference for maximum contact list height. (#4815)
   * General: Removed "Send Messages with:" option. (#15369)
+  * General: Simplified "Confirmations" settings. (#16436)
   * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
   * Encryption: Made text selectable in the "Show Fingerprint..." window. (#15082)
 
@@ -52,6 +56,8 @@ Version 1.6 (X/X/X)
 
   * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
 
+  * Yahoo: fixed ampersands being encoded mistakenly. (#13429)
+
 - "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
 - "Text Clip Support" (#14081)
 - "Allow /me action to be logged the way it is passed to the message view" (#13330)
@@ -61,17 +67,28 @@ Version 1.6 (X/X/X)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
 
-
    * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
 
+Version 1.5.8 (XX/XX/2013)
+ * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. This was meant to be done for 1.5.4 but it did not work that time. (#16102)
+ * XMPP: refer to XMPP as "XMPP (Jabber)". Unfortunately, just "XMPP" still has some potential for confusion. (#16435)
+ * Fixed SIP accountnames to be case-sensitive. (Pete Woods) (#16237)
+ * Fixed a bug that could cause Adium and other applications to hang and could lead to corruption of the Keychain when permanently trusting an untrusted SSL certificate. (#16365)
 
-Version 1.5.7 (XX/06/2013)
- * Updated Twitter support.
+
+Version 1.5.7 (7/2/2013)
+ * Updated Twitter support. (#16118)
    * Retweets (RTs) now properly display the original author.
    * t.co links are now expanded.
    * Fixed parsing to conform to the standard. (#13947)
- * Removed StatusNet support.
+ * Removed StatusNet support, see http://adium.im/blog/2013/07/adium-1-5-7-released.
+ * Fixed a crash when redrawing the contact list. (#16119)
  * Fixed a bug that could cause SSL connections to be closed prematurely. (#15405, #15411, #15741, #16356)
+ * Fixed the following weaknesses in the SSL code:
+   * Removed all anonymous ciphers from the list Adium tries, these are insecure and would crash Adium.
+   * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
+   * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
+
 
 
 Version 1.5.6 (3/18/2013)
