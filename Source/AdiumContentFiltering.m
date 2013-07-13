@@ -48,7 +48,7 @@
 					direction:(AIFilterDirection)direction
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	if (!contentFilter[type][direction]) {
 		contentFilter[type][direction] = [[NSMutableArray alloc] init];
@@ -81,7 +81,7 @@
 						   direction:(AIFilterDirection)direction
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	if (!contentFilter[type][direction]) {
 		contentFilter[type][direction] = [[NSMutableArray alloc] init];
@@ -290,7 +290,7 @@
 					   context:(id)context
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	BOOL				shouldDelay = NO;
 	NSInvocation		*invocation;
