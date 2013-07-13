@@ -685,15 +685,15 @@
 			[[self window] setTitle:title];
 		else
 			[[self window] setTitle:AILocalizedString(@"Form","Generic fields request window title")];
-    }
     	
-    if (_okcb) [okButton setTitle:okText];
-    else [okButton setHidden:TRUE];
+		if (_okcb) [okButton setTitle:okText];
+		else [okButton setHidden:TRUE];
     
-    if (_cancelcb) [cancelButton setTitle:cancelText];
-    else [cancelButton setHidden:TRUE];
+		if (_cancelcb) [cancelButton setTitle:cancelText];
+		else [cancelButton setHidden:TRUE];
     
-    [[self window] makeKeyAndOrderFront:nil];
+		[[self window] makeKeyAndOrderFront:nil];
+	}
     
     return self; // keep us as long as the form is open
 }
