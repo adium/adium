@@ -1051,10 +1051,14 @@
 		5A9A9F8911F2951400328DF9 /* AIDoNothingContactAlertPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8811F2951400328DF9 /* AIDoNothingContactAlertPlugin.m */; };
 		5A9A9F8B11F295EB00328DF9 /* events-do-nothing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5A9A9F8A11F295EB00328DF9 /* events-do-nothing.tiff */; };
 		5AA2A0EE14B3EFF500B4DB65 /* AIOSCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 5AA2A0ED14B3EFF500B4DB65 /* AIOSCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACA086A17873AEA00B15047 /* AIButtonWithCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5ACA086B17873AEA00B15047 /* AIButtonWithCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */; };
 		5ACF27391392C74A004B6AEF /* AIHighlightingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */; };
 		5ACF273A1392C74A004B6AEF /* AIHighlightingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */; };
 		5ACF273B1392C74A004B6AEF /* AIPreferenceCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5ACF27371392C74A004B6AEF /* AIPreferenceCollectionView.h */; };
 		5ACF273C1392C74A004B6AEF /* AIPreferenceCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF27381392C74A004B6AEF /* AIPreferenceCollectionView.m */; };
+		5AC423F3178CBD5100F5911A /* ChatCyclingDefaults-Old.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D7F1E815F85DD300F32F9B /* ChatCyclingDefaults-Old.plist */; };
+		5AC423F7178CBD5700F5911A /* ChatCyclingDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34D7F1E915F85DD300F32F9B /* ChatCyclingDefaults.plist */; };
 		5ADFFE5D133846C300069C1B /* keys.png in Resources */ = {isa = PBXBuildFile; fileRef = 5ADFFE5C133846C300069C1B /* keys.png */; };
 		5AEE60011602BAE200304672 /* AIBoolToControlTextColorTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */; };
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3998,6 +4002,8 @@
 		5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-AddressBookIntegration.xib"; path = "Resources/Preferences-AddressBookIntegration.xib"; sourceTree = "<group>"; };
 		5AC7F26513B42A55002D7265 /* Preferences-Encryption.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Encryption.xib"; path = "Resources/Preferences-Encryption.xib"; sourceTree = "<group>"; };
 		5AC7F26713B43612002D7265 /* Preferences-MessageAlerts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-MessageAlerts.xib"; path = "Resources/Preferences-MessageAlerts.xib"; sourceTree = "<group>"; };
+		5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIButtonWithCursor.h; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.h"; sourceTree = "<group>"; };
+		5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIButtonWithCursor.m; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.m"; sourceTree = "<group>"; };
 		5ACF27331392C585004B6AEF /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Preferences.xib; path = Resources/Preferences.xib; sourceTree = "<group>"; };
 		5ACF27351392C74A004B6AEF /* AIHighlightingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIHighlightingTextField.h; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.h"; sourceTree = "<group>"; };
 		5ACF27361392C74A004B6AEF /* AIHighlightingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIHighlightingTextField.m; path = "Frameworks/AIUtilities Framework/Source/AIHighlightingTextField.m"; sourceTree = "<group>"; };
@@ -7629,6 +7635,8 @@
 				6334FF370F9C14BF003C77A9 /* Button with a popup menu for toolbar items */,
 				6334FF340F9C14BF003C77A9 /* Button with rollover delegate action */,
 				6334FF310F9C14BF003C77A9 /* Auto-completing textField */,
+				5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */,
+				5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */,
 			);
 			name = "Fun New Controls";
 			sourceTree = "<group>";
@@ -9211,6 +9219,7 @@
 				633400550F9C14C2003C77A9 /* AITextViewWithPlaceholder.h in Headers */,
 				633400570F9C14C2003C77A9 /* AIFlexibleToolbarItem.h in Headers */,
 				6334005B0F9C14C2003C77A9 /* AIDockingWindow.h in Headers */,
+				5ACA086A17873AEA00B15047 /* AIButtonWithCursor.h in Headers */,
 				6334005D0F9C14C2003C77A9 /* AIBorderlessWindow.h in Headers */,
 				6334005F0F9C14C2003C77A9 /* AIGenericViewCell.h in Headers */,
 				633400610F9C14C2003C77A9 /* AIImageTextCell.h in Headers */,
@@ -9927,6 +9936,8 @@
 				C613B143164112B3006683FF /* events-dock-name.tiff in Resources */,
 				C613B1451641210B006683FF /* events-contact.tiff in Resources */,
 				5A0BBC4317400544002A7BE0 /* emoticons_menu@2x.png in Resources */,
+				5AC423F3178CBD5100F5911A /* ChatCyclingDefaults-Old.plist in Resources */,
+				5AC423F7178CBD5700F5911A /* ChatCyclingDefaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10719,6 +10730,7 @@
 				633400320F9C14C2003C77A9 /* AIDividedAlternatingRowOutlineView.m in Sources */,
 				633400340F9C14C2003C77A9 /* AIOutlineView.m in Sources */,
 				633400360F9C14C2003C77A9 /* AIAlternatingRowOutlineView.m in Sources */,
+				5ACA086B17873AEA00B15047 /* AIButtonWithCursor.m in Sources */,
 				633400380F9C14C2003C77A9 /* AIVariableHeightFlexibleColumnsOutlineView.m in Sources */,
 				6334003A0F9C14C2003C77A9 /* AIVariableHeightOutlineView.m in Sources */,
 				6334003C0F9C14C2003C77A9 /* AIMultiCellOutlineView.m in Sources */,

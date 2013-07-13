@@ -51,13 +51,13 @@
 	return @"SIP / SIMPLE";
 }
 - (NSCharacterSet *)allowedCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@"+abcdefghijklmnopqrstuvwxyz0123456789._-@\\"];
+	return [NSCharacterSet characterSetWithCharactersInString:@"+abcdefghijklmnopqrstuvwxyzABCEDFGHIJKLMNOPQRSTUVWXYZ0123456789._-@\\"];
 }
 - (NSUInteger)allowedLength{
 	return 255;
 }
 - (BOOL)caseSensitive{
-	return NO;
+	return YES;
 }
 - (AIServiceImportance)serviceImportance{
 	return AIServiceSecondary;
