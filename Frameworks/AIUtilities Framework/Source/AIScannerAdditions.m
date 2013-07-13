@@ -39,8 +39,14 @@
 	if (length && (buf[i] == '+')) {
 		++i;
 	}
-	if (i >= length) return NO;
-	if ((buf[i] < '0') || (buf[i] > '9')) return NO;
+	if (i >= length) {
+		free(buf);
+		return NO;
+	}
+	if ((buf[i] < '0') || (buf[i] > '9')) {
+		free(buf);
+		return NO;
+	}
 
 	unsigned total = 0;
 	while (i < length) {
@@ -54,6 +60,7 @@
 	}
 	[self setScanLocation:i];
 	*unsignedIntValue = total;
+	free(buf);
 	return YES;
 }
 

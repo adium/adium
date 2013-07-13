@@ -137,7 +137,6 @@
 	if (useABImages) {
 		NSNumber		*tagNumber;
 		NSImage			*image;
-		//		AIListContact	*parentContact;
 		NSString		*uniqueID;
 		id				setOrObject;
 		
@@ -164,7 +163,7 @@
 						 asynchronously:YES
 							  forObject:listObject];
 			
-		} else /*if ([setOrObject isKindOfClass:[NSSet class]])*/{
+		} else {
 			//Apply the image to each listObject at the appropriate priority
 			for (AIListObject *listObject in [[(NSSet *)setOrObject copy] autorelease]) {
 				[AIUserIcons userIconSource:self
@@ -224,7 +223,7 @@
 				[trackingDict setObject:objectSet forKey:tagNumber];
 			}
 
-		} else /*if ([previousValue isKindOfClass:[NSMutableSet class]])*/{
+		} else {
 			//Add the new object to the previously-created set
 			[(NSMutableSet *)previousValue addObject:inObject];
 		}

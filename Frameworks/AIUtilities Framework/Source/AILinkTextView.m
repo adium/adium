@@ -118,15 +118,12 @@
 	linkMenuItems = [linkTrackingController menuItemsForEvent:theEvent withOffset:NSMakePoint(0,0)];
 	
 	if ([linkMenuItems count]) {
-		NSMenuItem		*menuItem;
-		NSEnumerator	*enumerator;
-
 		if (!menu) menu = [[[NSMenu alloc] init] autorelease];
 		
-		enumerator = [linkMenuItems reverseObjectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		[linkMenuItems enumerateObjectsWithOptions:NSEnumerationReverse
+										usingBlock:^(id menuItem, NSUInteger idx, BOOL *stop) {
 			[menu insertItem:menuItem atIndex:0];
-		}
+		}];
 	}
 	
 	return menu;

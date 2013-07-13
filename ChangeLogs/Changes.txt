@@ -1,9 +1,73 @@
 				Adium Version History
 				-----------------------
+Version 1.6 (X/X/X)
+ Major changes
+  * New preferences layout
+  * "Retina Display" support
+  * Updated to libpurple x.y.z.
+    * Added SASL authentication support. (#14478)
+
+ Accessibility
+  * Fixed tabs not being spoken by VoiceOver. (#16088)
+
+ Chat window
+  * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
+  * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
+
+ Contact list
+  * Fixed an issue with contact list positioning. (#11278)
+  * Fixed an issue with contact list animation during search. (#16018)
+
+ Off-the-record (OTR) messaging support
+  * Fixed an issue where the default encryption setting was not applied to newly-added contacts. (#13915)
+
+ "Retina Display" support
+  * Added high-resolution assets. (#15931, ##16067)
+  * Fixed high-resolution assets not being scaled correctly in context menus. (#16143)
+  * Added for support for high-resolution emoticons in the Message View. (Detmud) (#16221)
+  * Fixed visual glitches on bottom tabs. (#16074)
+  * Fixed visual glitches affecting the Transcript Viewer search bar. (#16053)
+
+ Plugins
+  * Added support for adding image upload services. (#15865) (Félix Cloutier)
+
+ Preferences
+  * Changed preferences layout to resemble OS X's System Preferences.
+  * Moved a bunch of preferences around for more consistency dissolving the "Advanced" preference pane and its sub-sections.
+  * Made Privacy Settings a preference pane. (#8307)
+  * Made the Xtras Manager a preference pane.
+  * Renamed the "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
+  * Contact list: Added a preference for maximum contact list height. (#4815)
+  * General: Removed "Send Messages with:" option. (#15369)
+  * General: Simplified "Confirmations" settings. (#16436)
+  * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
+  * Encryption: Made text selectable in the "Show Fingerprint..." window. (#15082)
+
+ Transcript Viewer
+  * Added full screen support. (##16120) (Paul Wilde)
+
+----
+
+  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
+
+  * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+
+  * Yahoo: fixed ampersands being encoded mistakenly. (#13429)
+
+- "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
+- "Text Clip Support" (#14081)
+- "Allow /me action to be logged the way it is passed to the message view" (#13330)
+- "if an action ends in a colon, the colon will be emotified" (#14079)
+- "Improve "New Chat..." dialogue" (#14285)
+- Sandboxed message styles. (#15324)
+- Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
+- "Proxy bypass when registered jabber handle" (#15957)
+
 Version 1.5.8 (XX/XX/2013)
  * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. This was meant to be done for 1.5.4 but it did not work that time. (#16102)
  * XMPP: refer to XMPP as "XMPP (Jabber)". Unfortunately, just "XMPP" still has some potential for confusion. (#16435)
  * Fixed SIP accountnames to be case-sensitive. (Pete Woods) (#16237)
+ * Fixed a bug that could cause Adium and other applications to hang and could lead to corruption of the Keychain when permanently trusting an untrusted SSL certificate. (#16365)
 
 Version 1.5.7 (7/2/2013)
  * Updated Twitter support. (#16118)
@@ -18,10 +82,12 @@ Version 1.5.7 (7/2/2013)
    * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
    * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
 
+
 Version 1.5.6 (3/18/2013)
  * Fixed a crash on startup on 10.6.8.
  * Fixed a crash when accepting or canceling the certificate verification dialog. (#16280)
  * Fixed a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
 
 Version 1.5.5 (2/24/2013)
  * Updated libpurple to 2.10.7 fixing two security vulnerabilities.

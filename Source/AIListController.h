@@ -30,8 +30,11 @@ typedef enum {
     BOOL					autoResizeVertically;
     BOOL					autoResizeHorizontally;
 	BOOL					autoResizeHorizontallyWithIdleTime;
-	NSInteger						maxWindowWidth;
-	NSInteger						forcedWindowWidth;
+	NSInteger				maxWindowWidth;
+	NSInteger				forcedWindowWidth;
+	NSInteger				maxWindowHeight;
+	NSInteger				forcedWindowHeight;
+	NSRect					previousWindowRect;
 
 	AIDockToBottomType 		dockToBottomOfScreen;
 
@@ -55,8 +58,10 @@ typedef enum {
 @property (nonatomic) BOOL autoResizeHorizontallyWithIdleTime;
 @property (nonatomic) BOOL autoResizeVertically;
 @property (nonatomic) NSInteger maxWindowWidth;
+@property (nonatomic) NSInteger maxWindowHeight;
 @property (nonatomic) NSSize minWindowSize;
 @property (nonatomic) NSInteger forcedWindowWidth;
+@property (nonatomic) NSInteger forcedWindowHeight;
 
 - (NSRect)_desiredWindowFrameUsingDesiredWidth:(BOOL)useDesiredWidth desiredHeight:(BOOL)useDesiredHeight;
 

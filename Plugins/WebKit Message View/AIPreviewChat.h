@@ -14,13 +14,18 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 
-@interface AIPreviewChat : AIChat {
-
+/* This class inherits from AIGroupChat, but it can also
+ * pretend to be a normal chat.
+ */
+@interface AIPreviewChat : AIGroupChat {
+    BOOL isGroupChat;
 }
 
 + (AIPreviewChat *)previewChat;
 - (void)setDateOpened:(NSDate *)inDate;
+
+@property (assign, nonatomic) BOOL isGroupChat;
 
 @end

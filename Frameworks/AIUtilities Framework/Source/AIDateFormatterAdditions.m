@@ -355,10 +355,10 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 	//build the strings for the parts
 	if (abbreviate) {
 		//Note: after checking with a linguistics student, it appears that we're fine leaving it as w, h, etc... rather than localizing.
-		weeksString		= [NSString stringWithFormat: @"%iw",weeks];
-		daysString		= [NSString stringWithFormat: @"%id",days];
-		hoursString		= [NSString stringWithFormat: @"%ih",hours];
-		minutesString	= [NSString stringWithFormat: @"%im",minutes];
+		weeksString		= [NSString stringWithFormat: @"%liw",weeks];
+		daysString		= [NSString stringWithFormat: @"%lid",days];
+		hoursString		= [NSString stringWithFormat: @"%lih",hours];
+		minutesString	= [NSString stringWithFormat: @"%lim",minutes];
 		secondsString	= [NSString stringWithFormat: @"%.0fs",seconds];
 	} else {
 		weeksString		= (weeks == 1)		? ONE_WEEK		: [NSString stringWithFormat:MULTIPLE_WEEKS, weeks];
@@ -468,7 +468,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 					[newFormat appendString:@"%Y"];
 					break;
 				default:
-					[newFormat appendFormat:@"%%%iY", [span length]];
+					[newFormat appendFormat:@"%%%liY", [span length]];
 			}
 			
 		} else if (it == 'M') {
@@ -609,8 +609,6 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 			[newFormat appendString:@"%%"];
 			[scanner setScanLocation:[scanner scanLocation] - [span length] + 1];
 		
-		} else {
-			//NSLog(@"Unhandled format %@", span);
 		}
 	}
 

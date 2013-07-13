@@ -160,7 +160,7 @@
 		//menuUserIconForObject
 		secondaryIcon = [AIUserIcons menuUserIconForObject:listObject];
 	} else {
-		secondaryIcon = [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconSmall direction:AIIconNormal];	
+		secondaryIcon = [[AIServiceIcons serviceIconForObject:listObject type:AIServiceIconSmall direction:AIIconNormal] imageByScalingForMenuItem];
 	}
 	secondarySize = [secondaryIcon size];		
 	

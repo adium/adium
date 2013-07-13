@@ -212,7 +212,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				[fileManager trashFileAtPath:[pluginDirectory stringByAppendingPathComponent:
 					[NSString stringWithFormat:@"%@-Adium.scpt",name]]];
 			} else {
-				AILogWithSignature(@"Warning: Could not find %@",self, fullName);
+				AILogWithSignature(@"%@: Warning: Could not find %@", self, fullName);
 			}
 		}
 

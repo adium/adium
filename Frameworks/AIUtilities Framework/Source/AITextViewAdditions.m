@@ -19,7 +19,8 @@
 #import "AITextAttributes.h"
 
 @implementation NSTextView (AITextViewAdditions)
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 - (void)changeDocumentBackgroundColor:(id)sender
 {
 	NSColor		*newColor = [sender color];
@@ -40,4 +41,5 @@
 	
 	[self didChangeText];
 }
+#pragma clang diagnostic pop
 @end

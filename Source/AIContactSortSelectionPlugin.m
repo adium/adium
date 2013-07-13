@@ -97,9 +97,8 @@
 	NSString *identifier = [adium.preferenceController preferenceForKey:KEY_CURRENT_SORT_MODE_IDENTIFIER
 														  group:PREF_GROUP_CONTACT_SORTING];
 	
-	NSEnumerator *enumerator = [[AISortController availableSortControllers] objectEnumerator];
 	AISortController *controller = nil;
-	while ((controller = [enumerator nextObject])) {
+	for (controller in [AISortController availableSortControllers]) {
 		if ([identifier compare:[controller identifier]] == NSOrderedSame) {
 			[AISortController setActiveSortController:controller];
 			break;
