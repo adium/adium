@@ -492,7 +492,7 @@
 
 - (void)updateUserIconMenuFromPrefDict:(NSDictionary *)prefDict
 {
-	NSInteger userIconPositionChoices[3];
+	NSInteger userIconPositionChoices[3] = {-1};
 	
 	if ([[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted) {
 		userIconPositionChoices[0] = LIST_POSITION_LEFT;

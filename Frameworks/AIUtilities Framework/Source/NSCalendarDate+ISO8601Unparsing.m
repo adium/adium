@@ -50,9 +50,9 @@ static BOOL is_leap_year(NSInteger year) {
 		if(offset == 0)
 			str = [str stringByAppendingString:@"Z"];
 		if(offset < 0)
-			str = [str stringByAppendingFormat:@"-%02d:%02d", -offset / 60, -offset % 60];
+			str = [str stringByAppendingFormat:@"-%02ld:%02ld", -offset / 60, -offset % 60];
 		else
-			str = [str stringByAppendingFormat:@"+%02d:%02d", offset / 60, offset % 60];
+			str = [str stringByAppendingFormat:@"+%02ld:%02ld", offset / 60, offset % 60];
 	}
 	return str;
 }
@@ -111,7 +111,7 @@ static BOOL is_leap_year(NSInteger year) {
 	} else
 		timeString = @"";
 
-	return [NSString stringWithFormat:@"%u-W%02u-%02u%@", year, week, dayOfWeek + 1U, timeString];
+	return [NSString stringWithFormat:@"%lu-W%02lu-%02lu%@", year, week, dayOfWeek + 1U, timeString];
 }
 - (NSString *)ISO8601OrdinalDateStringWithTime:(BOOL)includeTime timeSeparator:(unichar)timeSep {
 	NSString *timeString;
@@ -122,7 +122,7 @@ static BOOL is_leap_year(NSInteger year) {
 	} else
 		timeString = @"";
 
-	return [NSString stringWithFormat:@"%u-%03u%@", [self yearOfCommonEra], [self dayOfYear], timeString];
+	return [NSString stringWithFormat:@"%lu-%03lu%@", [self yearOfCommonEra], [self dayOfYear], timeString];
 }
 
 #pragma mark -

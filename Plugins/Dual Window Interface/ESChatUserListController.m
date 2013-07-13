@@ -140,7 +140,7 @@
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&
 			[listObject.service.serviceClass isEqualToString:activeChatAccount.service.serviceClass] &&
-			![activeChat containsObject:listObject]) {
+			![(AIGroupChat *)activeChat containsObject:listObject]) {
 			return NSDragOperationCopy;
 		}
 	}
@@ -193,7 +193,7 @@
 {
 	[super updateCellRelatedThemePreferencesFromDict:prefDict];
 
-	AIChat *chat = (AIChat *)contactList;
+	AIGroupChat *chat = (AIGroupChat *)contactList;
 	
 	[contentCell setExtendedStatusVisible:!chat.hideUserIconAndStatus];
 	[contentCell setUserIconVisible:!chat.hideUserIconAndStatus];
