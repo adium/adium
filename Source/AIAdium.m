@@ -22,10 +22,9 @@
 #import "AIContentController.h"
 #import "AICoreComponentLoader.h"
 #import "AICorePluginLoader.h"
-//#import "AICrashController.h"
+#import "AICrashReporter.h"
 #import "AIDockController.h"
 #import "AIEmoticonController.h"
-//#import "AIExceptionController.h"
 #import "AIInterfaceController.h"
 #import "AILoginController.h"
 #import "AIMenuController.h"
@@ -121,14 +120,9 @@ static NSString	*prefsCategory;
 	prefsCategory = nil;
 	queuedURLEvents = nil;
 	
-	//Load the crash reporter
-/*
-#ifdef CRASH_REPORTER
-#warning Crash reporter enabled.
-    [AICrashController enableCrashCatching];
-    [AIExceptionController enableExceptionCatching];
-#endif
- */
+	//Check for a recent crash log
+	[AICrashReporter checkForCrash];
+
     //Ignore SIGPIPE, which is a harmless error signal
     //sent when write() or similar function calls fail due to a broken pipe in the network connection
     signal(SIGPIPE, SIG_IGN);

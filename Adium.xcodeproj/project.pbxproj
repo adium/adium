@@ -1027,6 +1027,9 @@
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
+		5A2FF9B81797336100C2EF12 /* crashDuck.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A72C1A117013D9400075BBA /* crashDuck.icns */; };
+		5A2FF9BC1797337200C2EF12 /* CrashReporter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A72C1A517013D9400075BBA /* CrashReporter.xib */; };
+		5A2FF9BD1797351500C2EF12 /* AICrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A72C1AD17013D9400075BBA /* AICrashReporter.m */; };
 		5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6E16D878AB00903E40 /* STTwitterAPIWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -3934,6 +3937,14 @@
 		5A5F8BBB12D560E400019727 /* AIDockNameOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDockNameOverlay.h; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.h"; sourceTree = "<group>"; };
 		5A5F8BBC12D560E400019727 /* AIDockNameOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDockNameOverlay.m; path = "Plugins/Dock Icon Badging/AIDockNameOverlay.m"; sourceTree = "<group>"; };
 		5A675E8D13C00AEA006192C5 /* Preferences-General.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-General.xib"; path = "Resources/Preferences-General.xib"; sourceTree = "<group>"; };
+		5A72C1A117013D9400075BBA /* crashDuck.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = crashDuck.icns; sourceTree = "<group>"; };
+		5A72C1A217013D9400075BBA /* crashDuck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crashDuck.png; sourceTree = "<group>"; };
+		5A72C1A617013D9400075BBA /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/CrashReporter.xib; sourceTree = "<group>"; };
+		5A72C1A817013D9400075BBA /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CrashReporter.xib; sourceTree = "<group>"; };
+		5A72C1AA17013D9400075BBA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CrashReporter.xib; sourceTree = "<group>"; };
+		5A72C1AC17013D9400075BBA /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/CrashReporter.xib; sourceTree = "<group>"; };
+		5A72C1AD17013D9400075BBA /* AICrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICrashReporter.m; path = "Other/Adium Crash Reporter/AICrashReporter.m"; sourceTree = "<group>"; };
+		5A72C1AE17013D9400075BBA /* AICrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AICrashReporter.h; path = "Other/Adium Crash Reporter/AICrashReporter.h"; sourceTree = "<group>"; };
 		5A7642A811E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sk_SK; path = Resources/sk_SK.lproj/AccountProxy.xib; sourceTree = "<group>"; };
 		5A7642A911E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sk_SK; path = Resources/sk_SK.lproj/AIAdvancedInspectorPane.xib; sourceTree = "<group>"; };
 		5A7642AB11E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk_SK; path = Resources/sk_SK.lproj/Buttons.strings; sourceTree = "<group>"; };
@@ -7120,6 +7131,7 @@
 		4BCAC53407B59F9C006641B9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				5A72C19C17013B1A00075BBA /* Crash Reporter */,
 				11BE28E30FCC7DA8000E6A10 /* Image Uploading */,
 				34FDD6E305632BFD00F5B30F /* ESFileTransferController.h */,
 				34FDD6E405632BFD00F5B30F /* ESFileTransferController.m */,
@@ -7404,6 +7416,27 @@
 				5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */,
 			);
 			name = Vendor;
+			sourceTree = "<group>";
+		};
+		5A72C19C17013B1A00075BBA /* Crash Reporter */ = {
+			isa = PBXGroup;
+			children = (
+				5A72C1A017013D9400075BBA /* Resources */,
+				5A72C1AD17013D9400075BBA /* AICrashReporter.m */,
+				5A72C1AE17013D9400075BBA /* AICrashReporter.h */,
+			);
+			name = "Crash Reporter";
+			sourceTree = "<group>";
+		};
+		5A72C1A017013D9400075BBA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5A72C1A117013D9400075BBA /* crashDuck.icns */,
+				5A72C1A217013D9400075BBA /* crashDuck.png */,
+				5A72C1A517013D9400075BBA /* CrashReporter.xib */,
+			);
+			name = Resources;
+			path = "Other/Adium Crash Reporter/Resources";
 			sourceTree = "<group>";
 		};
 		5A8A6A46124456B1004965A8 /* Segmented control with menu popup */ = {
@@ -9814,6 +9847,7 @@
 				110763FA08676D05005987A5 /* BlockEditorWindow.xib in Resources */,
 				EE147A6D0896B18800A21377 /* ABSearch.png in Resources */,
 				EE147A790896B32400A21377 /* ABSearch.xib in Resources */,
+				5A2FF9BC1797337200C2EF12 /* CrashReporter.xib in Resources */,
 				63C120750910A0DD00C9DB57 /* DefaultXtraReadme.rtf in Resources */,
 				348F579E0936FA6D00288E41 /* EditStatusGroup.xib in Resources */,
 				6333699409497DB000970871 /* EmoticonPreviewView.xib in Resources */,
@@ -9878,6 +9912,7 @@
 				317D83680E89F40500298BDB /* msg-bookmark-chat.tiff in Resources */,
 				11BD73D30F5A54BB007D438A /* twitter-small.png in Resources */,
 				11BD73D40F5A54BB007D438A /* twitter.png in Resources */,
+				5A2FF9B81797336100C2EF12 /* crashDuck.icns in Resources */,
 				1109634C0F61C1D00064CA0E /* AITwitterReplyWindow.xib in Resources */,
 				113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */,
 				113892280F6B70CA00A7D7DC /* laconica.png in Resources */,
@@ -10532,6 +10567,7 @@
 				34DC88410A7EEE2E003E1636 /* AdiumPreferredAccounts.m in Sources */,
 				34DC88430A7EEE2E003E1636 /* AdiumServices.m in Sources */,
 				34DC88450A7EEE2E003E1636 /* AdiumApplescriptRunner.m in Sources */,
+				5A2FF9BD1797351500C2EF12 /* AICrashReporter.m in Sources */,
 				34DC884C0A7EEE2E003E1636 /* AdiumContentFiltering.m in Sources */,
 				34DC884E0A7EEE2E003E1636 /* AdiumFormatting.m in Sources */,
 				34DC88510A7EEE2E003E1636 /* AdiumTyping.m in Sources */,
@@ -12320,6 +12356,17 @@
 				5A4BD41C13F855B000A4D3F7 /* en */,
 			);
 			name = SearchTerms.plist;
+			sourceTree = "<group>";
+		};
+		5A72C1A517013D9400075BBA /* CrashReporter.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A72C1A617013D9400075BBA /* cs */,
+				5A72C1A817013D9400075BBA /* de */,
+				5A72C1AA17013D9400075BBA /* en */,
+				5A72C1AC17013D9400075BBA /* fr */,
+			);
+			name = CrashReporter.xib;
 			sourceTree = "<group>";
 		};
 		633D50ED0F9D31BD004F491E /* InfoPlist.strings */ = {

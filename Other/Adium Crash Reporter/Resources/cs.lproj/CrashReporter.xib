@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4457.6" systemVersion="12E55" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="1070" defaultVersion="1060" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4457.6"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <action selector="hide:" destination="134" id="152"/>
+                <action selector="hideOtherApplications:" destination="145" id="146"/>
+                <action selector="orderFrontStandardAboutPanel:" destination="58" id="142"/>
+                <action selector="terminate:" destination="136" id="139"/>
+                <action selector="unhideAllApplications:" destination="150" id="153"/>
+                <outlet property="delegate" destination="246" id="306"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder">
+            <connections>
+                <action selector="arrangeInFront:" destination="5" id="39"/>
+                <action selector="centerSelectionInVisibleArea:" destination="210" id="245"/>
+                <action selector="checkSpelling:" destination="201" id="225"/>
+                <action selector="clearRecentDocuments:" destination="126" id="127"/>
+                <action selector="copy:" destination="197" id="224"/>
+                <action selector="cut:" destination="199" id="228"/>
+                <action selector="delete:" destination="202" id="235"/>
+                <action selector="paste:" destination="203" id="226"/>
+                <action selector="performClose:" destination="73" id="193"/>
+                <action selector="performFindPanelAction:" destination="209" id="241"/>
+                <action selector="performFindPanelAction:" destination="208" id="242"/>
+                <action selector="performFindPanelAction:" destination="213" id="243"/>
+                <action selector="performFindPanelAction:" destination="221" id="244"/>
+                <action selector="performMiniaturize:" destination="23" id="37"/>
+                <action selector="performZoom:" destination="239" id="240"/>
+                <action selector="print:" destination="78" id="86"/>
+                <action selector="redo:" destination="215" id="231"/>
+                <action selector="runPageLayout:" destination="77" id="87"/>
+                <action selector="selectAll:" destination="198" id="232"/>
+                <action selector="showGuessPanel:" destination="204" id="230"/>
+                <action selector="showHelp:" destination="111" id="122"/>
+                <action selector="startSpeaking:" destination="196" id="233"/>
+                <action selector="stopSpeaking:" destination="195" id="227"/>
+                <action selector="toggleContinuousSpellChecking:" destination="219" id="222"/>
+                <action selector="undo:" destination="207" id="223"/>
+            </connections>
+        </customObject>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Záznamník havárií Adium" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="21" userLabel="Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="213" y="80" width="600" height="476"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="1002"/>
+            <value key="minSize" type="size" width="595" height="412"/>
+            <value key="maxSize" type="size" width="800" height="600"/>
+            <view key="contentView" autoresizesSubviews="NO" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="476"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="335">
+                        <rect key="frame" x="292" y="22" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </progressIndicator>
+                    <imageView id="291">
+                        <rect key="frame" x="336" y="217" width="280" height="280"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="crashDuck" id="361"/>
+                    </imageView>
+                    <imageView id="259">
+                        <rect key="frame" x="694" y="127" width="141" height="87"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="357"/>
+                    </imageView>
+                    <button verticalHuggingPriority="750" id="247">
+                        <rect key="frame" x="345" y="12" width="241" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Odeslat záznam a spustit aplikaci Adium" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="354">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="249">
+                        <rect key="frame" x="107" y="346" width="194" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Vaše elektronická adresa (e-mail)" drawsBackground="YES" id="355">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="308" id="320"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="258">
+                        <rect key="frame" x="105" y="258" width="381" height="22"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Krátký popis havárie" drawsBackground="YES" id="356">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="328" id="341"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="281">
+                        <rect key="frame" x="17" y="348" width="85" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Váš e-mail:" id="358">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="282">
+                        <rect key="frame" x="17" y="260" width="83" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Popis:" id="359">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="283">
+                        <rect key="frame" x="17" y="233" width="83" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Vysvětlení:" id="360">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="295">
+                        <rect key="frame" x="17" y="445" width="317" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Aplikace Adium byla neočekávaně ukončena" id="362">
+                            <font key="font" metaFont="systemBold"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="296">
+                        <rect key="frame" x="17" y="406" width="317" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Prosím udělejte si chvíli čas na odeslání záznamu havárie. Pomůže to k vylepšení aplikace Adium." id="363">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="297">
+                        <rect key="frame" x="259" y="12" width="86" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Zavřít" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="364">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="307">
+                        <rect key="frame" x="17" y="320" width="85" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Vaše AIM:" id="365">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="308">
+                        <rect key="frame" x="107" y="318" width="194" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="Jméno vašeho účtu:" drawsBackground="YES" id="366">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="258" id="321"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="311">
+                        <rect key="frame" x="17" y="373" width="252" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Kontaktní údaje: (e-mail nebo AIM)" id="367">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="312">
+                        <rect key="frame" x="17" y="285" width="276" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Podrobnosti havárie (nepovinné):" id="368">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="313">
+                        <rect key="frame" x="14" y="12" width="175" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Ochrana soukromí…" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="369">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                    </button>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="327" customClass="AIAutoScrollView">
+                        <rect key="frame" x="105" y="60" width="433" height="190"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" id="AFN-fQ-3jN">
+                            <rect key="frame" x="1" y="1" width="431" height="188"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <textView importsGraphics="NO" richText="NO" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="328" customClass="AITextViewWithPlaceholder">
+                                    <rect key="frame" x="0.0" y="0.0" width="431" height="188"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="431" height="188"/>
+                                    <size key="maxSize" width="431" height="10000000"/>
+                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="431" height="188"/>
+                                    <size key="maxSize" width="431" height="10000000"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="372">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="373">
+                            <rect key="frame" x="-30" y="1" width="15" height="188"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                </subviews>
+            </view>
+            <connections>
+                <action selector="performClose:" destination="297" id="300"/>
+                <outlet property="delegate" destination="246" id="350"/>
+                <outlet property="initialFirstResponder" destination="258" id="345"/>
+            </connections>
+        </window>
+        <menu title="Hlavní nabídka" systemMenu="main" id="29" userLabel="MainMenu">
+            <items>
+                <menuItem title="Záznamník havárií" id="56">
+                    <menu key="submenu" title="Záznamník havárií" systemMenu="apple" id="57">
+                        <items>
+                            <menuItem title="Co je Záznamník havárií" id="58">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="236">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Předvolby…" keyEquivalent="," id="129"/>
+                            <menuItem isSeparatorItem="YES" id="143">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Služby" id="131">
+                                <menu key="submenu" title="Služby" systemMenu="services" id="130"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="144">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Skrýt Záznamník havárií" keyEquivalent="h" id="134"/>
+                            <menuItem title="Skrýt ostatní" keyEquivalent="h" id="145">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Zobrazit vše" id="150"/>
+                            <menuItem isSeparatorItem="YES" id="149">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Ukončit Záznamník havárií" keyEquivalent="q" id="136"/>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Soubor" id="83">
+                    <menu key="submenu" title="Soubor" id="81">
+                        <items>
+                            <menuItem title="Nový" keyEquivalent="n" id="82"/>
+                            <menuItem title="Otevřít…" keyEquivalent="o" id="72"/>
+                            <menuItem title="Otevřít poslední" id="124">
+                                <menu key="submenu" title="Otevřít poslední" systemMenu="recentDocuments" id="125">
+                                    <items>
+                                        <menuItem title="Vyprázdnit nabídku" id="126"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="79">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Zavřít" keyEquivalent="w" id="73"/>
+                            <menuItem title="Uložit" keyEquivalent="s" id="75"/>
+                            <menuItem title="Uložit jako…" keyEquivalent="S" id="80"/>
+                            <menuItem title="Obnovit" id="112">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="74">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Vzhled stránky…" keyEquivalent="P" id="77"/>
+                            <menuItem title="Tisknout…" keyEquivalent="p" id="78"/>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Úpravy" id="217">
+                    <menu key="submenu" title="Úpravy" id="205">
+                        <items>
+                            <menuItem title="Odvolat akci" keyEquivalent="z" id="207"/>
+                            <menuItem title="Opakovat akci" keyEquivalent="Z" id="215"/>
+                            <menuItem isSeparatorItem="YES" id="206">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Vyjmout" keyEquivalent="x" id="199"/>
+                            <menuItem title="Kopírovat" keyEquivalent="c" id="197"/>
+                            <menuItem title="Vložit" keyEquivalent="v" id="203"/>
+                            <menuItem title="Odstranit" id="202"/>
+                            <menuItem title="Vybrat vše" keyEquivalent="a" id="198"/>
+                            <menuItem isSeparatorItem="YES" id="214">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Hledat" id="218">
+                                <menu key="submenu" title="Hledat" id="220">
+                                    <items>
+                                        <menuItem title="Hledat…" tag="1" keyEquivalent="f" id="209"/>
+                                        <menuItem title="Hledat další" tag="2" keyEquivalent="g" id="208"/>
+                                        <menuItem title="Hledat předchozí" tag="3" keyEquivalent="G" id="213"/>
+                                        <menuItem title="Hledat výběr" tag="7" keyEquivalent="e" id="221"/>
+                                        <menuItem title="Zobrazit výběr" keyEquivalent="j" id="210"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Pravopis" id="216">
+                                <menu key="submenu" title="Pravopis" id="200">
+                                    <items>
+                                        <menuItem title="Pravopis…" keyEquivalent=":" id="204"/>
+                                        <menuItem title="Ověřit pravopis" keyEquivalent=";" id="201"/>
+                                        <menuItem title="Ověřovat pravopis při psaní" id="219"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Čtení" id="211">
+                                <menu key="submenu" title="Čtení" id="212">
+                                    <items>
+                                        <menuItem title="Spustit čtení" id="196"/>
+                                        <menuItem title="Zastavit čtení" id="195"/>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Okno" id="19">
+                    <menu key="submenu" title="Okno" systemMenu="window" id="24">
+                        <items>
+                            <menuItem title="Minimalizovat" keyEquivalent="m" id="23"/>
+                            <menuItem title="Přepnout velikost" id="239"/>
+                            <menuItem isSeparatorItem="YES" id="92">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Převést vše do popředí" id="5"/>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Nápověda" id="103">
+                    <menu key="submenu" title="Nápověda" id="106">
+                        <items>
+                            <menuItem title="Nápověda pro Záznamník havárií" keyEquivalent="?" id="111"/>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+        </menu>
+        <customObject id="246" userLabel="AICrashReporter" customClass="AICrashReporter">
+            <connections>
+                <action selector="closePrivacyDetails:" destination="319" id="334"/>
+                <action selector="send:" destination="247" id="299"/>
+                <action selector="showPrivacyDetails:" destination="313" id="333"/>
+                <outlet property="button_close" destination="297" id="351"/>
+                <outlet property="panel_privacySheet" destination="315" id="322"/>
+                <outlet property="progress_sending" destination="335" id="339"/>
+                <outlet property="scrollView_details" destination="327" id="352"/>
+                <outlet property="textField_accountIM" destination="308" id="326"/>
+                <outlet property="textField_description" destination="258" id="324"/>
+                <outlet property="textField_emailAddress" destination="249" id="325"/>
+                <outlet property="textView_crashLog" destination="316" id="342"/>
+                <outlet property="textView_details" destination="328" id="329"/>
+                <outlet property="window_MainWindow" destination="21" id="298"/>
+            </connections>
+        </customObject>
+        <window title="Ochrana soukromí" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="315" userLabel="Panel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="168" y="84" width="558" height="444"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="1002"/>
+            <value key="minSize" type="size" width="213" height="107"/>
+            <view key="contentView" autoresizesSubviews="NO" id="314">
+                <rect key="frame" x="1" y="1" width="558" height="444"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="317">
+                        <rect key="frame" x="20" y="60" width="518" height="265"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <clipView key="contentView" id="I5E-uO-TgI">
+                            <rect key="frame" x="1" y="1" width="501" height="263"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <textView editable="NO" importsGraphics="NO" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="316">
+                                    <rect key="frame" x="0.0" y="0.0" width="501" height="263"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="501" height="263"/>
+                                    <size key="maxSize" width="516" height="10000000"/>
+                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="501" height="263"/>
+                                    <size key="maxSize" width="516" height="10000000"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="1" id="374">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="375">
+                            <rect key="frame" x="502" y="1" width="15" height="263"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <textField verticalHuggingPriority="750" id="318">
+                        <rect key="frame" x="17" y="338" width="524" height="86"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="370">
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="title">Informace zaslané pomocí záznamníku havárií se používá pouze při ladění aplikace.
+Neodesílejte prosím tajné informace nebo hesla.
+
+Následující záznam havárie bude zaslán vývojovému týmu aplikace Adium současně s údaji, které zadáte (e-mail a jméno IM) a daty o vaší vývojové verzi aplikace Adium. Vaše IP adresa bude uložena s tímto záznamem.</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="319">
+                        <rect key="frame" x="461" y="12" width="83" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Budiž" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="371">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="319" id="331"/>
+            </connections>
+        </window>
+    </objects>
+    <resources>
+        <image name="crashDuck" width="128" height="128"/>
+    </resources>
+</document>
