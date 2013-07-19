@@ -134,8 +134,8 @@
 {
 	if (anIndex < [[self emoticons] count]) {
 		// Update Title and Symbol (Text Equivalent)
-		[[self emoticonTitleLabel] setTitleWithMnemonic:[[self emoticonTitles] objectAtIndex:anIndex]];
-		[[self emoticonSymbolLabel] setTitleWithMnemonic:[[self emoticonSymbols] objectAtIndex:anIndex]];
+		[[self emoticonTitleLabel] setStringValue:[[self emoticonTitles] objectAtIndex:anIndex]];
+		[[self emoticonSymbolLabel] setStringValue:[[self emoticonSymbols] objectAtIndex:anIndex]];
 	}
 }
 
