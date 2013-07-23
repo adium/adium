@@ -593,11 +593,11 @@ max_message_size_cb(void *opdata, ConnContext *context)
 	static NSDictionary *maxSizeByServiceClassDict = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		maxSizeByServiceClassDict = @{ @"AIM-compatible": @(2343),
-								 @"MSN" : @(1409),
-								 @"Yahoo!" : @(832),
-								 @"Gadu-Gadu": @(1999),
-								 @"IRC" : @(417) };
+		maxSizeByServiceClassDict = [@{ @"AIM-compatible": @(2343),
+									 @"MSN" : @(1409),
+									 @"Yahoo!" : @(832),
+									 @"Gadu-Gadu": @(1999),
+									 @"IRC" : @(417) } retain];
 	});
 
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
