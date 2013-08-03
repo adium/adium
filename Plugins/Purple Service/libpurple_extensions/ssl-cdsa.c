@@ -196,6 +196,11 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 		/* SSL connected now */
 		gsc->connect_cb(gsc->connect_cb_data, gsc, cond);
 	}
+	
+	SSLCipherSuite suite;
+	SSLGetNegotiatedCipher(cdsa_data->ssl_ctx, &suite);
+	
+	purple_debug_info("cdsa", "Using cipher %x.\n", suite);
 }
 
 /*
@@ -304,6 +309,51 @@ static OSStatus SocketWrite(
     return ortn;
 }
 
+static gboolean
+ssl_cdsa_use_cipher(SSLCipherSuite suite) {
+	switch (suite) {
+		case SSL_RSA_WITH_3DES_EDE_CBC_MD5:
+		case SSL_RSA_WITH_RC2_CBC_MD5:
+		case SSL_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_RSA_WITH_RC4_128_MD5:
+		case SSL_RSA_WITH_RC4_128_SHA:
+		case TLS_ECDH_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDH_RSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_RSA_WITH_RC4_128_SHA:
+		case TLS_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_128_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DHE_DSS_WITH_AES_128_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:
+			return TRUE;
+			
+		default:
+			return FALSE;
+	}
+}
+
 static void
 ssl_cdsa_create_context(gpointer data) {
     PurpleSslConnection *gsc = (PurpleSslConnection *)data;
@@ -351,9 +401,9 @@ ssl_cdsa_create_context(gpointer data) {
     /*
      * Pass the connection information to the connection to be used by our callbacks
      */
-    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)(intptr_t)gsc->fd);
+    err = SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)(intptr_t)gsc->fd);
     if (err != noErr) {
-		purple_debug_error("cdsa", "SSLSetConnection failed\n");
+		purple_debug_error("cdsa", "SSLSetConnection failed: %d\n", err);
 		if (gsc->error_cb != NULL)
 			gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
                           gsc->connect_cb_data);
@@ -361,34 +411,48 @@ ssl_cdsa_create_context(gpointer data) {
 		purple_ssl_close(gsc);
 		return;
     }
+	
+	size_t numCiphers = 0;
+	
+	err = SSLGetNumberSupportedCiphers(cdsa_data->ssl_ctx, &numCiphers);
+	
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLGetNumberEnabledCiphers failed: %d\n", err);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+        
+        purple_ssl_close(gsc);
+        return;
+	}
+	
+	SSLCipherSuite ciphers[numCiphers];
     
-    /*
-     * Disable ciphers that confuse some servers
-     */
-    SSLCipherSuite ciphers[] = {
-        TLS_RSA_WITH_AES_128_CBC_SHA,
-        SSL_RSA_WITH_RC4_128_SHA,
-        SSL_RSA_WITH_RC4_128_MD5,
-        TLS_RSA_WITH_AES_256_CBC_SHA,
-        SSL_RSA_WITH_3DES_EDE_CBC_SHA,
-        SSL_RSA_WITH_3DES_EDE_CBC_MD5,
-        SSL_RSA_WITH_DES_CBC_SHA,
-        SSL_RSA_EXPORT_WITH_RC4_40_MD5,
-        SSL_RSA_EXPORT_WITH_DES40_CBC_SHA,
-        SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5,
-        TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
-        TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-        TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
-        TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
-        SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA,
-        SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA,
-        SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
-        SSL_DHE_DSS_WITH_DES_CBC_SHA,
-        SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA
-    };
-    err = (OSStatus)SSLSetEnabledCiphers(cdsa_data->ssl_ctx, ciphers, sizeof(ciphers) / sizeof(SSLCipherSuite));
+    err = SSLGetSupportedCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLGetSupportedCiphers failed: %d\n", err);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+        
+        purple_ssl_close(gsc);
+        return;
+	}
+	
+	SSLCipherSuite enabledCiphers[numCiphers];
+	size_t numEnabledCiphers = 0;
+	int i;
+	
+	for (i = 0; i < numCiphers; i++) {
+		if (ssl_cdsa_use_cipher(ciphers[i])) {
+			enabledCiphers[numEnabledCiphers] = ciphers[i];
+			numEnabledCiphers++;
+		}
+	}
+	
+    err = SSLSetEnabledCiphers(cdsa_data->ssl_ctx, enabledCiphers, numEnabledCiphers);
     if (err != noErr) {
-        purple_debug_error("cdsa", "SSLSetEnabledCiphers failed\n");
+        purple_debug_error("cdsa", "SSLSetEnabledCiphers failed: %d\n", err);
         if (gsc->error_cb != NULL)
             gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
                           gsc->connect_cb_data);
