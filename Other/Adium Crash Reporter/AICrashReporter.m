@@ -1,4 +1,4 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
  * 
@@ -63,7 +63,7 @@
 	NSDate *lastKnownCrashDate = [defaults objectForKey:LAST_CRASH_DATE];
 	
 	// check to see if Adium crashed since the last crash (there's a newer crash report)
-	if (lastKnownCrashDate && [mostRecentCrashDate compare:lastKnownCrashDate] == NSOrderedDescending) {
+	if (mostRecentCrashDate && (!lastKnownCrashDate || [mostRecentCrashDate compare:lastKnownCrashDate] == NSOrderedDescending)) {
 		[NSBundle loadNibNamed:@"CrashReporter" owner:self];
 		
 		// save last crash date
