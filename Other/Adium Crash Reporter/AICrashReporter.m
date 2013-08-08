@@ -63,7 +63,7 @@
 	NSDate *lastKnownCrashDate = [defaults objectForKey:LAST_CRASH_DATE];
 	
 	// check to see if Adium crashed since the last crash (there's a newer crash report)
-	if (mostRecentCrashDate && (!lastKnownCrashDate || [mostRecentCrashDate compare:lastKnownCrashDate] == NSOrderedDescending)) {
+	if (self.crashLog && (!lastKnownCrashDate || [mostRecentCrashDate compare:lastKnownCrashDate] == NSOrderedDescending)) {
 		[NSBundle loadNibNamed:@"CrashReporter" owner:self];
 		
 		// save last crash date
