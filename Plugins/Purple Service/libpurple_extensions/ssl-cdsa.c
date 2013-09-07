@@ -440,7 +440,7 @@ ssl_cdsa_create_context(gpointer data) {
 	
 	size_t numCiphers = 0;
 	
-	err = SSLGetNumberSupportedCiphers(cdsa_data->ssl_ctx, &numCiphers);
+	err = SSLGetNumberEnabledCiphers(cdsa_data->ssl_ctx, &numCiphers);
 	
 	if (err != noErr) {
 		purple_debug_error("cdsa", "SSLGetNumberEnabledCiphers failed: %d\n", err);
@@ -454,7 +454,7 @@ ssl_cdsa_create_context(gpointer data) {
 	
 	SSLCipherSuite ciphers[numCiphers];
     
-    err = SSLGetSupportedCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
+    err = SSLGetEnabledCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
 	if (err != noErr) {
 		purple_debug_error("cdsa", "SSLGetSupportedCiphers failed: %d\n", err);
         if (gsc->error_cb != NULL)
