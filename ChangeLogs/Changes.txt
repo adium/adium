@@ -8,6 +8,7 @@ Version 1.5.8 (XX/XX/2013)
  * Fix a problem causing Sametime login to fail. (Jonathan Rice) (#16345)
  * Try to avoid Twitter's rate limiting causing Adium to go in a reconnection loop. (#16418)
 
+
 Version 1.5.7 (7/2/2013)
  * Updated Twitter support. (#16118)
    * Retweets (RTs) now properly display the original author.
@@ -21,10 +22,12 @@ Version 1.5.7 (7/2/2013)
    * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
    * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
 
+
 Version 1.5.6 (3/18/2013)
  * Fixed a crash on startup on 10.6.8.
  * Fixed a crash when accepting or canceling the certificate verification dialog. (#16280)
  * Fixed a crash or hang when trying to use OTR on 32-bits Macs. (#16203)
+
 
 Version 1.5.5 (2/24/2013)
  * Updated libpurple to 2.10.7 fixing two security vulnerabilities.
