@@ -197,8 +197,6 @@ typedef enum {
 
 @property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 
-@property (readwrite, nonatomic, retain) NSNumber *overrideLogging;
-
 // Compatibility. I don't like this here.
 - (NSArray *)containedObjects;
 - (BOOL)isGroupChat;

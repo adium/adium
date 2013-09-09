@@ -1168,7 +1168,7 @@
 												 fontTags:NO
 									   includingColorTags:NO
 											closeFontTags:YES
-												styleTags:NO
+												styleTags:YES
 							   closeStyleTagsOnFontChange:YES
 										   encodeNonASCII:YES
 											 encodeSpaces:YES

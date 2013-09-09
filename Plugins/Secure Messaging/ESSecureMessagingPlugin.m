@@ -34,6 +34,9 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
 
+#import "ESTextAndButtonsWindowController.h"
+#import "AILoggerPlugin.h"
+
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)
 #define	TITLE_MAKE_INSECURE		AILocalizedString(@"Cancel Encrypted Chat",nil)
 #define TITLE_SHOW_DETAILS		[AILocalizedString(@"Show Details",nil) stringByAppendingEllipsis]
@@ -47,7 +50,7 @@
 #define TITLE_ENCRYPTION		AILocalizedString(@"Encryption",nil)
 
 #define CHAT_NOW_SECURE				AILocalizedString(@"Encrypted OTR chat initiated.", nil)
-#define CHAT_NOW_SECURE_UNVERIFIED	AILocalizedString(@"Encrypted OTR chat initiated. %@'s identity not verified.", nil)
+#define CHAT_NOW_SECURE_UNVERIFIED	AILocalizedString(@"Encrypted OTR chat initiated. <b>%@</b>’s identity <b>not</b> verified.", nil)
 #define CHAT_NO_LONGER_SECURE		AILocalizedString(@"Ended encrypted OTR chat.", nil)
 
 @interface ESSecureMessagingPlugin ()
@@ -223,6 +226,40 @@
 						  inWindow:[[notification userInfo] objectForKey:@"NSWindow"]];
 }
 
+- (void)logOTRQuestion:(NSNumber *)number userInfo:(AIChat *)chat suppression:(NSNumber *)suppressed
+{
+	if ([suppressed boolValue]) {
+		//Don't Ask Again
+		[adium.preferenceController setPreference:@(NO)
+										   forKey:KEY_CONFIRM_LOGGED_OTR
+											group:PREF_GROUP_CONFIRMATIONS];
+	}
+	
+	AITextAndButtonsReturnCode result = [number intValue];
+	switch(result)
+	{
+		case AITextAndButtonsDefaultReturn:
+			// If should not ask again, update the "Log secure chats" setting in the preferences.
+			if ([suppressed boolValue]) {
+				[adium.preferenceController setPreference:@(NO)
+												   forKey:KEY_LOGGER_SECURE_CHATS
+													group:PREF_GROUP_LOGGING];
+			} else {
+				// Otherwise, we just override it for the current chat.
+				[chat setValue:@(NO) forProperty:@"overrideLogging" notify:NotifyNow];
+				
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Logging for this conversation is now %@.",
+																								   "Message displayed in the chat when overriding logging. %@ is either on or off"),
+													  AILocalizedString(@"off", nil)]
+											   ofType:@"loggingOff"
+											   inChat:chat];
+			}
+			break;
+		default:
+			break;
+	}
+}
+
 //When the IsSecure key of a chat changes, update the @"Encryption" item immediately
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
@@ -260,16 +297,37 @@
 				type = @"encryptionEnded";
 			}
 			
-			if (inChat.shouldLog) {
-				message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is on.", nil)];
-			} else {
-				message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is off.", nil)];
+			if (chatIsSecure) {
+				if (inChat.shouldLog) {
+					message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is on.", nil)];
+					
+					BOOL confirmLoggedOTR = [[adium.preferenceController preferenceForKey:KEY_CONFIRM_LOGGED_OTR
+																					group:PREF_GROUP_CONFIRMATIONS] boolValue];
+					
+					if (confirmLoggedOTR) {
+						NSString	*question = AILocalizedString(@"Would you like to turn off logging for the rest of this conversation?", nil);
+						
+						[adium.interfaceController displayQuestion:AILocalizedString(@"Your conversation is now encrypted.", nil)
+												   withDescription:question
+												   withWindowTitle:AILocalizedString(@"Confirm logging", nil)
+													 defaultButton:AILocalizedString(@"Turn Off", nil)
+												   alternateButton:AILocalizedString(@"Continue Logging", nil)
+													   otherButton:nil
+													   suppression:AILocalizedString(@"Don’t ask again", nil)
+															target:self
+														  selector:@selector(logOTRQuestion:userInfo:suppression:)
+														  userInfo:inChat];
+					}
+					
+				} else {
+					message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is off.", nil)];
+				}
 			}
 
 			if ([inChat isOpen]) {
 				[adium.contentController displayEvent:message
-												 ofType:type
-												 inChat:inChat];
+											   ofType:type
+											   inChat:inChat];
 			}
 		}
 	}

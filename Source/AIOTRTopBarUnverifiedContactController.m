@@ -36,7 +36,6 @@
 
 		view_backgroundView.endColor = [NSColor colorWithCalibratedWhite:0.91f alpha:1.0f];
 		
-		[label_description setStringValue:AILocalizedString(@"Your conversation is encrypted, but the contact's identity is unverified.", nil)];
 		[button_configure setStringValue:[AILocalizedString(@"Verify", nil) stringByAppendingEllipsis]];
     }
     
@@ -114,9 +113,27 @@
 	[chat release];
 	chat = [inChat retain];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(chatStatusChanged:)
                                                  name:Chat_StatusChanged
                                                object:chat];
+	
+	NSMutableAttributedString *label = [[[NSMutableAttributedString alloc]
+										 initWithString:AILocalizedString(@"Your conversation is encrypted, but ",
+																		  "after this a contact's UID, followed by \"s identity is unverified.\"")] autorelease];
+	
+	NSAttributedString *uid = [[[NSAttributedString alloc]
+								initWithString:[[chat listObject] formattedUID]
+								attributes:@{ NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] }] autorelease];
+	
+	[label appendAttributedString:uid];
+	
+	NSAttributedString *label2 = [[[NSMutableAttributedString alloc]
+								   initWithString:AILocalizedString(@"’s identity is unverified.", "See \"Your conversation is encrypted, but\"")] autorelease];
+	
+	[label appendAttributedString:label2];
+	
+	[label_description setAttributedStringValue:label];
 }
 
 @end

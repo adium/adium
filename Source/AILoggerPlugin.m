@@ -1770,12 +1770,37 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     if ([object isKindOfClass:[AIListContact class]]) {
 		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object
 											   onPreferredAccount:YES];
-		chat.overrideLogging = @(![chat shouldLog]);
+		BOOL shouldLog = ![chat shouldLog];
 		
-		AILogWithSignature(@"Logging for this conversation is now %@", chat.overrideLogging);
+		[chat setValue:@(shouldLog) forProperty:@"overrideLogging" afterDelay:NotifyLater];
+		
+		[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Logging for this conversation is now %@.",
+																						   "Message displayed in the chat when overriding logging. %@ is either on or off"),
+											   shouldLog ? AILocalizedString(@"on", nil) : AILocalizedString(@"off", nil)]
+									   ofType:shouldLog ? @"loggingOn" : @"loggingOff"
+									   inChat:chat];
 		
 		[self updateToolbarItem:sender forChat:chat];
     }
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	NSArray	*modifiedKeys = [[notification userInfo] objectForKey:@"Keys"];
+	
+	if ([modifiedKeys containsObject:@"overrideLogging"] || [modifiedKeys containsObject:@"securityDetails"]) {
+		NSWindow *window = [adium.interfaceController windowForChat:chat];
+		
+		for (NSToolbarItem *item in window.toolbar.items) {
+			if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+				
+				[self updateToolbarItem:item forChat:chat];
+				
+				break;
+			}
+		}
+	}
 }
 
 - (void)chatDidBecomeVisible:(NSNotification *)notification
@@ -1804,6 +1829,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			[[NSNotificationCenter defaultCenter] removeObserver:self
 															name:@"AIChatDidBecomeVisible"
 														  object:nil];
+			
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+															name:Chat_StatusChanged
+														  object:nil];
+			
+			[adium.preferenceController unregisterPreferenceObserver:self];
 		}
 	}
 }
@@ -1820,9 +1851,36 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 													 selector:@selector(chatDidBecomeVisible:)
 														 name:@"AIChatDidBecomeVisible"
 													   object:nil];
+			
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(chatStatusChanged:)
+														 name:Chat_StatusChanged
+													   object:nil];
+			
+			[adium.preferenceController registerPreferenceObserver:self
+														  forGroup:PREF_GROUP_LOGGING];
 		}
 		
 		[toolbarItems addObject:item];
+	}
+}
+
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	if ([key isEqualToString:KEY_LOGGER_SECURE_CHATS] || [key isEqualToString:KEY_LOGGER_CERTAIN_ACCOUNTS]
+		|| [key isEqualToString:KEY_LOGGER_OBJECT_DISABLE] || [key isEqualToString:KEY_LOGGER_ENABLE]) {
+		
+		for(AIChat *chat in adium.interfaceController.openChats) {
+			NSWindow *window = [adium.interfaceController windowForChat:chat];
+			
+			if ([adium.interfaceController activeChatInWindow:window] != chat) continue;
+			
+			for (NSToolbarItem *item in window.toolbar.items) {
+				if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+					[self updateToolbarItem:item forChat:chat];
+				}
+			}
+		}
 	}
 }
 
