@@ -436,8 +436,6 @@ static int nextChatNumber = 0;
 
 #pragma mark Logging
 
-@synthesize overrideLogging;
-
 - (BOOL)shouldLog
 {
 	if (overrideLogging) {
