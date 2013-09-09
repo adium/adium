@@ -132,6 +132,8 @@ typedef enum {
 	NSDictionary		*securityDetails;
     
     AIListContact       *_listObject;
+	
+	NSNumber			*overrideLogging;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;
@@ -194,6 +196,8 @@ typedef enum {
 @property (readonly, nonatomic) BOOL shouldLog;
 
 @property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
+
+@property (readwrite, nonatomic, retain) NSNumber *overrideLogging;
 
 // Compatibility. I don't like this here.
 - (NSArray *)containedObjects;

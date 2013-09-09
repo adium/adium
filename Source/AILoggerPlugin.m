@@ -74,6 +74,8 @@
 
 #define	LOG_VIEWER_IDENTIFIER		@"LogViewer"
 
+#define LOGGING_OVERRIDE_ITEM		@"LoggingOverride"
+
 #define ENABLE_PROXIMITY_SEARCH		TRUE
 
 #pragma mark -
@@ -137,6 +139,10 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 // cleanup
 - (void)_closeLogIndex;
 - (void)_flushIndex:(SKIndexRef)inIndex;
+
+// Toolbar item
+- (IBAction)toggleLogging:(NSToolbarItem *)sender;
+- (void)updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 
 // properties
 @property(retain,readwrite) NSMutableDictionary *activeAppenders;
@@ -217,6 +223,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	closingIndexGroup = dispatch_group_create();
 	logAppendingGroup = dispatch_group_create();
 	loggerPluginGroup = dispatch_group_create();
+	
+	toolbarItems = [[NSMutableSet alloc] init];
 	
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
 	
@@ -304,6 +312,26 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											 selector:@selector(showLogViewerAndReindex:)
 												 name:AIShowLogViewerAndReindexNotification
 											   object:nil];
+	
+	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:LOGGING_OVERRIDE_ITEM
+														  label:AILocalizedString(@"Toggle Logging",nil)
+												   paletteLabel:AILocalizedString(@"Toggle Logging",nil)
+														toolTip:AILocalizedString(@"Turn logging on or off for this conversation.",nil)
+														 target:self
+												settingSelector:@selector(setImage:)
+													itemContent:[NSImage imageNamed:@"Authorize" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]
+														 action:@selector(toggleLogging:)
+														   menu:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toolbarWillAddItem:)
+												 name:NSToolbarWillAddItemNotification
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toolbarDidRemoveItem:)
+												 name:NSToolbarDidRemoveItemNotification
+											   object:nil];
+	
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 
 - (void)uninstallPlugin
@@ -1720,6 +1748,82 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 	
 	[pool release];
+}
+
+#pragma mark Toolbar item
+
+- (void)updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat
+{
+	if ([chat shouldLog]) {
+		[item setImage:[NSImage imageNamed:@"Authorize" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]];
+		[item setLabel:AILocalizedString(@"Turn Logging Off", nil)];
+	} else {
+		[item setImage:[NSImage imageNamed:@"Deny" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]];
+		[item setLabel:AILocalizedString(@"Turn Logging On", nil)];
+	}
+}
+
+- (IBAction)toggleLogging:(NSToolbarItem *)sender
+{
+	AIListObject	*object = adium.interfaceController.selectedListObject;
+	
+    if ([object isKindOfClass:[AIListContact class]]) {
+		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object
+											   onPreferredAccount:YES];
+		chat.overrideLogging = @(![chat shouldLog]);
+		
+		AILogWithSignature(@"Logging for this conversation is now %@", chat.overrideLogging);
+		
+		[self updateToolbarItem:sender forChat:chat];
+    }
+}
+
+- (void)chatDidBecomeVisible:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	NSWindow *window = [[notification userInfo] objectForKey:@"NSWindow"];
+	
+	for (NSToolbarItem *item in window.toolbar.items) {
+		if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+			
+			[self updateToolbarItem:item forChat:chat];
+			
+			break;
+		}
+	}
+}
+
+- (void)toolbarDidRemoveItem:(NSNotification *)notification
+{
+	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
+	if ([toolbarItems containsObject:item]) {
+		[item setView:nil];
+		[toolbarItems removeObject:item];
+		
+		if ([toolbarItems count] == 0) {
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+															name:@"AIChatDidBecomeVisible"
+														  object:nil];
+		}
+	}
+}
+
+- (void)toolbarWillAddItem:(NSNotification *)notification
+{
+	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
+	if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+		[item setEnabled:YES];
+		
+		//If this is the first item added, start observing for chats becoming visible so we can update the icon
+		if ([toolbarItems count] == 0) {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(chatDidBecomeVisible:)
+														 name:@"AIChatDidBecomeVisible"
+													   object:nil];
+		}
+		
+		[toolbarItems addObject:item];
+	}
 }
 
 @end

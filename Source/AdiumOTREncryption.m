@@ -37,7 +37,6 @@
 #import "OTRCommon.h"
 #import "AIOTRSMPSecretAnswerWindowController.h"
 #import "AIOTRSMPSharedSecretWindowController.h"
-#import "AIOTRTopBarLoggingWarningController.h"
 #import "AIOTRTopBarUnverifiedContactController.h"
 #import "AIMessageViewController.h"
 
@@ -1072,18 +1071,9 @@ void update_security_details_for_context(ConnContext *context)
 			fullSecurityDetailsDict = nil;	
 		}
 		
-		
-		NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
-		
 		[inChat setSecurityDetails:fullSecurityDetailsDict];
 		
 		NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
-		
-		if (newEncryptionStatus != EncryptionStatus_None && oldEncryptionStatus == EncryptionStatus_None && inChat.shouldLog) {
-			AIOTRTopBarLoggingWarningController *warningController = [[AIOTRTopBarLoggingWarningController alloc] init];
-			AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
-			[mvc addTopBarController:warningController];
-		}
 		
 		if (newEncryptionStatus == EncryptionStatus_Unverified) {
 			AIOTRTopBarUnverifiedContactController *warningController = [[AIOTRTopBarUnverifiedContactController alloc] init];

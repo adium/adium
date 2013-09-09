@@ -436,8 +436,14 @@ static int nextChatNumber = 0;
 
 #pragma mark Logging
 
+@synthesize overrideLogging;
+
 - (BOOL)shouldLog
 {
+	if (overrideLogging) {
+		return [overrideLogging boolValue];
+	}
+	
 	BOOL shouldLog = [self.account shouldLogChat:self];
 	
 	if(shouldLog && self.isSecure) {
