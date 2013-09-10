@@ -62,10 +62,13 @@ Version 1.6 (X/X/X)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
 
-Version 1.5.8 (XX/XX/2XXX)
+Version 1.5.8 (XX/XX/2013)
+ * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. This was meant to be done for 1.5.4 but it did not work that time. (#16102)
+ * XMPP: refer to XMPP as "XMPP (Jabber)". Unfortunately, just "XMPP" still has some potential for confusion. (#16435)
  * Fixed SIP accountnames to be case-sensitive. (Pete Woods) (#16237)
- * Fixed a bug that could cause Adium and other applications to hang and could lead to corruption of the Keychain when permanently trusting an untrusted SSL certificate. (#16365)
- 
+ * Enabled a large number of TLS cipher suites, including ECC suites and suites new in TLS 1.2.
+ * Fix a problem causing Sametime login to fail. (Jonathan Rice) (#16345)
+ * Try to avoid Twitter's rate limiting causing Adium to go in a reconnection loop. (#16418)
 
 Version 1.5.7 (7/2/2013)
  * Updated Twitter support. (#16118)
