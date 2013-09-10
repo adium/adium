@@ -326,10 +326,10 @@
 
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	[libezv sendMessage:inContentMessage.messageString 
-	                                   to:inContentMessage.destination.UID
-	                             withHtml:inContentMessage.encodedMessage];
-
+	[libezv sendMessage:inContentMessage.messageString
+					 to:inContentMessage.destination.UID
+			   withHtml:inContentMessage.encodedMessage];
+	
 	return YES;
 }
 

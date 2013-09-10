@@ -545,7 +545,6 @@
 										   target:nil
 										   action:nil
 									keyEquivalent:@""] autorelease];
-		[item setTag:AISecureMessagingMenu_Verify];
 		NSMenu *verifySubmenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 		[item setSubmenu:verifySubmenu];
 		

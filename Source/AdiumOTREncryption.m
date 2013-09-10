@@ -1093,7 +1093,7 @@ send_default_query_to_chat(AIChat *inChat)
 											 policyForContact([inChat listObject]));
 	
 	[adium.contentController sendRawMessage:[NSString stringWithUTF8String:(msg ? msg : "?OTRv2?")]
-															 toContact:[inChat listObject]];
+								  toContact:[inChat listObject]];
 	if (msg)
 		free(msg);
 }
