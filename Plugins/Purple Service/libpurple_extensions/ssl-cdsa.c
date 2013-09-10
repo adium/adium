@@ -217,6 +217,11 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 		/* SSL connected now */
 		gsc->connect_cb(gsc->connect_cb_data, gsc, cond);
 	}
+	
+	SSLCipherSuite suite;
+	SSLGetNegotiatedCipher(cdsa_data->ssl_ctx, &suite);
+	
+	purple_debug_info("cdsa", "Using cipher %x.\n", suite);
 }
 
 /*
@@ -325,6 +330,77 @@ static OSStatus SocketWrite(
     return ortn;
 }
 
+static gboolean
+ssl_cdsa_use_cipher(SSLCipherSuite suite) {
+	switch (suite) {
+		case SSL_RSA_WITH_3DES_EDE_CBC_MD5:
+		case SSL_RSA_WITH_RC2_CBC_MD5:
+		case SSL_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA:
+		case SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_RSA_WITH_RC4_128_MD5:
+		case SSL_RSA_WITH_RC4_128_SHA:
+		case TLS_ECDH_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDH_RSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_RSA_WITH_RC4_128_SHA:
+		case TLS_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_128_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DHE_DSS_WITH_AES_128_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_DH_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384:
+			return TRUE;
+			
+		default:
+			return FALSE;
+	}
+}
+
 static void
 ssl_cdsa_create_context(gpointer data) {
     PurpleSslConnection *gsc = (PurpleSslConnection *)data;
@@ -372,9 +448,9 @@ ssl_cdsa_create_context(gpointer data) {
     /*
      * Pass the connection information to the connection to be used by our callbacks
      */
-    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)(intptr_t)gsc->fd);
+    err = SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)(intptr_t)gsc->fd);
     if (err != noErr) {
-		purple_debug_error("cdsa", "SSLSetConnection failed\n");
+		purple_debug_error("cdsa", "SSLSetConnection failed: %d\n", err);
 		if (gsc->error_cb != NULL)
 			gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
                           gsc->connect_cb_data);
@@ -383,6 +459,55 @@ ssl_cdsa_create_context(gpointer data) {
 		return;
     }
 	
+	size_t numCiphers = 0;
+	
+	err = SSLGetNumberEnabledCiphers(cdsa_data->ssl_ctx, &numCiphers);
+	
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLGetNumberEnabledCiphers failed: %d\n", err);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+        
+        purple_ssl_close(gsc);
+        return;
+	}
+	
+	SSLCipherSuite ciphers[numCiphers];
+    
+    err = SSLGetEnabledCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
+	if (err != noErr) {
+		purple_debug_error("cdsa", "SSLGetSupportedCiphers failed: %d\n", err);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+        
+        purple_ssl_close(gsc);
+        return;
+	}
+	
+	SSLCipherSuite enabledCiphers[numCiphers];
+	size_t numEnabledCiphers = 0;
+	int i;
+	
+	for (i = 0; i < numCiphers; i++) {
+		if (ssl_cdsa_use_cipher(ciphers[i])) {
+			enabledCiphers[numEnabledCiphers] = ciphers[i];
+			numEnabledCiphers++;
+		}
+	}
+	
+    err = SSLSetEnabledCiphers(cdsa_data->ssl_ctx, enabledCiphers, numEnabledCiphers);
+    if (err != noErr) {
+        purple_debug_error("cdsa", "SSLSetEnabledCiphers failed: %d\n", err);
+        if (gsc->error_cb != NULL)
+            gsc->error_cb(gsc, PURPLE_SSL_HANDSHAKE_FAILED,
+                          gsc->connect_cb_data);
+        
+        purple_ssl_close(gsc);
+        return;
+    }
+    
     if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND, false)) {
         purple_debug_info("cdsa", "Explicitly disabling TLS 1.1 and above to try and work around buggy TLS stacks\n");
         
@@ -396,7 +521,6 @@ ssl_cdsa_create_context(gpointer data) {
             return;
         }
         
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol2, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
