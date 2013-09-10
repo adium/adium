@@ -790,29 +790,27 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 		}
 		case OTRL_SMPEVENT_CHEATED:
 		case OTRL_SMPEVENT_ERROR:
-		/* case OTRL_SMPEVENT_FAILURE: */ // I'm not actually sure what this event indicates, but it's not fatal failure of SMP.
+		case OTRL_SMPEVENT_FAILURE:
 		case OTRL_SMPEVENT_ABORT: {
-			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Failed to verify %@'s identity.",
-																									   nil,
-																									   [NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
-										  listContact.UID];
+			NSString *localizedMessage = AILocalizedStringFromTableInBundle(@"The secret question was <b>not</b> answered correctly. You might be talking to an imposter.",
+																			nil,
+																			[NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
-			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
 			break;
 		}
 		case OTRL_SMPEVENT_SUCCESS: {
-			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Successfully verified %@'s identity.",
-																									   nil,
-																									   [NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
-										  listContact.UID];
+			NSString *localizedMessage = AILocalizedStringFromTableInBundle(@"The secret question was answered correctly.",
+																			nil,
+																			[NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
-			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
+			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
 			otrg_plugin_write_fingerprints();
