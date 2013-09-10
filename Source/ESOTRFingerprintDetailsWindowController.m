@@ -71,7 +71,7 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 	//Ensure the window is loaded
 	[self window];
 	
-	[textField_UID setStringValue:[NSString stringWithFormat:AILocalizedString(@"Fingerpint for %@:", "used for OTR, %@ is a name"), [fingerprintDict objectForKey:@"UID"]]];
+	[textField_UID setStringValue:[NSString stringWithFormat:AILocalizedString(@"Fingerprint for %@:", "used for OTR, %@ is a name"), [fingerprintDict objectForKey:@"UID"]]];
 	[textField_fingerprint setStringValue:[fingerprintDict objectForKey:@"FingerprintString"]];
 	
 	[imageView_service setImage:[AIServiceIcons serviceIconForObject:account
