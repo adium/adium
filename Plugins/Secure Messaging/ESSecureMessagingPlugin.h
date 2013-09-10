@@ -22,7 +22,6 @@ typedef enum {
 	AISecureMessagingMenu_Root = 1,
 	AISecureMessagingMenu_Toggle,
 	AISecureMessagingMenu_ShowDetails,
-	AISecureMessagingMenu_Verify,
 	AISecureMessagingMenu_Options,
 	AISecureMessagingMenu_ShowAbout,
 	AISecureMessagingMenu_VerifyManually,
