@@ -290,6 +290,15 @@
 }
 
 /*!
+ * @brief A disconnect on Twitter often means we broke some rate-limit, or the server is overloaded.
+ * Lets be polite and wait for 15 minutes.
+ */
+- (double)minimumReconnectTime
+{
+	return 15.0 * 60.0;
+}
+
+/*!
  * @brief Session ended
  *
  * Remove all state information.
