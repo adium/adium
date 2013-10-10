@@ -38,6 +38,7 @@
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <WebKit/WebKit.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 
@@ -531,6 +532,13 @@
 
 #pragma mark - Pasting
 
+// Forbid loading the images embedded in a string when pasting.
+// They are very unlikely to work and a privacy issue.
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+	return nil;
+}
+
 - (BOOL)handlePasteAsRichText
 {
 	NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
@@ -549,6 +557,14 @@
 			
 		} else if ([FILES_AND_IMAGES_TYPES containsObject:type]) {
 			[self addAttachmentsFromPasteboard:generalPasteboard];
+			handledPaste = YES;
+		} else if ([type isEqualToString:NSHTMLPboardType]) {
+			NSData *htmlData = [generalPasteboard dataForType:NSHTMLPboardType];
+			[self insertText:[[[NSAttributedString alloc] initWithData:htmlData
+															   options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+																		 NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding),
+																		 NSWebResourceLoadDelegateDocumentOption: self}
+													documentAttributes:NULL error:NULL] autorelease]];
 			handledPaste = YES;
 		}
 		
