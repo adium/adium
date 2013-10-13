@@ -347,6 +347,32 @@ ssl_cdsa_use_cipher(SSLCipherSuite suite) {
 		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:
 		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA:
 		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_DH_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384:
 			return TRUE;
 			
 		default:
@@ -414,7 +440,7 @@ ssl_cdsa_create_context(gpointer data) {
 	
 	size_t numCiphers = 0;
 	
-	err = SSLGetNumberSupportedCiphers(cdsa_data->ssl_ctx, &numCiphers);
+	err = SSLGetNumberEnabledCiphers(cdsa_data->ssl_ctx, &numCiphers);
 	
 	if (err != noErr) {
 		purple_debug_error("cdsa", "SSLGetNumberEnabledCiphers failed: %d\n", err);
@@ -428,7 +454,7 @@ ssl_cdsa_create_context(gpointer data) {
 	
 	SSLCipherSuite ciphers[numCiphers];
     
-    err = SSLGetSupportedCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
+    err = SSLGetEnabledCiphers(cdsa_data->ssl_ctx, ciphers, &numCiphers);
 	if (err != noErr) {
 		purple_debug_error("cdsa", "SSLGetSupportedCiphers failed: %d\n", err);
         if (gsc->error_cb != NULL)
@@ -474,7 +500,6 @@ ssl_cdsa_create_context(gpointer data) {
             return;
         }
         
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol2, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
