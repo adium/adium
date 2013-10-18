@@ -18,19 +18,19 @@
 @class AIChat, AIAccount, AIMetaContact, AIListContact, AIService;
 
 @interface DCJoinChatViewController : NSObject {
-	IBOutlet		NSView			*view;			// Custom view
+	IBOutlet		NSView			*__weak view;			// Custom view
 	AIChat							*chat;			// The newly created chat
 	AIAccount						*account;		// The account we're being configured for
 
-	id								delegate;		// Our delegate
-	id								sharedChatInstance;
+	id								__unsafe_unretained delegate;		// Our delegate
+	id								__unsafe_unretained sharedChatInstance;
 }
 
 + (DCJoinChatViewController *)joinChatView;
 
 - (id)init;
-@property (readonly, nonatomic) NSView *view;
-@property (readonly, nonatomic) NSString *nibName;
+@property (weak, readonly, nonatomic) NSView *view;
+@property (weak, readonly, nonatomic) NSString *nibName;
 
 - (void)configureForAccount:(AIAccount *)inAccount;
 - (void)joinChatWithAccount:(AIAccount *)inAccount;
@@ -47,10 +47,10 @@
 	 withInvitationMessage:(NSString *)invitationMessage;
 - (NSArray *)contactsFromNamesSeparatedByCommas:(NSString *)namesSeparatedByCommas onAccount:(AIAccount *)inAccount;
 
-@property (readwrite, nonatomic, assign) id delegate;
+@property (readwrite, nonatomic, unsafe_unretained) id delegate;
 
 //roomlistWindowController delegate
-@property (readwrite, nonatomic, assign) id sharedChatInstance;
+@property (readwrite, nonatomic, unsafe_unretained) id sharedChatInstance;
 
 @end
 

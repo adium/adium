@@ -20,7 +20,6 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
-#import "JSONKit.h"
 #import <sys/sysctl.h>
 
 #define CRASH_REPORT_URL			@"https://sdk.hockeyapp.net/"
@@ -33,17 +32,18 @@
 
 @implementation AICrashReporter
 @synthesize crashLog;
+static AICrashReporter *reporter;
 
 + (void)checkForCrash
 {
-	AICrashReporter *reporter = [[AICrashReporter alloc] init];
+	reporter = [[AICrashReporter alloc] init];
 	[reporter _checkForCrash];
 }
 
 - (void)_checkForCrash
 {
 	// get a list of files beginning with 'Adium' from the crash reporter folder
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSArray *files = [fm contentsOfDirectoryAtPath:CRASH_LOG_DIRECTORY error:nil];
 	NSArray *filteredFiles = [files filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] 'Adium'"]];
 	
@@ -71,12 +71,6 @@
 	}
 }
 
-- (void)dealloc
-{
-	[crashLog release];
-	[super dealloc];
-}
-
 - (void)awakeFromNib
 {
 	[textView_details setPlaceholderString:AILocalizedString(@"A detailed explanation of what you were doing when Adium crashed (optional)", nil)];
@@ -86,7 +80,7 @@
 
 - (void)windowWillClose:(id)sender
 {
-	[self autorelease];
+	reporter = nil;
 }
 
 #pragma mark Privacy Details
@@ -98,8 +92,8 @@
 	
 	NSString *file = [NSString stringWithContentsOfFile:[CRASH_LOG_DIRECTORY stringByAppendingPathComponent:self.crashLog]
 											   encoding:NSUTF8StringEncoding error:nil];
-	NSAttributedString	*attrLogString = [[[NSAttributedString alloc] initWithString:file
-																		 attributes:attributes] autorelease];
+	NSAttributedString	*attrLogString = [[NSAttributedString alloc] initWithString:file
+																		attributes:attributes];
 	
 	//Fill in crash log
 	[[textView_crashLog textStorage] setAttributedString:attrLogString];
@@ -177,7 +171,6 @@
 	[postBody appendData:[doc XMLData]];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
-	[doc release];
 	
 	NSHTTPURLResponse *response = nil;
 	NSError *error = nil;

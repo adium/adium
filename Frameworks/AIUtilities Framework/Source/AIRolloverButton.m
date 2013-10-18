@@ -44,8 +44,6 @@
 		[self removeTrackingRect:trackingTag];
 		trackingTag = -1;
 	}
-	
-	[super dealloc];
 }
 
 #pragma mark Configuration

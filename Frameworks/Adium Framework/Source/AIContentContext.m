@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentContext.h>
-#import <Adium/AIContentObject.h>
 
 @implementation AIContentContext
 

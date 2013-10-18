@@ -66,7 +66,7 @@
 		staticView = [[NSImageView alloc] initWithFrame:frame];
 		[staticView setImage:inImage];
 		[staticView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-		[[panel contentView] addSubview:[staticView autorelease]];
+		[[panel contentView] addSubview:staticView];
 	}
 
 	return self;
@@ -98,11 +98,9 @@
 
 - (IBAction)close:(id)sender
 {
-    [fadeAnimation stopAnimation]; [fadeAnimation release]; fadeAnimation = nil;
+    [fadeAnimation stopAnimation]; fadeAnimation = nil;
     [panel orderOut:nil];
-    [panel release]; panel = nil;
-
-    [self release];
+	panel = nil;
 }
 
 - (void)setMaxOpacity:(CGFloat)inMaxOpacity

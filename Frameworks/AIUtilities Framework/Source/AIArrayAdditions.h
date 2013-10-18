@@ -22,6 +22,5 @@
 @end
 
 @interface NSMutableArray (ESArrayAdditions)
-- (void)addObjectsFromArrayIgnoringDuplicates:(NSArray *)inArray;
 - (void)moveObject:(id)object toIndex:(NSUInteger)newIndex;
 @end

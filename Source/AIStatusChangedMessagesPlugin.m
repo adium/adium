@@ -19,7 +19,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentStatus.h>
 
 #define	CONTACT_STATUS_UPDATE_COALESCING_KEY	@"Contact Status Update"
@@ -50,7 +49,7 @@ static	NSDictionary	*statusTypeDict = nil;
  */
 - (void)installPlugin
 {
-	statusTypeDict = [[NSDictionary dictionaryWithObjectsAndKeys:
+	statusTypeDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"away",CONTACT_STATUS_AWAY_YES,
 		@"return_away",CONTACT_STATUS_AWAY_NO,
 		@"online",CONTACT_STATUS_ONLINE_YES,
@@ -60,7 +59,7 @@ static	NSDictionary	*statusTypeDict = nil;
 		@"away_message",CONTACT_STATUS_MESSAGE,
 		@"mobile",CONTACT_STATUS_MOBILE_YES,
 		@"return_mobile",CONTACT_STATUS_MOBILE_NO,
-		nil] retain];
+		nil];
 	
 	previousStatusChangedMessages = [[NSMutableDictionary alloc] init];
 	
@@ -80,11 +79,6 @@ static	NSDictionary	*statusTypeDict = nil;
 								   selector:@selector(chatWillClose:)
 									   name:Chat_WillClose
 									 object:nil];	
-}
-
-- (void)uninstallPlugin
-{
-	[previousStatusChangedMessages release];
 }
 
 /*!
@@ -172,8 +166,8 @@ static	NSDictionary	*statusTypeDict = nil;
 			  inChats:(NSSet *)inChats
 {
     AIChat				*chat;
-	NSAttributedString	*attributedMessage = [[[NSAttributedString alloc] initWithString:message
-																			  attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+	NSAttributedString	*attributedMessage = [[NSAttributedString alloc] initWithString:message
+																			  attributes:[adium.contentController defaultFormattingAttributes]];
 
 	for (chat in inChats) {
 		//Don't do anything if the message is the same as the last message displayed for this chat

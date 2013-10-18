@@ -16,7 +16,6 @@
 
 #import "ESPurpleMSNAccountViewController.h"
 #import "ESPurpleMSNAccount.h"
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
 @implementation ESPurpleMSNAccountViewController

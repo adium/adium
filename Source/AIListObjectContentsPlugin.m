@@ -16,11 +16,8 @@
 
 #import "AIListObjectContentsPlugin.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIListBookmark.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIAbstractListController.h>
@@ -69,13 +66,6 @@
 								   selector:@selector(inspectedObjectDidChange:)
 									   name:AIContactInfoInspectorDidChangeInspectedObject
 									 object:nil];
-}
-
-- (void)dealloc
-{
-	[contextualMenuItem release]; contextualMenuItem = nil;
-
-	[super dealloc];
 }
 
 /*!
@@ -151,10 +141,8 @@
 					
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 
 			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 
 			[entryString appendString:@" "];
 		}
@@ -177,15 +165,13 @@
 					
 			attachment = [[NSTextAttachment alloc] init];
 			[attachment setAttachmentCell:cell];
-			[cell release];
 			
 			[entryString appendString:@" "];
 			[entry appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-			[attachment release];
 		}
 	}
     
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

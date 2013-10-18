@@ -39,13 +39,9 @@
 	AIListWindowController					*defaultController;
 	BOOL									hasLoaded;
 	
-	NSMenuItem								*menuItem_allowDetach;
-	
 	NSMenuItem								*menuItem_nextDetached;
 	NSMenuItem								*menuItem_previousDetached;
 	NSMenuItem								*menuItem_consolidate;
-	
-	NSDictionary							*contextMenuAttach;
 	
 	NSMenuItem								*detachMenuItem;
 	NSMenuItem								*attachMenuItem;

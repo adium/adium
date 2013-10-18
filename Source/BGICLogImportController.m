@@ -21,13 +21,11 @@
 #import <Adium/AIXMLElement.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 // InstantMessage and other iChat transcript classes are from Spiny Software's Logorrhea, used with permission.
 #import "InstantMessage.h"
-#import "Presentity.h"
 
 //#define LOG_TO_TEST
 #define TEST_LOGGING_LOCATION [@"~/Desktop/testLog" stringByExpandingTildeInPath]
@@ -41,12 +39,6 @@
 	if(self)
 		importServiceAccountPair = [newSAPair copy];
 	return self;
-}
-
--(void)dealloc
-{
-	[importServiceAccountPair release];
-	[super dealloc];
 }
 
 -(BOOL)createNewLogForPath:(NSString *)fullPath 
@@ -108,7 +100,7 @@
 																			  [[[[rawChat objectAtIndex:2] objectAtIndex:0] date] dateWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z"
 																																				timeZone:nil]]];
 
-	AIXMLElement *rootElement = [[[AIXMLElement alloc] initWithName:@"chat"] autorelease];
+	AIXMLElement *rootElement = [[AIXMLElement alloc] initWithName:@"chat"];
 	
 	[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
 							values:[NSArray arrayWithObjects:XML_LOGGING_NAMESPACE, [[[rawChat objectAtIndex:3] objectAtIndex:0] senderID], [rawChat objectAtIndex:0], nil]];
@@ -116,20 +108,22 @@
 	AIXMLAppender *appender = [AIXMLAppender documentWithPath:documentPath rootElement:rootElement];
 	NSString	  *imagesPath = [appender.path stringByDeletingLastPathComponent];
 	
+	ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+	formatter.includeTime = YES;
 	// sequentially add the messages from the iChat transcript sans attributed text features
 	for(NSInteger i = 0; i < [[rawChat objectAtIndex:2] count]; i++)
 	{
 		NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
 		NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
 			([[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] != nil ? [[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] : @""), 
-			[[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], 
+			[formatter stringFromDate:[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] date] dateWithCalendarFormat:nil timeZone:nil]],
 			nil];
 		
-		NSMutableString *chatContents = [[[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:imagesPath] mutableCopy] autorelease];
+		NSMutableString *chatContents = [[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:imagesPath] mutableCopy];
 		
 		NSString *elementName = ![[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] isEqual:@""] ? @"message" : @"event";
 		
-		AIXMLElement *elm = [[[AIXMLElement alloc] initWithName:elementName] autorelease];
+		AIXMLElement *elm = [[AIXMLElement alloc] initWithName:elementName];
 		
 		[elm addEscapedObject:chatContents];
 		

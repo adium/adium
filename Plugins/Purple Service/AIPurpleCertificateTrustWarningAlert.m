@@ -16,13 +16,7 @@
 
 #import "AIPurpleCertificateTrustWarningAlert.h"
 #import <SecurityInterface/SFCertificateTrustPanel.h>
-#import <Security/SecureTransport.h>
-#import <Security/SecPolicySearch.h>
-#import <Security/SecPolicy.h>
-#import <Security/oidsalg.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import "ESPurpleJabberAccount.h"
-#import "AIPurpleGTalkAccount.h"
 
 //#define ALWAYS_SHOW_TRUST_WARNING
 
@@ -64,7 +58,6 @@
 
 	AIPurpleCertificateTrustWarningAlert *alert = [[self alloc] initWithAccount:account hostname:hostname certificates:certs resultCallback:_query_cert_cb userData:ud];
 	[alert showWindow:nil];
-	[alert release];
 }
 
 - (id)initWithAccount:(AIAccount*)_account
@@ -84,68 +77,30 @@
 		
 		userdata = ud;
 	}
-	return [self retain];
+	return self;
 }
 
 - (void)dealloc {
 	CFRelease(certificates);
 	if (trustRef) CFRelease(trustRef);
-	
-	[hostname release];
-	
-	[super dealloc];
 }
 
 - (IBAction)showWindow:(id)sender {
 	OSStatus err;
-	SecPolicySearchRef searchRef = NULL;
 	SecPolicyRef policyRef;
 	
-	CSSM_DATA data;
-	err = SecCertificateGetData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0), &data);
-	
-	err = SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, NULL, &searchRef);
-	if(err != noErr) {
-		NSBeep();
-		[self release];
-		return;
-	}
-	
-	err = SecPolicySearchCopyNext(searchRef, &policyRef);
-	if(err != noErr) {
-		CFRelease(searchRef);
-		NSBeep();
-		[self release];
-		return;
-	}
-
 	NSAssert( UINT_MAX > [hostname length],
 					 @"More string data than libpurple can handle.  Abort." );
 	
-	CSSM_APPLE_TP_SSL_OPTIONS ssloptions = {
-		.Version = CSSM_APPLE_TP_SSL_OPTS_VERSION,
-		.ServerNameLen = (UInt32)([hostname length]+1), // Documentation says that for NULL-terminated strings, the length should include the NULL.
-		.ServerName = [hostname UTF8String],
-		.Flags = 0
-	};
-	
-	CSSM_DATA theCssmData = {
-		.Length = sizeof(ssloptions),
-		.Data = (uint8*)&ssloptions 
-	};
-	
-	SecPolicySetValue(policyRef, &theCssmData); // Don't care about the error
-	
+	policyRef = SecPolicyCreateSSL(YES, (__bridge CFStringRef)hostname);
 	err = SecTrustCreateWithCertificates(certificates, policyRef, &trustRef);
 
 	if(err != noErr) {
-		CFRelease(searchRef);
 		CFRelease(policyRef);
 		NSBeep();
-		[self release];
 		return;
 	}
-		
+	
 	// test whether we aren't already trusting this certificate
 	SecTrustResultType result;
 	err = SecTrustEvaluate(trustRef, &result);
@@ -156,7 +111,6 @@
 			case kSecTrustResultUnspecified: // trust ok, user has no particular opinion about this
 #ifndef ALWAYS_SHOW_TRUST_WARNING
 				query_cert_cb(true, userdata);
-				[self autorelease];
 				break;
 #endif
 			case kSecTrustResultConfirm: // trust ok, but user asked (earlier) that you check with him before proceeding
@@ -168,10 +122,10 @@
 #if 1
 				//Show on an independent window.
 #define TRUST_PANEL_WIDTH 535
-				NSWindow *fakeWindow = [[[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, TRUST_PANEL_WIDTH, 1)
+				NSWindow *fakeWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, TRUST_PANEL_WIDTH, 1)
 																	styleMask:(NSTitledWindowMask | NSMiniaturizableWindowMask)
 																	  backing:NSBackingStoreBuffered
-																		defer:NO] autorelease];
+																		defer:NO];
 				[fakeWindow center];
 				[fakeWindow setTitle:AILocalizedString(@"Verify Certificate", nil)];
 
@@ -189,15 +143,12 @@
 				 * kSecTrustResultInvalid -> logic error; fix your program (SecTrust was used incorrectly)
 				 */
 				query_cert_cb(false, userdata);
-				[self autorelease];
 				break;
 		}
 	} else {
 		query_cert_cb(false, userdata);
-		[self autorelease];
 	}
 
-	CFRelease(searchRef);
 	CFRelease(policyRef);
 }
 
@@ -218,16 +169,16 @@
 	[trustPanel setAlternateButtonTitle:AILocalizedString(@"Cancel",nil)];
 	[trustPanel setShowsHelp:YES];
 
-	SecPolicyRef sslPolicy = SecPolicyCreateSSL(TRUE, (CFStringRef)hostname);
+	SecPolicyRef sslPolicy = SecPolicyCreateSSL(TRUE, (__bridge CFStringRef)hostname);
 	if (sslPolicy) {
-		[trustPanel setPolicies:(id)sslPolicy];
+		[trustPanel setPolicies:(__bridge id)sslPolicy];
 		CFRelease(sslPolicy);
 	}
 
 	[trustPanel beginSheetForWindow:window
 					  modalDelegate:self
 					 didEndSelector:@selector(certificateTrustSheetDidEnd:returnCode:contextInfo:)
-						contextInfo:window
+						contextInfo:(__bridge void *)window
 							  trust:trustRef
 							message:title];
 }
@@ -240,15 +191,11 @@
 
 - (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	BOOL didTrustCerficate = (returnCode == NSOKButton);
-	NSWindow *parentWindow = (NSWindow *)contextInfo;
+	NSWindow *parentWindow = (__bridge NSWindow *)contextInfo;
 
 	query_cert_cb(didTrustCerficate, userdata);
 
-	[trustpanel release];
-
 	[parentWindow performClose:nil];
-	
-	[self release];
 }
 
 @end

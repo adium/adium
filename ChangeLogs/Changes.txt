@@ -1,17 +1,20 @@
 				Adium Version History
 				-----------------------
+
 Version 1.6 (X/X/X)
  Major changes
   * New preferences layout
   * "Retina Display" support
   * Updated to libpurple x.y.z.
     * Added SASL authentication support. (#14478)
+  * Updated PSMTabBarControl tab framework.
+  * Updated Sparkle updating framework.
 
  Accessibility
   * Fixed tabs not being spoken by VoiceOver. (#16088)
 
  Chat window
-  * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
+  * Fixed various visual glitches with tabs related to dragging and dropping chat windows. (#16281, #15414, #15518, #16305)
   * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
 
  Contact list
@@ -44,6 +47,7 @@ Version 1.6 (X/X/X)
 
  Transcript Viewer
   * Added full screen support. (##16120) (Paul Wilde)
+  * Added sender name colouring support with a toggle that defaults to off. (#12352) (Ariel Chinn)
 
 ----
 
@@ -62,6 +66,8 @@ Version 1.6 (X/X/X)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
 
+   * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
+
 Version 1.5.8 (10/13/2013)
  * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. This was meant to be done for 1.5.4 but it did not work that time. (#16102)
  * Security: Enabled a large number of TLS cipher suites, including ECC suites and suites new in TLS 1.2.
@@ -70,6 +76,7 @@ Version 1.5.8 (10/13/2013)
  * Twitter: Try to avoid Twitter's rate limiting causing Adium to go in a reconnection loop. (#16418)
  * Sametime: Fixed a problem causing login to fail. (Jonathan Rice) (#16345)
  * SIP: Fixed account names to be case-sensitive. (Pete Woods) (#16237)
+
 
 
 Version 1.5.7 (7/2/2013)
@@ -84,6 +91,7 @@ Version 1.5.7 (7/2/2013)
    * Removed all anonymous ciphers from the list Adium tries, these are insecure and would crash Adium.
    * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
    * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
+
 
 
 Version 1.5.6 (3/18/2013)

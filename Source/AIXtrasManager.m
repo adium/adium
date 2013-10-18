@@ -15,15 +15,10 @@
  */
 
 #import "AIXtrasManager.h"
-#import "AIXtraInfo.h"
-#import "AIXtraPreviewController.h"
-#import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIPathUtilities.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AICorePluginLoader.h>
 #import <Sparkle/Sparkle.h>
 
@@ -69,12 +64,10 @@
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[tableView_categories tableColumnWithIdentifier:@"name"] setDataCell:cell];
-	[cell release];
 	
 	cell = [[AIImageTextCell alloc] init];
 	[cell setFont:[NSFont systemFontOfSize:12]];
 	[[xtraList tableColumnWithIdentifier:@"xtras"] setDataCell:cell];
-	[cell release];
 
 	//XXX ???
 	[previewContainerView setHasVerticalScroller:YES];
@@ -124,7 +117,6 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 
 - (void)loadXtras
 {
-	[categories release];
 	categories = [[NSMutableArray alloc] init];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -215,17 +207,6 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:AIXtrasDidChangeNotification
 												  object:nil];
-	
-	[categories release]; categories = nil;
-	[toolbarItems release]; toolbarItems = nil;
-	
-	//Release top-level nib objects besides the window
-	[view_content release]; view_content = nil;
-	[view_shelf release]; view_shelf = nil;	
-	
-	[selectedCategory release];
-
-	[super dealloc];
 }
 
 - (NSArray *)xtrasForCategoryAtIndex:(NSInteger)inIndex
@@ -241,7 +222,6 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 		[newDictionary setObject:xtras forKey:@"Xtras"];
 		[categories replaceObjectAtIndex:inIndex
 							  withObject:newDictionary];
-		[newDictionary release];
 	}
 	
 	return xtras;
@@ -249,7 +229,6 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 
 - (void)updateForSelectedCategory
 {
-	[selectedCategory autorelease];
 	selectedCategory = [[self xtrasForCategoryAtIndex:[tableView_categories selectedRow]] mutableCopy];
 
 	[xtraList reloadData];

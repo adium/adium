@@ -58,13 +58,6 @@
 	return self;
 }
 
-- (void)dealloc {
-    [accounts release];
-	[unloadableAccounts release];
-
-	[super dealloc];
-}
-
 /*!
  * @brief Finish Initing
  *
@@ -230,34 +223,34 @@
 
     //Create an instance of every saved account
 	for (accountDict in accountList) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSString		*serviceUniqueID = [self _upgradeServiceUniqueID:[accountDict objectForKey:ACCOUNT_TYPE] 
-													forAccountDict:accountDict];
-        AIAccount		*newAccount;
-
-		//Fetch the account service, UID, and ID
-		AIService	*service = [adium.accountController serviceWithUniqueID:serviceUniqueID];
-		NSString	*accountUID = [accountDict objectForKey:ACCOUNT_UID];
-		NSString	*internalObjectID = [accountDict objectForKey:ACCOUNT_OBJECT_ID];
-
-        //Create the account and add it to our array
-        if (service && accountUID && [accountUID length]) {
-			if ((newAccount = [service accountWithUID:accountUID internalObjectID:internalObjectID])) {
-                [accounts addObject:newAccount];
-            } else {
-				NSLog(@"Could not load account %@",accountDict);
-				[unloadableAccounts addObject:accountDict];
-			}
-        } else {
-			if ([accountUID length]) {
-				AILog(@"Available services are %@: could not load account %@ on service %@ (service %@)",
-					  adium.accountController.services, accountDict, serviceUniqueID, service);
-				[unloadableAccounts addObject:accountDict];
+		@autoreleasepool {
+			NSString		*serviceUniqueID = [self _upgradeServiceUniqueID:[accountDict objectForKey:ACCOUNT_TYPE] 
+														forAccountDict:accountDict];
+			AIAccount		*newAccount;
+			
+			//Fetch the account service, UID, and ID
+			AIService	*service = [adium.accountController serviceWithUniqueID:serviceUniqueID];
+			NSString	*accountUID = [accountDict objectForKey:ACCOUNT_UID];
+			NSString	*internalObjectID = [accountDict objectForKey:ACCOUNT_OBJECT_ID];
+			
+			//Create the account and add it to our array
+			if (service && accountUID && [accountUID length]) {
+				if ((newAccount = [service accountWithUID:accountUID internalObjectID:internalObjectID])) {
+					[accounts addObject:newAccount];
+				} else {
+					NSLog(@"Could not load account %@",accountDict);
+					[unloadableAccounts addObject:accountDict];
+				}
 			} else {
-				AILog(@"Ignored an account with a 0 length accountUID: %@", accountDict);
+				if ([accountUID length]) {
+					AILog(@"Available services are %@: could not load account %@ on service %@ (service %@)",
+						  adium.accountController.services, accountDict, serviceUniqueID, service);
+					[unloadableAccounts addObject:accountDict];
+				} else {
+					AILog(@"Ignored an account with a 0 length accountUID: %@", accountDict);
+				}
 			}
 		}
-		[pool release];
     }
 
 	//Broadcast an account list changed notification
@@ -284,7 +277,7 @@
 									  withString:@"libpurple"
 										 options:(NSLiteralSearch | NSAnchoredSearch)
 										   range:NSMakeRange(0, [newServiceID length])];
-		serviceID = [newServiceID autorelease];
+		serviceID = newServiceID;
 
 	} else if ([serviceID hasSuffix:@"LIBGAIM"]) {
 		if ([serviceID isEqualToString:@"AIM-LIBGAIM"]) {
