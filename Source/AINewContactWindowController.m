@@ -16,7 +16,6 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import "AINewContactWindowController.h"
 #import "AINewGroupWindowController.h"
 #import "OWABSearchWindowController.h"
@@ -27,18 +26,13 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AILocalizationTextField.h>
 #import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
-#import <AddressBook/ABPerson.h>
 
 #define ADD_CONTACT_PROMPT_NIB	@"AddContact"
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
 @interface AINewContactWindowController ()
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-
 - (void)buildGroupMenu;
 - (void)buildContactTypeMenu;
 - (void)configureForCurrentServiceType;
@@ -63,16 +57,11 @@
 
 - (void)showOnWindow:(NSWindow *)parentWindow
 {
+	[super showOnWindow:parentWindow];
+	
 	if (parentWindow) {
 		[parentWindow makeKeyAndOrderFront:nil];
-		
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
 	} else {
-		[self showWindow:nil];
 		[self.window makeKeyAndOrderFront:nil];
 	}
 	
@@ -88,9 +77,9 @@
 - (id)initWithContactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount
 {
     if ((self = [super initWithWindowNibName:ADD_CONTACT_PROMPT_NIB])) {
-		service = [inService retain];
-		initialAccount = [inAccount retain];
-		contactName = [inName retain];
+		service = inService;
+		initialAccount = inAccount;
+		contactName = inName;
 		person = nil;
 		groupName = nil;
 	}
@@ -124,17 +113,7 @@
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[accounts release];
-	[contactName release];
-	[service release];
-	[initialAccount release];
-	[person release];
-	[checkedAccounts release];
-	[groupName release];
-	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 /*!
@@ -171,26 +150,6 @@
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	[self configureControlDimming];
-}
-
-/*!
- * @brief Window is closing
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-	
-	[self autorelease];
-}
-
-/*!
- * @brief Called as the user list edit sheet closes, dismisses the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
-	
-	[self autorelease];
 }
 
 /*!
@@ -264,8 +223,8 @@
 - (IBAction)searchInAB:(id)sender
 {
 	OWABSearchWindowController *abSearchWindow;
-	abSearchWindow = [[OWABSearchWindowController promptForNewPersonSearchOnWindow:[self window]
-																	initialService:service] retain];
+	abSearchWindow = [OWABSearchWindowController promptForNewPersonSearchOnWindow:[self window]
+																	initialService:service];
 	[abSearchWindow setDelegate:self];
 }
 
@@ -292,14 +251,12 @@
 			[self selectServiceType:nil];
 		}
 		
-		[person release];
-		person = [selectedPerson retain];
+		person = selectedPerson;
 		
 		[self configureControlDimming];
 	}
 	
 	//Clean up
-	[controller release];
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification
@@ -387,8 +344,7 @@
 - (void)_setServiceType:(AIService *)inService
 {
 	if (inService != service) {
-		[service release];
-		service = [inService retain];
+		service = inService;
 	}
 }
 
@@ -515,10 +471,8 @@
  */
 - (void)updateAccountList
 {	
-	[accounts release];
-	accounts = [[adium.accountController accountsCompatibleWithService:service] retain];
+	accounts = [adium.accountController accountsCompatibleWithService:service];
 	
-	[checkedAccounts release];
 	checkedAccounts = [[NSMutableSet alloc] init];
 
 	if (initialAccount && [accounts containsObject:initialAccount]) {
@@ -632,9 +586,9 @@
 /*!
  * @brief selector to select Group used by "Add Contact to Group"
  */
-- (void)selectGroupByName:(NSString *)groupName
+- (void)selectGroupByName:(NSString *)aGroupName
 {
-    [popUp_targetGroup selectItemWithTitle:groupName];
+    [popUp_targetGroup selectItemWithTitle:aGroupName];
 }
 
 /*!

@@ -19,10 +19,8 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import "ESFileTransferPreferences.h"
 #import "ESFileTransferProgressWindowController.h"
 #import "ESFileTransferRequestPromptController.h"
@@ -31,14 +29,12 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
 #import "ESFileTransfer.h"
-#import <Adium/AIWindowController.h>
 
 #define SEND_FILE					AILocalizedString(@"Send File",nil)
 #define SEND_FILE_WITH_ELLIPSIS		[SEND_FILE stringByAppendingEllipsis]
@@ -120,7 +116,7 @@ static ESFileTransferPreferences *preferences;
     
     //Observe pref changes
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FILE_TRANSFER];
-	preferences = [(ESFileTransferPreferences *)[ESFileTransferPreferences preferencePane] retain];
+	preferences = (ESFileTransferPreferences *)[ESFileTransferPreferences preferencePane];
 	
 	//Set up the file transfer progress window
 	[self configureFileTransferProgressWindow];
@@ -129,14 +125,6 @@ static ESFileTransferPreferences *preferences;
 - (void)controllerWillClose
 {
     [adium.preferenceController unregisterPreferenceObserver:self];
-}
-
-- (void)dealloc
-{
-	[super dealloc];
-	
-	[safeFileExtensions release]; safeFileExtensions = nil;
-	[fileTransferArray release]; fileTransferArray = nil;
 }
 
 #pragma mark Access to file transfer objects
@@ -153,10 +141,9 @@ static ESFileTransferPreferences *preferences;
 	//Wait until the next run loop to inform observers of the new file transfer object;
 	//this way the code which requested a new ESFileTransfer has time to configure it before we
 	//dispaly information to the user
-	[[NSNotificationCenter defaultCenter] performSelector:@selector(postNotificationName:object:)
-									 withObject:FileTransfer_NewFileTransfer 
-									 withObject:fileTransfer
-									 afterDelay:0];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:FileTransfer_NewFileTransfer object:fileTransfer];
+	});
 
 	return fileTransfer;
 }
@@ -347,7 +334,6 @@ static ESFileTransferPreferences *preferences;
 			if (!success) pathToArchive = nil;
 			AILog(@"-[ESFileTransferController pathToArchiveOfFolder:]: Success %i (%i), so pathToArchive is %@",
 				  success, [zipTask terminationStatus], pathToArchive);
-			[zipTask release];
 		}
 	}
 
@@ -513,7 +499,7 @@ static ESFileTransferPreferences *preferences;
 	if (autoOpenSafe &&
 	   ([fileTransfer fileTransferType] == Incoming_FileTransfer)) {
 		
-		if (!safeFileExtensions) safeFileExtensions = [SAFE_FILE_EXTENSIONS_SET retain];		
+		if (!safeFileExtensions) safeFileExtensions = SAFE_FILE_EXTENSIONS_SET;		
 
 		shouldOpen = [safeFileExtensions containsObject:[[[fileTransfer localFilename] pathExtension] lowercaseString]];
 	}
@@ -596,7 +582,7 @@ static ESFileTransferPreferences *preferences;
 	
 	//If we created a safe file extensions set and no longer need it, desroy it
 	if (!autoOpenSafe && safeFileExtensions) {
-		[safeFileExtensions release]; safeFileExtensions = nil;
+		safeFileExtensions = nil;
 	}
 	
 	showProgressWindow = [[prefDict objectForKey:KEY_FT_SHOW_PROGRESS_WINDOW] boolValue];
@@ -815,7 +801,7 @@ static ESFileTransferPreferences *preferences;
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"pref-file-transfer" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"pref-file-transfer" forClass:[self class]];
 	return eventImage;
 }
 

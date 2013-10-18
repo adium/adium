@@ -18,8 +18,6 @@
 @class ESContactAlertsViewController;
 
 @interface AIEventsInspectorPane : NSObject <AIContentInspectorPane> {
-	AIListObject						*displayedObject;
-	
 	IBOutlet NSView								*inspectorContentView;
 	IBOutlet ESContactAlertsViewController		*alertsController;
 }

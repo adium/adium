@@ -15,12 +15,10 @@
  */
 
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import "ESOpenMessageWindowContactAlertPlugin.h"
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 
 #define OPEN_MESSAGE_ALERT_SHORT	AILocalizedString(@"Open a message window",nil)
 #define OPEN_MESSAGE_ALERT_LONG		OPEN_MESSAGE_ALERT_SHORT

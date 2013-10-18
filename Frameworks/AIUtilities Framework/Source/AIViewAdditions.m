@@ -27,26 +27,21 @@ NSComparisonResult bringToFront(id itemA, id itemB, void *target);
 //Remove all the subviews from a view
 - (void)removeAllSubviews
 {
-    NSArray 	*subviews;
-    int		loop;
-
-    subviews = [[self subviews] copy];
-    for (loop = 0;loop < [subviews count]; loop++) {
-        [[subviews objectAtIndex:loop] removeFromSuperview];
+	for (NSView *subview in [self.subviews copy]) {
+		[subview removeFromSuperview];
     }
-    [subviews release];
 }
 
 - (void)bringSubviewToFront:(NSView *)subview
 {
-    [self sortSubviewsUsingFunction:bringToFront context:subview];
+    [self sortSubviewsUsingFunction:bringToFront context:(__bridge void *)subview];
 }
 
 NSComparisonResult bringToFront(id itemA, id itemB, void *target)
 {
-    if (itemA == target) {
+    if (itemA == (__bridge id)target) {
         return NSOrderedDescending;
-    } else if (itemB == target) {
+    } else if (itemB == (__bridge id)target) {
         return NSOrderedAscending;
     } else {
         return NSOrderedSame;

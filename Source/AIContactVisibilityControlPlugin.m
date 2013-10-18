@@ -20,13 +20,8 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
-#import "AIContactController.h"
 
 #define HIDE_CONTACTS_MENU_TITLE		AILocalizedString(@"Hide Certain Contacts",nil)
 #define HIDE_OFFLINE_MENU_TITLE			AILocalizedString(@"Hide Offline Contacts",nil)
@@ -64,7 +59,7 @@
 	
 	array_hideAccounts = [[NSMutableArray alloc] init];	
 	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO] retain];
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO];
 	
 	//"Hide Contacts" menu item
 	menuItem_hideContacts = [[NSMenuItem alloc] initWithTitle:HIDE_CONTACTS_MENU_TITLE
@@ -146,18 +141,17 @@
  */
 - (void)dealloc
 {
-	[menu_hideAccounts release]; menu_hideAccounts = nil;
-	[array_hideAccounts release]; array_hideAccounts = nil;
-	[accountMenu release]; accountMenu = nil;
-	[menuItem_hideOffline release]; menuItem_hideOffline = nil;
-	[menuItem_hideIdle release]; menuItem_hideIdle = nil;
-	[menuItem_useOfflineGroup release]; menuItem_useOfflineGroup = nil;
-	[menuItem_hideBlocked release]; menuItem_hideBlocked = nil;
-	[menuItem_hideAccountContact release]; menuItem_hideAccountContact = nil;
-	[menuItem_hideAway release]; menuItem_hideAway = nil;
+	menu_hideAccounts = nil;
+	array_hideAccounts = nil;
+	accountMenu = nil;
+	menuItem_hideOffline = nil;
+	menuItem_hideIdle = nil;
+	menuItem_useOfflineGroup = nil;
+	menuItem_hideBlocked = nil;
+	menuItem_hideAccountContact = nil;
+	menuItem_hideAway = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[super dealloc];
 }
 
 /*!
@@ -243,12 +237,12 @@
 	
 	// Add all the accounts as menu items.
 	for(NSMenuItem *menuItem in menuItems) {
-		[menu_hideAccounts addItem:[[menuItem copy] autorelease]];
+		[menu_hideAccounts addItem:[menuItem copy]];
 	}
 	
 	// Remove any dead accounts from the array.
 	BOOL removedAnyAccounts = NO;
-	for (NSString *internalID in [[array_hideAccounts copy] autorelease]) {
+	for (NSString *internalID in [array_hideAccounts copy]) {
 		if(![adium.accountController accountWithInternalObjectID:internalID]) {
 			[array_hideAccounts removeObject:internalID];
 			removedAnyAccounts = YES;
@@ -257,7 +251,7 @@
 	
 	// Save if necessary.
 	if(removedAnyAccounts) {
-		[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
+		[adium.preferenceController setPreference:[array_hideAccounts copy]
 										   forKey:KEY_HIDE_ACCOUNT_CONTACTS
 											group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}
@@ -270,7 +264,7 @@
  */
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
 {
-	NSString *accountID = [[inAccount.internalObjectID copy] autorelease];
+	NSString *accountID = [inAccount.internalObjectID copy];
 	
 	if ([array_hideAccounts containsObject:accountID]) {
 		[array_hideAccounts removeObject:accountID];
@@ -278,7 +272,7 @@
 		[array_hideAccounts addObject:accountID];
 	}
 	
-	[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
+	[adium.preferenceController setPreference:[array_hideAccounts copy]
 									   forKey:KEY_HIDE_ACCOUNT_CONTACTS
 										group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }

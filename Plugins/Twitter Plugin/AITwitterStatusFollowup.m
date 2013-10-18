@@ -16,8 +16,6 @@
 
 #import "AITwitterStatusFollowup.h"
 #import "AITwitterAccount.h"
-#import <Adium/AIChat.h>
-#import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @interface AITwitterStatusFollowup()
@@ -49,13 +47,6 @@
 - (void)uninstallPlugin
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)dealloc
-{
-	[references release];
-	
-	[super dealloc];
 }
 
 - (void)imageAdded:(NSNotification *)notification

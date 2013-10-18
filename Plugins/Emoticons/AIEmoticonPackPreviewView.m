@@ -32,14 +32,7 @@ static  CGFloat   distanceBetweenEmoticons = 0;
 
 - (void)setEmoticonPack:(AIEmoticonPack *)inEmoticonPack
 {
-	emoticonPack = [inEmoticonPack retain];
-}
-
-- (void)dealloc
-{
-	[emoticonPack release];
-	
-	[super dealloc];
+	emoticonPack = inEmoticonPack;
 }
 
 - (void)drawRect:(NSRect)rect

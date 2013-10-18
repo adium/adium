@@ -190,13 +190,13 @@
 
 //these three return an autoreleased copy.
 - (NSBezierPath *)bezierPathByFlippingHorizontally {
-	return [[[self copy] autorelease] flipHorizontally];
+	return [[self copy] flipHorizontally];
 }
 - (NSBezierPath *)bezierPathByFlippingVertically {
-	return [[[self copy] autorelease] flipVertically];
+	return [[self copy] flipVertically];
 }
 - (NSBezierPath *)bezierPathByScalingToSize:(NSSize)newSize {
-	return [[[self copy] autorelease] scaleToSize:newSize];
+	return [[self copy] scaleToSize:newSize];
 }
 
 @end

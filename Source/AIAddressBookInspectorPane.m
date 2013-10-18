@@ -18,7 +18,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIDelayedTextField.h>
 
 #define ADDRESS_BOOK_NIB_NAME (@"AIAddressBookInspectorPane")
@@ -44,14 +43,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[inspectorContentView release]; inspectorContentView = nil;
-	[addressBookPanel release]; addressBookPanel = nil;
-	
-	[super dealloc];
-}
-
 -(NSString *)nibName
 {
 	return ADDRESS_BOOK_NIB_NAME;
@@ -67,11 +58,9 @@
 	NSString	*currentNotes;
 
 	//Hold onto the object, using the highest-up metacontact if necessary
-	[displayedObject release];
 	displayedObject = ([inObject isKindOfClass:[AIListContact class]] ?
 				  [(AIListContact *)inObject parentContact] :
 				  inObject);
-	[displayedObject retain];
 
 	//Current note
     if ((currentNotes = [displayedObject notes])) {

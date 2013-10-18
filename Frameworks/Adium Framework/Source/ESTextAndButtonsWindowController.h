@@ -15,19 +15,7 @@
  */
 
 #import <Adium/AIWindowController.h>
-
-typedef enum {
-	AITextAndButtonsDefaultReturn			= 1,
-    AITextAndButtonsAlternateReturn			= 0,
-	AITextAndButtonsOtherReturn				= -1,
-	AITextAndButtonsClosedWithoutResponse	= -2
-} AITextAndButtonsReturnCode;
-
-typedef enum {
-	AITextAndButtonsWindowButtonDefault = 0,
-	AITextAndButtonsWindowButtonAlternate,
-	AITextAndButtonsWindowButtonOther
-} AITextAndButtonsWindowButton;
+#import <Adium/AIInterfaceControllerProtocol.h>
 
 @interface ESTextAndButtonsWindowController : AIWindowController {
     IBOutlet	NSTextView		*textView_messageHeader;
@@ -76,8 +64,6 @@ typedef enum {
 		 andMessage:(NSAttributedString *)inMessage
 			 target:(id)inTarget
 		   userInfo:(id)inUserInfo;
-
-- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 
 - (void)changeWindowToTitle:(NSString *)inTitle
 			  defaultButton:(NSString *)inDefaultButton

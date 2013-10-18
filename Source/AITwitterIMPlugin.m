@@ -28,7 +28,6 @@
 - (void)dealloc
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[super dealloc];
 }
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent

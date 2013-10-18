@@ -19,17 +19,11 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 
 #import "AIPreferenceWindowController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListObject.h>
 #import "AIPreferenceContainer.h"
-#import "AIPreferencePane.h"
 
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)
@@ -142,21 +136,7 @@
 - (void)controllerWillClose
 {
 	[AIPreferenceContainer preferenceControllerWillClose];
-} 
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-    [delayedNotificationGroups release]; delayedNotificationGroups = nil;
-    [paneArray release]; paneArray = nil;
-    [prefCache release]; prefCache = nil;
-	[objectPrefCache release]; objectPrefCache = nil;
-    [super dealloc];
 }
-
-
 
 //Preference Window ----------------------------------------------------------------------------------------------------
 #pragma mark Preference Window
@@ -236,7 +216,6 @@
 	if (!(groupObservers = [observers objectForKey:group])) {
 		groupObservers = [[NSMutableArray alloc] init];
 		[observers setObject:groupObservers forKey:group];
-		[groupObservers release];
 	}
 
 	//Add our new observer
@@ -279,8 +258,8 @@
 	if (!object && preferenceChangeDelays > 0) {
         [delayedNotificationGroups addObject:group];
     } else {
-		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object create:NO] dictionary] retain] ?: [NSDictionary dictionary];
-		for (NSValue *observerValue in [[[observers objectForKey:group] copy] autorelease]) {
+		NSDictionary	*preferenceDict = [[self preferenceContainerForGroup:group object:object create:NO] dictionary] ?: [NSDictionary dictionary];
+		for (NSValue *observerValue in [[observers objectForKey:group] copy]) {
 			id observer = observerValue.nonretainedObjectValue;
 			[observer preferencesChangedForGroup:group
 											 key:key
@@ -288,8 +267,6 @@
 								  preferenceDict:preferenceDict
 									   firstTime:NO];
 		}
-
-		[preferenceDict release];
     }
 }
 

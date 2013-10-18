@@ -35,7 +35,7 @@
 	NSAttributedString	*string;
 }
 
-@property (readwrite, retain, nonatomic) NSAttributedString *string;
+@property (readwrite, nonatomic) NSAttributedString *string;
 
 @end
 
@@ -54,8 +54,6 @@
 	NSMutableArray		*pushArray;
 	BOOL                 pushIndicatorVisible;
 	AIButtonWithCursor	*pushIndicator;
-	NSMenu              *pushMenu;
-	NSDictionary		*defaultTypingAttributes;
 
 	NSSize               lastPostedSize;
 	NSSize               _desiredSizeCached;
@@ -74,12 +72,12 @@
     AIButtonWithCursor *emoticonsMenuButton;
 }
 
-@property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
+@property (readwrite, unsafe_unretained, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
 
 // Configure
 @property (readwrite, nonatomic) BOOL clearOnEscape;
 @property (readwrite, nonatomic) BOOL homeToStartOfLine;
-@property (readwrite, retain, nonatomic) NSView *associatedView;
+@property (readwrite, nonatomic) NSView *associatedView;
 
 // Context
 @property (readwrite, retain, nonatomic) AIChat *chat;

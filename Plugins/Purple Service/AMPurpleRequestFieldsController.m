@@ -163,12 +163,10 @@
 															   NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]]
 										 }];
         
-        [rightAlign release];
-        
-        return [labelText autorelease];
+        return labelText;
     }
     
-    return [[[NSAttributedString alloc] initWithString:@""] autorelease];
+    return [[NSAttributedString alloc] initWithString:@""];
 }
 
 - (void)submit
@@ -267,7 +265,7 @@
     [[textView enclosingScrollView] setHasVerticalScroller:TRUE];
     
 	[textView setEditable:isEditable];
-	[[textView textStorage] setAttributedString:[[[NSAttributedString alloc] initWithString:defaultvalue] autorelease]];
+	[[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:defaultvalue]];
 	
 	if (height < textView.frame.size.height + 15) {
 		height = textView.frame.size.height + 15;
@@ -353,10 +351,10 @@
         
         NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:labelString
 																		attributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]] }];
-        return [labelText autorelease];
+        return labelText;
     }
     
-    return [[[NSAttributedString alloc] initWithString:@""] autorelease];
+    return [[NSAttributedString alloc] initWithString:@""];
 }
 
 @end
@@ -464,8 +462,6 @@
 		}
 		
 		[[popDown menu] addItem:menuItem];
-		
-		[menuItem release];
     }
     
 	return view;
@@ -680,7 +676,7 @@
 						[view setFrameSize:NSMakeSize(contentView.frame.size.width, view.frame.size.height)];
 					}
 					
-                    [fieldobject release];
+                    fieldobject = nil;
                 }
             }
         }
@@ -689,17 +685,17 @@
 			[[self window] setTitle:title];
 		else
 			[[self window] setTitle:AILocalizedString(@"Form","Generic fields request window title")];
-    }
     	
-    if (_okcb) [okButton setTitle:okText];
-    else [okButton setHidden:TRUE];
+		if (_okcb) [okButton setTitle:okText];
+		else [okButton setHidden:TRUE];
     
-    if (_cancelcb) [cancelButton setTitle:cancelText];
-    else [cancelButton setHidden:TRUE];
+		if (_cancelcb) [cancelButton setTitle:cancelText];
+		else [cancelButton setHidden:TRUE];
     
-    [[self window] makeKeyAndOrderFront:nil];
+		[[self window] makeKeyAndOrderFront:nil];
+	}
     
-    return [self retain]; // keep us as long as the form is open
+    return self; // keep us as long as the form is open
 }
 
 - (IBAction)submit:(id)sender
@@ -724,12 +720,6 @@
 		cancelcb = NULL;
     }
     [self close];
-}
-
-- (void)dealloc
-{
-    [fieldobjects release];
-    [super dealloc];
 }
 
 /*!

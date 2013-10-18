@@ -23,17 +23,10 @@
 {
 	if ((self = [super init])) {
 		trackingRect = inTrackingRect;
-		url = [inURL retain];
-		title = [inTitle retain];
+		url = inURL;
+		title = inTitle;
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[url release];
-	[title release];
-	[super dealloc];
 }
 
 - (NSRect)trackingRect{

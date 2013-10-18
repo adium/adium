@@ -84,14 +84,14 @@
  *
  * @result The object with the highest priority, performing no other comparison
  */
-@property (readonly, nonatomic) id objectValue;
+@property (weak, readonly, nonatomic) id objectValue;
 /*!
  * @brief Greatest NSNumber value
  *
  * Assumes the \c AIMutableOwnerArray contains \c NSNumber instances
  * @result Returns the greatest (highest value) contained \c NSNumber value.
  */
-@property (readonly, nonatomic) NSNumber *numberValue;
+@property (weak, readonly, nonatomic) NSNumber *numberValue;
 /*!
  * @brief Greatest integer value
  *
@@ -112,7 +112,7 @@
  * Assuming the \c AIMutableOwnerArray contains \c NSDate instances, returns the earliest one.
  * @return  Returns the earliest contained date.
  */
-@property (readonly, nonatomic) NSDate *date;
+@property (weak, readonly, nonatomic) NSDate *date;
 /*!
  * @brief Retrieve object by owner
  *
@@ -151,7 +151,7 @@
  * Retrieve an \c NSEnumerator for all objects in the \c AIMutableOwnerArray. Order is not guaranteed.
  * @return  Returns \c NSEnumerator for all objects.
  */
-@property (readonly, nonatomic) NSEnumerator *objectEnumerator;
+@property (weak, readonly, nonatomic) NSEnumerator *objectEnumerator;
 /*!
  * @brief Retrieve array of values
  * 
@@ -176,6 +176,6 @@
  * to be notified with the \c AIMutableOwnerArray is modified.
  * @param inDelegate The delegate
  */
-@property (readwrite, nonatomic, assign) id delegate;
+@property (readwrite, nonatomic, weak) id delegate;
 
 @end

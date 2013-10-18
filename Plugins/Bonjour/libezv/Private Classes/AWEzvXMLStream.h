@@ -38,19 +38,19 @@
 
 @interface AWEzvXMLStream : NSObject {
     XML_Parser	parser;
-    id <AWEzvXMLStreamProtocol>	delegate;
-    NSFileHandle *connection;
+    id <AWEzvXMLStreamProtocol>	__weak delegate;
+    NSFileHandle *__weak connection;
     AWEzvStack	*nodeStack;
     int		initiator, negotiated;
 }
 
 - (id) initWithFileHandle:(NSFileHandle *)connection initiator:(int)initiator;
-@property (readonly, nonatomic) NSFileHandle *fileHandle;
+@property (weak, readonly, nonatomic) NSFileHandle *fileHandle;
 - (void) readAndParse;
 - (void) sendData:(NSData *)data;
 - (void) sendString:(NSString *)string;
 - (void) endConnection;
-@property (assign, readwrite, nonatomic) id<AWEzvXMLStreamProtocol> delegate;
+@property (weak, readwrite, nonatomic) id<AWEzvXMLStreamProtocol> delegate;
 
 /* Private methods: used by private implementation, do NOT use these methods */
 - (void) xmlStartElement:(const XML_Char *)name attributes:(const XML_Char **)attributes;
@@ -66,5 +66,5 @@
 - (void) XMLConnectionClosed;
 - (void) XMLReceived:(AWEzvXMLNode *)root;
 @property (readonly, copy, nonatomic) NSString *uniqueID;
-@property (readonly, retain, nonatomic) AWEzvContactManager *manager;
+@property (readonly, strong, nonatomic) AWEzvContactManager *manager;
 @end

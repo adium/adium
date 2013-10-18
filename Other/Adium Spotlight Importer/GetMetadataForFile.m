@@ -13,10 +13,8 @@
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-#import <CoreFoundation/CoreFoundation.h>
-#import <CoreServices/CoreServices.h> 
 #import "GetMetadataForHTMLLog.h"
-#import "NSCalendarDate+ISO8601Parsing.h"
+#import "ISO8601DateFormatter.h"
 
 /*
  Relevant keys from MDItem.h we use or may want to use:
@@ -57,25 +55,23 @@ Boolean GetMetadataForFile(void* thisInterface,
     /* Return TRUE if successful, FALSE if there was no data provided */
     
 	Boolean				success = FALSE;
-	NSAutoreleasePool	*pool;
-	pool = [[NSAutoreleasePool alloc] init];
-
-	if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForHTMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
-	} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
-		success = GetMetadataForXMLLog((NSMutableDictionary *)attributes, (NSString *)pathToFile);
-	} else {
-		NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
-	}
-
-	[pool release];
-	
-    return success;
+	@autoreleasepool {
+		
+		if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.htmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
+			success = GetMetadataForHTMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
+		} else if (CFStringCompare(contentTypeUTI, (CFStringRef)@"com.adiumx.xmllog", kCFCompareBackwards) == kCFCompareEqualTo) {
+			success = GetMetadataForXMLLog((__bridge NSMutableDictionary *)attributes, (__bridge NSString *)pathToFile);
+		} else {
+			NSLog(@"We were passed %@, of type %@, which is an unknown type",pathToFile,contentTypeUTI);
+		}
+		
+		return success;
+    }
 }
 
 static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
     //Deteremine the UTI type if we weren't passed one
-    CFStringRef pathExtension = (CFStringRef)[urlToFile pathExtension];
+    CFStringRef pathExtension = (__bridge CFStringRef)[urlToFile pathExtension];
 	if (contentTypeUTI == NULL) {
 		if (CFStringCompare(pathExtension, CFSTR("chatLog"), (kCFCompareBackwards | kCFCompareCaseInsensitive)) == kCFCompareEqualTo) {
 			contentTypeUTI = CFSTR("com.adiumx.xmllog");
@@ -90,39 +86,38 @@ static CFStringRef ResolveUTI(CFStringRef contentTypeUTI, NSURL *urlToFile) {
 }
 
 NSData *CopyDataForURL(CFStringRef contentTypeUTI, NSURL *urlToFile) {
-    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	NSData			*content;
-	contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
-    
-	if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.htmllog"))) {
-		content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSDataReadingUncached error:NULL];
-	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
-		BOOL isDir;
-        NSString *path = [urlToFile path];
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
-            if (isDir) {
-                /* If we have a chatLog bundle, we want to get the text content for the xml file inside */
-                urlToFile = [NSURL fileURLWithPath:[path stringByAppendingPathComponent:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
-            }
+	@autoreleasepool {
+		NSData			*content;
+		contentTypeUTI = ResolveUTI(contentTypeUTI, urlToFile);
+		
+		if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.htmllog"))) {
+			content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSDataReadingUncached error:NULL];
+		} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
+			BOOL isDir;
+			NSString *path = [urlToFile path];
+			if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir]) {
+				if (isDir) {
+					/* If we have a chatLog bundle, we want to get the text content for the xml file inside */
+					urlToFile = [NSURL fileURLWithPath:[path stringByAppendingPathComponent:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
+				}
+				
+				content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSUncachedRead error:NULL];
+				
+			} else {
+				content = nil;
+			}
 			
-			content = [[NSData alloc] initWithContentsOfURL:urlToFile options:NSUncachedRead error:NULL];
-            
 		} else {
 			content = nil;
+			NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
 		}
 		
-	} else {
-		content = nil;
-		NSLog(@"We were passed %@, of type %@, which is an unknown type", urlToFile, contentTypeUTI);
+		return content;
 	}
-    
-	[pool release];
-	
-	return content;
 }
 
 NSData *CopyDataForFile(CFStringRef contentTypeUTI, CFStringRef pathToFile) {
-    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile]);
+    return CopyDataForURL(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile]);
 }
 
 CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToFile, NSData *fileData) {
@@ -137,7 +132,7 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 	} else if (CFEqual(contentTypeUTI, CFSTR("com.adiumx.xmllog"))) {
         result = CopyTextContentForXMLLogData(fileData);
     }
-    return (CFStringRef)result;
+    return CFBridgingRetain(result);
 }
 
 /*!
@@ -153,13 +148,12 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 								   CFStringRef pathToFile)
 {
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-    NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
-	CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(NSString *)pathToFile], logData);
-	[logData release];
-	[pool release];
-	
-	return textContent;
+	@autoreleasepool {
+		NSData *logData = CopyDataForFile(contentTypeUTI, pathToFile);
+		CFStringRef	textContent = CopyTextContentForFileData(contentTypeUTI, [NSURL fileURLWithPath:(__bridge NSString *)pathToFile], logData);
+		
+		return textContent;
+	}
 }
 
 /*!
@@ -176,7 +170,7 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 	Boolean ret = YES;
 	NSXMLDocument *xmlDoc = nil;
 	NSError *err=nil;
-	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
+	NSURL *furl = [NSURL fileURLWithPath:pathToFile];
 	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
 	if (data) {
 		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
@@ -214,19 +208,20 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 						   forKey:@"com_adiumX_service"];
 		
 		NSArray			*children = [[xmlDoc rootElement] children];
-		NSCalendarDate	*startDate = nil, *endDate = nil;
+		NSDate			*startDate = nil, *endDate = nil;
 
 		if ([children count]) {
 			NSString		*dateStr;
+			ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
 
 			dateStr = [[(NSXMLElement *)[children objectAtIndex:0] attributeForName:@"time"] objectValue];
-			startDate = (dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil);
+			startDate = (dateStr ? [formatter dateFromString:dateStr] : nil);
 			if (startDate)
 				[(NSMutableDictionary *)attributes setObject:startDate
 													  forKey:(NSString *)kMDItemContentCreationDate];
 
 			dateStr = [[(NSXMLElement *)[children lastObject] attributeForName:@"time"] objectValue];
-			endDate = (dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil);
+			endDate = (dateStr ? [formatter dateFromString:dateStr] : nil);
 			if (endDate)
 				[(NSMutableDictionary *)attributes setObject:[NSNumber numberWithDouble:[endDate timeIntervalSinceDate:startDate]]
 													  forKey:(NSString *)kMDItemDurationSeconds];
@@ -247,18 +242,13 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 				
 				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[dateFormatter stringFromDate:startDate]]
 							   forKey:(NSString *)kMDItemDisplayName];
-				
-				[dateFormatter release];
 			}
-			[otherAuthors release];
-			
 		}
 		[attributes setObject:@"Chat log"
 					   forKey:(NSString *)kMDItemKind];
 		[attributes setObject:@"Adium"
 					   forKey:(NSString *)kMDItemCreator];
 		
-		[xmlDoc release];
 	}
 	else
 		ret = NO;
@@ -325,14 +315,11 @@ NSString *CopyTextContentForXMLLogData(NSData *data) {
 		
 		if (messages.count) contentString = [messages componentsJoinedByString:@" "];
 		
-        [xmlDoc release];
     } else {
 #ifdef AILogWithSignature
 		AILogWithSignature(@"Parsing log failed: %@", err);
 #endif
 	}
-	
-	[contentString retain];
 	
     return contentString;
 }
