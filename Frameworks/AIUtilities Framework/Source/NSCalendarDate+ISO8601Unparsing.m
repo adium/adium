@@ -107,6 +107,7 @@ static BOOL is_leap_year(NSInteger year) {
 	NSString *timeString;
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
+		[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 		timeString = [formatter stringForObjectValue:self];
 		[formatter release];
 	} else
@@ -118,6 +119,7 @@ static BOOL is_leap_year(NSInteger year) {
 	NSString *timeString;
 	if(includeTime) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
+		[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 		timeString = [formatter stringForObjectValue:self];
 		[formatter release];
 	} else
