@@ -1,0 +1,95 @@
+@import url("./Main.css");
+
+#x-header,
+#topic #topicEdit
+{
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(248, 248, 248, .8)), color-stop(.65, rgba(255, 255, 255, .95)), color-stop(.75, rgba(255, 255, 255, 1)), to(rgba(255, 255, 255, 1)));
+	color: black;
+	-webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, .7);
+}
+
+#x-headerChatStarted
+{
+	color: #888;
+}
+
+.x-userName
+{
+	text-shadow: 0px -1px 5px #fff;
+}
+
+.x-service
+{
+	color: hsla(0, 0%, 0%, .4);
+	text-shadow: 0px 1px 2px #fff;
+}
+
+.x-content
+{
+	color: #222;
+	background: rgba(255, 255, 255, .55);
+}
+
+.x-gloss
+{
+	background: url("../images/glossPolarized.png") no-repeat center top;
+}
+
+.x-divider
+{
+	border-top: 2px groove rgba(255, 255, 255, .7);
+}
+
+.x-date
+{
+	text-shadow: #fff 1px 1px 0px;
+}
+
+.mention .x-date
+{
+	text-shadow: none;
+}
+
+.x-status
+{
+	color: hsla(0, 0%, 0%, .7);
+}
+
+.x-status a,
+#x-header a
+{
+	color: rgb(88, 88, 88);
+}
+
+.x-status a:hover,
+#x-header a:hover
+{
+	color: rgb(58, 58, 58);
+}
+
+.focus
+{
+	background-color: hsla(0, 0%, 70%, .7);
+}
+
+.focus .x-service
+{
+	color: hsla(0, 0%, 0%, .7);
+}
+
+.focus.x-status
+{
+	text-shadow: #fff 1px 1px 2px;
+	color: hsla(0, 0%, 0%, .9);
+}
+
+.x-content
+{
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, .3);
+}
+
+.focus .x-content
+{
+	-webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
+	background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 1)), color-stop(.5, rgba(255, 255, 255, .5)), to(rgba(255, 255, 255, 1)));
+}

@@ -1,0 +1,52 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AICompletingTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = DCGaimYahooJoinChatViewController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "textField_inviteMessage" = NSTextField;
+                "textField_inviteUsers" = NSTextField;
+            };
+            SUPERCLASS = DCJoinChatViewController;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+                joinChat = id;
+            };
+            CLASS = DCJoinChatViewController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "popUp_service" = NSPopUpButton;
+                "textField_roomName" = NSTextField;
+                view = NSView;
+                "view_customView" = NSView;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            ACTIONS =             {
+                joinChat = id;
+            };
+            CLASS = DCNothing;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "popUp_service" = NSPopUpButton;
+                "view_customView" = NSView;
+                "window_main" = NSWindow;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

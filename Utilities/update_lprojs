@@ -1,0 +1,75 @@
+#!/bin/sh
+
+######
+# Should be run from adium/Utilities
+# Takes one argument, which should be the path to the adium-0.8 root
+######
+
+if [ ! -d "$1" ]  # Test if target directory exists.
+then
+    echo "Useage: From adium/Utilities: ./$0 PATH_TO_ADIUM-0.8 ROOT"
+    exit
+fi
+
+MYDIR=`pwd`
+
+if [ ! -d "$MYDIR/../Resources" ]  # Test if Resources exists.
+then
+    echo "Usage: From adium/Utilities: update_lprojs PATH_TO_ADIUM-0.8 ROOT"
+    exit
+fi
+
+echo Synchronizing .lproj folders to $1...
+
+for resources in \
+Resources \
+"Frameworks/AIUtilities Framework/Resources" \
+"Plugins/Gaim Service" \
+"Plugins/WebKit Message View" \
+; do
+
+    cd "$MYDIR/../$resources"
+
+    for lang in \
+    Catalan \
+    Danish \
+    Dutch \
+    French \
+    German \
+    Italian \
+    Japanese \
+    Norwegian \
+    Russian \
+    Spanish \
+    Swedish \
+    cs \
+    is \
+    pt_BR \
+    zh_CN \
+    zh_TW \
+    ; do
+
+    if [ -d $lang.lproj ] ; then
+    	cd $lang.lproj
+    	
+    	# Death to backup nibs
+    	rm -rf *~.nib
+
+    	####
+    	# Copy all files from the nib which are listed in nib.bom.
+    	# nib.bom is a BOM file listing classes.nib, keyedobjects.nib, and objects.nib
+    	# We do this to avoid copying the .svn folder
+    	####
+    	find . '(' -name "*.nib" ')' -prune \
+    	   -execdir ditto -bom "$MYDIR/nib.bom" \
+    	   "{}" "$1/$resources/$lang.lproj/{}" ';'
+    	   
+        # Copy the strings files
+    	cp *.strings "$1/$resources/$lang.lproj"
+
+    	cd ..
+    	echo Synced "$resources/$lang"
+    fi
+
+    done
+done

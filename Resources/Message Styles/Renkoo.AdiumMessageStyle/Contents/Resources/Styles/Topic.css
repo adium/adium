@@ -1,0 +1,48 @@
+#x-topic #x-wrap
+{
+	padding-top: 0px;
+	padding-bottom: 6px;
+	min-height: 48px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	z-index: 100;
+	border-bottom: 2px solid #d5d5d5;
+	font-size: 10px;
+	background:
+		-webkit-gradient(linear, left top, left bottom, from(rgba(251, 251, 251, 1)), to(rgba(244, 244, 244, 1)));
+}
+
+#x-topic #topicEdit
+{
+	margin-top: 6px;
+	margin-left: 66px;
+	margin-right: 8px;
+	display: block;
+	min-height: 1.2em;
+
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#x-topic .x-serviceIcon
+{
+	position: fixed;
+	top: 6px;
+	left: 6px;
+}
+
+#x-topic img.x-serviceIcon
+{
+	width: 48px;
+	height: 48px;
+	top: 4px;
+	left: 4px;
+}
+
+#topic[title=""] #topicEdit
+{
+	background: #d5d5d5;
+	-webkit-border-radius: 4px;
+}

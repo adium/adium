@@ -1,0 +1,29 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {cancel = id; closeWindow = id; okay = id; togglePasswordSaved = id; }; 
+            CLASS = AIPasswordPromptController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_OK" = NSButton; 
+                "checkBox_savePassword" = NSButton; 
+                target = id; 
+                "textField_password" = NSTextField; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = ESProxyPasswordPromptController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"textField_server" = NSTextField; "textField_userName" = NSTextField; }; 
+            SUPERCLASS = AIPasswordPromptController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
