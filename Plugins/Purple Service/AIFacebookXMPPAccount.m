@@ -29,7 +29,7 @@ enum {
 @property (nonatomic, assign) NSUInteger networkState;
 @property (nonatomic, weak) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
 @property (weak, nonatomic) NSURLResponse *connectionResponse;
-@property (weak, nonatomic) NSMutableData *connectionData;
+@property (nonatomic) NSMutableData *connectionData;
 
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;

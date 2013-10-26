@@ -36,7 +36,7 @@ typedef enum {
     
     NSURLConnection *__weak connection;
     NSURLResponse *__weak connectionResponse;
-    NSMutableData *__weak connectionData;
+    NSMutableData *connectionData;
 	
 	NSDictionary *__weak migrationData;
 }
