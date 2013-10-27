@@ -1028,7 +1028,6 @@
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
 		5A2FF9B81797336100C2EF12 /* crashDuck.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A72C1A117013D9400075BBA /* crashDuck.icns */; };
-		5A2FF9BC1797337200C2EF12 /* CrashReporter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A72C1A517013D9400075BBA /* CrashReporter.xib */; };
 		5A2FF9BD1797351500C2EF12 /* AICrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A72C1AD17013D9400075BBA /* AICrashReporter.m */; };
 		5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6E16D878AB00903E40 /* STTwitterAPIWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -3939,10 +3938,6 @@
 		5A675E8D13C00AEA006192C5 /* Preferences-General.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-General.xib"; path = "Resources/Preferences-General.xib"; sourceTree = "<group>"; };
 		5A72C1A117013D9400075BBA /* crashDuck.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = crashDuck.icns; sourceTree = "<group>"; };
 		5A72C1A217013D9400075BBA /* crashDuck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crashDuck.png; sourceTree = "<group>"; };
-		5A72C1A617013D9400075BBA /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/CrashReporter.xib; sourceTree = "<group>"; };
-		5A72C1A817013D9400075BBA /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CrashReporter.xib; sourceTree = "<group>"; };
-		5A72C1AA17013D9400075BBA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CrashReporter.xib; sourceTree = "<group>"; };
-		5A72C1AC17013D9400075BBA /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/CrashReporter.xib; sourceTree = "<group>"; };
 		5A72C1AD17013D9400075BBA /* AICrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICrashReporter.m; path = "Other/Adium Crash Reporter/AICrashReporter.m"; sourceTree = "<group>"; };
 		5A72C1AE17013D9400075BBA /* AICrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AICrashReporter.h; path = "Other/Adium Crash Reporter/AICrashReporter.h"; sourceTree = "<group>"; };
 		5A7642A811E044B900E5E0AF /* sk_SK */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = sk_SK; path = Resources/sk_SK.lproj/AccountProxy.xib; sourceTree = "<group>"; };
@@ -7433,7 +7428,6 @@
 			children = (
 				5A72C1A117013D9400075BBA /* crashDuck.icns */,
 				5A72C1A217013D9400075BBA /* crashDuck.png */,
-				5A72C1A517013D9400075BBA /* CrashReporter.xib */,
 			);
 			name = Resources;
 			path = "Other/Adium Crash Reporter/Resources";
@@ -9847,7 +9841,6 @@
 				110763FA08676D05005987A5 /* BlockEditorWindow.xib in Resources */,
 				EE147A6D0896B18800A21377 /* ABSearch.png in Resources */,
 				EE147A790896B32400A21377 /* ABSearch.xib in Resources */,
-				5A2FF9BC1797337200C2EF12 /* CrashReporter.xib in Resources */,
 				63C120750910A0DD00C9DB57 /* DefaultXtraReadme.rtf in Resources */,
 				348F579E0936FA6D00288E41 /* EditStatusGroup.xib in Resources */,
 				6333699409497DB000970871 /* EmoticonPreviewView.xib in Resources */,
@@ -12356,17 +12349,6 @@
 				5A4BD41C13F855B000A4D3F7 /* en */,
 			);
 			name = SearchTerms.plist;
-			sourceTree = "<group>";
-		};
-		5A72C1A517013D9400075BBA /* CrashReporter.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5A72C1A617013D9400075BBA /* cs */,
-				5A72C1A817013D9400075BBA /* de */,
-				5A72C1AA17013D9400075BBA /* en */,
-				5A72C1AC17013D9400075BBA /* fr */,
-			);
-			name = CrashReporter.xib;
 			sourceTree = "<group>";
 		};
 		633D50ED0F9D31BD004F491E /* InfoPlist.strings */ = {
