@@ -14,27 +14,12 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@class AIAutoScrollView, AITextViewWithPlaceholder;
-
-@interface AICrashReporter : NSWindowController <NSWindowDelegate> {
-	IBOutlet	AIAutoScrollView			*scrollView_details;
-	IBOutlet	AITextViewWithPlaceholder	*textView_details;
-
-	IBOutlet	NSButton					*button_close;
-	
-	IBOutlet	NSPanel                     *panel_privacySheet;
-	IBOutlet	NSTextView                  *textView_crashLog;
-    
-	NSString								*crashLog;
+@interface AICrashReporter : NSObject {
+	NSString *crashLog;
 }
 
 @property (retain) NSString *crashLog;
 
 + (void)checkForCrash;
-
-- (IBAction)showPrivacyDetails:(id)sender;
-- (IBAction)closePrivacyDetails:(id)sender;
-
-- (IBAction)send:(id)sender;
 
 @end

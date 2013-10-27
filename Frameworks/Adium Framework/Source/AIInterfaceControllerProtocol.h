@@ -57,6 +57,7 @@
 #define KEY_CONFIRM_QUIT_FT				@"Suppress Quit Confirmation for File Transfers"
 #define KEY_CONFIRM_QUIT_UNREAD			@"Suppress Quit Confirmation for Unread Messages"
 #define KEY_CONFIRM_MSG_CLOSE			@"Confirm Message Window Close"
+#define KEY_CONFIRM_SEND_CRASH			@"Suppress Send Crash Reports"
 
 typedef enum {
 	AINormalWindowLevel = 0,

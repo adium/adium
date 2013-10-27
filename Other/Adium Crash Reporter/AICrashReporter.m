@@ -15,17 +15,17 @@
  */
 
 #import "AICrashReporter.h"
-#import <AIUtilities/AITextViewWithPlaceholder.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
-#import <AIUtilities/AIAutoScrollView.h>
-#import "JSONKit.h"
+#import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/ESTextAndButtonsWindowController.h>
 #import <sys/sysctl.h>
 
 #define CRASH_REPORT_URL			@"https://sdk.hockeyapp.net/"
 #define HOCKEY_APP_ID				@"a703119f260a58377333db4a07fecadb"
 
+#define AUTOMATICALLY_SEND_CRASHES	@"Automatically Send Crash Reports"
 #define LAST_CRASH_DATE				@"lastKnownCrashDate"
 #define CRASH_LOG_DIRECTORY			[@"~/Library/Logs/DiagnosticReports" stringByStandardizingPath]
 
@@ -36,6 +36,11 @@
 
 + (void)checkForCrash
 {
+	//Don't do anything if we're not allowed to
+	if ([[adium.preferenceController preferenceForKey:KEY_CONFIRM_SEND_CRASH
+												group:PREF_GROUP_CONFIRMATIONS] boolValue])
+		return;
+	
 	AICrashReporter *reporter = [[AICrashReporter alloc] init];
 	[reporter _checkForCrash];
 }
@@ -55,7 +60,6 @@
 			mostRecentCrashDate = date;
 			[self setCrashLog:file];
 		}
-		[self setCrashLog:file];
 	}
 	
 	// obtain the last known crash date from the prefs
@@ -64,7 +68,23 @@
 	
 	// check to see if Adium crashed since the last crash (there's a newer crash report)
 	if (self.crashLog && (!lastKnownCrashDate || [mostRecentCrashDate compare:lastKnownCrashDate] == NSOrderedDescending)) {
-		[NSBundle loadNibNamed:@"CrashReporter" owner:self];
+		if ([[defaults objectForKey:AUTOMATICALLY_SEND_CRASHES] boolValue]) {
+			[self sendReport];
+		} else {
+			NSAttributedString *message = [[NSAttributedString alloc] initWithString:AILocalizedString(@"Please take a moment to send us this crash report.  It will help make Adium as stable and reliable as possible.\n\nIt is recommended that you run the latest version of Adium available, please check that you are up to date.", nil)];
+			ESTextAndButtonsWindowController *crashAlert;
+			crashAlert = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"Send Crash Report", nil)
+																   defaultButton:AILocalizedString(@"Send Report", @"Button to send a crash report")
+																 alternateButton:AILocalizedString(@"Cancel", nil)
+																	 otherButton:AILocalizedString(@"Always Send", @"Button for automatically sending all future crash reports")
+																	 suppression:AILocalizedString(@"Don't ask again", nil)
+															   withMessageHeader:AILocalizedString(@"Adium quit unexpectedly", nil)
+																	  andMessage:message
+																		   image:[NSImage imageNamed:@"crashDuck"]
+																		  target:self
+																		userInfo:nil];
+			[crashAlert showOnWindow:nil];
+		}
 		
 		// save last crash date
 		[defaults setObject:mostRecentCrashDate forKey:LAST_CRASH_DATE];
@@ -77,60 +97,32 @@
 	[super dealloc];
 }
 
-- (void)awakeFromNib
+- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
-	[textView_details setPlaceholderString:AILocalizedString(@"A detailed explanation of what you were doing when Adium crashed (optional)", nil)];
-    [scrollView_details setAlwaysDrawFocusRingIfFocused:YES];
-	[self.window makeKeyAndOrderFront:self];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[self autorelease];
-}
-
-#pragma mark Privacy Details
-//Display privacy information sheet
-- (IBAction)showPrivacyDetails:(id)sender
-{
-	NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:11]
-																  forKey:NSFontAttributeName];
+	if (suppression) {
+		//Don't Ask Again
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
+										   forKey:KEY_CONFIRM_SEND_CRASH
+											group:PREF_GROUP_CONFIRMATIONS];
+	}
 	
-	NSString *file = [NSString stringWithContentsOfFile:[CRASH_LOG_DIRECTORY stringByAppendingPathComponent:self.crashLog]
-											   encoding:NSUTF8StringEncoding error:nil];
-	NSAttributedString	*attrLogString = [[[NSAttributedString alloc] initWithString:file
-																		 attributes:attributes] autorelease];
+	switch(returnCode) {
+		case AITextAndButtonsOtherReturn:
+			//Always Send
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:AUTOMATICALLY_SEND_CRASHES];
+		case AITextAndButtonsDefaultReturn:
+			//Send
+			[self sendReport];
+			break;
+		default:
+			//Cancel
+			break;
+	}
 	
-	//Fill in crash log
-	[[textView_crashLog textStorage] setAttributedString:attrLogString];
-	
-	//Display the sheet
-	[NSApp beginSheet:panel_privacySheet
-	   modalForWindow:self.window
-		modalDelegate:nil
-	   didEndSelector:nil
-		  contextInfo:nil];
-}
-
-//Close the privacy details sheet
-- (IBAction)closePrivacyDetails:(id)sender
-{
-    [panel_privacySheet orderOut:nil];
-    [NSApp endSheet:panel_privacySheet returnCode:0];
+	return YES;
 }
 
 #pragma mark Report sending
-/*!
- * @brief User wants to send the report
- */
-- (IBAction)send:(id)sender
-{
-	[self.window orderOut:nil];
-	
-	[self sendReport];
-	[self.window close];
-}
-
 /*!
  * @brief Send a crash report to the crash reporter web site
  */
@@ -147,7 +139,6 @@
 	[crash addChild:[NSXMLElement elementWithName:@"senderversion" stringValue:[self applicationVersion]]];
 	[crash addChild:[NSXMLElement elementWithName:@"version" stringValue:[self applicationVersion]]];
 	[crash addChild:[NSXMLElement elementWithName:@"platform" stringValue:[self modelVersion]]];
-	[crash addChild:[NSXMLElement elementWithName:@"description" stringValue:[textView_details string]]];
 	[crash addChild:[NSXMLElement elementWithName:@"log" stringValue:reportString]];
 	[[doc rootElement] addChild:crash];
 	
