@@ -62,6 +62,13 @@ Version 1.6 (X/X/X)
 - Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
 - "Proxy bypass when registered jabber handle" (#15957)
 
+
+Version 1.5.9 (//2013)
+ * Fixed a crash which could occur when attempting to send files, especially on OS X 10.9. ("fain") (#16352, #16430)
+ * Fixed a crash which could occur on OS X 10.9.
+ * Fixed building Adium on OS X 10.9. (#16408)
+
+
 Version 1.5.8 (10/13/2013)
  * Changed the default tab switching shortcuts for new users to Control-Tab/Control-Shift-Tab, to match Safari. This was meant to be done for 1.5.4 but it did not work that time. (#16102)
  * Security: Enabled a large number of TLS cipher suites, including ECC suites and suites new in TLS 1.2.

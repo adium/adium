@@ -244,6 +244,7 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 			if (startDate && [otherAuthors count]) {
 				NSString *toUID = [otherAuthors objectAtIndex:0];
 				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d" allowNaturalLanguage:NO];
+				[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 				
 				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[dateFormatter stringFromDate:startDate]]
 							   forKey:(NSString *)kMDItemDisplayName];
