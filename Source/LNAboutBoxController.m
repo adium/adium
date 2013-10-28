@@ -60,8 +60,8 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     NSAttributedString *creditsString;
     
     // Credits
-    creditsString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]
-										   documentAttributes:nil] autorelease];
+    creditsString = [[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]
+										   documentAttributes:nil];
 	[textView_credits loadText:creditsString];
 	
     // Setup the build date / version
@@ -79,7 +79,7 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 {
 	[super windowWillClose:sender];
 	
-    [sharedAboutBoxInstance autorelease]; sharedAboutBoxInstance = nil;
+    sharedAboutBoxInstance = nil;
 }
 
 // Visit the Adium homepage
@@ -126,10 +126,10 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 	__block NSString *ret;
 	
 	[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *shortDateFormatter){
-		ret = [[shortDateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]] retain];
+		ret = [shortDateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:date]];
 	}];
 	
-	return [ret autorelease];
+	return ret;
 }
 
 #pragma mark Software License

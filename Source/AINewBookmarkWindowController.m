@@ -15,12 +15,9 @@
  */
 #import "AINewBookmarkWindowController.h"
 #import "AINewGroupWindowController.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIChat.h>
-#import <Adium/AIServiceMenu.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -34,58 +31,18 @@
 - (void)buildGroupMenu;
 - (void)newGroup:(id)sender;
 - (void)newGroupDidEnd:(NSNotification *)inNotification;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AINewBookmarkWindowController
 
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if(parentWindow) {
-	   [NSApp beginSheet:self.window
-		  modalForWindow:parentWindow
-	   	   modalDelegate:self
-		  didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			 contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-		[self.window makeKeyAndOrderFront:nil];
-	}
-}
-
 - (id)initWithChat:(AIChat *)inChat notifyingTarget:(id)inTarget
 {
 	if ((self = [super initWithWindowNibName:ADD_BOOKMARK_NIB])) {
-		chat = [inChat retain];
-		target = [inTarget retain];
+		chat = inChat;
+		target = inTarget;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[chat release];
-	[target release];
-	
-	[super dealloc];
-}
-
-/*!
- *	@brief didEnd selector for the sheet created above, dismisses the sheet
- */
--(void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo
-{
-	[sheet orderOut:nil];
-	
-	[self autorelease];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-	
-	[self autorelease];
 }
 
 /*!

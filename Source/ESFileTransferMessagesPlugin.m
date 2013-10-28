@@ -17,7 +17,6 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import "ESFileTransferMessagesPlugin.h"
-#import <Adium/AIChat.h>
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIListContact.h>
 #import <Adium/ESFileTransfer.h>
@@ -136,8 +135,8 @@
         AIContentEvent	*content; 
 		
 		if (!attributedMessage)
-			attributedMessage = [[[NSAttributedString alloc] initWithString:message
-																 attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+			attributedMessage = [[NSAttributedString alloc] initWithString:message
+																 attributes:[adium.contentController defaultFormattingAttributes]];
 		
         //Create our content object
         content = [AIContentEvent statusInChat:chat

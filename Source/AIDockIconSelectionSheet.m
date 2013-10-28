@@ -16,10 +16,8 @@
 
 #import "AIDockIconSelectionSheet.h"
 #import "AIDockController.h"
-#import "AIAppearancePreferencesPlugin.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <Adium/AIIconState.h>
-#import <Adium/AIDockControllerProtocol.h>
 
 #define PREF_GROUP_DOCK_ICON	@"Dock Icon"
 #define DEFAULT_DOCK_ICON_NAME	@"Adiumy Green"
@@ -41,23 +39,18 @@
 
 - (id)init
 {
-	if (self = [super initWithWindowNibName:@"DockIconSelectionSheet"]) {
+	if ((self = [super initWithWindowNibName:@"DockIconSelectionSheet"])) {
 		
 	}
 	
 	return self;
 }
 
-- (void)openOnWindow:(NSWindow *)parentWindow
+- (void)showOnWindow:(NSWindow *)parentWindow
 {
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
+	[super showOnWindow:parentWindow];
+	
+	if (!parentWindow) {
 		[self.window makeKeyAndOrderFront:nil];
 		[NSApp activateIgnoringOtherApps:YES];
 	}
@@ -66,12 +59,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[icons release], icons = nil;
-	[iconsData release], iconsData = nil;
-	[animatedIconState release], animatedIconState = nil;
-	[animationTimer release], animationTimer = nil;
-	
-	[super dealloc];
 }
 
 // Setup our preference view
@@ -105,10 +92,9 @@
 // Preference view is closing
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
-	
     [self setAnimatedDockIconAtIndex:NSNotFound];
-	[self autorelease];
+	
+	[super windowWillClose:sender];
 }
 
 #pragma mark -
@@ -116,10 +102,9 @@
 // Invoked as the sheet closes, dismiss the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
-	
     [self setAnimatedDockIconAtIndex:NSNotFound];
-	[self autorelease];
+	
+    [sheet orderOut:nil];
 }
 
 // When the xtras are changed, update our icons
@@ -137,7 +122,6 @@
 		}
 		
 		[self setIcons:dockIcons];
-		[dockIcons release];
 
 		[self selectIconWithName:[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		group:PREF_GROUP_APPEARANCE]];
@@ -214,10 +198,10 @@
 	NSDictionary *iconPackDict = [adium.dockController iconPackAtPath:path];
 	NSDictionary *stateDict = [iconPackDict objectForKey:@"State"];
 	
-	return [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObjects:[stateDict objectForKey:@"Base"],
+	return [[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObjects:[stateDict objectForKey:@"Base"],
 																					[stateDict objectForKey:@"Online"],
 														  							[stateDict objectForKey:@"Alert"],
-														  							nil]] autorelease];
+														  							nil]];
 }
 
 // Animate the hovered icon
@@ -295,7 +279,7 @@
 						  self, 
 						  @selector(trashConfirmSheetDidEnd:returnCode:contextInfo:),
 						  nil,
-						  selectedIconPath,
+						  (__bridge void *)selectedIconPath,
 						  AILocalizedString(@"Are you sure you want to delete the %@ Dock Icon? It will be moved to the Trash.", nil), name);
 	}
 }

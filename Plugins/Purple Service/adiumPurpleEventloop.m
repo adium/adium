@@ -15,12 +15,7 @@
  */
 
 #import "adiumPurpleEventloop.h"
-#import <poll.h>
-#import <unistd.h>
 #import <sys/socket.h>
-#import <sys/select.h>
-
-#include <dispatch/dispatch.h>
 
 // This one is missing from the 10.6 headers...
 #ifndef NSEC_PER_MSEC
@@ -30,6 +25,8 @@
 //#define PURPLE_SOCKET_DEBUG
 
 static guint				sourceId = 0;		//The next source key; continuously incrementing
+
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_7
 
 /*
  * glib, unfortunately, identifies all sources and timers via unsigned 32 bit tags. We would like to map them to dispatch_source_t objects.
@@ -58,6 +55,30 @@ static inline void removeSourceForTag(guint tag) {
     CFDictionaryRemoveValue(sourceInfoDict(), (void *)tag);
 }
 
+#else
+
+static inline NSMutableDictionary *sourceInfoDict() {
+    static NSMutableDictionary * _sourceInfoDict;
+    static dispatch_once_t sourceInfoDictToken;
+	
+    dispatch_once(&sourceInfoDictToken, ^{
+		_sourceInfoDict = [[NSMutableDictionary alloc] init];
+	});
+	
+    return _sourceInfoDict;
+}
+
+static inline dispatch_source_t sourceForTag(guint tag) {
+    return [sourceInfoDict() objectForKey:@(tag)];
+}
+static inline void setSourceForTag(dispatch_source_t source, guint tag) {
+	[sourceInfoDict() setObject:source forKey:@(tag)];
+}
+static inline void removeSourceForTag(guint tag) {
+	[sourceInfoDict() removeObjectForKey:@(tag)];
+}
+#endif
+
 gboolean adium_source_remove(guint tag) {
 	dispatch_source_t src = sourceForTag(tag);
     
@@ -72,7 +93,9 @@ gboolean adium_source_remove(guint tag) {
 	
     removeSourceForTag(tag);
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_7
 	dispatch_release(src);
+#endif
 	
 	return success;
 }
@@ -87,6 +110,11 @@ gboolean adium_timeout_remove(guint tag) {
  */
 guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointer data)
 {
+	if (!function) {
+		NSLog(@"addTimer INVALID: function is NULL, nothing to do; returning tag %i",sourceId+1);
+		return ++sourceId;
+	}
+	
 	dispatch_source_t src;
 	guint tag;
 	
@@ -99,17 +127,16 @@ guint addTimer(uint64_t interval, uint64_t leeway, GSourceFunc function, gpointe
     setSourceForTag(src, tag);
 	
     dispatch_source_set_event_handler(src, ^{
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		@autoreleasepool {
 
-		if (sourceForTag(tag)) {
-            if (!function || !function(data)) {
-                adium_timeout_remove(tag);
-            }
-        } else {
-			AILogWithSignature(@"Timer with tag %i was already canceled!", tag);
+			if (__builtin_expect(sourceForTag(tag) != NULL, 1)) {
+				if (!function(data)) {
+					adium_timeout_remove(tag);
+				}
+			} else {
+				AILogWithSignature(@"Timer with tag %i was already canceled!", tag);
+			}
 		}
-  
-        [pool drain];
     });
 	
     dispatch_resume(src);
@@ -136,6 +163,11 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 		NSLog(@"INVALID: fd was %i; returning tag %i",fd,sourceId+1);
 		return ++sourceId;
 	}
+	
+	if (!func) {
+		NSLog(@"adium_input_add INVALID: func is NULL, nothing to do; returning tag %i",sourceId+1);
+		return ++sourceId;
+	}
 
 	dispatch_source_t src;
 	guint tag;
@@ -152,9 +184,9 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
     src = dispatch_source_create(type, fd, 0, dispatch_get_main_queue());
 	
     dispatch_source_set_event_handler(src, ^{
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        if (func) func(user_data, fd, condition);
-        [pool drain];
+		@autoreleasepool {
+			func(user_data, fd, condition);
+		}
     });
 		
     setSourceForTag(src, tag);

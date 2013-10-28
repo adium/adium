@@ -17,9 +17,8 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIHTMLDecoder.h>
+#import <AIUtilities/AIDateAdditions.h>
 
 @implementation AIContentObject
 
@@ -61,34 +60,18 @@
 		postProcessContent = YES;
 	
 		//Store source, dest, chat, ...
-		source = [inSource retain];
-		sourceNick = [inSourceNick retain];
-		destination = [inDest retain];
-		message = [inMessage retain];
-		date = [(inDate ? inDate : [NSDate date]) retain];
+		source = inSource;
+		sourceNick = inSourceNick;
+		destination = inDest;
+		message = inMessage;
+		date = (inDate ? inDate : [NSDate date]);
 		
-		chat = [inChat retain];
+		chat = inChat;
 		outgoing = ([source isKindOfClass:[AIAccount class]]);
 		userInfo = nil;
 	}
     
     return self;
-}
-
-- (void)dealloc
-{
-    [source release]; source = nil;
-	[sourceNick release]; sourceNick = nil;
-    [destination release]; destination = nil;
-	[date release]; date = nil;
-	[message release]; message = nil;
-	[chat release]; chat = nil;
-	[userInfo release]; userInfo = nil;
-	if(customDisplayClasses)
-		[customDisplayClasses release];
-	customDisplayClasses = nil;
-
-    [super dealloc];
 }
 
 //Content Identifier
@@ -140,10 +123,9 @@
 //Content is from the same day. If passed nil, content is from the current day.
 - (BOOL)isFromSameDayAsContent:(AIContentObject *)inContent
 {
-	NSCalendarDate *ourDate = [[self date] dateWithCalendarFormat:nil timeZone:nil];
-	NSCalendarDate *inDate = [(inContent ? [inContent date] : [NSDate date]) dateWithCalendarFormat:nil timeZone:nil];
+	NSDate *inDate = inContent ? [inContent date] : [NSDate date];
 	
-	return [ourDate dayOfCommonEra] == [inDate dayOfCommonEra];
+	return [NSDate isDate:self.date sameDayAsDate:inDate];
 }
 
 //Content --------------------------------------------------------------------------------------------------------------
@@ -151,8 +133,7 @@
 //HTML string message
 - (void)setMessageHTML:(NSString *)inMessageString
 {
-	[message release];
-	message = [[AIHTMLDecoder decodeHTML:inMessageString] retain];
+	message = [AIHTMLDecoder decodeHTML:inMessageString];
 }
 - (NSString *)messageHTML
 {
@@ -164,7 +145,6 @@
  */
 - (void)setMessageString:(NSString *)inMessageString
 {
-	[message release];
 	message = [[NSAttributedString alloc] initWithString:inMessageString
 											  attributes:[adium.contentController defaultFormattingAttributes]];
 	

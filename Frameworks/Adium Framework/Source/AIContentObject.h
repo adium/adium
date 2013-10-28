@@ -35,7 +35,7 @@
  */
 
 @interface AIContentObject : NSObject {
-    AIChat				*chat;
+    AIChat				*__weak chat;
     AIListObject		*source;
     AIListObject		*destination;
 	NSString			*sourceNick;
@@ -102,7 +102,7 @@
  *
  *	@return	A string representing the type of content that this object bears.
  */
-@property (nonatomic, readonly) NSString *type;
+@property (weak, nonatomic, readonly) NSString *type;
 
 #pragma mark Comparing
 
@@ -168,14 +168,14 @@
  *
  *	@return	The chat with which this content is associated.
  */
-@property (nonatomic, readwrite, assign) AIChat *chat;
+@property (nonatomic, readwrite, weak) AIChat *chat;
 
 /*!	@brief	Obtain the current message in the content.
  *
  *	@return	The current message.
  */
-@property (nonatomic, retain) NSAttributedString *message;
-@property (readonly, nonatomic) NSString *messageString;
+@property (nonatomic, strong) NSAttributedString *message;
+@property (weak, readonly, nonatomic) NSString *messageString;
 /*!	@brief	Get an array of CSS class names with which this content should be displayed.
  *
  *	@par	You should use these classes whenever inserting the content into an HTML or XHTML document, or anywhere else where CSS would be used with the content.
@@ -200,7 +200,7 @@
  *
  *	@param	inUserInfo	The new user-info object.
  */
-@property (nonatomic, retain) id userInfo;
+@property (nonatomic, strong) id userInfo;
 
 #pragma mark Behavior
 

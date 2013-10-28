@@ -21,7 +21,7 @@
 - (BOOL)consideredImageForHFSType:(OSType)HFSTypeCode
 					pathExtension:(NSString *)pathExtension
 {
-	NSMutableArray *imageFileTypes = [[[NSImage imageFileTypes] mutableCopy] autorelease];
+	NSMutableArray *imageFileTypes = [[NSImage imageFileTypes] mutableCopy];
 	NSArray *removeFileTypes = [NSArray arrayWithObjects:@"pdf", @"PDF", @"psd", @"PSD", @"'PDF '", nil];
 	
 	[imageFileTypes removeObjectsInArray:removeFileTypes];

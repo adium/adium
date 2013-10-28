@@ -48,7 +48,7 @@
 - (void)_checkForCrash
 {
 	// get a list of files beginning with 'Adium' from the crash reporter folder
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSArray *files = [fm contentsOfDirectoryAtPath:CRASH_LOG_DIRECTORY error:nil];
 	NSArray *filteredFiles = [files filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] 'Adium'"]];
 	
@@ -91,12 +91,6 @@
 	}
 }
 
-- (void)dealloc
-{
-	[crashLog release];
-	[super dealloc];
-}
-
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	if (suppression) {
@@ -118,7 +112,6 @@
 			//Cancel
 			break;
 	}
-	
 	return YES;
 }
 
@@ -168,7 +161,6 @@
 	[postBody appendData:[doc XMLData]];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
-	[doc release];
 	
 	NSHTTPURLResponse *response = nil;
 	NSError *error = nil;

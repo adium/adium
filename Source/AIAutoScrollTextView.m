@@ -30,12 +30,12 @@
 
 - (void)loadText:(NSAttributedString *)textToLoad
 {
-    [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds]
+    [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds]
 														options:(NSTrackingMouseEnteredAndExited |
 																 NSTrackingActiveAlways |
 																 NSTrackingInVisibleRect)
 														  owner:self
-													   userInfo:nil] autorelease]];
+													   userInfo:nil]];
 
 	[[self textStorage] setAttributedString:textToLoad];
     [self startScrolling];
@@ -43,9 +43,7 @@
 
 - (void)dealloc
 {
-	[scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
-
-	[super dealloc];
+	[scrollTimer invalidate]; scrollTimer = nil;
 }
 
 // When the user scrolls stop the automatic scrolling
@@ -90,16 +88,16 @@
 	scrollLocation = [[[self enclosingScrollView] contentView] bounds].origin.y + 7;
 	maxScroll = [[self textStorage] size].height;
     
-	scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0f / ABOUT_SCROLL_FPS)
+	scrollTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0f / ABOUT_SCROLL_FPS)
 													target:self
 												  selector:@selector(scrollTimer:)
 												  userInfo:nil
-												   repeats:YES] retain];
+												   repeats:YES];
 }
 
 - (void)stopScrolling
 {
-	[scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
+	[scrollTimer invalidate]; scrollTimer = nil;
 
 	// Enable scrolling
     [[self enclosingScrollView] setHasVerticalScroller:YES];

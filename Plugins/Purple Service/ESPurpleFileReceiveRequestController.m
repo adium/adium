@@ -16,8 +16,6 @@
 
 #import "ESPurpleFileReceiveRequestController.h"
 #import "adiumPurpleRequest.h"
-#import "CBPurpleAccount.h"
-#import <Adium/AIWindowController.h>
 #import <Adium/ESFileTransfer.h>
 
 @interface ESPurpleFileReceiveRequestController ()
@@ -53,8 +51,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 /*!
@@ -64,7 +60,6 @@
  */
 - (void)purpleRequestClose
 {	
-	[self release];
 }
 
 /*!

@@ -44,7 +44,6 @@
 
 - (void)dealloc {
 	CFRelease(certificatechain);
-	[super dealloc];
 }
 
 - (IBAction)showWindow:(id)sender {
@@ -53,23 +52,21 @@
 
 - (void)editAccountWindow:(NSWindow*)window didOpenForAccount:(AIAccount *)inAccount {
 	SFCertificatePanel *panel = [[SFCertificatePanel alloc] init];
-	
+
 	[panel beginSheetForWindow:window
 				 modalDelegate:self
 				didEndSelector:@selector(certificateSheetDidEnd:returnCode:contextInfo:)
-				   contextInfo:window
-				  certificates:(NSArray*)certificatechain
+				   contextInfo:(__bridge void *)window
+				  certificates:(__bridge NSArray*)certificatechain
 					 showGroup:YES];
 }
 
 - (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
-	NSWindow *win = (NSWindow*)contextInfo;
+	NSWindow *win = (__bridge NSWindow*)contextInfo;
 	
-	[panel release];
+	panel = nil;
 	
 	[win performSelector:@selector(performClose:) withObject:nil afterDelay:0.0];
-	
-	[self autorelease];
 }
 
 @end

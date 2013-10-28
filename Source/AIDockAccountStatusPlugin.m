@@ -17,12 +17,9 @@
 #import "AIDockAccountStatusPlugin.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIStatus.h>
 
 @interface AIDockAccountStatusPlugin ()
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey;

@@ -20,7 +20,6 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIHTMLDecoder.h>
 #import "CBPurpleAccount.h"
-#import <libpurple/blist.h>
 
 @interface AMPurpleTuneTooltip()
 - (AIListContact *)tuneContactForListObject:(AIListObject *)listObject;

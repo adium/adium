@@ -52,7 +52,7 @@
 	[importDetails setStringValue:[AILocalizedString(@"Gathering list of transcripts", nil) stringByAppendingEllipsis]];
 	[loggingPanes selectTabViewItemWithIdentifier:@"import"];
 	[cancelImportButton setHidden:NO];
-	fullDump = [[[NSFileManager defaultManager] subpathsAtPath:ICHAT_LOCATION] retain];
+	fullDump = [[NSFileManager defaultManager] subpathsAtPath:ICHAT_LOCATION];
 	dumpCount = [fullDump count];
 	dumpLoop = 0;
 	currentStep--;
@@ -117,7 +117,6 @@
 	ESDotMacService *macService = nil;
 	ESJabberService *jabberService = nil;	
 	
-#warning iChat Import needs to be updated for MobileMe
 	for (AIService *service in adium.accountController.services) {
 		if ([service.serviceID isEqual:@"AIM"])
 			aimService = (ESAIMService *)service;
@@ -284,7 +283,7 @@
 {
 	AIStatus *newStatus = [AIStatus statusOfType:(shouldBeAway ? AIAwayStatusType : AIAvailableStatusType)];
 	[newStatus setTitle:statusString];
-	[newStatus setStatusMessage:[[[NSAttributedString alloc] initWithString:statusString] autorelease]];
+	[newStatus setStatusMessage:[[NSAttributedString alloc] initWithString:statusString]];
 	[newStatus setAutoReplyIsStatusMessage:(shouldBeAway ? YES : NO)];
 	[newStatus setShouldForceInitialIdleTime:NO];
 	
@@ -323,13 +322,6 @@
 	
 	[assistantPanes selectTabViewItemWithIdentifier:@"start"];
 	[backButton setEnabled:NO];
-}
-
--(IBAction)openHelp:(id)sender
-{
-#warning This help anchor is necessary and needs a corresponding page in the book + the index needs regenerated.
-	NSString *locBookName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
-	[[NSHelpManager sharedHelpManager] openHelpAnchor:@"ichatImport"  inBook:locBookName];
 }
 
 // this action is currently defined as returning to the start of the assistant, unchecking all and noting completed actions
@@ -472,14 +464,6 @@
 		[proceedButton setEnabled:NO];
 		[self performSelector:@selector(deleteAllFromiChat) withObject:nil afterDelay:0.3];
 	}
-}
-
--(void)dealloc
-{
-	[fullDump release];
-	[logImporter release];
-
-	[super dealloc];
 }
 
 @end

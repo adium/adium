@@ -25,7 +25,7 @@
 #define DUAL_INTERFACE_DEFAULT_PREFS		@"DualWindowDefaults"
 
 #define KEY_ALWAYS_CREATE_NEW_WINDOWS 		@"Always Create New Windows"
-//#define KEY_USE_LAST_WINDOW					@"Use Last Window"
+#define KEY_USE_LAST_WINDOW					@"Use Last Window"
 #define KEY_AUTOHIDE_TABBAR					@"Autohide Tab Bar"
 #define KEY_TABBAR_OVERFLOW					@"Use Overflow Menu"
 #define KEY_KEEP_TABS_ARRANGED				@"Keep Tabs Arranged"
@@ -35,12 +35,7 @@
 #define KEY_TABBAR_SHOW_UNREAD_COUNT_GROUP	@"Show Unread Message Count in Group Chat Tabs"
 #define KEY_TABBAR_SHOW_UNREAD_MENTION_ONLYGROUP	@"Show Unread Mention Count Only in Group Chat Tabs"
 
-#define KEY_ALWAYS_CREATE_NEW_WINDOWS 		@"Always Create New Windows"
-#define KEY_USE_LAST_WINDOW					@"Use Last Window"
-#define KEY_AUTOHIDE_TABBAR					@"Autohide Tab Bar"
 #define KEY_ENABLE_INACTIVE_TAB_CLOSE		@"Enable Inactive Tab Close"
-#define KEY_KEEP_TABS_ARRANGED				@"Keep Tabs Arranged"
-#define KEY_ARRANGE_TABS_BY_GROUP			@"Arrange Tabs By Group"
 #define	KEY_WINDOW_LEVEL					@"Window Level"
 #define KEY_WINDOW_HIDE						@"Hide While in Background"
 #define KEY_PSYCHIC							@"Open Chats When typing Begins"
