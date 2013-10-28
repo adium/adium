@@ -15,9 +15,7 @@
  */
 
 #import "ESPurpleMeanwhileAccount.h"
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 
@@ -89,8 +87,8 @@ extern const char *mwServiceAware_getText(void *, void *);
 	statusMessageString = (statusMessageText ? [NSString stringWithUTF8String:statusMessageText] : nil);
 
 	if (statusMessageString && [statusMessageString length]) {
-		buddyStatusMessage = [[[NSAttributedString alloc] initWithString:statusMessageString
-														 attributes:nil] autorelease];
+		buddyStatusMessage = [[NSAttributedString alloc] initWithString:statusMessageString
+														 attributes:nil];
 	}
 
 	return buddyStatusMessage;
@@ -104,34 +102,24 @@ extern const char *mwServiceAware_getText(void *, void *);
 	{
 		case 1:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Sending Handshake",nil);
-			break;
 		case 3:
 			return AILocalizedString(@"Waiting for Handshake Acknowledgement",nil);
-			break;			
 		case 4:
 			return AILocalizedString(@"Handshake Acknowledged; Sending Login",nil);
-			break;
 		case 5:
 			return AILocalizedString(@"Waiting for Login Acknowledgement",nil);
-			break;
 		case 6:
 			return AILocalizedString(@"Login Redirected",nil);
-			break;
 		case 7:
 			return AILocalizedString(@"Forcing Login",nil);
-			break;
 		case 8:
 			return AILocalizedString(@"Login Acknowledged",nil);
-			break;
 		case 9:
 			return AILocalizedString(@"Starting Services",nil);
-			break;
 		case 10:
 			return AILocalizedString(@"Connected",nil);
-			break;
 	}
 	
 	return nil;

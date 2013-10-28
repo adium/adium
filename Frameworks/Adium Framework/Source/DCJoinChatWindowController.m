@@ -17,8 +17,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AILocalizationButton.h>
 #import <Adium/AIService.h>
 #import <Adium/DCJoinChatViewController.h>
 #import <Adium/DCJoinChatWindowController.h>
@@ -114,13 +112,6 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
     return self;
 }
 
-- (void)dealloc
-{
-	self.joinChatViewController = nil;
-	
-	[super dealloc];
-}
-
 // Setup the window before it is displayed
 - (void)windowDidLoad
 {
@@ -132,9 +123,9 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	[button_cancel setLocalizedString:AILocalizedString(@"Cancel", nil)];
 
 	// Account menu
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 
 	[self configureForAccount:[[popUp_service selectedItem] representedObject]];
 
@@ -147,8 +138,7 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 {
 	[super windowWillClose:sender];
 	sharedJoinChatInstance = nil;
-	[accountMenu release]; accountMenu = nil;
-    [self autorelease]; //Close the shared instance
+	accountMenu = nil;
 }
 
 #pragma mark DCJoinChatViewController delegate

@@ -1,4 +1,3 @@
-#import "EKEzvFileTransfer.h"
 #import "EKEzvIncomingFileTransfer.h"
 #import "EKEzvOutgoingFileTransfer.h"
 
@@ -14,8 +13,6 @@
 	[self setMimeType:nil];
 	[self setAccountData:nil];
 	[self setUniqueID:nil];
-
-	[super dealloc];
 }
 #pragma mark -
 #pragma mark accessors
@@ -32,8 +29,7 @@
     //NSLog(@"in -setContact:, old value of contact: %@, changed to: %@", contact, aContact);
 
     if (contact != aContact) {
-        [contact release];
-        contact = [aContact retain];
+        contact = aContact;
     }
 }
 
@@ -49,8 +45,7 @@
     //NSLog(@"in -setManager:, old value of manager: %@, changed to: %@", manager, aManager);
 
     if (manager != aManager) {
-        [manager release];
-        manager = [aManager retain];
+        manager = aManager;
     }
 }
 
@@ -116,8 +111,7 @@
     //NSLog(@"in -setLocalFilename:, old value of localFilename: %@, changed to: %@", localFilename, aLocalFilename);
 
     if (localFilename != aLocalFilename) {
-        [localFilename release];
-        localFilename = [aLocalFilename retain];
+        localFilename = aLocalFilename;
     }
 }
 
@@ -133,8 +127,7 @@
     //NSLog(@"in -setRemoteFilename:, old value of remoteFilename: %@, changed to: %@", remoteFilename, aRemoteFilename);
 
     if (remoteFilename != aRemoteFilename) {
-        [remoteFilename release];
-        remoteFilename = [aRemoteFilename retain];
+        remoteFilename = aRemoteFilename;
     }
 }
 
@@ -150,8 +143,7 @@
     //NSLog(@"in -setUrl:, old value of url: %@, changed to: %@", url, anUrl);
 
     if (url != anUrl) {
-        [url release];
-        url = [anUrl retain];
+        url = anUrl;
     }
 }
 
@@ -167,8 +159,7 @@
     //NSLog(@"in -setMimeType:, old value of mimeType: %@, changed to: %@", mimeType, aMimeType);
 
     if (mimeType != aMimeType) {
-        [mimeType release];
-        mimeType = [aMimeType retain];
+        mimeType = aMimeType;
     }
 }
 
@@ -184,8 +175,7 @@
     //NSLog(@"in -setAccountData:, old value of accountData: %@, changed to: %@", accountData, anAccountData);
 
     if (accountData != anAccountData) {
-        [accountData release];
-        accountData = [anAccountData retain];
+        accountData = anAccountData;
     }
 }
 
@@ -237,8 +227,7 @@
     //NSLog(@"in -setUniqueID:, old value of uniqueID: %@, changed to: %@", uniqueID, anUniqueID);
 
     if (uniqueID != anUniqueID) {
-        [uniqueID release];
-        uniqueID = [anUniqueID retain];
+        uniqueID = anUniqueID;
     }
 }
 

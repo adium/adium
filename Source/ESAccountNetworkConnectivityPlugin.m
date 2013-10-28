@@ -15,13 +15,10 @@
  */
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import "ESAccountNetworkConnectivityPlugin.h"
 #import <AIUtilities/AIEventAdditions.h>
-#import <AIUtilities/AIHostReachabilityMonitor.h>
 #import <AIUtilities/AISleepNotification.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
 
 @interface ESAccountNetworkConnectivityPlugin ()
 - (void)handleConnectivityForAccount:(AIAccount *)account reachable:(BOOL)reachable;
@@ -81,17 +78,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[accountsToConnect    release];
-	[accountsToNotConnect release];
-
-	[super dealloc];
-}
-
-/*!
  * @brief Adium finished launching
  *
  * Attempt to autoconnect accounts if shift is not being pressed
@@ -142,8 +128,6 @@
 		
 		[accountsToConnect removeObject:account];
 	}
-	
-	[knownHosts release];
 	
 	//Watch for future changes to our account list
 	[[NSNotificationCenter defaultCenter] addObserver:self

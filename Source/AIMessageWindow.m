@@ -15,9 +15,7 @@
  */
 
 #import "AIMessageWindow.h"
-#import "AIClickThroughThemeDocumentButton.h"
 #import "AIMessageWindowController.h"
-#import "AIInterfaceControllerProtocol.h"
 
 /*!
  * @class AIMessageWindow
@@ -36,17 +34,16 @@
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
-	return [[[NSUniqueIDSpecifier alloc]
+	return [[NSUniqueIDSpecifier alloc]
 			initWithContainerClassDescription:containerClassDesc
 			containerSpecifier:nil key:@"chatWindows"
-			uniqueID:[NSNumber numberWithInteger:[self windowNumber]]] autorelease];
+			uniqueID:[NSNumber numberWithInteger:[self windowNumber]]];
 }
 
 - (void)dealloc
 {
 	AILogWithSignature(@"");
 
-	[super dealloc];
 }
 
 - (NSArray *)chats

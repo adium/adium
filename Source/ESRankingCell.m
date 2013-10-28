@@ -16,7 +16,6 @@
 
 #import "ESRankingCell.h"
 #import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIBezierPathAdditions.h>
 
 @implementation ESRankingCell
 
@@ -41,7 +40,7 @@ static NSColor	*drawColor = nil;
 		//Draw in a horizontal area of cellFrame equal to (percentage) of it
 		cellFrame.size.width *= percentage;
 		
-		if (!drawColor) drawColor = [[[NSColor alternateSelectedControlColor] darkenAndAdjustSaturationBy:0.2f] retain];
+		if (!drawColor) drawColor = [[NSColor alternateSelectedControlColor] darkenAndAdjustSaturationBy:0.2f];
 
 		[drawColor set];
 		[[NSBezierPath bezierPathWithRect:cellFrame] fill];

@@ -14,8 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIPreferencePane.h>
-
 #define PREFERENCE_VIEW_NIB		@"PreferenceView"	//Filename of the preference view nib
 
 @implementation AIPreferencePane
@@ -23,13 +21,13 @@
 //Return a new preference pane
 + (AIPreferencePane *)preferencePane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 //Return a new preference pane, passing plugin
 + (AIPreferencePane *)preferencePaneForPlugin:(id)inPlugin
 {
-    return [[[self alloc] initForPlugin:inPlugin] autorelease];
+    return [[self alloc] initForPlugin:inPlugin];
 }
 
 //Init
@@ -39,11 +37,6 @@
 		[adium.preferenceController addPreferencePane:self];
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[super dealloc];
 }
 
 + (NSArray *)preferencePanes

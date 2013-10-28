@@ -32,6 +32,16 @@
  */
 @implementation AIWindowController
 
++ (NSMutableSet *)independentWindows {
+	static NSMutableSet *independentWindows;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		independentWindows = [[NSMutableSet alloc] init];
+	});
+	
+	return independentWindows;
+}
+
 + (void)initialize
 {
 	if ([self isEqual:[AIWindowController class]]) {
@@ -59,6 +69,37 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 			screenBoundariesRect = NSUnionRect(screenBoundariesRect, [[screens objectAtIndex:i] frame]);
 		}
 	}
+}
+
+
+/*!
+ * @brief Begin editing
+ *
+ * @param parentWindow A window on which to show the edit account window as a sheet.  If nil, account editing takes place in an independent window.
+ */
+- (void)showOnWindow:(id)parentWindow
+{
+	if (parentWindow) {
+		[NSApp beginSheet:self.window
+		   modalForWindow:parentWindow
+			modalDelegate:self
+		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+			  contextInfo:nil];
+	} else {
+		[self showWindow:nil];
+	}
+	
+	[[AIWindowController independentWindows] addObject:self];
+}
+
+/*!
+ * @brief Called as the user list edit sheet closes, dismisses the sheet
+ */
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [sheet orderOut:nil];
+	
+	[[AIWindowController independentWindows] removeObject:self];
 }
 
 /*!
@@ -121,7 +162,7 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 	for (NSScreen *screen in [NSScreen screens])
 		[multiscreenKey appendFormat:@"-%@", NSStringFromRect([screen frame])];
 	
-	return [multiscreenKey autorelease];
+	return multiscreenKey;
 }
 
 /*!
@@ -287,6 +328,8 @@ static CGFloat ToolbarHeightForWindow(NSWindow *window)
 											 forKey:[self multiscreenKeyWithAutosaveName:key]
 											  group:PREF_GROUP_WINDOW_POSITIONS];		
 	}
+	
+	[[AIWindowController independentWindows] removeObject:self];
 }
 
 /*!

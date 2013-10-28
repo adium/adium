@@ -39,7 +39,6 @@
 #import "AWEzvContactManagerRendezvous.h"
 
 #define XMLCALL
-#import <expat.h> 
 
 /* XML Function prototypes */
 void xml_start_element	(void *userData,
@@ -62,7 +61,7 @@ void xml_char_data	(void *userData,
 - (id) initWithFileHandle:(NSFileHandle *)myConnection initiator:(int)myInitiator 
 {
 	if ((self = [super init])) {
-		connection = [myConnection retain];
+		connection = myConnection;
 		delegate = nil;
 		nodeStack = [[AWEzvStack alloc] init];
 		initiator = myInitiator;
@@ -76,13 +75,10 @@ void xml_char_data	(void *userData,
 {
 	if (connection != nil) {
 		[connection closeFile];
-	    [connection release];
 	}
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[nodeStack release];
 	
-	[super dealloc];
 }
 
 @synthesize fileHandle = connection;
@@ -98,7 +94,7 @@ void xml_char_data	(void *userData,
 					  object:connection];
     
     parser = XML_ParserCreate(NULL);
-    XML_SetUserData(parser, self);
+    XML_SetUserData(parser, (__bridge void *)(self));
     XML_SetElementHandler(parser, &xml_start_element, &xml_end_element);
     XML_SetCharacterDataHandler(parser, &xml_char_data);
     XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_NEVER);
@@ -138,8 +134,6 @@ void xml_char_data	(void *userData,
     NSInteger	status;
     
     if ([data length] == 0) {
-        if (connection != nil)
-           [[aNotification object] autorelease];
         connection = nil;
         [delegate XMLConnectionClosed];
     }
@@ -161,7 +155,7 @@ void xml_char_data	(void *userData,
     
     NSString *nodeName = [NSString stringWithUTF8String:name];
     
-    AWEzvXMLNode *node = [[[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:nodeName] autorelease];
+    AWEzvXMLNode *node = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:nodeName];
     
     while (*attributes != NULL) {
         NSString *attribute = [NSString stringWithUTF8String:*attributes++];
@@ -227,7 +221,6 @@ void xml_char_data	(void *userData,
 		
 	}
 
-	[connection release];
 	connection = nil;
 	[delegate XMLConnectionClosed];	
 }
@@ -245,7 +238,7 @@ void xml_char_data	(void *userData,
     if ((len == 1) && (*data == '\n'))
         return;
     
-    newData = [[[NSString alloc] initWithData:[NSData dataWithBytes:data length:len] encoding:NSUTF8StringEncoding] autorelease];
+    newData = [[NSString alloc] initWithData:[NSData dataWithBytes:data length:len] encoding:NSUTF8StringEncoding];
     
     if ([nodeStack size] > 0 && [(AWEzvXMLNode *)[nodeStack top] type] == AWEzvXMLText) {
         node = [nodeStack top];
@@ -254,7 +247,7 @@ void xml_char_data	(void *userData,
         else
             [node setName:newData];
     } else {
-        node = [[[AWEzvXMLNode alloc] initWithType:AWEzvXMLText name:newData] autorelease];
+        node = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLText name:newData];
         if ([nodeStack top] != nil)
             [(AWEzvXMLNode *)[nodeStack top] addChild:node];
         [nodeStack push:node];
@@ -275,14 +268,14 @@ void xml_char_data	(void *userData,
 
 	/* and make an element info structure */
 	CFXMLElementInfo	xmlElementInfo;
-	xmlElementInfo.attributes = (CFDictionaryRef)handshakeElements;
-	xmlElementInfo.attributeOrder = (CFArrayRef)[NSArray arrayWithObjects:@"to", @"from", @"xmlns", @"xmlns:stream", nil];
+	xmlElementInfo.attributes = (__bridge CFDictionaryRef)handshakeElements;
+	xmlElementInfo.attributeOrder = (__bridge CFArrayRef)[NSArray arrayWithObjects:@"to", @"from", @"xmlns", @"xmlns:stream", nil];
 	xmlElementInfo.isEmpty = YES;
 
 	/* create node and tree, then convert to XML text */
 	CFXMLNodeRef xmlNode = CFXMLNodeCreate(NULL, kCFXMLNodeTypeElement, (CFStringRef)@"stream:stream", &xmlElementInfo, kCFXMLNodeCurrentVersion);
 	CFXMLTreeRef xmlTree = CFXMLTreeCreateWithNode(NULL, xmlNode);
-	NSData *data = [(NSData *)CFXMLTreeCreateXMLData(NULL, xmlTree) autorelease];
+	NSData *data = (__bridge_transfer NSData *)CFXMLTreeCreateXMLData(NULL, xmlTree);
 	CFRelease(xmlNode);
 	CFRelease(xmlTree);
 
@@ -304,19 +297,19 @@ void xml_char_data	(void *userData,
 void xml_start_element	 (void *userData,
                           const XML_Char *name,
                           const XML_Char **atts) {
-    AWEzvXMLStream  *self = userData;    
+    AWEzvXMLStream  *self = (__bridge AWEzvXMLStream *)userData;    
     [self xmlStartElement:name attributes:atts];
 }
 
 void xml_end_element	(void *userData,
                          const XML_Char *name) {
-    AWEzvXMLStream  *self = userData;
+    AWEzvXMLStream  *self = (__bridge AWEzvXMLStream *)userData;
     [self xmlEndElement:name];
 }
 
 void xml_char_data	(void *userData,
                          const XML_Char *s,
                          int len) {
-    AWEzvXMLStream  *self = userData;
+    AWEzvXMLStream  *self = (__bridge AWEzvXMLStream *)userData;
     [self xmlCharData:s length:len];
 }

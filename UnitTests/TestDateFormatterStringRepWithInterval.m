@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "TestDateFormatterStringRepWithInterval.h"
-#import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 
 //We're testing converting intervals. If we use a time zone that supports DST, the DST changes screw us up. We need an invariant time zone, and UTC works well for this purpose.

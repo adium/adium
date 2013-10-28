@@ -18,8 +18,6 @@
 #import "ESStatusSort.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIListObject.h>
-#import <Adium/AILocalizationTextField.h>
-#import <Adium/AIContactList.h>
 
 #define STATUS_SORT_DEFAULT_PREFS   @"StatusSortDefaults"
 
@@ -308,7 +306,7 @@ static NSInteger  sizeOfSortOrder;
 		
 		//Ensure the mobile item is in our sort order array, as the old defaults didn't include it
 		if ([sortOrderArray indexOfObject:[NSNumber numberWithInteger:Mobile]] == NSNotFound) {
-			NSMutableArray	*newSortOrderArray = [[sortOrderArray mutableCopy] autorelease];
+			NSMutableArray	*newSortOrderArray = [sortOrderArray mutableCopy];
 			[newSortOrderArray addObject:[NSNumber numberWithInteger:Mobile]];
 			
 			[adium.preferenceController setPreference:newSortOrderArray
@@ -407,19 +405,15 @@ static NSInteger  sizeOfSortOrder;
 	switch (sortOrder[rowIndex]) {
 		case Available:
 			return AVAILABLE;
-			break;
 			
 		case Away:
 			return AWAY;
-			break;
 			
 		case Idle:
 			return IDLE;
-			break;
 			
 		case Away_And_Idle:
 			return AWAY_AND_IDLE;
-			break;
 			
 		case Unavailable:
 			//Unavailable is always the same sort, but to the user it can be either "Unavailable" or "Other Unavailable"
@@ -427,15 +421,12 @@ static NSInteger  sizeOfSortOrder;
 			return ((!sortIdleTime && (groupUnavailable || !(groupAway || groupIdle || groupIdleAndAway))) ?
 					UNAVAILABLE :
 					OTHER_UNAVAILABLE);
-			break;
 		
 		case Online:
 			return ONLINE;
-			break;
 			
 		case Mobile:
 			return MOBILE;
-			break;
 	}
 	
 	return @"";
@@ -551,8 +542,6 @@ static NSInteger  sizeOfSortOrder;
 		[tableView reloadData];
 		
 		[adium.contactController sortContactList];
-
-		[sortOrderPref release];
 	}
 	
    	
