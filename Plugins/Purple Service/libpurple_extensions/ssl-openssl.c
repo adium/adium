@@ -18,9 +18,6 @@
  */
 
 #import <libpurple/internal.h>
-#import <libpurple/debug.h>
-#import <libpurple/plugin.h>
-#import <libpurple/sslconn.h>
 #import <libpurple/version.h>
 
 #define SSL_OPENSSL_PLUGIN_ID "ssl-openssl"

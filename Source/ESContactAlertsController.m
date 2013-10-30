@@ -56,19 +56,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	
 }
 
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[globalOnlyEventHandlers release]; globalOnlyEventHandlers = nil;
-	[eventHandlers release]; eventHandlers = nil;
-	[actionHandlers release]; actionHandlers = nil;
-	
-	[super dealloc];
-}
-
-
 //Events ---------------------------------------------------------------------------------------------------------------
 #pragma mark Events
 
@@ -139,14 +126,14 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	NSMenu				*menu;
 
 	//Prepare our menu
-	menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
+	menu = [[NSMenu alloc] init];
 	[menu setAutoenablesItems:NO];
 	
 	for (NSMenuItem *item in [self arrayOfMenuItemsForEventsWithTarget:target forGlobalMenu:global]) {
 		[menu addItem:item];
 	}
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (NSArray *)arrayOfMenuItemsForEventsWithTarget:(id)target forGlobalMenu:(BOOL)global
@@ -197,7 +184,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	for (NSString *eventID in inEventHandlers) {
 		id <AIEventHandler>	eventHandler = [inEventHandlers objectForKey:eventID];		
 		
-        menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(global ?
+        menuItem = [[NSMenuItem alloc] initWithTitle:(global ?
 																				[eventHandler globalShortDescriptionForEventID:eventID] :
 																				[eventHandler shortDescriptionForEventID:eventID])
 																		target:target 
@@ -205,7 +192,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 																 keyEquivalent:@""];
         [menuItem setRepresentedObject:eventID];
 		[menuItemArray addObject:menuItem];
-		[menuItem release];
     }
 }
 
@@ -287,7 +273,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 	
 	if (alerts && [alerts count]) {
 		performedActionIDs = (previouslyPerformedActionIDs ?
-							  [[previouslyPerformedActionIDs mutableCopy] autorelease]:
+							  [previouslyPerformedActionIDs mutableCopy]:
 							  [NSMutableSet set]);
 		
 		//We go from contact->group->root; a given action will only fire once for this event
@@ -528,7 +514,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 		id <AIActionHandler> actionHandler = [actionHandlers objectForKey:actionID];		
 		NSMenuItem			 *menuItem;
 
-        menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[actionHandler shortDescriptionForActionID:actionID]
+        menuItem = [[NSMenuItem alloc] initWithTitle:[actionHandler shortDescriptionForActionID:actionID]
 																		target:target 
 																		action:@selector(selectAction:) 
 																 keyEquivalent:@""];
@@ -536,7 +522,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 		[menuItem setImage:[[actionHandler imageForActionID:actionID] imageByScalingForMenuItem]];
 		
         [menuItemArray addObject:menuItem];
-		[menuItem release];
     }
 
 	//Sort the array of menuItems alphabetically by title	
@@ -546,9 +531,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 		[menu addItem:menuItem];
 	}
 	
-	[menuItemArray release];
-
-	return [menu autorelease];
+	return menu;
 }	
 
 /*!
@@ -665,10 +648,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 											  group:PREF_GROUP_CONTACT_ALERTS];	
 	}
 	
-	//Cleanup
-	[contactAlerts release];
-	[eventArray release];
-	
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
@@ -712,8 +691,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:listObject];
-	[eventArray release];
-	[contactAlerts release];
 }
 
 /*!
@@ -763,16 +740,12 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 			} else {
 				[newContactAlerts removeObjectForKey:victimEventID];	
 			}
-			
-			//Clean up
-			[newEventArray release];
 		}
 	}
 	
 	[adium.preferenceController setPreference:newContactAlerts
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS];
-	[newContactAlerts release];
 }
 
 /*!
@@ -808,7 +781,6 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:nil];
-	[contactAlerts release];
 
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 	

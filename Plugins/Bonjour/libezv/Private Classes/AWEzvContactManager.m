@@ -56,8 +56,8 @@
 			CFRelease(uuid);		
 		}
 		avInstanceName = [[NSString alloc] initWithFormat:@"%@@%@",
-						  (consoleUser ? (NSString *)consoleUser : @""),
-						  (computerName ? (NSString *)computerName : @"")];
+						  (consoleUser ? (__bridge NSString *)consoleUser : @""),
+						  (computerName ? (__bridge NSString *)computerName : @"")];
 		if (consoleUser) CFRelease(consoleUser);
 		if (computerName) CFRelease(computerName);		
 	}
@@ -90,10 +90,8 @@
 	/* AWEzvContactManagerListener adds an observer; remove it */
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[userAnnounceData release]; userAnnounceData = nil;
-	[avInstanceName release]; avInstanceName = nil;
-
-	[super dealloc];
+	userAnnounceData = nil;
+	avInstanceName = nil;
 }
 
 @end

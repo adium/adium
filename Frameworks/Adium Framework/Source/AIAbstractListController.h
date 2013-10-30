@@ -184,7 +184,6 @@ typedef enum {
 	
 	CGFloat 							backgroundOpacity;
 	
-	BOOL									inDrag;
 	NSArray							*dragItems;
 	
 	BOOL									configuredViewsAndTooltips;
@@ -193,8 +192,6 @@ typedef enum {
 	
 	BOOL									showTooltips;
 	BOOL									showTooltipsInBackground;
-
-	NSString						*dragOperation;
 
 	BOOL									useContactListGroups;
 	int									indentationPerLevel[9];

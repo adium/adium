@@ -79,8 +79,14 @@
     }
         
     [self willChangeValueForKey:key];
-    	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	char property_name[256] = {0};
+	
+	NSAssert([key length] < 256, @"Too long property!");
+	
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
+	
+	Ivar ivar = class_getInstanceVariable([self class], property_name);
 	
 	// fall back to the dictionary
 	if (ivar == NULL) {
@@ -107,16 +113,16 @@
 			
 		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			
-			NSInteger iValue;
+			NSInteger *idx = (NSInteger*)((char *)self + ivar_getOffset(ivar));
+			NSInteger iValue = [value integerValue];
 			
-			if (value) {
-				iValue = [value integerValue];
-			} else {
-				iValue = 0;
-			}
+			*idx = iValue;
+		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
 			
-			object_setIvar(self, ivar, (void *)iValue);
+			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+			BOOL iValue = [value boolValue];
 			
+			*idx = iValue;
 		}
 	}
     
@@ -201,23 +207,25 @@
 {
 	id ret = nil;
 	id value = nil;
+	char property_name[256] = {0};
 	
-	Ivar ivar = object_getInstanceVariable(self, [key UTF8String], (void **)&value);
+	NSAssert([key length] < 256, @"Too long property!");
+	
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
+	
+	Ivar ivar = object_getInstanceVariable(self, property_name, (void **)&value);
 	
 	if (ivar == NULL) {
-		
-		// no dictionary -> this property is certainly nil
-		if (propertiesDictionary) {
-			ret = [propertiesDictionary objectForKey:key];
-		}
-		
+		ret = [propertiesDictionary objectForKey:key];
 	} else {
-		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
 		// attempt to wrap it, if we know how
 		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
-			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
+			ret = [NSNumber numberWithInteger:(NSInteger)value];
+		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
+			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+			ret = [NSNumber numberWithBool:*idx];
 		} else if (ivarType[0] != _C_ID) {
 			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 		} else {
@@ -236,12 +244,17 @@
 - (NSInteger)integerValueForProperty:(NSString *)key
 {
 	NSInteger ret = 0;
+	char property_name[256] = {0};
 	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	NSAssert([key length] < 256, @"Too long property!");
+	
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
+	
+	Ivar ivar = class_getInstanceVariable([self class], property_name);
 	
 	if (ivar == NULL) {
 		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number integerValue] : 0;
+		ret = [number integerValue];
 	} else {
 		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
@@ -261,7 +274,7 @@
 	int ret = 0;
 	
 	NSNumber *number = [self numberValueForProperty:key];
-	ret = number ? [number intValue] : 0;
+	ret = [number intValue];
 	
     return ret;
 }
@@ -269,9 +282,27 @@
 - (BOOL)boolValueForProperty:(NSString *)key
 {
 	BOOL ret = FALSE;
+	char property_name[256] = {0};
 	
-	NSNumber *number = [self numberValueForProperty:key];
-	ret = number ? [number boolValue] : NO;
+	NSAssert([key length] < 256, @"Too long property!");
+	
+	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
+	
+	Ivar ivar = class_getInstanceVariable([self class], property_name);
+	
+	if (ivar == NULL) {
+		NSNumber *number = [self numberValueForProperty:key];
+		ret = [number boolValue];
+	} else {
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		if (strcmp(ivarType, @encode(BOOL)) != 0) {
+			AILogWithSignature(@"%@'s %@ ivar is not a BOOL but an %s! Will attempt to cast, but should not use -boolValueForProperty: @\"%@\"", self, key, ivarType, key);
+		}
+		
+		BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+		ret = *idx;
+	}
 	
     return ret;
 }

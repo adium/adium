@@ -9,7 +9,6 @@
 #import "STTwitterAppOnly.h"
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
-#import "NSData+Base64.h"
 
 @implementation STTwitterAppOnly
 
@@ -100,7 +99,7 @@
     NSString *encodedConsumerSecret = [consumerSecret st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *bearerTokenCredentials = [NSString stringWithFormat:@"%@:%@", encodedConsumerToken, encodedConsumerSecret];
     NSData *data = [bearerTokenCredentials dataUsingEncoding:NSUTF8StringEncoding];
-    return [data base64EncodedString];
+    return [data base64Encoding];
 }
 
 - (void)verifyCredentialsWithSuccessBlock:(void(^)(NSString *username))successBlock

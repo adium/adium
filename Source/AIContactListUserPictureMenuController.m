@@ -24,7 +24,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIOSCompatibility.h>
+
 
 #import "IKRecentPicture.h" //10.5+, private
 
@@ -54,7 +54,7 @@
 
 + (void)popUpMenuForImagePicker:(AIContactListImagePicker *)picker
 {
-	[[[self alloc] initWithNibName:@"ContactListChangeUserPictureMenu" imagePicker:picker] autorelease];
+	(void)[[self alloc] initWithNibName:@"ContactListChangeUserPictureMenu" imagePicker:picker];
 }
 
 /*!
@@ -66,9 +66,6 @@
 	if ([[NSBundle mainBundle] loadNibFile:nibName
 						 externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:self, NSNibOwner, AI_topLevelObjects, NSNibTopLevelObjects, nil]
 								  withZone:nil]) {
-
-		// Release top level objects, release AI_topLevelObjects in -dealloc
-		[AI_topLevelObjects makeObjectsPerformSelector:@selector(release)];
 		
 		[self setImagePicker:picker];
 		[imagePicker setMaxSize:NSMakeSize(128.0f, 128.0f)];
@@ -77,11 +74,7 @@
 		[imageCollectionView setMaxNumberOfColumns:5];
 		[imageCollectionView setMaxNumberOfRows:2];
 		[imageCollectionView setMaxItemSize:NSMakeSize(36.0f, 36.0f)];
-		// Disable elastic scroll
-		// Remove the check on 10.7+
-		if ([[imageCollectionView enclosingScrollView] respondsToSelector:@selector(setVerticalScrollElasticity:)]) {
-			[[imageCollectionView enclosingScrollView] setVerticalScrollElasticity:1]; // Swap 1 with NSScrollElasticityNone on 10.7+
-		}
+		[[imageCollectionView enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
 		
 		NSMutableArray *pictures = [self recentSmallPictures];
 		NSSize pictureSize = NSMakeSize(32.0f, 32.0f);
@@ -104,8 +97,6 @@
 			for (NSUInteger i = [pictures count]; i < 10; ++i) {
 				[pictures addObject:emptyPicture];
 			}
-			
-			[emptyPicture release];
 		}
 		
 		[self setImages:pictures];
@@ -114,15 +105,6 @@
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[imagePicker release];
-	[images release];
-	[AI_topLevelObjects release];
-	
-	[super dealloc];
 }
 
 #pragma mark -
@@ -157,7 +139,7 @@
         }
     }
     
-    return [array autorelease];
+    return array;
 }
 
 #pragma mark - NSMenu delegate
@@ -188,7 +170,6 @@
 		
 		[menuItem setEnabled:NO];
 		[aMenu addItem:menuItem];
-		[menuItem release];
 		
 		for (AIAccount *account in ownIconAccounts) {
 			menuItem = [[NSMenuItem alloc] initWithTitle:account.formattedUID
@@ -206,7 +187,6 @@
 			[menuItem setIndentationLevel:1];
 			[aMenu addItem:menuItem];
 			
-			[menuItem release];
 		}
 		
 		//There are at least some accounts using the global preference if the counts differ
@@ -221,7 +201,6 @@
 			
 			[menuItem setIndentationLevel:1];
 			[aMenu addItem:menuItem];
-			[menuItem release];
 		}
 		
 		[aMenu addItem:[NSMenuItem separatorItem]];
@@ -233,7 +212,6 @@
 								   keyEquivalent:@""];
 	
 	[aMenu addItem:menuItem];
-	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Clear Recent Pictures", nil)
 										  target:self
@@ -241,7 +219,6 @@
 								   keyEquivalent:@""];
 	
 	[aMenu addItem:menuItem];
-	[menuItem release];
 }
 
 #pragma mark - AIImageCollectionView delegate

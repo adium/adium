@@ -33,13 +33,11 @@
 	NSTableColumn * column = [[NSTableColumn alloc] initWithIdentifier:@"Emoticon"];
 	[column setMaxWidth:32.0f];
 	[column setMinWidth:32.0f];
-	[column setDataCell:[[[NSImageCell alloc]init]autorelease]];
+	[column setDataCell:[[NSImageCell alloc]init]];
 	[tableView addTableColumn:column];
-	[column release];
 	
 	column = [[NSTableColumn alloc] initWithIdentifier:@"Text Equivalent"];
 	[tableView addTableColumn:column];
-	[column release];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
@@ -49,8 +47,7 @@
 
 - (void) setXtra:(AIXtraInfo *)xtraInfo
 {
-	[emoticons autorelease];
-	emoticons = [[[AIEmoticonPack emoticonPackFromPath:[xtraInfo path]] emoticons] retain];
+	emoticons = [[AIEmoticonPack emoticonPackFromPath:[xtraInfo path]] emoticons];
 	[tableView reloadData];
 	[tableView sizeToFit];
 }

@@ -15,10 +15,7 @@
  */
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
 #import "ESProxyPasswordPromptController.h"
-#import <AIUtilities/AIURLAdditions.h>
 
 #define PROXY_PASSWORD_PROMPT_NIB		@"ProxyPasswordPrompt"
 #define	PROXY_PASSWORD_REQUIRED			AILocalizedString(@"Accessing Proxy","Proxy password prompt window title")
@@ -64,19 +61,11 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
 - (id)initWithWindowNibName:(NSString *)windowNibName forProxyServer:(NSString *)inServer userName:(NSString *)inUserName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
 	if ((self = [super initWithWindowNibName:windowNibName password:nil notifyingTarget:inTarget selector:inSelector context:inContext])) {
-		server   = [inServer   retain];
-		userName = [inUserName retain];
+		server   = inServer;
+		userName = inUserName;
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[server   release];
-	[userName release];
-	
-	[super dealloc];
 }
 
 /*!
