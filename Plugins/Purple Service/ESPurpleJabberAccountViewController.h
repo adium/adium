@@ -25,8 +25,7 @@
 	IBOutlet	NSTextField		*textField_priorityAway;
 	IBOutlet	NSTextField		*textField_ftProxies;
 	IBOutlet	NSButton		*checkBox_forceOldSSL;
-	IBOutlet	NSButton		*checkBox_requireTLS;
-	IBOutlet	NSButton		*checkBox_checkCertificates;
+	IBOutlet	NSPopUpButton	*popup_TLS;
 	IBOutlet	NSButton		*checkBox_allowPlaintext;
 	IBOutlet	NSPopUpButton	*popup_subscriptionBehavior;
 	IBOutlet	NSTextField		*textField_subscriptionModeLabel;
