@@ -40,10 +40,10 @@ static BOOL is_leap_year(NSInteger year) {
 #pragma mark Public methods
 
 - (NSString *)ISO8601DateStringWithTime:(BOOL)includeTime timeSeparator:(unichar)timeSep {
-	NSString *dateFormat = [(includeTime ? @"%Y-%m-%dT%H:%M:%S" : @"%Y-%m-%d") prepareDateFormatWithTimeSeparator:timeSep];
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:dateFormat allowNaturalLanguage:NO];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	NSString *str = [formatter stringForObjectValue:self];
+	NSString *dateFormat = [(includeTime ? @"yyyy'-'MM'-'dd'T'HH':'mm':'ss" : @"yyyy'-'MM'-'dd") prepareDateFormatWithTimeSeparator:timeSep];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.dateFormat = dateFormat;
+	NSString *str = [formatter stringFromDate:self];
 	[formatter release];
 	if(includeTime) {
 		NSInteger offset = [[self timeZone] secondsFromGMT];
@@ -106,8 +106,8 @@ static BOOL is_leap_year(NSInteger year) {
 
 	NSString *timeString;
 	if(includeTime) {
-		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
-		[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		formatter.dateFormat = [@"'T'HH':'mm':'ssZ" prepareDateFormatWithTimeSeparator:timeSep];
 		timeString = [formatter stringForObjectValue:self];
 		[formatter release];
 	} else
@@ -118,8 +118,8 @@ static BOOL is_leap_year(NSInteger year) {
 - (NSString *)ISO8601OrdinalDateStringWithTime:(BOOL)includeTime timeSeparator:(unichar)timeSep {
 	NSString *timeString;
 	if(includeTime) {
-		NSDateFormatter *formatter = [[NSDateFormatter alloc] initWithDateFormat:[@"T%H:%M:%S%z" prepareDateFormatWithTimeSeparator:timeSep] allowNaturalLanguage:NO];
-		[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		formatter.dateFormat = [@"'T'HH':'mm':'ssZ" prepareDateFormatWithTimeSeparator:timeSep];
 		timeString = [formatter stringForObjectValue:self];
 		[formatter release];
 	} else
