@@ -19,14 +19,11 @@
 
 #import <Adium/AIService.h>
 #import <Adium/AIServiceMenu.h>
-#import <Adium/AIServiceIcons.h>
 #import "AIAddressBookController.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
-#import <AddressBook/AddressBook.h>
 #import <AddressBook/ABPeoplePickerView.h>
-#import <AddressBook/ABPerson.h>
 
 #define AB_SEARCH_NIB	@"ABSearch"
 
@@ -80,7 +77,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 		[newABSearchWindow showWindow:nil];
 	}
 	
-	return [newABSearchWindow autorelease];
+	return newABSearchWindow;
 }
 
 /*!
@@ -96,10 +93,10 @@ static	ABAddressBook	*sharedAddressBook = nil;
 		screenName = nil;
 		carryingWindow = nil;
 		contactImage = nil;
-		service = [inService retain];
+		service = inService;
 
 		if (!sharedAddressBook)
-			sharedAddressBook = [[ABAddressBook sharedAddressBook] retain];
+			sharedAddressBook = [ABAddressBook sharedAddressBook];
 	}
 	
 	return self;
@@ -111,13 +108,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)dealloc
 {
 	[self setDelegate:nil];
-	[person release];
-	[screenName release];
-	[service release];
-	[carryingWindow release];
-	[contactImage release];
-	[sharedAddressBook release]; sharedAddressBook = nil;
-	[super dealloc];
+	sharedAddressBook = nil;
 }
 
 /*!
@@ -158,7 +149,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
  */
 - (void)_configurePeoplePicker
 {
-	NSTextField		*accessoryView = [[[NSTextField alloc] init] autorelease];
+	NSTextField		*accessoryView = [[NSTextField alloc] init];
 	NSString		*property;
 	
 	//Create a small explanation text
@@ -281,7 +272,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
  */
 - (IBAction)addPerson:(id)sender
 {
-	ABPerson		*newPerson = [[[ABPerson alloc] init] autorelease];
+	ABPerson		*newPerson = [[ABPerson alloc] init];
 	NSString		*contactID = [[textField_contactID stringValue] stringByTrimmingCharactersInSet:
 									[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
@@ -347,9 +338,6 @@ static	ABAddressBook	*sharedAddressBook = nil;
 			}
 		}
 		
-		//Clean up
-		[value release];
-		
 	} else {
 		//We didn't get a contact id.
 		//This is equal to pressing the cancel button.
@@ -377,8 +365,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 				 object:self];
 	}
 	
-	[delegate release];
-	delegate = [newDelegate retain];
+	delegate = newDelegate;
 }
 
 /*!
@@ -528,8 +515,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)_setService:(AIService *)inService
 {
 	if (inService != service) {
-		[service release];
-		service = [inService retain];
+		service = inService;
 	}
 }
 
@@ -539,8 +525,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)_setPerson:(ABPerson *)inPerson
 {
 	if (inPerson != person) {
-		[person release];
-		person = [inPerson retain];
+		person = inPerson;
 	}
 }
 
@@ -550,8 +535,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)_setScreenName:(NSString *)inName
 {
 	if (inName != screenName) {
-		[screenName release];
-		screenName = [inName retain];
+		screenName = inName;
 	}
 }
 
@@ -561,8 +545,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)_setCarryingWindow:(NSWindow *)inWindow
 {
 	if (carryingWindow != inWindow) {
-		[carryingWindow release];
-		carryingWindow = [inWindow retain];
+		carryingWindow = inWindow;
 	}
 }
 
@@ -571,14 +554,13 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)imageViewWithImagePicker:(AIImageViewWithImagePicker *)sender didChangeToImageData:(NSData *)imageData
 {
 	if (contactImage != imageData) {
-		[contactImage release];
-		contactImage = [imageData retain];
+		contactImage = imageData;
 	}
 }
 
 - (void)deleteInImageViewWithImagePicker:(AIImageViewWithImagePicker *)sender
 {
-	[contactImage release]; contactImage = nil;
+	contactImage = nil;
 }
 
 @end

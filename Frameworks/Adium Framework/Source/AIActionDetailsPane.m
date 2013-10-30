@@ -24,7 +24,7 @@
 */
 + (AIActionDetailsPane *)actionDetailsPane
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 /*!
@@ -33,7 +33,7 @@
  */
 + (AIActionDetailsPane *)actionDetailsPaneForPlugin:(id)inPlugin
 {
-    return [[[self alloc] initForPlugin:inPlugin] autorelease];
+    return [[self alloc] initForPlugin:inPlugin];
 }
 
 /*!

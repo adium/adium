@@ -17,7 +17,6 @@
 #import "ESFileTransferProgressRow.h"
 #import "ESFileTransferProgressView.h"
 #import "ESFileTransferProgressWindowController.h"
-#import "ESFileTransfer.h"
 #import <AIUtilities/AIVariableHeightOutlineView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIGenericViewCell.h>
@@ -104,10 +103,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[progressRows release]; progressRows = nil;
-
-    [super dealloc];
 }
 
 - (NSString *)adiumFrameAutosaveName
@@ -133,7 +128,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 
 	//Configure the outline view
-	[[[outlineView tableColumns] objectAtIndex:0] setDataCell:[[[AIGenericViewCell alloc] init] autorelease]];
+	[[[outlineView tableColumns] objectAtIndex:0] setDataCell:[[AIGenericViewCell alloc] init]];
 
 	[outlineView sizeLastColumnToFit];
 	[outlineView setAutoresizesSubviews:YES];
@@ -209,7 +204,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 	//release the window controller (ourself)
     sharedTransferProgressInstance = nil;
-    [self autorelease];
 }
 
 - (void)configureControlDimming
@@ -304,9 +298,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		NSClipView		*clipView = [scrollView contentView];
 		NSUInteger		row;
 
-		//Protect
-		[progressRow retain];
-
 		//Remove the row from our array, and its file transfer from the fileTransferController
 		row = [progressRows indexOfObject:progressRow];
 		[progressRows removeObject:progressRow];
@@ -324,9 +315,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 			
 			[self updateStatusBar];
 		}
-		
-		//Clean up
-		[progressRow release];
 	}
 }
 
@@ -394,7 +382,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 - (IBAction)clearAllCompleteTransfers:(id)sender
 {
 	shouldScrollToNewFileTransfer = NO;
-	for (ESFileTransferProgressRow *row in [[progressRows copy] autorelease]) {
+	for (ESFileTransferProgressRow *row in [progressRows copy]) {
 		if ([[row fileTransfer] isStopped]) [self _removeFileTransferRow:row];
 	}	
 	shouldScrollToNewFileTransfer = YES;
@@ -494,7 +482,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
  */
 - (void)reloadAllData
 {
-	[[[[outlineView subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	[[[outlineView subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	[outlineView reloadData];
 
 	NSRect	outlineFrame = [outlineView frame];

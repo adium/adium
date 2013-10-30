@@ -26,7 +26,7 @@
 	
 	NSString		*title;
 	id				pictureTaker;
-	id				activeRecentPicture;
+	id				__weak activeRecentPicture;
 
 	BOOL			usePictureTaker;
 	BOOL			presentPictureTakerAsSheet;
@@ -40,10 +40,10 @@
 	NSSize			maxSize;
 }
 
-@property (readwrite, assign, nonatomic) IBOutlet id delegate;
+@property (readwrite, nonatomic) IBOutlet id delegate;
 
-@property (retain) NSString *title;
-@property (assign) id activeRecentPicture;
+@property (weak) NSString *title;
+@property (weak) id activeRecentPicture;
 @property (assign) BOOL usePictureTaker;
 @property (assign) BOOL presentPictureTakerAsSheet;
 @property (assign) BOOL shouldUpdateRecentRepository;

@@ -20,7 +20,7 @@
 typedef NSComparisonResult(*sortfunc)(id, id, BOOL, id<AIContainingObject>);
 typedef struct {
 	sortfunc function;
-	id<AIContainingObject> container;
+__unsafe_unretained	id<AIContainingObject> container;
 } SortContext;
 
 #define PREF_GROUP_CONTACT_SORTING			@"Sorting"
@@ -46,19 +46,19 @@ typedef struct {
 - (BOOL)shouldSortForModifiedAttributeKeys:(NSSet *)inModifiedKeys;
 @property (readonly, nonatomic) BOOL alwaysSortGroupsToTopByDefault;
 - (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects inContainer:(id<AIContainingObject>)container;
-@property (readonly, nonatomic) NSView *configureView;
+@property (weak, readonly, nonatomic) NSView *configureView;
 - (void)forceIgnoringOfGroups:(BOOL)shouldForce;
 @property (readonly, nonatomic) BOOL canSortManually;
 
 //For subclasses to override
-@property (readonly, nonatomic) NSString *identifier;
-@property (readonly, nonatomic) NSString *displayName;
-@property (readonly, nonatomic) NSSet *statusKeysRequiringResort;
-@property (readonly, nonatomic) NSSet *attributeKeysRequiringResort;
+@property (weak, readonly, nonatomic) NSString *identifier;
+@property (weak, readonly, nonatomic) NSString *displayName;
+@property (weak, readonly, nonatomic) NSSet *statusKeysRequiringResort;
+@property (weak, readonly, nonatomic) NSSet *attributeKeysRequiringResort;
 @property (readonly, nonatomic) sortfunc sortFunction;
-@property (readonly, nonatomic) NSString *configureSortMenuItemTitle;
-@property (readonly, nonatomic) NSString *configureSortWindowTitle;
-@property (readonly, nonatomic) NSString *configureNibName;
+@property (weak, readonly, nonatomic) NSString *configureSortMenuItemTitle;
+@property (weak, readonly, nonatomic) NSString *configureSortWindowTitle;
+@property (weak, readonly, nonatomic) NSString *configureNibName;
 - (void)viewDidLoad;
 - (IBAction)changePreference:(id)sender;
 - (void)didBecomeActive;

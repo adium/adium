@@ -30,7 +30,7 @@
 			[result addObject:record];
 	}
 	
-	return [result autorelease];
+	return result;
 }
 
 @end

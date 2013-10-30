@@ -64,7 +64,7 @@
         entry = [[NSAttributedString alloc] initWithString:currentNotes];
     }
     
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

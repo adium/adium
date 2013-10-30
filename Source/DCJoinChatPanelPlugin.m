@@ -41,16 +41,6 @@
 													action:@selector(joinChat:)
 											 keyEquivalent:@"J"];
 	[adium.menuController addMenuItem:joinChatMenuItem toLocation:LOC_File_New];
-}	
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[joinChatMenuItem release];
-
-	[super dealloc];
 }
 
 /*!

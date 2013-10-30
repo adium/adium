@@ -50,15 +50,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[download release];
-	[xtraName release];
-	[dest release];
-
-	[super dealloc];
-}
-
 - (IBAction)cancel:(id)sender;
 {
 	if (self.download) [self.download cancel];
@@ -73,7 +64,6 @@
 - (void)closeInstaller
 {
 	if (window) [window close];
-	[self autorelease];	
 }
 
 - (void)installXtraAtURL:(NSURL *)url
@@ -102,9 +92,7 @@
 		AILogWithSignature(@"Downloading %@", urlToDownload);
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToDownload];
 		[request setHTTPShouldHandleCookies:NO];
-		self.download = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
-
-		[urlToDownload release];
+		self.download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
 
 	} else {
 		NSRunAlertPanel(AILocalizedString(@"Nontrusted Xtra", nil),
@@ -128,7 +116,7 @@
 	self.xtraName = [[response allHeaderFields] objectForKey:@"X-Xtraname"];
 	amountDownloaded = 0;
 	downloadSize = [response expectedContentLength];
-	[progressBar setMaxValue:(long long)downloadSize];
+	[progressBar setMaxValue:downloadSize];
 	[progressBar setDoubleValue:0.0];
 	AILogWithSignature(@"Beginning download of %@, which has size %lld", [response allHeaderFields], downloadSize);
 	[self updateInfoText];
@@ -176,7 +164,7 @@
 	
 	while (FSGetCatalogInfoBulk(iterator, 1, &num, NULL, kFSCatInfoNone, NULL, &ref, NULL, NULL) == noErr)
 	{
-		LSSetItemAttribute(&ref, kLSRolesAll, kLSItemQuarantineProperties, dict);
+		LSSetItemAttribute(&ref, kLSRolesAll, kLSItemQuarantineProperties, (__bridge void *) dict);
 		
 		FSCatalogInfo catinfo;
 		FSGetCatalogInfo(&ref, kFSCatInfoNodeFlags, &catinfo, NULL, NULL, NULL);
@@ -211,8 +199,6 @@
 		{
 			decompressionSuccess = NO;	
 		}
-			
-		[uncompress release];
 		
 		if (decompressionSuccess) {
 			if ([pathExtension isEqualToString:@"tgz"]) {
@@ -236,7 +222,6 @@
 			{
 				decompressionSuccess = NO;
 			}
-			[untar release];
 		}
 		
 	} else if ([pathExtension isEqualToString:@"zip"]) {
@@ -263,7 +248,6 @@
 		{
 			decompressionSuccess = NO;			
 		}
-		[unzip release];
 
 	} else {
 		decompressionSuccess = NO;
@@ -295,7 +279,7 @@
 		if (err == noErr) {
 			
 			if (CFGetTypeID(cfOldQuarantineProperties) == CFDictionaryGetTypeID()) {
-				quarantineProperties = [[(NSDictionary *)cfOldQuarantineProperties mutableCopy] autorelease];
+				quarantineProperties = [(__bridge NSDictionary *)cfOldQuarantineProperties mutableCopy];
 			} else {
 				AILogWithSignature(@"Getting quarantine data failed for %@ (%@)", self, self.dest);
 				[self closeInstaller];

@@ -31,8 +31,8 @@
 @property (readwrite, nonatomic) BOOL shouldSaveImageForLogging;
 @property (readwrite, nonatomic) BOOL hasAlternate;
 @property (readwrite, nonatomic, copy) NSString *path;
-@property (readwrite, nonatomic, retain) NSImage *image;
-@property (readonly, nonatomic) NSImage *iconImage;
+@property (readwrite, nonatomic) NSImage *image;
+@property (unsafe_unretained, readonly, nonatomic) NSImage *iconImage;
 @property (readonly, nonatomic) BOOL attachesAnImage;
 @property (readwrite, nonatomic) BOOL shouldAlwaysSendAsText;
 @end

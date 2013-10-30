@@ -16,7 +16,6 @@
 
 #import "AIEventSoundsPlugin.h"
 #import "AISoundController.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import "ESEventSoundAlertDetailPane.h"
 #import <Adium/AIListObject.h>
 #import <AIUtilities/AIStringAdditions.h>

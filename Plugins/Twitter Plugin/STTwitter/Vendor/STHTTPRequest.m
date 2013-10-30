@@ -7,7 +7,6 @@
 //
 
 #import "STHTTPRequest.h"
-#import "NSData+Base64.h"
 
 #define DEBUG 0
 
@@ -382,7 +381,7 @@ static NSMutableDictionary *sharedCredentialsStorage = nil;
     if(credentialForHost) {
         NSString *authString = [NSString stringWithFormat:@"%@:%@", credentialForHost.user, credentialForHost.password];
         NSData *authData = [authString dataUsingEncoding:NSASCIIStringEncoding];
-        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedString]];
+        NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64Encoding]];
         [request addValue:authValue forHTTPHeaderField:@"Authorization"];
     }
     

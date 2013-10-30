@@ -15,13 +15,13 @@
  */
 
 @interface AIFilterBarView : NSView {
-	NSColor *backgroundColor;
+	__unsafe_unretained NSColor *backgroundColor;
 	BOOL	backgroundIsRounded;
 	
 	BOOL drawsBackground;
 }
 
-@property (readwrite, nonatomic, retain) NSColor *backgroundColor;
+@property (readwrite, nonatomic, assign) NSColor *backgroundColor;
 @property (readwrite, nonatomic) BOOL backgroundIsRounded;
 @property (readwrite, nonatomic) BOOL drawsBackground;
 

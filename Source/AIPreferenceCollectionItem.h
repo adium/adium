@@ -22,7 +22,6 @@
  */
 @interface AIPreferenceCollectionItem : NSCollectionViewItem {
 	NSImage *darkIcon;
-	NSImage *_image;
 }
 @property (assign, nonatomic) IBOutlet NSImage *image;
 

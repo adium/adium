@@ -15,7 +15,7 @@
  */
 
 #import "adiumPurpleBlist.h"
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <Adium/AIListContact.h>
 
 static void adiumPurpleBlistNewList(PurpleBuddyList *list)
@@ -36,17 +36,17 @@ static void adiumPurpleBlistShow(PurpleBuddyList *list)
 //A buddy was removed from the list
 static void adiumPurpleBlistRemove(PurpleBuddyList *list, PurpleBlistNode *node)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSCAssert(node != nil, @"BlistRemove on null node");
-    if (PURPLE_BLIST_NODE_IS_BUDDY(node)) {
-		PurpleBuddy	*buddy = (PurpleBuddy *)node;
-
-		[accountLookup(purple_buddy_get_account(buddy)) removeContact:contactLookupFromBuddy(buddy)];
-
-		//Clear the ui_data
-		[(id)buddy->node.ui_data release]; buddy->node.ui_data = NULL;
-    }
-    [pool drain];
+	@autoreleasepool {
+		NSCAssert(node != nil, @"BlistRemove on null node");
+		if (PURPLE_BLIST_NODE_IS_BUDDY(node)) {
+			PurpleBuddy	*buddy = (PurpleBuddy *)node;
+			
+			[accountLookup(purple_buddy_get_account(buddy)) removeContact:contactLookupFromBuddy(buddy)];
+			
+			//Clear the ui_data
+			buddy->node.ui_data = NULL;
+		}
+	}
 }
 
 static void adiumPurpleBlistDestroy(PurpleBuddyList *list)
@@ -62,9 +62,9 @@ static void adiumPurpleBlistSetVisible(PurpleBuddyList *list, gboolean show)
 
 static void adiumPurpleBlistRequestAddBuddy(PurpleAccount *account, const char *username, const char *group, const char *alias)
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[accountLookup(account) requestAddContactWithUID:[NSString stringWithUTF8String:username]];
-    [pool drain];
+	@autoreleasepool {
+		[accountLookup(account) requestAddContactWithUID:[NSString stringWithUTF8String:username]];
+	}
 }
 
 static void adiumPurpleBlistRequestAddChat(PurpleAccount *account, PurpleGroup *group, const char *alias, const char *name)

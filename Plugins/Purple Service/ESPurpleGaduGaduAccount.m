@@ -16,15 +16,9 @@
 
 #import "ESPurpleGaduGaduAccountViewController.h"
 #import "ESPurpleGaduGaduAccount.h"
-#import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIStatus.h>
 #import <libpurple/gg.h>
 #import <libpurple/buddylist.h>
-
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 
 #define MAX_GADU_STATUS_MESSAGE_LENGTH 70
 
@@ -41,29 +35,23 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 1:
 			return AILocalizedString(@"Looking up server",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Reading data","Connection step");
-			break;			
 		case 3:
 			return AILocalizedString(@"Balancer handshake","Connection step");
-			break;
 		case 4:
 			return AILocalizedString(@"Reading server key","Connection step");
-			break;
 		case 5:
 			return AILocalizedString(@"Exchanging key hash","Connection step");
-			break;
 	}
 	return nil;
 }
 
 - (void)uploadContactListToServer
 {
-#warning Temporarily disable contact list sync with servers
+	//XXX: need to update libpurple. see #16403
 	return;
 
 	char *buddylist = ggp_buddylist_dump(account);
@@ -102,7 +90,7 @@
 
 - (void)downloadContactListFromServer
 {
-#warning Temporarily disable contact list sync with servers
+	//XXX: need to update libpurple. see #16403
 	return;
 
 	// If we're connected and have no buddies, request 'em from the server.

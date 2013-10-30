@@ -60,16 +60,15 @@
 	NSMenuItem		*menuItem;
     BOOL			canIndent = [NSMenuItem instancesRespondToSelector:@selector(setIndentationLevel:)];
 	
-    menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:inTitle
+    menuItem = [[NSMenuItem alloc] initWithTitle:inTitle
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
 	[menuItem setEnabled:NO];
 	[menu addItem:menuItem];
-	[menuItem release];
 	
 	for (name in inArray) {
-		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
+		menuItem = [[NSMenuItem alloc] initWithTitle:name
 																		target:nil
 																		action:nil
 																 keyEquivalent:@""];
@@ -77,7 +76,6 @@
 		if (canIndent) [menuItem setIndentationLevel:1];
 		
 		[menu addItem:menuItem];
-		[menuItem release];
 	}
 }
 
@@ -228,7 +226,7 @@
 	 HP-ROMAN8, NEXTSTEP
 	 */
 	
-	return [menu autorelease];
+	return menu;
 }
 
 @end

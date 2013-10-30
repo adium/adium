@@ -19,7 +19,6 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIListContactGroupChatCell.h>
-#import <Adium/AIProxyListObject.h>
 #import "AIMessageTabViewItem.h"
 #import "AIListBookmark.h"
 

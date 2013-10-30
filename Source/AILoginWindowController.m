@@ -16,7 +16,7 @@
 
 
 #import "AILoginWindowController.h"
-#import <Adium/AILoginControllerProtocol.h>
+#import "AILoginController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 
 //Preference Keys
@@ -27,7 +27,6 @@
 
 @interface AILoginWindowController ()
 - (id)initWithOwner:(id)inOwner windowNibName:(NSString *)windowNibName;
-- (void)dealloc;
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 - (IBAction)login:(id)sender;
@@ -57,21 +56,12 @@
 {
 	if ((self = [super initWithWindowNibName:windowNibName])) {
 		//Retain our owner
-		owner = [inOwner retain];
+		owner = inOwner;
 
 		//Get the user list
 		[self updateUserList];
 	}
 	return self;
-}
-
-// deallocate the login controller
-- (void)dealloc
-{
-    [owner release]; owner = nil;
-    [userArray release]; userArray = nil;
-
-    [super dealloc];
 }
 
 // TableView Delegate methods - Return the number of items in the table
@@ -159,8 +149,8 @@
 - (void)updateUserList
 {
     //Update the reference
-    [userArray release]; userArray = nil;
-    userArray = [[owner userArray] retain];
+    userArray = nil;
+    userArray = [owner userArray];
 
 	[tableView_editableUserList reloadData];
 	[tableView_userList reloadData];
@@ -202,7 +192,7 @@
         [self updateUserList];
 
 		if (loginTimer) {
-			[loginTimer invalidate]; [loginTimer release]; loginTimer = nil;
+			[loginTimer invalidate]; loginTimer = nil;
 		}
     }
 }
@@ -271,11 +261,11 @@
     //Set login so it's called when the user double clicks a name
     [tableView_userList setDoubleAction:@selector(login:)];
 
-	loginTimer = [[NSTimer scheduledTimerWithTimeInterval:LOGIN_TIMEOUT
+	loginTimer = [NSTimer scheduledTimerWithTimeInterval:LOGIN_TIMEOUT
 												   target:self
 												 selector:@selector(login:)
 												 userInfo:nil
-												  repeats:NO] retain];
+												  repeats:NO];
 
 	[tableView_userList setDelegate:self];
 	[tableView_userList setDataSource:self];
@@ -288,14 +278,13 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	[loginTimer invalidate]; [loginTimer release]; loginTimer = nil;
-	[self autorelease];
+	[loginTimer invalidate]; loginTimer = nil;
 }
 
 - (void)disableLoginTimeout
 {
 	if (loginTimer) {
-		[loginTimer invalidate]; [loginTimer release]; loginTimer = nil;
+		[loginTimer invalidate]; loginTimer = nil;
 	}
 }
 
