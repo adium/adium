@@ -145,7 +145,8 @@
 	[super configurePurpleAccount];
 	
 	NSString	*connectServer;
-	BOOL		forceOldSSL, allowPlaintext, requireTLS;
+	BOOL		forceOldSSL, allowPlaintext;
+	AIJabberTLSSetting   requireTLS;
 
 	purple_account_set_username(account, self.purpleAccountName);
 
@@ -168,24 +169,27 @@
 	if (ftProxies.length) {
 		purple_account_set_string(account, "ft_proxies", [ftProxies UTF8String]);
 	}
-
-	/* We have 2 checkboxes in Adium 1.4.1 which combine to provide a single setting within libpurple, for historical reasons.
-	 * A later update should have new strings to describe this with a single drop-down labeled "Connection Security"
-	 *
-	 * Libpurple defaults to require_tls; we default to opportunistic_tls. Should we require it? -evands
-	 */
+	
 	char *connectionSecurity;
 	forceOldSSL = [[self preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
-	requireTLS = [[self preferenceForKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS] boolValue];
+	
+	if (![self preferenceForKey:KEY_JABBER_TLS group:GROUP_ACCOUNT_STATUS]) {
+		[self setPreference:@(AIJabberTLSRequired)
+					 forKey:KEY_JABBER_TLS
+					  group:GROUP_ACCOUNT_STATUS];
+	}
+	
+	requireTLS = [[self preferenceForKey:KEY_JABBER_TLS group:GROUP_ACCOUNT_STATUS] shortValue];
 	
 	if (forceOldSSL)
 		connectionSecurity = "old_ssl";
-	else if (requireTLS)
-		connectionSecurity = "require_tls";
-	else 
+	else if (requireTLS == AIJabberTLSAllowed)
 		connectionSecurity = "opportunistic_tls";
+	else
+		connectionSecurity = "require_tls";
 
 	purple_account_set_string(account, "connection_security", connectionSecurity);
+	purple_account_set_bool(account, "require_forward_secrecy", requireTLS == AIJabberTLSForwardSecrecRequired);
 
 	//Allow plaintext authorization over an unencrypted connection? Purple will prompt if this is NO and is needed.
 	allowPlaintext = [[self preferenceForKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS] boolValue];
