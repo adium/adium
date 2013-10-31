@@ -14,16 +14,29 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-// XXX - Remove this on 10.7+ transition
-
-#ifndef AILeopardCompatibility
-#define AILeopardCompatibility
+#ifndef AICompatibility
+#define AICompatibility
 
 #import <AvailabilityMacros.h>
+
+#ifndef MAC_OS_X_VERSION_10_9
+#define MAC_OS_X_VERSION_10_9 1090
+#endif //ndef MAC_OS_X_VERSION_10_9
 
 #ifndef MAC_OS_X_VERSION_10_7
 #define MAC_OS_X_VERSION_10_7 1070
 #endif //ndef MAC_OS_X_VERSION_10_7
+
+#if MAC_OS_X_VERSION_10_9 > MAC_OS_X_VERSION_MAX_ALLOWED
+
+#ifdef __OBJC__
+
+@interface NSScreen (NewMavericksMethods)
++ (BOOL)screensHaveSeparateSpaces;
+@end
+
+#endif
+#endif //MAC_OS_X_VERSION_10_9
 
 #if MAC_OS_X_VERSION_10_7 > MAC_OS_X_VERSION_MAX_ALLOWED
 
@@ -43,9 +56,6 @@
 @end
 
 #endif
-
-#else //Not compiling for 10.7
-
 #endif //MAC_OS_X_VERSION_10_7
 
 #endif
