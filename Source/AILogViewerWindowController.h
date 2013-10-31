@@ -92,9 +92,7 @@ typedef enum {
 	NSMutableSet		*contactIDsToFilter;
 
 	AIDateType			filterDateType;
-	NSCalendarDate		*filterDate;
-	NSInteger			firstDayOfWeek;
-	BOOL				iCalFirstDayOfWeekDetermined;
+	NSDate				*filterDate;
 
 	NSMutableDictionary	*logToGroupDict;
 	NSMutableDictionary	*logFromGroupDict;

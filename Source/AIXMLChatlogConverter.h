@@ -25,12 +25,13 @@ typedef enum {
 	AIScreenName = 4
 } AINameFormat;
 
-@class AIHTMLDecoder;
+@class AIHTMLDecoder, ISO8601DateFormatter;
 
 @interface AIXMLChatlogConverter : NSObject {
 	NSDictionary	*statusLookup;
     NSAttributedString *newlineAttributedString;
 	AIHTMLDecoder	*htmlDecoder;
+	ISO8601DateFormatter *formatter;
 }
 
 + (NSAttributedString *)readFile:(NSString *)filePath withOptions:(NSDictionary *)options;

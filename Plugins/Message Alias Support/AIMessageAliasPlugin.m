@@ -171,7 +171,7 @@
 
 	//Current Date
 	if ([self string:str containsValidKeyword:@"%d"]) {
-		NSCalendarDate	*currentDate = [NSCalendarDate calendarDate];
+		NSDate	*currentDate = [NSDate date];
 		__block NSString *calendarFormat;
 		[NSDateFormatter withLocalizedShortDateFormatterPerform:^(NSDateFormatter *dateFormatter){
 			calendarFormat = [[dateFormatter dateFormat] retain];
@@ -181,14 +181,14 @@
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
 		
 		[newAttributedString replaceOccurrencesOfString:@"%d"
-											 withString:[currentDate descriptionWithCalendarFormat:calendarFormat]
+											 withString:[currentDate descriptionWithCalendarFormat:calendarFormat timeZone:nil locale:nil]
 												options:NSLiteralSearch
 												  range:NSMakeRange(0, [newAttributedString length])];
 	}
 	
 	//Current Time
 	if ([self string:str containsValidKeyword:@"%t"]) {
-		NSCalendarDate 	*currentDate = [NSCalendarDate calendarDate];
+		NSDate 	*currentDate = [NSDate date];
 		
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
 
