@@ -25,13 +25,14 @@
 
 #define CONTEXT_DISPLAY_DEFAULTS	@"MessageContextDisplayDefaults"
 
-@class SMSQLiteLoggerPlugin;
+@class SMSQLiteLoggerPlugin, ISO8601DateFormatter;
 
 @interface DCMessageContextDisplayPlugin : AIPlugin {	
 	BOOL							isObserving;
 	BOOL							shouldDisplay;
 	BOOL							dimRecentContext;
 	NSInteger						linesToDisplay;
+	ISO8601DateFormatter			*formatter;
 }
 
 + (DCMessageContextDisplayPlugin *)sharedInstance;
