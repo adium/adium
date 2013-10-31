@@ -51,7 +51,7 @@
 			}
 			
 			// Draw and shift
-			[self compositeToPoint:destRect.origin fromRect:sourceRect operation:NSCompositeSourceOver];
+			[self drawAtPoint:destRect.origin fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0];
 			destRect.origin.x += destRect.size.width;
 		}
 		
