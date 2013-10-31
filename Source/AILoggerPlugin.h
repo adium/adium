@@ -28,7 +28,7 @@
 
 #define XML_LOGGING_NAMESPACE         @"http://purl.org/net/ulf/ns/0.4-02"
 
-@class AIAccount, AIHTMLDecoder, AIChat;
+@class AIAccount, AIHTMLDecoder, AIChat, ISO8601DateFormatter;
 
 @interface AILoggerPlugin : AIPlugin {
 	
@@ -44,6 +44,8 @@
 	AIHTMLDecoder       *xhtmlDecoder;
 	NSDictionary        *statusTranslation;
 	BOOL                 logHTML;
+	
+	ISO8601DateFormatter *formatter;
 	
 	// Log Indexing
 	NSMutableSet        *dirtyLogSet;
