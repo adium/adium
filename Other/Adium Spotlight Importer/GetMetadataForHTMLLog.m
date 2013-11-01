@@ -19,36 +19,26 @@
 
 #include <sys/stat.h>
 
-#import "scandate.h"
+#import <AIUtilities/ISO8601DateFormatter.h>
 
 static char *gaim_markup_strip_html(const char *str);
 
-//Given an Adium log file name, return an NSCalendarDate for its creation date
+//Given an Adium log file name, return an NSDate for its creation date
 static NSDate *dateFromHTMLLog(NSString *pathToFile)
 {
-	NSDate *date = nil;
-	unsigned long   year = 0;
-	unsigned long   month = 0;
-	unsigned long   day = 0;
-	unsigned long   hour = 0;
-	unsigned long   minute = 0;
-	unsigned long   second = 0;
-	long   timeZoneOffset = +0;
-
-	if (scandate([pathToFile UTF8String], &year, &month, &day, /*outHasTime*/ NULL, &hour, &minute, &second, &timeZoneOffset)) {
-		if (year && month && day) {
-			NSCalendarDate *calendarDate = [NSCalendarDate dateWithYear:year
-																  month:month
-																	day:day
-																   hour:hour
-																 minute:minute
-																 second:second
-															   timeZone:[NSTimeZone timeZoneForSecondsFromGMT:(NSInteger)timeZoneOffset]];
-			date = [NSDate dateWithTimeIntervalSince1970:[calendarDate timeIntervalSince1970]];
+	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	formatter.timeSeparator = '.';
+	NSRange openParenRange, closeParenRange;
+	
+	if ([pathToFile hasSuffix:@".chatlog"] && (openParenRange = [pathToFile rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
+		openParenRange = NSMakeRange(openParenRange.location, [pathToFile length] - openParenRange.location);
+		if ((closeParenRange = [pathToFile rangeOfString:@")" options:0 range:openParenRange]).location != NSNotFound) {
+			//Add and subtract one to remove the parenthesis
+			NSString *dateString = [pathToFile substringWithRange:NSMakeRange(openParenRange.location + 1, (closeParenRange.location - openParenRange.location))];
+			return [formatter dateFromString:dateString];
 		}
 	}
-	
-	return date;
+	return nil;
 }
 
 NSString *CopyTextContentForHTMLLogData(NSData *logData) {

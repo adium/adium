@@ -182,7 +182,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 {
 	if (!debugLogFile) {
 		NSFileManager *mgr = [NSFileManager defaultManager];
-		NSCalendarDate *date = [NSCalendarDate calendarDate];
+		NSDate *date = [NSDate date];
 		NSString *folder, *dateString, *filename, *pathname;
 		NSUInteger counter = 0;
 		int fd;
@@ -203,7 +203,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 			*the date is in YYYY-MM-DD format. duplicates are disambiguated with
 			*' 1', ' 2', ' 3', etc. appendages.
 			*/
-		filename = dateString = [date descriptionWithCalendarFormat:@"%Y-%m-%d"];
+		filename = dateString = [date descriptionWithCalendarFormat:@"%Y-%m-%d" timeZone:nil locale:nil];
 		while([mgr fileExistsAtPath:(pathname = [folder stringByAppendingPathComponent:[filename stringByAppendingPathExtension:@"log"]])]) {
 			filename = [dateString stringByAppendingFormat:@" %lu", ++counter];
 		}

@@ -29,6 +29,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIStatus.h>
 #import <WebKit/WebKit.h>

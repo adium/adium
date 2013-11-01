@@ -44,6 +44,8 @@
 #import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIOSCompatibility.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 #define EDGE_CATCH_X						40.0f
 #define EDGE_CATCH_Y						40.0f
@@ -342,9 +344,10 @@
 		boundingFrame = screenFrame;
 
 		//We still should not violate the menuBar, so account for it here if we are on the menuBar screen.
-		if ((screens = [NSScreen screens]) &&
+		if (([NSApp isOnMavericksOrNewer] && [NSScreen screensHaveSeparateSpaces]) ||
+			((screens = [NSScreen screens]) &&
 			([screens count]) &&
-			(currentScreen == [screens objectAtIndex:0])) {
+			(currentScreen == [screens objectAtIndex:0]))) {
 			boundingFrame.size.height -= MENU_BAR_HEIGHT;
 		}
 

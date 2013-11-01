@@ -42,6 +42,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
+#import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
@@ -1493,7 +1494,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 			matchesDateFilter = ([[inChatLog date] timeIntervalSinceDate:filterDate] < 0);
 			break;
 		case AIDateTypeExactly:
-			matchesDateFilter = [inChatLog isFromSameDayAsDate:filterDate];
+			matchesDateFilter = [NSDate isDate:[inChatLog date] sameDayAsDate:filterDate];
 			break;
 		default:
 			matchesDateFilter = YES;
@@ -1782,7 +1783,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 {
     UInt32		lastUpdate = TickCount();
     
-    NSCalendarDate	*searchStringDate = nil;
+    NSDate	*searchStringDate = nil;
 	
 	if ((mode == LOG_SEARCH_DATE) && (searchString != nil)) {
 		searchStringDate = [[NSDate dateWithNaturalLanguageString:searchString]  dateWithCalendarFormat:nil timeZone:nil];
@@ -1820,7 +1821,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 						 */
 						if ((mode != LOG_SEARCH_DATE) ||
 						   (!searchString) ||
-						   (searchStringDate && [theLog isFromSameDayAsDate:searchStringDate])) {
+						   (searchStringDate && [NSDate isDate:[theLog date] sameDayAsDate:searchStringDate])) {
 
 							if ([self chatLogMatchesDateFilter:theLog]) {
 								//Add the log
@@ -2453,25 +2454,11 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
     return [menuItem autorelease];
 }
 
-- (NSInteger)daysSinceStartOfWeekGivenToday:(NSCalendarDate *)today
+- (NSInteger)daysSinceStartOfWeekGivenToday:(NSDate *)today
 {
-	NSInteger todayDayOfWeek = [today dayOfWeek];
-
-	//Try to look at the iCal preferences if possible
-	if (!iCalFirstDayOfWeekDetermined) {
-		CFPropertyListRef iCalFirstDayOfWeek = CFPreferencesCopyAppValue(CFSTR("first day of week"),CFSTR("com.apple.iCal"));
-		if (iCalFirstDayOfWeek) {
-			//This should return a CFNumberRef... we're using another app's prefs, so make sure.
-			if (CFGetTypeID(iCalFirstDayOfWeek) == CFNumberGetTypeID()) {
-				firstDayOfWeek = [(NSNumber *)iCalFirstDayOfWeek integerValue];
-			}
-
-			CFRelease(iCalFirstDayOfWeek);
-		}
-
-		//Don't check again
-		iCalFirstDayOfWeekDetermined = YES;
-	}
+	NSInteger todayDayOfWeek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit
+																fromDate:today] weekday];
+	NSInteger firstDayOfWeek = [[NSCalendar currentCalendar] firstWeekday];
 
 	return ((todayDayOfWeek >= firstDayOfWeek) ? (todayDayOfWeek - firstDayOfWeek) : ((todayDayOfWeek + 7) - firstDayOfWeek));
 }
@@ -2969,9 +2956,6 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 
 - (void)configureDateFilter
 {
-	firstDayOfWeek = 0; /* Sunday */
-	iCalFirstDayOfWeekDetermined = NO;
-	
 	[popUp_dateFilter setMenu:[self dateTypeMenu]];
 	NSInteger idx = [popUp_dateFilter indexOfItemWithTag:AIDateTypeAnyDate];
 	if(idx != NSNotFound)
@@ -3035,7 +3019,9 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 {
 	BOOL			showDatePicker = NO;
 	
-	NSCalendarDate	*today = [NSCalendarDate date];
+	NSDate	*today = [NSDate date];
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSDateComponents *comps = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:today];
 	
 	[filterDate release]; filterDate = nil;
 	
@@ -3051,52 +3037,48 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 			
 		case AIDateTypeSinceYesterday:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
-											months:0
-											  days:-1
-											 hours:-[today hourOfDay]
-										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+			comps.day--;
+			comps.hour -= comps.hour;
+			comps.minute -= comps.minute;
+			comps.second -= comps.second + 1;
+			filterDate = [[calendar dateFromComponents:comps] retain];
 			break;
 			
 		case AIDateTypeThisWeek:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
-											months:0
-											  days:-[self daysSinceStartOfWeekGivenToday:today]
-											 hours:-[today hourOfDay]
-										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+			comps.day -= [self daysSinceStartOfWeekGivenToday:today];
+			comps.hour -= comps.hour;
+			comps.minute -= comps.minute;
+			comps.second -= comps.second + 1;
+			filterDate = [[calendar dateFromComponents:comps] retain];
 			break;
 			
 		case AIDateTypeWithinLastTwoWeeks:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[today dateByAddingYears:0
-											months:0
-											  days:-14
-											 hours:-[today hourOfDay]
-										   minutes:-[today minuteOfHour]
-										   seconds:-([today secondOfMinute] + 1)] retain];
+			comps.day -= 14;
+			comps.hour -= comps.hour;
+			comps.minute -= comps.minute;
+			comps.second -= comps.second + 1;
+			filterDate = [[calendar dateFromComponents:comps] retain];
 			break;
 			
 		case AIDateTypeThisMonth:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[[NSCalendarDate date] dateByAddingYears:0
-															months:0
-															  days:-[today dayOfMonth]
-															 hours:0
-														   minutes:0
-														   seconds:-1] retain];
+			comps.day -= comps.day;
+			comps.hour -= comps.hour;
+			comps.minute -= comps.minute;
+			comps.second -= comps.second + 1;
+			filterDate = [[calendar dateFromComponents:comps] retain];
 			break;
 			
 		case AIDateTypeWithinLastTwoMonths:
 			filterDateType = AIDateTypeAfter;
-			filterDate = [[[NSCalendarDate date] dateByAddingYears:0
-															months:-1
-															  days:-[today dayOfMonth]
-															 hours:0
-														   minutes:0
-														   seconds:-1] retain];
+			comps.month--;
+			comps.day -= comps.day;
+			comps.hour = 0;
+			comps.minute = 0;
+			comps.second--;
+			filterDate = [[calendar dateFromComponents:comps] retain];
 			break;
 			
 		default:

@@ -35,7 +35,7 @@
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "unistd.h"
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIHTMLDecoder.h>
 
@@ -81,6 +81,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LOGGING];
 	
 	sharedInstance = self;
+	formatter = [[ISO8601DateFormatter alloc] init];
 }
 
 /**
@@ -88,6 +89,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
  */
 - (void)uninstallPlugin
 {
+	[formatter release];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -387,7 +389,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			NSString		*timeString = [attributes objectForKey:@"time"];
 			//Create the context object
 			if (timeString) {
-				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
+				NSDate *timeVal = [formatter dateFromString:timeString];
 
 				NSString		*autoreplyAttribute = [attributes objectForKey:@"auto"];
 				NSString		*sender = [NSString stringWithFormat:@"%@.%@", serviceName, [attributes objectForKey:@"sender"]];
@@ -436,7 +438,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			NSString		*timeString = [attributes objectForKey:@"time"];
 			
 			if (timeString) {
-				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
+				NSDate *timeVal = [formatter dateFromString:timeString];
                 
                 AIContentStatus *status = [[AIContentStatus alloc] initWithChat:chat source:nil destination:nil date:timeVal];
                 
