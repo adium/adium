@@ -16,14 +16,19 @@
 
 #define ChatLog_WillDelete			@"ChatLog_WillDelete"
 
+@class ISO8601DateFormatter;
+
+NSDate *dateFromFileName(NSString *fileName);
+
 @interface AIChatLog : NSObject <NSXMLParserDelegate> {
     NSString	    *relativePath;
     NSString	    *from;
     NSString	    *to;
 	NSString		*serviceClass;
-    NSCalendarDate	*date;
+    NSDate			*date;
 	CGFloat			rankingPercentage;
 	CGFloat			rankingValue;
+	ISO8601DateFormatter *formatter;
 }
 
 - (id)initWithPath:(NSString *)inPath from:(NSString *)inFrom to:(NSString *)inTo serviceClass:(NSString *)inServiceClass;
@@ -34,14 +39,13 @@
 - (NSString *)from;
 - (NSString *)to;
 - (NSString *)serviceClass;
-- (NSCalendarDate *)date;
+- (NSDate *)date;
 - (CGFloat)rankingPercentage;
 - (void)setRankingPercentage:(CGFloat)inRankingPercentage;
 - (CGFloat)rankingValueOnArbitraryScale;
 - (void)setRankingValueOnArbitraryScale:(CGFloat)inRankingValue;
 
 //Comparisons
-- (BOOL)isFromSameDayAsDate:(NSCalendarDate *)inDate;
 - (NSComparisonResult)compareTo:(AIChatLog *)inLog;
 - (NSComparisonResult)compareToReverse:(AIChatLog *)inLog;
 - (NSComparisonResult)compareFrom:(AIChatLog *)inLog;

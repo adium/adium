@@ -21,7 +21,7 @@
 #import <Adium/AIXMLElement.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AILoginControllerProtocol.h>
-#import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
+#import <AIUtilities/ISO8601DateFormatter.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
@@ -116,13 +116,15 @@
 	AIXMLAppender *appender = [AIXMLAppender documentWithPath:documentPath rootElement:rootElement];
 	NSString	  *imagesPath = [appender.path stringByDeletingLastPathComponent];
 	
+	ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+	formatter.includeTime = YES;
 	// sequentially add the messages from the iChat transcript sans attributed text features
 	for(NSInteger i = 0; i < [[rawChat objectAtIndex:2] count]; i++)
 	{
 		NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
 		NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
 			([[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] != nil ? [[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] : @""), 
-			[[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], 
+			[formatter stringFromDate:[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] date] dateWithCalendarFormat:nil timeZone:nil]],
 			nil];
 		
 		NSMutableString *chatContents = [[[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:imagesPath] mutableCopy] autorelease];

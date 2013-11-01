@@ -15,7 +15,7 @@
  */
 
 #import "AILogDateFormatter.h"
-#import "AICalendarDate.h"
+#import <AIUtilities/AIDateAdditions.h>
 
 @implementation AILogDateFormatter
 
@@ -23,30 +23,34 @@
 {
 	NSString *returnValue = nil;
 
-	if ([self respondsToSelector:@selector(timeStyle)] && [date isKindOfClass:[AICalendarDate class]]) {
-		NSInteger today = [[NSCalendarDate calendarDate] dayOfCommonEra];
-		NSInteger dateDay = [(AICalendarDate *)date dayOfCommonEra];
+	if ([self respondsToSelector:@selector(timeStyle)] && [date isKindOfClass:[NSDate class]]) {
 		NSDateFormatterStyle timeStyle = [self timeStyle];
-
-		if ((dateDay == today) || (dateDay == (today - 1))) {
-			NSString			*dayString = (dateDay == today) ? AILocalizedString(@"Today", "Day designation for the current day") : AILocalizedString(@"Yesterday", "Day designation for the previous day");
-			if ((timeStyle != NSDateFormatterNoStyle) &&
-				([(AICalendarDate *)date granularity] == AISecondGranularity)) {
+		
+		NSDate *dateToday = [NSDate date];
+		NSCalendar *calendar = [NSCalendar currentCalendar];
+		NSDateComponents *comps = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit)
+											  fromDate:dateToday];
+		comps.day--;
+		BOOL today = [NSDate isDate:dateToday sameDayAsDate:date];
+		BOOL yesterday = [NSDate isDate:[calendar dateFromComponents:comps] sameDayAsDate:date];
+		
+		if (today || yesterday) {
+			NSString			*dayString = today ? AILocalizedString(@"Today", "Day designation for the current day") : AILocalizedString(@"Yesterday", "Day designation for the previous day");
+			if (timeStyle != NSDateFormatterNoStyle) {
 				//Supposed to show time, and the date has sufficient granularity to show it
 				NSDateFormatterStyle dateStyle = [self dateStyle];
 				NSMutableString *mutableString = [dayString mutableCopy];
-
+				
 				[self setDateStyle:NSDateFormatterNoStyle];
 				[mutableString appendString:@" "];
 				[mutableString appendString:[super stringForObjectValue:date]];
 				[self setDateStyle:dateStyle];
-	
-				returnValue = [mutableString autorelease];
+				
+				returnValue = mutableString;
 			}
-
+			
 		} else {
-			if ((timeStyle != NSDateFormatterNoStyle) &&
-				([(AICalendarDate *)date granularity] == AIDayGranularity)) {
+			if (timeStyle != NSDateFormatterNoStyle) {
 				//Currently supposed to show time, but the date does not have that level of granularity
 				
 				[self setTimeStyle:NSDateFormatterNoStyle];
@@ -55,10 +59,10 @@
 			}
 		}
 	}
-
+	
 	if (![returnValue length]) returnValue = [super stringForObjectValue:date];
 	if (![returnValue length]) returnValue = [date description];
-
+	
 	return returnValue;
 }
 

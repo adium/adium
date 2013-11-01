@@ -18,14 +18,10 @@
 #import "AILoginController.h"
 #import "AILogViewerWindowController.h"
 #import "AILoggerPlugin.h"
-#import "AICalendarDate.h"
 
-#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
-#import "scandate.h"
+#import <AIUtilities/ISO8601DateFormatter.h>
 
 @implementation AIChatLog
-
-static NSCalendarDate *dateFromFileName(NSString *fileName);
 
 - (id)initWithPath:(NSString *)inPath from:(NSString *)inFrom to:(NSString *)inTo serviceClass:(NSString *)inServiceClass
 {
@@ -35,6 +31,8 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 		to = [inTo retain];
 		serviceClass = [inServiceClass retain];
 		rankingPercentage = 0;
+		
+		formatter = [[ISO8601DateFormatter alloc] init];
 	}
 
     return self;
@@ -78,6 +76,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
     [to release];
 	[serviceClass release];
     [date release];
+	[formatter release];
     
     [super dealloc];
 }
@@ -94,7 +93,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 - (NSString *)serviceClass{
 	return serviceClass;
 }
-- (NSCalendarDate *)date{
+- (NSDate *)date{
 	//Determine the date of this log lazily
 	if (!date) {
 		date = [dateFromFileName([relativePath lastPathComponent]) retain];
@@ -117,7 +116,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 	//Stop at the first element with a date.
 	NSString *dateString = nil;
 	if ((dateString = [attributeDict objectForKey:@"time"])) {
-		date = [[NSCalendarDate calendarDateWithString:dateString strictly:YES] retain];
+		date = [[formatter dateFromString:dateString] retain];
 		if (date)
 			[parser abortParsing];
 	}
@@ -139,11 +138,6 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 - (CGFloat)rankingValueOnArbitraryScale
 {
 	return rankingValue;
-}
-
-- (BOOL)isFromSameDayAsDate:(NSCalendarDate *)inDate
-{
-	return [[self date] dayOfCommonEra] == [inDate dayOfCommonEra];
 }
 
 #pragma mark Sort Selectors
@@ -308,35 +302,21 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 
 #pragma mark Date utilities
 
-//Given an Adium log file name, return an NSCalendarDate with year, month, and day specified
-static NSCalendarDate *dateFromFileName(NSString *fileName)
+//Given an Adium log file name, return an NSDate with year, month, and day specified
+NSDate *dateFromFileName(NSString *fileName)
 {
-	unsigned long   year = 0;
-	unsigned long   month = 0;
-	unsigned long   day = 0;
-	unsigned long   hour = 0;
-	unsigned long   minute = 0;
-	unsigned long   second = 0;
-	  long   tzone = NSNotFound;
-	BOOL			hasTime = NO;
-	  
-	if (scandate([fileName UTF8String], &year, &month, &day, &hasTime, &hour, &minute, &second, &tzone)) {
-		if (year && month && day) {
-			AICalendarDate *calendarDate;
-			
-			calendarDate = [AICalendarDate dateWithYear:year
-												  month:month
-													day:day
-												   hour:hour
-												 minute:minute
-												 second:second
-											   timeZone:((tzone == NSNotFound) ? nil : [NSTimeZone timeZoneForSecondsFromGMT:(tzone * 60)])];
-			[calendarDate setGranularity:(hasTime ? AISecondGranularity : AIDayGranularity)];
-
-			return calendarDate;
+	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	formatter.timeSeparator = '.';
+	NSRange openParenRange, closeParenRange;
+	
+	if ([fileName hasSuffix:@".chatlog"] && (openParenRange = [fileName rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
+		openParenRange = NSMakeRange(openParenRange.location, [fileName length] - openParenRange.location);
+		if ((closeParenRange = [fileName rangeOfString:@")" options:0 range:openParenRange]).location != NSNotFound) {
+			//Add and subtract one to remove the parenthesis
+			NSString *dateString = [fileName substringWithRange:NSMakeRange(openParenRange.location + 1, (closeParenRange.location - openParenRange.location))];
+			return [formatter dateFromString:dateString];
 		}
 	}
-	
 	return nil;
 }
 
