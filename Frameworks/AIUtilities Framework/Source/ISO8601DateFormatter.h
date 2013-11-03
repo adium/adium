@@ -46,6 +46,7 @@ extern const unichar ISO8601DefaultTimeSeparatorCharacter;
 	NSTimeZone *defaultTimeZone;
 	ISO8601DateFormat format;
 	unichar timeSeparator;
+	unichar timeZoneSeparator;
 	BOOL includeTime;
 	BOOL parsesStrictly;
 }
