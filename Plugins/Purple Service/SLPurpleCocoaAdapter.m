@@ -204,9 +204,6 @@ void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *
 	
 	g_log_set_handler(NULL, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION, adium_glib_log, NULL);
 	
-	// Init the glib type system (used by GObjects)
-	g_type_init();
-	
 	/* Don't let gstreamer load 'system path' plugins - if the user has gstreamer installed elsewhere,
 	 * or if this is a poor, confused developer who has built gstreamer locally, this will lead to very
 	 * bad behavior.
