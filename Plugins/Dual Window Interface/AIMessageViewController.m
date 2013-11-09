@@ -1071,11 +1071,11 @@
 		[view_userList.animator setFrame:view1TargetFrame];
 		[view_userList.animator setHidden:YES];
 		[NSAnimationContext endGrouping];
+		[splitView_verticalSplit performSelector:@selector(adjustSubviews) withObject:nil afterDelay:0.2];
 	} else {
 		[view_userList setHidden:YES];
+		[splitView_verticalSplit adjustSubviews];
 	}
-	
-	[splitView_verticalSplit adjustSubviews];
 }
 
 /*!
