@@ -210,7 +210,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	NSFontManager		*fontManager = [NSFontManager sharedFontManager];
 	NSRange			searchRange;
 	NSColor			*pageColor = nil;
-	NSInteger			*openFontTags = 0;
+	NSInteger			openFontTags = 0;
 
 	//Setup the incoming message as a regular string, and get its length
 	NSString		*inMessageString = [inMessage string];
