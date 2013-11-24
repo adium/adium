@@ -74,7 +74,6 @@ static OtrlUserState		otrg_plugin_userstate = NULL;
 static AdiumOTREncryption	*adiumOTREncryption = nil;
 static OtrlMessageAppOps	ui_ops;
 
-void otrg_ui_update_fingerprint();
 void send_default_query_to_chat(AIChat *inChat);
 void disconnect_from_chat(AIChat *inChat);
 void disconnect_from_context(ConnContext *context);
