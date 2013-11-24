@@ -141,27 +141,10 @@
 
 				UID = [NSString stringWithUTF8String:context->username];
 				
-				if (context->msgstate == OTRL_MSGSTATE_ENCRYPTED &&
-					context->active_fingerprint != fingerprint) {
-					state = AILocalizedString(@"Unused","Word to describe an encryption fingerprint which is not currently being used");
+				if (otrl_context_is_fingerprint_trusted(fingerprint)) {
+					state = AILocalizedString(@"Verified", nil);
 				} else {
-					TrustLevel trustLevel = otrg_plugin_context_to_trust(context);
-					
-					switch (trustLevel) {
-						case TRUST_NOT_PRIVATE:
-						case TRUST_FINISHED:
-							state = AILocalizedString(@"No OTR session active",nil);
-							break;
-						case TRUST_UNVERIFIED:
-							state = AILocalizedString(@"Unverified",nil);
-							break;
-						case TRUST_PRIVATE:
-							state = AILocalizedString(@"Verified",nil);
-							break;
-						default:
-							state = @"";
-							break;
-					}
+					state = AILocalizedString(@"Unverified",nil);
 				}
 				
 				otrl_privkey_hash_to_human(hash, fingerprint->fingerprint);
