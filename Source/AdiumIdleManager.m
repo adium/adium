@@ -68,13 +68,26 @@
  */
 - (CFTimeInterval)currentMachineIdle
 {
-    return CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+	CFTimeInterval smallestIdleTime;
+	CFTimeInterval tmp;
+
+	smallestIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventKeyDown);
+	tmp = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
+	if (tmp < smallestIdleTime) {
+		smallestIdleTime = tmp;
+	}
+	tmp = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventFlagsChanged);
+	if (tmp < smallestIdleTime) {
+		smallestIdleTime = tmp;
+	}
+
+	return smallestIdleTime;
 }
 
 /*!
- * @brief Timer that checkes for machine idle
+ * @brief Timer that checks for machine idle
  *
- * This timer periodically checks the machine for inactivity.  When the machine has been inactive for atleast
+ * This timer periodically checks the machine for inactivity.  When the machine has been inactive for at least
  * MACHINE_IDLE_THRESHOLD seconds, a notification is broadcast.
  *
  * When the machine is active, this timer is called infrequently.  It's not important to notice that the user went
