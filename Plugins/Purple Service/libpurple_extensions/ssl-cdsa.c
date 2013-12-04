@@ -52,6 +52,7 @@ static GList *connections = NULL;
 #define PURPLE_SSL_CONNECTION_IS_VALID(gsc) (g_list_find(connections, (gsc)) != NULL)
 
 #define PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND "ssl_cdsa_buggy_tls_workaround"
+#define PURPLE_SSL_CDSA_BEAST_TLS_WORKAROUND "ssl_cdsa_beast_tls_workaround"
 
 /*
  * query_cert_chain - callback for letting the user review the certificate before accepting it
@@ -503,6 +504,21 @@ ssl_cdsa_create_context(gpointer data) {
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
+    
+#if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_9
+    #define kSSLSessionOptionSendOneByteRecord 4 /* Appears in 10.9 */
+#endif
+    
+    if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BEAST_TLS_WORKAROUND, false)) {
+        purple_debug_info("cdsa", "Explicitly disabling SSL BEAST mitigation for broken server implementations\n");
+        
+        OSStatus protoErr;
+        protoErr = SSLSetSessionOption(cdsa_data->ssl_ctx, kSSLSessionOptionSendOneByteRecord, false);
+        if (protoErr != noErr) {
+            purple_debug_info("cdsa", "SSLSetSessionOption failed to disable SSL BEAST mitigation\n");
+        }
+    }
+    
     
     if(gsc->host) {
         /*
