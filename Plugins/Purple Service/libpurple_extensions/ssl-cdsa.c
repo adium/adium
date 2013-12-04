@@ -505,8 +505,8 @@ ssl_cdsa_create_context(gpointer data) {
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
     
-#if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_9
-    #define kSSLSessionOptionSendOneByteRecord 4 /* Appears in 10.9 */
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_9
+	#define kSSLSessionOptionSendOneByteRecord 4 /* Appears in 10.9 */
 #endif
     
     if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BEAST_TLS_WORKAROUND, false)) {
