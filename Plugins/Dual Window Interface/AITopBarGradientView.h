@@ -20,7 +20,11 @@
 @class AIChat;
 
 @interface AITopBarGradientView : NSView {
-
+	NSColor *startColor;
+	NSColor *endColor;
 }
+
+@property (retain, nonatomic) NSColor *startColor;
+@property (retain, nonatomic) NSColor *endColor;
 
 @end

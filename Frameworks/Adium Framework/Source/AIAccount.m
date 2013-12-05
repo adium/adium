@@ -929,18 +929,6 @@ typedef enum
 												  inChat:inChat];
 }
 
-/*!
- * @brief Allow the user to verify (or unverify) the identity being used for encryption in a chat
- *
- * It is an error to call this on a chat which is not currently encrypted.
- *
- * @param inChat The chat
- */
-- (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
-{
-	[adium.contentController promptToVerifyEncryptionIdentityInChat:inChat];
-}
-
 #pragma mark Image sending
 /*!
  * @brief Can the account send images inline within a chat?
@@ -1035,6 +1023,10 @@ typedef enum
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
 	BOOL shouldLog = ![self isTemporary];
+	
+	if (shouldLog) {
+		shouldLog = [[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE group:PREF_GROUP_LOGGING] boolValue];
+	}
 	
 	if(shouldLog && [[adium.preferenceController preferenceForKey:KEY_LOGGER_CERTAIN_ACCOUNTS group:PREF_GROUP_LOGGING] boolValue]) {
 		shouldLog = ![[self preferenceForKey:KEY_LOGGER_OBJECT_DISABLE
