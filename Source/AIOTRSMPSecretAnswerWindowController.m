@@ -29,7 +29,6 @@
 {
 	[secretQuestion release];
 	[contact release];
-	[file release];
 	Block_release(handler);
 	
 	[super dealloc];
@@ -41,8 +40,8 @@
 	
 	[imageView_lock setImage:[NSImage imageNamed:@"lock-locked" forClass:[adium class]]];
 	
-	[label_filename setStringValue:AILocalizedString(@"(Nothing selected)", "No file selected on the OTR secret question window")];
-    
+	path_file.URL = nil;
+	
 	if (isInitiator) {
 		[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"Enter a question only %@ can answer correctly:", nil), contact.UID]];
 		[label_answer setStringValue:AILocalizedString(@"Correct answer:", nil)];
@@ -72,7 +71,7 @@
 	if ([tab_answer indexOfTabViewItem:[tab_answer selectedTabViewItem]] == 0) {
 		answer = [[[field_answer textStorage] string] dataUsingEncoding:NSUTF8StringEncoding];
 	} else {
-		answer = [NSData dataWithContentsOfURL:file];
+		answer = [NSData dataWithContentsOfURL:path_file.URL];
 	}
 	
 	handler(answer, [[field_question textStorage] string]);
@@ -101,26 +100,7 @@
 	NSInteger result = [openPanel runModal];
 	
 	if (result == NSOKButton && [openPanel URLs].count > 0) {
-		[file release];
-		file = [[[openPanel URLs] objectAtIndex:0] retain];
-		
-		NSMutableAttributedString *fileName = [[[NSMutableAttributedString alloc] init] autorelease];
-		
-		NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[file path]];
-		
-		[icon setSize:NSMakeSize(16, 16)];
-		
-		NSTextAttachmentCell *cell = [[[NSTextAttachmentCell alloc] initImageCell:icon] autorelease];
-		
-		NSTextAttachment *attachment = [[[NSTextAttachment alloc] init] autorelease];
-		
-		[attachment setAttachmentCell:cell];
-		
-		[fileName appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-		
-		[fileName appendString:[file lastPathComponent] withAttributes:@{}];
-		
-		[label_filename setAttributedStringValue:fileName];
+		path_file.URL = [[openPanel URLs] objectAtIndex:0];
 	}
 }
 

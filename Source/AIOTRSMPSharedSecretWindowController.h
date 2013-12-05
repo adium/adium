@@ -13,7 +13,7 @@
 @interface AIOTRSMPSharedSecretWindowController : AIWindowController {
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextView	*field_secret;
-	IBOutlet	NSTextField *label_filename;
+	IBOutlet	NSPathControl *path_file;
 	IBOutlet	NSImageView	*imageView_lock;
 	IBOutlet	NSTabView	*tab_answer;
 	
@@ -21,7 +21,6 @@
 	NSString *secretQuestion;
 	AIListContact *contact;
 	void(^handler)(NSData *answer);
-	NSURL *file;
 }
 
 - (IBAction)okay:(id)sender;
