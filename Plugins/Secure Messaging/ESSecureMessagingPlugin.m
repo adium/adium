@@ -33,7 +33,6 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
-
 #import "ESTextAndButtonsWindowController.h"
 #import "AILoggerPlugin.h"
 
@@ -545,6 +544,7 @@
 										   target:nil
 										   action:nil
 									keyEquivalent:@""] autorelease];
+
 		NSMenu *verifySubmenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 		[item setSubmenu:verifySubmenu];
 		
