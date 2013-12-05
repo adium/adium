@@ -326,7 +326,7 @@
 
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	[libezv sendMessage:inContentMessage.messageString
+	[libezv sendMessage:[[AIHTMLDecoder decodeHTML:inContentMessage.encodedMessage] string]
 					 to:inContentMessage.destination.UID
 			   withHtml:inContentMessage.encodedMessage];
 	
