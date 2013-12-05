@@ -812,6 +812,7 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
+			update_security_details_for_context(context);
 			otrg_plugin_write_fingerprints();
 			otrg_ui_update_keylist();
 			
