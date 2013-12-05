@@ -789,11 +789,11 @@
 /*!
  * @brief Given an incoming message, decrypt it if necessary then convert it to an NSAttributedString, processing HTML if possible
  */
-- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount
+- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount tryDecrypt:(BOOL)decrypt
 {
-	return [AIHTMLDecoder decodeHTML:[self decryptedIncomingMessage:inString
-														fromContact:inListContact
-														  onAccount:inAccount]];
+	return [AIHTMLDecoder decodeHTML:decrypt ? [self decryptedIncomingMessage:inString
+																  fromContact:inListContact
+																	onAccount:inAccount] : inString];
 }
 
 #pragma mark OTR
@@ -805,6 +805,16 @@
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
 {
 	[adiumEncryptor promptToVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor questionVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor sharedVerifyEncryptionIdentityInChat:inChat];
 }
 
 #pragma mark -

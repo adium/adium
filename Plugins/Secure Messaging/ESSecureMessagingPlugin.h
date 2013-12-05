@@ -24,7 +24,10 @@ typedef enum {
 	AISecureMessagingMenu_ShowDetails,
 	AISecureMessagingMenu_Verify,
 	AISecureMessagingMenu_Options,
-	AISecureMessagingMenu_ShowAbout
+	AISecureMessagingMenu_ShowAbout,
+	AISecureMessagingMenu_VerifyManually,
+	AISecureMessagingMenu_VerifyQuestion,
+	AISecureMessagingMenu_VerifySharedSecret
 } AISecureMessagingMenuTag;
 
 @interface ESSecureMessagingPlugin : AIPlugin <AIChatObserver> {

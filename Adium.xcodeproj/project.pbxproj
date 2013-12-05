@@ -230,12 +230,10 @@
 		341BCF850961354D00CF83F5 /* AIMessageWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BCF810961354D00CF83F5 /* AIMessageWindow.m */; };
 		341BCF870961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BCF830961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m */; };
 		341BD55D0965E97F00CF83F5 /* ESOTRPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BD5550965E97F00CF83F5 /* ESOTRPreferences.m */; };
-		341BD55F0965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BD5570965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.m */; };
 		341BD5610965E97F00CF83F5 /* ESOTRUnknownFingerprintController.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BD5590965E97F00CF83F5 /* ESOTRUnknownFingerprintController.m */; };
 		341BD5630965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BD55B0965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m */; };
 		341BD56C0965E9A500CF83F5 /* AdiumOTREncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BD56A0965E9A500CF83F5 /* AdiumOTREncryption.m */; };
 		341BD5700965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341BD56E0965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib */; };
-		341BD5710965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341BD56F0965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.xib */; };
 		342353D709D45726009FF634 /* AILogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342353D509D45725009FF634 /* AILogViewerWindowController.m */; };
 		3428328907D2643F004F01C9 /* ESStatusPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328507D2643F004F01C9 /* ESStatusPreferences.m */; };
 		3428328B07D2643F004F01C9 /* ESStatusPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328707D2643F004F01C9 /* ESStatusPreferencesPlugin.m */; };
@@ -1351,6 +1349,10 @@
 		76528054175FCEF700710EC8 /* RequestFieldMultilineString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528052175FCEF700710EC8 /* RequestFieldMultilineString.xib */; };
 		76528055175FCEF700710EC8 /* RequestFieldSecureString.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528053175FCEF700710EC8 /* RequestFieldSecureString.xib */; };
 		7652805A175FD35B00710EC8 /* RequestFieldMultiList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528059175FD35B00710EC8 /* RequestFieldMultiList.xib */; };
+		765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */; };
+		765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */; };
+		765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */; };
+		765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */; };
 		765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
@@ -1369,6 +1371,8 @@
 		76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */; };
 		76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */; };
 		76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */; };
+		76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */; };
+		76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
 		76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */; };
 		76FF925A14B524B40043E23B /* AIIRCConsoleController.h in Headers */ = {isa = PBXBuildFile; fileRef = 76FF925814B524B40043E23B /* AIIRCConsoleController.h */; };
@@ -2138,8 +2142,6 @@
 		341BCF830961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIClickThroughThemeDocumentButton.m; path = Source/AIClickThroughThemeDocumentButton.m; sourceTree = "<group>"; };
 		341BD5550965E97F00CF83F5 /* ESOTRPreferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESOTRPreferences.m; path = Source/ESOTRPreferences.m; sourceTree = "<group>"; };
 		341BD5560965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESOTRFingerprintDetailsWindowController.h; path = Source/ESOTRFingerprintDetailsWindowController.h; sourceTree = "<group>"; };
-		341BD5570965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESOTRPrivateKeyGenerationWindowController.m; path = Source/ESOTRPrivateKeyGenerationWindowController.m; sourceTree = "<group>"; };
-		341BD5580965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESOTRPrivateKeyGenerationWindowController.h; path = Source/ESOTRPrivateKeyGenerationWindowController.h; sourceTree = "<group>"; };
 		341BD5590965E97F00CF83F5 /* ESOTRUnknownFingerprintController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESOTRUnknownFingerprintController.m; path = Source/ESOTRUnknownFingerprintController.m; sourceTree = "<group>"; };
 		341BD55A0965E97F00CF83F5 /* ESOTRUnknownFingerprintController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESOTRUnknownFingerprintController.h; path = Source/ESOTRUnknownFingerprintController.h; sourceTree = "<group>"; };
 		341BD55B0965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESOTRFingerprintDetailsWindowController.m; path = Source/ESOTRFingerprintDetailsWindowController.m; sourceTree = "<group>"; };
@@ -2148,7 +2150,6 @@
 		341BD5690965E9A500CF83F5 /* AdiumOTREncryption.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdiumOTREncryption.h; path = Source/AdiumOTREncryption.h; sourceTree = "<group>"; };
 		341BD56A0965E9A500CF83F5 /* AdiumOTREncryption.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AdiumOTREncryption.m; path = Source/AdiumOTREncryption.m; sourceTree = "<group>"; };
 		341BD56E0965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = OTRFingerprintDetailsWindow.xib; path = Resources/OTRFingerprintDetailsWindow.xib; sourceTree = "<group>"; };
-		341BD56F0965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = OTRPrivateKeyGenerationWindow.xib; path = Resources/OTRPrivateKeyGenerationWindow.xib; sourceTree = "<group>"; };
 		341DE02F07FE104700EB7B06 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = de; path = Resources/de.lproj/ESFileTransferProgressView.xib; sourceTree = "<group>"; };
 		341DE03407FE105600EB7B06 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ja; path = Resources/ja.lproj/ESFileTransferProgressView.xib; sourceTree = "<group>"; };
 		341DE03507FE106400EB7B06 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ja; path = Resources/ja.lproj/PasswordPrompt.xib; sourceTree = "<group>"; };
@@ -4422,6 +4423,12 @@
 		76528052175FCEF700710EC8 /* RequestFieldMultilineString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldMultilineString.xib; path = "Plugins/Purple Service/Request UI/RequestFieldMultilineString.xib"; sourceTree = "<group>"; };
 		76528053175FCEF700710EC8 /* RequestFieldSecureString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldSecureString.xib; path = "Plugins/Purple Service/Request UI/RequestFieldSecureString.xib"; sourceTree = "<group>"; };
 		76528059175FD35B00710EC8 /* RequestFieldMultiList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldMultiList.xib; path = "Plugins/Purple Service/Request UI/RequestFieldMultiList.xib"; sourceTree = "<group>"; };
+		765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSecretAnswerWindowController.h; path = Source/AIOTRSMPSecretAnswerWindowController.h; sourceTree = "<group>"; };
+		765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSecretAnswerWindowController.m; path = Source/AIOTRSMPSecretAnswerWindowController.m; sourceTree = "<group>"; };
+		765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSecretAnswerWindowController.xib; path = Resources/AIOTRSMPSecretAnswerWindowController.xib; sourceTree = "<group>"; };
+		765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRSMPSharedSecretWindowController.xib; path = Resources/AIOTRSMPSharedSecretWindowController.xib; sourceTree = "<group>"; };
+		765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSharedSecretWindowController.h; path = Source/AIOTRSMPSharedSecretWindowController.h; sourceTree = "<group>"; };
+		765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSharedSecretWindowController.m; path = Source/AIOTRSMPSharedSecretWindowController.m; sourceTree = "<group>"; };
 		765F5DC61635934400C57904 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIRejoinGroupChatTopBar.xib; sourceTree = "<group>"; };
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
@@ -4440,6 +4447,9 @@
 		76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAccountSelectionViewController.m; path = "Plugins/Dual Window Interface/AIAccountSelectionViewController.m"; sourceTree = "<group>"; };
 		76AA110E163558B200A6EC4B /* AIRejoinGroupChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRejoinGroupChatViewController.h; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.h"; sourceTree = "<group>"; };
 		76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRejoinGroupChatViewController.m; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.m"; sourceTree = "<group>"; };
+		76B8B8E916AF3A46009126FE /* AIOTRTopBarLoggingWarningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRTopBarLoggingWarningController.h; path = Source/AIOTRTopBarLoggingWarningController.h; sourceTree = "<group>"; };
+		76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRTopBarLoggingWarningController.m; path = Source/AIOTRTopBarLoggingWarningController.m; sourceTree = "<group>"; };
+		76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRTopBarLoggingWarningController.xib; path = Source/AIOTRTopBarLoggingWarningController.xib; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
 		76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdiumURLProtocol.m; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.m"; sourceTree = "<group>"; };
 		76FBDAC51733B9C900C9F10B /* STTwitterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterHTML.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterHTML.h"; sourceTree = "<group>"; };
@@ -5210,16 +5220,22 @@
 				341BD5690965E9A500CF83F5 /* AdiumOTREncryption.h */,
 				341BD56A0965E9A500CF83F5 /* AdiumOTREncryption.m */,
 				341BD56E0965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib */,
-				341BD56F0965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.xib */,
 				341BD55C0965E97F00CF83F5 /* ESOTRPreferences.h */,
 				341BD5550965E97F00CF83F5 /* ESOTRPreferences.m */,
 				341BD5560965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.h */,
-				341BD5570965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.m */,
-				341BD5580965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.h */,
 				341BD5590965E97F00CF83F5 /* ESOTRUnknownFingerprintController.m */,
 				341BD55A0965E97F00CF83F5 /* ESOTRUnknownFingerprintController.h */,
 				341BD55B0965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m */,
 				341BD5660965E99200CF83F5 /* OTRCommon.h */,
+				765F5D64162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.h */,
+				765F5D65162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m */,
+				765F5D6E162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib */,
+				765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */,
+				765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */,
+				765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */,
+				76B8B8E916AF3A46009126FE /* AIOTRTopBarLoggingWarningController.h */,
+				76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */,
+				76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */,
 			);
 			name = OTR;
 			sourceTree = "<group>";
@@ -9820,7 +9836,6 @@
 				34CA22300A671BEF00B11032 /* ProfilePreferences.xib in Resources */,
 				34D0FF8509569FE500DCB678 /* ProfilePreferencesDefaults.plist in Resources */,
 				341BD5700965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib in Resources */,
-				341BD5710965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.xib in Resources */,
 				349710DD096C4C7700699948 /* Buttons.strings in Resources */,
 				343EC9810970C29400349098 /* OfflineContactHidingDefaults.plist in Resources */,
 				343ECBEE0971B18E00349098 /* ShowContactInfoPrompt.xib in Resources */,
@@ -9969,6 +9984,8 @@
 				C6B545AA15D3390F0005F1F8 /* ABSearch@2x.png in Resources */,
 				C61AFA9A15DD43C80001EDEF /* AboutDialog_bg@2x.png in Resources */,
 				C6BC7F9B15DD666600C5FF52 /* events-notification.tiff in Resources */,
+				765F5D6F162F357E00C57904 /* AIOTRSMPSecretAnswerWindowController.xib in Resources */,
+				765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */,
 				76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */,
 				765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */,
 				C63BF3BE1637605400FF162B /* SRSnapback@2x.png in Resources */,
@@ -9986,6 +10003,7 @@
 				C613B1111640C370006683FF /* pref-profile.tiff in Resources */,
 				C613B143164112B3006683FF /* events-dock-name.tiff in Resources */,
 				C613B1451641210B006683FF /* events-contact.tiff in Resources */,
+				76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */,
 				5A0BBC4317400544002A7BE0 /* emoticons_menu@2x.png in Resources */,
 				5AC423F3178CBD5100F5911A /* ChatCyclingDefaults-Old.plist in Resources */,
 				5AC423F7178CBD5700F5911A /* ChatCyclingDefaults.plist in Resources */,
@@ -10472,7 +10490,6 @@
 				341BCF850961354D00CF83F5 /* AIMessageWindow.m in Sources */,
 				341BCF870961354D00CF83F5 /* AIClickThroughThemeDocumentButton.m in Sources */,
 				341BD55D0965E97F00CF83F5 /* ESOTRPreferences.m in Sources */,
-				341BD55F0965E97F00CF83F5 /* ESOTRPrivateKeyGenerationWindowController.m in Sources */,
 				341BD5610965E97F00CF83F5 /* ESOTRUnknownFingerprintController.m in Sources */,
 				341BD5630965E97F00CF83F5 /* ESOTRFingerprintDetailsWindowController.m in Sources */,
 				341BD56C0965E9A500CF83F5 /* AdiumOTREncryption.m in Sources */,
@@ -10627,6 +10644,8 @@
 				5A4BD52513F8653D00A4D3F7 /* ESContactListAdvancedPreferences.m in Sources */,
 				5A4BD55413F86A6200A4D3F7 /* AIMessagePreferences.m in Sources */,
 				5A5EC831154649140043FFAA /* AIPreferenceCollectionItem.m in Sources */,
+				765F5D67162F30E800C57904 /* AIOTRSMPSecretAnswerWindowController.m in Sources */,
+				765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */,
 				767870E41634045D00BD0E4D /* AIMessageViewTopBarController.m in Sources */,
 				76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */,
 				76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */,
@@ -10634,6 +10653,7 @@
 				761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */,
 				761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */,
 				5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */,
+				76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */,
 				5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */,
 				5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */,
 				5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */,
