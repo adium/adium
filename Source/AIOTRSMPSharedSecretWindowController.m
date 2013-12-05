@@ -36,6 +36,8 @@
     [super windowDidLoad];
 	
 	[imageView_lock setImage:[NSImage imageNamed:@"lock-locked" forClass:[adium class]]];
+	
+	path_file.URL = nil;
     
 	if (!isInitiator)
 		[label_intro setStringValue:[NSString stringWithFormat:AILocalizedString(@"%@ asks you to confirm your identity by giving your shared secret:", nil), contact.UID]];
@@ -50,7 +52,7 @@
 	if ([tab_answer indexOfTabViewItem:[tab_answer selectedTabViewItem]] == 0) {
 		answer = [[[field_secret textStorage] string] dataUsingEncoding:NSUTF8StringEncoding];
 	} else {
-		answer = [NSData dataWithContentsOfURL:file];
+		answer = [NSData dataWithContentsOfURL:path_file.URL];
 	}
 	
 	handler(answer);
@@ -78,26 +80,7 @@
 	NSInteger result = [openPanel runModal];
 	
 	if (result == NSOKButton && [openPanel URLs].count > 0) {
-		[file release];
-		file = [[[openPanel URLs] objectAtIndex:0] retain];
-		
-		NSMutableAttributedString *fileName = [[[NSMutableAttributedString alloc] init] autorelease];
-		
-		NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:[file path]];
-		
-		[icon setSize:NSMakeSize(16, 16)];
-		
-		NSTextAttachmentCell *cell = [[[NSTextAttachmentCell alloc] initImageCell:icon] autorelease];
-		
-		NSTextAttachment *attachment = [[[NSTextAttachment alloc] init] autorelease];
-		
-		[attachment setAttachmentCell:cell];
-		
-		[fileName appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-		
-		[fileName appendString:[file lastPathComponent] withAttributes:@{}];
-		
-		[label_filename setAttributedStringValue:fileName];
+		path_file.URL = [[openPanel URLs] objectAtIndex:0];
 	}
 }
 

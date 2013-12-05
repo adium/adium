@@ -14,7 +14,7 @@
 	IBOutlet	NSTextField *label_intro;
 	IBOutlet	NSTextField	*label_answer;
 	IBOutlet	NSTextField	*label_tips;
-	IBOutlet	NSTextField *label_filename;
+	IBOutlet	NSPathControl *path_file;
 	IBOutlet	NSTextView	*field_question;
 	IBOutlet	NSTextView	*field_answer;
 	IBOutlet	NSTabView	*tab_answer;
@@ -24,7 +24,6 @@
 	NSString *secretQuestion;
 	AIListContact *contact;
 	void(^handler)(NSData *answer, NSString *question);
-	NSURL *file;
 }
 
 - (IBAction)okay:(id)sender;
