@@ -44,7 +44,9 @@
 
 #define PRIVKEY_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
 #define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
-#define INSTAG_PATH  [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.instag"] UTF8String]
+#define INSTAG_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.instag"] UTF8String]
+
+#define CLOSED_CONNECTION_MESSAGE "has closed his private connection to you"
 
 /* OTRL_POLICY_MANUAL doesn't let us respond to other users' automatic attempts at encryption.
 * If either user has OTR set to Automatic, an OTR session should be begun; without this modified
@@ -77,6 +79,7 @@ static OtrlMessageAppOps	ui_ops;
 void send_default_query_to_chat(AIChat *inChat);
 void disconnect_from_chat(AIChat *inChat);
 void disconnect_from_context(ConnContext *context);
+static OtrlMessageAppOps ui_ops;
 TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 
 #pragma mark Singleton management
@@ -672,7 +675,6 @@ timer_control_cb(void *opdata, unsigned int interval) {
 	}
 	
 	if (interval > 0) {
-		timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
 		dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC), interval * NSEC_PER_SEC, NSEC_PER_SEC);
 		
 		dispatch_source_set_event_handler(timer, ^{
@@ -732,7 +734,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event, ConnContext *conte
 																									   @"Message when the remote contact cancels his half of an encrypted conversation. %@ will be a name."), listContact.UID];
 			
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
-			
+
 			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:localizedMessage] string]
 										   ofType:@"encryption"
 										   inChat:chat];
@@ -742,6 +744,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event, ConnContext *conte
 			break;
 	}
 }
+
 
 /* Create an instag for this account. */
 void
@@ -784,7 +787,6 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
-			
 			break;
 		}
 		case OTRL_SMPEVENT_CHEATED:
@@ -797,6 +799,7 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+
 			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
@@ -809,13 +812,13 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			
 			AIChat *chat = chatForContext(context);
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
+
 			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
 			update_security_details_for_context(context);
 			otrg_plugin_write_fingerprints();
 			otrg_ui_update_keylist();
-			
 			break;
 		}
 			
@@ -1069,10 +1072,14 @@ void update_security_details_for_context(ConnContext *context)
 			fullSecurityDetailsDict = nil;	
 		}
 		
+		
+		NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
+		
 		[inChat setSecurityDetails:fullSecurityDetailsDict];
 		
 		NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
 		
+
 		if (newEncryptionStatus == EncryptionStatus_Unverified) {
 			AIOTRTopBarUnverifiedContactController *warningController = [[AIOTRTopBarUnverifiedContactController alloc] init];
 			AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
