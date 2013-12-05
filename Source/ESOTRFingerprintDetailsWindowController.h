@@ -24,10 +24,16 @@
 	IBOutlet	NSImageView	*imageView_lock;
 	
 	IBOutlet	NSButton	*button_OK;
+	IBOutlet	NSButton	*button_cancel;
+	
+	IBOutlet	NSPopUpButton *button_trust;
 	
 	NSDictionary	*fingerprintDict;
 }
 
 + (void)showDetailsForFingerprintDict:(NSDictionary *)inFingerprintDict;
+
+- (IBAction)cancel:(id)sender;
+- (IBAction)okay:(id)sender;
 
 @end

@@ -91,46 +91,51 @@
 	fixedHTML = [self fixHTML:html];
 	//XXX if self.ipAddr is nil, we should do something
 	if (self.ipAddr != nil) {
-
+		
 		if (self.stream == nil) {
 			[self createConnection];
 		}
-
-	/* Message cleanup */
-	/* actual message */
+		
+		/* Message cleanup */
+		/* actual message */
 		mutableString = [message mutableCopy];
 		[mutableString replaceOccurrencesOfString:@"<br>" withString:@"<br />"
-			options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableString length])];
+										  options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableString length])];
 		[mutableString replaceOccurrencesOfString:@"&" withString:@"&amp;"
-			options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
+										  options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
 		[mutableString replaceOccurrencesOfString:@"<" withString:@"&lt;"
-			options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
+										  options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
 		[mutableString replaceOccurrencesOfString:@">" withString:@"&gt;"
-			options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
+										  options:NSLiteralSearch range:NSMakeRange(0, [mutableString length])];
 		messageExtraEscapedString = [mutableString copy];
 		[mutableString release];
-
+		
 		mutableString = [fixedHTML mutableCopy];
 		[mutableString replaceOccurrencesOfString:@"<br>" withString:@"<br />"
-			options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableString length])];
+										  options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableString length])];
 		htmlFiltered = [mutableString copy];
 		[mutableString release];
-
-	/* setup XML tree */
+		
+		/* setup XML tree */
 		messageNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"message"];
 		//[messageNode addAttribute:@"to" withValue:self.ipAddr];
 		[messageNode addAttribute:@"to" withValue:self.uniqueID];
 		[messageNode addAttribute:@"from" withValue: [self.manager myInstanceName]];
 		[messageNode addAttribute:@"type" withValue:@"chat"];
-
-		bodyNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"body"];
-		[messageNode addChild:bodyNode];
-
-		textNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLText name:messageExtraEscapedString];
-		[bodyNode addChild:textNode];
-
-	
+		
+		if (messageExtraEscapedString) {
+			bodyNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"body"];
+		
+			[messageNode addChild:bodyNode];
 			
+			textNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLText name:messageExtraEscapedString];
+			
+			[bodyNode addChild:textNode];
+			
+			[textNode release];
+			[bodyNode release];
+		}
+				
 		htmlNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"html"];
 		[htmlNode addAttribute:@"xmlns" withValue:@"http://www.w3.org/1999/xhtml"];
 		[messageNode addChild:htmlNode];
@@ -140,26 +145,22 @@
         
 		htmlMessageNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLRaw name:htmlFiltered];
 		[htmlBodyNode addChild:htmlMessageNode];
-				
+		
 		/* send the data */
 		[self.stream sendString:[messageNode xmlString]];
-
 		
-
-
-	/* release messages */
+		
+		/* release messages */
 		[htmlMessageNode release];
 		[htmlBodyNode release];
 		[htmlNode release];
-		[textNode release];
-		[bodyNode release];
 		[messageNode release];
 		[messageExtraEscapedString release];
 		[htmlFiltered release];
-
+		
 	} else {
 		[self setStatus: AWEzvUndefined];
-
+		
 		/* and notify */
 		[self.manager.client.client userChangedState:self];
 		[self.manager.client.client reportError:@"Could Not Send" ofLevel:AWEzvError forUser:[self uniqueID]];
@@ -428,7 +429,7 @@
 	}
 	
 	/* if we've got a message then we can send it to the client to display */
-	if (plaintext.length > 0)
+	if (plaintext.length > 0 || html.length > 0)
 		[self.manager.client.client user:self sentMessage:plaintext withHtml:html];
 }
 

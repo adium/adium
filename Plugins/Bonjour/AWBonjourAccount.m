@@ -241,7 +241,8 @@
 	if (html)
 		attributedMessage = [adium.contentController decodedIncomingMessage:html
 							 fromContact:listContact
-							 onAccount:self];
+							 onAccount:self
+							 tryDecrypt:YES];
 	else
 		attributedMessage = [[[NSAttributedString alloc] initWithString:
 							  [adium.contentController decryptedIncomingMessage:message
@@ -325,10 +326,10 @@
 
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	[libezv sendMessage:inContentMessage.messageString 
-	                                   to:inContentMessage.destination.UID
-	                             withHtml:inContentMessage.encodedMessage];
-
+	[libezv sendMessage:[[AIHTMLDecoder decodeHTML:inContentMessage.encodedMessage] string]
+					 to:inContentMessage.destination.UID
+			   withHtml:inContentMessage.encodedMessage];
+	
 	return YES;
 }
 
