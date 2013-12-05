@@ -438,6 +438,10 @@ static int nextChatNumber = 0;
 
 - (BOOL)shouldLog
 {
+	if (overrideLogging) {
+		return [overrideLogging boolValue];
+	}
+	
 	BOOL shouldLog = [self.account shouldLogChat:self];
 	
 	if(shouldLog && self.isSecure) {

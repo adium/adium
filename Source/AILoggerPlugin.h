@@ -60,6 +60,9 @@
 	BOOL                 isIndexing;
 	SInt64               logsToIndex;
 	SInt64               logsIndexed;
+	
+	// Chat window toolbar item
+	NSMutableSet		*toolbarItems;
 }
 @property(assign,readonly) BOOL                 indexIsFlushing;
 @property(assign,readonly) BOOL                 isIndexing;
