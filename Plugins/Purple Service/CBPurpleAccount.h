@@ -32,8 +32,6 @@
 {   	
     PurpleAccount         *account;
 
-	NSMutableDictionary	*customEmoticonWaitingDict;
-
 	NSMutableArray		*permittedContactsArray;
 	NSMutableArray		*deniedContactsArray;	
 	
@@ -49,16 +47,13 @@
 }
 
 - (const char*)protocolPlugin;
-- (PurpleAccount*)purpleAccount;
+@property (assign, readwrite) PurpleAccount *purpleAccount;
 - (PurplePluginProtocolInfo *)protocolInfo;
-- (void)setPurpleAccount:(PurpleAccount *)inAccount;
 - (const char *)purpleAccountName;
 
 - (void)createNewPurpleAccount;
 
 - (void)dealloc;
-- (NSSet *)supportedPropertyKeys;
-- (void)updateStatusForKey:(NSString *)key;
 - (NSDictionary *)defaultProperties;
 - (NSString *)unknownGroupName;
 - (AIService *)_serviceForUID:(NSString *)contactUID;
@@ -140,7 +135,6 @@
 
 - (void)addChat:(AIChat *)chat;
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typing;
-- (void)updateForChat:(AIChat *)chat type:(NSNumber *)type;
 - (AIChat *)chatWithContact:(AIListContact *)contact identifier:(id)identifier;
 - (void)chatWasDestroyed:(AIChat *)chat;
 - (void)chatJoinDidFail:(AIChat *)chat;

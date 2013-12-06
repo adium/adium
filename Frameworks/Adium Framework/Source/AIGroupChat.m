@@ -17,7 +17,6 @@
 #import "AIGroupChat.h"
 #import "AIContactControllerProtocol.h"
 #import "AIListContact.h"
-#import "AIListObject.h"
 #import "AIServiceIcons.h"
 #import "AIUserIcons.h"
 #import "AIContentTopic.h"
@@ -62,16 +61,7 @@ static int nextChatNumber = 0;
 
 - (void)dealloc
 {
-	[topic release]; [topicSetter release];
-    
 	[self removeAllParticipatingContactsSilently];
-    
-    [lastMessageDate release];
-	[participatingNicks release];
-	[participatingNicksFlags release];
-	[participatingNicksContacts release];
-    
-    [super dealloc];
 }
 
 - (NSImage *)chatImage
@@ -407,9 +397,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 {
 	AIListContact *contact = [participatingNicksContacts valueForKey:inObject];
 	
-	//make sure removing it from the array doesn't deallocate it immediately, since we need it for -chat:removedListContact:
-	[contact retain];
-	
 	[participatingNicks removeObject:inObject];
 	
 	[self removeSavedValuesForNick:inObject];
@@ -424,8 +411,6 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 		[adium.contactController accountDidStopTrackingContact:contact];
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelaysImmediately];
 	}
-	
-	[contact release];
 }
 
 - (void)removeObjectAfterAccountStopsTracking:(NSString *)object
@@ -443,13 +428,13 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
-    
+
 	[participatingNicks removeAllObjects];
 	[participatingNicksFlags removeAllObjects];
 	[participatingNicksContacts removeAllObjects];
-    
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
-                                                        object:self];
+														object:self];
 }
 
 @synthesize expanded;
@@ -464,7 +449,7 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	return self.countOfContainedObjects;
 }
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])stackbuf count:(NSUInteger)len
 {
 	return [participatingNicks countByEnumeratingWithState:state objects:stackbuf count:len];
 }

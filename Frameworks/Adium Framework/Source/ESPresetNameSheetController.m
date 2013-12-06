@@ -20,7 +20,6 @@
 
 @interface ESPresetNameSheetController ()
 - (void)configureExplanatoryTextWithString:(NSString *)inExplanatoryText;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESPresetNameSheetController
@@ -30,11 +29,7 @@
 	//Must be called on a window
 	NSParameterAssert(parentWindow != nil);
 	
-	[NSApp beginSheet:self.window
-	   modalForWindow:parentWindow
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[super showOnWindow:parentWindow];
 }
 
 - (id)initWithDefaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo
@@ -43,35 +38,13 @@
 	NSParameterAssert([inTarget respondsToSelector:@selector(presetNameSheetControllerDidEnd:returnCode:newName:userInfo:)]);
 	
 	if ((self = [super initWithWindowNibName:PRESET_NAME_SHEET])) {
-		defaultName = [inDefaultName retain];
-		explanatoryText = [inExplanatoryText retain];
-		target = [inTarget retain];
-		userInfo = [inUserInfo retain];
+		defaultName = inDefaultName;
+		explanatoryText = inExplanatoryText;
+		target = inTarget;
+		userInfo = inUserInfo;
 	}
 	
 	return self;
-}
-
-/*!
- * @brief Invoked as the sheet closes, dismiss the sheet
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{	
-    [sheet orderOut:nil];
-	
-	[self autorelease];
-}
-
-/*!
-* @brief As the window closes, release this controller instance
- *
- * The instance retained itself (rather, was not autoreleased when created) so it could function independently.
- */
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-
-	[self autorelease];
 }
 
 - (IBAction)okay:(id)sender

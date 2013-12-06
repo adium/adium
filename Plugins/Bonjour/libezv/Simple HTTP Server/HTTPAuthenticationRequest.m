@@ -11,13 +11,13 @@
 - (id)initWithRequest:(CFHTTPMessageRef)request
 {
 	if ((self = [super init])) {
-		NSString *authInfo = (NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Authorization"));
+		NSString *authInfo = (__bridge_transfer NSString *)CFHTTPMessageCopyHeaderFieldValue(request, CFSTR("Authorization"));
 		
 		if (authInfo != nil) {
-			username = [[self quotedSubHeaderFieldValue:@"username" fromHeaderFieldValue:authInfo] retain];
-			realm    = [[self quotedSubHeaderFieldValue:@"realm" fromHeaderFieldValue:authInfo] retain];
-			nonce    = [[self quotedSubHeaderFieldValue:@"nonce" fromHeaderFieldValue:authInfo] retain];
-			uri      = [[self quotedSubHeaderFieldValue:@"uri" fromHeaderFieldValue:authInfo] retain];
+			username = [self quotedSubHeaderFieldValue:@"username" fromHeaderFieldValue:authInfo];
+			realm    = [self quotedSubHeaderFieldValue:@"realm" fromHeaderFieldValue:authInfo];
+			nonce    = [self quotedSubHeaderFieldValue:@"nonce" fromHeaderFieldValue:authInfo];
+			uri      = [self quotedSubHeaderFieldValue:@"uri" fromHeaderFieldValue:authInfo];
 			
 			// It appears from RFC 2617 that the qop is to be given unquoted
 			// Tests show that Firefox performs this way, but Safari does not
@@ -26,13 +26,10 @@
 			if (qop && ([qop characterAtIndex:0] == '"')) {
 				qop  = [self quotedSubHeaderFieldValue:@"qop" fromHeaderFieldValue:authInfo];
 			}
-			[qop retain];
 			
-			nc       = [[self nonquotedSubHeaderFieldValue:@"nc" fromHeaderFieldValue:authInfo] retain];
-			cnonce   = [[self quotedSubHeaderFieldValue:@"cnonce" fromHeaderFieldValue:authInfo] retain];
-			response = [[self quotedSubHeaderFieldValue:@"response" fromHeaderFieldValue:authInfo] retain];
-			
-			CFRelease(authInfo);
+			nc       = [self nonquotedSubHeaderFieldValue:@"nc" fromHeaderFieldValue:authInfo];
+			cnonce   = [self quotedSubHeaderFieldValue:@"cnonce" fromHeaderFieldValue:authInfo];
+			response = [self quotedSubHeaderFieldValue:@"response" fromHeaderFieldValue:authInfo];
 		} else {
 			// Setup a default value for any non-pointer types
 			nc = 0;
@@ -41,18 +38,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[username release];
-	[realm release];
-	[nonce release];
-	[uri release];
-	[qop release];
-	[nc release];
-	[cnonce release];
-	[response release];
-	[super dealloc];
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Accessors:

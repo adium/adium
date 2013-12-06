@@ -17,7 +17,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIAccountProxySettings.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <Adium/AIAccount.h>
 
 @interface AIAccountProxySettings ()
@@ -64,17 +63,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[view_accountProxy release];
-
-	[super dealloc];
-}
-
-
-/*!
  * @brief Toggle proxy
  *
  * Called when proxy usage is turned on or off
@@ -102,8 +90,7 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 {
 	if (account != inAccount) {
-		[account release];
-		account = [inAccount retain];
+		account = inAccount;
 
 		//Enabled & Type
 		[checkBox_useProxy setState:[[account preferenceForKey:KEY_ACCOUNT_PROXY_ENABLED
@@ -261,7 +248,7 @@
     [proxyMenu addItem:[self _proxyMenuItemWithTitle:AILocalizedString(@"Tor (SOCKS5)",nil) tag:Adium_Proxy_Tor]];
 	[proxyMenu addItem:[self _proxyMenuItemWithTitle:@"HTTP" tag:Adium_Proxy_HTTP]];
 	
-	return [proxyMenu autorelease];
+	return proxyMenu;
 }
 
 /*!
@@ -273,13 +260,13 @@
 {
 	NSMenuItem		*menuItem;
     
-    menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:title
+    menuItem = [[NSMenuItem alloc] initWithTitle:title
 																	target:self
 																	action:@selector(changeProxyType:)
 															 keyEquivalent:@""];
     [menuItem setTag:tag];
 	
-	return [menuItem autorelease];
+	return menuItem;
 }
 
 @end

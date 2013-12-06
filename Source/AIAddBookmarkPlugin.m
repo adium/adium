@@ -54,14 +54,14 @@
 																		 action:@selector(addBookmark:)
 																		   menu:nil];
 	
-	addBookmarkMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_BOOKMARK
+	addBookmarkMenuItem = [[NSMenuItem alloc] initWithTitle:ADD_BOOKMARK
 																			   target:self
 																			   action:@selector(addBookmark:)
 																		keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:addBookmarkMenuItem toLocation:LOC_Contact_Manage];
 
-	addBookmarkContextMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_BOOKMARK_CONTEXT_MENU
+	addBookmarkContextMenuItem = [[NSMenuItem alloc] initWithTitle:ADD_BOOKMARK_CONTEXT_MENU
 																					  target:self
 																					  action:@selector(addBookmarkContext:)
 																			   keyEquivalent:@""];
@@ -75,9 +75,6 @@
 
 - (void)uninstallPlugin
 {
-	[addBookmarkMenuItem release]; 
-	[addBookmarkContextMenuItem release];
-	
 	[adium.toolbarController unregisterToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
 }
 

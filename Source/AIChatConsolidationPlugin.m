@@ -17,7 +17,6 @@
 #import "AIChatConsolidationPlugin.h"
 
 #import <Adium/AIChat.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIMessageWindowController.h"
 #import <Adium/AIMenuControllerProtocol.h>
 
@@ -55,14 +54,6 @@
 												  action:@selector(moveChatToNewWindow:)
 										   keyEquivalent:@""];
 	[adium.menuController addMenuItem:newWndowMenuItem toLocation:LOC_Window_Commands];	
-}
-
-- (void)dealloc
-{
-	[consolidateMenuItem release];
-	[newWndowMenuItem release];
-
-	[super dealloc];
 }
 
 /*!

@@ -34,13 +34,10 @@ gboolean purple_init_novell_plugin(void);
 	{
 		case 1:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 2:
 			return AILocalizedString(@"Authenticating",nil);
-			break;
 		case 3:
 			return AILocalizedString(@"Waiting for Response",nil);
-			break;			
 	}
 	
 	return nil;

@@ -18,14 +18,12 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import "ESSendMessageAlertDetailPane.h"
 #import "ESSendMessageContactAlertPlugin.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
@@ -41,12 +39,6 @@
     
     attributes = nil;
 }
-
-- (void)uninstallPlugin
-{
-    [attributes release];
-}
-
 
 //Send Message Alert -----------------------------------------------------------------------------------------------------
 #pragma mark Send Message Alert

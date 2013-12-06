@@ -23,7 +23,6 @@
 
 @interface AITextViewWithPlaceholder : NSTextView {
     NSAttributedString *placeholder;
-	BOOL				placeholderHasOwnAttributes;
 }
 
 /*

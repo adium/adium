@@ -17,7 +17,6 @@
 #import "AIAutomaticStatus.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIAccount.h>
@@ -140,25 +139,6 @@ typedef enum {
 }
 
 /*!
- * Deallocate
- */
-- (void)dealloc
-{
-	// State information
-	[accountsToReconnect release]; 
-	[previousStatus release];
-	
-	// Stored status IDs
-	[fastUserSwitchID release];
-	[screenSaverID release];
-	[idleStatusID release];
-	
-	[oldStatusID release];
-	
-	[super dealloc];
-}
-
-/*!
  * @brief Preferences changed
  *
  * Note the status IDs, interval information, and enabled information for our preferences
@@ -178,19 +158,16 @@ typedef enum {
 	idleReportInterval = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue];
 	
 	// Idle status change
-	[idleStatusID release];
-	idleStatusID = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID] retain];
+	idleStatusID = [prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID];
 	idleStatusEnabled = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY] boolValue];
 	idleStatusInterval = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue];
 	
 	// Fast user switch
-	[fastUserSwitchID release];
-	fastUserSwitchID = [[prefDict objectForKey:KEY_STATUS_FUS_STATUS_STATE_ID] retain];
+	fastUserSwitchID = [prefDict objectForKey:KEY_STATUS_FUS_STATUS_STATE_ID];
 	fastUserSwitchEnabled = [[prefDict objectForKey:KEY_STATUS_FUS] boolValue];
 	
 	// Screensaver
-	[screenSaverID release];
-	screenSaverID = [[prefDict objectForKey:KEY_STATUS_SS_STATUS_STATE_ID] retain];
+	screenSaverID = [prefDict objectForKey:KEY_STATUS_SS_STATUS_STATE_ID];
 	screenSaverEnabled = [[prefDict objectForKey:KEY_STATUS_SS] boolValue];
 }
 
@@ -362,8 +339,7 @@ typedef enum {
 		}
 	}
 	
-	[oldStatusID release];
-	oldStatusID = [statusID retain];
+	oldStatusID = statusID;
 }
 
 /*!
@@ -397,7 +373,6 @@ typedef enum {
 	
 	automaticStatusBitMap = 0;
 	
-	[oldStatusID release];
 	oldStatusID = nil;
 }
 

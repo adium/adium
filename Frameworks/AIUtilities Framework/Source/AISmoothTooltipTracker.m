@@ -44,13 +44,13 @@
 
 + (AISmoothTooltipTracker *)smoothTooltipTrackerForView:(NSView *)inView withDelegate:(id <AISmoothTooltipTrackerDelegate>)inDelegate
 {
-	return [[[self alloc] initForView:inView withDelegate:inDelegate] autorelease];
+	return [[self alloc] initForView:inView withDelegate:inDelegate];
 }
 
 - (AISmoothTooltipTracker *)initForView:(NSView *)inView withDelegate:(id)inDelegate
 {
 	if ((self = [super init])) {
-		view = [inView retain];
+		view = inView;
 		delegate = inDelegate;
 		tooltipTrackingTag = -1;
 		tooltipLocation = NSZeroPoint;
@@ -91,9 +91,7 @@
 	[self removeCursorRect];
 	[self _stopTrackingMouse];
 
-	[view release]; view = nil;
-	
-	[super dealloc];
+	view = nil;
 }
 
 - (void)setDelegate:(id <AISmoothTooltipTrackerDelegate>)inDelegate
@@ -228,11 +226,11 @@
 {
 	if (!tooltipMouseLocationTimer) {
 		tooltipCount = 0;
-		tooltipMouseLocationTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0/TOOL_TIP_CHECK_INTERVAL)
+		tooltipMouseLocationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0/TOOL_TIP_CHECK_INTERVAL)
 																	  target:self
 																	selector:@selector(mouseMovementTimer:)
 																	userInfo:nil
-																	 repeats:YES] retain];
+																	 repeats:YES];
 	}
 }
 
@@ -249,7 +247,7 @@
 		tooltipMouseLocationTimer = nil;
 		
 		[theTimer invalidate];
-		[theTimer release]; theTimer = nil;
+		theTimer = nil;
 	}
 }
 
