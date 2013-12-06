@@ -269,8 +269,9 @@
 		/* Add a status message to the chat */
 		BOOL		chatIsSecure = [inChat isSecure];
 		if (chatIsSecure != [inChat boolValueForProperty:@"secureMessagingLastEncryptedState"]) {
-			NSString	*message;
-			NSString	*type;
+			NSString		*message;
+			NSString		*type;
+			AIListObject	*listObject = [inChat listObject];
 
 			[inChat setValue:[NSNumber numberWithBool:chatIsSecure]
 							 forProperty:@"secureMessagingLastEncryptedState"
@@ -278,7 +279,6 @@
 
 			if (chatIsSecure) {
 				if ([inChat encryptionStatus] == EncryptionStatus_Unverified) {
-					AIListObject	*listObject = [inChat listObject];
 					NSString		*displayName = (listObject ?
 													listObject.formattedUID :
 													inChat.displayName);
@@ -306,7 +306,7 @@
 					if (confirmLoggedOTR) {
 						NSString	*question = AILocalizedString(@"Would you like to turn off logging for the rest of this conversation?", nil);
 						
-						[adium.interfaceController displayQuestion:AILocalizedString(@"Your conversation is now encrypted.", nil)
+						[adium.interfaceController displayQuestion:[NSString stringWithFormat:AILocalizedString(@"Your conversation with %@ is now encrypted.", nil), listObject.formattedUID]
 												   withDescription:question
 												   withWindowTitle:AILocalizedString(@"Confirm logging", nil)
 													 defaultButton:AILocalizedString(@"Turn Off", nil)
