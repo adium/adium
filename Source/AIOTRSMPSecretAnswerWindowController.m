@@ -16,22 +16,13 @@
 - (id)initWithQuestion:(NSString *)inQuestion from:(AIListContact *)inContact completionHandler:(void(^)(NSData *answer, NSString *question))inHandler isInitiator:(BOOL)inInitiator
 {
 	if (self = [super initWithWindowNibName:@"AIOTRSMPSecretAnswerWindowController"]) {
-		secretQuestion = [inQuestion retain];
-		contact = [inContact retain];
-		handler = Block_copy(inHandler);
+		secretQuestion = inQuestion;
+		contact = inContact;
+		handler = inHandler;
 		isInitiator = inInitiator;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[secretQuestion release];
-	[contact release];
-	Block_release(handler);
-	
-	[super dealloc];
 }
 
 - (void)windowDidLoad
@@ -57,7 +48,7 @@
 																				@"• Make sure you enter the answer exactly as %@ entered it.", nil), contact.UID]];
 
 		
-		NSAttributedString *question = [[[NSAttributedString alloc] initWithString:secretQuestion ?: @""] autorelease];
+		NSAttributedString *question = [[NSAttributedString alloc] initWithString:secretQuestion ?: @""];
 		
 		[[field_question textStorage] setAttributedString:question];
 		[field_question setEditable:NO];
@@ -76,16 +67,14 @@
 	
 	handler(answer, [[field_question textStorage] string]);
 	
-	[self close];
-	[self release];
+	[self.window close];
 }
 
 - (IBAction)cancel:(id)sender
 {
 	if (!isInitiator) handler(nil, nil);
 	
-	[self close];
-	[self release];
+	[self.window close];
 }
 
 

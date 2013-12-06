@@ -20,7 +20,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/ISO8601DateFormatter.h>
@@ -151,6 +150,7 @@
 
 - (void)dealloc
 {
+	[formatter release];
 	[statusLookup release];
 	[htmlDecoder release];
 	[formatter release];

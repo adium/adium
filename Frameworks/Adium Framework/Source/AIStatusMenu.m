@@ -20,11 +20,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIEditStateWindowController.h>
-#import <Adium/AIStatusIcons.h>
-#import <Adium/AISocialNetworkingStatusMenu.h>
-#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -46,7 +42,7 @@
 
 + (id)statusMenuWithDelegate:(id<AIStatusMenuDelegate>)inDelegate
 {
-	return [[[self alloc] initWithDelegate:inDelegate] autorelease];
+	return [[self alloc] initWithDelegate:inDelegate];
 }
 
 - (id)initWithDelegate:(id<AIStatusMenuDelegate>)inDelegate
@@ -83,12 +79,8 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[stateMenuItemsAlreadyValidated release];
-	[menuItemArray release];
 
 	self.delegate = nil;
-
-	[super dealloc];
 }
 
 @synthesize delegate;
@@ -147,7 +139,7 @@
 													direction:AIIconNormal]];
 	[menuItem setTag:statusType];
 	
-	return [menuItem autorelease];
+	return menuItem;
 }
 
 /*!
@@ -172,61 +164,60 @@
 		* are grouped together.
 		*/
 	for (AIStatus *statusState in [adium.statusController sortedFullStateArray]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		AIStatusType thisStatusType = statusState.statusType;
-		AIStatusMutabilityType thisStatusMutabilityType = [statusState mutabilityType];
-		
-		if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
-			(thisStatusMutabilityType == AISecondaryLockedStatusState)) {
-			//Add the custom item, as we are ending this group
-			[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+		@autoreleasepool {
+			AIStatusType thisStatusType = statusState.statusType;
+			AIStatusMutabilityType thisStatusMutabilityType = [statusState mutabilityType];
 			
-			//Add a divider when we switch to a secondary locked group
-			[menuItemArray addObject:[NSMenuItem separatorItem]];
-		}
-		
-		//We treat Invisible statuses as being the same as Away for purposes of the menu
-		if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;
-		
-		/* Add the "Custom..." state option and a separatorItem before beginning to add items for a new statusType
-			* Sorting the menu items before enumerating means that we know our statuses are sorted first by statusType
-			*/
-		if ((currentStatusType != thisStatusType) &&
-			(currentStatusType != AIOfflineStatusType)) {
-			
-			//Don't include a Custom item after the secondary locked group, as it was already included
-			if ((currentStatusMutabilityType != AISecondaryLockedStatusState)) {
+			if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
+				(thisStatusMutabilityType == AISecondaryLockedStatusState)) {
+				//Add the custom item, as we are ending this group
 				[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+				
+				//Add a divider when we switch to a secondary locked group
+				[menuItemArray addObject:[NSMenuItem separatorItem]];
 			}
 			
-			//Add a divider
-			[menuItemArray addObject:[NSMenuItem separatorItem]];
+			//We treat Invisible statuses as being the same as Away for purposes of the menu
+			if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;
 			
-			currentStatusType = thisStatusType;
-		}
-
-		menuItem = [[NSMenuItem alloc] initWithTitle:[AIStatusMenu titleForMenuDisplayOfState:statusState]
-											  target:self
-											  action:@selector(selectState:)
-									   keyEquivalent:@""];
-		
-		if ([statusState isKindOfClass:[AIStatus class]]) {
-			[menuItem setToolTip:[statusState statusMessageTooltipString]];
+			/* Add the "Custom..." state option and a separatorItem before beginning to add items for a new statusType
+			 * Sorting the menu items before enumerating means that we know our statuses are sorted first by statusType
+			 */
+			if ((currentStatusType != thisStatusType) &&
+				(currentStatusType != AIOfflineStatusType)) {
+				
+				//Don't include a Custom item after the secondary locked group, as it was already included
+				if ((currentStatusMutabilityType != AISecondaryLockedStatusState)) {
+					[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
+				}
+				
+				//Add a divider
+				[menuItemArray addObject:[NSMenuItem separatorItem]];
+				
+				currentStatusType = thisStatusType;
+			}
 			
-		} else {
-			/* AIStatusGroup */
-			[menuItem setSubmenu:[(AIStatusGroup *)statusState statusSubmenuNotifyingTarget:self
-																					 action:@selector(selectState:)]];
+			menuItem = [[NSMenuItem alloc] initWithTitle:[AIStatusMenu titleForMenuDisplayOfState:statusState]
+												  target:self
+												  action:@selector(selectState:)
+										   keyEquivalent:@""];
+			
+			if ([statusState isKindOfClass:[AIStatus class]]) {
+				[menuItem setToolTip:[statusState statusMessageTooltipString]];
+				
+			} else {
+				/* AIStatusGroup */
+				[menuItem setSubmenu:[(AIStatusGroup *)statusState statusSubmenuNotifyingTarget:self
+																						 action:@selector(selectState:)]];
+			}
+			[menuItem setRepresentedObject:[NSDictionary dictionaryWithObject:statusState
+																	   forKey:@"AIStatus"]];
+			[menuItem setTag:currentStatusType];
+			[menuItem setImage:[statusState menuIcon]];
+			[menuItemArray addObject:menuItem];
+			
+			currentStatusMutabilityType = thisStatusMutabilityType;
 		}
-		[menuItem setRepresentedObject:[NSDictionary dictionaryWithObject:statusState
-																   forKey:@"AIStatus"]];
-		[menuItem setTag:currentStatusType];
-		[menuItem setImage:[statusState menuIcon]];
-		[menuItemArray addObject:menuItem];
-		[menuItem release];
-		
-		currentStatusMutabilityType = thisStatusMutabilityType;
-		[pool release];
 	}
 	
 	if (currentStatusType != AIOfflineStatusType) {
@@ -236,7 +227,7 @@
 		 */
 		[menuItemArray addObject:[self customMenuItemForStatusType:currentStatusType]];
 	}
-
+	
 	//Now that we are done creating the menu items, tell the plugin about them
 	[delegate statusMenu:self didRebuildStatusMenuItems:menuItemArray];
 	
@@ -429,7 +420,7 @@
 				lastStatusStateOfThisType.statusMessage = baseStatusState.statusMessage;
 			}
 			
-			baseStatusState = [[lastStatusStateOfThisType retain] autorelease];
+			baseStatusState = lastStatusStateOfThisType;
 		}
 	}
 
@@ -445,7 +436,7 @@
 #pragma mark Class methods
 + (NSMenu *)staticStatusStatesMenuNotifyingTarget:(id)target selector:(SEL)selector
 {
-	NSMenu			*statusStatesMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu			*statusStatesMenu = [[NSMenu alloc] init];
 	AIStatusType	currentStatusType = AIAvailableStatusType;
 	NSMenuItem		*menuItem;
 	
@@ -492,12 +483,11 @@
 		}
 		
 		[statusStatesMenu addItem:menuItem];
-		[menuItem release];
 	}
 	
 	[statusStatesMenu setMenuChangedMessagesEnabled:YES];
 	
-	return [statusStatesMenu autorelease];
+	return statusStatesMenu;
 }
 
 /*!

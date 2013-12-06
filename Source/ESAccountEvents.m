@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import "ESAccountEvents.h"
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
 
@@ -164,7 +163,7 @@
 			description = AILocalizedString(@"disconnected",nil);
 		} else if ([eventID isEqualToString:ACCOUNT_RECEIVED_EMAIL]) {
 			if (userInfo && [userInfo isKindOfClass:[NSString class]]) {
-				description = [[(NSString *)userInfo copy] autorelease];
+				description = [(NSString *)userInfo copy];
 
 			} else {
 				description = AILocalizedString(@"received new email",nil);
@@ -178,7 +177,7 @@
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"pref-accounts" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"pref-accounts" forClass:[self class]];
 	return eventImage;
 }
 
@@ -213,24 +212,24 @@
 			
 			if ([inObject boolValueForProperty:@"isOnline"]) {
 				if (accountConnectionStatusGroupingOnlineTimer) {
-					[accountConnectionStatusGroupingOnlineTimer invalidate]; [accountConnectionStatusGroupingOnlineTimer release];
+					[accountConnectionStatusGroupingOnlineTimer invalidate]; 
 				}
 				
-				accountConnectionStatusGroupingOnlineTimer = [[NSTimer scheduledTimerWithTimeInterval:ACCOUNT_CONNECTION_STATUS_GROUPING
+				accountConnectionStatusGroupingOnlineTimer = [NSTimer scheduledTimerWithTimeInterval:ACCOUNT_CONNECTION_STATUS_GROUPING
 																							   target:self
 																							 selector:@selector(accountConnection:)
 																							 userInfo:inObject
-																							  repeats:NO] retain];
+																							  repeats:NO];
 			} else {
 				if (accountConnectionStatusGroupingOfflineTimer) {
-					[accountConnectionStatusGroupingOfflineTimer invalidate]; [accountConnectionStatusGroupingOfflineTimer release];
+					[accountConnectionStatusGroupingOfflineTimer invalidate]; 
 				}
 				
-				accountConnectionStatusGroupingOfflineTimer = [[NSTimer scheduledTimerWithTimeInterval:ACCOUNT_CONNECTION_STATUS_GROUPING
+				accountConnectionStatusGroupingOfflineTimer = [NSTimer scheduledTimerWithTimeInterval:ACCOUNT_CONNECTION_STATUS_GROUPING
 																								target:self
 																							  selector:@selector(accountDisconnection:)
 																							  userInfo:inObject
-																							   repeats:NO] retain];
+																							   repeats:NO];
 			}
 		}
 	}
@@ -247,7 +246,7 @@
 									 forListObject:[timer userInfo]
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];
-	[accountConnectionStatusGroupingOnlineTimer release]; accountConnectionStatusGroupingOnlineTimer = nil;
+	accountConnectionStatusGroupingOnlineTimer = nil;
 }
 
 /*!
@@ -259,7 +258,7 @@
 									 forListObject:[timer userInfo]
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];
-	[accountConnectionStatusGroupingOfflineTimer release]; accountConnectionStatusGroupingOfflineTimer = nil;
+	accountConnectionStatusGroupingOfflineTimer = nil;
 }
 
 @end

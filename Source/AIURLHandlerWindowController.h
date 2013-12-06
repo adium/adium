@@ -15,9 +15,10 @@
  */
 
 #import <Adium/AIPreferencePane.h>
+#import <Adium/AIWindowController.h>
 #import "AIURLHandlerPlugin.h"
 
-@interface AIURLHandlerWindowController : NSWindowController {
+@interface AIURLHandlerWindowController : AIWindowController {
 	IBOutlet		NSTableView			*tableView;
 	
 	IBOutlet		NSButton					*checkBox_enforceDefault;

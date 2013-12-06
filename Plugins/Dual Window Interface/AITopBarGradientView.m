@@ -30,20 +30,11 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[startColor release];
-	[endColor release];
-	
-	[super dealloc];
-}
-
 -(void)drawRect:(NSRect)aRect
 {
 	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:self.startColor
 														 endingColor:self.endColor];
 	[gradient drawInRect:self.bounds angle:90.0];
-	[gradient release];
 	
     NSBezierPath *path = [NSBezierPath bezierPath];
     

@@ -26,30 +26,22 @@
  *
  * Opens a contextual (pop-up) menu, allowing to insert emoticons.
  */
-@interface AIMessageViewEmoticonsController : NSObject <AIImageCollectionViewDelegate> {
-	IBOutlet NSMenu *menu;
-	IBOutlet AIImageCollectionView *emoticonsCollectionView;
-	IBOutlet NSTextField *emoticonTitleLabel;
-	IBOutlet NSTextField *emoticonSymbolLabel;
-	IBOutlet NSView *alignmentView;
-	
+@interface AIMessageViewEmoticonsController : NSObject <AIImageCollectionViewDelegate, NSMenuDelegate> {
 	AIMessageEntryTextView *textView;
-	
 	NSArray *emoticons;
 	
 @private
 	NSArray *emoticonTitles;
 	NSArray *emoticonSymbols;
-	
-	NSMutableArray *AI_topLevelObjects;
 }
 
-@property (assign) IBOutlet NSMenu *menu;
-@property (assign) IBOutlet AIImageCollectionView *emoticonsCollectionView;
-@property (assign) IBOutlet NSTextField *emoticonTitleLabel;
-@property (assign) IBOutlet NSTextField *emoticonSymbolLabel;
+@property (weak) IBOutlet NSMenu *menu;
+@property (weak) IBOutlet AIImageCollectionView *emoticonsCollectionView;
+@property (weak) IBOutlet NSTextField *emoticonTitleLabel;
+@property (weak) IBOutlet NSTextField *emoticonSymbolLabel;
+@property (weak) IBOutlet NSView *alignmentView;
 
-@property (retain) AIMessageEntryTextView *textView;
+@property (strong) AIMessageEntryTextView *textView;
 
 @property (copy) NSArray *emoticons;
 @property (copy) NSArray *emoticonTitles;

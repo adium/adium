@@ -66,8 +66,7 @@
 	NSColor		*offlineLabelColor;
 	NSColor		*mobileLabelColor;
 
-    CGFloat		alpha;
-	BOOL		offlineImageFading;	
+	BOOL		offlineImageFading;
 	
 	NSSet		*interestedKeysSet;
 }

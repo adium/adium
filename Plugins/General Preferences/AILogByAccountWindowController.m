@@ -26,15 +26,9 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
 	if((self = [super initWithWindowNibName:windowNibName])) {
-		accounts = [adium.accountController.accounts retain];
+		accounts = adium.accountController.accounts;
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[accounts release];
-	[super dealloc];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

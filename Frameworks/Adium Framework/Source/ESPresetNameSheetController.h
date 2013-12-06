@@ -36,7 +36,6 @@ typedef enum {
 	id			userInfo;
 }
 - (id)initWithDefaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo;
-- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
 - (IBAction)okay:(id)sender;
 - (IBAction)cancel:(id)sender;
 
