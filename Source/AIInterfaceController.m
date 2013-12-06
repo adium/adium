@@ -1344,7 +1344,25 @@
 #pragma mark Question Display
 - (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+				target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+{
+	[self displayQuestion:inTitle
+withAttributedDescription:inDesc
+		  withWindowTitle:inWindowTitle
+			defaultButton:inDefaultButton
+		  alternateButton:inAlternateButton
+			  otherButton:inOtherButton
+			  suppression:inSuppression
+				  makeKey:TRUE
+				   target:inTarget
+				 selector:inSelector
+				 userInfo:inUserInfo];
+}
+
+
+- (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
 {
 	NSMutableDictionary *questionDict = [NSMutableDictionary dictionary];
 	
@@ -1368,13 +1386,14 @@
 		[questionDict setObject:NSStringFromSelector(inSelector) forKey:@"Selector"];
 	if(inUserInfo != nil)
 		[questionDict setObject:inUserInfo forKey:@"Userinfo"];
+	[questionDict setObject:@(key) forKey:@"Make Key"];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
 }
 
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
-				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+				target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
 {
 	[self displayQuestion:inTitle
 withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
@@ -1385,6 +1404,26 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		  alternateButton:inAlternateButton
 			  otherButton:inOtherButton
 			  suppression:inSuppression
+				   target:inTarget
+				 selector:inSelector
+				 userInfo:inUserInfo];
+}
+
+
+- (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
+{
+	[self displayQuestion:inTitle
+withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
+														   attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:0]
+																								  forKey:NSFontAttributeName]] autorelease]
+		  withWindowTitle:inWindowTitle
+			defaultButton:inDefaultButton
+		  alternateButton:inAlternateButton
+			  otherButton:inOtherButton
+			  suppression:inSuppression
+				  makeKey:key
 				   target:inTarget
 				 selector:inSelector
 				 userInfo:inUserInfo];
