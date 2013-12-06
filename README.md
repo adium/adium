@@ -1,9 +1,9 @@
 [Adium](https://adium.im)
 ========================
 
-[![Adiumy](https://adium.im/images/logo.png)](https://sourceforge.net/projects/adium/files/Adium_1.5.8.dmg/download?accel_key=67%3A1382826588%3Ahttps%253A//www.adium.im/%3A4df3bdae%249307b389bd2bf68b9102c79e586756ec533fe7d2&click_id=1f3aa4e6-3e8e-11e3-a034-0200ac1d1d9b-1&source=accel)
+[![Adiumy](https://adium.im/images/logo.png)](https://sourceforge.net/projects/adium/files/Adium_1.5.9.dmg/download?accel_key=67%3A1386175847%3Ahttps%253A//adium.im/%3A64fc072b%242796f9fa06c20c320881147a26394ee76682951e&click_id=399ffab8-5d04-11e3-b3d1-0200ac1d1d96-1&source=accel)
 
-[Download Adium 1.5.8](https://sourceforge.net/projects/adium/files/Adium_1.5.8.dmg/download?accel_key=67%3A1382826588%3Ahttps%253A//www.adium.im/%3A4df3bdae%249307b389bd2bf68b9102c79e586756ec533fe7d2&click_id=1f3aa4e6-3e8e-11e3-a034-0200ac1d1d9b-1&source=accel)
+[Download Adium 1.5.9](https://sourceforge.net/projects/adium/files/Adium_1.5.9.dmg/download?accel_key=67%3A1386175847%3Ahttps%253A//adium.im/%3A64fc072b%242796f9fa06c20c320881147a26394ee76682951e&click_id=399ffab8-5d04-11e3-b3d1-0200ac1d1d96-1&source=accel)
 
 ## About Adium ##
 
