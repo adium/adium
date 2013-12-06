@@ -675,6 +675,8 @@ timer_control_cb(void *opdata, unsigned int interval) {
 	}
 	
 	if (interval > 0) {
+		timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+		
 		dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC), interval * NSEC_PER_SEC, NSEC_PER_SEC);
 		
 		dispatch_source_set_event_handler(timer, ^{
