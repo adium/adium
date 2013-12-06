@@ -372,6 +372,13 @@ typedef enum {
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
 
+- (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+- (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+
 #pragma mark Synchronized Flashing
 - (void)registerFlashObserver:(id <AIFlashObserver>)inObserver;
 - (void)unregisterFlashObserver:(id <AIFlashObserver>)inObserver;

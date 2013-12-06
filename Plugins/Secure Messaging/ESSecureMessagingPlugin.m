@@ -313,6 +313,7 @@
 												   alternateButton:AILocalizedString(@"Continue Logging", nil)
 													   otherButton:nil
 													   suppression:AILocalizedString(@"Don’t ask again", nil)
+														   makeKey:NO
 															target:self
 														  selector:@selector(logOTRQuestion:userInfo:suppression:)
 														  userInfo:inChat];
