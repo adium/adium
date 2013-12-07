@@ -16,10 +16,10 @@
 
 #import <Adium/AIContentControllerProtocol.h>
 
-@class SHLinkEditorWindowController, SHLinkFavoritesPreferences;
+@class AIPopUpToolbarItem;
 
-@interface SHLinkManagementPlugin : AIPlugin {
-    NSToolbarItem   *toolbarItem;
+@interface SHLinkManagementPlugin : AIPlugin <NSMenuDelegate> {
+    AIPopUpToolbarItem   *toolbarItem;
 }
 
 @end

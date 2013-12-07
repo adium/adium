@@ -23,6 +23,19 @@
 	return ([self indexOfObjectIdenticalTo:obj] != NSNotFound);
 }
 
+//Custom collection operator: @first
+- (id)_firstForKeyPath:(NSString*)keyPath
+{
+	NSArray *array = [self valueForKeyPath:keyPath];
+	if ([array respondsToSelector:@selector(objectAtIndex:)] &&
+		[array respondsToSelector:@selector(count)]) {
+		if ([array count])
+			return [array objectAtIndex:0];
+	}
+	
+	return nil;
+}
+
 // Returns an array from the owners bundle with the specified name
 + (NSArray *)arrayNamed:(NSString *)name forClass:(Class)inClass
 {
