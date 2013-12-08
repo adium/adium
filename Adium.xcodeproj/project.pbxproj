@@ -10119,7 +10119,7 @@
 			files = (
 			);
 			inputPaths = (
-				$TARGET_BUILD_DIR/include/PlistMacros.h,
+				"$(CONFIGURATION_TEMP_DIR)/include/PlistMacros.h",
 				"$(SRCROOT)/Plists/buildnum",
 			);
 			name = "Run Generate Buildnum File Script";
@@ -10176,8 +10176,8 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				"$(TARGET_BUILD_DIR)/include/PlistMacros.h",
-				"$(TARGET_BUILD_DIR)/include/DummyFileToForceScriptToRunEveryTimeWithoutBeingCreated",
+				"$(CONFIGURATION_TEMP_DIR)/include/PlistMacros.h",
+				"$(CONFIGURATION_TEMP_DIR)/include/DummyFileToForceScriptToRunEveryTimeWithoutBeingCreated",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
