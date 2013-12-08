@@ -201,7 +201,7 @@ OMNIWEB_BUNDLE_ID : @{ @"URL" : @"activeWorkspace.browsers.@first.activeTab.addr
 						[[(NetNewsWireApplication *)sbapp titlesOfTabs] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 							//Skip the "News" item
 							if (idx == 0) return;
-							[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:obj target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:urls[idx]] autorelease]];
+							[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:obj target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:[urls objectAtIndex:idx]] autorelease]];
 						}];
 						[openTabs setObject:menuItems forKey:@"NetNewsWire"];
 						
@@ -258,8 +258,8 @@ OMNIWEB_BUNDLE_ID : @{ @"URL" : @"activeWorkspace.browsers.@first.activeTab.addr
 		//Make sure we support this browser
 		NSDictionary *browser = [BROWSER_ACTIVE_TAB_KEY_PATHS objectForKey:bundleID];
 		if (browser) {
-			[SHLinkEditorWindowController insertLinkTo:[NSURL URLWithString:[sbapp valueForKeyPath:browser[@"URL"]]]
-											  withText:[sbapp valueForKeyPath:browser[@"title"]]
+			[SHLinkEditorWindowController insertLinkTo:[NSURL URLWithString:[sbapp valueForKeyPath:[browser objectForKey:@"URL"]]]
+											  withText:[sbapp valueForKeyPath:[browser objectForKey:@"title"]]
 												inView:earliestTextView];
 		}
 	}
