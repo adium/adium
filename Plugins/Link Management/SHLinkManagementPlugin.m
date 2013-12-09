@@ -232,7 +232,7 @@ OMNIWEB_BUNDLE_ID : @{ @"URL" : @"activeWorkspace.browsers.@first.activeTab.addr
 		} else if (openTabs.count > 1) {
 			[menu addItem:[NSMenuItem separatorItem]];
 			[openTabs enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Insert %@ link", @"Used in a menu that displays open browser tabs"), key] action:nil keyEquivalent:@""];
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Insert %@ Link", @"Used in a menu that displays open browser tabs"), key] action:nil keyEquivalent:@""];
 				NSMenu *subMenu = [[NSMenu alloc] initWithTitle:@""];
 				[obj enumerateObjectsUsingBlock:^(id subobj, NSUInteger idx, BOOL *substop) {
 					[subMenu addItem:subobj];
