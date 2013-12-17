@@ -297,9 +297,10 @@ AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
 	[participatingNicksFlags removeObjectForKey:from];
 	if (flags) [participatingNicksFlags setObject:flags forKey:to];
 	
-	AIListObject *contact = [participatingNicksContacts objectForKey:from];
+	AIListObject *contact = [[participatingNicksContacts objectForKey:from] retain];
 	[participatingNicksContacts removeObjectForKey:from];
 	if (contact) [participatingNicksContacts setObject:contact forKey:to];
+	[contact release];
 }
 
 /*!
