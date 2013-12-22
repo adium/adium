@@ -177,8 +177,8 @@
 					</object>
 					<object class="NSPopUpButton" id="365143233">
 						<reference key="NSNextResponder" ref="261192207"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{173, 265}, {303, 26}}</string>
+						<int key="NSvFlags">271</int>
+						<string key="NSFrame">{{173, 265}, {269, 26}}</string>
 						<reference key="NSSuperview" ref="261192207"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="346757463"/>
@@ -201,33 +201,33 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="355447198">
-								<reference key="NSMenu" ref="433605837"/>
-								<string type="base64-UTF8" key="NSTitle">IA</string>
-								<string key="NSKeyEquiv"/>
-								<int key="NSKeyEquivModMask">1048576</int>
-								<int key="NSMnemonicLoc">2147483647</int>
-								<int key="NSState">1</int>
-								<object class="NSCustomResource" key="NSOnImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuCheckmark</string>
-								</object>
-								<object class="NSCustomResource" key="NSMixedImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">NSMenuMixedState</string>
-								</object>
-								<string key="NSAction">_popUpItemAction:</string>
-								<reference key="NSTarget" ref="495829525"/>
-							</object>
+							<nil key="NSMenuItem"/>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="433605837">
 								<object class="NSMutableString" key="NSTitle">
 									<characters key="NS.bytes">OtherViews</characters>
 								</object>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<reference ref="355447198"/>
+									<object class="NSMenuItem" id="355447198">
+										<reference key="NSMenu" ref="433605837"/>
+										<string type="base64-UTF8" key="NSTitle">IA</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<object class="NSCustomResource" key="NSOnImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuCheckmark</string>
+										</object>
+										<object class="NSCustomResource" key="NSMixedImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">NSMenuMixedState</string>
+										</object>
+										<string key="NSAction">_popUpItemAction:</string>
+										<reference key="NSTarget" ref="495829525"/>
+									</object>
 								</array>
 							</object>
+							<int key="NSSelectedIndex">-1</int>
 							<int key="NSPreferredEdge">3</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -261,8 +261,8 @@
 					</object>
 					<object class="NSButton" id="346757463">
 						<reference key="NSNextResponder" ref="261192207"/>
-						<int key="NSvFlags">270</int>
-						<string key="NSFrame">{{475, 261}, {111, 32}}</string>
+						<int key="NSvFlags">267</int>
+						<string key="NSFrame">{{441, 261}, {145, 32}}</string>
 						<reference key="NSSuperview" ref="261192207"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="152864849"/>
@@ -312,13 +312,10 @@
 											<reference key="NSNextKeyView" ref="445790025"/>
 											<reference key="NSTableView" ref="712016614"/>
 										</object>
-										<object class="_NSCornerView" key="NSCornerView" id="705249390">
-											<reference key="NSNextResponder" ref="476167500"/>
+										<object class="_NSCornerView" key="NSCornerView">
+											<nil key="NSNextResponder"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{-22, 0}, {12, 17}}</string>
-											<reference key="NSSuperview" ref="476167500"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="146545853"/>
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="493648427">
@@ -457,18 +454,16 @@
 								<reference key="NSBGColor" ref="1055559834"/>
 								<int key="NScvFlags">4</int>
 							</object>
-							<reference ref="705249390"/>
 						</array>
 						<string key="NSFrame">{{172, 55}, {405, 151}}</string>
 						<reference key="NSSuperview" ref="261192207"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="705249390"/>
+						<reference key="NSNextKeyView" ref="146545853"/>
 						<int key="NSsFlags">133682</int>
 						<reference key="NSVScroller" ref="849894620"/>
 						<reference key="NSHScroller" ref="293354221"/>
 						<reference key="NSContentView" ref="445790025"/>
 						<reference key="NSHeaderClipView" ref="146545853"/>
-						<reference key="NSCornerView" ref="705249390"/>
 						<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 						<double key="NSMinMagnification">0.25</double>
 						<double key="NSMaxMagnification">4</double>

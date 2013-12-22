@@ -20,10 +20,31 @@
 #import "SHLinkEditorWindowController.h"
 #import "SHLinkManagementPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
+#import <ScriptingBridge/ScriptingBridge.h>
+#import <AIUtilities/AIPopUpToolbarItem.h>
+
+//Browsers used with Scripting Bridge
+#import "Safari.h"
+#import "GoogleChrome.h"
+#import "NetNewsWire.h"
+#import "OmniWeb.h"
+
+#define SAFARI_BUNDLE_ID @"com.apple.Safari"
+#define WEBKIT_BUNDLE_ID @"org.webkit.nightly.WebKit"
+#define CHROME_BUNDLE_ID @"com.google.Chrome"
+#define OMNIWEB_BUNDLE_ID @"com.omnigroup.OmniWeb5"
+#define NETNEWSWIRE_BUNDLE_ID @"com.ranchero.NetNewsWire"
+
+#define BROWSER_ACTIVE_TAB_KEY_PATHS        @{ \
+SAFARI_BUNDLE_ID : @{ @"URL" : @"windows.@first.currentTab.URL", @"title" : @"windows.@first.currentTab.name" }, \
+WEBKIT_BUNDLE_ID : @{ @"URL" : @"windows.@first.currentTab.URL", @"title" : @"windows.@first.currentTab.name" }, \
+CHROME_BUNDLE_ID : @{ @"URL" : @"windows.@first.activeTab.URL", @"title" : @"windows.@first.activeTab.title" }, \
+OMNIWEB_BUNDLE_ID : @{ @"URL" : @"activeWorkspace.browsers.@first.activeTab.address", @"title" : @"activeWorkspace.browsers.@first.activeTab.title" } }
 
 #define ADD_LINK_TITLE			[AILocalizedString(@"Add Link",nil) stringByAppendingEllipsis]
 #define EDIT_LINK_TITLE			[AILocalizedString(@"Edit Link",nil) stringByAppendingEllipsis]
@@ -66,6 +87,10 @@
 //Update our add/edit link menu item
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+	//Enable the insert link menu items
+	if (menuItem.action == @selector(addLink:))
+		return YES;
+	
 	NSResponder	*responder = [[[NSApplication sharedApplication] keyWindow] firstResponder];
 	if (responder && [responder isKindOfClass:[NSTextView class]]) {
 		if ([[menuItem title] isEqualToString:RM_LINK_TITLE]) {
@@ -112,26 +137,143 @@
 			[[earliestTextView textStorage] attribute:NSLinkAttributeName
 											  atIndex:selectedRange.location
 									   effectiveRange:&selectedRange];
-			[[earliestTextView textStorage] removeAttribute:NSLinkAttributeName range:selectedRange];			
+			[[earliestTextView textStorage] removeAttribute:NSLinkAttributeName range:selectedRange];
 		}
-	}	
+	}
 }
 
 //Returns YES if a link is under the selection of the passed text view
 - (BOOL)textViewSelectionIsLink:(NSTextView *)textView
 {
 	id		selectedLink = nil;
-	
+	NSRange selectionRange = [textView selectedRange];
 	if ([[textView textStorage] length] &&
-	   [textView selectedRange].location != NSNotFound &&
-	   [textView selectedRange].location != [[textView textStorage] length]) {
-		NSRange selectionRange = [textView selectedRange];
+		selectionRange.location != NSNotFound &&
+		selectionRange.location != [[textView textStorage] length]) {
+		
 		selectedLink = [[textView textStorage] attribute:NSLinkAttributeName
 												 atIndex:selectionRange.location
 										  effectiveRange:&selectionRange];
 	}
-	
 	return selectedLink != nil;
+}
+
+- (void)menuNeedsUpdate:(NSMenu *)menu
+{
+	if ([menu.title isEqualToString:@"LinkPopupMenu"]) {
+		//Remove existing tab entries
+		[menu removeAllItemsAfterIndex:1];
+		
+		//Get each open browser's open tabs
+		NSArray *browsers = @[SAFARI_BUNDLE_ID, CHROME_BUNDLE_ID, WEBKIT_BUNDLE_ID, OMNIWEB_BUNDLE_ID, NETNEWSWIRE_BUNDLE_ID];
+		NSMutableDictionary *openTabs = [[[NSMutableDictionary alloc] init] autorelease];
+		for (NSString *browser in browsers) {
+			NSArray *apps = [NSRunningApplication runningApplicationsWithBundleIdentifier:browser];
+			if (apps.count) {
+				SBApplication *sbapp = [SBApplication applicationWithBundleIdentifier:browser];
+				if (sbapp) {
+					if ([browser isEqualToString:CHROME_BUNDLE_ID]) {
+						NSMutableArray *menuItems = [[[NSMutableArray alloc] init] autorelease];
+						[[(GoogleChromeApplication *)sbapp windows] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+							if (idx > 0)
+								[menuItems addObject:[NSMenuItem separatorItem]];
+							[[obj tabs] enumerateObjectsUsingBlock:^(id tab, NSUInteger tabidx, BOOL *tabstop) {
+								id title = [[tab title] isEqualToString:@""] ? [tab URL] : [tab title];
+								[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:title target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:[tab URL]] autorelease]];
+							}];
+						}];
+						[openTabs setObject:menuItems forKey:@"Chrome"];
+						
+					} else if ([browser isEqualToString:SAFARI_BUNDLE_ID] || [browser isEqualToString:WEBKIT_BUNDLE_ID]) {
+						NSMutableArray *menuItems = [[[NSMutableArray alloc] init] autorelease];
+						[[(SafariApplication *)sbapp windows] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+							if (idx > 0)
+								[menuItems addObject:[NSMenuItem separatorItem]];
+							[[obj tabs] enumerateObjectsUsingBlock:^(id tab, NSUInteger tabidx, BOOL *tabstop) {
+								[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:[tab name] target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:[tab URL]] autorelease]];
+							}];
+						}];
+						[openTabs setObject:menuItems forKey:([browser isEqualToString:SAFARI_BUNDLE_ID] ? @"Safari" : @"WebKit")];
+						
+					} else if ([browser isEqualToString:NETNEWSWIRE_BUNDLE_ID]) {
+						NSMutableArray *menuItems = [[[NSMutableArray alloc] init] autorelease];
+						NSArray *urls = [(NetNewsWireApplication *)sbapp URLsOfTabs];
+						[[(NetNewsWireApplication *)sbapp titlesOfTabs] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+							//Skip the "News" item
+							if (idx == 0) return;
+							[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:obj target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:[urls objectAtIndex:idx]] autorelease]];
+						}];
+						[openTabs setObject:menuItems forKey:@"NetNewsWire"];
+						
+					} else if ([browser isEqualToString:OMNIWEB_BUNDLE_ID]) {
+						NSMutableArray *menuItems = [[[NSMutableArray alloc] init] autorelease];
+						[[(OmniWebApplication *)sbapp browsers] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+							[[obj tabs] enumerateObjectsUsingBlock:^(id tab, NSUInteger tabidx, BOOL *tabstop) {
+								[menuItems addObject:[[[NSMenuItem alloc] initWithTitle:[tab title] target:self action:@selector(addLink:) keyEquivalent:@"" representedObject:[tab address]] autorelease]];
+							}];
+						}];
+						[openTabs setObject:menuItems forKey:@"OmniWeb"];
+					}
+				}
+			}
+		}
+		
+		/* Create the menus
+		 * If there's only one browser open put the tabs in the root menu.
+		 * More than one browser open, make a submenu for each.
+		 */
+		if (openTabs.count == 1) {
+			[menu addItem:[NSMenuItem separatorItem]];
+			[openTabs enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+				[obj enumerateObjectsUsingBlock:^(id subobj, NSUInteger idx, BOOL *substop) {
+					[menu addItem:subobj];
+				}];
+			}];
+		} else if (openTabs.count > 1) {
+			[menu addItem:[NSMenuItem separatorItem]];
+			[openTabs enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+				NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Insert %@ Link", @"Used in a menu that displays open browser tabs"), key] action:nil keyEquivalent:@""];
+				NSMenu *subMenu = [[NSMenu alloc] initWithTitle:@""];
+				[obj enumerateObjectsUsingBlock:^(id subobj, NSUInteger idx, BOOL *substop) {
+					[subMenu addItem:subobj];
+				}];
+				[menu addItem:menuItem];
+				[menu setSubmenu:subMenu forItem:menuItem];
+				[menuItem release];
+			}];
+		}
+	}
+}
+
+//Insert a link from the frontmost tab in the default browser
+- (IBAction)addDefaultLink:(id)sender
+{
+	NSURL *defaultBrowser = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:@"http://adium.im"]];
+	SBApplication *sbapp = [SBApplication applicationWithURL:defaultBrowser];
+	if (sbapp && sbapp.isRunning) {
+		NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+		NSTextView	*earliestTextView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
+		NSString *bundleID = [[NSBundle bundleWithURL:defaultBrowser] bundleIdentifier];
+		
+		//Make sure we support this browser
+		NSDictionary *browser = [BROWSER_ACTIVE_TAB_KEY_PATHS objectForKey:bundleID];
+		if (browser) {
+			[SHLinkEditorWindowController insertLinkTo:[NSURL URLWithString:[sbapp valueForKeyPath:[browser objectForKey:@"URL"]]]
+											  withText:[sbapp valueForKeyPath:[browser objectForKey:@"title"]]
+												inView:earliestTextView];
+		}
+	}
+}
+
+- (IBAction)addLink:(id)sender
+{
+	if ([sender isKindOfClass:[NSMenuItem class]] && [sender representedObject]) {
+		NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+		NSTextView	*earliestTextView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
+		[SHLinkEditorWindowController insertLinkTo:[sender representedObject]
+										  withText:[sender title]
+											inView:earliestTextView];
+	}
 }
 
 #pragma mark Toolbar Item stuff
@@ -143,17 +285,29 @@
         [adium.toolbarController unregisterToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
         [toolbarItem release]; toolbarItem = nil;
     }
-    
-    toolbarItem = [[AIToolbarUtilities toolbarItemWithIdentifier:@"LinkEditor"
-                                                           label:AILocalizedString(@"Link",nil)
-                                                    paletteLabel:AILocalizedString(@"Insert Link",nil)
-                                                         toolTip:AILocalizedString(@"Add/Edit Hyperlink",nil)
-                                                          target:self
-                                                 settingSelector:@selector(setImage:)
-                                                     itemContent:[NSImage imageNamed:@"msg-insert-link" forClass:[self class] loadLazily:YES]
-                                                          action:@selector(editFormattedLink:)
-                                                            menu:nil] retain];
-    
-    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+	
+	NSMenu *toolbarMenu = [[[NSMenu alloc] initWithTitle:@"LinkPopupMenu"] autorelease];
+	toolbarMenu.delegate = self;
+	NSMenuItem *menuItem = [[[NSMenuItem alloc] initWithTitle:ADD_LINK_TITLE
+													   target:self
+													   action:@selector(editFormattedLink:)
+												keyEquivalent:@""] autorelease];
+	[toolbarMenu addItem:menuItem];
+	menuItem = [[[NSMenuItem alloc] initWithTitle:RM_LINK_TITLE
+										   target:self
+										   action:@selector(removeFormattedLink:)
+									keyEquivalent:@""] autorelease];
+	[toolbarMenu addItem:menuItem];
+	
+	toolbarItem = [[[AIPopUpToolbarItem alloc] initWithItemIdentifier:@"LinkEditor"] autorelease];
+	toolbarItem.menu = toolbarMenu;
+	toolbarItem.label = AILocalizedString(@"Link",nil);
+	toolbarItem.paletteLabel = AILocalizedString(@"Insert Link",nil);
+	toolbarItem.toolTip = AILocalizedString(@"Add/Edit Hyperlink",nil);
+	toolbarItem.image = [NSImage imageNamed:@"msg-insert-link" forClass:[self class] loadLazily:NO];
+	toolbarItem.target = self;
+	toolbarItem.action =  @selector(addDefaultLink:);
+
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 @end
