@@ -121,6 +121,7 @@
 	IBOutlet	NSMenuItem	*menuItem_spellingCheckSpelling;
 	IBOutlet	NSMenuItem	*menuItem_spellingCheckSpellingAsYouType;
 	IBOutlet	NSMenuItem	*menuItem_spellingCheckGrammarWithSpelling;
+	IBOutlet	NSMenuItem	*menuItem_spellingCorrectSpellingAutomatically;
 		
 	IBOutlet	NSMenuItem	*menuItem_speech;
 	IBOutlet	NSMenuItem	*menuItem_startSpeaking;
