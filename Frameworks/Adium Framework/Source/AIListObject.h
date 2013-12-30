@@ -96,6 +96,8 @@ typedef enum {
 	float				cachedSmallestOrder;
 	float				cachedLargestOrder;
 	
+	BOOL				isOnline;
+	
 	// Former properties
 	NSAttributedString	*listObjectStatusMessage;
 	
