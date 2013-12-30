@@ -63,6 +63,21 @@
 //Setting properties ---------------------------------------------------------------------------------------------------
 #pragma mark Setting Properties
 
+static inline Ivar ivarForKey(ESObjectWithProperties *self, NSString *key, void **outValue) {
+    const char *propName = CFStringGetCStringPtr((__bridge CFStringRef)key, kCFStringEncodingUTF8);
+    if (!propName) {
+        char property_name[256] = {0};
+
+        assert([key length] < 256);
+
+        if ([key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding]) {
+            propName = (const char *)property_name;
+        }
+    }
+
+    return propName ? object_getInstanceVariable(self, propName, outValue) : NULL;
+}
+
 /*!
  * @brief Set a property
  *
@@ -80,13 +95,7 @@
         
     [self willChangeValueForKey:key];
 	
-	char property_name[256] = {0};
-	
-	NSAssert([key length] < 256, @"Too long property!");
-	
-	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
-	
-	Ivar ivar = class_getInstanceVariable([self class], property_name);
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
 	// fall back to the dictionary
 	if (ivar == NULL) {
@@ -114,15 +123,13 @@
 		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			
 			NSInteger *idx = (NSInteger*)((char *)self + ivar_getOffset(ivar));
-			NSInteger iValue = [value integerValue];
-			
-			*idx = iValue;
+			*idx = [value integerValue];
+
 		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
 			
 			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
-			BOOL iValue = [value boolValue];
-			
-			*idx = iValue;
+			*idx = [value boolValue];
+
 		}
 	}
     
@@ -206,14 +213,9 @@
 - (id)_valueForProperty:(NSString *)key
 {
 	id ret = nil;
-	id value = nil;
-	char property_name[256] = {0};
-	
-	NSAssert([key length] < 256, @"Too long property!");
-	
-	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
-	
-	Ivar ivar = object_getInstanceVariable(self, property_name, (void **)&value);
+	void *value = nil;
+
+	Ivar ivar = ivarForKey(self, key, &value);
 	
 	if (ivar == NULL) {
 		ret = [propertiesDictionary objectForKey:key];
@@ -222,14 +224,14 @@
 		
 		// attempt to wrap it, if we know how
 		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
-			ret = [NSNumber numberWithInteger:(NSInteger)value];
+			ret = [NSNumber numberWithInteger:(NSInteger)(intptr_t)value];
 		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
 			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
 			ret = [NSNumber numberWithBool:*idx];
 		} else if (ivarType[0] != _C_ID) {
 			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 		} else {
-			ret = [[value retain] autorelease];
+			ret = [[(id)value retain] autorelease];
 		}
 	}
 	
@@ -244,13 +246,7 @@
 - (NSInteger)integerValueForProperty:(NSString *)key
 {
 	NSInteger ret = 0;
-	char property_name[256] = {0};
-	
-	NSAssert([key length] < 256, @"Too long property!");
-	
-	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
-	
-	Ivar ivar = class_getInstanceVariable([self class], property_name);
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
 	if (ivar == NULL) {
 		NSNumber *number = [self numberValueForProperty:key];
@@ -271,28 +267,16 @@
 
 - (int)intValueForProperty:(NSString *)key
 {
-	int ret = 0;
-	
-	NSNumber *number = [self numberValueForProperty:key];
-	ret = [number intValue];
-	
-    return ret;
+	return [[self numberValueForProperty:key] intValue];
 }
 
 - (BOOL)boolValueForProperty:(NSString *)key
 {
 	BOOL ret = FALSE;
-	char property_name[256] = {0};
-	
-	NSAssert([key length] < 256, @"Too long property!");
-	
-	[key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding];
-	
-	Ivar ivar = class_getInstanceVariable([self class], property_name);
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
 	if (ivar == NULL) {
-		NSNumber *number = [self numberValueForProperty:key];
-		ret = [number boolValue];
+		ret = [[self numberValueForProperty:key] boolValue];
 	} else {
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
