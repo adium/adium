@@ -74,7 +74,7 @@ You can authenticate %@ in the following ways:</string>
                         <rect key="frame" x="20" y="86" width="440" height="88"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="88" id="WhA-6u-XJ6"/>
+                            <constraint firstAttribute="height" constant="88" id="VsC-2Y-XQs"/>
                         </constraints>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         <size key="cellSize" width="364" height="18"/>
@@ -100,7 +100,7 @@ You can authenticate %@ in the following ways:</string>
                             </column>
                         </cells>
                     </matrix>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="33" customClass="AILocalizationButton">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="33">
                         <rect key="frame" x="396" y="13" width="70" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="34">
@@ -114,7 +114,7 @@ DQ
                             <action selector="okay:" target="-2" id="41"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="35" customClass="AILocalizationButton">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="35">
                         <rect key="frame" x="314" y="13" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="36">
@@ -130,16 +130,16 @@ Gw
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="26" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="19" id="3LN-L5-BrN"/>
-                    <constraint firstAttribute="trailing" secondItem="28" secondAttribute="trailing" constant="20" symbolic="YES" id="5me-E5-Fjg"/>
-                    <constraint firstItem="28" firstAttribute="top" secondItem="26" secondAttribute="bottom" constant="8" symbolic="YES" id="5wL-lF-foN"/>
-                    <constraint firstItem="33" firstAttribute="baseline" secondItem="35" secondAttribute="baseline" id="EhO-cj-0Ux"/>
-                    <constraint firstItem="33" firstAttribute="leading" secondItem="35" secondAttribute="trailing" constant="12" symbolic="YES" id="Rzi-K3-dm6"/>
-                    <constraint firstAttribute="bottom" secondItem="35" secondAttribute="bottom" constant="20" symbolic="YES" id="VgM-rU-K6C"/>
-                    <constraint firstItem="28" firstAttribute="centerX" secondItem="26" secondAttribute="centerX" id="da4-bW-S2s"/>
-                    <constraint firstItem="33" firstAttribute="trailing" secondItem="28" secondAttribute="trailing" id="hPU-55-qJB"/>
-                    <constraint firstItem="26" firstAttribute="top" secondItem="25" secondAttribute="top" constant="20" symbolic="YES" id="qj4-CL-CGi"/>
-                    <constraint firstItem="28" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="20" symbolic="YES" id="rRp-8w-js8"/>
+                    <constraint firstAttribute="bottom" secondItem="35" secondAttribute="bottom" constant="20" symbolic="YES" id="H2h-gs-QUd"/>
+                    <constraint firstItem="33" firstAttribute="leading" secondItem="35" secondAttribute="trailing" constant="12" symbolic="YES" id="KW7-lG-doZ"/>
+                    <constraint firstItem="28" firstAttribute="top" secondItem="26" secondAttribute="bottom" constant="8" symbolic="YES" id="O5O-VF-DUB"/>
+                    <constraint firstItem="33" firstAttribute="trailing" secondItem="28" secondAttribute="trailing" id="d47-Ek-u7E"/>
+                    <constraint firstAttribute="trailing" secondItem="28" secondAttribute="trailing" constant="20" symbolic="YES" id="dZ6-6O-VAI"/>
+                    <constraint firstItem="26" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="19" id="hu0-7g-bpn"/>
+                    <constraint firstItem="26" firstAttribute="top" secondItem="25" secondAttribute="top" constant="20" symbolic="YES" id="k3G-nO-v8u"/>
+                    <constraint firstItem="28" firstAttribute="leading" secondItem="25" secondAttribute="leading" constant="20" symbolic="YES" id="pw4-cr-hi8"/>
+                    <constraint firstItem="35" firstAttribute="baseline" secondItem="33" secondAttribute="baseline" id="qGx-oC-T3l"/>
+                    <constraint firstItem="26" firstAttribute="centerX" secondItem="28" secondAttribute="centerX" id="yUE-iZ-kxi"/>
                 </constraints>
             </view>
         </window>

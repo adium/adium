@@ -30,12 +30,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="420" height="131"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" id="66" customClass="AILocalizationButton">
+                    <button verticalHuggingPriority="750" id="66">
                         <rect key="frame" x="224" y="12" width="90" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="186">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                             <string key="keyEquivalent" base64-UTF8="YES">
 Gw
 </string>
@@ -47,12 +47,12 @@ Gw
                             <outlet property="view_anchorToRightSide" destination="73" id="99"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="65" customClass="AILocalizationButton">
+                    <button verticalHuggingPriority="750" id="65">
                         <rect key="frame" x="98" y="12" width="90" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="No" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="185">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="pressedButton:" target="-2" id="88"/>
@@ -61,15 +61,15 @@ Gw
                             <outlet property="window_anchorOnLeftSide" destination="72" id="102"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" id="73" customClass="AILocalizationButton">
+                    <button verticalHuggingPriority="750" id="73">
                         <rect key="frame" x="312" y="12" width="90" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Yes" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="188">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
-                            <mutableString key="keyEquivalent" base64-UTF8="YES">
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
 DQ
-</mutableString>
+</string>
                         </buttonCell>
                         <connections>
                             <action selector="pressedButton:" target="-2" id="86"/>
@@ -173,7 +173,7 @@ DQ
                             <outlet property="nextKeyView" destination="92" id="112"/>
                         </connections>
                     </scrollView>
-                    <button id="135" customClass="AILocalizationButton">
+                    <button id="135">
                         <rect key="frame" x="107" y="52" width="295" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="awefweff" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="189">

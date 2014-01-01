@@ -1,1335 +1,205 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">3084</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSBox</string>
-			<string>NSButton</string>
-			<string>NSButtonCell</string>
-			<string>NSCustomObject</string>
-			<string>NSCustomView</string>
-			<string>NSTextField</string>
-			<string>NSTextFieldCell</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="903061984">
-			<object class="NSCustomObject" id="763013335">
-				<string key="NSClassName">AIMessageAlertsAdvancedPreferences</string>
-			</object>
-			<object class="NSCustomObject" id="229462511">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="568518474">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSCustomView" id="398858020">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">268</int>
-				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSButton" id="176177526">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 55}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="708389467"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="847639976">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">8388608</int>
-							<string key="NSContents">For tabs, only count number of unread mentions</string>
-							<object class="NSFont" key="NSSupport" id="709416783">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
-							</object>
-							<reference key="NSControlView" ref="176177526"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<object class="NSCustomResource" key="NSNormalImage" id="956545398">
-								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">NSSwitch</string>
-							</object>
-							<object class="NSButtonImageSource" key="NSAlternateImage" id="2157828">
-								<string key="NSImageName">NSSwitch</string>
-							</object>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="884119393">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 75}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="176177526"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="822655874">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">8388608</int>
-							<string key="NSContents">Show count in tabs (group chat)</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="884119393"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="654209167">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 95}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="884119393"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="940594726">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">8388608</int>
-							<string key="NSContents">Show count in tabs (single chat)</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="654209167"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSTextField" id="238784902">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 180}, {136, 17}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="671892735"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="376418123">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">71304192</int>
-							<string key="NSContents">Counts:</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="238784902"/>
-							<object class="NSColor" key="NSBackgroundColor" id="297831530">
-								<int key="NSColorSpace">6</int>
-								<string key="NSCatalogName">System</string>
-								<string key="NSColorName">controlColor</string>
-								<object class="NSColor" key="NSColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-								</object>
-							</object>
-							<object class="NSColor" key="NSTextColor" id="281235465">
-								<int key="NSColorSpace">6</int>
-								<string key="NSCatalogName">System</string>
-								<string key="NSColorName">controlTextColor</string>
-								<object class="NSColor" key="NSColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MAA</bytes>
-								</object>
-							</object>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSTextField" id="1021205644">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 96}, {136, 17}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="654209167"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="1002539045">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">71304192</int>
-							<string key="NSContents">Tabs:</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="1021205644"/>
-							<reference key="NSBackgroundColor" ref="297831530"/>
-							<reference key="NSTextColor" ref="281235465"/>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSTextField" id="614678972">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 224}, {136, 17}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="793849993"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="860898398">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">71304192</int>
-							<string key="NSContents">Actions:</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="614678972"/>
-							<reference key="NSBackgroundColor" ref="297831530"/>
-							<reference key="NSTextColor" ref="281235465"/>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSTextField" id="118963715">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 247}, {136, 17}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="614678972"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="613444634">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">71304192</int>
-							<string key="NSContents">Unread messages</string>
-							<object class="NSFont" key="NSSupport">
-								<string key="NSName">LucidaGrande-Bold</string>
-								<double key="NSSize">13</double>
-								<int key="NSfFlags">16</int>
-							</object>
-							<reference key="NSControlView" ref="118963715"/>
-							<reference key="NSBackgroundColor" ref="297831530"/>
-							<reference key="NSTextColor" ref="281235465"/>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSTextField" id="869252638">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 19}, {136, 17}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="966965426"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="837591460">
-							<int key="NSCellFlags">68157504</int>
-							<int key="NSCellFlags2">71304192</int>
-							<string key="NSContents">Status menu item:</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="869252638"/>
-							<reference key="NSBackgroundColor" ref="297831530"/>
-							<reference key="NSTextColor" ref="281235465"/>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="587235815">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 139}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="778764564"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="82058532">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Count unread conversations instead of unread messages</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="587235815"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="778764564">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 119}, {424, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1021205644"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="176410927">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">For group chats, only count number of highlights and mentions</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="778764564"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="966965426">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 18}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="633496135">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Badge the menu item with current status</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="966965426"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="793849993">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 223}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="217763349"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="473107338">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Flash status menu item</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="793849993"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="408048011">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 159}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="587235815"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="185936294">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Show count in the menu bar</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="408048011"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSBox" id="708389467">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{20, 43}, {560, 5}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="869252638"/>
-						<string key="NSOffsets">{0, 0}</string>
-						<object class="NSTextFieldCell" key="NSTitleCell">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Box</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<object class="NSColor" key="NSBackgroundColor">
-								<int key="NSColorSpace">6</int>
-								<string key="NSCatalogName">System</string>
-								<string key="NSColorName">textBackgroundColor</string>
-								<object class="NSColor" key="NSColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
-								</object>
-							</object>
-							<object class="NSColor" key="NSTextColor">
-								<int key="NSColorSpace">3</int>
-								<bytes key="NSWhite">MCAwLjgwMDAwMDAxAA</bytes>
-							</object>
-						</object>
-						<int key="NSBorderType">3</int>
-						<int key="NSBoxType">2</int>
-						<int key="NSTitlePosition">0</int>
-						<bool key="NSTransparent">NO</bool>
-					</object>
-					<object class="NSButton" id="217763349">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 203}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="238784902"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="895352077">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Animate the dock icon</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="217763349"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSButton" id="671892735">
-						<reference key="NSNextResponder" ref="398858020"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{156, 179}, {426, 18}}</string>
-						<reference key="NSSuperview" ref="398858020"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="408048011"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="383678620">
-							<int key="NSCellFlags">67108864</int>
-							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Show count in the dock</string>
-							<reference key="NSSupport" ref="709416783"/>
-							<reference key="NSControlView" ref="671892735"/>
-							<int key="NSButtonFlags">1211912448</int>
-							<int key="NSButtonFlags2">2</int>
-							<reference key="NSNormalImage" ref="956545398"/>
-							<reference key="NSAlternateImage" ref="2157828"/>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">200</int>
-							<int key="NSPeriodicInterval">25</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-				</array>
-				<string key="NSFrameSize">{600, 279}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="118963715"/>
-				<string key="NSClassName">NSView</string>
-			</object>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="398858020"/>
-					</object>
-					<int key="connectionID">28</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="587235815"/>
-					</object>
-					<int key="connectionID">30</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="778764564"/>
-					</object>
-					<int key="connectionID">31</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="966965426"/>
-					</object>
-					<int key="connectionID">32</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="793849993"/>
-					</object>
-					<int key="connectionID">33</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="408048011"/>
-					</object>
-					<int key="connectionID">34</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="217763349"/>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePreference:</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="671892735"/>
-					</object>
-					<int key="connectionID">59</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_actions</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="614678972"/>
-					</object>
-					<int key="connectionID">114</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_unreadMessages</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="118963715"/>
-					</object>
-					<int key="connectionID">115</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_statusMenu</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="869252638"/>
-					</object>
-					<int key="connectionID">117</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_statusMenuItemFlash</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="793849993"/>
-					</object>
-					<int key="connectionID">118</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_animateDockIcon</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="217763349"/>
-					</object>
-					<int key="connectionID">119</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_statusMenuItemCount</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="408048011"/>
-					</object>
-					<int key="connectionID">120</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_statusMenuItemBadge</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="966965426"/>
-					</object>
-					<int key="connectionID">121</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_badgeDockIcon</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="671892735"/>
-					</object>
-					<int key="connectionID">122</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_unreadConversations</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="587235815"/>
-					</object>
-					<int key="connectionID">123</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_unreadContentMention</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="778764564"/>
-					</object>
-					<int key="connectionID">124</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_showTabCountSingle</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="654209167"/>
-					</object>
-					<int key="connectionID">125</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_showTabCountGroup</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="884119393"/>
-					</object>
-					<int key="connectionID">126</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkbox_unreadMentionCount</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="176177526"/>
-					</object>
-					<int key="connectionID">127</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">label_tabCounts</string>
-						<reference key="source" ref="763013335"/>
-						<reference key="destination" ref="1021205644"/>
-					</object>
-					<int key="connectionID">130</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Preferences.Unread Conversations</string>
-						<reference key="source" ref="587235815"/>
-						<reference key="destination" ref="568518474"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="587235815"/>
-							<reference key="NSDestination" ref="568518474"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Unread Conversations</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Unread Conversations</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Preferences.Unread Mentions</string>
-						<reference key="source" ref="778764564"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="778764564"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Preferences.Unread Mentions</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Preferences.Unread Mentions</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">111</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Menu Item.Status Menu Item Badge</string>
-						<reference key="source" ref="966965426"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="966965426"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Menu Item.Status Menu Item Badge</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Menu Item.Status Menu Item Badge</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">113</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Menu Item.Status Menu Item Flash Unviewed</string>
-						<reference key="source" ref="793849993"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="793849993"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Menu Item.Status Menu Item Flash Unviewed</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Menu Item.Status Menu Item Flash Unviewed</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">101</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Status Menu Item.Status Menu Item Unread Count</string>
-						<reference key="source" ref="408048011"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="408048011"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Status Menu Item.Status Menu Item Unread Count</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Status Menu Item.Status Menu Item Unread Count</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">105</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Appearance.Animate Dock Icon on Unread Messages</string>
-						<reference key="source" ref="217763349"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="217763349"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Appearance.Animate Dock Icon on Unread Messages</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Appearance.Animate Dock Icon on Unread Messages</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">104</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Appearance.Badge Dock Icon on Unread Messages</string>
-						<reference key="source" ref="671892735"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="671892735"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Appearance.Badge Dock Icon on Unread Messages</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Appearance.Badge Dock Icon on Unread Messages</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">112</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Dual Window Interface.Show Unread Message Count in Tabs</string>
-						<reference key="source" ref="654209167"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="654209167"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Dual Window Interface.Show Unread Message Count in Tabs</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Show Unread Message Count in Tabs</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Dual Window Interface.Show Unread Mention Count Only in Group Chat Tabs</string>
-						<reference key="source" ref="176177526"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="176177526"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Dual Window Interface.Show Unread Mention Count Only in Group Chat Tabs</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Show Unread Mention Count Only in Group Chat Tabs</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">109</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: adium.preferenceController.Dual Window Interface.Show Unread Message Count in Group Chat Tabs</string>
-						<reference key="source" ref="884119393"/>
-						<reference key="destination" ref="763013335"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="884119393"/>
-							<reference key="NSDestination" ref="763013335"/>
-							<string key="NSLabel">value: adium.preferenceController.Dual Window Interface.Show Unread Message Count in Group Chat Tabs</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">adium.preferenceController.Dual Window Interface.Show Unread Message Count in Group Chat Tabs</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">108</int>
-				</object>
-			</array>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<array key="object" id="0"/>
-						<reference key="children" ref="903061984"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="763013335"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="229462511"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">First Responder</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-3</int>
-						<reference key="object" ref="568518474"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Application</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1</int>
-						<reference key="object" ref="398858020"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="118963715"/>
-							<reference ref="614678972"/>
-							<reference ref="671892735"/>
-							<reference ref="217763349"/>
-							<reference ref="793849993"/>
-							<reference ref="778764564"/>
-							<reference ref="587235815"/>
-							<reference ref="708389467"/>
-							<reference ref="966965426"/>
-							<reference ref="869252638"/>
-							<reference ref="408048011"/>
-							<reference ref="238784902"/>
-							<reference ref="1021205644"/>
-							<reference ref="654209167"/>
-							<reference ref="884119393"/>
-							<reference ref="176177526"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Message Alerts Preferences</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">4</int>
-						<reference key="object" ref="587235815"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="82058532"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">5</int>
-						<reference key="object" ref="778764564"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="176410927"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="966965426"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="633496135"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">13</int>
-						<reference key="object" ref="793849993"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="473107338"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">14</int>
-						<reference key="object" ref="408048011"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="185936294"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">44</int>
-						<reference key="object" ref="708389467"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">46</int>
-						<reference key="object" ref="217763349"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="895352077"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">47</int>
-						<reference key="object" ref="671892735"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="383678620"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">63</int>
-						<reference key="object" ref="82058532"/>
-						<reference key="parent" ref="587235815"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">64</int>
-						<reference key="object" ref="176410927"/>
-						<reference key="parent" ref="778764564"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">66</int>
-						<reference key="object" ref="633496135"/>
-						<reference key="parent" ref="966965426"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">67</int>
-						<reference key="object" ref="473107338"/>
-						<reference key="parent" ref="793849993"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">68</int>
-						<reference key="object" ref="185936294"/>
-						<reference key="parent" ref="408048011"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">70</int>
-						<reference key="object" ref="895352077"/>
-						<reference key="parent" ref="217763349"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">71</int>
-						<reference key="object" ref="383678620"/>
-						<reference key="parent" ref="671892735"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">73</int>
-						<reference key="object" ref="869252638"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="837591460"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">74</int>
-						<reference key="object" ref="837591460"/>
-						<reference key="parent" ref="869252638"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">79</int>
-						<reference key="object" ref="118963715"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="613444634"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">80</int>
-						<reference key="object" ref="613444634"/>
-						<reference key="parent" ref="118963715"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">84</int>
-						<reference key="object" ref="614678972"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="860898398"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">85</int>
-						<reference key="object" ref="860898398"/>
-						<reference key="parent" ref="614678972"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">86</int>
-						<reference key="object" ref="1021205644"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1002539045"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">87</int>
-						<reference key="object" ref="1002539045"/>
-						<reference key="parent" ref="1021205644"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">89</int>
-						<reference key="object" ref="654209167"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="940594726"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">90</int>
-						<reference key="object" ref="940594726"/>
-						<reference key="parent" ref="654209167"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">95</int>
-						<reference key="object" ref="176177526"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="847639976"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">96</int>
-						<reference key="object" ref="847639976"/>
-						<reference key="parent" ref="176177526"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">97</int>
-						<reference key="object" ref="884119393"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="822655874"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">98</int>
-						<reference key="object" ref="822655874"/>
-						<reference key="parent" ref="884119393"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">128</int>
-						<reference key="object" ref="238784902"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="376418123"/>
-						</array>
-						<reference key="parent" ref="398858020"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">129</int>
-						<reference key="object" ref="376418123"/>
-						<reference key="parent" ref="238784902"/>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.CustomClassName">AILocalizationButton</string>
-				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="128.CustomClassName">AILocalizationTextField</string>
-				<string key="128.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="129.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="13.CustomClassName">AILocalizationButton</string>
-				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="14.CustomClassName">AILocalizationButton</string>
-				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4.CustomClassName">AILocalizationButton</string>
-				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="44.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="46.CustomClassName">AILocalizationButton</string>
-				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="47.CustomClassName">AILocalizationButton</string>
-				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.CustomClassName">AILocalizationButton</string>
-				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="64.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="68.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="73.CustomClassName">AILocalizationTextField</string>
-				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="79.CustomClassName">AILocalizationTextField</string>
-				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="80.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="84.CustomClassName">AILocalizationTextField</string>
-				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="86.CustomClassName">AILocalizationTextField</string>
-				<string key="86.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="89.CustomClassName">AILocalizationButton</string>
-				<string key="89.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="90.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="95.CustomClassName">AILocalizationButton</string>
-				<string key="95.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="96.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="97.CustomClassName">AILocalizationButton</string>
-				<string key="97.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="98.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">130</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">AILocalizationButton</string>
-					<string key="superclassName">NSButton</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="view_anchorToLeftSide">NSView</string>
-						<string key="view_anchorToRightSide">NSView</string>
-						<string key="window_anchorOnLeftSide">NSWindow</string>
-						<string key="window_anchorOnRightSide">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
-							<string key="name">view_anchorToLeftSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
-							<string key="name">view_anchorToRightSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
-							<string key="name">window_anchorOnLeftSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
-							<string key="name">window_anchorOnRightSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AILocalizationButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AILocalizationTextField</string>
-					<string key="superclassName">NSTextField</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="view_anchorToLeftSide">NSView</string>
-						<string key="view_anchorToRightSide">NSView</string>
-						<string key="window_anchorOnLeftSide">NSWindow</string>
-						<string key="window_anchorOnRightSide">NSWindow</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="view_anchorToLeftSide">
-							<string key="name">view_anchorToLeftSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="view_anchorToRightSide">
-							<string key="name">view_anchorToRightSide</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnLeftSide">
-							<string key="name">window_anchorOnLeftSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="window_anchorOnRightSide">
-							<string key="name">window_anchorOnRightSide</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AILocalizationTextField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIMessageAlertsAdvancedPreferences</string>
-					<string key="superclassName">AIPreferencePane</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="checkbox_animateDockIcon">AILocalizationButton</string>
-						<string key="checkbox_badgeDockIcon">AILocalizationButton</string>
-						<string key="checkbox_showTabCountGroup">AILocalizationButton</string>
-						<string key="checkbox_showTabCountSingle">AILocalizationButton</string>
-						<string key="checkbox_statusMenuItemBadge">AILocalizationButton</string>
-						<string key="checkbox_statusMenuItemCount">AILocalizationButton</string>
-						<string key="checkbox_statusMenuItemFlash">AILocalizationButton</string>
-						<string key="checkbox_unreadContentMention">AILocalizationButton</string>
-						<string key="checkbox_unreadConversations">AILocalizationButton</string>
-						<string key="checkbox_unreadMentionCount">AILocalizationButton</string>
-						<string key="label_actions">NSTextField</string>
-						<string key="label_counts">NSTextField</string>
-						<string key="label_statusMenu">NSTextField</string>
-						<string key="label_tabCounts">NSTextField</string>
-						<string key="label_unreadMessages">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="checkbox_animateDockIcon">
-							<string key="name">checkbox_animateDockIcon</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_badgeDockIcon">
-							<string key="name">checkbox_badgeDockIcon</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_showTabCountGroup">
-							<string key="name">checkbox_showTabCountGroup</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_showTabCountSingle">
-							<string key="name">checkbox_showTabCountSingle</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_statusMenuItemBadge">
-							<string key="name">checkbox_statusMenuItemBadge</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_statusMenuItemCount">
-							<string key="name">checkbox_statusMenuItemCount</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_statusMenuItemFlash">
-							<string key="name">checkbox_statusMenuItemFlash</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_unreadContentMention">
-							<string key="name">checkbox_unreadContentMention</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_unreadConversations">
-							<string key="name">checkbox_unreadConversations</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="checkbox_unreadMentionCount">
-							<string key="name">checkbox_unreadMentionCount</string>
-							<string key="candidateClassName">AILocalizationButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_actions">
-							<string key="name">label_actions</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_counts">
-							<string key="name">label_counts</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_statusMenu">
-							<string key="name">label_statusMenu</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_tabCounts">
-							<string key="name">label_tabCounts</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="label_unreadMessages">
-							<string key="name">label_unreadMessages</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIMessageAlertsAdvancedPreferences.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIModularPane</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">changePreference:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">changePreference:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">changePreference:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">view</string>
-						<string key="NS.object.0">NSView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">view</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">view</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIModularPane.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">AIPreferencePane</string>
-					<string key="superclassName">AIModularPane</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/AIPreferencePane.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">selectServiceType:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">selectServiceType:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">selectServiceType:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSObject.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<real value="3200" key="NS.object.0"/>
-		</object>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">NSSwitch</string>
-			<string key="NS.object.0">{15, 15}</string>
-		</object>
-	</data>
-</archive>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="1060" defaultVersion="1080" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="AIMessageAlertsAdvancedPreferences">
+            <connections>
+                <outlet property="checkbox_animateDockIcon" destination="46" id="119"/>
+                <outlet property="checkbox_badgeDockIcon" destination="47" id="122"/>
+                <outlet property="checkbox_showTabCountGroup" destination="97" id="126"/>
+                <outlet property="checkbox_showTabCountSingle" destination="89" id="125"/>
+                <outlet property="checkbox_statusMenuItemBadge" destination="12" id="121"/>
+                <outlet property="checkbox_statusMenuItemCount" destination="14" id="120"/>
+                <outlet property="checkbox_statusMenuItemFlash" destination="13" id="118"/>
+                <outlet property="checkbox_unreadContentMention" destination="5" id="124"/>
+                <outlet property="checkbox_unreadConversations" destination="4" id="123"/>
+                <outlet property="checkbox_unreadMentionCount" destination="95" id="127"/>
+                <outlet property="label_actions" destination="84" id="114"/>
+                <outlet property="label_statusMenu" destination="73" id="117"/>
+                <outlet property="label_tabCounts" destination="86" id="130"/>
+                <outlet property="label_unreadMessages" destination="79" id="115"/>
+                <outlet property="view" destination="1" id="28"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <customView id="1" userLabel="Message Alerts Preferences">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="279"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button id="47">
+                    <rect key="frame" x="156" y="179" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show count in the dock" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="71">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="59"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Appearance.Badge Dock Icon on Unread Messages" id="112"/>
+                    </connections>
+                </button>
+                <button id="46">
+                    <rect key="frame" x="156" y="203" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Animate the dock icon" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="70">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="58"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Appearance.Animate Dock Icon on Unread Messages" id="104"/>
+                    </connections>
+                </button>
+                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="44">
+                    <rect key="frame" x="20" y="43" width="560" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <font key="titleFont" metaFont="system"/>
+                </box>
+                <button id="14">
+                    <rect key="frame" x="156" y="159" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show count in the menu bar" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="68">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="34"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Status Menu Item.Status Menu Item Unread Count" id="105"/>
+                    </connections>
+                </button>
+                <button id="13">
+                    <rect key="frame" x="156" y="223" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Flash status menu item" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="67">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="33"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Status Menu Item.Status Menu Item Flash Unviewed" id="101"/>
+                    </connections>
+                </button>
+                <button id="12">
+                    <rect key="frame" x="156" y="18" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Badge the menu item with current status" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="66">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="32"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Status Menu Item.Status Menu Item Badge" id="113"/>
+                    </connections>
+                </button>
+                <button id="5">
+                    <rect key="frame" x="156" y="119" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="For group chats, only count number of highlights and mentions" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="64">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="31"/>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Status Preferences.Unread Mentions" id="111"/>
+                    </connections>
+                </button>
+                <button id="4">
+                    <rect key="frame" x="156" y="139" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Count unread conversations instead of unread messages" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="63">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changePreference:" target="-2" id="30"/>
+                        <binding destination="-3" name="value" keyPath="adium.preferenceController.Status Preferences.Unread Conversations" id="110"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" id="73">
+                    <rect key="frame" x="17" y="19" width="136" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Status menu item:" id="74">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="79">
+                    <rect key="frame" x="17" y="247" width="136" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Unread messages" id="80">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="84">
+                    <rect key="frame" x="17" y="224" width="136" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Actions:" id="85">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="86">
+                    <rect key="frame" x="17" y="96" width="136" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Tabs:" id="87">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="128">
+                    <rect key="frame" x="17" y="180" width="136" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Counts:" id="129">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button id="89">
+                    <rect key="frame" x="156" y="95" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show count in tabs (single chat)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="90">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Dual Window Interface.Show Unread Message Count in Tabs" id="107"/>
+                    </connections>
+                </button>
+                <button id="97">
+                    <rect key="frame" x="156" y="75" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show count in tabs (group chat)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="98">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Dual Window Interface.Show Unread Message Count in Group Chat Tabs" id="108"/>
+                    </connections>
+                </button>
+                <button id="95">
+                    <rect key="frame" x="156" y="55" width="426" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="For tabs, only count number of unread mentions" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="96">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="adium.preferenceController.Dual Window Interface.Show Unread Mention Count Only in Group Chat Tabs" id="109"/>
+                    </connections>
+                </button>
+            </subviews>
+        </customView>
+    </objects>
+</document>
