@@ -31,11 +31,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="448" height="166"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112">
-                        <rect key="frame" x="14" y="126" width="65" height="17"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112">
+                        <rect key="frame" x="14" y="126" width="73" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="61" id="191"/>
+                            <constraint firstAttribute="width" constant="69" id="191"/>
                         </constraints>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Link Text:" id="162">
                             <font key="font" metaFont="system"/>
@@ -44,7 +44,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="113">
-                        <rect key="frame" x="14" y="99" width="65" height="17"/>
+                        <rect key="frame" x="14" y="99" width="73" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="URL:" id="163">
                             <font key="font" metaFont="system"/>
@@ -53,10 +53,10 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="120">
-                        <rect key="frame" x="85" y="124" width="343" height="22"/>
+                        <rect key="frame" x="93" y="124" width="335" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="343" id="192"/>
+                            <constraint firstAttribute="width" constant="335" id="192"/>
                         </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="164">
                             <font key="font" metaFont="system"/>
@@ -68,21 +68,21 @@
                         </connections>
                     </textField>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="122" customClass="AIAutoScrollView">
-                        <rect key="frame" x="85" y="60" width="343" height="56"/>
+                        <rect key="frame" x="93" y="60" width="335" height="56"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <clipView key="contentView" id="4m5-d7-0GX">
-                            <rect key="frame" x="1" y="1" width="341" height="54"/>
+                            <rect key="frame" x="1" y="1" width="333" height="54"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="121" customClass="SHAutoValidatingTextView">
-                                    <rect key="frame" x="0.0" y="0.0" width="341" height="54"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="333" height="54"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="341" height="54"/>
-                                    <size key="maxSize" width="341" height="10000000"/>
+                                    <size key="minSize" width="333" height="54"/>
+                                    <size key="maxSize" width="343" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="341" height="54"/>
-                                    <size key="maxSize" width="341" height="10000000"/>
+                                    <size key="minSize" width="333" height="54"/>
+                                    <size key="maxSize" width="343" height="10000000"/>
                                     <connections>
                                         <outlet property="delegate" destination="-2" id="137"/>
                                     </connections>
@@ -134,7 +134,7 @@ Gw
                         </connections>
                     </button>
                     <imageView hidden="YES" toolTip="The URL you entered may not be valid.  Please check before sending." translatesAutoresizingMaskIntoConstraints="NO" id="125">
-                        <rect key="frame" x="46" y="67" width="32" height="32"/>
+                        <rect key="frame" x="53" y="67" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ErrorAlert" id="167"/>
                     </imageView>
@@ -168,7 +168,7 @@ Gw
                     <constraint firstItem="124" firstAttribute="baseline" secondItem="123" secondAttribute="baseline" id="183"/>
                     <constraint firstItem="123" firstAttribute="leading" secondItem="124" secondAttribute="trailing" constant="12" symbolic="YES" id="184"/>
                     <constraint firstItem="120" firstAttribute="leading" secondItem="122" secondAttribute="leading" id="185"/>
-                    <constraint firstItem="125" firstAttribute="leading" secondItem="109" secondAttribute="leading" constant="46" id="186"/>
+                    <constraint firstItem="125" firstAttribute="leading" secondItem="109" secondAttribute="leading" constant="53" id="186"/>
                     <constraint firstAttribute="bottom" secondItem="147" secondAttribute="bottom" constant="19" id="187"/>
                     <constraint firstItem="120" firstAttribute="leading" secondItem="112" secondAttribute="trailing" constant="8" symbolic="YES" id="188"/>
                     <constraint firstItem="120" firstAttribute="top" secondItem="109" secondAttribute="top" constant="20" symbolic="YES" id="189"/>

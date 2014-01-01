@@ -26,12 +26,12 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="302" id="88"/>
                     </constraints>
-                    <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="77">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="77">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="59">
                             <items>
-                                <menuItem title="Item1" state="on" id="64"/>
+                                <menuItem title="Item1" id="64"/>
                             </items>
                         </menu>
                     </popUpButtonCell>
@@ -39,11 +39,11 @@
                         <action selector="changedPreference:" target="-2" id="66"/>
                     </connections>
                 </popUpButton>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46">
-                    <rect key="frame" x="62" y="29" width="73" height="17"/>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46">
+                    <rect key="frame" x="49" y="27" width="86" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="69" id="87"/>
+                        <constraint firstAttribute="width" constant="82" id="87"/>
                     </constraints>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Encryption:" id="76">
                         <font key="font" metaFont="system"/>
@@ -73,15 +73,15 @@
                 </button>
             </subviews>
             <constraints>
-                <constraint firstItem="62" firstAttribute="baseline" secondItem="46" secondAttribute="baseline" id="78"/>
+                <constraint firstItem="62" firstAttribute="baseline" secondItem="46" secondAttribute="baseline" constant="-2" id="78"/>
                 <constraint firstItem="44" firstAttribute="bottom" secondItem="34" secondAttribute="bottom" id="79"/>
                 <constraint firstItem="62" firstAttribute="leading" secondItem="34" secondAttribute="leading" constant="140" id="80"/>
                 <constraint firstItem="46" firstAttribute="trailing" secondItem="44" secondAttribute="trailing" id="81"/>
                 <constraint firstItem="43" firstAttribute="leading" secondItem="44" secondAttribute="trailing" constant="8" symbolic="YES" id="82"/>
                 <constraint firstItem="62" firstAttribute="top" secondItem="34" secondAttribute="top" constant="1" id="83"/>
                 <constraint firstItem="43" firstAttribute="baseline" secondItem="44" secondAttribute="baseline" id="84"/>
-                <constraint firstItem="46" firstAttribute="leading" secondItem="44" secondAttribute="leading" id="85"/>
-                <constraint firstItem="46" firstAttribute="leading" secondItem="34" secondAttribute="leading" constant="64" id="86"/>
+                <constraint firstItem="46" firstAttribute="leading" secondItem="44" secondAttribute="leading" constant="-13" id="85"/>
+                <constraint firstItem="46" firstAttribute="leading" secondItem="34" secondAttribute="leading" constant="51" id="86"/>
             </constraints>
         </customView>
     </objects>

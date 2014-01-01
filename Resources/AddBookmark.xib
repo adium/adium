@@ -21,36 +21,36 @@
         <window title="Add Bookmark" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="248" userLabel="Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="492" y="385" width="279" height="131"/>
+            <rect key="contentRect" x="492" y="385" width="279" height="130"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="249">
-                <rect key="frame" x="0.0" y="0.0" width="279" height="131"/>
+                <rect key="frame" x="0.0" y="0.0" width="279" height="130"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="250">
-                        <rect key="frame" x="19" y="92" width="45" height="17"/>
+                        <rect key="frame" x="1" y="91" width="57" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="53" id="x7f-5J-g91"/>
+                        </constraints>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="281">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="251">
-                        <rect key="frame" x="18" y="62" width="46" height="17"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="251">
+                        <rect key="frame" x="1" y="62" width="57" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="42" id="288"/>
-                        </constraints>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Group:" id="282">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Group:" id="282">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="252">
-                        <rect key="frame" x="70" y="89" width="189" height="22"/>
+                        <rect key="frame" x="70" y="88" width="189" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="283">
                             <font key="font" metaFont="system"/>
@@ -59,23 +59,26 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="253">
-                        <rect key="frame" x="67" y="56" width="195" height="26"/>
+                        <rect key="frame" x="68" y="59" width="194" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                        <popUpButtonCell key="cell" type="push" title=" " bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="284">
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="rEK-mj-56T"/>
+                        </constraints>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="284">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="254">
                                 <items>
-                                    <menuItem title=" " state="on" id="255"/>
+                                    <menuItem title=" " id="255"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
                     </popUpButton>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="256">
-                        <rect key="frame" x="183" y="12" width="82" height="32"/>
+                        <rect key="frame" x="183" y="15" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="287"/>
+                            <constraint firstAttribute="width" constant="70" id="Zvr-AQ-vSC"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="285">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -89,8 +92,11 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="257">
-                        <rect key="frame" x="96" y="12" width="87" height="32"/>
+                        <rect key="frame" x="96" y="15" width="87" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="75" id="j3L-wB-zEz"/>
+                        </constraints>
                         <buttonCell key="cell" type="push" title=" Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="286">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -104,21 +110,23 @@ Gw
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="253" firstAttribute="centerX" secondItem="252" secondAttribute="centerX" id="289"/>
-                    <constraint firstAttribute="trailing" secondItem="252" secondAttribute="trailing" constant="20" symbolic="YES" id="290"/>
-                    <constraint firstItem="251" firstAttribute="baseline" secondItem="253" secondAttribute="baseline" id="291"/>
-                    <constraint firstItem="256" firstAttribute="leading" secondItem="257" secondAttribute="trailing" constant="12" symbolic="YES" id="292"/>
-                    <constraint firstItem="252" firstAttribute="top" secondItem="249" secondAttribute="top" constant="20" symbolic="YES" id="293"/>
-                    <constraint firstAttribute="trailing" secondItem="256" secondAttribute="trailing" constant="20" symbolic="YES" id="294"/>
-                    <constraint firstItem="252" firstAttribute="leading" secondItem="250" secondAttribute="trailing" constant="8" symbolic="YES" id="295"/>
-                    <constraint firstItem="252" firstAttribute="centerY" secondItem="250" secondAttribute="centerY" id="296"/>
-                    <constraint firstItem="251" firstAttribute="leading" secondItem="249" secondAttribute="leading" constant="20" symbolic="YES" id="297"/>
-                    <constraint firstItem="257" firstAttribute="centerX" secondItem="249" secondAttribute="centerX" id="298"/>
-                    <constraint firstItem="256" firstAttribute="baseline" secondItem="257" secondAttribute="baseline" id="299"/>
-                    <constraint firstItem="250" firstAttribute="trailing" secondItem="251" secondAttribute="trailing" id="300"/>
-                    <constraint firstAttribute="bottom" secondItem="257" secondAttribute="bottom" constant="19" id="301"/>
-                    <constraint firstItem="253" firstAttribute="top" secondItem="249" secondAttribute="top" constant="51" id="302"/>
-                    <constraint firstAttribute="trailing" secondItem="253" secondAttribute="trailing" constant="20" symbolic="YES" id="303"/>
+                    <constraint firstItem="257" firstAttribute="baseline" secondItem="256" secondAttribute="baseline" id="7Zp-tb-0GK"/>
+                    <constraint firstAttribute="bottom" secondItem="257" secondAttribute="bottom" constant="22" id="9xe-gX-v6s"/>
+                    <constraint firstItem="256" firstAttribute="leading" secondItem="257" secondAttribute="trailing" constant="12" symbolic="YES" id="AMu-8r-ZvJ"/>
+                    <constraint firstItem="250" firstAttribute="leading" secondItem="249" secondAttribute="leading" constant="3" id="Dkv-YN-xnZ"/>
+                    <constraint firstItem="253" firstAttribute="trailing" secondItem="256" secondAttribute="trailing" id="K6j-dp-A7W"/>
+                    <constraint firstItem="253" firstAttribute="top" secondItem="252" secondAttribute="bottom" constant="9" id="MX5-cl-opq"/>
+                    <constraint firstItem="257" firstAttribute="top" secondItem="253" secondAttribute="bottom" constant="19" id="NP8-p9-lfA"/>
+                    <constraint firstAttribute="trailing" secondItem="252" secondAttribute="trailing" constant="20" symbolic="YES" id="Sif-eQ-c5j"/>
+                    <constraint firstItem="252" firstAttribute="top" secondItem="249" secondAttribute="top" constant="20" symbolic="YES" id="VL1-w7-1Tj"/>
+                    <constraint firstItem="252" firstAttribute="leading" secondItem="250" secondAttribute="trailing" constant="14" id="aVk-Vo-DpN"/>
+                    <constraint firstItem="252" firstAttribute="centerY" secondItem="250" secondAttribute="centerY" id="cgK-Uq-5DQ"/>
+                    <constraint firstItem="253" firstAttribute="bottom" secondItem="251" secondAttribute="bottom" id="fZV-pI-Fpb"/>
+                    <constraint firstItem="253" firstAttribute="leading" secondItem="252" secondAttribute="leading" id="gK7-m1-HVR"/>
+                    <constraint firstItem="251" firstAttribute="top" secondItem="253" secondAttribute="top" id="sdD-D1-cdr"/>
+                    <constraint firstItem="250" firstAttribute="trailing" secondItem="251" secondAttribute="trailing" id="uDH-Ko-GpH"/>
+                    <constraint firstItem="251" firstAttribute="leading" secondItem="250" secondAttribute="leading" id="vLw-v8-liQ"/>
+                    <constraint firstItem="253" firstAttribute="trailing" secondItem="252" secondAttribute="trailing" id="wG3-72-kwe"/>
                 </constraints>
             </view>
         </window>

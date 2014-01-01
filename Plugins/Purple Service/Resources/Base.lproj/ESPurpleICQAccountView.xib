@@ -106,7 +106,7 @@
                     </constraints>
                     <popUpButtonCell key="cell" type="push" title=" " bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="160" id="296">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="164">
                             <items>
                                 <menuItem title=" " state="on" id="160"/>
@@ -201,7 +201,7 @@
                     </constraints>
                     <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="200" id="305">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="199">
                             <items>
                                 <menuItem title="Item1" state="on" id="200"/>
@@ -212,11 +212,11 @@
                         <action selector="changedPreference:" target="-2" id="207"/>
                     </connections>
                 </popUpButton>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="192">
-                    <rect key="frame" x="72" y="54" width="73" height="17"/>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="192">
+                    <rect key="frame" x="70" y="54" width="75" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="69" id="365"/>
+                        <constraint firstAttribute="width" constant="71" id="365"/>
                     </constraints>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Encryption:" id="306">
                         <font key="font" metaFont="system"/>
@@ -248,7 +248,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="193">
-                    <rect key="frame" x="72" y="25" width="73" height="17"/>
+                    <rect key="frame" x="70" y="25" width="75" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Typing:" id="307">
                         <font key="font" metaFont="system"/>

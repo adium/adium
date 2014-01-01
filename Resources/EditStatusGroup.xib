@@ -30,7 +30,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                        <rect key="frame" x="100" y="88" width="283" height="22"/>
+                        <rect key="frame" x="104" y="88" width="279" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="39">
                             <font key="font" metaFont="system"/>
@@ -42,7 +42,7 @@
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                        <rect key="frame" x="58" y="90" width="36" height="17"/>
+                        <rect key="frame" x="62" y="90" width="36" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Title:" id="40">
                             <font key="font" metaFont="system"/>
@@ -51,14 +51,14 @@
                         </textFieldCell>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                        <rect key="frame" x="97" y="56" width="289" height="26"/>
+                        <rect key="frame" x="102" y="57" width="285" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="41">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="41">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="10">
                                 <items>
-                                    <menuItem title="Item1" state="on" id="13"/>
+                                    <menuItem title="Item1" id="13"/>
                                     <menuItem title="Item2" id="11"/>
                                     <menuItem title="Item3" id="12"/>
                                 </items>
@@ -68,11 +68,11 @@
                             <outlet property="nextKeyView" destination="20" id="26"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="14">
-                        <rect key="frame" x="18" y="62" width="76" height="17"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="14">
+                        <rect key="frame" x="18" y="61" width="80" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="72" id="45"/>
+                            <constraint firstAttribute="width" constant="76" id="45"/>
                         </constraints>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Group with:" id="42">
                             <font key="font" metaFont="system"/>
@@ -117,7 +117,7 @@ Gw
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" constant="20" symbolic="YES" id="46"/>
                     <constraint firstItem="14" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="47"/>
-                    <constraint firstItem="9" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" id="48"/>
+                    <constraint firstItem="9" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="7" id="48"/>
                     <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="top" constant="12" id="49"/>
                     <constraint firstItem="20" firstAttribute="baseline" secondItem="21" secondAttribute="baseline" id="50"/>
                     <constraint firstItem="20" firstAttribute="leading" secondItem="21" secondAttribute="trailing" constant="12" symbolic="YES" id="51"/>
@@ -127,8 +127,8 @@ Gw
                     <constraint firstAttribute="trailing" secondItem="20" secondAttribute="trailing" constant="20" symbolic="YES" id="55"/>
                     <constraint firstAttribute="bottom" secondItem="21" secondAttribute="bottom" constant="19" id="56"/>
                     <constraint firstItem="8" firstAttribute="baseline" secondItem="7" secondAttribute="baseline" id="57"/>
-                    <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="20" symbolic="YES" id="58"/>
-                    <constraint firstItem="9" firstAttribute="baseline" secondItem="14" secondAttribute="baseline" id="59"/>
+                    <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="19" id="58"/>
+                    <constraint firstItem="9" firstAttribute="baseline" secondItem="14" secondAttribute="baseline" constant="-2" id="59"/>
                 </constraints>
             </view>
             <connections>
