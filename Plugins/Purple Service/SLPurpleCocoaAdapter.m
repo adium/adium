@@ -204,9 +204,6 @@ void adium_glib_log(const gchar *log_domain, GLogLevelFlags flags, const gchar *
 	
 	g_log_set_handler(NULL, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION, adium_glib_log, NULL);
 	
-	// Init the glib type system (used by GObjects)
-	g_type_init();
-	
 	/* Don't let gstreamer load 'system path' plugins - if the user has gstreamer installed elsewhere,
 	 * or if this is a poor, confused developer who has built gstreamer locally, this will lead to very
 	 * bad behavior.
@@ -1626,6 +1623,24 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	purple_plugin_ipc_call(cdsa_plugin, "copy_certificate_chain", &ok, gsc, &result);
 	
 	return result;
+}
+- (NSDictionary *)getCipherDetails:(PurpleSslConnection*)gsc {
+	PurplePlugin *cdsa_plugin = purple_plugins_find_with_name("CDSA");
+	if(!cdsa_plugin)
+		return nil;
+	const char *ssl_info;
+	const char *name;
+	const char *mac;
+	const char *key_exchange;
+	gboolean ok = NO;
+	purple_plugin_ipc_call(cdsa_plugin, "get_cipher_details", &ok, gsc, &ssl_info, &name, &mac, &key_exchange);
+	
+	if (!ok) return nil;
+	
+	return @{ @"SSL Version": [NSString stringWithUTF8String:ssl_info],
+		   @"Cipher Name": [NSString stringWithUTF8String:name],
+		   @"MAC": [NSString stringWithUTF8String:mac],
+		   @"Key Exchange": [NSString stringWithUTF8String:key_exchange] };
 }
 #endif
 

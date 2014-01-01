@@ -33,6 +33,7 @@
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/ISO8601DateFormatter.h>
+#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIHTMLDecoder.h>
 
 #define RESTORED_CHAT_CONTEXT_LINE_NUMBER 50
@@ -85,6 +86,7 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
  */
 - (void)uninstallPlugin
 {
+	formatter = nil;
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

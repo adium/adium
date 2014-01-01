@@ -52,8 +52,7 @@
 	
 	//Connection security
 	[checkBox_forceOldSSL setState:[[account preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue]];
-	[checkBox_requireTLS setState:[[account preferenceForKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS] boolValue]];
-	[checkBox_checkCertificates setState:[account preferenceForKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS]?[[account preferenceForKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS] boolValue]:YES];
+	[popup_TLS selectItemWithTag:[[account preferenceForKey:KEY_JABBER_TLS group:GROUP_ACCOUNT_STATUS] shortValue]];
 	[checkBox_allowPlaintext setState:[[account preferenceForKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS] boolValue]];
 	
 	//Resource
@@ -106,10 +105,8 @@
 	//Connection security
 	[account setPreference:@([checkBox_forceOldSSL state])
 					forKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:@([checkBox_requireTLS state])
-					forKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:@([checkBox_checkCertificates state])
-					forKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:@([popup_TLS selectedTag])
+					forKey:KEY_JABBER_TLS group:GROUP_ACCOUNT_STATUS];
 	[account setPreference:@([checkBox_allowPlaintext state])
 					forKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS];
 	

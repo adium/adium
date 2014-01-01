@@ -33,8 +33,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
-#warning This include and the jabber_auth_add_mech() will be part of the FacebookXMPP account's initialization
-
 
 #pragma mark Debug
 // Debug ------------------------------------------------------------------------------------------------------

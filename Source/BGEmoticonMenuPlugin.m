@@ -16,17 +16,14 @@
 
 #import "AIEmoticonController.h"
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 #import "BGEmoticonMenuPlugin.h"
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/MVMenuButton.h>
 #import <Adium/AIEmoticon.h>
 
 @interface BGEmoticonMenuPlugin()
-- (void)registerToolbarItem;
 - (IBAction)dummyTarget:(id)sender;
 - (void)insertEmoticon:(id)sender;
 @end
@@ -40,10 +37,7 @@
 #define PREF_GROUP_EMOTICONS			@"Emoticons"
 
 #define	TITLE_INSERT_EMOTICON			AILocalizedString(@"Insert Emoticon",nil)
-#define	TOOLTIP_INSERT_EMOTICON			AILocalizedString(@"Insert an emoticon into the text",nil)
 #define	TITLE_EMOTICON					AILocalizedString(@"Emoticon",nil)
-
-#define	TOOLBAR_EMOTICON_IDENTIFIER		@"InsertEmoticon"
 
 /*!
  * @brief Install
@@ -75,18 +69,6 @@
     //add the items to their menus.
     [adium.menuController addContextualMenuItem:quickContextualMenuItem toLocation:Context_TextView_Edit];    
     [adium.menuController addMenuItem:quickMenuItem toLocation:LOC_Edit_Additions];
-	
-	toolbarItems = [[NSMutableSet alloc] init];
-	[self registerToolbarItem];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(toolbarWillAddItem:)
-												 name:NSToolbarWillAddItemNotification
-											   object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(toolbarDidRemoveItem:)
-												 name:NSToolbarDidRemoveItemNotification
-											   object:nil];
 }
 
 /*!
@@ -97,69 +79,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
-
-/*!
- * @brief Add the emoticon menu as an item goes into a toolbar
- */
-- (void)toolbarWillAddItem:(NSNotification *)notification
-{
-	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
-	
-	if ([[item itemIdentifier] isEqualToString:TOOLBAR_EMOTICON_IDENTIFIER]) {
-		NSMenu		*theEmoticonMenu = [[NSMenu alloc] init];
-		
-		[theEmoticonMenu setDelegate:self];
-
-		//Add menu to view
-		[[item view] setMenu:theEmoticonMenu];
-		
-		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[NSMenuItem alloc] init];
-		[mItem setSubmenu:theEmoticonMenu];
-		[mItem setTitle:TITLE_EMOTICON];
-		[item setMenuFormRepresentation:mItem];
-		
-		[toolbarItems addObject:item];
-	}
-}
-
-/*!
- * @brief Stop tracking when an item is removed from a toolbar
- */
-- (void)toolbarDidRemoveItem:(NSNotification *)notification
-{
-	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
-	if ([[item itemIdentifier] isEqualToString:TOOLBAR_EMOTICON_IDENTIFIER]) {
-		[toolbarItems removeObject:item];
-	}
-}
-
-/*!
- * @brief Register our toolbar item
- */
-- (void)registerToolbarItem
-{
-	NSToolbarItem	*toolbarItem;
-	MVMenuButton	*button;
-
-	//Register our toolbar item
-	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
-	[button setImage:[NSImage imageNamed:@"emoticon" forClass:[self class] loadLazily:YES]];
-	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_EMOTICON_IDENTIFIER
-														   label:TITLE_EMOTICON
-													paletteLabel:TITLE_INSERT_EMOTICON
-														 toolTip:TOOLTIP_INSERT_EMOTICON
-														  target:self
-												 settingSelector:@selector(setView:)
-													 itemContent:button
-														  action:@selector(insertEmoticon:)
-															menu:nil];
-	[toolbarItem setMinSize:NSMakeSize(32,32)];
-	[toolbarItem setMaxSize:NSMakeSize(32,32)];
-	[button setToolbarItem:toolbarItem];
-	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
-}
-
 
 //Menu Generation ------------------------------------------------------------------------------------------------------
 #pragma mark Menu Generation
@@ -282,18 +201,6 @@
 	NSArray			*activePacks = [adium.emoticonController activeEmoticonPacks];
 	AIEmoticonPack	*pack;
 		
-   /* We need special voodoo here to identify if the menu belongs to a toolbar,
-	* add the necessary pad item, and then adjust the index accordingly.
-	* this shouldn't be necessary, but NSToolbar is evil.
-	*/
-	if ([[[menu itemAtIndex:0] title] isEqualToString:TITLE_EMOTICON]) {
-		if (idx == 0) {
-			return YES;
-		} else {
-			--idx;
-		}
-	}
-	
 	// Add in flat emoticon menu
 	if ([activePacks count] == 1) {
 		pack = [activePacks objectAtIndex:0];
@@ -327,9 +234,6 @@
 /*!
  * @brief Set the number of items that should be in the menu.
  *
- * Toolbars need one empty item to display properly.  We increase the number by 1, if the menu
- * is in a toolbar
- *
  */
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {	
@@ -340,13 +244,6 @@
 	
 	if (itemCounts == 1)
 		itemCounts = [[[activePacks objectAtIndex:0] enabledEmoticons] count];
-	
-
-	if ([menu numberOfItems] > 0) {
-		if ([[[menu itemAtIndex:0] title] isEqualToString:TITLE_EMOTICON]) {
-			++itemCounts;
-		}
-	}
 
 	return itemCounts;
 }

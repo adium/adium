@@ -21,8 +21,8 @@
 	IBOutlet NSButton				*cancelButton;
 	
 	NSURLDownload					*download;
-	NSString						*__weak dest;
-	NSString						*__weak xtraName;
+	NSString						*dest;
+	NSString						*xtraName;
 
 	long long downloadSize;
 	long long amountDownloaded;
@@ -33,7 +33,7 @@
 +(XtrasInstaller *)installer __attribute__((objc_method_family(new)));
 
 @property (strong) NSURLDownload *download;
-@property (weak) NSString *dest;
-@property (weak) NSString *xtraName;
+@property (strong) NSString *dest;
+@property (strong) NSString *xtraName;
 
 @end

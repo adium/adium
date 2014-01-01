@@ -257,17 +257,6 @@
     if (needsReload) [self reloadData];
 }
 
-//Preserve selection through a reload
-- (void)reloadItem:(id)item reloadChildren:(BOOL)reloadChildren
-{
-	NSArray		*selectedItems = [self arrayOfSelectedItems];
-
-	[super reloadItem:item reloadChildren:reloadChildren];
-
-	//Restore (if possible) the previously selected object
-	[self selectItemsInArray:selectedItems];
-}
-
 #pragma mark Dragging
 //Draging ------------------------------------------
 //Invoked in the dragging source as the drag ends

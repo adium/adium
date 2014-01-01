@@ -153,6 +153,7 @@
 	[formatter release];
 	[statusLookup release];
 	[htmlDecoder release];
+	[formatter release];
 	[super dealloc];
 }
 

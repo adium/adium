@@ -21,6 +21,8 @@
 #import "AIMessageWindowController.h"
 #import "AILogByAccountWindowController.h"
 
+#import "DCMessageContextDisplayPlugin.h"
+
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"
 
@@ -208,14 +210,14 @@
 
 - (BOOL)chatHistoryDisplayActive
 {
-	return ([[adium.preferenceController preferenceForKey:@"Display Message Context" group:@"Message Context Display"] boolValue] &&
-			[[adium.preferenceController preferenceForKey:@"Enable Logging" group:@"Logging"] boolValue]);
+	return ([[adium.preferenceController preferenceForKey:KEY_DISPLAY_CONTEXT group:PREF_GROUP_CONTEXT_DISPLAY] boolValue] &&
+			[[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE group:PREF_GROUP_LOGGING] boolValue]);
 }
 - (void)setChatHistoryDisplayActive:(BOOL)flag
 {
 	[adium.preferenceController setPreference:[NSNumber	numberWithBool:flag]
-									   forKey:@"Display Message Context"
-										group:@"Message Context Display"];
+									   forKey:KEY_DISPLAY_CONTEXT
+										group:PREF_GROUP_CONTEXT_DISPLAY];
 }
 
 - (IBAction)configureLogCertainAccounts:(id)sender

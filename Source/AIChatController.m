@@ -359,8 +359,8 @@
 
 		//Create a new chat
 		chat = [AIChat chatForAccount:account];
-        chat.listObject = targetContact;
-		[openChats addObject:chat];
+        [openChats addObject:chat];
+		chat.listObject = targetContact;
 		AILog(@"chatWithContact: Added <<%@>> [%@]",chat,openChats);
 
 		//Inform the account of its creation

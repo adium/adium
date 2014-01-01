@@ -24,6 +24,7 @@
 #define KEY_JABBER_USE_TLS				@"Jabber:Use TLS"
 #define KEY_JABBER_FORCE_OLD_SSL		@"Jabber:Force Old SSL"
 #define KEY_JABBER_REQUIRE_TLS			@"Jabber:Require TLS"
+#define KEY_JABBER_TLS					@"Jabber:TLS"
 #define KEY_JABBER_ALLOW_PLAINTEXT		@"Jabber:Allow Plaintext Authentication"
 #define KEY_JABBER_SUBSCRIPTION_BEHAVIOR @"Jabber:Subscription Behavior"
 #define KEY_JABBER_REGISTER_ON_CONNECT @"Jabber:Register on Connect"
@@ -32,6 +33,12 @@
 #define KEY_JABBER_FT_PROXIES			@"Jabber:File Transfer Proxies"
 
 #define PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND "ssl_cdsa_buggy_tls_workaround"
+
+typedef enum : short {
+	AIJabberTLSAllowed = 1,
+	AIJabberTLSRequired,
+	AIJabberTLSForwardSecrecRequired
+} AIJabberTLSSetting;
 
 @class AIJabberConsoleController, AMPurpleJabberServiceDiscoveryBrowsing, AMPurpleJabberAdHocServer;
 
@@ -47,7 +54,5 @@
 - (NSString *)serverSuffix;
 - (NSString *)resourceName;
 - (AMPurpleJabberAdHocServer*)adhocServer;
-- (void)setShouldVerifyCertificates:(BOOL)yesOrNo;
-- (BOOL)shouldVerifyCertificates;
 
 @end

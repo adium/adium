@@ -1059,7 +1059,7 @@
  */
 - (void)openAuthorizationWindow:(id)sender
 {
-	[[AIAuthorizationRequestsWindowController sharedController] showWindow:nil];
+	[[AIAuthorizationRequestsWindowController sharedController] showOnWindow:nil];
 }
 
 /*!

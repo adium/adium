@@ -125,8 +125,9 @@ typedef enum {
 
 	//Encryption
 - (NSAttributedString *)decodedIncomingMessage:(NSString *)inString
-								   fromContact:(AIListContact *)inListContact 
-									 onAccount:(AIAccount *)inAccount;
+								   fromContact:(AIListContact *)inListContact
+									 onAccount:(AIAccount *)inAccount
+									tryDecrypt:(BOOL)decrypt;
 - (NSString *)decryptedIncomingMessage:(NSString *)inString
 						   fromContact:(AIListContact *)inListContact
 							 onAccount:(AIAccount *)inAccount;
@@ -139,6 +140,8 @@ typedef enum {
 - (void)setEncryptor:(id<AdiumMessageEncryptor>)inEncryptor;
 - (void)requestSecureOTRMessaging:(BOOL)inSecureMessaging inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 @end
 
 
@@ -255,4 +258,6 @@ typedef enum {
 
 - (void)requestSecureOTRMessaging:(BOOL)inSecureMessaging inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 @end

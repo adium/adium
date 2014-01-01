@@ -15,25 +15,23 @@
  */
 
 #import "AIEventAdditions.h"
-#import <Carbon/Carbon.h>
 
 @implementation NSEvent (AIEventAdditions)
 
-//There seems to be a bug in OS X which causes cocoa calls for the current modifier key to fail during application launch, so we use the carbon calls.
 + (BOOL)cmdKey{
-    return (GetCurrentKeyModifiers() & cmdKey) != 0;
+    return ([NSEvent modifierFlags] & NSCommandKeyMask) != 0;
 }
 
 + (BOOL)shiftKey{
-    return (GetCurrentKeyModifiers() & (shiftKey | rightShiftKey)) != 0;
+    return ([NSEvent modifierFlags] & NSShiftKeyMask) != 0;
 }
 
 + (BOOL)optionKey{
-    return (GetCurrentKeyModifiers() & (optionKey | rightOptionKey)) != 0;
+    return ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
 }
 
 + (BOOL)controlKey{
-    return (GetCurrentKeyModifiers() & (controlKey | rightControlKey)) != 0;
+    return ([NSEvent modifierFlags] & NSControlKeyMask) != 0;
 }
 
 - (BOOL)cmdKey{

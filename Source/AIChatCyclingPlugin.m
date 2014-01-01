@@ -55,9 +55,9 @@
 										   keyEquivalent:@""];
 	[menuController addMenuItem:nextChatMenuItem toLocation:LOC_Window_Commands];
 		
-	/* Adium 1.5.4+ use the new defaults for chat switching, ctrl+tab, to match Safari's default user-visible behavior */
+	/* Adium 1.5.8+ use the new defaults for chat switching, ctrl+tab, to match Safari's default user-visible behavior */
 	NSDictionary *defaults = [NSDictionary dictionaryNamed:(([adium compareVersion:adium.earliestLaunchedAdiumVersion
-																		 toVersion:@"1.5.4"] == NSOrderedAscending) ?
+																		 toVersion:@"1.5.8"] == NSOrderedAscending) ?
 															OLD_DEFAULT_CHAT_CYCLING_PREFS :
 															DEFAULT_CHAT_CYCLING_PREFS)
 												  forClass:[self class]];

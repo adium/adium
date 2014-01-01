@@ -30,18 +30,11 @@
 	IBOutlet	NSButton *checkbox_updatesAutomatic;
 	IBOutlet	NSButton *checkbox_updatesProfileInfo;
 	IBOutlet	NSButton *checkbox_updatesIncludeBetas;
-	IBOutlet	NSButton *checkbox_confirmBeforeQuitting;
-	IBOutlet	NSButton *checkbox_quitConfirmFT;
-	IBOutlet	NSButton *checkbox_quitConfirmUnread;
-	IBOutlet	NSButton *checkbox_quitConfirmOpenChats;
-	IBOutlet	NSButton *checkbox_confirmBeforeClosing;
 	IBOutlet	NSButton *button_defaultApp;
 	IBOutlet	NSButton *button_customizeDefaultApp;
+	IBOutlet	NSButton *button_resetAllWarnings;
 
 	IBOutlet    NSView *placeholder_shortcutRecorder;
-	
-	IBOutlet	NSMatrix *matrix_quitConfirmType;
-	IBOutlet	NSMatrix *matrix_closeConfirmType;
 	
 	SRRecorderControl           *shortcutRecorder;
 }
@@ -49,5 +42,6 @@
 @property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
 - (IBAction)setAsDefaultApp:(id)sender;
 - (IBAction)customizeDefaultApp:(id)sender;
+- (IBAction)resetAllWarnings:(id)sender;
 
 @end

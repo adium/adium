@@ -1,14 +1,13 @@
 [Adium](http://adium.im)
 ========================
 
-[![Adiumy](http://adium.im/images/logo.png)](http://sourceforge.net/projects/adium/files/Adium_1.5.4.dmg/download?accel_key=67%3A1360794271%3Ahttp%253A//adium.im/%3Aec915758%24f8e0c76eb0905e3055634c1a54b58137212a866d&click_id=2360e5ce-762c-11e2-bea6-0200ac1d1d8a&source=accel)
+[![Adiumy](http://adium.im/images/logo.png)](https://sourceforge.net/projects/adium/files/Adium_1.5.8.dmg/download?accel_key=67%3A1382826588%3Ahttps%253A//www.adium.im/%3A4df3bdae%249307b389bd2bf68b9102c79e586756ec533fe7d2&click_id=1f3aa4e6-3e8e-11e3-a034-0200ac1d1d9b-1&source=accel)
 
-[Download Adium 1.5.4](http://sourceforge.net/projects/adium/files/Adium_1.5.4.dmg/download?accel_key=67%3A1360794271%3Ahttp%253A//adium.im/%3Aec915758%24f8e0c76eb0905e3055634c1a54b58137212a866d&click_id=2360e5ce-762c-11e2-bea6-0200ac1d1d8a&source=accel)
+[Download Adium 1.5.8](https://sourceforge.net/projects/adium/files/Adium_1.5.8.dmg/download?accel_key=67%3A1382826588%3Ahttps%253A//www.adium.im/%3A4df3bdae%249307b389bd2bf68b9102c79e586756ec533fe7d2&click_id=1f3aa4e6-3e8e-11e3-a034-0200ac1d1d9b-1&source=accel)
 
 ## About Adium ##
 
-Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](http://www.gnu.org/licenses/licenses.html#GPL) and developed by [the Adium team](https://trac.adium.im/wiki/AdiumTeam).</p>
-Based on the [libpurple](https://trac.adium.im/wiki/LibPurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
+Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](http://www.gnu.org/licenses/licenses.html#GPL) and developed by [the Adium team](https://trac.adium.im/wiki/AdiumTeam). Based on the [libpurple](https://trac.adium.im/wiki/LibPurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
 
 ## Notable Features ##
 * Open Source, so everyone can see how Adium works and [help improve it](https://trac.adium.im/wiki/Development)

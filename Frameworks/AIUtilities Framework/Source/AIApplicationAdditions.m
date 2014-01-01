@@ -16,11 +16,30 @@
 
 #import "AIApplicationAdditions.h"
 
+// Make sure the version number defines exist; when compiling on 10.6, NSAppKitVersionNumber10_6 isn't defined 
+#ifndef NSAppKitVersionNumber10_6
+#define NSAppKitVersionNumber10_6 1038
+#endif 
+#ifndef NSAppKitVersionNumber10_8
+#define NSAppKitVersionNumber10_8 1187
+#endif
+
+
 @implementation NSApplication (AIApplicationAdditions)
 
 - (NSString *)applicationVersion
 {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+}
+
+- (BOOL)isOnLionOrNewer
+{
+	return (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_6);
+}
+
+- (BOOL)isOnMavericksOrNewer
+{
+	return (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_8);
 }
 
 @end

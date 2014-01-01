@@ -901,7 +901,7 @@ typedef enum
 - (NSString *)aboutEncryption
 {
 	return [NSString stringWithFormat:
-		AILocalizedStringFromTableInBundle(@"Adium provides encryption, authentication, deniability, and perfect forward secrecy over %@ via Off-the-Record Messaging (OTR). If your contact is not using an OTR-compatible messaging system, your contact will be sent a link to the OTR web site when you attempt to connect. For more information on OTR, visit http://www.cypherpunks.ca/otr/.", nil, [NSBundle bundleForClass:[AIAccount class]], nil),
+		AILocalizedStringFromTableInBundle(@"Adium provides encryption, authentication, deniability, and perfect forward secrecy over %@ via Off-the-Record Messaging (OTR). If your contact is not using an OTR-compatible messaging system, your contact will be sent a link to the OTR web site when you attempt to connect. For more information on OTR, visit https://otr.cypherpunks.ca/.", nil, [NSBundle bundleForClass:[AIAccount class]], nil),
 		[self.service shortDescription]];
 }
 
@@ -916,18 +916,6 @@ typedef enum
 {
 	[adium.contentController requestSecureOTRMessaging:inSecureMessaging
 												  inChat:inChat];
-}
-
-/*!
- * @brief Allow the user to verify (or unverify) the identity being used for encryption in a chat
- *
- * It is an error to call this on a chat which is not currently encrypted.
- *
- * @param inChat The chat
- */
-- (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
-{
-	[adium.contentController promptToVerifyEncryptionIdentityInChat:inChat];
 }
 
 #pragma mark Image sending
@@ -1024,6 +1012,10 @@ typedef enum
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
 	BOOL shouldLog = ![self isTemporary];
+	
+	if (shouldLog) {
+		shouldLog = [[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE group:PREF_GROUP_LOGGING] boolValue];
+	}
 	
 	if(shouldLog && [[adium.preferenceController preferenceForKey:KEY_LOGGER_CERTAIN_ACCOUNTS group:PREF_GROUP_LOGGING] boolValue]) {
 		shouldLog = ![[self preferenceForKey:KEY_LOGGER_OBJECT_DISABLE

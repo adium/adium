@@ -117,7 +117,6 @@
 	ESDotMacService *macService = nil;
 	ESJabberService *jabberService = nil;	
 	
-#warning iChat Import needs to be updated for MobileMe
 	for (AIService *service in adium.accountController.services) {
 		if ([service.serviceID isEqual:@"AIM"])
 			aimService = (ESAIMService *)service;
@@ -323,13 +322,6 @@
 	
 	[assistantPanes selectTabViewItemWithIdentifier:@"start"];
 	[backButton setEnabled:NO];
-}
-
--(IBAction)openHelp:(id)sender
-{
-#warning This help anchor is necessary and needs a corresponding page in the book + the index needs regenerated.
-	NSString *locBookName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
-	[[NSHelpManager sharedHelpManager] openHelpAnchor:@"ichatImport"  inBook:locBookName];
 }
 
 // this action is currently defined as returning to the start of the assistant, unchecking all and noting completed actions

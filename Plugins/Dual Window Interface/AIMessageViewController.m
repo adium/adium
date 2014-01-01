@@ -21,6 +21,7 @@
 #import "AIGradientView.h"
 #import "AIAccountSelectionViewController.h"
 #import "AIRejoinGroupChatViewController.h"
+#import "AIEmoticonControllerProtocol.h"
 
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
@@ -120,6 +121,7 @@
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
 
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
@@ -596,6 +598,13 @@
 		if (firstTime || [key isEqualToString:KEY_ENTRY_USER_LIST_MIN_WIDTH]) {
 			userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] doubleValue];
 		}
+	} else if ([group isEqualToString:PREF_GROUP_EMOTICONS]) {
+		if (firstTime || [key isEqualToString:KEY_EMOTICON_MENU_ENABLED]) {
+			emoticonMenuEnabled = [[prefDict objectForKey:KEY_EMOTICON_MENU_ENABLED] boolValue];
+			
+			if ([textView_outgoing chat])
+				[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
+		}
 	}
 }
 
@@ -644,10 +653,7 @@
 	// Disable elastic scroll
 	// Not sure why it won't work in AIMessageEntryTextView
 	[[textView_outgoing enclosingScrollView] setVerticalScrollElasticity:NSScrollElasticityNone];
-
-	// Enable emoticons menu
-	// This should be after all frame/bounds setups, or it will fail to display correctly
-	[textView_outgoing setHasEmoticonsMenu:YES];
+	[textView_outgoing setHasEmoticonsMenu:emoticonMenuEnabled];
 }
 
 /*!
@@ -1041,11 +1047,11 @@
 		[view_userList.animator setFrame:view1TargetFrame];
 		[view_userList.animator setHidden:YES];
 		[NSAnimationContext endGrouping];
+		[splitView_verticalSplit performSelector:@selector(adjustSubviews) withObject:nil afterDelay:0.2];
 	} else {
 		[view_userList setHidden:YES];
+		[splitView_verticalSplit adjustSubviews];
 	}
-	
-	[splitView_verticalSplit adjustSubviews];
 }
 
 /*!
@@ -1409,19 +1415,22 @@
     
     CGFloat yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers) {
-        if (![existingController.view isHidden]) yPosition += NSHeight(existingController.view.frame);
+        if (![existingController.view isHidden]) {
+			yPosition += NSHeight(existingController.view.frame);
+			[existingController.view setFrameSize:NSMakeSize(NSWidth(view_contents.frame), NSHeight(existingController.view.frame))];
+		}
     }
     
     NSSize splitViewSize = NSMakeSize(NSWidth(view_contents.frame), NSHeight(view_contents.frame) - yPosition);
     
     [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setDuration:0.05];
+    [[NSAnimationContext currentContext] setDuration:0.2];
     if (splitViewSize.height != NSHeight(splitView_verticalSplit.frame)) {
-        [splitView_verticalSplit.animator setFrameSize:splitViewSize];
+        [splitView_verticalSplit setFrameSize:splitViewSize];
     }
     
-    [view_topBars.animator setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
-    [view_topBars.animator setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
+    [view_topBars setFrameSize:NSMakeSize(NSWidth(view_contents.frame), yPosition)];
+    [view_topBars setFrameOrigin:NSMakePoint(NSMinX(view_contents.frame), NSMaxY(view_contents.frame) - yPosition)];
     
     yPosition = 0.0f;
     for (AIMessageViewTopBarController *existingController in topBarControllers.reverseObjectEnumerator) {
@@ -1434,7 +1443,7 @@
     
     [NSAnimationContext endGrouping];
     
-    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.1];
+    [self performSelector:@selector(_updateTextEntryViewHeight) withObject:nil afterDelay:0.4];
 }
 
 - (void)chatStatusChanged:(NSNotification *)notification

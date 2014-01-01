@@ -77,11 +77,12 @@
 {
 	[label_privateKeys setStringValue:AILocalizedString(@"Private Keys:", nil)];
 	[label_knownFingerprints setStringValue:AILocalizedString(@"Known Fingerprints:", nil)];
-	[button_forgetFingerprint setTitle:AILocalizedString(@"Forget Fingerprint", nil)];
-	[button_showFingerprint setTitle:[AILocalizedString(@"Show Fingerprint", nil) stringByAppendingEllipsis]];
-	[button_generate setTitle:AILocalizedString(@"Generate", nil)];
+	[button_forgetFingerprint setTitle:AILocalizedString(@"Delete", nil)];
+	[button_showFingerprint setTitle:[AILocalizedString(@"Show", nil) stringByAppendingEllipsis]];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"UID"] headerCell] setStringValue:AILocalizedString(@"Name", nil)];
 	[[[tableView_fingerprints tableColumnWithIdentifier:@"Status"] headerCell] setStringValue:AILocalizedString(@"Status", nil)];
+	
+	// button_generate already got localized when -updatePrivateKeyList got called.
 }
 
 - (void)viewWillClose
@@ -101,6 +102,7 @@
 - (void)dealloc
 {
 	fingerprintDictArray = nil;
+	filteredFingerprintDictArray = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
@@ -119,6 +121,7 @@
 		Fingerprint		*fingerprint;
 
 		fingerprintDictArray = [[NSMutableArray alloc] init];
+		filteredFingerprintDictArray = fingerprintDictArray;
 		
 		for (context = otrg_plugin_userstate->context_root; context != NULL;
 			 context = context->next) {
@@ -134,29 +137,10 @@
 
 				UID = [NSString stringWithUTF8String:context->username];
 				
-				if (context->msgstate == OTRL_MSGSTATE_ENCRYPTED &&
-					context->active_fingerprint != fingerprint) {
-					state = AILocalizedString(@"Unused","Word to describe an encryption fingerprint which is not currently being used");
+				if (otrl_context_is_fingerprint_trusted(fingerprint)) {
+					state = AILocalizedString(@"Verified", nil);
 				} else {
-					TrustLevel trustLevel = otrg_plugin_context_to_trust(context);
-					
-					switch (trustLevel) {
-						case TRUST_NOT_PRIVATE:
-							state = AILocalizedString(@"Not private",nil);
-							break;
-						case TRUST_UNVERIFIED:
-							state = AILocalizedString(@"Unverified",nil);
-							break;
-						case TRUST_PRIVATE:
-							state = AILocalizedString(@"Private",nil);
-							break;
-						case TRUST_FINISHED:
-							state = AILocalizedString(@"Finished",nil);
-							break;
-						default:
-							state = @"";
-							break;
-					}
+					state = AILocalizedString(@"Unverified",nil);
 				}
 				
 				otrl_privkey_hash_to_human(hash, fingerprint->fingerprint);
@@ -205,10 +189,10 @@
 													   fingerprint_buf, accountname, protocol);
 				
 				if (fingerprint) {
-					[button_generate setTitle:AILocalizedString(@"Regenerate", nil)];
+					[button_generate setStringValue:AILocalizedString(@"Regenerate", nil)];
 					fingerprintString = [NSString stringWithFormat:AILocalizedString(@"Fingerprint: %.80s",nil), fingerprint];
 				} else {
-					[button_generate setTitle:AILocalizedString(@"Generate", nil)];
+					[button_generate setStringValue:AILocalizedString(@"Generate", nil)];
 					fingerprintString = AILocalizedString(@"No private key present", "Message to show in the Encryption OTR preferences when an account is selected which does not have a private key");
 				}
 			}
@@ -227,8 +211,30 @@
 {
 	AIAccount	*account = ([popUp_accounts numberOfItems] ? [[popUp_accounts selectedItem] representedObject] : nil);
 	
-	otrg_plugin_create_privkey([account.internalObjectID UTF8String],
-							   [account.service.serviceCodeUniqueID UTF8String]);
+	if (account) {
+		const char		*accountname = [account.internalObjectID UTF8String];
+		const char		*protocol = [account.service.serviceCodeUniqueID UTF8String];
+		char			*fingerprint;
+		OtrlUserState	otrg_plugin_userstate;
+		
+		if ((otrg_plugin_userstate = otrg_get_userstate())){
+			char fingerprint_buf[45];
+			fingerprint = otrl_privkey_fingerprint(otrg_plugin_userstate,
+												   fingerprint_buf, accountname, protocol);
+			
+			if (fingerprint) {
+				NSAlert *deleteKeyAlert = [NSAlert alertWithMessageText:AILocalizedString(@"Are you sure you want to generate a new OTR key?", nil)
+														  defaultButton:AILocalizedString(@"Cancel", nil)
+														alternateButton:AILocalizedString(@"Delete", nil)
+															otherButton:nil
+											  informativeTextWithFormat:AILocalizedString(@"This will permanently delete your old key and all your contacts will need to verify your fingerprint again.", "Message when regenerating an OTR key")];
+				if ([deleteKeyAlert runModal] == NSAlertDefaultReturn) return;
+			}
+		}
+		
+		otrg_plugin_create_privkey([account.internalObjectID UTF8String],
+								   [account.service.serviceCodeUniqueID UTF8String]);
+	}
 }
 
 /*!
@@ -238,7 +244,7 @@
 {
 	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	if (selectedRow != -1) {
-		NSDictionary	*fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
+		NSDictionary	*fingerprintDict = [filteredFingerprintDictArray objectAtIndex:selectedRow];
 		[ESOTRFingerprintDetailsWindowController showDetailsForFingerprintDict:fingerprintDict];
 	}
 }
@@ -251,25 +257,67 @@
 {
 	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	if (selectedRow >= 0) {
-		NSDictionary *fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
+		NSDictionary *fingerprintDict = [filteredFingerprintDictArray objectAtIndex:selectedRow];
 		Fingerprint	*fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
 		
 		otrg_ui_forget_fingerprint(fingerprint);
 	}
 }
 
+- (IBAction)filter:(id)sender
+{
+	AILogWithSignature(@"Filtering");
+	NSString *needle = [field_filter stringValue];
+	
+	if (needle.length == 0) {
+		filteredFingerprintDictArray = fingerprintDictArray;
+		
+		[tableView_fingerprints reloadData];
+		
+		return;
+	}
+
+	filteredFingerprintDictArray = [NSMutableArray array];
+	
+	for (NSDictionary *dict in fingerprintDictArray) {
+		if ([[dict objectForKey:@"UID"] rangeOfString:needle
+											  options:NSCaseInsensitiveSearch
+												range:NSMakeRange(0, [[dict objectForKey:@"UID"] length])
+											   locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+		if ([[dict objectForKey:@"Status"] rangeOfString:needle
+												 options:NSCaseInsensitiveSearch
+												   range:NSMakeRange(0, [[dict objectForKey:@"Status"] length])
+												  locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+		if ([[dict objectForKey:@"FingerprintString"] rangeOfString:needle
+															options:NSCaseInsensitiveSearch
+															  range:NSMakeRange(0, [[dict objectForKey:@"FingerprintString"] length])
+															 locale:nil].location != NSNotFound) {
+			[filteredFingerprintDictArray addObject:dict];
+			continue;
+		}
+	}
+	
+	[tableView_fingerprints reloadData];
+}
+
 //Fingerprint tableview ------------------------------------------------------------------------------------------------
 #pragma mark Fingerprint tableview
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	return [fingerprintDictArray count];
+	return [filteredFingerprintDictArray count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-	if ((rowIndex >= 0) && (rowIndex < [fingerprintDictArray count])) {
+	if ((rowIndex >= 0) && (rowIndex < [filteredFingerprintDictArray count])) {
 		NSString		*identifier = [aTableColumn identifier];
-		NSDictionary	*fingerprintDict = [fingerprintDictArray objectAtIndex:rowIndex];
+		NSDictionary	*fingerprintDict = [filteredFingerprintDictArray objectAtIndex:rowIndex];
 		
 		if ([identifier isEqualToString:@"UID"]) {
 			return [fingerprintDict objectForKey:@"UID"];

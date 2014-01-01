@@ -106,11 +106,11 @@
 		[self reloadPopup];
 	}
 	
-	if(![inObject isKindOfClass:[AIListContact class]]) {
+	NSNumber *encryption = [inObject preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
+	if(encryption)
+		[popUp_encryption selectItemWithTag:[encryption integerValue]];
+	else
 		[popUp_encryption selectItemWithTag:EncryptedChat_Default];
-	} else {
-		[popUp_encryption selectItemWithTag:((AIListContact *)inObject).encryptedChatPreferences];
-	}
 	
 	[checkBox_alwaysShow setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[checkBox_alwaysShow setState:inObject.alwaysVisible];

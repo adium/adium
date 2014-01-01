@@ -100,6 +100,7 @@ typedef enum {
 
 //FUS Disconnecting
 - (void)autoReconnectAfterDelay:(NSTimeInterval)delay;
+- (double)minimumReconnectTime;
 - (void)cancelAutoReconnect;
 - (void)initFUSDisconnecting;
 

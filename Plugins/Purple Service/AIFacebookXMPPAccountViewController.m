@@ -112,7 +112,7 @@
 /* xxx it'd be better to link to an entry in our docs */
 - (IBAction)showHelp:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adium.im/wiki/FacebookChat"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://adium.im/help/pgs/Accounts-FacebookChat.html"]];
 }
 
 @end

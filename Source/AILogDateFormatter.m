@@ -33,22 +33,22 @@
 		comps.day--;
 		BOOL today = [NSDate isDate:dateToday sameDayAsDate:date];
 		BOOL yesterday = [NSDate isDate:[calendar dateFromComponents:comps] sameDayAsDate:date];
-
+		
 		if (today || yesterday) {
 			NSString			*dayString = today ? AILocalizedString(@"Today", "Day designation for the current day") : AILocalizedString(@"Yesterday", "Day designation for the previous day");
 			if (timeStyle != NSDateFormatterNoStyle) {
 				//Supposed to show time, and the date has sufficient granularity to show it
 				NSDateFormatterStyle dateStyle = [self dateStyle];
 				NSMutableString *mutableString = [dayString mutableCopy];
-
+				
 				[self setDateStyle:NSDateFormatterNoStyle];
 				[mutableString appendString:@" "];
 				[mutableString appendString:[super stringForObjectValue:date]];
 				[self setDateStyle:dateStyle];
-	
+				
 				returnValue = mutableString;
 			}
-
+			
 		} else {
 			if (timeStyle != NSDateFormatterNoStyle) {
 				//Currently supposed to show time, but the date does not have that level of granularity
@@ -59,10 +59,10 @@
 			}
 		}
 	}
-
+	
 	if (![returnValue length]) returnValue = [super stringForObjectValue:date];
 	if (![returnValue length]) returnValue = [date description];
-
+	
 	return returnValue;
 }
 

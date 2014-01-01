@@ -271,7 +271,7 @@ enum{
 			[[textView_addAccountMessage enclosingScrollView] setDrawsBackground:NO];
 			
 			NSAttributedString *accountMessage = [AIHTMLDecoder decodeHTML:
-				AILocalizedString(@"<HTML>To chat with your friends, family, and coworkers, you must have an instant messaging account on the same service they do. Choose a service, name, and password below; if you don't have an account yet, click <A HREF=\"http://trac.adium.im/wiki/CreatingAnAccount#Sigingupforanaccount\">here</A> for more information.\n\nAdium supports as many accounts as you want to add; you can always add more in the Accounts pane of the Adium Preferences.</HTML>", nil)
+				AILocalizedString(@"<HTML>To chat with your friends, family, and coworkers, you must have an instant messaging account on the same service they do. Choose a service, name, and password below; if you don't have an account yet, click <A HREF=\"https://adium.im/help/pgs/Accounts-CreatingAccounts.html#signing_up_for_an_account\">here</A> for more information.\n\nAdium supports as many accounts as you want to add; you can always add more in the &#34;Accounts&#34; pane of the Adium Preferences.</HTML>", nil)
 													 withDefaultAttributes:[[textView_addAccountMessage textStorage] attributesAtIndex:0
 																														effectiveRange:NULL]];
 			[[textView_addAccountMessage textStorage] setAttributedString:accountMessage];

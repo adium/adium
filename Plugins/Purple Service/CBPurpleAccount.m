@@ -33,6 +33,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/ESTextAndButtonsWindowController.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -1122,13 +1123,14 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 	
 	listContact = chat.listObject;
 
-	attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
-															  fromContact:listContact
-																onAccount:self];
-	
 	//Clear the typing flag of the chat since a message was just received
 	[self setTypingFlagOfChat:chat to:nil];
 	
+	attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
+															fromContact:listContact
+															  onAccount:self
+															 tryDecrypt:(flags & PURPLE_MESSAGE_SEND) == 0];
+		
 	[self _receivedMessage:attributedMessage
 					inChat:chat 
 		   fromListContact:listContact
@@ -2847,7 +2849,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			[menuItemArray addObject:[NSMenuItem separatorItem]];
 		}
 		
-		NSMenuItem *showCertificateMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show Server Certificate",nil)
+		NSMenuItem *showCertificateMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show Encryption Details",nil)
 																		 target:self
 																		 action:@selector(showServerCertificate) 
 																  keyEquivalent:@""];
@@ -2867,10 +2869,69 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	CFArrayRef certificates = [[self purpleAdapter] copyServerCertificates:[self secureConnection]];
 	
-	[AIPurpleCertificateViewer displayCertificateChain:certificates forAccount:self];
+	SecCertificateRef root = NULL;
+	
+	if (CFArrayGetCount(certificates) > 0) {
+		root = (SecCertificateRef)CFArrayGetValueAtIndex(certificates, CFArrayGetCount(certificates) - 1);
+	}
+	
+	NSMutableAttributedString *details = [[NSMutableAttributedString alloc] init];
+	
+	if (root) {
+		CFStringRef issuer;
+		
+		SecCertificateCopyCommonName(root, &issuer);
+		
+		if (CFArrayGetCount(certificates) == 1) {
+			[details appendString:[NSString stringWithFormat:AILocalizedString(@"The server uses a self-signed cetificate for %@.\n\n", nil),
+								   (__bridge NSString *)issuer] withAttributes:@{}];
+		} else {
+			[details appendString:[NSString stringWithFormat:AILocalizedString(@"The server uses a cetificate issued by %@.\n\n", nil),
+								   (__bridge NSString *)issuer] withAttributes:@{}];
+		}
+		
+		CFRelease(issuer);
+	}
+	
+	NSDictionary *cipherDetails = [[self purpleAdapter] getCipherDetails:[self secureConnection]];
+	
+	if (cipherDetails) {
+		[details appendString:[NSString stringWithFormat:AILocalizedString(@"The connection is using %@ with %@ encryption, using %@ for message authentication and %@ key exchange.", nil),
+							   [cipherDetails objectForKey:@"SSL Version"],
+							   [cipherDetails objectForKey:@"Cipher Name"],
+							   [cipherDetails objectForKey:@"MAC"],
+							   [cipherDetails objectForKey:@"Key Exchange"]] withAttributes:@{}];
+	}
+	
+	ESTextAndButtonsWindowController *detailsController = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"Encryption Details", nil)
+																									defaultButton:AILocalizedString(@"OK", nil)
+																								  alternateButton:AILocalizedString(@"Show Certificate", nil)
+																									  otherButton:nil
+																									  suppression:nil
+																								withMessageHeader:[NSString stringWithFormat:AILocalizedString(@"Connection details for %@", nil), self.formattedUID]
+																									   andMessage:details
+																											image:nil
+																										   target:self
+																										 userInfo:nil];
+	[detailsController showOnWindow:nil];
 	
 	CFRelease(certificates);
 }
+
+- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
+{
+	if (returnCode == AITextAndButtonsAlternateReturn) {
+		CFArrayRef certificates = [[self purpleAdapter] copyServerCertificates:[self secureConnection]];
+		
+		[AIPurpleCertificateViewer displayCertificateChain:certificates
+												forAccount:self];
+		
+		CFRelease(certificates);
+	}
+	
+	return TRUE;
+}
+
 #endif
 
 //Action of a dynamically-generated contact menu item

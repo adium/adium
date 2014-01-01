@@ -22,6 +22,7 @@
 #import "AdiumFormatting.h"
 #import "AdiumMessageEvents.h"
 #import "AdiumContentFiltering.h"
+#import "AdiumOTREncryption.h"
 
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
@@ -758,11 +759,11 @@
 /*!
  * @brief Given an incoming message, decrypt it if necessary then convert it to an NSAttributedString, processing HTML if possible
  */
-- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount
+- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount tryDecrypt:(BOOL)decrypt
 {
-	return [AIHTMLDecoder decodeHTML:[self decryptedIncomingMessage:inString
-														fromContact:inListContact
-														  onAccount:inAccount]];
+	return [AIHTMLDecoder decodeHTML:decrypt ? [self decryptedIncomingMessage:inString
+																  fromContact:inListContact
+																	onAccount:inAccount] : inString];
 }
 
 #pragma mark OTR
@@ -774,6 +775,16 @@
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
 {
 	[adiumEncryptor promptToVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor questionVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor sharedVerifyEncryptionIdentityInChat:inChat];
 }
 
 #pragma mark -
@@ -830,7 +841,7 @@
 	[menuItem setTag:EncryptedChat_Never];
 	[encryptionMenu addItem:menuItem];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats as requested",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow chat encryption",nil)
 										  target:target
 										  action:@selector(selectedEncryptionPreference:)
 								   keyEquivalent:@""];
@@ -838,7 +849,7 @@
 	[menuItem setTag:EncryptedChat_Manually];
 	[encryptionMenu addItem:menuItem];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats automatically",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Use chat encryption when available",nil)
 										  target:target
 										  action:@selector(selectedEncryptionPreference:)
 								   keyEquivalent:@""];

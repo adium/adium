@@ -26,6 +26,7 @@
 #import <AIUtilities/MVMenuButton.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIStatus.h>
 #import <WebKit/WebKit.h>

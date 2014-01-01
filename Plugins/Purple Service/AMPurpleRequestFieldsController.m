@@ -16,6 +16,7 @@
 
 #import "AMPurpleRequestFieldsController.h"
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @interface WebView ()
@@ -26,43 +27,70 @@
 @interface AMPurpleRequestField : NSObject {
     PurpleRequestField *field;
     CBPurpleAccount *account;
+    IBOutlet NSView *view;
+    IBOutlet NSTextView *label;
+    
+    NSInteger height;
 }
 
 - (id)initWithAccount:(CBPurpleAccount*)_account requestField:(PurpleRequestField*)_field;
-
-- (NSXMLElement*)xhtml;
-- (NSString*)key;
-
-- (void)applyValue:(NSString*)value;
+- (NSString *)nibName;
+- (NSView *)makeView;
+- (NSAttributedString *)label;
+- (void)submit;
 
 @end
 
 @interface AMPurpleRequestFieldString : AMPurpleRequestField {
+    IBOutlet NSTextField *textField;
 }
+@end
 
+@interface AMPurpleRequestFieldSecureString : AMPurpleRequestField {
+    IBOutlet NSSecureTextField *maskedField;
+}
+@end
+
+@interface AMPurpleRequestFieldMultilineString : AMPurpleRequestField {
+    IBOutlet NSTextView *textView;
+}
 @end
 
 @interface AMPurpleRequestFieldInteger : AMPurpleRequestField {
+    IBOutlet NSTextField *textField;
 }
 
 @end
 
 @interface AMPurpleRequestFieldBoolean : AMPurpleRequestField {
+    IBOutlet NSButton *checkBox;
 }
 
 @end
 
 @interface AMPurpleRequestFieldChoice : AMPurpleRequestField {
+    IBOutlet NSPopUpButton *popUp;
 }
 
 @end
 
 @interface AMPurpleRequestFieldList : AMPurpleRequestField {
+    IBOutlet NSPopUpButton *popUp;
 }
 
 @end
 
+@interface AMPurpleRequestFieldMultiList : AMPurpleRequestField {
+    IBOutlet NSPopUpButton *popDown;
+}
+
+- (IBAction)didSelect:(id)sender;
+
+@end
+
+
 @interface AMPurpleRequestFieldLabel : AMPurpleRequestField {
+    IBOutlet NSTextView *labelview;
 }
 
 @end
@@ -83,83 +111,180 @@
     if((self = [super init])) {
         account = _account;
         field = _field;
-    }
+        
+        [NSBundle loadNibNamed:[self nibName] owner:self];
+        
+        height = view.frame.size.height;
+        
+        NSInteger dh = height - label.frame.size.height;
+        
+        [[label textStorage] setAttributedString:[self label]];
+        
+        [label setHorizontallyResizable:FALSE];
+        [label setTextContainerInset:NSMakeSize(0, 0)];
+        [label sizeToFit];
+        
+        if (height < label.frame.size.height + dh) {
+            height = label.frame.size.height + dh;
+        }
+	}
     return self;
 }
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [NSXMLNode elementWithName:@"div"];
-	
-	[result addAttribute:[NSXMLNode attributeWithName:@"class" stringValue:@"field"]];
-	
-	const char *labelstr = purple_request_field_get_label(field);
-	
-	if(labelstr) {
-		NSXMLElement *label = [NSXMLNode elementWithName:@"label" stringValue:[NSString stringWithUTF8String:labelstr]];
-		[label addAttribute:[NSXMLNode attributeWithName:@"for" stringValue:[self key]]];
-		
-		[result addChild:[NSXMLNode elementWithName:@"div"
-										   children:[NSArray arrayWithObject:label]
-										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"label"]]]];
-	}
-	return result;
+- (NSView *)makeView {
+	assert(FALSE);
 }
 
-- (NSString*)key {
-    return [NSString stringWithFormat:@"%p",self];
+- (NSString *)nibName {
+    return nil;
 }
 
-- (void)applyValue:(NSString*)value {
-    NSLog(@"Applied the value \"%@\" to an AMPurpleRequestField!", value);
+- (NSAttributedString *)label
+{
+    const char *labelstr = purple_request_field_get_label(field);
+    
+    if (labelstr) {
+        NSString *labelString = [NSString stringWithUTF8String:labelstr];
+        
+        char endsWith = [labelString lastCharacter];
+        
+        if (endsWith == ':' || endsWith == ';' || endsWith == ',' || endsWith == '.' || endsWith == '?') {
+            labelString = [labelString substringToIndex:[labelString length] - 1];
+        }
+        
+        labelString = [labelString stringByAppendingString:@":"];
+        
+        NSMutableParagraphStyle *rightAlign = [[NSMutableParagraphStyle alloc] init];
+        [rightAlign setAlignment:NSRightTextAlignment];
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:labelString
+																		attributes:@{
+													 NSParagraphStyleAttributeName: rightAlign,
+															   NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]]
+										 }];
+        
+        return labelText;
+    }
+    
+    return [[NSAttributedString alloc] initWithString:@""];
+}
+
+- (void)submit
+{
+    
 }
 
 @end
 
 @implementation AMPurpleRequestFieldString
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	const char *defaultvalue = purple_request_field_string_get_default_value(field);
-	BOOL isMultiline = (purple_request_field_string_is_multiline(field) == TRUE) ? YES : NO;
-	BOOL isEditable = (purple_request_field_string_is_editable(field) == TRUE) ? YES : NO;
-	BOOL isMasked = (purple_request_field_string_is_masked(field) == TRUE) ? YES : NO;
-	BOOL isVisible = (purple_request_field_is_visible(field) == TRUE) ? YES : NO;
-	
-	NSXMLElement *textinput;
-	
-	if(isMultiline) {
-		textinput = [NSXMLNode elementWithName:@"textarea"];
-		[textinput addAttribute:[NSXMLNode attributeWithName:@"rows" stringValue:@"5"]];
-		[textinput addAttribute:[NSXMLNode attributeWithName:@"cols" stringValue:@"40"]];
-		if(defaultvalue)
-			[textinput setStringValue:[NSString stringWithUTF8String:defaultvalue]];
-	} else {
-		textinput = [NSXMLNode elementWithName:@"input"];
-		if (isVisible)
-			[textinput addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:isMasked?@"password":@"text"]];
-		else
-			[textinput addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"hidden"]];
-		[textinput addAttribute:[NSXMLNode attributeWithName:@"size" stringValue:@"50"]];
-		if(defaultvalue)
-			[textinput addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithUTF8String:defaultvalue]]];
-	}
-	[textinput addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-	if(!isEditable)
-		[textinput addAttribute:[NSXMLNode attributeWithName:@"readonly" stringValue:@"readonly"]];
-
-	if (isVisible)
-		[result addChild:[NSXMLNode elementWithName:@"div"
-										   children:[NSArray arrayWithObject:textinput]
-										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-	else
-		return textinput;
-
-    return result;
+- (NSString *)nibName
+{
+    return @"RequestFieldString";
 }
 
-- (void)applyValue:(NSString*)value {
-	purple_request_field_string_set_value(field, [value UTF8String]);
+- (NSView *)makeView
+{
+    AILogWithSignature(@"Appending this to the window");
+	NSString *defaultvalue = [NSString stringWithUTF8String:purple_request_field_string_get_default_value(field)];
+    BOOL isEditable = purple_request_field_string_is_editable(field);
+    BOOL isVisible = purple_request_field_is_visible(field);
+    
+    if (!isVisible) return nil;
+    
+	[textField setEditable:isEditable];
+	[textField setStringValue:defaultvalue];
+	
+	return view;
+}
+
+- (void)submit
+{
+    BOOL isVisible = purple_request_field_is_visible(field);
+	
+    if (!isVisible) {
+        purple_request_field_string_set_value(field, purple_request_field_string_get_default_value(field));
+    } else {
+        purple_request_field_string_set_value(field, [[textField stringValue] UTF8String]);
+    }
+}
+
+@end
+
+@implementation AMPurpleRequestFieldSecureString
+
+- (NSString *)nibName
+{
+    return @"RequestFieldSecureString";
+}
+
+- (NSView *)makeView
+{
+    AILogWithSignature(@"Appending this to the window");
+	NSString *defaultvalue = [NSString stringWithUTF8String:purple_request_field_string_get_default_value(field)];
+    BOOL isEditable = purple_request_field_string_is_editable(field);
+    BOOL isVisible = purple_request_field_is_visible(field);
+    
+    if (!isVisible) return nil;
+    
+	[maskedField setEditable:isEditable];
+	[maskedField setStringValue:defaultvalue];
+	
+	return view;
+}
+
+- (void)submit
+{
+    BOOL isVisible = purple_request_field_is_visible(field);
+	
+    if (!isVisible) {
+        purple_request_field_string_set_value(field, purple_request_field_string_get_default_value(field));
+	} else {
+        purple_request_field_string_set_value(field, [[maskedField stringValue] UTF8String]);
+	}
+}
+
+@end
+
+@implementation AMPurpleRequestFieldMultilineString
+
+- (NSString *)nibName
+{
+    return @"RequestFieldMultilineString";
+}
+
+- (NSView *)makeView
+{
+    AILogWithSignature(@"Appending this to the window");
+	NSString *defaultvalue = [NSString stringWithUTF8String:purple_request_field_string_get_default_value(field)];
+    BOOL isEditable = purple_request_field_string_is_editable(field);
+    BOOL isVisible = purple_request_field_is_visible(field);
+    
+    if (!isVisible) return nil;
+    
+    [[textView enclosingScrollView] setHasVerticalScroller:TRUE];
+    
+	[textView setEditable:isEditable];
+	[[textView textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:defaultvalue]];
+	
+	if (height < textView.frame.size.height + 15) {
+		height = textView.frame.size.height + 15;
+	}
+    
+    [view setFrame:NSMakeRect(0, 0, view.frame.size.width, height)];
+	
+	return view;
+}
+
+- (void)submit
+{
+    BOOL isVisible = purple_request_field_is_visible(field);
+	
+    if (!isVisible) {
+        purple_request_field_string_set_value(field, purple_request_field_string_get_default_value(field));
+    } else {
+        purple_request_field_string_set_value(field, [[[textView textStorage] string] UTF8String]);
+	}
 }
 
 @end
@@ -167,175 +292,255 @@
 
 @implementation AMPurpleRequestFieldInteger
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	NSInteger defaultvalue = purple_request_field_int_get_default_value(field);
-	
-	NSXMLElement *textinput = [NSXMLNode elementWithName:@"input"];
-	[textinput addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"text"]];
-	[textinput addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%ld",defaultvalue]]];
-	[textinput addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-	// XXX add javascript to make sure this is integer-only
-
-	[result addChild:[NSXMLNode elementWithName:@"div"
-									   children:[NSArray arrayWithObject:textinput]
-									 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-
-    return result;
+- (NSString *)nibName
+{
+	return @"RequestFieldInteger";
 }
 
-- (void)applyValue:(NSString*)value {
-	purple_request_field_int_set_value(field, [value intValue]);
+
+- (NSView *)makeView
+{
+ 	NSInteger defaultvalue = purple_request_field_int_get_default_value(field);
+	
+	[textField setIntegerValue:defaultvalue];
+	
+	return view;
+}
+
+- (void)submit
+{
+	purple_request_field_int_set_value(field, [textField intValue]);
 }
 
 @end
 
 @implementation AMPurpleRequestFieldBoolean
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	BOOL defaultvalue = (purple_request_field_bool_get_default_value(field) == TRUE) ? YES : NO;
-	
-	NSXMLElement *checkbox = [NSXMLNode elementWithName:@"input"];
-	[checkbox addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"checkbox"]];
-	[checkbox addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[self key]]];
-	[checkbox addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-
-	if(defaultvalue)
-		[checkbox addAttribute:[NSXMLNode attributeWithName:@"checked" stringValue:@"checked"]];
-
-	[result addChild:[NSXMLNode elementWithName:@"div"
-									   children:[NSArray arrayWithObject:checkbox]
-									 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-	
-	purple_request_field_bool_set_value(field, FALSE); // since we won't get an -applyValue: message when the checkbox isn't checked, assume false for now. This might be changed later.
-    return result;
+- (NSString *)nibName
+{
+    return @"RequestFieldBoolean";
 }
 
-- (void)applyValue:(NSString*)value {
-	purple_request_field_bool_set_value(field, TRUE);
+- (NSView *)makeView
+{
+	BOOL defaultvalue = purple_request_field_bool_get_default_value(field);
+    
+    [checkBox setState:defaultvalue];
+	
+	return view;
+}
+
+- (void)submit
+{
+    purple_request_field_bool_set_value(field, [checkBox state] == NSOnState);
+}
+
+- (NSAttributedString *)label
+{
+    
+    const char *labelstr = purple_request_field_get_label(field);
+    
+    if (labelstr) {
+        NSString *labelString = [NSString stringWithUTF8String:labelstr];
+        
+        char endsWith = [labelString lastCharacter];
+        
+        if (endsWith == '.' || endsWith == '?') {
+            labelString = [labelString substringToIndex:[labelString length] - 1];
+        }
+        
+        NSAttributedString *labelText = [[NSAttributedString alloc] initWithString:labelString
+																		attributes:@{ NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]] }];
+        return labelText;
+    }
+    
+    return [[NSAttributedString alloc] initWithString:@""];
 }
 
 @end
 
 @implementation AMPurpleRequestFieldChoice
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	GList *labels = purple_request_field_choice_get_labels(field);
-	
-	guint len = g_list_length(labels);
-	NSInteger defaultvalue = purple_request_field_choice_get_default_value(field);
-	
-	// Apple HIG: Don't use checkboxes for lists of more than 5 items, use a popupbutton instead
-	if(len > 5) {
-		NSXMLElement *popup = [NSXMLNode elementWithName:@"select"];
-		[popup addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-		NSInteger i=0;
-		GList *label;
-		for(label = labels; label; label = g_list_next(label), ++i) {
-			const char *labelstr = label->data;
-			if(!labelstr)
-				continue;
-			
-			NSXMLElement *option = [NSXMLNode elementWithName:@"option" stringValue:[NSString stringWithUTF8String:labelstr]];
-			[option addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%lu",i]]];
-			if(i == defaultvalue)
-				[option addAttribute:[NSXMLNode attributeWithName:@"selected" stringValue:@"selected"]];
-			[popup addChild:option];
-		}
-		[result addChild:[NSXMLNode elementWithName:@"div"
-										   children:[NSArray arrayWithObject:popup]
-										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-	} else {
-		NSInteger i=0;
-		NSMutableArray *radios = [NSMutableArray array];
-		GList *label;
-		for(label = labels; label; label = g_list_next(label), ++i) {
-			const char *labelstr = label->data;
-			if(!labelstr)
-				continue;
-			
-			NSXMLElement *radiobutton = [NSXMLNode elementWithName:@"input"];
-			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"radio"]];
-			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%lu",i]]];
-			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-
-			if(i == defaultvalue)
-				[radiobutton addAttribute:[NSXMLNode attributeWithName:@"checked" stringValue:@"checked"]];
-			
-			[radios addObject:radiobutton];
-			[radios addObject:[NSXMLNode textWithStringValue:[NSString stringWithUTF8String:labelstr]]];
-		}
-		[result addChild:[NSXMLNode elementWithName:@"div"
-										   children:radios
-										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-	}
-	
-    return result;
+- (NSString *)nibName
+{
+	return @"RequestFieldChoice";
 }
 
-- (void)applyValue:(NSString*)value {
-	purple_request_field_choice_set_value(field, [value intValue]);
+
+- (NSView *)makeView
+{
+	GList *labels = purple_request_field_choice_get_labels(field);
+	
+ 	NSInteger defaultvalue = purple_request_field_choice_get_default_value(field);
+	
+	[view setFrame:NSMakeRect(0, 0, view.frame.size.width, height)];
+	
+	[popUp removeAllItems];
+	
+	for (; labels; labels = labels->next) {
+		[popUp addItemWithTitle:[NSString stringWithUTF8String:(char *)labels->data]];
+	}
+	
+	if (defaultvalue < [popUp numberOfItems]) {
+		[popUp selectItemAtIndex:defaultvalue];
+	}
+	
+	return view;
+}
+
+- (void)submit
+{
+	purple_request_field_choice_set_value(field, (int)[popUp indexOfItem:[popUp selectedItem]]);
 }
 
 @end
 
 @implementation AMPurpleRequestFieldList
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	BOOL isMultiSelect = (purple_request_field_list_get_multi_select(field) == TRUE) ? YES : NO;
-
-	NSXMLElement *list = [NSXMLNode elementWithName:@"select"];
-	[list addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-	
-	if(isMultiSelect)
-		[list addAttribute:[NSXMLNode attributeWithName:@"multiple" stringValue:@"multiple"]];
-
-	const GList *items = purple_request_field_list_get_items(field);
-	guint len = g_list_length((GList*)items);
-	
-	// show all items up to 10
-	[list addAttribute:[NSXMLNode attributeWithName:@"size" stringValue:[NSString stringWithFormat:@"%u",(len>10)?10:len]]];
-	
-	const GList *item;
-	for(item = items; item; item = g_list_next(item)) {
-		const char *labelstr = item->data;
-		if(!labelstr)
-			continue;
-		
-		NSXMLElement *option = [NSXMLNode elementWithName:@"option" stringValue:[NSString stringWithUTF8String:labelstr]];
-		if(purple_request_field_list_is_selected(field, labelstr))
-			[option addAttribute:[NSXMLNode attributeWithName:@"selected" stringValue:@"selected"]];
-		[list addChild:option];
-	}
-	[result addChild:[NSXMLNode elementWithName:@"div"
-									   children:[NSArray arrayWithObject:list]
-									 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
-	
-	purple_request_field_list_clear_selected(field);
-	
-	return result;
+- (NSString *)nibName
+{
+    return @"RequestFieldList";
 }
 
-- (void)applyValue:(NSString*)value {
-	purple_request_field_list_add_selected(field, [value UTF8String]);
+- (NSView *)makeView
+{
+    GList *items = purple_request_field_list_get_items(field);
+    
+	[popUp removeAllItems];
+	
+	NSInteger i;
+	
+    for (i = 0; items; items = items->next, i++) {
+		NSString *item = [NSString stringWithUTF8String:items->data];
+		[popUp addItemWithTitle:item];
+		if (purple_request_field_list_is_selected(field, items->data)) {
+			[popUp selectItemAtIndex:i];
+		}
+    }
+    
+	return view;
+}
+- (void)submit
+{
+	purple_request_field_list_clear_selected(field);
+	
+	GList *items = NULL;
+	const char *text;
+	
+	text = [[[popUp selectedItem] title] UTF8String];
+	items = g_list_prepend(items, (gpointer)text);
+	
+	purple_request_field_list_set_selected(field, items);
+	
+	g_list_free(items);
+}
+
+@end
+
+@implementation AMPurpleRequestFieldMultiList
+
+- (NSString *)nibName
+{
+    return @"RequestFieldMultiList";
+}
+
+- (NSView *)makeView
+{
+	GList *items = purple_request_field_list_get_items(field);
+    NSInteger i = 0;
+	
+	[popDown removeAllItems];
+	[popDown addItemWithTitle:AILocalizedString(@"Select...", "Used in the request UI for popdown buttons")];
+	
+    for (i = 0; items; items = items->next, i++) {
+		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithUTF8String:items->data]
+														  target:self
+														  action:@selector(didSelect:)
+												   keyEquivalent:@""];
+		if(purple_request_field_list_is_selected(field, items->data)) {
+			[menuItem setState:NSOnState];
+		}
+		
+		[[popDown menu] addItem:menuItem];
+    }
+    
+	return view;
+}
+
+- (IBAction)didSelect:(id)sender
+{
+	NSInteger state = [sender state];
+	
+	if (state == NSOnState)
+		state = NSOffState;
+	else
+		state = NSOnState;
+	
+	[sender setState:state];
+}
+
+- (void)submit
+{
+	purple_request_field_list_clear_selected(field);
+	
+	BOOL skipped = FALSE;
+	
+	GList *items = NULL;
+	const char *text;
+	
+	for (NSMenuItem *item in [[popDown menu] itemArray]) {
+		if (!skipped) {
+			skipped = TRUE;
+			continue;
+		}
+		
+		if ([item state] == NSOnState) {
+			text = [[item title] UTF8String];
+			items = g_list_prepend(items, (gpointer)text);
+		}
+	}
+	
+	purple_request_field_list_set_selected(field, items);
+	
+	g_list_free(items);
 }
 
 @end
 
 @implementation AMPurpleRequestFieldLabel
 
-#if 0
-- (NSXMLNode*)xhtml {
-    return [super xhtml];
+- (NSString *)nibName
+{
+    return @"RequestFieldLabel";
 }
-#endif
+
+- (NSView *)makeView
+{
+    [[labelview textStorage] setAttributedString:self.label];
+    [labelview setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+    [labelview setHorizontallyResizable:FALSE];
+    [labelview setTextContainerInset:NSMakeSize(0, 0)];
+    [labelview sizeToFit];
+    
+    [view setFrame:NSMakeRect(0, 0, view.frame.size.width, height)];
+    
+	return view;
+}
+
+// Do not append a :
+- (NSString *)label
+{
+    
+    const char *labelstr = purple_request_field_get_label(field);
+    
+    if (labelstr) {
+        NSString *labelString = [NSString stringWithUTF8String:labelstr];
+        
+        return labelString;
+    }
+    
+    return @"";
+}
 
 @end
 
@@ -345,53 +550,6 @@
 
 @implementation AMPurpleRequestFieldImage
 
-- (NSXMLElement*)xhtml {
-	NSXMLElement *result = [super xhtml];
-	
-	//unsigned int scale_x = purple_request_field_image_get_scale_x(field);
-	//unsigned int scale_y = purple_request_field_image_get_scale_y(field);
-		
-	//This could be base 64 encoded and embedded directly, but it seems like a heavy fix...
-	NSData *data = [NSData dataWithBytes:purple_request_field_image_get_buffer(field)
-								  length:purple_request_field_image_get_size(field)];
-				
-	NSString *extension = [NSImage extensionForBitmapImageFileType:[NSImage fileTypeOfData:data]];
-	if (!extension) {
-		//We don't know what it is; try to make a png out of it
-		NSImage				*image = [[NSImage alloc] initWithData:data];
-		NSData				*imageTIFFData = [image TIFFRepresentation];
-		NSBitmapImageRep	*bitmapRep = [NSBitmapImageRep imageRepWithData:imageTIFFData];
-		
-		data = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
-		extension = @"png";
-	}
-
-	NSString *filename = [[[NSString stringWithFormat:@"TEMP-Image_%@",[self key]] stringByAppendingPathExtension:extension] safeFilenameString];
-	NSString *imagePath = [[adium cachesPath] stringByAppendingPathComponent:filename];
-
-	NSXMLElement *imageElement = [NSXMLNode elementWithName:@"image"];
-
-	if ([data writeToFile:imagePath atomically:YES]) {
-		[imageElement addAttribute:[NSXMLNode attributeWithName:@"src" stringValue:[[NSURL fileURLWithPath:imagePath] absoluteString]]];
-		[imageElement addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-
-		[result addChild:[NSXMLNode elementWithName:@"div"
-										   children:[NSArray arrayWithObject:imageElement]
-										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"image"]]]];		
-	} else {
-		AILogWithSignature(@"Failed to write image to %@",imagePath);
-	}
-
-    return result;
-}
-
-
-@end
-
-
-@interface AMPurpleRequestFieldsController ()
-- (void)loadForm:(NSXMLDocument*)doc;
-- (void)webviewWindowWillClose:(NSNotification *)notification;
 @end
 
 @implementation AMPurpleRequestFieldsController
@@ -415,152 +573,28 @@
         cancelcb = _cancelcb;
         userData = _userData;
         
-        // generate XHTML
-        NSXMLElement *root = [NSXMLNode elementWithName:@"html"];
-        [root addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://www.w3.org/1999/xhtml"]];
-        NSXMLElement *head = [NSXMLNode elementWithName:@"head"];
-        [root addChild:head];
-        
-        [head addChild:[NSXMLNode elementWithName:@"style" children:[NSArray arrayWithObject:
-            [NSXMLNode textWithStringValue:
-                @"body {"
-				@"	font-family:'Lucida Grande';"
-				@"	font-size: 13pt;"
-				@"}"
-				@"h1 {"
-				@"	display: none;"
-				@"}"
-				@"h2 {"
-				@"	font-size: 13pt;"
-				@"	font-weight: normal;"
-				@"}"
-				@"h3 {"
-				@"	font-size: 11pt;"
-				@"	font-weight: normal;"
-				@"}"
-				@"#formwrapper"
-				@"{"
-				@"	position: fixed;"
-				@"	top: 0px;"
-				@"	left: 0;"
-				@"	bottom: 50px;"
-				@"	right: 0;"
-				@"	overflow: auto;"
-				@"}"
-				@"#form2"
-				@"{"
-				@"	margin: 20px;"
-				@"	overflow: none;"
-				@"}"
-				@"#formtable"
-				@"{"
-				@"	display: table;"
-				@"	margin: 0 auto;"
-				@"}"
-				@".field {"
-				@"	position: relative;"
-				@"	display: table-row;"
-				@"	font-size: 13pt;"
-				@"}"
-				@".label {"
-				@"	text-align: right;"
-				@"	display: table-cell;"
-				@"	width: 50%;"
-				@"	padding-right: .2em;"
-				@"	vertical-align: top;"
-				@"	font-size: 13pt;"
-				@"}"
-				@".label:after {"
-				@"	content: \":\";"
-				@"}"
-				@".input {"
-				@"	display: table-cell;"
-				@"	width: 50%;"
-				@"	padding-left: .2em;"
-				@"	vertical-align: top;"
-				@"}"
-				@"#cancel {"
-				@"	font-size: 13pt;"
-				@"	margin-right: 10px;"
-				@"}"
-				@"#submit {"
-				@"	font-size: 13pt;"
-				@"	margin-right: 20px;"
-				@"	margin-left: 10px;"
-				@"}"
-				@"#submitbuttons {"
-				@"	text-align: right;"
-				@"	position: absolute;"
-				@"	bottom: 0;"
-				@"	right: 0;"
-				@"	overflow: auto;"
-				@"	height: 45px;"
-				@"	width: 100%;"
-				@"	border-color: #000;"
-				@"	border-width: 1px 0 0 0;"
-				@"	border-style: solid;"
-				@"}"
-                ]] attributes:[NSArray arrayWithObject:
-                    [NSXMLNode attributeWithName:@"type" stringValue:@"text/css"]]]];
-
-        NSXMLElement *titleelem = [NSXMLNode elementWithName:@"title" stringValue:title];
-        [head addChild:titleelem];
-
-        NSXMLElement *body = [NSXMLNode elementWithName:@"body"];
-        [root addChild:body];
-
-        
-        NSXMLElement *formnode = [NSXMLNode elementWithName:@"form" children:nil attributes:[NSArray arrayWithObjects:
-            [NSXMLNode attributeWithName:@"action" stringValue:@"http://www.adium.im/XMPP/form"],
-            [NSXMLNode attributeWithName:@"method" stringValue:@"POST"],nil]];
-        [body addChild:formnode];
+		[self showWindow:nil];
 		
-		NSXMLElement *formwrapper = [NSXMLNode elementWithName:@"div"];
-		[formwrapper addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:@"formwrapper"]];
-		[formnode addChild:formwrapper];
-		NSXMLElement *form2 = [NSXMLNode elementWithName:@"div"];
-		[form2 addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:@"form2"]];
-		[formwrapper addChild:form2];
+		[primaryTextField setStringValue:primary ?: @""];
 		
-		formwrapper = form2;
-
-		NSXMLElement *heading = [NSXMLNode elementWithName:@"h1" stringValue:title];
-        [formwrapper addChild:heading];
-		
-        NSXMLElement *heading2 = [NSXMLNode elementWithName:@"h2" stringValue:primary];
-        [formwrapper addChild:heading2];
-		
-        NSXMLElement *heading3 = [NSXMLNode elementWithName:@"h3" stringValue:secondary];
-        [formwrapper addChild:heading3];
-		
-		NSXMLElement *formdiv = [NSXMLNode elementWithName:@"div"];
-		[formdiv addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:@"formtable"]];
-		[formwrapper addChild:formdiv];
+		if (secondary && ![secondary isEqualToString:primary]) {
+			[secondaryTextField setStringValue:secondary];
+		} else {
+			[secondaryTextField setStringValue:@""];
+		}
 		
         // load field objects
         
-        fieldobjects = [[NSMutableDictionary alloc] init];
+        fieldobjects = [[NSMutableArray alloc] init];
         
         GList *gl = purple_request_fields_get_groups(fields);
 		GList *fl, *field_list;
 		PurpleRequestFieldGroup	*group;
-        
-        NSXMLElement *fieldset;
-		guint len = g_list_length(gl);
+		CGFloat availableHeight = contentView.frame.size.height;
         
 		//Look through each group, processing each field and transforming it into an Objective C object
 		for (; gl != NULL; gl = gl->next) {
 			group = gl->data;
-			// only display groups when there's more than one
-			if(len > 1) {
-				fieldset = [NSXMLNode elementWithName:@"fieldset"];
-				[formdiv addChild:fieldset];
-
-				const char *fieldtitle = purple_request_field_group_get_title(group);
-				if(fieldtitle)
-					[fieldset addChild:[NSXMLNode elementWithName:@"legend" stringValue:[NSString stringWithUTF8String:fieldtitle]]];
-			} else
-				fieldset = formdiv;
 			
 			field_list = purple_request_field_group_get_fields(group);
 			
@@ -568,97 +602,124 @@
                 PurpleRequestField		*field;
                 
                 AMPurpleRequestField *fieldobject = nil;
-
+				
 				field = (PurpleRequestField *)fl->data;
+				
+				Class fieldobjectClass = NULL;
+				
 				switch(purple_request_field_get_type(field)) {
-                    case PURPLE_REQUEST_FIELD_STRING:
-                        fieldobject = [[AMPurpleRequestFieldString alloc] initWithAccount:account requestField:field];
+                    case PURPLE_REQUEST_FIELD_STRING: {
+						BOOL isMultiline = purple_request_field_string_is_multiline(field);
+						BOOL isMasked = purple_request_field_string_is_masked(field);
+						
+                        if (isMasked)
+							fieldobjectClass = [AMPurpleRequestFieldSecureString class];
+						else if (isMultiline)
+							fieldobjectClass = [AMPurpleRequestFieldMultilineString class];
+						else
+							fieldobjectClass = [AMPurpleRequestFieldString class];
+						
                         break;
+					}
                     case PURPLE_REQUEST_FIELD_INTEGER:
-                        fieldobject = [[AMPurpleRequestFieldInteger alloc] initWithAccount:account requestField:field];
+                        fieldobjectClass = [AMPurpleRequestFieldInteger class];
                         break;
                     case PURPLE_REQUEST_FIELD_BOOLEAN:
-                        fieldobject = [[AMPurpleRequestFieldBoolean alloc] initWithAccount:account requestField:field];
+                        fieldobjectClass = [AMPurpleRequestFieldBoolean class];
                         break;
                     case PURPLE_REQUEST_FIELD_CHOICE:
-                        fieldobject = [[AMPurpleRequestFieldChoice alloc] initWithAccount:account requestField:field];
+                        fieldobjectClass = [AMPurpleRequestFieldChoice class];
                         break;
-                    case PURPLE_REQUEST_FIELD_LIST:
-                        fieldobject = [[AMPurpleRequestFieldList alloc] initWithAccount:account requestField:field];
+                    case PURPLE_REQUEST_FIELD_LIST: {
+						BOOL isMultiSelect = purple_request_field_list_get_multi_select(field);
+						
+						if (isMultiSelect)
+							fieldobjectClass = [AMPurpleRequestFieldMultiList class];
+						else
+							fieldobjectClass = [AMPurpleRequestFieldList class];
+						
                         break;
+					}
                     case PURPLE_REQUEST_FIELD_LABEL:
-                        fieldobject = [[AMPurpleRequestFieldLabel alloc] initWithAccount:account requestField:field];
+                        fieldobjectClass = [AMPurpleRequestFieldLabel class];
                         break;
 					case PURPLE_REQUEST_FIELD_IMAGE:
-						fieldobject = [[AMPurpleRequestFieldImage alloc] initWithAccount:account requestField:field];
+						fieldobjectClass = [AMPurpleRequestFieldImage class];
 						break;
-						/*
-                    case PURPLE_REQUEST_FIELD_ACCOUNT:
-                        fieldobject = [[AMPurpleRequestFieldAccount alloc] initWithAccount:account requestField:field];
-                        break;
-						 */
-                    default:
-                        fieldobject = nil;
+					default:
+						break;
                 }
-                if(fieldobject) {
+                if(fieldobjectClass) {
+					fieldobject = [[fieldobjectClass alloc] initWithAccount:account requestField:field];
                     //Keep objects for later processing of the form
-                    [fieldobjects setObject:fieldobject forKey:[fieldobject key]];
-
-                    //Insert the field into the XHTML document
-                    [fieldset addChild:[fieldobject xhtml]];
+					
+                    [fieldobjects addObject:fieldobject];
+                    NSView *view = [fieldobject makeView];
+					
+					if (view) {
+						CGFloat height = view.frame.size.height;
+						AILogWithSignature(@"Resizing by %f", height);
+						
+						[contentView addSubview:view];
+						
+						availableHeight -= height;
+						
+						if (availableHeight < 0) {
+							[contentView setFrame:NSMakeRect(contentView.frame.origin.x,
+															 contentView.frame.origin.y + availableHeight,
+															 contentView.frame.size.width,
+															 contentView.frame.size.height - availableHeight)];
+							availableHeight = 0.0;
+						}
+						
+						[view setFrameOrigin:NSMakePoint(0.0, availableHeight)];
+						[view setFrameSize:NSMakeSize(contentView.frame.size.width, view.frame.size.height)];
+					}
+					
+                    fieldobject = nil;
                 }
             }
         }
-        
-        [formnode addChild:[NSXMLNode elementWithName:@"div" children:[NSArray arrayWithObjects:
-#if 0
-            [NSXMLNode elementWithName:@"input" children:nil attributes:[NSArray arrayWithObjects:
-                [NSXMLNode attributeWithName:@"type" stringValue:@"submit"],
-                [NSXMLNode attributeWithName:@"id" stringValue:@"cancel"],
-                [NSXMLNode attributeWithName:@"value" stringValue:cancelText],nil]],
-#endif
-            [NSXMLNode elementWithName:@"input" children:nil attributes:[NSArray arrayWithObjects:
-                [NSXMLNode attributeWithName:@"type" stringValue:@"submit"],
-                [NSXMLNode attributeWithName:@"id" stringValue:@"submit"],
-                [NSXMLNode attributeWithName:@"value" stringValue:okText],nil]],
-			nil] attributes:[NSArray arrayWithObject:[NSXMLElement attributeWithName:@"id" stringValue:@"submitbuttons"]]]];
-        
-        NSXMLDocument *doc = [NSXMLNode documentWithRootElement:root];
-        [doc setCharacterEncoding:@"UTF-8"];
-        [doc setDocumentContentKind:NSXMLDocumentXHTMLKind];
-        
+		
 		if(title)
 			[[self window] setTitle:title];
 		else
 			[[self window] setTitle:AILocalizedString(@"Form","Generic fields request window title")];
-		
-		/*
-		 //Code here originally made the webview transparent; the result is an all-black window. I don't think this is desired.
-		if ([webview respondsToSelector:@selector(setBackgroundColor:)]) {
-			//As of Safari 3.0, we must call setBackgroundColor: to make the webview transparent
-			[webview setBackgroundColor:[NSColor clearColor]];
-
-		} else {
-			[webview setDrawsBackground:NO];
-		}
-		 */
-		 
-        [self performSelector:@selector(loadForm:) withObject:doc afterDelay:0.0];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(webviewWindowWillClose:)
-                                                     name:NSWindowWillCloseNotification
-                                                   object:[self window]];
-    }
-
-    return self;
+    	
+		if (_okcb) [okButton setTitle:okText];
+		else [okButton setHidden:TRUE];
+    
+		if (_cancelcb) [cancelButton setTitle:cancelText];
+		else [cancelButton setHidden:TRUE];
+    
+		[[self window] makeKeyAndOrderFront:nil];
+	}
+    
+    return self; // keep us as long as the form is open
 }
 
-- (void)loadForm:(NSXMLDocument*)doc {
-    NSData *formdata = [doc XMLDataWithOptions:NSXMLDocumentTidyHTML | NSXMLDocumentIncludeContentTypeDeclaration];
-    [[webview mainFrame] loadData:formdata MIMEType:@"application/xhtml+xml" textEncodingName:@"UTF-8" baseURL:nil];
+- (IBAction)submit:(id)sender
+{
+    for (AMPurpleRequestField *fieldobject in fieldobjects) {
+        [fieldobject submit];
+    }
+    
+    if (okcb) {
+        ((PurpleRequestFieldsCb)okcb)(userData, fields);
+		okcb = NULL;
+		cancelcb = NULL;
+    }
+    [self close];
+}
 
-    [self showWindow:nil];
+- (IBAction)cancel:(id)sender
+{
+    if (cancelcb) {
+        ((PurpleRequestFieldsCb)cancelcb)(userData, fields);
+		okcb = NULL;
+		cancelcb = NULL;
+    }
+    [self close];
 }
 
 /*!
@@ -673,71 +734,6 @@
 	cancelcb = NULL;
 
 	[super purpleRequestClose];
-}
-
-#pragma mark WebView Delegate Methods
-
-- (void)webviewWindowWillClose:(NSNotification *)notification {
-    [webview setPolicyDelegate:nil];
-   
-    if (wasSubmitted) {
-        if (okcb)
-            ((PurpleRequestFieldsCb)okcb)(userData, fields);
-    } else {
-        if (cancelcb)
-            ((PurpleRequestFieldsCb)cancelcb)(userData, fields);
-    }
-}
-
-- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation
-		request:(NSURLRequest *)request
-		  frame:(WebFrame *)frame
-	decisionListener:(id<WebPolicyDecisionListener>)listener
-{
-    if ([[[request URL] scheme] isEqualToString:@"applewebdata"] || [[[request URL] scheme] isEqualToString:@"about"])
-        [listener use];
-
-    else {
-        if ([[[request URL] absoluteString] isEqualToString:@"http://www.adium.im/XMPP/form"]) {
-            NSString *info = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
-            NSArray *formfields = [info componentsSeparatedByString:@"&"];
-            
-            NSString *field;
-            for (field in formfields) {
-                NSArray *keyvalue = [field componentsSeparatedByString:@"="];
-                if ([keyvalue count] != 2)
-                    continue;
-				
-                NSString *key = [[keyvalue objectAtIndex:0] mutableCopy];
-                [(NSMutableString *)key replaceOccurrencesOfString:@"+"
-														withString:@" " 
-														   options:NSLiteralSearch 
-															 range:NSMakeRange(0,[key length])];
-                
-                key = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                          (__bridge CFStringRef)key,
-                                                                                          (CFStringRef)@"", kCFStringEncodingUTF8);
-                
-                NSString *value = [[keyvalue objectAtIndex:1] mutableCopy];
-                [(NSMutableString *)value replaceOccurrencesOfString:@"+" 
-														  withString:@" " 
-															 options:NSLiteralSearch 
-															   range:NSMakeRange(0,[value length])];
-                
-                value = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                            (__bridge CFStringRef)value,
-                                                                                            (CFStringRef)@"", kCFStringEncodingUTF8);
-                
-				[[fieldobjects objectForKey:key] applyValue:value];
-                
-            }
-            
-			wasSubmitted = YES;
-            [self close];
-        }
-
-        [listener ignore];
-    }
 }
 
 @end

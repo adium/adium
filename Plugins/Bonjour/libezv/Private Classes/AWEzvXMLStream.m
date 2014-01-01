@@ -136,6 +136,7 @@ void xml_char_data	(void *userData,
     if ([data length] == 0) {
         connection = nil;
         [delegate XMLConnectionClosed];
+		return;
     }
     
     NSAssert( UINT_MAX >= [data length], @"Received too much data to parse" );

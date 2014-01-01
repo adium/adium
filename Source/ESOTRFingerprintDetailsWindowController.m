@@ -61,8 +61,17 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 	//Ensure the window is loaded
 	[self window];
 	
-	[textField_UID setStringValue:[fingerprintDict objectForKey:@"UID"]];
+
+	[textField_UID setStringValue:[NSString stringWithFormat:AILocalizedString(@"Fingerprint for %@:", "used for OTR, %@ is a name"), [fingerprintDict objectForKey:@"UID"]]];
 	[textField_fingerprint setStringValue:[fingerprintDict objectForKey:@"FingerprintString"]];
+	
+	Fingerprint *fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
+	
+	if (otrl_context_is_fingerprint_trusted(fingerprint)) {
+		[button_trust selectItemAtIndex:1];
+	} else {
+		[button_trust selectItemAtIndex:0];
+	}
 	
 	[imageView_service setImage:[AIServiceIcons serviceIconForObject:account
 																type:AIServiceIconLarge
@@ -104,5 +113,26 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 {
 	return @"OTR Fingerprint Details Window";
 }
+
+- (IBAction)okay:(id)sender
+{
+	Fingerprint *fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
+	
+	if ([button_trust indexOfSelectedItem] == 1 && !otrl_context_is_fingerprint_trusted(fingerprint)) {
+		otrl_context_set_trust(fingerprint, "verified");
+	} else if ([button_trust indexOfSelectedItem] == 0 && otrl_context_is_fingerprint_trusted(fingerprint)) {
+		otrl_context_set_trust(fingerprint, "");
+	}
+	
+	otrg_ui_update_fingerprint();
+	
+	[self closeWindow:sender];
+}
+
+- (IBAction)cancel:(id)sender
+{
+	[self closeWindow:sender];
+}
+
 
 @end

@@ -99,6 +99,7 @@
 
 #ifdef HAVE_CDSA
 - (CFArrayRef)copyServerCertificates:(PurpleSslConnection*)gsc;
+- (NSDictionary *)getCipherDetails:(PurpleSslConnection*)gsc;
 #endif
 @end
 

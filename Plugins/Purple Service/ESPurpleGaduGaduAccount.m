@@ -51,7 +51,7 @@
 
 - (void)uploadContactListToServer
 {
-#warning Temporarily disable contact list sync with servers
+	//XXX: need to update libpurple. see #16403
 	return;
 
 	char *buddylist = ggp_buddylist_dump(account);
@@ -90,7 +90,7 @@
 
 - (void)downloadContactListFromServer
 {
-#warning Temporarily disable contact list sync with servers
+	//XXX: need to update libpurple. see #16403
 	return;
 
 	// If we're connected and have no buddies, request 'em from the server.

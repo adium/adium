@@ -22,14 +22,6 @@
 
 - (void)installPlugin
 {
-	//Install the Block menu items
-	blockEditorMenuItem = [[NSMenuItem alloc] initWithTitle:[AILocalizedString(@"Privacy Settings", nil) stringByAppendingEllipsis]
-													  target:self
-													  action:@selector(showEditor:)
-											   keyEquivalent:@"p"];
-	[blockEditorMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask | NSCommandKeyMask)];
-	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
-	
 	//Install our preference view
 	preferences = (RAFBlockEditorWindowController *)[RAFBlockEditorWindowController preferencePaneForPlugin:self];
 }

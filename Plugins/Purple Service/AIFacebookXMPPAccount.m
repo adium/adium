@@ -14,7 +14,6 @@
 #import "auth_fb.h"
 
 #import "AIFacebookXMPPOAuthWebViewWindowController.h"
-#import "JSONKit.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 
@@ -30,7 +29,7 @@ enum {
 @property (nonatomic, assign) NSUInteger networkState;
 @property (nonatomic, weak) NSURLConnection *connection; // assign because NSURLConnection retains its delegate.
 @property (weak, nonatomic) NSURLResponse *connectionResponse;
-@property (weak, nonatomic) NSMutableData *connectionData;
+@property (nonatomic) NSMutableData *connectionData;
 
 - (void)meGraphAPIDidFinishLoading:(NSData *)graphAPIData response:(NSURLResponse *)response error:(NSError *)inError;
 - (void)promoteSessionDidFinishLoading:(NSData *)secretData response:(NSURLResponse *)response error:(NSError *)inError;
@@ -292,6 +291,11 @@ enum {
 
 - (void)oAuthWebViewController:(AIFacebookXMPPOAuthWebViewWindowController *)wc didSucceedWithToken:(NSString *)token
 {
+	//Clear this value since we have a new password
+	[self setValue:[NSNumber numberWithBool:NO]
+	   forProperty:@"Prompt For Password On Next Connect"
+			notify:NotifyNever];
+	
     [self setOAuthToken:token];
     
     NSString *urlstring = [NSString stringWithFormat:@"https://graph.facebook.com/me?access_token=%@", [self oAuthToken]];
@@ -330,7 +334,7 @@ enum {
     }
     
     NSError *error = nil;
-    NSDictionary *resp = [graphAPIData objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+    NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:graphAPIData options:NSJSONReadingMutableLeaves error:&error];
     if (!resp) {
         NSLog(@"error decoding graph API response: %@", error);
         // TODO: indicate setup failed

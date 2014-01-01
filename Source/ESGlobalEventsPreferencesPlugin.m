@@ -32,8 +32,6 @@
 #define EVENT_SOUNDS_DEFAULT_PREFS	@"EventSoundDefaults"
 
 @interface ESGlobalEventsPreferencesPlugin ()
-- (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector;
-
 - (void)adiumFinishedLaunching:(NSNotification *)notification;
 @end
 
@@ -138,20 +136,6 @@
 }
 
 #pragma mark All simple presets
-
-- (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector
-{
-	NSDictionary	*dictionary;
-	
-	//Clear out old global dock behavior alerts
-	[adium.contactAlertsController removeAllGlobalAlertsWithActionID:actionID];
-	
-	//
-	for (dictionary in setArray) {
-		[adium.contactAlertsController addGlobalAlert:[self performSelector:selector
-																   withObject:dictionary]];
-	}
-}
 
 - (void)setEventPreset:(NSDictionary *)eventPreset
 {

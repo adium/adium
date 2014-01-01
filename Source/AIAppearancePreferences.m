@@ -138,6 +138,9 @@ typedef enum {
 	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.menubaricons"))) {
 		[self configureMenuBarIconsMenu];
 	}
+	
+	if (type)
+		CFRelease(type);
 }
 
 /*!

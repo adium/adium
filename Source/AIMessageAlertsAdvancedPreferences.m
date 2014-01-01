@@ -60,7 +60,7 @@
 	[checkbox_badgeDockIcon setStringValue:AILocalizedString(@"Display a count badge on the dock icon", nil)];
 	
 	[checkbox_unreadConversations setStringValue:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
-	[checkbox_unreadContentMention setStringValue:AILocalizedString(@"Only count number of highlights and mentions for group chats", nil)];
+	[checkbox_unreadContentMention setStringValue:AILocalizedString(@"For group chats, only count number of highlights and mentions", nil)];
 	[checkbox_unreadMentionCount setStringValue:AILocalizedString(@"For tabs, only count number of unread mentions", nil)];
 	
 	[checkbox_showTabCountSingle setStringValue:AILocalizedString(@"Show count in tabs (single chat)", nil)];

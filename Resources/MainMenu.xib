@@ -2,18 +2,18 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12A154q</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2429</string>
-		<string key="IBDocument.AppKitVersion">1162.3</string>
-		<string key="IBDocument.HIToolboxVersion">604.00</string>
+		<string key="IBDocument.SystemVersion">12A269</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2549</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2429</string>
+			<string key="NS.object.0">2549</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSCustomObject</string>
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
-			<string>NSCustomObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -78,15 +78,6 @@
 									<reference key="NSOnImage" ref="145266427"/>
 									<reference key="NSMixedImage" ref="551713053"/>
 									<int key="NSTag">1</int>
-								</object>
-								<object class="NSMenuItem" id="650991877">
-									<reference key="NSMenu" ref="123945392"/>
-									<string key="NSTitle">Adium Xtras</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="145266427"/>
-									<reference key="NSMixedImage" ref="551713053"/>
 								</object>
 								<object class="NSMenuItem" id="833951242">
 									<reference key="NSMenu" ref="123945392"/>
@@ -1016,6 +1007,14 @@
 			<object class="NSCustomObject" id="126913366">
 				<string key="NSClassName">SUUpdater</string>
 			</object>
+			<object class="NSMenuItem" id="650991877">
+				<string key="NSTitle">Adium Xtras</string>
+				<string key="NSKeyEquiv"/>
+				<int key="NSKeyEquivModMask">1048576</int>
+				<int key="NSMnemonicLoc">2147483647</int>
+				<reference key="NSOnImage" ref="145266427"/>
+				<reference key="NSMixedImage" ref="551713053"/>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -1349,14 +1348,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">showXtras:</string>
-						<reference key="source" ref="412113127"/>
-						<reference key="destination" ref="650991877"/>
-					</object>
-					<int key="connectionID">7055</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">contibutingToAdium:</string>
 						<reference key="source" ref="412113127"/>
 						<reference key="destination" ref="336798830"/>
@@ -1394,6 +1385,14 @@
 						<reference key="destination" ref="715555530"/>
 					</object>
 					<int key="connectionID">7374</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showXtras:</string>
+						<reference key="source" ref="412113127"/>
+						<reference key="destination" ref="650991877"/>
+					</object>
+					<int key="connectionID">7055</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1738,14 +1737,6 @@
 						<reference key="destination" ref="775734039"/>
 					</object>
 					<int key="connectionID">7154</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menuItem_adiumXtras</string>
-						<reference key="source" ref="752992373"/>
-						<reference key="destination" ref="650991877"/>
-					</object>
-					<int key="connectionID">7155</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2349,6 +2340,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuItem_adiumXtras</string>
+						<reference key="source" ref="752992373"/>
+						<reference key="destination" ref="650991877"/>
+					</object>
+					<int key="connectionID">7155</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">menuItem_bold</string>
 						<reference key="source" ref="276456795"/>
 						<reference key="destination" ref="855568741"/>
@@ -2888,7 +2887,6 @@
 							<reference ref="692256499"/>
 							<reference ref="223212230"/>
 							<reference ref="846974817"/>
-							<reference ref="650991877"/>
 							<reference ref="258218277"/>
 							<reference ref="461621623"/>
 							<reference ref="336798830"/>
@@ -2957,11 +2955,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6620</int>
 						<reference key="object" ref="846974817"/>
-						<reference key="parent" ref="123945392"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">7054</int>
-						<reference key="object" ref="650991877"/>
 						<reference key="parent" ref="123945392"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3367,6 +3360,11 @@
 						<reference key="object" ref="768366981"/>
 						<reference key="parent" ref="758315211"/>
 						<string key="objectName">Menu Item - Deselect All</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">7054</int>
+						<reference key="object" ref="650991877"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>

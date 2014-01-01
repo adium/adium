@@ -238,7 +238,8 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 			//pick the first author for this.  likely a bad idea
 			if (startDate && [otherAuthors count]) {
 				NSString *toUID = [otherAuthors objectAtIndex:0];
-				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d" allowNaturalLanguage:NO];
+				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+				dateFormatter.dateFormat = @"yyyy'-'MM'-'dd";
 				
 				[attributes setObject:[NSString stringWithFormat:@"%@ on %@",toUID,[dateFormatter stringFromDate:startDate]]
 							   forKey:(NSString *)kMDItemDisplayName];

@@ -27,18 +27,24 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContentControllerProtocol.h>
+#import "ESTextAndButtonsWindowController.h"
+#import "AILoggerPlugin.h"
 
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)
 #define	TITLE_MAKE_INSECURE		AILocalizedString(@"Cancel Encrypted Chat",nil)
 #define TITLE_SHOW_DETAILS		[AILocalizedString(@"Show Details",nil) stringByAppendingEllipsis]
-#define TITLE_VERIFY			[AILocalizedString(@"Verify",nil) stringByAppendingEllipsis]
-#define	TITLE_ENCRYPTION_OPTIONS AILocalizedString(@"Encryption Settings",nil)
+#define TITLE_VERIFY			AILocalizedString(@"Verify",nil)
+#define TITLE_VERIFY_MANUALLY	[AILocalizedString(@"Manually",nil) stringByAppendingEllipsis]
+#define TITLE_VERIFY_SHARED_SECRET		[AILocalizedString(@"Using Shared Secret",nil) stringByAppendingEllipsis]
+#define TITLE_VERIFY_SECRET_QUESTION	[AILocalizedString(@"Using Secret Question",nil) stringByAppendingEllipsis]
+#define	TITLE_ENCRYPTION_OPTIONS	AILocalizedString(@"Encryption Settings",nil)
 #define TITLE_ABOUT_ENCRYPTION	[AILocalizedString(@"About Encryption",nil) stringByAppendingEllipsis]
 
 #define TITLE_ENCRYPTION		AILocalizedString(@"Encryption",nil)
 
 #define CHAT_NOW_SECURE				AILocalizedString(@"Encrypted OTR chat initiated.", nil)
-#define CHAT_NOW_SECURE_UNVERIFIED	AILocalizedString(@"Encrypted OTR chat initiated. %@'s identity not verified.", nil)
+#define CHAT_NOW_SECURE_UNVERIFIED	AILocalizedString(@"Encrypted OTR chat initiated. <b>%@</b>’s identity <b>not</b> verified.", nil)
 #define CHAT_NO_LONGER_SECURE		AILocalizedString(@"Ended encrypted OTR chat.", nil)
 
 @interface ESSecureMessagingPlugin ()
@@ -214,6 +220,40 @@
 						  inWindow:[[notification userInfo] objectForKey:@"NSWindow"]];
 }
 
+- (void)logOTRQuestion:(NSNumber *)number userInfo:(AIChat *)chat suppression:(NSNumber *)suppressed
+{
+	if ([suppressed boolValue]) {
+		//Don't Ask Again
+		[adium.preferenceController setPreference:@(NO)
+										   forKey:KEY_CONFIRM_LOGGED_OTR
+											group:PREF_GROUP_CONFIRMATIONS];
+	}
+	
+	AITextAndButtonsReturnCode result = [number intValue];
+	switch(result)
+	{
+		case AITextAndButtonsDefaultReturn:
+			// If should not ask again, update the "Log secure chats" setting in the preferences.
+			if ([suppressed boolValue]) {
+				[adium.preferenceController setPreference:@(NO)
+												   forKey:KEY_LOGGER_SECURE_CHATS
+													group:PREF_GROUP_LOGGING];
+			} else {
+				// Otherwise, we just override it for the current chat.
+				[chat setValue:@(NO) forProperty:@"overrideLogging" notify:NotifyNow];
+				
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Logging for this conversation is now %@.",
+																								   "Message displayed in the chat when overriding logging. %@ is either on or off"),
+													  AILocalizedString(@"off", nil)]
+											   ofType:@"loggingOff"
+											   inChat:chat];
+			}
+			break;
+		default:
+			break;
+	}
+}
+
 //When the IsSecure key of a chat changes, update the @"Encryption" item immediately
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
@@ -250,11 +290,38 @@
 				message = CHAT_NO_LONGER_SECURE;
 				type = @"encryptionEnded";
 			}
+			
+			if (chatIsSecure) {
+				if (inChat.shouldLog) {
+					message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is on.", nil)];
+					
+					BOOL confirmLoggedOTR = [[adium.preferenceController preferenceForKey:KEY_CONFIRM_LOGGED_OTR
+																					group:PREF_GROUP_CONFIRMATIONS] boolValue];
+					
+					if (confirmLoggedOTR) {
+						NSString	*question = AILocalizedString(@"Would you like to turn off logging for the rest of this conversation?", nil);
+						
+						[adium.interfaceController displayQuestion:AILocalizedString(@"Your conversation is now encrypted.", nil)
+												   withDescription:question
+												   withWindowTitle:AILocalizedString(@"Confirm logging", nil)
+													 defaultButton:AILocalizedString(@"Turn Off", nil)
+												   alternateButton:AILocalizedString(@"Continue Logging", nil)
+													   otherButton:nil
+													   suppression:AILocalizedString(@"Don’t ask again", nil)
+												   responseHandler:^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+													   [self logOTRQuestion:@(ret) userInfo:inChat suppression:@(suppressed)];
+												   }];
+					}
+					
+				} else {
+					message = [message stringByAppendingString:AILocalizedString(@" Logging for this conversation is off.", nil)];
+				}
+			}
 
 			if ([inChat isOpen]) {
 				[adium.contentController displayEvent:message
-												 ofType:type
-												 inChat:inChat];
+											   ofType:type
+											   inChat:inChat];
 			}
 		}
 	}
@@ -308,7 +375,21 @@
 {
 	AIChat	*chat = adium.interfaceController.activeChat;
 	
-	[chat.account promptToVerifyEncryptionIdentityInChat:chat];	
+	[adium.contentController promptToVerifyEncryptionIdentityInChat:chat];
+}
+
+- (IBAction)verifyQuestion:(id)sender
+{
+	AIChat	*chat = adium.interfaceController.activeChat;
+	
+	[adium.contentController questionVerifyEncryptionIdentityInChat:chat];
+}
+
+- (IBAction)verifyShared:(id)sender
+{
+	AIChat	*chat = adium.interfaceController.activeChat;
+	
+	[adium.contentController sharedVerifyEncryptionIdentityInChat:chat];
 }
 
 - (IBAction)showAbout:(id)sender
@@ -407,7 +488,9 @@
 				return YES;
 				
 			case AISecureMessagingMenu_ShowDetails:
-			case AISecureMessagingMenu_Verify:
+			case AISecureMessagingMenu_VerifyManually:
+			case AISecureMessagingMenu_VerifyQuestion:
+			case AISecureMessagingMenu_VerifySharedSecret:
 				//Only enable show details if the chat is secure
 				return [chat isSecure];
 				
@@ -446,11 +529,38 @@
 		[_secureMessagingMenu addItem:item];
 
 		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
+										   target:nil
+										   action:nil
+									keyEquivalent:@""];
+
+		NSMenu *verifySubmenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+		[item setSubmenu:verifySubmenu];
+		
+		[_secureMessagingMenu addItem:item];
+		
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_MANUALLY
 										   target:self
 										   action:@selector(verify:)
 									keyEquivalent:@""];
-		[item setTag:AISecureMessagingMenu_Verify];
-		[_secureMessagingMenu addItem:item];
+		[item setTag:AISecureMessagingMenu_VerifyManually];
+		
+		[verifySubmenu addItem:item];
+		
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SECRET_QUESTION
+										   target:self
+										   action:@selector(verifyQuestion:)
+									keyEquivalent:@""];
+		[item setTag:AISecureMessagingMenu_VerifyQuestion];
+		
+		[verifySubmenu addItem:item];
+		
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SHARED_SECRET
+										   target:self
+										   action:@selector(verifyShared:)
+									keyEquivalent:@""];
+		[item setTag:AISecureMessagingMenu_VerifySharedSecret];
+		
+		[verifySubmenu addItem:item];
 		
 		item = [[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
 										   target:nil

@@ -30,7 +30,10 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIButtonWithCursor.h>
+#import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
+#import <WebKit/WebKit.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 
@@ -508,6 +511,13 @@
 
 #pragma mark - Pasting
 
+// Forbid loading the images embedded in a string when pasting.
+// They are very unlikely to work and a privacy issue.
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource
+{
+	return nil;
+}
+
 - (BOOL)handlePasteAsRichText
 {
 	NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
@@ -526,6 +536,14 @@
 			
 		} else if ([FILES_AND_IMAGES_TYPES containsObject:type]) {
 			[self addAttachmentsFromPasteboard:generalPasteboard];
+			handledPaste = YES;
+		} else if ([type isEqualToString:NSHTMLPboardType]) {
+			NSData *htmlData = [generalPasteboard dataForType:NSHTMLPboardType];
+			[self insertText:[[NSAttributedString alloc] initWithData:htmlData
+															  options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+																	 NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding),
+																	 NSWebResourceLoadDelegateDocumentOption: self}
+												   documentAttributes:NULL error:NULL]];
 			handledPaste = YES;
 		}
 		
@@ -955,8 +973,9 @@
         [self setFrameSize:size];
 				
 		// Make the indicator and set its action. It is a button with no border.
-		pushIndicator = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)]; 
+		pushIndicator = [[AIButtonWithCursor alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)];
 		[pushIndicator setButtonType:NSMomentaryPushButton];
+		[pushIndicator setCursor:[NSCursor arrowCursor]];
         [pushIndicator setAutoresizingMask:(NSViewMinXMargin)];
         [pushIndicator setImage:pushIndicatorImage];
         [pushIndicator setImagePosition:NSImageOnly];
@@ -1741,11 +1760,12 @@
 	if (hasMenu && emoticonsMenuButton == nil) {
 		NSImage *emoticonsMenuIcon = [NSImage imageNamed:@"emoticons_menu"];
 		
-		emoticonsMenuButton = [[NSButton alloc] initWithFrame:NSZeroRect];
+		emoticonsMenuButton = [[AIButtonWithCursor alloc] initWithFrame:NSZeroRect];
 		
 		[emoticonsMenuButton setFrameSize:[emoticonsMenuIcon size]];
 		[emoticonsMenuButton setAutoresizingMask:NSViewMinXMargin];
         [emoticonsMenuButton setButtonType:NSMomentaryChangeButton];
+		[emoticonsMenuButton setCursor:[NSCursor arrowCursor]];
         [emoticonsMenuButton setBordered:NO];
 		[emoticonsMenuButton setAction:@selector(popUpEmoticonsMenu)];
 		[[emoticonsMenuButton cell] setImageScaling:NSImageScaleNone];

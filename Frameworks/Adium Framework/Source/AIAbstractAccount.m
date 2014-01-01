@@ -1325,6 +1325,11 @@
 	return _contactProperties;
 }
 
+- (double)minimumReconnectTime
+{
+	return RECONNECT_MIN_TIME;
+}
+
 /*!
  * @brief Did disconnect
  */
@@ -1381,8 +1386,8 @@
 			double reconnectDelay = pow(RECONNECT_BASE_TIME, (double)reconnectAttemptsPerformed);
 			
 			// Make sure we're not going too fast
-			if (reconnectDelay < RECONNECT_MIN_TIME)
-				reconnectDelay = RECONNECT_MIN_TIME;
+			if (reconnectDelay < [self minimumReconnectTime])
+				reconnectDelay = [self minimumReconnectTime];
 			// Or too slow
 			else if (reconnectDelay > RECONNECT_MAX_TIME)
 				reconnectDelay = RECONNECT_MAX_TIME;

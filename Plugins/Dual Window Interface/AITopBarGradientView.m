@@ -18,10 +18,22 @@
 
 @implementation AITopBarGradientView
 
+@synthesize startColor, endColor;
+
+- (id)init
+{
+	if (self = [super init]) {
+		startColor = [NSColor colorWithCalibratedWhite:0.79f alpha:1.0f];
+		endColor = [NSColor colorWithCalibratedWhite:0.91f alpha:1.0f];
+	}
+	
+	return self;
+}
+
 -(void)drawRect:(NSRect)aRect
 {
-	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.79f alpha:1.0f]
-														 endingColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
+	NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:self.startColor
+														 endingColor:self.endColor];
 	[gradient drawInRect:self.bounds angle:90.0];
 	
     NSBezierPath *path = [NSBezierPath bezierPath];

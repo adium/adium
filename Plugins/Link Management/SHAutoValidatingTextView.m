@@ -126,7 +126,7 @@
 		escapedURLString = nil;
 	}
 
-	return (escapedURLString ? (__bridge NSString *)escapedURLString : linkURL);
+	return (escapedURLString ? (__bridge_transfer NSString *)escapedURLString : linkURL);
 }
 
 @end

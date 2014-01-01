@@ -90,9 +90,10 @@ static GBQuestionHandlerPlugin *instance;
 	}
 	else
 	{
-		// Note: Explicitly not released here: ESTextAndButtonsWindowController will autorelease itself in -windowWillClose:
-		[currentAlert close];
-		currentAlert = nil;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[currentAlert close];
+			currentAlert = nil;
+		}); 
 	}
 	return ret;
 }

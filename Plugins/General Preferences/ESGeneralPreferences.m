@@ -19,6 +19,8 @@
 #import "ESGeneralPreferencesPlugin.h"
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
+#import "AIInterfaceControllerProtocol.h"
+#import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import "AIURLHandlerPlugin.h"
 #import "AIURLHandlerWindowController.h"
@@ -98,23 +100,28 @@
     [self configureControlDimming];
 }
 
-
-//Called in response to all preference controls, applies new settings
-- (IBAction)changePreference:(id)sender
+- (void)localizePane
 {
-    if (sender == matrix_quitConfirmType || sender == checkbox_confirmBeforeQuitting)
-		[self configureControlDimming];
+	[label_confirmations setStringValue:AILocalizedString(@"Confirmations:", nil)];
+	[label_globalShortcut setStringValue:AILocalizedString(@"Global Shortcut:", nil)];
+	[label_IMLinks setStringValue:AILocalizedString(@"Open IM links:", nil)];
+	[label_status setStringValue:AILocalizedString(@"Status:", nil)];
+	[label_updates setStringValue:AILocalizedString(@"Updates:", nil)];
+	
+	[button_defaultApp setStringValue:AILocalizedString(@"Make Adium default application", nil)];
+	[button_customizeDefaultApp setStringValue:AILocalizedString(@"Customize…", nil)];
+	
+	[checkbox_showInMenu setStringValue:AILocalizedString(@"Show Adium's status in the menu bar", nil)];
+	[checkbox_updatesAutomatic setStringValue:AILocalizedString(@"Automatically check for updates", nil)];
+	[checkbox_updatesIncludeBetas setStringValue:AILocalizedString(@"Update to beta versions when available", nil)];
+	[checkbox_updatesProfileInfo setStringValue:AILocalizedString(@"Include anonymous system profile", nil)];
+	
+	[button_resetAllWarnings setStringValue:AILocalizedString(@"Reset all warnings", nil)];
 }
 
 //Dim controls as needed
 - (void)configureControlDimming
 {
-	BOOL confirmQuitEnabled = (checkbox_confirmBeforeQuitting.state == NSOnState);
-	BOOL enableSpecificConfirmations = (confirmQuitEnabled && [[matrix_quitConfirmType selectedCell] tag] == AIQuitConfirmSelective);
-	[checkbox_quitConfirmFT setEnabled:enableSpecificConfirmations];
-	[checkbox_quitConfirmUnread setEnabled:enableSpecificConfirmations];
-	[checkbox_quitConfirmOpenChats setEnabled:enableSpecificConfirmations];
-	
 	[checkbox_updatesProfileInfo setEnabled:[checkbox_updatesAutomatic state]];
 #ifdef BETA_RELEASE
 	[checkbox_updatesIncludeBetas setEnabled:NO];
@@ -150,6 +157,13 @@
 	AIURLHandlerWindowController *windowController = [[AIURLHandlerWindowController alloc] initWithWindowNibName:@"AIURLHandlerPreferences"];
 	
 	[windowController showOnWindow:self.view.window];
+}
+
+- (IBAction)resetAllWarnings:(id)sender
+{
+	[adium.preferenceController setPreferences:[NSDictionary dictionaryNamed:@"ConfirmationDefaults"
+																	forClass:[self class]]
+									   inGroup:PREF_GROUP_CONFIRMATIONS];
 }
 
 @end

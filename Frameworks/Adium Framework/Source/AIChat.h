@@ -117,6 +117,8 @@ typedef enum {
 	NSDictionary		*securityDetails;
     
     AIListContact       *_listObject;
+	
+	NSNumber			*overrideLogging;
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;

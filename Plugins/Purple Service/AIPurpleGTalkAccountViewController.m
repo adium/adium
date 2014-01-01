@@ -23,9 +23,6 @@
 {
 	[super awakeFromNib];
 	
-	//GTalk forces the use of TLS
-	[checkBox_requireTLS setEnabled:NO];
-	
 	[checkBox_checkMail setEnabled:YES];
 }
 

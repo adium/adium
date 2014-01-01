@@ -235,7 +235,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	NSString		*serviceCodeUniqueID = service.serviceCodeUniqueID;
 	AIStatusType	type;
 
-	for (type = AIAvailableStatusType ; type < STATUS_TYPES_COUNT ; type++) {
+	for (type = AIAvailableStatusType ; (int)type < STATUS_TYPES_COUNT ; type++) {
 		NSArray		*menuItemArray;
 
 		menuItemArray = [self _menuItemsForStatusesOfType:type

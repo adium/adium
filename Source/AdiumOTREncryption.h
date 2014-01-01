@@ -35,6 +35,8 @@ typedef enum {
 
 - (void)requestSecureOTRMessaging:(BOOL)inSecureMessaging inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat;
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 
 - (void)prefsShouldUpdatePrivateKeyList;
 - (void)prefsShouldUpdateFingerprintsList;
@@ -43,6 +45,8 @@ OtrlUserState otrg_get_userstate(void);
 void otrg_ui_forget_fingerprint(Fingerprint *fingerprint);
 void otrg_plugin_write_fingerprints(void);
 void otrg_ui_update_keylist(void);
+void otrg_ui_update_fingerprint(void);
+void update_security_details_for_context(ConnContext *context);
 
 TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 

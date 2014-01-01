@@ -522,8 +522,8 @@
 	NSMutableArray *detachedWindowsDicts = [[NSMutableArray alloc] init];
 
 	for (AIListWindowController *windowController in [contactLists copy]) {
-		NSMutableDictionary *dict = [NSDictionary dictionaryWithObject:[[[windowController contactList] containedObjects] valueForKey:@"UID"]
-																forKey:DETACHED_WINDOW_GROUPS];
+		NSDictionary *dict = [NSDictionary dictionaryWithObject:[[[windowController contactList] containedObjects] valueForKey:@"UID"]
+														 forKey:DETACHED_WINDOW_GROUPS];
 		[detachedWindowsDicts addObject:dict];
 		[self closeContactList:windowController];
 	}
