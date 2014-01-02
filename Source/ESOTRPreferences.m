@@ -41,10 +41,10 @@
 	return @"OTRAdvanced";
 }
 - (NSString *)paneName{
-    return AILocalizedString(@"Encryption",nil);
+    return AILocalizedString(@"OTR Encryption",nil);
 }
 - (NSString *)nibName{
-    return @"Preferences-Encryption";
+    return @"Preferences-OTREncryption";
 }
 - (NSImage *)paneIcon{
 	return [NSImage imageNamed:@"lock-locked" forClass:[adium class]];

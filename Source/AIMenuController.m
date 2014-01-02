@@ -455,6 +455,7 @@
 	[menuItem_spellingCheckSpelling setTitle:AILocalizedString(@"Check Spelling",nil)];
 	[menuItem_spellingCheckSpellingAsYouType setTitle:AILocalizedString(@"Check Spelling As You Type",nil)];
 	[menuItem_spellingCheckGrammarWithSpelling setTitle:AILocalizedString(@"Check Grammar With Spelling",nil)];
+	[menuItem_spellingCorrectSpellingAutomatically setTitle:AILocalizedString(@"Correct Spelling Automatically",nil)];
 	
 	[menuItem_speech setTitle:AILocalizedString(@"Speech",nil)];
 	[menuItem_startSpeaking setTitle:AILocalizedString(@"Start Speaking",nil)];

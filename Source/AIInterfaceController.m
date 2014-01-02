@@ -1324,6 +1324,21 @@
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 		responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 {
+	[self displayQuestion:inTitle
+withAttributedDescription:inDesc
+		  withWindowTitle:inWindowTitle
+			defaultButton:inDefaultButton
+		  alternateButton:inAlternateButton
+			  otherButton:inOtherButton
+			  suppression:inSuppression
+				  makeKey:TRUE
+		  responseHandler:handler];
+}
+
+- (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler
+{
 	NSMutableDictionary *questionDict = [NSMutableDictionary dictionary];
 	
 	if(inTitle != nil)
@@ -1343,6 +1358,7 @@
 	if (handler) {
 		[questionDict setObject:[handler copy] forKey:@"Handler"];
 	}
+	[questionDict setObject:@(key) forKey:@"Make Key"];
 	
 	[GBQuestionHandlerPlugin handleQuestion:questionDict];
 }
@@ -1361,6 +1377,24 @@ withAttributedDescription:[[NSAttributedString alloc] initWithString:inDesc
 			  otherButton:inOtherButton
 			  suppression:inSuppression
 		   responseHandler:handler];
+}
+
+
+- (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
+{
+	[self displayQuestion:inTitle
+withAttributedDescription:[[NSAttributedString alloc] initWithString:inDesc
+														  attributes:[NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:0]
+																								 forKey:NSFontAttributeName]]
+		  withWindowTitle:inWindowTitle
+			defaultButton:inDefaultButton
+		  alternateButton:inAlternateButton
+			  otherButton:inOtherButton
+			  suppression:inSuppression
+				  makeKey:key
+		  responseHandler:handler];
 }
 //Synchronized Flashing ------------------------------------------------------------------------------------------------
 #pragma mark Synchronized Flashing

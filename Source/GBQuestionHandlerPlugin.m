@@ -118,6 +118,9 @@ static GBQuestionHandlerPlugin *instance;
 								   target:self
 								 userInfo:info];
 		[currentAlert show];
+		if ([[info objectForKey:@"Make Key"] boolValue]) {
+			[currentAlert showWindow:nil];
+		}
 		[errorQueue removeObjectAtIndex:0];
 		ret = YES;
 	}
@@ -138,6 +141,9 @@ static GBQuestionHandlerPlugin *instance;
 								   target:self
 								 userInfo:info];
 		[currentAlert show];
+		if ([[info objectForKey:@"Make Key"] boolValue]) {
+			[currentAlert showWindow:nil];
+		}
 		[questionQueue removeObjectAtIndex:0];
 		ret = YES;
 	}

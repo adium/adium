@@ -23,7 +23,6 @@
 
 @interface SHLinkEditorWindowController ()
 
-- (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 
 @end
@@ -168,9 +167,9 @@
 
 	// Insert it into the text view
 	if ((URL = [NSURL URLWithString:urlString])) {
-		[self insertLinkTo:URL
-				  withText:linkString
-					inView:textView];
+		[SHLinkEditorWindowController insertLinkTo:URL
+										  withText:linkString
+											inView:textView];
 		// Inform our target of the new link and close up
 		[self informTargetOfLink];
 		[self closeWindow:nil];
@@ -213,8 +212,14 @@
 }
 
 // Insert a link into a text view
-- (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView
++ (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView
 {
+	//Bail if we don't have a link; use the link as the title if no title was sent
+	if (!linkURL)
+		return;
+	if (linkTitle.length == 0)
+		linkTitle = linkURL.path;
+	
     NSDictionary				*typingAttributes = [inView typingAttributes];
 	NSTextStorage				*textStorage = [inView textStorage];
 	NSMutableAttributedString	*linkString;

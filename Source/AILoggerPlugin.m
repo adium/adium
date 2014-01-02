@@ -35,6 +35,8 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIService.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -245,6 +247,13 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 							  @"away",@"away_message",
 							  nil];
 	
+	logRotateTimer = [NSTimer scheduledTimerWithTimeInterval:86400
+													  target:self
+													selector:@selector(rotateLogs:)
+													userInfo:nil
+													 repeats:YES];
+	[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
+	
 	//Setup our preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed: LOGGING_DEFAULT_PREFS forClass:[self class]] forGroup:PREF_GROUP_LOGGING];
 	
@@ -361,6 +370,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	jobSemaphore = nil;
 	loggerPluginGroup = nil;
 	formatter = nil;
+	
+	[logRotateTimer invalidate];
 }
 
 #pragma mark AILoggerPlugin Plubic Methods
@@ -1245,13 +1256,31 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 												 selector:@selector(finishClosingAppender:) 
 												   object:[self keyForChat:chat]];
 	} else {
-		//If there isn't already an appender, create a new one and add it to the dictionary
-		NSDate			*chatDate = [chat dateOpened];
-		NSString		*fullPath = [AILoggerPlugin fullPathForLogOfChat:chat onDate:chatDate];
-		
-		AIXMLElement *rootElement = [[AIXMLElement alloc] initWithName:@"chat"];
-		
-		[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", @"adiumversion", @"buildid", nil]
+		appender = [self _createAppenderForChat:chat withDate:nil];
+
+		//Add the window opened event now
+		AIXMLElement *eventElement = [[AIXMLElement alloc] initWithName:@"event"];
+
+		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
+
+		[appender appendElement:eventElement];
+	}
+	
+	return appender;
+}
+
+- (AIXMLAppender *)_createAppenderForChat:(AIChat *)chat withDate:(NSDate *)chatDate
+{
+	//If there isn't already an appender, create a new one and add it to the dictionary
+	if (!chatDate)
+		chatDate = [chat dateOpened];
+	
+	NSString		*fullPath = [AILoggerPlugin fullPathForLogOfChat:chat onDate:chatDate];
+
+	AIXMLElement *rootElement = [[AIXMLElement alloc] initWithName:@"chat"];
+
+	[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", @"adiumversion", @"buildid", nil]
 								values:[NSArray arrayWithObjects:
 										XML_LOGGING_NAMESPACE,
 										chat.account.UID,
@@ -1259,21 +1288,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"],
 										nil]];
-		
-		appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
-		
-		//Add the window opened event now
-		AIXMLElement *eventElement = [[AIXMLElement alloc] initWithName:@"event"];
-		
-		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
-		
-		[appender appendElement:eventElement];
-		
-		[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
-		
-		[self _markLogDirtyAtPath:[appender path] forChat:chat];
-	}
+
+	AIXMLAppender *appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
+
+	[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
+
+	[self _markLogDirtyAtPath:[appender path] forChat:chat];
 	
 	return appender;
 }
@@ -1308,6 +1328,30 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	//Remove the appender, closing its file descriptor upon dealloc
 	[activeAppenders removeObjectForKey:chatKey];
+}
+
+- (void)rotateLogs:(NSTimer *)timer
+{
+	for (AIChat *chat in adium.chatController.openChats) {
+		AIXMLAppender *oldAppender = [self _existingAppenderForChat:chat];
+		if (!oldAppender)
+			continue;
+		
+		//Close old appender
+		NSString *chatKey = [self keyForChat:chat];
+		[NSObject cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(finishClosingAppender:)
+												   object:chatKey];
+		[self finishClosingAppender:chatKey];
+
+		//Create new appender
+		AIXMLAppender *appender = [self _createAppenderForChat:chat withDate:[NSDate date]];
+
+		AILogWithSignature(@"Rotated %@ to %@", chat, [appender path]);
+	}
+	
+	//Update the timer for DST and the like
+	[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
 }
 
 #pragma mark Log Indexing

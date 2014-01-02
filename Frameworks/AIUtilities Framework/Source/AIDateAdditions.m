@@ -53,4 +53,15 @@
 	return (comp1.day == comp2.day && comp1.month == comp2.month && comp1.year == comp2.year);
 }
 
++ (NSDate *)midnightTomorrow
+{
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	
+	unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+	NSDateComponents *comps = [calendar components:unitFlags fromDate:[NSDate date]];
+	comps.day++;
+	
+	return [calendar dateFromComponents:comps];
+}
+
 @end

@@ -47,6 +47,8 @@
 	newButton.controlSize = self.controlSize;
 	newButton.image = bigImage;
 	newButton.drawsArrow = drawsArrow;
+	newButton.target = self.target;
+	newButton.action = self.action;
 
 	//Copy super's config
 	[newButton setMenu:[[self menu] copy]];

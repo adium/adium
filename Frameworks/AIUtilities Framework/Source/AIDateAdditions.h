@@ -37,4 +37,6 @@
                     seconds:(out NSTimeInterval *)outSeconds;
 + (BOOL)isDate:(NSDate *)date1 sameDayAsDate:(NSDate *)date2;
 
++ (NSDate *)midnightTomorrow;
+
 @end

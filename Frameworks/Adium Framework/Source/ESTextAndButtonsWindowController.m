@@ -157,7 +157,6 @@
 
 - (void)show
 {
-	[self showOnWindow:nil];
 	[[self window] orderFront:nil];
 }
 

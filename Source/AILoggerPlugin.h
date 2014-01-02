@@ -44,6 +44,7 @@
 	AIHTMLDecoder       *xhtmlDecoder;
 	NSDictionary        *statusTranslation;
 	BOOL                 logHTML;
+	NSTimer				*logRotateTimer;
 	
 	ISO8601DateFormatter *formatter;
 	

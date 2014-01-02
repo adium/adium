@@ -7,8 +7,7 @@ Version 1.6 (X/X/X)
   * "Retina Display" support
   * Updated to libpurple x.y.z.
     * Added SASL authentication support. (#14478)
-  * Updated PSMTabBarControl tab framework.
-  * Updated Sparkle updating framework.
+  * Updated OTR support based on libotr 4
 
  Accessibility
   * Fixed tabs not being spoken by VoiceOver. (#16088)
@@ -22,38 +21,51 @@ Version 1.6 (X/X/X)
   * Fixed an issue with contact list animation during search. (#16018)
 
  Off-the-record (OTR) messaging support
+  * Updated to libotr 4.0.0. (#16145)
+  * Added support for the Socialist Millionaire Protocol (SMP). (#9768)
+  * Added a dialogue forcing to select whether to log chats or not when OTR is enabled. (#15729)
+  * Fixed issues causing OTR to not work via Bonjour. (#16445)
+  * Added ability to manually verify contacts when they are not connected. (#16546)
   * Fixed an issue where the default encryption setting was not applied to newly-added contacts. (#13915)
+  * Made text selectable in the "Show Fingerprint" window. (#15082)
 
  "Retina Display" support
-  * Added high-resolution assets. (#15931, ##16067)
+  * Added high-resolution assets. (#15931, #16067)
   * Fixed high-resolution assets not being scaled correctly in context menus. (#16143)
   * Added for support for high-resolution emoticons in the Message View. (Detmud) (#16221)
   * Fixed visual glitches on bottom tabs. (#16074)
   * Fixed visual glitches affecting the Transcript Viewer search bar. (#16053)
 
  Plugins
-  * Added support for adding image upload services. (#15865) (Félix Cloutier)
+  * Added support for adding image upload services. (Félix Cloutier) (#15865)
 
  Preferences
   * Changed preferences layout to resemble OS X's System Preferences.
   * Moved a bunch of preferences around for more consistency dissolving the "Advanced" preference pane and its sub-sections.
   * Made Privacy Settings a preference pane. (#8307)
   * Made the Xtras Manager a preference pane.
-  * Renamed the "Personal" preference pane to "Profile". (#16105) (Paul Wilde)
-  * Contact list: Added a preference for maximum contact list height. (#4815)
+  * Renamed the "Personal" preference pane to "Profile". (Paul Wilde) (#16105)
+  * Renamed the "Encryption" preference pane to "OTR Encryption".
   * General: Removed "Send Messages with:" option. (#15369)
   * General: Simplified "Confirmations" settings. (#16436)
-  * Accounts: Added a signup or about button to each account setup pane. (#3792) (Ariel Chinn)
+  * Accounts: Added a signup or about button to each account setup pane. (Ariel Chinn) (#3792)
+  * Contact list: Added a preference for maximum contact list height. (#4815)
+
+ Security
+  * Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
+  * Sandboxed message styles. (#15324)
+  * Fixed DNS leaks in libpurple. (#15161)
+  * Fixed registration of XMPP (Jabber) accounts to respect all account settings. Previously, Adium bypassed proxy settings. (#15957)
 
  Transcript Viewer
-  * Added full screen support. (##16120) (Paul Wilde)
+  * Added full screen support. (Paul Wilde) (#16120)
   * Added sender name colouring support with a toggle that defaults to off. (#12352) (Ariel Chinn)
 
 ----
 
-  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (#4848) (Aaron Dodson)
+  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (Aaron Dodson) (#4848)
 
-  * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (#4859) (Rafael Glauber)
+  * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (Rafael Glauber) (#4859)
 
   * Yahoo: fixed ampersands being encoded mistakenly. (#13429)
 
@@ -62,9 +74,6 @@ Version 1.6 (X/X/X)
 - "Allow /me action to be logged the way it is passed to the message view" (#13330)
 - "if an action ends in a colon, the colon will be emotified" (#14079)
 - "Improve "New Chat..." dialogue" (#14285)
-- Sandboxed message styles. (#15324)
-- Fixed DNS leaks in libpurple. / Added a "Tor (SOCKS5)" proxy option, which uses the Tor proxy option of libpurple. (#15161)
-- "Proxy bypass when registered jabber handle" (#15957)
 
    * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
 
