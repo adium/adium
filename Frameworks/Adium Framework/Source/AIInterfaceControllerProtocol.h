@@ -385,6 +385,13 @@ responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id us
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
 
+- (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
+- (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key responseHandler:(void (^)(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo))handler;
+
 #pragma mark Synchronized Flashing
 - (void)registerFlashObserver:(id <AIFlashObserver>)inObserver;
 - (void)unregisterFlashObserver:(id <AIFlashObserver>)inObserver;

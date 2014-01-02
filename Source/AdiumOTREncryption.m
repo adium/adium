@@ -1054,12 +1054,14 @@ void update_security_details_for_context(ConnContext *context)
 			fullSecurityDetailsDict = nil;	
 		}
 		
+		NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
+		
 		[inChat setSecurityDetails:fullSecurityDetailsDict];
 		
 		NSInteger newEncryptionStatus = [[securityDetailsDict objectForKey:@"EncryptionStatus"] integerValue];
 		
 
-		if (newEncryptionStatus == EncryptionStatus_Unverified) {
+		if (newEncryptionStatus == EncryptionStatus_Unverified && oldEncryptionStatus != EncryptionStatus_Unverified) {
 			AIOTRTopBarUnverifiedContactController *warningController = [[AIOTRTopBarUnverifiedContactController alloc] init];
 			AIMessageViewController *mvc = [[inChat chatContainer] messageViewController];
 			[mvc addTopBarController:warningController];

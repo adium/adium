@@ -2742,6 +2742,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 								   selector:@selector(restoreDeletedToGroups:)
 									 object:allSelectedToGroups];
 		[undoManager setActionName:DELETE];
+
+		//Force a selection change in case of a noncontiguous selection
+		[outlineView_contacts selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView_contacts selectedRow]] byExtendingSelection:NO];
 		
 		[self rebuildIndices];
 		[self updateProgressDisplay];

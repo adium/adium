@@ -42,6 +42,7 @@
     id 									target;
 }
 
++ (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView;
 - (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
 
 - (IBAction)cancel:(id)sender;

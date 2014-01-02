@@ -109,7 +109,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"ESFileTransferMessagesPlugin",
 		@"AIListObjectContentsPlugin",
 		@"ESOpenMessageWindowContactAlertPlugin",
-		@"ESSafariLinkToolbarItemPlugin",
 		@"ESSendMessageContactAlertPlugin",
 		@"ESUserIconHandlingPlugin",
 		@"ErrorMessageHandlerPlugin",

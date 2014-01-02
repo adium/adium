@@ -918,9 +918,6 @@
 		34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F17FCC0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F17FCD0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m */; };
 		34F312BD0ADC43CA00A4310E /* xtras_duck.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F312BC0ADC43CA00A4310E /* xtras_duck.png */; };
-		34F4677A080F49C5007800AB /* Safari.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 34F46778080F49C5007800AB /* Safari.scpt */; };
-		34F4677B080F49C5007800AB /* Safari.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F46779080F49C5007800AB /* Safari.png */; };
-		34F46785080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F46783080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.m */; };
 		34F849530A4AEFA00002A017 /* LogFileUpgrade.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34F849520A4AEFA00002A017 /* LogFileUpgrade.xib */; };
 		34F849590A4AF04D0002A017 /* AILogFileUpgradeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F849570A4AF04D0002A017 /* AILogFileUpgradeWindowController.m */; };
 		34F8D2AE0CF68FEB00F62536 /* AIUserListOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F8D2AD0CF68FEB00F62536 /* AIUserListOutlineView.m */; };
@@ -1015,17 +1012,20 @@
 		5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1E3A1114DCE60400724574 /* Preferences-Xtras.xib */; };
 		5A22D6E214834F44004E15F7 /* AIFacebookXMPPAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A22D6E014834F44004E15F7 /* AIFacebookXMPPAccountView.xib */; };
 		5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A27FA7A14A272330063489D /* pref-messagestyle.png */; };
+		5A2854D7178E376A0047A4C7 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2854D6178E376A0047A4C7 /* ScriptingBridge.framework */; };
 		5A2FF9B81797336100C2EF12 /* crashDuck.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5A72C1A117013D9400075BBA /* crashDuck.icns */; };
 		5A2FF9BD1797351500C2EF12 /* AICrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A72C1AD17013D9400075BBA /* AICrashReporter.m */; };
 		5A3B4D7916D878AC00903E40 /* NSString+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7A16D878AC00903E40 /* STTwitterAPIWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D6E16D878AB00903E40 /* STTwitterAPIWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7C16D878AC00903E40 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7216D878AB00903E40 /* STTwitterOAuth.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A3B4D7E16D878AC00903E40 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B4D7816D878AC00903E40 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5A41FF501852D1ED009BE13F /* AIPopUpToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A2854CF178E301E0047A4C7 /* AIPopUpToolbarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5A41FF511853B721009BE13F /* AIPopUpToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2854D0178E301E0047A4C7 /* AIPopUpToolbarItem.m */; };
 		5A44595E169143130078AB0A /* AIPreferenceCVPrototypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A445957169118C60078AB0A /* AIPreferenceCVPrototypeView.m */; };
 		5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD41B13F855B000A4D3F7 /* SearchTerms.plist */; };
 		5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF27331392C585004B6AEF /* Preferences.xib */; };
 		5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */; };
-		5A4BD44813F8575900A4D3F7 /* Preferences-Encryption.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26513B42A55002D7265 /* Preferences-Encryption.xib */; };
+		5A4BD44813F8575900A4D3F7 /* Preferences-OTREncryption.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26513B42A55002D7265 /* Preferences-OTREncryption.xib */; };
 		5A4BD45D13F857DE00A4D3F7 /* Preferences-MessageAlerts.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC7F26713B43612002D7265 /* Preferences-MessageAlerts.xib */; };
 		5A4BD47313F858EE00A4D3F7 /* Preferences-ContactList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD47213F858EE00A4D3F7 /* Preferences-ContactList.xib */; };
 		5A4BD48913F859EF00A4D3F7 /* Preferences-WindowHandling.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A4BD48813F859EF00A4D3F7 /* Preferences-WindowHandling.xib */; };
@@ -3593,10 +3593,6 @@
 		34F4675B080F46AC007800AB /* ESBonjourAccountView.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; path = ESBonjourAccountView.xib; sourceTree = "<group>"; };
 		34F4675C080F46AC007800AB /* AWBonjourService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AWBonjourService.m; sourceTree = "<group>"; };
 		34F4675D080F46AC007800AB /* AWBonjourService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AWBonjourService.h; sourceTree = "<group>"; };
-		34F46778080F49C5007800AB /* Safari.scpt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.scpt; name = Safari.scpt; path = Resources/Safari.scpt; sourceTree = "<group>"; };
-		34F46779080F49C5007800AB /* Safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Safari.png; path = Resources/Safari.png; sourceTree = "<group>"; };
-		34F46783080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESSafariLinkToolbarItemPlugin.m; path = Source/ESSafariLinkToolbarItemPlugin.m; sourceTree = "<group>"; };
-		34F46784080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESSafariLinkToolbarItemPlugin.h; path = Source/ESSafariLinkToolbarItemPlugin.h; sourceTree = "<group>"; };
 		34F468E0080FA987007800AB /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = de; path = "Plugins/Purple Service/Resources/de.lproj/DCPurpleOscarJoinChatView.xib"; sourceTree = "<group>"; };
 		34F468E1080FA987007800AB /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = de; path = "Plugins/Purple Service/Resources/de.lproj/ESPurpleAIMAccountView.xib"; sourceTree = "<group>"; };
 		34F468E2080FA987007800AB /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = de; path = "Plugins/Purple Service/Resources/de.lproj/ESPurpleICQAccountView.xib"; sourceTree = "<group>"; };
@@ -3875,6 +3871,7 @@
 		4F1CB63C0D640DA40073A1E6 /* get-info-advanced.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info-advanced.tiff"; path = "Resources/get-info-advanced.tiff"; sourceTree = "<group>"; };
 		4F1CB63D0D640DA40073A1E6 /* get-info-events.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info-events.tiff"; path = "Resources/get-info-events.tiff"; sourceTree = "<group>"; };
 		4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = ContactInfoInspector.xib; path = Resources/ContactInfoInspector.xib; sourceTree = "<group>"; };
+		50FB3725730DE103F54E3C0B /* OmniWeb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OmniWeb.h; path = Browsers/OmniWeb.h; sourceTree = "<group>"; };
 		5A0BBC4217400544002A7BE0 /* emoticons_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "emoticons_menu@2x.png"; path = "Resources/emoticons_menu@2x.png"; sourceTree = "<group>"; };
 		5A0D236816F4C7BC005DF211 /* STTwitterAppOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STTwitterAppOnly.m; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAppOnly.m"; sourceTree = "<group>"; };
 		5A0D236916F4C7BC005DF211 /* STTwitterAppOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAppOnly.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAppOnly.h"; sourceTree = "<group>"; };
@@ -3888,6 +3885,12 @@
 		5A1FEA601334549300C14951 /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = "Plugins/Dual Window Interface/MessageView.xib"; sourceTree = "<group>"; };
 		5A22D6E114834F44004E15F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/AIFacebookXMPPAccountView.xib"; sourceTree = "<group>"; };
 		5A27FA7A14A272330063489D /* pref-messagestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-messagestyle.png"; path = "Resources/pref-messagestyle.png"; sourceTree = "<group>"; };
+		5A2854CF178E301E0047A4C7 /* AIPopUpToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPopUpToolbarItem.h; path = "Frameworks/AIUtilities Framework/Source/AIPopUpToolbarItem.h"; sourceTree = "<group>"; };
+		5A2854D0178E301E0047A4C7 /* AIPopUpToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPopUpToolbarItem.m; path = "Frameworks/AIUtilities Framework/Source/AIPopUpToolbarItem.m"; sourceTree = "<group>"; };
+		5A2854D3178E345E0047A4C7 /* Safari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Safari.h; path = Browsers/Safari.h; sourceTree = "<group>"; };
+		5A2854D4178E345E0047A4C7 /* NetNewsWire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetNewsWire.h; path = Browsers/NetNewsWire.h; sourceTree = "<group>"; };
+		5A2854D5178E345E0047A4C7 /* GoogleChrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoogleChrome.h; path = Browsers/GoogleChrome.h; sourceTree = "<group>"; };
+		5A2854D6178E376A0047A4C7 /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		5A3B4D6B16D878AB00903E40 /* NSString+STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+STTwitter.h"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.h"; sourceTree = "<group>"; };
 		5A3B4D6C16D878AB00903E40 /* NSString+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+STTwitter.m"; path = "Plugins/Twitter Plugin/STTwitter/NSString+STTwitter.m"; sourceTree = "<group>"; };
 		5A3B4D6D16D878AB00903E40 /* STTwitterAPIWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STTwitterAPIWrapper.h; path = "Plugins/Twitter Plugin/STTwitter/STTwitterAPIWrapper.h"; sourceTree = "<group>"; };
@@ -4009,7 +4012,7 @@
 		5A9A9F8A11F295EB00328DF9 /* events-do-nothing.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "events-do-nothing.tiff"; path = "Resources/events-do-nothing.tiff"; sourceTree = SOURCE_ROOT; };
 		5AA2A0ED14B3EFF500B4DB65 /* AIOSCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOSCompatibility.h; path = "Frameworks/AIUtilities Framework/Source/AIOSCompatibility.h"; sourceTree = "<group>"; };
 		5AC7F26313B42952002D7265 /* Preferences-AddressBookIntegration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-AddressBookIntegration.xib"; path = "Resources/Preferences-AddressBookIntegration.xib"; sourceTree = "<group>"; };
-		5AC7F26513B42A55002D7265 /* Preferences-Encryption.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-Encryption.xib"; path = "Resources/Preferences-Encryption.xib"; sourceTree = "<group>"; };
+		5AC7F26513B42A55002D7265 /* Preferences-OTREncryption.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-OTREncryption.xib"; path = "Resources/Preferences-OTREncryption.xib"; sourceTree = "<group>"; };
 		5AC7F26713B43612002D7265 /* Preferences-MessageAlerts.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Preferences-MessageAlerts.xib"; path = "Resources/Preferences-MessageAlerts.xib"; sourceTree = "<group>"; };
 		5ACA086817873AEA00B15047 /* AIButtonWithCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIButtonWithCursor.h; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.h"; sourceTree = "<group>"; };
 		5ACA086917873AEA00B15047 /* AIButtonWithCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIButtonWithCursor.m; path = "Frameworks/AIUtilities Framework/Source/AIButtonWithCursor.m"; sourceTree = "<group>"; };
@@ -4444,11 +4447,6 @@
 		76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAccountSelectionViewController.m; path = "Plugins/Dual Window Interface/AIAccountSelectionViewController.m"; sourceTree = "<group>"; };
 		76AA110E163558B200A6EC4B /* AIRejoinGroupChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRejoinGroupChatViewController.h; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.h"; sourceTree = "<group>"; };
 		76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRejoinGroupChatViewController.m; path = "Plugins/Dual Window Interface/AIRejoinGroupChatViewController.m"; sourceTree = "<group>"; };
-		76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = im.adium.AIApplescriptRunner.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		76B73B2014BE287D00A58BAB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		76B73B3314BE3B9400A58BAB /* AIApplescriptRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIApplescriptRunner.m; path = Source/AIApplescriptRunner.m; sourceTree = SOURCE_ROOT; };
-		76B73B3514BE3BEB00A58BAB /* AIApplescriptRunner-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AIApplescriptRunner-Info.plist"; path = "Plists/AIApplescriptRunner-Info.plist"; sourceTree = SOURCE_ROOT; };
-		76B8B8E916AF3A46009126FE /* AIOTRTopBarLoggingWarningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRTopBarLoggingWarningController.h; path = Source/AIOTRTopBarLoggingWarningController.h; sourceTree = "<group>"; };
 		76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRTopBarLoggingWarningController.m; path = Source/AIOTRTopBarLoggingWarningController.m; sourceTree = "<group>"; };
 		76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AIOTRTopBarLoggingWarningController.xib; path = Source/AIOTRTopBarLoggingWarningController.xib; sourceTree = "<group>"; };
 		76C1AF9A125A906A00D269A9 /* AIAdiumURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAdiumURLProtocol.h; path = "Plugins/WebKit Message View/AIAdiumURLProtocol.h"; sourceTree = "<group>"; };
@@ -4826,6 +4824,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2854D7178E376A0047A4C7 /* ScriptingBridge.framework in Frameworks */,
 				116E373310B729E9002EDB0F /* Growl.framework in Frameworks */,
 				7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */,
 				633405A90F9C2C7D003C77A9 /* AIUtilities.framework in Frameworks */,
@@ -5214,7 +5213,7 @@
 		341BD5530965E90A00CF83F5 /* OTR */ = {
 			isa = PBXGroup;
 			children = (
-				5AC7F26513B42A55002D7265 /* Preferences-Encryption.xib */,
+				5AC7F26513B42A55002D7265 /* Preferences-OTREncryption.xib */,
 				341BD5690965E9A500CF83F5 /* AdiumOTREncryption.h */,
 				341BD56A0965E9A500CF83F5 /* AdiumOTREncryption.m */,
 				341BD56E0965EC3500CF83F5 /* OTRFingerprintDetailsWindow.xib */,
@@ -5892,7 +5891,6 @@
 				F569E38102CA876501A8010A /* Message Window Interface */,
 				11000CFE109886010096A1E2 /* Removal of Helvetica@12 */,
 				343022240AB4763D0082CF7C /* Removal of NULs in Messages */,
-				34A65AF606A5A0C400898470 /* Safari Link Toolbar Item */,
 				34DFF46607A5EAC800B92233 /* Secure Messaging */,
 				4B0473B7043E43F200A8010A /* Status Changed Messages */,
 			);
@@ -6012,17 +6010,6 @@
 				3479A83B05DC9F2400998B3D /* Tooltips */,
 			);
 			name = "Contact List";
-			sourceTree = "<group>";
-		};
-		34A65AF606A5A0C400898470 /* Safari Link Toolbar Item */ = {
-			isa = PBXGroup;
-			children = (
-				34F46784080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.h */,
-				34F46783080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.m */,
-				34F46778080F49C5007800AB /* Safari.scpt */,
-				34F46779080F49C5007800AB /* Safari.png */,
-			);
-			name = "Safari Link Toolbar Item";
 			sourceTree = "<group>";
 		};
 		34B3241D09B9FF6900029361 /* IRC */ = {
@@ -7349,6 +7336,17 @@
 			name = Growl;
 			sourceTree = "<group>";
 		};
+		5A2854D2178E34450047A4C7 /* Browsers */ = {
+			isa = PBXGroup;
+			children = (
+				5A2854D3178E345E0047A4C7 /* Safari.h */,
+				5A2854D4178E345E0047A4C7 /* NetNewsWire.h */,
+				5A2854D5178E345E0047A4C7 /* GoogleChrome.h */,
+				50FB3725730DE103F54E3C0B /* OmniWeb.h */,
+			);
+			name = Browsers;
+			sourceTree = "<group>";
+		};
 		5A3B4D6A16D878AB00903E40 /* STTwitter */ = {
 			isa = PBXGroup;
 			children = (
@@ -7711,6 +7709,8 @@
 			isa = PBXGroup;
 			children = (
 				6334FF3A0F9C14BF003C77A9 /* Version of this with an image floater */,
+				5A2854CF178E301E0047A4C7 /* AIPopUpToolbarItem.h */,
+				5A2854D0178E301E0047A4C7 /* AIPopUpToolbarItem.m */,
 				6334FF380F9C14BF003C77A9 /* MVMenuButton.h */,
 				6334FF390F9C14BF003C77A9 /* MVMenuButton.m */,
 			);
@@ -8207,6 +8207,7 @@
 		761CE33716F9087C000EE361 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A2854D6178E376A0047A4C7 /* ScriptingBridge.framework */,
 				761CE33816F9087C000EE361 /* Cocoa.framework */,
 				761CE33A16F9087C000EE361 /* Other Frameworks */,
 			);
@@ -8273,6 +8274,7 @@
 		7E824CCD06387FAF00813072 /* Link Management */ = {
 			isa = PBXGroup;
 			children = (
+				5A2854D2178E34450047A4C7 /* Browsers */,
 				4B97DB6606AC123A0003EE49 /* msg-insert-link.tiff */,
 				1163F0EA0F6C7A8300F12F5D /* AIURLShortenerPlugin.h */,
 				1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */,
@@ -9264,6 +9266,7 @@
 				6334004F0F9C14C2003C77A9 /* AISplitView.h in Headers */,
 				633400510F9C14C2003C77A9 /* AIAlternatingRowTableView.h in Headers */,
 				633400530F9C14C2003C77A9 /* AITextFieldWithDraggingDelegate.h in Headers */,
+				5A41FF501852D1ED009BE13F /* AIPopUpToolbarItem.h in Headers */,
 				633400550F9C14C2003C77A9 /* AITextViewWithPlaceholder.h in Headers */,
 				633400570F9C14C2003C77A9 /* AIFlexibleToolbarItem.h in Headers */,
 				6334005B0F9C14C2003C77A9 /* AIDockingWindow.h in Headers */,
@@ -9794,8 +9797,6 @@
 				34BFDF2107E8978900AD984D /* TabDefaults.plist in Resources */,
 				343EC6920809DD3400E27095 /* ListLayoutSheet.xib in Resources */,
 				3402D5A5080DBC91004E50B4 /* SortConfiguration.xib in Resources */,
-				34F4677A080F49C5007800AB /* Safari.scpt in Resources */,
-				34F4677B080F49C5007800AB /* Safari.png in Resources */,
 				345ACC970811C20F008E4D22 /* AwayStatusWindow.xib in Resources */,
 				345F566B08178356001F733C /* AdiumServiceIcons.icns in Resources */,
 				345F57400817FF80001F733C /* pref-contact-list.tiff in Resources */,
@@ -9903,7 +9904,7 @@
 				5A4BD41D13F855B000A4D3F7 /* SearchTerms.plist in Resources */,
 				5A4BD41E13F8568100A4D3F7 /* Preferences.xib in Resources */,
 				5A4BD43313F856E300A4D3F7 /* Preferences-AddressBookIntegration.xib in Resources */,
-				5A4BD44813F8575900A4D3F7 /* Preferences-Encryption.xib in Resources */,
+				5A4BD44813F8575900A4D3F7 /* Preferences-OTREncryption.xib in Resources */,
 				5A4BD45D13F857DE00A4D3F7 /* Preferences-MessageAlerts.xib in Resources */,
 				5A4BD47313F858EE00A4D3F7 /* Preferences-ContactList.xib in Resources */,
 				5A4BD48913F859EF00A4D3F7 /* Preferences-WindowHandling.xib in Resources */,
@@ -9916,7 +9917,6 @@
 				972AB3A21493D1BA00381105 /* MessageViewEmoticonsMenu.xib in Resources */,
 				5A27FA7E14A272330063489D /* pref-messagestyle.png in Resources */,
 				5A1E3A1214DCE60400724574 /* Preferences-Xtras.xib in Resources */,
-				5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */,
 				97F7B38014E29BC500A0F6F8 /* facebook-small.png in Resources */,
 				97F7B38114E29BC500A0F6F8 /* facebook.png in Resources */,
 				C6EE433E15C0A9BC00A4B96C /* default-icon@2x.png in Resources */,
@@ -10099,7 +10099,7 @@
 			files = (
 			);
 			inputPaths = (
-				$TARGET_BUILD_DIR/include/PlistMacros.h,
+				"$(CONFIGURATION_TEMP_DIR)/include/PlistMacros.h",
 				"$(SRCROOT)/Plists/buildnum",
 			);
 			name = "Run Generate Buildnum File Script";
@@ -10156,8 +10156,8 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				"$(TARGET_BUILD_DIR)/include/PlistMacros.h",
-				"$(TARGET_BUILD_DIR)/include/DummyFileToForceScriptToRunEveryTimeWithoutBeingCreated",
+				"$(CONFIGURATION_TEMP_DIR)/include/PlistMacros.h",
+				"$(CONFIGURATION_TEMP_DIR)/include/DummyFileToForceScriptToRunEveryTimeWithoutBeingCreated",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -10452,7 +10452,6 @@
 				34BFE2D807E8E74400AD984D /* AIChatConsolidationPlugin.m in Sources */,
 				347C6943080C8F2B00E69674 /* ESAwayStatusWindowPlugin.m in Sources */,
 				347C6949080C8F3B00E69674 /* ESAwayStatusWindowController.m in Sources */,
-				34F46785080F7FFB007800AB /* ESSafariLinkToolbarItemPlugin.m in Sources */,
 				4BB9972B083D1A5F006ACD6F /* SMContactListShowBehaviorPlugin.m in Sources */,
 				4BB9972D083D1A5F006ACD6F /* SMContactListShowDetailsPane.m in Sources */,
 				34CF9DF5085B8B7900D87E37 /* ESiTunesPlugin.m in Sources */,
@@ -10762,6 +10761,7 @@
 				633400000F9C14C2003C77A9 /* AIFunctions.m in Sources */,
 				633400020F9C14C2003C77A9 /* JVMarkedScroller.m in Sources */,
 				633400040F9C14C2003C77A9 /* AIMutableOwnerArray.m in Sources */,
+				5A41FF511853B721009BE13F /* AIPopUpToolbarItem.m in Sources */,
 				633400060F9C14C2003C77A9 /* AIToolbarUtilities.m in Sources */,
 				633400080F9C14C2003C77A9 /* AIGradientAdditions.m in Sources */,
 				633400090F9C14C2003C77A9 /* AIFloater.m in Sources */,
