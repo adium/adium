@@ -18,6 +18,10 @@ Version 1.6 (X/X/X)
  Contact list
   * Fixed an issue with contact list positioning. (#11278)
   * Fixed an issue with contact list animation during search. (#16018)
+  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (Aaron Dodson) (#4848)
+
+ Message VIew
+  * Fixed an issue where /me actions were turned into emoticons. (#14079)
 
  Off-the-record (OTR) messaging support
   * Updated to libotr 4.0.0. (#16145)
@@ -58,20 +62,22 @@ Version 1.6 (X/X/X)
 
  Transcript Viewer
   * Added full screen support. (Paul Wilde) (#16120)
+  * "Chat transcript combines multiple days into one transcript - display and search issues" (#6786)
+  * "After deleting multiple contacts' transcripts, the selections in the contact column are still there (not reset)" (#11420)
+  * "Allow /me action to be logged the way it is passed to the message view" (#13330)
 
-----
-
-  * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (Aaron Dodson) (#4848)
-
+ Miscellaneous
+  * "Improve "New Chat..." dialogue" (#14285)
+  * Updated the "Edit" menu, adding "Substitutions" and "Transformations", to be on par with recent versions of OS X. (#16416)
   * Changed hotkey behaviour to hide Adium when pressed while Adium is active. (Rafael Glauber) (#4859)
+  * "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
+  * "Text Clip Support" (#14081)
 
-  * Yahoo: fixed ampersands being encoded mistakenly. (#13429)
+ IRC
+  * Added a placeholder "#adium" to the "join chat" window to make the requirement of a "#" for most channels more obvious. (#11861)
 
-- "Adium changes Download Folder to ~/Desktop on its own if configured folder is missing" (#13824)
-- "Text Clip Support" (#14081)
-- "Allow /me action to be logged the way it is passed to the message view" (#13330)
-- "if an action ends in a colon, the colon will be emotified" (#14079)
-- "Improve "New Chat..." dialogue" (#14285)
+ Yahoo
+  * Fixed ampersands being encoded mistakenly when adding a link. (#13429)
 
 
 Version 1.5.9 (//2013)
