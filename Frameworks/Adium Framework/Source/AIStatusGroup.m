@@ -120,7 +120,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 {
 	//Pick a random contained status item
 	AIStatusItem *anyStatus = ([containedStatusItems count] ?
-							   [containedStatusItems objectAtIndex:(random() % [containedStatusItems count])] :
+							   [containedStatusItems objectAtIndex:(arc4random() % [containedStatusItems count])] :
 							   nil);
 	
 	//If it's a status group, recurse into it
