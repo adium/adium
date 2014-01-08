@@ -146,11 +146,11 @@
 //Handle progress, bytes transferred/bytes total, rate, and time remaining
 - (void)gotUpdateForFileTransfer:(ESFileTransfer *)inFileTransfer
 {
-	UInt32				updateTick = TickCount();
+	double				updateTick = CACurrentMediaTime();
 	AIFileTransferStatus	status = [inFileTransfer status];
 	
 	//Don't update continously; on a LAN transfer, for instance, we'll get almost constant updates
-	if (lastUpdateTick && (((updateTick - lastUpdateTick) / 60.0) < 0.2) && (status == In_Progress_FileTransfer) && !forceUpdate) {
+	if (lastUpdateTick && ((updateTick - lastUpdateTick) < 0.2) && (status == In_Progress_FileTransfer) && !forceUpdate) {
 		return;
 	}
 

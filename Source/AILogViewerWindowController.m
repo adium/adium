@@ -1732,7 +1732,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 //Perform a filter search based on source name, destination name, or date
 - (void)_logFilter:(NSString *)searchString searchID:(NSInteger)searchID mode:(LogSearchMode)mode
 {
-    UInt32		lastUpdate = TickCount();
+    UInt32		lastUpdate = CACurrentMediaTime();
     
     NSDate *searchStringDate = nil;
 	
@@ -1781,11 +1781,11 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 								[resultsLock unlock];
 								
 								//Update our status
-								if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_SEARCH_STATUS_INTERVAL) {
+								if (lastUpdate == 0 || CACurrentMediaTime() > lastUpdate + LOG_SEARCH_STATUS_INTERVAL) {
 									[self performSelectorOnMainThread:@selector(updateProgressDisplay)
 														   withObject:nil
 														waitUntilDone:NO];
-									lastUpdate = TickCount();
+									lastUpdate = CACurrentMediaTime();
 								}
 							}
 						}
