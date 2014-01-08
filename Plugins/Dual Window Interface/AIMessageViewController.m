@@ -865,7 +865,7 @@
 		NSString *suffix = [self.chat.account suffixForAutocomplete:self.chat forPartialWordRange:charRange];
 		NSString *prefix = [self.chat.account prefixForAutocomplete:self.chat forPartialWordRange:charRange];
 		NSString *partialWord = [textView.textStorage.string substringWithRange:charRange];
-		BOOL autoCompleteUID = [self.chat.account chatShouldAutocompleteUID:self.chat];
+		//BOOL autoCompleteUID = [self.chat.account chatShouldAutocompleteUID:self.chat];
 		
 		// Check to see if the prefix is already present
 		if (charRange.location != 0 && charRange.location >= prefix.length) {

@@ -180,7 +180,7 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 	err = SSLGetNegotiatedCipher(cdsa_data->ssl_ctx, &cipher);
 	
 	if (err == noErr) {
-		err = SSLGetNegotiatedProtocolVersion(cdsa_data->ssl_ctx, &protocol);
+		SSLGetNegotiatedProtocolVersion(cdsa_data->ssl_ctx, &protocol);
 		
 		purple_debug_info("cdsa", "Your connection is using %s with %s encryption, using %s for message authentication and %s key exchange (%X).\n",
 						  SSLVersionToString(protocol),
@@ -237,7 +237,6 @@ static OSStatus SocketRead(
     int        sock;
     OSStatus    rtn = noErr;
     ssize_t      bytesRead;
-    ssize_t     rrtn;
     
 		assert( UINT_MAX >= (NSUInteger)connection );
 		sock = (int)(NSUInteger)connection;
@@ -245,9 +244,8 @@ static OSStatus SocketRead(
     *dataLength = 0;
     
     for(;;) {
-        bytesRead = 0;
-        rrtn = read(sock, currData, bytesToGo);
-        if (rrtn <= 0) {
+        bytesRead = read(sock, currData, bytesToGo);
+        if (bytesRead <= 0) {
             /* this is guesswork... */
             int theErr = errno;
             switch(theErr) {
@@ -269,9 +267,6 @@ static OSStatus SocketRead(
                     break;
             }
             break;
-        }
-        else {
-            bytesRead = rrtn;
         }
         bytesToGo -= bytesRead;
         currData  += bytesRead;
@@ -521,8 +516,8 @@ ssl_cdsa_create_context(gpointer data) {
             return;
         }
         
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
-        protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
+        SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
+        SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
     
     if(gsc->host) {
