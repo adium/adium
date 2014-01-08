@@ -94,7 +94,7 @@ enum {
 		};
 		unsigned remaining = inLength;
 		while (remaining--) {
-			buf[remaining] = alphanumeric[random() % sizeof(alphanumeric)];
+			buf[remaining] = alphanumeric[arc4random() % sizeof(alphanumeric)];
 		}
 		string = [self stringWithBytes:buf length:inLength encoding:NSASCIIStringEncoding];
 		free(buf);
