@@ -15,7 +15,6 @@
  */
 
 #import "AIStringAdditions.h"
-
 #ifndef BSD_LICENSE_ONLY
 
 #import "AIColorAdditions.h"
@@ -77,8 +76,6 @@ enum {
 //Random alphanumeric string
 + (id)randomStringOfLength:(unsigned int)inLength
 {
-	srandom(TickCount());
-
 	if (!inLength) return [self string];
 
 	NSString *string = nil;

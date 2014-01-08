@@ -974,7 +974,7 @@
 				
 		// Make the indicator and set its action. It is a button with no border.
 		pushIndicator = [[AIButtonWithCursor alloc] initWithFrame:NSMakeRect(0, 0, [pushIndicatorImage size].width, [pushIndicatorImage size].height)];
-		[pushIndicator setButtonType:NSMomentaryPushButton];
+		[pushIndicator setButtonType:NSMomentaryLightButton];
 		[pushIndicator setCursor:[NSCursor arrowCursor]];
         [pushIndicator setAutoresizingMask:(NSViewMinXMargin)];
         [pushIndicator setImage:pushIndicatorImage];

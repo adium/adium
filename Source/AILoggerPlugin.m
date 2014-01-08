@@ -1499,7 +1499,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	if (self.indexingAllowed) {
 		
 		self.isIndexing = YES;
-		__block UInt32  lastUpdate = TickCount();
+		__block double  lastUpdate = CACurrentMediaTime();
 		__block SInt32  unsavedChanges = 0;
 		
 		AILogWithSignature(@"Cleaning %li dirty logs", [localLogSet count]);
@@ -1575,11 +1575,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 																OSAtomicIncrement64Barrier((int64_t *)&(bself->logsIndexed));
 																OSAtomicDecrement64Barrier((int64_t *)&_remainingLogs);
 																
-																if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
+																if (lastUpdate == 0 || CACurrentMediaTime() > lastUpdate + LOG_INDEX_STATUS_INTERVAL || _remainingLogs == 0) {
 																	dispatch_async(dispatch_get_main_queue(), ^{
 																		[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 																	});
-																	UInt32 tick = TickCount();
+																	UInt32 tick = CACurrentMediaTime();
 																	OSAtomicCompareAndSwap32Barrier(lastUpdate, tick, (int32_t *)&lastUpdate);
 																}
 																
