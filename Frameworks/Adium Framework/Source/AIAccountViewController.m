@@ -60,7 +60,6 @@
 - (id)init
 {
 	NSBundle		*ourBundle = [NSBundle bundleForClass:[AIAccountViewController class]];
-	NSDictionary	*nameTable = [NSDictionary dictionaryWithObject:self forKey:@"NSOwner"];
 	
     if ((self = [super init]))
 	{
@@ -69,14 +68,14 @@
 
 		//Load custom views for our subclass (If our subclass specifies a nib name)
 		if ([self nibName]) {
-			[NSBundle loadNibNamed:[self nibName] owner:self];
+			[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		}
 		
 		//Load our default views if necessary
-		if (!view_setup) [ourBundle loadNibFile:@"AccountSetup" externalNameTable:nameTable withZone:nil];
-		if (!view_profile) [ourBundle loadNibFile:@"AccountProfile" externalNameTable:nameTable withZone:nil];
-		if (!view_options) [ourBundle loadNibFile:@"AccountOptions" externalNameTable:nameTable withZone:nil];
-		if (!view_privacy) [ourBundle loadNibFile:@"AccountPrivacy" externalNameTable:nameTable withZone:nil];
+		if (!view_setup) [ourBundle loadNibNamed:@"AccountSetup" owner:self topLevelObjects:nil];
+		if (!view_profile) [ourBundle loadNibNamed:@"AccountProfile" owner:self topLevelObjects:nil];
+		if (!view_options) [ourBundle loadNibNamed:@"AccountOptions" owner:self topLevelObjects:nil];
+		if (!view_privacy) [ourBundle loadNibNamed:@"AccountPrivacy" owner:self topLevelObjects:nil];
 
 		[self localizeStrings];
 	}

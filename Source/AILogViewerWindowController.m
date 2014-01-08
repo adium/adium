@@ -2260,7 +2260,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 - (void)installToolbar
 {	
-	[NSBundle loadNibNamed:[self dateItemNibName] owner:self];
+	[[NSBundle mainBundle] loadNibNamed:[self dateItemNibName] owner:self topLevelObjects:nil];
 
     NSToolbar 		*toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_LOG_VIEWER];
     NSToolbarItem	*toolbarItem;

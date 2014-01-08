@@ -36,7 +36,7 @@
 	NSArray *images;
 
 @private
-	NSMutableArray *AI_topLevelObjects;
+	NSArray *AI_topLevelObjects;
 }
 
 @property (weak) IBOutlet NSMenu *menu;

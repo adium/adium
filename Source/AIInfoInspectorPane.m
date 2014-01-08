@@ -54,7 +54,7 @@
 	self = [super init];
 	if (self != nil) {
 		//Load Bundle
-		[NSBundle loadNibNamed:[self nibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		//Register as AIListObjectObserver
 		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 		//Setup for userIcon

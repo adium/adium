@@ -90,7 +90,7 @@ static NSMutableArray *sortControllers = nil;
 - (NSView *)configureView
 {
 	if (!configureView)
-		[NSBundle loadNibNamed:[self configureNibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self configureNibName] owner:self topLevelObjects:nil];
 	
 	[self viewDidLoad];
 	

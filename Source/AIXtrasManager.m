@@ -253,9 +253,9 @@ NSInteger xtraSort(id xtra1, id xtra2, void * context)
 	if (xtra) {
 		//[showInfoControl setHidden:NO];
 		if(showInfo)
-			[NSBundle loadNibNamed:@"XtraInfoView" owner:self];
+			[[NSBundle mainBundle] loadNibNamed:@"XtraInfoView" owner:self topLevelObjects:nil];
 		else {
-			[NSBundle loadNibNamed:@"XtraPreviewImageView" owner:self];
+			[[NSBundle mainBundle] loadNibNamed:@"XtraPreviewImageView" owner:self topLevelObjects:nil];
 			/*	NSString * xtraType = [xtra type];
 			
 			if ([xtraType isEqualToString:AIXtraTypeEmoticons])

@@ -112,7 +112,7 @@
         account = _account;
         field = _field;
         
-        [NSBundle loadNibNamed:[self nibName] owner:self];
+        [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
         
         height = view.frame.size.height;
         

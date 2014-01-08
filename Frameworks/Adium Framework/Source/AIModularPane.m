@@ -57,7 +57,7 @@
 {
     if (!view) {
         //Load and configure our view
-        [NSBundle loadNibNamed:[self nibName] owner:self];
+        [[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
         [self viewDidLoad];
 		[self localizePane];
 		if (![self resizable]) [view setAutoresizingMask:(NSViewMaxYMargin)];
