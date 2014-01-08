@@ -99,7 +99,7 @@
         topBarControllers = [[NSMutableArray alloc] initWithCapacity:0];
 		
 		//Load the view containing our controls
-		[NSBundle loadNibNamed:MESSAGE_VIEW_NIB owner:self];
+		[[NSBundle mainBundle] loadNibNamed:MESSAGE_VIEW_NIB owner:self topLevelObjects:nil];
 		
 		//Register for the various notification we need
 		[[NSNotificationCenter defaultCenter] addObserver:self

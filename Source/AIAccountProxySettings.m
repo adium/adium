@@ -45,7 +45,7 @@
 {
 	if ((self = [super init])) {
 		//Load our view
-		[NSBundle loadNibNamed:@"AccountProxy" owner:self];
+		[[NSBundle mainBundle] loadNibNamed:@"AccountProxy" owner:self topLevelObjects:nil];
 
 		//Setup our menu
 		[popUpButton_proxy setMenu:[self _proxyMenu]];

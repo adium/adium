@@ -53,7 +53,7 @@
 		bytesSentQueue = [[NSMutableArray alloc] init];
 		updateTickQueue = [[NSMutableArray alloc] init];
 
-		[NSBundle loadNibNamed:@"ESFileTransferProgressView" owner:self];
+		[[NSBundle mainBundle] loadNibNamed:@"ESFileTransferProgressView" owner:self topLevelObjects:nil];
 	}
 	
 	return self;

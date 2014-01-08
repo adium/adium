@@ -37,7 +37,7 @@
 		emoticonPack = inPack;
 		preferences = inPreferences;
 
-		[NSBundle loadNibNamed:@"EmoticonPackPreview" owner:self];
+		[[NSBundle mainBundle] loadNibNamed:@"EmoticonPackPreview" owner:self topLevelObjects:nil];
 	}
 	
 	return self;

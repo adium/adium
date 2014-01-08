@@ -273,10 +273,7 @@
 	[self openSearchIndex];
 	
 	//Load the nib
-	if ([[NSBundle mainBundle] loadNibFile:@"Preferences"
-						 externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:self, NSNibOwner, AI_topLevelObjects, NSNibTopLevelObjects, nil]
-								  withZone:nil]) {
-	}
+	[[NSBundle mainBundle] loadNibNamed:@"Preferences" owner:self topLevelObjects:nil];
 }
 
 - (void)awakeFromNib

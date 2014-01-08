@@ -90,7 +90,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 		previousAlpha = 0;
 		typeToFindEnabled = ![[NSUserDefaults standardUserDefaults] boolForKey:@"AIDisableContactListTypeToFind"];
 
-		[NSBundle loadNibNamed:@"Filter Bar" owner:self];
+		[[NSBundle mainBundle] loadNibNamed:@"Filter Bar" owner:self topLevelObjects:nil];
 		
 		[self setContactList:contactList];
 	}

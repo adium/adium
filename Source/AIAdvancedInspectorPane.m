@@ -44,7 +44,7 @@
 {
 	self = [super init];
 	if (self != nil) {
-		[NSBundle loadNibNamed:[self nibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		
 		//Load Encryption menus
 		[popUp_encryption setMenu:[adium.contentController encryptionMenuNotifyingTarget:self withDefault:YES]];
