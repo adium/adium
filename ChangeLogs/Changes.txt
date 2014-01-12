@@ -12,6 +12,7 @@ Version 1.6 (X/X/X)
   * Fixed tabs not being spoken by VoiceOver. (#16088)
 
  Chat window
+  * Merged the "Insert Link" and "Insert browser Link" toolbar items. A simple click will insert the link from the frontmost tab in the default browser the way "Insert browser link" previously did. Mousedown (holding the click) will bring up a menu with a list of links from all browsers currently open. The OS X standard "Add Link" residing in the "Edit" menu and also accessible via usual cmd-k keyboard shortcut remains. (#15404)
   * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
   * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
 
@@ -20,7 +21,7 @@ Version 1.6 (X/X/X)
   * Fixed an issue with contact list animation during search. (#16018)
   * Changed the behaviour of the contact list menu item in the dock to always bring it to the front instead of toggling its visibility. (Aaron Dodson) (#4848)
 
- Message VIew
+ Message View
   * Fixed an issue where /me actions were turned into emoticons. (#14079)
 
  Off-the-record (OTR) messaging support
