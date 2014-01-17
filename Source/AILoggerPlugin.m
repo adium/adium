@@ -1347,6 +1347,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)rotateLogs:(NSTimer *)timer
 {
+	//NSTimer can fire early (and later, but that's okay); reschedule the timer
+	if ([logRotateTimer.fireDate timeIntervalSinceNow] > 0.0) {
+		[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
+		return;
+	}
+	
 	for (AIChat *chat in adium.chatController.openChats) {
 		AIXMLAppender *oldAppender = [self _existingAppenderForChat:chat];
 		if (!oldAppender)
