@@ -111,11 +111,11 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
  */
 - (void)windowWillClose:(id)sender
 {
+	[super windowWillClose:sender];
+	
 	NSString	*identifier = [AISpecialPasswordPromptController identifierForType:type name:name account:account];
 	
 	[passwordPromptControllerDict removeObjectForKey:identifier];
-	
-	[super windowWillClose:sender];
 }
 
 /*!

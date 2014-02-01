@@ -114,14 +114,14 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 
 - (void)windowWillClose:(id)sender 
 {
+	[super windowWillClose:sender];
+	
 	// Fade into oblivion only if we don't have any oustanding requests.
 	if (!requests.count) {
 		sharedController = nil;
 	}
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super windowWillClose:sender];
 }
 
 #pragma mark Toolbar
