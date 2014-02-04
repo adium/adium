@@ -68,7 +68,7 @@
 
 		//Load custom views for our subclass (If our subclass specifies a nib name)
 		if ([self nibName]) {
-			[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
+			[[NSBundle bundleForClass:[self class]] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		}
 		
 		//Load our default views if necessary
