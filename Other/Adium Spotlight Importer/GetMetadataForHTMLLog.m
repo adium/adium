@@ -30,12 +30,12 @@ static NSDate *dateFromHTMLLog(NSString *pathToFile)
 	formatter.timeSeparator = '.';
 	NSRange openParenRange, closeParenRange;
 	
-	if ([pathToFile hasSuffix:@".chatlog"] && (openParenRange = [pathToFile rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
+	if ((openParenRange = [pathToFile rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
 		openParenRange = NSMakeRange(openParenRange.location, [pathToFile length] - openParenRange.location);
 		if ((closeParenRange = [pathToFile rangeOfString:@")" options:0 range:openParenRange]).location != NSNotFound) {
 			//Add and subtract one to remove the parenthesis
 			NSString *dateString = [pathToFile substringWithRange:NSMakeRange(openParenRange.location + 1, (closeParenRange.location - openParenRange.location))];
-			return [formatter dateFromString:dateString];
+			return [formatter dateFromString:[dateString stringByReplacingOccurrencesOfString:@"|" withString:@"-"]];
 		}
 	}
 	return nil;
