@@ -3,8 +3,11 @@
 Version 1.5.10 (XX/XX/201X)
  * Fixed a bug that can cause disconnects when using a Retina Mac with an external screen. (Johannes Loepelmann) (#16552)
  * Fixed idle checks to no longer use the proximity sensor of modern Macs. (Christopher Loessl)
+ * Fix a problem that could cause high CPU load when a connection is lost. (#16431)
+ * Fix dates in the chat log viewer not showing up for very old logs (2006 and earlier). (#16554)
  * Security: Enabled a number of TLS ciphers using SHA256.
  * Fixed connecting to servers with outdated TLS support using the unofficial SIPE plugin. (Michael Lamb) (#16550)
+ * Updated libpurple to 2.10.9, fixing many security issues.
 
 Version 1.5.9 (12/03/2013)
  * Fixed a crash which could occur when attempting to send files, especially on OS X 10.9. ("fain") (#16352, #16430)
