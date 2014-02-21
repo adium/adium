@@ -230,7 +230,10 @@ static OSStatus SocketRead(
     for(;;) {
         bytesRead = 0;
         rrtn = read(sock, currData, bytesToGo);
-        if (rrtn <= 0) {
+		if (rrtn == 0) {
+			rtn = errSSLClosedGraceful;
+			break;
+		} else if (rrtn < 0) {
             /* this is guesswork... */
             int theErr = errno;
             switch(theErr) {
