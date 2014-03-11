@@ -365,11 +365,14 @@
 
 - (IBAction)showDetails:(id)sender
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
 								 [[adium.interfaceController.activeChat securityDetails] objectForKey:@"Description"],
 								 AILocalizedString(@"OK",nil),
 								 nil,
 								 nil);
+#pragma GCC diagnostic pop
 }
 
 - (IBAction)verify:(id)sender
@@ -400,11 +403,14 @@
 	aboutEncryption = adium.interfaceController.activeChat.account.aboutEncryption;
 	
 	if (aboutEncryption) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		NSRunInformationalAlertPanel(AILocalizedString(@"About Encryption",nil),
 									 aboutEncryption,
 									 AILocalizedString(@"OK",nil),
 									 nil,
 									 nil);
+#pragma GCC diagnostic pop
 	}
 }
 

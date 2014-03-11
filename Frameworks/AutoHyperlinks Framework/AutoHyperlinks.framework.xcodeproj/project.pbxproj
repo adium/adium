@@ -399,7 +399,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = AH;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "The Adium Team";
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
@@ -627,6 +627,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF31B11769FE700EDC305 /* Release-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 			};
 			name = "Release-Debug";
 		};
@@ -891,6 +894,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF30C11769F4C00EDC305 /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -898,6 +905,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF31811769FBD00EDC305 /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 			};
 			name = Release;
 		};

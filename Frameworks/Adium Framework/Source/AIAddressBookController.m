@@ -1454,7 +1454,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 	
 	
 	if (!success)
-		NSRunAlertPanel(CONTACT_ADDED_ERROR_TITLE, CONTACT_ADDED_ERROR_Message, nil, nil, nil);
+		NSRunAlertPanel(CONTACT_ADDED_ERROR_TITLE, CONTACT_ADDED_ERROR_Message, nil, nil, nil, contact.displayName);
 }
 
 @end

@@ -644,9 +644,12 @@ static NSString	*prefsCategory;
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIXtrasDidChangeNotification
 												 object:[[filename lastPathComponent] pathExtension]];
-		
+	
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
         buttonPressed = NSRunInformationalAlertPanel(alertTitle,alertMsg,nil,prefsButton,nil);
-		
+#pragma GCC diagnostic pop
+
 		// User clicked the "open prefs" button
 		if (buttonPressed == NSAlertAlternateReturn) {
 			//If we're done loading the app, open the prefs now; if not, it'll be done once the load is finished
@@ -665,9 +668,12 @@ static NSString	*prefsCategory;
 			errorMessage = AILocalizedString(@"An error occurred while installing the X(tra).",nil);
 		}
 		
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		NSRunAlertPanel(AILocalizedString(@"Installation Failed","Title of installation failed window"),
 						errorMessage,
 						nil,nil,nil);
+#pragma GCC diagnostic pop
 	}
 
     return success;

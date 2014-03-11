@@ -194,8 +194,7 @@
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ invites you to a group chat","Contact invites you to a group chat"),
-						   listObject.displayName,
-						   chat.displayName];
+						   listObject.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ mentioned you in %@","Someone mentions your name in a group chat"),
@@ -214,9 +213,7 @@
 				AILocalizedString(@"left %@","Contact left Chat Name"),
 				chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_INVITE]) {
-			description = [NSString stringWithFormat:
-						   AILocalizedString(@"invites you to a group chat","Contact left Chat Name"),
-						   chat.displayName];
+			description = AILocalizedString(@"invites you to a group chat","Contact invites you to a group chat");
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"you were mentioned in %@","Someone mentions your name in a group chat"),

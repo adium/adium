@@ -126,11 +126,14 @@
 				   toPath:[newFolder stringByAppendingPathComponent:[inPath lastPathComponent]]
 				  error:NULL];
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 			NSRunAlertPanel(AILocalizedString(@"Sound set upgrade failed", nil),
 							[NSString stringWithFormat:AILocalizedString(@"This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled.", nil),
 								[[inPath lastPathComponent] stringByDeletingPathExtension],
 								inPath],
 							nil, nil, nil);
+#pragma GCC diagnostic pop
 			success = NO;
 		}
 	}

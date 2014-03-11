@@ -74,7 +74,9 @@
 			contact = [adium.contactController contactWithService:account.service
 														  account:account 
 															  UID:UID];
-		} else {			
+		} else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Contact not found",
 															   nil,
 															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
@@ -90,7 +92,7 @@
 															   nil),
 							nil,
 							nil);
-			
+#pragma GCC diagnostic pop
 			return nil;
 		}
 	} else {

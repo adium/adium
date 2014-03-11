@@ -414,7 +414,7 @@
 				{
 					[alert setInformativeText:[NSString stringWithFormat:
 											   AILocalizedString(@"Send Later will send the message the next time both you and %@ are online. Send Now may work if %@ is invisible or is not on your contact list and so only appears to be offline.", "Send Later dialogue explanation text"),
-											   formattedUID, formattedUID, formattedUID]];
+											   formattedUID, formattedUID]];
 					[alert addButtonWithTitle:AILocalizedString(@"Send Now", nil)];
 					
 					[alert addButtonWithTitle:AILocalizedString(@"Send Later", nil)];
@@ -427,7 +427,7 @@
 				{
 					[alert setInformativeText:[NSString stringWithFormat:
 											   AILocalizedString(@"Send Later will send the message the next time both you and %@ are online.", "Send Later dialogue explanation text"),
-											   formattedUID, formattedUID, formattedUID]];
+											   formattedUID]];
 					[alert addButtonWithTitle:AILocalizedString(@"Send Later", nil)];
 					[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"l"];
 					[[[alert buttons] objectAtIndex:0] setKeyEquivalentModifierMask:0];

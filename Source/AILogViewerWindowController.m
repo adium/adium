@@ -541,13 +541,13 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [resultsLock lock];
 	NSUInteger count = [currentSearchResults count];
     if (activeSearchString && [activeSearchString length]) {
-		[textField_resultCount setStringValue:[NSString stringWithFormat:((count != 1) ? 
-																			   AILocalizedString(@"%lu matching transcripts",nil) :
-																			   AILocalizedString(@"1 matching transcript",nil)),count]];
+		[textField_resultCount setStringValue:((count != 1) ?
+                                               [NSString stringWithFormat:AILocalizedString(@"%lu matching transcripts",nil),count] :
+                                               AILocalizedString(@"1 matching transcript",nil))];
     } else {
-		[textField_resultCount setStringValue:[NSString stringWithFormat:((count != 1) ? 
-																			   AILocalizedString(@"%lu transcripts",nil) :
-																			   AILocalizedString(@"1 transcript",nil)),count]];
+		[textField_resultCount setStringValue:((count != 1) ?
+                                               [NSString stringWithFormat:AILocalizedString(@"%lu transcripts",nil),count] :
+                                               AILocalizedString(@"1 transcript",nil))];
 		
 		//We are searching, but there is no active search  string. This indicates we're still opening logs.
 		if (searching) {
