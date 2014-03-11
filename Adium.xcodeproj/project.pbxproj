@@ -207,6 +207,7 @@
 		3403F4DB0D2EFE6D006B08FB /* AIManuallySetUserIconSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3403F4CE0D2EFE10006B08FB /* AIManuallySetUserIconSource.h */; };
 		3403F56B0D2F0BDE006B08FB /* AIServersideUserIconSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 3403F5690D2F0BDE006B08FB /* AIServersideUserIconSource.h */; };
 		3403F56C0D2F0BDE006B08FB /* AIServersideUserIconSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 3403F56A0D2F0BDE006B08FB /* AIServersideUserIconSource.m */; };
+		34048FC818CEBD9700FD3C70 /* Preferences-Privacy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */; };
 		34064D100F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34064D0E0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.m */; };
 		34064D110F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34064D0F0F21B34200AA6FE3 /* PurpleFacebookAccountViewController.h */; };
 		34082675075B079800703011 /* Dock Icons in Copy Built-in Xtras */ = {isa = PBXBuildFile; fileRef = 3408254D075B078B00703011 /* Dock Icons */; };
@@ -9501,7 +9502,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = AI;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The Adium Team";
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
@@ -9979,6 +9980,7 @@
 				C613B10F1640C0DE006683FF /* pref-general.tiff in Resources */,
 				C613B1111640C370006683FF /* pref-profile.tiff in Resources */,
 				C613B143164112B3006683FF /* events-dock-name.tiff in Resources */,
+				34048FC818CEBD9700FD3C70 /* Preferences-Privacy.xib in Resources */,
 				C613B1451641210B006683FF /* events-contact.tiff in Resources */,
 				76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */,
 				5A0BBC4317400544002A7BE0 /* emoticons_menu@2x.png in Resources */,
@@ -12531,6 +12533,7 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -12563,6 +12566,7 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12596,6 +12600,7 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12628,6 +12633,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12668,6 +12674,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -12693,6 +12700,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -12783,9 +12791,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -12793,8 +12798,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02B0FAF9BA800B310AC /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
 			};
 			name = Release;
 		};
@@ -12802,8 +12805,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */;
 			buildSettings = {
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
 			};
 			name = "Release-Debug";
 		};
