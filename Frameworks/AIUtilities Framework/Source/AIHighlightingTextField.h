@@ -24,7 +24,7 @@
  */
 @interface AIHighlightingTextField : NSTextField
 {
-	BOOL selected;
+	BOOL _selected;
 	__weak AIPreferencePane *pane;
 }
 

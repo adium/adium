@@ -165,7 +165,8 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 						
 					} else {
 						NSString	*errorMessage;
-						
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 						errorMessage = [NSString stringWithFormat:
 							AILocalizedString(@"The active status icon pack \"%@\" installed at \"%@\" is invalid.  It is missing the required status icon \"%@\".  If you received this pack from xtras.adium.im, please contact its author. Your status icon setting will be restored to the default.", nil),
 							[[statusIconBasePath lastPathComponent] stringByDeletingPathExtension],
@@ -173,7 +174,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 							defaultStatusName];
 						
 						NSRunCriticalAlertPanel(AILocalizedString(@"Invalid status icon pack", nil),errorMessage,nil,nil,nil);
-						
+#pragma GCC diagnostic pop
 						//Post a notification so someone, somewhere can fix us :)
 						[[NSNotificationCenter defaultCenter] postNotificationName:AIStatusIconSetInvalidSetNotification
 																						   object:nil];

@@ -41,7 +41,7 @@
  */
 
 @interface AICompletingTextField ()
-- (id)_init;
+- (void)_initCompletingTextField;
 - (NSString *)completionForString:(NSString *)inString;
 @end
 
@@ -51,7 +51,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder])) {
-		[self _init];
+		[self _initCompletingTextField];
 	}
 	return self;
 }
@@ -59,20 +59,18 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect])) {
-		[self _init];
+		[self _initCompletingTextField];
 	}
 	return self;
 }
 
-- (id)_init
+- (void)_initCompletingTextField
 {
 	stringSet = nil;
 	impliedCompletionDictionary = nil;
 	minLength = 1;
 	oldUserLength = 0;
 	completeAfterSeparator = NO;
-
-	return self;
 }
 
 //Sets the minimum string length required before completion kicks in

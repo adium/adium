@@ -169,6 +169,8 @@
 	//Check for success and offer to try once more if there was an error sending
 	if ([response statusCode] != 201) {
 		NSString *reason = [NSString stringWithFormat:@"%lu: %@\n%@", response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], [error localizedDescription] ?: @""];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		if (NSRunAlertPanel(UNABLE_TO_SEND,
 						reason,
 						AILocalizedString(@"Try Again", nil),
@@ -180,6 +182,7 @@
 				NSRunAlertPanel(UNABLE_TO_SEND, reason, nil, nil, nil);
 			}
 		}
+#pragma GCC diagnostic pop
 	}
 }
 

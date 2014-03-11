@@ -1043,7 +1043,6 @@
 		5A6298DF1682BD9100F51DED /* AIAdvancedPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E24A815BC746B003A6F9E /* AIAdvancedPreferencePane.m */; };
 		5A6298E31682BD9D00F51DED /* AIAdvancedPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A1E24A715BC746B003A6F9E /* AIAdvancedPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A799674133C3D6F0005AC6A /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A1FEA601334549300C14951 /* MessageView.xib */; };
-		5A8F637614DD1B21008412C8 /* Preferences-Privacy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A8F637514DD1B21008412C8 /* Preferences-Privacy.xib */; };
 		5A914166175BD960002139D5 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A914164175BD960002139D5 /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5A914167175BD960002139D5 /* ISO8601DateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5A914165175BD960002139D5 /* ISO8601DateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5A914168175BD97F002139D5 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A914164175BD960002139D5 /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1363,9 +1362,9 @@
 		76AA110C1635585E00A6EC4B /* AIAccountSelectionTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76AA11091635585E00A6EC4B /* AIAccountSelectionTopBar.xib */; };
 		76AA110D1635585E00A6EC4B /* AIAccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110B1635585E00A6EC4B /* AIAccountSelectionViewController.m */; };
 		76AA1110163558B200A6EC4B /* AIRejoinGroupChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA110F163558B200A6EC4B /* AIRejoinGroupChatViewController.m */; };
-		76B73B2114BE287D00A58BAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B73B2014BE287D00A58BAB /* Foundation.framework */; };
-		76B73B3014BE29AB00A58BAB /* im.adium.AIApplescriptRunner.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */; };
-		76B73B3414BE3B9400A58BAB /* AIApplescriptRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B73B3314BE3B9400A58BAB /* AIApplescriptRunner.m */; };
+		76B73B2114BE287D00A58BAB /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		76B73B3014BE29AB00A58BAB /* (null) in CopyFiles */ = {isa = PBXBuildFile; };
+		76B73B3414BE3B9400A58BAB /* (null) in Sources */ = {isa = PBXBuildFile; };
 		76B8B8EC16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B8B8EA16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.m */; };
 		76B8B8ED16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76B8B8EB16AF3A46009126FE /* AIOTRTopBarLoggingWarningController.xib */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
@@ -1762,7 +1761,7 @@
 			dstPath = Contents/XPCServices;
 			dstSubfolderSpec = 1;
 			files = (
-				76B73B3014BE29AB00A58BAB /* im.adium.AIApplescriptRunner.xpc in CopyFiles */,
+				76B73B3014BE29AB00A58BAB /* (null) in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4908,7 +4907,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76B73B2114BE287D00A58BAB /* Foundation.framework in Frameworks */,
+				76B73B2114BE287D00A58BAB /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5115,7 +5114,6 @@
 				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
 				6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */,
 				633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */,
-				76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */,
 				761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */,
 			);
 			name = Products;
@@ -8255,8 +8253,6 @@
 		76B73B2214BE287D00A58BAB /* AIApplescriptRunner */ = {
 			isa = PBXGroup;
 			children = (
-				76B73B3514BE3BEB00A58BAB /* AIApplescriptRunner-Info.plist */,
-				76B73B3314BE3B9400A58BAB /* AIApplescriptRunner.m */,
 			);
 			path = AIApplescriptRunner;
 			sourceTree = "<group>";
@@ -9495,7 +9491,6 @@
 			);
 			name = AIApplescriptRunner;
 			productName = AIApplescriptRunner;
-			productReference = 76B73B1E14BE287D00A58BAB /* im.adium.AIApplescriptRunner.xpc */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -9506,7 +9501,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = AI;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "The Adium Team";
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
@@ -10874,7 +10869,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76B73B3414BE3B9400A58BAB /* AIApplescriptRunner.m in Sources */,
+				76B73B3414BE3B9400A58BAB /* (null) in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12536,7 +12531,6 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -12569,7 +12563,6 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12603,7 +12596,6 @@
 			baseConfigurationReference = 5A4B77FA16FCABEC00DF398C /* Dock Tile Plugin.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12636,7 +12628,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -12677,7 +12668,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -12703,7 +12693,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -12794,6 +12783,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -12801,6 +12793,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02B0FAF9BA800B310AC /* Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 			};
 			name = Release;
 		};
@@ -12808,6 +12802,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 			};
 			name = "Release-Debug";
 		};

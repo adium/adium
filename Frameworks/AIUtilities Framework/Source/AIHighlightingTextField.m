@@ -18,7 +18,7 @@
 
 @implementation AIHighlightingTextField
 
-@synthesize selected, pane;
+@synthesize selected = _selected, pane;
 
 - (id)initWithFrame:(NSRect)frameRect
 {
@@ -42,6 +42,8 @@
 		[self setDrawsBackground:NO];
 		[self setTextColor:[NSColor textColor]];
 	}
+    
+    _selected = newSelected;
 }
 
 /*!

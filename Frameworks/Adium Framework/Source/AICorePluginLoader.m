@@ -183,6 +183,8 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		if ((pluginBundle = [NSBundle bundleWithPath:pluginPath])) {
 			
 			if ([self pluginIsBlacklisted:pluginBundle]) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 				NSRunInformationalAlertPanel([NSString stringWithFormat:
 											  AILocalizedString(@"Plugin %@ Will be Disabled", "%@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is blacklisted."),
 											  [[pluginPath lastPathComponent] stringByDeletingPathExtension]],
@@ -192,6 +194,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 											 AILocalizedString(@"Disable", nil),
 											 nil,
 											 nil);
+#pragma GCC diagnostic pop
 				[self moveXtra:pluginPath toDisabledFolder:YES];
 				return;
 			}

@@ -111,9 +111,12 @@
 		errorCount++;
 		
 		if (errorMessage != nil && errorCount > ERRORS_BEFORE_DIALOG) {
-			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Invalid Input",nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil), 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
+			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Invalid Input",nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil),
 							errorMessage, 
 							AILocalizedStringFromTableInBundle(@"OK", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil), nil, nil);
+#pragma GCC diagnostic pop
 			errorCount = 0;
 			
 		} else {
