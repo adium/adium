@@ -18,11 +18,6 @@
 
 #define IMAGE_UPLOAD_MENU_TITLE		AILocalizedString(@"Replace with Uploaded Image", nil)
 
-typedef enum {
-	AISuccessfulUpload = 1,
-	AIErrorUpload
-} AIImageUploaderCode;
-
 @class AIImageUploaderWindowController, AIChat;
 
 @interface AIImageUploaderPlugin : AIPlugin <NSMenuDelegate> {

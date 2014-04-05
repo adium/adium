@@ -16,14 +16,10 @@
 
 #import "ESPurpleMSNAccount.h"
 
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIService.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -70,13 +66,6 @@
 {
 	[super initAccount];
 	lastFriendlyNameChange = nil;
-}
-
-- (void)dealloc {
-	[lastFriendlyNameChange release];
-	[queuedFriendlyName release];
-
-	[super dealloc];
 }
 
 - (const char*)protocolPlugin
@@ -157,31 +146,22 @@
 	{
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
-			break;
 		case 1:
 			return AILocalizedString(@"Handshaking",nil);
-			break;			
 		case 2:
 			return AILocalizedString(@"Transferring",nil);
-			break;
 		case 3:
 			return AILocalizedString(@"Handshaking",nil);
-			break;
 		case 4:
 			return AILocalizedString(@"Starting authentication",nil);
-			break;
 		case 5:
 			return AILocalizedString(@"Getting Cookie",nil);
-			break;
 		case 6:
 			return AILocalizedString(@"Authenticating",nil);
-			break;
 		case 7:
 			return AILocalizedString(@"Sending Cookie",nil);
-			break;
 		case 8:
 			return AILocalizedString(@"Retrieving buddy list",nil);
-			break;
 	}
 	return nil;
 }
@@ -312,7 +292,6 @@
 		[self setPreference:[newPreference dataRepresentation]
 					 forKey:KEY_ACCOUNT_DISPLAY_NAME
 					  group:GROUP_ACCOUNT_STATUS];
-		[newPreference release];
 
 		[self updateStatusForKey:KEY_ACCOUNT_DISPLAY_NAME];
 
@@ -325,7 +304,7 @@
 - (void)doQueuedSetServersideDisplayName
 {
 	[self setServersideDisplayName:queuedFriendlyName];
-	[queuedFriendlyName release]; queuedFriendlyName = nil;
+	queuedFriendlyName = nil;
 }
 
 - (void)setServersideDisplayName:(NSString *)friendlyName
@@ -337,7 +316,7 @@
 			[now timeIntervalSinceDate:lastFriendlyNameChange] > SECONDS_BETWEEN_FRIENDLY_NAME_CHANGES) {
 
 			//Don't allow newlines in the friendly name; convert them to slashes.
-			NSMutableString		*noNewlinesFriendlyName = [[friendlyName mutableCopy] autorelease];
+			NSMutableString		*noNewlinesFriendlyName = [friendlyName mutableCopy];
 			[noNewlinesFriendlyName convertNewlinesToSlashes];
 			friendlyName = noNewlinesFriendlyName;
 
@@ -364,16 +343,14 @@
             purple_account_set_alias(account, friendlyNameUTF8String);
             purple_account_set_public_alias(account, friendlyNameUTF8String, NULL, NULL);
 
-			[lastFriendlyNameChange release];
-			lastFriendlyNameChange = [now retain];
+			lastFriendlyNameChange = now;
 
 		} else {
 			[NSObject cancelPreviousPerformRequestsWithTarget:self
 													 selector:@selector(doQueuedSetServersideDisplayName)
 													   object:nil];
 			if (queuedFriendlyName != friendlyName) {
-				[queuedFriendlyName release];
-				queuedFriendlyName = [friendlyName retain];
+				queuedFriendlyName = friendlyName;
 			}
 			[self performSelector:@selector(doQueuedSetServersideDisplayName)
 					   withObject:nil

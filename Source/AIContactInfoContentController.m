@@ -24,7 +24,7 @@
 
 + (AIContactInfoContentController *)defaultInfoContentController
 {
-	return [[[self alloc] initWithContentPanes:[self defaultPanes]] autorelease];
+	return [[self alloc] initWithContentPanes:[self defaultPanes]];
 }
 
 - (id)initWithContentPanes:(NSArray *)panes
@@ -36,12 +36,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[loadedPanes release];
-	
-	[super dealloc];
-}
 
 +(NSArray *)defaultPanes
 {
@@ -58,8 +52,7 @@
 {
 	if (loadedPanes != newPanes)
 	{
-		[loadedPanes release];
-		loadedPanes = [newPanes retain];
+		loadedPanes = newPanes;
 	}
 }
 
@@ -76,7 +69,7 @@
 			return;
 		}
 		
-		[contentArray addObject:[[[paneClass alloc] init] autorelease]];
+		[contentArray addObject:[[paneClass alloc] init]];
 	}
 
 	[self _setLoadedPanes:contentArray];

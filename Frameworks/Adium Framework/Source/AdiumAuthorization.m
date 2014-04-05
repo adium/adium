@@ -17,7 +17,6 @@
 #import "AdiumAuthorization.h"
 #import <Adium/AIAuthorizationRequestsWindowController.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIListContact.h>
@@ -81,8 +80,6 @@ static AdiumAuthorization *sharedInstance;
 + (void)closeAuthorizationForUIHandle:(id)handle
 {
 	[[AIAuthorizationRequestsWindowController sharedController] removeRequest:handle];
-	
-	[handle release];
 }
 
 #pragma mark Event descriptions
@@ -179,7 +176,7 @@ static AdiumAuthorization *sharedInstance;
 - (NSImage *)imageForEventID:(NSString *)eventID
 {
 	static NSImage	*eventImage = nil;
-	if (!eventImage) eventImage = [[NSImage imageNamed:@"default-icon" forClass:[self class]] retain];
+	if (!eventImage) eventImage = [NSImage imageNamed:@"default-icon" forClass:[self class]];
 	return eventImage;
 }
 
@@ -188,7 +185,7 @@ static AdiumAuthorization *sharedInstance;
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%u authorization requests", nil), count];
+	return [NSString stringWithFormat:AILocalizedString(@"%u authorization requests", nil), (unsigned)count];
 }
 
 @end

@@ -19,8 +19,6 @@
 #import "AITextColorPreviewView.h"
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <Adium/AIAbstractListController.h>
 #import <Adium/AIListOutlineView.h>
 
 @interface AIListThemeWindowController ()
@@ -36,35 +34,16 @@
 
 @implementation AIListThemeWindowController
 
-- (void)showOnWindow:(id)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
-
 - (id)initWithName:(NSString *)inName notifyingTarget:(id)inTarget
 {
     if ((self = [super initWithWindowNibName:@"ListThemeSheet"])) {	
 		NSParameterAssert(inTarget && [inTarget respondsToSelector:@selector(listThemeEditorWillCloseWithChanges:forThemeNamed:)]);
 	
 		target = inTarget;
-		themeName = [inName retain];
+		themeName = inName;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[themeName release];
-    [super dealloc];
 }
 
 #pragma mark Window Methods
@@ -82,21 +61,12 @@
 // Called as the sheet closes, dismisses the sheet
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-    [sheet orderOut:nil];
-	
 	[[NSColorPanel sharedColorPanel] close];
 	
 	// No longer allow alpha in our color pickers
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
 	
-	[self autorelease];
-}
-
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-	
-	[self autorelease];
+	[super sheetDidEnd:sheet returnCode:returnCode contextInfo:contextInfo];
 }
 
 // Cancel
@@ -552,34 +522,34 @@
 
 - (NSMenu *)displayImageStyleMenu
 {
-	NSMenu		*displayImageStyleMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
+	NSMenu		*displayImageStyleMenu = [[NSMenu alloc] init];
     NSMenuItem	*menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Normal",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Normal",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AINormalBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Tile",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Tile",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AITileBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Fill",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Fill",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AIFillProportionatelyBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Stretch to fill",nil)
 																	 target:nil
 																	 action:nil
-															  keyEquivalent:@""] autorelease];
+															  keyEquivalent:@""];
 	[menuItem setTag:AIFillStretchBackground];
 	[displayImageStyleMenu addItem:menuItem];
 	

@@ -17,8 +17,6 @@
 #import "GetMetadataForHTMLLog.h"
 #import "GetMetadataForHTMLLog-Additions.h"
 
-#include <sys/stat.h>
-
 #import <AIUtilities/ISO8601DateFormatter.h>
 
 static char *gaim_markup_strip_html(const char *str);
@@ -26,7 +24,7 @@ static char *gaim_markup_strip_html(const char *str);
 //Given an Adium log file name, return an NSDate for its creation date
 static NSDate *dateFromHTMLLog(NSString *pathToFile)
 {
-	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
 	formatter.timeSeparator = '.';
 	NSRange openParenRange, closeParenRange;
 	
@@ -101,8 +99,6 @@ Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToF
 		[attributes setObject:textContent
 					   forKey:(NSString *)kMDItemTextContent];
 	}
-    [logData release];
-    [textContent release];
 	
 	[attributes setObject:serviceClass
 				   forKey:@"com_adiumX_service"];
@@ -132,27 +128,6 @@ Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToF
 static BOOL g_ascii_isspace(char character)
 {
 	return (character == ' ');
-}
-
-/* Find the length of STRING, but scan at most MAXLEN characters.
- If no '\0' terminator is found in that many characters, return MAXLEN.  */
-size_t
-strnlen (const char *string, size_t maxlen)
-{
-	const char *end = memchr (string, '\0', maxlen);
-	return end ? (size_t) (end - string) : maxlen;
-}
-
-char *strndup (const char *s, size_t n)
-{
-	size_t len = strnlen (s, n);
-	char *nouveau = malloc (len + 1);
-	
-	if (nouveau == NULL)
-		return NULL;
-	
-	nouveau[len] = '\0';
-	return (char *) memcpy (nouveau, s, len);
 }
 
 static char *gaim_unescape_html(const char *html) {

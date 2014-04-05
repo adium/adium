@@ -15,20 +15,12 @@
 - (id)initFrom:(AIListContact *)inContact completionHandler:(void(^)(NSData *answer))inHandler isInitiator:(BOOL)inInitiator
 {
 	if (self = [super initWithWindowNibName:@"AIOTRSMPSharedSecretWindowController"]) {
-		contact = [inContact retain];
-		handler = Block_copy(inHandler);
+		contact = inContact;
+		handler = inHandler;
 		isInitiator = inInitiator;
 	}
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[contact release];
-	Block_release(handler);
-	
-	[super dealloc];
 }
 
 - (void)windowDidLoad
@@ -58,7 +50,6 @@
 	handler(answer);
 	
 	[self close];
-	[self release];
 }
 
 - (IBAction)cancel:(id)sender
@@ -66,7 +57,6 @@
 	if (!isInitiator) handler(nil);
 	
 	[self close];
-	[self release];
 }
 
 - (IBAction)selectFile:(id)sender

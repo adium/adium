@@ -15,9 +15,6 @@
  */
 
 #import "AIContactListImagePicker.h"
-#import <Adium/AIAccount.h>
-#import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import "AIContactListUserPictureMenuController.h"
 #import <AIUtilities/AIBezierPathAdditions.h>
 
@@ -80,10 +77,6 @@
 		[self removeTrackingRect:trackingTag];
 		trackingTag = -1;
 	}
-	
-	[imageMenu release]; imageMenu = nil;
-	
-	[super dealloc];
 }
 
 #pragma mark Drawing

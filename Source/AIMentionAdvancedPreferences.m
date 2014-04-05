@@ -18,7 +18,6 @@
 #import "AIPreferenceWindowController.h"
 
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 
 @interface AIMentionAdvancedPreferences()
 - (void)saveTerms;
@@ -46,7 +45,7 @@
 
 - (void)saveTerms
 {
-	NSMutableArray *termsCopy = [[mentionTerms mutableCopy] autorelease];
+	NSMutableArray *termsCopy = [mentionTerms mutableCopy];
 	
 	// Never save a blank term.
 	[termsCopy removeObject:@""];
@@ -101,7 +100,7 @@
 
 - (void)viewWillClose
 {
-	[mentionTerms release]; mentionTerms = nil;
+	 mentionTerms = nil;
 	
 	[super viewWillClose];
 }

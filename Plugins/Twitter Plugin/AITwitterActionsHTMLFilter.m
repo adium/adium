@@ -16,9 +16,7 @@
 
 #import "AITwitterActionsHTMLFilter.h"
 #import "AITwitterAccount.h"
-#import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
 
 @implementation AITwitterActionsHTMLFilter
 
@@ -64,7 +62,7 @@
 											options:NSBackwardsSearch
 											  range:NSMakeRange(mutableHTML.length - 1, 1)];
 			
-			return [mutableHTML autorelease];
+			return mutableHTML;
 		}
 	}
 	

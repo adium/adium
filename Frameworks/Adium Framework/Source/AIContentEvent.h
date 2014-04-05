@@ -22,7 +22,7 @@
 
 }
 
-@property (readonly, nonatomic) NSString *eventType;
+@property (weak, readonly, nonatomic) NSString *eventType;
 
 + (id)eventInChat:(AIChat *)inChat
 	   withSource:(id)inSource

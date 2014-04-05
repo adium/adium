@@ -19,9 +19,6 @@
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIStatusIcons.h>
-#import <Adium/AIServiceIcons.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AITableViewAdditions.h>
@@ -155,7 +152,7 @@ static BOOL							hideInBackground = NO;
 	[tableView_multiStatus setDataSource:nil];
 
     //Clean up and release the shared instance
-    [sharedInstance autorelease]; sharedInstance = nil;
+    sharedInstance = nil;
 }
 
 /*!
@@ -163,10 +160,9 @@ static BOOL							hideInBackground = NO;
  */
 - (void)dealloc
 {
-	[_awayAccounts release]; _awayAccounts = nil;
+	_awayAccounts = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[super dealloc];
 }
 
 /*!
@@ -183,7 +179,7 @@ static BOOL							hideInBackground = NO;
 	NSInteger				newHeight;
 	
 	[window setTitle:AILocalizedString(@"Current Status",nil)];
-	[_awayAccounts release]; _awayAccounts = nil;
+	_awayAccounts = nil;
 
 	relevantStatuses = [adium.statusController activeUnavailableStatusesAndType:&activeUnvailableStatusType 
 																		 withName:&activeUnvailableStatusName
@@ -215,7 +211,7 @@ static BOOL							hideInBackground = NO;
 		 */
 		NSInteger				requiredHeight;
 
-		_awayAccounts = [[self awayAccounts] retain];
+		_awayAccounts = [self awayAccounts];
 
 		[tableView_multiStatus reloadData];
 
@@ -270,13 +266,11 @@ static BOOL							hideInBackground = NO;
 
 	attachment = [[NSTextAttachment alloc] init];
 	[attachment setAttachmentCell:cell];
-	[cell release];
 
 	[statusTitle insertAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]
 								atIndex:0];
-	[attachment release];
 
-	return [statusTitle autorelease];
+	return statusTitle;
 }
 
 /*!
@@ -306,8 +300,6 @@ static BOOL							hideInBackground = NO;
 	NSTabViewItem	*selectedTabViewItem = [tabView_configuration selectedTabViewItem];
 	AIStatus		*availableStatusState = [adium.statusController defaultInitialStatusState];
 
-	[self retain];
-
 	if ([[selectedTabViewItem identifier] isEqualToString:@"singlestatus"]) {
 		//Put all accounts in the Available status state
 		//We can perform this on all accounts without fear of bringing them online;
@@ -328,11 +320,7 @@ static BOOL							hideInBackground = NO;
 			//Like above, we can just call -setActiveStatusState and it will handle all accounts.
 			[adium.statusController setActiveStatusState:availableStatusState];
 		}
-
-		[selectedAccounts release];
 	}
-	
-	[self release];
 }
 
 /*!
@@ -340,7 +328,7 @@ static BOOL							hideInBackground = NO;
  */
 - (void)setupMultistatusTable
 {
-	[[tableView_multiStatus tableColumnWithIdentifier:@"status"] setDataCell:[[[AIImageTextCell alloc] init] autorelease]];
+	[[tableView_multiStatus tableColumnWithIdentifier:@"status"] setDataCell:[[AIImageTextCell alloc] init]];
 }
 
 #pragma mark Multiservice table view datasource

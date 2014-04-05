@@ -20,7 +20,6 @@
 
 @interface ESFileTransferProgressWindowController : AIWindowController <NSOutlineViewDelegate, NSOutlineViewDataSource> {
 	NSMutableArray				*progressRows;
-	ESFileTransferProgressRow	*selectedRow;
 	
 	IBOutlet NSScrollView					*scrollView;
 	IBOutlet AIVariableHeightOutlineView	*outlineView;

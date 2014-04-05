@@ -42,8 +42,7 @@ typedef enum {
 
 	ContactListImagePickerPosition			imagePickerPosition;
 	
-	NSDictionary				*toolbarItems;
-	AIStatusMenu				*statusMenu;	
+	AIStatusMenu				*statusMenu;
 }
 
 

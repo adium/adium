@@ -30,7 +30,7 @@
 
 @property (assign, nonatomic) NSUInteger highlightedIndex;
 @property (retain, nonatomic) NSMutableIndexSet *matchedSearchIndexes;
-@property (assign, nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
+@property (nonatomic) id <AIPreferenceCollectionViewDelegate> delegate;
 
 - (void)didSelectItem:(id)item;
 

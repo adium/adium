@@ -14,25 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
 
 #import <Adium/AIListGroup.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIMetaContact.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatus.h>
 
 #import "AIStatusController.h"
@@ -41,7 +33,6 @@
 #import "AIHoveringPopUpButton.h"
 #import "AIContactListImagePicker.h"
 #import "AIContactListNameButton.h"
-#import "AIContactController.h"
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
@@ -65,8 +56,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-
-	[super dealloc];
 }
 
 /*!
@@ -90,7 +79,7 @@
 	[nameView setFont:[NSFont fontWithName:@"Lucida Grande" size:12]];
 	
 	//Configure the state menu
-	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
+	statusMenu = [AIStatusMenu statusMenuWithDelegate:self];
 	
 	//Update the selections in our state menu when the active state changes
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -137,7 +126,7 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[statusMenu release]; statusMenu = nil;
+	statusMenu = nil;
 	
 	[super windowWillClose:notification];
 }
@@ -387,7 +376,7 @@
 		NSData *data = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		if (!data) data = [adium.preferenceController preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
-		image = [[[NSImage alloc] initWithData:data] autorelease];
+		image = [[NSImage alloc] initWithData:data];
 	}
 	
 	return image;
@@ -442,7 +431,6 @@
 	}
 	
 	[statusMenuView setMenu:menu];
-	[menu release];
 }
 
 /*
@@ -529,9 +517,8 @@
 										  group:GROUP_ACCOUNT_STATUS];
 }
 
-- (void)nameView:(AIContactListNameButton *)inNameView didChangeToString:(NSString *)inName userInfo:(NSDictionary *)userInfo
+- (void)nameView:(AIContactListNameButton *)inNameView didChangeToString:(NSString *)inName activeAccount:(AIAccount *)activeAccount
 {
-	AIAccount	*activeAccount = [userInfo objectForKey:@"activeAccount"];
 	NSData		*newDisplayName = ((inName && [inName length]) ?
 								   [[NSAttributedString stringWithString:inName] dataRepresentation] :
 								   nil);
@@ -562,16 +549,9 @@
 																	group:GROUP_ACCOUNT_STATUS] attributedString] string];
 	}
 	
-	NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-	if (activeAccount) {
-		[userInfo setObject:activeAccount
-					 forKey:@"activeAccount"];
-	}
-	
-	[nameView editNameStartingWithString:startingString
-						 notifyingTarget:self
-								selector:@selector(nameView:didChangeToString:userInfo:)
-								userInfo:userInfo];
+	[nameView editNameStartingWithString:startingString continuation:^(NSString *newString) {
+		[self nameView:nameView didChangeToString:newString activeAccount:activeAccount];
+	}];
 }
 
 - (NSMenu *)nameViewMenuWithActiveAccount:(AIAccount *)activeAccount accountsUsingOwnName:(NSSet *)ownDisplayNameAccounts onlineAccounts:(NSSet *)onlineAccounts
@@ -586,7 +566,6 @@
 								   keyEquivalent:@""];
 	[menuItem setEnabled:NO];
 	[menu addItem:menuItem];
-	[menuItem release];
 	
 	for (account in ownDisplayNameAccounts) {
 		//Put a check before the account if it is the active account
@@ -602,8 +581,6 @@
 		}
 		[menuItem setIndentationLevel:1];
 		[menu addItem:menuItem];
-		
-		[menuItem release];
 	}
 	
 	//Show "All Other Accounts" if some accounts are using the global preference
@@ -617,7 +594,6 @@
 		}
 		[menuItem setIndentationLevel:1];
 		[menu addItem:menuItem];
-		[menuItem release];
 	}
 	
 	[menu addItem:[NSMenuItem separatorItem]];
@@ -627,9 +603,8 @@
 										  action:@selector(nameViewChangeName:)
 								   keyEquivalent:@""];
 	[menu addItem:menuItem];
-	[menuItem release];	
 	
-	return [menu autorelease];
+	return menu;
 }
 
 - (void)updateNameView
@@ -668,8 +643,6 @@
 				}
 			}
 		}
-		
-		[onlineAccountsUsingGlobalPreference release];
 	}
 	
 	if ((!activeAccount && ![ownDisplayNameAccounts count]) || ([onlineAccounts count] == 1)) {
@@ -714,7 +687,7 @@
 //Install our toolbar
 - (void)_configureToolbar
 {
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:TOOLBAR_CONTACT_LIST] autorelease];
+    NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:TOOLBAR_CONTACT_LIST];
 	
 	[toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
@@ -746,7 +719,7 @@
 	[statusAndIconItem setMaxSize:NSMakeSize(100000, [view_statusAndImage bounds].size.height)];
 	[statusAndIconItem setView:view_statusAndImage];
 	
-	return [statusAndIconItem autorelease];
+	return statusAndIconItem;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
