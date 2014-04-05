@@ -23,12 +23,6 @@
 
 @synthesize chat;
 
-- (void)dealloc
-{
-	[chat release];
-	[super dealloc];
-}
-
 - (NSString *)labelString
 {
 	NSString *label;

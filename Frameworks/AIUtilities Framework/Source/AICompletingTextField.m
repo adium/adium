@@ -15,7 +15,6 @@
  */
 
 #import "AICompletingTextField.h"
-#import "AIAttributedStringAdditions.h"
 #import "AIStringAdditions.h"
 
 @interface NSTextField (AITextFieldAdditions)
@@ -42,7 +41,7 @@
  */
 
 @interface AICompletingTextField ()
-- (id)_init;
+- (void)_initCompletingTextField;
 - (NSString *)completionForString:(NSString *)inString;
 @end
 
@@ -52,7 +51,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder])) {
-		[self _init];
+		[self _initCompletingTextField];
 	}
 	return self;
 }
@@ -60,28 +59,18 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect])) {
-		[self _init];
+		[self _initCompletingTextField];
 	}
 	return self;
 }
 
-- (id)_init
+- (void)_initCompletingTextField
 {
 	stringSet = nil;
 	impliedCompletionDictionary = nil;
 	minLength = 1;
 	oldUserLength = 0;
 	completeAfterSeparator = NO;
-
-	return self;
-}
-
-- (void)dealloc
-{
-    [stringSet release];
-	[impliedCompletionDictionary release];
-	
-    [super dealloc];
 }
 
 //Sets the minimum string length required before completion kicks in
@@ -98,10 +87,9 @@
 //Set the strings that this field will use to auto-complete
 - (void)setCompletingStrings:(NSArray *)strings
 {
-    [stringSet release];
-    stringSet = [[NSMutableSet setWithArray:strings] retain];
+    stringSet = [NSMutableSet setWithArray:strings];
 	
-	[impliedCompletionDictionary release]; impliedCompletionDictionary = nil;
+	impliedCompletionDictionary = nil;
 }
 
 //Adds a string to the existing string list
@@ -217,8 +205,6 @@
     }
 
 	NSArray *sortedArray = [possibleCompletions sortedArrayUsingSelector:@selector(compareLength:)];
-	
-	[possibleCompletions release];
 	
 	//When the AICompletingTextfield is modified to be able to provide multiple choices of completions, the entire array can be used later.
 	if ([sortedArray count] > 0){

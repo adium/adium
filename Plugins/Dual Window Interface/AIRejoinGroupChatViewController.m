@@ -15,9 +15,7 @@
  */
 
 #import "AIRejoinGroupChatViewController.h"
-#import "AIBundleAdditions.h"
 #import <Adium/AIGroupChat.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIAbstractAccount.h>
 #import "AIMessageViewController.h"
 
@@ -41,8 +39,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [super dealloc];
 }
 
 - (IBAction)rejoin:(id)sender
@@ -70,10 +66,8 @@
                                                         name:Chat_StatusChanged
                                                       object:chat];
     }
-    
-    [chat release];
-    
-    chat = [inChat retain];
+	
+    chat = inChat;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
                                                  name:Chat_StatusChanged

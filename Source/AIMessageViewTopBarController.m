@@ -31,13 +31,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [chat release];
-    
-    [super dealloc];
-}
-
 - (IBAction)close:(id)sender
 {
     [owner hideTopBarController:self];

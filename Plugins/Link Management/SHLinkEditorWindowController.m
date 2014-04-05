@@ -16,8 +16,6 @@
 
 #import "SHLinkEditorWindowController.h"
 #import "SHAutoValidatingTextView.h"
-#import <AutoHyperlinks/AHLinkLexer.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 
@@ -26,8 +24,6 @@
 @interface SHLinkEditorWindowController ()
 
 - (void)informTargetOfLink;
-
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 @end
 
@@ -41,25 +37,12 @@
 
 #pragma mark Init methods
 
-- (void)showOnWindow:(NSWindow *)parentWindow
-{
-	if (parentWindow) {
-		[NSApp beginSheet:self.window
-		   modalForWindow:parentWindow
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
-	} else {
-		[self showWindow:nil];
-	}
-}
-
 - (id)initWithTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget
 
 {
     if ((self = [super initWithWindowNibName:LINK_EDITOR_NIB_NAME])) {
-		textView = [inTextView retain];
-		target = [inTarget retain];
+		textView = inTextView;
+		target = inTarget;
 	}
 	
 	return self;
@@ -68,9 +51,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[textView release];
-	[target release];
-    [super dealloc];
 }
 
 #pragma mark Window Methods
@@ -131,8 +111,8 @@
 									  (NSString *)linkURL : 
 									  [(NSURL *)linkURL absoluteString]);
 			
-			tmpString = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
-																			   (CFStringRef)tmpString,
+			tmpString = (__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
+																			   (__bridge CFStringRef)tmpString,
 																			   CFSTR(""));
 			
 			if (tmpString) {
@@ -141,9 +121,6 @@
 				initialURL = [[NSAttributedString alloc] initWithString:tmpString];
 				[[textView_URL textStorage] setAttributedString:initialURL];
 				[textView_URL setSelectedRange:NSMakeRange(0,[initialURL length])];
-				[initialURL release];
-				
-				[tmpString release];
 			}
 
 		} else if ([linkText length]) {
@@ -160,20 +137,6 @@
     [textView_URL setContinuousURLValidationEnabled:YES];
 	
 	[scrollView_URL setAlwaysDrawFocusRingIfFocused:YES];
-}
-
-// Window is closing
-- (void)windowWillClose:(id)sender
-{
-	[super windowWillClose:sender];
-	[self autorelease];
-}
-
-// Called as the sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    [sheet orderOut:nil];
-	[self autorelease];
 }
 
 // Cancel
@@ -215,8 +178,6 @@
 		// If the URL is invalid enough that we can't create an NSURL, just beep
 		NSBeep();
 	}
-
-	[urlString release];
 }
 
 - (IBAction)removeURL:(id)sender
@@ -241,7 +202,7 @@
 	// We need to make sure we're getting copies of these, otherwise the fields will change them later, changing the
 	// copy in our dictionary
 	NSDictionary	*linkDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		[[[textField_linkText stringValue] copy] autorelease], KEY_LINK_TITLE,
+		[[textField_linkText stringValue] copy], KEY_LINK_TITLE,
 		[textView_URL linkURL], KEY_LINK_URL,
 		nil];
 	
@@ -264,8 +225,8 @@
 	NSMutableAttributedString	*linkString;
 	
 	// Create the link string
-	linkString = [[[NSMutableAttributedString alloc] initWithString:linkTitle
-														 attributes:typingAttributes] autorelease];
+	linkString = [[NSMutableAttributedString alloc] initWithString:linkTitle
+														 attributes:typingAttributes];
     [linkString addAttribute:NSLinkAttributeName value:linkURL range:NSMakeRange(0,[linkString length])];
     
 	// Insert it into the text view, replacing the current selection
@@ -279,12 +240,12 @@
 	// If this link was inserted at the end of our text view, add a space and set the formatting back to normal
 	// This prevents the link attribute from bleeding into newly entered text
 	if (NSMaxRange([inView selectedRange]) == [textStorage length]) {
-		NSAttributedString	*tmpString = [[[NSAttributedString alloc] initWithString:@" "
-																		  attributes:typingAttributes] autorelease];
+		NSAttributedString	*tmpString = [[NSAttributedString alloc] initWithString:@" "
+																		  attributes:typingAttributes];
 		[[[inView undoManager] prepareWithInvocationTarget:textStorage]
 				replaceCharactersInRange:NSMakeRange(NSMaxRange([inView selectedRange]), 1)
-					withAttributedString:[[[NSAttributedString alloc] initWithString:@""
-																		  attributes:typingAttributes] autorelease]];
+					withAttributedString:[[NSAttributedString alloc] initWithString:@""
+																		  attributes:typingAttributes]];
 		[textStorage appendAttributedString:tmpString];
 	}
 	

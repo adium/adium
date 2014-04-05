@@ -15,7 +15,6 @@
  */
 
 #import "AIChatLog.h"
-#import "AILoginController.h"
 #import "AILogViewerWindowController.h"
 #import "AILoggerPlugin.h"
 
@@ -26,10 +25,10 @@
 - (id)initWithPath:(NSString *)inPath from:(NSString *)inFrom to:(NSString *)inTo serviceClass:(NSString *)inServiceClass
 {
     if ((self = [super init])) {
-		relativePath = [inPath retain];
-		from = [inFrom retain];
-		to = [inTo retain];
-		serviceClass = [inServiceClass retain];
+		relativePath = inPath;
+		from = inFrom;
+		to = inTo;
+		serviceClass = inServiceClass;
 		rankingPercentage = 0;
 		
 		formatter = [[ISO8601DateFormatter alloc] init];
@@ -69,18 +68,6 @@
 				 serviceClass:myServiceClass];
 }
 
-- (void)dealloc
-{
-    [relativePath release];
-    [from release];
-    [to release];
-	[serviceClass release];
-    [date release];
-	[formatter release];
-    
-    [super dealloc];
-}
-
 - (NSString *)relativePath{
     return relativePath;
 }
@@ -96,7 +83,7 @@
 - (NSDate *)date{
 	//Determine the date of this log lazily
 	if (!date) {
-		date = [dateFromFileName([relativePath lastPathComponent]) retain];
+		date = dateFromFileName([relativePath lastPathComponent]);
 
 		if (!date) {
 			//Sometimes the filename doesn't have a date (e.g., “jdoe ((null)).chatlog”). In such cases, if it's a chatlog, parse it and get the date from the first element that has one.
@@ -105,7 +92,6 @@
 				NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[AILoggerPlugin logBasePath] stringByAppendingPathComponent:relativePath]]];
 				[parser setDelegate:self];
 				[parser parse];
-				[parser release];
 			}
 		}
 	}
@@ -116,7 +102,7 @@
 	//Stop at the first element with a date.
 	NSString *dateString = nil;
 	if ((dateString = [attributeDict objectForKey:@"time"])) {
-		date = [[formatter dateFromString:dateString] retain];
+		date = [formatter dateFromString:dateString];
 		if (date)
 			[parser abortParsing];
 	}
@@ -305,7 +291,7 @@
 //Given an Adium log file name, return an NSDate with year, month, and day specified
 NSDate *dateFromFileName(NSString *fileName)
 {
-	ISO8601DateFormatter *formatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+	ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
 	formatter.timeSeparator = '.';
 	NSRange openParenRange, closeParenRange;
 	

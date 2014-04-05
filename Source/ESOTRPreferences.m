@@ -17,7 +17,6 @@
 #import "ESOTRPreferences.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
@@ -56,9 +55,9 @@
 	viewIsOpen = YES;
 
 	//Account Menu
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
+	accountMenu = [AIAccountMenu accountMenuWithDelegate:self
 											  submenuType:AIAccountNoSubmenu
-										   showTitleVerbs:NO] retain];
+										   showTitleVerbs:NO];
 	
 	//Fingerprints
 	[tableView_fingerprints setDelegate:self];
@@ -89,8 +88,8 @@
 - (void)viewWillClose
 {
 	viewIsOpen = NO;
-	[fingerprintDictArray release]; fingerprintDictArray = nil;
-	[accountMenu release]; accountMenu = nil;
+	fingerprintDictArray = nil;
+	accountMenu = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Account_ListChanged
@@ -102,11 +101,10 @@
  */
 - (void)dealloc
 {
-	[fingerprintDictArray release]; fingerprintDictArray = nil;
-	[filteredFingerprintDictArray release]; filteredFingerprintDictArray = nil;
+	fingerprintDictArray = nil;
+	filteredFingerprintDictArray = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[super dealloc];
 }
 
 /*!
@@ -122,10 +120,8 @@
 		ConnContext		*context;
 		Fingerprint		*fingerprint;
 
-		[fingerprintDictArray release];
 		fingerprintDictArray = [[NSMutableArray alloc] init];
-		[filteredFingerprintDictArray release];
-		filteredFingerprintDictArray = [fingerprintDictArray retain];
+		filteredFingerprintDictArray = fingerprintDictArray;
 		
 		for (context = otrg_plugin_userstate->context_root; context != NULL;
 			 context = context->next) {
@@ -274,16 +270,14 @@
 	NSString *needle = [field_filter stringValue];
 	
 	if (needle.length == 0) {
-		[filteredFingerprintDictArray release];
-		filteredFingerprintDictArray = [fingerprintDictArray retain];
+		filteredFingerprintDictArray = fingerprintDictArray;
 		
 		[tableView_fingerprints reloadData];
 		
 		return;
 	}
 
-	[filteredFingerprintDictArray release];
-	filteredFingerprintDictArray = [[NSMutableArray array] retain];
+	filteredFingerprintDictArray = [NSMutableArray array];
 	
 	for (NSDictionary *dict in fingerprintDictArray) {
 		if ([[dict objectForKey:@"UID"] rangeOfString:needle

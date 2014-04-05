@@ -37,8 +37,7 @@ static NSMutableArray *sortControllers = nil;
 
 + (void) setActiveSortController:(AISortController *)newSortController
 {
-	[activeSortController autorelease];
-	activeSortController = [newSortController retain];
+	activeSortController = newSortController;
 	
 	[activeSortController didBecomeActive];
 	
@@ -73,8 +72,8 @@ static NSMutableArray *sortControllers = nil;
 - (id)init
 {
 	if ((self = [super init])) {
-		statusKeysRequiringResort = [[self statusKeysRequiringResort] retain];
-		attributeKeysRequiringResort = [[self attributeKeysRequiringResort] retain];
+		statusKeysRequiringResort = [self statusKeysRequiringResort];
+		attributeKeysRequiringResort = [self attributeKeysRequiringResort];
 		sortFunction = [self sortFunction];
 		alwaysSortGroupsToTop = [self alwaysSortGroupsToTopByDefault];
 		
@@ -86,25 +85,12 @@ static NSMutableArray *sortControllers = nil;
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[statusKeysRequiringResort release];
-	[attributeKeysRequiringResort release];
-	
-	[configureView release]; configureView = nil;
-	
-	[super dealloc];
-}
-
-/*!
  * @brief Configure our customization view
  */
 - (NSView *)configureView
 {
 	if (!configureView)
-		[NSBundle loadNibNamed:[self configureNibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self configureNibName] owner:self topLevelObjects:nil];
 	
 	[self viewDidLoad];
 	

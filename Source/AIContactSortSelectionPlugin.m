@@ -24,7 +24,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AISortController.h>
 
 #define CONTACT_SORTING_DEFAULT_PREFS	@"SortingDefaults"
 #define CONFIGURE_SORT_MENU_TITLE		[AILocalizedString(@"Configure Sorting",nil) stringByAppendingEllipsis]
@@ -64,18 +63,9 @@
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
-	[AISortController registerSortController:[[[AIAlphabeticalSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[ESStatusSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[AIManualSort alloc] init] autorelease]];
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[menuItem_configureSort release]; menuItem_configureSort = nil;
-	[super dealloc];
+	[AISortController registerSortController:[[AIAlphabeticalSort alloc] init]];
+	[AISortController registerSortController:[[ESStatusSort alloc] init]];
+	[AISortController registerSortController:[[AIManualSort alloc] init]];
 }
 
 /*!
@@ -116,17 +106,14 @@
  */
 - (void)_configureSortSelectionMenuItems
 {
-    //Create the menu
-    [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
-	
 	//Add each sort controller
 	for (AISortController *controller in [AISortController availableSortControllers]) {
 		NSMenuItem			*menuItem;
 
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:controller.displayName
+		menuItem = [[NSMenuItem alloc] initWithTitle:controller.displayName
 																		 target:self
 																		 action:@selector(changedSortSelection:)
-																  keyEquivalent:@""] autorelease];
+																  keyEquivalent:@""];
 		[menuItem setRepresentedObject:controller];
 		
 		//Add the menu item
@@ -134,7 +121,7 @@
 	}
 	
 	//Add the menu item for configuring the sort
-	menuItem_configureSort = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:CONFIGURE_SORT_MENU_TITLE
+	menuItem_configureSort = [[NSMenuItem alloc] initWithTitle:CONFIGURE_SORT_MENU_TITLE
 																				  target:self
 																				  action:@selector(configureSort:)
 																		   keyEquivalent:@""];

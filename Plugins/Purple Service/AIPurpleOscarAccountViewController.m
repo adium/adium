@@ -17,7 +17,6 @@
 #import "AIPurpleOscarAccountViewController.h"
 #import "CBPurpleAccount.h"
 #import "CBPurpleOscarAccount.h"
-#import <Adium/AIAccount.h>
 
 @interface AIPurpleOscarAccountViewController (PRIVATE)
 + (NSArray *)encryptionTypes;

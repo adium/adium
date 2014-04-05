@@ -1,5 +1,6 @@
 				Adium Version History
 				-----------------------
+
 Version 1.6 (X/X/X)
  Major changes
   * New preferences layout
@@ -12,8 +13,8 @@ Version 1.6 (X/X/X)
   * Fixed tabs not being spoken by VoiceOver. (#16088)
 
  Chat window
+  * Fixed various visual glitches with tabs related to dragging and dropping chat windows. (#16281, #15414, #15518, #16305)
   * Merged the "Insert Link" and "Insert browser Link" toolbar items. A simple click will insert the link from the frontmost tab in the default browser the way "Insert browser link" previously did. Mousedown (holding the click) will bring up a menu with a list of links from all browsers currently open. The OS X standard "Add Link" residing in the "Edit" menu and also accessible via usual cmd-k keyboard shortcut remains. (#15404)
-  * Fixed an issue that occurred when dragging a conversation window into an existing tabbed conversation window. (#16281)
   * Made the Shift-Return keyboard shortcut add a newline the way Alt-Return does. (Detmud) (#16285)
 
  Contact list
@@ -63,6 +64,7 @@ Version 1.6 (X/X/X)
 
  Transcript Viewer
   * Added full screen support. (Paul Wilde) (#16120)
+  * Added sender name colouring support with a toggle that defaults to off. (#12352) (Ariel Chinn)
   * "Chat transcript combines multiple days into one transcript - display and search issues" (#6786)
   * "After deleting multiple contacts' transcripts, the selections in the contact column are still there (not reset)" (#11420)
   * "Allow /me action to be logged the way it is passed to the message view" (#13330)
@@ -79,6 +81,8 @@ Version 1.6 (X/X/X)
 
  Yahoo
   * Fixed ampersands being encoded mistakenly when adding a link. (#13429)
+
+   * Fixed erroneous OS X quarantine warning on launch ("'Adium.app' is an application downloaded from the Internet. Are you sure you want to open it?"). (#16034)
 
 
 Version 1.5.9 (//2013)
@@ -99,6 +103,7 @@ Version 1.5.8 (10/13/2013)
  * SIP: Fixed account names to be case-sensitive. (Pete Woods) (#16237)
 
 
+
 Version 1.5.7 (7/2/2013)
  * Updated Twitter support. (#16118)
    * Retweets (RTs) now properly display the original author.
@@ -111,6 +116,7 @@ Version 1.5.7 (7/2/2013)
    * Removed all anonymous ciphers from the list Adium tries, these are insecure and would crash Adium.
    * Removed SSL_RSA_WITH_NULL_MD5 from the list of ciphers, as it doesn't use encryption.
    * Removed the caching of untrusted certificates, as the implementation would make it easy to replace it with a different certificate when reconnecting.
+
 
 
 Version 1.5.6 (3/18/2013)
