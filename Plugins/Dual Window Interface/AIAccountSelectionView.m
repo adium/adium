@@ -26,7 +26,6 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIChat.h>
-#import <PSMTabBarControl/NSBezierPath_AMShading.h>
 
 #define BOX_RECT	NSMakeRect(0, 0, 300, 28)
 #define LABEL_RECT	NSMakeRect(17, 7, 56, 17)
@@ -120,9 +119,10 @@
 -(void)drawRect:(NSRect)aRect
 {	
 	if (rightColor && leftColor) {
-		NSBezierPath *path = [NSBezierPath bezierPathWithRect:[self bounds]];
-		[path linearVerticalGradientFillWithStartColor:leftColor 
-											  endColor:rightColor];
+		NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:leftColor
+															 endingColor:rightColor];
+		[gradient drawInRect:self.bounds angle:0.0];
+		[gradient release];
 	}
 }
 
