@@ -3,6 +3,13 @@
 				-----------------------
 Version 1.5.10 (04/XX/2014)
  * Updated libpurple to 2.10.9, fixing many security issues.
+ * Updated the PSMTabBarControl framework, used in Adium for tabs:
+   * Fixed an issue which occurred when dragging a conversation window into an existing tabbed conversation window and which caused Adium to become unresponsive. (#16281)
+   * Fixed an issue causing tabs/windows to disappear when being dragged. (#15414, #15518,  #15822, #16305)
+   * Fixed an issue where tabs would disappear after several hours. (#16262)
+   * Fixed visual glitches on bottom tabs seen on Retina Displays. (#16074)
+   * Tabs now use all the space in the tab bar. (#7690)
+   * Fixed tabs not being spoken by VoiceOver. (#16088)
  * Fixed a problem that could cause high CPU load when a connection is lost. (#16431)
  * Fixed a bug that can cause disconnects when using a Retina Mac with an external screen. (Johannes Loepelmann) (#16552)
  * Fixed an issue causing to Adium to connect accounts during PowerNap. (Mayur Pawashe) (#16249)
