@@ -132,7 +132,7 @@
 					break;
 					
 				case AIChatInvalidNumberOfArguments:
-					message = AILocalizedString(@"Incorrect number of command argments.",nil);
+					message = AILocalizedString(@"Incorrect number of command arguments.",nil);
 					break;
 					
 				case AIChatMessageSendingConnectionError:
