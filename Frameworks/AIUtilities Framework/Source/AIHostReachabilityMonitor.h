@@ -28,6 +28,8 @@
 	NSMutableArray		*hosts;
 	NSMutableArray		*observers;
 	NSMutableArray		*reachabilities;
+	NSMutableArray		*AI_hostsBeforeSleep;
+	NSMutableArray		*AI_observersBeforeSleep;
 	
 	NSMutableSet		*unconfiguredHostsAndObservers;
 	

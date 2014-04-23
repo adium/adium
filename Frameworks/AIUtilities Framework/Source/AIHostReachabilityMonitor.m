@@ -34,10 +34,16 @@
 - (void)beginMonitorngIPChanges;
 - (void)stopMonitoringIPChanges;
 
+@property (nonatomic, copy) NSArray *AI_hostsBeforeSleep;
+@property (nonatomic, copy) NSArray *AI_observersBeforeSleep;
+
+- (void)systemWillSleep:(NSNotification *)notification;
 - (void)systemDidWake:(NSNotification *)notification;
+
 @end
 
 @implementation AIHostReachabilityMonitor
+@synthesize AI_hostsBeforeSleep, AI_observersBeforeSleep;
 
 #pragma mark Shared instance management
 
@@ -80,6 +86,11 @@
 												 selector:@selector(systemDidWake:)
 													 name:AISystemDidWake_Notification
 												   object:nil];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(systemWillSleep:)
+													 name:AISystemWillSleep_Notification
+												   object:nil];
 	}
 	return self;
 }
@@ -93,6 +104,8 @@
 	[hosts          release]; hosts          = nil;
 	[observers      release]; observers      = nil;
 	[reachabilities release]; reachabilities = nil;
+	[AI_hostsBeforeSleep release]; AI_hostsBeforeSleep = nil;
+	[AI_observersBeforeSleep release]; AI_observersBeforeSleep = nil;
 	
 	[unconfiguredHostsAndObservers release]; unconfiguredHostsAndObservers = nil;
 	[hostAndObserverListLock unlock];
@@ -621,22 +634,26 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 		CFRelease(ipChangesRunLoopSourceRef);
 		ipChangesRunLoopSourceRef = nil;
 	}
+
+	self.AI_hostsBeforeSleep = nil;
+	self.AI_observersBeforeSleep = nil;
 }
 
 #pragma mark -
 #pragma mark Sleep and Wake
 
 /*!
- * @brief System is waking from sleep
+ * @brief System will go into sleep
  *
- * When the system wakes, manually reconfigure reachability checking as not all network configurations will report a change.
+ * Before the system sleeps, unschedule reachability checking, and back up a copy of the hosts and observers to
+ * re-configure reachability for when the system wakes up
  */
-- (void)systemDidWake:(NSNotification *)notification
+- (void)systemWillSleep:(NSNotification *)notification
 {
 	[hostAndObserverListLock lock];
-
-	NSArray	*oldHosts = [hosts copy];
-	NSArray	*oldObservers = [observers copy];
+	
+	self.AI_hostsBeforeSleep = hosts;
+	self.AI_observersBeforeSleep = observers;
 	
 	[reachabilities enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		SCNetworkReachabilityUnscheduleFromRunLoop((SCNetworkReachabilityRef)obj,
@@ -649,7 +666,17 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 	[reachabilities removeAllObjects];
 	
 	[hostAndObserverListLock unlock];
+}
 
+/*!
+ * @brief System is waking from sleep
+ *
+ * When the system wakes, manually reconfigure reachability checking as not all network configurations will report a change.
+ */
+- (void)systemDidWake:(NSNotification *)notification
+{
+	NSArray *oldHosts = self.AI_hostsBeforeSleep;
+	NSArray *oldObservers = self.AI_observersBeforeSleep;
 	NSUInteger numObservers = [oldObservers count];
 	for (unsigned i = 0; i < numObservers; i++) {
 		NSString						*host = [oldHosts objectAtIndex:i];
@@ -659,8 +686,8 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 				  forHost:host];
 	}
 	
-	[oldHosts release];
-	[oldObservers release];
+	self.AI_hostsBeforeSleep = nil;
+	self.AI_observersBeforeSleep = nil;
 }
 
 #pragma mark -

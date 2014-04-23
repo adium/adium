@@ -1,3 +1,4 @@
+
 				Adium Version History
 				-----------------------
 Version 1.6 (X/X/X)
@@ -80,13 +81,33 @@ Version 1.6 (X/X/X)
  Yahoo
   * Fixed ampersands being encoded mistakenly when adding a link. (#13429)
 
+Version 1.5.10 (04/XX/2014)
+ * Updated libpurple to 2.10.9, fixing many security issues.
+ * Updated the PSMTabBarControl framework, used in Adium for tabs:
+   * Fixed an issue which occurred when dragging a conversation window into an existing tabbed conversation window and which caused Adium to become unresponsive. (#16281)
+   * Fixed an issue causing tabs/windows to disappear when being dragged. (#15414, #15518,  #15822, #16305)
+   * Fixed an issue where tabs would disappear after several hours. (#16262)
+   * Fixed visual glitches on bottom tabs seen on Retina Displays. (#16074)
+   * Tabs now use all the space in the tab bar. (#7690)
+   * Fixed tabs not being spoken by VoiceOver. (#16088)
+ * Fixed a problem that could cause high CPU load when a connection is lost. (#16431)
+ * Fixed a bug that can cause disconnects when using a Retina Mac with an external screen. (Johannes Loepelmann) (#16552)
+ * Fixed an issue causing to Adium to connect accounts during PowerNap. (Mayur Pawashe) (#16249)
+ * Fixed idle checks to no longer use the proximity sensor of modern Macs. (Christopher Loessl)
+ * Fixed dates in the chat log viewer not showing up for very old logs (2006 and earlier). (#16554)
+ * Security: Enabled a number of TLS ciphers using SHA256.
+ * Fixed connecting to servers with outdated TLS support using the unofficial SIPE plugin. (Michael Lamb) (#16550)
+ * Fixed vertical placement of the unread count in tabs. (#16318)
+ * Fixed a misbehaving link in the Setup Wizard. (#16587)
 
-Version 1.5.9 (//2013)
+Version 1.5.9 (12/03/2013)
  * Fixed a crash which could occur when attempting to send files, especially on OS X 10.9. ("fain") (#16352, #16430)
  * Fixed a crash which could occur on OS X 10.9.
+ * Fixed an issue causing Adium to hang when encoding a message.
  * Fixed greyed-out user icons in the message view when using the "Stockholm" message style. (#16502)
  * Fixed borderless contact lists not taking multi-screen menu bars into account. (#16514)
  * Fixed building Adium on OS X 10.9. (#16408)
+ * Fixed some deprecated functions which were being logged to Console.app. (#16362)
 
 
 Version 1.5.8 (10/13/2013)

@@ -67,10 +67,18 @@
 - (NSImage *)imageByScalingToSize:(NSSize)size DPI:(CGFloat)dpi
 {
 	CGFloat backingScaleFactor = dpi / 72.0;
-	
-	if ([[NSScreen mainScreen] respondsToSelector:@selector(backingScaleFactor)]) {
-		backingScaleFactor /= [[NSScreen mainScreen] backingScaleFactor];
-	}
+    
+    CGFloat screenScalingFactor = 1.0;
+    
+    for(NSScreen* screen in [NSScreen screens]) {
+        if ([screen respondsToSelector:@selector(backingScaleFactor)]) {
+            if([screen backingScaleFactor] > screenScalingFactor) {
+                screenScalingFactor = [screen backingScaleFactor];
+            }
+        }
+    }
+    
+    backingScaleFactor /= screenScalingFactor;
 	
 	return ([self imageByScalingToSize:NSMakeSize(size.width * backingScaleFactor, size.height * backingScaleFactor) fraction:1.0f flipImage:NO proportionally:YES allowAnimation:YES]);
 }

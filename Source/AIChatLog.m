@@ -309,12 +309,13 @@ NSDate *dateFromFileName(NSString *fileName)
 	formatter.timeSeparator = '.';
 	NSRange openParenRange, closeParenRange;
 	
-	if ([fileName hasSuffix:@".chatlog"] && (openParenRange = [fileName rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
+	if ((openParenRange = [fileName rangeOfString:@"(" options:NSBackwardsSearch]).location != NSNotFound) {
 		openParenRange = NSMakeRange(openParenRange.location, [fileName length] - openParenRange.location);
 		if ((closeParenRange = [fileName rangeOfString:@")" options:0 range:openParenRange]).location != NSNotFound) {
 			//Add and subtract one to remove the parenthesis
 			NSString *dateString = [fileName substringWithRange:NSMakeRange(openParenRange.location + 1, (closeParenRange.location - openParenRange.location))];
-			return [formatter dateFromString:dateString];
+			// Fix really old chatlogs which use "(2005|05|07)".
+			return [formatter dateFromString:[dateString stringByReplacingOccurrencesOfString:@"|" withString:@"-"]];
 		}
 	}
 	return nil;

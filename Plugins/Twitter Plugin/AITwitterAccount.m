@@ -1608,7 +1608,7 @@
 											 range:NSMakeRange(0, mutableMessage.length)];
 	}];
 	
-	NSString *message = [mutableMessage string];
+	NSString *message = [[[mutableMessage string] copy] autorelease];
 	
 	BOOL replyTweet = (replyTweetID.length > 0);
 	BOOL tweetLink = (tweetID.length && userID.length);
