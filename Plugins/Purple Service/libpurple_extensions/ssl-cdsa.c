@@ -57,6 +57,7 @@ static const char* SSLMACName(SSLCipherSuite suite);
 #define PURPLE_SSL_CONNECTION_IS_VALID(gsc) (g_list_find(connections, (gsc)) != NULL)
 
 #define PURPLE_SSL_CDSA_BUGGY_TLS_WORKAROUND "ssl_cdsa_buggy_tls_workaround"
+#define PURPLE_SSL_CDSA_BEAST_TLS_WORKAROUND "ssl_cdsa_beast_tls_workaround"
 
 /*
  * query_cert_chain - callback for letting the user review the certificate before accepting it
@@ -250,24 +251,26 @@ static OSStatus SocketRead(
     for(;;) {
         bytesRead = 0;
         rrtn = read(sock, currData, bytesToGo);
-        if (rrtn <= 0) {
+		if (rrtn == 0) {
+			rtn = errSSLClosedGraceful;
+			break;
+		} else if (rrtn < 0) {
             /* this is guesswork... */
             int theErr = errno;
             switch(theErr) {
                 case ENOENT:
                     /* connection closed */
-                    rtn = errSSLClosedGraceful;
+                    rtn = errSSLClosedGraceful; 
                     break;
                 case ECONNRESET:
                     rtn = errSSLClosedAbort;
                     break;
-				case 0:
                 case EAGAIN:
                     rtn = errSSLWouldBlock;
                     break;
                 default:
-                    fprintf(stderr,"SocketRead: read(%lu) error %d\n",
-							(unsigned long)bytesToGo, theErr);
+                    fprintf(stderr,"SocketRead: read(%lu) error %d\n", 
+                             (unsigned long)bytesToGo, theErr);
                     rtn = errSSLFatalAlert;
                     break;
             }
@@ -333,69 +336,74 @@ static OSStatus SocketWrite(
 static gboolean
 ssl_cdsa_use_cipher(SSLCipherSuite suite, bool requireFS) {
 	switch (suite) {
-		case SSL_RSA_WITH_3DES_EDE_CBC_MD5:
-		case SSL_RSA_WITH_RC2_CBC_MD5:
-		case SSL_RSA_WITH_3DES_EDE_CBC_SHA:
 		case SSL_DH_DSS_WITH_3DES_EDE_CBC_SHA:
 		case SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA:
-		case TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA:
-		case TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA:
-		case SSL_RSA_WITH_RC4_128_MD5:
-		case SSL_RSA_WITH_RC4_128_SHA:
-		case TLS_ECDH_ECDSA_WITH_RC4_128_SHA:
-		case TLS_ECDH_RSA_WITH_RC4_128_SHA:
-		case TLS_RSA_WITH_AES_128_CBC_SHA:
-		case TLS_DH_DSS_WITH_AES_128_CBC_SHA:
-		case TLS_DH_RSA_WITH_AES_128_CBC_SHA:
-		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA:
-		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA:
-		case TLS_RSA_WITH_AES_256_CBC_SHA:
-		case TLS_DH_DSS_WITH_AES_256_CBC_SHA:
-		case TLS_DH_RSA_WITH_AES_256_CBC_SHA:
-		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA:
-		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA:
-		case TLS_RSA_WITH_AES_128_GCM_SHA256:
-		case TLS_RSA_WITH_AES_256_GCM_SHA384:
-		case TLS_DH_RSA_WITH_AES_128_GCM_SHA256:
-		case TLS_DH_RSA_WITH_AES_256_GCM_SHA384:
-		case TLS_DH_DSS_WITH_AES_128_GCM_SHA256:
-		case TLS_DH_DSS_WITH_AES_256_GCM_SHA384:
-		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256:
-		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384:
-		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256:
-		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384:
-		case TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256:
-		case TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384:
-		case TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256:
-		case TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384:
-			return !requireFS;
-		
 		case SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA:
 		case SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA:
-		case TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA:
-		case TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA:
-		case TLS_ECDHE_ECDSA_WITH_RC4_128_SHA:
-		case TLS_ECDHE_RSA_WITH_RC4_128_SHA:
+		case SSL_RSA_WITH_3DES_EDE_CBC_SHA:
+		case SSL_RSA_WITH_RC4_128_SHA:
+		case TLS_DH_DSS_WITH_AES_128_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_128_CBC_SHA256:
+		case TLS_DH_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DH_DSS_WITH_AES_256_CBC_SHA256:
+		case TLS_DH_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_DH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_DH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DH_RSA_WITH_AES_256_CBC_SHA256:
+		case TLS_DH_RSA_WITH_AES_256_GCM_SHA384:
 		case TLS_DHE_DSS_WITH_AES_128_CBC_SHA:
-		case TLS_DHE_RSA_WITH_AES_128_CBC_SHA:
-		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA:
-		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:
-		case TLS_DHE_DSS_WITH_AES_256_CBC_SHA:
-		case TLS_DHE_RSA_WITH_AES_256_CBC_SHA:
-		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:
-		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:
-		case TLS_DHE_RSA_WITH_AES_128_GCM_SHA256:
-		case TLS_DHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_DSS_WITH_AES_128_CBC_SHA256:
 		case TLS_DHE_DSS_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_DSS_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_DSS_WITH_AES_256_CBC_SHA256:
 		case TLS_DHE_DSS_WITH_AES_256_GCM_SHA384:
+		case TLS_DHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_DHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_DHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_DHE_RSA_WITH_AES_256_CBC_SHA256:
+		case TLS_DHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384:
+		case TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDH_RSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA:
 		case TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256:
-		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384:
-		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256:
-		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384:
 		case TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384:
 		case TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_ECDSA_WITH_RC4_128_SHA:
+		case TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256:
 		case TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384:
 		case TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:
+		case TLS_ECDHE_RSA_WITH_RC4_128_SHA:
+		case TLS_RSA_WITH_AES_128_CBC_SHA:
+		case TLS_RSA_WITH_AES_128_CBC_SHA256:
+		case TLS_RSA_WITH_AES_128_GCM_SHA256:
+		case TLS_RSA_WITH_AES_256_CBC_SHA:
+		case TLS_RSA_WITH_AES_256_CBC_SHA256:
+		case TLS_RSA_WITH_AES_256_GCM_SHA384:
 			return TRUE;
 			
 		default:
@@ -527,6 +535,21 @@ ssl_cdsa_create_context(gpointer data) {
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kSSLProtocol3, true);
         protoErr = SSLSetProtocolVersionEnabled(cdsa_data->ssl_ctx, kTLSProtocol1, true);
     }
+    
+#ifndef MAC_OS_X_VERSION_10_9
+	#define kSSLSessionOptionSendOneByteRecord 4 /* Appears in 10.9 */
+#endif
+    
+    if (purple_account_get_bool(account, PURPLE_SSL_CDSA_BEAST_TLS_WORKAROUND, false)) {
+        purple_debug_info("cdsa", "Explicitly disabling SSL BEAST mitigation for broken server implementations\n");
+        
+        OSStatus protoErr;
+        protoErr = SSLSetSessionOption(cdsa_data->ssl_ctx, kSSLSessionOptionSendOneByteRecord, false);
+        if (protoErr != noErr) {
+            purple_debug_info("cdsa", "SSLSetSessionOption failed to disable SSL BEAST mitigation\n");
+        }
+    }
+    
     
     if(gsc->host) {
         /*
