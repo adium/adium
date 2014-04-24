@@ -683,7 +683,7 @@
 	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != idx) {
-		NSMutableArray *cells = [tabView_tabBar cells];
+		NSMutableArray *cells = [[[tabView_tabBar cells] mutableCopy] autorelease];
 		
 		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
@@ -762,7 +762,7 @@
 	button = [window standardWindowButton:NSWindowDocumentIconButton];
 	[window setRepresentedURL:[NSURL URLWithString:@"StatusIcon"]];
 	
-	if ([tabView_tabBar isTabBarHidden])
+	if ([tabView_tabBar isTabBarHidden] || [tabView_tabBar numberOfVisibleTabs] < [m_containedChats count])
 		[button setImage:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] icon]];
 	else
 		[button setImage:nil];
@@ -1028,7 +1028,6 @@
 	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[[(PSMTabBarControl *)[tabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
@@ -1038,20 +1037,20 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = contentFrame.size.height;
 			break;
 		case AdiumTabPositionTop:
-			offset->width = [style leftMarginForTabBarControl];
+			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
 			offset->height = 21;
 			break;
 		case AdiumTabPositionLeft:
 			offset->width = 0;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 		case AdiumTabPositionRight:
 			offset->width = [tabView_tabBar frame].origin.x;
-			offset->height = 21 + [style topMarginForTabBarControl];
+			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
 			break;
 	}
 	
@@ -1075,19 +1074,19 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= 22;
 			break;
 		case AdiumTabPositionTop:
-			point.x -= [style leftMarginForTabBarControl];
+			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
 			point.y -= NSHeight([[[newController window] contentView] frame]) + 1;
 			break;
 		case AdiumTabPositionLeft:
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 			break;
 		case AdiumTabPositionRight:
 			point.x -= NSMinX([tabView_tabBar frame]);
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
 	}
 	
 	//set the origin point of the new window
@@ -1257,45 +1256,6 @@
 		}
 	}
 }
-
-/*//Custom Tabs Delegate -------------------------------------------------------------------------------------------------
-#pragma mark Custom Tabs Delegate
-//Bring our window to the front
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
-{
-	NSDragOperation tmp = NSDragOperationNone;
-    NSString 		*type = [[sender draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:TAB_CELL_IDENTIFIER,nil]];
-
-    if (sender == nil || type) {
-        if (![[self window] isKeyWindow]) [[self window] makeKeyAndOrderFront:nil];
-		[self _suppressTabHiding:YES];
-        tmp = NSDragOperationPrivate;
-    }
-	return tmp;
-}
-
-- (void)draggingExited:(id <NSDraggingInfo>)sender
-{
-	NSString 		*type = [[sender draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:TAB_CELL_IDENTIFIER,nil]];
-	
-    if (sender == nil || type) [self _suppressTabHiding:NO];
-}
-
-- (void)_suppressTabHiding:(BOOL)suppress
-{
-	supressHiding = suppress;
-	[self updateTabBarVisibilityAndAnimate:YES];
-}
-
-//Send the print message to our view
-- (void)adiumPrint:(id)sender
-{
-	id	controller = [(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] messageViewController];
-	
-	if ([controller respondsToSelector:@selector(adiumPrint:)]) {
-		[controller adiumPrint:sender];
-	}
-}*/
 
 //Toolbar --------------------------------------------------------------------------------------------------------------
 #pragma mark Toolbar
