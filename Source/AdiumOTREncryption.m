@@ -1114,7 +1114,14 @@ OtrlUserState otrg_get_userstate(void)
 	
 	responseInfo = details_for_context([contextValue pointerValue]);
 	
-	[ESOTRUnknownFingerprintController showUnknownFingerprintPromptWithResponseInfo:responseInfo];
+	if (responseInfo) {
+		[ESOTRUnknownFingerprintController showUnknownFingerprintPromptWithResponseInfo:responseInfo];
+	} else {
+		/* This means either context, context->active_fingerprint, context->active_fingerprint-fingerprint
+		 * or context->active_fingerprint->context was NULL.
+		 */
+		AILogWithSignature(@"Got a nil details_for_context for %p", [contextValue pointerValue]);
+	}
 }
 
 /*!
