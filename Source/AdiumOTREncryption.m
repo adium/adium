@@ -753,11 +753,14 @@ create_instag_cb(void *opdata, const char *accountname, const char *protocol)
 	otrl_instag_generate(otrg_plugin_userstate, INSTAG_PATH, accountname, protocol);
 }
 
-/* Something related to Socialis Millionaire Protocol happened. Handle it. */
+/* Something related to Socialist Millionaire Protocol happened. Handle it. */
 static void
 handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, unsigned short progress_percent, char *question)
 {
 	AIListContact *listContact = contactForContext(context);
+	
+	AIChat *chat = chatForContext(context);
+	if (!chat) chat = [adium.chatController chatWithContact:listContact];
 	
 	switch (smp_event) {
 		case OTRL_SMPEVENT_ASK_FOR_ANSWER: {
@@ -765,15 +768,27 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 																		initWithQuestion:[NSString stringWithUTF8String:question]
 																		from:listContact
 																		completionHandler:^(NSData *answer,NSString *_question){
-				if(!answer) {
-					otrl_message_abort_smp(otrg_get_userstate(), &ui_ops, opdata, context);
-				} else
-					otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
-			}
+																			
+																			if (context != contextForChat(chat)) {
+																				AILogWithSignature(@"Something's wrong: %p != %p. Did the conversation close before you sent the secret question?", context, contextForChat(chat));
+																				return;
+																			}
+																			
+																			if(!answer) {
+																				otrl_message_abort_smp(otrg_get_userstate(), &ui_ops, opdata, context);
+																			} else
+																				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
+																		}
 																		isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
+			
+			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ has sent you a secret question and is awaiting your answer to verify your identity.", nil,
+																												[NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
+												   listContact.displayName]
+										   ofType:@"encryption"
+										   inChat:chat];
 			
 			break;
 		}
@@ -781,12 +796,25 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 			AIOTRSMPSharedSecretWindowController *questionController = [[AIOTRSMPSharedSecretWindowController alloc]
 																		initFrom:listContact
 																		completionHandler:^(NSData *answer){
-				otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
-			}
+																			
+																			if (context != contextForChat(chat)) {
+																				AILogWithSignature(@"Something's wrong: %p != %p. Did the conversation close before you sent the secret question?", context, contextForChat(chat));
+																				return;
+																			}
+																			
+																			otrl_message_respond_smp(otrg_get_userstate(), &ui_ops, opdata, context, [answer bytes], [answer length]);
+																		}
 																		isInitiator:NO];
 			
 			[questionController showWindow:nil];
 			[questionController.window orderFront:nil];
+			
+			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ has requested to compare your shared secret to verify your identity.", nil,
+																												[NSBundle bundleForClass:[AdiumOTREncryption class]], nil),
+												   listContact.displayName]
+										   ofType:@"encryption"
+										   inChat:chat];
+			
 			break;
 		}
 		case OTRL_SMPEVENT_CHEATED:
@@ -797,9 +825,6 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 																			nil,
 																			[NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
 			
-			AIChat *chat = chatForContext(context);
-			if (!chat) chat = [adium.chatController chatWithContact:listContact];
-
 			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
@@ -810,9 +835,6 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 																			nil,
 																			[NSBundle bundleForClass:[AdiumOTREncryption class]], nil);
 			
-			AIChat *chat = chatForContext(context);
-			if (!chat) chat = [adium.chatController chatWithContact:listContact];
-
 			[adium.contentController displayEvent:localizedMessage
 										   ofType:@"encryption"
 										   inChat:chat];
@@ -960,6 +982,11 @@ static OtrlMessageAppOps ui_ops = {
 															  from:inChat.listObject
 															  completionHandler:^(NSData *answer, NSString *question) {
 																  
+																  if (context != contextForChat(inChat)) {
+																	  AILogWithSignature(@"Something's wrong: %p != %p. Did the conversation close before you sent the secret question?", context, contextForChat(inChat));
+																	  return;
+																  }
+																  
 																  otrl_message_initiate_smp_q(otrg_get_userstate(),
 																							  &ui_ops, NULL, context,
 																							  (const char *)[question UTF8String],
@@ -985,6 +1012,11 @@ static OtrlMessageAppOps ui_ops = {
 	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc]
 															  initFrom:inChat.listObject
 															  completionHandler:^(NSData *answer) {
+																  
+																  if (context != contextForChat(inChat)) {
+																	  AILogWithSignature(@"Something's wrong: %p != %p. Did the conversation close before you sent the secret question?", context, contextForChat(inChat));
+																	  return;
+																  }
 																  
 																  otrl_message_initiate_smp(otrg_get_userstate(),
 																							&ui_ops, NULL,
