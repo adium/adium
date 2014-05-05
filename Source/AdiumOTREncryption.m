@@ -731,7 +731,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event, ConnContext *conte
 			break;
 		}
 		case OTRL_MSGEVENT_CONNECTION_ENDED: {
-			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ is no longer using encryption; you should cancel encryption on your side.",
+			NSString *localizedMessage = [NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"Your message was not sent. %@ is no longer using encryption; you should cancel or refresh encryption on your side.",
 																									   @"libotr error message", [NSBundle bundleForClass:[AdiumOTREncryption class]],
 																									   @"Message when the remote contact cancels his half of an encrypted conversation. %@ will be a name."), listContact.UID];
 			

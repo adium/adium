@@ -38,6 +38,7 @@
 
 #define	TITLE_MAKE_SECURE		AILocalizedString(@"Initiate Encrypted OTR Chat",nil)
 #define	TITLE_MAKE_INSECURE		AILocalizedString(@"Cancel Encrypted Chat",nil)
+#define	TITLE_REFRESH_SECURE	AILocalizedString(@"Refresh Encrypted Chat",nil)
 #define TITLE_SHOW_DETAILS		[AILocalizedString(@"Show Details",nil) stringByAppendingEllipsis]
 #define TITLE_VERIFY			AILocalizedString(@"Verify",nil)
 #define TITLE_VERIFY_MANUALLY	[AILocalizedString(@"Manually",nil) stringByAppendingEllipsis]
@@ -368,6 +369,14 @@
 									inChat:chat];
 }
 
+- (IBAction)refreshSecureMessaging:(id)sender
+{
+	AIChat	*chat = adium.interfaceController.activeChat;
+	
+	[chat.account requestSecureMessaging:TRUE
+								  inChat:chat];
+}
+
 - (IBAction)showDetails:(id)sender
 {
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
@@ -497,6 +506,7 @@
 				return YES;
 				break;
 				
+			case AISecureMessagingMenu_Refresh:
 			case AISecureMessagingMenu_ShowDetails:
 			case AISecureMessagingMenu_VerifyManually:
 			case AISecureMessagingMenu_VerifyQuestion:
@@ -532,6 +542,13 @@
 										   action:@selector(toggleSecureMessaging:)
 									keyEquivalent:@""] autorelease];
 		[item setTag:AISecureMessagingMenu_Toggle];
+		[_secureMessagingMenu addItem:item];
+		
+		item = [[[NSMenuItem alloc] initWithTitle:TITLE_REFRESH_SECURE
+										   target:self
+										   action:@selector(refreshSecureMessaging:)
+									keyEquivalent:@""] autorelease];
+		[item setTag:AISecureMessagingMenu_Refresh];
 		[_secureMessagingMenu addItem:item];
 		
 		item = [[[NSMenuItem alloc] initWithTitle:TITLE_SHOW_DETAILS
