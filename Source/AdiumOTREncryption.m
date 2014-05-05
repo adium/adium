@@ -1118,8 +1118,8 @@ send_default_query_to_chat(AIChat *inChat)
 void
 disconnect_from_context(ConnContext *context)
 {
-    otrl_message_disconnect(otrg_plugin_userstate, &ui_ops, NULL,
-							context->accountname, context->protocol, context->username, OTRL_INSTAG_RECENT);
+    otrl_message_disconnect_all_instances(otrg_plugin_userstate, &ui_ops, NULL,
+							context->accountname, context->protocol, context->username);
 	gone_insecure_cb(NULL, context);
 }
 
