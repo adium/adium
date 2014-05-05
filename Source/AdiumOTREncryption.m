@@ -959,12 +959,17 @@ static OtrlMessageAppOps ui_ops = {
 															  initWithQuestion:@""
 															  from:inChat.listObject
 															  completionHandler:^(NSData *answer, NSString *question) {
-		otrl_message_initiate_smp_q(otrg_get_userstate(),
-									&ui_ops, NULL, context,
-									(const char *)[question UTF8String],
-									[answer bytes],
-									[answer length]);
-	}
+																  
+																  otrl_message_initiate_smp_q(otrg_get_userstate(),
+																							  &ui_ops, NULL, context,
+																							  (const char *)[question UTF8String],
+																							  [answer bytes],
+																							  [answer length]);
+																  
+																  [adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"You have asked %@ a secret question to verify their identity. Awaiting answer...", nil), inChat.listObject.displayName]
+																								 ofType:@"encryption"
+																								 inChat:inChat];
+															  }
 															  isInitiator:TRUE];
 	
 	[windowController showWindow:nil];
@@ -980,11 +985,16 @@ static OtrlMessageAppOps ui_ops = {
 	AIOTRSMPSharedSecretWindowController *windowController = [[AIOTRSMPSharedSecretWindowController alloc]
 															  initFrom:inChat.listObject
 															  completionHandler:^(NSData *answer) {
-		otrl_message_initiate_smp(otrg_get_userstate(),
-								  &ui_ops, NULL,
-								  context,
-								  [answer bytes],
-								  [answer length]);
+																  
+																  otrl_message_initiate_smp(otrg_get_userstate(),
+																							&ui_ops, NULL,
+																							context,
+																							[answer bytes],
+																							[answer length]);
+																  
+																  [adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"You have asked %@ to compare your shared secret to verify their identity. Awaiting answer...", nil), inChat.listObject.displayName]
+																								 ofType:@"encryption"
+																								 inChat:inChat];
 	}
 															  isInitiator:TRUE];
 	
