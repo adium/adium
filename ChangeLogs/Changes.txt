@@ -1,7 +1,8 @@
 
 				Adium Version History
 				-----------------------
-Version 1.5.10 (04/XX/2014)
+
+Version 1.5.10 (05/16/2014)
  * Updated libpurple to 2.10.9, fixing many security issues.
  * Updated the PSMTabBarControl framework, used in Adium for tabs:
    * Fixed an issue which occurred when dragging a conversation window into an existing tabbed conversation window and which caused Adium to become unresponsive. (#16281)
@@ -16,7 +17,7 @@ Version 1.5.10 (04/XX/2014)
  * Fixed idle checks to no longer use the proximity sensor of modern Macs. (Christopher Loessl)
  * Fixed dates in the chat log viewer not showing up for very old logs (2006 and earlier). (#16554)
  * Security: Enabled a number of TLS ciphers using SHA256.
- * Fixed connecting to servers with outdated TLS support using the unofficial SIPE plugin. (Michael Lamb) (#16550)
+ * Fixed connecting to servers with outdated TLS support using the unofficial SIPE plugin. (Michael Lamb) (#16550) The fix only applies to OS X 10.9, one for OS X 10.8.5 should follow.
  * Fixed vertical placement of the unread count in tabs. (#16318)
  * Fixed a misbehaving link in the Setup Wizard. (#16587)
 
