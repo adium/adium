@@ -634,26 +634,30 @@ ssl_cdsa_read(PurpleSslConnection *gsc, void *data, size_t len)
 {
 	PurpleSslCDSAData *cdsa_data = PURPLE_SSL_CDSA_DATA(gsc);
 	OSStatus	err;			/* Error info */
-	size_t		processed;		/* Number of bytes processed */
+	size_t		processed = 0;		/* Number of bytes processed */
 	size_t		result;			/* Return value */
 
     errno = 0;
     err = SSLRead(cdsa_data->ssl_ctx, data, len, &processed);
-	switch (err) {
-		case noErr:
-			result = processed;
-			break;
-		case errSSLWouldBlock:
-			errno = EAGAIN;
-			result = ((processed > 0) ? processed : -1);
-			break;
-		case errSSLClosedGraceful:
-			result = 0;
-			break;
-		default:
-			result = -1;
-			purple_debug_error("cdsa", "receive failed (%d): %s\n", (int)err, strerror(errno));
-			break;
+	if (processed <= 0) {
+		switch (err) {
+			case noErr:
+				result = processed;
+				break;
+			case errSSLWouldBlock:
+				errno = EAGAIN;
+				result = ((processed > 0) ? processed : -1);
+				break;
+			case errSSLClosedGraceful:
+				result = 0;
+				break;
+			default:
+				result = -1;
+				purple_debug_error("cdsa", "receive failed (%d): %s\n", (int)err, strerror(errno));
+				break;
+		}
+	} else {
+		result = processed;
 	}
 
     return result;
