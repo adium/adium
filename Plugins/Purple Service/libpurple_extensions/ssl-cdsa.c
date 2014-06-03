@@ -231,14 +231,7 @@ static OSStatus SocketRead(
         bytesRead = 0;
         rrtn = read(sock, currData, bytesToGo);
 		if (rrtn == 0) {
-			/* We got an EOF. However, when we have already read some bytes in a previous iteration of this loop,
-			 * then we should return noErr to make sure CDSA processes all that data.
-			 * When initLen is still equal to bytesToGo, we haven't read anything, so we can inform CDSA that we're
-			 * closed.
-			 */
-			if (initLen == bytesToGo) {
-				rtn = errSSLClosedGraceful;
-			}
+			rtn = errSSLClosedGraceful;
 			break;
 		} else if (rrtn < 0) {
             /* this is guesswork... */
