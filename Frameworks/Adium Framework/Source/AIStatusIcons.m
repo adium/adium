@@ -133,7 +133,6 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 		
 				
 				if (statusIcon) {
-					if (iconDirection == AIIconFlipped) [statusIcon setFlipped:YES];
 					[statusIcons[iconType][iconDirection] setObject:statusIcon forKey:statusName];
 					
 				}
@@ -146,7 +145,6 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 				statusIcon = [NSImage imageNamed:@"DefaultBlockedStatusIcon" forClass:[self class] loadLazily:YES];
 				
 				if (statusIcon) {
-					if (iconDirection == AIIconFlipped) [statusIcon setFlipped:YES];
 					[statusIcons[iconType][iconDirection] setObject:statusIcon forKey:statusName];
 				}				
 			}

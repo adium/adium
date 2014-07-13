@@ -341,8 +341,6 @@
 	image = [[[NSImage alloc] initWithSize:NSMakeSize(rowRect.size.width,
 													  rowRect.size.height*count + [self intercellSpacing].height*(count-1))] autorelease];
 
-	//Draw (Since the OLV is normally flipped, we have to be flipped when drawing)
-	[image setFlipped:YES];
 	[image lockFocus];
 
 	tableColumnsCount = [tableColumns count];
@@ -379,7 +377,6 @@
 	}
 
 	[image unlockFocus];
-	[image setFlipped:NO];
 
 	//Offset the drag image (Remember: The system centers it by default, so this is an offset from center)
 	NSPoint clickLocation = [self convertPoint:[dragEvent locationInWindow] fromView:nil];

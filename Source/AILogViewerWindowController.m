@@ -2150,13 +2150,13 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 														size:NSMakeSize(16,16)];
 		if (!image) image = [[AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped] imageByScalingForMenuItem];
+													   direction:AIIconNormal] imageByScalingForMenuItem];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
 		[cell setImage:[[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
 														type:AIServiceIconSmall
-												   direction:AIIconFlipped] imageByScalingForMenuItem]];
+												   direction:AIIconNormal] imageByScalingForMenuItem]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
