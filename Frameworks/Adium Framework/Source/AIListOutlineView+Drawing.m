@@ -138,8 +138,7 @@
 {
 	if (backgroundImage != inImage) {
 		[backgroundImage release];
-		backgroundImage = [inImage retain];		
-		[backgroundImage setFlipped:YES];
+		backgroundImage = [inImage retain];
 	}
 	
 	[(NSClipView *)[self superview] setCopiesOnScroll:(!backgroundImage)];

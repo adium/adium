@@ -62,8 +62,6 @@
 		}
 	}
 	
-	[image setFlipped:YES];
-	
 	return image;
 }
 
@@ -161,8 +159,6 @@
 	NSImage				*altImage = [[NSImage alloc] initWithSize:[inImage size]];
 	NSBitmapImageRep	*srcImageRep = [inImage largestBitmapImageRep];
 	
-	[altImage setFlipped:[inImage isFlipped]];
-
 	id monochromeFilter, invertFilter, alphaFilter;
 	
 	monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];

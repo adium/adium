@@ -474,7 +474,7 @@
 		if (!image) {
 			// if using service icons, set the interpolation to high
 			[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-			image = [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconLarge direction:AIIconFlipped];
+			image = [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconLarge direction:AIIconNormal];
 		}
 
 		//Rounded corners for our user images.
@@ -528,12 +528,10 @@
 		}
 
 		NSImage *image = [self statusImage];
-		[image setFlipped:![image isFlipped]];
 		rect = [image drawInRect:rect
 						  atSize:NSMakeSize(0, 0)
 						position:position
 						fraction:1.0f];
-		[image setFlipped:![image isFlipped]];
 		
 		if (!isBadge) {
 			if (position == IMAGE_POSITION_LEFT) rect.origin.x += STATUS_ICON_RIGHT_PAD;
@@ -708,7 +706,7 @@
 - (NSImage *)serviceImage
 {
     AIListObject *listObject = [proxyObject listObject];
-	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconFlipped];
+	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconNormal];
 }
 
 - (float)imageOpacityForDrawing

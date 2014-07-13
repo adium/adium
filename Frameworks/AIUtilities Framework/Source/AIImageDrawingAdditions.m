@@ -128,10 +128,6 @@
 		newRect = NSMakeRect(0.0f, 0.0f, size.width, size.height);
 		newImage = [[NSImage alloc] initWithSize:size];
 		
-		if (flipImage) {
-			[newImage setFlipped:YES];		
-		}
-		
 		NSImageRep *bestRep;
 		
 		if (allowAnimation &&
@@ -239,10 +235,6 @@
 		
 		NSImage *newImage = [[NSImage alloc] initWithSize:size];
 		NSImage *scaledImage = [[NSImage alloc] initWithSize:scaleSize];
-		
-		if (flipImage) {
-			[newImage setFlipped:YES];		
-		}
 		
 		NSImageRep *bestRep;
 		
@@ -361,7 +353,9 @@
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
-			fraction:inFraction];
+			fraction:inFraction
+	  respectFlipped:YES
+			   hints:nil];
 	
 	// Shift the origin if needed, and decrease the available destination rect width, by the passed size
 	// (which may exceed the actual image dimensions)
