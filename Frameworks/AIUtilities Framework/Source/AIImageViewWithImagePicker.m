@@ -266,8 +266,6 @@
 	[[self image] drawAtPoint:NSZeroPoint fromRect:NSMakeRect(0, 0, self.image.size.width, self.image.size.height) operation:NSCompositeCopy fraction:0.5f];
 	[dragImage unlockFocus];
 	
-	//We want the image to resize
-	[dragImage setScalesWhenResized:YES];
 	//Change to the size we are displaying
 	[dragImage setSize:[self bounds].size];
 	
