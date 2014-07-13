@@ -164,9 +164,6 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 
 	NSString *internalObjectID = inObject.internalObjectID;
 
-	//Keep the data around so that this image can be resized without loss of quality
-	[inUserIcon setDataRetained:YES];
-
 	if (inUserIcon && inSource) {
 #ifdef AIUSERICON_DEBUG
 		AILogWithSignature(@"%@ provided icon for %@", inSource, inObject);
