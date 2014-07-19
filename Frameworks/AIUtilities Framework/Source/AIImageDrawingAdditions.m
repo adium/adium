@@ -457,7 +457,9 @@
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
-			fraction:inFraction];
+			fraction:inFraction
+	  respectFlipped:YES
+			   hints:nil];
 	
 	[NSGraphicsContext restoreGraphicsState];
 	
