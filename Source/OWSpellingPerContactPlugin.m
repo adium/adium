@@ -59,7 +59,7 @@
 	
 	for (NSString *language in preferredLanguages) {
 		if ([[NSSpellChecker sharedSpellChecker] setLanguage:language]) {
-			preferredLanguage = [language retain];
+			preferredLanguage = language;
 			break;
 		}
 	}
@@ -70,8 +70,8 @@
  */
 - (void)uninstallPlugin
 {
-	[languageDict release]; languageDict = nil;
-	[preferredLanguage release]; preferredLanguage = nil;
+	languageDict = nil;
+	preferredLanguage = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

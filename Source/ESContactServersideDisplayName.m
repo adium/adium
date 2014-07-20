@@ -63,7 +63,7 @@
 		entry = [[NSAttributedString alloc] initWithString:serverDisplayName];
     }
 	
-    return [entry autorelease];
+    return entry;
 }
 
 - (BOOL)shouldDisplayInContactInspector

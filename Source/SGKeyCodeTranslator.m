@@ -20,7 +20,6 @@
   if (currentTranslator == nil) {
     currentTranslator = [[SGKeyCodeTranslator alloc] initWithKeyboardLayout:currentKeyboardLayout];
   } else if ([currentTranslator keyboardLayout] != currentKeyboardLayout) {
-    [currentTranslator release];
     currentTranslator = [[SGKeyCodeTranslator alloc] initWithKeyboardLayout:currentKeyboardLayout];
   }
   

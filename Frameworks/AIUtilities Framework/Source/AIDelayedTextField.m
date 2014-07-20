@@ -19,7 +19,7 @@
 //  A text field that groups changes, sending its action to its target when 0.5 seconds elapses without a change
 
 @interface AIDelayedTextField ()
-- (id)_init;
+- (void)_initDelayedTextField;
 @end
 
 @implementation AIDelayedTextField
@@ -28,7 +28,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder])) {
-		self = [self _init];
+		[self _initDelayedTextField];
 	}
 	return self;
 }
@@ -36,16 +36,14 @@
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
-		[self _init];
+		[self _initDelayedTextField];
 	}
 	return self;
 }
 
-- (id)_init
+- (void)_initDelayedTextField
 {
 	delayInterval = 0.5f;
-	
-	return self;
 }
 
 - (void)setDelayInterval:(float)inInterval

@@ -20,7 +20,6 @@
 #import "ESGlobalEventsPreferencesPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AISoundSet.h>
 
 #define	NEW_PRESET_NAME				AILocalizedString(@"New Event Set",nil)
@@ -33,8 +32,6 @@
 #define EVENT_SOUNDS_DEFAULT_PREFS	@"EventSoundDefaults"
 
 @interface ESGlobalEventsPreferencesPlugin ()
-- (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector;
-
 - (void)adiumFinishedLaunching:(NSNotification *)notification;
 @end
 
@@ -44,7 +41,7 @@
 {
 	NSString	*activeEventSet;
 	
-	builtInEventPresets = [[NSDictionary dictionaryNamed:@"BuiltInEventPresets" forClass:[self class]] retain];
+	builtInEventPresets = [NSDictionary dictionaryNamed:@"BuiltInEventPresets" forClass:[self class]];
 	storedEventPresets = [[adium.preferenceController preferenceForKey:KEY_STORED_EVENT_PRESETS
 																   group:PREF_GROUP_EVENT_PRESETS] mutableCopy];
 	if (!storedEventPresets) storedEventPresets = [[NSMutableDictionary alloc] init];
@@ -65,7 +62,7 @@
 										  forGroup:PREF_GROUP_SOUNDS];
 
 	//Install our preference view
-    preferences = [(ESGlobalEventsPreferences *)[ESGlobalEventsPreferences preferencePaneForPlugin:self] retain];
+    preferences = (ESGlobalEventsPreferences *)[ESGlobalEventsPreferences preferencePaneForPlugin:self];
 
 	//Wait for Adium to finish launching before we perform further actions
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -139,20 +136,6 @@
 }
 
 #pragma mark All simple presets
-
-- (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector
-{
-	NSDictionary	*dictionary;
-	
-	//Clear out old global dock behavior alerts
-	[adium.contactAlertsController removeAllGlobalAlertsWithActionID:actionID];
-	
-	//
-	for (dictionary in setArray) {
-		[adium.contactAlertsController addGlobalAlert:[self performSelector:selector
-																   withObject:dictionary]];
-	}
-}
 
 - (void)setEventPreset:(NSDictionary *)eventPreset
 {

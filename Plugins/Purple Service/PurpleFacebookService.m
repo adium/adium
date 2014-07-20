@@ -17,7 +17,6 @@
 #import "PurpleFacebookService.h"
 #import "PurpleFacebookAccount.h"
 #import "PurpleFacebookAccountViewController.h"
-#import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 
 @implementation PurpleFacebookService

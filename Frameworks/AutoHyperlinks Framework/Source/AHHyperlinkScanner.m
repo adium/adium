@@ -26,9 +26,7 @@
  */
 
 #import "AHHyperlinkScanner.h"
-#import "AHLinkLexer.h"
 #import "AHMarkedHyperlink.h"
-#import <libkern/OSAtomic.h>
 
 #define DEFAULT_URL_SCHEME @"http://"
 #define ENC_INDEX_KEY @"encIndex"
@@ -79,7 +77,7 @@
 		
 		NSMutableCharacterSet *mutableStartSet = [[NSMutableCharacterSet alloc] init];
 		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'“”‘’.…,:;<?!-–—@%C%C", (unsigned short)0x2014, (unsigned short)0x2013]]];
+		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'“”‘’.…,:;<?!-–—@"]];
 		startSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableStartSet bitmapRepresentation]] retain];
 		[mutableStartSet release];
 		

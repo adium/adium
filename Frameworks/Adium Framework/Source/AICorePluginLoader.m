@@ -23,7 +23,6 @@
  */
 
 #import <Adium/AICorePluginLoader.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
 #define DIRECTORY_INTERNAL_PLUGINS		[@"Contents" stringByAppendingPathComponent:@"PlugIns"]	//Path to the internal plugins
@@ -106,7 +105,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	for (NSString *path in deferredPluginPaths) {
 		[[self class] loadPluginAtPath:path confirmLoading:YES pluginArray:pluginArray];		
 	}
-	[deferredPluginPaths release]; deferredPluginPaths = nil;
+	deferredPluginPaths = nil;
 
 #ifdef PLUGIN_LOAD_TIMING
 	AILog(@"Total time spent loading plugins: %f", aggregatePluginLoadingTime);
@@ -125,14 +124,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
     }
-}
-
-- (void)dealloc
-{
-	[pluginArray release];
-	pluginArray = nil;
-
-	[super dealloc];
 }
 
 + (BOOL)pluginIsBlacklisted:(NSBundle *)plugin
@@ -192,6 +183,8 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		if ((pluginBundle = [NSBundle bundleWithPath:pluginPath])) {
 			
 			if ([self pluginIsBlacklisted:pluginBundle]) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 				NSRunInformationalAlertPanel([NSString stringWithFormat:
 											  AILocalizedString(@"Plugin %@ Will be Disabled", "%@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is blacklisted."),
 											  [[pluginPath lastPathComponent] stringByDeletingPathExtension]],
@@ -201,6 +194,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 											 AILocalizedString(@"Disable", nil),
 											 nil,
 											 nil);
+#pragma GCC diagnostic pop
 				[self moveXtra:pluginPath toDisabledFolder:YES];
 				return;
 			}
@@ -221,7 +215,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 				[pluginDict setObject:plugin forKey:NSStringFromClass(principalClass)];
 				[pluginBundleIdentifiers addObject:[pluginBundle bundleIdentifier]];
 
-				[plugin release];
 			} else {
 				NSLog(@"Failed to initialize Plugin \"%@\" (\"%@\")!",[pluginPath lastPathComponent],pluginPath);
 			}

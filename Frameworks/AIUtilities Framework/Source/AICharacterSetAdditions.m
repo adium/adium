@@ -29,7 +29,7 @@
  */
 - (NSCharacterSet *)immutableCopy
 {
-	return [[NSCharacterSet characterSetWithBitmapRepresentation:[self bitmapRepresentation]] retain];
+	return [NSCharacterSet characterSetWithBitmapRepresentation:[self bitmapRepresentation]];
 }
 
 @end

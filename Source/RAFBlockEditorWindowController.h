@@ -22,31 +22,19 @@
 @interface RAFBlockEditorWindowController : AIPreferencePane <AIListObjectObserver, NSTableViewDelegate, NSTableViewDataSource> {
 	NSMutableArray				*listContents;
 	NSArray						*accountArray;
-	
-	NSMatrix *privacyLevel;
-	NSTableView *accountTable;
-	NSTableView *contactTable;
-	NSTextField *label_information;
-	AISegmentedControl *addRemoveContact;
-	NSWindow *sheet;
-	AICompletingTextField *addContactField;
-	AILocalizationButton *addContact;
-	AILocalizationButton *cancelSheet;
-	AILocalizationTextField *label_contact;
-	AILocalizationTextField *label_blockInformation;
 }
-@property (assign) IBOutlet NSTableView *accountTable;
-@property (assign) IBOutlet NSTableView *contactTable;
-@property (assign) IBOutlet NSMatrix *privacyLevel;
-@property (assign) IBOutlet NSTextField *label_information;
-@property (assign) IBOutlet AISegmentedControl *addRemoveContact;
+@property (weak) IBOutlet NSTableView *accountTable;
+@property (weak) IBOutlet NSTableView *contactTable;
+@property (weak) IBOutlet NSMatrix *privacyLevel;
+@property (weak) IBOutlet NSTextField *label_information;
+@property (weak) IBOutlet AISegmentedControl *addRemoveContact;
 
-@property (assign) IBOutlet NSWindow *sheet;
-@property (assign) IBOutlet AICompletingTextField *addContactField;
-@property (assign) IBOutlet AILocalizationButton *addContact;
-@property (assign) IBOutlet AILocalizationButton *cancelSheet;
-@property (assign) IBOutlet AILocalizationTextField *label_contact;
-@property (assign) IBOutlet AILocalizationTextField *label_blockInformation;
+@property (strong) IBOutlet NSWindow *sheet;
+@property (weak) IBOutlet AICompletingTextField *addContactField;
+@property (weak) IBOutlet AILocalizationButton *addContact;
+@property (weak) IBOutlet AILocalizationButton *cancelSheet;
+@property (weak) IBOutlet AILocalizationTextField *label_contact;
+@property (weak) IBOutlet AILocalizationTextField *label_blockInformation;
 
 + (void)showWindow;
 

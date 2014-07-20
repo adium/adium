@@ -48,7 +48,7 @@
 - (void)_checkForCrash
 {
 	// get a list of files beginning with 'Adium' from the crash reporter folder
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	NSArray *files = [fm contentsOfDirectoryAtPath:CRASH_LOG_DIRECTORY error:nil];
 	NSArray *filteredFiles = [files filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] 'Adium'"]];
 	
@@ -91,12 +91,6 @@
 	}
 }
 
-- (void)dealloc
-{
-	[crashLog release];
-	[super dealloc];
-}
-
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	if (suppression) {
@@ -118,7 +112,6 @@
 			//Cancel
 			break;
 	}
-	
 	return YES;
 }
 
@@ -168,7 +161,6 @@
 	[postBody appendData:[doc XMLData]];
 	[postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
-	[doc release];
 	
 	NSHTTPURLResponse *response = nil;
 	NSError *error = nil;
@@ -177,6 +169,8 @@
 	//Check for success and offer to try once more if there was an error sending
 	if ([response statusCode] != 201) {
 		NSString *reason = [NSString stringWithFormat:@"%lu: %@\n%@", response.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:response.statusCode], [error localizedDescription] ?: @""];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		if (NSRunAlertPanel(UNABLE_TO_SEND,
 						reason,
 						AILocalizedString(@"Try Again", nil),
@@ -188,6 +182,7 @@
 				NSRunAlertPanel(UNABLE_TO_SEND, reason, nil, nil, nil);
 			}
 		}
+#pragma GCC diagnostic pop
 	}
 }
 

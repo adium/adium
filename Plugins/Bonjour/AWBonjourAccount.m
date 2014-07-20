@@ -23,32 +23,22 @@
  */
 
 #import "AWBonjourAccount.h"
-#import "AWEzv.h"
 #import "AWEzvContact.h"
 #import "EKEzvFileTransfer.h"
 #import "EKEzvOutgoingFileTransfer.h"
-#import "AWEzvDefines.h"
-#import "AWBonjourPlugin.h"
 #import "AWEzvSupportRoutines.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIContentObject.h>
-#import <Adium/AIContentTyping.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
-#import <Adium/ESFileTransfer.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
-#import <AIUtilities/AIObjectAdditions.h>
+
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
-#import <Adium/AIFileTransferControllerProtocol.h>
 
 @interface AWBonjourAccount ()
 - (NSString *)UIDForContact:(AWEzvContact *)contact;
@@ -73,10 +63,7 @@
 	/* Releasing libezv leads to the libezvContacts set being accessed;
 	 * if it has been released but not set to nil, this results in a crash.
 	 */
-	[libezvContacts release]; libezvContacts = nil;
-	[libezv release];
-
-	[super dealloc];
+	libezvContacts = nil;
 }
 
 - (BOOL)disconnectOnFastUserSwitch
@@ -180,7 +167,7 @@
 	                        notify:NotifyLater];
 	
 	NSString *contactStatusMessage = contact.statusMessage;
-	[listContact setStatusMessage:(contactStatusMessage ? [[[NSAttributedString alloc] initWithString:contactStatusMessage] autorelease] : nil)
+	[listContact setStatusMessage:(contactStatusMessage ? [[NSAttributedString alloc] initWithString:contactStatusMessage] : nil)
 	                       notify:NotifyLater];
 	
 	NSDate *idleSinceDate = [contact idleSinceDate];
@@ -244,10 +231,10 @@
 							 onAccount:self
 							 tryDecrypt:YES];
 	else
-		attributedMessage = [[[NSAttributedString alloc] initWithString:
+		attributedMessage = [[NSAttributedString alloc] initWithString:
 							  [adium.contentController decryptedIncomingMessage:message
 							   fromContact:listContact
-							   onAccount:self]] autorelease];
+							   onAccount:self]];
 	
 	msgObj = [AIContentMessage messageInChat:chat
 	                              withSource:listContact
@@ -357,7 +344,6 @@
 	[XHTMLDecoder setGeneratesStrictXHTML:YES];
 	[XHTMLDecoder setClosesFontTags:YES];
 	NSString *encodedMessage = [XHTMLDecoder encodeHTML:inContentMessage.message imagesPath:nil];
-	[XHTMLDecoder release];
 	return encodedMessage;
 }
 
@@ -581,7 +567,6 @@
 	
 	[libezv startOutgoingFileTransfer:ezvFileTransfer];
 	[fileTransfer setStatus:Waiting_on_Remote_User_FileTransfer];
-	[ezvFileTransfer release];
 }
 
 #pragma  mark Outgoing file transfer status updates
