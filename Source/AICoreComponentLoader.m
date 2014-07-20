@@ -92,7 +92,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AIMessageAliasPlugin",
 		@"AINewMessagePanelPlugin",
 		@"AINudgeBuzzHandlerPlugin",
-		@"AIContactVisibilityControlPlugin",
 		@"AISCLViewPlugin",
 		@"AIStandardToolbarItemsPlugin",
 		@"AIStateMenuPlugin",

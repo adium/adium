@@ -14,16 +14,15 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIWindowController.h>
+#import <Adium/AIContactControllerProtocol.h>
+@class AIAlternatingRowTableView;
 
-@class AISortController;
-
-@interface ESContactSortConfigurationWindowController : AIWindowController {
-	IBOutlet	NSView  *view_main;
+@interface AIHideAccountsWindowController : NSWindowController {
+	NSArray *accounts;
+	NSMutableArray *array_hideAccounts;
+	IBOutlet AIAlternatingRowTableView *tableView;
 }
 
-+ (id)showSortConfigurationWindowForController:(AISortController *)controller;
-+ (BOOL)sortConfigurationIsOpen;
-- (void)configureForController:(AISortController *)controller;
+- (IBAction)done:(id)sender;
 
 @end

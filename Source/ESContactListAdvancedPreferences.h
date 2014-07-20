@@ -17,6 +17,32 @@
 #import <Adium/AIPreferencePane.h>
 
 @interface ESContactListAdvancedPreferences : AIPreferencePane {
+	//Display/Visibility
+	IBOutlet NSPopUpButton *popUp_sortContacts;
+	IBOutlet NSPopUpButton *popUp_contactNameFormat;
+	
+	IBOutlet AILocalizationButton *button_sortContacts;
+	IBOutlet AILocalizationButton *button_hideAccounts;
+	
+	IBOutlet AILocalizationButton *checkBox_hideCertainContacts;
+	IBOutlet AILocalizationButton *checkBox_hideOffline;
+	IBOutlet AILocalizationButton *checkBox_hideIdle;
+	IBOutlet AILocalizationButton *checkBox_hideAway;
+	IBOutlet AILocalizationButton *checkBox_hideMobile;
+	IBOutlet AILocalizationButton *checkBox_hideBlocked;
+	IBOutlet AILocalizationButton *checkBox_showGroups;
+	IBOutlet AILocalizationButton *checkBox_groupOfflineContacts;
+	IBOutlet AILocalizationButton *checkBox_showGroupTotalCount;
+	IBOutlet AILocalizationButton *checkBox_showGroupOnlineCount;
+	
+	IBOutlet AILocalizationTextField *label_sortContacts;
+	IBOutlet AILocalizationTextField *label_contactNameFormat;
+	IBOutlet AILocalizationTextField *label_contactHiding;
+	IBOutlet AILocalizationTextField *label_contactGroups;
+	
+	NSArray *_hideAccounts;
+	
+	//Theming
 	IBOutlet	NSPopUpButton	*popUp_listLayout;
 	IBOutlet	NSPopUpButton	*popUp_colorTheme;
 	IBOutlet	NSPopUpButton	*popUp_windowStyle;
@@ -57,5 +83,7 @@
 
 - (IBAction)customizeListLayout:(id)sender;
 - (IBAction)customizeListTheme:(id)sender;
+- (IBAction)customizeSort:(id)sender;
+- (IBAction)customizeHiddenAccounts:(id)sender;
 
 @end

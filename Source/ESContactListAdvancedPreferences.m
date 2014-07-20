@@ -30,6 +30,13 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/ESPresetManagementController.h>
 #import <Adium/ESPresetNameSheetController.h>
+#import <Adium/AISortController.h>
+#import "AIHideAccountsWindowController.h"
+#import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
+#import "AIContactController.h"
+#import "AIAliasSupportPlugin.h"
+#import "AIContactObserverManager.h"
 #import "AIXtrasManager.h"
 
 @interface ESContactListAdvancedPreferences ()
@@ -51,6 +58,14 @@
 - (NSArray *)availableLayoutSets;
 - (NSArray *)availableThemeSets;
 @end
+
+#define PREF_GROUP_CONTACT_SORTING			@"Sorting"
+#define KEY_CURRENT_SORT_MODE_IDENTIFIER	@"Sort Mode"
+#define CONTACT_NAME_MENU_TITLE		AILocalizedString(@"Contact Name Format",nil)
+#define ALIAS						AILocalizedString(@"Alias",nil)
+#define ALIAS_SCREENNAME			AILocalizedString(@"Alias (User Name)",nil)
+#define SCREENNAME_ALIAS			AILocalizedString(@"User Name (Alias)",nil)
+#define SCREENNAME					AILocalizedString(@"User Name",nil)
 
 /*!
  * @class ESContactListAdvancedPreferences
@@ -79,9 +94,13 @@
 - (void)viewDidLoad
 {
 	[popUp_windowStyle setMenu:[self _windowStyleMenu]];
+	[popUp_contactNameFormat setMenu:[self _contactNameMenu]];
+	[popUp_sortContacts setMenu:[self _sortMenu]];
 	
 	//Observe preference changes
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DISPLAYFORMAT];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_SORTING];
 
 	//Observe xtras changes
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -93,6 +112,28 @@
 
 - (void)localizePane
 {
+	//Display/Visibility
+	[label_sortContacts setLocalizedString:AILocalizedString(@"Sort Contacts:", nil)];
+	[label_contactNameFormat setLocalizedString:AILocalizedString(@"Contact Name Format:", nil)];
+	[label_contactHiding setLocalizedString:AILocalizedString(@"Hiding:", nil)];
+	[label_contactGroups setLocalizedString:AILocalizedString(@"Groups:", nil)];
+	
+	[button_sortContacts setLocalizedString:AILocalizedString(@"Customize…", nil)];
+	[button_hideAccounts setLocalizedString:AILocalizedString(@"Hide Contacts for Accounts…", nil)];
+	
+	[checkBox_hideCertainContacts setLocalizedString:AILocalizedString(@"Hide Certain Contacts",nil)];
+	[checkBox_hideOffline setLocalizedString:AILocalizedString(@"Hide Offline Contacts",nil)];
+	[checkBox_hideIdle setLocalizedString:AILocalizedString(@"Hide Idle Contacts",nil)];
+	[checkBox_hideMobile setLocalizedString:AILocalizedString(@"Hide Mobile Contacts",nil)];
+	[checkBox_hideBlocked setLocalizedString:AILocalizedString(@"Hide Blocked Contacts",nil)];
+	[checkBox_hideAway setLocalizedString:AILocalizedString(@"Hide Away Contacts",nil)];
+	
+	[checkBox_showGroups setLocalizedString:AILocalizedString(@"Show Groups", nil)];
+	[checkBox_groupOfflineContacts setLocalizedString:AILocalizedString(@"Use Offline Group",nil)];
+	[checkBox_showGroupOnlineCount setLocalizedString:AILocalizedString(@"Show Group Online Count", nil)];
+	[checkBox_showGroupTotalCount setLocalizedString:AILocalizedString(@"Show Group Total Count", nil)];
+	
+	//Theming
 	[label_animation setLocalizedString:AILocalizedString(@"Animation:", nil)];
 	[label_automaticSizing setLocalizedString:AILocalizedString(@"Automatic Sizing:", nil)];
 	[label_colorTheme setLocalizedString:AILocalizedString(@"Color Theme:", nil)];
@@ -218,6 +259,18 @@
 		if (firstTime || [key isEqualToString:KEY_LIST_THEME_NAME]) {
 			[popUp_colorTheme selectItemWithRepresentedObject:[prefDict objectForKey:KEY_LIST_THEME_NAME]];	
 		}	
+	} else if ([group isEqualToString:PREF_GROUP_DISPLAYFORMAT]) {
+		NSInteger displayFormat = [[prefDict objectForKey:@"Long Display Format"] integerValue];
+		[popUp_contactNameFormat selectItemWithTag:displayFormat];
+	} else if ([group isEqualToString:PREF_GROUP_CONTACT_SORTING]) {
+		AISortController *activeSortController = [AISortController activeSortController];
+		[popUp_sortContacts selectItemWithRepresentedObject:activeSortController];
+		
+		//Disable customize sort button
+		if ([activeSortController configureSortWindowTitle])
+			[button_sortContacts setEnabled:YES];
+		else
+			[button_sortContacts setEnabled:NO];
 	}
 }
 
@@ -278,6 +331,18 @@
 												group:PREF_GROUP_APPEARANCE];
 			[self _updateSliderValues];
 		}
+	} else if (sender == popUp_sortContacts) {
+		AISortController *controller = [[sender selectedItem] representedObject];
+		//Inform the contact controller of the new active sort controller
+		[AISortController setActiveSortController:controller];
+		
+		[adium.preferenceController setPreference:[controller identifier] forKey:KEY_CURRENT_SORT_MODE_IDENTIFIER group:PREF_GROUP_CONTACT_SORTING];
+		
+	} else if (sender == popUp_contactNameFormat) {
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+										   forKey:@"Long Display Format"
+											group:PREF_GROUP_DISPLAYFORMAT];
+		
 	}
 }
 
@@ -357,6 +422,31 @@
 	AIListThemeWindowController *listThemeWindowController = [[AIListThemeWindowController alloc] initWithName:theme
 																							   notifyingTarget:self];
 	[listThemeWindowController showOnWindow:[[self view] window]];
+}
+
+- (IBAction)customizeSort:(id)sender
+{
+	[NSApp beginSheet:[[AISortController activeSortController] configureView].window
+	   modalForWindow:self.view.window
+		modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
+
+- (IBAction)customizeHiddenAccounts:(id)sender
+{
+	AIHideAccountsWindowController *windowController = [[AIHideAccountsWindowController alloc] initWithWindowNibName:@"AIHideAccountsWindow"];
+	
+	[NSApp beginSheet:windowController.window
+	   modalForWindow:self.view.window
+		modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet orderOut:self];
 }
 
 /*!
@@ -888,6 +978,70 @@
 {
 	return [self availableSetsWithExtension:LIST_THEME_EXTENSION
 								 fromFolder:LIST_THEME_FOLDER];
+}
+
+/*!
+ * @brief Generate the menu of long display name format choices
+ *
+ * @result The autoreleased menu
+ */
+- (NSMenu *)_contactNameMenu
+{
+	
+	NSMenu		*choicesMenu;
+	NSMenuItem  *menuItem;
+	
+	choicesMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ALIAS
+																	 target:nil
+																	 action:nil
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:AINameFormat_DisplayName];
+	[choicesMenu addItem:menuItem];
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ALIAS_SCREENNAME
+																	 target:nil
+																	 action:nil
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:AINameFormat_DisplayName_ScreenName];
+	[choicesMenu addItem:menuItem];
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SCREENNAME_ALIAS
+																	 target:nil
+																	 action:nil
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:AINameFormat_ScreenName_DisplayName];
+	[choicesMenu addItem:menuItem];
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SCREENNAME
+																	 target:nil
+																	 action:nil
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:AINameFormat_ScreenName];
+	[choicesMenu addItem:menuItem];
+	
+	return choicesMenu;
+}
+
+/*!
+ * @brief Configure the sort selection menu items
+ */
+- (NSMenu *)_sortMenu
+{
+	NSMenu *sortMenu = [[[NSMenu alloc] init] autorelease];
+	
+	//Add each sort controller
+	for (AISortController *controller in [AISortController availableSortControllers]) {
+		NSMenuItem *menuItem = [[[NSMenuItem alloc] initWithTitle:controller.displayName
+														   target:nil
+														   action:nil
+													keyEquivalent:@""] autorelease];
+		[menuItem setRepresentedObject:controller];
+		[sortMenu addItem:menuItem];
+	}
+	
+	return sortMenu;
 }
 
 @end
