@@ -41,6 +41,9 @@
 	
 	IBOutlet	AILocalizationTextField	*label_statusGroupOrdering;	
 	IBOutlet	NSTableView		*tableView_sortOrder;
+	IBOutlet	NSWindow		*window;
 }
+
+- (IBAction)closeSheet:(id)sender;
 
 @end

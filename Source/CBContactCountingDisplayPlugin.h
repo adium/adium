@@ -22,9 +22,6 @@
     BOOL		countOnlineObjects;
 
 	BOOL		showingGroups;
-
-    NSMenuItem	*menuItem_countOnlineObjects;
-    NSMenuItem	*menuItem_countAllObjects;
 }
 
 @end

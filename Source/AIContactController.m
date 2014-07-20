@@ -100,7 +100,6 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)didSendContent:(NSNotification *)notification;
-- (IBAction)toggleShowGroups:(id)sender;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;
@@ -138,6 +137,9 @@
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST];
+	//Default preferences
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"OfflineContactHidingDefaults" forClass:[self class]]
+										forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
 	contactList = [[AIContactList alloc] initWithUID:ADIUM_ROOT_GROUP_NAME];
 	[contactLists addObject:contactList];
@@ -392,11 +394,6 @@
 {
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	
-	//Store the preference
-	[adium.preferenceController setPreference:[NSNumber numberWithBool:!useContactListGroups]
-										 forKey:KEY_HIDE_CONTACT_LIST_GROUPS
-										  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
-	
 	//Configure the sort controller to force ignoring of groups as appropriate
 	[[AISortController activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
 	
@@ -419,28 +416,6 @@
 	//Load the preference
 	useContactListGroups = ![[adium.preferenceController preferenceForKey:KEY_HIDE_CONTACT_LIST_GROUPS
 																	  group:PREF_GROUP_CONTACT_LIST_DISPLAY] boolValue];
-	
-	//Show offline contacts menu item
-    menuItem_showGroups = [[NSMenuItem alloc] initWithTitle:SHOW_GROUPS_MENU_TITLE
-													 target:self
-													 action:@selector(toggleShowGroups:)
-											  keyEquivalent:@""];
-	
-	[menuItem_showGroups setState:useContactListGroups];
-	
-	[adium.menuController addMenuItem:menuItem_showGroups toLocation:LOC_View_Toggles];
-}
-
-- (IBAction)toggleShowGroups:(id)sender
-{
-	//Flip-flop.
-	useContactListGroups = !useContactListGroups;
-	[menuItem_showGroups setState:useContactListGroups];
-
-	//Update the contact list.  Do it on the next run loop for better menu responsiveness, as it may be a lengthy procedure.
-	[self performSelector:@selector(_performChangeOfUseContactListGroups)
-			   withObject:nil
-			   afterDelay:0];
 }
 
 @synthesize useOfflineGroup;
@@ -999,6 +974,9 @@
 		if (!self.useOfflineGroup)
 			[contactPropertiesObserverManager unregisterListObjectObserver:self];    
 	}
+
+	useContactListGroups = ![[prefDict objectForKey:KEY_HIDE_CONTACT_LIST_GROUPS] boolValue];
+	[self _performChangeOfUseContactListGroups];
 }
 
 /*!

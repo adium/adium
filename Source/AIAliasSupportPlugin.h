@@ -27,8 +27,6 @@ typedef enum {
 #define	PREF_GROUP_DISPLAYFORMAT		@"Display Format"		//Preference group to store aliases in
 
 @interface AIAliasSupportPlugin : AIPlugin <AIListObjectObserver> {
-	NSMenu							*menu_contactSubmenu;
-	NSMenuItem						*menuItem_contactName;
     NSInteger 							displayFormat;
 }
 

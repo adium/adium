@@ -27,17 +27,10 @@
 
 #define CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS  @"ContactCountingDisplayDefaults"
 
-#define SHOW_COUNT_ONLINE_CONTACTS_TITLE			AILocalizedString(@"Show Group Online Count", nil)
-#define SHOW_COUNT_ALL_CONTACTS_TITLE				AILocalizedString(@"Show Group Total Count", nil)
-
 #define KEY_COUNT_ALL_CONTACTS					@"Count All Contacts"
 #define KEY_COUNT_ONLINE_CONTACTS				@"Count Online Contacts"
 
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
-
-@interface CBContactCountingDisplayPlugin ()
-- (void)toggleMenuItem:(id)sender;
-@end
 
 /*!
  * @class CBContactCountingDisplayPlugin
@@ -59,19 +52,6 @@
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTACT_LIST];
 	
-    //init our menu items
-    menuItem_countOnlineObjects = [[NSMenuItem alloc] initWithTitle:SHOW_COUNT_ONLINE_CONTACTS_TITLE 
-														 target:self 
-														 action:@selector(toggleMenuItem:)
-												  keyEquivalent:@""];
-    [adium.menuController addMenuItem:menuItem_countOnlineObjects toLocation:LOC_View_Counting_Toggles];		
-
-    menuItem_countAllObjects = [[NSMenuItem alloc] initWithTitle:SHOW_COUNT_ALL_CONTACTS_TITLE
-														 target:self 
-														 action:@selector(toggleMenuItem:)
-												  keyEquivalent:@""];
-	[adium.menuController addMenuItem:menuItem_countAllObjects toLocation:LOC_View_Counting_Toggles];		
-    
 	//set up the prefs
 	countAllObjects = NO;
 	countOnlineObjects = NO;
@@ -100,9 +80,6 @@
 		countOnlineObjects = [[prefDict objectForKey:KEY_COUNT_ONLINE_CONTACTS] boolValue];
 		
 		[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
-	
-		[menuItem_countOnlineObjects setState:countOnlineObjects];
-		[menuItem_countAllObjects setState:countAllObjects];
 
 	} else if (([group isEqualToString:PREF_GROUP_CONTACT_LIST_DISPLAY]) &&
 			   (!key || [key isEqualToString:KEY_HIDE_CONTACT_LIST_GROUPS])) {		
@@ -179,38 +156,6 @@
 	}
 	
 	return nil;
-}
-
-/*!
- * @brief User toggled one of our two menu items
- */
-- (void)toggleMenuItem:(id)sender
-{
-	if (sender == menuItem_countOnlineObjects) {
-		BOOL	newPref = !countOnlineObjects;
-
-		//Toggle and set, which will call back on preferencesChanged: above
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
-											 forKey:KEY_COUNT_ONLINE_CONTACTS
-											  group:PREF_GROUP_CONTACT_LIST];
-
-	} else if (sender == menuItem_countAllObjects) {
-		BOOL	newPref = !countAllObjects;
-
-		//Toggle and set, which will call back on preferencesChanged: above
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
-											 forKey:KEY_COUNT_ALL_CONTACTS
-											  group:PREF_GROUP_CONTACT_LIST];
-    }
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    if ((menuItem == menuItem_countOnlineObjects) || (menuItem == menuItem_countAllObjects)) {
-		return showingGroups;
-	}
-	
-	return YES;
 }
 
 /*
