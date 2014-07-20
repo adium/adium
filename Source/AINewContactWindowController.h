@@ -52,7 +52,7 @@
 }
 
 - (id)initWithContactName:(NSString *)inName service:(AIService *)inService account:(AIAccount *)inAccount;
-- (void)showOnWindow:(NSWindow *)parentWindow __attribute__((ns_consumes_self));
+- (id)initWithGroupName:(NSString *)inGroup;
 - (IBAction)cancel:(id)sender;
 - (IBAction)addContact:(id)sender;
 - (IBAction)searchInAB:(id)sender;

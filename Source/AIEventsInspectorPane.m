@@ -16,8 +16,6 @@
 
 #import "AIEventsInspectorPane.h"
 #import <Adium/AIListObject.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/ESContactAlertsViewController.h>
 
 #define EVENTS_NIB_NAME (@"AIEventsInspectorPane")
@@ -28,18 +26,10 @@
 {
 	self = [super init];
 	if (self != nil) {
-		[NSBundle loadNibNamed:[self nibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		//Other init goes here.
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[inspectorContentView release];
-	[alertsController release];
-	
-	[super dealloc];
 }
 
 -(NSString *)nibName

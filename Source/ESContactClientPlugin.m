@@ -15,7 +15,6 @@
  */
 
 #import "ESContactClientPlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListObject.h>
 
 /*!
@@ -61,7 +60,7 @@
 		entry = [[NSAttributedString alloc] initWithString:client];
     }
 	
-    return [entry autorelease];
+    return entry;
 }
 
 

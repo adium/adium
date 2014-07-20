@@ -17,6 +17,8 @@
 @interface AIWindowController : NSWindowController <NSWindowDelegate> {
 }
 
+- (void)showOnWindow:(id)parentWindow;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (IBAction)closeWindow:(id)sender;
 - (BOOL)windowShouldClose:(id)sender;
 - (NSString *)adiumFrameAutosaveName;

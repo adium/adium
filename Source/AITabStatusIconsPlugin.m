@@ -16,10 +16,6 @@
 
 #import "AITabStatusIconsPlugin.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
 

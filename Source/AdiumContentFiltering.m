@@ -36,26 +36,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[stringsRequiringPolling release];
-	[delayedFilteringDict release];
-	
-	NSInteger i,j;
-	
-	for (j = 0; j < FILTER_DIRECTION_COUNT; j++) {
-		for (i = 0; i < FILTER_TYPE_COUNT; i ++) {
-			[contentFilter[i][j] release];
-			[delayedContentFilters[i][j] release];
-		}
-		
-		[htmlContentFilters[j] release];
-	}
-
-	[super dealloc];
-}
-
-
 //Content Filtering ----------------------------------------------------------------------------------------------------
 #pragma mark Content Filtering
 /*!
@@ -68,7 +48,7 @@
 					direction:(AIFilterDirection)direction
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	if (!contentFilter[type][direction]) {
 		contentFilter[type][direction] = [[NSMutableArray alloc] init];
@@ -101,7 +81,7 @@
 						   direction:(AIFilterDirection)direction
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	if (!contentFilter[type][direction]) {
 		contentFilter[type][direction] = [[NSMutableArray alloc] init];
@@ -228,7 +208,7 @@
 	
 	//If we're passed previouslyPerformedFilters, use them as a starting point for performedFilters
 	if (filtersToSkip) {
-		performedFilters = [[filtersToSkip mutableCopy] autorelease];
+		performedFilters = [filtersToSkip mutableCopy];
 	} else {
 		performedFilters = [NSMutableArray array];
 	}
@@ -310,7 +290,7 @@
 					   context:(id)context
 {
 	NSParameterAssert(type >= 0 && type < FILTER_TYPE_COUNT);
-	NSParameterAssert(direction >= 0 && direction < FILTER_DIRECTION_COUNT);
+	NSParameterAssert(direction >= 0 && (int)direction < FILTER_DIRECTION_COUNT);
 
 	BOOL				shouldDelay = NO;
 	NSInvocation		*invocation;

@@ -19,10 +19,8 @@
 #import "CBContactCountingDisplayPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
 
 #define CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS  @"ContactCountingDisplayDefaults"

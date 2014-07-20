@@ -15,15 +15,10 @@
  */
 
 #import "AIListBookmark.h"
-#import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIContactList.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
@@ -105,7 +100,6 @@
 	AIAccount *myAccount = [adium.accountController accountWithInternalObjectID:[decoder decodeObjectForKey:KEY_ACCOUNT_INTERNAL_ID]];
 	
 	if (!myAccount) {
-		[self release];
 		return nil;
 	}
 	
@@ -131,15 +125,9 @@
 
 - (void)dealloc
 {
-	[name release]; name = nil;
-	[chatCreationDictionary release]; chatCreationDictionary = nil;
-	[password release]; password = nil;
-	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.chatController unregisterChatObserver:self];
 	[self.account removeObserver:self forKeyPath:@"isOnline"];
-
-	[super dealloc];
 }
 
 /*!
@@ -187,7 +175,7 @@
 		NSAssert(self.account != nil, @"Null list bookmark account - make sure you didn't try to touch the internalObjectID before it was loaded.");
 		
 		// We're not like any other bookmarks by the same name.
-		internalObjectID = [[NSString stringWithFormat:@"%@.%@.%@", self.service.serviceID, self.UID, self.account.UID] retain];
+		internalObjectID = [NSString stringWithFormat:@"%@.%@.%@", self.service.serviceID, self.UID, self.account.UID];
 	}
 	
 	return internalObjectID;

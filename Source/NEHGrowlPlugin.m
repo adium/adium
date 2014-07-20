@@ -20,22 +20,14 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AIMutableStringAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
-#import <Growl/Growl.h>
 
 //#define GROWL_DEBUG 1
 
@@ -94,13 +86,6 @@
 									 object:nil];
 	
 	queuedEvents = [[NSMutableDictionary alloc] init];
-}
-
-- (void)dealloc
-{
-	[queuedEvents release]; queuedEvents = nil;
-	
-	[super dealloc];
 }
 
 /*!
@@ -364,11 +349,9 @@
 	if ([adium.contactAlertsController isMessageEvent:eventID] &&
 		[userInfo respondsToSelector:@selector(objectForKey:)] &&
 		[userInfo objectForKey:@"AIContentObject"]) {
-        AIListObject	*source = [contentObject source];
 		contentObject = [userInfo objectForKey:@"AIContentObject"];
 		chat = [userInfo objectForKey:@"AIChat"];
-		
-		if (source) listObject = source;
+		listObject = [contentObject source] ?: listObject;
 	}
 	
 	[clickContext setObject:eventID
@@ -447,7 +430,6 @@
 		
         description = [NSString stringWithFormat:AILocalizedString(@"[%@] %@", "A Growl notification with a timestamp. The first %@ is the timestamp, the second is the main string"), [timeStampFormatter stringFromDate:dateStamp], description];
 		
-        [timeStampFormatter release];
 	}
     
 	
@@ -461,7 +443,7 @@
 									usingFilterType:AIFilterContactList
 									direction:AIFilterIncoming
 									context:listObject] string];
-		statusMessage = [[[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy] autorelease];
+		statusMessage = [[statusMessage stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] mutableCopy];
 		
 		/* If the message contains line breaks, start it on a new line */
 		description = [NSString stringWithFormat:@"%@:%@%@",

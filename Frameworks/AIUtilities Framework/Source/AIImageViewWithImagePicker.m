@@ -21,7 +21,6 @@
 #import "AIImageDrawingAdditions.h"
 #import "AIImageAdditions.h"
 #import "AIFileManagerAdditions.h"
-#import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
 
 #import "IKRecentPicture.h" //10.5+, private
@@ -115,17 +114,10 @@
  */
 - (void)dealloc
 {
-	[activeRecentPicture release];
-
 	if (pictureTaker) {
 		[pictureTaker close];
-		[pictureTaker release], pictureTaker = nil;
+		pictureTaker = nil;
 	}
-	
-	delegate = nil;
-	[title release];
-	
-	[super dealloc];
 }
 
 #pragma mark Getters and Setters
@@ -144,7 +136,7 @@
 		[pictureTaker setInputImage:inImage];
 	}
 	
-	[activeRecentPicture release], activeRecentPicture = nil;
+	activeRecentPicture = nil;
 }
 
 /*!
@@ -156,8 +148,7 @@
 - (void)setTitle:(NSString *)inTitle
 {
 	if (title != inTitle) {
-		[title release];
-		title = [inTitle retain];
+		title = inTitle;
 		
 		if (pictureTaker) {
 			[pictureTaker setTitle:title];
@@ -276,7 +267,6 @@
 		  pasteboard:pboard
 			  source:sourceObject
 		   slideBack:slideBack];
-	[dragImage release];
 }
 
 /*
@@ -360,7 +350,7 @@
  */
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
-	NSImage *droppedImage = [[[NSImage alloc] initWithPasteboard:[sender draggingPasteboard]] autorelease];
+	NSImage *droppedImage = [[NSImage alloc] initWithPasteboard:[sender draggingPasteboard]];
     
     if (!droppedImage) {
         return;
@@ -445,7 +435,7 @@
 
     NSData			*imageData = (type ? [pb dataForType:type] : nil);
 	if (imageData) {
-		NSImage *image = [[[NSImage alloc] initWithData:imageData] autorelease];
+		NSImage *image = [[NSImage alloc] initWithData:imageData];
 		if (image) {
 			NSSize	imageSize = [image size];
 
@@ -549,7 +539,7 @@
 {
 	if (usePictureTaker) {
 		if (!pictureTaker) {	
-			pictureTaker = [[IKPictureTaker pictureTaker] retain];
+			pictureTaker = [IKPictureTaker pictureTaker];
 			[pictureTaker setDelegate:self];
 		}
 		
@@ -604,7 +594,7 @@
 			NSSize	imageSize;
 
 			imageData = [NSData dataWithContentsOfURL:[[openPanel URLs] objectAtIndex:0]];
-			image = (imageData ? [[[NSImage alloc] initWithData:imageData] autorelease] : nil);
+			image = (imageData ? [[NSImage alloc] initWithData:imageData] : nil);
 			imageSize = (image ? [image size] : NSZeroSize);
 
 			if ((maxSize.width > 0 && imageSize.width > maxSize.width) ||
@@ -641,7 +631,7 @@
 - (void)setRecentPictureAsImageInput:(IKPictureTakerRecentPicture *)recentPicture
 {
 	if (activeRecentPicture != recentPicture) {
-		[activeRecentPicture release]; activeRecentPicture = [recentPicture retain];
+		activeRecentPicture = recentPicture;
 	}
 	
 	//Update any open picture taker immediately.

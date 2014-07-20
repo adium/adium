@@ -29,7 +29,6 @@
 	NSSet					*safeFileExtensions;
 	
 	AIFileTransferAutoAcceptType	autoAcceptType;
-	BOOL							autoChooseFolder;
 	BOOL							autoOpenSafe;
 	BOOL							showProgressWindow;
 }

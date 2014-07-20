@@ -45,8 +45,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 - (IBAction)verify:(id)sender
@@ -110,26 +108,25 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[chat release];
-	chat = [inChat retain];
+	chat = inChat;
 	
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(chatStatusChanged:)
                                                  name:Chat_StatusChanged
                                                object:chat];
 	
-	NSMutableAttributedString *label = [[[NSMutableAttributedString alloc]
-										 initWithString:AILocalizedString(@"Your conversation is encrypted, but ",
-																		  "after this a contact's UID, followed by \"s identity is unverified.\"")] autorelease];
+	NSMutableAttributedString *label = [[NSMutableAttributedString alloc]
+										initWithString:AILocalizedString(@"Your conversation is encrypted, but ",
+																		 "after this a contact's UID, followed by \"s identity is unverified.\"")];
 	
-	NSAttributedString *uid = [[[NSAttributedString alloc]
-								initWithString:[[chat listObject] formattedUID]
-								attributes:@{ NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] }] autorelease];
+	NSAttributedString *uid = [[NSAttributedString alloc]
+							   initWithString:[[chat listObject] formattedUID]
+							   attributes:@{ NSFontAttributeName : [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] }];
 	
 	[label appendAttributedString:uid];
 	
-	NSAttributedString *label2 = [[[NSMutableAttributedString alloc]
-								   initWithString:AILocalizedString(@"’s identity is unverified.", "See \"Your conversation is encrypted, but\"")] autorelease];
+	NSAttributedString *label2 = [[NSMutableAttributedString alloc]
+								  initWithString:AILocalizedString(@"’s identity is unverified.", "See \"Your conversation is encrypted, but\"")];
 	
 	[label appendAttributedString:label2];
 	

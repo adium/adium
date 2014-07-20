@@ -75,12 +75,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[button release];
-	[super dealloc];
-}
-
 - (NSMenu *)menu
 {
 	return [button menu];
@@ -95,7 +89,6 @@
 	NSMenuItem *menuFormRep = [[NSMenuItem alloc] initWithTitle:[self label] action:nil keyEquivalent:@""];
 	[menuFormRep setSubmenu:menu];
 	[self setMenuFormRepresentation:menuFormRep];
-	[menuFormRep release];
 }
 
 - (id)target

@@ -18,7 +18,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIDelayedTextField.h>
 
 #define ADDRESS_BOOK_NIB_NAME (@"AIAddressBookInspectorPane")
@@ -32,7 +31,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		[NSBundle loadNibNamed:[self nibName] owner:self];
+		[[NSBundle mainBundle] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		[label_notes setLocalizedString:AILocalizedString(@"Notes:", "Label beside the field for contact notes in the Settings tab of the Get Info window")];
 		[button_chooseCard setLocalizedString:[AILocalizedStringFromTable(@"Choose Address Book Card", @"Buttons", "Button title to choose an Address Book card for a contact") stringByAppendingEllipsis]];
 		
@@ -42,14 +41,6 @@
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[inspectorContentView release]; inspectorContentView = nil;
-	[addressBookPanel release]; addressBookPanel = nil;
-	
-	[super dealloc];
 }
 
 -(NSString *)nibName
@@ -67,11 +58,9 @@
 	NSString	*currentNotes;
 
 	//Hold onto the object, using the highest-up metacontact if necessary
-	[displayedObject release];
 	displayedObject = ([inObject isKindOfClass:[AIListContact class]] ?
 				  [(AIListContact *)inObject parentContact] :
 				  inObject);
-	[displayedObject retain];
 
 	//Current note
     if ((currentNotes = [displayedObject notes])) {

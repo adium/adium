@@ -19,14 +19,9 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIService.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import "AIHTMLDecoder.h"
 
@@ -88,9 +83,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 {
 	//Singleton
 	if (adiumOTREncryption) {
-		[self release];
-		
-		return [adiumOTREncryption retain];
+		return adiumOTREncryption;
 	}
 
 	if ((self = [super init])) {
@@ -164,15 +157,12 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 											   object:nil];
 
 	//Add the Encryption preferences
-	OTRPrefs = [(ESOTRPreferences *)[ESOTRPreferences preferencePane] retain];
+	OTRPrefs = (ESOTRPreferences *)[ESOTRPreferences preferencePane];
 }
 
 - (void)dealloc
 {
-	[OTRPrefs release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
 }
 
 
@@ -233,8 +223,8 @@ details_for_context(ConnContext *context)
     size_t idhalflen = (context->sessionid_len) / 2;
 	
 	NSMutableString *sess1, *sess2;
-	sess1 = [[[NSMutableString alloc] initWithCapacity:21] autorelease];
-	sess2 = [[[NSMutableString alloc] initWithCapacity:21] autorelease];
+	sess1 = [[NSMutableString alloc] initWithCapacity:21];
+	sess2 = [[NSMutableString alloc] initWithCapacity:21];
 
     /* Make a human-readable version of the sessionid (in two parts) */
     sessionid = context->sessionid;
@@ -379,13 +369,12 @@ otrg_plugin_context_to_trust(ConnContext *context)
 static OtrlPolicy
 policy_cb(void *opdata, ConnContext *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	OtrlPolicy ret = policyForContact(contactForContext(context));
-	
-	[pool release];
-	
-	return ret;
+	@autoreleasepool {
+		
+		OtrlPolicy ret = policyForContact(contactForContext(context));
+		
+		return ret;
+	}
 }
 
 /* Asynchronously generate a private key for the given accountname/protocol */
@@ -432,9 +421,9 @@ otrg_plugin_create_privkey(const char *accountname, const char *protocol)
 static void
 create_privkey_cb(void *opdata, const char *accountname, const char *protocol)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	otrg_plugin_create_privkey(accountname, protocol);
-	[pool release];
+	@autoreleasepool {
+		otrg_plugin_create_privkey(accountname, protocol);
+	}
 }
 
 /* Report whether you think the given user is online.  Return 1 if
@@ -446,18 +435,17 @@ create_privkey_cb(void *opdata, const char *accountname, const char *protocol)
 static int
 is_logged_in_cb(void *opdata, const char *accountname, const char *protocol, const char *recipient)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AIListContact *contact = contactFromInfo(accountname, protocol, recipient);
-	int ret;
-	if ([contact statusSummary] == AIUnknownStatus)
-		ret = -1;
-	else
-		ret = (contact.online ? 1 : 0);
-	
-	[pool release];
-	
-	return ret;
+	@autoreleasepool {
+		
+		AIListContact *contact = contactFromInfo(accountname, protocol, recipient);
+		int ret;
+		if ([contact statusSummary] == AIUnknownStatus)
+			ret = -1;
+		else
+			ret = (contact.online ? 1 : 0);
+		
+		return ret;
+	}
 }
 
 /* Send the given IM to the given recipient from the given
@@ -465,10 +453,10 @@ is_logged_in_cb(void *opdata, const char *accountname, const char *protocol, con
 static void
 inject_message_cb(void *opdata, const char *accountname, const char *protocol, const char *recipient, const char *message)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[adium.contentController sendRawMessage:[NSString stringWithUTF8String:message]
-								  toContact:contactFromInfo(accountname, protocol, recipient)];
-	[pool release];
+	@autoreleasepool {
+		[adium.contentController sendRawMessage:[NSString stringWithUTF8String:message]
+									  toContact:contactFromInfo(accountname, protocol, recipient)];
+	}
 }
 
 /* When the list of ConnContexts changes (including a change in
@@ -476,11 +464,11 @@ inject_message_cb(void *opdata, const char *accountname, const char *protocol, c
 static void
 update_context_list_cb(void *opdata)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	otrg_ui_update_keylist();
-	
-	[pool release];
+	@autoreleasepool {
+		
+		otrg_ui_update_keylist();
+		
+	}
 }
 
 /* Return a newly allocated string containing a human-friendly
@@ -488,13 +476,12 @@ update_context_list_cb(void *opdata)
 static const char *
 account_display_name_cb(void *opdata, const char *accountname, const char *protocol)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	const char *ret = strdup([[accountFromAccountID(accountname) formattedUID] UTF8String]);
-	
-	[pool release];
-	
-	return ret;
+	@autoreleasepool {
+		
+		const char *ret = strdup([[accountFromAccountID(accountname) formattedUID] UTF8String]);
+		
+		return ret;
+	}
 }
 
 /* Deallocate a string returned by account_name */
@@ -505,23 +492,21 @@ account_display_name_free_cb(void *opdata, const char *account_display_name)
 		free((char *)account_display_name);
 }
 
-
 /* A new fingerprint for the given user has been received. */
 static void
 new_fingerprint_cb(void *opdata, OtrlUserState us, const char *accountname, const char *protocol, const char *username, unsigned char fingerprint[20])
 {
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	ConnContext			*context;
-	
-	context = otrl_context_find(us, username, accountname,
-								protocol, OTRL_INSTAG_RECENT, 0, NULL, NULL, NULL);
-	
-	if (context == NULL/* || context->msgstate != OTRL_MSGSTATE_ENCRYPTED*/) {
-		NSLog(@"otrg_adium_dialog_unknown_fingerprint: Ack!");
-		return;
+	@autoreleasepool {
+		ConnContext			*context;
+		
+		context = otrl_context_find(us, username, accountname,
+									protocol, OTRL_INSTAG_RECENT, 0, NULL, NULL, NULL);
+		
+		if (context == NULL/* || context->msgstate != OTRL_MSGSTATE_ENCRYPTED*/) {
+			NSLog(@"otrg_adium_dialog_unknown_fingerprint: Ack!");
+			return;
+		}
 	}
-	
-	[pool release];
 }
 
 /* The list of known fingerprints has changed.  Write them to disk. */
@@ -535,24 +520,20 @@ write_fingerprints_cb(void *opdata)
 static void
 gone_secure_cb(void *opdata, ConnContext *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    update_security_details_for_context(context);
-	otrg_ui_update_fingerprint();
-	
-	[pool release];
+	@autoreleasepool {
+		update_security_details_for_context(context);
+		otrg_ui_update_fingerprint();
+	}
 }
 
 /* A ConnContext has left a secure state. */
 static void
 gone_insecure_cb(void *opdata, ConnContext *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    update_security_details_for_context(context);
-	otrg_ui_update_fingerprint();
-	
-	[pool release];
+	@autoreleasepool {
+		update_security_details_for_context(context);
+		otrg_ui_update_fingerprint();
+	}
 }
 
 /* We have completed an authentication, using the D-H keys we
@@ -560,13 +541,12 @@ gone_insecure_cb(void *opdata, ConnContext *context)
 static void
 still_secure_cb(void *opdata, ConnContext *context, int is_reply)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    if (is_reply == 0) {
-		AILog(@"Still secure...");
-    }
-	
-	[pool release];
+	@autoreleasepool {
+		
+		if (is_reply == 0) {
+			AILog(@"Still secure...");
+		}
+	}
 }
 
 /*!
@@ -584,29 +564,28 @@ still_secure_cb(void *opdata, ConnContext *context, int is_reply)
 int
 max_message_size_cb(void *opdata, ConnContext *context)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	AIChat *chat = chatForContext(context);
-	
-	/* Values from https://otr.cypherpunks.ca/UPGRADING-libotr-3.1.0.txt */
-	static NSDictionary *maxSizeByServiceClassDict = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		maxSizeByServiceClassDict = [@{ @"AIM-compatible": @(2343),
-									 @"MSN" : @(1409),
-									 @"Yahoo!" : @(832),
-									 @"Gadu-Gadu": @(1999),
-									 @"IRC" : @(417) } retain];
-	});
-
-	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
-	 * which will disable fragmentation.
-	 */
-	int ret = [[maxSizeByServiceClassDict objectForKey:chat.account.service.serviceClass] intValue];
-	
-	[pool release];
-	
-	return ret;
+	@autoreleasepool {
+		
+		AIChat *chat = chatForContext(context);
+		
+		/* Values from https://otr.cypherpunks.ca/UPGRADING-libotr-3.1.0.txt */
+		static NSDictionary *maxSizeByServiceClassDict = nil;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			maxSizeByServiceClassDict = @{ @"AIM-compatible": @(2343),
+										   @"MSN" : @(1409),
+										   @"Yahoo!" : @(832),
+										   @"Gadu-Gadu": @(1999),
+										   @"IRC" : @(417) };
+		});
+		
+		/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
+		 * which will disable fragmentation.
+		 */
+		int ret = [[maxSizeByServiceClassDict objectForKey:chat.account.service.serviceClass] intValue];
+		
+		return ret;
+	}
 }
 
 /* Create a string describing an error message event. */
@@ -694,7 +673,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event, ConnContext *conte
 	AIChat *chat = chatForContext(context);
 	
 	switch (msg_event) {
-		case OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED:
+		case OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED: {
 			if (!chat) chat = [adium.chatController chatWithContact:listContact];
 			
 			AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
@@ -709,6 +688,7 @@ handle_msg_event_cb(void *opdata, OtrlMessageEvent msg_event, ConnContext *conte
 			
 			[adium.contentController receiveContentObject:messageObject];
 			break;
+		}
 		case OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE:
 			AILogWithSignature(@"Received an OTR message for a different instance. We will silently ignore it: %s", message);
 			break;
@@ -781,7 +761,7 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 																		}
 																		isInitiator:NO];
 			
-			[questionController showWindow:nil];
+			[questionController showOnWindow:nil];
 			[questionController.window orderFront:nil];
 			
 			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ has sent you a secret question and is awaiting your answer to verify your identity.", nil,
@@ -806,7 +786,7 @@ handle_smp_event_cb(void *opdata, OtrlSMPEvent smp_event, ConnContext *context, 
 																		}
 																		isInitiator:NO];
 			
-			[questionController showWindow:nil];
+			[questionController showOnWindow:nil];
 			[questionController.window orderFront:nil];
 			
 			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedStringFromTableInBundle(@"%@ has requested to compare your shared secret to verify your identity.", nil,
@@ -999,7 +979,7 @@ static OtrlMessageAppOps ui_ops = {
 															  }
 															  isInitiator:TRUE];
 	
-	[windowController showWindow:nil];
+	[windowController showOnWindow:nil];
 	[windowController.window orderFront:nil];
 }
 
@@ -1030,7 +1010,7 @@ static OtrlMessageAppOps ui_ops = {
 	}
 															  isInitiator:TRUE];
 	
-	[windowController showWindow:nil];
+	[windowController showOnWindow:nil];
 	[windowController.window orderFront:nil];
 }
 
@@ -1083,7 +1063,7 @@ void update_security_details_for_context(ConnContext *context)
 		
 		if (securityDetailsDict) {
 			NSString				*format, *description;
-			fullSecurityDetailsDict = [[securityDetailsDict mutableCopy] autorelease];
+			fullSecurityDetailsDict = [securityDetailsDict mutableCopy];
 			
 			/* Encrypted by Off-the-Record Messaging
 				*
@@ -1113,7 +1093,6 @@ void update_security_details_for_context(ConnContext *context)
 		} else {
 			fullSecurityDetailsDict = nil;	
 		}
-		
 		
 		NSInteger oldEncryptionStatus = [[[inChat securityDetails] objectForKey:@"EncryptionStatus"] integerValue];
 		

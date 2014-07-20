@@ -44,7 +44,7 @@
  */
 + (id)soundSetWithContentsOfFile:(NSString *)inPath
 {
-	return [[[self alloc] initWithContentsOfFile:inPath] autorelease];
+	return [[self alloc] initWithContentsOfFile:inPath];
 }
 
 /*!
@@ -57,11 +57,10 @@
 	if ((self = [super init])) {
 		//Return nil if we can't load our sound set
 		if (!inPath || ![inPath length] || ![self _loadSoundSetFromPath:inPath]) {
-			[self release];
 			return nil;
 		}
 
-		sourcePath = [inPath retain];
+		sourcePath = inPath;
 	}
 	
 	return self;
@@ -69,12 +68,7 @@
 
 - (void)dealloc
 {
-	[name release]; name = nil;
-	[info release]; info = nil;
-	[sounds release]; sounds = nil;
-	[sourcePath release]; sourcePath = nil;
-
-	[super dealloc];
+	sourcePath = nil;
 }
 
 #pragma mark Accessors
@@ -113,7 +107,7 @@
 	NSBundle * xtraBundle = [NSBundle bundleWithPath:inPath];
 	if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1)) {
 		inPath = [xtraBundle resourcePath];
-		name = [[xtraBundle objectForInfoDictionaryKey:@"CFBundleName"]retain];
+		name = [xtraBundle objectForInfoDictionaryKey:@"CFBundleName"];
 	}
 	
 	//If we don't have a Sound.plist, assume this is an old format soundset and attempt to upgrade it
@@ -132,11 +126,14 @@
 				   toPath:[newFolder stringByAppendingPathComponent:[inPath lastPathComponent]]
 				  error:NULL];
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 			NSRunAlertPanel(AILocalizedString(@"Sound set upgrade failed", nil),
 							[NSString stringWithFormat:AILocalizedString(@"This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled.", nil),
 								[[inPath lastPathComponent] stringByDeletingPathExtension],
 								inPath],
 							nil, nil, nil);
+#pragma GCC diagnostic pop
 			success = NO;
 		}
 	}
@@ -149,8 +146,8 @@
 		if (version == 1) {			
 			//Retrieve the set name and information
 			if(!name) //this will have been set from info.plist if it's a new-format xtra
-				name = [[[inPath lastPathComponent] stringByDeletingPathExtension] retain];
-			info = [[soundSet objectForKey:SOUNDSET_INFO] retain];
+				name = [[inPath lastPathComponent] stringByDeletingPathExtension];
+			info = [soundSet objectForKey:SOUNDSET_INFO];
 			
 			//Search locations.  If none are provided, search within the soundset folder.
 			NSArray *locations = [soundSet objectForKey:SOUNDSET_SOUND_LOCATIONS];
