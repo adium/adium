@@ -17,20 +17,15 @@
 #import "ESSecureMessagingPlugin.h"
 #import "AdiumOTREncryption.h"
 
-#import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/MVMenuButton.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import "ESTextAndButtonsWindowController.h"
@@ -71,11 +66,11 @@
 - (void)installPlugin
 {
 	//Muy imporatante: Set OTR as our encryption method
-	[adium.contentController setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
+	[adium.contentController setEncryptor:[[AdiumOTREncryption alloc] init]];
 
 	_secureMessagingMenu = nil;
-	lockImage_Locked = [[NSImage imageNamed:@"lock-locked" forClass:[self class]] retain];
-	lockImage_Unlocked = [[NSImage imageNamed:@"lock-unlocked" forClass:[self class]] retain];
+	lockImage_Locked = [NSImage imageNamed:@"lock-locked" forClass:[self class]];
+	lockImage_Unlocked = [NSImage imageNamed:@"lock-unlocked" forClass:[self class]];
 
 	[self registerToolbarItem];
 	[self configureMenuItems];
@@ -94,7 +89,7 @@
 	NSMenu		*menu = [self _secureMessagingMenu];
 	
 	//Add menu to toolbar item (for text mode)
-	menuItem_encryption = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Encryption", nil)
+	menuItem_encryption = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encryption", nil)
 																			   target:self
 																			   action:@selector(dummyAction:) 
 																		keyEquivalent:@""];
@@ -127,7 +122,7 @@
 	//Register our toolbar item
 	NSToolbarItem	*toolbarItem;
 	MVMenuButton	*button;
-	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)] autorelease];
+	button = [[MVMenuButton alloc] initWithFrame:NSMakeRect(0,0,32,32)];
 	[button setImage:lockImage_Locked];
 
     toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:@"Encryption"
@@ -169,7 +164,7 @@
 		[[item view] setMenu:menu];
 		
 		//Add menu to toolbar item (for text mode)
-		NSMenuItem	*mItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] init] autorelease];
+		NSMenuItem	*mItem = [[NSMenuItem alloc] init];
 		[mItem setSubmenu:menu];
 		[mItem setTitle:[menu title]];
 		[item setMenuFormRepresentation:mItem];
@@ -207,7 +202,7 @@
 {
 	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
 	if ([toolbarItems containsObject:item]) {
-		[item setView:nil];
+		
 		[toolbarItems removeObject:item];
 		[validatedItems removeObject:item];
 
@@ -315,9 +310,9 @@
 													   otherButton:nil
 													   suppression:AILocalizedString(@"Don’t ask again", nil)
 														   makeKey:NO
-															target:self
-														  selector:@selector(logOTRQuestion:userInfo:suppression:)
-														  userInfo:inChat];
+												   responseHandler:^(AITextAndButtonsReturnCode ret, BOOL suppressed, id userInfo) {
+													   [self logOTRQuestion:@(ret) userInfo:inChat suppression:@(suppressed)];
+												   }];
 					}
 					
 				} else {
@@ -379,12 +374,15 @@
 
 - (IBAction)showDetails:(id)sender
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
 								 @"%@",
 								 AILocalizedString(@"OK",nil),
 								 nil,
 								 nil,
 								 [[adium.interfaceController.activeChat securityDetails] objectForKey:@"Description"]);
+#pragma GCC diagnostic pop
 }
 
 - (IBAction)verify:(id)sender
@@ -415,12 +413,15 @@
 	aboutEncryption = adium.interfaceController.activeChat.account.aboutEncryption;
 	
 	if (aboutEncryption) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-security"
 		NSRunInformationalAlertPanel(AILocalizedString(@"About Encryption",nil),
 									 @"%@",
 									 AILocalizedString(@"OK",nil),
 									 nil,
 									 nil,
 									 aboutEncryption);
+#pragma GCC diagnostic pop
 	}
 }
 
@@ -464,7 +465,6 @@
 																						  group:GROUP_ENCRYPTION])];
 				}
 				return YES;
-				break;
 			}
 			case EncryptedChat_Never:
 			case EncryptedChat_Manually:
@@ -476,7 +476,6 @@
 					[menuItem setState:(tag == userPreference)];
 				}
 				return YES;
-				break;
 			}
 		}
 	} else {
@@ -486,7 +485,6 @@
 		switch (tag) {
 			case AISecureMessagingMenu_Root:
 				return  [chat supportsSecureMessagingToggling];
-				break;
 
 			case AISecureMessagingMenu_Toggle:
 				// The menu item should indicate what will happen if it is selected.. the opposite of our secure state
@@ -506,7 +504,6 @@
 				}
 
 				return YES;
-				break;
 				
 			case AISecureMessagingMenu_Refresh:
 			case AISecureMessagingMenu_ShowDetails:
@@ -515,16 +512,13 @@
 			case AISecureMessagingMenu_VerifySharedSecret:
 				//Only enable show details if the chat is secure
 				return [chat isSecure];
-				break;
 				
 			case AISecureMessagingMenu_Options:
 				//Only enable options if the chat is with a single person 
 				return ([chat supportsSecureMessagingToggling] && chat.listObject && !chat.isGroupChat);
-				break;
 				
 			case AISecureMessagingMenu_ShowAbout:
 				return [chat supportsSecureMessagingToggling];
-				break;
 		}
 	}
 
@@ -536,83 +530,83 @@
 	if (!_secureMessagingMenu) {
 		NSMenuItem	*item;
 
-		_secureMessagingMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+		_secureMessagingMenu = [[NSMenu alloc] init];
 		[_secureMessagingMenu setTitle:TITLE_ENCRYPTION];
 
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_MAKE_SECURE
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_MAKE_SECURE
 										   target:self
 										   action:@selector(toggleSecureMessaging:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Toggle];
 		[_secureMessagingMenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_REFRESH_SECURE
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_REFRESH_SECURE
 										   target:self
 										   action:@selector(refreshSecureMessaging:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Refresh];
 		[_secureMessagingMenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_SHOW_DETAILS
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_SHOW_DETAILS
 										   target:self
 										   action:@selector(showDetails:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_ShowDetails];
 		[_secureMessagingMenu addItem:item];
 
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY
 										   target:nil
 										   action:nil
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 
 		NSMenu *verifySubmenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 		[item setSubmenu:verifySubmenu];
 		
 		[_secureMessagingMenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_MANUALLY
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_MANUALLY
 										   target:self
 										   action:@selector(verify:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_VerifyManually];
 		
 		[verifySubmenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SECRET_QUESTION
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SECRET_QUESTION
 										   target:self
 										   action:@selector(verifyQuestion:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_VerifyQuestion];
 		
 		[verifySubmenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SHARED_SECRET
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_VERIFY_SHARED_SECRET
 										   target:self
 										   action:@selector(verifyShared:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_VerifySharedSecret];
 		
 		[verifySubmenu addItem:item];
 		
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_ENCRYPTION_OPTIONS
 										   target:nil
 										   action:nil
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_Options];
 		[item setSubmenu:[adium.contentController encryptionMenuNotifyingTarget:self
 																	  withDefault:YES]];
 		[_secureMessagingMenu addItem:item];		
 
 		[_secureMessagingMenu addItem:[NSMenuItem separatorItem]];
-		item = [[[NSMenuItem alloc] initWithTitle:TITLE_ABOUT_ENCRYPTION
+		item = [[NSMenuItem alloc] initWithTitle:TITLE_ABOUT_ENCRYPTION
 										   target:self
 										   action:@selector(showAbout:)
-									keyEquivalent:@""] autorelease];
+									keyEquivalent:@""];
 		[item setTag:AISecureMessagingMenu_ShowAbout];
 		[_secureMessagingMenu addItem:item];
 	}
 	
-	return [[_secureMessagingMenu copy] autorelease];
+	return [_secureMessagingMenu copy];
 }
 
 - (void)dummyAction:(id)sender {};

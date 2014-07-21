@@ -54,8 +54,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	
-	[super dealloc];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
@@ -91,8 +89,7 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[chat release];
-	chat = [inChat retain];
+	chat = inChat;
 	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
                                                  name:Chat_StatusChanged

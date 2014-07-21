@@ -68,7 +68,7 @@
 		}
 
 		//Paragraph style for alignment and clipping
-		NSMutableParagraphStyle *style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[style setAlignment:[self alignment]];
 		[style setLineBreakMode:[self lineBreakMode]];
 
@@ -105,8 +105,6 @@
 
 		//Draw the string
 		[attributedTitle drawInRect:cellFrame];
-
-		[attributedTitle release];
 	}
 }
 

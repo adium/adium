@@ -15,7 +15,6 @@
  */
 
 #import "AIContentNotification.h"
-#import <Adium/AIContentEvent.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIAccount.h>
 
@@ -35,11 +34,11 @@
 					date:(NSDate *)inDate
 		notificationType:(AINotificationType)inNotificationType
 {
-	return [[[self alloc] initWithChat:inChat
+	return [[self alloc] initWithChat:inChat
 								source:inSource
 						   destination:inDest
 								  date:inDate
-					  notificationType:inNotificationType] autorelease];	
+					  notificationType:inNotificationType];	
 }
 
 - (id)initWithChat:(AIChat *)inChat

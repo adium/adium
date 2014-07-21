@@ -20,28 +20,18 @@
 #import "AIMessageViewController.h"
 #import <Adium/AIChat.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContentMessage.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AISortController.h>
-#import <Adium/ESFileTransfer.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListBookmark.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIMetaContact.h>
-#import <Adium/AIListOutlineView.h>
 #import <Adium/AIProxyListObject.h>
 #import <Adium/AITextAttachmentExtension.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
-#import <AIUtilities/AIOutlineViewAdditions.h>
-#import <AIUtilities/AIObjectAdditions.h>
-#import <AIUtilities/AIFunctions.h>
+
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIOSCompatibility.h>
@@ -121,15 +111,11 @@
 	//Stop observing
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-
-	[self autorelease];
 }
 
 - (void)dealloc
 {
 	[contactListView removeObserver:self forKeyPath:@"desiredHeight"];
-	
-	[super dealloc];
 }
 
 
@@ -493,11 +479,11 @@
  * everything will work as expected.
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{   
-	[[NSNotificationCenter defaultCenter] performSelector:@selector(postNotificationName:object:)
-									 withObject:Interface_ContactSelectionChanged
-									 withObject:nil
-									 afterDelay:0];
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
+															object:nil];
+	});
 }
 
 #pragma mark Drag & Drop
@@ -728,7 +714,7 @@
 			}
 			
 			//We will release this when the drag is completed
-			dragItems = [arrayOfDragItems retain];
+			dragItems = arrayOfDragItems;
 		}		
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
@@ -837,7 +823,7 @@
 				files = [[info draggingPasteboard] filesFromITunesDragPasteboard];
 			}
 
-			NSMutableAttributedString *mutableString = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
+			NSMutableAttributedString *mutableString = [[NSMutableAttributedString alloc] initWithString:@""];
 			
 			for (file in files) {
 				AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
@@ -847,10 +833,8 @@
 				NSTextAttachmentCell		*cell = [[NSTextAttachmentCell alloc] initImageCell:[attachment iconImage]];
 				[attachment setHasAlternate:NO];
 				[attachment setAttachmentCell:cell];
-				[cell release];
 				
 				[mutableString appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-				[attachment release];
 			}
 		
 			AIChat *chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
@@ -950,13 +934,13 @@
 								   self,
 								   @selector(mergeContactSheetDidEnd:returnCode:contextInfo:),
 								   nil,
-								   [context retain], //we're responsible for retaining the content object
+								   (__bridge_retained void *)(context), //we're responsible for retaining the content object
 								   AILocalizedString(@"Once combined, Adium will treat these contacts as a single individual both on your contact list and when sending messages.\n\nYou may un-combine these contacts by getting info on the combined contact.","Explanation of metacontact creation"));
 }	
 
 - (void)mergeContactSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	NSDictionary	*context = (NSDictionary *)contextInfo;
+	NSDictionary	*context = (__bridge NSDictionary *)contextInfo;
 
 	if (returnCode == 1) {
 		AIListObject	*destinationListContact = [context objectForKey:@"destinationListContact"];
@@ -970,8 +954,6 @@
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged object:nil];
 	}
-
-	[context release]; //We are responsible for retaining & releasing the context dict
 }
 
 #pragma mark KVO

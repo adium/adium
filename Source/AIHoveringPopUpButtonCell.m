@@ -17,7 +17,6 @@
 #import "AIHoveringPopUpButtonCell.h"
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
 #define LEFT_MARGIN		5
@@ -38,13 +37,13 @@
 	hovered = NO;
 	hoveredFraction = 0.0f;
 
-	statusParagraphStyle = [[NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
-														  lineBreakMode:NSLineBreakByTruncatingTail] retain];
+	statusParagraphStyle = [NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
+														  lineBreakMode:NSLineBreakByTruncatingTail];
 	
-	statusAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	statusAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		statusParagraphStyle, NSParagraphStyleAttributeName,
 		[NSFont systemFontOfSize:10], NSFontAttributeName, 
-		nil] retain];	
+		nil];	
 }
 
 - (id)initTextCell:(NSString *)str
@@ -66,7 +65,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AIHoveringPopUpButtonCell	*newCell = [[self class] allocWithZone:zone];
+	AIHoveringPopUpButtonCell	*newCell = [[self class] alloc];
 
 	switch ([self type]) {
 		case NSImageCellType:
@@ -80,11 +79,7 @@
 			break;
 	}
 	
-	[newCell setMenu:[[[self menu] copy] autorelease]];
-	[newCell->title retain];
-	[newCell->currentImage retain];
-	[newCell->statusParagraphStyle retain];
-	[newCell->statusAttributes retain];
+	[newCell setMenu:[[self menu] copy]];
 	
 	return newCell;
 }
@@ -94,18 +89,14 @@
 	/* Super's implementation calls setImage:nil in 10.4; we shouldn't depend on this implementation detail but should
 	 * set our ivars to nil to ensure we don't double-release.
 	 */
-	[title release]; title = nil;
-	[currentImage release]; currentImage = nil;
+	title = nil;
+	currentImage = nil;
 
-	[statusParagraphStyle release];
-	[statusAttributes release];
 
-	[super dealloc];
 }
 
 - (void)setTitle:(NSString *)inTitleString
 {
-	[title release];
 
 	//Strip out all newlines
 	inTitleString = [inTitleString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\n\r"]];
@@ -127,7 +118,6 @@
 	[statusAttributes setObject:inFont
 						 forKey:NSFontAttributeName];
 	[self setTitle:oldTitleString];
-	[oldTitleString release];
 	
 	[super setFont:inFont];
 }
@@ -135,8 +125,7 @@
 -(void)setImage:(NSImage *)inImage
 {
 	if (inImage != currentImage) {
-		[currentImage release];
-		currentImage = [inImage retain];
+		currentImage = inImage;
 		
 		imageSize = [currentImage size];
 	}	
@@ -154,7 +143,6 @@
 
 	if ((hoveredFraction > 0.0) &&
 		(hoveredFraction < 1.0)) {
-		[currentControlView retain];
 		[NSObject cancelPreviousPerformRequestsWithTarget:self
 												 selector:@selector(fadeHovered:)
 												   object:currentControlView];
@@ -162,7 +150,6 @@
 		[self performSelector:@selector(fadeHovered:)
 				   withObject:currentControlView
 				   afterDelay:0];
-		[currentControlView release];
 	}
 }
 

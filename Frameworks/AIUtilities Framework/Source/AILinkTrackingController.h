@@ -36,6 +36,5 @@
 - (void)trackLinksInRect:(NSRect)visibleRect withOffset:(NSPoint)offset;
 - (BOOL)handleMouseDown:(NSEvent *)theEvent withOffset:(NSPoint)offset;
 - (void)setShowTooltip:(BOOL)inShowTooltip;
-- (NSArray *)menuItemsForEvent:(NSEvent *)theEvent withOffset:(NSPoint)offset;
 
 @end

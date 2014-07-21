@@ -18,6 +18,7 @@
 
 #import "AIAccountControllerProtocol.h"
 #import <Adium/AIServiceIcons.h>
+#import <AIUtilities/AIAlternatingRowTableView.h>
 #import "AIAccount.h"
 
 @implementation AIHideAccountsWindowController
@@ -25,7 +26,7 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
 	if((self = [super initWithWindowNibName:windowNibName])) {
-		accounts = [adium.accountController.accounts retain];
+		accounts = adium.accountController.accounts;
 		array_hideAccounts = [[NSMutableArray alloc] init];
 	}
 	return self;
@@ -35,12 +36,6 @@
 {
 	//Register preference observer first so values will be correct for the following calls
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
-}
-
-- (void)dealloc
-{
-	[accounts release];
-	[super dealloc];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
@@ -89,7 +84,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 			[array_hideAccounts addObject:accountID];
 		}
 		
-		[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
+		[adium.preferenceController setPreference:[array_hideAccounts copy]
 										   forKey:KEY_HIDE_ACCOUNT_CONTACTS
 											group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}

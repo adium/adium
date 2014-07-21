@@ -17,6 +17,7 @@
 #import "ESPurpleZephyrAccountViewController.h"
 #import "ESPurpleZephyrAccount.h"
 #import <Adium/AIStatus.h>
+#import <Adium/AIListContact.h>
 
 #define ZHM_NAME @"zhm"
 
@@ -162,10 +163,8 @@ gboolean purple_init_zephyr_plugin(void);
 									AILocalizedString(@"The Zephyr Host Manager reported an error #%d: %@", "Be careful to keep the % parts the same in this string. %@ will be replaced by an error message."),
                                     AILocalizedString(@"OK", nil), nil, nil, status, tempString);
 
-            [tempString release];
             //Should we stop here, or keep going, knowing we'll get another error message when we try to connect via libpurple?
         }
-        [zhm release];
     }
 
     // Actually connect

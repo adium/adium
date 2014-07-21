@@ -16,8 +16,6 @@
 
 #import "AIFileManagerAdditions.h"
 #import "AIStringAdditions.h"
-#import <sys/types.h>
-#import <unistd.h>
 
 
 @implementation NSFileManager (AIFileManagerAdditions)
@@ -153,11 +151,9 @@
     if (err != noErr)
         return nil;
     
-    NSURL *folderURL = (NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
+    NSURL *folderURL = (__bridge_transfer NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
     if (! folderURL)
         return nil;
-	
-	[folderURL autorelease];
     
     return [folderURL path];
 }
@@ -174,7 +170,7 @@
 	NSString *resolvedPath = nil;
 	CFURLRef url;
 
-	url = CFURLCreateWithFileSystemPath(/* allocator */ NULL, (CFStringRef)path,
+	url = CFURLCreateWithFileSystemPath(/* allocator */ NULL, (__bridge CFStringRef)path,
 										kCFURLPOSIXPathStyle, /* isDir */ false);
 	if (url) {
 		FSRef fsRef;
@@ -184,7 +180,7 @@
 									&targetIsFolder, &wasAliased) == noErr && wasAliased) {
 				CFURLRef resolvedUrl = CFURLCreateFromFSRef(NULL, &fsRef);
 				if (resolvedUrl) {
-					resolvedPath = [(NSString*)CFURLCopyFileSystemPath(resolvedUrl, kCFURLPOSIXPathStyle) autorelease];
+					resolvedPath = (__bridge_transfer NSString*)CFURLCopyFileSystemPath(resolvedUrl, kCFURLPOSIXPathStyle);
 					CFRelease(resolvedUrl);
 				}
 			}
@@ -192,7 +188,7 @@
 		CFRelease(url);
 	}
 	
-	return (resolvedPath ? resolvedPath : [[path copy] autorelease]);
+	return (resolvedPath ? resolvedPath : [path copy]);
 }
 
 @end

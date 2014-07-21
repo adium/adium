@@ -18,7 +18,6 @@
 #import "RAFBlockEditorWindowController.h"
 
 @interface RAFBlockEditorPlugin : AIPlugin {
-	NSMenuItem  *blockEditorMenuItem;
 	RAFBlockEditorWindowController *preferences;
 }
 

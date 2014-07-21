@@ -20,10 +20,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
 
 #define KEY_DISABLE_TYPING_NOTIFICATIONS		@"Disable Typing Notifications"
@@ -54,7 +51,7 @@
  */
 + (id)accountViewController
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 /*!
@@ -63,7 +60,6 @@
 - (id)init
 {
 	NSBundle		*ourBundle = [NSBundle bundleForClass:[AIAccountViewController class]];
-	NSDictionary	*nameTable = [NSDictionary dictionaryWithObject:self forKey:@"NSOwner"];
 	
     if ((self = [super init]))
 	{
@@ -72,14 +68,14 @@
 
 		//Load custom views for our subclass (If our subclass specifies a nib name)
 		if ([self nibName]) {
-			[NSBundle loadNibNamed:[self nibName] owner:self];
+			[[NSBundle bundleForClass:[self class]] loadNibNamed:[self nibName] owner:self topLevelObjects:nil];
 		}
 		
 		//Load our default views if necessary
-		if (!view_setup) [ourBundle loadNibFile:@"AccountSetup" externalNameTable:nameTable withZone:nil];
-		if (!view_profile) [ourBundle loadNibFile:@"AccountProfile" externalNameTable:nameTable withZone:nil];
-		if (!view_options) [ourBundle loadNibFile:@"AccountOptions" externalNameTable:nameTable withZone:nil];
-		if (!view_privacy) [ourBundle loadNibFile:@"AccountPrivacy" externalNameTable:nameTable withZone:nil];
+		if (!view_setup) [ourBundle loadNibNamed:@"AccountSetup" owner:self topLevelObjects:nil];
+		if (!view_profile) [ourBundle loadNibNamed:@"AccountProfile" owner:self topLevelObjects:nil];
+		if (!view_options) [ourBundle loadNibNamed:@"AccountOptions" owner:self topLevelObjects:nil];
+		if (!view_privacy) [ourBundle loadNibNamed:@"AccountPrivacy" owner:self topLevelObjects:nil];
 
 		[self localizeStrings];
 	}
@@ -91,16 +87,8 @@
  * @brief Deallocate
  */
 - (void)dealloc
-{    
-	[view_setup release];
-	[view_profile release];
-	if (view_setup != view_options)
-		[view_options release];
-	[changedPrefDict release];
-
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [super dealloc];
 }
 
 /*!

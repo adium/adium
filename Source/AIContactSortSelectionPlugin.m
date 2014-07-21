@@ -23,7 +23,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AISortController.h>
 
 #define CONTACT_SORTING_DEFAULT_PREFS	@"SortingDefaults"
 
@@ -57,17 +56,9 @@
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
-	[AISortController registerSortController:[[[AIAlphabeticalSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[ESStatusSort alloc] init] autorelease]];
-	[AISortController registerSortController:[[[AIManualSort alloc] init] autorelease]];
-}
-
-/*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[super dealloc];
+	[AISortController registerSortController:[[AIAlphabeticalSort alloc] init]];
+	[AISortController registerSortController:[[ESStatusSort alloc] init]];
+	[AISortController registerSortController:[[AIManualSort alloc] init]];
 }
 
 /*!

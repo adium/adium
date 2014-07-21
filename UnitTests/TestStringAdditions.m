@@ -467,7 +467,7 @@
 }
 - (void) testCaseInsensitivelyEqualToThingsThatAreNotStrings {
 	NSString *str = @"Adium rocks!";
-	STAssertThrows([str isCaseInsensitivelyEqualToString:[[[NSObject alloc] init] autorelease]], @"can't compare string to plain object; this should have thrown");
+	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[[[NSObject alloc] init] autorelease]], @"can't compare string to plain object; this should have thrown");
 	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSNumber numberWithInteger:42]], @"can't compare string to number; this should have thrown");
 	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSValue valueWithRect:NSMakeRect(0.0f, 0.0f, 128.0f, 128.0f)]], @"can't compare string to rect value; this should have thrown");
 	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSImage imageNamed:@"NSDefaultApplicationIcon"]], @"can't compare string to image; this should have thrown");

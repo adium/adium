@@ -15,12 +15,9 @@
  */
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
-#import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMedia.h>
 #import <Adium/AIMediaControllerProtocol.h>
-#include <string.h>
-#include <libpurple/media.h>
 #include <libpurple/mediamanager.h>
 #include <libpurple/media-gst.h>
 #include <gst/interfaces/xoverlay.h>

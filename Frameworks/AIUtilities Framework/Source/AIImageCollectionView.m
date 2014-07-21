@@ -69,20 +69,20 @@
 	highlightedIndex = NSNotFound;
 	
 	// Mouse Tracking
-	[self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds]
+	[self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds]
 														options:(NSTrackingMouseEnteredAndExited |
 																 NSTrackingActiveInKeyWindow |
 																 NSTrackingInVisibleRect)
 														  owner:self
-													   userInfo:nil] autorelease]];
+													   userInfo:nil]];
 	
 	// Temporary solution, 1st tracking area will only report MouseMoved Events
-	[self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds]
+	[self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds]
 														options:(NSTrackingMouseMoved |
 																 NSTrackingActiveInKeyWindow |
 																 NSTrackingInVisibleRect)
 														  owner:self
-													   userInfo:nil] autorelease]];
+													   userInfo:nil]];
 
 	// Track for item's selection changes
 	[self addObserver:self forKeyPath:@"selectionIndexes"
@@ -99,8 +99,6 @@
 {	
 	[self removeObserver:self forKeyPath:@"selectionIndexes"];
 	[self removeObserver:self forKeyPath:@"content"];
-	
-	[super dealloc];
 }
 
 - (void)drawRect:(NSRect)dirtyRect

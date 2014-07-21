@@ -16,14 +16,11 @@
 
 
 #import "AIDockController.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFileManagerAdditions.h>
-#import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIIconState.h>
-#import <Adium/AIChat.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import "AIStatus.h"
 
 #define DOCK_DEFAULT_PREFS			@"DockPrefs"
 #define ICON_DISPLAY_DELAY			0.1
@@ -123,7 +120,7 @@
 	[adium.chatController unregisterChatObserver:self];
 
 	//Reset our icon by removing all icon states (except for the base state)
-	NSArray *stateArrayCopy = [[activeIconStateArray copy] autorelease]; //Work with a copy, since this array will change as we remove states
+	NSArray *stateArrayCopy = [activeIconStateArray copy]; //Work with a copy, since this array will change as we remove states
 	NSEnumerator *enumerator = [stateArrayCopy objectEnumerator];
 	[enumerator nextObject]; //Skip the first icon
 	for (NSString *iconState in enumerator) {
@@ -142,7 +139,7 @@
 - (NSArray *)availableDockIconPacks
 {
 	NSMutableArray * iconPackPaths = [NSMutableArray array]; //this will be the folder path for old packs, and the bundle resource path for new
-	for (NSString *path in [adium allResourcesForName:FOLDER_DOCK_ICONS withExtensions:@"AdiumIcon"]) {
+	for (__strong NSString *path in [adium allResourcesForName:FOLDER_DOCK_ICONS withExtensions:@"AdiumIcon"]) {
 		NSBundle *xtraBundle = [NSBundle bundleWithPath:path];
 		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1))//This checks for a new-style xtra
 			path = [xtraBundle resourcePath];
@@ -213,7 +210,7 @@
 
 		//Load the images
 		NSMutableArray *imageArray = [NSMutableArray arrayWithCapacity:[imageNameArray count]];
-		for (NSString *imageName in imageNameArray) {
+		for (__strong NSString *imageName in imageNameArray) {
 			NSString	*imagePath;
 			
 			if ([imageName hasPrefix:DOCK_ICON_INTERNAL_PATH]) {
@@ -234,7 +231,7 @@
 			
 			NSImage *image = [tempIconCache objectForKey:imagePath]; //We re-use the same images for each state if possible to lower memory usage.
 			if (!image && imagePath) {
-				image = [[[NSImage alloc] initByReferencingFile:imagePath] autorelease];
+				image = [[NSImage alloc] initByReferencingFile:imagePath];
 				if (image)
 					[tempIconCache setObject:image forKey:imagePath];
 			}
@@ -279,10 +276,9 @@
 		
 		//Create the state
 		iconState = [[AIIconState alloc] initWithImage:image overlay:_overlay];
-		[image release];
 	}
 
-	return [iconState autorelease];
+	return iconState;
 }
 
 /*!
@@ -332,8 +328,7 @@
 			if (iconPath) {
 				NSMutableDictionary	*newAvailableIconStateDict = [self iconPackAtPath:iconPath];
 				if (newAvailableIconStateDict) {
-					[availableIconStateDict autorelease];
-					availableIconStateDict = [newAvailableIconStateDict retain];
+					availableIconStateDict = newAvailableIconStateDict;
 				}
 			}
 			
@@ -423,7 +418,7 @@
 	AIIconState		*baseState = [availableIcons objectForKey:@"Base"];
 	
 	if (baseState) {
-		AIIconState		*iconState = [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObject:baseState]] autorelease];
+		AIIconState		*iconState = [[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObject:baseState]];
 		return [iconState image];
 	}
 	
@@ -432,8 +427,7 @@
 
 - (void)setOverlay:(NSImage *)newImage
 {
-	[overlay release];
-	overlay = [newImage retain];
+	overlay = newImage;
 	[self updateDockView];
 }
 
@@ -443,7 +437,7 @@
 	NSMutableArray	*iconStates = [NSMutableArray array];
 
 	//Stop any existing animation
-	[animationTimer invalidate]; [animationTimer release]; animationTimer = nil;
+	[animationTimer invalidate]; animationTimer = nil;
 	if (observingFlash) {
 		[adium.interfaceController unregisterFlashObserver:self];
 		observingFlash = NO;
@@ -461,7 +455,6 @@
 
 	@try {
 		//Generate the composited icon state
-		[currentIconState release];
 		currentIconState = [[AIIconState alloc] initByCompositingStates:iconStates];
 		
 		if (![currentIconState animated]) { //Static icon
@@ -487,11 +480,11 @@
 - (void)flash:(int)value
 {
     //Start the flash timer
-    animationTimer = [[NSTimer scheduledTimerWithTimeInterval:[currentIconState animationDelay]
+    animationTimer = [NSTimer scheduledTimerWithTimeInterval:[currentIconState animationDelay]
                                                        target:self
                                                      selector:@selector(animateIcon:)
                                                      userInfo:nil
-                                                      repeats:YES] retain];
+                                                      repeats:YES];
 
     //Animate the icon
     [self animateIcon:animationTimer]; //Set the icon and move to the next frame
@@ -576,11 +569,11 @@
 		
 		currentBounceInterval = delay;
 		
-		bounceTimer = [[NSTimer scheduledTimerWithTimeInterval:delay
+		bounceTimer = [NSTimer scheduledTimerWithTimeInterval:delay
 														target:self
 													  selector:@selector(bounceWithTimer:)
 													  userInfo:nil
-													   repeats:YES] retain];
+													   repeats:YES];
 		
 		return YES;
 	}
@@ -624,7 +617,6 @@
 	//Stop any timer
 	if (bounceTimer) {
 		[bounceTimer invalidate];
-		[bounceTimer release];
 		bounceTimer = nil;
 	}
 
@@ -646,7 +638,7 @@
 #pragma mark Dock Drawing
 - (void)updateDockView
 {
-	NSImage *image = [[[currentIconState image] copy] autorelease];
+	NSImage *image = [[currentIconState image] copy];
 	if (overlay) {
 		[image lockFocus];
 		[overlay drawInRect:[view frame] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0f];

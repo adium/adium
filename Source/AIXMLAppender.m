@@ -42,9 +42,8 @@
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AISharedWriterQueue.h>
 #define BSD_LICENSE_ONLY 1
-#import <AIUtilities/AIStringAdditions.h>
+
 #import <sys/stat.h>
-#import <unistd.h>
 
 #define XML_APPENDER_BLOCK_SIZE 4096
 
@@ -58,7 +57,7 @@ enum {
 @interface AIXMLAppender()
 - (void)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength;
 - (NSString *)rootElementNameForFileAtPath:(NSString *)path;
-@property (readwrite, retain, nonatomic) NSFileHandle *fileHandle;
+@property (readwrite, nonatomic, strong) NSFileHandle *fileHandle;
 @property (readwrite) BOOL initialized;
 @property (readwrite, copy, nonatomic) AIXMLElement *rootElement;
 @property (readwrite, copy, nonatomic) NSString *path;
@@ -87,7 +86,7 @@ enum {
  */
 + (id)documentWithPath:(NSString *)path rootElement:(AIXMLElement *)root
 {
-	return [[[self alloc] initWithPath:path rootElement:root] autorelease];
+	return [[self alloc] initWithPath:path rootElement:root];
 }
 
 /*!
@@ -112,17 +111,6 @@ enum {
 	}
 
 	return self;
-}
-
-/*!
- * @brief Clean up.
- */
-- (void)dealloc
-{
-	self.path = nil;
-	self.fileHandle = nil; //This will also close the fd, since we set the closeOnDealloc flag to YES
-	self.rootElement = nil;
-	[super dealloc];
 }
 
 #pragma mark -
@@ -209,7 +197,7 @@ enum {
 		//Get the root element name and set initialized
 		NSString *rootElementName = [self rootElementNameForFileAtPath:self.path];
 		if (rootElementName)
-			self.rootElement = [[[AIXMLElement alloc] initWithName:rootElementName] autorelease];
+			self.rootElement = [[AIXMLElement alloc] initWithName:rootElementName];
 		self.initialized = (rootElementName != nil);				
 		
 	} else {
@@ -234,7 +222,7 @@ enum {
 		AILog(@"Couldn't open log file %@ (%s - length %zu) for writing!",
 			  self.path, pathCString, (pathCString ? strlen(pathCString) : 0));
 	} else {
-		self.fileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
+		self.fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
 		if (self.initialized) {
 			struct stat sb;
 			fstat(fd, &sb);
@@ -249,10 +237,12 @@ enum {
 	
 	// The properties have to be unset on the .chatlog itself, not the .xml in it
 	if (FSPathMakeRef((UInt8 const *)[[self.path stringByDeletingLastPathComponent] fileSystemRepresentation], &fsRef, NULL) == noErr) {
-		if (LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, NULL) != noErr) {
-			AILogWithSignature(@"Un-quarantining file %@ failed!", [self.path stringByDeletingLastPathComponent]);
+		OSStatus err = LSSetItemAttribute(&fsRef, kLSRolesAll, kLSItemQuarantineProperties, NULL);
+		if (err != noErr) {
+			AILogWithSignature(@"Un-quarantining file %@ failed: %d!", [self.path stringByDeletingLastPathComponent], err);
+		} else {
+			AILogWithSignature(@"Un-quarantining file %@ succeeded!", [self.path stringByDeletingLastPathComponent]);
 		}
-		AILogWithSignature(@"Un-quarantining file %@ succeeded!", [self.path stringByDeletingLastPathComponent]);
 	} else {
 		AILogWithSignature(@"Could not find file to quarantine: %@!", [self.path stringByDeletingLastPathComponent]);
 	}
@@ -294,8 +284,8 @@ enum {
 	NSScanner *scanner = nil;
 	do {
 		//Read a block of arbitrary size
-		NSString *block = [[[NSString alloc] initWithData:[handle readDataOfLength:XML_APPENDER_BLOCK_SIZE]
-												 encoding:NSUTF8StringEncoding] autorelease];
+		NSString *block = [[NSString alloc] initWithData:[handle readDataOfLength:XML_APPENDER_BLOCK_SIZE]
+												 encoding:NSUTF8StringEncoding];
 		//If we read 0 characters, then we have reached the end of the file, so return
 		if ([block length] == 0) {
 			[handle closeFile];
@@ -323,8 +313,8 @@ enum {
 		if (found)
 			break;
 			
-		NSString *block = [[[NSString alloc] initWithData:[handle readDataOfLength:XML_APPENDER_BLOCK_SIZE]
-												 encoding:NSUTF8StringEncoding] autorelease];
+		NSString *block = [[NSString alloc] initWithData:[handle readDataOfLength:XML_APPENDER_BLOCK_SIZE]
+												 encoding:NSUTF8StringEncoding];
 		//Again, if we've reached the end of the file, we aren't initialized, so return nil
 		if ([block length] == 0) {
 			[handle closeFile];

@@ -31,9 +31,7 @@
 - (IBAction)showWindow:(id)sender {
 	if (!consoleWindow) {
 		//Load the window if it's not already loaded
-		[[NSBundle bundleForClass:[AIConsoleController class]] loadNibFile:@"AIConsole"
-														 externalNameTable:[NSDictionary dictionaryWithObject:self forKey:NSNibOwner]
-																  withZone:NULL];
+		[[NSBundle bundleForClass:[AIConsoleController class]] loadNibNamed:@"AIConsole" owner:self topLevelObjects:nil];
 		if (!consoleWindow) AILogWithSignature(@"Unable to load AIConsole!");
 	}
 	

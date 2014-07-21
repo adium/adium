@@ -22,10 +22,10 @@
 + (void)load
 {
 	if (self == [AIColorStringTransformer class]) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		[self setValueTransformer:[[[AIColorStringTransformer alloc] init] autorelease]
-						  forName:@"AIColorStringTransformer"];
-		[pool release];
+		@autoreleasepool {
+			[self setValueTransformer:[[AIColorStringTransformer alloc] init]
+							  forName:@"AIColorStringTransformer"];
+		}
 	}
 }
 

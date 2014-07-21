@@ -17,15 +17,11 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIStatusController.h"
 #import "ESApplescriptabilityController.h"
 #import "AdiumApplescriptRunner.h"
-#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
-#import "AIHTMLDecoder.h"
 #import <Adium/AIStatus.h>
 
 @implementation ESApplescriptabilityController
@@ -39,7 +35,7 @@
 //close
 - (void)controllerWillClose
 {
-	[applescriptRunner release]; applescriptRunner = nil;
+	applescriptRunner = nil;
 }
 
 #pragma mark Convenience
@@ -110,8 +106,6 @@
 	
 	[newStatus setStatusTypeApplescript:newStatusType];
 	[self setMyStatus:newStatus];
-	
-	[newStatus release];
 }
 
 - (NSString *)myStatusMessageString
@@ -125,8 +119,6 @@
 	
 	[newStatus setStatusMessageString:inString];
 	[self setMyStatus:newStatus];
-	
-	[newStatus release];	
 }
 
 #pragma mark Controller convenience

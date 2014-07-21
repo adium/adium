@@ -17,33 +17,23 @@
 #import "AIContactController.h"
 
 #import "AISCLViewPlugin.h"
-#import <Adium/AIContactHidingController.h>
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 
-#import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AISortController.h>
-#import <Adium/AIUserIcons.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIContactList.h>
 
@@ -174,17 +164,6 @@
 - (void)dealloc
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-		
-	[contactDict release];
-	[groupDict release];
-	[metaContactDict release];
-	[contactToMetaContactLookupDict release];
-	[contactLists release];
-	[bookmarkDict release];
-	
-	[contactPropertiesObserverManager release];
-
-	[super dealloc];
 }
 
 - (void)clearAllMetaContactData
@@ -193,15 +172,15 @@
 		[contactPropertiesObserverManager delayListObjectNotifications];
 		
 		//Remove all the metaContacts to get any existing objects out of them
-		for (AIMetaContact *metaContact in [[[metaContactDict copy] autorelease] objectEnumerator]) {
+		for (AIMetaContact *metaContact in [[metaContactDict copy] objectEnumerator]) {
 			[self explodeMetaContact:metaContact];
 		}
 		
 		[contactPropertiesObserverManager endListObjectNotificationsDelay];
 	}
 	
-	[metaContactDict release]; metaContactDict = [[NSMutableDictionary alloc] init];
-	[contactToMetaContactLookupDict release]; contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
+	metaContactDict = [[NSMutableDictionary alloc] init];
+	contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 	
 	//Clear the preferences for good measure
 	[adium.preferenceController setPreference:nil
@@ -272,10 +251,10 @@
 - (void)_loadMetaContactsFromArray:(NSArray *)array
 {	
 	for (NSString *identifier in array) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
-		[self metaContactWithObjectID:objectID];
-		[pool release];
+		@autoreleasepool {
+			NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
+			[self metaContactWithObjectID:objectID];
+		}
 	}
 }
 
@@ -284,9 +263,6 @@
 - (void)_addContactLocally:(AIListContact *)listContact toGroup:(id<AIContainingObject>)localGroup
 {
 	BOOL			performedGrouping = NO;
-	
-	//Protect with a retain while we are removing and adding the contact to our arrays
-	[listContact retain];
 	
 	if (listContact.canJoinMetaContacts) {
 		AIListObject *existingObject = [localGroup objectWithService:listContact.service UID:listContact.UID];
@@ -320,9 +296,6 @@
 		//Add
 		[self _didChangeContainer:localGroup object:listContact];
 	}
-	
-	//Cleanup
-	[listContact release];
 }
 
 /*!
@@ -336,9 +309,6 @@
 - (void)_moveContactLocally:(AIListContact *)listContact fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	if (![oldGroups isEqualToSet:groups]) {
-		//Protect with a retain while we are removing and adding the contact to our arrays
-		[listContact retain];
-		
 		[contactPropertiesObserverManager delayListObjectNotifications];
 		
 #ifdef CONTACT_MOVEMENT_DEBUG
@@ -358,8 +328,6 @@
 			[self _addContactLocally:listContact toGroup:group];
 		
 		[contactPropertiesObserverManager endListObjectNotificationsDelay];
-		
-		[listContact release];
 	}
 }
 
@@ -474,8 +442,6 @@
 		 * this object's existence.
 		 */
 		[contactPropertiesObserverManager _updateAllAttributesOfObject:metaContact];
-		
-		[metaContact release];
 	}
 	
 	return metaContact;
@@ -639,9 +605,6 @@
 		
 		AILogWithSignature(@"Updated %@'s containedContactsArray: %@", metaContact, containedContactsArray);
 	}
-	
-	[allMetaContactsDict release];
-	[containedContactsArray release];
 }
 
 /*!
@@ -725,9 +688,6 @@
 								   forKey:metaContactInternalObjectID];
 		
 		[self _saveMetaContacts:newAllMetaContactsDict];
-		
-		[newContainedContactsArray release];
-		[newAllMetaContactsDict release];
 	}
 
 	/* Remove all contacts matching this service/UID from the metacontact */
@@ -829,8 +789,6 @@
 			}
 		}
 	}
-
-	[internalObjectIDs release];
 	
 	return metaContact;
 }
@@ -909,9 +867,6 @@
 	
 	//Then, procede to remove the metaContact
 	
-	//Protect!
-	[metaContact retain];
-	
 	//Remove it from its containing groups (no contained contacts == present in no groups)
 	[metaContact restoreGrouping];
 	
@@ -927,10 +882,6 @@
 	[self _saveMetaContacts:allMetaContactsDict];
 	
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
-	
-	//Protection is overrated.
-	[metaContact release];
-	[allMetaContactsDict release];
 }
 
 - (void)_saveMetaContacts:(NSDictionary *)allMetaContactsDict
@@ -1041,7 +992,7 @@
  */
 - (NSArray *)allContacts
 {
-	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *result = [[NSMutableArray alloc] init];
 
 	for (AIListContact *contact in self.contactEnumerator) {
 		/* We want only contacts, not metacontacts. For a given contact, -[contact parentContact] could be used to access the meta. */
@@ -1057,7 +1008,7 @@
  */
 - (NSArray *)allBookmarks
 {
-	return [[[bookmarkDict allValues] copy] autorelease];
+	return [[bookmarkDict allValues] copy];
 }
 
 /*!
@@ -1115,13 +1066,12 @@
         NSMutableArray *groups = [groupsByList objectForKey:list.UID];
         [groups sortUsingActiveSortControllerInContainer:list];
         for (AIListGroup *group in groups) {
-            NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:group.displayName
+            NSMenuItem	*menuItem = [[NSMenuItem alloc] initWithTitle:group.displayName
                                                                                         target:target
                                                                                         action:@selector(selectGroup:)
                                                                                  keyEquivalent:@""];
             [menuItem setRepresentedObject:group];
             [menu addItem:menuItem];
-            [menuItem release];
         }
                 
         i++;
@@ -1134,7 +1084,7 @@
     }
     
 	
-	return [menu autorelease];
+	return menu;
 }
 
 #pragma mark Retrieving Specific Contacts
@@ -1150,8 +1100,6 @@
  */
 - (void)setUID:(NSString *)UID forContact:(AIListContact *)contact
 {
-	[contact retain];
-	
 	// Remove the old value, its internal ID is going to change.
 	[contactDict removeObjectForKey:contact.internalUniqueObjectID];
 	
@@ -1160,8 +1108,6 @@
 	
 	// Add it back int othe dict.
 	[contactDict setObject:contact forKey:contact.internalUniqueObjectID];
-	
-	[contact release];
 }
 
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
@@ -1197,8 +1143,6 @@
 
 		//Do the update thing
 		[contactPropertiesObserverManager _updateAllAttributesOfObject:contact];
-
-		[contact release];
 	}
 	
 	return contact;
@@ -1206,8 +1150,6 @@
 
 - (void)accountDidStopTrackingContact:(AIListContact *)inContact
 {
-	[[inContact retain] autorelease];
-
 	for (id<AIContainingObject> container in inContact.containingObjects) {
 		[container removeObjectAfterAccountStopsTracking:inContact];
 	}
@@ -1260,7 +1202,7 @@
 	AIListBookmark *bookmark = [self existingBookmarkForChat:inChat];
 	
 	if (!bookmark) {
-		bookmark = [[[AIListBookmark alloc] initWithChat:inChat] autorelease];
+		bookmark = [[AIListBookmark alloc] initWithChat:inChat];
 		
 		if ([bookmarkDict objectForKey:bookmark.internalObjectID]) {
 			// In case we end up with two bookmarks with the same internalObjectID; this should be almost impossible.
@@ -1378,7 +1320,6 @@
 																service:theService];
 	AIAccount		*account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																				 toContact:tempListContact];
-	[tempListContact release];
 
 	return [self contactWithService:theService account:account UID:inUID];
 }
@@ -1435,7 +1376,6 @@
 		//Add to the contact list
 		[contactList addObject:group];
 		[self _didChangeContainer:contactList object:group];
-		[group release];
 	}
 	
 	return group;
@@ -1484,11 +1424,9 @@
 	}
 	
 	//Then, procede to delete the group
-	[group retain];
 	[containingObject removeObject:group];
 	[groupDict removeObjectForKey:[group.UID lowercaseString]];
 	[self _didChangeContainer:containingObject object:group];
-	[group release];
 }
 
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount
@@ -1571,7 +1509,6 @@
 	static NSInteger count = 0;
 	AIContactList *list = [[AIContactList alloc] initWithUID:[NSString stringWithFormat:@"Detached%ld",count++]];
 	[contactLists addObject:list];
-	[list release];
 	return list;
 }
 
