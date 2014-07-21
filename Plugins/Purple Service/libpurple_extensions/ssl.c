@@ -20,9 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 #import <libpurple/internal.h>
-#import <libpurple/debug.h>
-#import <libpurple/plugin.h>
-#import <libpurple/sslconn.h>
 #import <libpurple/version.h>
 
 #define SSL_PLUGIN_ID "core-ssl"

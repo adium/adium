@@ -17,15 +17,9 @@
 #import "AIAbstractListController.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactStatusColoringPlugin.h"
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContentTyping.h>
-#import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListBookmark.h>
 
@@ -104,14 +98,6 @@
 	[adium.interfaceController unregisterFlashObserver:self];	
 }
 
-- (void)dealloc
-{
-	[flashingListObjects release];
-	[interestedKeysSet release];
-	
-	[super dealloc];
-}
-
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
     NSSet		*modifiedAttributes = nil;
@@ -153,7 +139,7 @@
     unviewedContent = [inContact integerValueForProperty:KEY_UNVIEWED_CONTENT];
 
     //Unviewed content
-    if ((!color && !labelColor) && (unviewedContentEnabled && unviewedContent)) {
+    if (unviewedContentEnabled && unviewedContent) {
 		/* Use the unviewed content settings if:
 		 *	- we aren't flashing or
 		 *  - every other flash. */
@@ -313,97 +299,97 @@
 {
 	if ([group isEqualToString:PREF_GROUP_LIST_THEME]) {
 		//Release the old values..
-		[signedOffColor release]; signedOffColor = nil;
-		[signedOnColor release]; signedOnColor = nil;
-		[awayColor release]; awayColor = nil;
-		[idleColor release]; idleColor = nil;
-		[typingColor release]; typingColor = nil;
-		[unviewedContentColor release]; unviewedContentColor = nil;
-		[onlineColor release]; onlineColor = nil;
-		[awayAndIdleColor release]; awayAndIdleColor = nil;
-		[offlineColor release]; offlineColor = nil;
-		[mobileColor release]; mobileColor = nil;
+		signedOffColor = nil;
+		signedOnColor = nil;
+		awayColor = nil;
+		idleColor = nil;
+		typingColor = nil;
+		unviewedContentColor = nil;
+		onlineColor = nil;
+		awayAndIdleColor = nil;
+		offlineColor = nil;
+		mobileColor = nil;
 		
-		[signedOffInvertedColor release]; signedOffInvertedColor = nil;
-		[signedOnInvertedColor release]; signedOnInvertedColor = nil;
-		[awayInvertedColor release]; awayInvertedColor = nil;
-		[idleInvertedColor release]; idleInvertedColor = nil;
-		[typingInvertedColor release]; typingInvertedColor = nil;
-		[unviewedContentInvertedColor release]; unviewedContentInvertedColor = nil;
-		[onlineInvertedColor release]; onlineInvertedColor = nil;
-		[awayAndIdleInvertedColor release]; awayAndIdleInvertedColor = nil;
-		[offlineInvertedColor release]; offlineInvertedColor = nil;
-		[mobileInvertedColor release]; mobileInvertedColor = nil;
+		signedOffInvertedColor = nil;
+		signedOnInvertedColor = nil;
+		awayInvertedColor = nil;
+		idleInvertedColor = nil;
+		typingInvertedColor = nil;
+		unviewedContentInvertedColor = nil;
+		onlineInvertedColor = nil;
+		awayAndIdleInvertedColor = nil;
+		offlineInvertedColor = nil;
+		mobileInvertedColor = nil;
 		
-		[awayLabelColor release]; awayLabelColor = nil;
-		[idleLabelColor release]; idleLabelColor = nil;
-		[signedOffLabelColor release]; signedOffLabelColor = nil;
-		[signedOnLabelColor release]; signedOnLabelColor = nil;
-		[typingLabelColor release]; typingLabelColor = nil;
-		[unviewedContentLabelColor release]; unviewedContentLabelColor = nil;
-		[onlineLabelColor release]; onlineLabelColor = nil;
-		[awayAndIdleLabelColor release]; awayAndIdleLabelColor = nil;
-		[offlineLabelColor release]; offlineLabelColor = nil;
-		[mobileLabelColor release]; mobileLabelColor = nil;
+		awayLabelColor = nil;
+		idleLabelColor = nil;
+		signedOffLabelColor = nil;
+		signedOnLabelColor = nil;
+		typingLabelColor = nil;
+		unviewedContentLabelColor = nil;
+		onlineLabelColor = nil;
+		awayAndIdleLabelColor = nil;
+		offlineLabelColor = nil;
+		mobileLabelColor = nil;
 		
 		if ((awayEnabled = [[prefDict objectForKey:KEY_AWAY_ENABLED] boolValue])) {
-			awayColor = [[[prefDict objectForKey:KEY_AWAY_COLOR] representedColor] retain];
-			awayLabelColor = [[[prefDict objectForKey:KEY_LABEL_AWAY_COLOR] representedColor] retain];
-			awayInvertedColor = [[awayColor colorWithInvertedLuminance] retain];
+			awayColor = [[prefDict objectForKey:KEY_AWAY_COLOR] representedColor];
+			awayLabelColor = [[prefDict objectForKey:KEY_LABEL_AWAY_COLOR] representedColor];
+			awayInvertedColor = [awayColor colorWithInvertedLuminance];
 		}
 	
 		if ((idleEnabled = [[prefDict objectForKey:KEY_IDLE_ENABLED] boolValue])) {
-			idleColor = [[[prefDict objectForKey:KEY_IDLE_COLOR] representedColor] retain];
-			idleLabelColor = [[[prefDict objectForKey:KEY_LABEL_IDLE_COLOR] representedColor] retain];
-			idleInvertedColor = [[idleColor colorWithInvertedLuminance] retain];
+			idleColor = [[prefDict objectForKey:KEY_IDLE_COLOR] representedColor];
+			idleLabelColor = [[prefDict objectForKey:KEY_LABEL_IDLE_COLOR] representedColor];
+			idleInvertedColor = [idleColor colorWithInvertedLuminance];
 		}
 
 		if ((signedOnEnabled = [[prefDict objectForKey:KEY_SIGNED_ON_ENABLED] boolValue])) {
-			signedOnColor = [[[prefDict objectForKey:KEY_SIGNED_ON_COLOR] representedColor] retain];	
-			signedOnLabelColor = [[[prefDict objectForKey:KEY_LABEL_SIGNED_ON_COLOR] representedColor] retain];
-			signedOnInvertedColor = [[signedOnColor colorWithInvertedLuminance] retain];
+			signedOnColor = [[prefDict objectForKey:KEY_SIGNED_ON_COLOR] representedColor];	
+			signedOnLabelColor = [[prefDict objectForKey:KEY_LABEL_SIGNED_ON_COLOR] representedColor];
+			signedOnInvertedColor = [signedOnColor colorWithInvertedLuminance];
 		}
 		
 		if ((signedOffEnabled = [[prefDict objectForKey:KEY_SIGNED_OFF_ENABLED] boolValue])) {
-			signedOffColor = [[[prefDict objectForKey:KEY_SIGNED_OFF_COLOR] representedColor] retain];
-			signedOffLabelColor = [[[prefDict objectForKey:KEY_LABEL_SIGNED_OFF_COLOR] representedColor] retain];
-			signedOffInvertedColor = [[signedOffColor colorWithInvertedLuminance] retain];
+			signedOffColor = [[prefDict objectForKey:KEY_SIGNED_OFF_COLOR] representedColor];
+			signedOffLabelColor = [[prefDict objectForKey:KEY_LABEL_SIGNED_OFF_COLOR] representedColor];
+			signedOffInvertedColor = [signedOffColor colorWithInvertedLuminance];
 		}		
 		
 		if ((typingEnabled = [[prefDict objectForKey:KEY_TYPING_ENABLED] boolValue])) {
-			typingColor = [[[prefDict objectForKey:KEY_TYPING_COLOR] representedColor] retain];
-			typingLabelColor = [[[prefDict objectForKey:KEY_LABEL_TYPING_COLOR] representedColor] retain];			
-			typingInvertedColor = [[typingColor colorWithInvertedLuminance] retain];
+			typingColor = [[prefDict objectForKey:KEY_TYPING_COLOR] representedColor];
+			typingLabelColor = [[prefDict objectForKey:KEY_LABEL_TYPING_COLOR] representedColor];			
+			typingInvertedColor = [typingColor colorWithInvertedLuminance];
 		}
 		
 		if ((unviewedContentEnabled = [[prefDict objectForKey:KEY_UNVIEWED_ENABLED] boolValue])) {
-			unviewedContentColor = [[[prefDict objectForKey:KEY_UNVIEWED_COLOR] representedColor] retain];
-			unviewedContentLabelColor = [[[prefDict objectForKey:KEY_LABEL_UNVIEWED_COLOR] representedColor] retain];
-			unviewedContentInvertedColor = [[unviewedContentColor colorWithInvertedLuminance] retain];			
+			unviewedContentColor = [[prefDict objectForKey:KEY_UNVIEWED_COLOR] representedColor];
+			unviewedContentLabelColor = [[prefDict objectForKey:KEY_LABEL_UNVIEWED_COLOR] representedColor];
+			unviewedContentInvertedColor = [unviewedContentColor colorWithInvertedLuminance];			
 		}
 		
 		if ((onlineEnabled = [[prefDict objectForKey:KEY_ONLINE_ENABLED] boolValue])) {
-			onlineColor = [[[prefDict objectForKey:KEY_ONLINE_COLOR] representedColor] retain];
-			onlineLabelColor = [[[prefDict objectForKey:KEY_LABEL_ONLINE_COLOR] representedColor] retain];
-			onlineInvertedColor = [[onlineColor colorWithInvertedLuminance] retain];
+			onlineColor = [[prefDict objectForKey:KEY_ONLINE_COLOR] representedColor];
+			onlineLabelColor = [[prefDict objectForKey:KEY_LABEL_ONLINE_COLOR] representedColor];
+			onlineInvertedColor = [onlineColor colorWithInvertedLuminance];
 		}
 
 		if ((awayAndIdleEnabled = [[prefDict objectForKey:KEY_IDLE_AWAY_ENABLED] boolValue])) {
-			awayAndIdleColor = [[[prefDict objectForKey:KEY_IDLE_AWAY_COLOR] representedColor] retain];
-			awayAndIdleLabelColor = [[[prefDict objectForKey:KEY_LABEL_IDLE_AWAY_COLOR] representedColor] retain];
-			awayAndIdleInvertedColor = [[awayAndIdleColor colorWithInvertedLuminance] retain];			
+			awayAndIdleColor = [[prefDict objectForKey:KEY_IDLE_AWAY_COLOR] representedColor];
+			awayAndIdleLabelColor = [[prefDict objectForKey:KEY_LABEL_IDLE_AWAY_COLOR] representedColor];
+			awayAndIdleInvertedColor = [awayAndIdleColor colorWithInvertedLuminance];			
 		}
 		
 		if ((offlineEnabled = [[prefDict objectForKey:KEY_OFFLINE_ENABLED] boolValue])) {
-			offlineColor = [[[prefDict objectForKey:KEY_OFFLINE_COLOR] representedColor] retain];
-			offlineLabelColor = [[[prefDict objectForKey:KEY_LABEL_OFFLINE_COLOR] representedColor] retain];
-			offlineInvertedColor = [[offlineColor colorWithInvertedLuminance] retain];			
+			offlineColor = [[prefDict objectForKey:KEY_OFFLINE_COLOR] representedColor];
+			offlineLabelColor = [[prefDict objectForKey:KEY_LABEL_OFFLINE_COLOR] representedColor];
+			offlineInvertedColor = [offlineColor colorWithInvertedLuminance];			
 		}
 		
 		if ((mobileEnabled = [[prefDict objectForKey:KEY_MOBILE_ENABLED] boolValue])) {
-			mobileColor = [[[prefDict objectForKey:KEY_MOBILE_COLOR] representedColor] retain];		
-			mobileLabelColor = [[[prefDict objectForKey:KEY_LABEL_MOBILE_COLOR] representedColor] retain];
-			mobileInvertedColor = [[mobileColor colorWithInvertedLuminance] retain];			
+			mobileColor = [[prefDict objectForKey:KEY_MOBILE_COLOR] representedColor];		
+			mobileLabelColor = [[prefDict objectForKey:KEY_LABEL_MOBILE_COLOR] representedColor];
+			mobileInvertedColor = [mobileColor colorWithInvertedLuminance];			
 		}
 
 		offlineImageFading = [[prefDict objectForKey:KEY_LIST_THEME_FADE_OFFLINE_IMAGES] boolValue];
@@ -420,7 +406,7 @@
 
 		if (oldFlashUnviewedContentEnabled && !flashUnviewedContentEnabled) {
 			//Clear our flash set if we aren't flashing for unviewed content now but we were before
-			for (AIListContact *listContact in [[flashingListObjects copy] autorelease]) {
+			for (AIListContact *listContact in [flashingListObjects copy]) {
 				[self removeFromFlashSet:listContact];
 			}
 			

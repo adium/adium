@@ -30,8 +30,8 @@
 		return;
 	}
 	
-	NSImage *image = [[[NSImage alloc] initByReferencingFile:(NSString *)path] autorelease];
-	NSImageView *view = [[[NSImageView alloc] init] autorelease];
+	NSImage *image = [[NSImage alloc] initByReferencingFile:(__bridge NSString *)(path)];
+	NSImageView *view = [[NSImageView alloc] init];
 	
 	[view setImage:image];
 	[inDockTile setContentView:view];
@@ -44,7 +44,7 @@
 {
 	NSString *path = [[NSBundle bundleForClass:[self class]] bundlePath];
 	
-	NSMutableArray *pathComponents = [[[path pathComponents] mutableCopy] autorelease];
+	NSMutableArray *pathComponents = [[path pathComponents] mutableCopy];
 	
 	// PlugIns/AIDockTilePlugin.docktileplugin
 	[pathComponents removeLastObject];
@@ -52,7 +52,7 @@
 	
 	NSString *adiumPath = [[[NSString pathWithComponents:pathComponents] stringByAppendingPathComponent:@"MacOS"] stringByAppendingPathComponent:@"Adium"];
 		
-	NSTask *adiumTask = [[[NSTask alloc] init] autorelease];
+	NSTask *adiumTask = [[NSTask alloc] init];
 	
 	[adiumTask setLaunchPath:adiumPath];
 	[adiumTask setArguments:@[@"--debug"]];
@@ -72,16 +72,7 @@
 	
 	[dockMenu addItem:menuItem];
 	
-	[menuItem release];
-	
 	return dockMenu;
-}
-
-- (void)dealloc
-{
-	[dockMenu release];
-	
-	[super dealloc];
 }
 
 @end

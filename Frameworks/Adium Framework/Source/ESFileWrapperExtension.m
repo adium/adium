@@ -33,7 +33,7 @@
 		/*immutable flavours of NSString only retain when we call -copy, so
 		 *	originPath may still == path even though we used -copy above.
 		 */
-		[originalPath release]; originalPath = [path copy];
+		originalPath = [path copy];
 	}
 	
 	return ([super updateFromPath:path]);
@@ -46,7 +46,7 @@
 			/*immutable flavours of NSString only retain when we call -copy, so
 			 *	originPath may still == path even though we used -copy above.
 			 */
-			[originalPath release]; originalPath = [path copy];
+			originalPath = [path copy];
 		}
 	}
 	

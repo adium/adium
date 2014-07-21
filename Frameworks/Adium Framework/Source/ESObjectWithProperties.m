@@ -63,6 +63,21 @@
 //Setting properties ---------------------------------------------------------------------------------------------------
 #pragma mark Setting Properties
 
+static inline Ivar ivarForKey(ESObjectWithProperties *self, NSString *key, void **outValue) {
+    const char *propName = CFStringGetCStringPtr((__bridge CFStringRef)key, kCFStringEncodingUTF8);
+    if (!propName) {
+        char property_name[256] = {0};
+
+        assert([key length] < 256);
+
+        if ([key getCString:property_name maxLength:256 encoding:NSUTF8StringEncoding]) {
+            propName = (const char *)property_name;
+        }
+    }
+
+    return propName ? object_getInstanceVariable(self, propName, outValue) : NULL;
+}
+
 /*!
  * @brief Set a property
  *
@@ -79,8 +94,8 @@
     }
         
     [self willChangeValueForKey:key];
-    	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
 	// fall back to the dictionary
 	if (ivar == NULL) {
@@ -107,16 +122,14 @@
 			
 		} else if (strcmp(ivarType, @encode(NSInteger)) == 0) {
 			
-			NSInteger iValue;
+			NSInteger *idx = (NSInteger*)((char *)self + ivar_getOffset(ivar));
+			*idx = [value integerValue];
+
+		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
 			
-			if (value) {
-				iValue = [value integerValue];
-			} else {
-				iValue = 0;
-			}
-			
-			object_setIvar(self, ivar, (void *)iValue);
-			
+			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+			*idx = [value boolValue];
+
 		}
 	}
     
@@ -200,28 +213,25 @@
 - (id)_valueForProperty:(NSString *)key
 {
 	id ret = nil;
-	id value = nil;
-	
-	Ivar ivar = object_getInstanceVariable(self, [key UTF8String], (void **)&value);
+	void *value = nil;
+
+	Ivar ivar = ivarForKey(self, key, &value);
 	
 	if (ivar == NULL) {
-		
-		// no dictionary -> this property is certainly nil
-		if (propertiesDictionary) {
-			ret = [propertiesDictionary objectForKey:key];
-		}
-		
+		ret = [propertiesDictionary objectForKey:key];
 	} else {
-		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
 		
 		// attempt to wrap it, if we know how
 		if (strcmp(ivarType, @encode(NSInteger)) == 0) {
-			ret = [[[NSNumber alloc] initWithInteger:(NSInteger)value] autorelease];
+			ret = [NSNumber numberWithInteger:(NSInteger)(intptr_t)value];
+		} else if (strcmp(ivarType, @encode(BOOL)) == 0) {
+			BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+			ret = [NSNumber numberWithBool:*idx];
 		} else if (ivarType[0] != _C_ID) {
 			AILogWithSignature(@" *** This ivar is not an object but an %s! Should not use -valueForProperty: @\"%@\" ***", ivarType, key);
 		} else {
-			ret = [[value retain] autorelease];
+			ret = [[(id)value retain] autorelease];
 		}
 	}
 	
@@ -236,12 +246,11 @@
 - (NSInteger)integerValueForProperty:(NSString *)key
 {
 	NSInteger ret = 0;
-	
-	Ivar ivar = class_getInstanceVariable([self class], [key UTF8String]);
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
 	if (ivar == NULL) {
 		NSNumber *number = [self numberValueForProperty:key];
-		ret = number ? [number integerValue] : 0;
+		ret = [number integerValue];
 	} else {
 		
 		const char *ivarType = ivar_getTypeEncoding(ivar);
@@ -258,20 +267,26 @@
 
 - (int)intValueForProperty:(NSString *)key
 {
-	int ret = 0;
-	
-	NSNumber *number = [self numberValueForProperty:key];
-	ret = number ? [number intValue] : 0;
-	
-    return ret;
+	return [[self numberValueForProperty:key] intValue];
 }
 
 - (BOOL)boolValueForProperty:(NSString *)key
 {
 	BOOL ret = FALSE;
+	Ivar ivar = ivarForKey(self, key, NULL);
 	
-	NSNumber *number = [self numberValueForProperty:key];
-	ret = number ? [number boolValue] : NO;
+	if (ivar == NULL) {
+		ret = [[self numberValueForProperty:key] boolValue];
+	} else {
+		const char *ivarType = ivar_getTypeEncoding(ivar);
+		
+		if (strcmp(ivarType, @encode(BOOL)) != 0) {
+			AILogWithSignature(@"%@'s %@ ivar is not a BOOL but an %s! Will attempt to cast, but should not use -boolValueForProperty: @\"%@\"", self, key, ivarType, key);
+		}
+		
+		BOOL *idx = (BOOL*)((char *)self + ivar_getOffset(ivar));
+		ret = *idx;
+	}
 	
     return ret;
 }

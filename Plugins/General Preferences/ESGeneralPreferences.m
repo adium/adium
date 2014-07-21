@@ -14,26 +14,14 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIInterfaceControllerProtocol.h>
-#import "AISoundController.h"
 #import <ShortcutRecorder/SRRecorderControl.h>
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
-#import "SGHotKeyCenter.h"
-#import "SGHotKey.h"
 #import "SGHotKey.h"
 #import "AIMessageWindowController.h"
-#import <Adium/AIServiceIcons.h>
-#import <Adium/AIStatusIcons.h>
-#import <AIUtilities/AIColorAdditions.h>
+#import "AIInterfaceControllerProtocol.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AIFontAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import "AILogByAccountWindowController.h"
 #import "AIURLHandlerPlugin.h"
 #import "AIURLHandlerWindowController.h"
 
@@ -85,8 +73,8 @@
 #else
 	[checkbox_updatesIncludeBetas setEnabled:[checkbox_updatesAutomatic state]];
 #endif
-	
-    self.shortcutRecorder = [[[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame] autorelease];
+
+    self.shortcutRecorder = [[SRRecorderControl alloc] initWithFrame:placeholder_shortcutRecorder.frame];
     shortcutRecorder.delegate = self;
     [[placeholder_shortcutRecorder superview] addSubview:shortcutRecorder];
 
@@ -94,8 +82,8 @@
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
 	if (TISGetInputSourceProperty(currentLayout, kTISPropertyUnicodeKeyLayoutData)) {
-		SGKeyCombo *keyCombo = [[[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
-																														 group:PREF_GROUP_GENERAL]] autorelease];
+		SGKeyCombo *keyCombo = [[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
+																														 group:PREF_GROUP_GENERAL]];
 		[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
 		[shortcutRecorder setAnimates:YES];
 		[shortcutRecorder setStyle:SRGreyStyle];
@@ -131,13 +119,6 @@
 	[button_resetAllWarnings setLocalizedString:AILocalizedString(@"Reset all warnings", nil)];
 }
 
-- (void)dealloc
-{
-    self.shortcutRecorder = nil;
-
-    [super dealloc];
-}
-
 //Dim controls as needed
 - (void)configureControlDimming
 {
@@ -150,7 +131,7 @@
 #endif
 }
 
-- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(NSInteger)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
 {
 	return NO;
 }
@@ -171,21 +152,11 @@
 	[[AIURLHandlerPlugin sharedAIURLHandlerPlugin] setAdiumAsDefault];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	[sheet orderOut:nil];
-	[sheet.windowController release];
-}
-
 - (IBAction)customizeDefaultApp:(id)sender
 {
 	AIURLHandlerWindowController *windowController = [[AIURLHandlerWindowController alloc] initWithWindowNibName:@"AIURLHandlerPreferences"];
 	
-	[NSApp beginSheet:windowController.window
-	   modalForWindow:self.view.window
-		modalDelegate:self
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-		  contextInfo:nil];
+	[windowController showOnWindow:self.view.window];
 }
 
 - (IBAction)resetAllWarnings:(id)sender

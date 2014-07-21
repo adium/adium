@@ -24,12 +24,12 @@
  */
 @interface AIHighlightingTextField : NSTextField
 {
-	BOOL selected;
-	AIPreferencePane *pane;
+	BOOL _selected;
+	__weak AIPreferencePane *pane;
 }
 
 @property (assign, nonatomic) BOOL selected;
-@property (assign) AIPreferencePane *pane;
+@property (weak) AIPreferencePane *pane;
 
 - (void)setString:(NSString *)aString withPane:(AIPreferencePane *)aPane;
 

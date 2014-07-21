@@ -18,7 +18,6 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import "BGICImportController.h"
-#import "AILoggerPlugin.h"
 
 @interface GBImportPlugin ()
 - (void)importIChat:(id)sender;
@@ -50,12 +49,6 @@
 				keyEquivalent:@""];
 	
 	[importMenuRoot setSubmenu:subMenu];
-	[subMenu release];
-}
-
-- (void)uninstallPlugin
-{
-	[importMenuRoot release];
 }
 
 - (void)importIChat:(id)sender

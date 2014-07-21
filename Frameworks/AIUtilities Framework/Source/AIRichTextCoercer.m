@@ -51,19 +51,18 @@
 		result = [input string];
 		if([input isKindOfClass:[NSMutableAttributedString class]]) {
 			//The input string is mutable, so make a copy of the string.
-			result = [[result copy] autorelease];
+			result = [result copy];
 		}
 	}
 
-	unsigned short RIGHTWARDS_ARROW = 0x2192;
-	NSLog(@"%s: Input '%@' %C Class %@ %C Result '%@'", __PRETTY_FUNCTION__, input, RIGHTWARDS_ARROW, class, RIGHTWARDS_ARROW, result);
+	NSLog(@"%s: Input '%@' → Class %@ → Result '%@'", __PRETTY_FUNCTION__, input, class, result);
 
 	return result;
 }
 + (id)coercePlainText:(NSString *)input toClass:(Class)class
 {
 	if([class isSubclassOfClass:[NSAttributedString class]]) {
-		return [[[class alloc] initWithString:input] autorelease];
+		return [[class alloc] initWithString:input];
 	}
 	return nil;
 }

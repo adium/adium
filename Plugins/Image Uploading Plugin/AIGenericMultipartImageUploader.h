@@ -26,8 +26,8 @@
 }
 
 @property (readonly, nonatomic) NSUInteger maximumSize;
-@property (readonly, nonatomic) NSString *uploadURL;
-@property (readonly, nonatomic) NSString *fieldName;
+@property (weak, readonly, nonatomic) NSString *uploadURL;
+@property (weak, readonly, nonatomic) NSString *fieldName;
 
 - (void)parseResponse:(NSData *)data;
 

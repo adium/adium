@@ -25,10 +25,10 @@
 - (void)installPlugin
 {
 	// Generic advanced panes with no specific plugins.
-	messageAlertsPreferences = [(AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane] retain];
-	windowHandlingPreferences = [(AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane] retain];
-	messagePreferences = [(AIMessagePreferences *)[AIMessagePreferences preferencePane] retain];
-	xtrasManager = [(AIXtrasManager *)[AIXtrasManager preferencePane] retain];
+	messageAlertsPreferences = (AIMessageAlertsAdvancedPreferences *)[AIMessageAlertsAdvancedPreferences preferencePane];
+	windowHandlingPreferences = (AIWindowHandlingPreferences *)[AIWindowHandlingPreferences preferencePane];
+	messagePreferences = (AIMessagePreferences *)[AIMessagePreferences preferencePane];
+	xtrasManager = (AIXtrasManager *)[AIXtrasManager preferencePane];
 }
 
 @end
