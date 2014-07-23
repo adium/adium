@@ -529,7 +529,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[self slideWindowOnScreenWithAnimation:NO];
 
 	} else {
-		//Do a slide immediately if needed (to display as per our new preferneces)
+		//Do a slide immediately if needed (to display as per our new preferences)
 		[self slideWindowIfNeeded:nil];
 		
 	}
