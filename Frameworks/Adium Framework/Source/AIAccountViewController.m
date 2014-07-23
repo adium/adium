@@ -411,7 +411,7 @@
 {
 	[label_password setLocalizedString:AILocalizedStringFromTableInBundle(@"Password:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the password field in the account preferences")];
 	[label_typing setLocalizedString:AILocalizedStringFromTableInBundle(@"Typing:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label beside the 'let others know when you are typing' checkbox in the account preferences")];
-	[checkBox_sendTyping setLocalizedString:AILocalizedStringFromTableInBundle(@"Let others know when you are typing", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Text of the typing preference checkbox in the account preferneces")];
+	[checkBox_sendTyping setLocalizedString:AILocalizedStringFromTableInBundle(@"Let others know when you are typing", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Text of the typing preference checkbox in the account preferences")];
 	[label_encryption setLocalizedString:AILocalizedStringFromTableInBundle(@"Encryption:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label besides the encryption preference menu")];
 	[label_alias setLocalizedString:AILocalizedStringFromTableInBundle(@"Alias:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], nil)];
 	[label_port setLocalizedString:AILocalizedStringFromTableInBundle(@"Port:", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Label for the port field in the account preferences")];
