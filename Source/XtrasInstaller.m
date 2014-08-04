@@ -343,8 +343,8 @@
 
 					//Open the file directly
 					AILogWithSignature(@"Installing %@",xtraPath);
-					success = [[NSApp delegate] application:NSApp
-											   openTempFile:xtraPath];
+					success = [[[NSApplication sharedApplication] delegate] application:NSApp
+																		   openTempFile:xtraPath];
 
 					if (!success) {
 						NSLog(@"Installation Error: %@",xtraPath);
