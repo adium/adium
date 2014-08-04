@@ -57,8 +57,6 @@
 
 - (void)setSecurityDetails:(NSDictionary *)securityDetailsDict forChat:(AIChat *)inChat;
 
-- (void)upgradeOTRIfNeeded;
-
 - (void)adiumFinishedLaunching:(NSNotification *)inNotification;
 - (void)adiumWillTerminate:(NSNotification *)inNotification;
 - (void)updateSecurityDetails:(NSNotification *)inNotification;
