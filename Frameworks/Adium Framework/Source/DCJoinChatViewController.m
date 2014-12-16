@@ -174,7 +174,7 @@
 		[contactArray removeObjectAtIndex:0];
 		AILog(@"Inviting %@ to %@", listContact, chat);
 
-		[chat inviteListContact:listContact
+		[(AIGroupChat *)chat inviteListContact:listContact
 					withMessage:[userInfo objectForKey:@"InitialInivitationMessage"]];
 		[listContact release];
 
@@ -276,9 +276,6 @@
 				
 				// Is there a contact with our service?
 				if ( [self validContact:uniqueID withService:account.service] ) {
-					
-					//if ([[view window] firstResponder] != textField_inviteUsers)
-					//	[[view window] makeFirstResponder:textField_inviteUsers];
 					return NSDragOperationGeneric;
 				}
 			}

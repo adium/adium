@@ -177,4 +177,9 @@ NSInteger alphabeticalSort(id objectA, id objectB, BOOL groups, id<AIContainingO
 	return &alphabeticalSort;
 }
 
+- (IBAction)closeSheet:(id)sender
+{
+	[NSApp endSheet:configureView.window];
+}
+
 @end

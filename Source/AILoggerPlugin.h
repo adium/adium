@@ -44,6 +44,7 @@
 	AIHTMLDecoder       *xhtmlDecoder;
 	NSDictionary        *statusTranslation;
 	BOOL                 logHTML;
+	NSTimer				*logRotateTimer;
 	
 	ISO8601DateFormatter *formatter;
 	
@@ -60,6 +61,9 @@
 	BOOL                 isIndexing;
 	SInt64               logsToIndex;
 	SInt64               logsIndexed;
+	
+	// Chat window toolbar item
+	NSMutableSet		*toolbarItems;
 }
 @property(assign,readonly) BOOL                 indexIsFlushing;
 @property(assign,readonly) BOOL                 isIndexing;

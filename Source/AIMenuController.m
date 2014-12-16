@@ -396,7 +396,6 @@
 	[menuItem_file setTitle:AILocalizedString(@"File","Title of the File menu")];
 	[menuItem_edit setTitle:AILocalizedString(@"Edit","Title of the Edit menu")];
 	[menuItem_view setTitle:AILocalizedString(@"View","Title of the View menu")];
-	[menuItem_display setTitle:AILocalizedString(@"Display", "Title of the Display menu")];
 	[menuItem_status setTitle:AILocalizedString(@"Status","Title of the Status menu")];
 	[menuItem_contact setTitle:AILocalizedString(@"Contact","Title of the Contact menu")];
 	[menuItem_format setTitle:AILocalizedString(@"Format","Title of the Format menu")];
@@ -407,7 +406,6 @@
 	[[menuItem_file submenu] setTitle:AILocalizedString(@"File","Title of the File menu")];
 	[[menuItem_edit submenu] setTitle:AILocalizedString(@"Edit","Title of the Edit menu")];
 	[[menuItem_view submenu] setTitle:AILocalizedString(@"View","Title of the View menu")];
-	[[menuItem_display submenu] setTitle:AILocalizedString(@"Display", "Title of the Display menu")];
 	[[menuItem_status submenu] setTitle:AILocalizedString(@"Status","Title of the Status menu")];
 	[[menuItem_contact submenu] setTitle:AILocalizedString(@"Contact","Title of the Contact menu")];
 	[[menuItem_format submenu] setTitle:AILocalizedString(@"Format","Title of the Format menu")];
@@ -460,6 +458,7 @@
 	[menuItem_spellingCheckSpelling setTitle:AILocalizedString(@"Check Spelling",nil)];
 	[menuItem_spellingCheckSpellingAsYouType setTitle:AILocalizedString(@"Check Spelling As You Type",nil)];
 	[menuItem_spellingCheckGrammarWithSpelling setTitle:AILocalizedString(@"Check Grammar With Spelling",nil)];
+	[menuItem_spellingCorrectSpellingAutomatically setTitle:AILocalizedString(@"Correct Spelling Automatically",nil)];
 	
 	[menuItem_speech setTitle:AILocalizedString(@"Speech",nil)];
 	[menuItem_startSpeaking setTitle:AILocalizedString(@"Start Speaking",nil)];

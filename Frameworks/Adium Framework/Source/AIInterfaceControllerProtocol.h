@@ -54,13 +54,11 @@
 #define KEY_CL_WINDOW_HAS_SHADOW			@"Window Has Shadow"
 
 #define PREF_GROUP_CONFIRMATIONS		@"Confirmations"
-#define KEY_CONFIRM_QUIT				@"Confirm Quit"
-#define KEY_CONFIRM_QUIT_TYPE			@"Confirm Quit Type"
 #define KEY_CONFIRM_QUIT_FT				@"Suppress Quit Confirmation for File Transfers"
-#define KEY_CONFIRM_QUIT_OPEN			@"Suppress Quit Confirmation for Open Chats"
 #define KEY_CONFIRM_QUIT_UNREAD			@"Suppress Quit Confirmation for Unread Messages"
 #define KEY_CONFIRM_MSG_CLOSE			@"Confirm Message Window Close"
-#define KEY_CONFIRM_MSG_CLOSE_TYPE		@"Confirm Message Window Close Type"
+#define KEY_CONFIRM_LOGGED_OTR			@"Confirm Logging When Using OTR"
+#define KEY_CONFIRM_SEND_CRASH			@"Suppress Send Crash Reports"
 
 typedef enum {
 	AINormalWindowLevel = 0,
@@ -373,6 +371,13 @@ typedef enum {
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
 		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+
+- (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
+- (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
+				makeKey:(BOOL)key target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
 
 #pragma mark Synchronized Flashing
 - (void)registerFlashObserver:(id <AIFlashObserver>)inObserver;

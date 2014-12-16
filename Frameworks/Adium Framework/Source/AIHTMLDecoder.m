@@ -634,7 +634,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 							if (!UCIsSurrogateLowCharacter(lowSurrogate)) {
 								//In case you're wondering: 0xFFFF is not a low surrogate. (Nor anything else, for that matter.)
-								AILog(@"AIHTMLDecoder: Got high surrogate of surrogate pair, but there's no low surrogate after it. This is at index %u of chunk with length %u. The chunk is: %@", i, length, chunk);
+								AILog(@"AIHTMLDecoder: Got high surrogate of surrogate pair, but there's no low surrogate after it. This is at index %lu of chunk with length %lu. The chunk is: %@", i, length, chunk);
 
 							} else {
 								UnicodeScalarValue codePoint = UCGetUnicodeScalarValueForSurrogatePair(/*highSurrogate*/ currentChar, lowSurrogate);
@@ -1411,14 +1411,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						NSScanner *hexScanner = [NSScanner scannerWithString:hexString];
 						unsigned int character = 0;
 						if([hexScanner scanHexInt:&character])
-							[attrString appendString:[NSString stringWithFormat:@"%C", character]
+							[attrString appendString:[NSString stringWithFormat:@"%C", (unsigned short)character]
 									  withAttributes:[textAttributes dictionary]];
 					} else if ([chunkString hasPrefix:@"#"]) {
 						NSString *decString = [chunkString substringFromIndex:1];
 						NSScanner *decScanner = [NSScanner scannerWithString:decString];
 						int character = 0;
 						if([decScanner scanInt:&character])
-							[attrString appendString:[NSString stringWithFormat:@"%C", character]
+							[attrString appendString:[NSString stringWithFormat:@"%C", (unsigned short)character]
 									  withAttributes:[textAttributes dictionary]];
 					}
 					else { //Invalid
@@ -1964,14 +1964,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			NSSize imageSize = [attachmentImage size];
 			[string appendFormat:@"<img %@src=\"%@%@\" alt=\"%@\" width=\"%i\" height=\"%i\">",
 				imageClassTag,
-				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", [[NSDate date] timeIntervalSince1970]] : @""),
+				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", (unsigned int)[[NSDate date] timeIntervalSince1970]] : @""),
 				altName,
 				(int)imageSize.width, (int)imageSize.height];
 
 		} else {
 			[string appendFormat:@"<img %@src=\"%@%@\" alt=\"%@\">",
 				imageClassTag,
-				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", [[NSDate date] timeIntervalSince1970]] : @""),
+				srcPath, (uniqueifyHTML ? [NSString stringWithFormat:@"?%i", (unsigned int)[[NSDate date] timeIntervalSince1970]] : @""),
 				altName];
 		}
 	}

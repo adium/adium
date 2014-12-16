@@ -24,6 +24,7 @@
 #import "AdiumChatEvents.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
@@ -366,8 +367,8 @@
 
 		//Create a new chat
 		chat = [AIChat chatForAccount:account];
-		[chat addParticipatingListObject:targetContact notify:YES];
-		[openChats addObject:chat];
+        [openChats addObject:chat];
+		chat.listObject = targetContact;
 		AILog(@"chatWithContact: Added <<%@>> [%@]",chat,openChats);
 
 		//Inform the account of its creation
@@ -416,9 +417,9 @@
  * @param chatCreationInfo A dictionary of information which may be used by the account when joining the chat serverside
  * @brief opens a chat with the above parameters. Assigns chatroom info to the created AIChat object.
  */
-- (AIChat *)chatWithName:(NSString *)name identifier:(id)identifier onAccount:(AIAccount *)account chatCreationInfo:(NSDictionary *)chatCreationInfo
+- (AIGroupChat *)chatWithName:(NSString *)name identifier:(id)identifier onAccount:(AIAccount *)account chatCreationInfo:(NSDictionary *)chatCreationInfo
 {
-	AIChat			*chat = nil;
+	AIGroupChat			*chat = nil;
 
 	name = [account.service normalizeChatName:name];
 
@@ -444,12 +445,11 @@
 	AILog(@"chatWithName %@ identifier %@ existing --> %@", name, identifier, chat);
 	if (!chat) {
 		//Create a new chat
-		chat = [AIChat chatForAccount:account];
+		chat = [AIGroupChat chatForAccount:account];
 		
 		chat.name = [account.service normalizeChatName:name];
 		chat.displayName = name;
 		chat.identifier = identifier;
-		chat.isGroupChat = YES;
 		chat.chatCreationDictionary = chatCreationInfo;
 
 		NSArray *lastActivity = [[DCMessageContextDisplayPlugin sharedInstance] contextForChat:chat lines:1 alsoStatus:TRUE];
@@ -503,9 +503,9 @@
  *
  * @result The group AIChat, or nil if no such chat exists
  */
-- (AIChat *)existingChatWithIdentifier:(id)identifier onAccount:(AIAccount *)account
+- (AIGroupChat *)existingChatWithIdentifier:(id)identifier onAccount:(AIAccount *)account
 {
-	AIChat			*chat = nil;
+	AIGroupChat			*chat = nil;
 	
 
 	for (chat in openChats) {
@@ -724,7 +724,7 @@
 				continue;
 			
 			for (AIListContact *contact in (AIMetaContact *)inContact) {
-				if([chat containsObject:contact]) {
+				if([(AIGroupChat *)chat containsObject:contact]) {
 					[groupChats addObject:chat];
 					break;
 				}
@@ -734,7 +734,7 @@
 	} else {
 		//Search for a chat with this AIListContact
 		for (AIChat *chat in openChats) {
-			if (chat.isGroupChat && [chat containsObject:inContact] && chat.account.shouldBeOnline) {
+			if (chat.isGroupChat && [(AIGroupChat *)chat containsObject:inContact] && chat.account.shouldBeOnline) {
 				[groupChats addObject:chat];
 			}
 		}
@@ -833,7 +833,7 @@
 	
 	for (AIChat *chat in openChats) {
 		if (chat.isGroupChat &&
-			[chat containsObject:listContact]) {
+			[(AIGroupChat *)chat containsObject:listContact]) {
 			
 			contactIsInGroupChat = YES;
 			break;
@@ -887,12 +887,12 @@
  */
 - (void)toggleShowJoinLeave:(id)sender
 {
-	AIChat *chat = nil;
+	AIGroupChat *chat = nil;
 	
 	if (sender == menuItem_joinLeave) {
-		chat = adium.interfaceController.activeChat;
+		chat = (AIGroupChat *)adium.interfaceController.activeChat;
 	} else {
-		chat = adium.menuController.currentContextMenuChat;
+		chat = (AIGroupChat *)adium.menuController.currentContextMenuChat;
 	}
 
 	chat.showJoinLeave = !chat.showJoinLeave;
@@ -935,7 +935,7 @@
 		}
 			
 		if (chat.isGroupChat) {
-			[menuItem setState:chat.showJoinLeave];
+			[menuItem setState:((AIGroupChat *)chat).showJoinLeave];
 			return YES;
 		}
 		
@@ -961,9 +961,10 @@
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
 		 */
-		for (AIListContact *inContact in inObjects) {
-			if (![inContact.account.UID isEqualToString:inContact.UID]) {
-				[adiumChatEvents chat:chat addedListContact:inContact];
+		for (NSString *nick in inObjects) {
+			AIListContact *contact = (AIListContact *)[(AIGroupChat *)chat contactForNick:nick];
+			if (![contact.account.UID isEqualToString:contact.UID]) {
+				[adiumChatEvents chat:chat addedListContact:contact];
 			}
 		}
 	}

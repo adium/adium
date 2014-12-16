@@ -34,6 +34,8 @@
 #define ENC_INDEX_KEY @"encIndex"
 #define ENC_CHAR_KEY @"encChar"
 
+#define MIN_LINK_LENGTH 4
+
 @interface AHHyperlinkScanner (PRIVATE)
 - (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -73,15 +75,15 @@
 		skipSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableSkipSet bitmapRepresentation]] retain];
 		[mutableSkipSet release];
 		
-		endSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"',:;>)]}.?!@"] retain];
+		endSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'“”‘’,:;>)]}–—.…?!@"] retain];
 		
 		NSMutableCharacterSet *mutableStartSet = [[NSMutableCharacterSet alloc] init];
 		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'.,:;<?!-@%C%C", 0x2014, 0x2013]]];
+		[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'“”‘’.…,:;<?!-–—@%C%C", (unsigned short)0x2014, (unsigned short)0x2013]]];
 		startSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableStartSet bitmapRepresentation]] retain];
 		[mutableStartSet release];
 		
-		puncSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'.,:;<?!"] retain];
+		puncSet = [[NSCharacterSet characterSetWithCharactersInString:@"\"'“”‘’.…,:;–—<?!"] retain];
 		hostnameComponentSeparatorSet = [[NSCharacterSet characterSetWithCharactersInString:@"./"] retain];
 		enclosureStartArray = [[NSArray arrayWithObjects:@"(",@"[",@"{",nil] retain];
 		enclosureSet = [[NSCharacterSet characterSetWithCharactersInString:@"()[]{}"] retain];
@@ -122,13 +124,14 @@
 #if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 		m_scanAttrString = nil;
 #endif
+        m_openEnclosureStack = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag
 {
-	if((self = [super init])){
+	if((self = [self init])){
 		m_scanString = [inString retain];
 		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
 						@"ftp://", @"ftp",
@@ -142,7 +145,7 @@
 #if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 - (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag
 {
-	if((self = [super init])){
+	if((self = [self init])){
 		m_scanString = [[inString string] retain];
 		m_scanAttrString = [inString retain];
 		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -161,6 +164,7 @@
 	[m_linkifiedString release];
 	[m_scanString release];
 	[m_urlSchemes release];
+    [m_openEnclosureStack release];
 #if !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
 	if(m_scanAttrString) [m_scanAttrString release];
 #endif
@@ -253,96 +257,109 @@
 	
 	// main scanning loop
 	while([self _scanString:m_scanString upToCharactersFromSet:skipSet intoRange:&scannedRange fromIndex:&scannedLocation]) {
-		
-		// Check for and filter  enclosures.  We can't add (, [, etc. to the skipSet as they may be in a URI
-		if([enclosureSet characterIsMember:[m_scanString characterAtIndex:scannedRange.location]]){
-			unsigned long encIdx = [enclosureStartArray indexOfObject:[m_scanString substringWithRange:NSMakeRange(scannedRange.location, 1)]];
-			NSRange encRange;
-			if(NSNotFound != encIdx) {
-				encRange = [m_scanString rangeOfString:[enclosureStopArray objectAtIndex:encIdx] options:NSBackwardsSearch range:scannedRange];
-				if(NSNotFound != encRange.location){
-					scannedRange.location++; scannedRange.length -= 2;
-				}
-			}
-		}
-		if(!scannedRange.length) break;
-		
-		// Find balanced enclosure chars
-		NSRange longestEnclosure = [self _longestBalancedEnclosureInRange:scannedRange];
-		while (scannedRange.length > 2 && [endSet characterIsMember:[m_scanString characterAtIndex:(scannedRange.location + scannedRange.length - 1)]]) {
-			if((longestEnclosure.location + longestEnclosure.length) < scannedRange.length){
-				scannedRange.length--;
-			}else break;
-		}
-		
-        // if we have a valid URL then save the scanned string, and make a SHMarkedHyperlink out of it.
-        // this way, we can preserve things like the matched string (to be converted to a NSURL),
-        // parent string, its validation status (valid, file, degenerate, etc), and its range in the parent string
-		AH_URI_VERIFICATION_STATUS	 validStatus;
-		NSString					*_scanString = nil;
-		unsigned long				 schemeLength = 0;
-		if(4 < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
-        if((4 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:&m_scanLocation withStatus:&validStatus schemeLength:&schemeLength]){
-            AHMarkedHyperlink	*markedLink;
-			BOOL				 makeLink = TRUE;
-            //insert typical specifiers if the URL is degenerate
-            switch(validStatus){
-                case AH_URL_DEGENERATE:
-                {
-                    NSString *scheme = DEFAULT_URL_SCHEME;
-					unsigned long i = 0;
-					
-                    NSRange  firstComponent;
-					[self		  _scanString:_scanString
-				   upToCharactersFromSet:hostnameComponentSeparatorSet
-							   intoRange:&firstComponent
-							   fromIndex:&i];
-					
-                    if(NSNotFound != firstComponent.location) {
-                    	NSString *hostnameScheme = [m_urlSchemes objectForKey:[_scanString substringWithRange:firstComponent]];
-                    	if(hostnameScheme) scheme = hostnameScheme;
+        if (MIN_LINK_LENGTH < scannedRange.length) {
+            // Check for and filter  enclosures.  We can't add (, [, etc. to the skipSet as they may be in a URI
+            NSString *topEncChar = [m_openEnclosureStack lastObject];
+            if(topEncChar || [enclosureSet characterIsMember:[m_scanString characterAtIndex:scannedRange.location]]){
+                unsigned long encIdx = [enclosureStartArray indexOfObject:topEncChar? topEncChar : [m_scanString substringWithRange:NSMakeRange(scannedRange.location, 1)]];
+                NSRange encRange;
+                if(NSNotFound != encIdx) {
+                    encRange = [m_scanString rangeOfString:[enclosureStopArray objectAtIndex:encIdx] options:NSBackwardsSearch range:scannedRange];
+                    if(NSNotFound != encRange.location){
+                         scannedRange.length--;
+                        if (topEncChar) {
+                            [m_openEnclosureStack removeLastObject];
+                        } else {
+                            scannedRange.location++;
+                            scannedRange.length--;
+                        }
+                    } else {
+                        [m_openEnclosureStack addObject:[enclosureStartArray objectAtIndex:encIdx]];
                     }
-					
-                    _scanString = [scheme stringByAppendingString:_scanString];
-					
-                    break;
                 }
-					
-                case AH_MAILTO_DEGENERATE:
-					_scanString = [@"mailto:" stringByAppendingString:_scanString];
-                    break;
-				case AH_URL_TENTATIVE:
-				{
-					NSString *scheme = [_scanString substringToIndex:schemeLength];
-					NSArray *apps = (NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme);
-
-					if(!apps.count)
-						makeLink = FALSE;
-					[apps release];
-					break;
-				}
-                default:
-                    break;
+            }
+            if(!scannedRange.length) break;
+            
+            // Find balanced enclosure chars
+            NSRange longestEnclosure = [self _longestBalancedEnclosureInRange:scannedRange];
+            while (scannedRange.length > 2 && [endSet characterIsMember:[m_scanString characterAtIndex:(scannedRange.location + scannedRange.length - 1)]]) {
+                if((longestEnclosure.location + longestEnclosure.length) < scannedRange.length){
+                    scannedRange.length--;
+                }else break;
             }
             
-			if(makeLink){
-				//make a marked link
-				markedLink = [[AHMarkedHyperlink alloc] initWithString:_scanString
-												  withValidationStatus:validStatus
-														  parentString:m_scanString
-															  andRange:scannedRange];
-				return [markedLink autorelease];
-			}
+            // Update the scan location
+            m_scanLocation = scannedRange.location;
+            
+            // if we have a valid URL then save the scanned string, and make a SHMarkedHyperlink out of it.
+            // this way, we can preserve things like the matched string (to be converted to a NSURL),
+            // parent string, its validation status (valid, file, degenerate, etc), and its range in the parent string
+            AH_URI_VERIFICATION_STATUS	 validStatus;
+            NSString					*_scanString = nil;
+            unsigned long				 schemeLength = 0;
+            if(MIN_LINK_LENGTH < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
+            if((MIN_LINK_LENGTH < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:&m_scanLocation withStatus:&validStatus schemeLength:&schemeLength]){
+                AHMarkedHyperlink	*markedLink;
+                BOOL				 makeLink = TRUE;
+                //insert typical specifiers if the URL is degenerate
+                switch(validStatus){
+                    case AH_URL_DEGENERATE:
+                    {
+                        NSString *scheme = DEFAULT_URL_SCHEME;
+                        unsigned long i = 0;
+                        
+                        NSRange  firstComponent;
+                        [self		  _scanString:_scanString
+                       upToCharactersFromSet:hostnameComponentSeparatorSet
+                                   intoRange:&firstComponent
+                                   fromIndex:&i];
+                        
+                        if(NSNotFound != firstComponent.location) {
+                            NSString *hostnameScheme = [m_urlSchemes objectForKey:[_scanString substringWithRange:firstComponent]];
+                            if(hostnameScheme) scheme = hostnameScheme;
+                        }
+                        
+                        _scanString = [scheme stringByAppendingString:_scanString];
+                        
+                        break;
+                    }
+                        
+                    case AH_MAILTO_DEGENERATE:
+                        _scanString = [@"mailto:" stringByAppendingString:_scanString];
+                        break;
+                    case AH_URL_TENTATIVE:
+                    {
+                        NSString *scheme = [_scanString substringToIndex:schemeLength];
+                        NSArray *apps = (NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme);
+
+                        if(!apps.count)
+                            makeLink = FALSE;
+                        [apps release];
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                
+                if(makeLink){
+                    //make a marked link
+                    markedLink = [[AHMarkedHyperlink alloc] initWithString:_scanString
+                                                      withValidationStatus:validStatus
+                                                              parentString:m_scanString
+                                                                  andRange:scannedRange];
+                    return [markedLink autorelease];
+                }
+            }
+            
+            //step location after scanning a string
+            NSRange startRange = [m_scanString rangeOfCharacterFromSet:puncSet options:NSLiteralSearch range:scannedRange];
+            if (startRange.location != NSNotFound)
+                m_scanLocation = startRange.location + startRange.length;
+            else
+                m_scanLocation += scannedRange.length;
+            
+            scannedLocation = m_scanLocation;
         }
-		
-		//step location after scanning a string
-		NSRange startRange = [m_scanString rangeOfCharacterFromSet:puncSet options:NSLiteralSearch range:scannedRange];
-		if (startRange.location != NSNotFound)
-			m_scanLocation = startRange.location + startRange.length;
-		else
-			m_scanLocation += scannedRange.length;
-		
-		scannedLocation = m_scanLocation;
     }
 	
     // if we're here, then NSScanner hit the end of the string

@@ -1095,7 +1095,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSString *subobjectDescsDesc = [subobjectDescs description];
 	[subobjectDescs release];
 
-	return [NSString stringWithFormat:@"<%@:%x %@: %@>",NSStringFromClass([self class]), self, self.internalObjectID, subobjectDescsDesc];
+	return [NSString stringWithFormat:@"<%@:%p %@: %@>",NSStringFromClass([self class]), self, self.internalObjectID, subobjectDescsDesc];
 }
 
 - (BOOL) canContainObject:(id)obj

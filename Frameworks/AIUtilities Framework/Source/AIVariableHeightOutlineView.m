@@ -341,8 +341,6 @@
 	image = [[[NSImage alloc] initWithSize:NSMakeSize(rowRect.size.width,
 													  rowRect.size.height*count + [self intercellSpacing].height*(count-1))] autorelease];
 
-	//Draw (Since the OLV is normally flipped, we have to be flipped when drawing)
-	[image setFlipped:YES];
 	[image lockFocus];
 
 	tableColumnsCount = [tableColumns count];
@@ -379,7 +377,6 @@
 	}
 
 	[image unlockFocus];
-	[image setFlipped:NO];
 
 	//Offset the drag image (Remember: The system centers it by default, so this is an offset from center)
 	NSPoint clickLocation = [self convertPoint:[dragEvent locationInWindow] fromView:nil];
@@ -390,6 +387,7 @@
 
 }
 
+//Our default drag image will be cropped incorrectly, so we need a custom one here
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
@@ -400,24 +398,6 @@
 	[dragRows getIndexes:buf maxCount:bufSize inIndexRange:&range];
 
 	image = [self dragImageForRows:buf count:bufSize tableColumns:tableColumns event:dragEvent offset:dragImageOffset];
-
-	free(buf);
-
-	return image;
-}
-
-//Our default drag image will be cropped incorrectly, so we need a custom one here
-- (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset
-{
-	NSImage			*image;
-	NSUInteger	i, bufSize = [dragRows count];
-	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
-
-	for (i = 0; i < bufSize; i++) {
-		buf[i] = [[dragRows objectAtIndex:0] unsignedIntValue];
-	}
-
-	image = [self dragImageForRows:buf count:bufSize tableColumns:nil event:dragEvent offset:dragImageOffset];
 
 	free(buf);
 

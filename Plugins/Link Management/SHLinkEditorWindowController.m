@@ -25,7 +25,6 @@
 
 @interface SHLinkEditorWindowController ()
 
-- (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -90,7 +89,7 @@
 		NSString    *linkText;
 		id   	 	linkURL = nil;
 		
-		// Text is selected if the selected Range is Greater than 0 !
+		// Text is selected if the selected range is greater than 0!
 		if (selectedRange.length > 0) {
 			linkURL = [[textView textStorage] attribute:NSLinkAttributeName
 												atIndex:selectedRange.location
@@ -205,9 +204,9 @@
 
 	// Insert it into the text view
 	if ((URL = [NSURL URLWithString:urlString])) {
-		[self insertLinkTo:URL
-				  withText:linkString
-					inView:textView];
+		[SHLinkEditorWindowController insertLinkTo:URL
+										  withText:linkString
+											inView:textView];
 		// Inform our target of the new link and close up
 		[self informTargetOfLink];
 		[self closeWindow:nil];
@@ -252,8 +251,14 @@
 }
 
 // Insert a link into a text view
-- (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView
++ (void)insertLinkTo:(NSURL *)linkURL withText:(NSString *)linkTitle inView:(NSTextView *)inView
 {
+	//Bail if we don't have a link; use the link as the title if no title was sent
+	if (!linkURL)
+		return;
+	if (linkTitle.length == 0)
+		linkTitle = linkURL.path;
+	
     NSDictionary				*typingAttributes = [inView typingAttributes];
 	NSTextStorage				*textStorage = [inView textStorage];
 	NSMutableAttributedString	*linkString;
@@ -297,17 +302,7 @@
 {
     // Validate our URL
     [textView_URL textDidChange:aNotification];
-	
-	if ([imageView_invalidURLAlert respondsToSelector:@selector(setHidden:)]) {
-        [imageView_invalidURLAlert setHidden:[textView_URL isURLValid]];
-
-    } else { // For those stuck in jag, we can't use setHidden
-        if ([textView_URL isURLValid]) {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"space" forClass:[self class]]];
-        } else {
-            [imageView_invalidURLAlert setImage:[NSImage imageNamed:@"events-error-alert" forClass:[self class]]];
-        }
-    }
+    [imageView_invalidURLAlert setHidden:[textView_URL isURLValid]];
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector

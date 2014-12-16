@@ -61,6 +61,11 @@
 	NSString *realname = [account preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: @"";
 	[textField_realname setStringValue:realname];
 	[textField_realname.cell setPlaceholderString:((ESIRCAccount *)account).defaultRealname];
+	
+	// SASL
+	[checkbox_useSASL setState:[[account preferenceForKey:KEY_IRC_USE_SASL group:GROUP_ACCOUNT_STATUS] boolValue]];
+	
+	[checkbox_insecurePlain setState:[[account preferenceForKey:KEY_IRC_INSECURE_SASL_PLAIN group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 - (void)saveConfiguration
@@ -89,6 +94,16 @@
 	[account setPreference:(textField_realname.stringValue.length ? textField_realname.stringValue : nil)
 					forKey:KEY_IRC_REALNAME
 					 group:GROUP_ACCOUNT_STATUS];
+	
+	// Connection SASL
+	[account setPreference:[NSNumber numberWithBool:[checkbox_useSASL state]]
+					forKey:KEY_IRC_USE_SASL
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkbox_insecurePlain state]]
+					forKey:KEY_IRC_INSECURE_SASL_PLAIN
+					 group:GROUP_ACCOUNT_STATUS];
+	
 }	
 
 @end

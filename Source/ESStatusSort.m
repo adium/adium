@@ -473,14 +473,14 @@ static NSInteger  sizeOfSortOrder;
 /*!
  * @brief Table view write rows
  */
--  (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard
+-  (BOOL)tableView:(NSTableView *)tableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
     [pboard declareTypes:[NSArray arrayWithObject:STATUS_DRAG_TYPE] owner:self];
 	
     //Build a list of all the highlighted aways
     NSString	*dragItem = [self tableView:tableView
 				  objectValueForTableColumn:nil
-										row:[[rows objectAtIndex:0] integerValue]];
+										row:[rowIndexes firstIndex]];
 	
     //put it on the pasteboard
     [pboard setString:dragItem forType:STATUS_DRAG_TYPE];
@@ -728,19 +728,19 @@ NSInteger statusSort(id objA, id objB, BOOL groups, id<AIContainingObject> conta
 			NSArray		*componentsA = [displayNameA componentsSeparatedByString:space];
 			NSArray		*componentsB = [displayNameB componentsSeparatedByString:space];
 			
-			returnValue = [[componentsA lastObject] caseInsensitiveCompare:[componentsB lastObject]];
+			returnValue = [[componentsA lastObject] localizedCaseInsensitiveCompare:[componentsB lastObject]];
 			//If the last names are the same, compare the whole object, which will amount to sorting these objects
 			//by first name
 			if (returnValue == NSOrderedSame) {
-				returnValue = [displayNameA caseInsensitiveCompare:displayNameB];
+				returnValue = [displayNameA localizedCaseInsensitiveCompare:displayNameB];
 				if (returnValue == NSOrderedSame) {
-					returnValue = [[objectA internalObjectID] caseInsensitiveCompare:[objectB internalObjectID]];
+					returnValue = [[objectA internalObjectID] localizedCaseInsensitiveCompare:[objectB internalObjectID]];
 				}
 			}
 		} else {
-			returnValue = [[objectA longDisplayName] caseInsensitiveCompare:[objectB longDisplayName]];
+			returnValue = [[objectA longDisplayName] localizedCaseInsensitiveCompare:[objectB longDisplayName]];
 			if (returnValue == NSOrderedSame) {
-				returnValue = [[objectA internalObjectID] caseInsensitiveCompare:[objectB internalObjectID]];
+				returnValue = [[objectA internalObjectID] localizedCaseInsensitiveCompare:[objectB internalObjectID]];
 			}
 		}
 		
@@ -753,6 +753,11 @@ NSInteger statusSort(id objA, id objB, BOOL groups, id<AIContainingObject> conta
  */
 - (sortfunc)sortFunction{
 	return &statusSort;
+}
+
+- (IBAction)closeSheet:(id)sender
+{
+	[NSApp endSheet:configureView.window];
 }
 
 @end

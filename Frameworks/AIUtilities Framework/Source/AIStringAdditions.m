@@ -187,7 +187,7 @@ enum {
 
 	for (i = 0 ; i < length ; i++) {
 		/* Offset by the desired amount */
-		[newString appendFormat:@"%C",([self characterAtIndex:i] + offset)];
+		[newString appendFormat:@"%c",([self characterAtIndex:i] + offset)];
 	}
 	
 	return newString;
@@ -282,82 +282,6 @@ enum {
 
 	return [string autorelease];
 }
-
-//- (NSString *)stringByEncodingURLEscapes
-//{
-//    NSScanner *s = [NSScanner scannerWithString:self];
-//    NSCharacterSet *notUrlCode = [[NSCharacterSet characterSetWithCharactersInString:
-//        @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$-_.+!*'(),;/?:@=&"] 		invertedSet];
-//    NSMutableString *encodedString = [[NSMutableString alloc] initWithString:@""];
-//    NSString *read;
-//    
-//    while (![s isAtEnd])
-//    {
-//        [s scanUpToCharactersFromSet:notUrlCode intoString:&read];
-//        if (read)
-//            [encodedString appendString:read];
-//        if (![s isAtEnd])
-//        {
-//            [encodedString appendFormat:@"%%%x", [self characterAtIndex:[s scanLocation]]];
-//            [s setScanLocation:[s scanLocation]+1];
-//        }
-//    }
-//    
-//    return [encodedString autorelease];
-//}
-//
-//- (NSString *)stringByDecodingURLEscapes
-//{
-//    NSScanner *s = [NSScanner scannerWithString:self];
-//    NSMutableString *decodedString = [[NSMutableString alloc] initWithString:@""];
-//    NSString *read;
-//    
-//    while (![s isAtEnd])
-//    {
-//        [s scanUpToString:@"%" intoString:&read];
-//        if (read)
-//            [decodedString appendString:read];
-//        if (![s isAtEnd])
-//        {
-//            [decodedString appendString:[NSString stringWithFormat:@"%c", 
-//                [[NSString stringWithFormat:@"%li",
-//                    strtol([[self substringWithRange:NSMakeRange([s scanLocation]+1, 2)] cString], 
-//                        NULL, 16)] 
-//                intValue]]];
-//                
-//            [s setScanLocation:[s scanLocation]+3];
-//
-//        }
-//    }
-//    return [decodedString autorelease];
-//
-//}
-//
-//- (BOOL)isURLEncoded
-//{
-//    NSCharacterSet *notUrlCode = [[NSCharacterSet characterSetWithCharactersInString:
-//        @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$-_.+!*'(),;/?:@=&"] 		invertedSet];
-//    NSCharacterSet *notHexSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCEFabcdef"]
-//        invertedSet];
-//    NSScanner *s = [NSScanner scannerWithString:self]; 
-//    
-//    if ([self rangeOfCharacterFromSet:notUrlCode].location != NSNotFound)
-//        return NO;
-//    
-//    while (![s isAtEnd])
-//    {
-//        [s scanUpToString:@"%" intoString:nil];
-//        
-//        if ([[self substringWithRange:NSMakeRange([s scanLocation]+1, 2)] rangeOfCharacterFromSet:notHexSet].location != NSNotFound)
-//            return NO;
-//    }
-//    
-//    return YES;
-//}
-
-
-
-
 
 //stringByEncodingURLEscapes
 // Percent escape all characters except for a-z, A-Z, 0-9, '_', and '-'
@@ -584,8 +508,8 @@ enum {
 #define SBEFS_BOUNDARY_GUARD \
 	do { \
 		if (i == buflen) { \
-			buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
-			if (!buf) { \
+			buf = reallocf(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+			if (buf == NULL) { \
 				NSLog(@"in stringByEscapingForShell: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 				free(myBuf); \
 				return nil; \
@@ -667,7 +591,7 @@ enum {
 #define SBEFR_BOUNDARY_GUARD \
 do { \
 if (i == buflen) { \
-buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+buf = reallocf(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
 if (!buf) { \
 NSLog(@"in stringByEscapingForRegexp: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
 free(myBuf); \
@@ -702,9 +626,8 @@ return nil; \
 
 - (NSString *)volumePath
 {
-	NSEnumerator *pathEnum = [[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] objectEnumerator];
 	NSString *volumePath;
-	while ((volumePath = [pathEnum nextObject])) {
+	for (volumePath in [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths]) {
 		if ([self hasPrefix:[volumePath stringByAppendingString:@"/"]])
 			break;
 	}
@@ -756,7 +679,7 @@ return nil; \
 	//^-----^   <-Returns this substring. (Trailing zeroes are deleted.)
 	//42.000000
 	//^^        <-Returns this substring (everything before the decimal point) for a whole number.
-	NSString *format = numDigits ? [NSString stringWithFormat:@"%%.%uf", numDigits] : @"%f";
+	NSString *format = numDigits ? [NSString stringWithFormat:@"%%.%luf", numDigits] : @"%f";
 	NSString *str = [NSString stringWithFormat:format, (double)f];
 	NSUInteger i = [str length];
 	while (i-- > 0) {

@@ -51,6 +51,14 @@
 - (NSString *)longDescription{
 	return @"Zephyr";
 }
+- (NSURL *)serviceAccountSetupURL
+{
+	return [NSURL URLWithString:AILocalizedString(@"http://trac.adium.im/wiki/Zephyr", @"URL for Zephyr signup or about page. Replace with the URL to an equivalent page in your language if one exists.")];
+}
+- (NSString *)accountSetupLabel
+{
+	return AILocalizedString(@"About Zephyr", @"Text for Zephyr sign up button");
+}
 - (NSCharacterSet *)allowedCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@"+abcdefghijklmnopqrstuvwxyz0123456789._@-"];
 }

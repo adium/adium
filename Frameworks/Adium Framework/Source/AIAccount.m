@@ -96,6 +96,7 @@ typedef enum
 	Adium_Proxy_Default_HTTP_AS = 'DHTP',
 	Adium_Proxy_Default_SOCKS4_AS = 'DSK4',
 	Adium_Proxy_Default_SOCKS5_AS = 'DSK5',
+    Adium_Proxy_Tor_AS = 'TOS5',
 	Adium_Proxy_None_AS = 'NONE'
 } AdiumProxyTypeApplescript;
 
@@ -928,18 +929,6 @@ typedef enum
 												  inChat:inChat];
 }
 
-/*!
- * @brief Allow the user to verify (or unverify) the identity being used for encryption in a chat
- *
- * It is an error to call this on a chat which is not currently encrypted.
- *
- * @param inChat The chat
- */
-- (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
-{
-	[adium.contentController promptToVerifyEncryptionIdentityInChat:inChat];
-}
-
 #pragma mark Image sending
 /*!
  * @brief Can the account send images inline within a chat?
@@ -1034,6 +1023,10 @@ typedef enum
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
 	BOOL shouldLog = ![self isTemporary];
+	
+	if (shouldLog) {
+		shouldLog = [[adium.preferenceController preferenceForKey:KEY_LOGGER_ENABLE group:PREF_GROUP_LOGGING] boolValue];
+	}
 	
 	if(shouldLog && [[adium.preferenceController preferenceForKey:KEY_LOGGER_CERTAIN_ACCOUNTS group:PREF_GROUP_LOGGING] boolValue]) {
 		shouldLog = ![[self preferenceForKey:KEY_LOGGER_OBJECT_DISABLE
@@ -1190,7 +1183,6 @@ typedef enum
 		}
 		
 		AIChat *newChat = [adium.chatController chatWithContact:contact];
-		//		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
 		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
 	} else {
@@ -1211,7 +1203,6 @@ typedef enum
 			[newParticipants addObject:[[participants objectAtIndex:i] objectsByEvaluatingSpecifier]];
 		}
 		
-		//AIChat *newChat = [adium.chatController chatWithName:name identifier:nil onAccount:self chatCreationInfo:nil];
 		DCJoinChatViewController *chatController = [DCJoinChatViewController joinChatView];
 		[chatController doJoinChatWithName:name onAccount:self chatCreationInfo:nil invitingContacts:newParticipants withInvitationMessage:@"Hey, wanna join my chat?"];
 		return [adium.chatController existingChatWithName:name onAccount:self];
@@ -1506,6 +1497,8 @@ typedef enum
 			return Adium_Proxy_Default_SOCKS4;
 		case Adium_Proxy_Default_SOCKS5_AS:
 			return Adium_Proxy_Default_SOCKS5;
+        case Adium_Proxy_Tor_AS:
+            return Adium_Proxy_Tor;
 		default:
 			return Adium_Proxy_None;
 	}
@@ -1526,6 +1519,8 @@ typedef enum
 			return Adium_Proxy_Default_SOCKS4_AS;
 		case Adium_Proxy_Default_SOCKS5:
 			return Adium_Proxy_Default_SOCKS5_AS;
+        case Adium_Proxy_Tor:
+            return Adium_Proxy_Tor_AS;
 		default:
 			return Adium_Proxy_None_AS;
 	}

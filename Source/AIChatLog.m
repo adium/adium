@@ -51,10 +51,11 @@
 	NSArray *serviceAndFromUIDArray = [serviceAndFromUID componentsSeparatedByString:@"."];
 	
 	if ([serviceAndFromUIDArray count] >= 2) {
-		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, [serviceAndFromUIDArray objectAtIndex:0]);
+		NSString *serviceString = [serviceAndFromUIDArray objectAtIndex:0];
+		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, serviceString);
 		
 		//Use substringFromIndex so we include the rest of the string in the case of a UID with a . in it
-		fromUID = [serviceAndFromUID substringFromIndex:([serviceClass length] + 1)]; //One off for the '.'
+		fromUID = [serviceAndFromUID substringFromIndex:([serviceString length] + 1)]; //One off for the '.'
 
 	} else {
 		//Fallback: blank non-nil serviceClass; folderName as the fromUID
@@ -144,7 +145,7 @@
 //Sort by To, then Date
 - (NSComparisonResult)compareTo:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [to caseInsensitiveCompare:[inLog to]];
+    NSComparisonResult  result = [to localizedCaseInsensitiveCompare:[inLog to]];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
 		
@@ -159,7 +160,7 @@
 }
 - (NSComparisonResult)compareToReverse:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [[inLog to] caseInsensitiveCompare:to];
+    NSComparisonResult  result = [[inLog to] localizedCaseInsensitiveCompare:to];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
 		
@@ -175,7 +176,7 @@
 //Sort by From, then Date
 - (NSComparisonResult)compareFrom:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [from caseInsensitiveCompare:[inLog from]];
+    NSComparisonResult  result = [from localizedCaseInsensitiveCompare:[inLog from]];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
 		
@@ -190,7 +191,7 @@
 }
 - (NSComparisonResult)compareFromReverse:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [[inLog from] caseInsensitiveCompare:from];
+    NSComparisonResult  result = [[inLog from] localizedCaseInsensitiveCompare:from];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
 		
@@ -207,7 +208,7 @@
 //Sort by From, then Date
 - (NSComparisonResult)compareService:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [serviceClass caseInsensitiveCompare:inLog.serviceClass];
+    NSComparisonResult  result = [serviceClass localizedCaseInsensitiveCompare:inLog.serviceClass];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:inLog.date];
 		
@@ -222,7 +223,7 @@
 }
 - (NSComparisonResult)compareServiceReverse:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [inLog.serviceClass caseInsensitiveCompare:serviceClass];
+    NSComparisonResult  result = [inLog.serviceClass localizedCaseInsensitiveCompare:serviceClass];
     if (result == NSOrderedSame) {
 		NSTimeInterval		interval = [date timeIntervalSinceDate:inLog.date];
 		
@@ -247,7 +248,7 @@
 	} else if (interval > 0) {
 		result = NSOrderedDescending;
 	} else {
-		result = [to caseInsensitiveCompare:[inLog to]];
+		result = [to localizedCaseInsensitiveCompare:[inLog to]];
     }
 	
     return result;
@@ -262,7 +263,7 @@
 	} else if (interval > 0) {
 		result = NSOrderedDescending;
 	} else {
-		result = [[inLog to] caseInsensitiveCompare:to];
+		result = [[inLog to] localizedCaseInsensitiveCompare:to];
     }
 	
     return result;
@@ -278,7 +279,7 @@
 	} else if (rankingPercentage < otherRankingPercentage) {
 		result = NSOrderedAscending;	
 	} else {
-		result = [to caseInsensitiveCompare:[inLog to]];
+		result = [to localizedCaseInsensitiveCompare:[inLog to]];
     }
 	
 	return result;
@@ -293,7 +294,7 @@
 	} else if (rankingPercentage < otherRankingPercentage) {
 		result = NSOrderedDescending;				
 	} else {
-		result = [[inLog to] caseInsensitiveCompare:to];
+		result = [[inLog to] localizedCaseInsensitiveCompare:to];
     }
 	
 	return result;

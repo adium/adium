@@ -39,6 +39,7 @@
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -72,6 +73,8 @@
 #define VIEW_LOGS_WITH_CONTACT		AILocalizedString(@"View Chat Transcripts",nil)
 
 #define	LOG_VIEWER_IDENTIFIER		@"LogViewer"
+
+#define LOGGING_OVERRIDE_ITEM		@"LoggingOverride"
 
 #define ENABLE_PROXIMITY_SEARCH		TRUE
 
@@ -136,6 +139,10 @@ CFStringRef CopyTextContentForFileData(CFStringRef contentTypeUTI, NSURL *urlToF
 // cleanup
 - (void)_closeLogIndex;
 - (void)_flushIndex:(SKIndexRef)inIndex;
+
+// Toolbar item
+- (IBAction)toggleLogging:(NSToolbarItem *)sender;
+- (void)updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 
 // properties
 @property(retain,readwrite) NSMutableDictionary *activeAppenders;
@@ -216,6 +223,8 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	logAppendingGroup = dispatch_group_create();
 	loggerPluginGroup = dispatch_group_create();
 	
+	toolbarItems = [[NSMutableSet alloc] init];
+	
 	ioQueue = dispatch_queue_create("im.adium.AILoggerPlugin.ioQueue", 0);
 	
 	NSUInteger cpuCount = [[NSProcessInfo processInfo] activeProcessorCount];	
@@ -249,6 +258,13 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 							  @"available",@"return_idle",
 							  @"away",@"away_message",
 							  nil];
+	
+	logRotateTimer = [[NSTimer scheduledTimerWithTimeInterval:86400
+													   target:self
+													 selector:@selector(rotateLogs:)
+													 userInfo:nil
+													  repeats:YES] retain];
+	[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
 	
 	//Setup our preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed: LOGGING_DEFAULT_PREFS forClass:[self class]] forGroup:PREF_GROUP_LOGGING];
@@ -304,6 +320,26 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											 selector:@selector(showLogViewerAndReindex:)
 												 name:AIShowLogViewerAndReindexNotification
 											   object:nil];
+	
+	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:LOGGING_OVERRIDE_ITEM
+														  label:AILocalizedString(@"Toggle Logging",nil)
+												   paletteLabel:AILocalizedString(@"Toggle Logging",nil)
+														toolTip:AILocalizedString(@"Turn logging on or off for this conversation.",nil)
+														 target:self
+												settingSelector:@selector(setImage:)
+													itemContent:[NSImage imageNamed:@"Authorize" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]
+														 action:@selector(toggleLogging:)
+														   menu:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toolbarWillAddItem:)
+												 name:NSToolbarWillAddItemNotification
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toolbarDidRemoveItem:)
+												 name:NSToolbarDidRemoveItemNotification
+											   object:nil];
+	
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 
 - (void)uninstallPlugin
@@ -338,6 +374,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 	dispatch_release(jobSemaphore); jobSemaphore = nil;
 	dispatch_release(loggerPluginGroup); loggerPluginGroup = nil;
 	
+	[logRotateTimer invalidate]; [logRotateTimer release];
 	[formatter release]; formatter = nil;
 	
 	[super dealloc];
@@ -441,7 +478,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 			
 			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
 				_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+				AILogWithSignature(@"Opened index %p from %@",_index,logIndexURL);
 				
 				if (!_index) {
 					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
@@ -471,7 +508,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (CFDictionaryRef)textAnalysisProperties);
 
 				if (_index) {
-					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+					AILogWithSignature(@"Created a new log index %p at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
 					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
 					dispatch_sync(dirtyLogSetMutationQueue, ^{
@@ -1038,14 +1075,24 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					[attributeValues addObject:@"true"];
 				}
 				
-				NSString *displayName = [chat displayNameForContact:content.source];
+				NSString *displayName;
+                
+                if (chat.isGroupChat)
+                    displayName = content.sourceNick ? : content.source.displayName;
+                else
+                    displayName = content.source.displayName;
 				
 				if (![[[content source] UID] isEqualToString:displayName]) {
 					[attributeKeys addObject:@"alias"];
 					[attributeValues addObject:displayName];
 				}
 				
-				AIXMLElement *messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
+				AIXMLElement *messageElement;
+				if ([[content displayClasses] containsObject:@"action"]) {
+					messageElement = [[[AIXMLElement alloc] initWithName:@"action"] autorelease];
+				} else {
+					messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
+				}
 				
 				[messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
 															   imagesPath:[appender.path stringByDeletingLastPathComponent]]];
@@ -1061,7 +1108,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				AIListObject	*actualObject = nil;
 				
 				if (content.source) {
-					for(AIListContact *participatingListObject in chat) {
+					for(AIListContact *participatingListObject in [chat containedObjects]) {
 						if ([participatingListObject parentContact] == retardedMetaObject) {
 							actualObject = participatingListObject;
 							break;
@@ -1224,13 +1271,31 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 												 selector:@selector(finishClosingAppender:) 
 												   object:[self keyForChat:chat]];
 	} else {
-		//If there isn't already an appender, create a new one and add it to the dictionary
-		NSDate			*chatDate = [chat dateOpened];
-		NSString		*fullPath = [AILoggerPlugin fullPathForLogOfChat:chat onDate:chatDate];
-		
-		AIXMLElement *rootElement = [[[AIXMLElement alloc] initWithName:@"chat"] autorelease];
-		
-		[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", @"adiumversion", @"buildid", nil]
+		appender = [self _createAppenderForChat:chat withDate:nil];
+
+		//Add the window opened event now
+		AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+
+		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
+
+		[appender appendElement:eventElement];
+	}
+	
+	return appender;
+}
+
+- (AIXMLAppender *)_createAppenderForChat:(AIChat *)chat withDate:(NSDate *)chatDate
+{
+	//If there isn't already an appender, create a new one and add it to the dictionary
+	if (!chatDate)
+		chatDate = [chat dateOpened];
+	
+	NSString		*fullPath = [AILoggerPlugin fullPathForLogOfChat:chat onDate:chatDate];
+
+	AIXMLElement *rootElement = [[[AIXMLElement alloc] initWithName:@"chat"] autorelease];
+
+	[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", @"adiumversion", @"buildid", nil]
 								values:[NSArray arrayWithObjects:
 										XML_LOGGING_NAMESPACE,
 										chat.account.UID,
@@ -1238,21 +1303,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 										[[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"],
 										nil]];
-		
-		appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
-		
-		//Add the window opened event now
-		AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
-		
-		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [formatter stringFromDate:[[NSDate date] dateWithCalendarFormat:nil timeZone:nil]], nil]];
-		
-		[appender appendElement:eventElement];
-		
-		[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
-		
-		[self _markLogDirtyAtPath:[appender path] forChat:chat];
-	}
+
+	AIXMLAppender *appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
+
+	[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
+
+	[self _markLogDirtyAtPath:[appender path] forChat:chat];
 	
 	return appender;
 }
@@ -1289,6 +1345,36 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	[activeAppenders removeObjectForKey:chatKey];
 }
 
+- (void)rotateLogs:(NSTimer *)timer
+{
+	//NSTimer can fire early (and later, but that's okay); reschedule the timer
+	if ([logRotateTimer.fireDate timeIntervalSinceNow] > 0.0) {
+		[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
+		return;
+	}
+	
+	for (AIChat *chat in adium.chatController.openChats) {
+		AIXMLAppender *oldAppender = [self _existingAppenderForChat:chat];
+		if (!oldAppender)
+			continue;
+		
+		//Close old appender
+		NSString *chatKey = [self keyForChat:chat];
+		[NSObject cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(finishClosingAppender:)
+												   object:chatKey];
+		[self finishClosingAppender:chatKey];
+
+		//Create new appender
+		AIXMLAppender *appender = [self _createAppenderForChat:chat withDate:[NSDate date]];
+
+		AILogWithSignature(@"Rotated %@ to %@", chat, [appender path]);
+	}
+	
+	//Update the timer for DST and the like
+	[logRotateTimer setFireDate:[NSDate midnightTomorrow]];
+}
+
 #pragma mark Log Indexing
 - (NSString *)_logIndexPath
 {
@@ -1312,7 +1398,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			__block __typeof__(self) bself = self;
 			dispatch_sync(dirtyLogSetMutationQueue, ^{
 				[bself.dirtyLogSet addObjectsFromArray:[NSArray arrayWithContentsOfFile:[bself _dirtyLogSetPath]]];
-				AILogWithSignature(@"Loaded dirty log set with %i logs",[bself.dirtyLogSet count]);
+				AILogWithSignature(@"Loaded dirty log set with %li logs",[bself.dirtyLogSet count]);
 			});      
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
@@ -1436,7 +1522,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		__block UInt32  lastUpdate = TickCount();
 		__block SInt32  unsavedChanges = 0;
 		
-		AILogWithSignature(@"Cleaning %i dirty logs", [localLogSet count]);
+		AILogWithSignature(@"Cleaning %li dirty logs", [localLogSet count]);
 		
 		[localLogSet retain];
 		
@@ -1588,7 +1674,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				
 				[bself _flushIndex:searchIndex];
 				
-				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
+				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %li and a count of %li",
 								   SKIndexGetMaximumDocumentID(searchIndex),
 								   SKIndexGetDocumentCount(searchIndex));
 				
@@ -1673,7 +1759,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
-                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
+                AILogWithSignature(@"**** %@ Releasing its index %p (%ld)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
 				SKIndexClose(bself->logIndex);
 				bself->logIndex = nil;
 			}
@@ -1696,6 +1782,140 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 	
 	[pool release];
+}
+
+#pragma mark Toolbar item
+
+- (void)updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat
+{
+	if ([chat shouldLog]) {
+		[item setImage:[NSImage imageNamed:@"Authorize" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]];
+		[item setLabel:AILocalizedString(@"Turn Logging Off", nil)];
+	} else {
+		[item setImage:[NSImage imageNamed:@"Deny" forClass:NSClassFromString(@"AIAuthorizationRequestsWindowController")]];
+		[item setLabel:AILocalizedString(@"Turn Logging On", nil)];
+	}
+}
+
+- (IBAction)toggleLogging:(NSToolbarItem *)sender
+{
+	AIListObject	*object = adium.interfaceController.selectedListObject;
+	
+    if ([object isKindOfClass:[AIListContact class]]) {
+		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object
+											   onPreferredAccount:YES];
+		BOOL shouldLog = ![chat shouldLog];
+		
+		[chat setValue:@(shouldLog) forProperty:@"overrideLogging" afterDelay:NotifyLater];
+		
+		[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Logging for this conversation is now %@.",
+																						   "Message displayed in the chat when overriding logging. %@ is either on or off"),
+											   shouldLog ? AILocalizedString(@"on", nil) : AILocalizedString(@"off", nil)]
+									   ofType:shouldLog ? @"loggingOn" : @"loggingOff"
+									   inChat:chat];
+		
+		[self updateToolbarItem:sender forChat:chat];
+    }
+}
+
+- (void)chatStatusChanged:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	NSArray	*modifiedKeys = [[notification userInfo] objectForKey:@"Keys"];
+	
+	if ([modifiedKeys containsObject:@"overrideLogging"] || [modifiedKeys containsObject:@"securityDetails"]) {
+		NSWindow *window = [adium.interfaceController windowForChat:chat];
+		
+		for (NSToolbarItem *item in window.toolbar.items) {
+			if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+				
+				[self updateToolbarItem:item forChat:chat];
+				
+				break;
+			}
+		}
+	}
+}
+
+- (void)chatDidBecomeVisible:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	NSWindow *window = [[notification userInfo] objectForKey:@"NSWindow"];
+	
+	for (NSToolbarItem *item in window.toolbar.items) {
+		if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+			
+			[self updateToolbarItem:item forChat:chat];
+			
+			break;
+		}
+	}
+}
+
+- (void)toolbarDidRemoveItem:(NSNotification *)notification
+{
+	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
+	if ([toolbarItems containsObject:item]) {
+		[item setView:nil];
+		[toolbarItems removeObject:item];
+		
+		if ([toolbarItems count] == 0) {
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+															name:@"AIChatDidBecomeVisible"
+														  object:nil];
+			
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+															name:Chat_StatusChanged
+														  object:nil];
+			
+			[adium.preferenceController unregisterPreferenceObserver:self];
+		}
+	}
+}
+
+- (void)toolbarWillAddItem:(NSNotification *)notification
+{
+	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
+	if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+		[item setEnabled:YES];
+		
+		//If this is the first item added, start observing for chats becoming visible so we can update the icon
+		if ([toolbarItems count] == 0) {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(chatDidBecomeVisible:)
+														 name:@"AIChatDidBecomeVisible"
+													   object:nil];
+			
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(chatStatusChanged:)
+														 name:Chat_StatusChanged
+													   object:nil];
+			
+			[adium.preferenceController registerPreferenceObserver:self
+														  forGroup:PREF_GROUP_LOGGING];
+		}
+		
+		[toolbarItems addObject:item];
+	}
+}
+
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	if ([key isEqualToString:KEY_LOGGER_SECURE_CHATS] || [key isEqualToString:KEY_LOGGER_CERTAIN_ACCOUNTS]
+		|| [key isEqualToString:KEY_LOGGER_OBJECT_DISABLE] || [key isEqualToString:KEY_LOGGER_ENABLE]) {
+		
+		for(AIChat *chat in adium.interfaceController.openChats) {
+			NSWindow *window = [adium.interfaceController windowForChat:chat];
+			
+			if ([adium.interfaceController activeChatInWindow:window] != chat) continue;
+			
+			for (NSToolbarItem *item in window.toolbar.items) {
+				if ([[item itemIdentifier] isEqualToString:LOGGING_OVERRIDE_ITEM]) {
+					[self updateToolbarItem:item forChat:chat];
+				}
+			}
+		}
+	}
 }
 
 @end

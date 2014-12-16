@@ -27,8 +27,9 @@
 
 + (id)topicInChat:(AIChat *)inChat
 	   withSource:(id)inSource
+	   sourceNick:(NSString *)inSourceNick
 	  destination:(id)inDest
-			 date:(NSDate *)inDate 
+			 date:(NSDate *)inDate
 		  message:(NSAttributedString *)inMessage;
 
 @property (nonatomic) BOOL actuallyBlank;

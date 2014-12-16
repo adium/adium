@@ -31,7 +31,6 @@
 	AIContactList			*contactList;
 	NSMutableDictionary		*groupDict;
 	BOOL					useContactListGroups;
-	NSMenuItem				*menuItem_showGroups;
 	BOOL					useOfflineGroup;
 	
 	//Detached Contact Lists

@@ -257,12 +257,6 @@
 	 
 	if (destRect.size.height < cellFrame.size.height) {
 		destRect.origin.y += (cellFrame.size.height - destRect.size.height) / 2.0f;
-	} 
-	
-	BOOL flippedIt = NO;
-	if (![image isFlipped]) {
-		[image setFlipped:YES];
-		flippedIt = YES;
 	}
 	
 	[NSGraphicsContext saveGraphicsState];
@@ -270,12 +264,10 @@
 	[image drawInRect:destRect
 			 fromRect:NSMakeRect(0,0,size.width,size.height)
 			operation:NSCompositeSourceOver
-			 fraction:1.0f];
+			 fraction:1.0f
+	   respectFlipped:YES
+				hints:nil];
 	[NSGraphicsContext restoreGraphicsState];
-
-	if (flippedIt) {
-		[image setFlipped:NO];
-	}
 
 	return destRect.size;
 }

@@ -71,6 +71,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	}
     if ((self = [super initWithChat:aChat
 							 source:s
+						 sourceNick:nil
 						destination:d
 							   date:[NSDate date]
 							message:[[[NSAttributedString alloc] initWithString:@""] autorelease]
@@ -372,7 +373,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	
 	NSRect	rect = { NSZeroPoint, [iconImage size] };
 	NSRect	bottomRight = NSMakeRect(NSMidX(rect), 
-									 ([iconImage isFlipped] ? NSMidY(rect) : NSMinY(rect)), 
+									 NSMidY(rect),
 									 (NSWidth(rect)/2.0f),
 									 (NSHeight(rect)/2.0f));		
 	

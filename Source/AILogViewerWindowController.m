@@ -45,6 +45,7 @@
 #import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITableViewAdditions.h>
@@ -77,14 +78,20 @@
 #define SHOW_EMOTICONS					AILocalizedString(@"Show Emoticons",nil)
 #define HIDE_TIMESTAMPS					AILocalizedString(@"Hide Timestamps",nil)
 #define SHOW_TIMESTAMPS					AILocalizedString(@"Show Timestamps",nil)
+#define HIDE_SENDERCOLORS				AILocalizedString(@"Disable Sender Colors",nil)
+#define SHOW_SENDERCOLORS				AILocalizedString(@"Enable Sender Colors",nil)
 
-#define IMAGE_EMOTICONS_OFF				@"emoticon32"
-#define IMAGE_EMOTICONS_ON				@"emoticon32_transparent"
-#define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
-#define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
+#define IMAGE_EMOTICONS_OFF				@"emoticon"
+#define IMAGE_EMOTICONS_ON				@"emoticon-sleep"
+#define IMAGE_TIMESTAMPS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_TIMESTAMPS_ON				@"transcripts-timestamp-in"
+#warning needs new icons
+#define IMAGE_SENDERCOLORS_OFF			@"transcripts-timestamp-out"
+#define IMAGE_SENDERCOLORS_ON			@"transcripts-timestamp-in"
 
 #define	KEY_LOG_VIEWER_EMOTICONS			@"Log Viewer Emoticons"
 #define	KEY_LOG_VIEWER_TIMESTAMPS			@"Log Viewer Timestamps"
+#define	KEY_LOG_VIEWER_SENDERCOLORS			@"Log Viewer Sender Colors"
 #define KEY_LOG_VIEWER_SELECTED_COLUMN		@"Log Viewer Selected Column Identifier"
 
 @interface AILogViewerWindowController ()
@@ -122,15 +129,13 @@
 
 - (void)outlineViewSelectionDidChangeDelayed;
 - (void)openChatOnDoubleAction:(id)sender;
-- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(NSArray *)__attribute__((ns_consumed)) contextInfo;
 NSInteger compareRectLocation(id obj1, id obj2, void *context);
 
 - (void)setNavBarHidden:(NSNumber *)hide;
 @end
 
 @implementation AILogViewerWindowController
-
-static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 + (NSOperationQueue *)sharedLogViewerQueue
 {
@@ -235,6 +240,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		automaticSearch = YES;
 		showEmoticons = NO;
 		showTimestamps = YES;
+		showSenderColors = NO;
 		activeSearchString = nil;
 		displayedLogArray = nil;
 		windowIsClosing = NO;
@@ -295,7 +301,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 //Init our log filtering tree
 - (void)initLogFiltering
 {
-    NSMutableDictionary		*toDict = [NSMutableDictionary dictionary];
     NSString				*basePath = [AILoggerPlugin logBasePath];
     NSString				*fromUID, *serviceClass;
 
@@ -304,7 +309,6 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     for (NSString *folderName in [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:basePath error:NULL] sortedArrayUsingSelector:@selector(compare:)]) {
 		if (![folderName isEqualToString:@".DS_Store"]) { // avoid the directory info
 			AILogFromGroup  *logFromGroup;
-			NSMutableSet	*toSetForThisService;
 			NSArray         *serviceAndFromUIDArray;
 			
 			/* Determine the service and fromUID - should be SERVICE.ACCOUNT_NAME
@@ -328,21 +332,10 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 			//Store logFromGroup on a key in the form "SERVICE.ACCOUNT_NAME"
 			[logFromGroupDict setObject:logFromGroup forKey:folderName];
 
-			//To processing
-			if (!(toSetForThisService = [toDict objectForKey:serviceClass])) {
-				toSetForThisService = [NSMutableSet set];
-				[toDict setObject:toSetForThisService
-						   forKey:serviceClass];
-			}
-
 			//Add the 'to' for each grouping on this account
 			for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
-				NSString	*currentTo;
-
-				if ((currentTo = [currentToGroup to])) {
-					//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
-					[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
-				}
+				//Store currentToGroup on a key in the form "SERVICE.ACCOUNT_NAME/TARGET_CONTACT"
+				[logToGroupDict setObject:currentToGroup forKey:[currentToGroup relativePath]];
 			}
 
 			[logFromGroup release];
@@ -383,7 +376,15 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 		}		
 	}
 	
-	[toArray sortUsingFunction:toArraySort context:NULL];
+	[toArray sortUsingComparator:^(id itemA, id itemB){
+		NSString *nameA = [self outlineView:nil objectValueForTableColumn:nil byItem:itemA];
+		NSString *nameB = [self outlineView:nil objectValueForTableColumn:nil byItem:itemB];
+		NSComparisonResult result = [nameA localizedCaseInsensitiveCompare:nameB];
+		if (result == NSOrderedSame) result = [nameA compare:nameB];
+		
+		return result;
+	}];
+	
 	[outlineView_contacts reloadData];
 
 	if (!isOpeningForContact) {
@@ -426,6 +427,12 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 															   group:PREF_GROUP_LOGGING] boolValue];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setLabel:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setImage:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]];
+	
+	// Set sender colour filtering
+	showSenderColors = [[adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_SENDERCOLORS
+															   group:PREF_GROUP_LOGGING] boolValue];
+	[[toolbarItems objectForKey:@"togglesendercolors"] setLabel:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)];
+	[[toolbarItems objectForKey:@"togglesendercolors"] setImage:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]];
 
 	//Toolbar
 	[self installToolbar];
@@ -524,6 +531,11 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:showTimestamps]
 																			 forKey:KEY_LOG_VIEWER_TIMESTAMPS
 																				group:PREF_GROUP_LOGGING];
+	
+	// Set preference for sender colours filtering
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:showSenderColors]
+									   forKey:KEY_LOG_VIEWER_SENDERCOLORS
+										group:PREF_GROUP_LOGGING];
 	
 	//Set preference for selected column
 	[adium.preferenceController setPreference:[selectedColumn identifier]
@@ -660,7 +672,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [resultsLock lock];
     NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
-	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
+	AILog(@"refreshResultsSearchIsComplete: %i (count is %li)",searchIsComplete,count);
 	
 	if (searchIsComplete &&
 		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
@@ -715,11 +727,13 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[displayOperation autorelease];
 	displayOperation = nil;
 	currentMatch = -1;
-	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."]];
+	[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"Loading...", @"Displayed when loading a chat transcript")]];
 	
 	if (logArray) {
 		displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
 		[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+	} else {
+		[self _displayLogText:[NSAttributedString stringWithString:AILocalizedString(@"No chat transcript found", nil)]];
 	}
 }
 
@@ -806,7 +820,8 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 			NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 									 [NSNumber numberWithBool:showTimestamps], @"showTimestamps",
-									 [NSNumber numberWithBool:showEmoticons], @"showEmoticons", 
+									 [NSNumber numberWithBool:showEmoticons], @"showEmoticons",
+									 [NSNumber numberWithBool:showSenderColors], @"showSenderColors",
 									 nil];
 			NSAttributedString *attributedLogFileText = [AIXMLChatlogConverter readFile:logFullPath withOptions:options];
 			if (attributedLogFileText) {
@@ -1118,7 +1133,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	[textView_content scrollRangeToVisible:scrollTo];
 	[textView_content setSelectedRange:scrollTo];
 
-	[textField_findCount setStringValue:[NSString stringWithFormat:@"%d/%d", currentMatch, [matches count]]];
+	[textField_findCount setStringValue:[NSString stringWithFormat:@"%ld/%ld", currentMatch, [matches count]]];
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
@@ -1663,7 +1678,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				 */
 				theLog = [[logToGroupDict objectForKey:toPath] logAtPath:path];
 				if (!theLog) {
-					AILog(@"_logContentFilter: %x's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
+					AILog(@"_logContentFilter: %p's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
 				}
 				[resultsLock lock];
 				if ((theLog != nil) &&
@@ -1687,7 +1702,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				totalCount--;
 			}
 			
-			//if (logPath) CFRelease(logPath);
 			if (url) CFRelease(url);
 			if (document) CFRelease(document);
         }
@@ -1731,7 +1745,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
+		AILogWithSignature(@"Search ID %li: %@", searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1757,7 +1771,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILogWithSignature(@"Search ID %i): finished", searchID);
+		AILogWithSignature(@"Search ID %li): finished", searchID);
     }
 	
     //Cleanup
@@ -1903,9 +1917,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			NSImage		*image;
 			
 			serviceClass = [theLog serviceClass];
-			image = [AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
+			image = [[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
 													 type:AIServiceIconSmall
-												direction:AIIconNormal];
+												direction:AIIconNormal] imageByScalingForMenuItem];
 			value = (image ? image : blankImage);
 		}
     }
@@ -2031,6 +2045,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	[self displayLogs:displayedLogArray];
 }
 
+- (IBAction)toggleSendercolorFiltering:(id)sender
+{
+	showSenderColors = !showSenderColors;
+	[sender setLabel:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)];
+	[sender setImage:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]];
+	
+	[self displayLogs:displayedLogArray];
+}
+
 #pragma mark Outline View Data source
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(id)item
 {
@@ -2125,15 +2148,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	} else if ([item isKindOfClass:[AIListContact class]]) {
 		NSImage	*image = [AIUserIcons listUserIconForContact:(AIListContact *)item
 														size:NSMakeSize(16,16)];
-		if (!image) image = [AIServiceIcons serviceIconForObject:(AIListContact *)item
+		if (!image) image = [[AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped];
+													   direction:AIIconNormal] imageByScalingForMenuItem];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
-		[cell setImage:[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
+		[cell setImage:[[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
 														type:AIServiceIconSmall
-												   direction:AIIconNormal]];
+												   direction:AIIconNormal] imageByScalingForMenuItem]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
@@ -2269,17 +2292,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	return nil;
 }
 
-static NSInteger toArraySort(id itemA, id itemB, void *context)
-{
-	AILogViewerWindowController *sharedLogViewerInstance = [AILogViewerWindowController existingWindowController];
-	NSString *nameA = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemA];
-	NSString *nameB = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemB];
-	NSComparisonResult result = [nameA caseInsensitiveCompare:nameB];
-	if (result == NSOrderedSame) result = [nameA compare:nameB];
-
-	return result;
-}
-
 #pragma mark Split View Delegate
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
 {
@@ -2318,7 +2330,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
                                                toolTip:AILocalizedString(@"Delete the selection",nil)
                                                 target:self
                                        settingSelector:@selector(setImage:)
-                                           itemContent:[NSImage imageNamed:@"remove" forClass:[self class]]
+                                           itemContent:[NSImage imageNamed:@"transcripts-remove" forClass:[self class]]
                                                 action:@selector(deleteSelection:)
                                                   menu:nil];
 	
@@ -2330,14 +2342,14 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 														toolTip:AILocalizedString(@"Search or filter logs",nil)
 														 target:self
 												settingSelector:@selector(setView:)
-													itemContent:view_SearchField
+													itemContent:searchField_logs
 														 action:@selector(updateSearch:)
 														   menu:nil];
 	if ([toolbarItem respondsToSelector:@selector(setVisibilityPriority:)]) {
 		[toolbarItem setVisibilityPriority:(NSToolbarItemVisibilityPriorityHigh + 1)];
 	}
-	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([view_SearchField frame]))];
-	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([view_SearchField frame]))];
+	[toolbarItem setMinSize:NSMakeSize(130, NSHeight([searchField_logs frame]))];
+	[toolbarItem setMaxSize:NSMakeSize(230, NSHeight([searchField_logs frame]))];
 	[toolbarItems setObject:toolbarItem forKey:[toolbarItem itemIdentifier]];
 
 	toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:DATE_ITEM_IDENTIFIER
@@ -2369,15 +2381,27 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 											  menu:nil];
 	// Toggle Timestamps
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-																	withIdentifier:@"toggletimestamps"
-																					 label:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)
-																		paletteLabel:AILocalizedString(@"Show/Hide Timestamps", nil)
-																				 toolTip:AILocalizedString(@"Show or hide timestamps in logs", nil)
-																				  target:self
-																 settingSelector:@selector(setImage:)
-																		 itemContent:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]
-																					action:@selector(toggleTimestampFiltering:)
-																						menu:nil];
+									withIdentifier:@"toggletimestamps"
+											 label:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)
+									  paletteLabel:AILocalizedString(@"Show/Hide Timestamps", nil)
+										   toolTip:AILocalizedString(@"Show or hide timestamps in logs", nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]
+											action:@selector(toggleTimestampFiltering:)
+											  menu:nil];
+	
+	// Toggle Sender Colours
+	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
+									withIdentifier:@"togglesendercolors"
+											 label:(showSenderColors ? HIDE_SENDERCOLORS : SHOW_SENDERCOLORS)
+									  paletteLabel:AILocalizedString(@"Enable/Disable Sender Colors", nil)
+										   toolTip:AILocalizedString(@"Enable or disable multiple sender name colors in logs", nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageNamed:(showSenderColors ? IMAGE_SENDERCOLORS_ON : IMAGE_SENDERCOLORS_OFF) forClass:[self class]]
+											action:@selector(toggleSendercolorFiltering:)
+											  menu:nil];
 
 	[[self window] setToolbar:toolbar];
 
@@ -2392,7 +2416,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:DATE_ITEM_IDENTIFIER, NSToolbarFlexibleSpaceItemIdentifier,
-		@"delete", @"toggleemoticons", @"toggletimestamps", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
+		@"delete", @"toggleemoticons", @"toggletimestamps", @"togglesendercolors", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
 		@"search", nil];
 }
 
@@ -2609,7 +2633,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	[self rebuildIndices];
 }
 
-- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(NSArray *)__attribute__((ns_consumed)) contextInfo;
 {
 	NSArray *selectedLogs = (NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
@@ -2691,21 +2715,14 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (NSArray *)allSelectedToGroups:(NSInteger *)totalLogCount
 {
-    NSEnumerator        *fromEnumerator;
-    AILogFromGroup      *fromGroup;
-	NSMutableArray		*allToGroups = [NSMutableArray array];
+	__block NSMutableArray	*allToGroups = [NSMutableArray array];
 
 	if (totalLogCount) *totalLogCount = 0;
 
     //Walk through every 'from' group
-    fromEnumerator = [logFromGroupDict objectEnumerator];
-    while ((fromGroup = [fromEnumerator nextObject])) {
-		NSEnumerator        *toEnumerator;
-		AILogToGroup        *toGroup;
-
+    [logFromGroupDict enumerateKeysAndObjectsUsingBlock:^(id key, id fromGroup, BOOL *stop) {
 		//Walk through every 'to' group
-		toEnumerator = [[fromGroup toGroupArray] objectEnumerator];
-		while ((toGroup = [toEnumerator nextObject])) {
+		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
 			if (![contactIDsToFilter count] || [contactIDsToFilter containsObject:[[NSString stringWithFormat:@"%@.%@",[toGroup serviceClass],[toGroup to]] compactedString]]) {
 				if (totalLogCount) {
 					*totalLogCount += [toGroup logCount];
@@ -2714,7 +2731,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 				[allToGroups addObject:toGroup];
 			}
 		}
-	}
+	}];
 
 	return allToGroups;
 }
@@ -2745,10 +2762,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 							 toPath:toGroupPath
 							  error:NULL];
 		
-		NSEnumerator *logEnumerator = [toGroup logEnumerator];
-		AIChatLog	 *aLog;
-	
-		while ((aLog = [logEnumerator nextObject])) {
+		for (AIChatLog *aLog in [toGroup logEnumerator]) {
 			[plugin markLogDirtyAtPath:[logBasePath stringByAppendingPathComponent:[aLog relativePath]]];
 		}
 	}
@@ -2764,11 +2778,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		NSMutableSet	*logPaths = [NSMutableSet set];
 		
 		for (logToGroup in allSelectedToGroups) {
-			NSEnumerator *logEnumerator;
-			AIChatLog	 *aLog;
-			
-			logEnumerator = [logToGroup logEnumerator];
-			while ((aLog = [logEnumerator nextObject])) {
+			for (AIChatLog *aLog in [logToGroup logEnumerator]) {
 				NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 				[logPaths addObject:logPath];
 			}
@@ -2783,6 +2793,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 								   selector:@selector(restoreDeletedToGroups:)
 									 object:allSelectedToGroups];
 		[undoManager setActionName:DELETE];
+
+		//Force a selection change in case of a noncontiguous selection
+		[outlineView_contacts selectRowIndexes:[NSIndexSet indexSetWithIndex:[outlineView_contacts selectedRow]] byExtendingSelection:NO];
 		
 		[self rebuildIndices];
 		[self updateProgressDisplay];
@@ -3110,9 +3123,7 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	}
 	
 	if (updateSize) {
-		NSEnumerator *enumerator = [[[[self window] toolbar] items] objectEnumerator];
-		NSToolbarItem *toolbarItem;
-		while ((toolbarItem = [enumerator nextObject])) {
+		for (NSToolbarItem *toolbarItem in self.window.toolbar.items) {
 			if ([[toolbarItem itemIdentifier] isEqualToString:DATE_ITEM_IDENTIFIER]) {
 				NSSize newSize = NSMakeSize(([datePicker isHidden] ? 180 : 290), NSHeight([view_DatePicker frame]));
 				[toolbarItem setMinSize:newSize];

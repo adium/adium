@@ -21,6 +21,7 @@
 #import "AdiumFormatting.h"
 #import "AdiumMessageEvents.h"
 #import "AdiumContentFiltering.h"
+#import "AdiumOTREncryption.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -375,7 +376,7 @@
 			}
 			
 			//Did send content
-			[adium.contactAlertsController generateEvent:[chat isGroupChat] ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
+			[adium.contactAlertsController generateEvent:chat.isGroupChat ? CONTENT_MESSAGE_SENT_GROUP : CONTENT_MESSAGE_SENT
 											 forListObject:listObject
 												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 							  previouslyPerformedActionIDs:nil];
@@ -789,11 +790,11 @@
 /*!
  * @brief Given an incoming message, decrypt it if necessary then convert it to an NSAttributedString, processing HTML if possible
  */
-- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount
+- (NSAttributedString *)decodedIncomingMessage:(NSString *)inString fromContact:(AIListContact *)inListContact onAccount:(AIAccount *)inAccount tryDecrypt:(BOOL)decrypt
 {
-	return [AIHTMLDecoder decodeHTML:[self decryptedIncomingMessage:inString
-														fromContact:inListContact
-														  onAccount:inAccount]];
+	return [AIHTMLDecoder decodeHTML:decrypt ? [self decryptedIncomingMessage:inString
+																  fromContact:inListContact
+																	onAccount:inAccount] : inString];
 }
 
 #pragma mark OTR
@@ -805,6 +806,16 @@
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
 {
 	[adiumEncryptor promptToVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)questionVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor questionVerifyEncryptionIdentityInChat:inChat];
+}
+
+- (void)sharedVerifyEncryptionIdentityInChat:(AIChat *)inChat
+{
+	[adiumEncryptor sharedVerifyEncryptionIdentityInChat:inChat];
 }
 
 #pragma mark -
@@ -862,7 +873,7 @@
 	[encryptionMenu addItem:menuItem];
 	[menuItem release];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats as requested",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Allow chat encryption",nil)
 										  target:target
 										  action:@selector(selectedEncryptionPreference:)
 								   keyEquivalent:@""];
@@ -871,7 +882,7 @@
 	[encryptionMenu addItem:menuItem];
 	[menuItem release];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Encrypt chats automatically",nil)
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Use chat encryption when available",nil)
 										  target:target
 										  action:@selector(selectedEncryptionPreference:)
 								   keyEquivalent:@""];

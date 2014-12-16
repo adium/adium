@@ -22,10 +22,9 @@
 #import "AIContentController.h"
 #import "AICoreComponentLoader.h"
 #import "AICorePluginLoader.h"
-//#import "AICrashController.h"
+#import "AICrashReporter.h"
 #import "AIDockController.h"
 #import "AIEmoticonController.h"
-//#import "AIExceptionController.h"
 #import "AIInterfaceController.h"
 #import "AILoginController.h"
 #import "AIMenuController.h"
@@ -83,9 +82,7 @@ static NSString	*prefsCategory;
 
 - (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)systemTimeZoneDidChange:(NSNotification *)inNotification;
-- (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 - (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
-- (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 - (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 @end
 
@@ -122,15 +119,7 @@ static NSString	*prefsCategory;
 	advancedPrefsName = nil;
 	prefsCategory = nil;
 	queuedURLEvents = nil;
-	
-	//Load the crash reporter
-/*
-#ifdef CRASH_REPORTER
-#warning Crash reporter enabled.
-    [AICrashController enableCrashCatching];
-    [AIExceptionController enableExceptionCatching];
-#endif
- */
+
     //Ignore SIGPIPE, which is a harmless error signal
     //sent when write() or similar function calls fail due to a broken pipe in the network connection
     signal(SIGPIPE, SIG_IGN);
@@ -235,7 +224,10 @@ static NSString	*prefsCategory;
 	pool = [[NSAutoreleasePool alloc] init];
 	[applescriptabilityController controllerDidLoad];
 	[statusController controllerDidLoad];
-
+	
+	//Check for a recent crash log
+	[AICrashReporter checkForCrash];
+	
 	//Open the preferences if we were unable to because application:openFile: was called before we got here
 	[self openAppropriatePreferencesIfNeeded];
 
@@ -281,63 +273,39 @@ static NSString	*prefsCategory;
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-	if (![[preferenceController preferenceForKey:@"Confirm Quit"
-										   group:@"Confirmations"] boolValue]) {
-		return NSTerminateNow;
-	}
-		
-	AIQuitConfirmationType		confirmationType = [[preferenceController preferenceForKey:@"Confirm Quit Type"
-																							group:@"Confirmations"] intValue];
-	BOOL confirmUnreadMessages	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for Unread Messages"
-																	group:@"Confirmations"] boolValue];
-	BOOL confirmFileTransfers	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for File Transfers"
-																	group:@"Confirmations"] boolValue];
-	BOOL confirmOpenChats		= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for Open Chats"
-																	group:@"Confirmations"] boolValue];
+	BOOL confirmUnreadMessages	= ![[preferenceController preferenceForKey:KEY_CONFIRM_QUIT_UNREAD
+																	group:PREF_GROUP_CONFIRMATIONS] boolValue];
+	BOOL confirmFileTransfers	= ![[preferenceController preferenceForKey:KEY_CONFIRM_QUIT_FT
+																	group:PREF_GROUP_CONFIRMATIONS] boolValue];
 	
 	NSString	*questionToAsk = [NSString string];
 	SEL			questionSelector = nil;
 
 	NSApplicationTerminateReply allowQuit = NSTerminateNow;
 	
-	switch (confirmationType) {
-		case AIQuitConfirmAlways:
-			questionSelector = @selector(confirmQuitQuestion:userInfo:suppression:);
-			
-			allowQuit = NSTerminateLater;
-			break;
-			
-		case AIQuitConfirmSelective:
-			if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
-				questionToAsk = (([chatController unviewedContentCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d unread messages.",@"Quit Confirmation"), [chatController unviewedContentCount]] : AILocalizedString(@"You have an unread message.",@"Quit Confirmation"));
-				questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
-				allowQuit = NSTerminateLater;
-			} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
-				questionToAsk = (([fileTransferController activeTransferCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d file transfers in progress.",@"Quit Confirmation"), [fileTransferController activeTransferCount]] : AILocalizedString(@"You have a file transfer in progress.",@"Quit Confirmation"));
-				questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
-				allowQuit = NSTerminateLater;
-			} else if ([[chatController openChats] count] > 0 && confirmOpenChats) {
-				questionToAsk = (([[chatController openChats] count] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d open chats.",@"Quit Confirmation"), [[chatController openChats] count]] : AILocalizedString(@"You have an open chat.",@"Quit Confirmation"));
-				questionSelector = @selector(openChatQuitQuestion:userInfo:suppression:);
-				allowQuit = NSTerminateLater;
-			}
-
-			break;
+	if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
+		questionToAsk = (([chatController unviewedContentCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d unread messages.",@"Quit Confirmation"), [chatController unviewedContentCount]] : AILocalizedString(@"You have an unread message.",@"Quit Confirmation"));
+		questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
+		allowQuit = NSTerminateLater;
+	} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
+		questionToAsk = (([fileTransferController activeTransferCount] > 1) ? [NSString stringWithFormat:AILocalizedString(@"You have %d file transfers in progress.",@"Quit Confirmation"), [fileTransferController activeTransferCount]] : AILocalizedString(@"You have a file transfer in progress.",@"Quit Confirmation"));
+		questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
+		allowQuit = NSTerminateLater;
 	}
 	
 	if (allowQuit == NSTerminateLater) {
 		[self.interfaceController displayQuestion:AILocalizedString(@"Confirm Quit", nil)
-									withDescription:[questionToAsk stringByAppendingFormat:@"%@%@",
-														([questionToAsk length] > 0 ? @"\n" : @""),
-														AILocalizedString(@"Are you sure you want to quit Adium?",@"Quit Confirmation")]
-									withWindowTitle:nil
-									  defaultButton:AILocalizedString(@"Quit", nil)
-									alternateButton:AILocalizedString(@"Cancel", nil)
-										otherButton:nil
-										 suppression:AILocalizedString(@"Don't ask again", nil)
-											 target:self
-										   selector:questionSelector
-										   userInfo:nil];
+								  withDescription:[questionToAsk stringByAppendingFormat:@"%@%@",
+												   ([questionToAsk length] > 0 ? @"\n" : @""),
+												   AILocalizedString(@"Are you sure you want to quit Adium?",@"Quit Confirmation")]
+								  withWindowTitle:nil
+									defaultButton:AILocalizedString(@"Quit", nil)
+								  alternateButton:AILocalizedString(@"Cancel", nil)
+									  otherButton:nil
+									  suppression:AILocalizedString(@"Don't ask again", nil)
+										   target:self
+										 selector:questionSelector
+										 userInfo:nil];
 	}
 
 	return allowQuit;
@@ -413,7 +381,7 @@ static NSString	*prefsCategory;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_FORUM_PAGE]];
 }
 - (IBAction)showXtras:(id)sender{
-	[[AIXtrasManager sharedManager] showXtras];
+	[preferenceController openPreferencesToCategoryWithIdentifier:@"Xtras"];
 }
 
 - (IBAction)contibutingToAdium:(id)sender
@@ -431,32 +399,8 @@ static NSString	*prefsCategory;
 	if ([suppressed boolValue]){
 		//Don't Ask Again
 		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-											forKey:@"Suppress Quit Confirmation for Unread Messages"
-											 group:@"Confirmations"];
-	}
-	
-	AITextAndButtonsReturnCode result = [number intValue];
-	switch(result)
-	{
-		case AITextAndButtonsDefaultReturn:
-			//Quit
-			//Should we ask about File Transfers here?????
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
-		default:
-			//Cancel
-			[NSApp replyToApplicationShouldTerminate:NSTerminateCancel];
-			break;
-	}
-}
-
-- (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
-{
-	if ([suppressed boolValue]){
-		//Don't Ask Again
-		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-											forKey:@"Suppress Quit Confirmation for Open Chats"
-											 group:@"Confirmations"];
+											forKey:KEY_CONFIRM_QUIT_UNREAD
+											 group:PREF_GROUP_CONFIRMATIONS];
 	}
 	
 	AITextAndButtonsReturnCode result = [number intValue];
@@ -479,8 +423,8 @@ static NSString	*prefsCategory;
 	if ([suppressed boolValue]){
 		//Don't Ask Again
 		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-											forKey:@"Suppress Quit Confirmation for File Transfers"
-											 group:@"Confirmations"];
+											forKey:KEY_CONFIRM_QUIT_FT
+											 group:PREF_GROUP_CONFIRMATIONS];
 	}
 	
 	AITextAndButtonsReturnCode result = [number intValue];
@@ -496,30 +440,6 @@ static NSString	*prefsCategory;
 			break;
 	}
 }
-
-- (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
-{
-	if ([suppressed boolValue]){
-		//Don't Ask Again
-		[[self preferenceController] setPreference:[NSNumber numberWithBool:NO]
-											forKey:@"Confirm Quit"
-											 group:@"Confirmations"];
-	}
-	
-	AITextAndButtonsReturnCode result = [number intValue];
-	switch(result)
-	{
-		case AITextAndButtonsDefaultReturn:
-			//Quit
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
-		default:
-			//Cancel
-			[NSApp replyToApplicationShouldTerminate:NSTerminateCancel];
-			break;
-	}
-}
-
 
 //Last call to perform actions before the app shuffles off its mortal coil and joins the bleeding choir invisible
 - (IBAction)confirmQuit:(id)sender
@@ -590,8 +510,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIDockIconsDirectory) objectAtIndex:0];
         fileDescription = AILocalizedString(@"dock icon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumIcon";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumSoundset"] == NSOrderedSame) {
@@ -604,8 +524,8 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumEmoticonset"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIEmoticonsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"emoticon set",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumEmoticonset";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumScripts"] == NSOrderedSame) {
@@ -616,36 +536,36 @@ static NSString	*prefsCategory;
 	} else if ([extension caseInsensitiveCompare:@"AdiumMessageStyle"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMessageStylesDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"message style",nil);
-		prefsButton = AILocalizedString(@"Open Message Prefs",nil);
-		prefsCategory = @"Messages";
+		prefsButton = AILocalizedString(@"Open Message Style Prefs",nil);
+		prefsCategory = @"Message View";
 		extension = @"AdiumMessageStyle";
 
 	} else if ([extension caseInsensitiveCompare:@"ListLayout"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list layout",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListLayout";
 
 	} else if ([extension caseInsensitiveCompare:@"ListTheme"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIContactListDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"contact list theme",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Contact List Prefs",nil);
+		prefsCategory = @"Contact List";
 		extension = @"ListTheme";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumServiceIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIServiceIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"service icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumServiceIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumMenuBarIcons"] == NSOrderedSame) {
 		destination = [AISearchPathForDirectories(AIMenuBarIconsDirectory) objectAtIndex:0];
 		fileDescription = AILocalizedString(@"menu bar icons",nil);
-		prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-		prefsCategory = @"Appearance";
+		prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+		prefsCategory = @"Icons";
 		extension = @"AdiumMenuBarIcons";
 
 	} else if ([extension caseInsensitiveCompare:@"AdiumStatusIcons"] == NSOrderedSame) {
@@ -661,8 +581,8 @@ static NSString	*prefsCategory;
 		if (![packName isEqualToString:defaultPackName]) {
 			destination = [AISearchPathForDirectories(AIStatusIconsDirectory) objectAtIndex:0];
 			fileDescription = AILocalizedString(@"status icons",nil);
-			prefsButton = AILocalizedString(@"Open Appearance Prefs",nil);
-			prefsCategory = @"Appearance";
+			prefsButton = AILocalizedString(@"Open Icon Prefs",nil);
+			prefsCategory = @"Icons";
 			extension = @"AdiumStatusIcons";
 
 		} else {
@@ -954,32 +874,20 @@ static NSString	*prefsCategory;
 {
 	static NSString *cachesPath = nil;
 
-	if (!cachesPath) {
-		NSString		*generalAdiumCachesPath;
-		NSFileManager	*defaultManager = NSFileManager.defaultManager;
-
-		generalAdiumCachesPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Caches"] stringByAppendingPathComponent:@"Adium"];
-		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
-
+	static dispatch_once_t setCachesPath;
+	dispatch_once(&setCachesPath, ^{
+		NSFileManager	*defaultManager = [[[NSFileManager alloc] init] autorelease];
+		
+		NSURL *generalCacheURL = [defaultManager URLForDirectory:NSCachesDirectory
+														inDomain:NSUserDomainMask
+											   appropriateForURL:nil create:NO error:nil];
+		cachesPath = [[[generalCacheURL path] stringByAppendingPathComponent:@"Adium"] stringByAppendingPathComponent:self.loginController.currentUser];
+		
 		//Ensure our cache path exists
-		if ([defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
-			//If we have to make directories, try to move old cache files into the new directory
-			BOOL			isDir;
+		[defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	});
 
-			for (NSString *filename in [defaultManager contentsOfDirectoryAtPath:generalAdiumCachesPath error:NULL]) {
-				NSString	*fullPath = [generalAdiumCachesPath stringByAppendingPathComponent:filename];
-				
-				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
-				   (!isDir)) {
-					[defaultManager moveItemAtPath:fullPath
-									  toPath:[cachesPath stringByAppendingPathComponent:filename]
-									 error:NULL];
-				}
-			}
-		}
-	}
-	
-	return cachesPath;
+	return [cachesPath retain];
 }
 
 - (NSString *)pathOfPackWithName:(NSString *)name extension:(NSString *)extension resourceFolderName:(NSString *)folderName

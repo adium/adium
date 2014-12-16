@@ -20,8 +20,6 @@
 {
 	NSMenuItem			*quickMenuItem;
 	NSMenuItem			*quickContextualMenuItem;
-	
-	NSMutableSet		*toolbarItems;
 }
 
 - (NSMenu *)flatEmoticonMenuForPack:(AIEmoticonPack *)incomingPack;

@@ -20,5 +20,6 @@
 	IBOutlet	NSButton	*checkBox_sortGroups;
 	IBOutlet	NSButton	*checkBox_sortByLastName;
 }
+- (IBAction)closeSheet:(id)sender;
 
 @end

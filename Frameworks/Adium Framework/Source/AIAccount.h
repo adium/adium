@@ -30,12 +30,12 @@
 #define KEY_ACCOUNT_CHECK_MAIL		@"Check Mail"
 #define KEY_ENABLED					@"Enabled"
 #define KEY_AUTOCONNECT				@"AutoConnect"
+#define KEY_ACCOUNT_REGISTER_ON_CONNECT @"Register on Connect"
 
 //NSData archive of an NSAttributedString
 #define KEY_ACCOUNT_DISPLAY_NAME	@"FullNameAttr"
 
 #define	Adium_RequestImmediateDynamicContentUpdate			@"Adium_RequestImmediateDynamicContentUpdate"
-#define AIAccountUsernameAndPasswordRegisteredNotification	@"AIAccountUsernameAndPasswordRegisteredNotification"
 
 //Proxy
 #define KEY_ACCOUNT_PROXY_ENABLED		@"Proxy Enabled"
@@ -54,7 +54,8 @@ typedef enum
 	Adium_Proxy_Default_HTTP,
 	Adium_Proxy_Default_SOCKS4,
 	Adium_Proxy_Default_SOCKS5,
-	Adium_Proxy_None
+	Adium_Proxy_None,
+    Adium_Proxy_Tor
 } AdiumProxyType;
 
 //Privacy
@@ -280,7 +281,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *aboutEncryption;
 - (void)requestSecureMessaging:(BOOL)inSecureMessaging
 						inChat:(AIChat *)inChat;
-- (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;
 
 /*!
  * @brief Can the account send images inline within a chat?
@@ -329,6 +329,16 @@ typedef enum {
  * Subclasses which intend to return YES should return [super shouldLogChat:chat].
  */
 - (BOOL)shouldLogChat:(AIChat *)chat;
+
+/*!
+ * @brief The proxy's type used for this account.
+ */
+- (AdiumProxyType)proxyType;
+
+/*!
+ * @brief The proxy's hostname the user entered for this account.
+ */
+- (NSString *)proxyHost;
 
 @end
 

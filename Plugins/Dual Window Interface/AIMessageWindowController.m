@@ -253,7 +253,6 @@
 	if (!windowIsClosing
 		&& self.containedChats.count > 1
 		&& [[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE group:PREF_GROUP_CONFIRMATIONS] boolValue]) {
-		NSString *suppressionText = nil;
 		
 		NSInteger unreadCount = 0;
 		
@@ -261,18 +260,6 @@
 			if (chat.unviewedContentCount) {
 				unreadCount++;
 			}
-		}
-		
-		switch ([[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE_TYPE group:PREF_GROUP_CONFIRMATIONS] integerValue]) {
-			case AIMessageCloseAlways:
-				suppressionText = AILocalizedString(@"Do not warn when closing multiple chats", nil);
-				break;
-				
-			case AIMessageCloseUnread:
-				if (unreadCount) {
-					suppressionText = AILocalizedString(@"Do not warn when closing unread chats", nil);
-				}
-				break;
 		}
 		
 		NSString *question = nil;
@@ -285,24 +272,19 @@
 							self.containedChats.count,
 							unreadCount];	
 			}
-		} else {
-			question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window. Do you want to close this window anyway?",nil),
-						self.containedChats.count];
-		}
-		
-		if (suppressionText) {
+			
 			NSAlert *alert = [NSAlert alertWithMessageText:AILocalizedString(@"Are you sure you want to close this window?", nil)
 											 defaultButton:AILocalizedString(@"Close", nil)
 										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
 											   otherButton:nil
-								 informativeTextWithFormat:question];
+								 informativeTextWithFormat:@"%@", question];
 			
 			[alert setShowsSuppressionButton:YES];
-			[[alert suppressionButton] setTitle:suppressionText];
+			[[alert suppressionButton] setTitle:AILocalizedString(@"Do not warn when closing unread chats", nil)];
 			
-			[alert beginSheetModalForWindow:self.window 
-							  modalDelegate:self 
-							 didEndSelector:@selector(closeAlertDidEnd:returnCode:contextInfo:) 
+			[alert beginSheetModalForWindow:self.window
+							  modalDelegate:self
+							 didEndSelector:@selector(closeAlertDidEnd:returnCode:contextInfo:)
 								contextInfo:nil];
 			
 			return NO;
@@ -316,7 +298,7 @@
 {
 	
 	if ([alert suppressionButton].state == NSOnState) {
-		[adium.preferenceController setPreference:nil
+		[adium.preferenceController setPreference:@NO
 										   forKey:KEY_CONFIRM_MSG_CLOSE
 											group:PREF_GROUP_CONFIRMATIONS];
 	}
@@ -336,9 +318,6 @@
  */
 - (void)windowWillClose:(id)sender
 {
-    NSEnumerator			*enumerator;
-    AIMessageTabViewItem	*tabViewItem;
-	
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
 		CGFloat widthToStore;
 		if ([tabView_tabBar isTabBarHidden]) {
@@ -358,10 +337,10 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
-	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
-    while ((tabViewItem = [enumerator nextObject])) {
-		[adium.interfaceController closeChat:tabViewItem.chat];
-	}
+	[[tabView_messages tabViewItems] enumerateObjectsWithOptions:NSEnumerationReverse
+													  usingBlock:^(id tabViewItem, NSUInteger idx, BOOL *stop) {
+		[adium.interfaceController closeChat:[(AIMessageTabViewItem *)tabViewItem chat]];
+	}];
 
 	//Chats have all closed, set active to nil, let the interface know we closed.  We should skip this step if our
 	//window is no longer visible, since in that case another window will have already became active.
@@ -384,8 +363,6 @@
 		[tabView_tabBar setUseOverflowMenu:(useOverflow ? [useOverflow boolValue] : YES)];
 		
 		[[tabView_tabBar overflowPopUpButton] setAlternateImage:[AIStatusIcons statusIconForStatusName:@"content" statusType:AIAvailableStatusType iconType:AIStatusIconTab direction:AIIconNormal]];
-		//NSImage *overflowImage = [[[NSImage alloc] initByReferencingFile:[[NSBundle mainBundle] pathForImageResource:@"overflow_overlay"]] autorelease];
-		//[[tabView_tabBar overflowPopUpButton] setAlternateImage:overflowImage];
 		
 		//change the frame of the tab bar according to the orientation
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
@@ -399,7 +376,6 @@
 		//set tab style drawing attributes
 		[tabView_tabStyle setDrawsRight:(tabPosition == AdiumTabPositionRight)];
 		[tabView_tabStyle setDrawsUnified:(tabPosition == AdiumTabPositionTop)];
-		//[[[self window] toolbar] setShowsBaselineSeparator:(tabPosition != AdiumTabPositionTop)];
 		
 		[self _updateWindowTitleAndIcon];
 
@@ -704,14 +680,9 @@
 
 - (void)_reloadContainedChats
 {
-	NSEnumerator			*enumerator;
-	AIMessageTabViewItem	*tabViewItem;
-
 	//Update our contained chats array to mirror the order of the tabs
 	[m_containedChats release]; m_containedChats = [[NSMutableArray alloc] init];
-	enumerator = [[tabView_messages tabViewItems] objectEnumerator];
-	
-	while ((tabViewItem = [enumerator nextObject])) {
+	for (AIMessageTabViewItem *tabViewItem in [tabView_messages tabViewItems]) {
 		[tabViewItem setWindowController:self];
 		[m_containedChats addObject:[tabViewItem chat]];
 	}
@@ -1300,7 +1271,7 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:@"UserIcon",@"Encryption",  NSToolbarSeparatorItemIdentifier, 
-		@"SourceDestination", @"InsertEmoticon", @"BlockParticipants", @"LinkEditor", @"SafariLink", @"AddBookmark", NSToolbarShowColorsItemIdentifier,
+		@"SourceDestination", @"InsertEmoticon", @"BlockParticipants", @"LinkEditor", @"AddBookmark", NSToolbarShowColorsItemIdentifier,
 		NSToolbarShowFontsItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, @"SendFile",
 		@"ShowInfo", @"LogViewer", nil];
 }
@@ -1330,11 +1301,9 @@
 - (void)removeToolbarItemWithIdentifier:(NSString*)identifier
 {
 	NSArray			*itemArray = [toolbar items];
-	NSEnumerator	*enumerator = [itemArray objectEnumerator];
-	NSToolbarItem	*item;
 	NSInteger		idx = NSNotFound;
 
-	while ((item = [enumerator nextObject])) {
+	for (NSToolbarItem *item in itemArray) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {
 			idx = [itemArray indexOfObject:item];
 			break;

@@ -25,54 +25,19 @@
 #import "AdiumOTREncryption.h"
 
 @interface ESOTRUnknownFingerprintController ()
-+ (void)showFingerprintPromptWithMessageString:(NSString *)messageString 
-								  acceptButton:(NSString *)acceptButton
-									denyButton:(NSString *)denyButton
-								  responseInfo:(NSDictionary *)responseInfo;
 + (void)unknownFingerprintResponseInfo:(NSDictionary *)responseInfo wasAccepted:(BOOL)fingerprintAccepted;
 @end
 
 @implementation ESOTRUnknownFingerprintController
 
-+ (void)showUnknownFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo
-{
-	NSString	*messageString;
-	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
-	NSString	*who = [responseInfo objectForKey:@"who"];
-	NSString	*ourHash = [responseInfo objectForKey:@"Our Fingerprint"];
-	NSString	*theirHash = [responseInfo objectForKey:@"Their Fingerprint"];
-	
-	messageString = [NSString stringWithFormat:
-		AILocalizedString(@"%@ has sent you (%@) an unknown encryption fingerprint.\n\n"
-						  "Fingerprint for you: %@\n\n"
-						  "Purported fingerprint for %@: %@\n\n"
-						  "Accept this fingerprint as verified?",nil),
-		who,
-		account.formattedUID,
-		ourHash,
-		who,
-		theirHash];
-	
-	[self showFingerprintPromptWithMessageString:messageString 
-									acceptButton:AILocalizedString(@"Accept",nil)
-									  denyButton:AILocalizedString(@"Verify Later",nil)
-									responseInfo:responseInfo];
-}
-
 + (void)showVerifyFingerprintPromptWithResponseInfo:(NSDictionary *)responseInfo
 {
 	NSString	*messageString;
-	AIAccount	*account = [responseInfo objectForKey:@"AIAccount"];
 	NSString	*who = [responseInfo objectForKey:@"who"];
-	NSString	*ourHash = [responseInfo objectForKey:@"Our Fingerprint"];
 	NSString	*theirHash = [responseInfo objectForKey:@"Their Fingerprint"];
 
 	messageString = [NSString stringWithFormat:
-		AILocalizedString(@"Fingerprint for you (%@): %@\n\n"
-						  "Purported fingerprint for %@: %@\n\n"
-						  "Is this the verifiably correct fingerprint for %@?",nil),
-		account.formattedUID,
-		ourHash,
+		AILocalizedString(@"Fingerprint for %@: %@\n\nHave you verified this is %@\xe2\x80\x99s fingerprint?",nil),
 		who,
 		theirHash,
 		who];
@@ -99,8 +64,8 @@
 	}
 	
 	ESTextAndButtonsWindowController *textAndButtonsWindowController = [[ESTextAndButtonsWindowController alloc] initWithTitle:AILocalizedString(@"OTR Fingerprint Verification",nil)
-																												 defaultButton:acceptButton
-																											   alternateButton:denyButton
+																												 defaultButton:denyButton
+																											   alternateButton:acceptButton
 																												   otherButton:AILocalizedString(@"Help", nil)
 																												   suppression:nil
 																											 withMessageHeader:nil
@@ -124,10 +89,12 @@
 		if (returnCode == AITextAndButtonsOtherReturn) {
 			NSString			*who = [userInfo objectForKey:@"who"];
 			
-			NSString *message = [NSString stringWithFormat:AILocalizedString(@"A fingerprint is a unique identifier "
-																			 "that you should use to verify the identity of %@.\n\nTo verify the fingerprint, contact %@ via some "
-																			 "other authenticated channel such as the telephone or GPG-signed email. "
-																			 "Each of you should tell your fingerprint to the other.", nil),
+			NSString *message = [NSString stringWithFormat:AILocalizedString(@"A fingerprint is a unique cryptographic identifier "
+																			 @"that you can use to verify the identity of %@. "
+																			 @"If the fingerprint you see matches their actualy fingerprint, you know nobody else can listen in on your chat.\n\n"
+																			 @"To verify the fingerprint, contact %@ via some "
+																			 @"other authenticated channel such as the telephone or GPG-signed email. "
+																			 @"Each of you should tell your fingerprint to the other.", nil),
 				who,
 				who];
 			
@@ -135,7 +102,7 @@
 																  defaultButton:nil
 																alternateButton:nil
 																	otherButton:nil
-															  withMessageHeader:AILocalizedString(@"Fingerprint Help", nil)
+															  withMessageHeader:AILocalizedString(@"What is a fingerprint?", nil)
 																	 andMessage:[[[NSAttributedString alloc] initWithString:message] autorelease]
 																		 target:self
 																	   userInfo:nil];
@@ -145,7 +112,7 @@
 			shouldCloseWindow = NO;
 			
 		} else {
-			fingerprintAccepted = ((returnCode == AITextAndButtonsDefaultReturn) ? YES : NO);
+			fingerprintAccepted = ((returnCode == AITextAndButtonsDefaultReturn) ? NO : YES);
 			
 			[self unknownFingerprintResponseInfo:userInfo
 									 wasAccepted:fingerprintAccepted];
@@ -162,7 +129,7 @@
 	
 	ConnContext *context = otrl_context_find(otrg_get_userstate(),
 											 [who UTF8String], [account.internalObjectID UTF8String],
-											 [account.service.serviceCodeUniqueID UTF8String],
+											 [account.service.serviceCodeUniqueID UTF8String], OTRL_INSTAG_RECENT,
 											 0, NULL, NULL, NULL);
     Fingerprint *fprint;
     BOOL oldtrust;
@@ -187,7 +154,8 @@
 		//Write the new info to disk, redraw the UI
 		otrg_plugin_write_fingerprints();
 		otrg_ui_update_keylist();
-    }	
+		update_security_details_for_context(context);
+    }
 }
 
 @end

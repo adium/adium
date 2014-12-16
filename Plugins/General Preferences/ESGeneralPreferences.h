@@ -19,29 +19,29 @@
 @class SRRecorderControl;
 
 @interface ESGeneralPreferences : AIPreferencePane {
-    IBOutlet	NSButton		*checkBox_messagesInTabs;
-    IBOutlet	NSButton		*checkBox_arrangeByGroup;
-	IBOutlet	NSButton		*checkBox_updatesAutomatic;
-	IBOutlet	NSButton		*checkBox_updatesProfileInfo;	
-	IBOutlet	NSButton		*checkBox_updatesIncludeBetas;
+	IBOutlet	AILocalizationTextField *label_status;
+	IBOutlet	AILocalizationTextField *label_globalShortcut;
+	IBOutlet	AILocalizationTextField *label_updates;
+	IBOutlet	AILocalizationTextField *label_IMLinks;
+	IBOutlet	AILocalizationTextField *label_confirmations;
+	IBOutlet	AILocalizationTextField *label_shortcutRecorder;
 	
-	IBOutlet	NSPopUpButton	*popUp_tabKeys;
-	IBOutlet	NSPopUpButton	*popUp_sendKeys;
-	IBOutlet	NSPopUpButton	*popUp_tabPositionMenu;
+	IBOutlet	AILocalizationButton *checkbox_showInMenu;
+	IBOutlet	AILocalizationButton *checkbox_updatesAutomatic;
+	IBOutlet	AILocalizationButton *checkbox_updatesProfileInfo;
+	IBOutlet	AILocalizationButton *checkbox_updatesIncludeBetas;
+	IBOutlet	AILocalizationButton *button_defaultApp;
+	IBOutlet	AILocalizationButton *button_customizeDefaultApp;
+	IBOutlet	AILocalizationButton *button_resetAllWarnings;
 
-	IBOutlet	NSTextField		*label_logging;
-	IBOutlet	NSTextField		*label_messagesSendOn;
-	IBOutlet	NSTextField		*label_messagesTabs;
-	IBOutlet	NSTextField		*label_switchTabsWith;	
+	IBOutlet    NSView *placeholder_shortcutRecorder;
 	
-	IBOutlet	NSTextField		*label_shortcutRecorder;
-
-    IBOutlet    NSView          *placeholder_shortcutRecorder;
-    SRRecorderControl           *shortcutRecorder;		
+	SRRecorderControl           *shortcutRecorder;
 }
 
-- (IBAction)configureLogCertainAccounts:(id)sender;
-
 @property (nonatomic, retain) SRRecorderControl *shortcutRecorder;
+- (IBAction)setAsDefaultApp:(id)sender;
+- (IBAction)customizeDefaultApp:(id)sender;
+- (IBAction)resetAllWarnings:(id)sender;
 
 @end

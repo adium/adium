@@ -24,6 +24,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIGroupChat.h>
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
@@ -1361,7 +1362,7 @@
 			[adium.contentController receiveContentObject:newStatusMessage];
 			
 			if (chat.isGroupChat)
-				[chat removeAllParticipatingContactsSilently];
+				[(AIGroupChat *)chat removeAllParticipatingContactsSilently];
 		}
 	}
 	
