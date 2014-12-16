@@ -578,7 +578,7 @@
 
 @implementation NSString (STTwitterOAuth)
 
-+ (NSString *)randomString {
++ (NSString *)st_randomString {
     CFUUIDRef cfuuid = CFUUIDCreate (kCFAllocatorDefault);
     NSString *uuid = (NSString *)CFUUIDCreateString (kCFAllocatorDefault, cfuuid);
     CFRelease (cfuuid);
@@ -586,7 +586,7 @@
 }
 
 + (NSString *)random32Characters {
-    NSString *randomString = [self randomString];
+    NSString *randomString = [self st_randomString];
     
     NSAssert([randomString length] >= 32, @"");
     
