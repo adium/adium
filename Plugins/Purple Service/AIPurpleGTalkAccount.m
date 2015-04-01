@@ -221,6 +221,17 @@
 	
 	AILogWithSignature(@"%@", responseDict);
 	
+	if ([responseDict objectForKey:@"error"]) {
+		// Delete the refresh token, so we don't use it again.
+		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
+																		 account:self.UID
+																		   error:NULL];
+		
+		[self setLastDisconnectionError:[NSString stringWithFormat:AILocalizedString(@"Retrieving OAuth token failed: %@", nil), [responseDict objectForKey:@"error_description"]]];
+		[self serverReportedInvalidPassword];
+		return;
+	}
+	
 	if (!self.UID.length) {
 		NSString *jsonWebToken = [responseDict objectForKey:@"id_token"];
 		
@@ -291,7 +302,6 @@
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	[self setLastDisconnectionError:[NSString stringWithFormat:AILocalizedString(@"OAuth authentication failed: %@", nil), error.description]];
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:NotifyNow];
 }
 
 - (void)retrievePasswordThenConnect
