@@ -23,6 +23,7 @@
 #import "AIService.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
+#import <Adium/AIInterfaceControllerProtocol.h>
 
 #import "NSData+Base64.h"
 
@@ -116,6 +117,12 @@
 	}
 }
 
+- (void)promptUpgrade:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed {
+	if ([number integerValue] == 1) {
+		[adium.accountController editAccount:self onWindow:nil notifyingTarget:self];
+	}
+}
+
 - (void)connect
 {
 	if (!self.UID.length) {
@@ -128,7 +135,20 @@
 		if (refresh_token && refresh_token.length) {
 			[self useRefreshToken:refresh_token];
 		} else {
-			[self requestAccessToken];
+			if ([self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS]) {
+				[self requestAccessToken];
+			} else {
+				[adium.interfaceController displayQuestion:AILocalizedString(@"Upgrade Google Talk account", nil)
+										   withDescription:[NSString stringWithFormat:AILocalizedString(@"Adium uses a new, more secure way to sign in to Google Talk. To use this, you must authorize your account.", nil)]
+										   withWindowTitle:nil
+											 defaultButton:AILocalizedString(@"OK", nil)
+										   alternateButton:AILocalizedString(@"Later", nil)
+											   otherButton:nil
+											   suppression:nil
+													target:self
+												  selector:@selector(promptUpgrade:userInfo:suppression:)
+												  userInfo:nil];
+			}
 		}
 	}
 }
@@ -238,7 +258,7 @@
 	}
 	
 	if (!self.UID.length) {
-		[self setLastDisconnectionError:@"Obtaining your JID failed"];
+		[self setLastDisconnectionError:AILocalizedString(@"Obtaining your JID failed", nil)];
 		return;
 	}
 	
@@ -259,12 +279,16 @@
 	[conn release]; conn = nil;
 	[response release]; response = nil;
 	
-	[self setGTalkMechEnabled:YES];
-	[super connect];
+	if (password) {
+		[self setGTalkMechEnabled:YES];
+		[super connect];
+	} else {
+		[self serverReportedInvalidPassword];
+	}
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[self setLastDisconnectionError:[NSString stringWithFormat:@"OAuth authentication failed: %@", error.description]];
+	[self setLastDisconnectionError:[NSString stringWithFormat:AILocalizedString(@"OAuth authentication failed: %@", nil), error.description]];
 	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:NotifyNow];
 }
 
