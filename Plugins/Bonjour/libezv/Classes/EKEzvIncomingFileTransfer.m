@@ -311,7 +311,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	[[[manager client] client] reportError:[NSString stringWithFormat: @"Download failed! Error - %@ %@",
 	         [error localizedDescription],
 	         [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]] ofLevel: AWEzvError];
-	[download release];
+	[currentDownloads removeObject:download];
 }
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
@@ -335,7 +335,6 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		[[[manager client] client] updateProgressForFileTransfer:self percent:[NSNumber numberWithFloat:percentComplete] bytesSent:[NSNumber numberWithLongLong:bytesReceived]];
 
 	[currentDownloads removeObject:download];
-	[download release];
 }
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
 {
