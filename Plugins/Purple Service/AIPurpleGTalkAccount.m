@@ -15,6 +15,7 @@
  */
 
 #import "AIPurpleGTalkAccount.h"
+#import "auth_gtalk.h"
 
 @implementation AIPurpleGTalkAccount
 
@@ -82,6 +83,39 @@
 - (BOOL)allowAccountUnregistrationIfSupportedByLibpurple
 {
 	return NO;
+}
+
+/* Add the authentication mechanism for X-OAUTH2. Note that if the server offers it,
+ * it will be used preferentially over any other mechanism e.g. PLAIN. */
+- (void)setGtalkMechEnabled:(BOOL)inEnabled
+{
+	static BOOL enabledGtalkMech = NO;
+	if (inEnabled != enabledGtalkMech) {
+		if (inEnabled)
+			jabber_auth_add_mech(jabber_auth_get_gtalk_mech());
+		else
+			jabber_auth_remove_mech(jabber_auth_get_gtalk_mech());
+		
+		enabledGtalkMech = inEnabled;
+	}
+}
+
+- (void)connect
+{
+	[self setGtalkMechEnabled:YES];
+	[super connect];
+}
+
+- (void)didConnect
+{
+	[self setGtalkMechEnabled:NO];
+	[super didConnect];
+}
+
+- (void)didDisconnect
+{
+	[self setGtalkMechEnabled:NO];
+	[super didDisconnect];
 }
 
 @end

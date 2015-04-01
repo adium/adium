@@ -16,15 +16,17 @@
 
 #import "AIPurpleGTalkAccountViewController.h"
 
+#define ADIUM_GTALK_CLIENT_ID @"853036734951.apps.googleusercontent.com"
 
 @implementation AIPurpleGTalkAccountViewController
+
+- (NSString *)nibName{
+	return @"ESPurpleGTalkAccountView";
+}
 
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
-	
-	//GTalk forces the use of TLS
-	[checkBox_useTLS setEnabled:NO];
 	
 	[checkBox_checkMail setEnabled:YES];
 }
@@ -33,9 +35,46 @@
 {
 	[super configureForAccount:inAccount];
 	[textField_connectServer setStringValue:@"talk.google.com"];
-	[textField_connectServer setEditable:NO];
-	[textField_connectServer setBordered:NO];
-	[textField_connectServer setDrawsBackground:NO];
+}
+
+- (void)saveConfiguration
+{
+	[super saveConfiguration];
+	
+	//Connection security
+	[account setPreference:[NSNumber numberWithBool:FALSE]
+					forKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:[NSNumber numberWithBool:TRUE]
+					forKey:KEY_JABBER_REQUIRE_TLS group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:[NSNumber numberWithBool:TRUE]
+					forKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:[NSNumber numberWithBool:FALSE]
+					forKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS];
+}
+
+- (IBAction)requestAccess:(id)sender {
+	NSString *urlString = @"https://accounts.google.com/o/oauth2/auth?"
+	@"scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgoogletalk"
+	@"&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+	@"&response_type=code"
+	@"&client_id=" ADIUM_GTALK_CLIENT_ID;
+	
+	if (account.UID) {
+		urlString = [urlString stringByAppendingFormat:@"&login_hint=%@", account.UID];
+	}
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	[[NSWorkspace sharedWorkspace] openURL:url];
+	
+	[label_grant setHidden:FALSE];
+	[label_code setHidden:FALSE];
+	[textField_code setHidden:FALSE];
+	[button_submit setHidden:FALSE];
+}
+
+- (IBAction)submit:(id)sender {
+	NSLog(@"Token: %@", textField_code.value);
 }
 
 @end
