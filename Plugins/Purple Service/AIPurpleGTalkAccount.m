@@ -251,8 +251,6 @@
 				AILogWithSignature(@"%@", identity);
 				
 				[self filterAndSetUID:[identity objectForKey:@"email"]];
-				
-				[identityData release];
 			}
 		}
 	}
