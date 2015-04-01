@@ -17,7 +17,14 @@
 #import "ESPurpleJabberAccountViewController.h"
 
 @interface AIPurpleGTalkAccountViewController : ESPurpleJabberAccountViewController {
-
+	IBOutlet NSTextField *textField_code;
+	
+	IBOutlet NSTextField *label_grant;
+	IBOutlet NSTextField *label_code;
+	IBOutlet NSButton *button_submit;
 }
+
+-(IBAction)requestAccess:(id)sender;
+-(IBAction)submit:(id)sender;
 
 @end

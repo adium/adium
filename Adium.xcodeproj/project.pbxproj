@@ -1376,6 +1376,9 @@
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
+		766F66A51ACBDF0D002079F2 /* auth_gtalk.c in Sources */ = {isa = PBXBuildFile; fileRef = 766F66A31ACBDF0D002079F2 /* auth_gtalk.c */; };
+		766F66A61ACBDF0D002079F2 /* auth_gtalk.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F66A41ACBDF0D002079F2 /* auth_gtalk.h */; };
+		766F66AC1ACBE2AF002079F2 /* ESPurpleGTalkAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 766F66AA1ACBE2AF002079F2 /* ESPurpleGTalkAccountView.nib */; };
 		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
 		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
@@ -4493,6 +4496,9 @@
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		766ABAB41306D1020049FFB7 /* AIUnreadMessagesTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUnreadMessagesTooltip.h; path = Source/AIUnreadMessagesTooltip.h; sourceTree = "<group>"; };
 		766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUnreadMessagesTooltip.m; path = Source/AIUnreadMessagesTooltip.m; sourceTree = "<group>"; };
+		766F66A31ACBDF0D002079F2 /* auth_gtalk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth_gtalk.c; sourceTree = "<group>"; };
+		766F66A41ACBDF0D002079F2 /* auth_gtalk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auth_gtalk.h; sourceTree = "<group>"; };
+		766F66AB1ACBE2AF002079F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
 		76731DE115F90538007728C3 /* libgpgerror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgpgerror.framework; path = Frameworks/libgpgerror.framework; sourceTree = "<group>"; };
 		76889DEA12D3CA17007AEF00 /* get-info.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "get-info.tiff"; path = "Resources/get-info.tiff"; sourceTree = "<group>"; };
@@ -5036,6 +5042,8 @@
 			children = (
 				34D8154913B663A80022C8C4 /* auth_fb.c */,
 				34D8154A13B663A80022C8C4 /* auth_fb.h */,
+				766F66A31ACBDF0D002079F2 /* auth_gtalk.c */,
+				766F66A41ACBDF0D002079F2 /* auth_gtalk.h */,
 				34D8154B13B663A80022C8C4 /* fbapi.c */,
 				34D8154C13B663A80022C8C4 /* fbapi.h */,
 				11EE1B490CDCFAF40097F246 /* oscar-adium.c */,
@@ -6413,22 +6421,14 @@
 		34E6BBE50A78083A0076D7F0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				34D8326107CBD598006466F2 /* AccountPrefs.plist */,
 				317D83670E89F40500298BDB /* msg-bookmark-chat.tiff */,
-				34D8327507CBD5B3006466F2 /* BuiltInStatusStates.plist */,
-				34D8326607CBD598006466F2 /* ContactPrefs.plist */,
-				34D8326707CBD598006466F2 /* default-icon.png */,
-				34D8326207CBD598006466F2 /* DockPrefs.plist */,
 				3428B33E0815E1FB00C0D3DC /* emoticon32.tiff */,
 				345F590608199746001F733C /* emoticon32_transparent.tiff */,
-				34B995D9092A832700E31E91 /* FontPanelAccessoryView.nib */,
 				34DFF53007A62EB100B92233 /* lock-locked.tiff */,
 				34DFF52607A62EB000B92233 /* lock-unlocked.tiff */,
 				347E787507CA975900350507 /* remove.tiff */,
-				34D8326307CBD598006466F2 /* msg-send-file.tiff */,
 				4BB2EB200D88D76100CA7A7D /* timestamp32.tiff */,
 				4BB2EB210D88D76100CA7A7D /* timestamp32_transparent.tiff */,
-				34D8327607CBD5B3006466F2 /* ToolbarPrefs.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -8392,6 +8392,7 @@
 		A3C0405808D744B200B48CE1 /* Google Talk */ = {
 			isa = PBXGroup;
 			children = (
+				766F66AA1ACBE2AF002079F2 /* ESPurpleGTalkAccountView.nib */,
 				A3C0431B08D74D3100B48CE1 /* AIPurpleGTalkAccount.h */,
 				A3C0431C08D74D3100B48CE1 /* AIPurpleGTalkAccount.m */,
 				A3C0431D08D74D3100B48CE1 /* AIPurpleGTalkAccountViewController.h */,
@@ -8866,6 +8867,7 @@
 				3485DB7109EBCE7400232CC4 /* AIPurpleGTalkAccountViewController.h in Headers */,
 				3485DB7309EBCE7400232CC4 /* AIGTalkService.h in Headers */,
 				3485DB7609EBCE7400232CC4 /* ESMeanwhileService.h in Headers */,
+				766F66A61ACBDF0D002079F2 /* auth_gtalk.h in Headers */,
 				3485DB7809EBCE7400232CC4 /* ESPurpleMeanwhileAccount.h in Headers */,
 				3485DB7A09EBCE7400232CC4 /* DCPurpleMeanwhileJoinChatViewController.h in Headers */,
 				3485DB7D09EBCE7400232CC4 /* ESPurpleMeanwhileAccountViewController.h in Headers */,
@@ -9208,7 +9210,7 @@
 			name = "Unit tests";
 			productName = "Unit tests";
 			productReference = 312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		3485D67F09EB416300232CC4 /* AdiumLibpurple */ = {
 			isa = PBXNativeTarget;
@@ -9509,6 +9511,7 @@
 				34EF99AA0E2EB35A003E5DC7 /* PurpleDefaultsMobileMe.plist in Resources */,
 				34EF9A320E2EB637003E5DC7 /* MobileMe-large.png in Resources */,
 				34EF9A330E2EB637003E5DC7 /* MobileMe-small.png in Resources */,
+				766F66AC1ACBE2AF002079F2 /* ESPurpleGTalkAccountView.nib in Resources */,
 				34E4CD5B0E68277D00D1B0DC /* ESIRCJoinChatView.nib in Resources */,
 				34E4CD660E68279C00D1B0DC /* irc.png in Resources */,
 				34E4CD670E68279C00D1B0DC /* PurpleDefaultsIRC.plist in Resources */,
@@ -9987,6 +9990,7 @@
 				3485DB7209EBCE7400232CC4 /* AIPurpleGTalkAccountViewController.m in Sources */,
 				3485DB7409EBCE7400232CC4 /* AIGTalkService.m in Sources */,
 				3485DB7709EBCE7400232CC4 /* ESMeanwhileService.m in Sources */,
+				766F66A51ACBDF0D002079F2 /* auth_gtalk.c in Sources */,
 				3485DB7909EBCE7400232CC4 /* ESPurpleMeanwhileAccount.m in Sources */,
 				3485DB7B09EBCE7400232CC4 /* DCPurpleMeanwhileJoinChatViewController.m in Sources */,
 				3485DB7E09EBCE7400232CC4 /* ESPurpleMeanwhileAccountViewController.m in Sources */,
@@ -12336,6 +12340,14 @@
 				5A80CCA3121F5A7B00D0670A /* uk */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		766F66AA1ACBE2AF002079F2 /* ESPurpleGTalkAccountView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				766F66AB1ACBE2AF002079F2 /* en */,
+			);
+			name = ESPurpleGTalkAccountView.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
