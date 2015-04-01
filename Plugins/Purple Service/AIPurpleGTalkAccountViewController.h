@@ -22,6 +22,9 @@
 	IBOutlet NSTextField *label_grant;
 	IBOutlet NSTextField *label_code;
 	IBOutlet NSButton *button_submit;
+	
+	NSMutableData *response;
+	NSURLConnection *conn;
 }
 
 -(IBAction)requestAccess:(id)sender;

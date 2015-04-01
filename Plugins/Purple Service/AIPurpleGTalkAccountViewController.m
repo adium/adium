@@ -16,12 +16,22 @@
 
 #import "AIPurpleGTalkAccountViewController.h"
 
+#import "JSONKit.h"
+
 #define ADIUM_GTALK_CLIENT_ID @"853036734951.apps.googleusercontent.com"
+#define ADIUM_GTALK_SECRET @"TSXNUaq34k_0YU7DZT4HbmQd"
 
 @implementation AIPurpleGTalkAccountViewController
 
 - (NSString *)nibName{
 	return @"ESPurpleGTalkAccountView";
+}
+
+- (void)dealloc {
+	[response release];
+	[conn release];
+	
+	[super dealloc];
 }
 
 - (void)awakeFromNib
@@ -74,7 +84,49 @@
 }
 
 - (IBAction)submit:(id)sender {
-	NSLog(@"Token: %@", textField_code.value);
+	NSLog(@"Token: %@", textField_code.stringValue);
+	
+	NSString *body = [NSString stringWithFormat:@"code=%@&client_id=" ADIUM_GTALK_CLIENT_ID
+					  @"&client_secret=" ADIUM_GTALK_SECRET
+					  @"&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+					  @"&grant_type=authorization_code", textField_code.stringValue];
+	
+	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.googleapis.com/oauth2/v3/token"]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded ; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	[request setValue:[NSString stringWithFormat:@"%u", (unsigned int)[data length]] forHTTPHeaderField:@"Content-Length"];
+	[request setHTTPBody:data];
+	
+	AILogWithSignature(@"%@", request);
+	
+	conn = [[NSURLConnection connectionWithRequest:request delegate:self] retain];
+	
+	response = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)urlResponse {
+	AILogWithSignature(@"%@", urlResponse);
+}
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveData:(NSData *)data {
+	[response appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection {
+//	NSString *responseString = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+	
+//	NSLog(@"%@", responseString);
+	
+	NSError *error = nil;
+	NSDictionary *responseDict = [response objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+	
+	AILogWithSignature(@"%@", responseDict);
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
+	AILogWithSignature(@"did fail");
 }
 
 @end
