@@ -135,7 +135,8 @@
 		if (refresh_token && refresh_token.length) {
 			[self useRefreshToken:refresh_token];
 		} else {
-			if ([self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS]) {
+			if ([self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS] ||
+				[[self preferenceForKey:KEY_GTALK_UPGRADED_OAUTH2 group:GROUP_ACCOUNT_STATUS] boolValue]) {
 				[self requestAccessToken];
 			} else {
 				[adium.interfaceController displayQuestion:AILocalizedString(@"Upgrade Google Talk account", nil)
@@ -259,6 +260,9 @@
 		[self setLastDisconnectionError:AILocalizedString(@"Obtaining your JID failed", nil)];
 		return;
 	}
+	
+	[self setPreference:nil forKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS];
+	[self setPreference:@(YES) forKey:KEY_GTALK_UPGRADED_OAUTH2 group:GROUP_ACCOUNT_STATUS];
 	
 	if ([responseDict objectForKey:@"refresh_token"]) {
 		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
