@@ -135,7 +135,8 @@
 		if (refresh_token && refresh_token.length) {
 			[self useRefreshToken:refresh_token];
 		} else {
-			if ([self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS]) {
+			if ([self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS] ||
+				[[self preferenceForKey:KEY_GTALK_UPGRADED_OAUTH2 group:GROUP_ACCOUNT_STATUS] boolValue]) {
 				[self requestAccessToken];
 			} else {
 				[adium.interfaceController displayQuestion:AILocalizedString(@"Upgrade Google Talk account", nil)
@@ -220,6 +221,17 @@
 	
 	AILogWithSignature(@"%@", responseDict);
 	
+	if ([responseDict objectForKey:@"error"]) {
+		// Delete the refresh token, so we don't use it again.
+		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
+																		 account:self.UID
+																		   error:NULL];
+		
+		[self setLastDisconnectionError:[NSString stringWithFormat:AILocalizedString(@"Retrieving OAuth token failed: %@", nil), [responseDict objectForKey:@"error_description"]]];
+		[self serverReportedInvalidPassword];
+		return;
+	}
+	
 	if (!self.UID.length) {
 		NSString *jsonWebToken = [responseDict objectForKey:@"id_token"];
 		
@@ -260,6 +272,9 @@
 		return;
 	}
 	
+	[self setPreference:nil forKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS];
+	[self setPreference:@(YES) forKey:KEY_GTALK_UPGRADED_OAUTH2 group:GROUP_ACCOUNT_STATUS];
+	
 	if ([responseDict objectForKey:@"refresh_token"]) {
 		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
 																		 account:self.UID
@@ -287,7 +302,6 @@
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	[self setLastDisconnectionError:[NSString stringWithFormat:AILocalizedString(@"OAuth authentication failed: %@", nil), error.description]];
-	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:NotifyNow];
 }
 
 - (void)retrievePasswordThenConnect
