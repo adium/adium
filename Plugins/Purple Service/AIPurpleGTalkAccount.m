@@ -16,6 +16,13 @@
 
 #import "AIPurpleGTalkAccount.h"
 #import "auth_gtalk.h"
+#import "AIKeychain.h"
+
+#import "JSONKit.h"
+
+#import "AIService.h"
+
+#import <Adium/AIAccountControllerProtocol.h>
 
 @implementation AIPurpleGTalkAccount
 
@@ -38,6 +45,13 @@
 	NSString *completeUserName = [NSString stringWithFormat:@"%@/%@",userNameWithGmailDotCom, [self resourceName]];
 
 	return [completeUserName UTF8String];
+}
+
+- (void)dealloc {
+	[response release];
+	[conn release];
+	
+	[super dealloc];
 }
 
 - (NSString *)serverSuffix
@@ -87,35 +101,119 @@
 
 /* Add the authentication mechanism for X-OAUTH2. Note that if the server offers it,
  * it will be used preferentially over any other mechanism e.g. PLAIN. */
-- (void)setGtalkMechEnabled:(BOOL)inEnabled
+- (void)setGTalkMechEnabled:(BOOL)inEnabled
 {
-	static BOOL enabledGtalkMech = NO;
-	if (inEnabled != enabledGtalkMech) {
+	static BOOL enabledGTalkMech = NO;
+	if (inEnabled != enabledGTalkMech) {
 		if (inEnabled)
 			jabber_auth_add_mech(jabber_auth_get_gtalk_mech());
 		else
 			jabber_auth_remove_mech(jabber_auth_get_gtalk_mech());
 		
-		enabledGtalkMech = inEnabled;
+		enabledGTalkMech = inEnabled;
 	}
 }
 
 - (void)connect
 {
-	[self setGtalkMechEnabled:YES];
-	[super connect];
+	NSString *refresh_token = [[AIKeychain defaultKeychain_error:NULL] findGenericPasswordForService:self.service.serviceID
+																							 account:self.UID
+																						keychainItem:NULL error:NULL];
+	
+	if (refresh_token) {
+		[self useRefreshToken:refresh_token];
+	} else {
+		[self requestAccessToken];
+	}
 }
 
 - (void)didConnect
 {
-	[self setGtalkMechEnabled:NO];
+	[self setGTalkMechEnabled:NO];
 	[super didConnect];
 }
 
 - (void)didDisconnect
 {
-	[self setGtalkMechEnabled:NO];
+	[self setGTalkMechEnabled:NO];
 	[super didDisconnect];
+}
+
+- (void)useRefreshToken:(NSString *)token {
+	NSString *body = [NSString stringWithFormat:@"refresh_token=%@&client_id=" ADIUM_GTALK_CLIENT_ID
+					  @"&client_secret=" ADIUM_GTALK_SECRET
+					  @"&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+					  @"&grant_type=refresh_token", token];
+	
+	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.googleapis.com/oauth2/v3/token"]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded ; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	[request setValue:[NSString stringWithFormat:@"%u", (unsigned int)[data length]] forHTTPHeaderField:@"Content-Length"];
+	[request setHTTPBody:data];
+	
+	AILogWithSignature(@"%@", request);
+	
+	conn = [[NSURLConnection connectionWithRequest:request delegate:self] retain];
+	
+	response = [[NSMutableData alloc] init];
+}
+
+- (void)requestAccessToken {
+	NSString *body = [NSString stringWithFormat:@"code=%@&client_id=" ADIUM_GTALK_CLIENT_ID
+					  @"&client_secret=" ADIUM_GTALK_SECRET
+					  @"&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+					  @"&grant_type=authorization_code", [self preferenceForKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS]];
+	
+	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.googleapis.com/oauth2/v3/token"]];
+	[request setHTTPMethod:@"POST"];
+	[request setValue:@"application/x-www-form-urlencoded ; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+	[request setValue:[NSString stringWithFormat:@"%u", (unsigned int)[data length]] forHTTPHeaderField:@"Content-Length"];
+	[request setHTTPBody:data];
+	
+	AILogWithSignature(@"%@", request);
+	
+	conn = [[NSURLConnection connectionWithRequest:request delegate:self] retain];
+	
+	response = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)urlResponse {
+	AILogWithSignature(@"%@", urlResponse);
+}
+
+- (void)connection:(NSURLConnection *)inConnection didReceiveData:(NSData *)data {
+	[response appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection {
+	NSError *error = nil;
+	NSDictionary *responseDict = [response objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+	
+	AILogWithSignature(@"%@", responseDict);
+	
+	[[adium accountController] setPassword:[responseDict objectForKey:@"access_token"] forAccount:self];
+	
+	if ([responseDict objectForKey:@"refresh_token"]) {
+		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID
+																		 account:self.UID
+																		   error:NULL];
+		[[AIKeychain defaultKeychain_error:NULL] addGenericPassword:[responseDict objectForKey:@"refresh_token"]
+														 forService:self.service.serviceID
+															account:self.UID
+													   keychainItem:NULL
+															  error:NULL];
+	}
+	
+	[self setGTalkMechEnabled:YES];
+	[super connect];
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	AILogWithSignature(@"did fail");
 }
 
 @end
