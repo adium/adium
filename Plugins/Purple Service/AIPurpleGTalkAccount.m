@@ -194,8 +194,6 @@
 	
 	AILogWithSignature(@"%@", responseDict);
 	
-	[[adium accountController] setPassword:[responseDict objectForKey:@"access_token"] forAccount:self];
-	
 	if (!self.UID.length) {
 		NSString *jsonWebToken = [responseDict objectForKey:@"id_token"];
 		
@@ -228,12 +226,40 @@
 															  error:NULL];
 	}
 	
+	[password release];
+	password = [[responseDict objectForKey:@"access_token"] retain];
+	
 	[self setGTalkMechEnabled:YES];
 	[super connect];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	AILogWithSignature(@"did fail");
+	[self setLastDisconnectionError:[NSString stringWithFormat:@"OAuth authentication failed: %@", error.description]];
+	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"isDisconnecting" notify:NotifyNow];
+}
+
+- (void)retrievePasswordThenConnect
+{
+	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"] ||
+		[self boolValueForProperty:@"mustPromptForPasswordOnNextConnect"]) {
+		[adium.accountController editAccount:self onWindow:nil notifyingTarget:self];
+		
+	} else {
+		/* Retrieve the user's password. Never prompt for a password, as we'll implement our own authorization handling
+		 * if the password can't be retrieved.
+		 */
+		[adium.accountController passwordForAccount:self
+									   promptOption:AIPromptNever
+									notifyingTarget:self
+										   selector:@selector(passwordReturnedForConnect:returnCode:context:)
+											context:nil];
+	}
+}
+
+- (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)successful {
+	if (successful) {
+		[self connect];
+	}
 }
 
 @end
