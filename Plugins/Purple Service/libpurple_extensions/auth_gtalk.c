@@ -42,10 +42,11 @@ gtalk_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
 	xmlnode_set_attrib(auth, "mechanism", "X-OAUTH2");
 	xmlnode_set_attrib(auth, "auth:service", "oauth2");
 	xmlnode_set_attrib(auth, "xmlns:auth", "http://www.google.com/talk/protocol/auth");
+	xmlnode_set_attrib(auth, "auth:client-uses-full-bind-result", "true");
 	
 	resp = g_string_new("");
 	resp = g_string_append_c(resp, '\0');
-	resp = g_string_append(resp, js->user->node);
+	resp = g_string_append(resp, jabber_id_get_bare_jid(js->user));
 	resp = g_string_append_c(resp, '\0');
 	resp = g_string_append(resp, purple_connection_get_password(js->gc));
 	

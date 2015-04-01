@@ -116,14 +116,18 @@
 
 - (void)connect
 {
-	NSString *refresh_token = [[AIKeychain defaultKeychain_error:NULL] findGenericPasswordForService:self.service.serviceID
-																							 account:self.UID
-																						keychainItem:NULL error:NULL];
-	
-	if (refresh_token && refresh_token.length) {
-		[self useRefreshToken:refresh_token];
-	} else {
+	if (!self.UID.length) {
 		[self requestAccessToken];
+	} else {
+		NSString *refresh_token = [[AIKeychain defaultKeychain_error:NULL] findGenericPasswordForService:self.service.serviceID
+																								 account:self.UID
+																							keychainItem:NULL error:NULL];
+		
+		if (refresh_token && refresh_token.length) {
+			[self useRefreshToken:refresh_token];
+		} else {
+			[self requestAccessToken];
+		}
 	}
 }
 
@@ -203,7 +207,23 @@
 			NSArray *components = [jsonWebToken componentsSeparatedByString:@"."];
 		
 			if (components.count == 3) {
-				NSData *identityData = [[NSData alloc] initWithBase64EncodedString:[[components objectAtIndex:1] stringByAppendingString:@"=="] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+				NSString *base64EncodedIdentity = [components objectAtIndex:1];
+				
+				// Restore the padding
+				switch (base64EncodedIdentity.length % 4) {
+					case 2: {
+						base64EncodedIdentity = [base64EncodedIdentity stringByAppendingString:@"=="];
+						break;
+					}
+					case 3: {
+						base64EncodedIdentity = [base64EncodedIdentity stringByAppendingString:@"="];
+						break;
+					}
+					default: {
+					}
+				}
+				
+				NSData *identityData = [[NSData alloc] initWithBase64EncodedString:base64EncodedIdentity options:NSDataBase64DecodingIgnoreUnknownCharacters];
 				NSDictionary *identity = [identityData objectFromJSONData];
 				
 				AILogWithSignature(@"%@", identity);
@@ -213,6 +233,11 @@
 				[identityData release];
 			}
 		}
+	}
+	
+	if (!self.UID.length) {
+		[self setLastDisconnectionError:@"Obtaining your JID failed"];
+		return;
 	}
 	
 	if ([responseDict objectForKey:@"refresh_token"]) {
