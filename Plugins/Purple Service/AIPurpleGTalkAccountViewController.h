@@ -19,7 +19,6 @@
 @interface AIPurpleGTalkAccountViewController : ESPurpleJabberAccountViewController {
 	IBOutlet NSTextField *textField_code;
 	
-	IBOutlet NSTextField *label_grant;
 	IBOutlet NSTextField *label_code;
 }
 

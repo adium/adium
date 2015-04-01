@@ -70,7 +70,6 @@
 	
 	[[NSWorkspace sharedWorkspace] openURL:url];
 	
-	[label_grant setHidden:FALSE];
 	[label_code setHidden:FALSE];
 	[textField_code setHidden:FALSE];
 }
