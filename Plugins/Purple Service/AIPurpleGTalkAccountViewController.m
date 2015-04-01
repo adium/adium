@@ -35,6 +35,10 @@
 {
 	[super configureForAccount:inAccount];
 	[textField_connectServer setStringValue:@"talk.google.com"];
+	
+	if (account.online) {
+		[button_requestAccess setEnabled:FALSE];
+	}
 }
 
 - (void)saveConfiguration
@@ -72,6 +76,8 @@
 	
 	[label_code setHidden:FALSE];
 	[textField_code setHidden:FALSE];
+	
+	[button_requestAccess setHidden:TRUE];
 }
 
 @end
