@@ -18,6 +18,8 @@
 
 #import "JSONKit.h"
 
+#import <Adium/AIAccountControllerProtocol.h>
+
 #define ADIUM_GTALK_CLIENT_ID @"853036734951.apps.googleusercontent.com"
 #define ADIUM_GTALK_SECRET @"TSXNUaq34k_0YU7DZT4HbmQd"
 
@@ -123,6 +125,8 @@
 	NSDictionary *responseDict = [response objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
 	
 	AILogWithSignature(@"%@", responseDict);
+	
+	[[adium accountController] setPassword:[responseDict objectForKey:@"access_token"] forAccount:account];
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{

@@ -31,16 +31,27 @@
 #include "jabber.h"
 #include "auth.h"
 
-#define PACKAGE "pidgin"
-
 static JabberSaslState
 gtalk_start(JabberStream *js, xmlnode *packet, xmlnode **response, char **error)
 {
+	gchar *enc_out;
 	xmlnode *auth = xmlnode_new("auth");
+	GString *resp;
+	
 	xmlnode_set_namespace(auth, "urn:ietf:params:xml:ns:xmpp-sasl");
 	xmlnode_set_attrib(auth, "mechanism", "X-OAUTH2");
 	xmlnode_set_attrib(auth, "auth:service", "oauth2");
 	xmlnode_set_attrib(auth, "xmlns:auth", "http://www.google.com/talk/protocol/auth");
+	
+	resp = g_string_new("");
+	resp = g_string_append_c(resp, '\0');
+	resp = g_string_append(resp, js->user->node);
+	resp = g_string_append_c(resp, '\0');
+	resp = g_string_append(resp, purple_connection_get_password(js->gc));
+	
+	enc_out = purple_base64_encode((guchar *)resp->str, resp->len);
+	
+	xmlnode_insert_data(auth, enc_out, -1);
 	
 	*response = auth;
 	
