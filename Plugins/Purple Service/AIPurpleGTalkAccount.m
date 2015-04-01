@@ -120,7 +120,7 @@
 																							 account:self.UID
 																						keychainItem:NULL error:NULL];
 	
-	if (refresh_token) {
+	if (refresh_token && refresh_token.length) {
 		[self useRefreshToken:refresh_token];
 	} else {
 		[self requestAccessToken];
@@ -190,12 +190,32 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)inConnection {
-	NSError *error = nil;
-	NSDictionary *responseDict = [response objectFromJSONDataWithParseOptions:JKParseOptionNone error:&error];
+	NSDictionary *responseDict = [response objectFromJSONData];
 	
 	AILogWithSignature(@"%@", responseDict);
 	
 	[[adium accountController] setPassword:[responseDict objectForKey:@"access_token"] forAccount:self];
+	
+	if (!self.UID.length) {
+		NSString *jsonWebToken = [responseDict objectForKey:@"id_token"];
+		
+		if (!jsonWebToken) {
+			AILogWithSignature(@"id_token missing, can't set JID!");
+		} else {
+			NSArray *components = [jsonWebToken componentsSeparatedByString:@"."];
+		
+			if (components.count == 3) {
+				NSData *identityData = [[NSData alloc] initWithBase64EncodedString:[[components objectAtIndex:1] stringByAppendingString:@"=="] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+				NSDictionary *identity = [identityData objectFromJSONData];
+				
+				AILogWithSignature(@"%@", identity);
+				
+				[self filterAndSetUID:[identity objectForKey:@"email"]];
+				
+				[identityData release];
+			}
+		}
+	}
 	
 	if ([responseDict objectForKey:@"refresh_token"]) {
 		[[AIKeychain defaultKeychain_error:NULL] deleteGenericPasswordForService:self.service.serviceID

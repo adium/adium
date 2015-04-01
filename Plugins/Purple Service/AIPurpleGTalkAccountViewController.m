@@ -57,7 +57,7 @@
 
 - (IBAction)requestAccess:(id)sender {
 	NSString *urlString = @"https://accounts.google.com/o/oauth2/auth?"
-	@"scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgoogletalk"
+	@"scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgoogletalk%20email"
 	@"&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
 	@"&response_type=code"
 	@"&client_id=" ADIUM_GTALK_CLIENT_ID;
