@@ -24,6 +24,8 @@
 
 #import <Adium/AIAccountControllerProtocol.h>
 
+#import "NSData+Base64.h"
+
 @implementation AIPurpleGTalkAccount
 
 - (const char *)purpleAccountName
@@ -223,7 +225,7 @@
 					}
 				}
 				
-				NSData *identityData = [[NSData alloc] initWithBase64EncodedString:base64EncodedIdentity options:NSDataBase64DecodingIgnoreUnknownCharacters];
+				NSData *identityData = [NSData dataFromBase64String:base64EncodedIdentity];
 				NSDictionary *identity = [identityData objectFromJSONData];
 				
 				AILogWithSignature(@"%@", identity);
@@ -253,6 +255,9 @@
 	
 	[password release];
 	password = [[responseDict objectForKey:@"access_token"] retain];
+	
+	[conn release]; conn = nil;
+	[response release]; response = nil;
 	
 	[self setGTalkMechEnabled:YES];
 	[super connect];
