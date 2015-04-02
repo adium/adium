@@ -219,7 +219,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)inConnection {
 	NSDictionary *responseDict = [response objectFromJSONData];
 	
-	AILogWithSignature(@"%@", responseDict);
+	AILogWithSignature(@"");
 	
 	if ([responseDict objectForKey:@"error"]) {
 		// Delete the refresh token, so we don't use it again.
@@ -260,7 +260,7 @@
 				NSData *identityData = [NSData dataFromBase64String:base64EncodedIdentity];
 				NSDictionary *identity = [identityData objectFromJSONData];
 				
-				AILogWithSignature(@"%@", identity);
+				AILogWithSignature(@"");
 				
 				[self filterAndSetUID:[identity objectForKey:@"email"]];
 			}
