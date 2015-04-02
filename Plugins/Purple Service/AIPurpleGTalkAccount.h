@@ -16,8 +16,15 @@
 
 #import "ESPurpleJabberAccount.h"
 
-@interface AIPurpleGTalkAccount : ESPurpleJabberAccount {
+#define KEY_GTALK_CODE @"GTalk:Code"
+#define KEY_GTALK_UPGRADED_OAUTH2 @"GTalk:OAuth2 Upgraded"
 
+#define ADIUM_GTALK_CLIENT_ID @"853036734951.apps.googleusercontent.com"
+#define ADIUM_GTALK_SECRET @"TSXNUaq34k_0YU7DZT4HbmQd"
+
+@interface AIPurpleGTalkAccount : ESPurpleJabberAccount {
+	NSMutableData *response;
+	NSURLConnection *conn;
 }
 
 @end
