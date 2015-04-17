@@ -54,6 +54,8 @@
 					forKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS];
 	[account setPreference:[NSNumber numberWithBool:FALSE]
 					forKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS];
+	[account setPreference:[NSNumber numberWithInt:5222]
+					forKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS];
 	
 	[account setPreference:textField_code.stringValue
 					forKey:KEY_GTALK_CODE group:GROUP_ACCOUNT_STATUS];
