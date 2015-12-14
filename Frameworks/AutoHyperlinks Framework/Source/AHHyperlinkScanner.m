@@ -389,7 +389,7 @@
 	unsigned long          _scanLocationCache = self.scanLocation;
 	NSEnumerator          *linkEnumerator = [[self allURIs] reverseObjectEnumerator];
 	
-	_linkifiedString = [[[NSMutableString alloc] initWithString:m_scanString] autorelease];
+	_linkifiedString = [[NSMutableString alloc] initWithString:m_scanString];
 	
 	while ((markedLink = [linkEnumerator nextObject])) {
 		[_linkifiedString replaceCharactersInRange:markedLink.range
@@ -399,7 +399,7 @@
 	}
 	
 	self.scanLocation = _scanLocationCache;
-	return [[_linkifiedString copy] autorelease];
+	return [_linkifiedString copy];
 }
 
 -(NSString *)linkifiedString
@@ -422,9 +422,9 @@
 	unsigned long _scanLocationCache = self.scanLocation;
 	
 	if(m_scanAttrString) {
-		_linkifiedString = [[m_scanAttrString mutableCopy] autorelease];
+		_linkifiedString = [m_scanAttrString mutableCopy];
 	} else {
-		_linkifiedString = [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
+		_linkifiedString = [[NSMutableAttributedString alloc] initWithString:m_scanString];
 	}
 	
 	//for each SHMarkedHyperlink, add the proper URL to the proper range in the string.
@@ -440,7 +440,7 @@
 	
 	self.scanLocation = _scanLocationCache;
 	return _didFindLinks? _linkifiedString :
-	m_scanAttrString ? [[m_scanAttrString retain] autorelease] : [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
+	m_scanAttrString ? [m_scanAttrString retain] : [[NSMutableAttributedString alloc] initWithString:m_scanString];
 }
 
 -(NSAttributedString *)linkifiedString

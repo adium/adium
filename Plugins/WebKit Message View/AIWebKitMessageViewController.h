@@ -19,11 +19,13 @@
 
 @class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, DOMRange, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;
 
+@protocol WebUIDelegate, WebFrameLoadDelegate;
+
 /*!
  *	@class AIWebKitMessageViewController AIWebKitMessageViewController.h
  *	@brief Main class for the webkit message view. Most of the good stuff happens here
  */
-@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController, NSDraggingDestination> {
+@interface AIWebKitMessageViewController : NSObject <AIMessageDisplayController, NSDraggingDestination, WebUIDelegate, WebFrameLoadDelegate> {
 	AIWebKitDelegate			*delegateProxy;
 	
 	id							plugin;

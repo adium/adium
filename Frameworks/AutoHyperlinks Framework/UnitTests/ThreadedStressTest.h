@@ -6,10 +6,10 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface ThreadedStressTest : SenTestCase {
+@interface ThreadedStressTest : XCTestCase {
 	BOOL allTestsDidFinish;
 }
 -(void) threadedStressTest;

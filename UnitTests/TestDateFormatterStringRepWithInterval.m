@@ -24,12 +24,12 @@
 //Note: All of these delta values that we pass to -[NSCalendar dateByAddingComponents:toDate:options:] need to be NEGATIVE, because we're looking to get a string representation of the interval since some time in the past.
 - (void)testDateFormatterStringRepWithInterval_seconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.second = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -37,12 +37,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_minutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.minute = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -50,12 +50,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_minutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.minute = -10;
 	components.second = -10;
 
@@ -64,12 +64,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hours {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -77,12 +77,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.second = -10;
 
@@ -91,12 +91,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.minute = -10;
 
@@ -105,12 +105,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.minute = -10;
 	components.second = -10;
@@ -120,12 +120,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_days {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -133,12 +133,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.second = -10;
 
@@ -147,12 +147,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.minute = -10;
 
@@ -161,12 +161,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.minute = -10;
 	components.second = -10;
@@ -176,12 +176,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHours {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 
@@ -190,12 +190,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.second = -10;
@@ -205,12 +205,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.minute = -10;
@@ -220,12 +220,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.minute = -10;
@@ -236,12 +236,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeks {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 
 	//This delay will reveal whether the method under test is incorrectly testing for seconds. (This was a real intermittent failure.)
@@ -252,12 +252,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.second = -10;
 
@@ -266,12 +266,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.minute = -10;
 
@@ -280,12 +280,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.minute = -10;
 	components.second = -10;
@@ -295,12 +295,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHours {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 
@@ -309,12 +309,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.second = -10;
@@ -324,12 +324,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.minute = -10;
@@ -339,12 +339,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.minute = -10;
@@ -355,12 +355,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDays {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 
@@ -369,12 +369,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.second = -10;
@@ -384,12 +384,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.minute = -10;
@@ -399,12 +399,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.minute = -10;
@@ -415,12 +415,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHours {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -430,12 +430,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -446,12 +446,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursMinutes {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -462,12 +462,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursMinutesSeconds {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -480,12 +480,12 @@
 
 - (void)testDateFormatterStringRepWithInterval_seconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.second = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -493,12 +493,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_minutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.minute = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -506,12 +506,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_minutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.minute = -10;
 	components.second = -10;
 
@@ -520,12 +520,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hours_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -533,12 +533,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.second = -10;
 
@@ -547,12 +547,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.minute = -10;
 
@@ -561,12 +561,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_hoursMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.hour = -10;
 	components.minute = -10;
 	components.second = -10;
@@ -576,12 +576,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_days_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -589,12 +589,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.second = -10;
 
@@ -603,12 +603,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.minute = -10;
 
@@ -617,12 +617,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.minute = -10;
 	components.second = -10;
@@ -632,12 +632,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHours_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 
@@ -646,12 +646,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.second = -10;
@@ -661,12 +661,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.minute = -10;
@@ -676,12 +676,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_daysHoursMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.day = -5;
 	components.hour = -10;
 	components.minute = -10;
@@ -692,12 +692,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeks_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
@@ -705,12 +705,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.second = -10;
 
@@ -719,12 +719,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.minute = -10;
 
@@ -733,12 +733,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.minute = -10;
 	components.second = -10;
@@ -748,12 +748,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHours_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 
@@ -762,12 +762,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.second = -10;
@@ -777,12 +777,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.minute = -10;
@@ -792,12 +792,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksHoursMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.hour = -10;
 	components.minute = -10;
@@ -808,12 +808,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDays_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 
@@ -822,12 +822,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.second = -10;
@@ -837,12 +837,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.minute = -10;
@@ -852,12 +852,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.minute = -10;
@@ -868,12 +868,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHours_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -883,12 +883,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -899,12 +899,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursMinutes_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
@@ -915,12 +915,12 @@
 }
 - (void)testDateFormatterStringRepWithInterval_weeksDaysHoursMinutesSeconds_abbreviated {
 	NSDate *now = [NSDate date];
-	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 	NSTimeZone *tz = TEST_TIME_ZONE;
 	gregorianCalendar.timeZone = tz;
 
 	NSDateComponents *components;
-	components = [[[NSDateComponents alloc] init] autorelease];
+	components = [[NSDateComponents alloc] init];
 	components.week = -65;
 	components.day = -5;
 	components.hour = -10;
