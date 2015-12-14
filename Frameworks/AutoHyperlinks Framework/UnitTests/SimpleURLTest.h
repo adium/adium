@@ -3,13 +3,13 @@
 //  AIHyperlinks.framework
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "AutoHyperlinks.h"
 
-#define testHyperlink(x) STAssertTrue([AHHyperlinkScanner isStringValidURI: x usingStrict:NO fromIndex:0 withStatus:nil schemeLength:nil],\
+#define testHyperlink(x) XCTAssertTrue([AHHyperlinkScanner isStringValidURI: x usingStrict:NO fromIndex:0 withStatus:nil schemeLength:nil],\
 					@"\"%@\" Should be a valid URI.", x )
 
-@interface SimpleURLTest : SenTestCase {
+@interface SimpleURLTest : XCTestCase {
 	AHHyperlinkScanner	*scanner;
 }
 - (void)testURLOnly;

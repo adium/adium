@@ -15,7 +15,7 @@
  */
 //All test-case methods here use NSScriptCoercionHandler, which should delegate to AIRichTextCoercer.
 
-@interface TestRichTextCoercion : SenTestCase
+@interface TestRichTextCoercion : XCTestCase
 {}
 
 /*

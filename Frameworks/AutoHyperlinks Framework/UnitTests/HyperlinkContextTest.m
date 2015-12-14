@@ -13,8 +13,8 @@
 	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithString:testString];
 	AHMarkedHyperlink	*ahLink = [scanner nextURI];
 	
-	STAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
-	STAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URIString, @"in context: '%@'", testString);
+	XCTAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
+	XCTAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URIString, @"in context: '%@'", testString);
 }
 
 - (void)testNegativeContext:(NSString *)linkString withURI:(NSString *)URIString
@@ -23,8 +23,8 @@
 	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithString:testString];
 	AHMarkedHyperlink	*ahLink = [scanner nextURI];
 	
-	STAssertNil(ahLink, @"-[SHHyperlinkScanner nextURLFromString:] found no URI in \"%@\"", testString);
-	STAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], nil, @"in context: '%@'", testString);
+	XCTAssertNil(ahLink, @"-[SHHyperlinkScanner nextURLFromString:] found no URI in \"%@\"", testString);
+	XCTAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], nil, @"in context: '%@'", testString);
 }
 
 #pragma mark positive tests
@@ -230,11 +230,11 @@
 	AHMarkedHyperlink	*ahLink;
 	
 	ahLink = [scanner nextURI];
-	STAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
-	STAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URI1, @"in context: '%@'", testString);
+	XCTAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
+	XCTAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URI1, @"in context: '%@'", testString);
 	
 	ahLink = [scanner nextURI];
-	STAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
-	STAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URI2, @"in context: '%@'", testString);
+	XCTAssertNotNil(ahLink, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", testString);
+	XCTAssertEqualObjects([[ahLink parentString] substringWithRange:[ahLink range]], URI2, @"in context: '%@'", testString);
 }
 @end

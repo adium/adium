@@ -104,8 +104,8 @@
             }
 
             
-			[[domDoc getElementById:@"email"] setValue:self.autoFillUsername];
-			[[domDoc getElementById:@"pass"] setValue:self.autoFillPassword];
+			[domDoc getElementById:@"email"].innerHTML = self.autoFillUsername;
+			[domDoc getElementById:@"pass"].innerHTML = self.autoFillPassword;
 			
 			DOMElement *checkbox = [domDoc getElementById:@"persistent_inputcheckbox"];
 			if ([checkbox isKindOfClass:[NSClassFromString(@"DOMHTMLInputElement") class]] &&
