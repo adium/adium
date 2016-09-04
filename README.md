@@ -19,7 +19,7 @@ Adium is a free and open source instant messaging application for [OS X](https:/
 	* [WebKit Message View](https://adium.im/help/pgs/Messaging-MessageView.html):  Theme your chat windows
 * [Combined Contacts](https://adium.im/help/pgs/ContactList-CombiningContacts.html): Merge your contacts so that each one represents a person, not an account
 * A sophisticated events system (including [Growl notifications](https://adium.im/help/pgs/AdvancedFeatures-GrowlSupport.html))
-* [OTR Encryption](https://trac.adium.im/wiki/OTREncryption)
+* [OTR Encryption](https://adium.im/help/pgs/AdvancedFeatures-OTREncryption.html)
 * [File Transfer](https://adium.im/help/pgs/AdvancedFeatures-FileTransfer.html)
 * [Xtras](https://adium.im/help/pgs/AdvancedFeatures-AdiumXtras.html) and many, many other customization options
 * A beautiful icon, the "[Adiumy](https://trac.adium.im/wiki/Adiumy)" duck
