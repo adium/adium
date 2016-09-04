@@ -1341,6 +1341,7 @@
 		761D58801636C60100210B12 /* AINewMessageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D587F1636C60100210B12 /* AINewMessageTableView.m */; };
 		761D58831636EDE100210B12 /* AINewMessageTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */; };
 		761D58861636F94300210B12 /* AINewMessageSearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 761D58851636F94200210B12 /* AINewMessageSearchField.m */; };
+		761D6A251ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 761D6A231ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib */; };
 		7652804C175FC0F500710EC8 /* RequestFieldBoolean.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7652803F175FC0EB00710EC8 /* RequestFieldBoolean.xib */; };
 		7652804D175FC0F500710EC8 /* RequestFieldChoice.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528040175FC0EB00710EC8 /* RequestFieldChoice.xib */; };
 		7652804E175FC0F500710EC8 /* RequestFieldInteger.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76528041175FC0EB00710EC8 /* RequestFieldInteger.xib */; };
@@ -1354,7 +1355,6 @@
 		765F5D71162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5D70162F483F00C57904 /* AIOTRSMPSharedSecretWindowController.xib */; };
 		765F5D74162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */; };
 		765F5DC51635934400C57904 /* AIRejoinGroupChatTopBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */; };
-		761D6A251ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 761D6A231ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		76674647178D8A9000F65048 /* AIOTRTopBarUnverifiedContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76674646178D8A9000F65048 /* AIOTRTopBarUnverifiedContactController.m */; };
@@ -4421,6 +4421,8 @@
 		761D58821636EDE100210B12 /* AINewMessageTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageTextFieldCell.m; path = Source/AINewMessageTextFieldCell.m; sourceTree = "<group>"; };
 		761D58841636F94200210B12 /* AINewMessageSearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewMessageSearchField.h; path = Source/AINewMessageSearchField.h; sourceTree = "<group>"; };
 		761D58851636F94200210B12 /* AINewMessageSearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AINewMessageSearchField.m; path = Source/AINewMessageSearchField.m; sourceTree = "<group>"; };
+		761D6A241ACC5F0B002079F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
+		761D6A261ACC5F0F002079F2 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
 		7652803F175FC0EB00710EC8 /* RequestFieldBoolean.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldBoolean.xib; path = "Plugins/Purple Service/Request UI/RequestFieldBoolean.xib"; sourceTree = "<group>"; };
 		76528040175FC0EB00710EC8 /* RequestFieldChoice.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldChoice.xib; path = "Plugins/Purple Service/Request UI/RequestFieldChoice.xib"; sourceTree = "<group>"; };
 		76528041175FC0EB00710EC8 /* RequestFieldInteger.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestFieldInteger.xib; path = "Plugins/Purple Service/Request UI/RequestFieldInteger.xib"; sourceTree = "<group>"; };
@@ -4436,8 +4438,6 @@
 		765F5D72162F48FA00C57904 /* AIOTRSMPSharedSecretWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRSMPSharedSecretWindowController.h; path = Source/AIOTRSMPSharedSecretWindowController.h; sourceTree = "<group>"; };
 		765F5D73162F48FB00C57904 /* AIOTRSMPSharedSecretWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRSMPSharedSecretWindowController.m; path = Source/AIOTRSMPSharedSecretWindowController.m; sourceTree = "<group>"; };
 		765F5DC61635934400C57904 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AIRejoinGroupChatTopBar.xib; sourceTree = "<group>"; };
-		761D6A241ACC5F0B002079F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/Resources/en.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
-		761D6A261ACC5F0F002079F2 /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sl; path = "Plugins/Purple Service/Resources/sl.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		76674645178D8A8F00F65048 /* AIOTRTopBarUnverifiedContactController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOTRTopBarUnverifiedContactController.h; path = Source/AIOTRTopBarUnverifiedContactController.h; sourceTree = "<group>"; };
 		76674646178D8A9000F65048 /* AIOTRTopBarUnverifiedContactController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOTRTopBarUnverifiedContactController.m; path = Source/AIOTRTopBarUnverifiedContactController.m; sourceTree = "<group>"; };
@@ -9557,6 +9557,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = AI;
+				LastTestingUpgradeCheck = 0730;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The Adium Team";
 			};
@@ -9720,7 +9721,7 @@
 				3485DBC309EBCE7400232CC4 /* PurpleMultilineRequestWindow.xib in Resources */,
 				3485DBC409EBCE7400232CC4 /* PurpleSinglelineRequestWindow.xib in Resources */,
 				761D6A251ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib in Resources */,
-				3485DBC409EBCE7400232CC4 /* PurpleSinglelineRequestWindow.nib in Resources */,
+				3485DBC409EBCE7400232CC4 /* PurpleSinglelineRequestWindow.xib in Resources */,
 				3485DBD009EBCE8200232CC4 /* Localizable.strings in Resources */,
 				34E036780A75AA4F00394F11 /* DCPurpleOscarJoinChatView.xib in Resources */,
 				34E0368E0A75AA4F00394F11 /* ESPurpleICQAccountView.xib in Resources */,
@@ -12476,15 +12477,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				765F5DC61635934400C57904 /* en */,
-			);
-			name = AIRejoinGroupChatTopBar.xib;
-			path = "Plugins/Dual Window Interface";
-			sourceTree = "<group>";
-		};
 		761D6A231ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -12518,6 +12510,15 @@
 				767A14141ACC6254002079F2 /* ja */,
 			);
 			name = ESPurpleGTalkAccountView.nib;
+			sourceTree = "<group>";
+		};
+		765F5DC71635934400C57904 /* AIRejoinGroupChatTopBar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				765F5DC61635934400C57904 /* en */,
+			);
+			name = AIRejoinGroupChatTopBar.xib;
+			path = "Plugins/Dual Window Interface";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

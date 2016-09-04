@@ -165,7 +165,6 @@
 							   @"GTalk",   @"gtalk",
 							   @"MSN",     @"msn",
 							   @"IRC",	   @"irc",
-							   @"MySpace", @"msim",
 							   nil];
 	}
 	
