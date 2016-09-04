@@ -1,4 +1,4 @@
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "StressTest.h"
 
 #include <sysexits.h>
@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
 	}
 
 	@autoreleasepool {
-		StressTest *test = [[[StressTest alloc] initWithSelector:@selector(testStress)] autorelease];
-		SenTestRun *run = [[[SenTestRun alloc] initWithTest:test] autorelease];
+		StressTest *test = [[StressTest alloc] initWithSelector:@selector(testStress)];
+		SenTestRun *run = [[SenTestRun alloc] initWithTest:test];
 		
 		NSDate *startDate, *endDate;
 		

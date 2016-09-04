@@ -6,10 +6,10 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface StressTest : SenTestCase {
+@interface StressTest : XCTestCase {
 
 }
 - (void)testStress;

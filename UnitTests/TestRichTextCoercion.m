@@ -44,11 +44,11 @@
 		NSTask *sdp = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/sdp"
 											   arguments:args];
 		[sdp waitUntilExit];
-		STAssertEquals([sdp terminationStatus], 0, @"sdp didn't exited with status 0");
+		XCTAssertEqual([sdp terminationStatus], 0, @"sdp didn't exited with status 0");
 
 		NSString *scriptSuitePath = [scriptSuitesFolder stringByAppendingPathComponent:[suiteName stringByAppendingPathExtension:@"scriptSuite"]];
 		scriptSuite = [NSDictionary dictionaryWithContentsOfFile:scriptSuitePath];
-		STAssertNotNil(scriptSuite, @"No script suite named %@ in sdef file %@", suiteName, path);
+		XCTAssertNotNil(scriptSuite, @"No script suite named %@ in sdef file %@", suiteName, path);
 
 		NSLog(@"deleting files in directory: %@", scriptSuitesFolder);
 		[mgr removeFilesInDirectory:scriptSuitesFolder withPrefix:nil movingToTrash:NO];
@@ -80,11 +80,11 @@
 		NSTask *sdp = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/sdp"
 											   arguments:args];
 		[sdp waitUntilExit];
-		STAssertEquals([sdp terminationStatus], 0, @"sdp didn't exited with status 0");
+		XCTAssertEqual([sdp terminationStatus], 0, @"sdp didn't exited with status 0");
 		
 		NSString *scriptTerminologyPath = [scriptTerminologiesFolder stringByAppendingPathComponent:[suiteName stringByAppendingPathExtension:@"scriptTerminology"]];
 		scriptTerminology = [NSDictionary dictionaryWithContentsOfFile:scriptTerminologyPath];
-		STAssertNotNil(scriptTerminology, @"No script suite named %@ in sdef file %@", suiteName, path);
+		XCTAssertNotNil(scriptTerminology, @"No script suite named %@ in sdef file %@", suiteName, path);
 		
 		NSLog(@"deleting files in directory: %@", scriptTerminologiesFolder);
 		[mgr removeFilesInDirectory:scriptTerminologiesFolder withPrefix:nil movingToTrash:NO];
@@ -95,16 +95,16 @@
 }
 - (NSDictionary *)dictionaryByMergingSuiteDictionary:(NSDictionary *)scriptSuite withTerminologyDictionary:(NSDictionary *)scriptTerminology
 {
-	NSMutableDictionary *merged = [[scriptSuite mutableCopy] autorelease];
+	NSMutableDictionary *merged = [scriptSuite mutableCopy];
 
-	NSMutableDictionary *classes = [[[scriptSuite objectForKey:@"Classes"] mutableCopy] autorelease];
+	NSMutableDictionary *classes = [[scriptSuite objectForKey:@"Classes"] mutableCopy];
 	NSDictionary *terminologyClasses = [scriptTerminology objectForKey:@"Classes"];
 
 	NSLog(@"Before add: %@", classes);
 	NSEnumerator *keyEnum = [classes keyEnumerator];
 	NSString *className;
 	while ((className = [keyEnum nextObject])) {
-		NSMutableDictionary *classDict = [[[classes objectForKey:className] mutableCopy] autorelease];
+		NSMutableDictionary *classDict = [[classes objectForKey:className] mutableCopy];
 		[classDict translate:nil
 						 add:[terminologyClasses objectForKey:className]
 					  remove:nil];
@@ -153,9 +153,9 @@
 	NSAttributedString *input = [self giveMeA:[NSAttributedString class] ofThisString:str];
 	NSString *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:[NSString class]];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
-	STAssertEqualObjects(output, input, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
+	XCTAssertEqualObjects(output, input, @"Coercion must not change the object's value");
 }
 - (void)testMutableAttributedStringToPlainText {
 	NSString *str = @"The quack is strong with this one.";
@@ -163,9 +163,9 @@
 	NSMutableAttributedString *input = [self giveMeA:[NSMutableAttributedString class] ofThisString:str];
 	NSString *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:[NSString class]];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
-	STAssertEqualObjects(output, input, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
+	XCTAssertEqualObjects(output, input, @"Coercion must not change the object's value");
 }
 */
 - (void)testTextStorageToPlainText {
@@ -174,9 +174,9 @@
 	NSTextStorage *input = [self giveMeA:[NSTextStorage class] ofThisString:str];
 	NSString *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:[NSString class]];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
-	STAssertEqualObjects(output, [input string], @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
+	XCTAssertEqualObjects(output, [input string], @"Coercion must not change the object's value");
 }
 
 #pragma mark -
@@ -188,9 +188,9 @@
 	NSString *input = [self giveMeA:[NSString class] ofThisString:str];
 	NSAttributedString *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:destClass];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
-	STAssertEqualObjects(output, input, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
+	XCTAssertEqualObjects(output, input, @"Coercion must not change the object's value");
 }
 - (void)testPlainTextToMutableAttributedString {
 	NSString *str = @"More fun than a bag of chips.";
@@ -199,9 +199,9 @@
 	NSString *input = [self giveMeA:[NSString class] ofThisString:str];
 	NSMutableAttributedString *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:destClass];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
-	STAssertEqualObjects(output, input, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
+	XCTAssertEqualObjects(output, input, @"Coercion must not change the object's value");
 }
 */
 - (void)testPlainTextToTextStorage {
@@ -211,9 +211,9 @@
 	NSString *input = [self giveMeA:[NSString class] ofThisString:str];
 	NSTextStorage *output = [[NSScriptCoercionHandler sharedCoercionHandler] coerceValue:input toClass:destClass];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
-	STAssertEqualObjects([output string], input, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:destClass], @"Coercion to %@ must result in an %@; instead, it resulted in an %@", destClass, destClass, [output class]);
+	XCTAssertEqualObjects([output string], input, @"Coercion must not change the object's value");
 }
 
 #pragma mark -
@@ -227,13 +227,13 @@
 
 	//Mutate the original.
 	NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSFont fontWithName:@"Courier" size:14.0f] forKey:NSFontAttributeName];
-	NSAttributedString *replacement = [[[NSAttributedString alloc] initWithString:@" (one of the slogans from the old Adium X site)" attributes:attrs] autorelease];
+	NSAttributedString *replacement = [[NSAttributedString alloc] initWithString:@" (one of the slogans from the old Adium X site)" attributes:attrs];
 	[input replaceCharactersInRange:(NSRange){ [input length], 0U }
 			   withAttributedString:replacement];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
-	STAssertEqualObjects(output, str, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
+	XCTAssertEqualObjects(output, str, @"Coercion must not change the object's value");
 }
 */
 - (void)testTextStorageToPlainTextWithMutations {
@@ -244,13 +244,13 @@
 
 	//Mutate the original.
 	NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSFont fontWithName:@"Courier" size:14.0f] forKey:NSFontAttributeName];
-	NSAttributedString *replacement = [[[NSAttributedString alloc] initWithString:@" (one of the slogans from the old Adium X site)" attributes:attrs] autorelease];
+	NSAttributedString *replacement = [[NSAttributedString alloc] initWithString:@" (one of the slogans from the old Adium X site)" attributes:attrs];
 	[input replaceCharactersInRange:(NSRange){ [input length], 0U }
 			   withAttributedString:replacement];
 
-	STAssertNotNil(output, @"Coercion returned nil");
-	STAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
-	STAssertEqualObjects(output, str, @"Coercion must not change the object's value");
+	XCTAssertNotNil(output, @"Coercion returned nil");
+	XCTAssertTrue([output isKindOfClass:[NSString class]], @"Coercion to NSString must result in an NSString; instead, it resulted in an %@", [output class]);
+	XCTAssertEqualObjects(output, str, @"Coercion must not change the object's value");
 }
 
 #pragma mark -
@@ -271,7 +271,7 @@
 	NSDictionary *errorInfo = nil;
 	[[[[NSAppleScript alloc] initWithSource:source] autorelease] executeAndReturnError:&errorInfo];
 
-	STAssertNil(errorInfo, @"AppleScript returned an error: %@", errorInfo);
+	XCTAssertNil(errorInfo, @"AppleScript returned an error: %@", errorInfo);
 }
 
 @end
