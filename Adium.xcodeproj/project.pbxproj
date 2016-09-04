@@ -184,7 +184,6 @@
 		31034F0C0C8142720003F5AA /* UTF8Snowman.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31034F0B0C8142720003F5AA /* UTF8Snowman.txt */; };
 		3107D5250F63134F0051DDD5 /* TestAttributedStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107D5240F63134F0051DDD5 /* TestAttributedStringAdditions.m */; };
 		312ED3D30C7E876E00A6BDA9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3448758D06D1EBDF00DA778C /* Cocoa.framework */; };
-		312ED3D50C7E878300A6BDA9 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */; };
 		312ED3E20C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 312ED3E10C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.m */; };
 		313C2F940D4B19B50032334D /* TestDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 313C2F930D4B19B50032334D /* TestDictionaryAdditions.m */; };
 		31455C9A0CC353F800D231A0 /* TestDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31455C990CC353F800D231A0 /* TestDataAdditions.m */; };
@@ -1999,9 +1998,8 @@
 		31034F0B0C8142720003F5AA /* UTF8Snowman.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = UTF8Snowman.txt; path = UnitTests/UTF8Snowman.txt; sourceTree = "<group>"; };
 		3107D5230F63134F0051DDD5 /* TestAttributedStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestAttributedStringAdditions.h; path = UnitTests/TestAttributedStringAdditions.h; sourceTree = "<group>"; };
 		3107D5240F63134F0051DDD5 /* TestAttributedStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestAttributedStringAdditions.m; path = UnitTests/TestAttributedStringAdditions.m; sourceTree = "<group>"; };
-		312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		312ED3CA0C7E875B00A6BDA9 /* Unit tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		312ED3CB0C7E875B00A6BDA9 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "UnitTests-Info.plist"; path = "Plists/UnitTests-Info.plist"; sourceTree = "<group>"; };
-		312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		312ED3E00C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestDateFormatterStringRepWithInterval.h; path = UnitTests/TestDateFormatterStringRepWithInterval.h; sourceTree = "<group>"; };
 		312ED3E10C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestDateFormatterStringRepWithInterval.m; path = UnitTests/TestDateFormatterStringRepWithInterval.m; sourceTree = "<group>"; };
 		312ED3E30C7E8A4A00A6BDA9 /* UnitTests_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitTests_Prefix.pch; path = UnitTests/UnitTests_Prefix.pch; sourceTree = "<group>"; };
@@ -4791,7 +4789,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				312ED3D30C7E876E00A6BDA9 /* Cocoa.framework in Frameworks */,
-				312ED3D50C7E878300A6BDA9 /* SenTestingKit.framework in Frameworks */,
 				31A764B90DA572B8000AC729 /* AutoHyperlinks.framework in Frameworks */,
 				634DC6020F9C43BB007B6479 /* AIUtilities.framework in Frameworks */,
 			);
@@ -5110,7 +5107,7 @@
 				34BD9DA9053146CC000AB133 /* Adium.app */,
 				34BD9DE105314751000AB133 /* Adium.framework */,
 				3485D68009EB416300232CC4 /* AdiumLibpurple.framework */,
-				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
+				312ED3CA0C7E875B00A6BDA9 /* Unit tests.xctest */,
 				6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */,
 				633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */,
 				761CE33616F9087C000EE361 /* AIDockTilePlugin.docktileplugin */,
@@ -8342,7 +8339,6 @@
 			children = (
 				34C846E5101E518F00140B4B /* QuickTime.framework */,
 				34C846AE101E515900140B4B /* QTKit.framework */,
-				312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */,
 				31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */,
 				11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */,
 				815D37460A765E83009338C2 /* CoreServices.framework */,
@@ -9336,8 +9332,8 @@
 			);
 			name = "Unit tests";
 			productName = "Unit tests";
-			productReference = 312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 312ED3CA0C7E875B00A6BDA9 /* Unit tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		3485D67F09EB416300232CC4 /* AdiumLibpurple */ = {
 			isa = PBXNativeTarget;
@@ -12415,6 +12411,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
@@ -12422,6 +12420,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -12429,6 +12429,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = "Release-Debug";
 		};

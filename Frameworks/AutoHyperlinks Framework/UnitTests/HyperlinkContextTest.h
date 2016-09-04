@@ -3,10 +3,10 @@
 //  AIHyperlinks.framework
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface HyperlinkContextTest : SenTestCase {
+@interface HyperlinkContextTest : XCTestCase {
 
 }
 - (void)testSimpleDomain;
