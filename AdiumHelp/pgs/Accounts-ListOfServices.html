@@ -17,12 +17,13 @@
 	<div id="pagetitle">
 		<h1>List of services supported and their interoperability</h1>
 	</div>
-	<p>This page lists all services Adium supports. Clicking on a service will lead you to a dedicated page with more information on the specific service, e.g. history and censorship.</p>
+	<p>This page lists all services which can be used in Adium. Clicking on a service will lead you to a dedicated page with more information on the specific service, e.g. history and censorship.</p>
+	<p>Some services can be used in Adium by installing third-party plugins which are maintained by developers not directly affiliated with the Adium Project. <strong>Note:</strong> We do not offer support for these plugins. Install them at your own risk.</p>
 	<p>Further down, you can find out which services interoperate ("which service can talk to which") as most services don't interoperate with most other services—this is not an Adium thing.</p>
 	<p><strong>Note:</strong> We do not host any IM services ourselves. Adium is a third-party client for connecting to services run by other people (mostly companies).</p>
 	<div class="taskboxline">
 		<div class="taskboxheader">
-			<h3>Supported services</h3>
+			<h3>Bundled services</h3>
 		</div>
 		<div class="taskboxtext">
 			<ul>
@@ -30,17 +31,8 @@
 				<ul>
 					<li><a href="Accounts-GoogleTalk.html">Google Talk</a></li>
 					<li><a href="Accounts-LJTalk.html">LJ (LiveJournal) Talk</a></li>
-					<li><a href="Accounts-FacebookChat.html">Facebook Chat</a></li>
 				</ul>
-				<li><a href="Accounts-MSN.html">MSN Messenger</a></li>
-				<li><a href="Accounts-AIM.html">AOL Instant Messenger (AIM)</a>, including</li>
-				<ul>
-					<li><a href="Accounts-MobileMe.html">MobileMe</a> (formerly known as .Mac)</li>
-				</ul>
-				<li><a href="Accounts-Yahoo.html">Yahoo! Messenger</a>, including</li>
-				<ul>
-					<li><a href="Accounts-YahooJapan.html">Yahoo! Japan Messenger</a></li>
-				</ul>
+				<li><a href="Accounts-AIM.html">AOL Instant Messenger (AIM)</a></li>
 				<li><a href="Accounts-ICQ.html">ICQ</a></li>
 				<li><a href="Accounts-Bonjour.html">Bonjour</a>, compatible with iChat</li>
 				<li><a href="Accounts-Twitter.html">Twitter</a></li>
@@ -51,19 +43,57 @@
 			</ul>
 		</div>
 	</div>
-	<div id="signing_up_for_an_account" class="taskboxline">
+	<div class="taskboxline">
+		<div class="taskboxheader">
+			<h3>Third-party plugins for services</h3>
+		</div>
+		<center>
+			<table class="list" cellspacing="0">
+			<tr>
+			<th width="160">Name</th>
+			<th>Website</th>
+			<th>Service(s) supported</th>
+			</tr>
+			<tr>
+			<td>SIPE</td>
+			<td><a href="http://sipe.sourceforge.net">Click</a></td>
+			<td>Skype for Business, Microsoft Office 365, Microsoft Business Productivity Online Suite (BPOS), Microsoft Lync Server, Microsoft Office Communications Server (OCS 2007/2007 R2), Microsoft Live Communications Server (LCS 2003/2005), Reuters Messaging</td>
+			</tr>
+			<tr>
+			<td>Telegram-Purple</td>
+			<td><a href="https://github.com/majn/telegram-purple">Click</a></td>
+			<td>Telegram</td>
+			</tr>
+			<tr>
+			<td>skypeweb4adium</td>
+			<td><a href="https://github.com/tripplet/skypeweb4adium">Click</a></td>
+			<td>Skype</td>
+			</tr>
+			<tr>
+			<td>Adium-Steam-IM</td>
+			<td><a href="https://github.com/tripplet/Adium-Steam-IM">Click</a></td>
+			<td>Steam</td>
+			</tr>
+			<tr>
+			<td>Adium WhatsApp Plugin</td>
+			<td><a href="https://bitbucket.org/ThYpHo0n/adium-whatsapp-plugin/overview">Click</a></td>
+			<td>WhatsApp</td>
+			</tr>
+			</table>
+		</center>
+	</div>
+	<div class="taskboxline">
 		<div class="taskboxheader">
 			<h3>Service interoperability</h3>
 		</div>
 		<div class="taskboxtext">
 			<p>No service can talk to all services. This means in order to talk to contact X, you must have an account on the same service as contact X, or on any compatible service.</p>
 			<ul>
-				<li>If you have an account on AIM, ICQ, or MobileMe, you can chat with anybody who uses AIM, ICQ, MobileMe, or SMS.</li>
+				<li>If you have an account on AIM or ICQ you can chat with anybody who uses AIM, ICQ, or SMS.</li>
 				<li>If you have an account on XMPP ("Jabber"), Google Talk or LiveJournal, you can chat with anybody who uses XMPP ("Jabber"), Google Talk or LiveJournal.</li>
-				<li>In the official clients, MSN users can chat with Yahoo! users but this is not yet supported by Adium.</li>
 			</ul>
 			<p><strong>XMPP transports</strong></p>
-			<p>Some XMPP ("Jabber") servers (mostly private ones) allow chats with proprietary services such as AIM, MSN, and Yahoo! via a mechanism called "XMPP transports". In Adium, you should be able to chat through transports transparently (that is, it should work just like chatting with users who actually are on the same server). However, you will need to contact the administrator of your XMPP ("Jabber") server to find out what services it has transports for. The public servers for Jabber.org and Google Talk do not support transports.</p>
+			<p>Some XMPP ("Jabber") servers (mostly private ones) allow chats with proprietary services such as AIM via a mechanism called "XMPP transports". In Adium, you should be able to chat through transports transparently (that is, it should work just like chatting with users who actually are on the same server). However, you will need to contact the administrator of your XMPP ("Jabber") server to find out what services it has transports for. The public servers for Jabber.org and Google Talk do not support transports.</p>
 		</div>
 	</div>
 </div>
