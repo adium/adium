@@ -49,7 +49,6 @@
 	[AIGTalkService registerService];
 	[ESIRCService registerService];
 	[AILiveJournalService registerService];
-	[ESMSNService registerService];
 	[PurpleMySpaceService registerService];
 	/* TODO for release of 1.5: At the very least, present to users who had a QQ account
 	 * a message that it's no longer supported.
@@ -58,8 +57,6 @@
 	[ESSimpleService registerService];
 	[ESNovellService registerService];
 	[ESJabberService registerService];
-	[ESYahooService registerService];
-	[ESYahooJapanService registerService];	
 	//[ESZephyrService registerService];
 	[ESMeanwhileService registerService];
     [AIFacebookXMPPService registerService];
