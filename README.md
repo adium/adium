@@ -1,9 +1,9 @@
 [Adium](https://adium.im)
 ========================
 
-[![Adiumy](https://adium.im/images/logo.png)](https://sourceforge.net/projects/adium/files/Adium_1.5.10.dmg/download?accel_key=67%3A1400803646%3Ahttps%253A//adium.im/%3A5c8289c7%2445aedffbd5670cadf988490fc5ac9588a4a1621e&click_id=38f81be2-e20e-11e3-8070-0200ac1d1d8c-1&source=accel)
+[![Adiumy](https://adium.im/images/logo.png)](https://adiumx.cachefly.net/Adium_1.5.10.2.dmg)
 
-[Download Adium 1.5.10](https://sourceforge.net/projects/adium/files/Adium_1.5.10.dmg/download?accel_key=67%3A1400803646%3Ahttps%253A//adium.im/%3A5c8289c7%2445aedffbd5670cadf988490fc5ac9588a4a1621e&click_id=38f81be2-e20e-11e3-8070-0200ac1d1d8c-1&source=accel)
+[Download Adium 1.5.10.2](https://adiumx.cachefly.net/Adium_1.5.10.2.dmg)
 
 ## About Adium ##
 
@@ -19,7 +19,7 @@ Adium is a free and open source instant messaging application for [OS X](https:/
 	* [WebKit Message View](https://adium.im/help/pgs/Messaging-MessageView.html):  Theme your chat windows
 * [Combined Contacts](https://adium.im/help/pgs/ContactList-CombiningContacts.html): Merge your contacts so that each one represents a person, not an account
 * A sophisticated events system (including [Growl notifications](https://adium.im/help/pgs/AdvancedFeatures-GrowlSupport.html))
-* [OTR Encryption](https://trac.adium.im/wiki/OTREncryption)
+* [OTR Encryption](https://adium.im/help/pgs/AdvancedFeatures-OTREncryption.html)
 * [File Transfer](https://adium.im/help/pgs/AdvancedFeatures-FileTransfer.html)
 * [Xtras](https://adium.im/help/pgs/AdvancedFeatures-AdiumXtras.html) and many, many other customization options
 * A beautiful icon, the "[Adiumy](https://trac.adium.im/wiki/Adiumy)" duck
