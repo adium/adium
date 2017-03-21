@@ -6413,22 +6413,14 @@
 		34E6BBE50A78083A0076D7F0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				34D8326107CBD598006466F2 /* AccountPrefs.plist */,
 				317D83670E89F40500298BDB /* msg-bookmark-chat.tiff */,
-				34D8327507CBD5B3006466F2 /* BuiltInStatusStates.plist */,
-				34D8326607CBD598006466F2 /* ContactPrefs.plist */,
-				34D8326707CBD598006466F2 /* default-icon.png */,
-				34D8326207CBD598006466F2 /* DockPrefs.plist */,
 				3428B33E0815E1FB00C0D3DC /* emoticon32.tiff */,
 				345F590608199746001F733C /* emoticon32_transparent.tiff */,
-				34B995D9092A832700E31E91 /* FontPanelAccessoryView.nib */,
 				34DFF53007A62EB100B92233 /* lock-locked.tiff */,
 				34DFF52607A62EB000B92233 /* lock-unlocked.tiff */,
 				347E787507CA975900350507 /* remove.tiff */,
-				34D8326307CBD598006466F2 /* msg-send-file.tiff */,
 				4BB2EB200D88D76100CA7A7D /* timestamp32.tiff */,
 				4BB2EB210D88D76100CA7A7D /* timestamp32_transparent.tiff */,
-				34D8327607CBD5B3006466F2 /* ToolbarPrefs.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -9208,7 +9200,7 @@
 			name = "Unit tests";
 			productName = "Unit tests";
 			productReference = 312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		3485D67F09EB416300232CC4 /* AdiumLibpurple */ = {
 			isa = PBXNativeTarget;
@@ -9340,6 +9332,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastTestingUpgradeCheck = 0720;
 				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
