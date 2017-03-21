@@ -275,13 +275,14 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 		g_hash_table_insert(ui_info, "dev_website", "http://trac.adium.im");
 		g_hash_table_insert(ui_info, "client_type", "mac");
 		
-		/* AOL wants us to use the distid 1551 (0x060f) */
-		g_hash_table_insert(ui_info, "prpl-aim-distid", GINT_TO_POINTER(1551));
+		/* prpl-aim-distid is a distID for Adium, given to us by an AOL representative in March 2017.
+		*/
+		g_hash_table_insert(ui_info, "prpl-aim-distid", GINT_TO_POINTER(1721));
 		g_hash_table_insert(ui_info, "prpl-icq-distid", GINT_TO_POINTER(1551));
 		
-		/* This is Adium's clientKey registered under Zachary West's account, fuark.
-		 * Key management occurs at: http://developer.aim.com/manageKeys.jsp */
-		g_hash_table_insert(ui_info, "prpl-aim-clientkey", "fu13Le5Ibonik3Sv");
+		/* prpl-aim-clientkey is a DevID (or "client key") for Adium, given to us by an AOL representative in March 2017.
+		*/
+		g_hash_table_insert(ui_info, "prpl-aim-clientkey", "do1z1yfXmOsnFBW6");
 		
 		/* As our previous key doesn't work with ICQ anymore, and registering for a
 		 * new one requires signing an agreement which contradicts the GPL on various
