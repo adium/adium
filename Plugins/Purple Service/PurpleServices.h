@@ -25,7 +25,6 @@
 #import "AILiveJournalService.h"
 #import "ESJabberService.h"
 #import "ESMeanwhileService.h"
-#import "PurpleMySpaceService.h"
 #import "ESNovellService.h"
 #import "ESSimpleService.h"
 #import "ESZephyrService.h"
