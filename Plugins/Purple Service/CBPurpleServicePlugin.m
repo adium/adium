@@ -23,7 +23,6 @@
 #import "AMPurpleTuneTooltip.h"
 #import "AIIRCServicesPasswordPlugin.h"
 #import "AIAnnoyingIRCMessagesHiderPlugin.h"
-#import "AIFacebookXMPPService.h"
 
 @implementation CBPurpleServicePlugin
 
@@ -44,7 +43,6 @@
 	[ESDotMacService registerService];
 	[AIMobileMeService registerService];
 	[ESICQService registerService];
-	[PurpleFacebookService registerService];
 	[ESGaduGaduService registerService];
 	[AIGTalkService registerService];
 	[ESIRCService registerService];
@@ -58,7 +56,6 @@
 	[ESJabberService registerService];
 	//[ESZephyrService registerService];
 	[ESMeanwhileService registerService];
-    [AIFacebookXMPPService registerService];
 	
 	[SLPurpleCocoaAdapter pluginDidLoad];
 	
