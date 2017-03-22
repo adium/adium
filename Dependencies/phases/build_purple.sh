@@ -59,7 +59,7 @@ build_libpurple() {
 	
 	quiet pushd "$ROOTDIR/source/libpurple"
 	
-	PROTOCOLS="bonjour,gg,irc,jabber,msn,myspace,novell,oscar,"
+	PROTOCOLS="bonjour,gg,irc,jabber,msn,novell,oscar,"
 	PROTOCOLS+="sametime,simple,yahoo,zephyr"
 	
 	# Leopard's 64-bit Kerberos library is missing symbols, as evidenced by
