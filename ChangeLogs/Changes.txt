@@ -2,6 +2,29 @@
 				Adium Version History
 				-----------------------
 
+Version 1.5.10.3 (03/XX/2017)
+ * Updated libpurple to 2.12.0 from 2.10.12, fixing a security issue that could lead to remote code execution (CVE 2017-2640).
+ * AIM: Updated AIM connectivity for continued AIM support.
+ * Facebook Chat: Removed Facebook Chat service. Facebook no longer supports Adium's way of connecting (XMPP).
+ * MSN: Removed MSN service. Libpurple no longer supports it. See http://ismsndeadyet.com/
+ * Yahoo: Removed Yahoo! service. Libpurple no longer supports it and it hasn't been working since 5 August 2016 as Yahoo has completely reimplemented their protocol. See https://yahoo.tumblr.com/post/145715934739/q2-2016-progress-report-on-our-product This also removes support for Yahoo! Japan. According to http://messenger.yahoo.co.jp/ the service ended 26 March 2014.
+ * Fixed UI glitches in Adium’s preferences on OS X 10.10. (#16803)
+ * Fixed a crash upon file transfer completion on Bonjour. (Quentin Les) (#16038, #16182)
+ * Updated documentation.
+ * Fixed building Adium on macOS 10.11 and later. (#17093)
+ * Dropped support for 32bit Macs.
+
+
+Version 1.5.10.2 (03/09/2016)
+ * Patched libotr, fixing an issue that could lead to remote code execution.
+ * Updated libpurple to 2.10.12.
+
+
+Version 1.5.10.1 (01/29/2016)
+ * Updated Sparkle to 1.13.1, fixing a security issue that can lead to disclosure of local files or remote code execution.
+ * Set Sparkle update back to HTTPS.
+
+
 Version 1.5.10 (05/19/2014)
  * Updated libpurple to 2.10.9, fixing many security issues.
  * Updated the PSMTabBarControl framework, used in Adium for tabs:
@@ -1252,7 +1275,7 @@ Version 1.2 (1/5/2008)
  * Mobile contacts can now have a customized color in the contact list (#215)
  * Fixed pixelated contact icon appearance in Mac OS X 10.5
  * (Sametime) Fixed Sametime login to servers which are configured to prevent 'old' clients from connecting. Be sure to enable the 'Hide Client Identity' account option.
- * Fixed a condition in which a chat window would not appear after Adium had been hidden when a new message was received (#6101)</li>
+ * Fixed a condition in which a chat window would not appear after Adium had been hidden when a new message was received (#6101)
  * Simplified chat window titles (#8596)
  * Fixed erroneous display of an 'Arrange in Front' menu item in the Window menu in 10.5 (#8588)
  * Added drag & drop of contacts to places besides the contact list (#3097)
