@@ -162,6 +162,9 @@ endif
 	@# delete header files
 	find $(BUILD_DIR) \( -name "*.h" \) -type f -delete
 
+	@# delete empty folders (which would interfere with framework signing)
+	find $(BUILD_DIR) -type d -empty -delete
+
 	@# sign the executable
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
