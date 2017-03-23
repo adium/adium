@@ -616,8 +616,6 @@
 		34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153713B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m */; };
 		34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8153813B663650022C8C4 /* AIFacebookXMPPService.h */; };
 		34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */; };
-		34D8154613B663700022C8C4 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
-		34D8154713B663700022C8C4 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-DNS_BLOCK_ASSERTIONS"; }; };
 		34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154913B663A80022C8C4 /* auth_fb.c */; };
 		34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154A13B663A80022C8C4 /* auth_fb.h */; };
 		34D8154F13B663A80022C8C4 /* fbapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154B13B663A80022C8C4 /* fbapi.c */; };
@@ -1337,6 +1335,8 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
+		7627CDE61E839A29002079F2 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 34D8154413B663700022C8C4 /* JSONKit.h */; };
+		7627CDE71E839A30002079F2 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D8154513B663700022C8C4 /* JSONKit.m */; };
 		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
@@ -5408,7 +5408,6 @@
 				34D8153913B663650022C8C4 /* AIFacebookXMPPService.m */,
 				97F7B37E14E29BC400A0F6F8 /* facebook-small.png */,
 				97F7B37F14E29BC400A0F6F8 /* facebook.png */,
-				34D8154813B663730022C8C4 /* JSON Kit */,
 				34D8152D13B6634A0022C8C4 /* Legacy (Upgrade path) */,
 			);
 			name = Facebook;
@@ -7155,6 +7154,7 @@
 		633400D10F9C1501003C77A9 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				34D8154813B663730022C8C4 /* JSON Kit */,
 				633400D30F9C1501003C77A9 /* ImageKit.framework */,
 				633400D40F9C1501003C77A9 /* AddressBook.framework */,
 				633400D50F9C1501003C77A9 /* AudioUnit.framework */,
@@ -8703,7 +8703,6 @@
 				34D8153D13B663650022C8C4 /* AIFacebookXMPPAccountViewController.h in Headers */,
 				34D8154013B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.h in Headers */,
 				34D8154213B663650022C8C4 /* AIFacebookXMPPService.h in Headers */,
-				34D8154613B663700022C8C4 /* JSONKit.h in Headers */,
 				34D8154E13B663A80022C8C4 /* auth_fb.h in Headers */,
 				34D8155013B663A80022C8C4 /* fbapi.h in Headers */,
 			);
@@ -8919,6 +8918,7 @@
 				633400A90F9C14C2003C77A9 /* AIScrollViewAdditions.h in Headers */,
 				633400AB0F9C14C2003C77A9 /* AIShadowAdditions.h in Headers */,
 				633400AD0F9C14C2003C77A9 /* AIStringAdditions.h in Headers */,
+				7627CDE61E839A29002079F2 /* JSONKit.h in Headers */,
 				633400AF0F9C14C2003C77A9 /* AITableViewAdditions.h in Headers */,
 				633400B10F9C14C2003C77A9 /* AITabViewAdditions.h in Headers */,
 				633400B40F9C14C2003C77A9 /* AITextAttachmentAdditions.h in Headers */,
@@ -9802,7 +9802,6 @@
 				34D8153E13B663650022C8C4 /* AIFacebookXMPPAccountViewController.m in Sources */,
 				34D8154113B663650022C8C4 /* AIFacebookXMPPOAuthWebViewWindowController.m in Sources */,
 				34D8154313B663650022C8C4 /* AIFacebookXMPPService.m in Sources */,
-				34D8154713B663700022C8C4 /* JSONKit.m in Sources */,
 				34D8154D13B663A80022C8C4 /* auth_fb.c in Sources */,
 				34D8154F13B663A80022C8C4 /* fbapi.c in Sources */,
 			);
@@ -10306,6 +10305,7 @@
 				6334005E0F9C14C2003C77A9 /* AIBorderlessWindow.m in Sources */,
 				633400600F9C14C2003C77A9 /* AIGenericViewCell.m in Sources */,
 				633400620F9C14C2003C77A9 /* AIImageTextCell.m in Sources */,
+				7627CDE71E839A30002079F2 /* JSONKit.m in Sources */,
 				633400640F9C14C2003C77A9 /* AIScaledImageCell.m in Sources */,
 				633400660F9C14C2003C77A9 /* AIVerticallyCenteredTextCell.m in Sources */,
 				633400720F9C14C2003C77A9 /* AISendingTextView.m in Sources */,
