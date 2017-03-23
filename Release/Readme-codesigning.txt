@@ -1,0 +1,2 @@
+- Codesigning depends upon each framework, Spotlight importer, and executable being individually signed.
+- Frameworks can only be signed if they have no empty folders under Versions. If a dependency is updated, version control can leave an empty folder behind in the local tree, which needs to be removed or code signing will fail. The Makefile tries to remove empty directories, but if that fails consider running hg purge - but take care as this will also undo any other local changes.
