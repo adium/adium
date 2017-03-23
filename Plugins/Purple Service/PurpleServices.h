@@ -18,7 +18,6 @@
 #import "ESDotMacService.h"
 #import "AIMobileMeService.h"
 #import "ESICQService.h"
-#import "PurpleFacebookService.h"
 #import "ESGaduGaduService.h"
 #import "AIGTalkService.h"
 #import "ESIRCService.h"
