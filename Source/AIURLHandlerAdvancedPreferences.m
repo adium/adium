@@ -191,7 +191,7 @@
 	if (!image) {
 		AIService *service = [adium.accountController firstServiceWithServiceID:[plugin serviceIDForScheme:scheme]];
 		image = [AIServiceIcons serviceIconForService:service type:AIServiceIconLarge direction:AIIconNormal];
-		[servicesInformation setObject:image forKey:@"image"];
+		if (image) [servicesInformation setObject:image forKey:@"image"];
 	}
 	
 	return image;	
@@ -205,7 +205,7 @@
 	if (!longServiceName) {
 		AIService *service = [adium.accountController firstServiceWithServiceID:[plugin serviceIDForScheme:scheme]];
 		longServiceName = [service longDescription];
-		[servicesInformation setObject:longServiceName forKey:@"name"];
+		[servicesInformation setObject:(longServiceName ?: @"(unknown)") forKey:@"name"];
 	}
 	
 	return longServiceName;
