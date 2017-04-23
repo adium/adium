@@ -165,6 +165,10 @@ endif
 	@# delete empty folders (which would interfere with framework signing)
 	find $(BUILD_DIR) -type d -empty -delete
 
+	@# Also delete the symlinks to these directories, otherwise we break Sparle
+	find $(BUILD_DIR) \( -name "Headers" \) -type l -delete
+	find $(BUILD_DIR) \( -name "PrivateHeaders" \) -type l -delete
+
 	@# sign the executable
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
