@@ -184,10 +184,10 @@
 		if ( intervall_scroll ) clearInterval( intervall_scroll );
 		intervall_scroll = setInterval( function() {
 			var target_scroll = (document.body.scrollHeight-window.innerHeight);
-			var scrolldiff = target_scroll - document.body.scrollTop;
-			if ( document.body.scrollTop != target_scroll ) {
-				var saved_scroll = document.body.scrollTop;
-				document.body.scrollTop += scrolldiff / 5 + ( scrolldiff >= 0 ? (scrolldiff != 0 ) : -1 );
+			var scrolldiff = target_scroll - window.scrollY;
+			if ( window.scrollY != target_scroll ) {
+				var saved_scroll = window.scrollY;
+				window.scrollTo(0, window.scrollY + scrolldiff / 5 + ( scrolldiff >= 0 ? (scrolldiff != 0 ) : -1 ));
 			} else {
 				saved_scroll = -1;
 				clearInterval( intervall_scroll );
