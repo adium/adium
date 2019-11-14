@@ -76,7 +76,7 @@ if __name__ == '__main__':
   
   for lib,name,version in zip(libs_to_convert, framework_names, 
                 framework_versions):
-    #execute rtool a crapton of times
+    #execute rtool (tool to build a bundle from the dylib) a crapton of times
     header_path = '/'.join(lib.split('/')[0:-1]) + '/include/' + name
     if version != '' and version != 'A':
       header_path += '-'+version
