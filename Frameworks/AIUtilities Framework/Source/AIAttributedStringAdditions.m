@@ -289,7 +289,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     if ([self length] && [self containsAttachments]) {
         NSInteger							currentLocation = 0;
         NSRange						attachmentRange;
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",(unichar)NSAttachmentCharacter];
 		
         //find attachment
         attachmentRange = [[self string] rangeOfString:attachmentCharacterString
