@@ -27,16 +27,20 @@
 }
 
 //These will be exchanged with the ones in NSScanner, so to get the originals we need to call the AIScannerDebug ones
-+ (id)scannerWithString:(NSString *)aString
++ (instancetype)scannerWithString:(NSString *)aString
 {
 	NSParameterAssert(aString != nil);
-	return method_invoke(self, class_getClassMethod([AIScannerDebug class], @selector(scannerWithString:)), aString);
+    
+    static id (*_scannerWithString_method_invoke)(id, Method, NSString *) = (id (*)(id, Method, NSString *)) method_invoke;
+	return _scannerWithString_method_invoke(self, class_getClassMethod([AIScannerDebug class], @selector(scannerWithString:)), aString);
 }
 
-- (id)initWithString:(NSString *)aString
+- (instancetype)initWithString:(NSString *)aString
 {
 	NSParameterAssert(aString != nil);
-	return method_invoke(self, class_getInstanceMethod([AIScannerDebug class], @selector(initWithString:)), aString);
+    
+    static id (*_initWithString_method_invoke)(id, Method, NSString *) = (id (*)(id, Method, NSString *)) method_invoke;
+	return _initWithString_method_invoke(self, class_getInstanceMethod([AIScannerDebug class], @selector(initWithString:)), aString);
 }
 
 @end
