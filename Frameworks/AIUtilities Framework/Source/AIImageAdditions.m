@@ -232,7 +232,7 @@
 	/* PNG is easy; it supports everything TIFF does, and NSImage's PNG support is great. */
 	NSBitmapImageRep *bitmapRep =  [self largestBitmapImageRep];
 
-	return ([bitmapRep representationUsingType:NSPNGFileType properties:nil]);
+    return ([bitmapRep representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]]);
 }
 
 - (NSData *)GIFRepresentation
@@ -240,9 +240,11 @@
 	// GIF requires special treatment, as Apple doesn't allow you to save animations.
 	
 	NSMutableData *GIFRepresentation = nil;
-	NSBitmapImageRep *bitmap = [[self representations] objectAtIndex:0];
-	
-	if (bitmap && [bitmap isKindOfClass:[NSBitmapImageRep class]]) {
+	NSImageRep *imageRep = [[self representations] objectAtIndex:0];
+    NSBitmapImageRep *bitmap = nil;
+    
+	if (imageRep && [imageRep isKindOfClass:[NSBitmapImageRep class]]) {
+        bitmap = (NSBitmapImageRep *)bitmap;
 		unsigned frameCount = [[bitmap valueForProperty:NSImageFrameCount] intValue];
 		
 		if (!frameCount) {
@@ -258,7 +260,8 @@
 				// Set current frame
 				[bitmap setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithUnsignedInt:i]];
 				// Add frame representation
-				[images addObject:[NSBitmapImageRep imageRepWithData:[bitmap representationUsingType:NSGIFFileType properties:nil]]];
+                [images addObject:[NSBitmapImageRep imageRepWithData:[bitmap representationUsingType:NSGIFFileType
+                                                                                          properties:[NSDictionary dictionary]]]];
 			}
 			
 			GIFRepresentation = [NSMutableData dataWithData:[NSBitmapImageRep representationOfImageRepsInArray:images
@@ -279,7 +282,7 @@
 	 * before creating our representation or transparent parts will become black. White is preferable.
 	 */
 
-	return ([[self opaqueBitmapImageRep] representationUsingType:NSBMPFileType properties:nil]);
+    return ([[self opaqueBitmapImageRep] representationUsingType:NSBMPFileType properties:@{}]);
 }
 
 /*!
@@ -288,11 +291,11 @@
 - (NSData *)bestRepresentationByType
 {
 	NSData *data = nil;
-	NSBitmapImageRep *bitmap = nil;
+	NSImageRep *bitmap = nil;
 	
 	if ((bitmap = [[self representations] objectAtIndex:0]) &&
 		[bitmap isKindOfClass:[NSBitmapImageRep class]] &&
-		([[bitmap valueForProperty:NSImageFrameCount] intValue] > 1)) {
+		([[(NSBitmapImageRep *)bitmap valueForProperty:NSImageFrameCount] intValue] > 1)) {
 		data = [self GIFRepresentation];
 	} else {
 		data = [self PNGRepresentation];
@@ -332,7 +335,7 @@
 	if (!imageRep)
 		return nil;
 	
-	NSData *data = [imageRep representationUsingType:fileType properties:nil];
+	NSData *data = [imageRep representationUsingType:fileType properties:@{}];
 	
 	// If no maximum size, return the base representation.
 	if (!maximumSize)
@@ -369,7 +372,7 @@
 		imageRep = newImageRep;
 		
 		// Grab a new representation
-		data = [imageRep representationUsingType:fileType properties:nil];
+		data = [imageRep representationUsingType:fileType properties:@{}];
 	}
 	
 	return data;
