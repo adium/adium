@@ -52,7 +52,9 @@
 - (NSString *)stringByAppendingString:(NSString *)string
 {
 	if (!string) [AIStringDebug breakpoint];
-	return method_invoke(self, class_getInstanceMethod([AIStringDebug class], @selector(stringByAppendingString:)), string);
+
+    static NSString * (*_stringByAppendingString_method_invoke)(id, Method, NSString *) = (NSString * (*)(id, Method, NSString *)) method_invoke;
+	return _stringByAppendingString_method_invoke(self, class_getInstanceMethod([AIStringDebug class], @selector(stringByAppendingString:)), string);
 }
 
 #endif

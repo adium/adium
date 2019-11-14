@@ -53,7 +53,8 @@
 - (void)_setupProfileUI
 {
 	//Must be sure to the original implementation
-	method_invoke(self, class_getInstanceMethod([AIColorPickerSliders class], @selector(_setupProfileUI)));
+    static void (*__setupProfileUI_method_invoke)(id, Method) = (void (*)(id, Method)) method_invoke;
+	__setupProfileUI_method_invoke(self, class_getInstanceMethod([AIColorPickerSliders class], @selector(_setupProfileUI)));
 
 	if (sliderModePopUp && [sliderModePopUp isKindOfClass:[NSPopUpButton class]]) {
 		NSMenu			*menu = [sliderModePopUp menu];
