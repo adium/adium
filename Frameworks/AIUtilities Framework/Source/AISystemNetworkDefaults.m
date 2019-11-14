@@ -140,8 +140,8 @@
 						// Work around <rdar://problem/5530166>.  This dummy call to 
 						// CFNetworkCopyProxiesForURL initialise some state within CFNetwork 
 						// that is required by CFNetworkCopyProxiesForAutoConfigurationScript.
-						CFRelease(CFNetworkCopyProxiesForURL(url, NULL));
-						
+                        CFRelease(CFNetworkCopyProxiesForURL(url, (CFDictionaryRef)@{}));
+
 						CFErrorRef error = NULL;
 						proxies = [(NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((CFStringRef)scriptStr, url, &error) autorelease];	
 

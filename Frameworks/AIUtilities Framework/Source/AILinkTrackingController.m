@@ -96,7 +96,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 //Called when the mouse leaves the link
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    [self _setMouseOverLink:NO atPoint:NSMakePoint(0,0)];
+    [self _setMouseOverLink:nil atPoint:NSMakePoint(0,0)];
 }
 
 //Handle a mouse down.  Returns NO if the mouse down event should continue to be processed
@@ -108,7 +108,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
     NSUInteger	charIndex;
     NSRectArray		linkRects = nil;
 	
-    [self _setMouseOverLink:NO atPoint:NSMakePoint(0,0)]; //Remove any tooltips
+    [self _setMouseOverLink:nil atPoint:NSMakePoint(0,0)]; //Remove any tooltips
 	
     //Find clicked char index
     mouseLoc = [controlView convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -415,6 +415,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize)
 {
     NSAttributedString *copyString = [[[NSAttributedString alloc] initWithString:[(NSURL *)[sender representedObject] absoluteString] attributes:nil] autorelease];
     [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSRTFPboardType] owner:nil];
-    [[NSPasteboard generalPasteboard] setData:[copyString RTFFromRange:NSMakeRange(0,[copyString length]) documentAttributes:nil] forType:NSRTFPboardType];
+    [[NSPasteboard generalPasteboard] setData:[copyString RTFFromRange:NSMakeRange(0,[copyString length])
+                                                    documentAttributes:[NSDictionary dictionary]] forType:NSRTFPboardType];
 }
 @end

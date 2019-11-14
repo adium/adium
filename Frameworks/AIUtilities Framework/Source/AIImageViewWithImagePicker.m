@@ -119,7 +119,7 @@
 
 	if (pictureTaker) {
 		[pictureTaker close];
-		[pictureTaker release], pictureTaker = nil;
+        [pictureTaker release]; pictureTaker = nil;
 	}
 	
 	delegate = nil;
@@ -144,7 +144,7 @@
 		[pictureTaker setInputImage:inImage];
 	}
 	
-	[activeRecentPicture release], activeRecentPicture = nil;
+    [activeRecentPicture release]; activeRecentPicture = nil;
 }
 
 /*!
@@ -515,8 +515,8 @@
 	[self showPictureTaker];
 }
 
-- (void)pictureTakerDidEnd:(id)inPictureTaker returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{	
+- (void)pictureTakerDidEnd:(IKPictureTaker *)inPictureTaker returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+{
 	if (returnCode == NSOKButton) {
 		NSImage *image = [inPictureTaker outputImage];
 		

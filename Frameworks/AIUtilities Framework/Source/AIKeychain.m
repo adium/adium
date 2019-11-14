@@ -317,7 +317,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		}
 		
 		if (err != noErr) {
-			[self release], self = nil;
+			[self release]; self = nil;
 		}
 	}
 
