@@ -26,8 +26,8 @@
 
 @implementation AIBorderlessWindow
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
-
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)backingStoreType defer:(BOOL)flag
+{
     //Call NSWindow's version of this function, but pass in the all-important value of NSBorderlessWindowMask
     //for the styleMask so that the window doesn't have a title bar
    if ((self = [super initWithContentRect:contentRect 
@@ -169,25 +169,25 @@
 	BOOL	changed = NO;
 	
 	//Left
-	if ((labs(NSMinX((*inWindowFrame)) - NSMinX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+    if ((fabs(NSMinX((*inWindowFrame)) - NSMinX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.x = inScreenFrame.origin.x;
 		changed = YES;
 	}
 	
 	//Bottom
-	if ((labs(NSMinY(*inWindowFrame) - NSMinY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+    if ((fabs(NSMinY(*inWindowFrame) - NSMinY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.y = inScreenFrame.origin.y;
 		changed = YES;
 	}
 	
 	//Right
-	if ((labs(NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+    if ((fabs(NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.x -= NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame);
 		changed = YES;
 	}
 	
 	//Top
-	if ((labs(NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+    if ((fabs(NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.y -= NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame);
 		changed = YES;
 	}

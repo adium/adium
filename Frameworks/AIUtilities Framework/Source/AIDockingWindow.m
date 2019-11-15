@@ -37,9 +37,9 @@
 
 @implementation AIDockingWindow
 
-- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)backingStoreType defer:(BOOL)flag
 {
-	if ((self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag])) {
+	if ((self = [super initWithContentRect:contentRect styleMask:style backing:backingStoreType defer:flag])) {
 		[self _initDockingWindow];
 	}
 
@@ -157,22 +157,22 @@
 - (NSRect)dockWindowFrame:(NSRect)windowFrame toScreenFrame:(NSRect)screenFrame
 {
 	//Left
-	if (labs(NSMinX(windowFrame) - NSMinX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+    if (fabs(NSMinX(windowFrame) - NSMinX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.x = screenFrame.origin.x;
 	}
 	
 	//Bottom
-	if (labs(NSMinY(windowFrame) - NSMinY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+    if (fabs(NSMinY(windowFrame) - NSMinY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.y = screenFrame.origin.y;
 	}
 	
 	//Right
-	if (labs(NSMaxX(windowFrame) - NSMaxX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+    if (fabs(NSMaxX(windowFrame) - NSMaxX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.x -= NSMaxX(windowFrame) - NSMaxX(screenFrame);
 	}
 	
 	//Top
-	if (labs(NSMaxY(windowFrame) - NSMaxY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+    if (fabs(NSMaxY(windowFrame) - NSMaxY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.y -= NSMaxY(windowFrame) - NSMaxY(screenFrame);
 	}
 	

@@ -34,8 +34,7 @@
 
 @implementation AIImageCollectionView
 
-
-@synthesize delegate;
+@dynamic delegate;
 @synthesize itemsController;
 @synthesize highlightStyle, highlightSize, highlightCornerRadius;
 @synthesize highlightedIndex;

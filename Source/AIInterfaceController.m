@@ -1830,7 +1830,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 {
 	//Pass the print command to the window, which is responsible for routing it to the correct place or
 	//creating a view and printing.  Adium will not print from a window that does not respond to adiumPrint:
-	NSWindow	*keyWindowController = [[[NSApplication sharedApplication] keyWindow] windowController];
+	NSWindowController	*keyWindowController = [[[NSApplication sharedApplication] keyWindow] windowController];
 	if ([keyWindowController respondsToSelector:@selector(adiumPrint:)]) {
 		[keyWindowController performSelector:@selector(adiumPrint:)
 								  withObject:sender];

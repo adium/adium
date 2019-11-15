@@ -128,8 +128,8 @@
 	
 	NSBitmapImageFileType bestType;
 	
-	NSData *pngRepresentation = [[image largestBitmapImageRep] representationUsingType:NSPNGFileType properties:nil];
-	NSData *jpgRepresentation = [[image largestBitmapImageRep] representationUsingType:NSJPEGFileType properties:nil];
+    NSData *pngRepresentation = [[image largestBitmapImageRep] representationUsingType:NSPNGFileType properties:@{}];
+	NSData *jpgRepresentation = [[image largestBitmapImageRep] representationUsingType:NSJPEGFileType properties:@{}];
 	NSData *imageRepresentation;
 	
 	if (pngRepresentation.length > jpgRepresentation.length) {

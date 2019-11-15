@@ -273,9 +273,9 @@
 
 		trackingTag = [self addTrackingRect:trackRect owner:self userData:nil assumeInside:mouseInside];
 		if (mouseInside) {
-			[self mouseEntered:nil];
+			[self mouseEntered:[[[NSEvent alloc] init] autorelease]];
 		} else {
-			[self mouseExited:nil];			
+			[self mouseExited:[[[NSEvent alloc] init] autorelease]];
 		}
 	}
 }

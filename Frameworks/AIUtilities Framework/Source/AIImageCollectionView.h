@@ -27,9 +27,6 @@
  * supports item highlighting and selection
  */
 @interface AIImageCollectionView : NSCollectionView {
-
-	id <AIImageCollectionViewDelegate> delegate;
-
 @protected
 	IBOutlet NSArrayController *itemsController;
 	
@@ -40,7 +37,7 @@
 	NSUInteger highlightedIndex;
 }
 
-@property (readwrite, assign, nonatomic) id <AIImageCollectionViewDelegate> delegate;
+@property (readwrite, assign) id <AIImageCollectionViewDelegate, NSCollectionViewDelegate> delegate;
 
 @property (assign) IBOutlet NSArrayController *itemsController;
 
