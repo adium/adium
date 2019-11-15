@@ -55,7 +55,6 @@
 @property (readwrite, assign, nonatomic) AIListOutlineView *outlineControlView;
 
 //Display options
-@property (readwrite, retain, nonatomic) NSFont *font;
 @property (readwrite, nonatomic) NSTextAlignment textAlignment;
 @property (readwrite, retain, nonatomic) NSColor *textColor;
 @property (readwrite, retain, nonatomic) NSColor *invertedTextColor;

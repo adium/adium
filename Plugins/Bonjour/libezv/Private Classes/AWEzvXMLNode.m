@@ -155,6 +155,6 @@
 	
 	[string appendFormat:@"</%@>", name];
 
-	return [NSString stringWithFormat:@"<AWEzvXMLNode %x:type %i:\"%@\">",self,type,string];
+    return [NSString stringWithFormat:@"<AWEzvXMLNode %@:type %i:\"%@\">",self,type,string];
 }
 @end

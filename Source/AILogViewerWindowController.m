@@ -388,7 +388,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 	if (!isOpeningForContact) {
 		//If we're opening for a contact, the outline view selection will be changed in a moment anyways
-		[self outlineViewSelectionDidChange:nil];
+		[self outlineViewSelectionDidChange:[[[NSNotification alloc] init] autorelease]];
 	}
 }
 
@@ -449,7 +449,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[[[tableView_results tableColumnWithIdentifier:@"To"] headerCell] setStringValue:TO];
 	[[[tableView_results tableColumnWithIdentifier:@"From"] headerCell] setStringValue:FROM];
 	[[[tableView_results tableColumnWithIdentifier:@"Date"] headerCell] setStringValue:DATE];
-	[self tableViewColumnDidResize:nil];
+	[self tableViewColumnDidResize:[[[NSNotification alloc] init] autorelease]];
 
 	[tableView_results sizeLastColumnToFit];
 
@@ -660,7 +660,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
     [resultsLock lock];
     NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
-	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
+    AILog(@"refreshResultsSearchIsComplete: %i (count is %li)",searchIsComplete,(long)count);
 	
 	if (searchIsComplete &&
 		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
@@ -1978,7 +1978,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 {
 	NSTableColumn *dateTableColumn = [tableView_results tableColumnWithIdentifier:@"Date"];
 
-	if (!aNotification ||
+	if ([aNotification userInfo] == nil ||
 		([[aNotification userInfo] objectForKey:@"NSTableColumn"] == dateTableColumn)) {
 		NSDateFormatter *dateFormatter;
 		NSCell			*cell = [dateTableColumn dataCell];

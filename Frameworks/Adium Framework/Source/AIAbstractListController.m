@@ -708,7 +708,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	BOOL			isGroup = [listObject isKindOfClass:[AIListGroup class]];
 	
-	NSMutableArray			*locationsArray = [NSArray arrayWithObjects:
+	NSArray			*locationsArray = [NSArray arrayWithObjects:
 		[NSNumber numberWithInt:(isGroup ? Context_Group_Manage : Context_Contact_Manage)],
 		[NSNumber numberWithInt:(isGroup ? Context_Group_AttachDetach : Context_Contact_AttachDetach)],
 		[NSNumber numberWithInt:Context_Contact_Action],

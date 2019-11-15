@@ -181,7 +181,7 @@
 	NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
 	NSPoint			center = NSMakePoint(rect.origin.x + rect.size.height*0.4f, rect.origin.y + (rect.size.height/2.0f));
 
-	if ([controlView isItemExpanded:proxyObject]) {
+	if ([self.outlineControlView isItemExpanded:proxyObject]) {
 		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*0.3f, center.y - rect.size.height*0.15f)];
 		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*0.6f, 0)];
 		[arrowPath relativeLineToPoint:NSMakePoint(-rect.size.height*0.3f, rect.size.height*0.4f)];		

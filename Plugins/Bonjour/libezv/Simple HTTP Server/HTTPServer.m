@@ -375,7 +375,7 @@
 		// Status Code 200 - OK
         CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 200, NULL, kCFHTTPVersion1_1);
 		[self setHeaderFields:response forURI:[uri relativeString] appleSingle: isAppleSingle keepAlive:isKeepAlive];
-		NSString *contentLength = [NSString stringWithFormat:@"%i", [data length]];
+        NSString *contentLength = [NSString stringWithFormat:@"%lu", (unsigned long)[data length]];
         CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), (CFStringRef)contentLength);
 
 		//NSDictionary *responseHeaders = [(NSDictionary *)CFHTTPMessageCopyAllHeaderFields(response) autorelease];

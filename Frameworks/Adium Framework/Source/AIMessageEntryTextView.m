@@ -79,6 +79,7 @@
 @implementation  AISimpleTextView
 
 @synthesize string;
+
 - (void)dealloc
 {
 	[string release];
@@ -120,6 +121,8 @@
 @end
 
 @implementation AIMessageEntryTextView
+
+@dynamic delegate;
 
 - (void)_initMessageEntryTextView
 {
@@ -212,16 +215,6 @@
     [pushArray release]; pushArray = nil;
 
     [super dealloc];
-}
-
-- (void) setDelegate:(id<AIMessageEntryTextViewDelegate>)del
-{
-	super.delegate = del;
-}
-
-- (id<AIMessageEntryTextViewDelegate>)delegate
-{
-	return (id<AIMessageEntryTextViewDelegate>)super.delegate;
 }
 
 - (void)keyDown:(NSEvent *)inEvent

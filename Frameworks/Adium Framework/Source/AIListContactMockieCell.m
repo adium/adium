@@ -53,8 +53,8 @@
 - (NSBezierPath *)bezierPathForDrawingInRect:(NSRect)rect
 {
 	NSBezierPath *bezierPath;
-	NSInteger			 row = [controlView rowForItem:proxyObject];
-	NSInteger	 numberOfRows = [controlView numberOfRows];
+	NSInteger			 row = [self.outlineControlView rowForItem:proxyObject];
+	NSInteger	 numberOfRows = [self.outlineControlView numberOfRows];
 
 	if (row == 0) {
 		if (numberOfRows > 1) {
@@ -68,7 +68,9 @@
 			bezierPath = [NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS];
 		}
 
-	} else if (row >= (numberOfRows-1) || [(id<AIMultiCellOutlineViewDelegate>)[controlView delegate] outlineView:controlView isGroup:[controlView itemAtRow:row+1]]) {
+	} else if (row >= (numberOfRows-1) ||
+               [(id<AIMultiCellOutlineViewDelegate>)self.outlineControlView.delegate outlineView:self.outlineControlView
+                                                                                         isGroup:[self.outlineControlView itemAtRow:row+1]]) {
 		//Draw the bottom corners rounded if this is the last cell in a group
 		bezierPath = [NSBezierPath bezierPathWithRoundedBottomCorners:rect radius:MOCKIE_RADIUS];
 		
@@ -105,7 +107,7 @@
 - (void)drawSelectionWithFrame:(NSRect)cellFrame
 {
 	if ([self cellIsSelected]) {
-		NSColor *highlightColor = [controlView highlightColor];
+		NSColor *highlightColor = [self.outlineControlView highlightColor];
 		NSGradient 	*gradient = (highlightColor ?
 								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
 								 [NSGradient selectedControlGradient]);

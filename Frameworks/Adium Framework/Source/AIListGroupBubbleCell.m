@@ -73,7 +73,7 @@
 - (void)drawSelectionWithFrame:(NSRect)cellFrame
 {
 	if ([self cellIsSelected]) {
-		NSColor *highlightColor = [controlView highlightColor];
+		NSColor *highlightColor = [self.outlineControlView highlightColor];
 		NSGradient 	*gradient = (highlightColor ?
 								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
 								 [NSGradient selectedControlGradient]);

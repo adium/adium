@@ -662,7 +662,7 @@
 	NSInteger contentCount = (showConversationCount ?
 							 [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
 	if (contentCount > 0 && shouldBadge)
-		[dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", contentCount]];
+        [dockTile setBadgeLabel:[NSString stringWithFormat:@"%ld", (long)contentCount]];
 	else
 		[dockTile setBadgeLabel:nil];
 }
