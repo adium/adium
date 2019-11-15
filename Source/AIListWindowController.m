@@ -578,7 +578,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	//crash if we are deallocated.  A dirty, but functional fix is to temporarily retain ourself here.
     [self retain];
 
-    if ([self windowShouldClose:nil]) {
+    if ([self windowShouldClose:sender]) {
         [[self window] close];
     }
 

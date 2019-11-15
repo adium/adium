@@ -649,7 +649,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	if ([outlineView isKindOfClass:[AIListOutlineView class]]) {
 		[(AIListCell *)cell setProxyListObject:item];
-		[(AIListCell *)cell setControlView:(AIListOutlineView *)outlineView];
+		[(AIListCell *)cell setOutlineControlView:(AIListOutlineView *)outlineView];
 		[(AIListCell *)cell setIndentation:indentationPerLevel[[outlineView levelForItem:item]]];
 	}
 }

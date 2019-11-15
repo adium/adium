@@ -106,10 +106,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	isGroup = [[proxyObject listObject] isKindOfClass:[AIListGroup class]];
 }
 
-@synthesize isGroup, controlView;
+@synthesize isGroup, outlineControlView;
 
 //Return that this cell is draggable
-- (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
+- (NSCellHitResult)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
 {
 	return NSCellHitContentArea;
 }
@@ -370,8 +370,8 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (BOOL)cellIsSelected
 {
 	return ([self isHighlighted] &&
-		   [[controlView window] isKeyWindow] &&
-		   [[controlView window] firstResponder] == controlView);
+		   [[self.outlineControlView window] isKeyWindow] &&
+		   [[self.outlineControlView window] firstResponder] == self.outlineControlView);
 }
 
 //YES if a grid would be visible behind this cell (needs to be drawn)
@@ -384,10 +384,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (NSColor *)backgroundColor
 {
 	//We could just call backgroundColorForRow: but it's best to avoid doing a rowForItem lookup if there is no grid
-	if ([controlView usesAlternatingRowBackgroundColors]) {
-		return [controlView backgroundColorForRow:[controlView rowForItem:proxyObject]];
+	if ([self.outlineControlView usesAlternatingRowBackgroundColors]) {
+		return [self.outlineControlView backgroundColorForRow:[self.outlineControlView rowForItem:proxyObject]];
 	} else {
-		return [controlView backgroundColor];
+		return [self.outlineControlView backgroundColor];
 	}
 }
 
@@ -434,7 +434,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 		value = [self labelString];
 		
 	} else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
-		value = [controlView window];
+		value = [self.outlineControlView window];
                 
 	} else {
 		value = [super accessibilityAttributeValue:attribute];
