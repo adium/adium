@@ -336,7 +336,7 @@
 			name = UnitTests;
 			productName = Test;
 			productReference = 7EA3B0440DD1153F002A18D1 /* Test.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		7EB5500F0DDC80DB000DC0D6 /* LinkDriver */ = {
 			isa = PBXNativeTarget;
@@ -380,6 +380,7 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
+				34DE9E5D237E1A56006D5C7F /* Codesign Executable */,
 			);
 			buildRules = (
 			);
@@ -398,6 +399,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastTestingUpgradeCheck = 0720;
 				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
@@ -405,6 +407,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* AIHyperlinks.framework */;
@@ -440,6 +443,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		34DE9E5D237E1A56006D5C7F /* Codesign Executable */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Codesign Executable";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = " # SRCROOT is \"adium/Frameworks/AutoHyperlinks Framework\"\n\"$SRCROOT/../../Build-Phases/codesign-executable.sh\"\n\n";
+		};
 		7EA3B0420DD1153F002A18D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -612,8 +633,11 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AutoHyperlinks;
 				PRODUCT_NAME = AutoHyperlinks;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -623,6 +647,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF31B11769FE700EDC305 /* Release-Debug.xcconfig */;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = "Release-Debug";
 		};
@@ -844,8 +869,11 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AutoHyperlinks;
 				PRODUCT_NAME = AutoHyperlinks;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -865,9 +893,12 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				MACH_O_TYPE = mh_dylib;
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AutoHyperlinks;
 				PRODUCT_NAME = AutoHyperlinks;
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -877,6 +908,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF30C11769F4C00EDC305 /* Debug.xcconfig */;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -884,6 +916,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E0CF31811769FBD00EDC305 /* Release.xcconfig */;
 			buildSettings = {
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

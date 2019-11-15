@@ -68,9 +68,9 @@
     BOOL shouldClose = YES;
     
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(windowShouldClose:)]) {
-        shouldClose = [(id)[self delegate] windowShouldClose:nil];
+        shouldClose = [(id)[self delegate] windowShouldClose:sender];
     } else if ([self respondsToSelector:@selector(windowShouldClose:)]) { 
-        shouldClose = [(id)self windowShouldClose:nil];
+        shouldClose = [(id)self windowShouldClose:sender];
 	}
 	
     if (shouldClose) {

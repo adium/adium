@@ -23,6 +23,9 @@
 	NSUInteger _currentMark;
 	BOOL _jumpingToMark;
 }
+
+@property (readonly) BOOL isHorizontalScroller;
+
 - (void) setLocationOfCurrentMark:(NSUInteger) location;
 - (unsigned long long) locationOfCurrentMark;
 

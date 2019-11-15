@@ -66,7 +66,8 @@
 	}
 
 	//call the unswizzled implementation now that we're done with our additions
-	method_invoke(self, class_getInstanceMethod([AIToolbar class], @selector(deallocWithNotifications)));
+    static void (*_deallocWithNotifications_method_invoke)(id, Method) = (void (*)(id, Method)) method_invoke;
+	_deallocWithNotifications_method_invoke(self, class_getInstanceMethod([AIToolbar class], @selector(deallocWithNotifications)));
 }
 
 @end

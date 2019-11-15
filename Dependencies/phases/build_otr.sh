@@ -68,7 +68,7 @@ build_libgcrypt(){
 ##
 # Libotr
 #
-OTR_VERSION=2.2.0
+OTR_VERSION=3.2.0
 build_otr(){
 	build_libgcrypt
 	prereq "otr" \

@@ -144,7 +144,7 @@
 {
 	//Update the selected toolbar item (10.3 or higher)
 	if ([[[self window] toolbar] respondsToSelector:@selector(setSelectedItemIdentifier:)]) {
-		[[[self window] toolbar] setSelectedItemIdentifier:[NSString stringWithFormat:@"%i",[self indexOfTabViewItem:tabViewItem]]];
+		[[[self window] toolbar] setSelectedItemIdentifier:[NSString stringWithFormat:@"%i",(int)[self indexOfTabViewItem:tabViewItem]]];
 	}
 
 	if (tabViewItem != [self selectedTabViewItem]) {

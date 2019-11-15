@@ -76,6 +76,7 @@
 
 @implementation AITableView
 
+
 /* 
  * @brief Load
  *
@@ -104,7 +105,8 @@
 			[(id <AITableViewDelegate>)[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
 	} else {
 		//Pass the key event on to the unswizzled impl
-		method_invoke(self, class_getInstanceMethod([AITableView class], @selector(keyDown:)), theEvent);
+        static void (*_key_down_method_invoke)(id, Method, NSEvent *) = (void (*)(id, Method, NSEvent *)) method_invoke;
+		_key_down_method_invoke(self, class_getInstanceMethod([AITableView class], @selector(keyDown:)), theEvent);
 	}
 }
 
@@ -113,8 +115,9 @@
 {
 	if ([[self delegate] respondsToSelector:@selector(tableView:menuForEvent:)])
 		return [(id<AITableViewDelegate>)[self delegate] tableView:self menuForEvent:theEvent];
-        
-	return method_invoke(self, class_getInstanceMethod([AITableView class], @selector(menuForEvent:)), theEvent);
+    
+    static NSMenu * (*_menu_for_event_method_invoke)(id, Method, NSEvent *) = (NSMenu * (*)(id, Method, NSEvent *)) method_invoke;
+	return _menu_for_event_method_invoke(self, class_getInstanceMethod([AITableView class], @selector(menuForEvent:)), theEvent);
 }
 
 @end

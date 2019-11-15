@@ -362,7 +362,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Adium.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.adiumX.adiumX</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -441,16 +441,6 @@
 			<key>CFBundleURLIconFile</key>
 			<string>generic</string>
 			<key>CFBundleURLName</key>
-			<string>MySpace Service URL</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>msim</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLIconFile</key>
-			<string>generic</string>
-			<key>CFBundleURLName</key>
 			<string>IRC Service URL</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
@@ -475,7 +465,7 @@
 	<key>LSFileQuarantineEnabled</key>
 	<true/>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.6.8</string>
+	<string>10.7.0</string>
 	<key>LSRequiresNativeExecution</key>
 	<true/>
 	<key>NSAppleScriptEnabled</key>
@@ -484,6 +474,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>AIApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>Adium.sdef</string>
 	<key>SUCheckAtStartup</key>
