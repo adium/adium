@@ -32,12 +32,10 @@
 - (void)tabViewItemWillDeselect;
 - (void)tabViewDidChangeVisibility;
 
-@property (readonly, nonatomic) NSString *label;
 @property (readonly, nonatomic) NSImage *icon;
 @property (readonly, nonatomic) NSImage *statusIcon;
 @property (readonly, nonatomic) NSImage *stateIcon;
 @property (readonly, nonatomic) AIChat *chat;
-@property (readonly, nonatomic) NSImage *image;
 @property (readonly, nonatomic) AIMessageViewController *messageViewController;
 @property (readwrite, nonatomic, retain) AIMessageWindowController *windowController;
 

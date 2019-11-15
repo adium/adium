@@ -209,7 +209,7 @@
 		BOOL	mouseInside = [self mouse:mouseLocation inRect:snapbackRect];
 
 		resetImageTrackingTag = [self addTrackingRect:snapbackRect owner:self userData:nil assumeInside:mouseInside];
-		if (mouseInside) [self mouseEntered:nil];
+		if (mouseInside) [self mouseEntered:[[[NSEvent alloc] init] autorelease]];
 	}
 }
 

@@ -68,7 +68,7 @@
 	NSColor				*savedTextColor;
 }
 
-@property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
+@property (readwrite, assign, atomic) id<AIMessageEntryTextViewDelegate, NSTextDelegate> delegate;
 
 //Configure
 @property (readwrite, nonatomic) BOOL clearOnEscape;

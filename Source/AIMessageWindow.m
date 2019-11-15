@@ -25,9 +25,9 @@
  */
 @implementation AIMessageWindow
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)styleMask backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)style backing:(NSBackingStoreType)backingStoreType defer:(BOOL)flag
 {
-	if (!(self = [super initWithContentRect:contentRect styleMask:styleMask backing:bufferingType defer:deferCreation]))
+	if (!(self = [super initWithContentRect:contentRect styleMask:style backing:backingStoreType defer:flag]))
 		return nil;
 
 	return self;

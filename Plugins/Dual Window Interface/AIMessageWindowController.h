@@ -71,11 +71,6 @@ typedef enum
  */
 @property (readonly, nonatomic) NSArray *containedChats;
 
-/*
- * @brief The window
- */
-@property (readonly, nonatomic) NSWindow *window;
-
 //Contained Chats
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem;
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)index silent:(BOOL)silent;

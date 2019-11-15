@@ -203,7 +203,8 @@
 
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
-	if (!aNotification || [aNotification object] == textField_handle) {
+	if ([aNotification object] == nil ||
+        [aNotification object] == textField_handle) {
 		[button_okay setEnabled:([[textField_handle stringValue] length] > 0)];
 	}
 
