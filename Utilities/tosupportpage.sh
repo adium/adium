@@ -39,10 +39,10 @@ cat "$file"\
 									Donate to Adium</a>\
 									</div>\
 								<div id="powered" style="opacity: 100%">\
-									<a href="https://developer.apple.com/wwdc/events/awards/"><img class="libgaim" src="../../images/ada.png" alt="Apple design awards 05 special mention"></a>\
+									<a href="https://developer.apple.com/design/awards/"><img class="libgaim" src="../../images/ada.png" alt="Apple design awards 05 special mention"></a>\
 									<a href="https://www.pidgin.im"><img class="libgaim" src="../../images/powered_by_libpurple.png" alt="Adium is powered by libpurple"></a>\
 									<a class="cachefly" href="https://www.cachefly.com"><img src="../../images/cachefly.png" alt="CacheFly Logo"></a>\
-									<a class="networkredux" href="http://www.networkredux.com"><img src="../../images/network_redux.png" alt="Network Redux Logo"></a>\
+									<a class="networkredux" href="https://networkredux.com"><img src="../../images/network_redux.png" alt="Network Redux Logo"></a>\
 								</div>\
 							</div>\
 			</body>|g'\

@@ -92,6 +92,9 @@ endif
 PLIST_DIR=`pwd`/../Plists
 ADIUM_PLIST=$(PLIST_DIR)/Info
 
+SIGNING_CERT_NAME="Developer ID Application: Instant Messaging Freedom, Inc."
+SIGNING_REQUIREMENTS="=designated => anchor apple generic and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))"
+
 ###########
 # Targets
 ###########
@@ -159,13 +162,30 @@ endif
 	@# delete header files
 	find $(BUILD_DIR) \( -name "*.h" \) -type f -delete
 
+	@# delete empty folders (which would interfere with framework signing)
+	find $(BUILD_DIR) -type d -empty -delete
+
+	@# Also delete the symlinks to these directories, otherwise we break Sparle
+	find $(BUILD_DIR) \( -name "Headers" \) -type l -delete
+	find $(BUILD_DIR) \( -name "PrivateHeaders" \) -type l -delete
+
 	@# sign the executable
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
 		security unlock-keychain -p `cat ~/adium-password`; \
 	fi
-	codesign --verbose --force --sign "Developer ID Application: Instant Messaging Freedom, Inc." --requirements "=designated => anchor apple generic  and identifier \"com.adiumX.adiumX\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))" $(ADIUM_DIR)/Adium.app/Contents/Resources/AdiumApplescriptRunner
-	codesign --verbose --force --sign "Developer ID Application: Instant Messaging Freedom, Inc." --requirements "=designated => anchor apple generic  and identifier \"com.adiumX.adiumX\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists and certificate leaf[subject.OU] = \"VQ6ZEL8UD3\" ))" $(ADIUM_DIR)/Adium.app
+	
+	@# One approach would be to sign each framework and other bundle individually....
+	@# codesign --verbose --force --sign $(SIGNING_CERT_NAME) --deep --requirements $(SIGNING_REQUIREMENTS) $(ADIUM_DIR)/Adium.app/Contents/Frameworks/*.framework
+	@# codesign --verbose --force --sign $(SIGNING_CERT_NAME) --requirements $(SIGNING_REQUIREMENTS) $(ADIUM_DIR)/Adium.app/Contents/Library/Spotlight/*.mdimporter
+	@# codesign --verbose --force --sign $(SIGNING_CERT_NAME) --requirements $(SIGNING_REQUIREMENTS) $(ADIUM_DIR)/Adium.app/Contents/Resources/AdiumApplescriptRunner
+	@# codesign --verbose --force --sign $(SIGNING_CERT_NAME) --requirements $(SIGNING_REQUIREMENTS) $(ADIUM_DIR)/Adium.app
+	
+	@# However, it appears fine to use --deep and get it all recursively
+	codesign --verbose --force --deep --sign $(SIGNING_CERT_NAME) --requirements $(SIGNING_REQUIREMENTS) $(ADIUM_DIR)/Adium.app
+	
+	@# verify successful signing of the full bundle
+	codesign --verbose --verify --deep $(ADIUM_DIR)/Adium.app
 endif
 
 createfolder:

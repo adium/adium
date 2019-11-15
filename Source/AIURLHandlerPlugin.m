@@ -138,14 +138,10 @@
 	if (!schemeToServiceDict) {
 		schemeToServiceDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 							   @"AIM",     @"aim",
-							   @"Yahoo!",  @"ymsgr",
-							   @"Yahoo!",  @"yahoo",
 							   @"Jabber",  @"xmpp",
 							   @"Jabber",  @"jabber",
 							   @"GTalk",   @"gtalk",
-							   @"MSN",     @"msn",
 							   @"IRC",	   @"irc",
-							   @"MySpace", @"msim",
 							   nil];
 	}
 	
@@ -155,7 +151,7 @@
 /*!
  * @brief All of the schemes similar to a given scheme
  *
- * Several services (such as Yahoo and Jabber) have several scheme
+ * Several services (such as Jabber) have several scheme
  * aliases which are possible schemes for them. Instead of having multiple
  * entries each, we simply use a reference one and apply to all aliases.
  *
@@ -164,9 +160,7 @@
  */
 - (NSArray *)allSchemesLikeScheme:(NSString *)scheme
 {
-	if ([scheme isEqualToString:@"ymsgr"]) {
-		return [NSArray arrayWithObjects:@"yahoo", @"ymsgr", nil];
-	} else if ([scheme isEqualToString:@"xmpp"]) {
+	if ([scheme isEqualToString:@"xmpp"]) {
 		return [NSArray arrayWithObjects:@"xmpp", @"jabber", @"gtalk", nil];
 	} else {
 		return [NSArray arrayWithObject:scheme];
@@ -180,7 +174,7 @@
  */
 - (NSArray *)uniqueSchemes
 {
-	return [NSArray arrayWithObjects:@"aim", @"irc", @"xmpp", @"msn", @"msim", @"ymsgr", nil];
+	return [NSArray arrayWithObjects:@"aim", @"irc", @"xmpp", nil];
 }
 
 /*!
@@ -253,7 +247,6 @@
 	static NSDictionary *schemeMappingDict = nil;
 	if (!schemeMappingDict) {
 		schemeMappingDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-							 @"ymsgr", @"yahoo",
 							 @"xmpp", @"jabber",
 							 nil];
 	}
@@ -472,7 +465,6 @@
 			NSString	*name;
 			if (user && [user length]) {
 				//jabber://tekjew@jabber.org
-				//msn://jdoe@hotmail.com
 				name = [NSString stringWithFormat:@"%@@%@",[url user],[url host]];
 			} else {
 				//aim://tekjew

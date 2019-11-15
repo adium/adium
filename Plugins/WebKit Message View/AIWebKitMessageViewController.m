@@ -15,7 +15,7 @@
  */
 
 #import "AIWebKitMessageViewController.h"
-#import "AIWebKitMessageViewStyle.h"
+#import "AIWebkitMessageViewStyle.h"
 #import "AIWebKitMessageViewPlugin.h"
 #import "ESWebKitMessageViewPreferences.h"
 #import "AIWebKitDelegate.h"
