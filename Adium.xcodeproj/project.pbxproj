@@ -930,8 +930,6 @@
 		34F8D2AE0CF68FEB00F62536 /* AIUserListOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F8D2AD0CF68FEB00F62536 /* AIUserListOutlineView.m */; };
 		34FF12120DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34FF12100DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.h */; };
 		34FF12130DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */; };
-		377EC8940AE9525B00CB7BDF /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; };
-		377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4B08399507D2350D0034A001 /* AIDockIconSelectionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B08399307D2350D0034A001 /* AIDockIconSelectionSheet.m */; };
 		4B08399C07D235190034A001 /* DockIconSelectionSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B08399B07D235190034A001 /* DockIconSelectionSheet.xib */; };
 		4B191D8A0611C10800E8A4E7 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4B191D880611C10800E8A4E7 /* License.txt */; };
@@ -1007,6 +1005,8 @@
 		4BF98DCD06D149EE00E8781D /* ContactStatusColoringDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B31E8C404C46A9100A8010A /* ContactStatusColoringDefaults.plist */; };
 		4BFC2E7907E357F00063D70C /* emoticonBlank.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BFC2E7807E357F00063D70C /* emoticonBlank.png */; };
 		4BFF665B063693FA00308A3B /* ESSendMessageAlertDetailPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 342DC49C05783BE8000E1D83 /* ESSendMessageAlertDetailPane.m */; };
+		4DCD68DB23A0C527001EC42A /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DCD68D623A0C3EA001EC42A /* PSMTabBarControl.framework */; };
+		4DCD68DC23A0C52F001EC42A /* PSMTabBarControl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4DCD68D623A0C3EA001EC42A /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F1CB6260D640D5C0073A1E6 /* AIContactInfoContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1CB6250D640D5B0073A1E6 /* AIContactInfoContentController.m */; };
 		4F1CB6290D640D680073A1E6 /* AIInfoInspectorPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1CB6280D640D670073A1E6 /* AIInfoInspectorPane.m */; };
 		4F1CB62E0D640D770073A1E6 /* AIAdvancedInspectorPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1CB62B0D640D770073A1E6 /* AIAdvancedInspectorPane.m */; };
@@ -1481,6 +1481,20 @@
 			remoteGlobalIDString = 349C2EF90867AC97000BF883;
 			remoteInfo = AdiumApplescriptRunner;
 		};
+		4DCD68D523A0C3EA001EC42A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53DF68FD067E5B5A0090B5B0;
+			remoteInfo = PSMTabBarControlFramework;
+		};
+		4DCD68D723A0C3EA001EC42A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8BD4395A1185147D00DB4AC3;
+			remoteInfo = PSMTabBarControlDemo;
+		};
 		6329EFB40F9D33A600112489 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1563,6 +1577,7 @@
 			files = (
 				116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */,
 				118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */,
+				4DCD68DC23A0C52F001EC42A /* PSMTabBarControl.framework in Copy Frameworks */,
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
 				11EE1CCF0CDD01120097F246 /* libglib.framework in Copy Frameworks */,
@@ -1574,7 +1589,6 @@
 				11EE1CD40CDD01120097F246 /* libmeanwhile.framework in Copy Frameworks */,
 				11EE1CD50CDD01120097F246 /* libpurple.framework in Copy Frameworks */,
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
-				377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */,
 				76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */,
 				76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
@@ -3562,7 +3576,6 @@
 		34FDD6E405632BFD00F5B30F /* ESFileTransferController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferController.m; path = Source/ESFileTransferController.m; sourceTree = "<group>"; };
 		34FF12100DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleGTalkJoinChatViewController.h; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.h"; sourceTree = "<group>"; };
 		34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleGTalkJoinChatViewController.m; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.m"; sourceTree = "<group>"; };
-		377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Frameworks/PSMTabBarControl.framework; sourceTree = "<group>"; };
 		3C73F83E04D62A2900A80106 /* AIEmoticonPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIEmoticonPack.h; path = "Frameworks/Adium Framework/Source/AIEmoticonPack.h"; sourceTree = "<group>"; };
 		3C73F83F04D62A2900A80106 /* AIEmoticonPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIEmoticonPack.m; path = "Frameworks/Adium Framework/Source/AIEmoticonPack.m"; sourceTree = "<group>"; };
 		40AC0EEB03B5BF1000A80202 /* ErrorMessageHandlerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorMessageHandlerPlugin.h; path = "Plugins/Error Message Handler/ErrorMessageHandlerPlugin.h"; sourceTree = "<group>"; };
@@ -3794,6 +3807,7 @@
 		4BFC5407043E509A00A8010A /* AIContentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentStatus.h; path = "Frameworks/Adium Framework/Source/AIContentStatus.h"; sourceTree = "<group>"; };
 		4BFC5408043E509A00A8010A /* AIContentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContentStatus.m; path = "Frameworks/Adium Framework/Source/AIContentStatus.m"; sourceTree = "<group>"; };
 		4BFE2E9F07E61A4E00C07EBE /* NewAlertNoEvents.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = NewAlertNoEvents.nib; path = "Frameworks/Adium Framework/Resources/NewAlertNoEvents.nib"; sourceTree = "<group>"; };
+		4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = Dependencies/PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		4F1CB6240D640D5B0073A1E6 /* AIContactInfoContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactInfoContentController.h; path = Source/AIContactInfoContentController.h; sourceTree = "<group>"; };
 		4F1CB6250D640D5B0073A1E6 /* AIContactInfoContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactInfoContentController.m; path = Source/AIContactInfoContentController.m; sourceTree = "<group>"; };
 		4F1CB6270D640D670073A1E6 /* AIInfoInspectorPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIInfoInspectorPane.h; path = Source/AIInfoInspectorPane.h; sourceTree = "<group>"; };
@@ -4630,6 +4644,7 @@
 				639DF91A0F97E639003C9A32 /* libmeanwhile.framework in Frameworks */,
 				639DF91B0F97E639003C9A32 /* libpurple.framework in Frameworks */,
 				111256200F8DA2DB00E76177 /* libexpat.dylib in Frameworks */,
+				4DCD68DB23A0C527001EC42A /* PSMTabBarControl.framework in Frameworks */,
 				6318DBC20F8D943A00C5E584 /* WebKit.framework in Frameworks */,
 				636D92CD0E4E990500E5F558 /* AddressBook.framework in Frameworks */,
 				F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */,
@@ -4638,7 +4653,6 @@
 				34C18B0D06CAC95400FF5FF9 /* SystemConfiguration.framework in Frameworks */,
 				638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */,
 				9E1E1DFD0A96741500E16DFC /* LMX.framework in Frameworks */,
-				377EC8940AE9525B00CB7BDF /* PSMTabBarControl.framework in Frameworks */,
 				11AA1EFA0BCAE9C3003DDA66 /* Quartz.framework in Frameworks */,
 				340C1ABF0BD58FAB00D09235 /* Security.framework in Frameworks */,
 				31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */,
@@ -4910,6 +4924,8 @@
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				63C7E0280FAF9B7D00B310AC /* xcconfigs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */,
+				4DCD68DA23A0C527001EC42A /* Frameworks */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -6959,6 +6975,22 @@
 			name = Group;
 			sourceTree = "<group>";
 		};
+		4DCD68D023A0C3EA001EC42A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DCD68D623A0C3EA001EC42A /* PSMTabBarControl.framework */,
+				4DCD68D823A0C3EA001EC42A /* PSMTabBarControlDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DCD68DA23A0C527001EC42A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		52C623DE06697AFA0006C387 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
@@ -7884,7 +7916,6 @@
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
 				9719C92B1530EDF700217FBE /* FriBidi.framework */,
 				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
-				377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */,
 				9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */,
 				9E1E1DFC0A96741500E16DFC /* LMX.framework */,
 				638392F609D4D67A0067B9B7 /* Sparkle.framework */,
@@ -9068,6 +9099,10 @@
 					ProductGroup = 3496A8E807CE6CA30055BBAB /* Products */;
 					ProjectRef = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
 				},
+				{
+					ProductGroup = 4DCD68D023A0C3EA001EC42A /* Products */;
+					ProjectRef = 4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -9105,6 +9140,20 @@
 			fileType = wrapper.framework;
 			path = AutoHyperlinks.framework;
 			remoteRef = 3496A8ED07CE6CCB0055BBAB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DCD68D623A0C3EA001EC42A /* PSMTabBarControl.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PSMTabBarControl.framework;
+			remoteRef = 4DCD68D523A0C3EA001EC42A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4DCD68D823A0C3EA001EC42A /* PSMTabBarControlDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PSMTabBarControlDemo.app;
+			remoteRef = 4DCD68D723A0C3EA001EC42A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7E78DA9C0DD135DE00B9388F /* Test.octest */ = {
