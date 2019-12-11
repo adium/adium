@@ -267,7 +267,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 								  @selector(sheetDidEnd:returnCode:contextInfo:),
 								  NULL, /* didDismissSelector */
 								  contactEvents,
-								  AILocalizedString(@"Remove the %i actions associated with this event?", nil), contactEventsCount);
+								  AILocalizedString(@"Remove the %lu actions associated with this event?", nil), (unsigned long)contactEventsCount);
 			} else {
 				//Delete a single event immediately
 				[self deleteContactActionsInArray:contactEvents];

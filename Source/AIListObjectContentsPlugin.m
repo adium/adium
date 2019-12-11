@@ -36,7 +36,7 @@
 #define COLLAPSE_CONTACT	AILocalizedString(@"Collapse Combined Contact", nil)
 
 #define MAX_CONTACTS 20
-#define MORE_CONTACTS_STRING AILocalizedString(@"%d others", @"Used to describe omitted contacts.\
+#define MORE_CONTACTS_STRING AILocalizedString(@"%lu others", @"Used to describe omitted contacts.\
                                                                The first parameter is the number of omitted contacts")
 
 @interface AIListObjectContentsPlugin ()

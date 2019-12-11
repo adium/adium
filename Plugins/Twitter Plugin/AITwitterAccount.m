@@ -1239,7 +1239,7 @@
 - (void)periodicUpdate
 {
 	if (pendingUpdateCount) {
-		AILogWithSignature(@"%@ Update already in progress. Count = %d", self, pendingUpdateCount);
+		AILogWithSignature(@"%@ Update already in progress. Count = %lu", self, (unsigned long)pendingUpdateCount);
 		return;
 	}
 	
@@ -1845,7 +1845,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d updates", self, queuedUpdates.count);
+		AILogWithSignature(@"%@ Displaying %lu updates", self, (unsigned long)queuedUpdates.count);
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
@@ -1925,7 +1925,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
-		AILogWithSignature(@"%@ Displaying %d DMs", self, queuedDM.count);
+		AILogWithSignature(@"%@ Displaying %lu DMs", self, (unsigned long)queuedDM.count);
 		
 		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		

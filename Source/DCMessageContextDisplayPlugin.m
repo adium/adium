@@ -320,14 +320,14 @@ static DCMessageContextDisplayPlugin *sharedInstance = nil;
 			[file closeFile];
 			
 			//Add our locals to the outer array; we're probably looping again.
-			AILog(@"Context: %i messages from %@: %@", foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
+			AILog(@"Context: %lu messages from %@: %@", (unsigned long)foundMessages.count, [xmlFilePath lastPathComponent], foundMessages);
 			[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 			linesLeftToFind -= [outerFoundContentContexts count];
 		}
 	}
 	
 	if (linesLeftToFind > 0) {
-		AILogWithSignature(@"Unable to find %d logs for %@; we needed %d more", linesToDisplay, chat, linesLeftToFind);
+		AILogWithSignature(@"Unable to find %lu logs for %@; we needed %lu more", (unsigned long)linesToDisplay, chat, (unsigned long)linesLeftToFind);
 	}
 	
 	return outerFoundContentContexts;

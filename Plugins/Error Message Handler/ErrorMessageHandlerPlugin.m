@@ -216,7 +216,7 @@
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%u errors", nil), count];
+	return [NSString stringWithFormat:AILocalizedString(@"%lu errors", nil), (unsigned long)count];
 }
 
 @end

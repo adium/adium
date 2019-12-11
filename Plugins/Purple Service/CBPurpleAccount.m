@@ -2630,7 +2630,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								 * to nil and we'll continue below to convert the image. */
 								buddyIconData = imageData;
 								
-								AILog(@"%@: Trying to use original GIF data, %i bytes", self, [buddyIconData length]);
+								AILog(@"%@: Trying to use original GIF data, %lu bytes", self, (unsigned long)[buddyIconData length]);
 								
 								if (!buddyIconData) {
 									AILog(@"%@: Failed to use original GIF", self);
@@ -2652,9 +2652,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								if ([buddyIconData length] > maxFileSize) {
 									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
 									
-									AILog(@"%@: GIF too large, use a still JPEG of %i bytes", self, [buddyIconData length]);
+									AILog(@"%@: GIF too large, use a still JPEG of %lu bytes", self, (unsigned long)[buddyIconData length]);
 								} else {
-									AILog(@"%@: Resized GIF, new file size %i!", self, [buddyIconData length]);
+									AILog(@"%@: Resized GIF, new file size %lu!", self, (unsigned long)[buddyIconData length]);
 								}
 								
 								if (buddyIconData)
@@ -2699,7 +2699,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 						size_t maxFileSize = prpl_info->icon_spec.max_filesize;
 						
 						if (maxFileSize > 0 && ([buddyIconData length] > maxFileSize)) {
-							AILog(@"%@: Image %i is larger than %i!", self, [buddyIconData length], maxFileSize);
+							AILog(@"%@: Image %lu is larger than %lu!", self, (unsigned long)[buddyIconData length], (unsigned long)maxFileSize);
 							
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
@@ -2714,7 +2714,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			}
 		}
 
-		AILogWithSignature(@"%@: Setting icon data of length %i", self, [buddyIconData length]);
+		AILogWithSignature(@"%@: Setting icon data of length %lu", self, (unsigned long)[buddyIconData length]);
 		[purpleAdapter setBuddyIcon:buddyIconData onAccount:self];
 	}
 	

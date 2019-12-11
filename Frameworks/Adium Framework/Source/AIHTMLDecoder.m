@@ -634,7 +634,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 							if (!UCIsSurrogateLowCharacter(lowSurrogate)) {
 								//In case you're wondering: 0xFFFF is not a low surrogate. (Nor anything else, for that matter.)
-								AILog(@"AIHTMLDecoder: Got high surrogate of surrogate pair, but there's no low surrogate after it. This is at index %u of chunk with length %u. The chunk is: %@", i, length, chunk);
+								AILog(@"AIHTMLDecoder: Got high surrogate of surrogate pair, but there's no low surrogate after it. This is at index %lu of chunk with length %lu. The chunk is: %@", (unsigned long)i, (unsigned long)length, chunk);
 
 							} else {
 								UnicodeScalarValue codePoint = UCGetUnicodeScalarValueForSurrogatePair(/*highSurrogate*/ currentChar, lowSurrogate);

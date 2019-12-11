@@ -1118,7 +1118,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	[textView_content scrollRangeToVisible:scrollTo];
 	[textView_content setSelectedRange:scrollTo];
 
-	[textField_findCount setStringValue:[NSString stringWithFormat:@"%d/%d", currentMatch, [matches count]]];
+	[textField_findCount setStringValue:[NSString stringWithFormat:@"%lu/%lu", (unsigned long)currentMatch, (unsigned long long)[matches count]]];
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------

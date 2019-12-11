@@ -327,7 +327,7 @@
 			overallListObject = [listObjects objectAtIndex:0];
 		}
 		
-		AILog(@"Posting multiple event - %@ %@ %@ %d", eventID, overallListObject, chat, events.count);
+		AILog(@"Posting multiple event - %@ %@ %@ %lu", eventID, overallListObject, chat, (unsigned long)events.count);
 		
 		// Use any random event for sticky.
 		NSDictionary *anyEventDetails = [[events objectAtIndex:0] objectForKey:@"Details"];

@@ -1586,7 +1586,7 @@ Failed:;
 	NSMutableString *ms = [[NSMutableString alloc] init];
 	[ms appendString: [NSString stringWithFormat:@"<AsyncSocket %p", self]];
 	[ms appendString: [NSString stringWithFormat:@" local %@ remote %@ ", selfstr, peerstr]];
-    [ms appendString: [NSString stringWithFormat:@"has queued %lu reads %d writes, ", (unsigned long)[theReadQueue count], [theWriteQueue count] ]];
+    [ms appendString: [NSString stringWithFormat:@"has queued %lu reads %lu writes, ", (unsigned long)[theReadQueue count], (unsigned long)[theWriteQueue count] ]];
 
 	if (theCurrentRead == nil)
 		[ms appendString: @"no current read, "];

@@ -278,16 +278,16 @@
 		NSString *question = nil;
 		if (unreadCount) {
 			if (unreadCount == 1) {
-				question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window, 1 of which has unviewed messages. Do you want to close this window anyway?",nil),
-							self.containedChats.count];
+				question = [NSString stringWithFormat:AILocalizedString(@"%lu chats are open in this window, 1 of which has unviewed messages. Do you want to close this window anyway?",nil),
+							(unsigned long)self.containedChats.count];
 			} else {
-				question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window, %u of which have unviewed messages. Do you want to close this window anyway?",nil),
-							self.containedChats.count,
-							unreadCount];	
+				question = [NSString stringWithFormat:AILocalizedString(@"%lu chats are open in this window, %lu of which have unviewed messages. Do you want to close this window anyway?",nil),
+							(unsigned long)self.containedChats.count,
+							(unsigned long)unreadCount];
 			}
 		} else {
-			question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window. Do you want to close this window anyway?",nil),
-						self.containedChats.count];
+			question = [NSString stringWithFormat:AILocalizedString(@"%lu chats are open in this window. Do you want to close this window anyway?",nil),
+						(unsigned long)self.containedChats.count];
 		}
 		
 		if (suppressionText) {

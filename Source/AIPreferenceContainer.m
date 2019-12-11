@@ -163,8 +163,8 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	if (error) {
 		NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
 			  [error domain], (long)[error code], [error userInfo]);
-		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
-						   [error domain], [error code], [error userInfo]);
+		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %lu: %@)", objectPrefsPath, error,
+						   [error domain], (unsigned long)[error code], [error userInfo]);
 		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
 			while (!data) {
 				AILogWithSignature(@"Preferences file %@'s attributes: %@. Reattempting to read the file...", globalPrefsName, [[NSFileManager defaultManager] attributesOfItemAtPath:objectPrefsPath error:NULL]);
@@ -172,8 +172,8 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 											  options:NSUncachedRead
 												error:&error];
 				if (error) {
-					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
-									   [error domain], [error code], [error userInfo]);
+					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %lu: %@)", objectPrefsPath, error,
+									   [error domain], (unsigned long)[error code], [error userInfo]);
 				}	
 			}
 		}
@@ -194,7 +194,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	}
 	
 #ifdef PREFERENCE_CONTAINER_DEBUG
-	AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
+	AILogWithSignature(@"I read in %@ with %lu items", globalPrefsName, (unsigned long)[*myGlobalPrefs count]);
 #endif
 	
 	/* If we don't get a dictionary, create a new one */

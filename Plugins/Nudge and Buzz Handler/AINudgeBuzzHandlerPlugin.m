@@ -377,7 +377,7 @@
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%u attention requests", nil), count];
+	return [NSString stringWithFormat:AILocalizedString(@"%lu attention requests", nil), (unsigned long)count];
 }
 
 @end

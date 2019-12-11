@@ -188,7 +188,7 @@ static AdiumAuthorization *sharedInstance;
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%u authorization requests", nil), count];
+	return [NSString stringWithFormat:AILocalizedString(@"%lu authorization requests", nil), (unsigned long)count];
 }
 
 @end

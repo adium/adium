@@ -1312,7 +1312,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			__block __typeof__(self) bself = self;
 			dispatch_sync(dirtyLogSetMutationQueue, ^{
 				[bself.dirtyLogSet addObjectsFromArray:[NSArray arrayWithContentsOfFile:[bself _dirtyLogSetPath]]];
-				AILogWithSignature(@"Loaded dirty log set with %i logs",[bself.dirtyLogSet count]);
+				AILogWithSignature(@"Loaded dirty log set with %lu logs",(unsigned long)[bself.dirtyLogSet count]);
 			});      
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
@@ -1436,7 +1436,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		__block UInt32  lastUpdate = TickCount();
 		__block SInt32  unsavedChanges = 0;
 		
-		AILogWithSignature(@"Cleaning %i dirty logs", [localLogSet count]);
+		AILogWithSignature(@"Cleaning %lu dirty logs", (unsigned long)[localLogSet count]);
 		
 		[localLogSet retain];
 		
