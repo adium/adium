@@ -2069,7 +2069,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	AILog(@"************ %@ --step-- %i",self.UID,[step integerValue]);
+	AILog(@"************ %@ --step-- %li",self.UID,(long)[step integerValue]);
 }
 
 /*!

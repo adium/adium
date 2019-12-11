@@ -159,8 +159,8 @@ gboolean purple_init_zephyr_plugin(void);
             NSString *tempString = [[NSString alloc] initWithData:inData encoding:NSASCIIStringEncoding];
 
             NSRunCriticalAlertPanel(AILocalizedString(@"zhm Failure", "zhm is the Zephyr Host Manager and should not be a localized word"),
-									AILocalizedString(@"The Zephyr Host Manager reported an error #%d: %@", "Be careful to keep the % parts the same in this string. %@ will be replaced by an error message."),
-                                    AILocalizedString(@"OK", nil), nil, nil, status, tempString);
+									AILocalizedString(@"The Zephyr Host Manager reported an error #%li: %@", "Be careful to keep the % parts the same in this string. %@ will be replaced by an error message."),
+                                    AILocalizedString(@"OK", nil), nil, nil, (long)status, tempString);
 
             [tempString release];
             //Should we stop here, or keep going, knowing we'll get another error message when we try to connect via libpurple?

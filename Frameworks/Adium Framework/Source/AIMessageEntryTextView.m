@@ -1133,7 +1133,7 @@
 		[self.enclosingScrollView setBackgroundColor:[NSColor controlBackgroundColor]];
 	}
 	
-	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
+	NSString *counterText = [NSString stringWithFormat:@"%li", (long)currentCount];
 	
 	if (characterCounterPrefix) {
 		counterText = [NSString stringWithFormat:@"%@%@", characterCounterPrefix, counterText];

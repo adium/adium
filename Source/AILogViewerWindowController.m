@@ -1731,7 +1731,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
     if (searchID == activeSearchID) { //If we're still supposed to go
 		searching = YES;
-		AILogWithSignature(@"Search ID %i: %@", searchID, searchInfoDict);
+		AILogWithSignature(@"Search ID %li: %@", (long)searchID, searchInfoDict);
 		//Search
 		if (searchString && [searchString length]) {
 			switch (mode) {
@@ -1757,7 +1757,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Refresh
 		searching = NO;
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
-		AILogWithSignature(@"Search ID %i): finished", searchID);
+		AILogWithSignature(@"Search ID %li): finished", (long)searchID);
     }
 	
     //Cleanup
