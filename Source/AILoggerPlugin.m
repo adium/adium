@@ -1588,8 +1588,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				
 				[bself _flushIndex:searchIndex];
 				
-				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
-								   SKIndexGetMaximumDocumentID(searchIndex),
+				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %li and a count of %li",
+								   (long)SKIndexGetMaximumDocumentID(searchIndex),
 								   (long)SKIndexGetDocumentCount(searchIndex));
 				
 				CFRelease(searchIndex);
