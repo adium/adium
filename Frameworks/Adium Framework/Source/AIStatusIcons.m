@@ -181,7 +181,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 							statusIconBasePath,
 							defaultStatusName];
 						
-						NSRunCriticalAlertPanel(AILocalizedString(@"Invalid status icon pack", nil),errorMessage,nil,nil,nil);
+						NSRunCriticalAlertPanel(AILocalizedString(@"Invalid status icon pack", nil),@"%@",nil,nil,nil, errorMessage);
 						
 						//Post a notification so someone, somewhere can fix us :)
 						[[NSNotificationCenter defaultCenter] postNotificationName:AIStatusIconSetInvalidSetNotification

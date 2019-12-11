@@ -286,7 +286,7 @@
 						  [[self view] window], self,
 						  @selector(sheetDidEnd:returnCode:contextInfo:), NULL,
 						  [selectedItems retain],
-						  message);
+						  @"%@", message);
 	}
 }
 

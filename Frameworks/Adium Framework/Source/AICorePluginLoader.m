@@ -195,12 +195,12 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 				NSRunInformationalAlertPanel([NSString stringWithFormat:
 											  AILocalizedString(@"Plugin %@ Will be Disabled", "%@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is blacklisted."),
 											  [[pluginPath lastPathComponent] stringByDeletingPathExtension]],
-											 [NSString stringWithFormat:
-											  AILocalizedString(@"This plugin is known to be incompatible with Adium %@.", "%@ will be a version number of Adium"),
-											  [NSApp applicationVersion]],
-											 AILocalizedString(@"Disable", nil),
-											 nil,
-											 nil);
+                        AILocalizedString(@"This plugin is known to be incompatible with Adium %@.", "%@ will be a version number of Adium"),
+											  AILocalizedString(@"Disable", nil),
+											  nil,
+											  nil,
+                        [NSApp applicationVersion]
+                       );
 				[self disablePlugin:pluginPath];
 				return;
 			}

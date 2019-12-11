@@ -309,9 +309,10 @@
 {
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
 								 [[adium.interfaceController.activeChat securityDetails] objectForKey:@"Description"],
-								 AILocalizedString(@"OK",nil),
+								 @"%@",
 								 nil,
-								 nil);
+								 nil,
+                 AILocalizedString(@"OK",nil) );
 }
 
 - (IBAction)verify:(id)sender
@@ -329,10 +330,11 @@
 	
 	if (aboutEncryption) {
 		NSRunInformationalAlertPanel(AILocalizedString(@"About Encryption",nil),
-									 aboutEncryption,
+                   @"%@",
 									 AILocalizedString(@"OK",nil),
 									 nil,
-									 nil);
+									 nil,
+                   aboutEncryption);
 	}
 }
 

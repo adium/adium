@@ -132,10 +132,10 @@
 				  error:NULL];
 
 			NSRunAlertPanel(AILocalizedString(@"Sound set upgrade failed", nil),
-							[NSString stringWithFormat:AILocalizedString(@"This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled.", nil),
-								[[inPath lastPathComponent] stringByDeletingPathExtension],
-								inPath],
-							nil, nil, nil);
+							AILocalizedString(@"This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled.", nil),
+							nil, nil, nil,
+              [[inPath lastPathComponent] stringByDeletingPathExtension],
+              inPath);
 			success = NO;
 		}
 	}

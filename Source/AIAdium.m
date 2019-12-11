@@ -727,7 +727,7 @@ static NSString	*prefsCategory;
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIXtrasDidChangeNotification
 												 object:[[filename lastPathComponent] pathExtension]];
 		
-        buttonPressed = NSRunInformationalAlertPanel(alertTitle,alertMsg,nil,prefsButton,nil);
+        buttonPressed = NSRunInformationalAlertPanel(alertTitle, @"%@",nil,prefsButton,nil, alertMsg);
 		
 		// User clicked the "open prefs" button
 		if (buttonPressed == NSAlertAlternateReturn) {
@@ -748,8 +748,8 @@ static NSString	*prefsCategory;
 		}
 		
 		NSRunAlertPanel(AILocalizedString(@"Installation Failed","Title of installation failed window"),
-						errorMessage,
-						nil,nil,nil);
+						@"%@",
+						nil,nil,nil, errorMessage);
 	}
 
     return success;

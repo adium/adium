@@ -79,17 +79,18 @@
 															   nil,
 															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
 															   nil),
-							[NSString stringWithFormat:
-							 AILocalizedStringFromTableInBundle(@"%@ is not on any account. Please select a specific account or add this contact first.",
-																nil,
-																[NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
-																nil), impliedValue],
+                                 AILocalizedStringFromTableInBundle(@"%@ is not on any account. Please select a specific account or add this contact first.",
+                                   nil,
+                                   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
+                                   nil
+                                 ),
 							AILocalizedStringFromTableInBundle(@"OK",
 															   nil,
 															   [NSBundle bundleForClass:[AIAccountPlusFieldPromptController class]],
 															   nil),
 							nil,
-							nil);
+							nil,
+              impliedValue );
 			
 			return nil;
 		}

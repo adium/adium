@@ -112,8 +112,8 @@
 		
 		if (errorMessage != nil && errorCount > ERRORS_BEFORE_DIALOG) {
 			NSRunAlertPanel(AILocalizedStringFromTableInBundle(@"Invalid Input",nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil), 
-							errorMessage, 
-							AILocalizedStringFromTableInBundle(@"OK", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil), nil, nil);
+							@"%@",
+							AILocalizedStringFromTableInBundle(@"OK", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil), nil, nil, errorMessage);
 			errorCount = 0;
 			
 		} else {
