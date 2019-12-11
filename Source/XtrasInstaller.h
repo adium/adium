@@ -26,8 +26,8 @@
 	NSString						*dest;
 	NSString						*xtraName;
 
-	long long downloadSize;
-	long long amountDownloaded;
+	unsigned long long downloadSize;
+	unsigned long long amountDownloaded;
 }
 
 -(IBAction)cancel:(id)sender;

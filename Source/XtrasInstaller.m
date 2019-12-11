@@ -130,9 +130,9 @@
 	self.xtraName = [[response allHeaderFields] objectForKey:@"X-Xtraname"];
 	amountDownloaded = 0;
 	downloadSize = [response expectedContentLength];
-	[progressBar setMaxValue:(long long)downloadSize];
+	[progressBar setMaxValue:downloadSize];
 	[progressBar setDoubleValue:0.0];
-	AILogWithSignature(@"Beginning download of %@, which has size %ll", [response allHeaderFields], downloadSize);
+	NSLog(@"Beginning download of, which has size %llu", downloadSize);
 	[self updateInfoText];
 }
 
