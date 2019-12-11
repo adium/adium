@@ -1118,7 +1118,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 	[textView_content scrollRangeToVisible:scrollTo];
 	[textView_content setSelectedRange:scrollTo];
 
-	[textField_findCount setStringValue:[NSString stringWithFormat:@"%lu/%lu", (unsigned long)currentMatch, (unsigned long long)[matches count]]];
+	[textField_findCount setStringValue:[NSString stringWithFormat:@"%lu/%lu", (unsigned long)currentMatch, (unsigned long)[matches count]]];
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
@@ -1663,7 +1663,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				 */
 				theLog = [[logToGroupDict objectForKey:toPath] logAtPath:path];
 				if (!theLog) {
-					AILog(@"_logContentFilter: %x's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
+					AILog(@"_logContentFilter: %p's key %@ yields %@; logAtPath:%@ gives %@",logToGroupDict,toPath,[logToGroupDict objectForKey:toPath],path,theLog);
 				}
 				[resultsLock lock];
 				if ((theLog != nil) &&

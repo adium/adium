@@ -105,7 +105,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//Create a purple account if one does not already exist
 	if (!account) {
 		[self createNewPurpleAccount];
-		AILog(@"Created PurpleAccount 0x%x with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount 0x%p with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	}
 	
     return account;
@@ -1597,7 +1597,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 		if (account->perm_deny != privacyType) {
 			account->perm_deny = privacyType;
 			serv_set_permit_deny(purple_account_get_connection(account));
-			AILog(@"Set privacy options for %@ (%x %x) to %i",
+			AILog(@"Set privacy options for %@ (%p %p) to %i",
 				  self,account,purple_account_get_connection(account),account->perm_deny);
 
 			[self setPreference:[NSNumber numberWithInteger:option]
@@ -1605,7 +1605,7 @@ AIGroupChatFlags groupChatFlagsFromPurpleConvChatBuddyFlags(PurpleConvChatBuddyF
 						  group:GROUP_ACCOUNT_STATUS];			
 		}
 	} else {
-		AILog(@"Couldn't set privacy options for %@ (%x %x)",self,account,purple_account_get_connection(account));
+		AILog(@"Couldn't set privacy options for %@ (%p %p)",self,account,purple_account_get_connection(account));
 	}
 }
 
@@ -2099,7 +2099,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//-[SLPurpleCocoaAdapter addAdiumAccount:] should have immediately called back on setPurpleAccount. It's bad if it didn't.
 	if (account) {
-		AILog(@"Created PurpleAccount 0x%x with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
+		AILog(@"Created PurpleAccount 0x%p with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	} else {
 		AILog(@"Unable to create Libpurple account with name %s and protocol plugin %s",
 			  self.purpleAccountName, [self protocolPlugin]);

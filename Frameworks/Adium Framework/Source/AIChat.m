@@ -79,7 +79,7 @@ static int nextChatNumber = 0;
 		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
 
-		AILog(@"[AIChat: %x initForAccount]",self);
+		AILog(@"[AIChat: %p initForAccount]",self);
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector(contentObjectAdded:) 

@@ -808,7 +808,7 @@
 #pragma mark Debugging
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@>",NSStringFromClass([self class]), self, self.internalObjectID];
+	return [NSString stringWithFormat:@"<%@:%p %@>",NSStringFromClass([self class]), self, self.internalObjectID];
 }
 
 #pragma mark Applescript

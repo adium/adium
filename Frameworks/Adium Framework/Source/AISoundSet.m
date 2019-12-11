@@ -363,6 +363,6 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %x - %@: %lu sounds at %@>", NSStringFromClass([self class]), self, self.name, (unsigned long)[self.sounds count], sourcePath];
+	return [NSString stringWithFormat:@"<%@: %p - %@: %lu sounds at %@>", NSStringFromClass([self class]), self, self.name, (unsigned long)[self.sounds count], sourcePath];
 }
 @end

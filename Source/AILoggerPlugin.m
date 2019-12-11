@@ -441,7 +441,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 			
 			if ([[NSFileManager defaultManager] fileExistsAtPath:logIndexPath]) {
 				_index = SKIndexOpenWithURL((CFURLRef)logIndexURL, (CFStringRef)@"Content", true);
-				AILogWithSignature(@"Opened index %x from %@",_index,logIndexURL);
+				AILogWithSignature(@"Opened index %p from %@",_index,logIndexURL);
 				
 				if (!_index) {
 					//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
@@ -471,7 +471,7 @@ static dispatch_semaphore_t logLoadingPrefetchSemaphore; //limit prefetching log
 											  (CFDictionaryRef)textAnalysisProperties);
 
 				if (_index) {
-					AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
+					AILogWithSignature(@"Created a new log index %p at %@ with textAnalysisProperties %@. Will reindex all logs.",_index,logIndexURL,textAnalysisProperties);
 					//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
 					[[NSFileManager defaultManager] removeItemAtPath:[bself _dirtyLogSetPath] error:NULL];
 					dispatch_sync(dirtyLogSetMutationQueue, ^{

@@ -488,7 +488,7 @@ AIChat* imChatLookupFromConv(PurpleConversation *conv)
 		if (!chat) {
 			NSString	*errorString;
 
-			errorString = [NSString stringWithFormat:@"conv %x: Got nil chat in lookup for sourceContact %@ (%x ; \"%s\" ; \"%s\") on adiumAccount %@ (%x ; \"%s\")",
+			errorString = [NSString stringWithFormat:@"conv %p: Got nil chat in lookup for sourceContact %@ (%p ; \"%s\" ; \"%s\") on adiumAccount %@ (%p ; \"%s\")",
 				conv,
 				sourceContact,
 				buddy,
@@ -909,7 +909,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 - (void)disconnectAccount:(id)adiumAccount
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
-	AILog(@"Setting %x disabled and offline (%s)...",account,
+	AILog(@"Setting %p disabled and offline (%s)...",account,
 		  purple_status_type_get_id(purple_account_get_status_type_with_primitive(account, PURPLE_STATUS_OFFLINE)));
 
 	purple_account_set_enabled(account, "Adium", NO);
@@ -1400,7 +1400,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	PurpleAccount	*account = accountLookupFromAdiumAccount(adiumAccount);
 	GList			*attrs = createListFromDictionary(arguments);
 
-	AILog(@"Setting status on %x (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
+	AILog(@"Setting status on %p (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
 		  statusID, [isActive boolValue], arguments);
 
 	purple_account_set_status_list(account, statusID, [isActive boolValue], attrs);
