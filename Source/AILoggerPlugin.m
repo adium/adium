@@ -1590,7 +1590,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 				
 				AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 								   SKIndexGetMaximumDocumentID(searchIndex),
-								   SKIndexGetDocumentCount(searchIndex));
+								   (long)SKIndexGetDocumentCount(searchIndex));
 				
 				CFRelease(searchIndex);
 				[localLogSet release];
@@ -1673,7 +1673,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
-                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, CFGetRetainCount(bself->logIndex));
+                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, (long)CFGetRetainCount(bself->logIndex));
 				SKIndexClose(bself->logIndex);
 				bself->logIndex = nil;
 			}
