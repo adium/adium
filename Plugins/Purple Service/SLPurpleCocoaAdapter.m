@@ -741,7 +741,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 					NSData				*imageTIFFData = [image TIFFRepresentation];
 					NSBitmapImageRep	*bitmapRep = [NSBitmapImageRep imageRepWithData:imageTIFFData];
 					
-					data = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
+					data = [bitmapRep representationUsingType:NSPNGFileType properties:[NSDictionary dictionaryWithValuesForKeys:[NSArray array]]];
 					extension = @"png";
 					[image release];
 				}
