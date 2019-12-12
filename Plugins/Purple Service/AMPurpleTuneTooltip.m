@@ -81,7 +81,7 @@
 			[text appendFormat:@" (%@)", [NSString stringWithUTF8String:albumstr]];
 		
 		if (timeval > 0)
-			[text appendFormat:@" - [%d:%02d]", timeval / 60, timeval % 60];
+			[text appendFormat:@" - [%li:%02li]", timeval / 60, timeval % 60];
 		
 		return [AIHTMLDecoder decodeHTML:text];
 	}

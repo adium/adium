@@ -1626,7 +1626,7 @@
 		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
-		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
+		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%d",NSAttachmentCharacter];
 		
 		//Find each attachment
 		attachmentRange = [[attributedString string] rangeOfString:attachmentCharacterString

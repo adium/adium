@@ -167,7 +167,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
  */
 - (void)lookupFailedWithError:(const CFStreamError *)streamError
 {
-	AILogWithSignature(@"Failed lookup for %s. Error domain %i, error %i",
+	AILogWithSignature(@"Failed lookup for %s. Error domain %lu, error %i",
 					   purple_dnsquery_get_host([self queryData]),
 					   (long)(streamError ? streamError->domain : 0),
 					   (streamError ? streamError->error : 0));

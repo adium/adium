@@ -77,12 +77,12 @@
 	if (yourName && [yourName length]) {
 		numberMessage = ((count == 1) ? 
 						 [NSString stringWithFormat:AILocalizedString(@"%@ has 1 new message.",nil), yourName] :
-						 [NSString stringWithFormat:AILocalizedString(@"%@ has %u new messages.",nil), yourName, count]);
+						 [NSString stringWithFormat:AILocalizedString(@"%@ has %lu new messages.",nil), yourName, count]);
 
 	} else {
 		numberMessage = ((count == 1) ? 
 						 AILocalizedString(@"You have 1 new message.",nil) :
-						 [NSString stringWithFormat:AILocalizedString(@"You have %u new messages.",nil), count]);		
+						 [NSString stringWithFormat:AILocalizedString(@"You have %lu new messages.",nil), count]);		
 	}
 
 	numberMessageAttributes = [NSDictionary dictionaryWithObjectsAndKeys:messageFont,NSFontAttributeName,

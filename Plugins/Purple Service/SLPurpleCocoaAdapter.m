@@ -757,7 +757,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 
 			} else {
 				//If we didn't get a purpleImage, just leave the tag for now.. maybe it was important?
-				[newString appendFormat:@"<IMG ID=\"%ld\">",chunkString];
+				[newString appendFormat:@"<IMG ID=\"%p\">",chunkString];
 			}
 		}
 	}

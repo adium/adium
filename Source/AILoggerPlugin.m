@@ -1673,7 +1673,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (bself->logIndex) {
 			[bself _flushIndex:bself->logIndex];
 			if (bself.canCloseIndex) {
-                AILogWithSignature(@"**** %@ Releasing its index %p (%d)", bself, bself->logIndex, (long)CFGetRetainCount(bself->logIndex));
+                AILogWithSignature(@"**** %@ Releasing its index %p (%li)", bself, bself->logIndex, (long)CFGetRetainCount(bself->logIndex));
 				SKIndexClose(bself->logIndex);
 				bself->logIndex = nil;
 			}

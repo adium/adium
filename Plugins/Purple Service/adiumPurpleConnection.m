@@ -22,7 +22,7 @@ static void adiumPurpleConnConnectProgress(PurpleConnection *gc, const char *tex
 	if (!PURPLE_CONNECTION_IS_VALID(gc)) return;
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-    AILog(@"Connecting: gc=0x%p (%s) %i / %i", gc, text, step, step_count);
+    AILog(@"Connecting: gc=0x%p (%s) %lu / %lu", gc, text, step, step_count);
 
 	NSNumber	*connectionProgressPrecent = [NSNumber numberWithDouble:((CGFloat)step / (CGFloat)(step_count-1))];
 	[accountLookup(purple_connection_get_account(gc)) mainPerformSelector:@selector(accountConnectionProgressStep:percentDone:)
