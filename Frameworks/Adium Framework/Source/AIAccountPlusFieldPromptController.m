@@ -187,7 +187,7 @@
 										   showTitleVerbs:NO] retain];
 	[self _restoreLastAccountIfPossible];
 	[self AI_configureTextFieldForAccount:[[popUp_service selectedItem] representedObject]];
-	[self controlTextDidChange:nil];
+	[self controlTextDidChange:[NSNotification notificationWithName:@"TextChanged" object:nil]];
 
     // Center the window
     [[self window] center];

@@ -91,7 +91,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 										  forAttribute:NSAccessibilityDescriptionAttribute];
 
 	//Update enable state of our buttons
-	[self outlineViewSelectionDidChange:nil];
+	[self outlineViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 	
 	configureForGlobal = NO;
 	showEventsInEditSheet = NO;
@@ -284,7 +284,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 			}
 			
 			//The deletion changed our selection
-			[self outlineViewSelectionDidChange:nil];
+			[self outlineViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 		}
 		[item release];
 
@@ -866,7 +866,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	}
 
 	//The deletion may have changed our selection
-	[self outlineViewSelectionDidChange:nil];
+	[self outlineViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 }
 
 - (void)outlineViewDeleteSelectedRows:(NSOutlineView *)inOutlineView
