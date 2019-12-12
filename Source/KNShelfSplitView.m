@@ -573,8 +573,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 					targetRect.origin.y += (actionButtonRect.size.height - targetRect.size.height) / 2.0f;
 				}
 				
-				[actionButtonImage compositeToPoint:NSMakePoint(actionButtonRect.origin.x,
-																actionButtonRect.origin.y) operation:NSCompositeDestinationAtop];
+        [actionButtonImage drawAtPoint:NSMakePoint(actionButtonRect.origin.x, actionButtonRect.origin.y)
+                              fromRect:NSZeroRect
+                             operation:NSCompositeDestinationAtop
+                              fraction:1.0f];
 			}
 		}
 		
