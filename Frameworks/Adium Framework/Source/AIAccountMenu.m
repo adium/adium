@@ -238,7 +238,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 																				 keyEquivalent:@""
 																			 representedObject:account];
 			[self _updateMenuItem:menuItem];
-			if (submenuType == AIAccountOptionsSubmenu) {
+			if (submenuType) {
 				[menuItem setSubmenu:[self actionsMenuForAccount:account]];
 			}
 			[menuItemArray addObject:menuItem];
