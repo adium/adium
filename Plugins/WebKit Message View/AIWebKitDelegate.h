@@ -15,6 +15,12 @@
  */
 
 #import <WebKit/WebKit.h>
+#import "AIWebKitDelegate.h"
+#import <WebKit/WebPolicyDelegate.h>
+#import <WebKit/WebUIDelegate.h>
+#import <WebKit/WebEditingDelegate.h>
+#import <WebKit/WebResourceLoadDelegate.h>
+
 
 @class ESWebView;
 
@@ -22,7 +28,15 @@
 
 @class AIWebKitMessageViewController;
 
-@interface AIWebKitDelegate : NSObject {
+@interface AIWebKitDelegate : NSObject
+                              <
+                                WebFrameLoadDelegate,
+                                WebPolicyDelegate,
+                                WebUIDelegate,
+                                WebEditingDelegate,
+                                WebResourceLoadDelegate
+                              >
+{
 	NSMutableDictionary *mapping;
 }
 

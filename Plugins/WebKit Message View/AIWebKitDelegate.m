@@ -27,7 +27,7 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 - (void)webViewIsReady;
 @end
 
-@implementation AIWebKitDelegate
+@implementation AIWebKitDelegate 
 
 - (id)init 
 {

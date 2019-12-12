@@ -2274,8 +2274,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)purpleAccountRegistered:(BOOL)success
 {
 	if (success && [self.service accountViewController]) {
-		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
-		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
+		NSString *username = (NSString*)(purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
+		NSString *pw = (NSString*)(purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
 												  object:self
