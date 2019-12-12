@@ -393,7 +393,7 @@
 		 * expand horizontally to take that into account.
 		 */
 		if (desiredHeight + (NSHeight(windowFrame) - NSHeight(viewFrame)) > NSHeight(newWindowFrame)) {
-			CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:[[scrollView_contactList verticalScroller] controlSize]];
+			CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:[[scrollView_contactList verticalScroller] controlSize] scrollerStyle:NSScrollerStyleOverlay];
 			newWindowFrame.size.width += scrollerWidth;
 			
 			if (anchorToRightEdge) {
