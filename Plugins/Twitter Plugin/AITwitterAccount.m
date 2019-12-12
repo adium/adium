@@ -244,7 +244,7 @@
 		
 		
 		if(!timelineBookmark) {
-			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
+			AILog(@"Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@",
 				  self.timelineChatName, newTimelineChat,
 				  [adium.contactController groupWithUID:self.timelineGroupName]);
 		}

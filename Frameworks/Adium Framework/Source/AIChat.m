@@ -884,7 +884,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 			[account setTopic:inTopic forChat:self];
 		}
 	} else {
-		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
+		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.", [self valueForProperty:KEY_TOPIC]);
 	}
 }
 
