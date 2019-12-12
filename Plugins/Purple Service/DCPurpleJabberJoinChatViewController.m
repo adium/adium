@@ -21,7 +21,7 @@
 #import <AIUtilities/AICompletingTextField.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIWindowController.h>
-#import "AdiumPurpleRoomlist.h"
+#import "adiumPurpleRoomlist.h"
 
 #define ROOM_LIST_NIB @"roomlistbrowser.nib"
 
