@@ -101,7 +101,8 @@ void *NewBase64Decode(
 		size_t accumulateIndex = 0;
 		while (i < length)
 		{
-			unsigned char decode = base64DecodeLookup[inputBuffer[i++]];
+      NSInteger index = inputBuffer[i++];
+			unsigned char decode = base64DecodeLookup[index];
 			if (decode != xx)
 			{
 				accumulated[accumulateIndex] = decode;

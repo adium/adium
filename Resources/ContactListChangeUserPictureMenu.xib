@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment version="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,26 +12,19 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu autoenablesItems="NO" id="261">
             <items>
                 <menuItem title="Recent Icons:" enabled="NO" id="262">
-                    <nil key="onStateImage"/>
-                    <nil key="mixedStateImage"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
                 <menuItem enabled="NO" id="263">
-                    <nil key="onStateImage"/>
-                    <nil key="mixedStateImage"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <outlet property="view" destination="388" id="397"/>
                     </connections>
                 </menuItem>
-                <menuItem isSeparatorItem="YES" id="265">
-                    <nil key="onStateImage"/>
-                    <nil key="mixedStateImage"/>
-                </menuItem>
+                <menuItem isSeparatorItem="YES" id="265"/>
             </items>
             <connections>
                 <outlet property="delegate" destination="-2" id="272"/>
@@ -56,7 +48,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="Cth-QX-Ujh">
                         <rect key="frame" x="0.0" y="0.0" width="180" height="72"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView focusRingType="none" ambiguous="YES" selectable="YES" maxNumberOfRows="5" maxNumberOfColumns="2" id="296" customClass="AIImageCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="180" height="72"/>
@@ -82,6 +74,7 @@
                     </scroller>
                 </scrollView>
             </subviews>
+            <point key="canvasLocation" x="140" y="154"/>
         </customView>
         <collectionViewItem id="297">
             <connections>
