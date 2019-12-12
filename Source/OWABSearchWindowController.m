@@ -211,7 +211,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
  */
 - (IBAction)cancel:(id)sender
 {
-	if ([self windowShouldClose:nil]) {
+	if ([self windowShouldClose:self.window]) {
 		if ([[self window] isSheet]) {
 			[NSApp endSheet:[self window] returnCode:NSCancelButton];
 		} else {
@@ -236,7 +236,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	[self _setPerson:[[peoplePicker selectedRecords] objectAtIndex:0]];
 	
 	//Close our window
-	if ([self windowShouldClose:nil]) {
+	if ([self windowShouldClose:self.window]) {
 		if ([[self window] isSheet]) {
 			[NSApp endSheet:[self window] returnCode:NSOKButton];
 		} else {
@@ -332,7 +332,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 				[self _setScreenName:contactID];
 				
 				//Close our window
-				if ([self windowShouldClose:nil]) {
+				if ([self windowShouldClose:self.window]) {
 					if ([[self window] isSheet]) {
 						[NSApp endSheet:[self window] returnCode:NSOKButton];
 					} else {
