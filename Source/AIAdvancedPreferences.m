@@ -134,7 +134,7 @@
 	if (row < 0 || row >= [tableView_categories numberOfRows]) row = 1;
 	
 	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-	[self tableViewSelectionDidChange:nil];
+	[self tableViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 }
 
 /*!

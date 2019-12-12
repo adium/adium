@@ -942,7 +942,11 @@
 													 defaultButton:nil
 												   alternateButton:nil
 													   otherButton:nil
-										 informativeTextWithFormat:@"%@", formattedString] beginSheetModalForWindow:nil modalDelegate:nil didEndSelector:nil contextInfo:nil];
+										 informativeTextWithFormat:@"%@", formattedString]
+                     beginSheetModalForWindow:nil
+                     modalDelegate:nil
+                     didEndSelector:nil
+                     contextInfo:nil];
 								} errorBlock:^(NSError *error) {
 									[self requestFailed:AITwitterRateLimitStatus withError:error userInfo:nil];
 								}];

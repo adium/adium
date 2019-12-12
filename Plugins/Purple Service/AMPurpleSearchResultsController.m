@@ -122,7 +122,7 @@
 		[tableview reloadData];
 		[tableview sizeToFit];
 		[self showWindow:nil];
-		[self tableViewSelectionDidChange:nil];
+		[self tableViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 	}
 	return [self retain]; // will be released in -purpleRequestClose when we're done
 }

@@ -208,7 +208,7 @@
 		[tableView_presets reloadData];
 		
 		//Reloading after the deletion changed our selection
-		[self tableViewSelectionDidChange:nil];
+		[self tableViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];
 	}
 }
 

@@ -68,7 +68,7 @@
 
 	[textField_privateKey setSelectable:YES];
 
-	[self tableViewSelectionDidChange:nil];		
+	[self tableViewSelectionDidChange:[NSNotification notificationWithName:@"SelectionChanged" object:nil]];		
 }
 
 - (void)viewWillClose
