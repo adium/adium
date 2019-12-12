@@ -46,13 +46,13 @@ static inline CFMutableDictionaryRef sourceInfoDict() {
     return _sourceInfoDict;
 }
 
-static inline dispatch_source_t sourceForTag(guint tag) {
+static inline dispatch_source_t sourceForTag(unsigned long tag) {
     return (dispatch_source_t)CFDictionaryGetValue(sourceInfoDict(), (void *)tag);
 }
-static inline void setSourceForTag(dispatch_source_t source, guint tag) {
+static inline void setSourceForTag(dispatch_source_t source, unsigned long tag) {
     CFDictionarySetValue(sourceInfoDict(), (void *)tag, source);
 }
-static inline void removeSourceForTag(guint tag) {
+static inline void removeSourceForTag(unsigned long tag) {
     CFDictionaryRemoveValue(sourceInfoDict(), (void *)tag);
 }
 
