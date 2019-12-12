@@ -109,7 +109,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		//Observe our accouts and prepare our state menus
 		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
-		if (submenuType == AIAccountStatusSubmenu) {
+		if (submenuType) {
 			statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
 		}
 
@@ -122,7 +122,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 
 - (void)dealloc
 {
-	if (submenuType == AIAccountStatusSubmenu) {
+	if (submenuType) {
 		[NSObject cancelPreviousPerformRequestsWithTarget:statusMenu];
 		[statusMenu release]; statusMenu = nil;
 	}
@@ -299,7 +299,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		[disabledAccountMenu release];
 	}
 
-	if (submenuType == AIAccountStatusSubmenu) {
+	if (submenuType) {
 		//Update our status submenus once this method returns so that our menuItemArray is set
 		[statusMenu performSelector:@selector(rebuildMenu)
 						 withObject:nil
@@ -463,7 +463,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 		}
 
-		if ((submenuType == AIAccountOptionsSubmenu) && [inModifiedKeys containsObject:@"isOnline"]) {
+		if (submenuType && [inModifiedKeys containsObject:@"isOnline"]) {
 			if (rebuilt) menuItem = [self menuItemForAccount:(AIAccount *)inObject];
 
 			//Append the account actions menu
@@ -472,7 +472,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 		}
 		
-		if ((submenuType == AIAccountStatusSubmenu) && [inObject.service isSocialNetworkingService] && [inModifiedKeys containsObject:@"isOnline"]) {
+		if (submenuType && [inObject.service isSocialNetworkingService] && [inModifiedKeys containsObject:@"isOnline"]) {
 			menuItem = [self menuItemForAccount:(AIAccount *)inObject];
 			
 			if (menuItem) {
