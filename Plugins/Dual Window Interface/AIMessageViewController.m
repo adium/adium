@@ -438,7 +438,6 @@
 																											 type:AIServiceIconLarge
 																										direction:AIIconNormal]);
 			icon = [[icon copy] autorelease];
-			[icon setScalesWhenResized:NO];
 			[alert setIcon:icon];
 			[alert setAlertStyle:NSInformationalAlertStyle];
 			
