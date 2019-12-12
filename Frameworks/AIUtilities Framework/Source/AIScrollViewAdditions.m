@@ -26,14 +26,17 @@
 //Sets the scroll view's document view, and correctly sizes it to fit
 - (void)setAndSizeDocumentView:(NSView *)inView
 {
-    NSSize	contentSize;
-
     //Set the view
     [self setDocumentView:inView];
 
     //Size the width appropriately
-    contentSize = [NSScrollView contentSizeForFrameSize:[self frame].size hasHorizontalScroller:NO hasVerticalScroller:YES borderType:[self borderType]];
-    [inView setFrameSize:NSMakeSize(contentSize.width,[inView frame].size.height)];
+    [NSScrollView contentSizeForFrameSize:[self frame].size
+                  horizontalScrollerClass:NSScroller.class
+                    verticalScrollerClass:NSScroller.class
+                               borderType:[self borderType]
+                              controlSize:NSControlSizeRegular
+                            scrollerStyle:NSScrollerStyleOverlay];
+    [inView setFrameSize:NSMakeSize(inView.frame.size.width,inView.frame.size.height)];
     
     //Redisplay
     [self setNeedsDisplay:YES];
