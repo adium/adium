@@ -1053,7 +1053,7 @@ NSInteger compareRectLocation(id obj1, id obj2, void *context)
 			if (outRange->location == NSNotFound) *outRange = foundRange;
 
 			if (!attributeDictionary) {
-				attributeDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+				attributeDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 					[NSFont boldSystemFontOfSize:14], NSFontAttributeName,
 					[NSColor yellowColor], NSBackgroundColorAttributeName,
 					nil];
