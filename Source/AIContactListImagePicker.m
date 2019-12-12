@@ -220,7 +220,7 @@
 			trackRect.size.width = myFrame.size.width;
 		}
 		
-		NSPoint	localPoint = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]]
+		NSPoint	localPoint = [self convertPoint:[[self window] convertPointFromScreen:[NSEvent mouseLocation]]
 									   fromView:nil];
 		BOOL	mouseInside = NSPointInRect(localPoint, myFrame);
 

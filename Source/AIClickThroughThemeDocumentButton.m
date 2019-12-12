@@ -46,7 +46,7 @@
 	 */		
 	if (!inLeftMouseEvent) {
 		//Grab the mouse location in global coordinates
-		originalMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
+		originalMouseLocation = [window convertPointFromScreen:[theEvent locationInWindow]];
 		windowFrame = [window frame];
 		inLeftMouseEvent = YES;		
 	}
@@ -77,7 +77,7 @@
 	NSWindow	*window = [self window];
 
 	//grab the mouse location in global coordinates
-	originalMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
+	originalMouseLocation = [window convertPointFromScreen:[theEvent locationInWindow]];
 	windowFrame = [window frame];
 	inLeftMouseEvent = YES;
 }
