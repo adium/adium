@@ -276,17 +276,17 @@
 #if LOG_TRACKING_INFO
 	NSLog(@"%@: Visible: %i ; Point %@ in %@ = %i", self,
 		  [[view window] isVisible],
-/*		  NSStringFromPoint([[view superview] convertPoint:[[view window] convertScreenToBase:mouseLocation] fromView:[[view window] contentView]]),*/
-		  NSStringFromPoint([[view window] convertScreenToBase:mouseLocation]),
+/*		  NSStringFromPoint([[view superview] convertPoint:[[view window] convertPointFromScreen:mouseLocation] fromView:[[view window] contentView]]),*/
+		  NSStringFromPoint([[view window] convertPointFromScreen:mouseLocation]),
 /*		  NSStringFromRect([view frame]),*/
 		  NSStringFromRect([[[view window] contentView] convertRect:[view frame] fromView:[view superview]]),
-/*		  NSPointInRect([[view window] convertScreenToBase:mouseLocation], [view frame])*/
-		  /*NSPointInRect([[view superview] convertPoint:[[view window] convertScreenToBase:mouseLocation] fromView:[[view window] contentView]],[view frame])*/
-		  NSPointInRect([[view window] convertScreenToBase:mouseLocation],[[[view window] contentView] convertRect:[view frame] fromView:[view superview]]));
+/*		  NSPointInRect([[view window] convertPointFromScreen:mouseLocation], [view frame])*/
+		  /*NSPointInRect([[view superview] convertPoint:[[view window] convertPointFromScreen:mouseLocation] fromView:[[view window] contentView]],[view frame])*/
+		  NSPointInRect([[view window] convertPointFromScreen:mouseLocation],[[[view window] contentView] convertRect:[view frame] fromView:[view superview]]));
 #endif
 	
 	if ([theWindow isVisible] && 
-	   NSPointInRect([theWindow convertScreenToBase:mouseLocation],[[theWindow contentView] convertRect:[view frame] fromView:[view superview]]) &&
+	   NSPointInRect([theWindow convertPointFromScreen:mouseLocation],[[theWindow contentView] convertRect:[view frame] fromView:[view superview]]) &&
 		[theWindow isOnActiveSpace]) {
 		//tooltipCount is used for delaying the appearence of tooltips.  We reset it to 0 when the mouse moves.  When
 		//the mouse is left still tooltipCount will eventually grow greater than TOOL_TIP_DELAY, and we will begin

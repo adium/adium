@@ -117,7 +117,7 @@
 	if ([self superview] && [self window]) {
 		NSRect	myFrame = [self frame];
 		NSRect	trackRect = NSMakeRect(0, 0, myFrame.size.width, myFrame.size.height);
-		NSPoint	localPoint = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]]
+		NSPoint	localPoint = [self convertPoint:[[self window] convertPointFromScreen:[NSEvent mouseLocation]]
 									   fromView:[self superview]];
 		BOOL	mouseInside = NSPointInRect(localPoint, myFrame);
 		

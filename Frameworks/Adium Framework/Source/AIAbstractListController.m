@@ -946,7 +946,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	if (showTooltips && ([NSApp isActive] || (showTooltipsInBackground && ![contactListView.window hidesOnDeactivate]))) {
 		NSRect		contactListFrame = contactListView.frame;
-		NSPoint		viewPoint = [contactListView convertPoint:[contactListView.window convertScreenToBase:screenPoint]
+		NSPoint		viewPoint = [contactListView convertPoint:[contactListView.window convertPointFromScreen:screenPoint]
 													 fromView:nil];
 		
 		//Be sure that screen points outside our view return nil, since no contact is being hovered.
