@@ -84,7 +84,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 
     location = [trackedLink trackingRect].origin;
     location = [controlView convertPoint:location toView:nil];
-    location = [[theEvent window] convertBaseToScreen:location];
+    location = [[theEvent window] convertPointToScreen:location];
 
     //Ignore the mouse entry if our view is hidden, or our window is non-main
     if ([window isMainWindow] && [controlView canDraw]) {

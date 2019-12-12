@@ -75,7 +75,7 @@
 		[self highlight:YES];
 
 		//Find our display point, the bottom-left of our button, in screen coordinates
-		NSPoint point = [window convertBaseToScreen:[self convertPoint:[self bounds].origin toView:nil]];
+		NSPoint point = [window convertPointToScreen:[self convertPoint:[self bounds].origin toView:nil]];
 		point.y -= NSHeight([self frame]) + 2;
 		point.x -= 1;
 
