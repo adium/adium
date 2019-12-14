@@ -2127,7 +2127,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 														size:NSMakeSize(16,16)];
 		if (!image) image = [AIServiceIcons serviceIconForObject:(AIListContact *)item
 															type:AIServiceIconSmall
-													   direction:AIIconFlipped];
+													   direction:AIIconNormal];
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {

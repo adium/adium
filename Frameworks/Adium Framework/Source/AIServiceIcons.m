@@ -60,7 +60,6 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 		serviceIcon = [service defaultServiceIconOfType:iconType];
 
 		if (serviceIcon) {
-			if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
 			[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:service.serviceID];
 		}
 	}
@@ -113,7 +112,6 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			serviceIcon = [self defaultServiceIconForType:iconType serviceID:serviceID];
 			if (serviceIcon) {
 				//Cache the default service icon (until the pack is changed) so we have it immediately next time
-				if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
 				[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
 			}
 		}

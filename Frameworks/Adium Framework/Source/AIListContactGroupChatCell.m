@@ -54,7 +54,7 @@
     AIListObject    *listObject = [proxyObject listObject];
 	return [AIStatusIcons statusIconForListObject:listObject
 											 type:AIStatusIconTab
-										direction:AIIconFlipped];
+										direction:AIIconNormal];
 }
 
 - (NSColor *)textColor

@@ -239,11 +239,7 @@
 		
 		NSImage *newImage = [[NSImage alloc] initWithSize:size];
 		NSImage *scaledImage = [[NSImage alloc] initWithSize:scaleSize];
-		
-		if (flipImage) {
-			[newImage setFlipped:YES];		
-		}
-		
+				
 		NSImageRep *bestRep;
 		
 		if (allowAnimation &&

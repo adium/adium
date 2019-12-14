@@ -528,12 +528,10 @@
 		}
 
 		NSImage *image = [self statusImage];
-		[image setFlipped:![image isFlipped]];
 		rect = [image drawInRect:rect
 						  atSize:NSMakeSize(0, 0)
 						position:position
 						fraction:1.0f];
-		[image setFlipped:![image isFlipped]];
 		
 		if (!isBadge) {
 			if (position == IMAGE_POSITION_LEFT) rect.origin.x += STATUS_ICON_RIGHT_PAD;
