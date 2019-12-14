@@ -490,12 +490,13 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		[(AIListGroupBubbleCell *)groupCell setOutlineBubbleLineWidth:outlineBubbleLineWidth];
 		[(AIListGroupBubbleCell *)groupCell setHideBubble:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_HIDE_BUBBLE] boolValue]];
 	}
-	
-	//Background
-	[contactListView setUsesAlternatingRowBackgroundColors:[[themeDict objectForKey:KEY_LIST_THEME_GRID_ENABLED] boolValue]];
-	[contactListView setBackgroundFade:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] floatValue]];
-	[contactListView setBackgroundColor:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_COLOR] representedColor]];
-	[contactListView setAlternatingRowColor:[[themeDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];
+	else {
+    //Background
+    [contactListView setUsesAlternatingRowBackgroundColors:[[themeDict objectForKey:KEY_LIST_THEME_GRID_ENABLED] boolValue]];
+    [contactListView setBackgroundFade:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] floatValue]];
+    [contactListView setBackgroundColor:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_COLOR] representedColor]];
+    [contactListView setAlternatingRowColor:[[themeDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];
+  }
 
 	//Highlight
 	NSNumber *highlightEnabledNum = [themeDict objectForKey:KEY_LIST_THEME_HIGHLIGHT_ENABLED];
