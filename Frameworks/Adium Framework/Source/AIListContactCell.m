@@ -706,7 +706,7 @@
 - (NSImage *)serviceImage
 {
     AIListObject *listObject = [proxyObject listObject];
-	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconFlipped];
+	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconNormal];
 }
 
 - (float)imageOpacityForDrawing
