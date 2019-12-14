@@ -1,19 +1,19 @@
-/* 
+/*
  * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
+
 #import "AIMenuBarIcons.h"
 #import <Adium/AIXtraInfo.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -60,21 +60,21 @@
 			}
 		}
 	}
-	
+
 	[image setFlipped:YES];
-	
+
 	return image;
 }
 
 - (NSImage *)imageForKey:(NSString *)keyName
 {
 	NSString *imagePath;
-	
+
 	// This set doesn't contain an Icons dictionary entry. It's invalid.
 	if (!iconInfo) {
 		return nil;
 	}
-	
+
 	imagePath = [xtraBundle pathForImageResource:[iconInfo objectForKey:keyName]];
 	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
 }
@@ -102,20 +102,20 @@
 	NSImage			*image;
 	NSBundle		*menuIconsBundle = [[[NSBundle alloc] initWithPath:inPath] autorelease];
 	NSDictionary	*imageInfo;
-	
+
 	if (!menuIconsBundle) {
 		return nil;
 	}
-	
+
 	imageInfo = [menuIconsBundle objectForInfoDictionaryKey:KEY_ICONS_DICT];
-	
+
 	if (!imageInfo) {
 		return nil;
 	}
 
 	image = [[[NSImage alloc] initWithSize:NSMakeSize((PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN) * 2,
 													  PREVIEW_MENU_IMAGE_SIZE)] autorelease];
-													 
+
 
 	if ([[menuIconsBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1) {
 		NSInteger				xOrigin = 0;
@@ -163,28 +163,28 @@
 {
 	NSImage				*altImage = [[NSImage alloc] initWithSize:[inImage size]];
 	NSBitmapImageRep	*srcImageRep = [inImage largestBitmapImageRep];
-	
+
 	[altImage setFlipped:[inImage isFlipped]];
 
 	id monochromeFilter, invertFilter, alphaFilter;
-	
+
 	monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
 	[monochromeFilter setValue:[[[CIImage alloc] initWithBitmapImageRep:srcImageRep] autorelease]
-						forKey:@"inputImage"]; 
+						forKey:@"inputImage"];
 	[monochromeFilter setValue:[NSNumber numberWithDouble:1.0]
 						forKey:@"inputIntensity"];
 	[monochromeFilter setValue:[[[CIColor alloc] initWithColor:[NSColor whiteColor]] autorelease]
 						forKey:@"inputColor"];
-	
+
 	//Now invert our greyscale image
 	invertFilter = [CIFilter filterWithName:@"CIColorInvert"];
 	[invertFilter setValue:[monochromeFilter valueForKey:@"outputImage"]
-					forKey:@"inputImage"]; 
-	
+					forKey:@"inputImage"];
+
 	//And turn the parts that were previously white (are now black) into transparent
 	alphaFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
 	[alphaFilter setValue:[invertFilter valueForKey:@"outputImage"]
-				   forKey:@"inputImage"]; 
+				   forKey:@"inputImage"];
 
 	[altImage addRepresentation:[NSCIImageRep imageRepWithCIImage:[alphaFilter valueForKey:@"outputImage"]]];
 

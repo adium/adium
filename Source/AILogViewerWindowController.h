@@ -43,7 +43,7 @@ typedef enum {
 
 	IBOutlet	AIDividedAlternatingRowOutlineView	*outlineView_contacts;
 
-	IBOutlet	NSSplitView			*splitView_contacts;
+//	IBOutlet	NSSplitView			*splitView_contacts;
 	IBOutlet	NSSplitView			*splitView_logs;
 	IBOutlet	NSTableView			*tableView_results;
 	IBOutlet	NSTextView			*textView_content;
@@ -125,6 +125,8 @@ typedef enum {
 	
 	NSInvocationOperation *displayOperation;
 }
+
+@property (assign) IBOutlet  NSSplitView* splitView_contacts;
 
 + (id)openForPlugin:(id)inPlugin;
 + (id)openForContact:(AIListContact *)inContact plugin:(id)inPlugin;

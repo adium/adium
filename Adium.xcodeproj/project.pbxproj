@@ -3807,6 +3807,7 @@
 		4BFC5407043E509A00A8010A /* AIContentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentStatus.h; path = "Frameworks/Adium Framework/Source/AIContentStatus.h"; sourceTree = "<group>"; };
 		4BFC5408043E509A00A8010A /* AIContentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContentStatus.m; path = "Frameworks/Adium Framework/Source/AIContentStatus.m"; sourceTree = "<group>"; };
 		4BFE2E9F07E61A4E00C07EBE /* NewAlertNoEvents.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = NewAlertNoEvents.nib; path = "Frameworks/Adium Framework/Resources/NewAlertNoEvents.nib"; sourceTree = "<group>"; };
+		4D6040C823A4612A00181BC9 /* Source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Source; sourceTree = "<group>"; };
 		4DCD68CF23A0C3EA001EC42A /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = Dependencies/PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		4F1CB6240D640D5B0073A1E6 /* AIContactInfoContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactInfoContentController.h; path = Source/AIContactInfoContentController.h; sourceTree = "<group>"; };
 		4F1CB6250D640D5B0073A1E6 /* AIContactInfoContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactInfoContentController.m; path = Source/AIContactInfoContentController.m; sourceTree = "<group>"; };
@@ -4910,6 +4911,7 @@
 				4BE9FFE7055981AB00359B15 /* Adium.pch */,
 				F59DB3D6033EA9CD01A8010A /* AIAdium.h */,
 				F59DB3D7033EA9CD01A8010A /* AIAdium.m */,
+				4D6040C823A4612A00181BC9 /* Source */,
 				4B873F330840D14A00738987 /* Public Interface */,
 				34DC842E0A7EA94C003E1636 /* Adium UI and Components */,
 				6334FBED0F9C116D003C77A9 /* AIUtilities */,
@@ -12207,6 +12209,7 @@
 			baseConfigurationReference = 63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */;
 			buildSettings = {
 				COMPILER_INDEX_STORE_ENABLE = NO;
+				OTHER_CFLAGS = "\"$(CFLAGS)\"";
 			};
 			name = Debug;
 		};
