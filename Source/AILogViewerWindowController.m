@@ -388,7 +388,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 
 	if (!isOpeningForContact) {
 		//If we're opening for a contact, the outline view selection will be changed in a moment anyways
-		[self outlineViewSelectionDidChange:[[[NSNotification alloc] init] autorelease]];
+		[self outlineViewSelectionDidChange:[NSNotification notificationWithName:@"outlineViewSelectionDidChange" object:nil]];
 	}
 }
 
@@ -449,7 +449,7 @@ static AILogViewerWindowController *__sharedLogViewer = nil;
 	[[[tableView_results tableColumnWithIdentifier:@"To"] headerCell] setStringValue:TO];
 	[[[tableView_results tableColumnWithIdentifier:@"From"] headerCell] setStringValue:FROM];
 	[[[tableView_results tableColumnWithIdentifier:@"Date"] headerCell] setStringValue:DATE];
-	[self tableViewColumnDidResize:[[[NSNotification alloc] init] autorelease]];
+	[self tableViewColumnDidResize:[NSNotification notificationWithName:@"tableViewColumnDidResize" object:nil] ];
 
 	[tableView_results sizeLastColumnToFit];
 
