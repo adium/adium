@@ -117,8 +117,14 @@
 	if ([self superview] && [self window]) {
 		NSRect	myFrame = [self frame];
 		NSRect	trackRect = NSMakeRect(0, 0, myFrame.size.width, myFrame.size.height);
-		NSPoint	localPoint = [self convertPoint:[[self window] convertPointFromScreen:[NSEvent mouseLocation]]
-									   fromView:[self superview]];
+
+    NSPoint localPoint = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]]
+                                   fromView:nil];
+
+// FIX - replacement for deprecation; reverted for 10.11 fix.
+//		NSPoint	localPoint = [self convertPoint:[[self window] convertPointFromScreen:[NSEvent mouseLocation]]
+//									   fromView:nil];
+
 		BOOL	mouseInside = NSPointInRect(localPoint, myFrame);
 		
 		trackingTag = [self addTrackingRect:trackRect owner:self userData:nil assumeInside:mouseInside];

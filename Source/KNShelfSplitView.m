@@ -572,11 +572,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				if( targetRect.size.height < actionButtonRect.size.height ){
 					targetRect.origin.y += (actionButtonRect.size.height - targetRect.size.height) / 2.0f;
 				}
-				
-        [actionButtonImage drawAtPoint:NSMakePoint(actionButtonRect.origin.x, actionButtonRect.origin.y)
-                              fromRect:NSZeroRect
-                             operation:NSCompositeDestinationAtop
-                              fraction:1.0f];
+
+        [actionButtonImage compositeToPoint:NSMakePoint(actionButtonRect.origin.x,
+                                                        actionButtonRect.origin.y)
+                                  operation:NSCompositeDestinationAtop];
+// FIX - replacement for deprecation; reverted for 10.11 fix.
+//        [actionButtonImage drawAtPoint:NSMakePoint(actionButtonRect.origin.x, actionButtonRect.origin.y)
+//                              fromRect:NSZeroRect
+//                             operation:NSCompositeDestinationAtop
+//                              fraction:1.0f];
 			}
 		}
 		
