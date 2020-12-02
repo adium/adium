@@ -41,8 +41,8 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AISortController.h>
-#import "AIMessageWindowController.h"
-#import "AIMessageTabViewItem.h"
+#import <Adium/AIMessageWindowController.h>
+#import <Adium/AIMessageTabViewItem.h>
 #import "KNShelfSplitView.h"
 #import <Adium/AIContactList.h>
 #import "AIListOutlineView.h"
@@ -446,8 +446,8 @@
  */
 - (void)restoreSavedContainers
 {
-	NSData				*savedData = [adium.preferenceController preferenceForKey:KEY_CONTAINERS
-																	group:PREF_GROUP_INTERFACE];
+	NSData				*savedData = NULL;// [adium.preferenceController preferenceForKey:KEY_CONTAINERS
+//																	group:PREF_GROUP_INTERFACE];
 	
 	// If there's no data, we can't restore anything.
 	if (!savedData)

@@ -18,7 +18,7 @@
 #import "AIWebKitMessageViewController.h"
 #import "ESWebView.h"
 #import "AIURLHandlerPlugin.h"
-#import "AIEventAdditions.h"
+#import <AIUtilities/AIEventAdditions.h>
 #import "AIAdiumURLProtocol.h"
 
 static AIWebKitDelegate *AISharedWebKitDelegate;

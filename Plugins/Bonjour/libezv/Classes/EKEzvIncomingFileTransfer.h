@@ -6,7 +6,7 @@
 //
 
 #import "EKEzvFileTransfer.h"
-#import "AIOSCompatibility.h"
+#import <AIUtilities/AIOSCompatibility.h>
 
 @interface EKEzvIncomingFileTransfer : EKEzvFileTransfer <NSURLDownloadDelegate> {
 	NSMutableDictionary *itemsToDownload;

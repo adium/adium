@@ -29,15 +29,15 @@ typedef enum
 } AdiumTabPosition;
 
 @class AIMessageSendingTextView, AIMessageTabViewItem, AIMessageViewController, AIDualWindowInterfacePlugin, AIMessageTabSplitView;
-@class PSMTabBarControl, PSMAdiumTabStyle;
+@class MMTabBarView, MMAdiumTabStyle;
 @class AIChat;
 @protocol AIFlexibleToolbarItemDelegate;
 
 @interface AIMessageWindowController : AIWindowController <NSToolbarDelegate, NSSplitViewDelegate> {
 	IBOutlet	NSTabView			*tabView_messages;
-	IBOutlet	PSMTabBarControl	*tabView_tabBar;
+	IBOutlet	MMTabBarView	*tabView_tabBar;
 	NSBox							*tabView_horzLine;
-	PSMAdiumTabStyle				*tabView_tabStyle;
+	MMAdiumTabStyle				*tabView_tabStyle;
 	AIMessageTabSplitView			*tabView_splitView;
 	AIDualWindowInterfacePlugin 	*interface;
 	NSString						*containerName;
@@ -61,7 +61,7 @@ typedef enum
 															  name:(NSString *)inName;
 - (IBAction)closeWindow:(id)sender;
 @property (readonly, nonatomic) NSString *containerID;
-@property (readonly, nonatomic) PSMTabBarControl *tabBar;
+@property (readonly, nonatomic) MMTabBarView *tabBar;
 @property (readonly, nonatomic) AdiumTabPosition tabPosition;
 @property (readonly, nonatomic) NSString *name;
 @property (readonly, nonatomic) AIChat *activeChat;

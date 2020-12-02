@@ -338,7 +338,7 @@
 	return largeImage;
 }
 
-//bindings methods for PSMTabBarControl
+//bindings methods for MMTabBarView
 
 - (void)setObjectCount:(NSNumber *)number
 {

@@ -32,10 +32,10 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
-#import <PSMTabBarControl/PSMTabBarControl.h>
-#import <PSMTabBarControl/PSMOverflowPopUpButton.h>
-#import <PSMTabBarControl/PSMAdiumTabStyle.h>
-#import <PSMTabBarControl/PSMTabStyle.h>
+#import <MMTabBarView/MMTabBarView.h>
+#import <MMTabBarView/MMOverflowPopUpButton.h>
+#import <MMTabBarView/MMAdiumTabStyle.h>
+#import <MMTabBarView/MMTabStyle.h>
 #import "AIMessageTabSplitView.h"
 #import <Adium/AIStatusIcons.h>
 #import "AIInterfaceController.h"
@@ -100,12 +100,12 @@
 
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(tabDraggingNotificationReceived:)
-													 name:PSMTabDragDidBeginNotification
+													 name:MMTabDragDidBeginNotification
 												   object:nil];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(tabDraggingNotificationReceived:)
-													 name:PSMTabDragDidEndNotification
+													 name:MMTabDragDidEndNotification
 												   object:nil];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -119,7 +119,7 @@
 												   object:myWindow];
 		
 		//Register as a tab drag observer so we know when tabs are dragged over our window and can show our tab bar
-		[myWindow registerForDraggedTypes:[NSArray arrayWithObject:@"PSMTabBarControlItemPBType"]];
+		[myWindow registerForDraggedTypes:[NSArray arrayWithObject:@"NSTabViewItem"]];
 	}
 
 	//Prefs
@@ -170,8 +170,8 @@
 	return containerID;
 }
 
-//PSMTabBarControl accessor
-- (PSMTabBarControl *)tabBar
+//MMTabBarView accessor
+- (MMTabBarView *)tabBar
 {
 	return tabView_tabBar;
 }
@@ -200,19 +200,19 @@
     }
 	
 	//Setup the tab bar
-	tabView_tabStyle = [[[PSMAdiumTabStyle alloc] init] autorelease];
+	tabView_tabStyle = [[[MMAdiumTabStyle alloc] init] autorelease];
 	[tabView_tabBar setStyle:tabView_tabStyle];
 	[tabView_tabBar setCanCloseOnlyTab:YES];
 	[tabView_tabBar setUseOverflowMenu:NO];
 	[tabView_tabBar setAllowsResizing:NO];
-	[tabView_tabBar setSizeCellsToFit:YES];
+	[tabView_tabBar setSizeButtonsToFit:YES];
 	[tabView_tabBar setHideForSingleTab:!alwaysShowTabs];
 	[tabView_tabBar setSelectsTabsOnMouseDown:YES];
 	[tabView_tabBar setAutomaticallyAnimates:NO];
 	
 	[tabView_tabBar setAllowsScrubbing:![[NSUserDefaults standardUserDefaults] boolForKey:@"AIDisableScrubbing"]];
 	[tabView_tabBar setAllowsBackgroundTabClosing:[[NSUserDefaults standardUserDefaults] boolForKey:@"AIAllowBackgroundTabClosing"]];
-	[tabView_tabBar setTearOffStyle:PSMTabBarTearOffAlphaWindow];
+	[tabView_tabBar setTearOffStyle:MMTabBarTearOffAlphaWindow];
 }
 
 //Frames
@@ -339,7 +339,7 @@
     NSEnumerator			*enumerator;
     AIMessageTabViewItem	*tabViewItem;
 	
-	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
+	if ([tabView_tabBar orientation] == MMTabBarVerticalOrientation) {
 		CGFloat widthToStore;
 		if ([tabView_tabBar isTabBarHidden]) {
 			widthToStore = lastTabBarWidth;
@@ -428,16 +428,16 @@
 
 - (void)_relayoutWindow
 {
-	PSMTabBarOrientation orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
-										PSMTabBarHorizontalOrientation :
-										PSMTabBarVerticalOrientation);
+	MMTabBarOrientation orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
+										MMTabBarHorizontalOrientation :
+										MMTabBarVerticalOrientation);
 	
 	NSRect tabBarFrame = [tabView_tabBar frame];
 	NSRect tabViewMessagesFrame = [tabView_messages frame];
 	NSRect contentRect = [[[self window] contentView] frame];
 	
 	//remove the split view if the last orientation was vertical
-	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
+	if ([tabView_tabBar orientation] == MMTabBarVerticalOrientation) {
 		[tabView_messages retain];
 		[tabView_messages removeFromSuperview];
 		[tabView_tabBar retain];
@@ -454,9 +454,9 @@
 	[tabView_tabBar setOrientation:orientation];
 	BOOL isTabBarHidden = [tabView_tabBar isTabBarHidden]; //!alwaysShowTabs && m_containedChats.count <= 1;
 	switch (orientation) {
-		case PSMTabBarHorizontalOrientation:
+		case MMTabBarHorizontalOrientation:
 		{
-			tabBarFrame.size.height = isTabBarHidden? 0 : kPSMTabBarControlHeight;
+			tabBarFrame.size.height = isTabBarHidden? 0 : kMMTabBarViewHeight;
 			tabBarFrame.size.width = contentRect.size.width;
 			tabViewMessagesFrame.size.width = contentRect.size.width;
 			
@@ -479,8 +479,8 @@
 				[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
 			}
 			/* If the cell is less than 60, icon + title + unread message count may overlap */
-			[tabView_tabBar setCellMinWidth:60];
-			[tabView_tabBar setCellMaxWidth:250];
+			[tabView_tabBar setButtonMinWidth:60];
+			[tabView_tabBar setButtonMaxWidth:250];
 			
 			tabBarFrame.origin.x = 0;
 			tabViewMessagesFrame.origin.x = 0;
@@ -499,7 +499,7 @@
 			
 			break;
 		}
-		case PSMTabBarVerticalOrientation:
+		case MMTabBarVerticalOrientation:
 		{
 			tabBarFrame.size.height = [[[self window] contentView] frame].size.height;
 			tabBarFrame.size.width = [tabView_tabBar isTabBarHidden] ? 0 : lastTabBarWidth;
@@ -518,8 +518,8 @@
 				tabBarFrame.origin.x = NSWidth(contentRect) - NSWidth(tabBarFrame);
 				[tabView_tabBar setAutoresizingMask:NSViewHeightSizable | NSViewMinXMargin];
 			}
-			[tabView_tabBar setCellMinWidth:50];
-			[tabView_tabBar setCellMaxWidth:200];
+			[tabView_tabBar setButtonMinWidth:50];
+			[tabView_tabBar setButtonMaxWidth:200];
 			
 			//put the subviews into a split view
 			NSRect splitViewRect = [[[self window] contentView] frame];
@@ -565,15 +565,15 @@
 {
 	BOOL someUnviewedContent = NO;
 	
-	NSInteger count = [[tabView_tabBar representedTabViewItems] count];
-	for (NSInteger i = [tabView_tabBar numberOfVisibleTabs]; i < count; i++) {
-		if ([[[[tabView_tabBar representedTabViewItems] objectAtIndex:i] chat] unviewedContentCount] > 0) {
+	NSInteger count = [tabView_tabBar numberOfTabViewItems];
+	for (NSInteger i = [tabView_tabBar numberOfVisibleTabViewItems]; i < count; i++) {
+		if ([[[[tabView_tabBar visibleTabViewItems] objectAtIndex:i] chat] unviewedContentCount] > 0) {
 			someUnviewedContent = YES;
 			break;
 		}
 	}
 	
-	[[tabView_tabBar overflowPopUpButton] setAnimatingAlternateImage:someUnviewedContent];	
+	[[tabView_tabBar overflowPopUpButton] setAlternateImage:someUnviewedContent];
 }
 
 
@@ -583,7 +583,7 @@
 		[self _updateWindowTitleAndIcon];
 	}
 	
-	if ([[tabView_tabBar representedTabViewItems] indexOfObject:tabViewItem] >= [tabView_tabBar numberOfVisibleTabs]) {
+	if ([[tabView_tabBar visibleTabViewItems] indexOfObject:tabViewItem] >= [tabView_tabBar numberOfVisibleTabViewItems]) {
 		//The chat is in the overflow menu. If any chat has unviewed content, it should be animating to demonstrate that.
 		[self updateOverflowMenuUnviewedContentIcon];
 	}
@@ -668,7 +668,7 @@
     [tabView_messages removeTabViewItem:inTabViewItem];
 
 	/* AIMessageTabViewItem sets itself as its own identifer.  We have to break the recursive retain from the outside.
-	 * This must be done last so that the NSTabView and its delegate (PSMTabBarControl) can still make use of the idenfitier.
+	 * This must be done last so that the NSTabView and its delegate (MMTabBarView) can still make use of the idenfitier.
 	 */
 	[inTabViewItem setIdentifier:nil];
 
@@ -683,9 +683,9 @@
 	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != idx) {
-		NSMutableArray *cells = [[[tabView_tabBar cells] mutableCopy] autorelease];
+		NSMutableArray *cells = [[[tabView_tabBar attachedButtons] mutableCopy] autorelease];
 		
-		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
+		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar visibleTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
 		[m_containedChats moveObject:chat toIndex:idx];
 		
@@ -762,7 +762,7 @@
 	button = [window standardWindowButton:NSWindowDocumentIconButton];
 	[window setRepresentedURL:[NSURL URLWithString:@"StatusIcon"]];
 	
-	if ([tabView_tabBar isTabBarHidden] || [tabView_tabBar numberOfVisibleTabs] < [m_containedChats count])
+	if ([tabView_tabBar isTabBarHidden] || [tabView_tabBar numberOfVisibleTabViewItems] < [m_containedChats count])
 		[button setImage:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] icon]];
 	else
 		[button setImage:nil];
@@ -864,8 +864,8 @@
 }
 
 
-//PSMTabBarControl Delegate -------------------------------------------------------------------------------------------------
-#pragma mark PSMTabBarControl Delegate
+//MMTabBarView Delegate -------------------------------------------------------------------------------------------------
+#pragma mark MMTabBarView Delegate
 
 //Handle closing a tab
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
@@ -905,12 +905,12 @@
     }
 }
 
-- (BOOL)tabView:(NSTabView*)tabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
+- (BOOL)tabView:(NSTabView*)tabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(MMTabBarView *)tabBarView
 {
 	return YES;
 }
 
-- (BOOL)tabView:(NSTabView*)tabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl
+- (BOOL)tabView:(NSTabView*)tabView shouldDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(MMTabBarView *)tabBarView
 {
 	return YES;
 }
@@ -974,7 +974,7 @@
 }
 
 //Tabs reordered
-- (void)tabView:(NSTabView*)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl;
+- (void)tabView:(NSTabView*)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(MMTabBarView *)tabBarView;
 {
 	[self _reloadContainedChats];
 	[adium.interfaceController chatOrderDidChange];
@@ -1033,24 +1033,24 @@
 	
 	[viewImage unlockFocus];
 	
-	id <PSMTabStyle> style = [(PSMTabBarControl *)[tabView delegate] style];
+	id <MMTabStyle> style = [(MMTabBarView *)[tabView delegate] style];
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
+			offset->width = [style leftMarginForTabBarView:tabView_tabBar];
 			offset->height = contentFrame.size.height;
 			break;
 		case AdiumTabPositionTop:
-			offset->width = [style leftMarginForTabBarControl:tabView_tabBar];
+			offset->width = [style leftMarginForTabBarView:tabView_tabBar];
 			offset->height = 21;
 			break;
 		case AdiumTabPositionLeft:
 			offset->width = 0;
-			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
+			offset->height = 21 + [style topMarginForTabBarView:tabView_tabBar];
 			break;
 		case AdiumTabPositionRight:
 			offset->width = [tabView_tabBar frame].origin.x;
-			offset->height = 21 + [style topMarginForTabBarControl:tabView_tabBar];
+			offset->height = 21 + [style topMarginForTabBarView:tabView_tabBar];
 			break;
 	}
 	
@@ -1060,11 +1060,11 @@
 }
 
 //Create a new tab window
-- (PSMTabBarControl *)tabView:(NSTabView *)tabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
+- (MMTabBarView *)tabView:(NSTabView *)tabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
 {
 	id newController = [interface openNewContainer];
 	NSRect frame;
-	id <PSMTabStyle> style = [(PSMTabBarControl *)[tabView delegate] style];
+	id <MMTabStyle> style = [(MMTabBarView *)[tabView delegate] style];
 	
 	//set the size of the new window
 	//set the size and origin separately so that toolbar visibility and size doesn't mess things up
@@ -1074,19 +1074,19 @@
 	
 	switch (tabPosition) {
 		case AdiumTabPositionBottom:
-			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
+			point.x -= [style leftMarginForTabBarView:tabView_tabBar];
 			point.y -= 22;
 			break;
 		case AdiumTabPositionTop:
-			point.x -= [style leftMarginForTabBarControl:tabView_tabBar];
+			point.x -= [style leftMarginForTabBarView:tabView_tabBar];
 			point.y -= NSHeight([[[newController window] contentView] frame]) + 1;
 			break;
 		case AdiumTabPositionLeft:
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarView:tabView_tabBar] + 1;
 			break;
 		case AdiumTabPositionRight:
 			point.x -= NSMinX([tabView_tabBar frame]);
-			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarControl:tabView_tabBar] + 1;
+			point.y -= NSHeight([[[newController window] contentView] frame]) - [style topMarginForTabBarView:tabView_tabBar] + 1;
 	}
 	
 	//set the origin point of the new window
@@ -1096,12 +1096,12 @@
 	return [newController tabBar];
 }
 
-- (void)tabView:(NSTabView *)tabView tabBarDidHide:(PSMTabBarControl *)tabBarControl
+- (void)tabView:(NSTabView *)tabView tabBarDidHide:(MMTabBarView *)tabBarView
 {
     //hide the space between the tab bar and the tab view
     NSRect frame = [tabView frame];
-	switch ([tabBarControl orientation]) {
-		case PSMTabBarHorizontalOrientation:
+	switch ([tabBarView orientation]) {
+		case MMTabBarHorizontalOrientation:
 			/* We put a space between a bottom horizontal tab bar and the message tab view.
 			 * This space is not needed when the tab bar is at the top.
 			 */			
@@ -1119,7 +1119,7 @@
 			[tabView_horzLine setHidden:YES];
 			break;
 
-		case PSMTabBarVerticalOrientation:
+		case MMTabBarVerticalOrientation:
 			frame.origin.x -= VERTICAL_TAB_BAR_TO_VIEW_SPACING;
 			frame.size.width += VERTICAL_TAB_BAR_TO_VIEW_SPACING;
 			
@@ -1128,19 +1128,19 @@
 	}
 
 	[tabView setFrame:frame];
-	[tabBarControl setHidden:YES];
+	[tabBarView setHidden:YES];
 	[tabView setNeedsDisplay:YES];
 
 	[[tabView_messages tabViewItems] makeObjectsPerformSelector:@selector(tabViewDidChangeVisibility)];
 }
 
-- (void)tabView:(NSTabView *)tabView tabBarDidUnhide:(PSMTabBarControl *)tabBarControl
+- (void)tabView:(NSTabView *)tabView tabBarDidUnhide:(MMTabBarView *)tabBarView
 {
 	//show the space between the tab bar and the tab view
     NSRect frame = [tabView frame];
 	
-	switch ([tabBarControl orientation]) {
-		case PSMTabBarHorizontalOrientation:
+	switch ([tabBarView orientation]) {
+		case MMTabBarHorizontalOrientation:
 			/* We put a space between a bottom horizontal tab bar and the message tab view.
 			 * This space is not needed when the tab bar is at the top.
 			 */
@@ -1159,7 +1159,7 @@
 			[tabView_horzLine setHidden:NO];
 			break;
 
-		case PSMTabBarVerticalOrientation:
+		case MMTabBarVerticalOrientation:
 			frame.origin.x += VERTICAL_TAB_BAR_TO_VIEW_SPACING;
 			frame.size.width -= VERTICAL_TAB_BAR_TO_VIEW_SPACING;
 			
@@ -1168,13 +1168,13 @@
     }
     
     [tabView setFrame:frame];
-	[tabBarControl setHidden:NO];
+	[tabBarView setHidden:NO];
     [tabView setNeedsDisplay:YES];
 	
 	[[tabView_messages tabViewItems] makeObjectsPerformSelector:@selector(tabViewDidChangeVisibility)];
 }
 
-- (CGFloat)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl
+- (CGFloat)desiredWidthForVerticalTabBar:(MMTabBarView *)tabBarView
 {
 	return (lastTabBarWidth ? lastTabBarWidth : 120);
 }
@@ -1233,12 +1233,12 @@
 //Tab Bar Visibility --------------------------------------------------------------------------------------------------
 #pragma mark Tab Bar Visibility/Drag And Drop
 
-//Replaced by PSMTabBarControl
+//Replaced by MMTabBarView
 
 //Make sure auto-hide suppression is off after a drag completes
 - (void)tabDraggingNotificationReceived:(NSNotification *)notification
 {
-	if ([[notification name] isEqualToString:PSMTabDragDidBeginNotification]) {
+	if ([[notification name] isEqualToString:MMTabDragDidBeginNotification]) {
 		[tabView_tabBar setHideForSingleTab:NO];
 	} else {
 		[tabView_tabBar setHideForSingleTab:!alwaysShowTabs];
@@ -1247,7 +1247,7 @@
 
 //Save width of the vertical tabs when changed
 - (void)tabBarFrameChanged:(NSNotification *)notification {
-	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
+	if ([tabView_tabBar orientation] == MMTabBarVerticalOrientation) {
 		if (![tabView_tabBar isTabBarHidden]) {
 			CGFloat newWidth = NSWidth([tabView_tabBar frame]);
 			if (newWidth >= MINIMUM_WIDTH_FOR_VERTICAL_TABS)

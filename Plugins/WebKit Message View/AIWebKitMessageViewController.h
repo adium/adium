@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import "AIOSCompatibility.h"
+#import <AIUtilities/AIOSCompatibility.h>
 
 @class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, DOMRange, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;
 

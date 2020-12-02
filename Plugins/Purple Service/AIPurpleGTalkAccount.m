@@ -16,9 +16,9 @@
 
 #import "AIPurpleGTalkAccount.h"
 #import "auth_gtalk.h"
-#import "AIKeychain.h"
+#import <AIUtilities/AIKeychain.h>
 
-#import "JSONKit.h"
+#import <AIUtilities/JSONKit.h>
 
 #import "AIService.h"
 

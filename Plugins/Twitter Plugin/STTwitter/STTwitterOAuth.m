@@ -10,7 +10,7 @@
 #import "STHTTPRequest.h"
 #import "NSString+STTwitter.h"
 #import "NSData+Base64.h"
-#import "JSONKit.h"
+#import <AIUtilities/JSONKit.h>
 
 #include <CommonCrypto/CommonHMAC.h>
 

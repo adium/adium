@@ -52,7 +52,7 @@
 
 #import "AILogFileUpgradeWindowController.h"
 
-#import "AdiumSpotlightImporter.h"
+#import <AIUtilities/AdiumSpotlightImporter.h>
 
 #pragma mark Defines
 #pragma mark -
