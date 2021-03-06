@@ -389,7 +389,7 @@
 		4D9162FF2577F17100930BC8 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = schema.strings; sourceTree = "<group>"; };
 		4D9163022577F17100930BC8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = InfoPlist.strings; sourceTree = "<group>"; };
 		4D9163042577F17100930BC8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = schema.strings; sourceTree = "<group>"; };
-		4D9163052577F17100930BC8 /* es.lproj */ = {isa = PBXFileReference; lastKnownFileType = file; name = es.lproj; path = "Other/Adium Spotlight Importer/es.lproj"; sourceTree = SOURCE_ROOT; };
+		4D9163052577F17100930BC8 /* es.lproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = es.lproj; path = "Other/Adium Spotlight Importer/es.lproj"; sourceTree = SOURCE_ROOT; };
 		4D9163082577F17100930BC8 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = InfoPlist.strings; sourceTree = "<group>"; };
 		4D91630A2577F17100930BC8 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = schema.strings; sourceTree = "<group>"; };
 		4D91630D2577F17100930BC8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = Localizable.strings; sourceTree = "<group>"; };
@@ -405,9 +405,9 @@
 		4D9163292577F17100930BC8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = InfoPlist.strings; sourceTree = "<group>"; };
 		4D91632B2577F17100930BC8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = schema.strings; sourceTree = "<group>"; };
 		4D91632E2577F17100930BC8 /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr_CA; path = Localizable.strings; sourceTree = "<group>"; };
-		4D91632F2577F17100930BC8 /* en_GB.lproj */ = {isa = PBXFileReference; lastKnownFileType = file; name = en_GB.lproj; path = "Other/Adium Spotlight Importer/en_GB.lproj"; sourceTree = SOURCE_ROOT; };
+		4D91632F2577F17100930BC8 /* en_GB.lproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = en_GB.lproj; path = "Other/Adium Spotlight Importer/en_GB.lproj"; sourceTree = SOURCE_ROOT; };
 		4D9163322577F17200930BC8 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = Localizable.strings; sourceTree = "<group>"; };
-		4D9163332577F17200930BC8 /* el_GR.lproj */ = {isa = PBXFileReference; lastKnownFileType = file; name = el_GR.lproj; path = "Other/Adium Spotlight Importer/el_GR.lproj"; sourceTree = SOURCE_ROOT; };
+		4D9163332577F17200930BC8 /* el_GR.lproj */ = {isa = PBXFileReference; lastKnownFileType = text; name = el_GR.lproj; path = "Other/Adium Spotlight Importer/el_GR.lproj"; sourceTree = SOURCE_ROOT; };
 		4D9163362577F17200930BC8 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Localizable.strings; sourceTree = "<group>"; };
 		4D9163392577F17200930BC8 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = InfoPlist.strings; sourceTree = "<group>"; };
 		4D91633B2577F17200930BC8 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = schema.strings; sourceTree = "<group>"; };
@@ -2294,7 +2294,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0720;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					349C2EF90867AC97000BF883 = {
 						DevelopmentTeam = VQ6ZEL8UD3;
@@ -2306,11 +2306,7 @@
 					};
 					6334FBFB0F9C11DC003C77A9 = {
 						DevelopmentTeam = VQ6ZEL8UD3;
-						ProvisioningStyle = Manual;
-					};
-					633D4FA30F9D3073004F491E = {
-						DevelopmentTeam = VQ6ZEL8UD3;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					F53C25AE0A2F95F100F7B73D = {
 						DevelopmentTeam = VQ6ZEL8UD3;
@@ -3473,10 +3469,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = AIUtilities.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AIUtilities;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3484,10 +3485,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = AIUtilities.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AIUtilities;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -3495,10 +3501,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = AIUtilities.framework_Prefix.pch;
 				INFOPLIST_FILE = Resources/Info.plist;
 				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.AIUtilities;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Release-Debug";
 		};
@@ -3507,6 +3518,7 @@
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX.spotlightImpoter;
 			};
 			name = Debug;
 		};
@@ -3515,6 +3527,7 @@
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX.spotlightImpoter;
 			};
 			name = Release;
 		};
@@ -3523,6 +3536,7 @@
 			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX.spotlightImpoter;
 			};
 			name = "Release-Debug";
 		};
@@ -3549,10 +3563,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Asher Haig (8SFW9HPH26)";
-				CODE_SIGN_STYLE = Manual;
 				COMPILER_INDEX_STORE_ENABLE = NO;
-				DEVELOPMENT_TEAM = VQ6ZEL8UD3;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -3586,10 +3597,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Asher Haig (8SFW9HPH26)";
-				CODE_SIGN_STYLE = Manual;
 				COMPILER_INDEX_STORE_ENABLE = NO;
-				DEVELOPMENT_TEAM = VQ6ZEL8UD3;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -3620,10 +3628,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Asher Haig (8SFW9HPH26)";
-				CODE_SIGN_STYLE = Manual;
 				COMPILER_INDEX_STORE_ENABLE = NO;
-				DEVELOPMENT_TEAM = VQ6ZEL8UD3;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
