@@ -766,7 +766,6 @@
 		7664EAA4162E086A008CF995 /* libffi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libffi.framework; path = Frameworks/libffi.framework; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
 		76731DE115F90538007728C3 /* libgpgerror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgpgerror.framework; path = Frameworks/libgpgerror.framework; sourceTree = "<group>"; };
-		7E6F8A93105611B700C6D80D /* libotr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libotr.framework; path = Frameworks/libotr.framework; sourceTree = "<group>"; };
 		7E959ACF10E3187000C26397 /* AIMathCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMathCompatibility.h; path = Source/AIMathCompatibility.h; sourceTree = "<group>"; };
 		7E9A8CB2104DEBC400F210CC /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
@@ -2118,7 +2117,6 @@
 				9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */,
 				9E1E1DFC0A96741500E16DFC /* LMX.framework */,
 				638392F609D4D67A0067B9B7 /* Sparkle.framework */,
-				7E6F8A93105611B700C6D80D /* libotr.framework */,
 				979AA6B214D5A452008730DF /* libglib.framework */,
 				979AA6B314D5A452008730DF /* libgmodule.framework */,
 				979AA6B414D5A452008730DF /* libgobject.framework */,
@@ -2517,24 +2515,20 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Frameworks/libpurple.framework/Versions/Current/libpurple",
-				"$(SRCROOT)/Frameworks/Growl-WithInstaller/Versions/A/Growl-WithInstaller",
-				"$(SRCROOT)/Frameworks/LMX.framework/Versions/A/LMX",
-				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl",
-				"$(SRCROOT)/Frameworks/Sparkle.framework/Versions/A/Sparkle",
-				"$(SRCROOT)/Frameworks/libotr.framework/Versions/A/OTR",
+				"$(SRCROOT)/../libpurple.framework/Versions/Current/libpurple",
+				"$(SRCROOT)/../Growl-WithInstaller/Versions/A/Growl-WithInstaller",
+				"$(SRCROOT)/../LMX.framework/Versions/A/LMX",
+				"$(SRCROOT)/../Sparkle.framework/Versions/A/Sparkle",
 			);
 			outputPaths = (
-				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework",
-				"$(SRCROOT)/Frameworks/libpurple.framework",
-				"$(SRCROOT)/Frameworks/LMX.framework",
-				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework",
-				"$(SRCROOT)/Frameworks/Sparkle.framework",
-				"$(SRCROOT)/Frameworks/libotr.framework",
+				"$(SRCROOT)/../Growl-WithInstaller.framework",
+				"$(SRCROOT)/../libpurple.framework",
+				"$(SRCROOT)/../LMX.framework",
+				"$(SRCROOT)/../Sparkle.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
+			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/../libpurple.framework\"\ntouch \"$SRCROOT/../Growl.framework\"\ntouch \"$SRCROOT/../LMX.framework\"\ntouch \"$SRCROOT/../Sparkle.framework\"\n";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2547,7 +2541,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SOURCE=\"$SRCROOT/build\"\nif [ \"$SOURCE\" != \"$SYMROOT\" ] ; then\n\tif [ -d \"$SOURCE\" ] ; then\n\t\t/bin/rm -Rf \"$SOURCE\"\n\tfi\n\t/bin/ln -fs \"$SYMROOT\" \"$SOURCE\"\nfi";
+			shellScript = "SOURCE=\"$SRCROOT/build\"\nif [ \"$SOURCE\" != \"$SYMROOT\" ] ; then\n\tif [ -d \"$SOURCE\" ] ; then\n\t\t/bin/rm -Rf \"$SOURCE\"\n\tfi\n\t/bin/ln -fs \"$SYMROOT\" \"$SOURCE\"\nfi\n";
 		};
 		F5B17CCE0A16C6AC004AE99E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
