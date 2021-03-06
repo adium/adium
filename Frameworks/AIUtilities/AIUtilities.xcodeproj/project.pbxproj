@@ -276,6 +276,34 @@
 			remoteGlobalIDString = 31C460380DE1D17100C4265B;
 			remoteInfo = StressTester;
 		};
+		3437EDA925F3E53B00F99EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 349C2EF90867AC97000BF883;
+			remoteInfo = AdiumApplescriptRunner;
+		};
+		3437EDAB25F3E53B00F99EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5B17CCF0A16C6AC004AE99E;
+			remoteInfo = "Plist Macros";
+		};
+		3437EDAD25F3E53B00F99EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D;
+			remoteInfo = "Setup Build Directory";
+		};
+		3437EDB125F3E53B00F99EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F3B9510BDF15F40011AB34;
+			remoteInfo = "Touch Framework Bundles to Executable Date";
+		};
 		3496A8ED07CE6CCB0055BBAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -2264,6 +2292,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				3437EDAA25F3E53B00F99EDC /* PBXTargetDependency */,
+				3437EDAC25F3E53B00F99EDC /* PBXTargetDependency */,
+				3437EDAE25F3E53B00F99EDC /* PBXTargetDependency */,
+				3437EDB225F3E53B00F99EDC /* PBXTargetDependency */,
 			);
 			name = AIUtilities.framework;
 			productName = AIUtilities;
@@ -2653,6 +2685,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3437EDAA25F3E53B00F99EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */;
+			targetProxy = 3437EDA925F3E53B00F99EDC /* PBXContainerItemProxy */;
+		};
+		3437EDAC25F3E53B00F99EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F5B17CCF0A16C6AC004AE99E /* Plist Macros */;
+			targetProxy = 3437EDAB25F3E53B00F99EDC /* PBXContainerItemProxy */;
+		};
+		3437EDAE25F3E53B00F99EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
+			targetProxy = 3437EDAD25F3E53B00F99EDC /* PBXContainerItemProxy */;
+		};
+		3437EDB225F3E53B00F99EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
+			targetProxy = 3437EDB125F3E53B00F99EDC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4D9162902577F16F00930BC8 /* Localizable.strings */ = {
