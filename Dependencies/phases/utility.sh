@@ -8,6 +8,16 @@ status() {
 }
 
 ##
+# trim <string>
+#
+trim() {
+  local s2 s="$*"
+  until s2="${s#[[:space:]]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  until s2="${s%[[:space:]]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  echo "$s"
+}
+
+##
 # error <string>
 #
 error() {
@@ -94,7 +104,7 @@ prereq() {
 	
 	# Work out the file extension from the name
 	ext=""
-	for zxt in ".tar.gz" ".tgz" ".tar.bz2" ".tbz", ".tar", ".zip"; do
+	for zxt in ".tar.gz" ".tar.xz" ".tgz" ".tar.bz2" ".tbz", ".tar", ".zip"; do
 		if expr "$2" : '.*'${zxt//./\.}'$' > /dev/null; then
 			ext=$zxt
 			break
@@ -130,14 +140,19 @@ prereq() {
 			exit 1
 			;;
 	esac
-	
+
+ status "Done extracting."
+
 	# Count the number of parent directories there are
-	IFS="/" read -a firstfile < <(tar t${tarflags}f "$1$ext" | head -n 1)
+	IFS="/" read -a firstfile < <(tar tf "$1$ext" | head -n 1)
+  status "IFS: ${IFS}."
 	levels=(${#firstfile[@]} - 1)
-	
+
+ status "Levels: ${levels}."
+
 	# Extract to the source directory
 	quiet mkdir "$1"
-	tar x${tarflags}f "$1$ext" --strip-components $levels -C "$1"
+	tar xf "$1$ext" --strip-components $levels -C "$1"
 	
 	# Clean up and resume previous operation
 	if [ -f "$1$ext" ]; then rm -f "$1$ext"; fi
@@ -175,16 +190,22 @@ fwdpatch() {
 	do
 		file=$(expr "$line" : '^patching file \(.*\)$')
 		if [ "$file" != "" ]; then
-			patchfiles[${#patchfiles[*]}]="$file"
+      patchfiles+=( ${file} )
 		fi
 	done < <(patch -fi "$1" --dry-run ${@:2})
-	
+status "Patching ${patchfiles}"
 	# Record the old times
 	access=( )
 	modify=( )
-	for file in $patchfiles; do
-		access[${#access[*]}]=$(date -r $(stat -f "%a" "$file") +%Y%m%d%H%M.%S)
-		modify[${#modify[*]}]=$(date -r $(stat -f "%m" "$file") +%Y%m%d%H%M.%S)
+	for file in ${patchfiles[@]} ; do
+    access_state=$(stat -f %a ${file})
+    access_date=$(date -r ${access_state} +%Y%m%d%H%M.%S)
+    
+    modify_state=$(stat -f %m ${file})
+    modify_date=$(date -r ${modify_state} +%Y%m%d%H%M.%S)
+
+		access+=( ${access_date} )
+		modify+=( ${modify_date} )
 	done
 	
 	# Go ahead and apply the patch
@@ -194,7 +215,6 @@ fwdpatch() {
 		status "$mode patch $(basename \"$1\") to ${#patchfiles[@]} files"
 	fi
 	patch -fi "$1" ${@:2}
-	
 	# Go back and reset the times on all the files
 	index=0
 	while [ "$index" -lt ${#patchfiles[@]} ]; do

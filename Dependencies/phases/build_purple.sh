@@ -50,7 +50,7 @@ build_libpurple() {
 	fi
 	
 	prereq "cyrus-sasl" \
-		"ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/OLD-VERSIONS/sasl/cyrus-sasl-2.1.18.tar.gz"
+		"https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz"
 	
 	# Copy the headers from Cyrus-SASL
 	status "Copying headers from Cyrus-SASL"
@@ -64,12 +64,13 @@ build_libpurple() {
 	
 	# Leopard's 64-bit Kerberos library is missing symbols, as evidenced by
 	#    $ nm -arch x86_64 /usr/lib/libkrb4.dylib | grep krb_rd_req
-	# So, only enable it on Snow Leopard
+	# So, only enable it on Snow Leopard or newer
 	if [ "$(sysctl -b kern.osrelease | awk -F '.' '{ print $1}')" -ge 10 ]; then
 		#KERBEROS="--with-krb4"
+		warning "Kerberos support is disabled for unknown reasons (TBD by developers; this can be ignored for now)."
 		KERBEROS=""
 	else
-		warning "Kerberos support is disabled."
+		warning "Kerberos support is disabled for Leopard and earlier."
 		KERBEROS=""
 	fi
 	
@@ -142,6 +143,7 @@ build_libpurple() {
 		  "$ROOTDIR/source/libpurple/libpurple/protocols/gg/lib/libgadu.h" \
 		  "$ROOTDIR/build/include/libpurple"
 	
+	status "Successfully installed libpurple"
 	quiet popd
 	sniff_libpurple_version
 }

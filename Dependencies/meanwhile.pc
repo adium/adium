@@ -1,0 +1,16 @@
+
+prefix=/Users/asher/Projects/Source/adium/Dependencies/build
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Meanwhile
+Description: Open Reimplementation of the Lotus Sametime client protocol
+Version: 1.0.2
+Requires: glib-2.0 >= 2.0.0
+
+Libs: -L${libdir} -lmeanwhile
+Cflags: -I${includedir}/meanwhile
+
+libarchive=${libdir}/libmeanwhile.a
+

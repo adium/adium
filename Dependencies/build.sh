@@ -14,19 +14,17 @@ if ! expr "$ROOTDIR" : '.*/Dependencies$' &> /dev/null; then
 	exit 1
 fi
 
-TARGET_BASE="apple-darwin10"
+TARGET_BASE="apple-darwin19.6."
 
 # Arrays for archs and host systems, sometimes an -arch just isnt enough!
-ARCHS=( "x86_64" "i386" )
+ARCHS=( "x86_64" )
 HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
-# Also try /Developer-old, just in case XCode 4 is installed
 DEVELOPER=$(xcode-select -print-path)
-# SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
-SDK_ROOT="/Developer/SDKs/MacOSX10.11.sdk/"
+SDK_ROOT="${DEVELOPER}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
 
-MIN_OS_VERSION="10.11"
+MIN_OS_VERSION="10.12"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
 	-mmacosx-version-min=$MIN_OS_VERSION \
 	-I$ROOTDIR/build/include \
@@ -81,11 +79,7 @@ for option in ${@:1} ; do
 			remove_arch "x86_64" 
 			warning "x86_64 target removed! Libpurple will not be universal!"
 			;;
-		--disable-i386)
-			remove_arch "i386"
-			warning "i386 target removed! libpurple will not be universal!"
-			;;
-		--build-native) 
+		--build-native)
 			unset ARCHS; ARCHS=""
 			unset HOSTS; HOSTS=""
 			NATIVE_BUILD=true
@@ -162,8 +156,8 @@ if [ "$DISTCC_HOSTS" != "" ]; then
 	eval `$DEVELOPER/usr/bin/pump --startup`
 else
 	# Try to find the right gcc, even when XCode4 is installed
-	export CC="xcrun clang"
-	export CXX="xcrun clang"
+	export CC=`xcrun --find gcc`
+	export CXX=`xcrun --find g++`
 	export CCAS="$CC"
 	export OBJC="$CC"
 fi
@@ -187,12 +181,12 @@ asserttools hg
 # even if it's being managed by MacPorts, Fink, or similar.
 HG=`which hg`
 export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$DEVELOPER/usr/bin:$DEVELOPER/usr/sbin
-export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
-export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
+#export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
+#export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 
 # Make the source and build directories while we're here
 quiet mkdir "source"
-quiet mkdir "build"
+quiet mkdir -p "build/lib"
 
 if $STRAIGHT_TO_LIBPURPLE; then
     build_libpurple $@
@@ -205,7 +199,7 @@ else
     if $BUILD_OTR; then
     	build_otr $@
     else
-	   build_meanwhile $@
+      build_meanwhile $@
 
     	build_intltool $@
     	build_jsonglib $@
@@ -213,10 +207,9 @@ else
     	#build_gstreamer $@
     	#build_farsight $@
 
-    	build_libpurple $@	
+    	build_libpurple $@
 
     	#build_sipe $@
-    	#build_gfire $@
     fi
 fi
 

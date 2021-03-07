@@ -42,10 +42,8 @@ def lipo_files(source_files, replace_paths, target_file):
   
   # Gather all the third party deps, we don't want to replace paths to system
   # deps anyway.
-  info = otool_parse.otool_library(target_file, 'i386')
+  info = otool_parse.otool_library(target_file, 'x86_64')
   all_third_libs = info.third_party_shlib_deps()
-  info = otool_parse.otool_library(target_file, 'ppc')
-  all_third_libs.extend(info.third_party_shlib_deps())
   
   # run install_name_tool to change the file's own path
   args = [INSTALL_NAME_TOOL, '-id', target_file, target_file]

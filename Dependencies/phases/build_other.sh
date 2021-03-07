@@ -11,7 +11,7 @@ build_sipe() {
 	return 0
 	
 	prereq "sipe" \
-		"http://dl.sf.net/sourceforge/sipe/pidgin-sipe-1.4.0.tar.gz"
+		"https://phoenixnap.dl.sourceforge.net/project/sipe/sipe/pidgin-sipe-1.25.0/pidgin-sipe-1.25.0.tar.xz"
 	
 	quiet pushd "$ROOTDIR/source/sipe"
 	
@@ -27,34 +27,6 @@ build_sipe() {
 	make -j $NUMBER_OF_CORES
 	make install
 	
-	quiet popd
-}
-
-##
-# Gfire
-#
-build_gfire() {
-	# I'm not sure how to build this yet... it expects Pidgin to be built, and
-	# since no pidgin.pc file is made, we can't satisfy that requirement.
-	warning "I don't know how to build Gfire yet."
-	return 0
-	
-	prereq "gfire" \
-		"http://dl.sf.net/gfire/gfire-0.8.1.tar.gz"
-	
-	quiet pushd "$ROOTDIR/source/gfire"
-	
-	if needsconfigure $@; then
-		status "Configuring Gfire"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
-	fi
-	
-	status "Building and installing Gfire"
-	make -j $NUMBER_OF_CORES
-	make install
-	
+	status "Successfully installed sipe"
 	quiet popd
 }

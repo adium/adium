@@ -51,7 +51,6 @@
 		111256190F8DA2BF00E76177 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB3309B0C7235AD00B001A8 /* HTTPServer.m */; };
 		1112561A0F8DA2BF00E76177 /* EKEzvIncomingFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB330A20C7235BF00B001A8 /* EKEzvIncomingFileTransfer.m */; };
 		1112561B0F8DA2BF00E76177 /* EKEzvOutgoingFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FB330A40C7235BF00B001A8 /* EKEzvOutgoingFileTransfer.m */; };
-		111256200F8DA2DB00E76177 /* libexpat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6341AEFE0E53A09C00AE1439 /* libexpat.dylib */; };
 		111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
@@ -93,10 +92,6 @@
 		117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */; };
 		11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11700A340F7E8BE80078D6AB /* AISpecialPasswordPromptController.m */; };
 		11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11700A430F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib */; };
-		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
-		1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC50CDAA8D400B8E233 /* libgobject.framework */; };
-		1172FBCE0CDAA8D400B8E233 /* libgthread.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC60CDAA8D400B8E233 /* libgthread.framework */; };
-		1172FBCF0CDAA8D400B8E233 /* libintl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC70CDAA8D400B8E233 /* libintl.framework */; };
 		1172FBD00CDAA8D400B8E233 /* libmeanwhile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC80CDAA8D400B8E233 /* libmeanwhile.framework */; };
 		1172FBD10CDAA8D400B8E233 /* libpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC90CDAA8D400B8E233 /* libpurple.framework */; };
 		117866DE0EC759B9003E9B97 /* FTProgressResend_Selected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866D80EC759B9003E9B97 /* FTProgressResend_Selected.tif */; };
@@ -107,8 +102,6 @@
 		117866E30EC759B9003E9B97 /* FTProgressResendRollover.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866DD0EC759B9003E9B97 /* FTProgressResendRollover.tif */; };
 		117D6DC00BC5F0C40080D02B /* msg-request-attention.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 117D6DBF0BC5F0C40080D02B /* msg-request-attention.tiff */; };
 		11819A1B10D0B95D003E8ECA /* AIMediaControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
-		118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
 		118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1192E6D90FD3056F003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */; };
 		1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */; };
@@ -962,7 +955,23 @@
 		4D4A20EE2577585E008BB8E3 /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4A20E425775815008BB8E3 /* MMTabBarView.framework */; };
 		4D4A2105257758F5008BB8E3 /* MMTabBarView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4A20E425775815008BB8E3 /* MMTabBarView.framework */; };
 		4D4A23AE25776FDB008BB8E3 /* AIMessageWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D4A23AD25776FDB008BB8E3 /* AIMessageWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D91624D2577ECEB00930BC8 /* glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979AA6B214D5A452008730DF /* glib.framework */; };
+		4D4B482F25F3EFC5000CEF01 /* libglib-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B482E25F3EFC5000CEF01 /* libglib-2.0.dylib */; };
+		4D4B483425F3F03B000CEF01 /* libglib-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B482E25F3EFC5000CEF01 /* libglib-2.0.dylib */; };
+		4D4B483625F3F04B000CEF01 /* libgobject-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B483525F3F04B000CEF01 /* libgobject-2.0.dylib */; };
+		4D4B483825F3F058000CEF01 /* libgthread-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B483725F3F058000CEF01 /* libgthread-2.0.dylib */; };
+		4D4B483A25F3F064000CEF01 /* libgmodule-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B483925F3F064000CEF01 /* libgmodule-2.0.dylib */; };
+		4D4B484125F3F575000CEF01 /* libjson-glib-1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B484025F3F575000CEF01 /* libjson-glib-1.0.dylib */; };
+		4D4B484325F3F5EC000CEF01 /* libintl.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B484225F3F5EC000CEF01 /* libintl.8.dylib */; };
+		4D4B485525F3F79E000CEF01 /* libotr.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B485425F3F79E000CEF01 /* libotr.5.dylib */; };
+		4D4B485825F3F7D6000CEF01 /* libintl.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B485225F3F70B000CEF01 /* libintl.8.dylib */; };
+		4D4B485D25F3F87C000CEF01 /* libgmodule-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B485025F3F6EC000CEF01 /* libgmodule-2.0.dylib */; };
+		4D4B485E25F3F87C000CEF01 /* libgobject-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B484F25F3F6EC000CEF01 /* libgobject-2.0.dylib */; };
+		4D4B485F25F3F87C000CEF01 /* libgthread-2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B484D25F3F6EB000CEF01 /* libgthread-2.0.dylib */; };
+		4D4B486525F3F8DF000CEF01 /* libjson-glib-1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B484825F3F6AB000CEF01 /* libjson-glib-1.0.dylib */; };
+		4D4B486725F3F8FE000CEF01 /* libffi.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B486625F3F8FE000CEF01 /* libffi.7.dylib */; };
+		4D4B486C25F3F949000CEF01 /* libgcrypt.20.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B486B25F3F949000CEF01 /* libgcrypt.20.dylib */; };
+		4D4B486F25F3F981000CEF01 /* libfribidi.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B486E25F3F981000CEF01 /* libfribidi.0.dylib */; };
+		4D4B487725F3FA35000CEF01 /* libexpat.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4B487625F3FA35000CEF01 /* libexpat.1.dylib */; };
 		4D9162602577EDA600930BC8 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAA96672577B2820000D3F7 /* AIUtilities.framework */; };
 		4D9162642577EDC600930BC8 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAA96672577B2820000D3F7 /* AIUtilities.framework */; };
 		4D91645E2577F7C800930BC8 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAA968E2577B48D0000D3F7 /* AutoHyperlinks.framework */; };
@@ -1050,11 +1059,6 @@
 		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639DF7710F97E61D003C9A32 /* CBPurpleServicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7F278A05440C8D00CDFC90 /* CBPurpleServicePlugin.m */; };
 		639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; };
-		639DF9150F97E639003C9A32 /* glib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* glib.framework */; };
-		639DF9160F97E639003C9A32 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
-		639DF9170F97E639003C9A32 /* libgobject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC50CDAA8D400B8E233 /* libgobject.framework */; };
-		639DF9180F97E639003C9A32 /* libgthread.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC60CDAA8D400B8E233 /* libgthread.framework */; };
-		639DF9190F97E639003C9A32 /* libintl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC70CDAA8D400B8E233 /* libintl.framework */; };
 		639DF91A0F97E639003C9A32 /* libmeanwhile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC80CDAA8D400B8E233 /* libmeanwhile.framework */; };
 		639DF91B0F97E639003C9A32 /* libpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC90CDAA8D400B8E233 /* libpurple.framework */; };
 		639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1072,20 +1076,15 @@
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
 		761D6A251ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 761D6A231ACC5F0B002079F2 /* ESPurpleGTalkAccountView.nib */; };
-		7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; };
 		7664EAA6162E0874008CF995 /* libffi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7664EAA4162E086A008CF995 /* libffi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		766ABAB61306D1020049FFB7 /* AIUnreadMessagesTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 766ABAB51306D1020049FFB7 /* AIUnreadMessagesTooltip.m */; };
 		766F66A51ACBDF0D002079F2 /* auth_gtalk.c in Sources */ = {isa = PBXBuildFile; fileRef = 766F66A31ACBDF0D002079F2 /* auth_gtalk.c */; };
 		766F66A61ACBDF0D002079F2 /* auth_gtalk.h in Headers */ = {isa = PBXBuildFile; fileRef = 766F66A41ACBDF0D002079F2 /* auth_gtalk.h */; };
-		76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; };
-		76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; };
 		76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE015F90538007728C3 /* libgcrypt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76731DE115F90538007728C3 /* libgpgerror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		76889DEB12D3CA17007AEF00 /* get-info.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEA12D3CA17007AEF00 /* get-info.tiff */; };
 		76889DEF12D3CA40007AEF00 /* Personal.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 76889DEE12D3CA40007AEF00 /* Personal.tiff */; };
 		76C1AF9C125A906A00D269A9 /* AIAdiumURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C1AF9B125A906A00D269A9 /* AIAdiumURLProtocol.m */; };
 		76FBDAC91733B9CA00C9F10B /* STTwitterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FBDAC61733B9C900C9F10B /* STTwitterHTML.m */; };
-		7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E824CCE06387FAF00813072 /* LinkEditor.nib */; };
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
@@ -1121,7 +1120,6 @@
 		81DAED520C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 81DAED500C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.h */; };
 		81DAED530C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DAED510C26F4F700780E4C /* AMPurpleJabberServiceDiscoveryBrowsing.m */; };
 		81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E839050583207E00F2AADB /* SystemConfiguration.framework */; };
-		9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92B1530EDF700217FBE /* FriBidi.framework */; };
 		9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */; };
 		9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92B1530EDF700217FBE /* FriBidi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9719C9301530EE4800217FBE /* ShortcutRecorder.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1333,7 +1331,6 @@
 				11EE1CD40CDD01120097F246 /* libmeanwhile.framework in Copy Frameworks */,
 				11EE1CD50CDD01120097F246 /* libpurple.framework in Copy Frameworks */,
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
-				76731DE515F90582007728C3 /* libgpgerror.framework in Copy Frameworks */,
 				76731DE415F9057F007728C3 /* libgcrypt.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
 				9719C92F1530EE4800217FBE /* FriBidi.framework in Copy Frameworks */,
@@ -3544,6 +3541,27 @@
 		4D4A20A125775535008BB8E3 /* AIMessageWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIMessageWindow.h; sourceTree = "<group>"; };
 		4D4A20DF25775815008BB8E3 /* MMTabBarView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMTabBarView.xcodeproj; path = Dependencies/MMTabBarView/MMTabBarView/MMTabBarView.xcodeproj; sourceTree = "<group>"; };
 		4D4A23AD25776FDB008BB8E3 /* AIMessageWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIMessageWindow.h; sourceTree = "<group>"; };
+		4D4B482E25F3EFC5000CEF01 /* libglib-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libglib-2.0.dylib"; path = "../../../../../usr/local/lib/libglib-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B483525F3F04B000CEF01 /* libgobject-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgobject-2.0.dylib"; path = "../../../../../usr/local/lib/libgobject-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B483725F3F058000CEF01 /* libgthread-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgthread-2.0.dylib"; path = "../../../../../usr/local/lib/libgthread-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B483925F3F064000CEF01 /* libgmodule-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libgmodule-2.0.dylib"; path = "../../../../../usr/local/lib/libgmodule-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B483D25F3F204000CEF01 /* adium-dependencies.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "adium-dependencies.xcodeproj"; path = "Dependencies/adium-dependencies.xcodeproj"; sourceTree = "<group>"; };
+		4D4B484025F3F575000CEF01 /* libjson-glib-1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libjson-glib-1.0.dylib"; path = "../../../../../usr/local/lib/libjson-glib-1.0.dylib"; sourceTree = "<group>"; };
+		4D4B484225F3F5EC000CEF01 /* libintl.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libintl.8.dylib; path = ../../../../../usr/local/lib/libintl.8.dylib; sourceTree = "<group>"; };
+		4D4B484825F3F6AB000CEF01 /* libjson-glib-1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libjson-glib-1.0.dylib"; sourceTree = "<group>"; };
+		4D4B484D25F3F6EB000CEF01 /* libgthread-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgthread-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B484E25F3F6EC000CEF01 /* libglib-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libglib-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B484F25F3F6EC000CEF01 /* libgobject-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgobject-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B485025F3F6EC000CEF01 /* libgmodule-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libgmodule-2.0.dylib"; sourceTree = "<group>"; };
+		4D4B485225F3F70B000CEF01 /* libintl.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libintl.8.dylib; sourceTree = "<group>"; };
+		4D4B485425F3F79E000CEF01 /* libotr.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libotr.5.dylib; path = ../../../../../usr/local/lib/libotr.5.dylib; sourceTree = "<group>"; };
+		4D4B485625F3F7A3000CEF01 /* libotr.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libotr.5.dylib; sourceTree = "<group>"; };
+		4D4B486625F3F8FE000CEF01 /* libffi.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libffi.7.dylib; path = ../../../../../usr/local/Cellar/libffi/3.3_2/lib/libffi.7.dylib; sourceTree = "<group>"; };
+		4D4B486825F3F932000CEF01 /* libgcrypt.20.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgcrypt.20.dylib; path = ../../../../../usr/local/lib/libgcrypt.20.dylib; sourceTree = "<group>"; };
+		4D4B486B25F3F949000CEF01 /* libgcrypt.20.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgcrypt.20.dylib; path = ../../../../../usr/local/lib/libgcrypt.20.dylib; sourceTree = "<group>"; };
+		4D4B486E25F3F981000CEF01 /* libfribidi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfribidi.0.dylib; path = ../../../../../usr/local/lib/libfribidi.0.dylib; sourceTree = "<group>"; };
+		4D4B487025F3F995000CEF01 /* libfribidi.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfribidi.0.dylib; path = ../../../../../usr/local/lib/libfribidi.0.dylib; sourceTree = "<group>"; };
+		4D4B487625F3FA35000CEF01 /* libexpat.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.1.dylib; path = ../../../../../usr/local/Cellar/expat/2.2.10/lib/libexpat.1.dylib; sourceTree = "<group>"; };
 		4D6040C823A4612A00181BC9 /* Source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Source; sourceTree = "<group>"; };
 		4DAA965C2577B2820000D3F7 /* AIUtilities.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AIUtilities.xcodeproj; path = Frameworks/AIUtilities/AIUtilities.xcodeproj; sourceTree = "<group>"; };
 		4DAA96852577B48D0000D3F7 /* AutoHyperlinks.framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AutoHyperlinks.framework.xcodeproj; path = "Frameworks/AutoHyperlinks Framework/AutoHyperlinks.framework.xcodeproj"; sourceTree = "<group>"; };
@@ -3840,7 +3858,6 @@
 		766F66A31ACBDF0D002079F2 /* auth_gtalk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = auth_gtalk.c; sourceTree = "<group>"; };
 		766F66A41ACBDF0D002079F2 /* auth_gtalk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auth_gtalk.h; sourceTree = "<group>"; };
 		76731DE015F90538007728C3 /* libgcrypt.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgcrypt.framework; path = Frameworks/libgcrypt.framework; sourceTree = "<group>"; };
-		76731DE115F90538007728C3 /* libgpgerror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgpgerror.framework; path = Frameworks/libgpgerror.framework; sourceTree = "<group>"; };
 		767A13EC1ACC5F7B002079F2 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Plugins/Purple Service/Resources/sv.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
 		767A13F01ACC5F94002079F2 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = "Plugins/Purple Service/Resources/es.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
 		767A13F11ACC5FA8002079F2 /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = "Plugins/Purple Service/Resources/hu.lproj/ESPurpleGTalkAccountView.nib"; sourceTree = "<group>"; };
@@ -3922,12 +3939,6 @@
 		9760D24513E49A560031FA1A /* AboutDialog_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AboutDialog_bg.png; path = Resources/AboutDialog_bg.png; sourceTree = "<group>"; };
 		979AA6A514D59DC8008730DF /* AIBoolToControlTextColorTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIBoolToControlTextColorTransformer.h; path = Frameworks/Adium/Source/AIBoolToControlTextColorTransformer.h; sourceTree = "<group>"; };
 		979AA6A614D59DC8008730DF /* AIBoolToControlTextColorTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIBoolToControlTextColorTransformer.m; path = Frameworks/Adium/Source/AIBoolToControlTextColorTransformer.m; sourceTree = "<group>"; };
-		979AA6B214D5A452008730DF /* glib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = glib.framework; path = Frameworks/glib.framework; sourceTree = "<group>"; };
-		979AA6B314D5A452008730DF /* libgmodule.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgmodule.framework; path = Frameworks/libgmodule.framework; sourceTree = "<group>"; };
-		979AA6B414D5A452008730DF /* libgobject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgobject.framework; path = Frameworks/libgobject.framework; sourceTree = "<group>"; };
-		979AA6B514D5A452008730DF /* libgthread.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgthread.framework; path = Frameworks/libgthread.framework; sourceTree = "<group>"; };
-		979AA6B614D5A452008730DF /* libintl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libintl.framework; path = Frameworks/libintl.framework; sourceTree = "<group>"; };
-		979AA6B714D5A452008730DF /* libjson-glib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "libjson-glib.framework"; path = "Frameworks/libjson-glib.framework"; sourceTree = "<group>"; };
 		979AA6B814D5A452008730DF /* libmeanwhile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libmeanwhile.framework; path = Frameworks/libmeanwhile.framework; sourceTree = "<group>"; };
 		979AA6B914D5A452008730DF /* libpurple.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libpurple.framework; path = Frameworks/libpurple.framework; sourceTree = "<group>"; };
 		97AF5CD913191DE200550C41 /* AIContactListUserPictureMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactListUserPictureMenuController.h; path = Source/AIContactListUserPictureMenuController.h; sourceTree = "<group>"; };
@@ -4119,20 +4130,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D4B483425F3F03B000CEF01 /* libglib-2.0.dylib in Frameworks */,
+				4D4B483625F3F04B000CEF01 /* libgobject-2.0.dylib in Frameworks */,
+				4D4B483A25F3F064000CEF01 /* libgmodule-2.0.dylib in Frameworks */,
+				4D4B483825F3F058000CEF01 /* libgthread-2.0.dylib in Frameworks */,
+				4D4B484125F3F575000CEF01 /* libjson-glib-1.0.dylib in Frameworks */,
+				4D4B484325F3F5EC000CEF01 /* libintl.8.dylib in Frameworks */,
 				811034050CDE216F00EC6038 /* Security.framework in Frameworks */,
 				81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */,
-				4D91624D2577ECEB00930BC8 /* glib.framework in Frameworks */,
 				3485D8EA09EB446900232CC4 /* Cocoa.framework in Frameworks */,
-				1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */,
-				1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */,
-				1172FBCE0CDAA8D400B8E233 /* libgthread.framework in Frameworks */,
-				1172FBCF0CDAA8D400B8E233 /* libintl.framework in Frameworks */,
+				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
 				1172FBD00CDAA8D400B8E233 /* libmeanwhile.framework in Frameworks */,
 				1172FBD10CDAA8D400B8E233 /* libpurple.framework in Frameworks */,
-				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
 				4D9162602577EDA600930BC8 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
-				118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4140,22 +4151,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D4B482F25F3EFC5000CEF01 /* libglib-2.0.dylib in Frameworks */,
+				4D4B485D25F3F87C000CEF01 /* libgmodule-2.0.dylib in Frameworks */,
+				4D4B485E25F3F87C000CEF01 /* libgobject-2.0.dylib in Frameworks */,
+				4D4B485F25F3F87C000CEF01 /* libgthread-2.0.dylib in Frameworks */,
+				4D4B486525F3F8DF000CEF01 /* libjson-glib-1.0.dylib in Frameworks */,
+				4D4B485525F3F79E000CEF01 /* libotr.5.dylib in Frameworks */,
+				4D4B485825F3F7D6000CEF01 /* libintl.8.dylib in Frameworks */,
+				4D4B486725F3F8FE000CEF01 /* libffi.7.dylib in Frameworks */,
+				4D4B486C25F3F949000CEF01 /* libgcrypt.20.dylib in Frameworks */,
+				4D4B486F25F3F981000CEF01 /* libfribidi.0.dylib in Frameworks */,
+				4D4B487725F3FA35000CEF01 /* libexpat.1.dylib in Frameworks */,
 				116E373310B729E9002EDB0F /* Growl.framework in Frameworks */,
-				7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */,
-				4D91645E2577F7C800930BC8 /* AutoHyperlinks.framework in Frameworks */,
-				4D4A2105257758F5008BB8E3 /* MMTabBarView.framework in Frameworks */,
-				639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */,
-				4D9162642577EDC600930BC8 /* AIUtilities.framework in Frameworks */,
-				3419F7760531512200C68BA3 /* Adium.framework in Frameworks */,
 				3448758E06D1EBDF00DA778C /* Cocoa.framework in Frameworks */,
-				639DF9150F97E639003C9A32 /* glib.framework in Frameworks */,
-				639DF9160F97E639003C9A32 /* libgmodule.framework in Frameworks */,
-				639DF9170F97E639003C9A32 /* libgobject.framework in Frameworks */,
-				639DF9180F97E639003C9A32 /* libgthread.framework in Frameworks */,
-				639DF9190F97E639003C9A32 /* libintl.framework in Frameworks */,
-				639DF91A0F97E639003C9A32 /* libmeanwhile.framework in Frameworks */,
-				639DF91B0F97E639003C9A32 /* libpurple.framework in Frameworks */,
-				111256200F8DA2DB00E76177 /* libexpat.dylib in Frameworks */,
 				6318DBC20F8D943A00C5E584 /* WebKit.framework in Frameworks */,
 				636D92CD0E4E990500E5F558 /* AddressBook.framework in Frameworks */,
 				34BD9D5A053146CC000AB133 /* Carbon.framework in Frameworks */,
@@ -4166,13 +4174,15 @@
 				11AA1EFA0BCAE9C3003DDA66 /* Quartz.framework in Frameworks */,
 				340C1ABF0BD58FAB00D09235 /* Security.framework in Frameworks */,
 				31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */,
-				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
-				9719C92C1530EDF700217FBE /* FriBidi.framework in Frameworks */,
 				9719C92E1530EE0C00217FBE /* ShortcutRecorder.framework in Frameworks */,
-				76731DE215F90538007728C3 /* libgcrypt.framework in Frameworks */,
-				76731DE315F90538007728C3 /* libgpgerror.framework in Frameworks */,
-				7664EAA5162E086A008CF995 /* libffi.framework in Frameworks */,
+				639DF91A0F97E639003C9A32 /* libmeanwhile.framework in Frameworks */,
+				639DF91B0F97E639003C9A32 /* libpurple.framework in Frameworks */,
+				4D91645E2577F7C800930BC8 /* AutoHyperlinks.framework in Frameworks */,
+				4D4A2105257758F5008BB8E3 /* MMTabBarView.framework in Frameworks */,
+				639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */,
+				4D9162642577EDC600930BC8 /* AIUtilities.framework in Frameworks */,
+				3419F7760531512200C68BA3 /* Adium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4383,6 +4393,7 @@
 				4DAA96852577B48D0000D3F7 /* AutoHyperlinks.framework.xcodeproj */,
 				4DAA965C2577B2820000D3F7 /* AIUtilities.xcodeproj */,
 				4D4A20DF25775815008BB8E3 /* MMTabBarView.xcodeproj */,
+				4D4B483D25F3F204000CEF01 /* adium-dependencies.xcodeproj */,
 				4D4A23AD25776FDB008BB8E3 /* AIMessageWindow.h */,
 				4D4A20A125775535008BB8E3 /* AIMessageWindow.h */,
 				34DE9E60237E2BFC006D5C7F /* Adium.entitlements */,
@@ -4410,6 +4421,7 @@
 		29B97323FDCFA39411CA2CEA /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D4B484A25F3F6AF000CEF01 /* lib */,
 				979AA6B114D59F13008730DF /* System */,
 				979AA6A914D59EF3008730DF /* Others */,
 			);
@@ -6439,6 +6451,103 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4D4B483E25F3F204000CEF01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4D4B484425F3F6A0000CEF01 /* brew */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B487125F3F9B1000CEF01 /* expat */,
+				4D4B486D25F3F967000CEF01 /* fribidi */,
+				4D4B486A25F3F93F000CEF01 /* libgcrypt */,
+				4D4B486025F3F88D000CEF01 /* libffi */,
+				4D4B485725F3F7A8000CEF01 /* libotr */,
+				4D4B485325F3F710000CEF01 /* json-glib */,
+				4D4B485125F3F705000CEF01 /* gettext */,
+				4D4B484C25F3F6E3000CEF01 /* glib */,
+			);
+			name = brew;
+			sourceTree = "<group>";
+		};
+		4D4B484A25F3F6AF000CEF01 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B484425F3F6A0000CEF01 /* brew */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+		4D4B484C25F3F6E3000CEF01 /* glib */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B484E25F3F6EC000CEF01 /* libglib-2.0.dylib */,
+				4D4B485025F3F6EC000CEF01 /* libgmodule-2.0.dylib */,
+				4D4B484F25F3F6EC000CEF01 /* libgobject-2.0.dylib */,
+				4D4B484D25F3F6EB000CEF01 /* libgthread-2.0.dylib */,
+			);
+			name = glib;
+			sourceTree = "<group>";
+		};
+		4D4B485125F3F705000CEF01 /* gettext */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B485225F3F70B000CEF01 /* libintl.8.dylib */,
+			);
+			name = gettext;
+			sourceTree = "<group>";
+		};
+		4D4B485325F3F710000CEF01 /* json-glib */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B484825F3F6AB000CEF01 /* libjson-glib-1.0.dylib */,
+			);
+			name = "json-glib";
+			sourceTree = "<group>";
+		};
+		4D4B485725F3F7A8000CEF01 /* libotr */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B485625F3F7A3000CEF01 /* libotr.5.dylib */,
+			);
+			name = libotr;
+			sourceTree = "<group>";
+		};
+		4D4B486025F3F88D000CEF01 /* libffi */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B486625F3F8FE000CEF01 /* libffi.7.dylib */,
+			);
+			name = libffi;
+			sourceTree = "<group>";
+		};
+		4D4B486A25F3F93F000CEF01 /* libgcrypt */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B486B25F3F949000CEF01 /* libgcrypt.20.dylib */,
+			);
+			name = libgcrypt;
+			sourceTree = "<group>";
+		};
+		4D4B486D25F3F967000CEF01 /* fribidi */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B487025F3F995000CEF01 /* libfribidi.0.dylib */,
+			);
+			name = fribidi;
+			sourceTree = "<group>";
+		};
+		4D4B487125F3F9B1000CEF01 /* expat */ = {
+			isa = PBXGroup;
+			children = (
+				4D4B487625F3FA35000CEF01 /* libexpat.1.dylib */,
+			);
+			name = expat;
+			sourceTree = "<group>";
+		};
 		4DAA965D2577B2820000D3F7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -6464,6 +6573,15 @@
 		4DCD68DA23A0C527001EC42A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4D4B486E25F3F981000CEF01 /* libfribidi.0.dylib */,
+				4D4B486825F3F932000CEF01 /* libgcrypt.20.dylib */,
+				4D4B485425F3F79E000CEF01 /* libotr.5.dylib */,
+				4D4B484225F3F5EC000CEF01 /* libintl.8.dylib */,
+				4D4B484025F3F575000CEF01 /* libjson-glib-1.0.dylib */,
+				4D4B483925F3F064000CEF01 /* libgmodule-2.0.dylib */,
+				4D4B483725F3F058000CEF01 /* libgthread-2.0.dylib */,
+				4D4B483525F3F04B000CEF01 /* libgobject-2.0.dylib */,
+				4D4B482E25F3EFC5000CEF01 /* libglib-2.0.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -6798,19 +6916,12 @@
 			children = (
 				7664EAA4162E086A008CF995 /* libffi.framework */,
 				76731DE015F90538007728C3 /* libgcrypt.framework */,
-				76731DE115F90538007728C3 /* libgpgerror.framework */,
 				9719C92B1530EDF700217FBE /* FriBidi.framework */,
 				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 				9719C92D1530EE0C00217FBE /* ShortcutRecorder.framework */,
 				9E1E1DFC0A96741500E16DFC /* LMX.framework */,
 				638392F609D4D67A0067B9B7 /* Sparkle.framework */,
 				7E6F8A93105611B700C6D80D /* libotr.framework */,
-				979AA6B214D5A452008730DF /* glib.framework */,
-				979AA6B314D5A452008730DF /* libgmodule.framework */,
-				979AA6B414D5A452008730DF /* libgobject.framework */,
-				979AA6B514D5A452008730DF /* libgthread.framework */,
-				979AA6B614D5A452008730DF /* libintl.framework */,
-				979AA6B714D5A452008730DF /* libjson-glib.framework */,
 				979AA6B914D5A452008730DF /* libpurple.framework */,
 				979AA6B814D5A452008730DF /* libmeanwhile.framework */,
 			);
@@ -7846,6 +7957,10 @@
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocAIMe2 */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 4D4B483E25F3F204000CEF01 /* Products */;
+					ProjectRef = 4D4B483D25F3F204000CEF01 /* adium-dependencies.xcodeproj */;
+				},
 				{
 					ProductGroup = 4DAA965D2577B2820000D3F7 /* Products */;
 					ProjectRef = 4DAA965C2577B2820000D3F7 /* AIUtilities.xcodeproj */;
@@ -10568,6 +10683,12 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/glib.framework/Headers\"";
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/usr/local/Cellar/libffi/3.3_2/lib,
+					/usr/local/Cellar/expat/2.2.10/lib,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -10590,6 +10711,12 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/glib.framework/Headers\"";
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/usr/local/Cellar/libffi/3.3_2/lib,
+					/usr/local/Cellar/expat/2.2.10/lib,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -10615,6 +10742,12 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/glib.framework/Headers\"";
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/usr/local/Cellar/libffi/3.3_2/lib,
+					/usr/local/Cellar/expat/2.2.10/lib,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.adiumX.adiumX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -10655,6 +10788,16 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = Adium.pch;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/opt/libffi/include,
+					/usr/local/opt/expat/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/opt/libffi/lib,
+					/usr/local/opt/expat/lib,
+					/usr/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "\"$(CFLAGS)\"";
@@ -10696,6 +10839,16 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = Adium.pch;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/opt/libffi/include,
+					/usr/local/opt/expat/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/opt/libffi/lib,
+					/usr/local/opt/expat/lib,
+					/usr/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -10737,6 +10890,16 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = Adium.pch;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/opt/libffi/include,
+					/usr/local/opt/expat/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/opt/libffi/lib,
+					/usr/local/opt/expat/lib,
+					/usr/local/lib,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "${TARGET_NAME}";

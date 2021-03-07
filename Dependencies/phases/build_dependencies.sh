@@ -8,7 +8,7 @@
 #
 build_pkgconfig() {
 	prereq "pkg-config" \
-		"http://pkgconfig.freedesktop.org/releases/pkg-config-0.23.tar.gz"
+		"http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/pkg-config"
 	
@@ -21,6 +21,7 @@ build_pkgconfig() {
 	log make -j $NUMBER_OF_CORES
 	log make install
 	
+	status "Successfully installed pkg-config"
 	quiet popd
 }
 
@@ -29,12 +30,9 @@ build_pkgconfig() {
 #
 build_gettext() {
 	prereq "gettext" \
-		"http://mirrors.kernel.org/gnu/gettext/gettext-0.16.1.tar.gz"
+		"http://mirrors.kernel.org/gnu/gettext/gettext-0.21.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gettext"
-	
-	# Patch to reduce the number of superfluous things we build
-	fwdpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0 || true
 	
 	if needsconfigure $@; then
 	(
@@ -56,9 +54,7 @@ build_gettext() {
 	log make -j $NUMBER_OF_CORES
 	log make install
 
-	# Undo all of our patches... goodbye!
-	revpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0
-
+	status "Successfully installed gettext"
 	quiet popd
 }
 
@@ -68,49 +64,43 @@ build_gettext() {
 GLIB_VERSION=2.0
 build_glib() {
 	prereq "glib" \
-		"ftp://ftp.gnome.org/pub/gnome/sources/glib/2.20/glib-2.20.5.tar.gz"
+		"https://download.gnome.org/sources/glib/2.66/glib-2.66.7.tar.xz"
 	
 	quiet pushd "$ROOTDIR/source/glib"
-	
-	# We may have to apply a patch if we're building on PowerPC
-	if [ "$(arch)" = "ppc" ]; then
-		warning "glib may not build correctly from PowerPC."
-	fi
-	
-	# Patch to fix building with the native libiconv
-	fwdpatch "$ROOTDIR/patches/glib-gconvert.c.diff" -p0 || true
-	
-	# Patch to reduce the number of superfluous things we build
-	fwdpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0 || true
 	
 	if needsconfigure $@; then
 	(
 		status "Configuring glib"
-		export MSGFMT="${ROOTDIR}/build/bin/msgfmt"
-		CONFIG_CMD="./configure \
-				--prefix=$ROOTDIR/build \
-				--disable-static \
-				--enable-shared \
-				--with-libiconv=native \
-				--disable-fam \
-				--disable-selinux \
-				--with-threads=posix \
-				--disable-dependency-tracking"
-		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
-			"${ROOTDIR}/source/glib/config.h" \
-			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
-			"${ROOTDIR}/source/glib/glibconfig.h"
+    meson \
+        -Dprefix=$ROOTDIR/build \
+        -Dman=false \
+        -Diconv=auto \
+        -Dinstalled_tests=false \
+        _build
+    status "Configured."
+
+
+#				--disable-static \
+#				--enable-shared \
+#				--with-libiconv=native \
+#				--disable-fam \
+#				--disable-selinux \
+#				--with-threads=posix \
+#				--disable-dependency-tracking"
+#		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
+#			"${ROOTDIR}/source/glib/config.h" \
+#			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
+#			"${ROOTDIR}/source/glib/glibconfig.h"
 	)
 	fi
 	
 	status "Building and installing glib"
-	log make -j $NUMBER_OF_CORES
-	log make install
+  ninja -C _build
+  status "Finished Building glib."
+  status "Installing glib."
+  ninja -C _build install
 	
-	# Revert the patches
-	revpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0
-	revpatch "$ROOTDIR/patches/glib-gconvert.c.diff" -p0
-
+	status "Successfully installed glib"
 	quiet popd
 }
 
@@ -122,47 +112,50 @@ build_meanwhile() {
 	prereq "meanwhile" \
 		"http://downloads.sourceforge.net/project/meanwhile/meanwhile/1.0.2/meanwhile-1.0.2.tar.gz"
 	
-	quiet pushd "$ROOTDIR/source/meanwhile"
+	quiet pushd "${ROOTDIR}/source/meanwhile"
 	
 	# Mikael Berthe writes, "It seems that the last guint32_get() fails when
 	# Meanwhile receives the FT offer. I think we can skip it -- works for me
 	# but I can't check it with an older server.
-	fwdpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0 || true
-	
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-srvc_ft.c.diff" -p0 || true
+
 	# Fixes Awareness Snapshots with recent Sametime servers, thanks to Mikael
 	# Berthe. "With recent Sametime servers there seem to be 2 bytes after the
 	# Snapshot Message Blocks. This patch tries to use the end of block offset
 	# provided by th server."
-	fwdpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0 || true
-	
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-common.c.diff" -p0 || true
+
 	# Patch to fix a crash in blist parsing
-	fwdpatch "$ROOTDIR/patches/Meanwhile-st_list.c.diff" -p0 || true
-	
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-st_list.c.diff" -p0 || true
+
 	# The provided libtool ignores our Universal Binary-makin' flags
-	fwdpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0 || true
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-ltmain.sh.diff" -p0 || true
 
 	# Fixes accepting group chat invites from the standard Sametime client.
 	# Thanks to Jere Krischel and Jonathan Rice.
-	fwdpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0 || true
-	fwdpatch "$ROOTDIR/patches/Meanwhile-session.c.diff" -p0 || true
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-srvc_place.c.diff" -p0 || true
+	fwdpatch "${ROOTDIR}/patches/Meanwhile-session.c.diff" -p0 || true
+ 
+  # For some reason, Meanwhile includes specific glib/*.h files,
+  # which causes an error that they should not be included directly.
+  # This changes all #include <glib/*.h> statements to #include <glib.h>.
+  fwdpatch "${ROOTDIR}/patches/Meanwhile-glib_headers.diff" -p0 || true
 	
 	if needsconfigure $@; then
 	(
-		# Delete 'libtool' if it exists, so that we'll generate a new one 
+		# Delete 'libtool' if it exists, so that we'll generate a new one
 		rm -f libtool
 		
-		status "Configuring Meanwhile"
-		export CFLAGS="$ARCH_CFLAGS"
-		export LDFLAGS="$ARCH_LDFLAGS"
-		export GLIB_LIBS="$ROOTDIR/build/lib"
-		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
-			-I$ROOTDIR/build/lib/glib-2.0/include"
-		log ./configure \
-			--prefix="$ROOTDIR/build" \
+    install_dir=${ROOTDIR}/build
+		status "Configuring Meanwhile to install at ${install_dir}"
+		export CFLAGS=( ${ARCH_LDFLAGS} -L${install_dir}/lib )
+		export LDFLAGS=( $ARCH_CFLAGS -I${install_dir}/include/glib-2.0 -I${install_dir}/lib/glib-2.0/include )
+    log ./configure \
+			--prefix="${install_dir}" \
 			--disable-static \
 			--enable-shared \
 			--disable-doxygen \
-			-disable-mailme \
+			--disable-mailme \
 			--disable-dependency-tracking
 	)
 	fi
@@ -174,14 +167,16 @@ build_meanwhile() {
 	log make install
 	
 	# Undo all the patches
-	revpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0
-	revpatch "$ROOTDIR/patches/Meanwhile-st_list.c.diff" -p0
-	revpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0
-	revpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0
-	revpatch "$ROOTDIR/patches/Meanwhile-srvc_place.c.diff" -p0
-	revpatch "$ROOTDIR/patches/Meanwhile-session.c.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-glib_headers.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-session.c.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-srvc_place.c.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-ltmain.sh.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-st_list.c.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-common.c.diff" -p0
+	revpatch "${ROOTDIR}/patches/Meanwhile-srvc_ft.c.diff" -p0
 	
-	quiet popd
+	status "Successfully installed meanwhile"
+  quiet popd
 }
 
 ##
@@ -191,7 +186,7 @@ INTL_VERSION=8
 build_intltool() {
 	# We used to use 0.36.2, but I switched to the latest MacPorts is using
 	prereq "intltool" \
-		"http://ftp.gnome.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.gz"
+		"https://download.gnome.org/sources/intltool/0.40/intltool-0.40.6.tar.bz2"
 	
 	quiet pushd "$ROOTDIR/source/intltool"
 	
@@ -208,6 +203,7 @@ build_intltool() {
 	log make -j $NUMBER_OF_CORES
 	log make install
 	
+	status "Successfully installed intltool"
 	quiet popd
 }
 
@@ -217,9 +213,9 @@ build_intltool() {
 JSON_GLIB_VERSION=1.0
 build_jsonglib() {
 	prereq "json-glib-0.9.2" \
-		"http://ftp.gnome.org/pub/GNOME/sources/json-glib/0.9/json-glib-0.9.2.tar.gz"
+		"https://download.gnome.org/sources/json-glib/1.6/json-glib-1.6.2.tar.xz"
 	
-	quiet pushd "$ROOTDIR/source/json-glib-0.9.2"
+	quiet pushd "$ROOTDIR/source/json-glib-1.6.2"
 	
 	if needsconfigure $@; then
 	(
@@ -227,8 +223,13 @@ build_jsonglib() {
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
 		export GLIB_LIBS="$ROOTDIR/build/lib"
-		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
-			-I$ROOTDIR/build/lib/glib-2.0/include"
+		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 -I$ROOTDIR/build/lib/glib-2.0/include"
+    meson \
+        -Dprefix=$ROOTDIR/build \
+        -Dman=false \
+        _build
+    status "Configured."
+
 		log ./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -236,12 +237,15 @@ build_jsonglib() {
 	fi
 	
 	status "Building and installing json-glib"
-	log make -j $NUMBER_OF_CORES
-	log make install
+  ninja -C _build
+  status "Finished Building json-glib."
+  status "Installing json-glib."
+  ninja -C _build install
 	
 	# C'mon, why do you make me do this?
-	log ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
-		"$ROOTDIR/build/include/json-glib"
+#	log ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+#		"$ROOTDIR/build/include/json-glib"
 	
+	status "Successfully installed json-glib"
 	quiet popd
 }
