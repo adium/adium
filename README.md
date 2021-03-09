@@ -35,11 +35,11 @@ Adium is a free and open source instant messaging application for [OS X](https:/
 Adium X 0.88 up to Adium 1.4.5 are Universal applications which run natively on both PowerPC- and Intel-based Macintosh computers. Adium 1.5 and up require an Intel based computer.
 
 ## Contributing ##
-* [Development information] https://web.archive.org/web/20200915230142/https://trac.adium.im/wiki/Development  
-* [Contribute code] https://web.archive.org/web/20200923043011/https://trac.adium.im/wiki/ContributingCode
-* [User Interface Guidelines] https://web.archive.org/web/20200923043702/https://trac.adium.im/wiki/UIDesignGuidelines
-* [Coding Style Guidelines] https://web.archive.org/web/20170306235100/https://trac.adium.im/wiki/CodingStyle
-* [Coding Tips and Tricks] https://web.archive.org/web/20200923044150/https://trac.adium.im/wiki/DevelopmentTipsAndTricks
+* [Development information](https://web.archive.org/web/20200915230142/https://trac.adium.im/wiki/Development)  
+* [Contribute code](https://web.archive.org/web/20200923043011/https://trac.adium.im/wiki/ContributingCode)
+* [User Interface Guidelines](https://web.archive.org/web/20200923043702/https://trac.adium.im/wiki/UIDesignGuidelines)
+* [Coding Style Guidelines](https://web.archive.org/web/20170306235100/https://trac.adium.im/wiki/CodingStyle)
+* [Coding Tips and Tricks](https://web.archive.org/web/20200923044150/https://trac.adium.im/wiki/DevelopmentTipsAndTricks)
 
 ## Adium Contact information ##
  * https://adium.im/
