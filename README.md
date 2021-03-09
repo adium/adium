@@ -1,9 +1,9 @@
 [Adium](https://adium.im)
 ========================
 
-[![Adiumy](https://adium.im/images/logo.png)](https://adiumx.cachefly.net/Adium_1.5.10.2.dmg)
+[![Adiumy](https://adium.im/images/logo.png)](https://adiumx.cachefly.net/Adium_1.5.10.4.dmg)
 
-[Download Adium 1.5.10.2](https://adiumx.cachefly.net/Adium_1.5.10.2.dmg)
+[Download Adium 1.5.10.4](https://adiumx.cachefly.net/Adium_1.5.10.4.dmg)
 
 ## About Adium ##
 
