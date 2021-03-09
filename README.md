@@ -7,10 +7,10 @@
 
 ## About Adium ##
 
-Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](https://www.gnu.org/licenses/licenses.html#GPL) and developed by [the Adium team](https://trac.adium.im/wiki/AdiumTeam). Based on the [libpurple](https://trac.adium.im/wiki/LibPurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
+Adium is a free and open source instant messaging application for [OS X](https://www.apple.com/osx/), written using OS X's Cocoa API, released under the [GNU GPL](https://www.gnu.org/licenses/licenses.html#GPL) and developed by the Adium team. Based on the [libpurple](https://developer.pidgin.im/wiki/WhatIsLibpurple) protocol library, Adium can connect you to any number of messaging accounts on any combination of supported messaging services and then chat with other people using those services.
 
 ## Notable Features ##
-* Open Source, so everyone can see how Adium works and [help improve it](https://trac.adium.im/wiki/Development)
+* Open Source, so everyone can see how Adium works and help improve it.
 * Support for a wide range of different Instant Messaging services (see the [full list](https://adium.im/help/pgs/Accounts-ListOfServices.html))
 * A delightful UI
   * [Tabbed chat windows](https://adium.im/help/pgs/Messaging-TabbedMessaging.html)
@@ -22,8 +22,8 @@ Adium is a free and open source instant messaging application for [OS X](https:/
 * [OTR Encryption](https://adium.im/help/pgs/AdvancedFeatures-OTREncryption.html)
 * [File Transfer](https://adium.im/help/pgs/AdvancedFeatures-FileTransfer.html)
 * [Xtras](https://adium.im/help/pgs/AdvancedFeatures-AdiumXtras.html) and many, many other customization options
-* A beautiful icon, the "[Adiumy](https://trac.adium.im/wiki/Adiumy)" duck
-* [Translations](https://trac.adium.im/wiki/Translations): Adium speaks 27 different languages
+* A beautiful icon, the "Adiumy" duck
+* Translations: Adium speaks 27 different languages
 
 ## System requirements ##
 - **Adium 1.5 or later**: Mac OS X 10.6.8 or newer, an Apple-branded Macintosh computer
@@ -34,10 +34,12 @@ Adium is a free and open source instant messaging application for [OS X](https:/
 
 Adium X 0.88 up to Adium 1.4.5 are Universal applications which run natively on both PowerPC- and Intel-based Macintosh computers. Adium 1.5 and up require an Intel based computer.
 
-See our [Supported OS Policy](https://trac.adium.im/wiki/SupportedOSPolicy) for more information.
-
 ## Contributing ##
-See [our own wiki](https://trac.adium.im/wiki/Development) for ways you can contribute to Adium.
+* [Development information] https://web.archive.org/web/20200915230142/https://trac.adium.im/wiki/Development  
+* [Contribute code] https://web.archive.org/web/20200923043011/https://trac.adium.im/wiki/ContributingCode
+* [User Interface Guidelines] https://web.archive.org/web/20200923043702/https://trac.adium.im/wiki/UIDesignGuidelines
+* [Coding Style Guidelines] https://web.archive.org/web/20170306235100/https://trac.adium.im/wiki/CodingStyle
+* [Coding Tips and Tricks] https://web.archive.org/web/20200923044150/https://trac.adium.im/wiki/DevelopmentTipsAndTricks
 
 ## Adium Contact information ##
  * https://adium.im/
