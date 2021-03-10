@@ -3,11 +3,13 @@
 "Searches the code base, starting from the current working directory, for defined macros being used inside quotes."
 
 import optparse
-parser = optparse.OptionParser(description=__doc__)
-opts, args = parser.parse_args()
-
 import subprocess
 from subprocess import PIPE
+import itertools
+import os
+
+parser = optparse.OptionParser(description=__doc__)
+opts, args = parser.parse_args()
 
 # Find all macro definitions.
 grep = subprocess.Popen(['grep', '-RhF', '#define', 'Frameworks', 'Plugins', 'Source', '--include=*.[hmc]'], stdout=PIPE)
@@ -20,8 +22,6 @@ uniq = subprocess.Popen(['uniq'], env={ 'LC_ALL': 'C' }, stdin=sort.stdout, stdo
 # I tried both grep and the re module for searching for quoted macros, but the resulting regular expression is too long. --boredzo
 macros_in_quotes = ['"%s"' % (line.rstrip('\n'),) for line in uniq.stdout]
 
-import itertools
-import os
 for (directory, dirnames, filenames) in itertools.chain(os.walk('Frameworks'), os.walk('Plugins'), os.walk('Source')):
 	if '.svn' not in dirnames:
 		del dirnames[:]
