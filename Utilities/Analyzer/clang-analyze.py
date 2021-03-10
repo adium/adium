@@ -12,14 +12,14 @@ import sys
 import reports
 
 ##
-# Change these as you see fit.
+# Change analyzer_options as you see fit.
 ##
 
 analyzer_options = {
 	"-checker-simple"				: False,	# Perform simple path-sensitive checks
 	"-checker-cfref"				: True,		# Run the [Core] Foundation reference count checker
 	"-warn-dead-stores"				: True,		# Warn about stores to dead variables
-#	"-warn-uninit-values"			: False,	# Warn about uses of uninitialized variables (buggy?)
+ 	"-warn-uninit-values"			: False,	# Warn about uses of uninitialized variables
 	"-warn-objc-methodsigs" 		: True,		# Warn about Objective-C method signatures with type incompatibilities
 	"-warn-objc-missing-dealloc"	: True,		# Warn about Objective-C classes that lack a correct implementation of -dealloc
 	"-warn-objc-unused-ivars"		: True,		# Warn about private ivars that are never used
@@ -31,7 +31,7 @@ build_configuration = "Debug"
 # Some functions we'll be using...
 ##
 
-def which(what, softfail = False):
+def which(item, softfail = False):
 	"""
 	Calls the `which` program to look up the desired executable in the path. If
 	it is not found, the function will look in the current working directory
@@ -42,7 +42,7 @@ def which(what, softfail = False):
 	"""
 	
 	try:
-		subby = subprocess.Popen(["which", what], stdout = subprocess.PIPE)
+		subby = subprocess.Popen(["which", item], stdout = subprocess.PIPE)
 		subby.wait()
 		path = subby.stdout.read().rstrip()
 	except:
@@ -50,10 +50,10 @@ def which(what, softfail = False):
 		
 	if not path:
 		# Check the current directory
-		if os.path.isfile(what) and os.access(what, os.X_OK):
-			path = os.path.realpath(what)
+		if os.path.isfile(item) and os.access(item, os.X_OK):
+			path = os.path.realpath(item)
 		elif not softfail:
-			sys.exit("Could not locate the `%s` program." % what)
+			sys.exit("Could not locate the `%s` program." % item)
 	
 	return path
 
@@ -132,9 +132,9 @@ for opt in discovered_options:
 		if not printedHeader:
 			print "Clang supports the following options that are not used:"
 			printedHeader = True
-		print "\t%s%s" % (opt, discovered_options[opt])
+		print "\t%s%s" % (opt, discovered_options[opt]) #Probably buggy...
 if printedHeader:
-	print
+	print()
 	
 ##
 # Set up the Clang HTML output directory.
@@ -395,10 +395,10 @@ if numreports > 0:
 # can compare this with different summaries to see which problems are new.
 ##
 
-print "Writing out Summary.plist file...",
+print("Writing out Summary.plist file...")
 
 # Open up the output file
 outfile = open(os.path.join(htmldir, "Summary.plist"), "w")
 outfile.write(reports.summaryPlistForReports(reportlist, revision))
 outfile.close()
-print "done."
+print("done.")
