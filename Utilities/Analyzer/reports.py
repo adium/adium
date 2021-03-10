@@ -35,7 +35,7 @@ class Report(list):
 		# Compare each item in the reports
 		for i in range(0, len(self)):
 			
-			# The lines should be within (drumroll for magic number)
+			# The lines should be within 20 lines of each other
 			if abs(self[i].line - other[i].line) > 20:
 				return False
 			

@@ -20,6 +20,7 @@ implementation = prototype + """
 }\
 """
 
+#Conversions to RGBA
 color_names_to_rgba = {
 	# Alpha = 1
 	'Red':     (1.0, 0.0, 0.0, 1.0),
@@ -40,6 +41,7 @@ color_names_to_rgba = {
 	'TransparentWhite':   (1.0, 1.0, 1.0, 0.0),
 	'TransparentBlack':   (0.0, 0.0, 0.0, 0.0),
 }
+
 color_names = (
 	'Red',
 	'Yellow',
@@ -80,7 +82,8 @@ if all_color_names != set(color_names_to_rgba):
 	sys.exit('Cannot continue because our lists of color names are not equal')
 
 def rgba_to_html_string(rgba, num_digits=6, use_uppercase=False):
-	"Returns an HTML color literal, such as #ff0000, for an RGBA color. num_digits can be 6, 3, 8, or 4; if it's 8 or 4, the result string will include a fourth, alpha component."
+	"""Returns an HTML color literal, such as #ff0000, for an RGBA color.
+	num_digits can be 6, 3, 8, or 4; if it's 8 or 4, the result string will include a fourth, alpha component."""
 
 
 	if num_digits >= 6:
@@ -109,7 +112,7 @@ if __name__ == "__main__":
 	opts, args = parser.parse_args()
 
 	noun = 'method declaration' if opts.generate_declarations else 'method'
-	print "//These methods are automatically generated! If you want to change them, please change the program in the Utilities folder instead. Otherwise, your changes may be clobbered by the next person.".replace('method', noun)
+	print("//These methods are automatically generated! If you want to change them, please change the program in the Utilities folder instead. Otherwise, your changes may be clobbered by the next person.".replace('method', noun))
 
 	import re
 	camel_case_sep_exp = re.compile('[A-Z]')
@@ -180,4 +183,4 @@ if __name__ == "__main__":
 	for method in method_implementations(transparent_color_names, generate_implementations=not opts.generate_declarations):
 		print method
 
-	print "//End of automatically-generated methods".replace('method', noun)
+	print("//End of automatically-generated methods".replace('method', noun))

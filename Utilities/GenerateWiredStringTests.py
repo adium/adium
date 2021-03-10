@@ -85,7 +85,8 @@ def generate_AIWiredString_tests(encodings, method_fmt, prototype_only=False):
 
 	for source_encoding_name in encodings:
 		code_units_per_snowman_in_source_encoding = code_units_per_snowman[source_encoding_name]
-
+		
+		#Configure message
 		if source_encoding_name == 'UTF16':
 			string_creation_message = '[AIWiredString stringWithCharacters:sampleUTF16String length:sampleUTF16StringLength]'
 		else:
@@ -141,16 +142,16 @@ if __name__ == "__main__":
 
 	print '//-dataUsingEncoding:allowLossyConversion:nulTerminate:'
 	for method in generate_AIWiredString_tests(['ASCII', 'UTF8', 'UTF16'], dataUsingEncoding_allowLossyConversion_nulTerminate_method_fmt, prototype_only=opts.prototype_only):
-		print method
-	print
+		print(method)
+	print()
 
 	print '//-dataUsingEncoding:allowLossyConversion:'
 	for method in generate_AIWiredString_tests(['ASCII', 'UTF8', 'UTF16'], dataUsingEncoding_allowLossyConversion_method_fmt, prototype_only=opts.prototype_only):
-		print method
-	print
+		print(method)
+	print()
 
-	print '//-dataUsingEncoding:'
+	print('//-dataUsingEncoding:'
 	for method in generate_AIWiredString_tests(['ASCII', 'UTF8', 'UTF16'], dataUsingEncoding_method_fmt, prototype_only=opts.prototype_only):
-		print method
-	print
+		print(method)
+	print()
 
