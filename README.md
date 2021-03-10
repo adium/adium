@@ -41,6 +41,9 @@ Adium X 0.88 up to Adium 1.4.5 are Universal applications which run natively on 
 * [Coding Style Guidelines](https://web.archive.org/web/20170306235100/https://trac.adium.im/wiki/CodingStyle)
 * [Coding Tips and Tricks](https://web.archive.org/web/20200923044150/https://trac.adium.im/wiki/DevelopmentTipsAndTricks)
 
+See the Adium about box for developer, contributor, and other credits information.  This information is available in the repository at Resources/Credits.rtf
+If you've made contributions and are not listed, please email <feedback@adium.im>.\
+
 ## Adium Contact information ##
  * https://adium.im/
  * feedback@adium.im
