@@ -51,10 +51,11 @@
 	NSArray *serviceAndFromUIDArray = [serviceAndFromUID componentsSeparatedByString:@"."];
 	
 	if ([serviceAndFromUIDArray count] >= 2) {
-		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, [serviceAndFromUIDArray objectAtIndex:0]);
+		NSString *serviceClassFromPath = [serviceAndFromUIDArray objectAtIndex:0];
+		myServiceClass = handleSpecialCasesForUIDAndServiceClass(toUID, serviceClassFromPath);
 		
-		//Use substringFromIndex so we include the rest of the string in the case of a UID with a . in it
-		fromUID = [serviceAndFromUID substringFromIndex:([serviceClass length] + 1)]; //One off for the '.'
+		//Use the original path prefix so service normalization cannot change the UID offset
+		fromUID = [serviceAndFromUID substringFromIndex:([serviceClassFromPath length] + 1)]; //One off for the '.'
 
 	} else {
 		//Fallback: blank non-nil serviceClass; folderName as the fromUID
